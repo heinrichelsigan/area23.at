@@ -158,10 +158,12 @@
     <Content Include="Fortune.aspx" />
     <Content Include="Global.asax" />
     <Content Include="fortune.c" />
+    <Content Include="od.aspx" />
     <Content Include="od.c" />
     <Content Include="od.html" />
     <Content Include="Qrc.aspx" />
     <Content Include="QRCodeGen.aspx" />
+    <Content Include="res\area23.at.mono.test.css" />
     <Content Include="Web.config" />
     <Content Include="OctalDump.aspx" />
   </ItemGroup>
@@ -175,6 +177,13 @@
     </Compile>
     <Compile Include="HexDump.aspx.designer.cs">
       <DependentUpon>HexDump.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="od.aspx.cs">
+      <DependentUpon>od.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="od.aspx.designer.cs">
+      <DependentUpon>od.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Qrc.aspx.cs">

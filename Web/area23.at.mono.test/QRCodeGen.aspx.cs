@@ -99,7 +99,7 @@ namespace area23.at.mono.test
                 TextBox_FirstName.Text, TextBox_LastName.Text, null, TextBox_Phone.Text, TextBox_Mobile.Text,
                 null, TextBox_Email.Text, null, TextBox_Web.Text, TextBox_Street.Text, TextBox_StreetNr.Text,
                 TextBox_City.Text, TextBox_ZipCode.Text, TextBox_Coutry.Text, null,
-                DropDown_Country.SelectedValue, ContactData.AddressOrder.Default, null, ".arpa");
+                DropDown_Country.SelectedValue, ContactData.AddressOrder.Default, TextBox_Org.Text, null);
 
             string qrString = qrContact.ToString();
             return qrString;

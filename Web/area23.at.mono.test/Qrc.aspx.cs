@@ -97,8 +97,8 @@ namespace area23.at.mono.test
             ContactData qrContact = new ContactData(ContactData.ContactOutputType.VCard3,
                 TextBox_FirstName.Text, TextBox_LastName.Text, null, TextBox_Phone.Text, TextBox_Mobile.Text,
                 null, TextBox_Email.Text, null, TextBox_Web.Text, TextBox_Street.Text, TextBox_StreetNr.Text,
-                TextBox_City.Text, TextBox_ZipCode.Text, TextBox_Coutry.Text, null,
-                DropDown_Country.SelectedValue, ContactData.AddressOrder.Default, null, null);
+                TextBox_City.Text, TextBox_ZipCode.Text, TextBox_Coutry.Text, TextBox_Note.Text,
+                DropDown_Country.SelectedValue, ContactData.AddressOrder.Default, TextBox_Org.Text, TextBox_OrgTitle.Text);
 
             string qrString = qrContact.ToString();
             return qrString;
