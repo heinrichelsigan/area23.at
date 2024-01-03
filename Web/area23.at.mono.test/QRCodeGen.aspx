@@ -228,10 +228,6 @@
 			</td>
 		</tr>
 	</table>
-	<div class="hugeqr">
-				
-				
-	</div>
 	<div id="ErrorDiv" runat="server" class="footerDiv" visible="false">
 	</div>
 </asp:Content>
