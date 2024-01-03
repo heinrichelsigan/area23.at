@@ -86,14 +86,14 @@
         <hr />
         <pre id="PreFortune" runat="server" style="text-align: left; border-style:none; background-color='#bfbfbf'; font-size: larger; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif"></pre>
         <hr />
-        <div class="fortuneFooter" align="left">
-            <span class="fortuneFooterLeft" align="left" valign="middle"><a href="Fortune.aspx">fortune</a></span>
-            <span class="fortuneFooterLeftCenter" align="center" valign="middle"><a href="json.aspx">json deserializer</a></span>
-            <span class="fortuneFooterRightCenter" align="center" valign="middle"><a href="/cgi/od.cgi">octal dump</a></span>
-            <span class="fortuneFooterRight" style="" align="right" valign="middle">
-                <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://darkstar.work">darkstar.work</a>
-            </span>
-        </div>   
+        <div align="left" class="footerDiv">            
+            <span class="footerLeft" align="left" valign="middle"><a href="/cgi/fortune.cgi">fortune</a></span>
+	        <span class="footerLeftCenter" align="center" valign="middle"><a href="/froga/">froga</a></span>
+	        <span class="footerCenter" align="center" valign="middle"><a href="/mono/test/HexDump.aspx">hex dump</a></span>			
+            <span class="footerCenter" align="center" valign="middle"><a href="/mono/test/Qrc.aspx">qrcode gen</a></span>	
+	        <span class="footerRightCenter" align="center" valign="middle"><a href="/mono/test/json.aspx">json (de-)serializer</a></span>
+	        <span class="footerRight" align="right" valign="middle"><a href="mailto:he@area23.at">Heinrich Elsigan</a>, GNU General Public License 3.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://darkstar.work">darkstar.work</a></span>
+        </div>
         <div align="right" style="height: 3pt; width: 5pt; font-size: xx-small; border-style: none; text-decoration-color: #f7f7f7; color: #f9f9f9; background-color: #fbfbfb;">
             <asp:Button ID="ButtonHidden" runat="server" Text="_" BorderStyle="None" BorderColor="#fbfbfb" BackColor="#fbfbfb" ForeColor="#fbfbfb" BorderWidth="0"
                  Width="5" Height="3" OnClick="ButtonHidden_Click"
