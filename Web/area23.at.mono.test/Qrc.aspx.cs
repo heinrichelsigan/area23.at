@@ -65,7 +65,8 @@ namespace area23.at.mono.test
             }
         }
 
-        protected virtual void GenerateQRImage() {
+        protected virtual void GenerateQRImage()
+        {
             string qrStr = string.Empty;
             Bitmap aQrBitmap = null;
             try
@@ -93,7 +94,7 @@ namespace area23.at.mono.test
         {
             if (control == null)
                 control = ((Area23)this.Master).MasterFrom as System.Web.UI.Control;
-            
+
             ContactData qrContact = new ContactData(ContactData.ContactOutputType.VCard3,
                 TextBox_FirstName.Text, TextBox_LastName.Text, null, TextBox_Phone.Text, TextBox_Mobile.Text,
                 null, TextBox_Email.Text, null, TextBox_Web.Text, TextBox_Street.Text, TextBox_StreetNr.Text,
@@ -106,7 +107,7 @@ namespace area23.at.mono.test
 
         protected virtual string GetQrStringFromForm(System.Web.UI.HtmlControls.HtmlForm form)
         {
-            return GetQrStringFromControl(((Area23)this.Master).MasterFrom);            
+            return GetQrStringFromControl(((Area23)this.Master).MasterFrom);
         }
 
         protected virtual Bitmap GetQRBitmap(string qrString)
@@ -114,7 +115,7 @@ namespace area23.at.mono.test
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, QRCodeGenerator.ECCLevel.H);
             QRCode qrCode = new QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(4);            
+            Bitmap qrCodeImage = qrCode.GetGraphic(4);
             return qrCodeImage;
         }
 
@@ -125,6 +126,6 @@ namespace area23.at.mono.test
             var base64Data = Convert.ToBase64String(ms.ToArray());
             this.ImgQR.Src = "data:image/gif;base64," + base64Data;
         }
-    
+
     }
 }

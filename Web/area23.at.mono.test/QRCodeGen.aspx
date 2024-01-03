@@ -6,34 +6,34 @@
 	<meta name="description" content="https://github.com/codebude/QRCoder/" />
 	<script type="text/javascript">
 
-		function QRCodeGen_TextBoxKeyHandler(event) {
-			var target = event.target;
-			if ((target == null) || (typeof (target) == "undefined")) target = event.srcElement;
-			if (event.keyCode == 13) {
-				if ((typeof (target) != "undefined") && (target != null)) {
-					if (typeof (target.onchange) != "undefined") {
-						target.onchange();
-						event.cancelBubble = true;
-						if (event.stopPropagation) event.stopPropagation();
-						return false;
-					}
-				}
-			}
-			return true;
-		}
+        function QRCodeGen_TextBoxKeyHandler(event) {
+            var target = event.target;
+            if ((target == null) || (typeof (target) == "undefined")) target = event.srcElement;
+            if (event.keyCode == 13) {
+                if ((typeof (target) != "undefined") && (target != null)) {
+                    if (typeof (target.onchange) != "undefined") {
+                        target.onchange();
+                        event.cancelBubble = true;
+                        if (event.stopPropagation) event.stopPropagation();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
 
-		function highLightOnChange(highLightId) { 
-			if (highLightId != null && document.getElementById(highLightId) != null) {
-				if (document.getElementById(highLightId).style.borderStyle == "dotted" ||
-					document.getElementById(highLightId).style.borderColor == "red") {
-					// do nothing when dotted
-				}
-				else {
-					// set border-width: 1; border-style: dashed
-					document.getElementById(highLightId).style.borderColor = "red";
-					document.getElementById(highLightId).style.borderStyle = "dashed";
-				}
-			}
+        function highLightOnChange(highLightId) {
+            if (highLightId != null && document.getElementById(highLightId) != null) {
+                if (document.getElementById(highLightId).style.borderStyle == "dotted" ||
+                    document.getElementById(highLightId).style.borderColor == "red") {
+                    // do nothing when dotted
+                }
+                else {
+                    // set border-width: 1; border-style: dashed
+                    document.getElementById(highLightId).style.borderColor = "red";
+                    document.getElementById(highLightId).style.borderStyle = "dashed";
+                }
+            }
         }
     </script>
 </asp:Content>

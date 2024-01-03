@@ -25,11 +25,11 @@
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-01S65129V7"></script>
         <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
 
-                gtag('config', 'G-01S65129V7');
+            gtag('config', 'G-01S65129V7');
         </script>
         <script type="text/javascript">
             function reloadFortune() {
