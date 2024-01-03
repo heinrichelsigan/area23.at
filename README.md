@@ -20,8 +20,19 @@ framework class library for basic area23.at framework features.
 ## Web
 
 ### area23.at.mono.test
-a simple QR Code generator https://area23.at/mono/test/Qrc.aspx and https://area23.at/mono/test/QRCodeGen.aspx 
-an octal dump webinterface https://area23.at/mono/test/HexDump.aspx and fortune https://area23.at/mono/test/Fortune.aspx
+
+# simple QR Code generator 
+- https://area23.at/mono/test/Qrc.aspx
+- https://area23.at/mono/test/QRCodeGen.aspx
+- https://area23.at/mono/test/QrGen.aspx?qrurl=https%3A%2F%2Forf.at
+  
+  (here you pass the redirect url as qrurl parameter)
+
+# octal dump webinterface 
+- https://area23.at/mono/test/HexDump.aspx
+
+# fortune 
+- https://area23.at/mono/test/Fortune.aspx
 
 ### rpncalc
 rpncalc is a never finished project of reverse polnish notation calculator
