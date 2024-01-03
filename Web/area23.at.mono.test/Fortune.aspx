@@ -8,7 +8,7 @@
 <%@ Import namespace="System.Reflection" %>
 <%@ Import namespace="System.Web" %>
 <%@ Import namespace="System.Diagnostics" %>
-<%@ Import namespace="JsonDeserializer.Util" %>
+<%@ Import namespace="area23.at.mono.test.Util" %>
 <%@ Import namespace="System.Web.UI" %>
 <%@ Import namespace="System.Web.UI.WebControls" %>
 
