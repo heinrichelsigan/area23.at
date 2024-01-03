@@ -57,6 +57,7 @@
     void Page_Load(object sender, EventArgs e)
     {
         SetFortune();
+        Response.Redirect("FortunAsp.aspx");
     }
 
     void ButtonHidden_Click(object sender, EventArgs e)
