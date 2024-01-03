@@ -10,8 +10,10 @@ namespace area23.at.mono.test.Util
         public const string APPNAME = "area23.at.mono.test";
         public const string APPDIR = "json";
         public const string VERSION = "v2.11.33";
-        public const string APPPATH = "https://area23.at/mono/json";
-        public const string GITURL = "https://github.com/heinrichelsigan/MonoJsonDeserializer";
+        public const string APPPATH = "https://area23.at/mono/test/";
+        public const string GITURL = "https://github.com/heinrichelsigan/area23.at";
+        public const string URLPIC = "https://area23.at/mono/test/res/img/";
+        public const string URLPREFIX = "https://area23.at/mono/test/res/";
 
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";
 

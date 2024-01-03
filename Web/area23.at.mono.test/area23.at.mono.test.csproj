@@ -151,8 +151,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="HexDump.aspx" />
-    <Content Include="image1.gif" />
-    <Content Include="image1.png" />
+    <Content Include="res\qrsample1.gif" />
+    <Content Include="res\qrsample2.png" />
     <Content Include="json.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Fortune.aspx" />
@@ -186,6 +186,26 @@
       <DependentUpon>od.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resource_en.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource_en.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resource_fr.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource_fr.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resource_de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource_de.resx</DependentUpon>
+    </Compile>
     <Compile Include="Qrc.aspx.cs">
       <DependentUpon>Qrc.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -201,7 +221,9 @@
       <DependentUpon>QRCodeGen.aspx</DependentUpon>
     </Compile>
     <Compile Include="Util\Constants.cs" />
+    <Compile Include="Util\GlobalAppSettings.cs" />
     <Compile Include="Util\ProcessCmd.cs" />
+    <Compile Include="Util\ResReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -214,6 +236,25 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="UserControl\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resource_en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource_en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resource_fr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource_fr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resource_de.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource_de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

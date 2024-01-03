@@ -3,11 +3,20 @@ using System.Diagnostics;
 
 namespace area23.at.mono.test.Util
 {
+    /// <summary>
+    /// static class for processing shell command
+    /// </summary>
     public static class ProcessCmd
     {
+        /// <summary>
+        /// Execute a binary or shell cmd
+        /// </summary>
+        /// <param name="filepath">full or relative filepath to executable</param>
+        /// <param name="args">arguments passed to executable</param>
+        /// <returns></returns>
         public static string Execute(string filepath = "SystemInfo", string args = "")
         {
-            string consoleOutput = "";
+            string consoleError, consoleOutput = "";
             try
             {
                 using (Process compiler = new Process())
@@ -16,10 +25,12 @@ namespace area23.at.mono.test.Util
                     string argTrys = (!string.IsNullOrEmpty(args)) ? args : "";
                     compiler.StartInfo.Arguments = argTrys;
                     compiler.StartInfo.UseShellExecute = false;
+                    compiler.StartInfo.RedirectStandardError = true;
                     compiler.StartInfo.RedirectStandardOutput = true;
                     compiler.Start();
 
                     consoleOutput = compiler.StandardOutput.ReadToEnd();
+                    consoleError = compiler.StandardError.ReadToEnd();
 
                     compiler.WaitForExit();
 
@@ -30,7 +41,7 @@ namespace area23.at.mono.test.Util
             {
                 consoleOutput = $"Exception: {exi.Message}";
             }
-            
+
             return consoleOutput;
         }
     }

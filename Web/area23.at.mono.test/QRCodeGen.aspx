@@ -196,7 +196,7 @@
 					</td>
 					<td id="td6d" class="qrcTdLeft" width="32%" height="192pt" rowspan="4">
 						<span class="righthuge">
-							<img id="ImgQR" runat="server" alt="QRCode" height="192" width="192" tooltip="QRCode" src="image1.gif" />
+							<img id="ImgQR" runat="server" alt="QRCode" height="192" width="192" tooltip="QRCode" src="res/qrsample1.gif" />
 						</span>
 					</td>
 				</tr>
