@@ -1,4 +1,4 @@
-﻿using SchnapsNet.ConstEnum;
+﻿using area23.at.mono.test;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
 
-namespace SchnapsNet.Utils
+namespace area23.at.mono.test.Util
 {
     public static class Paths
     {
@@ -42,59 +42,44 @@ namespace SchnapsNet.Utils
                     if (System.Configuration.ConfigurationManager.AppSettings["AppFolder"] != null)
                         return System.Configuration.ConfigurationManager.AppSettings["AppFolder"];
                 }
-                catch (Exception appFolder) {
-                    
-                    GlobalAppSettings globa
+                catch (Exception appFolder) {                   
                 }
                 return Constants.APPDIR;
             }
         }
-
-        public static string CardPicsPath
+   
+        public static string OutDir
         {
             get
-            {
-                if (cardPicsPath == null)
+            {                
+                string resPath = "." + SepChar;                
+
+                    if (AppContext.BaseDirectory != null)
+                    {
+                        resPath = AppContext.BaseDirectory + SepChar;
+                    }
+                    else if (AppDomain.CurrentDomain != null)
+                    {
+                        resPath = AppDomain.CurrentDomain.BaseDirectory + SepChar;
+                    }
+                try
                 {
-                    if (HttpContext.Current.Request.RawUrl.Contains("darkstar.work"))
-                        cardPicsPath = "https://darkstar.work/mono/" + AppFolder + "/cardpics/";
-                    // cardPicsPath = HttpContext.Current.Request.Url.AbsoluteUri;                    
-                    // cardPicsPath = cardPicsPath.Replace("SchnapsNet.aspx", "");
-                    // cardPicsPath = cardPicsPath.Replace("SchnapsenNet.aspx", "");
-                    // cardPicsPath = cardPicsPath.Replace("Schnapsen3er.aspx", "");
-                    // cardPicsPath = cardPicsPath.Replace("Schnapsen2000.aspx", "");
-                    // cardPicsPath += ((cardPicsPath.EndsWith("/")) ? "" : "/") + Constants.CARDPICSDIR + "/";
-                    cardPicsPath = "https://area23.at/mono/" + AppFolder + "/cardpics/";
+                    if (HttpContext.Current != null && HttpContext.Current.Request != null && HttpContext.Current.Request.ApplicationPath != null)
+                    {
+                        resPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
+                    }
+                } 
+                catch (Exception ex)
+                {
                 }
 
-                return cardPicsPath;
-            }
-        }
+                // if (!resPath.Contains(AppFolder))
+                //      resPath += AppFolder + SepChar;
+                if (!resPath.Contains(Constants.RESFOLDER))
+                    resPath += Constants.RESFOLDER + SepChar;
 
-        public static string CardPicsDir
-        {
-            get
-            {
-                cardPicsDir = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
-                if (!cardPicsDir.Contains(AppFolder))
-                    cardPicsDir += AppFolder + SepChar;
-                cardPicsDir += Constants.CARDPICSDIR + SepChar;
-
-                return cardPicsDir;
-            }
-        }
-
-        public static string AudioDir
-        {
-            get
-            {
-                string audioPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
-                if (!audioPath.Contains(AppFolder))
-                     audioPath += AppFolder + SepChar;
-                if (!audioPath.Contains("res"))
-                    audioPath += "res" + SepChar;
                 // if (!Directory.Exists(audioPath))
-                return audioPath;
+                return resPath;
             }
         }
 
@@ -119,8 +104,8 @@ namespace SchnapsNet.Utils
                     logAppPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
                 }
 
-                if (!logAppPath.Contains(AppFolder))
-                    logAppPath += AppFolder + SepChar;
+                // if (!logAppPath.Contains(AppFolder))
+                //     logAppPath += AppFolder + SepChar;
 
                 logAppPath += String.Format("{0}{1}{2}_{3].log",
                     Constants.LOGDIR, SepChar, DateTime.UtcNow.ToString("yyyyMMdd"), Constants.APPNAME);

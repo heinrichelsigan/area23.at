@@ -151,6 +151,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="HexDump.aspx" />
+    <Content Include="log\TextFile.txt" />
+    <Content Include="QRGen.aspx" />
     <Content Include="res\qrsample1.gif" />
     <Content Include="res\qrsample2.png" />
     <Content Include="json.aspx" />
@@ -220,8 +222,17 @@
     <Compile Include="QRCodeGen.aspx.designer.cs">
       <DependentUpon>QRCodeGen.aspx</DependentUpon>
     </Compile>
+    <Compile Include="QRGen.aspx.cs">
+      <DependentUpon>QRGen.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="QRGen.aspx.designer.cs">
+      <DependentUpon>QRGen.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Util\Constants.cs" />
     <Compile Include="Util\GlobalAppSettings.cs" />
+    <Compile Include="Util\Logger.cs" />
+    <Compile Include="Util\Paths.cs" />
     <Compile Include="Util\ProcessCmd.cs" />
     <Compile Include="Util\ResReader.cs" />
   </ItemGroup>

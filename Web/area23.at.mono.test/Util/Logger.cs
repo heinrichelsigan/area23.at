@@ -1,9 +1,9 @@
-﻿using SchnapsNet.ConstEnum;
+﻿using area23.at.mono.test.Util;
 using System;
 using System.IO;
 using System.Web;
 
-namespace SchnapsNet.Utils
+namespace area23.at.mono.test.Util
 {
     public static class Logger
     { 
