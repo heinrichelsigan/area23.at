@@ -50,7 +50,7 @@ namespace area23.at.mono.test
 
         protected virtual void ResetFormElements()
         {
-            foreach (var ctrl in this.form1.Controls)
+            foreach (var ctrl in ((Area23)this.Master).MasterFrom.Controls)
             {
                 if (ctrl is TextBox)
                 {
@@ -71,7 +71,7 @@ namespace area23.at.mono.test
             Bitmap aQrBitmap = null;
             try
             {
-                qrStr = GetQrStringFromForm(this.form1);
+                qrStr = GetQrStringFromForm(((Area23)this.Master).MasterFrom);
                 if (!string.IsNullOrEmpty(qrStr))
                 {
                     aQrBitmap = GetQRBitmap(qrStr);
@@ -93,7 +93,7 @@ namespace area23.at.mono.test
         protected virtual string GetQrStringFromControl(System.Web.UI.Control control)
         {
             if (control == null)
-                control = this.form1 as System.Web.UI.Control;
+                control = ((Area23)this.Master).MasterFrom as System.Web.UI.Control;
 
             ContactData qrContact = new ContactData(ContactData.ContactOutputType.VCard3,
                 TextBox_FirstName.Text, TextBox_LastName.Text, null, TextBox_Phone.Text, TextBox_Mobile.Text,
@@ -107,7 +107,7 @@ namespace area23.at.mono.test
 
         protected virtual string GetQrStringFromForm(System.Web.UI.HtmlControls.HtmlForm form)
         {
-            return GetQrStringFromControl(this.form1);
+            return GetQrStringFromControl(((Area23)this.Master).MasterFrom);
         }
 
         protected virtual Bitmap GetQRBitmap(string qrString)

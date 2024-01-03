@@ -1,6 +1,5 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="QRCodeGen.aspx.cs" Inherits="area23.at.mono.test.QRCodeGen" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="area23.at.mono.test.WebForm1" %>
 <asp:Content ID="ContentHead" ContentPlaceHolderID="head" runat="server">
-    <title>QRCode apache2 mod_mono generator</title>
     <link rel="stylesheet" href="res/area23.at.mono.test.css" />
 	<meta name="keywords" content="QR code generator" />
 	<meta name="description" content="https://github.com/codebude/QRCoder/" />
@@ -34,8 +33,8 @@
 					document.getElementById(highLightId).style.borderStyle = "dashed";
 				}
 			}
-        }
-    </script>
+		}
+	</script>
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="bodydiv" runat="server">
 	<table class="qrcTable" border="0" cellpadding="0" cellpadding="0">
@@ -229,9 +228,9 @@
 		</tr>
 	</table>
 	<div class="hugeqr">
-				
-				
+		
+		
 	</div>
 	<div id="ErrorDiv" runat="server" class="footerDiv" visible="false">
-	</div>
+	</div>    
 </asp:Content>

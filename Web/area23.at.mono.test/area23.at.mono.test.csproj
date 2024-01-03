@@ -150,6 +150,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FortunAsp.aspx" />
     <Content Include="HexDump.aspx" />
     <Content Include="log\TextFile.txt" />
     <Content Include="QRGen.aspx" />
@@ -168,8 +169,23 @@
     <Content Include="res\area23.at.mono.test.css" />
     <Content Include="Web.config" />
     <Content Include="OctalDump.aspx" />
+    <Content Include="WebForm1.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Area23.Master.cs">
+      <DependentUpon>Area23.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Area23.Master.designer.cs">
+      <DependentUpon>Area23.Master</DependentUpon>
+    </Compile>
+    <Compile Include="FortunAsp.aspx.cs">
+      <DependentUpon>FortunAsp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FortunAsp.aspx.designer.cs">
+      <DependentUpon>FortunAsp.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -235,8 +251,16 @@
     <Compile Include="Util\Paths.cs" />
     <Compile Include="Util\ProcessCmd.cs" />
     <Compile Include="Util\ResReader.cs" />
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Area23.Master" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

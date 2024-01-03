@@ -11,7 +11,7 @@ namespace area23.at.mono.test
 {
 
 
-    public partial class QRCodeGen
+    public partial class WebForm1
     {
 
         /// <summary>

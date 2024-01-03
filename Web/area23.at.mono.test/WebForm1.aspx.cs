@@ -9,18 +9,17 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using static QRCoder.PayloadGenerator;
-using System.Runtime.CompilerServices;
 
 namespace area23.at.mono.test
 {
-    public partial class Qrc : System.Web.UI.Page
+    public partial class WebForm1 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
                 ResetFormElements();
-                GenerateQRImage();
+                // GenerateQRImage();
             }
         }
 
@@ -65,7 +64,8 @@ namespace area23.at.mono.test
             }
         }
 
-        protected virtual void GenerateQRImage() {
+        protected virtual void GenerateQRImage()
+        {
             string qrStr = string.Empty;
             Bitmap aQrBitmap = null;
             try
@@ -93,12 +93,12 @@ namespace area23.at.mono.test
         {
             if (control == null)
                 control = ((Area23)this.Master).MasterFrom as System.Web.UI.Control;
-            
+
             ContactData qrContact = new ContactData(ContactData.ContactOutputType.VCard3,
                 TextBox_FirstName.Text, TextBox_LastName.Text, null, TextBox_Phone.Text, TextBox_Mobile.Text,
                 null, TextBox_Email.Text, null, TextBox_Web.Text, TextBox_Street.Text, TextBox_StreetNr.Text,
-                TextBox_City.Text, TextBox_ZipCode.Text, TextBox_Coutry.Text, TextBox_Note.Text,
-                DropDown_Country.SelectedValue, ContactData.AddressOrder.Default, TextBox_Org.Text, TextBox_OrgTitle.Text);
+                TextBox_City.Text, TextBox_ZipCode.Text, TextBox_Coutry.Text, null,
+                DropDown_Country.SelectedValue, ContactData.AddressOrder.Default, TextBox_Org.Text, null);
 
             string qrString = qrContact.ToString();
             return qrString;
@@ -106,15 +106,15 @@ namespace area23.at.mono.test
 
         protected virtual string GetQrStringFromForm(System.Web.UI.HtmlControls.HtmlForm form)
         {
-            return GetQrStringFromControl(((Area23)this.Master).MasterFrom);            
+            return GetQrStringFromControl(((Area23)this.Master).MasterFrom);
         }
 
         protected virtual Bitmap GetQRBitmap(string qrString)
         {
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, QRCodeGenerator.ECCLevel.H);
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(4);            
+            Bitmap qrCodeImage = qrCode.GetGraphic(20);
             return qrCodeImage;
         }
 
@@ -125,6 +125,7 @@ namespace area23.at.mono.test
             var base64Data = Convert.ToBase64String(ms.ToArray());
             this.ImgQR.Src = "data:image/gif;base64," + base64Data;
         }
-    
+
+
     }
 }

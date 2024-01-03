@@ -98,13 +98,43 @@ div {
         inset-block-start: initial;
     }
 
-    div.footerDiv {
-        width: 100%;
+    div.headercard {
+        /* border-block: 1px thin;*/
+        border-bottom: 1px solid #fafafa;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: #fafafa;
+        border-right: thin solid #fafafa;
+        border-left: thin solid #fafafa;
+        border-top: 0px none #fafafa;
+        border-top-width: 1px;
+        border-top-style: none;
+        border-top-color: #fafafa;
+        /* border-spacing: 1px 1px;        */
+        margin-left: 1px;
+        margin-right: 1px;
+        margin-top: 1px;
+        margin-bottom: 0px;
         text-align: left;
-        background-color: #ececec;
+        background-color: #cecece;
         vertical-align: middle;
         font-size: medium;
-        border-style: none;
+        table-layout: fixed;
+        inset-block-start: initial;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+    }
+
+    div.footerDiv {
+        border-block: 1px solid #ababab;
+        border-style: solid;
+        border-width: thin;
+        /* border-spacing: 1px 1px; */
+        
+        width: 100%;
+        text-align: left;
+        background-color: #dedede;
+        vertical-align: middle;
+        font-size: medium;
         table-layout: fixed;
         inset-block-start: initial;
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
@@ -171,6 +201,11 @@ span {
 
 
     span.footerLeft {
+        border-block: 1px ridge;
+        border-style: ridge;
+        border-width: thin;
+        border-color: #dedede;
+        border-spacing: 2px 2px;
         width: 8%;
         background-color: #cacaca;
         vertical-align: middle;
@@ -178,13 +213,23 @@ span {
     }
 
     span.footerLeftCenter {
+        border-block: 1px ridge;
+        border-style: ridge;
+        border-width: thin;
+        border-color: #dedede;
+        border-spacing: 2px 2px;
         width: 8%;
-        background-color: #d6d6d6;
+        background-color: #ececec;
         vertical-align: middle;
         text-align: center;
     }
 
     span.footerCenter {
+        border-block: 1px ridge;
+        border-style: ridge;
+        border-width: thin;
+        border-color: #dedede;
+        border-spacing: 2px 2px;
         width: 8%;
         background-color: #dadada;
         vertical-align: middle;
@@ -192,6 +237,11 @@ span {
     }
 
     span.footerRightCenter {
+        border-block: 1px ridge;
+        border-style: ridge;
+        border-width: thin;
+        border-color: #dedede;
+        border-spacing: 2px 2px;
         width: 8%;
         background-color: #dedede;
         vertical-align: middle;
@@ -199,6 +249,11 @@ span {
     }
 
     span.footerRight {
+        border-block: 1px ridge;
+        border-style: ridge;
+        border-width: thin;
+        border-color: #dedede;
+        border-spacing: 2px 2px;
         width: 64%;
         background-color: #e1e1e1;
         vertical-align: middle;
