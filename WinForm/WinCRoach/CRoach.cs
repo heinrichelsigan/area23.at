@@ -202,6 +202,7 @@ namespace Area23.At.WinForm.WinCRoach
             }
             SaySpeach.Instance.Say(setences[speachCnt]);
         }
+            while (control != null && !(control is ContainerControl))
 
         private void RoachExit(object sender, MouseEventArgs e)
         {
