@@ -155,6 +155,8 @@
     <Content Include="HexDump.aspx" />
     <Content Include="log\TextFile.txt" />
     <Content Include="QRGen.aspx" />
+    <Content Include="res\folder1.gif" />
+    <Content Include="res\folder1.png" />
     <Content Include="res\qrsample1.gif" />
     <Content Include="res\qrsample2.png" />
     <Content Include="json.aspx" />

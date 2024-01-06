@@ -116,7 +116,7 @@ div {
         margin-top: 1px;
         margin-bottom: 0px;
         text-align: left;
-        background-color: #cecece;
+        background-color: #eeeeee;
         vertical-align: middle;
         font-size: medium;
         table-layout: fixed;
@@ -204,23 +204,33 @@ span {
         border-block: 1px ridge;
         border-style: ridge;
         border-width: thin;
-        border-color: #dedede;
+        border-color: #eeeeee;
         border-spacing: 2px 2px;
-        width: 8%;
+        min-width: 8%;
+        width: 144pt;
+        height: 40pt;
         background-color: #cacaca;
+        background-image: url(folder1.png);
+        /* background-repeat: no-repeat; */
+        outline-width: 144px;
         vertical-align: middle;
-        text-align: left;
+        text-align: center;
     }
 
     span.footerLeftCenter {
         border-block: 1px ridge;
         border-style: ridge;
         border-width: thin;
-        border-color: #dedede;
+        border-color: #eeeeee;
         border-spacing: 2px 2px;
-        width: 8%;
-        background-color: #ececec;
+        min-width: 8%;
+        width: 144pt;
+        height: 40pt;
+        background-color: #cacbca;
+        background-image: url(folder1.png);
+        /* background-repeat: no-repeat; */
         vertical-align: middle;
+        outline-width: 144px;
         text-align: center;
     }
 
@@ -228,10 +238,15 @@ span {
         border-block: 1px ridge;
         border-style: ridge;
         border-width: thin;
-        border-color: #dedede;
+        border-color: #eeeeee;
         border-spacing: 2px 2px;
-        width: 8%;
-        background-color: #dadada;
+        min-width: 8%;
+        width: 144pt;
+        height: 40pt;
+        background-color: #cbcccb;
+        background-image: url(folder1.png);
+        /* background-repeat: no-repeat; */
+        outline-width: 144px;
         vertical-align: middle;
         text-align: center;
     }
@@ -240,10 +255,15 @@ span {
         border-block: 1px ridge;
         border-style: ridge;
         border-width: thin;
-        border-color: #dedede;
+        border-color: #eeeeee;
         border-spacing: 2px 2px;
-        width: 8%;
-        background-color: #dedede;
+        min-width: 8%;
+        width: 144pt;
+        height: 40pt;
+        background-color: #cccbcc;
+        background-image: url(folder1.png);
+        background-repeat: no-repeat;
+        outline-width: 144px;
         vertical-align: middle;
         text-align: center;
     }
@@ -252,10 +272,12 @@ span {
         border-block: 1px ridge;
         border-style: ridge;
         border-width: thin;
-        border-color: #dedede;
+        border-color: #eeeeee;
         border-spacing: 2px 2px;
         width: 64%;
         background-color: #e1e1e1;
+        background-image: url(folder1.png);
+        background-repeat: no-repeat;
         vertical-align: middle;
         text-align: right;
     }
