@@ -66,7 +66,7 @@ body.odbody {
     height: 60%;
     min-height: 120pt;
     font-size: small;
-    font-family: 'Lucida Console', 'Courier New', 'Courier', 'monospace';
+    font-family: 'Courier New', 'Courier', 'monospace';
     scroll-behavior: auto;
 }
 

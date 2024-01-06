@@ -1,4 +1,5 @@
 ﻿using area23.at.www.mono.Util;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace area23.at.www.mono
         long seekBytes = 0;
         long readBytes = 1024;
         string device = "urandom";
+        static Random random;
         const string odCmdPath = "od";
         const string odSuidCmdPath = "/usr/bin/od";
         const string odArgsFormat = " -A {0} -t x{1}z -w{2} -v -j {3} -N {4} /dev/{5}";
@@ -66,8 +68,14 @@ namespace area23.at.www.mono
 
         protected void Perform_HexDump()
         {
-            TextBox_OdCmd.Text = odCmdPath + OdArgs;
-            preOut.InnerText = Process_HexDump(odSuidCmdPath, OdArgs);
+            try
+            {
+                TextBox_OdCmd.Text = odCmdPath + OdArgs;
+                preOut.InnerText = Process_HexDump(odSuidCmdPath, OdArgs);
+            } catch (Exception ex)
+            {
+                preOut.InnerText = GetLinesFromRandom();
+            }
         }
 
         protected string Process_HexDump(
@@ -87,5 +95,79 @@ namespace area23.at.www.mono
             Perform_HexDump();
         }
 
+
+        internal string GetLinesFromRandom()
+        {
+            string outPut = String.Empty;
+            string formWords = String.Empty;
+            for (long j = 0; j < (long)(readBytes / wordWidth); j++)
+            {
+                // TODO: implement ASCII point
+                switch (radix)
+                {
+                    case 'd': outPut += String.Format("{0:d7}\t", (wordWidth * j)); break;
+                    case 'o':
+                        string octString; long octOut;
+                        try
+                        {
+                            octString = Convert.ToString((int)(wordWidth * j), 8);
+                            octOut = Convert.ToInt64(octString);
+                            outPut += String.Format("{0:d7}\t", octOut);
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                        break;
+                    case 'x': outPut += String.Format("{0:x7}\t", (wordWidth * j)); break;
+                    case 'n':
+                    default: outPut += ""; break;
+                }
+                outPut += GetWordFromRandom(wordWidth, out formWords) + "\t>";
+                outPut += formWords;
+                outPut += "< \r\n";
+            }
+            return outPut;
+        }
+
+        internal string GetWordFromRandom(int wordLen, out string formatWords)
+        {
+            string words = string.Empty;
+            formatWords = string.Empty;
+            // hexBytes = new byte[hexWidth];
+            wordLen = (hexWidth > wordLen) ? hexWidth : wordLen;
+            int execBytes = Math.Max((int)(wordLen / hexWidth), 1);
+            byte[] hexBytes = new byte[execBytes * hexWidth];
+            for (int wc = 0; wc < execBytes; wc++)
+            {
+                hexBytes = GetHexBytesFromRandom(hexWidth);
+                foreach (byte b in hexBytes)
+                {
+                    words += String.Format("{0:x2}", b);
+                }
+                foreach (byte b in hexBytes)
+                {
+                    if ((int)b >= 32 && (int)b < 127)
+                        formatWords += (char)((int)b);
+                    else
+                        formatWords += ".";
+                }
+
+                words += " ";
+            }
+            return words;
+        }
+
+
+        internal byte[] GetHexBytesFromRandom(int hexLen)
+        {
+            if (HexDump.random == null)
+                HexDump.random = new Random((int)(DateTime.Now.Ticks % Int32.MaxValue));
+            byte[] buffer = new byte[hexLen];
+            if (device == "zero") 
+                for (int bc = 0; bc < buffer.Length; buffer[bc++] = (byte)0) ;
+            else                     
+                random.NextBytes(buffer);
+            return buffer;
+        }
     }
 }
