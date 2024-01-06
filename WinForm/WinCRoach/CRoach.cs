@@ -53,7 +53,7 @@ namespace Area23.At.WinForm.WinCRoach
                         lock (innerLock)
                         {
                             ScreenCapture sc = new ScreenCapture();
-                            winDeskImg = sc.CaptureScreen();
+                            winDeskImg = sc.CaptureAllDesktops();
                             lastCapture = DateTime.Now;
                         }
                         this.Visible = true;
@@ -92,8 +92,8 @@ namespace Area23.At.WinForm.WinCRoach
 
             if (pt == Point.Empty || (pt.X == 0 && pt.Y == 0))
             {
-                pt = new Point(((int)(winDeskImg.Width / 2) - 32),
-                    ((int)(winDeskImg.Height / 2) - 32));
+                pt = new Point(((int)(winDeskImg.Width - 48)),
+                    ((int)(winDeskImg.Height - 48)));
             }
             this.Location = pt;
             this.SetDesktopLocation(pt.X, pt.Y);
@@ -119,7 +119,7 @@ namespace Area23.At.WinForm.WinCRoach
 
         private void OnLoad(object sender, EventArgs e)
         {
-            SetRoachBG(this.Location);
+             SetRoachBG(this.Location);
             SelfMoveRoach(10);            
         }
 
@@ -144,7 +144,7 @@ namespace Area23.At.WinForm.WinCRoach
         {
             while (true)
             {
-                Form f = FindForm();
+                Form f = FindInternal();
                 scrX = f.DesktopBounds.Location.X - 1;
                 scrY = f.DesktopBounds.Location.Y - 1;
 
@@ -175,7 +175,7 @@ namespace Area23.At.WinForm.WinCRoach
                     }
                     SetRoachBG(roachPosition, winDeskImg, true);
                     BringToFront();
-                    RotateSay();
+                    // RotateSay();
                 }
                 else
                 {
@@ -187,7 +187,7 @@ namespace Area23.At.WinForm.WinCRoach
                     AppExit("RoachMove", new EventArgs());
                     break;
                 }
-                System.Threading.Thread.Sleep(200);
+                System.Threading.Thread.Sleep(192);
             }
         }
 
@@ -202,7 +202,18 @@ namespace Area23.At.WinForm.WinCRoach
             }
             SaySpeach.Instance.Say(setences[speachCnt]);
         }
-            while (control != null && !(control is ContainerControl))
+
+        internal Form FindInternal()
+        {
+            Control control = this;
+            while (control != null && !(control is Form))
+            {
+                control = control.Parent;
+            }
+
+            return (Form)control;
+        }
+
 
         private void RoachExit(object sender, MouseEventArgs e)
         {

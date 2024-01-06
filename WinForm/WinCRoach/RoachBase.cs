@@ -49,7 +49,7 @@ namespace Area23.At.WinForm.WinCRoach
             {
                 this.WindowState = FormWindowState.Minimized;
                 ScreenCapture sc = new ScreenCapture();
-                winDesktopImg = sc.CaptureScreen();
+                winDesktopImg = sc.CaptureAllDesktops();
                 lastCapture = DateTime.Now;
                 locChangedOff = false;
             }
@@ -103,13 +103,13 @@ namespace Area23.At.WinForm.WinCRoach
                 PersistDesktopImage();
             }
 
-            Point dPt = new Point((int)(winDeskImg.Width / 3), (int)((winDeskImg.Height) / 3));
+            Point dPt = new Point((int)(winDeskImg.Width / 2), (int)(winDeskImg.Height / 2));
             if (cRoach == null)
             {
                 cRoach = new CRoach();
+                cRoach.SetRoachBG(dPt, this.winDeskImg, true);
                 // dRoach.SelfMoveRoach(400);
-                cRoach.Show();
-                // dRoach.SetDesktopLocation(dPt.X, dPt.Y);                    
+                cRoach.Show();                                  
             }
 
             // startRoach();
@@ -156,7 +156,7 @@ namespace Area23.At.WinForm.WinCRoach
 
         private void startRoach()
         {
-            Point dPt = new Point(((int)(winDeskImg.Width / 2) + 96), ((int)((winDeskImg.Height) / 2) + 48));
+            Point dPt = new Point(((int)(winDeskImg.Width / 2) + 32), ((int)((winDeskImg.Height) / 2) + 24));
             System.Timers.Timer tLoad0 = new System.Timers.Timer { Interval = 125 };
             tLoad0.Elapsed += (s, en) =>
             {
@@ -167,7 +167,7 @@ namespace Area23.At.WinForm.WinCRoach
                         cRoach = new CRoach() { Location = dPt };
                         // cRoach.SelfMoveRoach(100);
                         cRoach.Show();
-                        PollDesktopImage();
+                        // PollDesktopImage();
                     }
 
                 }));
@@ -189,7 +189,7 @@ namespace Area23.At.WinForm.WinCRoach
 
         private void RoachMove()
         {
-            Form f = cRoach.FindForm();
+            Form f = cRoach.FindInternal();
             scrX = f.DesktopBounds.Location.X - 1;
             scrY = f.DesktopBounds.Location.Y - 1;
 
