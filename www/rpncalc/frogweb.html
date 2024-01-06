@@ -1,0 +1,1371 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Frog.Web</title>
+	<link rel="shortcut icon" href="https://area23.at/froga/favicon.ico" type="image/x-icon" />
+	<style>
+		body.frogbody {
+			color: white;
+			background-color: black;
+			padding: 0 0 0 0;
+			margin: 0 0 0 0;
+			border-style: none;
+			border-spacing: 0pt;
+			border-width: 0pt;
+			border-color: transparent;
+		}
+
+		div.froga {
+			width: 86%;
+			min-width: 387pt;
+			height: 84%;
+			min-height: 378pt;
+			line-height: normal;
+			vertical-align: middle;
+			color: white;
+			background-color: black;
+			padding: 0 0 0 0;
+			margin: 0 0 0 0;
+			border-style: none;
+			border-spacing: 0pt;
+			border-width: 0pt;
+			border-color: transparent;
+		}
+
+			div.froga.img {
+				width: 8%;
+				min-width: 36pt;
+				height: 6%;
+				min-height: 27pt;
+				padding: 0 0 0 0;
+				margin: 0 0 0 0;
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+			}
+
+			div.froga.frogaHeader {
+				width: 80%;
+				min-width: 360pt;
+				height: 10%;
+				min-height: 45pt;
+				align-content: center;
+				font-size: medium;
+				line-height: normal;
+				color: white;
+				background-color: black;
+				background-repeat: no-repeat;
+			}
+
+		div.frogaHeader#headerLeft {
+			height: 10%;
+			min-height: 45pt;
+			width: 20%;
+			min-width: 90pt;
+			vertical-align: middle;
+			font-size: larger;
+			text-align: right;
+		}
+
+		div.frogaHeader#headerCenter {
+			height: 10%;
+			min-height: 45pt;
+			width: 66%;
+			min-width: 297pt;
+			vertical-align: middle;
+			font-size: medium;
+			text-align: center;
+		}
+
+		div.frogaHeader.headerImage {
+			width: 60%;
+			min-width: 270pt;
+			height: 10%;
+			min-height: 45pt;
+			background-repeat: no-repeat;
+			background-size: 100% 100%;
+		}
+
+		div.frogaHeader#headerRight {
+			height: 10%;
+			min-height: 45pt;
+			width: 19.11%;
+			min-width: 86pt;
+			vertical-align: middle;
+			font-size: larger;
+			text-align: left;
+		}
+
+
+		span#leftNotes,
+		span#rightNotes {
+			color: whitesmoke;
+			width: 5.33%;
+			max-width: 24pt;
+			font-size: large;
+		}
+
+		span#frogsInHole {
+			color: greenyellow;
+		}
+
+		span#frogsLeft {
+			color: aqua;
+			visibility: hidden;
+		}
+
+		span#frogsDied {
+			color: gainsboro;
+		}
+
+		span#frogsLevel {
+			color: orangered;
+			font-size: larger;
+		}
+
+		span#frogaLevel {
+			color: greenyellow;
+			font-size: larger;
+		}
+
+
+		div.froga.frogaFooter {
+			width: 80%;
+			min-width: 360pt;
+			height: 8%;
+			min-height: 36pt;
+			text-align: center;
+			font-size: medium;
+			background-color: black;
+			align-content: center;
+			table-layout: fixed;
+			inset-block-start: initial;
+			font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+		}
+
+			div.froga.frogaFooter#spanLeft {
+				height: 8%;
+				min-height: 36pt;
+				width: 40%;
+				min-width: 180pt;
+				vertical-align: middle;
+				text-align: left;
+			}
+
+			div.froga.frogaFooter#spanRight {
+				height: 8%;
+				min-height: 36pt;
+				width: 40%;
+				min-width: 180pt;
+				vertical-align: middle;
+				text-align: right
+			}
+
+
+		table.frogaTable {
+			width: 80%;
+			min-width: 360pt;
+			height: 60%;
+			min-height: 270pt;
+			align-content: center;
+			padding: 0 0 0 0;
+			margin: 0 0 0 0;
+			border-style: none;
+			border-spacing: 0pt;
+			border-width: 0pt;
+			border-color: transparent;
+			background-repeat: no-repeat;
+		}
+
+		tr.frogaTr {
+			width: 80%;
+			min-width: 360px;
+			height: 6%;
+			min-height: 27px;
+			background-repeat: no-repeat;
+			/* background-size: 100% 100%; */
+		}
+
+		tr.frogaTrUpStreet {
+			width: 80%;
+			min-width: 360px;
+			height: 6%;
+			min-height: 27px;
+			background-repeat: no-repeat;
+			/* background-size: 100% 100%; */
+		}
+
+		td.frogaTd {
+			width: 8%;
+			/* min-width: 36pt; */
+			height: 6%;
+			min-height: 27pt;
+			/* background-repeat: no-repeat; */
+			background-size: 100% 100%;
+		}
+
+		img.frogaImage,
+		img.frogaWood {
+			width: 100%;
+			min-width: 36pt;
+			height: 100%;
+			min-height: 27pt;
+			background-repeat: no-repeat;
+			/* background-size: 100% 100%; */
+		}
+
+			img.frogaImage#frog0,
+			img.frogaImage#frog1,
+			img.frogaImage#frog2,
+			img.frogaImage#frog3 {
+				width: 100%;
+				min-width: 36pt;
+				height: 100%;
+				min-height: 27pt;
+				background-repeat: no-repeat;
+				/* background-size: 100% 100%; */
+			}
+
+
+		img#aUp,
+		img#aDown,
+		img#aLeft,
+		img#aRight {
+			width: 7.11%;
+			min-width: 32pt;
+			height: 6%;
+			min-height: 27pt;
+			background-repeat: no-repeat;
+			background-size: 100% 100%;
+		}
+	</style>
+	<script type="text/javascript">
+
+		var loopDelay = 1500,
+			loopTicks = 0;
+		var level = 0,
+			frogsDied = 0,
+			frogsInHole = 0,
+			frogHoleMax = 3,
+			gameOver = 0;
+		var fX, fY;
+		var currentFrog, currentFrogId;
+		var imgSavedWoodB, imgSavedWoodT;
+
+		// windows cursor key press hanlder
+		function windowCursorKeysHandler() {
+			window.onkeydown = function (e) { // TODO: pressing two arrow keys at same time
+				if (e.which == 37)
+					moveFrog("left");
+				if (e.which == 39)
+					moveFrog("right");
+				if (e.which == 38)
+					moveFrog("up");
+				if (e.which == 40)
+					moveFrog("down");
+			};
+		}
+
+		// frogInit will be called on 1st time loading
+		function frogInit() {
+			windowCursorKeysHandler();
+			frogLoad();
+		}
+
+		// frogReStart(repeatLevel) => repeatLevel = true
+		function frogReStart(repeatLevel) {
+			if (repeatLevel) {
+				gameOver = 0;
+				window.location.reload();
+			} else { // TODO: fix this
+				reCreateFrogs();
+				frogLoad();
+			}
+		}
+
+		// frog loader
+		function frogLoad() {
+			loopTicks = 0;
+			frogsDied = 0;
+			frogsInHole = 0;
+			gameOver = 0;
+
+			switch (level) {
+				case 0: loopDelay = 1500; break;
+				case 1: loopDelay = 1375; break;
+				case 2: loopDelay = 1250; break;
+				case 3: loopDelay = 1125; break;
+				case 4: loopDelay = 1000; break;
+				case 5: loopDelay = 875; break;
+				default: loopDelay = 750; break;
+			}
+			setLevel(level);
+			setFrogsInHole(frogsInHole);
+			setFrogsDied(frogsDied);
+
+			fX = 'd';
+			fY = 0;
+			imgSavedWoodB = null;
+			imgSavedWoodT = null;
+
+			var headerImg = document.getElementById("headerImg");
+			if (headerImg != null) {
+				document.getElementById("headerImg").src = "img/header.png";
+				document.getElementById("headerImg").focus();
+				document.getElementById("headerImg").blur();
+			}
+			var frogZero = document.getElementById("frog0");
+			if (frogZero != null)
+				frogZero.focus();
+
+			setTimeout(function () { frogaLooper(loopTicks, loopDelay) }, loopDelay); // will call function after loopDelay milli seconds.
+		}
+
+		// main js looper => keeping game in movement
+		function frogaLooper(ticks, delay) {
+
+			let leftNotes = document.getElementById("leftNotes");
+			let rightNotes = document.getElementById("rightNotes");
+			if (leftNotes.innerHTML.length > 1)
+				leftNotes.innerHTML = "";
+			if (rightNotes.innerHTML.length > 1)
+				rightNotes.innerHTML = "";
+
+			currentFrog = getActiveFrog();
+
+			// level completed
+			if (frogsInHole >= frogHoleMax) {
+				headerImg.src = "img/message_levelcompleted.png"
+				headerImg.height = 36;
+				level++;
+				setTimeout(function () { frogReStart(false); }, 4000); // will call the function after 8 secs.
+				return;
+			}
+			// game over
+			if (currentFrog == null) {
+				headerImg.src = "img/message_gameover.png";
+				headerImg.height = 36;
+				gameOver = 1;
+				setTimeout(function () { frogReStart(true); }, 5000); // will call the function after 8 secs.
+				return;
+			}
+
+			currentFrogId = getCurrentFrogId(currentFrog);
+
+			try {
+				moveCars();
+				moveWalkers();
+				moveWoods();
+			} catch (exMove) {
+				// alert(exMove)
+			}
+
+			loopTicks = ticks + 1;
+
+			setTimeout(function () { frogaLooper(loopTicks, delay) }, delay); // will call the function after 16 secs.
+		}
+
+
+		// move cars in froga game
+		function moveCars() {
+			var car, carId = "car2";
+			var oldTd, newTd;
+			var frX = columnByTag(currentFrog);
+			var frY = parseInt(rowByTag(currentFrog));
+			var frogNr = parseInt(currentFrogId.charAt(4));
+			var frogTd = "td" + frY + frX;
+
+			carId = "car3";
+			let carCnt = 0;
+			for (carCnt = 0; carCnt <= 2; carCnt++) {
+				carId = "car3" + carCnt;
+
+				car = document.getElementById(carId);
+				oldTd = car.getAttribute("cellid");
+
+				newTd = getNewTdPositionByMoving(car, 'll');
+
+				car.setAttribute("cellid", newTd);
+				car.src = "img/car3.gif";
+
+				if (newTd == frogTd) {
+					currentFrog.id = "died" + frogNr;
+					document.getElementById(newTd).removeChild(currentFrog);
+					car.src = "img/car1crashed.png"
+					changeImagePlaySound(car, "img/car1crashed.png", "audio/frogCrash.ogg");
+					currentFrog = getActiveFrog();
+					currentFrogId = getCurrentFrogId(currentFrog);
+				}
+
+				document.getElementById(oldTd).removeChild(car);
+				document.getElementById(newTd).appendChild(car);
+			}
+
+			carCnt = 0;
+			for (carCnt = 0; carCnt < 2; carCnt++) {
+				carId = "car2" + carCnt;
+
+				car = document.getElementById(carId);
+				oldTd = car.getAttribute("cellid");
+
+				newTd = getNewTdPositionByMoving(car, 'rr');
+
+				car.setAttribute("cellid", newTd);
+				car.src = "img/car2.gif";
+
+				if (newTd == frogTd) {
+					currentFrog.id = "died" + frogNr;
+					document.getElementById(newTd).removeChild(currentFrog);
+					car.src = "img/car1crashed.png"
+					changeImagePlaySound(car, "img/car0crashed.png", "audio/frogCrash.ogg");
+					currentFrog = getActiveFrog();
+					currentFrogId = getCurrentFrogId(currentFrog);
+				}
+
+				document.getElementById(oldTd).removeChild(car);
+				document.getElementById(newTd).appendChild(car);
+			}
+		}
+
+		// move wakjers
+		function moveWalkers() {
+			var walk;
+			var oldTd;
+			var walk_Y;
+			var walk_X;
+			var newTd;
+			var walkId;
+			let walkCnt = 0;
+
+			var frX = columnByTag(currentFrog);
+			var frY = parseInt(rowByTag(currentFrog));
+			var frogNr = parseInt(currentFrogId.charAt(4));
+			var frogTd = "td" + frY + frX;
+
+			for (walkCnt = 0; walkCnt < 4; walkCnt++) {
+
+				walkId = "person" + walkCnt;
+				walk = document.getElementById(walkId);
+				oldTd = walk.getAttribute("cellid");
+				newTd = getNewTdPositionByMoving(walk, 'rr');
+
+				walk.setAttribute("cellid", newTd);
+
+				switch (walkId) {
+					case "person0": walk.src = "img/walk4m.png"; break;
+					case "person1": walk.src = "img/walk5m.png"; break;
+					case "person2": walk.src = "img/walk6m.png"; break;
+					case "person3": walk.src = "img/walk3m.png"; break;
+					default: break;
+				}
+
+				if (newTd == frogTd) {
+					currentFrog.id = "died" + frogNr;
+					document.getElementById(newTd).removeChild(currentFrog);
+					walk.src = "img/walk7m.png"
+					changeImagePlaySound(walk, "img/walk7m.png", "audio/frogJump.ogg");
+					currentFrog = getActiveFrog();
+					currentFrogId = getCurrentFrogId(currentFrog);
+				}
+
+				document.getElementById(oldTd).removeChild(walk);
+				document.getElementById(newTd).appendChild(walk);
+			}
+		}
+
+		// move woods on water
+		function moveWoods() {
+			var woodId;
+			var wood;
+			var oldTd;
+			var oldTdCell;
+			var wood_Y;
+			var wood_X;
+			var newTd;
+			var newWood;
+			let woodCnt = 0;
+
+			var newFrog = document.getElementById(currentFrogId);
+			var frX = columnByTag(newFrog);
+			var frY = parseInt(rowByTag(newFrog));
+			let checkFrog = (frY == 6 || frY == 7);
+
+			let frogCnt = 0;
+			for (frogCnt = 0; frogCnt < 3; frogCnt++) {
+				var deadFrogId = "died" + frogCnt;
+				var deadFrog = document.getElementById(deadFrogId);
+				if (deadFrog != null) {
+					var parentElem = deadFrog.parentElement;
+					var parentNode = deadFrog.parentNode;
+					if (parentElem != null)
+						parentElem.removeChild(deadFrog);
+				}
+			}
+
+			for (woodCnt = 3; woodCnt >= 0; woodCnt--) {
+				woodId = "woodB" + woodCnt;
+				wood = document.getElementById(woodId);
+				if (wood == null && checkFrog && newFrog.getAttribute("idwood") == woodId) {
+					wood = newFrog;
+				}
+				if (wood != null) {
+					oldTd = wood.getAttribute("cellid");
+					newTd = getNewTdPositionByMoving(wood, 'rr');
+
+					newWood = copyImg(wood);
+					newWood.setAttribute("cellid", newTd);
+
+					if (imgSavedWoodB != null && imgSavedWoodB.id != null && imgSavedWoodB.id == woodId)
+						imgSavedWoodB.setAttribute("cellid", newTd);
+
+					document.getElementById(newTd).appendChild(newWood);
+					document.getElementById(oldTd).removeChild(wood);
+				}
+			}
+
+			woodCnt = 0;
+			for (woodCnt = 0; woodCnt < 4; woodCnt++) {
+				woodId = "woodT" + woodCnt;
+				wood = document.getElementById(woodId);
+				if (wood == null && checkFrog && newFrog.getAttribute("idwood") == woodId) {
+					wood = newFrog;
+				}
+				if (wood != null) {
+					oldTd = wood.getAttribute("cellid");
+					newTd = getNewTdPositionByMoving(wood, 'll');
+
+					newWood = copyImg(wood);
+					newWood.setAttribute("cellid", newTd);
+
+					if (imgSavedWoodT != null && imgSavedWoodT.id != null && imgSavedWoodT.id == woodId)
+						imgSavedWoodT.setAttribute("cellid", newTd);
+
+					try {
+						wood.parentElement.removeChild(wood);
+					} catch (ex3) {
+						// alert("wood.parentElement.id=" + wood.parentElemen.id + "wood.id=" + wood.id + "\r\nException: " + x3);
+					}
+
+					newWood.setAttribute("cellid", newTd);
+					document.getElementById(newTd).appendChild(newWood);
+				}
+			}
+
+		}
+
+		// move frog => frog jumping handler
+		function moveFrog(jumpDirection) {
+
+			currentFrog = getActiveFrog();
+			currentFrogId = getCurrentFrogId(currentFrog);
+			var frogNr = parseInt(currentFrogId.charAt(4));	// TODO		better implementation of frog number
+
+			var imgDisApear = null;
+			var imgReApear = null;
+
+			var frogDied = -1;
+			var frogCrashed = -1;
+
+			var frX = columnByTag(currentFrog);
+			var frY = parseInt(rowByTag(currentFrog));
+			var oldTd = "td" + frY + frX;
+
+			var nrX = fX;
+			var nrY = parseInt(fY);
+
+			if (jumpDirection == null || jumpDirection.length < 2)
+				return;
+
+			if (jumpDirection.charAt(0) == 'u') {
+				nrY = upper(frY);												// up
+				document.getElementById("aUp").src = "img/a_up.gif";
+			}
+			else if (jumpDirection.charAt(0) == 'd') { 							// TODO should we let frog drive back to start meadow
+				nrY = below(frY);												// down
+				document.getElementById("aDown").src = "img/a_down.gif";
+			}
+
+			if (jumpDirection.charAt(0) == 'r' || jumpDirection.charAt(1) == 'r') {
+				nrX = righter(frX);												// right
+				document.getElementById("aRight").src = "img/a_right.gif";
+			} else if (jumpDirection.charAt(0) == 'l' || jumpDirection.charAt(1) == 'l') {
+				nrX = lefter(frX);												// left
+				document.getElementById("aLeft").src = "img/a_left.gif";
+			}
+
+			// TODO: better use newTd = getNewTdPositionByMoving(car, 'rr');
+			var newTd = "td" + nrY + nrX;
+			var newFrog = document.getElementById(currentFrogId);
+
+			newFrog.id = currentFrogId;
+			newFrog.title = "ActiveFrog";
+			newFrog.border = "0";
+			newFrog.src = "data:image/gif;base64,R0lGODlhJAAbAKU4AAAAAAAAAGBmAGuvAG6wAHGwAG+xAG+yAHCyAHKyAHCzAHKzAHG0AHO2AHS2AHW2AHG4AHW3AHS7AHW8AHi+AHy9AH6+AHnAAH/AAK+yAHvDAKm1AIPAFoDEAIPEBITECYTEEoXFDIbEG4nELo3HNYvKHovLHYvMHYzMH5DJPI3NIY7NHo7OIpDOJJDPKpTSO5vQTJfTOpzSSZ3SSprUPqfXWsrWAKzcYv///////////////////////////////yH+EUNyZWF0ZWQgd2l0aCBHSU1QACH5BAEPAD8ALAAAAAAkABsAAAaewJ9wSCz+RrffbWRsOp8/WE0Kg1qhKdKDlLp6izZbZxz+mgVissD8TY87NrYxHhe+7+Mh3Rvv/Px2eG9Dfn51T4V5gYKAf3mNTndEjIqLkJGUmXhemp2VcplyUKGimIylpoKoTaSiLa+vlps/sLFQtbiZuLVOu7W6vrZFwa/Awb3EjMQtt8HKx1bOgtBX0m/UX7t4u6stHd6Ohd7MUEEAIfkEAQ8APwAsAAAAACQAGwAABv7An3BILP5Gt99tZGw6nz9YTQqDWqEp0oOUunqLG5tibNt8zwIxWXD+ZhJjRSLTNsp+d2FhwYgzFgVDd3lWMz8XPyBDCHGNCEOKiIZQFD8dHQNDB41xB0MDlz+VUAMXGiFEBpxjBkQhGheZVhQUF7YXE6qrBhO3F7ReAxIQwxATBKsKBBMQxMSydT+6nK3RTslj1tfY2k2Mq4/dRZurntY0LizqQn2rDELqLC40Vi8xLfHqJhHJESb5LFrEeOHkxQqA6lRgSIZBBUIWKwgaKfFQ3YdkHyqyKOFEI4oGnBqg0AhFYwVOFUhaqeiBk4eKXx6ecBDHwYmHdRBaiGMBYQ03ERyA/ojzI2hQK0EAADs=";
+			// newFrog.src = "img/frogActive.gif";
+			newFrog.setAttribute("idwood", "");
+
+			var shouldReturn = false;
+			if (nrY == 1 || nrY == 4) {
+				var startObjects = ["meadow0b0", "frog1", "frog2", "frog3", "meadow0b1", "meadow0m0"];
+				let _startObj_Id = "";
+				var startObj = null;
+				startObjects.forEach(function (_startObj_Id) {
+					startObj = document.getElementById(newTd).children[_startObj_Id];
+					if (startObj != null) {
+						var frogPrae = document.getElementById("frogPre");
+						if (frogPrae != null)
+							frogPrae.innerText = String.fromCharCode(7) + '\a';
+						// let leftNotes = document.getElementById("leftNotes");
+						// 	leftNotes.innerHTML = String.fromCharCode(7) + "&#07;"
+						console.log('\a');
+						console.log(String.fromCharCode(7));
+						console.error('\x07');
+						console.error(String.fromCharCode(7));
+
+						shouldReturn = true;
+					}
+				});
+			}
+
+			if (shouldReturn)
+				return;
+
+			frogCrashed = crashFrog(newTd);
+
+			// saved bottom wood image will be restored
+			let woodIt = 0;
+			if (frY == 6 && (nrY == 5 || nrY == 6 || nrY == 7)) {
+				if (imgSavedWoodB != null)
+					imgReApear = imgSavedWoodB;
+			}
+
+			// saved top wood image will be restored
+			if (frY == 7 && (nrY == 6 || nrY == 7 || nrY == 8)) {
+				if (imgSavedWoodT != null)
+					imgReApear = imgSavedWoodT;
+			}
+
+			// set frog on bottom wood
+			if (nrY == 6 && (frY == 5 || frY == 6 || frY == 7)) {
+				woodIt = 0;
+				imgDisApear = null;
+				while (imgDisApear == null && woodIt < 4) {
+					var woodId = "woodB" + woodIt;
+					imgDisApear = document.getElementById(newTd).children[woodId];
+					if (imgDisApear != null) {
+						if (frY == 6)
+							imgReApear = imgSavedWoodB;
+						imgSavedWoodB = copyImg(imgDisApear);
+						newFrog.src = "img/frogOnWoodB.gif#" + woodIt;
+						newFrog.setAttribute("idwood", woodId);
+						woodIt = 4;
+						break;
+					}
+					woodIt++;
+				}
+				// frog dies in river
+				if (imgDisApear == null) {
+					frogDied = frogInRiverOrSwampOrHole(newFrog, "img/frogDiesInWaterB.gif", "audio/frogUnderWater.ogg", "died", "Frog died!");
+				}
+			}
+
+			// set frog on top wood
+			if (nrY == 7 && (frY == 6 || frY == 7 || frY == 8)) {
+				woodIt = 0;
+				imgDisApear = null;
+				while (imgDisApear == null && woodIt < 4) {
+					var woodId = "woodT" + woodIt;
+					imgDisApear = document.getElementById(newTd).children[woodId];
+					if (imgDisApear != null) {
+						if (frY == 7)
+							imgReApear = imgSavedWoodT;
+						imgSavedWoodT = copyImg(imgDisApear);
+						newFrog.src = "img/frogOnWoodT.gif#" + woodIt;
+						newFrog.setAttribute("idwood", woodId);
+						woodIt = 4;
+						break;
+					}
+					woodIt++;
+				}
+				// frog dies in river
+				if (imgDisApear == null) {
+					frogDied = frogInRiverOrSwampOrHole(newFrog, "img/frogDiesInWaterT.gif", "audio/frogUnderWater.ogg", "died", "Frog died!");
+				}
+			}
+
+			if (nrY == 8) {
+				woodIt = 0;
+				imgDisApear = null;
+				while (imgDisApear == null && woodIt < frogHoleMax) {
+					imgDisApear = document.getElementById(newTd).children["hole" + woodIt];
+					if (imgDisApear != null) {
+						woodIt = 4;
+						break;
+					}
+					woodIt++;
+				}
+				if (imgDisApear == null) {
+					if (nrX.charAt(0) == 'c')
+						imgDisApear = document.getElementById("hole0");
+					if (nrX.charAt(0) == 'e')
+						imgDisApear = document.getElementById("hole1");
+					if (nrX.charAt(0) == 'g')
+						imgDisApear = document.getElementById("hole2");
+					if (nrX.charAt(0) == 'i')
+						imgDisApear = document.getElementById("hole3");
+				}
+
+				if (imgDisApear != null) {
+					frogsInHole++;
+					setFrogsInHole(frogsInHole);
+					frogInRiverOrSwampOrHole(newFrog, "img/frogInHole.gif", "audio/frogInHole.ogg", "save", "frog" + frogNr + "@home");
+				}
+				if (imgDisApear == null) {
+					frogDied = frogInRiverOrSwampOrHole(newFrog, "img/frogDiesInSwamp.gif", "audio/frogInSwamp.ogg", "died", "Frog died!");
+				}
+			}
+
+			newFrog.setAttribute("cellid", newTd);
+
+			if (imgDisApear != null) {
+				document.getElementById(newTd).removeChild(imgDisApear);
+			}
+
+			if (frogsInHole >= 3 || (frogCrashed) < 0) {
+				document.getElementById(newTd).appendChild(newFrog);
+			} else {
+				currentFrog = getActiveFrog();
+				currentFrogId = getCurrentFrogId()
+				frogDied = frogCrashed;
+			}
+
+			if (frogDied > -1)
+				setFrogsDied(++frogsDied);
+
+			if (imgReApear != null) {
+				document.getElementById(oldTd).appendChild(imgReApear);
+			}
+
+
+			if (frY == 7 && (nrY <= 5 || nrY >= 8))
+				imgSavedWoodB = null;
+			if (frY == 8 && (nrY <= 6 || nrY >= 8))
+				imgSavedWoodT = null;
+		}
+
+
+		// sound and image
+		function frogSound(soundName) {
+			let sound = new Audio(soundName);
+			sound.autoplay = true;
+			sound.loop = false;
+
+			let leftNotes = document.getElementById("leftNotes");
+			let rightNotes = document.getElementById("rightNotes");
+			leftNotes.innerHTML = "";
+			rightNotes.innerHTML = "";
+
+			setTimeout(function () {
+				sound.play();
+				leftNotes.innerHTML = "♪ ";
+				rightNotes.innerHTML = " ♫";
+			}, 100);
+
+			setTimeout(function () {
+				leftNotes.innerHTML = " ♪";
+				rightNotes.innerHTML = "♫ ";
+			}, 500);
+
+			setTimeout(function () {
+				leftNotes.innerHTML = "  ";
+				rightNotes.innerHTML = "  ";
+				sound.loop = false;
+				sound.pause();
+				sound.autoplay = false;
+				sound.currentTime = 0;
+				try {
+					sound.src = "";
+					sound = null;
+				} catch (exSnd) {
+				}
+			}, 900);
+
+		}
+
+		// exchange image & play sound
+		function changeImagePlaySound(imageToChange, newImageUrl, soundToPlay) {
+			if (imageToChange != null)
+				imageToChange.src = newImageUrl;
+
+			if (soundToPlay != null && soundToPlay.length > 1)
+				setTimeout(function () { frogSound(soundToPlay) }, 100);
+		}
+
+
+		// frog in river or swamp
+		function frogInRiverOrSwampOrHole(aFrog, deathImg, deathSound, idPrefix, deathTitle) {
+			var frogNr = parseInt(aFrog.id.charAt(4));
+			aFrog.src = deathImg;
+			aFrog.title = (deathTitle == null) ? "" : deathTitle;
+			aFrog.id = idPrefix + frogNr;
+
+			if (deathSound != null && deathSound.length > 1)
+				setTimeout(function () { frogSound(deathSound) }, 100);
+
+			return frogNr;
+		}
+
+		// crash frog
+		function crashFrog(tdFrogCell) {
+
+			var moveId, frogNr;
+			var move;
+			var moveTd, tdFrog;
+			var move_Y, move_X;
+
+			currentFrog = getActiveFrog();
+			currentFrogId = getCurrentFrogId(currentFrog);
+			tdFrog = currentFrog.getAttribute("cellid");
+			frogNr = parseInt(currentFrogId.charAt(4));
+
+			let crashCnt = 0;
+			let moveCnt = 0;
+			let _move_Id = "";
+
+			var movers = ["car20", "car21", , "car22", "car30", "car31", "car32", "car33", "person0", "person1", "person2", "person3"];
+
+			movers.forEach(function (_move_Id) {
+
+				moveId = _move_Id;
+				move = document.getElementById(moveId);
+				if (move != null) {
+					moveTd = move.getAttribute("cellid");
+					move_Y = rowByTag(move);
+					move_X = rrighter(columnByTag(move));
+					if (moveTd == tdFrogCell) {
+						try {
+							var parentCell = document.getElementById(currentFrogId).parentElement;
+							if (parentCell != null) {
+								currentFrog.id = "died" + frogNr;
+								parentCell.removeChild(currentFrog);
+							}
+							// document.getElementById(tdFrogCell).removeChild(currentFrog);
+						} catch (exFrogCrash1) {
+							// alert(exFrogCrash1);
+						}
+
+						if (_move_Id.length >= 4) {
+							switch (_move_Id.substr(0, 4)) {
+								case "car2": ++crashCnt;
+									changeImagePlaySound(move, "img/car0crashed.png", "audio/frogCrash.ogg");
+									move.src = "img/car0crashed.png";
+									break;
+								case "car3": ++crashCnt;
+									changeImagePlaySound(move, "img/car1crashed.png", "audio/frogCrash.ogg");
+									move.src = "img/car1crashed.png";
+									break;
+								case "pers": ++crashCnt;
+									changeImagePlaySound(move, "img/walk7m.png", "audio/frogJump.ogg");
+									move.src = "img/walk7m.png";
+									break;
+								default: break;
+							}
+						}
+					}
+				}
+			});
+
+			return (crashCnt > 0) ? frogNr : -1;
+		}
+
+
+		// get active current frog
+		function getActiveFrog() {
+
+			let aFrogIt = 0;
+			var aFrogId = "frog0";
+			currentFrog = null;
+
+			for (aFrogIt = 0; aFrogIt < 4; aFrogIt++) {
+
+				aFrogId = "frog" + aFrogIt;							// TODO: define frog prefix "frog" as constant
+				currentFrog = document.getElementById(aFrogId);
+
+				if (currentFrog != null) {
+					if (currentFrog.title != "ActiveFrog")
+						currentFrog.title = "ActiveFrog";
+					// currentFrog.src = "img/frogActive.gif";
+					fY = rowByTag(currentFrog);
+					fX = columnByTag(currentFrog)
+					return currentFrog;
+				}
+			}
+
+			return currentFrog;
+		}
+
+		// get current frog id
+		function getCurrentFrogId(aFrog) {
+			var aFrog = getActiveFrog();
+			let frogsLeftNr = 4 - parseInt(aFrog.id.charAt(4));
+			setFrogsLeft(frogsLeftNr);
+			return aFrog.id;
+		}
+
+
+		function reCreateFrogs() {
+			// first clear all bottom and top table cells, so that there rest neither frogs nor holes there
+			var tdsToClear = [
+				// "td1b", "td1c", "td1d", "td1e", "td1f", "td1g", "td1h", "td1i",
+				"td8a", "td8b", "td8c", "td8d", "td8e", "td8f", "td8g", "td8h", "td8i"];
+			// "td9a", "td9b", "td9c", "td9d", "td9e", "td9f", "td9g", "td9h", "td9i"];
+			tdsToClear.forEach(function (tdId) {
+				tableCell = document.getElementById(tdId);
+				if (tableCell != null && tableCell.children != null && tableCell.children.length > 0) {
+					for (tdCellIt = 0; tdCellIt < tableCell.children.length; tdCellIt++) {
+						childFromTableCell = tableCell.children[tdCellIt];
+						if (childFromTableCell != null)
+							tableCell.removeChild(childFromTableCell);
+					}
+				}
+			});
+			var frogsToClear = ["frog0", "frog1", "frog2", "frog3"];
+			frogsToClear.forEach(function (frogId) {
+				var frogMatch = document.getElementById(frogId);
+				if (frogMatch != null && frogMatch.parentElement != null)
+					frogMatch.parentElement.removeChild(frogMatch);
+			});
+
+			// recreate frog images dynamically
+			reCreateNewFrogImage(0);
+			reCreateNewFrogImage(1);
+			reCreateNewFrogImage(2);
+			reCreateNewFrogImage(3);
+
+			// recreate holes images for frog goal dynamically
+			reCreateFrogHole(0);
+			reCreateFrogHole(1);
+			reCreateFrogHole(2);
+			reCreateFrogHole(3);
+
+			frogHoleMax = 4;
+		}
+
+		function reCreateNewFrogImage(frogNr) {
+			var frogImg = new Image(36, 27);
+			var frogTitle = "";
+			var frogSrc = "img/frogpassive.png";
+			var frogCellTd = "td1d";
+			switch (parseInt(frogNr)) {
+				case 0:
+					frogTitle = "ActiveFrog";
+					frogSrc = "img/frogActive.gif"
+					frogCellTd = "td1d";
+					break;
+				case 1:
+					frogCellTd = "td1e"; break;
+				case 2:
+					frogCellTd = "td1f"; break;
+				case 3:
+					frogCellTd = "td1g"; break;
+				default:
+					break;
+			}
+
+			frogImg.id = "frog" + parseInt(frogNr);
+			frogImg.alt = "FROG " + parseInt(frogNr);
+			frogImg.src = frogSrc
+			frogImg.setAttribute("border", 0);
+			frogImg.setAttribute("title", frogTitle);
+			frogImg.setAttribute("class", "frogaImage");
+			frogImg.setAttribute("className", "frogaImage");
+			frogImg.setAttribute("cellid", frogCellTd);
+			frogImg.setAttribute("idwood", "");
+
+			if (frogCellTd != null && frogImg != null) {
+				var cellTd = document.getElementById(frogCellTd);
+				if (cellTd != null)
+					cellTd.appendChild(frogImg);
+			}
+		}
+
+		function reCreateFrogHole(frogNr) {
+			var holeImg = new Image(36, 27);
+			holeImg.id = "hole" + parseInt(frogNr);
+			holeImg.alt = "HOLE " + parseInt(frogNr);
+			holeImg.src = "img/frogHole.png";
+			holeImg.setAttribute("border", 0);
+			holeImg.setAttribute("title", "");
+			holeImg.setAttribute("class", "frogaImage");
+			holeImg.setAttribute("className", "frogaImage");
+
+			var holeCellTd = "td8e";
+			switch (parseInt(frogNr)) {
+				case 0:
+					holeCellTd = "td8c"; break;
+				case 1:
+					holeCellTd = "td8e"; break;
+				case 2:
+					holeCellTd = "td8g"; break;
+				case 3:
+					holeCellTd = "td8i"; break;
+				default:
+					break;
+			}
+
+			if (holeCellTd != null) {
+				holeImg.setAttribute("cellid", holeCellTd);
+				var cellTd = document.getElementById(holeCellTd);
+				if (cellTd != null) {
+					cellTd.appendChild(holeImg);
+					if (holeCellTd == "td8i") {
+						try {
+							cellTd.setAttribute("background", "img/frogHole.png");
+						} catch (Exception) { }
+					}
+				}
+			}
+		}
+
+		function setFrogsInHole(inHole) {
+			var spanInHole = document.getElementById("frogsInHole");
+			if (spanInHole != null)
+				spanInHole.innerText = inHole;
+		}
+
+		function setFrogsLeft(frogsLeft) {
+			document.getElementById("frogsLeft").innerHTML = frogsLeft;
+		}
+
+		function setFrogsDied(frogsDied) {
+			document.getElementById("frogsDied").innerHTML = frogsDied;
+		}
+
+		function setLevel(frogLevel) {
+			document.getElementById("frogaLevel").innerHTML = frogLevel;
+		}
+
+
+		function getNewTdPositionByMoving(elemImage, direction) {
+			var elem_Y = rowByTag(elemImage);
+			var elem_X = columnByTag(elemImage);
+
+			if (direction != null && direction.charAt(0) != '\0') {
+				switch (direction.charAt(0)) {
+					case 'r': elem_X = rrighter(elem_X); break;
+					case 'l': elem_X = llefter(elem_X); break;
+					case 'u': elem_Y = upper(elem_Y); break;
+					case 'd': elem_Y = below(elem_Y); break;
+					default: break;
+				}
+			}
+			return "td" + elem_Y + elem_X;
+		}
+
+		function rowByTag(aVehicle) {
+			var cellidTag = aVehicle.getAttribute("cellid");
+			if (cellidTag != null) //  && cellidTag.length >= 2)
+				return parseInt(cellidTag.charAt(2));
+			// fY = 0;
+			return -1;
+		}
+
+		function columnByTag(aVehicle) {
+			var cellidtag = aVehicle.getAttribute("cellid");
+			if (cellidtag != null) // && cellidtag.length >= 2)
+				return cellidtag.charAt(3);
+			// fX
+			return 'd';
+		}
+
+
+		function upper(row) {
+			let rowUp = parseInt(row);
+			if (rowUp < 8)	// TODO: add constant here for different froga boards
+				rowUp++;
+			return rowUp;
+		}
+
+		function below(row) {
+			let rowBelow = parseInt(row);
+			if (rowBelow > 1)
+				rowBelow--;
+			return rowBelow;
+		}
+
+		function righter(col) {
+			// TODO: add constant here for different froga boards
+			switch (col.charAt(0)) {
+				case 'a': return 'b';
+				case 'b': return 'c';
+				case 'c': return 'd';
+				case 'd': return 'e';
+				case 'e': return 'f';
+				case 'f': return 'g';
+				case 'g': return 'h';
+				case 'h': return 'i';
+				case 'i': return 'j';
+				case 'j': return 'j';
+				default: break;
+			}
+			return (col.charAt(0));
+		}
+
+		function rrighter(col) {
+			if (col.charAt(0) == 'j')
+				return 'a';
+			var rightMov = righter(col);
+			return rightMov;
+		}
+
+		function llefter(col) {
+			if (col.charAt(0) == 'a')
+				return 'j';
+			var leftMov = lefter(col);
+			return leftMov;
+		}
+
+		function lefter(col) {
+			// TODO: add constant here for different froga boa
+			switch (col.charAt(0)) {
+				case 'a': return 'a';
+				case 'b': return 'a';
+				case 'c': return 'b';
+				case 'd': return 'c';
+				case 'e': return 'd';
+				case 'f': return 'e';
+				case 'g': return 'f';
+				case 'h': return 'g';
+				case 'i': return 'h';
+				case 'j': return 'i';
+				default: break;
+			}
+			return (col.charAt(0));
+		}
+
+
+		function cloneObj(obj) {
+			var copy;
+			if (obj instanceof Object) {
+				copy = {};
+				for (var attr in obj) {
+					if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+				}
+				return copy;
+			}
+		}
+
+		function copyImg(imgC) {
+			var imgD = new Image();
+			if (imgC != null && imgC.id != null) {
+				imgD.id = imgC.id;
+				imgD.src = imgC.src;
+				imgD.width = imgC.width;
+				imgD.height = imgC.height;
+				imgD.alt = imgC.alt;
+				if (imgC.getAttribute("title") != null)
+					imgD.setAttribute("title", imgC.getAttribute("title"));
+				if (imgC.getAttribute("className") != null)
+					imgD.setAttribute("className", imgC.getAttribute("className"));
+				imgD.setAttribute("class", imgC.getAttribute("class"));
+				if (imgC.getAttribute("cellid") != null)
+					imgD.setAttribute("cellid", imgC.getAttribute("cellid"));
+				if (imgC.getAttribute("idwood") != null)
+					imgD.setAttribute("idwood", imgC.getAttribute("idwood"));
+				imgD.setAttribute("border", 0);
+
+			}
+			return imgD;
+		}
+
+	</script>
+</head>
+
+<body class="frogbody" onload="frogInit()">
+	<noscript>Your browser does not support JavaScript!</noscript>
+	<div class="froga" align="center">
+		<div class="frogaHeader">
+			<span id="headerLeft" align="right" valign="middle">
+				<span id="leftNotes"></span>
+				<span id="frogsInHole" alt="frogs in hole">0</span>
+				<span id="frogsLeft" alt="frogs left">4</span>
+				<span id="frogsDied" alt="frogs died">0</span>
+			</span>
+			<span id="headerCenter" align="center" valign="middle">
+				<img class="headerImage" src="img/header.png" id="headerImg" border="0" onclick="restart()" />
+			</span>
+			<span id="headerRight" align="left" valign="middle">
+				&nbsp;<span id="frogsLevel" alt="frogs left">Level</span>
+				<span id="frogaLevel" alt="froga level">0</span>
+				<span id="rightNotes"></span>
+			</span>
+		</div>
+		<table class="frogaTable" border="0" cellpadding="0" cellpadding="0">
+			<tr id="tr8" class="frogaTr">
+				<td id="td8a" class="frogaTd" width="8%" height="6%" background="img/swamp0t.png"></td>
+				<td id="td8b" class="frogaTd" width="8%" height="6%" background="img/swamp0t.png"></td>
+				<td id="td8c" class="frogaTd" width="8%" height="6%" background="img/frogHole.png">
+					<img id="hole0" cellid="td8c" class="frogaImage" src="img/frogHole.png" border="0" />
+				</td>
+				<td id="td8d" class="frogaTd" width="8%" height="6%" background="img/swamp0t.png"></td>
+				<td id="td8e" class="frogaTd" width="8%" height="6%" background="img/frogHole.png">
+					<img id="hole1" cellid="td8e" class="frogaImage" src="img/frogHole.png" border="0" />
+				</td>
+				<td id="td8f" class="frogaTd" width="8%" height="6%" background="img/swamp0t.png"></td>
+				<td id="td8g" class="frogaTd" width="8%" height="6%" background="img/frogHole.png">
+					<img id="hole2" cellid="td8g" class="frogaImage" src="img/frogHole.png" border="0" />
+				</td>
+				<td id="td8h" class="frogaTd" width="8%" height="6%" background="img/swamp0t.png"></td>
+				<td id="td8i" class="frogaTd" width="8%" height="6%" background="img/swamp0t.png"></td>
+				<td id="td8j" class="frogaTd" width="8%" height="6%" background="img/swamp0t.png"></td>
+			</tr>
+			<tr id="tr7" class="frogaTr">
+				<td id="td7a" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-top-color: #5b4b93; border-top-width: 2px; border-top-style: dashed"></td>
+				<td id="td7b" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-top-color: #5b4b93; border-top-width: 2px; border-top-style: dashed"></td>
+				<td id="td7c" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-top-color: #5b4b93; border-top-width: 2px; border-top-style: dashed">
+					<img id="woodT0" cellid="td7c" class="frogaWood" src="img/wood0t.png" width="8%" height="6%" border="0" />
+				</td>
+				<td id="td7d" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-top-color: #5b4b93; border-top-width: 2px; border-top-style: dashed">
+					<img id="woodT1" cellid="td7d" class="frogaWood" src="img/wood0t.png" width="8%" height="6%" border="0" />
+				</td>
+				<td id="td7e" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-top-color: #5b4b93; border-top-width: 2px; border-top-style: dashed"></td>
+				<td id="td7f" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-top-color: #5b4b93; border-top-width: 2px; border-top-style: dashed"></td>
+				<td id="td7g" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-top-color: #5b4b93; border-top-width: 2px; border-top-style: dashed"></td>
+				<td id="td7h" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-top-color: #5b4b93; border-top-width: 2px; border-top-style: dashed">
+					<img id="woodT2" cellid="td7h" class="frogaWood" src="img/wood0t.png" width="8%" height="6%" border="0" />
+				</td>
+				<td id="td7i" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-top-color: #5b4b93; border-top-width: 2px; border-top-style: dashed">
+					<img id="woodT3" cellid="td7i" class="frogaWood" src="img/wood0t.png" width="36" height="6%" border="0" />
+				</td>
+				<td id="td7j" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-top-color: #5b4b93; border-top-width: 2px; border-top-style: dashed"></td>
+			</tr>
+			<tr id="tr6" class="frogaTr">
+				<td id="td6a" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-bottom-color: #5b4b93; border-bottom-width: 2px; border-bottom-style: dashed"></td>
+				<td id="td6b" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-bottom-color: #5b4b93; border-bottom-width: 2px; border-bottom-style: dashed">
+					<img id="woodB0" cellid="td6b" class="frogaWood" src="img/wood0b.png" width="8%" height="6%" border="0" />
+				</td>
+				<td id="td6c" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-bottom-color: #5b4b93; border-bottom-width: 2px; border-bottom-style: dashed">
+					<img id="woodB1" cellid="td6c" class="frogaWood" src="img/wood0b.png" width="8%" height="6%" border="0" />
+				</td>
+				<td id="td6d" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-bottom-color: #5b4b93; border-bottom-width: 2px; border-bottom-style: dashed"></td>
+				<td id="td6e" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-bottom-color: #5b4b93; border-bottom-width: 2px; border-bottom-style: dashed"></td>
+				<td id="td6f" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-bottom-color: #5b4b93; border-bottom-width: 2px; border-bottom-style: dashed"></td>
+				<td id="td6g" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-bottom-color: #5b4b93; border-bottom-width: 2px; border-bottom-style: dashed">
+					<img id="woodB2" cellid="td6g" class="frogaWood" src="img/wood0b.png" width="8%" height="6%" border="0" />
+				</td>
+				<td id="td6h" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-bottom-color: #5b4b93; border-bottom-width: 2px; border-bottom-style: dashed">
+					<img id="woodB3" cellid="td6h" class="frogaWood" src="img/wood0b.png" width="8%" height="6%" border="0" />
+				</td>
+				<td id="td6i" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-bottom-color: #5b4b93; border-bottom-width: 2px; border-bottom-style: dashed"></td>
+				<td id="td6j" class="frogaTd" width="8%" height="6%" style="background-color: #8e59ee; border-bottom-color: #5b4b93; border-bottom-width: 2px; border-bottom-style: dashed"></td>
+			</tr>
+			<tr id="tr5" class="frogaTr">
+				<td id="td5a" class="frogaTd" width="8%" height="6%" background="img/walk1m.png"></td>
+				<td id="td5b" class="frogaTd" width="8%" height="6%" background="img/walk1m.png">
+					<img id="person0" cellid="td5b" class="frogaImage" src="img/walk4m.png" border="0" />
+				</td>
+				<td id="td5c" class="frogaTd" width="8%" height="6%" background="img/walk1m.png"></td>
+				<td id="td5d" class="frogaTd" width="8%" height="6%" background="img/walk1m.png">
+					<img id="person1" cellid="td5d" class="frogaImage" src="img/walk5m.png" border="0" />
+				</td>
+				<td id="td5e" class="frogaTd" width="8%" height="6%" background="img/walk1m.png"></td>
+				<td id="td5f" class="frogaTd" width="8%" height="6%" background="img/walk1m.png"></td>
+				<td id="td5g" class="frogaTd" width="8%" height="6%" background="img/walk1m.png">
+					<img id="person2" cellid="td5g" class="frogaImage" src="img/walk6m.png" border="0" />
+				</td>
+				<td id="td5h" class="frogaTd" width="8%" height="6%" background="img/walk1m.png"></td>
+				<td id="td5i" class="frogaTd" width="8%" height="6%" background="img/walk1m.png"></td>
+				<td id="td5j" class="frogaTd" width="8%" height="6%" background="img/walk1m.png">
+					<img id="person3" cellid="td5j" class="frogaImage" src="img/walk3m.png" border="0" />
+				</td>
+			</tr>
+			<tr id="tr4" class="frogaTr">
+				<td id="td4a" class="frogaTd" width="8%" height="6%" style="background-color: #0d9843;">
+					<img id="meadow0m0" cellid="td4a" class="frogaImage" src="img/meadow0m.png" border="0" />
+				</td>
+				<td id="td4b" class="frogaTd" width="8%" height="6%" style="background-color: #0d9843;"></td>
+				<td id="td4c" class="frogaTd" width="8%" height="6%" style="background-color: #0d9843;"></td>
+				<td id="td4d" class="frogaTd" width="8%" height="6%" style="background-color: #0d9843;"></td>
+				<td id="td4e" class="frogaTd" width="8%" height="6%" style="background-color: #0d9843;"></td>
+				<td id="td4f" class="frogaTd" width="8%" height="6%" style="background-color: #0d9843;"></td>
+				<td id="td4g" class="frogaTd" width="8%" height="6%" style="background-color: #0d9843;"></td>
+				<td id="td4h" class="frogaTd" width="8%" height="6%" style="background-color: #0d9843;"></td>
+				<td id="td4i" class="frogaTd" width="8%" height="6%" style="background-color: #0d9843;"></td>
+				<td id="td4j" class="frogaTd" width="8%" height="6%" style="background-color: #0d9843;"></td>
+			</tr>
+			<tr id="tr3" class="frogaTrUpStreet">
+				<td id="td3a" class="frogaTd" width="8%" height="6%" background="img/street0t.png">
+					<img id="car30" cellid="td3a" class="frogaImage" src="img/car3.gif" border="0" />
+				</td>
+				<td id="td3b" class="frogaTd" width="8%" height="6%" background="img/street0t.png"></td>
+				<td id="td3c" class="frogaTd" width="8%" height="6%" background="img/street0t.png"></td>
+				<td id="td3d" class="frogaTd" width="8%" height="6%" background="img/street0t.png"></td>
+				<td id="td3e" class="frogaTd" width="8%" height="6%" background="img/street0t.png">
+					<img id="car31" cellid="td3e" class="frogaImage" src="img/car3.gif" border="0" />
+				</td>
+				<td id="td3f" class="frogaTd" width="8%" height="6%" background="img/street0t.png"></td>
+				<td id="td3g" class="frogaTd" width="8%" height="6%" background="img/street0t.png"></td>
+				<td id="td3h" class="frogaTd" width="8%" height="6%" background="img/street0t.png"></td>
+				<td id="td3i" class="frogaTd" width="8%" height="6%" background="img/street0t.png">
+					<img id="car32" cellid="td3i" class="frogaImage" src="img/car3.gif" border="0" />
+				</td>
+				<td id="td3j" class="frogaTd" width="8%" height="6%" background="img/street0t.png"></td>
+			</tr>
+			<tr id="tr2" class="frogaTr">
+				<td id="td2a" class="frogaTd" width="8%" height="6%" background="img/street0b.png"></td>
+				<td id="td2b" class="frogaTd" width="8%" height="6%" background="img/street0b.png">
+					<img id="car20" cellid="td2b" class="frogaImage" src="img/car2.gif" border="0" />
+				</td>
+				<td id="td2c" class="frogaTd" width="8%" height="6%" background="img/street0b.png"></td>
+				<td id="td2d" class="frogaTd" width="8%" height="6%" background="img/street0b.png"></td>
+				<td id="td2e" class="frogaTd" width="8%" height="6%" background="img/street0b.png"></td>
+				<td id="td2f" class="frogaTd" width="8%" height="6%" background="img/street0b.png"></td>
+				<td id="td2g" class="frogaTd" width="8%" height="6%" background="img/street0b.png"></td>
+				<td id="td2h" class="frogaTd" width="8%" height="6%" background="img/street0b.png">
+					<img id="car21" cellid="td2h" class="frogaImage" src="img/car2.gif" border="0" />
+				</td>
+				<td id="td2i" class="frogaTd" width="8%" height="6%" background="img/street0b.png"></td>
+				<td id="td2j" class="frogaTd" width="8%" height="6%" background="img/street0b.png"></td>
+			</tr>
+			<tr id="tr1" class="frogaTr">
+				<td id="td1a" class="frogaTd" width="8%" height="6%" background="img/meadow1b.png">
+					<img id="meadow0b0" cellid="td1a" class="frogaImage" src="img/meadow0b.png" border="0" />
+				</td>
+				<td id="td1b" class="frogaTd" width="8%" height="6%" background="img/meadow1b.png"></td>
+				<td id="td1c" class="frogaTd" width="8%" height="6%" background="img/meadow1b.png"></td>
+				<td id="td1d" class="frogaTd" width="8%" height="6%" background="img/meadow1b.png">
+					<img id="frog0" cellid="td1d" idwood="" class="frogaImage" src="img/frogActive.gif" title="ActiveFrog" border="0" />
+				</td>
+				<td id="td1e" class="frogaTd" width="8%" height="6%" background="img/meadow1b.png">
+					<img id="frog1" cellid="td1e" idwood="" class="frogaImage" src="img/frogpassive.png" border="0" />
+				</td>
+				<td id="td1f" class="frogaTd" width="8%" height="6%" background="img/meadow1b.png">
+					<img id="frog2" cellid="td1f" class="frogaImage" src="img/frogpassive.png" border="0" idwood="" />
+				</td>
+				<td id="td1g" class="frogaTd" width="8%" height="6%" background="img/meadow1b.png">
+					<img id="frog3" cellid="td1g" idwood="" class="frogaImage" src="img/frogpassive.png" border="0" />
+				</td>
+				<td id="td1h" class="frogaTd" width="8%" height="6%" background="img/meadow1b.png"></td>
+				<td id="td1i" class="frogaTd" width="8%" height="6%" background="img/meadow1b.png"></td>
+				<td id="td1j" class="frogaTd" width="8%" height="6%" background="img/meadow1b.png">
+					<img id="meadow0b1" cellid="td1j" class="frogaImage" src="img/meadow3b.png" border="0" />
+				</td>
+			</tr>
+		</table>
+		<div class="frogaFooter">
+			<img id="aUp" class="frogaImage" src="img/arrow_up.png" border="0" onclick="moveFrog('up')" />
+		</div>
+		<div class="frogaFooter">
+			<span id="spanLeft" align="left" valign="middle">
+				<img id="aLeft" class="frogaImage" src="img/arrow_left.png" border="0" onclick="moveFrog('left')" />
+			</span>
+			<span id="spanRight" align="right" valign="middle">
+				<img id="aRight" src="img/arrow_right.png" border="0" onclick="moveFrog('right')" />
+			</span>
+		</div>
+		<div class="frogaFooter">
+			<img id="aDown" class="frogaImage" src="img/arrow_down.png" border="0" onclick="moveFrog('down')" />
+		</div>
+		<!-- pre id="frogPre"></pre -->
+	</div>
+</body>
+</html>

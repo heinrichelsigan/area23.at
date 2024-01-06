@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="action_about" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="action_continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="action_exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="action_help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="action_load" xml:space="preserve">
+    <value>Load calculation</value>
+  </data>
+  <data name="action_options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="action_save" xml:space="preserve">
+    <value>Save calculation</value>
+  </data>
+  <data name="action_screenshot" xml:space="preserve">
+    <value>ScreenShot</value>
+  </data>
+  <data name="action_settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="action_start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="action_stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="app_name" xml:space="preserve">
+    <value>RPNCalc.Web</value>
+  </data>
+  <data name="back_button" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="bContinue_text" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="bHelp_text" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="bStart_text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="bStop_text" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="build_with" xml:space="preserve">
+    <value>VisualStudio 2022 C# 4.8</value>
+  </data>
+  <data name="close_game" xml:space="preserve">
+    <value>close calculation</value>
+  </data>
+  <data name="colorDelimiter" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="color_e" xml:space="preserve">
+    <value>empty card</value>
+  </data>
+  <data name="color_h" xml:space="preserve">
+    <value>♥</value>
+  </data>
+  <data name="color_k" xml:space="preserve">
+    <value>♦</value>
+  </data>
+  <data name="color_n" xml:space="preserve">
+    <value>nocolor</value>
+  </data>
+  <data name="color_p" xml:space="preserve">
+    <value>♠</value>
+  </data>
+  <data name="color_t" xml:space="preserve">
+    <value>♣</value>
+  </data>
+  <data name="computer" xml:space="preserve">
+    <value>computer</value>
+  </data>
+  <data name="default_mode" xml:space="preserve">
+    <value>default mode</value>
+  </data>
+  <data name="ending_game" xml:space="preserve">
+    <value>Ending game!</value>
+  </data>
+  <data name="english_cards" xml:space="preserve">
+    <value>english cards</value>
+  </data>
+  <data name="exception_cannot_close_game" xml:space="preserve">
+    <value>Cannot close game.</value>
+  </data>
+  <data name="exception_generic_schnapsexception" xml:space="preserve">
+    <value>Generic SchnapsNet application exception.</value>
+  </data>
+  <data name="fourty_and_enough" xml:space="preserve">
+    <value>Forty and enough !</value>
+  </data>
+  <data name="fourty_in_color" xml:space="preserve">
+    <value>Forty in</value>
+  </data>
+  <data name="french_cards" xml:space="preserve">
+    <value>french cards</value>
+  </data>
+  <data name="german_cards" xml:space="preserve">
+    <value>german cards</value>
+  </data>
+  <data name="github_uri" xml:space="preserve">
+    <value>https://github.com/heinrichelsigan/schnapslet</value>
+  </data>
+  <data name="help_text" xml:space="preserve">
+    <value>Schnapslet v2.23.43 - Pre Alpha Release
+Implementation of the card game Schnapsen as a simple Asp.Net WebApp
+by Heinrich Elsigan (heinrich.elsigan@area23.at)
+
+Functionality:
+The game is designed to play against the computer.
+When it is your turn, you can play a card by clicking on the card icon.
+Other options, such as "Exchange Atou" or "Announce a pair in [CardColor]" 
+are possible via the buttons below the card symbols; 
+these options must be chosen before playing a card!
+When it is the computer's turn, it plays a card and 
+you can click on your own cards to trick or give up!
+The rules correspond to the Austrian Schnapsen, 
+but there are still small bugs!
+'Closing Game' is implemented: 
+You just have to click on the atou (trump) card. 
+
+Ideas, suggestions, improvements are gladly accepted !
+Rules correspond to the Austrian Schnapsen 
+[ https://en.wikipedia.org/wiki/Sixty-six_(card_game ].</value>
+  </data>
+  <data name="image_fist" xml:space="preserve">
+    <value>Tap deck with fist to start.</value>
+  </data>
+  <data name="image_take" xml:space="preserve">
+    <value>Take half of merged deck to start.</value>
+  </data>
+  <data name="last_hit_you_have_won" xml:space="preserve">
+    <value>Last trick: you win!</value>
+  </data>
+  <data name="learn_more" xml:space="preserve">
+    <value>Learn more</value>
+  </data>
+  <data name="polish_mode" xml:space="preserve">
+    <value>polish mode</value>
+  </data>
+  <data name="sPoints" xml:space="preserve">
+    <value>Points</value>
+  </data>
+  <data name="sRest" xml:space="preserve">
+    <value>Rest</value>
+  </data>
+  <data name="tDbg_text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="version_name" xml:space="preserve">
+    <value>v0.1.2</value>
+  </data>
+  <data name="wiki_uri" xml:space="preserve">
+    <value>https://github.com/heinrichelsigan/rpncalc</value>
+  </data>
+</root>

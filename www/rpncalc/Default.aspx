@@ -1,0 +1,48 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" %>
+<%@ Import namespace="System" %>
+<%@ Import namespace="System.Collections.Generic" %>
+<%@ Import namespace="System.Drawing" %>
+<%@ Import namespace="System.Linq" %>
+<%@ Import namespace="System.Reflection" %>
+<%@ Import namespace="System.Web"%>
+<%@ Import namespace="System.Diagnostics"%>
+<%@ Import namespace="System.Web.UI"  %>
+<%@ Import namespace="System.Web.UI.WebControls" %>
+<%@ Import Namespace="RPNCalc.Web" %>
+<%@ Import Namespace="RPNCalc.Web.Models" %>
+<%@ Import Namespace="RPNCalc.Web.ConstEnum" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>RPNCalc.Web</title>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-01S65129V7"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'G-01S65129V7');
+        </script>
+</head>
+
+<script runat="server" language="C#">
+    
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Response.Redirect("Calculator.aspx");
+    }
+
+</script>
+
+<body>
+    <form id="form1" runat="server">                
+        <div align="left" style="text-align: left; width: 100%; height: 8%; visibility: inherit; background-color: #bfbfbf; font-size: small; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
+            <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://darkstar.work">darkstar.work</a>
+        </div>    
+    </form>
+</body>
+</html>
