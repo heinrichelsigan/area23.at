@@ -1,9 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="FortunAsp.aspx.cs" Inherits="area23.at.www.mono.FortunAsp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <noscript>
-        <meta http-equiv="refresh" content="16; url=https://darkstar.work/mono/fortune/" />
-    </noscript>
+    <meta http-equiv="refresh" content="16; url=https://area23.at/mono/test/FortunAsp.aspx" />    
     <link rel="stylesheet" href="https://area23.at/css/fortune.css" />
     <link rel="stylesheet" href="res/area23.at.www.mono.css" />
     <title>Fortune Mono WebApi</title>
