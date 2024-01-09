@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.UI.HtmlControls;
 using QRCoder;
 using System.Web.UI.WebControls;
+using System.Xml;
 
 namespace area23.at.www.mono
 {
@@ -39,7 +40,7 @@ namespace area23.at.www.mono
         /// </summary>
         protected virtual void ResetChangedElements()
         {
-            foreach (var ctrl in this.Controls)
+            foreach (var ctrl in this.Page.Controls)
             {
                 if (ctrl is TextBox || ctrl is DropDownList)
                 {
@@ -56,16 +57,15 @@ namespace area23.at.www.mono
         /// <returns></returns>
         protected abstract string GetQrString();
 
-        protected virtual void GenerateQRImage()
+        protected virtual void GenerateQRImage(string qrString = null)
         {
-            string qrStr = string.Empty;
             Bitmap aQrBitmap = null;
+            qrString = qrString ?? GetQrString();
             try
-            {
-                qrStr = GetQrString();
-                if (!string.IsNullOrEmpty(qrStr))
+            {                
+                if (!string.IsNullOrEmpty(qrString))
                 {
-                    aQrBitmap = GetQRBitmap(qrStr);
+                    aQrBitmap = GetQRBitmap(qrString);
                 }
                 if (aQrBitmap != null)
                 {

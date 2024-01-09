@@ -34,6 +34,26 @@ namespace area23.at.www.mono
             base.ResetChangedElements();
         }
 
+
+        protected override void ResetChangedElements()
+        {
+            // base.ResetChangedElements();
+
+            foreach (var ctrl in ((QRMaster)this.Master).MasterForm.Controls)
+            {
+                if (ctrl is TextBox)
+                {
+                    ((TextBox)(ctrl)).BorderColor = Color.Black;
+                    ((TextBox)(ctrl)).BorderStyle = BorderStyle.Solid;
+                }
+                if (ctrl is DropDownList)
+                {
+                    ((DropDownList)(ctrl)).BorderColor = Color.Black;
+                    ((DropDownList)(ctrl)).BorderStyle = BorderStyle.Solid;
+                }
+            }
+        }
+
         protected void Button_QRCode_Click(object sender, EventArgs e)
         {
             ResetFormElements();
@@ -43,16 +63,16 @@ namespace area23.at.www.mono
 
 
 
-        protected override void GenerateQRImage()
-        {
-            string qrStr = string.Empty;
+        
+        protected override void GenerateQRImage(string qrString = "")
+        {            
             Bitmap aQrBitmap = null;
             try
             {
-                qrStr = GetQrStringFromForm(((QRMaster)this.Master).MasterForm);
-                if (!string.IsNullOrEmpty(qrStr))
+                qrString = GetQrStringFromForm(((QRMaster)this.Master).MasterForm);
+                if (!string.IsNullOrEmpty(qrString))
                 {
-                    aQrBitmap = GetQRBitmap(qrStr);
+                    aQrBitmap = GetQRBitmap(qrString);
                 }
                 if (aQrBitmap != null)
                 {

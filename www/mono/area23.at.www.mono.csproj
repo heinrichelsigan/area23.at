@@ -274,6 +274,7 @@
     <Compile Include="Util\Area23Logger.cs" />
     <Compile Include="Util\Paths.cs" />
     <Compile Include="Util\ProcessCmd.cs" />
+    <Compile Include="Util\QRGenericString.cs" />
     <Compile Include="Util\ResReader.cs" />
     <Compile Include="Util\SayBase.cs" />
     <Compile Include="Util\SaySpeach.cs" />

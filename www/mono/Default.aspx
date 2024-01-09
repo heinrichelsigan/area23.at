@@ -17,7 +17,7 @@
           
     void Page_Load(object sender, EventArgs e)
     {
-        Response.Redirect("Qrc.aspx");
+        Response.Redirect("Qr.aspx");
     }        
 
 </script>

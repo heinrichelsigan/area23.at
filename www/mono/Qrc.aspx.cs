@@ -31,7 +31,26 @@ namespace area23.at.www.mono
 
         protected virtual void ResetFormElements()
         {
-            base.ResetChangedElements();
+            ResetChangedElements();
+        }
+
+        protected override void ResetChangedElements()
+        {
+            // base.ResetChangedElements();
+
+            foreach (var ctrl in ((QRMaster)this.Master).MasterForm.Controls)
+            {
+                if (ctrl is TextBox)
+                {
+                    ((TextBox)(ctrl)).BorderColor = Color.Black;
+                    ((TextBox)(ctrl)).BorderStyle = BorderStyle.Solid;
+                }
+                if (ctrl is DropDownList)
+                {
+                    ((DropDownList)(ctrl)).BorderColor = Color.Black;
+                    ((DropDownList)(ctrl)).BorderStyle = BorderStyle.Solid;
+                }
+            }
         }
 
         protected void Button_QRCode_Click(object sender, EventArgs e)

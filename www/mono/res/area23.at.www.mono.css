@@ -16,6 +16,46 @@ body.odbody {
     backgound-color: #fafafa;
 }
 
+div.contentDiv.a, a.QrLinkButton, .QrLinkButton, 
+    a#BodyContentPlaceHolder_QrBody_LinkButton_QrString, #BodyContentPlaceHolder_QrBody_LinkButton_QrString,
+    a#BodyContentPlaceHolder_QrBody_LinkButton_QrUrl, #BodyContentPlaceHolder_QrBody_LinkButton_QrUrl,
+    a#BodyContentPlaceHolder_QrBody_LinkButton_QrPhone, #BodyContentPlaceHolder_QrBody_LinkButton_QrPhone,
+    a#BodyContentPlaceHolder_QrBody_LinkButton_QrIBAN, #BodyContentPlaceHolder_QrBody_LinkButton_QrIBAN 
+{
+    height: 32pt;
+    width: 224px;
+    border-block: 1px outset aliceblue;
+}
+
+.QRTextBoxLarge {
+    height: 32px;
+    text-align: left;
+    font-size: medium;    
+    min-width: 360px;
+    width: 84%;
+}
+.QRTextBoxName {
+    height: 32px;
+    text-align: left;
+    font-size: medium;
+    min-width: 196px;
+    width: 120px;
+}
+.QRTextBoxIBAN {
+    height: 32px;
+    text-align: left;
+    font-size: medium;
+    min-width: 84px;
+    width: 156px;
+}
+.QRTextBoxBIC {
+    height: 32px;
+    text-align: left;
+    font-size: medium;
+    min-width: 72px;
+    width: 96px;
+}
+
 .QRTextBox,
 .QRTextBoxRight,
 .QRTextBoxLeft {
@@ -132,7 +172,7 @@ div {
 
         width: 100%;
         text-align: left;
-        background-color: #dedede;
+        background-color: #eeeeee;
         vertical-align: middle;
         font-size: medium;
         table-layout: fixed;
