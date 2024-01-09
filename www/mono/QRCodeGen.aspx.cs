@@ -13,7 +13,7 @@ using System.Runtime.CompilerServices;
 
 namespace area23.at.www.mono
 {
-    public partial class QRCodeGen : System.Web.UI.Page
+    public partial class QRCodeGen : QrBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -26,19 +26,12 @@ namespace area23.at.www.mono
 
         protected void QRCode_ParameterChanged(object sender, EventArgs e)
         {
-            if (sender != null)
-            {
-                if (sender is TextBox)
-                {
-                    ((TextBox)(sender)).BorderColor = Color.Red;
-                    ((TextBox)(sender)).BorderStyle = BorderStyle.Dotted;
-                }
-                if (sender is DropDownList)
-                {
-                    ((DropDownList)(sender)).BorderColor = Color.Red;
-                    ((DropDownList)(sender)).BorderStyle = BorderStyle.Dashed;
-                }
-            }
+            QRBase_ElementChanged(sender, e);
+        }
+
+        protected virtual void ResetFormElements()
+        {
+            base.ResetChangedElements();
         }
 
         protected void Button_QRCode_Click(object sender, EventArgs e)
@@ -48,30 +41,15 @@ namespace area23.at.www.mono
         }
 
 
-        protected virtual void ResetFormElements()
-        {
-            foreach (var ctrl in ((Area23)this.Master).MasterFrom.Controls)
-            {
-                if (ctrl is TextBox)
-                {
-                    ((TextBox)(ctrl)).BorderColor = Color.Black;
-                    ((TextBox)(ctrl)).BorderStyle = BorderStyle.Solid;
-                }
-                if (ctrl is DropDownList)
-                {
-                    ((DropDownList)(ctrl)).BorderColor = Color.Black;
-                    ((DropDownList)(ctrl)).BorderStyle = BorderStyle.Solid;
-                }
-            }
-        }
 
-        protected virtual void GenerateQRImage()
+
+        protected override void GenerateQRImage()
         {
             string qrStr = string.Empty;
             Bitmap aQrBitmap = null;
             try
             {
-                qrStr = GetQrStringFromForm(((Area23)this.Master).MasterFrom);
+                qrStr = GetQrStringFromForm(((QRMaster)this.Master).MasterForm);
                 if (!string.IsNullOrEmpty(qrStr))
                 {
                     aQrBitmap = GetQRBitmap(qrStr);
@@ -90,11 +68,8 @@ namespace area23.at.www.mono
             }
         }
 
-        protected virtual string GetQrStringFromControl(System.Web.UI.Control control)
+        protected override string GetQrString()
         {
-            if (control == null)
-                control = ((Area23)this.Master).MasterFrom as System.Web.UI.Control;
-
             ContactData qrContact = new ContactData(ContactData.ContactOutputType.VCard3,
                 TextBox_FirstName.Text, TextBox_LastName.Text, null, TextBox_Phone.Text, TextBox_Mobile.Text,
                 null, TextBox_Email.Text, null, TextBox_Web.Text, TextBox_Street.Text, TextBox_StreetNr.Text,
@@ -107,19 +82,11 @@ namespace area23.at.www.mono
 
         protected virtual string GetQrStringFromForm(System.Web.UI.HtmlControls.HtmlForm form)
         {
-            return GetQrStringFromControl(((Area23)this.Master).MasterFrom);
+            return GetQrString();
         }
 
-        protected virtual Bitmap GetQRBitmap(string qrString)
-        {
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, QRCodeGenerator.ECCLevel.Q);
-            QRCode qrCode = new QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(20);
-            return qrCodeImage;
-        }
 
-        protected virtual void SetQRImage(Bitmap qrImage)
+        protected override void SetQRImage(Bitmap qrImage)
         {
             MemoryStream ms = new MemoryStream();
             qrImage.Save(ms, ImageFormat.Gif);

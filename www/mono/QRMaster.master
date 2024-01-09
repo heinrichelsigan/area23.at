@@ -1,0 +1,20 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="QRMaster.master.cs" Inherits="area23.at.www.mono.QRMaster" %>
+<asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
+    <asp:ContentPlaceHolder ID="QrHead" runat="server">
+        <title>QRCode generator (apache2 mod_mono)</title>
+        <link rel="stylesheet" href="res/area23.at.www.mono.css" />
+        <meta name="keywords" content="QR code generator" />
+        <meta name="description" content="https://github.com/codebude/QRCoder/" />
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
+    <div align="left" class="headercard"> 
+        <span class="footerLeft" align="center" valign="middle"><a href="Qr.aspx">qrcode start</a></span>	
+        <span class="footerLeftCenter" align="center" valign="middle"><a href="QRCodeGen.aspx">qrcode contact empty</a></span>
+        <span class="footerCenter" align="center" valign="middle"><a href="Qrc.aspx">qrcode contact prefilled</a></span>	
+        <span class="footerRightCenter" align="center" valign="middle"><a href="QRGen.aspx">qrcode empty</a></span>
+    </div>
+    <hr />
+    <asp:ContentPlaceHolder ID="QrBody" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>

@@ -13,10 +13,11 @@ namespace area23.at.www.mono.Util
         /// </summary>
         /// <param name="filepath">full or relative filepath to executable</param>
         /// <param name="args">arguments passed to executable</param>
-        /// <returns></returns>
+        /// <returns>standard output of process pexecec it.</returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public static string Execute(string filepath = "SystemInfo", string args = "")
         {
-            string consoleError, consoleOutput = "";
+            string consoleError = "", consoleOutput = "";
             try
             {
                 using (Process compiler = new Process())
@@ -33,14 +34,12 @@ namespace area23.at.www.mono.Util
                     consoleError = compiler.StandardError.ReadToEnd();
 
                     compiler.WaitForExit();
-
-                    return consoleOutput;
                 }
             }
             catch (Exception exi)
             {
-                consoleOutput = $"Exception: {exi.Message}";
-                throw new InvalidOperationException($"can't perform {filepath} {args}", exi);
+                // consoleOutput = $"Exception: {exi.Message}";
+                throw new InvalidOperationException($"can't perform {filepath} {args}\nStdErr = {consoleError}", exi);
             }
 
             return consoleOutput;

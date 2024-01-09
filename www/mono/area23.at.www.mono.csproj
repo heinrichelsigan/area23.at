@@ -158,6 +158,7 @@
     <Content Include="FortunAsp.aspx" />
     <Content Include="HexDump.aspx" />
     <Content Include="log\TextFile.txt" />
+    <Content Include="Qr.aspx" />
     <Content Include="QRGen.aspx" />
     <Content Include="res\folder1.gif" />
     <Content Include="res\folder1.png" />
@@ -230,6 +231,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource_de.resx</DependentUpon>
     </Compile>
+    <Compile Include="Qr.aspx.cs">
+      <DependentUpon>Qr.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Qr.aspx.designer.cs">
+      <DependentUpon>Qr.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="QrBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Qrc.aspx.cs">
       <DependentUpon>Qrc.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -251,6 +262,13 @@
     <Compile Include="QRGen.aspx.designer.cs">
       <DependentUpon>QRGen.aspx</DependentUpon>
     </Compile>
+    <Compile Include="QRMaster.master.cs">
+      <DependentUpon>QRMaster.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="QRMaster.master.designer.cs">
+      <DependentUpon>QRMaster.master</DependentUpon>
+    </Compile>
     <Compile Include="Util\Constants.cs" />
     <Compile Include="Util\GlobalAppSettings.cs" />
     <Compile Include="Util\Area23Logger.cs" />
@@ -266,6 +284,7 @@
     <Content Include="res\fortune.u8">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="QRMaster.master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

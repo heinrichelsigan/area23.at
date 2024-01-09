@@ -89,7 +89,7 @@ div {
 
     div.hugeqr,
     div.huge {
-        height: 193pt;
+        height: 192pt;
         width: 100%;
         line-height: normal;
         vertical-align: top;
@@ -124,8 +124,24 @@ div {
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
     }
 
+    div.contentDiv {
+        border-block: 1px solid #bab5b1;
+        border-style: solid;
+        border-width: thin;
+        /* border-spacing: 1px 1px; */
+
+        width: 100%;
+        text-align: left;
+        background-color: #dedede;
+        vertical-align: middle;
+        font-size: medium;
+        table-layout: fixed;
+        inset-block-start: initial;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+    }
+
     div.footerDiv {
-        border-block: 1px solid #ababab;
+        border-block: 1px solid #bab5b1;
         border-style: solid;
         border-width: thin;
         /* border-spacing: 1px 1px; */
@@ -164,7 +180,7 @@ span {
     }
 
     span.lefthuge {
-        height: 193pt;
+        height: 192pt;
         width: 25%;
         text-align: left;
         vertical-align: top;
@@ -192,11 +208,64 @@ span {
     }
 
     span.righthuge {
-        height: 193pt;
+        height: 192pt;
         width: 75%;
         text-align: right;
         vertical-align: middle;
         font-size: medium;
+    }
+
+
+    span.headerLeft {
+        border-block: 1px ridge;
+        border-style: ridge;
+        border-width: thin;
+        border-color: #eeeeee;
+        border-spacing: 2px 2px;
+        min-width: 8%;
+        width: 144pt;
+        height: 40pt;
+        background-color: #cacbcc;
+        background-image: url(folder1.png);
+        background-repeat: no-repeat;
+        outline-width: 144px;
+        vertical-align: middle;
+        text-align: left;
+    }
+
+    
+    span.headerLeftCenter, span.headerCenter, span.headerRightCenter {
+        border-block: 1px ridge;
+        border-style: ridge;
+        border-width: thin;
+        border-color: #eeeeee;
+        border-spacing: 2px 2px;
+        min-width: 8%;
+        width: 144pt;
+        height: 40pt;
+        background-color: #cbccce;
+        background-image: url(folder1.png);
+        background-repeat: no-repeat;
+        outline-width: 144px;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+
+    span.headerRight {
+        border-block: 1px ridge;
+        border-style: ridge;
+        border-width: thin;
+        border-color: #eeeeee;
+        border-spacing: 2px 2px;
+        width: 144pt;
+        height: 40pt;
+        background-color: #eaebec;
+        background-image: url(folder1.png);
+        background-repeat: no-repeat;
+        outline-width: 144px;
+        vertical-align: middle;
+        text-align: right;
     }
 
 
@@ -211,13 +280,13 @@ span {
         height: 40pt;
         background-color: #cacaca;
         background-image: url(folder1.png);
-        /* background-repeat: no-repeat; */
+        background-repeat: no-repeat; 
         outline-width: 144px;
         vertical-align: middle;
         text-align: center;
     }
 
-    span.footerLeftCenter {
+    span.footerLeftCenter, span.footerCenter, span.footerRightCenter {
         border-block: 1px ridge;
         border-style: ridge;
         border-width: thin;
@@ -226,44 +295,10 @@ span {
         min-width: 8%;
         width: 144pt;
         height: 40pt;
-        background-color: #cacbca;
-        background-image: url(folder1.png);
-        /* background-repeat: no-repeat; */
-        vertical-align: middle;
         outline-width: 144px;
-        text-align: center;
-    }
-
-    span.footerCenter {
-        border-block: 1px ridge;
-        border-style: ridge;
-        border-width: thin;
-        border-color: #eeeeee;
-        border-spacing: 2px 2px;
-        min-width: 8%;
-        width: 144pt;
-        height: 40pt;
-        background-color: #cbcccb;
-        background-image: url(folder1.png);
-        /* background-repeat: no-repeat; */
-        outline-width: 144px;
-        vertical-align: middle;
-        text-align: center;
-    }
-
-    span.footerRightCenter {
-        border-block: 1px ridge;
-        border-style: ridge;
-        border-width: thin;
-        border-color: #eeeeee;
-        border-spacing: 2px 2px;
-        min-width: 8%;
-        width: 144pt;
-        height: 40pt;
-        background-color: #cccbcc;
+        background-color: #cacbcc;
         background-image: url(folder1.png);
         background-repeat: no-repeat;
-        outline-width: 144px;
         vertical-align: middle;
         text-align: center;
     }
