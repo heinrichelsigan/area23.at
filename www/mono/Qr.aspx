@@ -36,10 +36,10 @@
 	</div>
 	<div align="left" class="contentDiv">
 		<span class="lefthuge">
-			<asp:Image ID="ImageQr" runat="server" ImageUrl="~/res/qrsample2.png" BorderStyle="None" Width="192" />
+			<img id="ImgQR" runat="server" alt="QRCode" height="192" width="192" tooltip="QRCode" visible="true" src="res/qrsample1.gif" />			
 		</span>
 		<span class="righthuge">
-			<img id="ImgQR" runat="server" alt="QRCode" height="192" width="192" tooltip="QRCode" src="res/qrsample1.gif" />			
+			<asp:Image ID="ImageQr" runat="server" ImageUrl="~/res/qrsample2.png" Visible="false" BorderStyle="None" Width="192" />
 		</span>		
 	</div>
 

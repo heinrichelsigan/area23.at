@@ -105,15 +105,6 @@ namespace area23.at.www.mono
         protected global::System.Web.UI.WebControls.TextBox TextBox_AccountName;
 
         /// <summary>
-        /// ImageQr control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImageQr;
-
-        /// <summary>
         /// ImgQR control.
         /// </summary>
         /// <remarks>
@@ -121,5 +112,14 @@ namespace area23.at.www.mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlImage ImgQR;
+
+        /// <summary>
+        /// ImageQr control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ImageQr;
     }
 }

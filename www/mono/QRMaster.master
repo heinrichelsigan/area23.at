@@ -8,11 +8,11 @@
     </asp:ContentPlaceHolder>
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
-    <div align="left" class="headercard"> 
-        <span class="footerLeft" align="center" valign="middle"><a href="Qr.aspx">qrcode start</a></span>	
-        <span class="footerLeftCenter" align="center" valign="middle"><a href="QRCodeGen.aspx">qrcode contact empty</a></span>
-        <span class="footerCenter" align="center" valign="middle"><a href="Qrc.aspx">qrcode contact prefilled</a></span>	
-        <span class="footerRightCenter" align="center" valign="middle"><a href="QRGen.aspx">qrcode empty</a></span>
+    <div id="rowqr" class="headercard" align="left">         
+        <span class="headerLeft" align="center" valign="middle"><a href="QRCodeGen.aspx">qr contact</a></span>
+        <span class="headerLeftCenter" align="center" valign="middle"><a href="Qrc.aspx">qrcontact prefilled</a></span>	
+        <span class="headerCenter" align="center" valign="middle"><a href="Qr.aspx">qrcode generic</a></span>	        
+        <span class="headerRightCenter" align="center" valign="middle"><a href="QRGen.aspx">qrcode redirect</a></span>
     </div>
     <hr />
     <asp:ContentPlaceHolder ID="QrBody" runat="server">

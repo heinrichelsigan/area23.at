@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="HexDump.aspx.cs" Inherits="area23.at.www.mono.HexDump" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
+<asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="https://area23.at/css/od.css" />
     <link rel="stylesheet" href="res/area23.at.www.mono.css" />
@@ -14,8 +14,8 @@
         gtag('config', 'G-01S65129V7');
     </script>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
-    <div class="odDiv">
+<asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
+        <div class="odDiv">
         <span class="leftSpan">
             <span class="textSpan">hex width: </span>
             <asp:DropDownList ID="DropDown_HexWidth" runat="server" CssClass="DropDownList" ToolTip="Hexadecimal width" AutoPostBack="True" OnSelectedIndexChanged="HexDump_ParameterChanged">

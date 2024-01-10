@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="FortunAsp.aspx.cs" Inherits="area23.at.www.mono.FortunAsp" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
+<asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="refresh" content="16; url=https://area23.at/mono/test/FortunAsp.aspx" />    
     <link rel="stylesheet" href="https://area23.at/css/fortune.css" />
@@ -15,7 +15,7 @@
             gtag('config', 'G-01S65129V7');
     </script>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
+<asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
     <div class="fortuneDiv" align="left">
         <asp:Literal ID="LiteralFortune" runat="server"></asp:Literal>
     </div>

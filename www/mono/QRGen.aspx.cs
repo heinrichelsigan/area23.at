@@ -114,7 +114,7 @@ namespace area23.at.www.mono
             
             var refreshTag = new HtmlGenericControl("meta");
             refreshTag.Attributes.Add("http-equiv", "refresh");
-            refreshTag.Attributes.Add("content", "6; URL=" + redirUrl);
+            refreshTag.Attributes.Add("content", "12; URL=" + redirUrl);
 
             // Response.ClearContent();
             // if (Response.Headers["Refresh"] != null)

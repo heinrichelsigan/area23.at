@@ -14,23 +14,23 @@
     <form id="Area23MasterForm" runat="server">
         <div>
             <div align="left" class="headercard">            
-                <span class="footerLeft" align="left" valign="middle"><a href="FortunAsp.aspx">fortune</a></span>
-                <span class="footerLeftCenter" align="center" valign="middle"><a href="/froga/">froga</a></span>
-                <span class="footerCenter" align="center" valign="middle"><a href="HexDump.aspx">hex dump</a></span>			
-                <span class="footerCenter" align="center" valign="middle"><a href="Qr.aspx">qrcode generator</a></span>	
-                <span class="footerRightCenter" align="right" valign="middle"><a href="/mono/SchnapsNet/">schnapsen 66</a></span>
+                <span class="headerLeft" align="left" valign="middle"><a href="FortunAsp.aspx">fortune</a></span>
+                <span class="headerLeftCenter" align="center" valign="middle"><a href="HexDump.aspx">hex dump</a></span>
+                <span class="headerCenter" align="center" valign="middle"><a href="Qr.aspx">qrcode generator</a></span>			
+                <span class="headerCenter" align="center" valign="middle"><a href="ByteTransColor.aspx">image transformer</a></span>	                
+                <span class="headerRightCenter" align="center" valign="middle"><a href="/froga/">froga</a></span>
+                <span class="headerRight" align="right" valign="middle"><a href="/mono/SchnapsNet/">schnapsen 66</a></span>
             </div>
-            <hr />
             <asp:ContentPlaceHolder ID="BodyContentPlaceHolder" runat="server">
             </asp:ContentPlaceHolder>
             <hr />
             <div align="left" class="footerDiv">            
-                <span class="footerLeft" align="left" valign="middle"><a href="FortunAsp.aspx">fortune</a></span>
-                <span class="footerLeftCenter" align="center" valign="middle"><a href="/froga/">froga</a></span>
-                <span class="footerCenter" align="center" valign="middle"><a href="HexDump.aspx">hex dump</a></span>			
-                <span class="footerCenter" align="center" valign="middle"><a href="Qr.aspx">qrcode generator</a></span>	
-                <span class="footerRightCenter" align="center" valign="middle"><a href="/mono/SchnapsNet/">schnapsen 66</a></span>
-                <span class="footerRight" align="right" valign="middle"><a href="mailto:he@area23.at">Heinrich Elsigan</a>, GNU General Public License 3.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://darkstar.work">darkstar.work</a></span>
+                <span class="footerLeft" align="left" valign="middle"><a href="https://area23.at/">https://area23.at</a></span>
+                <span class="footerLeftCenter" align="center" valign="middle"><a href="https://area23.at/mono/test">area23.at/mono/test</a></span>
+                <span class="footerCenter" align="center" valign="middle"><a href="https://github.com/heinrichelsigan/area23.at" target="_blank">github.com/heinrichelsigan/area23.at</a></span>
+                <span class="footerCenter" align="center" valign="middle">GNU General Public License 3.0,</span>	
+                <span class="footerRightCenter" align="center" valign="middle"><a href="mailto:he@area23.at">Heinrich Elsigan</a>,</span>
+                <span class="footerRight" align="right" valign="middle">[<a href="http://blog.darkstar.work">blog.</a>]<a href="https://darkstar.work">darkstar.work</a></span>
             </div>
         </div>
     </form>

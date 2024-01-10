@@ -155,6 +155,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ByteTransColor.aspx" />
     <Content Include="FortunAsp.aspx" />
     <Content Include="HexDump.aspx" />
     <Content Include="log\TextFile.txt" />
@@ -162,6 +163,7 @@
     <Content Include="QRGen.aspx" />
     <Content Include="res\folder1.gif" />
     <Content Include="res\folder1.png" />
+    <Content Include="res\https--area23_at-.gif" />
     <Content Include="res\qrsample1.gif" />
     <Content Include="res\qrsample2.png" />
     <Content Include="json.aspx" />
@@ -185,6 +187,13 @@
     </Compile>
     <Compile Include="Area23.Master.designer.cs">
       <DependentUpon>Area23.Master</DependentUpon>
+    </Compile>
+    <Compile Include="ByteTransColor.aspx.cs">
+      <DependentUpon>ByteTransColor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ByteTransColor.aspx.designer.cs">
+      <DependentUpon>ByteTransColor.aspx</DependentUpon>
     </Compile>
     <Compile Include="FortunAsp.aspx.cs">
       <DependentUpon>FortunAsp.aspx</DependentUpon>
@@ -295,6 +304,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Page\" />
     <Folder Include="UserControl\" />
   </ItemGroup>
   <ItemGroup>

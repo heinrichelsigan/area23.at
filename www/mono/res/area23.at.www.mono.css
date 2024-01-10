@@ -13,18 +13,18 @@
     border-width: 0;
 */
 body.odbody {
-    backgound-color: #fafafa;
+    background-color: #fafafa;
 }
 
 div.contentDiv.a, a.QrLinkButton, .QrLinkButton, 
-    a#BodyContentPlaceHolder_QrBody_LinkButton_QrString, #BodyContentPlaceHolder_QrBody_LinkButton_QrString,
+    a#BodyContentPlaceHolder_QrBody_    , #BodyContentPlaceHolder_QrBody_LinkButton_QrString,
     a#BodyContentPlaceHolder_QrBody_LinkButton_QrUrl, #BodyContentPlaceHolder_QrBody_LinkButton_QrUrl,
     a#BodyContentPlaceHolder_QrBody_LinkButton_QrPhone, #BodyContentPlaceHolder_QrBody_LinkButton_QrPhone,
     a#BodyContentPlaceHolder_QrBody_LinkButton_QrIBAN, #BodyContentPlaceHolder_QrBody_LinkButton_QrIBAN 
 {
-    height: 32pt;
+    height: 32px;
     width: 224px;
-    border-block: 1px outset aliceblue;
+    border-block: 1px inset aliceblue;
 }
 
 .QRTextBoxLarge {
@@ -59,31 +59,31 @@ div.contentDiv.a, a.QrLinkButton, .QrLinkButton,
 .QRTextBox,
 .QRTextBoxRight,
 .QRTextBoxLeft {
-    height: 24pt;
+    height: 24px;
     text-align: left;
     font-size: small;
     width: 24%;
 }
 
 .TextBox {
-    height: 24pt;
+    height: 24px;
     text-align: left;
     font-size: small;
 }
 
 .DropDownList {
-    height: 24pt;
+    height: 24px;
     font-size: medium;
 }
 
 .ButtonTextBox {
-    height: 24pt;
+    height: 24px;
     font-size: medium;
 }
 
 #Button_HexDump,
 #Button_OctalDump {
-    height: 24pt;
+    height: 24px;
     vertical-align: middle;
     font-size: medium;
 }
@@ -91,7 +91,7 @@ div.contentDiv.a, a.QrLinkButton, .QrLinkButton,
 #TextBox_HexCmd,
 #TextBox_OdCmd {
     width: 32%;
-    height: 24pt;
+    height: 24px;
     text-align: left;
     vertical-align: middle;
 }
@@ -104,7 +104,7 @@ div.contentDiv.a, a.QrLinkButton, .QrLinkButton,
 #preOut {
     width: 100%;
     height: 60%;
-    min-height: 120pt;
+    min-height: 120px;
     font-size: small;
     font-family: 'Courier New', 'Courier', 'monospace';
     scroll-behavior: auto;
@@ -118,7 +118,7 @@ div {
     div.qrcode,
     div.odDiv {
         nowrap;
-        height: 30pt;
+        height: 30px;
         width: 100%;
         line-height: normal;
         vertical-align: middle;
@@ -129,7 +129,7 @@ div {
 
     div.hugeqr,
     div.huge {
-        height: 192pt;
+        height: 192px;
         width: 100%;
         line-height: normal;
         vertical-align: top;
@@ -140,23 +140,20 @@ div {
 
     div.headercard {
         /* border-block: 1px thin;*/
-        border-bottom: 1px solid #fafafa;
+        border-bottom: 1px solid #bab5b1;
         border-bottom-style: solid;
         border-bottom-width: 1px;
-        border-bottom-color: #fafafa;
-        border-right: thin solid #fafafa;
-        border-left: thin solid #fafafa;
-        border-top: 0px none #fafafa;
+        border-bottom-color: #bab5b1;
+        border-right: thin solid #bab5b1;
+        border-left: thin solid #bab5b1;
+        border-top: 0px none #bab5b1;
         border-top-width: 1px;
         border-top-style: none;
-        border-top-color: #fafafa;
+        border-top-color: #bab5b1;
         /* border-spacing: 1px 1px;        */
-        margin-left: 1px;
-        margin-right: 1px;
-        margin-top: 1px;
-        margin-bottom: 0px;
+        margin: 1px 0px 0px 0px;
         text-align: left;
-        background-color: #eeeeee;
+        background-color: #fafafa;
         vertical-align: middle;
         font-size: medium;
         table-layout: fixed;
@@ -164,21 +161,30 @@ div {
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
     }
 
-    div.contentDiv {
-        border-block: 1px solid #bab5b1;
-        border-style: solid;
-        border-width: thin;
-        /* border-spacing: 1px 1px; */
+        div#rowqr, div.headercard#rowqr {
+            margin: 1px 0px 0px 156px;
+            border-top: 0px none #bab5b1;
+            border-right: thin solid #bab5b1;
+            border-bottom: 1px solid #bab5b1;
+            border-left: thin solid #bab5b1;
+            background-color: #fefefe;
+        }
 
-        width: 100%;
-        text-align: left;
-        background-color: #eeeeee;
-        vertical-align: middle;
-        font-size: medium;
-        table-layout: fixed;
-        inset-block-start: initial;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
-    }
+        div.contentDiv {
+            border-block: 1px solid #bab5b1;
+            border-style: solid;
+            border-width: thin;
+            /* border-spacing: 1px 1px; */
+
+            width: 100%;
+            text-align: left;
+            background-color: #eeeeee;
+            vertical-align: middle;
+            font-size: medium;
+            table-layout: fixed;
+            inset-block-start: initial;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+        }
 
     div.footerDiv {
         border-block: 1px solid #bab5b1;
@@ -197,13 +203,13 @@ div {
     }
 
 span {
-    height: 24pt;
+    height: 24px;
     vertical-align: middle;
     font-size: medium;
 }
 
     span.textSpan {
-        height: 24pt;
+        height: 24px;
         text-align: left;
         vertical-align: middle;
         font-size: medium;
@@ -212,7 +218,7 @@ span {
     span.left,
     span.leftqr,
     span.leftSpan {
-        height: 24pt;
+        height: 24px;
         width: 25%;
         text-align: left;
         vertical-align: middle;
@@ -220,7 +226,7 @@ span {
     }
 
     span.lefthuge {
-        height: 192pt;
+        height: 192px;
         width: 25%;
         text-align: left;
         vertical-align: top;
@@ -230,7 +236,7 @@ span {
     span.center,
     span.centerqr,
     span.centerSpan {
-        height: 24pt;
+        height: 24px;
         width: 25%;
         text-align: center;
         vertical-align: middle;
@@ -240,7 +246,7 @@ span {
     span.right,
     span.rightqr,
     span.rightSpan {
-        height: 24pt;
+        height: 24px;
         width: 25%;
         text-align: right;
         vertical-align: middle;
@@ -248,7 +254,7 @@ span {
     }
 
     span.righthuge {
-        height: 192pt;
+        height: 192px;
         width: 75%;
         text-align: right;
         vertical-align: middle;
@@ -256,132 +262,107 @@ span {
     }
 
 
-    span.headerLeft {
-        border-block: 1px ridge;
-        border-style: ridge;
-        border-width: thin;
-        border-color: #eeeeee;
-        border-spacing: 2px 2px;
+    span.headerLeft, span.headerLeftCenter, span.headerCenter, span.headerRightCenter, span.headerRight {
         min-width: 8%;
-        width: 144pt;
-        height: 40pt;
-        background-color: #cacbcc;
-        background-image: url(folder1.png);
-        background-repeat: no-repeat;
+        width: 144px;
         outline-width: 144px;
-        vertical-align: middle;
-        text-align: left;
-    }
-
-    
-    span.headerLeftCenter, span.headerCenter, span.headerRightCenter {
-        border-block: 1px ridge;
-        border-style: ridge;
-        border-width: thin;
-        border-color: #eeeeee;
-        border-spacing: 2px 2px;
-        min-width: 8%;
-        width: 144pt;
-        height: 40pt;
-        background-color: #cbccce;
-        background-image: url(folder1.png);
-        background-repeat: no-repeat;
-        outline-width: 144px;
-        vertical-align: middle;
+        height: 40px;
+        /*                              */
         text-align: center;
+        vertical-align: middle;
+        /*                              */
+        background-color: #ffccdd;      /* background-image: url(folder1.png); */
+        background-repeat: no-repeat;
+        /*                              */
+        border-block: 1px ridge;
+        border-style: ridge;
+        border-width: 2px;
+        border-color: #ecbafa;
+        border-spacing: 1px 1px;
     }
-
 
     span.headerRight {
-        border-block: 1px ridge;
-        border-style: ridge;
-        border-width: thin;
-        border-color: #eeeeee;
-        border-spacing: 2px 2px;
-        width: 144pt;
-        height: 40pt;
-        background-color: #eaebec;
-        background-image: url(folder1.png);
-        background-repeat: no-repeat;
+        min-width: 8%;
+        width: 144px;
         outline-width: 144px;
-        vertical-align: middle;
+        height: 40px;
+        /*                              */
         text-align: right;
-    }
-
-
-    span.footerLeft {
-        border-block: 1px ridge;
-        border-style: ridge;
-        border-width: thin;
-        border-color: #eeeeee;
-        border-spacing: 2px 2px;
-        min-width: 8%;
-        width: 144pt;
-        height: 40pt;
-        background-color: #cacaca;
-        background-image: url(folder1.png);
-        background-repeat: no-repeat; 
-        outline-width: 144px;
         vertical-align: middle;
-        text-align: center;
-    }
-
-    span.footerLeftCenter, span.footerCenter, span.footerRightCenter {
-        border-block: 1px ridge;
-        border-style: ridge;
-        border-width: thin;
-        border-color: #eeeeee;
-        border-spacing: 2px 2px;
-        min-width: 8%;
-        width: 144pt;
-        height: 40pt;
-        outline-width: 144px;
-        background-color: #cacbcc;
-        background-image: url(folder1.png);
+        /*                              */
+        background-color: #ffccdd; /* background-image: url(folder1.png); */
         background-repeat: no-repeat;
-        vertical-align: middle;
-        text-align: center;
+        /*                              */
+        border-block: 1px ridge;
+        border-style: ridge;
+        border-width: 2px;
+        border-color: #ecbafa;
+        border-spacing: 1px 1px;
     }
+
+
+    span.footerLeft, span.footerLeftCenter, span.footerCenter, span.footerRightCenter {
+        min-width: 8%;
+        width: 144px;
+        height: 40px;
+        outline-width: 144px;
+        /*                              */
+        text-align: center;
+        vertical-align: middle;
+        /*                              */
+        background-color: #ffccdd;      /* background-image: url(folder1.png); */
+        background-repeat: no-repeat;
+        /*                              */
+        border-block: 1px ridge;
+        border-style: ridge;
+        border-width: 2px;
+        border-color: #ecbafa;
+        border-spacing: 1px 1px;
+    }
+
 
     span.footerRight {
+        width: 64%;
+        height: 40px;
+        /*                              */
+        text-align: right;
+        vertical-align: middle;
+        /*                              */
+        background-color: #ffccdd;      /* background-image: url(folder1.png); */
+        background-repeat: no-repeat;
+        /*                              */
         border-block: 1px ridge;
         border-style: ridge;
-        border-width: thin;
-        border-color: #eeeeee;
-        border-spacing: 2px 2px;
-        width: 64%;
-        background-color: #e1e1e1;
-        background-image: url(folder1.png);
-        background-repeat: no-repeat;
-        vertical-align: middle;
-        text-align: right;
+        border-width: 2px;
+        border-color: #ecbafa;
+        border-spacing: 1px 1px;
     }
 
 table.qrcTable {
     width: 100%;
-    min-width: 400pt;
+    min-width: 400px;
     height: 64%;
-    min-height: 220pt;
+    min-height: 220px;
     align-content: center;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
     border-style: none;
-    border-spacing: 0pt;
-    border-width: 0pt;
+    border-spacing: 0px;
+    border-width: 0px;
     border-color: transparent;
     background-repeat: no-repeat;
 }
 
 tr.qrcTr {
     width: 100%;
-    min-width: 360pt;
-    height: 30pt;
-    min-height: 27pt;
+    min-width: 360px;
+    height: 30px;
+    min-height: 27px;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
     border-style: none;
-    border-spacing: 0pt;
-    border-width: 0pt;
+    border-spacing: 0px;
+    border-width: 0px;
     border-color: transparent;
     background-repeat: no-repeat;
     /* background-size: 100% 100%; */
@@ -389,14 +370,14 @@ tr.qrcTr {
 
 tr.qrcTrLarge {
     width: 100%;
-    min-width: 360pt;
-    height: 192pt;
+    min-width: 360px;
+    height: 192px;
     min-height: 27px;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
     border-style: none;
-    border-spacing: 0pt;
-    border-width: 0pt;
+    border-spacing: 0px;
+    border-width: 0px;
     border-color: transparent;
     background-repeat: no-repeat;
     /* background-size: 100% 100%; */
@@ -404,14 +385,14 @@ tr.qrcTrLarge {
 
 tr.qrcTdRight {
     width: 32%;
-    /* min-width: 36pt; */
-    height: 30pt;
-    min-height: 27pt;
+    /* min-width: 36px; */
+    height: 30px;
+    min-height: 27px;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
     border-style: none;
-    border-spacing: 0pt;
-    border-width: 0pt;
+    border-spacing: 0px;
+    border-width: 0px;
     border-color: transparent;
     /* 	background-repeat: no-repeat; */
     align: right;
@@ -421,14 +402,14 @@ tr.qrcTdRight {
 td.qrcTd,
 td.qrcTdLeft {
     width: 18%;
-    /* min-width: 36pt; */
-    height: 30pt;
-    min-height: 27pt;
+    /* min-width: 36px; */
+    height: 30px;
+    min-height: 27px;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
     border-style: none;
-    border-spacing: 0pt;
-    border-width: 0pt;
+    border-spacing: 0px;
+    border-width: 0px;
     border-color: transparent;
     align: left;
     text-align: left;
