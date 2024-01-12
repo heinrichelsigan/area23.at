@@ -1,21 +1,9 @@
 ﻿<%@ Page Title="froga" Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="false"  %>
-<%@ Import namespace="Newtonsoft.Json" %>
-<%@ Import namespace="Newtonsoft.Json.Linq" %>
-<%@ Import namespace="Newtonsoft.Json.Bson" %>
 <%@ Import namespace="System" %>
 <%@ Import namespace="System.Collections.Generic" %>
-<%@ Import namespace="System.Linq" %>
-<%@ Import namespace="System.Reflection" %>
 <%@ Import namespace="System.Web"%>
-<%@ Import namespace="System.IO"%>
-<%@ Import namespace="System.Diagnostics" %>
 <%@ Import namespace="System.Web.UI"  %>
 <%@ Import namespace="System.Web.UI.WebControls" %>
-<%@ Import namespace="System.Xml" %>
-<%@ Import namespace="System.Xml.Linq" %>
-<%@ Import namespace="System.Xml.Serialization" %>
-<%@ Import namespace="System.Runtime.Serialization" %>
-<%@ Import namespace="System.Runtime.Serialization.Json" %>
 <%@ Import namespace="area23.at.www.mono.Util" %>
 
 <script runat="server" language="C#">
@@ -33,6 +21,7 @@
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server" ClientIDMode="Static">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>froga</title>
+    <link rel="stylesheet" href="res/area23.at.www.mono.css" />
 	<style>
         body.frogbody {
             color: white;
@@ -1477,13 +1466,10 @@
                 <img id="aLeft" class="frogaImage" src="res/img/a_left.gif" border="0" onclick="moveFrog('left')" />
             </span>
 		    <img id="aUp" class="frogaImage" src="res/img/a_up.gif" border="0" onclick="moveFrog('up')" />
+            <img id="aDown" class="frogaImage" src="res/img/a_down.gif" border="0" onclick="moveFrog('down')" />
             <span id="spanRight" align="right" valign="middle">
                 <img id="aRight" src="res/img/a_right.gif" border="0" onclick="moveFrog('right')" />
             </span>
-	    </div>
-	    <div class="frogaFooter">
-		    <img id="aDown" class="frogaImage" src="res/img/a_down.gif" border="0" onclick="moveFrog('down')" />
-	    </div>
-	    <!-- pre id="frogPre"></pre -->
+	    </div>	    
     </div>
 </asp:Content>
