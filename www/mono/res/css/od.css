@@ -1,0 +1,122 @@
+﻿/*
+    od.css ©
+    2023-12-20 by Heinrich Elsigan
+    https://area23.at/cgi/od.cgi
+    https://darkstar.work/test/cgi/od.html
+    2023-12-21 last change 
+*/
+/*
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0;
+    border-width: 0;
+*/
+
+.TextBox {
+    height: 24pt;
+    text-align: left;
+    font-size: small;
+}
+
+.DropDownList {
+    height: 24pt;
+    font-size: medium;
+}
+
+.ButtonTextBox {
+    height: 24pt;
+    font-size: medium;
+}
+
+#Button_OctalDump {
+    height: 24pt;
+    vertical-align: middle;
+    font-size: medium;
+}
+
+#TextBox_OdCmd {
+    width: 32%;
+    height: 24pt;
+    text-align: left;
+    vertical-align: middle;
+}
+
+#RBL_Radix {
+    vertical-align: middle;
+    font-size: medium;
+}
+
+#preOut {
+    width: 100%;
+    height: 60%;
+    min-height: 120pt;
+    font-size: small;
+    font-family: 'Lucida Console', 'Courier New', 'Courier', 'monospace';
+    scroll-behavior: auto;
+}
+
+div {
+    line-height: normal;
+    vertical-align: middle;
+}
+
+    div.odDiv {
+        nowrap;
+        height: 30pt;
+        width: 100%;
+        line-height: normal;
+        vertical-align: middle;
+        font-size: medium;
+        table-layout: fixed;
+        inset-block-start: initial;
+    }
+
+    div.footerDiv {
+        width: 100%;
+        text-align: left;
+        background-color: #bfafcf;
+        vertical-align: middle;
+        font-size: medium;
+        border-style: none;
+        table-layout: fixed;
+        inset-block-start: initial;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+    }
+
+span {
+    height: 24pt;
+    vertical-align: middle;
+    font-size: medium;
+}
+
+    span.textSpan {
+        height: 24pt;
+        text-align: left;
+        vertical-align: middle;
+        font-size: medium;
+    }
+    /* span.smallSpan { font-size: small; } */
+    span.leftSpan {
+        height: 24pt;
+        width: 25%;
+        text-align: left;
+        vertical-align: middle;
+        font-size: medium;
+    }
+
+    span.centerSpan {
+        height: 24pt;
+        width: 25%;
+        text-align: center;
+        vertical-align: middle;
+        font-size: medium;
+    }
+
+    span.rightSpan {
+        height: 24pt;
+        width: 25%;
+        text-align: right;
+        vertical-align: middle;
+        font-size: small;
+    }

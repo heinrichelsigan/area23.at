@@ -6,7 +6,7 @@ using System.Web;
 namespace area23.at.www.mono.Util
 {
     public static class Constants
-    {
+    {        
         public const string APPNAME = "area23.at.www.mono";
         public const string APPDIR = "mono";
         public const string VERSION = "v2.11.33";
@@ -16,9 +16,45 @@ namespace area23.at.www.mono.Util
         public const string URLPREFIX = "https://area23.at/mono/test/res/";
         public const string LOGDIR = "log";
         public const string RESFOLDER = "res";
-
-
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";
+
+        public const char DATEDELIM = '-';
+        public const char WHITESPACE = ' ';
+        public const string ANNOUNCE = ": ";
+
+        private static System.Globalization.CultureInfo locale = null;
+        public static System.Globalization.CultureInfo Locale
+        {
+            get
+            {
+                if (locale == null)
+                {
+                    try
+                    {
+                        string defaultLang = HttpContext.Current.Request.Headers["Accept-Language"].ToString();
+                        string firstLang = defaultLang.Split(',').FirstOrDefault();
+                        defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
+                        locale = new System.Globalization.CultureInfo(defaultLang);
+                    }
+                    catch (Exception)
+                    {
+                        locale = new System.Globalization.CultureInfo("en");
+                    }
+                }
+                return locale;
+            }
+        }
+
+        public static string ISO2Lang { get => Locale.TwoLetterISOLanguageName; }
+
+
+        public static string DateArea23
+        {
+            get => DateTime.UtcNow.ToString("yyyy") + Constants.DATEDELIM +
+                DateTime.UtcNow.ToString("MM") + Constants.DATEDELIM +
+                DateTime.UtcNow.ToString("dd") + Constants.WHITESPACE +
+                DateTime.UtcNow.ToShortTimeString() + Constants.ANNOUNCE;
+        }
 
         public static bool FortuneBool
         {

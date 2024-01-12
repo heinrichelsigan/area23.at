@@ -16,7 +16,7 @@ namespace area23.at.www.mono.Util
         private static string appPath = null;
         private static string cardPicsPath = null;
         private static string cardPicsDir = null;
-        private static System.Globalization.CultureInfo locale = null;
+        
 
         public static string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
 
@@ -115,29 +115,7 @@ namespace area23.at.www.mono.Util
             }
         }
 
-        public static System.Globalization.CultureInfo Locale
-        {
-            get
-            {
-                if (locale == null)
-                {
-                    try
-                    {
-                        string defaultLang = HttpContext.Current.Request.Headers["Accept-Language"].ToString();
-                        string firstLang = defaultLang.Split(',').FirstOrDefault();
-                        defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
-                        locale = new System.Globalization.CultureInfo(defaultLang);
-                    }
-                    catch (Exception)
-                    {
-                        locale = new System.Globalization.CultureInfo("en");
-                    }
-                }
-                return locale;
-            }
-        }
 
-        public static string ISO2Lang { get => Locale.TwoLetterISOLanguageName; }
-
+        
     }
 }

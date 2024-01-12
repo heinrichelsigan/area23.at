@@ -17,6 +17,50 @@ namespace area23.at.www.mono
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            NavFolderHandler(sender, e);
+        }
+
+        protected void NavFolderHandler(object sender, EventArgs args)
+        {
+            headerLeft.Style["background-color"] = "#ffccdd";
+            headerLeftCenter.Style["background-color"] = "#ffccdd";
+            headerCenter.Style["background-color"] = "#ffccdd";
+            headerRightCenter.Style["background-color"] = "#ffccdd";
+            // headerRight.Style["background-color"] = "#ffccdd";
+
+            try
+            {
+                if (this.Request != null && this.Request.RawUrl != null)
+                {
+                    if (this.Request.RawUrl.Contains("QRCodeGen.aspx"))
+                    {
+                        headerLeft.Style["background-color"] = "#ffdfef";
+                        return;
+                    }
+                    if (this.Request.RawUrl.Contains("Qrc.aspx"))
+                    {
+                        headerLeftCenter.Style["background-color"] = "#ffdfef";
+                        return;
+                    }
+                    if (this.Request.RawUrl.Contains("Qr.aspx"))
+                    {
+                        headerCenter.Style["background-color"] = "#ffdfef";
+                        return;
+                    }
+                    if (this.Request.RawUrl.Contains("QRGen.aspx"))
+                    {
+                        headerRightCenter.Style["background-color"] = "#ffdfef";
+                        return;
+                    }
+                    if (this.Request.RawUrl.Contains("trans"))
+                    {
+                        // headerRight.Style["background-color"] = "#ffdfef";
+                        return;
+                    }                    
+                }
+            }
+            catch (Exception ex) { }
+            
 
         }
     }

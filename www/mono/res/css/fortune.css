@@ -1,0 +1,77 @@
+﻿/*
+    2023-12-20 fortune.css © by Heinrich Elsigan
+    https://area23.at/test/cgi/fortune.html
+    https://darkstar.work/cgi/fortune.cgi
+    2023-12-21 last change 
+*/
+/*
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+*/
+
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+    background-color: #efefef;
+    border-style: none;
+    border-spacing: 0;
+    border-width: 0;
+}
+
+#PreFortune {
+    text-align: left;
+    border-style: none;
+    background-color: #dbdbdb;
+    font-size: larger;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+}
+
+div.fortuneDiv {
+    background-color: #dedede;
+    font-size: larger;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+div.fortuneFooter {
+    width: 100%;
+    table-layout: fixed;
+    inset-block-start: initial;
+    background-color: #cfdfef;
+    font-size: medium;
+    border-style: none;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+span.fortuneFooterLeft {
+    width: 8%;
+    background-color: #dadada;
+    vertical-align: middle;
+    text-align: left;
+}
+
+span.fortuneFooterLeftCenter {
+    width: 8%;
+    background-color: #dbdbdb;
+    vertical-align: middle;
+    text-align: center;
+}
+
+span.fortuneFooterCenter {
+    width: 8%;
+    background-color: #dcdcdc;
+    vertical-align: middle;
+    text-align: center;
+}
+
+span.fortuneFooterRightCenter {
+    width: 8%;
+    background-color: #dedede;
+    vertical-align: middle;
+    text-align: center;
+}
+
+span.fortuneFooterRight {
+    width: 64%;
+    background-color: #cfdfef;
+    vertical-align: middle;
+    text-align: right;
+}

@@ -905,6 +905,15 @@ namespace area23.at.www.mono.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string json_sample0 {
+            get {
+                return ResourceManager.GetString("json_sample0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last trick: you win!.
         /// </summary>
         internal static string last_hit_you_have_won {

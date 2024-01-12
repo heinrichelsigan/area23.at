@@ -11,7 +11,7 @@ namespace area23.at.www.mono
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Response.Redirect("od.html");
+            Response.Redirect("HexDump.aspx");
         }
     }
 }

@@ -24,6 +24,42 @@ namespace area23.at.www.mono
         protected global::System.Web.UI.WebControls.ContentPlaceHolder QrHead;
 
         /// <summary>
+        /// headerLeft control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeft;
+
+        /// <summary>
+        /// headerLeftCenter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeftCenter;
+
+        /// <summary>
+        /// headerCenter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerCenter;
+
+        /// <summary>
+        /// headerRightCenter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRightCenter;
+
+        /// <summary>
         /// QrBody control.
         /// </summary>
         /// <remarks>

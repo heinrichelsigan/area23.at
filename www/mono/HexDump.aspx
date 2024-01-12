@@ -3,7 +3,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="https://area23.at/css/od.css" />
     <link rel="stylesheet" href="res/area23.at.www.mono.css" />
-    <title>Hex Dump (od) apache2 mod_mono C#</title>
+    <title>hex dump (apache2 mod_mono)</title>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-01S65129V7"></script>
     <script>
