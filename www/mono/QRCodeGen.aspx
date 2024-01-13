@@ -120,7 +120,7 @@
 			<td id="td4a" class="qrcTdRight" width="18%" height="30pt">city:</td>
 			<td id="td4b" class="qrcTdLeft" width="32%" height="30pt">
 				<asp:TextBox ID="TextBox_City" runat="server" ToolTip="Enter city name" 
-					AutoCompleteType="HomeCity"  ClientIDMode="Static"
+					AutoCompleteType="HomeCity"  ClientIDMode="Static" 
 					MaxLength="84" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft"
 					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_City')"></asp:TextBox>
