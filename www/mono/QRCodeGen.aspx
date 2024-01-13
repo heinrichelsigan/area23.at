@@ -28,14 +28,14 @@
 			<td id="td1a" class="qrcTdRight" width="18%" height="30pt">phone:</td>
 			<td id="td1b" class="qrcTdLeft" width="32%" height="30pt">
 				<asp:TextBox ID="TextBox_Phone" runat="server" ToolTip="enter phone number"  
-					TextMode="Phone" AutoCompleteType="HomePhone"  ClientIDMode="Static"
+					AutoCompleteType="HomePhone"  ClientIDMode="Static"
 					MaxLength="84" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft"
 					onchange="highLightOnChange('TextBox_Phone')"></asp:TextBox>
 			</td>
 			<td id="td1c" class="qrcTdRight" width="18%" height="30pt">mobile:</td>
 			<td id="td1d" class="qrcTdLeft" width="32%" height="30pt">
 				<asp:TextBox ID="TextBox_Mobile" runat="server" ToolTip="enter mobile phone number" 
-					TextMode="Phone" AutoCompleteType="Cellular"  ClientIDMode="Static"
+					AutoCompleteType="Cellular"  ClientIDMode="Static"
 					MaxLength="84" Width="128pt" Height="24pt" CssClass="QRTextBoxRight"
 					onchange="highLightOnChange('TextBox_Mobile')"></asp:TextBox>
 			</td>
@@ -44,14 +44,14 @@
 			<td id="td2a" class="qrcTdRight" width="18%" height="30pt">e-mail:</td>
 			<td id="td2b" class="qrcTdLeft" width="32%" height="30pt">
 				<asp:TextBox ID="TextBox_Email" runat="server" ToolTip="enter email address"
-					TextMode="Email" AutoCompleteType="Email"  ClientIDMode="Static"
+					AutoCompleteType="Email"  ClientIDMode="Static"
 					MaxLength="136" Width="128pt" Height="24pt" CssClass="QRTextBox"
 					onchange="highLightOnChange('TextBox_Email')" ></asp:TextBox>
 			</td>
 			<td id="td2c" class="qrcTdRight" width="18%" height="30pt">www:</td>
 			<td id="td2d" class="qrcTdLeft" width="32%" height="30pt">
 				<asp:TextBox ID="TextBox_Web" runat="server" ToolTip="enter www web site"
-					TextMode="Url" AutoCompleteType="Homepage"  ClientIDMode="Static"
+					AutoCompleteType="Homepage"  ClientIDMode="Static"
 					MaxLength="144" Width="136pt" Height="24pt" CssClass="QRTextBox"
 					onchange="highLightOnChange('TextBox_Web')"></asp:TextBox>
 			</td>
