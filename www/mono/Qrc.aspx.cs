@@ -16,10 +16,15 @@ namespace area23.at.www.mono
 {
     public partial class Qrc : QrBase
     {
+        string[] colors = { "#8c1157", "#991111", "#2211ee", "#22dd22", "#666666" };
+        Random rand;
+        internal static List<Control> listControl = null;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
+                this.TextBox_Color.Text = "#8c1157";
                 ResetFormElements();
                 GenerateQRImage();
             }
@@ -28,6 +33,20 @@ namespace area23.at.www.mono
         protected void QRCode_ParameterChanged(object sender, EventArgs e)
         {
             QRBase_ElementChanged(sender, e);
+        }
+
+
+        public string RandomizeColor
+        {
+            get
+            {
+                if (rand == null)
+                {
+                    rand = new Random(System.DateTime.Now.Millisecond);
+                }
+                int colorIdx = rand.Next(colors.Length);
+                return colors[colorIdx];
+            }
         }
 
         protected virtual void ResetFormElements()
@@ -39,23 +58,28 @@ namespace area23.at.www.mono
         {
             get
             {
-                List<Control> list = new List<Control>();
-                list.Add(this.TextBox_City);
-                list.Add(this.TextBox_Coutry);
-                list.Add(this.TextBox_Email);
-                list.Add(this.TextBox_FirstName);
-                list.Add(this.TextBox_LastName);
-                list.Add(this.TextBox_Mobile);
-                list.Add(this.TextBox_Note);
-                list.Add(this.TextBox_Org);
-                list.Add(this.TextBox_OrgTitle);
-                list.Add(this.TextBox_Phone);
-                list.Add(this.TextBox_Region);
-                list.Add(this.TextBox_Street);
-                list.Add(this.TextBox_StreetNr);
-                list.Add(this.TextBox_Web);
-                list.Add(this.TextBox_ZipCode);
-                return list.ToArray();
+                if (listControl == null)
+                {
+                    listControl = new List<Control>();
+                    listControl.Add(this.TextBox_Birthday);
+                    listControl.Add(this.TextBox_City);
+                    listControl.Add(this.TextBox_Coutry);
+                    listControl.Add(this.TextBox_Email);
+                    listControl.Add(this.TextBox_FirstName);
+                    listControl.Add(this.TextBox_LastName);
+                    listControl.Add(this.TextBox_Mobile);
+                    listControl.Add(this.TextBox_Note);
+                    listControl.Add(this.TextBox_Org);
+                    listControl.Add(this.TextBox_OrgTitle);
+                    listControl.Add(this.TextBox_Phone);
+                    listControl.Add(this.TextBox_Region);
+                    listControl.Add(this.TextBox_Street);
+                    listControl.Add(this.TextBox_StreetNr);
+                    listControl.Add(this.TextBox_Web);
+                    listControl.Add(this.TextBox_ZipCode);
+                }
+
+                return listControl.ToArray();
             }
         }
 
@@ -67,11 +91,12 @@ namespace area23.at.www.mono
             {
                 if (ctrl is TextBox)
                 {
-                    if (((TextBox)(ctrl)).BorderColor == Color.Red)
-                    {
-                        ((TextBox)(ctrl)).BorderColor = Color.Black;
-                        ((TextBox)(ctrl)).BorderStyle = BorderStyle.Solid;
-                    }
+                    // if (((TextBox)(ctrl)).BorderColor == Color.Red)
+                    // {
+                    ((TextBox)(ctrl)).BorderColor = Color.Black;
+                    ((TextBox)(ctrl)).BorderStyle = BorderStyle.Solid;
+                    ((TextBox)(ctrl)).BorderWidth = 1;
+                    // }
                 }
             }
         }
@@ -116,7 +141,19 @@ namespace area23.at.www.mono
             try
             {
                 qrString = GetQrString();
-                Color c = Util.ColorFrom.FromHtml(this.TextBox_Color.Text);
+                if (string.IsNullOrEmpty(this.TextBox_Color.Text))
+                {
+                    this.TextBox_Color.Text = RandomizeColor;
+                }
+                Color c = ColorFrom.FromHtml("#8c1157");
+                try
+                {
+                    c = Util.ColorFrom.FromHtml(this.TextBox_Color.Text);
+                }
+                catch
+                {
+                    c = ColorFrom.FromHtml("#8c1157");
+                }
                 // 8lor.FromHtml()
                 if (!string.IsNullOrEmpty(qrString))
                 {

@@ -6,22 +6,6 @@
 	<meta name="description" content="https://github.com/codebude/QRCoder/" />
 	<script type="text/javascript">
 
-        function QRCodeGen_TextBoxKeyHandler(event) {
-            var target = event.target;
-            if ((target == null) || (typeof (target) == "undefined")) target = event.srcElement;
-            if (event.keyCode == 13) {
-                if ((typeof (target) != "undefined") && (target != null)) {
-                    if (typeof (target.onchange) != "undefined") {
-                        target.onchange();
-                        event.cancelBubble = true;
-                        if (event.stopPropagation) event.stopPropagation();
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
         function highLightOnChange(highLightId) {
             if (highLightId != null && document.getElementById(highLightId) != null) {
                 if (document.getElementById(highLightId).style.borderStyle == "dotted" ||
@@ -49,8 +33,7 @@
 			<td id="td0b" class="qrcTdLeft" width="32%" height="30pt">
                 <asp:TextBox ID="TextBox_FirstName" ClientIDMode="Static" runat="server" ToolTip="enter first name"
 					AutoCompleteType="FirstName"
-                    MaxLength="84" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft" 
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;"
+                    MaxLength="84" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft" 					
                     onchange="highLightOnChange('TextBox_FirstName')"></asp:TextBox>
 			</td>
 			<td id="td0c" class="qrcTdRight" width="18%" height="30pt">last name:</td>
@@ -58,7 +41,6 @@
 				<asp:TextBox ID="TextBox_LastName" runat="server" ToolTip="enter last name" 
 					AutoCompleteType="LastName"  ClientIDMode="Static"
 					MaxLength="84" Width="128pt" Height="24pt" CssClass="QRTextBoxRight"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_LastName')"></asp:TextBox>
 			</td>
 		</tr>
@@ -68,7 +50,6 @@
 				<asp:TextBox ID="TextBox_Phone" runat="server" ToolTip="enter phone number"  
 					TextMode="Phone" AutoCompleteType="HomePhone"  ClientIDMode="Static"
 					MaxLength="84" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_Phone')"></asp:TextBox>
 			</td>
 			<td id="td1c" class="qrcTdRight" width="18%" height="30pt">mobile:</td>
@@ -76,7 +57,6 @@
 				<asp:TextBox ID="TextBox_Mobile" runat="server" ToolTip="enter mobile phone number" 
 					TextMode="Phone" AutoCompleteType="Cellular"  ClientIDMode="Static"
 					MaxLength="84" Width="128pt" Height="24pt" CssClass="QRTextBoxRight"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_Mobile')"></asp:TextBox>
 			</td>
 		</tr>
@@ -86,7 +66,6 @@
 				<asp:TextBox ID="TextBox_Email" runat="server" ToolTip="enter email address"
 					TextMode="Email" AutoCompleteType="Email"  ClientIDMode="Static"
 					MaxLength="136" Width="128pt" Height="24pt" CssClass="QRTextBox"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_Email')" ></asp:TextBox>
 			</td>
 			<td id="td2c" class="qrcTdRight" width="18%" height="30pt">www:</td>
@@ -94,7 +73,6 @@
 				<asp:TextBox ID="TextBox_Web" runat="server" ToolTip="enter www web site"
 					TextMode="Url" AutoCompleteType="Homepage"  ClientIDMode="Static"
 					MaxLength="144" Width="136pt" Height="24pt" CssClass="QRTextBox"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_Web')"></asp:TextBox>
 			</td>
 		</tr>				
@@ -104,7 +82,6 @@
 				<asp:TextBox ID="TextBox_Coutry" runat="server" ToolTip="Enter country here"
 					TextMode="SingleLine" AutoCompleteType="HomeState"   ClientIDMode="Static"
 					MaxLength="84" Width="128pt" Height="24pt" CssClass="ButtonTextBox"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_Coutry')">Austria</asp:TextBox>
 			</td> 
 			<td id="td3c" class="qrcTdRight" width="18%" height="30pt">region:</td>
@@ -112,7 +89,6 @@
 				<asp:TextBox ID="TextBox_Region" runat="server" ToolTip="Enter region here"
 					TextMode="SingleLine" AutoCompleteType="HomeCountryRegion"   ClientIDMode="Static"
 					MaxLength="84" Width="128pt" Height="24pt" CssClass="ButtonTextBox"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_Region')"></asp:TextBox>				
 			</td>
 		</tr>
@@ -122,7 +98,6 @@
 				<asp:TextBox ID="TextBox_City" runat="server" ToolTip="Enter city name" 
 					AutoCompleteType="HomeCity"  ClientIDMode="Static" 
 					MaxLength="84" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_City')"></asp:TextBox>
 			</td>
 			<td id="td4c" class="qrcTdRight" width="18%" height="30pt">zip code:</td>
@@ -130,7 +105,6 @@
 				<asp:TextBox ID="TextBox_ZipCode" runat="server" ToolTip="Enter postal zip code" 
 					AutoCompleteType="HomeZipCode"  ClientIDMode="Static"
 					MaxLength="64" Width="60pt" Height="24pt" CssClass="QRTextBoxRight"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_ZipCode')"></asp:TextBox>
 			</td>
 		</tr>
@@ -139,8 +113,7 @@
 			<td id="td5b" class="qrcTdLeft" width="32%" height="30pt">
 				<asp:TextBox ID="TextBox_Street" runat="server" ToolTip="Enter street name" 
 					AutoCompleteType="HomeStreetAddress"   ClientIDMode="Static"
-					MaxLength="128" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
+					MaxLength="128" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft"					
 					onchange="highLightOnChange('TextBox_Street')" ></asp:TextBox>
 			</td>
 			<td id="td5c" class="qrcTdRight" width="18%" height="30pt">house nr:</td>
@@ -148,7 +121,6 @@
 				<asp:TextBox ID="TextBox_StreetNr" runat="server" ToolTip="Enter street number" 
 					TextMode="Number"  ClientIDMode="Static"
 					MaxLength="32" Width="48pt" Height="24pt" CssClass="QRTextBoxRight"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_StreetNr')"></asp:TextBox>
 			</td>
 		</tr>
@@ -160,12 +132,11 @@
 				<asp:TextBox ID="TextBox_Org" runat="server" ToolTip="Enter organisation name" 
 					AutoCompleteType="Department"  ClientIDMode="Static"
 					MaxLength="128" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_Org')"></asp:TextBox>
 			</td>
 			<td id="td6c" class="qrcTdRight" width="18%" height="192pt" rowspan="4">
 				<span class="lefthuge">
-                    <asp:TextBox ID="TextBox_Color" runat="server" TextMode="Color">#8c1157</asp:TextBox>
+                    <asp:TextBox ID="TextBox_Color" runat="server" ClientIDMode="Static" TextMode="Color" Text="#8c1157" />
 					<br />
 					<asp:Button ID="Button_QRCode" runat="server" ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />
 					
@@ -185,7 +156,6 @@
 				<asp:TextBox ID="TextBox_OrgTitle" runat="server" ToolTip="Enter organisation title" 
 					AutoCompleteType="Department"
 					MaxLength="128" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_OrgTitle')"></asp:TextBox>							
 			</td>
 		</tr>
@@ -197,7 +167,6 @@
 				<asp:TextBox ID="TextBox_Note" runat="server" ToolTip="Enter personal note" 
 					AutoCompleteType="Notes"
 					MaxLength="128" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_Note')"></asp:TextBox>
 			</td>
 		</tr>
@@ -209,7 +178,6 @@
 				<asp:TextBox ID="TextBox_Birthday" runat="server" ToolTip="Enter birthday" 
 					TextMode="Date"
 					MaxLength="128" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft"
-					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_Birthday')"></asp:TextBox>
 			</td>
 		</tr>

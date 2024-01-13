@@ -90,9 +90,9 @@
 			</td>
 			<td id="td6c" class="qrcTdRight" width="18%" height="192pt" rowspan="4">
 				<span class="lefthuge">
-					<asp:TextBox ID="TextBox_Color" runat="server" ToolTip="Enter color for QRCode" TextMode="Color" Text="#8c1157" />
-					<br />
-					<asp:Button ID="Button_QRCode" runat="server" ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />
+                    <asp:TextBox ID="TextBox_Color" runat="server" ClientIDMode="Static" TextMode="Color" Text="#8c1157" />
+                    <br />
+                    <asp:Button ID="Button_QRCode" runat="server" ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />
 				</span>
 			</td>
 			<td id="td6d" class="qrcTdLeft" width="32%" height="192pt"  rowspan="4">
