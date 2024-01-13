@@ -111,10 +111,10 @@ namespace area23.at.www.mono
         {
             Bitmap aQrBitmap = null;
 
-            if (string.IsNullOrEmpty(this.color1.Value))
-                this.color1.Value = Constants.ColorString;
-            else
-                Constants.ColorString = this.color1.Value;
+            //if (string.IsNullOrEmpty(this.color1.Value))
+            //    this.color1.Value = Constants.ColorString;
+            //else
+            //    Constants.ColorString = this.color1.Value;
 
             if (string.IsNullOrEmpty(this.input_color.Value))
                 this.input_color.Value = Constants.ColorString;
@@ -129,7 +129,7 @@ namespace area23.at.www.mono
 
             try
             {
-                Constants.QrColor = Util.ColorFrom.FromHtml(this.color1.Value);
+                Constants.QrColor = Util.ColorFrom.FromHtml(this.input_color.Value);
                 qrString = GetQrString();
 
                 if (!string.IsNullOrEmpty(qrString))

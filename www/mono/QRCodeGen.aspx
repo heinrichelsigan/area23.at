@@ -164,10 +164,9 @@
 			</td>
 			<td id="td6c" class="qrcTdRight" width="18%" height="192pt" rowspan="4">
 				<span class="lefthuge">
-					<input type="color" name="color1" id="color1" ClientIDMode="Static" runat="server" onchange="newBackgroundColor(color1.value);" />&nbsp;
+					<input type="color" name="color1" id="color1" onchange="newBackgroundColor(color1.value);" />&nbsp;
 					<input id="input_color" ClientIDMode="Static" runat="server" name="selected_color" type="text" value="" size="7" />										
 					<br />
-                    <!-- asp:TextBox id="TextBox_Color" name="TextBox_Color" ClientIDMode="Static" TextMode="Color" Text="#8c1157" / <br /-->					
 					<asp:Button id="Button_QRCode" name="Button_QRCode" runat="server" ClientIDMode="Static" ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />
 				</span>
 			</td>

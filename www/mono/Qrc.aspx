@@ -80,7 +80,7 @@
 			<td id="td1a" class="qrcTdRight" width="18%" height="30pt">phone:</td>
 			<td id="td1b" class="qrcTdLeft" width="32%" height="30pt">
                 <asp:TextBox ID="TextBox_Phone" runat="server" ToolTip="enter phone number" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
-                    MaxLength="84" Width="128pt" Height="24pt" TextMode="Phone" CssClass="QRTextBoxLeft" AutoCompleteType="HomePhone"></asp:TextBox>
+                    MaxLength="84" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft" AutoCompleteType="HomePhone"></asp:TextBox>
 			</td>
 			<td id="td1c" class="qrcTdRight" width="18%" height="30pt">mobile:</td>
 			<td id="td1d" class="qrcTdLeft" width="32%" height="30pt">
@@ -92,24 +92,24 @@
 			<td id="td2a" class="qrcTdRight" width="18%" height="30pt">e-mail:</td>
 			<td id="td2b" class="qrcTdLeft" width="32%" height="30pt">
                 <asp:TextBox ID="TextBox_Email" runat="server" ToolTip="enter email address" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
-                    MaxLength="128" Width="128pt" Height="24pt" TextMode="Email" CssClass="QRTextBox" AutoCompleteType="Email">office.area23@gmail.com</asp:TextBox>
+                    MaxLength="128" Width="128pt" Height="24pt" CssClass="QRTextBox" AutoCompleteType="Email">office.area23@gmail.com</asp:TextBox>
 			</td>
 			<td id="td2c" class="qrcTdRight" width="18%" height="30pt">www:</td>
 			<td id="td2d" class="qrcTdLeft" width="32%" height="30pt">
                 <asp:TextBox ID="TextBox_Web" runat="server" ToolTip="enter www web site" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
-                    MaxLength="128" Width="128pt" Height="24pt" TextMode="Url" CssClass="QRTextBox" AutoCompleteType="Homepage">https://area23.at/</asp:TextBox>
+                    MaxLength="128" Width="128pt" Height="24pt"  CssClass="QRTextBox" AutoCompleteType="Homepage">https://area23.at/</asp:TextBox>
 			</td>
 		</tr>				
 		<tr id="tr3" class="qrcTr">
 			<td id="td3a" class="qrcTdRight" width="18%" height="30pt">country:</td>
 			<td id="td3b" class="qrcTdLeft" width="32%" height="30pt">
                 <asp:TextBox ID="TextBox_Coutry" runat="server" ToolTip="Enter country here" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
-                    MaxLength="84" Width="128pt" Height="24pt" TextMode="SingleLine" CssClass="ButtonTextBox" AutoCompleteType="HomeState">Austria</asp:TextBox>
+                    MaxLength="84" Width="128pt" Height="24pt"  CssClass="ButtonTextBox" AutoCompleteType="HomeState">Austria</asp:TextBox>
 			</td>
 			<td id="td3c" class="qrcTdRight" width="18%" height="30pt">region:</td>
 			<td id="td3d" class="qrcTdLeft" width="32%" height="30pt">
 				<asp:TextBox ID="TextBox_Region" runat="server" ToolTip="Enter region here" OnTextChanged="QRCode_ParameterChanged"
-					TextMode="SingleLine" AutoCompleteType="HomeCountryRegion" 
+					AutoCompleteType="HomeCountryRegion" 
 					MaxLength="84" Width="128pt" Height="24pt" CssClass="ButtonTextBox">Europe</asp:TextBox>				
 			</td>
 		</tr>
@@ -117,7 +117,7 @@
 			<td id="td4a" class="qrcTdRight" width="18%" height="30pt">city:</td>
 			<td id="td4b" class="qrcTdLeft" width="32%" height="30pt">
                 <asp:TextBox ID="TextBox_City" runat="server" ToolTip="Enter city name" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
-                    MaxLength="84" Width="128pt" Height="24pt" TextMode="SingleLine" CssClass="QRTextBoxLeft" AutoCompleteType="HomeCity">Vienna</asp:TextBox>
+                    MaxLength="84" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft" AutoCompleteType="HomeCity">Vienna</asp:TextBox>
 			</td>
 			<td id="td4c" class="qrcTdRight" width="18%" height="30pt">zip code:</td>
 			<td id="td4d" class="qrcTdLeft" width="325%" height="30pt">
@@ -129,7 +129,7 @@
 			<td id="td5a" class="qrcTdRight" width="18%" height="30pt">street:</td>
 			<td id="td5b" class="qrcTdLeft" width="32%" height="30pt">
                 <asp:TextBox ID="TextBox_Street" runat="server" ToolTip="Enter street name" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
-                    MaxLength="128" Width="128pt" Height="24pt" TextMode="SingleLine" CssClass="QRTextBoxLeft" AutoCompleteType="HomeStreetAddress">Theresianumgasse</asp:TextBox>
+                    MaxLength="128" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft" AutoCompleteType="HomeStreetAddress">Theresianumgasse</asp:TextBox>
 			</td>
 			<td id="td5c" class="qrcTdRight" width="18%" height="30pt">house nr:</td>
 			<td id="td5d" class="qrcTdLeft" width="32%" height="30pt">
@@ -147,10 +147,9 @@
 			</td>
 			<td id="td6c" class="qrcTdRight" width="18%" height="192pt" rowspan="4">
 				<span class="lefthuge">
-					<input type="color" name="color1" id="color1" ClientIDMode="Static" runat="server" onchange="newBackgroundColor(color1.value);" />&nbsp;
+					<input type="color" name="color1" id="color1" onchange="newBackgroundColor(color1.value);" />&nbsp;
 					<input id="input_color" ClientIDMode="Static" runat="server" name="selected_color" type="text" value="" size="7"  />	
 					<br />
-                    <!-- asp:TextBox id="TextBox_Color" name="TextBox_Color" run@="cerver" ClientIDMode="Static" TextMode="Color" Text="#8c1157" / <br /-->
 					<asp:Button id="Button_QRCode" name="Button_QRCode" runat="server" ClientIDMode="Static" ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />
 				</span>
 			</td>
