@@ -106,7 +106,7 @@
 					MaxLength="84" Width="128pt" Height="24pt" CssClass="ButtonTextBox"
 					onkeypress="if (QRCodeGen_TextBoxKeyHandler(event) == false) return false;" 
 					onchange="highLightOnChange('TextBox_Coutry')">Austria</asp:TextBox>
-			</td>
+			</td> 
 			<td id="td3c" class="qrcTdRight" width="18%" height="30pt">region:</td>
 			<td id="td3d" class="qrcTdLeft" width="32%" height="30pt">
 				<asp:TextBox ID="TextBox_Region" runat="server" ToolTip="Enter region here"
