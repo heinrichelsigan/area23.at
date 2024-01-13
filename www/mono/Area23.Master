@@ -8,6 +8,7 @@
         <title>area23.at.www.mono</title>    
         <link rel="stylesheet" href="res/area23.at.www.mono.css" />
         <meta name="author" content="Heinrich Elsigan" />   
+        <script src="res/js/area23.js" />
     </asp:ContentPlaceHolder>
 </head>
 <body>

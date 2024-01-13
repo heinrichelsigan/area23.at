@@ -22,34 +22,7 @@
     </noscript>
     <link rel="stylesheet" href="https://area23.at/css/fortune.css" />
     <title>Fortune Mono WebApi</title>
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-01S65129V7"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments); }
-            gtag('js', new Date());
-
-            gtag('config', 'G-01S65129V7');
-        </script>
-        <script type="text/javascript">
-            function reloadFortune() {
-
-                var url = "https://darkstar.work/mono/fortune/";
-                var delay = 16000;
-
-                if (document.getElementById("ButtonHidden") == null) {
-                    setTimeout(function () { window.location.href = "https://darkstar.work/mono/fortune/"; }, delay); // will call the function after 8 secs.
-                    return;
-                }
-
-                setTimeout(
-                    function () {
-                        // alert("document.getElementById(\"ButtonHidden\").innerText = " + document.getElementById("ButtonHidden").innerText + " !");
-                        document.getElementById("ButtonHidden").click();
-                    },
-                    delay); // will call the function after 16 secs.
-            }
-        </script>
+    <script async src="res/js/area23.js"></script>
 </head>
 
 <script runat="server" language="C#">

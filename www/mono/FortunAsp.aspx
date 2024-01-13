@@ -5,15 +5,7 @@
     <link rel="stylesheet" href="https://area23.at/css/fortune.css" />
     <link rel="stylesheet" href="res/area23.at.www.mono.css" />
     <title>fortune (apache2 mod_mono)</title>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-01S65129V7"></script>
-    <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-01S65129V7');
-    </script>
+    
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
     <div class="fortuneDiv" align="left">

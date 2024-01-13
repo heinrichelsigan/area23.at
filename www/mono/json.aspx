@@ -173,16 +173,7 @@
     <link rel="stylesheet" href="https://area23.at/css/fortune.css" />
     <link rel="stylesheet" href="res/area23.at.www.mono.css" />
     <title>json ser (apache2 mod_mono)</title>
-    <!-- Google tag (gtag.js) -->    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-01S65129V7"></script>
-    <script>
-
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-01S65129V7');
-    </script>
+    <script async src="res/js/area23.js"></script>
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">            
     <asp:Literal ID="LiteralDateTime" runat="server"></asp:Literal>

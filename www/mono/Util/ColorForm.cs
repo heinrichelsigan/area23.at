@@ -45,9 +45,15 @@ namespace area23.at.www.mono.Util
                     String.Format("area23.at.www.mono.Util.ColorForm.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
 
             string rgbWork = hex.TrimStart("#".ToCharArray());
-            int r = Convert.ToUInt16(rgbWork.Substring(0, 2).TrimStart("0".ToCharArray()), 16);
-            int g = Convert.ToUInt16(rgbWork.Substring(2, 2).TrimStart("0".ToCharArray()), 16);
-            int b = Convert.ToUInt16(rgbWork.Substring(4, 2).TrimStart("0".ToCharArray()), 16);
+            string colSeg = rgbWork.Substring(0, 2);
+            colSeg = (colSeg.Contains("00")) ? "0" : colSeg.TrimStart("0".ToCharArray());
+            int r = Convert.ToUInt16(colSeg, 16);
+            colSeg = rgbWork.Substring(2, 2);
+            colSeg = (colSeg.Contains("00")) ? "0" : colSeg.TrimStart("0".ToCharArray());
+            int g = Convert.ToUInt16(colSeg, 16);
+            colSeg = rgbWork.Substring(4, 2);
+            colSeg = (colSeg.Contains("00")) ? "0" : colSeg.TrimStart("0".ToCharArray());
+            int b = Convert.ToUInt16(colSeg, 16);
 
             return System.Drawing.Color.FromArgb(r, g, b);
         }

@@ -12,15 +12,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="res/area23.at.www.mono.css" />
     <title>Octal Dump (od) apache2 mod_mono C#</title>
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-01S65129V7"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments); }
-            gtag('js', new Date());
-
-            gtag('config', 'G-01S65129V7');
-        </script>
+    <script async src="res/js/area23.js"></script>
 </head>
 
 <script runat="server" language="C#">

@@ -4,31 +4,40 @@
     https://area23.at/test/cgi/od.html
 */
 
-var theForm;
+var odForm, odUrl;
 
-function GetForm() {
-    if (document.getElementById) { theForm = document.getElementById('form1'); }
-    else { theForm = document.form1; }
+function VerifyOdUrl() {
+    const urlWindowLocation = new URL(window.location.toLocaleString());
+    odUrl = new URL(urlWindowLocation);
+    if ((odUrl.indexOf("od") > -1) ||
+        (odUrl.indexOf("Octal") > -1) ||
+        (odUrl.indexOf("HexDump") > -1))
+            return true;
+    return false;
 }
 
-function WebForm_TextBoxKeyHandler(event) {
-    var target = event.target;
-    if ((target == null) || (typeof (target) == "undefined"))
-        target = event.srcElement;
-    if (event.keyCode == 13) {
-        if ((typeof (target) != "undefined") && (target != null)) {
-            if (typeof (target.onchange) != "undefined") {
-                target.onchange();
-                event.cancelBubble = true;
-                if (event.stopPropagation) event.stopPropagation();
-                return false;
-            }
-        }
+
+function GetOdForm() {
+    odForm = null;
+    var possibleForms = ["Area23MasterForm", "form1", "form", "form0", "from2"];
+    let _form_Id = "";
+
+    possibleForms.forEach(function (_form_Id) {
+        if (odForm == null)
+            odForm = document.getElementById(_form_Id);
+    });
+    if (odForm == null) {
+        var allForms = document.getElementsByTagName("form");
+        if (allForms != null && allForms.length > 0)
+            odForm = allForms[0];
     }
-    return true;
+    return odForm;
 }
 
-function FormSubmit() {
-    GetForm();
-    theForm.submit();
+function OdFormSubmit() {
+    odForm = GetOdForm();
+    if (odForm != null && VerifyOdUrl())
+        odForm.submit();
 }
+
+function FormSubmit() { OdFormSubmit(); }

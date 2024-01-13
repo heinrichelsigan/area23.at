@@ -4,63 +4,12 @@
 	<link rel="stylesheet" href="res/area23.at.www.mono.css" />
 	<meta name="keywords" content="QR code generator" />
 	<meta name="description" content="https://github.com/codebude/QRCoder/" />
+	<script async src="res/js/area23.js"></script>
 	<script>
-
-        function newBackgroundColor(color) {
-            // document.bgColor = color;
-
-            // try {
-            //     if (document.getElementById("TextBox_Color") != null) {
-            //         let textBoxColorId = document.getElementById("TextBox_Color");
-            //         textBoxColorId.title = color;
-            //         textBoxColorId.setAttribute("text", color);
-            //         textBoxColorId.setAttribute("qrcolor", color);
-            //         textBoxColorId.value = color;
-            //         textBoxColorId.style.borderColor = color;
-            //         // textBoxColorId.style.backgroundColor = color;
-            //     }
-            // } catch (exCol) {
-            //     alert("getElementById('TextBox_Color') " + exCol);
-            // }
-
-            try {
-                if (document.getElementById("Button_QRCode") != null) {
-                    var buttonQRCode = document.getElementById("Button_QRCode");
-                    buttonQRCode.setAttribute("qrcolor", color);
-                    buttonQRCode.style.borderColor = color;
-                    // buttonQRCode.style.backgroundColor = color;
-                    // buttonQRCode.setAttribute("BackColor", color);
-                    // buttonQRCode.setAttribute("ToolTip", color);
-                }
-
-                if (document.getElementById("input_color") != null) {
-                    var inputcolor = document.getElementById("input_color");
-                    inputcolor.setAttribute("Text", color);
-                    inputcolor.setAttribute("qrcolor", color);
-                    inputcolor.value = color;
-                    inputcolor.style.borderColor = color;
-                    inputcolor.style.textColor = color;
-                    // inputcolor.style.backgroundColor = color;
-                }
-            } catch (exCol) {
-                alert("getElementsById('input_color') " + exCol);
-            }
-            // try {
-            //     if (document.getElementsByName("selected_color") != null) {
-            //         var inputcolors = document.getElementsByName("selected_color");
-            //         inputcolors.value = color;
-            //         inputcolors.setAttribute("text", color);
-            //         inputcolors.setAttribute("qrcolor", color);
-            // 		inputcolors.style.borderColor = color;
-            //         inputcolors.style.textColor = color;
-            //         // inputcolors.style.backgroundColor = color;
-            //     }
-            // } catch (exCol) {
-            //     alert("getElementsByName('selected_color') " + exCol);
-            // }
-        }
-
-    </script>"
+		window.onload = function () {
+			setColorPicker();
+        }; 
+    </script>
 </asp:Content>
 <asp:Content ID="QrBodyContent" ContentPlaceHolderID="QrBody" runat="server">
 	<table class="qrcTable" border="0" cellpadding="0" cellpadding="0">

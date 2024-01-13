@@ -227,6 +227,8 @@
     <Content Include="res\img\walk7m.png" />
     <Content Include="res\img\wood0b.png" />
     <Content Include="res\img\wood0t.png" />
+    <Content Include="res\js\gtag.js" />
+    <Content Include="res\js\area23.js" />
     <Content Include="res\js\fortune.js" />
     <Content Include="res\js\frga.js" />
     <Content Include="res\js\frog.js" />
