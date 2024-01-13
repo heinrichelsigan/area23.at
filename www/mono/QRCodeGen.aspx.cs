@@ -1,10 +1,13 @@
 ﻿using QRCoder;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Drawing.Imaging;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -16,45 +19,7 @@ namespace area23.at.www.mono
 {
     public partial class QRCodeGen : QrBase
     {
-        string[] colors = { "#8c1157", "#991111", "#2211ee", "#22dd22", "#666666" };
-        Random rand;
         internal static List<Control> listControl = null;
-
-        public string RandomizeColor
-        {
-            get
-            {
-                if (rand == null)
-                {
-                    rand = new Random(System.DateTime.Now.Millisecond);
-                }
-                int colorIdx = rand.Next(colors.Length);
-                return colors[colorIdx];
-            }
-        }
-
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            if (!Page.IsPostBack)
-            {
-                this.TextBox_Color.Text = "#8c1157";
-                ResetFormElements();
-                // GenerateQRImage();
-            }
-        }
-
-
-
-        protected void QRCode_ParameterChanged(object sender, EventArgs e)
-        {
-            QRBase_ElementChanged(sender, e);
-        }
-
-        protected virtual void ResetFormElements()
-        {
-            ResetChangedElements();
-        }
-
         public Control[] TextControls
         {
             get
@@ -84,6 +49,28 @@ namespace area23.at.www.mono
             }
         }
 
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!Page.IsPostBack)
+            {
+                // this.input_color.Value = "#8c1157";
+                ResetFormElements();
+                // GenerateQRImage();
+            }
+        }
+
+
+
+        protected void QRCode_ParameterChanged(object sender, EventArgs e)
+        {
+            QRBase_ElementChanged(sender, e);
+        }
+
+        protected virtual void ResetFormElements()
+        {
+            ResetChangedElements();
+        }
 
         protected override void ResetChangedElements()
         {
@@ -120,30 +107,41 @@ namespace area23.at.www.mono
         }
 
 
-
-
-        
         protected override void GenerateQRImage(string qrString = "")
-        {            
+        {
             Bitmap aQrBitmap = null;
+
+            if (string.IsNullOrEmpty(this.color1.Value))
+                this.color1.Value = Constants.ColorString;
+            else
+                Constants.ColorString = this.color1.Value;
+
+            if (string.IsNullOrEmpty(this.input_color.Value))
+                this.input_color.Value = Constants.ColorString;
+            else
+                Constants.ColorString = this.input_color.Value;
+
+            var attrs = new Dictionary<String, String>();
+            foreach (var key in this.Button_QRCode.Attributes.Keys)
+            {
+                var attrVal = this.Button_QRCode.Attributes[key.ToString()];
+                attrs.Add(key.ToString(), attrVal.ToString());
+            }
+
+
+            if (this.Button_QRCode.Attributes["qrcolor"] != null)
+                this.Button_QRCode.Attributes["qrcolor"] = Constants.ColorString;
+            else
+                this.Button_QRCode.Attributes.Add("qrcode", Constants.ColorString);
+
             try
             {
+                Constants.QrColor = Util.ColorFrom.FromHtml(this.color1.Value);
                 qrString = GetQrString();
-                if (string.IsNullOrEmpty(this.TextBox_Color.Text))
-                    this.TextBox_Color.Text = RandomizeColor;
-                Color c = ColorFrom.FromHtml("#8c1157");
-                try
-                {
-                    c = ColorFrom.FromHtml(this.TextBox_Color.Text);
-                }
-                catch
-                {
-                    c = ColorFrom.FromHtml("#8c1157");
-                }
-                // 8lor.FromHtml()
+
                 if (!string.IsNullOrEmpty(qrString))
                 {
-                    aQrBitmap = GetQRBitmap(qrString, c);
+                    aQrBitmap = GetQRBitmap(qrString, Constants.QrColor);
                 }
                 if (aQrBitmap != null)
                 {

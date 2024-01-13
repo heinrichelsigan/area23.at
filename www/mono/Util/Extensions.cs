@@ -46,7 +46,7 @@ namespace area23.at.www.mono.Util
         {
             if (String.IsNullOrWhiteSpace(hex) || hex.Length != 7 || !hex.StartsWith("#"))
                 throw new ArgumentException(
-                    $"System.Drawing.Color.FromHtml(string hex = {hex}), hex must be an rgb string in format \"#rdgdbd\" like \"#3F230E\"!");
+                    String.Format("System.Drawing.Color.FromHtml(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
 
             Color _color = System.Drawing.ColorTranslator.FromHtml(hex);
             return _color;
@@ -63,7 +63,7 @@ namespace area23.at.www.mono.Util
             // return Supu.Framework.Extensions.ColorFrom.FromXrgb(hex);
             if (String.IsNullOrWhiteSpace(hex) || hex.Length != 7 || !hex.StartsWith("#"))
                 throw new ArgumentException(
-                    $"System.Drawing.Color.FromXrgb(string hex = {hex}), hex must be an rgb string in format \"#rdgdbd\" like \"#3F230E\"!");
+                    String.Format("System.Drawing.Color.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rdgdbd\" like \"#3f230e\"!", hex));
 
             string rgbWork = hex.TrimStart("#".ToCharArray());
             int r = Convert.ToUInt16(rgbWork.Substring(0, 2).TrimStart("0".ToCharArray()), 16);
@@ -103,7 +103,7 @@ namespace area23.at.www.mono.Util
             string bx = color.B.ToString("X");
             bx = (bx.Length > 1) ? bx : "0" + bx;
 
-            string hex = $"#{rx}{bx}{gx}";
+            string hex = String.Format("#{0}{1}{2}", rx, gx, bx);
             return hex.ToLower();
         }
 

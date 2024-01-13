@@ -15,48 +15,12 @@ using area23.at.www.mono.Util;
 namespace area23.at.www.mono
 {
     public partial class Qrc : QrBase
-    {
-        string[] colors = { "#8c1157", "#991111", "#2211ee", "#22dd22", "#666666" };
-        Random rand;
+    {        
         internal static List<Control> listControl = null;
-
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            if (!Page.IsPostBack)
-            {
-                this.TextBox_Color.Text = "#8c1157";
-                ResetFormElements();
-                GenerateQRImage();
-            }
-        }
-
-        protected void QRCode_ParameterChanged(object sender, EventArgs e)
-        {
-            QRBase_ElementChanged(sender, e);
-        }
-
-
-        public string RandomizeColor
-        {
-            get
-            {
-                if (rand == null)
-                {
-                    rand = new Random(System.DateTime.Now.Millisecond);
-                }
-                int colorIdx = rand.Next(colors.Length);
-                return colors[colorIdx];
-            }
-        }
-
-        protected virtual void ResetFormElements()
-        {
-            ResetChangedElements();
-        }
 
         public Control[] TextControls
         {
-            get 
+            get
             {
                 if (listControl == null)
                 {
@@ -83,11 +47,35 @@ namespace area23.at.www.mono
             }
         }
 
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!Page.IsPostBack)
+            {
+                // this.TextBox_Color.Text = "#8c1157";
+                // this.input_color.Value = "#8c1157";
+                ResetFormElements();
+                GenerateQRImage();
+            }
+        }
+
+        protected void QRCode_ParameterChanged(object sender, EventArgs e)
+        {
+            QRBase_ElementChanged(sender, e);
+        }
+
+
+
+
+        protected virtual void ResetFormElements()
+        {
+            ResetChangedElements();
+        }
+
         protected override void ResetChangedElements()
         {
             // base.ResetChangedElements();
 
-            foreach (var ctrl in TextControls)
+            foreach (var ctrl in ((QRMaster)this.Master).MasterForm.Controls)
             {
                 if (ctrl is TextBox)
                 {
@@ -99,14 +87,77 @@ namespace area23.at.www.mono
                     // }
                 }
             }
+
+            foreach (var ctrl in TextControls)
+            {
+                if (((TextBox)(ctrl)).BorderColor == Color.Red)
+                {
+                    ((TextBox)(ctrl)).BorderColor = Color.Black;
+                    ((TextBox)(ctrl)).BorderStyle = BorderStyle.Solid;
+                    ((TextBox)(ctrl)).BorderWidth = 1;
+                }
+            }
         }
+
 
         protected void Button_QRCode_Click(object sender, EventArgs e)
         {
             ResetFormElements();
             GenerateQRImage();
         }
-       
+
+
+        protected override void GenerateQRImage(string qrString = "")
+        {
+            Bitmap aQrBitmap = null;
+
+            if (string.IsNullOrEmpty(this.color1.Value))
+                this.color1.Value = Constants.ColorString;
+            else
+                Constants.ColorString = this.color1.Value;
+
+            if (string.IsNullOrEmpty(this.input_color.Value))
+                this.input_color.Value = Constants.ColorString;
+            else
+                Constants.ColorString = this.input_color.Value;
+
+
+            if (this.Button_QRCode.Attributes["qrcolor"] != null)
+                this.Button_QRCode.Attributes["qrcolor"] = Constants.ColorString;
+            else
+                this.Button_QRCode.Attributes.Add("qrcode", Constants.ColorString);
+
+            try
+            {
+                Constants.QrColor = Util.ColorFrom.FromHtml(this.color1.Value);
+                qrString = GetQrString();
+
+                if (!string.IsNullOrEmpty(qrString))
+                {
+                    aQrBitmap = GetQRBitmap(qrString, Constants.QrColor);
+                }
+                if (aQrBitmap != null)
+                {
+                    SetQRImage(aQrBitmap);
+                }
+            }
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);
+                ErrorDiv.Visible = true;
+                ErrorDiv.InnerHtml = "<p style=\"font-size: large; color: red\">" + ex.Message + "</p>\r\n" +
+                    "<!-- " + ex.ToString() + " -->\r\n" +
+                    "<!-- " + ex.StackTrace.ToString() + " -->\r\n";
+            }
+        }
+
+
+        protected virtual string GetQrStringFromForm(System.Web.UI.HtmlControls.HtmlForm form)
+        {
+            return GetQrString();
+        }
+
+
         protected override string GetQrString()
         {
             DateTime? dateTime = null;
@@ -133,52 +184,6 @@ namespace area23.at.www.mono
             return qrString;
         }
 
-
-
-        protected override void GenerateQRImage(string qrString = "")
-        {
-            Bitmap aQrBitmap = null;
-            try
-            {
-                qrString = GetQrString();
-                if (string.IsNullOrEmpty(this.TextBox_Color.Text))
-                {
-                    this.TextBox_Color.Text = RandomizeColor;
-                }
-                Color c = ColorFrom.FromHtml("#8c1157");
-                try
-                {
-                    c = Util.ColorFrom.FromHtml(this.TextBox_Color.Text);
-                }
-                catch
-                {
-                    c = ColorFrom.FromHtml("#8c1157");
-                }
-                // 8lor.FromHtml()
-                if (!string.IsNullOrEmpty(qrString))
-                {
-                    aQrBitmap = GetQRBitmap(qrString, c);
-                }
-                if (aQrBitmap != null)
-                {
-                    SetQRImage(aQrBitmap);
-                }
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogStatic(ex);
-                ErrorDiv.Visible = true;
-                ErrorDiv.InnerHtml = "<p style=\"font-size: large; color: red\">" + ex.Message + "</p>\r\n" +
-                    "<!-- " + ex.ToString() + " -->\r\n" +
-                    "<!-- " + ex.StackTrace.ToString() + " -->\r\n";
-            }
-        }
-
-        protected virtual string GetQrStringFromForm(System.Web.UI.HtmlControls.HtmlForm form)
-        {
-            return GetQrString();
-        }
-       
 
         protected override void SetQRImage(Bitmap qrImage)
         {

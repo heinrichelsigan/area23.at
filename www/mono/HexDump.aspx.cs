@@ -118,6 +118,7 @@ namespace area23.at.www.mono
                         }
                         catch (Exception ex)
                         {
+                            Area23Log.LogStatic(ex);
                         }
                         break;
                     case 'x': outPut += String.Format("{0:x7}\t", (wordWidth * j)); break;

@@ -76,6 +76,7 @@ namespace area23.at.www.mono.Util
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine("area23.at.www.mono Exception: " + e.ToString());
                 }
             }
             try
@@ -87,6 +88,7 @@ namespace area23.at.www.mono.Util
             }
             catch (Exception e)
             {
+                Console.WriteLine("area23.at.www.mono Exception: " + e.ToString());
             }
         }
 

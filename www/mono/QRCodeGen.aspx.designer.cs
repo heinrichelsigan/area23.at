@@ -141,6 +141,15 @@ namespace area23.at.www.mono
         protected global::System.Web.UI.WebControls.TextBox TextBox_Org;
 
         /// <summary>
+        /// color1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl color1;
+
+        /// <summary>
         /// input_color control.
         /// </summary>
         /// <remarks>
@@ -148,15 +157,6 @@ namespace area23.at.www.mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText input_color;
-
-        /// <summary>
-        /// TextBox_Color control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_Color;
 
         /// <summary>
         /// Button_QRCode control.

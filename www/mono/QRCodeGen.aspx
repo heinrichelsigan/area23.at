@@ -29,21 +29,6 @@
             // document.bgColor = color;
 
             try {
-                if (document.getElementById("TextBox_Color") != null) {
-                    let textBoxColorId = document.getElementById("TextBox_Color");
-                    textBoxColorId.title = color;
-                    textBoxColorId.setAttribute("text", color);
-                    textBoxColorId.setAttribute("qrcolor", color);
-                    textBoxColorId.value = color;
-                    textBoxColorId.style.borderColor = color;
-                    // textBoxColorId.style.backgroundColor = color;
-                }
-            } catch (exCol) {
-                alert("getElementById('TextBox_Color') " + exCol);
-            }
-
-
-            try {
                 if (document.getElementById("Button_QRCode") != null) {
                     var buttonQRCode = document.getElementById("Button_QRCode");
                     buttonQRCode.setAttribute("qrcolor", color);
@@ -52,23 +37,7 @@
                     // buttonQRCode.setAttribute("BackColor", color);
                     // buttonQRCode.setAttribute("ToolTip", color);
                 }
-            } catch (exCol) {
-                alert("getElementById('Button_QRCode') " + exCol);
-            }
-            try {
-                if (document.getElementsByName("Button_QRCode") != null) {
-                    var buttonQRCodes = document.getElementsByName("Button_QRCode");
-                    buttonQRCodes[0].setAttribute("qrcolor", color);
-                    buttonQRCodes[0].style.borderColor = color;
-                    // buttonQRCodes[0].style.backgroundColor = color;
-                    // buttonQRCodes[0].setAttribute("BackColor", color);
-                    // buttonQRCodes[0].setAttribute("ToolTip", color);
-                }
-            } catch (exCol) {
-                alert("getElementsByName('Button_QRCode') " + exCol);
-            }
-
-            try {
+            
                 if (document.getElementById("input_color") != null) {
                     var inputcolor = document.getElementById("input_color");
                     inputcolor.setAttribute("Text", color);
@@ -80,20 +49,7 @@
                 }
             } catch (exCol) {
                 alert("getElementsById('input_color') " + exCol);
-            }
-            try {
-                if (document.getElementsByName("selected_color") != null) {
-                    var inputcolors = document.getElementsByName("selected_color");
-                    inputcolors.value = color;
-                    inputcolors.setAttribute("text", color);
-                    inputcolors.setAttribute("qrcolor", color);
-					inputcolors.style.borderColor = color;
-                    inputcolors.style.textColor = color;
-                    // inputcolors.style.backgroundColor = color;
-                }
-            } catch (exCol) {
-                alert("getElementsByName('selected_color') " + exCol);
-            }
+            }           
         }
 
     </script>
@@ -208,12 +164,10 @@
 			</td>
 			<td id="td6c" class="qrcTdRight" width="18%" height="192pt" rowspan="4">
 				<span class="lefthuge">
-					<input type="color" name="color1" id="color1" onchange="newBackgroundColor(color1.value);" />
+					<input type="color" name="color1" id="color1" ClientIDMode="Static" runat="server" onchange="newBackgroundColor(color1.value);" />&nbsp;
+					<input id="input_color" ClientIDMode="Static" runat="server" name="selected_color" type="text" value="" size="7" />										
 					<br />
-					<input  id="input_color" ClientIDMode="Static" runat="server" name="selected_color"  type="text" />
-					<br />
-                    <asp:TextBox id="TextBox_Color" name="TextBox_Color" runat="server" ClientIDMode="Static" TextMode="Color" Text="#8c1157" />
-					<br />
+                    <!-- asp:TextBox id="TextBox_Color" name="TextBox_Color" ClientIDMode="Static" TextMode="Color" Text="#8c1157" / <br /-->					
 					<asp:Button id="Button_QRCode" name="Button_QRCode" runat="server" ClientIDMode="Static" ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />
 				</span>
 			</td>

@@ -25,7 +25,7 @@ namespace area23.at.www.mono.Util
 
             if (String.IsNullOrWhiteSpace(hex) || hex.Length != 7 || !hex.StartsWith("#"))
                 throw new ArgumentException(
-                    $"Supu.Framework.Extensions.ColorFrom.FromHtml(string hex = {hex}), hex must be an rgb string in format \"#rdgdbd\" like \"#3F230E\"!");
+                    String.Format("area23.at.www.mono.Util.ColorForm.FromHtml(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
 
             Color _color = System.Drawing.ColorTranslator.FromHtml(hex);
             return _color;
@@ -42,7 +42,7 @@ namespace area23.at.www.mono.Util
         {
             if (String.IsNullOrWhiteSpace(hex) || hex.Length != 7 || !hex.StartsWith("#"))
                 throw new ArgumentException(
-                    $"Supu.Framework.Extensions.ColorFrom.FromXrgb(string hex = {hex}), hex must be an rgb string in format \"#rdgdbd\" like \"#3F230E\"!");
+                    String.Format("area23.at.www.mono.Util.ColorForm.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
 
             string rgbWork = hex.TrimStart("#".ToCharArray());
             int r = Convert.ToUInt16(rgbWork.Substring(0, 2).TrimStart("0".ToCharArray()), 16);

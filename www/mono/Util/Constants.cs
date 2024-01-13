@@ -6,7 +6,7 @@ using System.Web;
 namespace area23.at.www.mono.Util
 {
     public static class Constants
-    {        
+    {
         public const string APPNAME = "area23.at.www.mono";
         public const string APPDIR = "mono";
         public const string VERSION = "v2.11.33";
@@ -43,7 +43,7 @@ namespace area23.at.www.mono.Util
                                 ToString().Split(',').FirstOrDefault();
                             defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
                         }
-                        
+
                         locale = new System.Globalization.CultureInfo(defaultLang);
                     }
                     catch (Exception)
@@ -69,6 +69,48 @@ namespace area23.at.www.mono.Util
         }
 
         public static string DateFile { get => DateArea23.Replace(WHITESPACE, UNDERSCORE).Replace(ANNOUNCE, UNDERSCORE); }
+
+        private static string colorString = "#8c1157";
+        public static string ColorString
+        {
+            get => colorString;
+            set
+            {
+                qrColor = ColorFrom.FromXrgb(value);
+                colorString = qrColor.ToXrgb();
+            }
+        }
+         
+        private static System.Drawing.Color qrColor;
+        public static System.Drawing.Color QrColor
+        {
+            get
+            {       
+                try
+                {
+                    qrColor = ColorFrom.FromXrgb(colorString);
+                }
+                catch (Exception)
+                {
+                    colorString = "#8c1157";
+                    qrColor = ColorFrom.FromXrgb(colorString);
+                }
+                return qrColor;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    qrColor = value;
+                    colorString = value.ToXrgb();
+                }
+                else
+                {
+                    colorString = "#8c1157";
+                    qrColor = ColorFrom.FromHtml(colorString);
+                }
+            }                
+        } 
 
         public static bool FortuneBool
         {
