@@ -65,7 +65,7 @@ namespace area23.at.www.mono
             {                
                 if (!string.IsNullOrEmpty(qrString))
                 {
-                    aQrBitmap = GetQRBitmap(qrString);
+                    aQrBitmap = GetQRBitmap(qrString, Color.FromArgb(140, 17, 87));
                 }
                 if (aQrBitmap != null)
                 {
@@ -88,15 +88,18 @@ namespace area23.at.www.mono
         /// <param name="qrString"></param>
         /// <returns><see cref="Bitmap"/></returns>
         /// <exception cref="ArgumentNullException">thrown, when <paramref name="qrString"/> is null or ""</exception>
-        protected virtual Bitmap GetQRBitmap(string qrString)
+        protected virtual Bitmap GetQRBitmap(string qrString, Color c)
         {
             if (string.IsNullOrEmpty(qrString))
                 throw new ArgumentNullException("qrString", "Error calling GetQRBitmap(qrString = null); qrString is null...");
 
+            if (c == null)
+                c = Color.FromArgb(140, 17, 87);
+
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, QRCodeGenerator.ECCLevel.H);
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(4);
+            Bitmap qrCodeImage = qrCode.GetGraphic(4, c, Color.White, true);
             return qrCodeImage;
         }
 

@@ -7,9 +7,10 @@
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
     <INPUT id="oFile" type="file" runat="server" NAME="oFile">
-    <asp:Button ID="btnUpload" type="submit" Text="Upload" runat="server" OnClick="btnUpload_Click"></asp:button>
+    <asp:Button ID="btnUploadTrans" type="submit" Text="Transform" runat="server" OnClick="btnUploadTrans_Click"></asp:button>
+    <asp:Button ID="btnUploadRe" type="submit" Text="Reform" runat="server" OnClick="btnUploadRe_Click"></asp:button>
     <asp:Panel ID="frmConfirmation" Visible="False" Runat="server">
-        <img id="imgIn" runat="server" border="0" alt="Image uploaded" />
+        <img id="imgIn" runat="server" border="0" alt="Image uploaded" width="600" />
         <br />
         <asp:Label id="lblUploadResult" Runat="server"></asp:Label>
         <br />

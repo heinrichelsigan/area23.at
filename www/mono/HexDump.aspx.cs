@@ -72,8 +72,10 @@ namespace area23.at.www.mono
             {
                 TextBox_OdCmd.Text = odCmdPath + OdArgs;
                 preOut.InnerText = Process_HexDump(odSuidCmdPath, OdArgs);
-            } catch (Exception ex)
+            } 
+            catch (Exception ex)
             {
+                Area23Log.LogStatic(ex);
                 preOut.InnerText = GetLinesFromRandom();
             }
         }

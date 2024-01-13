@@ -1,4 +1,5 @@
-﻿using System;
+﻿using area23.at.www.mono.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,10 +18,10 @@ namespace area23.at.www.mono
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if (!this.IsPostBack)
-            //{
+            if (!this.IsPostBack)
+            {
                 NavFolderHandler(sender, e);
-            //}
+            }
             
         }
 
@@ -64,16 +65,20 @@ namespace area23.at.www.mono
                         spanCenter2.Style["background-color"] = "#ffddee";
                         return;
                     }
-                    if (this.Request.RawUrl.ToLower().Contains("frog")) {
+                    if (this.Request.RawUrl.ToLower().Contains("frog"))
+                    {
                         spanRightCenter.Style["background-color"] = "#ffddee";
                         return;
                     }
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);
+            }
 
             try
-            {          
+            {
                 if (this.Page != null && this.Page.Title != null)
                 {
                     if (this.Page.Title.ToLower().StartsWith("fortune"))
@@ -103,7 +108,10 @@ namespace area23.at.www.mono
                     }
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);
+            }
 
            
         }

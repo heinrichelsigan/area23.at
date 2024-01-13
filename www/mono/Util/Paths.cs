@@ -43,7 +43,9 @@ namespace area23.at.www.mono.Util
                     if (System.Configuration.ConfigurationManager.AppSettings["AppFolder"] != null)
                         return System.Configuration.ConfigurationManager.AppSettings["AppFolder"];
                 }
-                catch (Exception appFolder) {                   
+                catch (Exception appFolderEx) 
+                {
+                    Area23Log.LogStatic(appFolderEx);
                 }
                 return Constants.APPDIR;
             }
@@ -55,14 +57,11 @@ namespace area23.at.www.mono.Util
             {                
                 string resPath = "." + SepChar;                
 
-                    if (AppContext.BaseDirectory != null)
-                    {
-                        resPath = AppContext.BaseDirectory + SepChar;
-                    }
-                    else if (AppDomain.CurrentDomain != null)
-                    {
-                        resPath = AppDomain.CurrentDomain.BaseDirectory + SepChar;
-                    }
+                if (AppContext.BaseDirectory != null)
+                    resPath = AppContext.BaseDirectory + SepChar;
+                else if (AppDomain.CurrentDomain != null)
+                    resPath = AppDomain.CurrentDomain.BaseDirectory + SepChar;
+
                 try
                 {
                     if (HttpContext.Current != null && HttpContext.Current.Request != null && HttpContext.Current.Request.ApplicationPath != null)
@@ -72,6 +71,7 @@ namespace area23.at.www.mono.Util
                 } 
                 catch (Exception ex)
                 {
+                    Area23Log.LogStatic(ex);
                 }
 
                 // if (!resPath.Contains(AppFolder))
@@ -79,7 +79,12 @@ namespace area23.at.www.mono.Util
                 if (!resPath.Contains(Constants.RESFOLDER))
                     resPath += Constants.RESFOLDER + SepChar;
 
-                // if (!Directory.Exists(audioPath))
+                if (!Directory.Exists(resPath))
+                {
+                    string dirNotFound = String.Format("res directory {0} doesn't exist!", resPath);
+                    Area23Log.LogStatic(dirNotFound);
+                    throw new DirectoryNotFoundException(dirNotFound);
+                }
                 return resPath;
             }
         }
@@ -108,14 +113,14 @@ namespace area23.at.www.mono.Util
                 // if (!logAppPath.Contains(AppFolder))
                 //     logAppPath += AppFolder + SepChar;
 
-                logAppPath += String.Format("{0}{1}{2}_{3].log",
+                logAppPath += String.Format("{0}{1}{2}_{3}.log",
                     Constants.LOGDIR, SepChar, DateTime.UtcNow.ToString("yyyyMMdd"), Constants.APPNAME);
                 // if (Directory.Exists(logAppPath))
                 return logAppPath;
             }
         }
 
+    
 
-        
     }
 }

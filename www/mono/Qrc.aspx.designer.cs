@@ -78,13 +78,13 @@ namespace area23.at.www.mono
         protected global::System.Web.UI.WebControls.TextBox TextBox_Coutry;
 
         /// <summary>
-        /// DropDown_Country control.
+        /// TextBox_Region control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDown_Country;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Region;
 
         /// <summary>
         /// TextBox_City control.
@@ -139,6 +139,15 @@ namespace area23.at.www.mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBox_Org;
+
+        /// <summary>
+        /// TextBox_Color control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Color;
 
         /// <summary>
         /// Button_QRCode control.

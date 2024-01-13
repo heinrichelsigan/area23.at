@@ -51,44 +51,9 @@
 			</td>
 			<td id="td3c" class="qrcTdRight" width="18%" height="30pt">region:</td>
 			<td id="td3d" class="qrcTdLeft" width="32%" height="30pt">
-				<asp:DropDownList ID="DropDown_Country" runat="server" CssClass="DropDownList" ToolTip="Choose country" AutoPostBack="True" OnSelectedIndexChanged="QRCode_ParameterChanged">
-					<asp:ListItem>Africa</asp:ListItem>
-					<asp:ListItem>All America</asp:ListItem>
-					<asp:ListItem>North America</asp:ListItem>
-					<asp:ListItem>Canada</asp:ListItem>	
-					<asp:ListItem>United States of America</asp:ListItem>
-					<asp:ListItem>Middle America</asp:ListItem>
-					<asp:ListItem>Mexico</asp:ListItem>
-					<asp:ListItem>South America</asp:ListItem>
-					<asp:ListItem>Argentinia</asp:ListItem>
-					<asp:ListItem>Brazil</asp:ListItem>
-					<asp:ListItem>Chile</asp:ListItem>	
-					<asp:ListItem>Europe</asp:ListItem>	
-					<asp:ListItem Selected="True">Austria</asp:ListItem>	    
-					<asp:ListItem>France</asp:ListItem>
-					<asp:ListItem>Germany</asp:ListItem>
-					<asp:ListItem>Great Britain</asp:ListItem>
-					<asp:ListItem>United Kingdom</asp:ListItem>
-					<asp:ListItem>Middle East</asp:ListItem>
-					<asp:ListItem>Iran</asp:ListItem>
-					<asp:ListItem>Israel</asp:ListItem>	
-					<asp:ListItem>Saudi Arabia</asp:ListItem>
-					<asp:ListItem>United Arab Emirates</asp:ListItem>
-					<asp:ListItem>Russian federation</asp:ListItem>
-					<asp:ListItem>Russia</asp:ListItem>
-					<asp:ListItem>Belarus</asp:ListItem>
-					<asp:ListItem>Bangladesh</asp:ListItem>
-					<asp:ListItem>India</asp:ListItem>
-					<asp:ListItem>Pakistan</asp:ListItem>		
-					<asp:ListItem>Australia</asp:ListItem>    
-					<asp:ListItem>Eurasia</asp:ListItem>
-					<asp:ListItem>Asia</asp:ListItem>	
-					<asp:ListItem>China</asp:ListItem>	
-					<asp:ListItem>Japan</asp:ListItem>
-					<asp:ListItem>Korea</asp:ListItem>
-					<asp:ListItem>Oceania</asp:ListItem>	
-					<asp:ListItem>Antarctica</asp:ListItem>
-				</asp:DropDownList>
+				<asp:TextBox ID="TextBox_Region" runat="server" ToolTip="Enter region here" OnTextChanged="QRCode_ParameterChanged"
+					TextMode="SingleLine" AutoCompleteType="HomeCountryRegion" 
+					MaxLength="84" Width="128pt" Height="24pt" CssClass="ButtonTextBox">Europe</asp:TextBox>				
 			</td>
 		</tr>
 		<tr id="tr4" class="qrcTr">
@@ -125,6 +90,8 @@
 			</td>
 			<td id="td6c" class="qrcTdRight" width="18%" height="192pt" rowspan="4">
 				<span class="lefthuge">
+					<asp:TextBox ID="TextBox_Color" runat="server" ToolTip="Enter color for QRCode" TextMode="Color" Text="#8c1157" />
+					<br />
 					<asp:Button ID="Button_QRCode" runat="server" ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />
 				</span>
 			</td>

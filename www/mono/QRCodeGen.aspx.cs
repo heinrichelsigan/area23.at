@@ -10,6 +10,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using static QRCoder.PayloadGenerator;
 using System.Runtime.CompilerServices;
+using area23.at.www.mono.Util;
 
 namespace area23.at.www.mono
 {
@@ -31,25 +32,56 @@ namespace area23.at.www.mono
 
         protected virtual void ResetFormElements()
         {
-            base.ResetChangedElements();
+            ResetChangedElements();
+        }
+
+        public Control[] TextControls
+        {
+            get
+            {
+                List<Control> list = new List<Control>();
+                list.Add(this.TextBox_City);
+                list.Add(this.TextBox_Coutry);
+                list.Add(this.TextBox_Email);
+                list.Add(this.TextBox_FirstName);
+                list.Add(this.TextBox_LastName);
+                list.Add(this.TextBox_Mobile);
+                list.Add(this.TextBox_Note);
+                list.Add(this.TextBox_Org);
+                list.Add(this.TextBox_OrgTitle);
+                list.Add(this.TextBox_Phone);
+                list.Add(this.TextBox_Region);
+                list.Add(this.TextBox_Street);
+                list.Add(this.TextBox_StreetNr);
+                list.Add(this.TextBox_Web);
+                list.Add(this.TextBox_ZipCode);
+                return list.ToArray();
+            }
         }
 
 
         protected override void ResetChangedElements()
         {
             // base.ResetChangedElements();
-
+            
             foreach (var ctrl in ((QRMaster)this.Master).MasterForm.Controls)
             {
                 if (ctrl is TextBox)
                 {
+                        if (((TextBox)(ctrl)).BorderColor == Color.Red)
+                        {
+                            ((TextBox)(ctrl)).BorderColor = Color.Black;
+                            ((TextBox)(ctrl)).BorderStyle = BorderStyle.Solid;
+                        }
+                }
+            }
+
+            foreach (var ctrl in TextControls)
+            {
+                if (((TextBox)(ctrl)).BorderColor == Color.Red)
+                {
                     ((TextBox)(ctrl)).BorderColor = Color.Black;
                     ((TextBox)(ctrl)).BorderStyle = BorderStyle.Solid;
-                }
-                if (ctrl is DropDownList)
-                {
-                    ((DropDownList)(ctrl)).BorderColor = Color.Black;
-                    ((DropDownList)(ctrl)).BorderStyle = BorderStyle.Solid;
                 }
             }
         }
@@ -69,10 +101,12 @@ namespace area23.at.www.mono
             Bitmap aQrBitmap = null;
             try
             {
-                qrString = GetQrStringFromForm(((QRMaster)this.Master).MasterForm);
+                qrString = GetQrString();
+                Color c = Util.ColorFrom.FromHtml(this.TextBox_Color.Text);
+                // 8lor.FromHtml()
                 if (!string.IsNullOrEmpty(qrString))
                 {
-                    aQrBitmap = GetQRBitmap(qrString);
+                    aQrBitmap = GetQRBitmap(qrString, c);
                 }
                 if (aQrBitmap != null)
                 {
@@ -81,6 +115,7 @@ namespace area23.at.www.mono
             }
             catch (Exception ex)
             {
+                Area23Log.LogStatic(ex);
                 ErrorDiv.Visible = true;
                 ErrorDiv.InnerHtml = "<p style=\"font-size: large; color: red\">" + ex.Message + "</p>\r\n" +
                     "<!-- " + ex.ToString() + " -->\r\n" +
@@ -90,11 +125,25 @@ namespace area23.at.www.mono
 
         protected override string GetQrString()
         {
+            DateTime? dateTime = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(TextBox_Birthday.Text))
+                    dateTime = DateTime.Parse(TextBox_Birthday.Text);
+            } 
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);
+            }
             ContactData qrContact = new ContactData(ContactData.ContactOutputType.VCard3,
-                TextBox_FirstName.Text, TextBox_LastName.Text, null, TextBox_Phone.Text, TextBox_Mobile.Text,
-                null, TextBox_Email.Text, null, TextBox_Web.Text, TextBox_Street.Text, TextBox_StreetNr.Text,
-                TextBox_City.Text, TextBox_ZipCode.Text, TextBox_Coutry.Text, null,
-                DropDown_Country.SelectedValue, ContactData.AddressOrder.Default, TextBox_Org.Text, null);
+                TextBox_FirstName.Text, TextBox_LastName.Text, null, 
+                TextBox_Phone.Text, TextBox_Mobile.Text,
+                null, TextBox_Email.Text, dateTime, TextBox_Web.Text, 
+                TextBox_Street.Text, TextBox_StreetNr.Text,
+                TextBox_City.Text, TextBox_ZipCode.Text, 
+                TextBox_Coutry.Text, TextBox_Note.Text, TextBox_Region.Text, 
+                ContactData.AddressOrder.Default, 
+                TextBox_Org.Text, TextBox_OrgTitle.Text);
 
             string qrString = qrContact.ToString();
             return qrString;

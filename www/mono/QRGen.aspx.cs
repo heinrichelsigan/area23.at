@@ -67,6 +67,7 @@ namespace area23.at.www.mono
                 }
                 catch (Exception ex)
                 {
+                    Area23Log.LogStatic(ex);
                     qrString = "";
                 }                
             }

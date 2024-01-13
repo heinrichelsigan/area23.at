@@ -1,4 +1,5 @@
-﻿using System;
+﻿using area23.at.www.mono.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,7 +18,10 @@ namespace area23.at.www.mono
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            NavFolderHandler(sender, e);
+            if (!Page.IsPostBack)
+            {
+                NavFolderHandler(sender, e);
+            }
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)
@@ -56,12 +60,13 @@ namespace area23.at.www.mono
                     {
                         // headerRight.Style["background-color"] = "#ffdfef";
                         return;
-                    }                    
+                    }
                 }
             }
-            catch (Exception ex) { }
-            
-
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);
+            }            
         }
     }
 }

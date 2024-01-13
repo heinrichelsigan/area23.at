@@ -39,8 +39,9 @@ namespace area23.at.www.mono.Util
                 {
                     File.Create(LogFile);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Area23Log.LogStatic(ex);
                 }
             }
             try

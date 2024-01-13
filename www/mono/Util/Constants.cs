@@ -16,29 +16,40 @@ namespace area23.at.www.mono.Util
         public const string URLPREFIX = "https://area23.at/mono/test/res/";
         public const string LOGDIR = "log";
         public const string RESFOLDER = "res";
+        public const string ACCEPT_LANGUAGE = "Accept-Language";
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";
+        public const string DEFAULTMIMETYPE = "application/octet-stream";
 
         public const char DATEDELIM = '-';
         public const char WHITESPACE = ' ';
-        public const string ANNOUNCE = ": ";
+        public const char UNDERSCORE = '_';
+        public const char ANNOUNCE = ':';
 
         private static System.Globalization.CultureInfo locale = null;
+        private static String defaultLang = null;
         public static System.Globalization.CultureInfo Locale
         {
             get
             {
                 if (locale == null)
                 {
+                    defaultLang = "en";
                     try
                     {
-                        string defaultLang = HttpContext.Current.Request.Headers["Accept-Language"].ToString();
-                        string firstLang = defaultLang.Split(',').FirstOrDefault();
-                        defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
+                        if (HttpContext.Current.Request != null && HttpContext.Current.Request.Headers != null &&
+                            HttpContext.Current.Request.Headers[ACCEPT_LANGUAGE] != null)
+                        {
+                            string firstLang = HttpContext.Current.Request.Headers[ACCEPT_LANGUAGE].
+                                ToString().Split(',').FirstOrDefault();
+                            defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
+                        }
+                        
                         locale = new System.Globalization.CultureInfo(defaultLang);
                     }
                     catch (Exception)
                     {
-                        locale = new System.Globalization.CultureInfo("en");
+                        defaultLang = "en";
+                        locale = new System.Globalization.CultureInfo(defaultLang);
                     }
                 }
                 return locale;
@@ -53,8 +64,11 @@ namespace area23.at.www.mono.Util
             get => DateTime.UtcNow.ToString("yyyy") + Constants.DATEDELIM +
                 DateTime.UtcNow.ToString("MM") + Constants.DATEDELIM +
                 DateTime.UtcNow.ToString("dd") + Constants.WHITESPACE +
-                DateTime.UtcNow.ToShortTimeString() + Constants.ANNOUNCE;
+                DateTime.UtcNow.ToString("HH") + Constants.ANNOUNCE +
+                DateTime.UtcNow.ToString("mm") + Constants.ANNOUNCE + Constants.WHITESPACE;
         }
+
+        public static string DateFile { get => DateArea23.Replace(WHITESPACE, UNDERSCORE).Replace(ANNOUNCE, UNDERSCORE); }
 
         public static bool FortuneBool
         {
