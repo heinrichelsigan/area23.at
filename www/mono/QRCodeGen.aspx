@@ -5,6 +5,9 @@
 	<meta name="keywords" content="QR code generator" />
 	<meta name="description" content="https://github.com/codebude/QRCoder/" />
 	<script async src="res/js/area23.js"></script>
+		window.onload = function () {
+			setColorPicker();
+        }; 
 </asp:Content>
 <asp:Content ID="QrBodyContent" ContentPlaceHolderID="QrBody" runat="server" ClientIDMode="Static">
 	<table class="qrcTable" border="0" cellpadding="0" cellpadding="0">
