@@ -17,7 +17,7 @@
 			OnClick="LinkButton_QrUrl_Click" Text="Generate QrCode from Url" Style="display: inline-block;">
 		Generate QrCode from  Url</asp:LinkButton>:
 		<asp:TextBox ID="TextBox_QrUrl" runat="server" ToolTip="enter url www web site" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
-            Width="128px" Height="24pt" TextMode="Url" AutoCompleteType="Homepage" CssClass="QRTextBoxLarge"></asp:TextBox>
+            Width="128px" Height="24pt" AutoCompleteType="Homepage" CssClass="QRTextBoxLarge"></asp:TextBox>
 	</div>
 	<div align="left" class="contentDiv">
 		<asp:LinkButton ID="LinkButton_QrPhone" runat="server" CssClass="QrLinkButton" ToolTip="Generate QR Code for phone numner" 
