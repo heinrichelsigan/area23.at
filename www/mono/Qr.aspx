@@ -23,7 +23,7 @@
 		<asp:LinkButton ID="LinkButton_QrPhone" runat="server" CssClass="QrLinkButton" ToolTip="Generate QR Code for phone numner" 
 			OnClick="LinkButton_QrPhone_Click" Text="Generate QrCode for Phone" Style="display: inline-block;">Generate QrCode for Phone</asp:LinkButton>:
 		<asp:TextBox ID="TextBox_QrPhone" runat="server" ToolTip="enter phone number here" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
-            Width="128px" Height="24pt" AutoCompleteType="Cellular" TextMode="Phone" CssClass="QRTextBoxLarge"></asp:TextBox>
+            Width="128px" Height="24pt" AutoCompleteType="Cellular" CssClass="QRTextBoxLarge"></asp:TextBox>
 	</div>
 	<div align="left" class="contentDiv">
 		<asp:LinkButton ID="LinkButton_QrIBAN" runat="server" CssClass="QrLinkButton" ToolTip="Generate QR Code for IBAN" 
@@ -33,7 +33,7 @@
 		BIC: <asp:TextBox ID="TextBox_BIC" runat="server" ToolTip="enter bank identifier code here" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
 				MaxLength="12" Width="120px" Height="24pt" CssClass="QRTextBoxBIC"></asp:TextBox>
 		Accout Name: <asp:TextBox ID="TextBox_AccountName" runat="server" ToolTip="enter account name identifier" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
-				MaxLength="64" Width="240px" Height="24pt" TextMode="SingleLine" CssClass="QRTextBoxName"></asp:TextBox>
+				MaxLength="64" Width="240px" Height="24pt" CssClass="QRTextBoxName"></asp:TextBox>
 	</div>
 	<div align="left" class="contentDiv">
 		<span class="lefthuge">
