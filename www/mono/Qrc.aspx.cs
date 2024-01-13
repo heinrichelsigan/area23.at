@@ -56,7 +56,7 @@ namespace area23.at.www.mono
 
         public Control[] TextControls
         {
-            get
+            get 
             {
                 if (listControl == null)
                 {

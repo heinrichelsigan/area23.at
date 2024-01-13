@@ -150,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ByteTransColor.aspx" />
+    <Content Include="ColorPicker.html" />
     <Content Include="FortunAsp.aspx" />
     <Content Include="HexDump.aspx" />
     <Content Include="froga.aspx" />

@@ -4,6 +4,80 @@
 	<link rel="stylesheet" href="res/area23.at.www.mono.css" />
 	<meta name="keywords" content="QR code generator" />
 	<meta name="description" content="https://github.com/codebude/QRCoder/" />
+	<script>
+
+        function newBackgroundColor(color) {
+            // document.bgColor = color;
+
+            try {
+                if (document.getElementById("TextBox_Color") != null) {
+                    let textBoxColorId = document.getElementById("TextBox_Color");
+                    textBoxColorId.title = color;
+                    textBoxColorId.setAttribute("text", color);
+                    textBoxColorId.setAttribute("qrcolor", color);
+                    textBoxColorId.value = color;
+                    textBoxColorId.style.borderColor = color;
+                    // textBoxColorId.style.backgroundColor = color;
+                }
+            } catch (exCol) {
+                alert("getElementById('TextBox_Color') " + exCol);
+            }
+
+
+            try {
+                if (document.getElementById("Button_QRCode") != null) {
+                    var buttonQRCode = document.getElementById("Button_QRCode");
+                    buttonQRCode.setAttribute("qrcolor", color);
+                    buttonQRCode.style.borderColor = color;
+                    // buttonQRCode.style.backgroundColor = color;
+                    // buttonQRCode.setAttribute("BackColor", color);
+                    // buttonQRCode.setAttribute("ToolTip", color);
+                }
+            } catch (exCol) {
+                alert("getElementById('Button_QRCode') " + exCol);
+            }
+            try {
+                if (document.getElementsByName("Button_QRCode") != null) {
+                    var buttonQRCodes = document.getElementsByName("Button_QRCode");
+                    buttonQRCodes[0].setAttribute("qrcolor", color);
+                    buttonQRCodes[0].style.borderColor = color;
+                    // buttonQRCodes[0].style.backgroundColor = color;
+                    // buttonQRCodes[0].setAttribute("BackColor", color);
+                    // buttonQRCodes[0].setAttribute("ToolTip", color);
+                }
+            } catch (exCol) {
+                alert("getElementsByName('Button_QRCode') " + exCol);
+            }
+
+            try {
+                if (document.getElementById("input_color") != null) {
+                    var inputcolor = document.getElementById("input_color");
+                    inputcolor.setAttribute("Text", color);
+                    inputcolor.setAttribute("qrcolor", color);
+                    inputcolor.value = color;
+                    inputcolor.style.borderColor = color;
+                    inputcolor.style.textColor = color;
+                    // inputcolor.style.backgroundColor = color;
+                }
+            } catch (exCol) {
+                alert("getElementsById('input_color') " + exCol);
+            }
+            try {
+                if (document.getElementsByName("selected_color") != null) {
+                    var inputcolors = document.getElementsByName("selected_color");
+                    inputcolors.value = color;
+                    inputcolors.setAttribute("text", color);
+                    inputcolors.setAttribute("qrcolor", color);
+                    inputcolors.style.borderColor = color;
+                    inputcolors.style.textColor = color;
+                    // inputcolors.style.backgroundColor = color;
+                }
+            } catch (exCol) {
+                alert("getElementsByName('selected_color') " + exCol);
+            }
+        }
+
+    </script>"
 </asp:Content>
 <asp:Content ID="QrBodyContent" ContentPlaceHolderID="QrBody" runat="server">
 	<table class="qrcTable" border="0" cellpadding="0" cellpadding="0">
@@ -90,9 +164,13 @@
 			</td>
 			<td id="td6c" class="qrcTdRight" width="18%" height="192pt" rowspan="4">
 				<span class="lefthuge">
-                    <asp:TextBox ID="TextBox_Color" runat="server" ClientIDMode="Static" TextMode="Color" Text="#8c1157" />
-                    <br />
-                    <asp:Button ID="Button_QRCode" runat="server" ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />
+					<input type="color" name="color1" id="color1" onchange="newBackgroundColor(color1.value);" />
+					<br />
+					<input id="input_color" ClientIDMode="Static" runat="server" name="selected_color" type="text" value="" />
+					<br />
+                    <asp:TextBox id="TextBox_Color" name="TextBox_Color" runat="server" ClientIDMode="Static" TextMode="Color" Text="#8c1157" />
+					<br />
+					<asp:Button id="Button_QRCode" name="Button_QRCode" runat="server" ClientIDMode="Static" ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />
 				</span>
 			</td>
 			<td id="td6d" class="qrcTdLeft" width="32%" height="192pt"  rowspan="4">

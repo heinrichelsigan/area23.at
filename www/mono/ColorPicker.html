@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script type="text/javascript">
+
+        function processdata(c2) {
+            var a = document.getElementById(c2).value;
+            document.getElementById("Label1").style.color = a;
+       }
+        function newBackgroundColor(color) {
+            document.bgColor = color;
+            var a = document.getElementById("t1");
+            a.value = color;
+        }
+    </script>
+    <style type="text/css">
+        #color1 {
+            width: 465px;
+        }
+
+        #color2 {
+            width: 464px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <asp:Label ID="Label1" runat="server" Text="Select Color for change the color"></asp:Label>
+        </div>
+        <br />
+        <input type="color" name="color2" id="color2" />
+        <input id="Button1" type="button" value="Change Label Color" onclick="processdata('color2')" />   <br />
+        <input type="color" name="color1" id="color1" onchange="newBackgroundColor(color1.value);" /><br />
+        <br />Select the Color for Background
+        Selected Color is:
+        <input name="selectedcolor" id="t1" type="text" />
+    </form>
+</body>
+</html> 
