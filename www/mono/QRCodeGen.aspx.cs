@@ -54,7 +54,11 @@ namespace area23.at.www.mono
         {
             if (!Page.IsPostBack)
             {
-                // this.input_color.Value = "#8c1157";
+                if (!this.IsPostBack)
+                {
+                    if (this.input_color != null && string.IsNullOrEmpty(input_color.Value))
+                        this.input_color.Value = Constants.ColorString;
+                }
                 ResetFormElements();
                 // GenerateQRImage();
             }

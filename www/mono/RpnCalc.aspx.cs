@@ -1,13 +1,16 @@
-﻿    using System;
+﻿using area23.at.www.mono.Util;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace area23.at.mono.rpncalc
+namespace area23.at.www.mono
 {
-    public partial class Calculator : Area23BasePage
+    public partial class RpnCalc : RpnBasePage
     {
         private int _textCursor = 9;
         internal int TextCursor
@@ -15,31 +18,34 @@ namespace area23.at.mono.rpncalc
             get => _textCursor;
             set => _textCursor = (value > 0 && value <= 9) ? value : _textCursor;
         }
-        
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
-                metacursor.Content = TextCursor.ToString();
+                if (metacursor.Attributes["content"] == null)
+                    metacursor.Attributes.Add("content", TextCursor.ToString());
+                else
+                    metacursor.Attributes["content"] = TextCursor.ToString();
             }
-            _textCursor = (this.metacursor != null) ? Int32.Parse(metacursor.Content) : _textCursor;
+            _textCursor = (metacursor.Attributes["content"] != null) ? Int32.Parse(metacursor.Attributes["content"]) : _textCursor;
         }
 
-        protected TextBox FindTextBox(int cursor = -1)
+        public TextBox FindTextBox(int cursor = -1)
         {
             if (cursor < 1 || cursor > 9)
             {
-                _textCursor = (this.metacursor != null) ? Int32.Parse(metacursor.Content) : _textCursor;
+                _textCursor = (metacursor.Attributes["content"] != null) ? Int32.Parse(metacursor.Attributes["content"]) : _textCursor;
                 cursor = TextCursor;
             }
             string findTxtBx = "textbox" + cursor;
-            var control = FindControl(findTxtBx);
+            var control = ((Area23)(this.Master)).MasterBody.FindControl(findTxtBx);
             if (control is TextBox)
                 return (TextBox)control;
             return null;
         }
 
-        internal TextBox CurrentTextBox { get => FindTextBox(); }
+        public TextBox CurrentTextBox { get => FindTextBox(); }
 
         protected void checkBoxRpnCalc_CheckedChanged(object sender, EventArgs e)
         {
@@ -50,7 +56,7 @@ namespace area23.at.mono.rpncalc
         {
             object o1 = sender;
             string eName = e.GetType().Name;
-                
+
         }
 
         protected void bBracers_Click(object sender, EventArgs e)
@@ -65,8 +71,11 @@ namespace area23.at.mono.rpncalc
             {
                 this.CurrentTextBox.Text += mathString.ToString();
                 TextCursor--;
-                this.metacursor.Content = TextCursor.ToString();
-            }            
+                if (metacursor.Attributes["content"] == null)
+                    metacursor.Attributes.Add("content", TextCursor.ToString());
+                else
+                    metacursor.Attributes["content"] = TextCursor.ToString();
+            }
         }
 
         protected void bSin_Click(object sender, EventArgs e)
@@ -77,7 +86,7 @@ namespace area23.at.mono.rpncalc
         protected void bNumber_Click(object sender, EventArgs e)
         {
             string mathString = (sender is Button) ? ((Button)sender).Text : "";
-            this.CurrentTextBox.Text += mathString.ToString();            
+            this.CurrentTextBox.Text += mathString.ToString();
         }
 
         protected void bEnter_Click(object sender, EventArgs e)
@@ -85,7 +94,10 @@ namespace area23.at.mono.rpncalc
             if (!string.IsNullOrEmpty(this.CurrentTextBox.Text))
             {
                 TextCursor--;
-                this.metacursor.Content = TextCursor.ToString();
+                if (metacursor.Attributes["content"] == null)
+                    metacursor.Attributes.Add("content", TextCursor.ToString());
+                else
+                    metacursor.Attributes["content"] = TextCursor.ToString();
             }
 
         }

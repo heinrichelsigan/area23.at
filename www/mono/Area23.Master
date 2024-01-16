@@ -6,7 +6,7 @@
 <head runat="server">    
     <asp:ContentPlaceHolder ID="HeadContentPlaceHolder" runat="server">            
         <title>area23.at.www.mono</title>    
-        <link rel="stylesheet" href="res/area23.at.www.mono.css" />
+        <link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
         <meta name="author" content="Heinrich Elsigan" />   
         <script src="res/js/area23.js" />
     </asp:ContentPlaceHolder>
@@ -20,6 +20,7 @@
                 <span id="spanCenter0" runat="server" class="headerCenter" align="center" valign="middle"><a href="QRCodeGen.aspx">qrcode tool</a></span>
                 <span id="spanCenter1" runat="server" class="headerCenter" align="center" valign="middle"><a href="json.aspx">json ser</a></span>
                 <span id="spanCenter2" runat="server" class="headerCenter" align="center" valign="middle"><a href="ByteTransColor.aspx">image trans</a></span>
+                <span id="spanCenter3" runat="server" class="headerCenter" align="center" valign="middle"><a href="RpnCalc.aspx">rpn calc</a></span>
                 <span id="spanRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a href="froga.aspx">froga</a></span>
                 <span id="spanRight" runat="server" class="headerRight" align="right" valign="middle"><a href="/mono/SchnapsNet/">schnapsen 66</a></span>
             </div>

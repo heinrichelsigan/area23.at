@@ -14,7 +14,7 @@ using System.Web.UI.WebControls.WebParts;
 using area23.at.mono.rpncalc.ConstEnum;
 using area23.at.mono.rpncalc.Models;
 
-namespace area23.at.mono.rpncalc
+namespace area23.at.mono.rpncalc    
 {
     public partial class Area23BasePage : System.Web.UI.Page
     {

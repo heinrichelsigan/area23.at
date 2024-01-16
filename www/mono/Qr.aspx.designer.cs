@@ -105,13 +105,31 @@ namespace area23.at.www.mono
         protected global::System.Web.UI.WebControls.TextBox TextBox_AccountName;
 
         /// <summary>
-        /// ImgQR control.
+        /// TextBox_Reason control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage ImgQR;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Reason;
+
+        /// <summary>
+        /// input_color control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText input_color;
+
+        /// <summary>
+        /// Button_QRCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button_QRCode;
 
         /// <summary>
         /// ImageQr control.
@@ -121,5 +139,14 @@ namespace area23.at.www.mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image ImageQr;
+
+        /// <summary>
+        /// ErrorDiv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ErrorDiv;
     }
 }

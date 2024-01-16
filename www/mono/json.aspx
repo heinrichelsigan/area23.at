@@ -171,7 +171,7 @@
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>    
     <link rel="stylesheet" href="https://area23.at/css/fortune.css" />
-    <link rel="stylesheet" href="res/area23.at.www.mono.css" />
+    <link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
     <title>json ser (apache2 mod_mono)</title>
     <script async src="res/js/area23.js"></script>
 </asp:Content>

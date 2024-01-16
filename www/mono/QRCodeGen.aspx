@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/QRMaster.master" AutoEventWireup="true" CodeBehind="QRCodeGen.aspx.cs" Inherits="area23.at.www.mono.QRCodeGen" %>
 <asp:Content ID="QrHeadContent" ContentPlaceHolderID="QrHead" runat="server" ClientIDMode="Static">
     <title>qr contact (apache2 mod_mono)</title>
-    <link rel="stylesheet" href="res/area23.at.www.mono.css" />
+    <link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
 	<meta name="keywords" content="QR code generator" />
 	<meta name="description" content="https://github.com/codebude/QRCoder/" />
 	<script async src="res/js/area23.js"></script>
@@ -129,7 +129,7 @@
 			</td>
 			<td id="td6d" class="qrcTdLeft" width="32%" height="192pt" rowspan="4">
 				<span class="righthuge">
-					<img id="ImgQR" runat="server" alt="QRCode" height="192" width="192" tooltip="QRCode" src="res/qrsample1.gif" />
+					<img id="ImgQR" runat="server" alt="QRCode" height="244" width="244" tooltip="QRCode" src="res/qrsample1.gif" />
 				</span>
 			</td>
 		</tr>

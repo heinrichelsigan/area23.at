@@ -1,9 +1,15 @@
 ﻿<%@ Page Title="QR Code generator (apache2 mod_mono)" Language="C#" MasterPageFile="~/QRMaster.master" AutoEventWireup="true" CodeBehind="Qr.aspx.cs" Inherits="area23.at.www.mono.Qr" %>
 <asp:Content ID="ContentQrHead" ContentPlaceHolderID="QrHead" runat="server">
 	<title>qrcode gen (apache2 mod_mono)</title>
-	<link rel="stylesheet" href="res/area23.at.www.mono.css" />
+	<link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
 	<meta name="keywords" content="QR code generator" />
 	<meta name="description" content="https://github.com/codebude/QRCoder/" />
+	<script async src="res/js/area23.js"></script>
+	<script>
+		window.onload = function () {
+			setColorPicker();
+        }; 
+    </script>
 </asp:Content>
 <asp:Content ID="ContentQrBody" ContentPlaceHolderID="QrBody" runat="server">
 	<div align="left" class="contentDiv">
@@ -29,19 +35,26 @@
 		<asp:LinkButton ID="LinkButton_QrIBAN" runat="server" CssClass="QrLinkButton" ToolTip="Generate QR Code for IBAN" 
 			OnClick="LinkButton_QrIBAN_Click" Text="Generate QrCode for Phone"  Style="display: inline-block;">Generate QrCode for IBAN</asp:LinkButton>:
 		<asp:TextBox ID="TextBox_IBAN" runat="server" ToolTip="enter international bank account number (IBAN) here" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
-            MaxLength="32" Width="156px" Height="24pt" CssClass="QRTextBoxIBAN"></asp:TextBox>
+            MaxLength="32" Width="180px" Height="24pt" CssClass="QRTextBoxIBAN"></asp:TextBox>
 		BIC: <asp:TextBox ID="TextBox_BIC" runat="server" ToolTip="enter bank identifier code here" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
-				MaxLength="12" Width="120px" Height="24pt" CssClass="QRTextBoxBIC"></asp:TextBox>
+				MaxLength="12" Width="120px" Height="24pt" CssClass="QRTextBoxBIC"></asp:TextBox><br />
 		Accout Name: <asp:TextBox ID="TextBox_AccountName" runat="server" ToolTip="enter account name identifier" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
-				MaxLength="64" Width="240px" Height="24pt" CssClass="QRTextBoxName"></asp:TextBox>
+				MaxLength="64" Width="228px" Height="24pt" CssClass="QRTextBoxName"></asp:TextBox>&nbsp;
+		Reason: <asp:TextBox ID="TextBox_Reason" runat="server" ToolTip="enter transfer reason here" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
+				MaxLength="64" Width="216px" Height="24pt" CssClass="QRTextBoxName"></asp:TextBox>
 	</div>
 	<div align="left" class="contentDiv">
-		<span class="lefthuge">
-			<img id="ImgQR" runat="server" alt="QRCode" height="192" width="192" tooltip="QRCode" visible="true" src="res/qrsample1.gif" />			
+		<span class="lefthuge">				
+			<input type="color" name="color1" id="color1" onchange="newBackgroundColor(color1.value);" />&nbsp;
+			<input id="input_color" ClientIDMode="Static" runat="server" name="selected_color" type="text" value="" size="7"  />	
+			<br />
+			<asp:Button id="Button_QRCode" name="Button_QRCode" runat="server" ClientIDMode="Static" 
+				ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />				
 		</span>
 		<span class="righthuge">
-			<asp:Image ID="ImageQr" runat="server" ImageUrl="~/res/qrsample2.png" Visible="false" BorderStyle="None" Width="192" />
+			<asp:Image ID="ImageQr" runat="server" ImageUrl="~/res/qrsample2.png" Visible="false" BorderStyle="None" Width="244" />
 		</span>		
 	</div>
-
+	<div id="ErrorDiv" runat="server" class="footerDiv" visible="false">
+	</div>
 </asp:Content>

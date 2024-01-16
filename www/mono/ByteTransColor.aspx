@@ -2,7 +2,7 @@
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="https://area23.at/css/od.css" />
-    <link rel="stylesheet" href="res/area23.at.www.mono.css" />
+    <link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
     <title>byte trans color image (apache2 mod_mono)</title>
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">

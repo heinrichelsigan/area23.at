@@ -33,6 +33,7 @@ namespace area23.at.www.mono
             spanCenter0.Style["background-color"] = "#ffccdd";
             spanCenter1.Style["background-color"] = "#ffccdd";
             spanCenter2.Style["background-color"] = "#ffccdd";
+            spanCenter3.Style["background-color"] = "#ffccdd";
             spanRightCenter.Style["background-color"] = "#ffccdd";
             spanRight.Style["background-color"] = "#ffccdd";
 
@@ -63,6 +64,11 @@ namespace area23.at.www.mono
                     if (this.Request.RawUrl.ToLower().Contains("trans"))
                     {
                         spanCenter2.Style["background-color"] = "#ffddee";
+                        return;
+                    }
+                    if (this.Request.RawUrl.ToLower().Contains("rpn"))
+                    {
+                        spanCenter3.Style["background-color"] = "#ffddee";
                         return;
                     }
                     if (this.Request.RawUrl.ToLower().Contains("frog"))

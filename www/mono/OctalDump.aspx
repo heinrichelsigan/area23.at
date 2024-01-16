@@ -10,7 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" href="res/area23.at.www.mono.css" />
+    <link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
     <title>Octal Dump (od) apache2 mod_mono C#</title>
     <script async src="res/js/area23.js"></script>
 </head>

@@ -2,7 +2,7 @@
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
     <asp:ContentPlaceHolder ID="QrHead" runat="server">
         <title>QRCode generator (apache2 mod_mono)</title>
-        <link rel="stylesheet" href="res/area23.at.www.mono.css" />
+        <link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
         <meta name="keywords" content="QR code generator" />
         <meta name="description" content="https://github.com/codebude/QRCoder/" />
     </asp:ContentPlaceHolder>

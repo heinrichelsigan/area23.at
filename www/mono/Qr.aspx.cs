@@ -24,7 +24,11 @@ namespace area23.at.www.mono
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!this.IsPostBack)
+            {
+                if (this.input_color != null && string.IsNullOrEmpty(input_color.Value))
+                    this.input_color.Value = Constants.ColorString;
+            }
         }
 
         protected void QRCode_ParameterChanged(object sender, EventArgs e)
@@ -59,6 +63,9 @@ namespace area23.at.www.mono
 
             this.TextBox_AccountName.BorderColor = Color.Black;
             this.TextBox_AccountName.BorderStyle = BorderStyle.Solid;
+
+            this.TextBox_Reason.BorderColor = Color.Black;
+            this.TextBox_Reason.BorderStyle = BorderStyle.Solid;
         }
 
         protected void LinkButton_QrString_Click(object sender, EventArgs e)
@@ -88,15 +95,22 @@ namespace area23.at.www.mono
             ResetFormElements();
 
             QRCoder.PayloadGenerator.BezahlCode qrBank = new BezahlCode(BezahlCode.AuthorityType.contact_v2,
-                this.TextBox_AccountName.Text, "", "", TextBox_IBAN.Text, TextBox_BIC.Text, "test https://area23.at/u/");
+                this.TextBox_AccountName.Text, TextBox_AccountName.Text, "", TextBox_IBAN.Text, TextBox_BIC.Text, TextBox_Reason.Text);
             GenerateQRImage(qrBank.ToString());
         }
+
+        protected void Button_QRCode_Click(object sender, EventArgs e)
+        {
+            ResetFormElements();
+            GenerateQRImage();
+        }
+
 
         protected override string GetQrString()
         {
             QRCoder.PayloadGenerator.Url qrUrl = new QRCoder.PayloadGenerator.Url(this.TextBox_QrUrl.Text);
             QRCoder.PayloadGenerator.BezahlCode qrBank = new BezahlCode(BezahlCode.AuthorityType.contact_v2,
-                this.TextBox_AccountName.Text, "", "", TextBox_IBAN.Text, TextBox_BIC.Text, "test https://area23.at/u/");
+                this.TextBox_AccountName.Text, "", TextBox_IBAN.Text, TextBox_BIC.Text, TextBox_Reason.Text);
             QRCoder.PayloadGenerator.PhoneNumber qrPhone = new PhoneNumber(this.TextBox_QrPhone.Text);
             string qrString = String.Concat(qrUrl.ToString(), qrPhone.ToString(), qrBank.ToString());
             return qrString;
@@ -107,13 +121,52 @@ namespace area23.at.www.mono
             return GetQrString();
         }
 
+        protected override void GenerateQRImage(string qrString = "")
+        {
+            Bitmap aQrBitmap = null;
+
+            if (string.IsNullOrEmpty(this.input_color.Value))
+                this.input_color.Value = Constants.ColorString;
+            else
+                Constants.ColorString = this.input_color.Value;
+
+
+            if (this.Button_QRCode.Attributes["qrcolor"] != null)
+                this.Button_QRCode.Attributes["qrcolor"] = Constants.ColorString;
+            else
+                this.Button_QRCode.Attributes.Add("qrcode", Constants.ColorString);
+
+            try
+            {
+                Constants.QrColor = Util.ColorFrom.FromHtml(this.input_color.Value);
+                qrString = GetQrString();
+
+                if (!string.IsNullOrEmpty(qrString))
+                {
+                    aQrBitmap = GetQRBitmap(qrString, Constants.QrColor);
+                }
+                if (aQrBitmap != null)
+                {
+                    SetQRImage(aQrBitmap);
+                }
+            }
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);
+                ErrorDiv.Visible = true;
+                ErrorDiv.InnerHtml = "<p style=\"font-size: large; color: red\">" + ex.Message + "</p>\r\n" +
+                    "<!-- " + ex.ToString() + " -->\r\n" +
+                    "<!-- " + ex.StackTrace.ToString() + " -->\r\n";
+            }
+        }
 
         protected override void SetQRImage(Bitmap qrImage)
         {
             MemoryStream ms = new MemoryStream();
             qrImage.Save(ms, ImageFormat.Gif);
             var base64Data = Convert.ToBase64String(ms.ToArray());
-            this.ImgQR.Src = "data:image/gif;base64," + base64Data;
+            // this.ImgQR.Src = "data:image/gif;base64," + base64Data;
+            this.ImageQr.Visible = true;
             this.ImageQr.ImageUrl = "data:image/gif;base64," + base64Data;
             ResetFormElements();
         }

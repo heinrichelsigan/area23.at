@@ -21,7 +21,7 @@
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server" ClientIDMode="Static">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>froga</title>
-    <link rel="stylesheet" href="res/area23.at.www.mono.css" />
+    <link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
 	<style>
         body.frogbody {
             color: white;

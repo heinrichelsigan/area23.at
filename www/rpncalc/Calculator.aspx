@@ -12,7 +12,7 @@
 </head>
 <body onload="rpnInit();">
     <form id="form1" runat="server">
-        		<div class="rpnDiv" align="center">
+        <div class="rpnDiv" align="center">
 			<div class="rpnDivHeader">
 				<span id="headerLeft" style="min-height: 36pt; min-width: 60pt; vertical-align: middle; font-size: larger; text-align: right " align="right" valign="middle">
 					<span id="spanPreviousValue" runat="server" alt="previous value" style="color:greenyellow">0</span> 

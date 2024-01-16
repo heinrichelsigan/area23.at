@@ -3,9 +3,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="refresh" content="16; url=https://area23.at/mono/test/FortunAsp.aspx" />    
     <link rel="stylesheet" href="https://area23.at/css/fortune.css" />
-    <link rel="stylesheet" href="res/area23.at.www.mono.css" />
-    <title>fortune (apache2 mod_mono)</title>
-    
+    <link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
+    <title>fortune (apache2 mod_mono)</title>    
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
     <div class="fortuneDiv" align="left">

@@ -4,6 +4,8 @@
     https://area23.at/js/area23.js
 */
 
+var buttonQRCode, inputcolor, colorpicker;
+
 function loadScript(src, asyn, f) {
     var head = document.getElementsByTagName("head")[0];
     var script = document.createElement("script");
@@ -27,8 +29,6 @@ function loadScript(src, asyn, f) {
     };
     head.appendChild(script);
 }
-
-
 
 function highLightOnChange(highLightId) {
     if (highLightId != null && document.getElementById(highLightId) != null) {
@@ -68,7 +68,7 @@ function newBackgroundColor(color) {
 
     try {
         if (document.getElementById("Button_QRCode") != null) {
-            var buttonQRCode = document.getElementById("Button_QRCode");
+            buttonQRCode = document.getElementById("Button_QRCode");
             buttonQRCode.setAttribute("qrcolor", color);
             buttonQRCode.style.borderColor = color;
             // buttonQRCode.style.backgroundColor = color;
@@ -77,7 +77,7 @@ function newBackgroundColor(color) {
         }
 
         if (document.getElementById("input_color") != null) {
-            var inputcolor = document.getElementById("input_color");
+            inputcolor = document.getElementById("input_color");
             inputcolor.setAttribute("Text", color);
             inputcolor.setAttribute("qrcolor", color);
             inputcolor.value = color;
@@ -104,16 +104,16 @@ function newBackgroundColor(color) {
 }
 
 function setColorPicker() {
-    var color1_id = document.getElementById("color1");
-    var inputcolor = document.getElementById("input_color");
-    if (color1_id != null && inputcolor != null) {
-        if (inputcolor.value != null && inputcolor.value != "" && inputcolor.value.length >= 6) {
-            color1_id.value = inputcolor.value;
-        }
+    colorpicker = document.getElementById("color1");
+    inputcolor = document.getElementById("input_color");
+    if (colorpicker != null && inputcolor != null && inputcolor.value != null && inputcolor.value != "" && inputcolor.value.length >= 6) {
+        if (colorpicker.value == inputcolor.value)
+            return;
+        colorpicker.value = inputcolor.value;
     }
 }
 
-setColorPicker();
+// setColorPicker();
 // example for loading more javascript dynamically from main script by creating script elements in html head.
 loadScript('https://area23.at/js/fortune.js', false, function () { console.log('finished loading fortune: ' + GetFortuneForm()); });
 loadScript('https://area23.at/js/od.js', false, function () { console.log('finished loading od: ' + GetOdForm()); });
