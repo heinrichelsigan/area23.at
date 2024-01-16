@@ -199,7 +199,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="img\walk.xcf" />
-    <Content Include="js\froga.js" />
+    <Content Include="js\rpn.js" />
     <Content Include="froga.html" />
     <Content Include="SchnapsNet.aspx" />
     <Content Include="Web.config" />

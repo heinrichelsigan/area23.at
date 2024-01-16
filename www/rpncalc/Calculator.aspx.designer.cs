@@ -15,6 +15,15 @@ namespace area23.at.mono.rpncalc
     {
 
         /// <summary>
+        /// metacursor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlMeta metacursor;
+
+        /// <summary>
         /// form1 control.
         /// </summary>
         /// <remarks>
@@ -51,22 +60,13 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCalcMode;
 
         /// <summary>
-        /// textBoxbResult control.
+        /// td11b control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBoxbResult;
-
-        /// <summary>
-        /// td10b control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell td10b;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell td11b;
 
         /// <summary>
         /// Bsinh control.
@@ -78,13 +78,13 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bsinh;
 
         /// <summary>
-        /// td10c control.
+        /// td11c control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell td10c;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell td11c;
 
         /// <summary>
         /// Bcosh control.
@@ -96,13 +96,13 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bcosh;
 
         /// <summary>
-        /// td10d control.
+        /// td11d control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell td10d;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell td11d;
 
         /// <summary>
         /// Btanh control.
@@ -114,31 +114,31 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Btanh;
 
         /// <summary>
-        /// td10e control.
+        /// td11e control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell td10e;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell td11e;
 
         /// <summary>
-        /// td10f control.
+        /// td11f control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell td10f;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell td11f;
 
         /// <summary>
-        /// td10g control.
+        /// td11g control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell td10g;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell td11g;
 
         /// <summary>
         /// Bcoth control.
@@ -150,22 +150,22 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bcoth;
 
         /// <summary>
-        /// textBox10 control.
+        /// textbox11 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBox10;
+        protected global::System.Web.UI.WebControls.TextBox textbox11;
 
         /// <summary>
-        /// td9b control.
+        /// td10b control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell td9b;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell td10b;
 
         /// <summary>
         /// Basin control.
@@ -177,13 +177,13 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Basin;
 
         /// <summary>
-        /// td9c control.
+        /// td10c control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell td9c;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell td10c;
 
         /// <summary>
         /// Bacos control.
@@ -195,13 +195,13 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bacos;
 
         /// <summary>
-        /// td9d control.
+        /// td10d control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell td9d;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell td10d;
 
         /// <summary>
         /// Batan control.
@@ -213,13 +213,13 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Batan;
 
         /// <summary>
-        /// td9e control.
+        /// td10e control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell td9e;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell td10e;
 
         /// <summary>
         /// Basec control.
@@ -231,13 +231,13 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Basec;
 
         /// <summary>
-        /// td9f control.
+        /// td10f control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell td9f;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell td10f;
 
         /// <summary>
         /// Bacsc control.
@@ -249,13 +249,13 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bacsc;
 
         /// <summary>
-        /// td9g control.
+        /// td10g control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell td9g;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell td10g;
 
         /// <summary>
         /// Bacot control.
@@ -267,13 +267,13 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bacot;
 
         /// <summary>
-        /// textBox9 control.
+        /// textbox10 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBox9;
+        protected global::System.Web.UI.WebControls.TextBox textbox10;
 
         /// <summary>
         /// Bsin control.
@@ -330,13 +330,13 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bcot;
 
         /// <summary>
-        /// textBox8 control.
+        /// textbox9 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBox8;
+        protected global::System.Web.UI.WebControls.TextBox textbox9;
 
         /// <summary>
         /// Babs control.
@@ -393,13 +393,13 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bxpown;
 
         /// <summary>
-        /// textBox7 control.
+        /// textbox8 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBox7;
+        protected global::System.Web.UI.WebControls.TextBox textbox8;
 
         /// <summary>
         /// Blog control.
@@ -456,22 +456,22 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bexp;
 
         /// <summary>
-        /// textBox6 control.
+        /// textbox7 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBox6;
+        protected global::System.Web.UI.WebControls.TextBox textbox7;
 
         /// <summary>
-        /// td5a control.
+        /// td6a control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell td5a;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell td6a;
 
         /// <summary>
         /// Bsqrt control.
@@ -519,13 +519,13 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bpermille;
 
         /// <summary>
-        /// textBox5 control.
+        /// textbox6 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBox5;
+        protected global::System.Web.UI.WebControls.TextBox textbox6;
 
         /// <summary>
         /// Bopen control.
@@ -582,13 +582,13 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button BClear;
 
         /// <summary>
-        /// textBox4 control.
+        /// textbox5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBox4;
+        protected global::System.Web.UI.WebControls.TextBox textbox5;
 
         /// <summary>
         /// Bclose control.
@@ -636,13 +636,22 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bmultiply;
 
         /// <summary>
-        /// textBox3 control.
+        /// Bdel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBox3;
+        protected global::System.Web.UI.WebControls.Button Bdel;
+
+        /// <summary>
+        /// textbox4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox textbox4;
 
         /// <summary>
         /// Bbopen control.
@@ -690,13 +699,13 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bminus;
 
         /// <summary>
-        /// textBox2 control.
+        /// textbox3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBox2;
+        protected global::System.Web.UI.WebControls.TextBox textbox3;
 
         /// <summary>
         /// Bbclose control.
@@ -744,22 +753,31 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bplus;
 
         /// <summary>
-        /// textBox1 control.
+        /// BEnter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBox1;
+        protected global::System.Web.UI.WebControls.Button BEnter;
 
         /// <summary>
-        /// Bplusminus control.
+        /// textbox2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Bplusminus;
+        protected global::System.Web.UI.WebControls.TextBox textbox2;
+
+        /// <summary>
+        /// BDot control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BDot;
 
         /// <summary>
         /// B0 control.
@@ -780,6 +798,15 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bcomma;
 
         /// <summary>
+        /// Bplusminus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Bplusminus;
+
+        /// <summary>
         /// Bequals control.
         /// </summary>
         /// <remarks>
@@ -789,21 +816,21 @@ namespace area23.at.mono.rpncalc
         protected global::System.Web.UI.WebControls.Button Bequals;
 
         /// <summary>
-        /// Bdel control.
+        /// textbox1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Bdel;
+        protected global::System.Web.UI.WebControls.TextBox textbox1;
 
         /// <summary>
-        /// textBox0 control.
+        /// textbox0 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBox0;
+        protected global::System.Web.UI.WebControls.TextBox textbox0;
     }
 }

@@ -157,6 +157,64 @@ td {
         background-color: lightgray;
     }
 
+    td.gainsboroTd {
+        width: 36pt;
+        min-width: 36pt;
+        height: 27pt;
+        min-height: 27pt;
+        text-align: center;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0px;
+        border-width: 0px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-color: gainsboro;
+    }
+
+    td.deeppinkTd {
+        width: 36pt;
+        min-width: 36pt;
+        height: 27pt;
+        min-height: 27pt;
+        text-align: center;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0px;
+        border-width: 0px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-color: deeppink;
+    }
+
+    td.palevioletredTd {
+        width: 36pt;
+        min-width: 36pt;
+        height: 27pt;
+        min-height: 27pt;
+        text-align: center;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0px;
+        border-width: 0px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-color: palevioletred;
+    }
+
+
+#textbox10, #textbox9, #textbox8, #textbox7, #textbox6, #textbox5, #textbox4, #textbox3, #textbox2, #textbox1 {
+    border-style: outset;
+    width: fit-content;
+}
+
+#textbox0 {
+    border-style: inset;
+    width: fit-content;
+}
 
 img {
     width: 36pt;
