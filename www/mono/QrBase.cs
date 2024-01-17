@@ -9,6 +9,8 @@ using System.Web.UI.HtmlControls;
 using QRCoder;
 using System.Web.UI.WebControls;
 using System.Xml;
+using System.Security.Cryptography;
+using area23.at.www.mono.Util;
 
 namespace area23.at.www.mono
 {
@@ -65,7 +67,7 @@ namespace area23.at.www.mono
             {                
                 if (!string.IsNullOrEmpty(qrString))
                 {
-                    aQrBitmap = GetQRBitmap(qrString, Color.FromArgb(140, 17, 87));
+                    aQrBitmap = GetQRBitmap(qrString, Color.Black);
                 }
                 if (aQrBitmap != null)
                 {
@@ -86,6 +88,7 @@ namespace area23.at.www.mono
         /// GetQrBitmap - gets a <see cref="Bitmap"/> from qrString
         /// </summary>
         /// <param name="qrString"></param>
+        /// <param name="c"></param>
         /// <returns><see cref="Bitmap"/></returns>
         /// <exception cref="ArgumentNullException">thrown, when <paramref name="qrString"/> is null or ""</exception>
         protected virtual Bitmap GetQRBitmap(string qrString, Color c)
@@ -94,12 +97,33 @@ namespace area23.at.www.mono
                 throw new ArgumentNullException("qrString", "Error calling GetQRBitmap(qrString = null); qrString is null...");
 
             if (c == null)
-                c = Color.FromArgb(140, 17, 87);
+                c = Color.Black;
+            Color lighter = Color.White; // Color.FromArgb((Color.White.R - (byte)(c.R / 2)), (Color.White.G - (byte)(c.G / 2)), (Color.White.B - (byte)(c.B / 2)));
 
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(4, c, Color.White, true);
+                        
+            // qrCodeImage.MakeTransparent();
+            for (int ix = 0; ix < qrCodeImage.Width; ix++)
+            {
+                for (int iy = 0; iy < qrCodeImage.Height; iy++)
+                {
+                    Color getCol = qrCodeImage.GetPixel(ix, iy);
+                    if ((getCol.R == Color.White.R && getCol.G == Color.White.G && getCol.B == Color.White.B) ||
+                        (((getCol.R + 1) == Color.White.R) && getCol.G == Color.White.G && getCol.B == Color.White.B) ||
+                        ((getCol.R == Color.White.R) && (getCol.G + 1) == Color.White.G && getCol.B == Color.White.B) ||
+                        ((getCol.R == Color.White.R) && getCol.G == Color.White.G && (getCol.B + 1) == Color.White.B) ||
+                        (((getCol.R + 1) == Color.White.R) && (getCol.G + 1) == Color.White.G && getCol.B == Color.White.B) ||
+                        (((getCol.R + 1) == Color.White.R) && getCol.G == Color.White.G && (getCol.B + 1) == Color.White.B) ||
+                        ((getCol.R == Color.White.R) && (getCol.G + 1) == Color.White.G && (getCol.B + 1) == Color.White.B) ||
+                        (((getCol.R + 1) == Color.White.R) && (getCol.G + 1) == Color.White.G && (getCol.B + 1) == Color.White.B))
+                        qrCodeImage.SetPixel(ix, iy, Color.Transparent);
+                }
+            }
+            qrCodeImage.MakeTransparent();            
+            
             return qrCodeImage;
         }
 

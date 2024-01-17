@@ -58,6 +58,8 @@ namespace area23.at.www.mono
                 {
                     if (this.input_color != null && string.IsNullOrEmpty(input_color.Value))
                         this.input_color.Value = Constants.ColorString;
+                    if (this.input_backcolor != null && string.IsNullOrEmpty(input_backcolor.Value))
+                        this.input_backcolor.Value = Constants.BackColorString;
                 }
                 ResetFormElements();
                 // GenerateQRImage();
@@ -114,16 +116,17 @@ namespace area23.at.www.mono
         protected override void GenerateQRImage(string qrString = "")
         {
             Bitmap aQrBitmap = null;
-
-            // if (string.IsNullOrEmpty(this.color1.Value))
-            //     this.color1.Value = Constants.ColorString;
-            // else
-            // Constants.ColorString = this.color1.Value;
-
+            
             if (string.IsNullOrEmpty(this.input_color.Value))
                 this.input_color.Value = Constants.ColorString;
             else
                 Constants.ColorString = this.input_color.Value;
+
+            if (string.IsNullOrEmpty(this.input_backcolor.Value))
+                this.input_backcolor.Value = Constants.BackColorString;
+            else
+                Constants.BackColorString = this.input_backcolor.Value;
+
 
             var attrs = new Dictionary<String, String>();
             foreach (var key in this.Button_QRCode.Attributes.Keys)
@@ -140,7 +143,8 @@ namespace area23.at.www.mono
 
             try
             {
-                Constants.QrColor = Util.ColorFrom.FromHtml(this.input_color.Value);
+                Constants.QrColor = Util.ColorFrom.FromXrgb(this.input_color.Value);
+                Constants.BackColor = Util.ColorFrom.FromXrgb(this.input_backcolor.Value);
                 qrString = GetQrString();
 
                 if (!string.IsNullOrEmpty(qrString))
@@ -200,6 +204,28 @@ namespace area23.at.www.mono
             qrImage.Save(ms, ImageFormat.Gif);
             var base64Data = Convert.ToBase64String(ms.ToArray());
             this.ImgQR.Src = "data:image/gif;base64," + base64Data;
+            if (this.input_backcolor != null && !string.IsNullOrEmpty(this.input_backcolor.Value))
+            {
+                if (this.ImgQR.Style["background-color"] == null)
+                    this.ImgQR.Style.Add("background-color", this.input_backcolor.Value);
+                else
+                    this.ImgQR.Style["background-color"] = this.input_backcolor.Value;
+                
+                if (this.ImgQR.Style["border-color"] == null)
+                    this.ImgQR.Style.Add("border-color", this.input_backcolor.Value);
+                else
+                    this.ImgQR.Style["border-color"] = this.input_backcolor.Value;
+                
+                if (this.ImgQR.Style["border-width"] == null)
+                    this.ImgQR.Style.Add("border-width", "1px");
+                else
+                    this.ImgQR.Style["border-width"] = "1px";
+
+                if (this.ImgQR.Style["border-style"] == null)
+                    this.ImgQR.Style.Add("border-style", "double");
+                else
+                    this.ImgQR.Style["border-style"] = "double";
+            }
         }
 
     }

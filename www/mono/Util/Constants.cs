@@ -71,7 +71,18 @@ namespace area23.at.www.mono.Util
 
         public static string DateFile { get => DateArea23.Replace(WHITESPACE, UNDERSCORE).Replace(ANNOUNCE, UNDERSCORE); }
 
-        private static string colorString = "#8c1157";
+        private static string backColorString = "#ffffff";
+        public static string BackColorString
+        {
+            get => backColorString;
+            set
+            {
+                backColor = ColorFrom.FromXrgb(value);
+                backColorString = backColor.ToXrgb();
+            }
+        }
+
+        private static string colorString = "#000000";
         public static string ColorString
         {
             get => colorString;
@@ -81,8 +92,40 @@ namespace area23.at.www.mono.Util
                 colorString = qrColor.ToXrgb();
             }
         }
-         
-        private static System.Drawing.Color qrColor;
+
+        private static System.Drawing.Color qrColor, backColor;
+        public static System.Drawing.Color BackColor
+        {
+            get
+            {
+                try
+                {
+                    backColor = ColorFrom.FromXrgb(backColorString);
+                }
+                catch (Exception)
+                {
+                    backColorString = "#ffffff";
+                    backColor = ColorFrom.FromXrgb(backColorString);
+                    
+                    backColor.ToXrgb().ToString();
+                }
+                return qrColor;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    backColor = value;
+                    backColorString = value.ToXrgb();
+                }
+                else
+                {
+                    backColorString = "#ffffff";
+                    backColor = ColorFrom.FromXrgb(backColorString);
+                }
+            }
+        }
+
         public static System.Drawing.Color QrColor
         {
             get
@@ -93,7 +136,7 @@ namespace area23.at.www.mono.Util
                 }
                 catch (Exception)
                 {
-                    colorString = "#8c1157";
+                    colorString = "#000000";
                     qrColor = ColorFrom.FromXrgb(colorString);
                 }
                 return qrColor;
@@ -107,7 +150,7 @@ namespace area23.at.www.mono.Util
                 }
                 else
                 {
-                    colorString = "#8c1157";
+                    colorString = "#000000";
                     qrColor = ColorFrom.FromHtml(colorString);
                 }
             }                

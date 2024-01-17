@@ -4,7 +4,7 @@
     https://area23.at/js/area23.js
 */
 
-var buttonQRCode, inputcolor, colorpicker;
+var buttonQRCode, inputcolor, inputbackcolor, colorpicker, backcolorpicker;
 
 function loadScript(src, asyn, f) {
     var head = document.getElementsByTagName("head")[0];
@@ -49,8 +49,9 @@ function highLightOnChange(highLightId) {
     }
 }
 
-function newBackgroundColor(color) {
-    // document.bgColor = color;
+
+function newQrColor(color) {
+
 
     // try {
     //     if (document.getElementById("TextBox_Color") != null) {
@@ -103,13 +104,37 @@ function newBackgroundColor(color) {
     // }
 }
 
+function newBackgroundColor(bgcolor) {
+    // document.bgColor = color;
+    try {       
+        if (document.getElementById("input_backcolor") != null) {
+            inputbackcolor = document.getElementById("input_backcolor");
+            inputbackcolor.setAttribute("Text", bgcolor);
+            inputbackcolor.setAttribute("qrcolor", bgcolor);
+            inputbackcolor.value = bgcolor;
+            inputbackcolor.style.borderColor = bgcolor;
+            // inputbackcolor.style.textColor = bgcolor;
+        }
+    } catch (exCol) {
+        alert("getElementsById('input_backcolor') " + exCol);
+    }
+}
 function setColorPicker() {
     colorpicker = document.getElementById("color1");
     inputcolor = document.getElementById("input_color");
     if (colorpicker != null && inputcolor != null && inputcolor.value != null && inputcolor.value != "" && inputcolor.value.length >= 6) {
-        if (colorpicker.value == inputcolor.value)
-            return;
-        colorpicker.value = inputcolor.value;
+        if (colorpicker.value == inputcolor.value) {
+            ;
+        }
+        else  
+            colorpicker.value = inputcolor.value;
+    }
+    backcolorpicker = document.getElementById("color0");
+    inputbackcolor = document.getElementById("input_backcolor");
+    if (backcolorpicker != null && inputbackcolor != null && inputbackcolor.value != null && inputbackcolor.value.length >= 6) {
+        // if (backcolorpicker.value == inputbackcolor.value)
+        //     return;
+        backcolorpicker.value = inputbackcolor.value;
     }
 }
 

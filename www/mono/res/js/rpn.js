@@ -31,7 +31,6 @@ var keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
 
 function rpnInit() {
 
-
 	document.getElementById("headerImg").src = "img/header.png";
 	if (metacursor == null)
 		metacursor = document.getElementById("metacursor");
@@ -39,52 +38,65 @@ function rpnInit() {
 		let metacontent = metacursor.getAttribute("content");
 		if (metacontent != null)
 			textcursor = parseInt(metacontent);
+		else
+			metacursor.setAttribute("content", textcursor);
 	}
 	let currentTextBox = document.getElementById("textbox" + textcursor);
+	if (currentTextBox == null) {
+		alert("currentTextBox is null: document.getElementById('textbox'" + textcursor + ");");
+		return;
+	}
 
 
 	window.onkeydown = function (e) { // TODO: pressing two arrow keys at same time
 		if (e.which == 96 || e.which == 48) {
-			document.getElementById("B0").click();
+			currentTextBox.innerText += "0";
 			return;
 		}
 		if (e.which == 97 || e.which == 49) {
-			document.getElementById("B1").click();
+			currentTextBox.innerText += "1";
 			return;
 		}
 		if (e.which == 98 || e.which == 50) {
-			document.getElementById("B2").click();
+			currentTextBox.innerText += "2";
 			return;
 		}
 		if (e.which == 99 || e.which == 51) {
-			document.getElementById("B3").click();
+			currentTextBox.innerText += "3";
 			return;
 		}
 		if (e.which == 100 || e.which == 52) {
-			document.getElementById("B4").click();
+			currentTextBox.innerText += "4";
 			return;
 		}
 		if (e.which == 101 || e.which == 53) {
-			document.getElementById("B5").click();
+			currentTextBox.innerText += "5";
 			return;
 		}
 		if (e.which == 102 || e.which == 54) {
-			document.getElementById("B6").click();
+			currentTextBox.innerText += "6";
 			return;
 		}
 		if (e.which == 103 || e.which == 55) {
-			document.getElementById("B7").click();
+			currentTextBox.innerText += "7";
 			return;
 		}
 		if (e.which == 104 || e.which == 56) {
-			document.getElementById("B8").click();
+			currentTextBox.innerText += "8";
 			return;
 		}
 		if (e.which == 105 || e.which == 57) {
-			document.getElementById("B9").click();
+			currentTextBox.innerText += "9";
 			return;
 		}
 		if (e.which == 10 || e.which == 13) {
+			if (currentTextBox.innerText != null && currentTextBox.innerText.length > 0) {
+				if (metacursor == null)
+					metacursor = document.getElementById("metacursor");
+				if (metacursor != null) {
+					metacursor.setAttribute("content", --textcursor);
+				}
+			}
 			bEnter = document.getElementById("BEnter");
 			if (bEnter != null) {
 				bEnter.click();

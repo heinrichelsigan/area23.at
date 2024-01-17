@@ -123,6 +123,15 @@ namespace area23.at.www.mono
         protected global::System.Web.UI.HtmlControls.HtmlInputText input_color;
 
         /// <summary>
+        /// input_backcolor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText input_backcolor;
+
+        /// <summary>
         /// Button_QRCode control.
         /// </summary>
         /// <remarks>

@@ -24,10 +24,12 @@ namespace area23.at.www.mono
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!this.IsPostBack)
+            if (!Page.IsPostBack)
             {
                 if (this.input_color != null && string.IsNullOrEmpty(input_color.Value))
                     this.input_color.Value = Constants.ColorString;
+                if (this.input_backcolor != null && string.IsNullOrEmpty(input_backcolor.Value))
+                    this.input_backcolor.Value = Constants.BackColorString;
             }
         }
 
@@ -95,7 +97,7 @@ namespace area23.at.www.mono
             ResetFormElements();
 
             QRCoder.PayloadGenerator.BezahlCode qrBank = new BezahlCode(BezahlCode.AuthorityType.contact_v2,
-                this.TextBox_AccountName.Text, TextBox_AccountName.Text, "", TextBox_IBAN.Text, TextBox_BIC.Text, TextBox_Reason.Text);
+                TextBox_AccountName.Text, TextBox_AccountName.Text, "", TextBox_IBAN.Text, TextBox_BIC.Text, TextBox_Reason.Text);
             GenerateQRImage(qrBank.ToString());
         }
 
@@ -110,7 +112,7 @@ namespace area23.at.www.mono
         {
             QRCoder.PayloadGenerator.Url qrUrl = new QRCoder.PayloadGenerator.Url(this.TextBox_QrUrl.Text);
             QRCoder.PayloadGenerator.BezahlCode qrBank = new BezahlCode(BezahlCode.AuthorityType.contact_v2,
-                this.TextBox_AccountName.Text, "", TextBox_IBAN.Text, TextBox_BIC.Text, TextBox_Reason.Text);
+                TextBox_AccountName.Text, TextBox_AccountName.Text, "", TextBox_IBAN.Text, TextBox_BIC.Text, TextBox_Reason.Text);
             QRCoder.PayloadGenerator.PhoneNumber qrPhone = new PhoneNumber(this.TextBox_QrPhone.Text);
             string qrString = String.Concat(qrUrl.ToString(), qrPhone.ToString(), qrBank.ToString());
             return qrString;
@@ -130,6 +132,10 @@ namespace area23.at.www.mono
             else
                 Constants.ColorString = this.input_color.Value;
 
+            if (string.IsNullOrEmpty(this.input_backcolor.Value))
+                this.input_backcolor.Value = Constants.BackColorString;
+            else
+                Constants.BackColorString = this.input_backcolor.Value;
 
             if (this.Button_QRCode.Attributes["qrcolor"] != null)
                 this.Button_QRCode.Attributes["qrcolor"] = Constants.ColorString;
@@ -139,10 +145,12 @@ namespace area23.at.www.mono
             try
             {
                 Constants.QrColor = Util.ColorFrom.FromHtml(this.input_color.Value);
-                qrString = GetQrString();
+                Constants.BackColor = Util.ColorFrom.FromHtml(this.input_backcolor.Value);
+                qrString = (string.IsNullOrEmpty(qrString)) ? GetQrString() : qrString;
 
                 if (!string.IsNullOrEmpty(qrString))
                 {
+                    // aQrBitmap = GetQRBitmap(qrString, Constants.QrColor, Color.Transparent);
                     aQrBitmap = GetQRBitmap(qrString, Constants.QrColor);
                 }
                 if (aQrBitmap != null)
@@ -167,6 +175,7 @@ namespace area23.at.www.mono
             var base64Data = Convert.ToBase64String(ms.ToArray());
             // this.ImgQR.Src = "data:image/gif;base64," + base64Data;
             this.ImageQr.Visible = true;
+            this.ImageQr.BackColor = Util.ColorFrom.FromHtml(this.input_backcolor.Value);
             this.ImageQr.ImageUrl = "data:image/gif;base64," + base64Data;
             ResetFormElements();
         }

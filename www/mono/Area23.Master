@@ -4,10 +4,11 @@
 
 <html>
 <head runat="server">    
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <meta name="author" content="Heinrich Elsigan" />  
     <asp:ContentPlaceHolder ID="HeadContentPlaceHolder" runat="server">            
         <title>area23.at.www.mono</title>    
-        <link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
-        <meta name="author" content="Heinrich Elsigan" />   
+        <link rel="stylesheet" href="res/css/area23.at.www.mono.css" /> 
         <script src="res/js/area23.js" />
     </asp:ContentPlaceHolder>
 </head>
