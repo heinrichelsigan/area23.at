@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Web;
 
-namespace area23.at.www.mono.Util
+namespace Area23.At.Mono.Util
 {
     public class MimeType
     {
@@ -35,7 +35,7 @@ namespace area23.at.www.mono.Util
         public static string GetMimeType(byte[] file, string fileName)
         {
 
-            string mime = Constants.DEFAULTMIMETYPE;
+            string mime = Constants.DEFAULT_MIMETYPE;
 
             //Ensure that the filename isn't empty or null
             if (string.IsNullOrWhiteSpace(fileName))

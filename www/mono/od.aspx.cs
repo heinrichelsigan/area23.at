@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace area23.at.www.mono
+namespace Area23.At.Mono
 {
     public partial class od : System.Web.UI.Page
     {

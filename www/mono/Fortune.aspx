@@ -8,7 +8,7 @@
 <%@ Import namespace="System.Reflection" %>
 <%@ Import namespace="System.Web" %>
 <%@ Import namespace="System.Diagnostics" %>
-<%@ Import namespace="area23.at.www.mono.Util" %>
+<%@ Import namespace="Area23.At.Mono.Util" %>
 <%@ Import namespace="System.Web.UI" %>
 <%@ Import namespace="System.Web.UI.WebControls" %>
 

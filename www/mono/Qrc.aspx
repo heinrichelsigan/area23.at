@@ -1,7 +1,7 @@
-﻿<%@ Page Language="C#"  MasterPageFile="~/QRMaster.master" AutoEventWireup="true" CodeBehind="Qrc.aspx.cs" Inherits="area23.at.www.mono.Qrc" %>
+﻿<%@ Page Language="C#"  MasterPageFile="~/QRMaster.master" AutoEventWireup="true" CodeBehind="Qrc.aspx.cs" Inherits="Area23.At.Mono.Qrc" %>
 <asp:Content ID="QrHeadContent" ContentPlaceHolderID="QrHead" runat="server">
 	<title>qr contact prefilled (apache2 mod_mono)</title>
-	<link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
+	<link rel="stylesheet" href="res/css/area23.at.mono.css" />
 	<meta name="keywords" content="QR code generator" />
 	<meta name="description" content="https://github.com/codebude/QRCoder/" />
 	<script async src="res/js/area23.js"></script>
@@ -12,7 +12,7 @@
     </script>
 </asp:Content>
 <asp:Content ID="QrBodyContent" ContentPlaceHolderID="QrBody" runat="server">
-	<table class="qrcTable" border="0" cellpadding="0" cellpadding="0">
+	<table class="qrcTable" border="0" cellpadding="0" cellspacing="0">
 		<tr id="tr0" class="qrcTr">
 			<td id="td0a" class="qrcTdRight" width="18%" height="30pt">first name:</td>
 			<td id="td0b" class="qrcTdLeft" width="32%" height="30pt">

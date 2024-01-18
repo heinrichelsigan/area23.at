@@ -10,9 +10,9 @@ using QRCoder;
 using System.Web.UI.WebControls;
 using System.Xml;
 using System.Security.Cryptography;
-using area23.at.www.mono.Util;
+using Area23.At.Mono.Util;
 
-namespace area23.at.www.mono
+namespace Area23.At.Mono
 {
     /// <summary>
     /// QrBase QrPage abstract base class

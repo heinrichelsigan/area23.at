@@ -1,4 +1,4 @@
-﻿using area23.at.www.mono.Util;
+﻿using Area23.At.Mono.Util;
 using QRCoder;
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ using static QRCoder.PayloadGenerator;
 using System.Security.Policy;
 
 
-namespace area23.at.www.mono
+namespace Area23.At.Mono
 {
     public partial class Qr : QrBase
     {
@@ -27,7 +27,7 @@ namespace area23.at.www.mono
             if (!Page.IsPostBack)
             {
                 if (this.input_color != null && string.IsNullOrEmpty(input_color.Value))
-                    this.input_color.Value = Constants.ColorString;
+                    this.input_color.Value = Constants.QrColorString;
                 if (this.input_backcolor != null && string.IsNullOrEmpty(input_backcolor.Value))
                     this.input_backcolor.Value = Constants.BackColorString;
             }
@@ -128,9 +128,9 @@ namespace area23.at.www.mono
             Bitmap aQrBitmap = null;
 
             if (string.IsNullOrEmpty(this.input_color.Value))
-                this.input_color.Value = Constants.ColorString;
+                this.input_color.Value = Constants.QrColorString;
             else
-                Constants.ColorString = this.input_color.Value;
+                Constants.QrColorString = this.input_color.Value;
 
             if (string.IsNullOrEmpty(this.input_backcolor.Value))
                 this.input_backcolor.Value = Constants.BackColorString;
@@ -138,9 +138,9 @@ namespace area23.at.www.mono
                 Constants.BackColorString = this.input_backcolor.Value;
 
             if (this.Button_QRCode.Attributes["qrcolor"] != null)
-                this.Button_QRCode.Attributes["qrcolor"] = Constants.ColorString;
+                this.Button_QRCode.Attributes["qrcolor"] = Constants.QrColorString;
             else
-                this.Button_QRCode.Attributes.Add("qrcode", Constants.ColorString);
+                this.Button_QRCode.Attributes.Add("qrcode", Constants.QrColorString);
 
             try
             {

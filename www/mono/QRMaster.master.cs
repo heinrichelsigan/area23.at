@@ -1,4 +1,4 @@
-﻿using area23.at.www.mono.Util;
+﻿using Area23.At.Mono.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace area23.at.www.mono
+namespace Area23.At.Mono
 {
     public partial class QRMaster : System.Web.UI.MasterPage
     {

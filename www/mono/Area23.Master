@@ -1,14 +1,12 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Area23.master.cs" Inherits="area23.at.www.mono.Area23" %>
-
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Area23.master.cs" Inherits="Area23.At.Mono.Area23" %>
 <!DOCTYPE html>
-
 <html>
 <head runat="server">    
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <meta name="author" content="Heinrich Elsigan" />  
     <asp:ContentPlaceHolder ID="HeadContentPlaceHolder" runat="server">            
-        <title>area23.at.www.mono</title>    
-        <link rel="stylesheet" href="res/css/area23.at.www.mono.css" /> 
+        <title>Area23.At.Mono</title>    
+        <link rel="stylesheet" href="res/css/area23.at.mono.css" /> 
         <script src="res/js/area23.js" />
     </asp:ContentPlaceHolder>
 </head>

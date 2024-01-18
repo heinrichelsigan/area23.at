@@ -1,16 +1,16 @@
-﻿using area23.at.www.mono.Util;
+﻿using Area23.At.Mono.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web;
 
-namespace area23.at.www.mono
+namespace Area23.At.Mono
 {
     public partial class RpnBasePage : System.Web.UI.Page
     {
-        protected Uri gitUrl = new Uri(Constants.GITURL);
-        protected Uri backUrl = new Uri(Constants.RPNURL);
+        protected Uri gitUrl = new Uri(Constants.GIT_URL);
+        protected Uri backUrl = new Uri(Constants.RPN_URL);
 
         protected System.Globalization.CultureInfo locale;
         public Mutex rpncalcMutex;
@@ -55,8 +55,8 @@ namespace area23.at.www.mono
 
         public virtual void InitURLBase()
         {
-            gitUrl = new Uri(Constants.GITURL);
-            backUrl = new Uri(Constants.RPNURL);
+            gitUrl = new Uri(Constants.GIT_URL);
+            backUrl = new Uri(Constants.RPN_URL);
         }
 
         public virtual void Log(string msg)

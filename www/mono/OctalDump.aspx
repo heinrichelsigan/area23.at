@@ -10,7 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
+    <link rel="stylesheet" href="res/css/area23.at.mono.css" />
     <title>Octal Dump (od) apache2 mod_mono C#</title>
     <script async src="res/js/area23.js"></script>
 </head>
@@ -68,7 +68,7 @@
             </span>
         </div>
         <div class="odDiv">
-            <span style="nowrap; width:90%; text-align: left;">
+            <span style="white-space: nowrap; width:90%; text-align: left;">
                 <table id="RBL_Radix" title="Radix format">
                     <tr>
                         <td><input id="RBL_Radix_0" type="radio" name="RBL_Radix" value="d" onclick="FormSubmit()" /><label for="RBL_Radix_0">Decimal</label></td>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace area23.at.www.mono.Properties {
+namespace Area23.At.Mono.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace area23.at.www.mono.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("area23.at.www.mono.Properties.Resource_en", typeof(Resource_en).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Area23.At.Mono.Properties.Resource_en", typeof(Resource_en).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

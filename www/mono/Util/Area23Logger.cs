@@ -1,10 +1,10 @@
-﻿using area23.at.www.mono.Util;
+﻿using Area23.At.Mono.Util;
 using NLog;
 using System;
 using System.IO;
 using System.Web;
 
-namespace area23.at.www.mono.Util
+namespace Area23.At.Mono.Util
 {
     /// <summary>
     /// simple singelton logger via NLog
@@ -76,7 +76,7 @@ namespace area23.at.www.mono.Util
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("area23.at.www.mono Exception: " + e.ToString());
+                    Console.WriteLine("Area23.At.Mono Exception: " + e.ToString());
                 }
             }
             try
@@ -88,7 +88,7 @@ namespace area23.at.www.mono.Util
             }
             catch (Exception e)
             {
-                Console.WriteLine("area23.at.www.mono Exception: " + e.ToString());
+                Console.WriteLine("Area23.At.Mono Exception: " + e.ToString());
             }
         }
 

@@ -4,7 +4,7 @@
 <%@ Import namespace="System.Web"%>
 <%@ Import namespace="System.Web.UI"  %>
 <%@ Import namespace="System.Web.UI.WebControls" %>
-<%@ Import namespace="area23.at.www.mono.Util" %>
+<%@ Import namespace="Area23.At.Mono.Util" %>
 
 <script runat="server" language="C#">
    
@@ -21,7 +21,7 @@
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server" ClientIDMode="Static">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>froga</title>
-    <link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
+    <link rel="stylesheet" href="res/css/area23.at.mono.css" />
 	<style>
         body.frogbody {
             color: white;
@@ -944,7 +944,8 @@
                         }
 
                         if (_move_Id.length >= 4) {
-                            switch (_move_Id.substr(0, 4)) {
+                            let moveIdent = _move_Id.substr(0, 4);
+                            switch (moveIdent) {
                                 case "car2": ++crashCnt;
                                     changeImagePlaySound(move, "res/img/car2crashed.png", "res/audio/frogCrash.ogg");
                                     move.src = "res/img/car2crashed.png";

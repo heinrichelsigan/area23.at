@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace area23.at.www.mono
+namespace Area23.At.Mono
 {
 
 

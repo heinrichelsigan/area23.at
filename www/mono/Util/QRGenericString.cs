@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace area23.at.www.mono.Util
+namespace Area23.At.Mono.Util
 {
     public class QRGenericString : PayloadGenerator.Payload
     {

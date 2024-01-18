@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 
-namespace area23.at.www.mono.Util
+namespace Area23.At.Mono.Util
 {
     public static class Extensions
     {

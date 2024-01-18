@@ -1,5 +1,5 @@
-﻿using area23.at.www.mono;
-using area23.at.www.mono.Util;
+﻿using Area23.At.Mono;
+using Area23.At.Mono.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
 
-namespace area23.at.www.mono.Util
+namespace Area23.At.Mono.Util
 {
     public static class Paths
     {
@@ -47,7 +47,7 @@ namespace area23.at.www.mono.Util
                 {
                     Area23Log.LogStatic(appFolderEx);
                 }
-                return Constants.APPDIR;
+                return Constants.APP_DIR;
             }
         }
    
@@ -76,14 +76,14 @@ namespace area23.at.www.mono.Util
 
                 // if (!resPath.Contains(AppFolder))
                 //      resPath += AppFolder + SepChar;
-                if (!resPath.Contains(Constants.RESFOLDER))
-                    resPath += Constants.RESFOLDER + SepChar;
+                if (!resPath.Contains(Constants.RES_FOLDER))
+                    resPath += Constants.RES_FOLDER + SepChar;
 
                 if (!Directory.Exists(resPath))
                 {
-                    string dirNotFound = String.Format("res directory {0} doesn't exist!", resPath);
-                    Area23Log.LogStatic(dirNotFound);
-                    throw new DirectoryNotFoundException(dirNotFound);
+                    string dirNotFoundMsg = String.Format("res directory {0} doesn't exist, creating it!", resPath);
+                    Area23Log.LogStatic(dirNotFoundMsg);
+                    Directory.CreateDirectory(resPath);                    
                 }
                 return resPath;
             }
@@ -114,7 +114,7 @@ namespace area23.at.www.mono.Util
                 //     logAppPath += AppFolder + SepChar;
 
                 logAppPath += String.Format("{0}{1}{2}_{3}.log",
-                    Constants.LOGDIR, SepChar, DateTime.UtcNow.ToString("yyyyMMdd"), Constants.APPNAME);
+                    Constants.LOG_DIR, SepChar, DateTime.UtcNow.ToString("yyyyMMdd"), Constants.APP_NAME);
                 // if (Directory.Exists(logAppPath))
                 return logAppPath;
             }

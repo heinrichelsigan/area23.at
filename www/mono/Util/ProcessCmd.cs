@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace area23.at.www.mono.Util
+namespace Area23.At.Mono.Util
 {
     /// <summary>
     /// static class for processing shell command

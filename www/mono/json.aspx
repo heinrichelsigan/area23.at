@@ -16,7 +16,7 @@
 <%@ Import namespace="System.Xml.Serialization" %>
 <%@ Import namespace="System.Runtime.Serialization" %>
 <%@ Import namespace="System.Runtime.Serialization.Json" %>
-<%@ Import namespace="area23.at.www.mono.Util" %>
+<%@ Import namespace="Area23.At.Mono.Util" %>
 
 <script runat="server" language="C#">
 
@@ -26,7 +26,7 @@
         if (!this.IsPostBack)
         {
             this.LiteralDateTime.Text = Constants.DateArea23 + " loading page json 2 xml & json deserialize tree paths sample...";
-            this.TextBoxJson.Text = Constants.JsonSample;
+            this.TextBoxJson.Text = Constants.JSON_SAMPLE;
             this.LinkButtonEmpty.Text = "empty json form";
         }
     }
@@ -120,7 +120,7 @@
         else if (this.LinkButtonEmpty.Text == "use json default sample") 
         {
             this.LiteralDateTime.Text = Constants.DateArea23 + "Prefilling json form with sample.";
-            this.TextBoxJson.Text = Constants.JsonSample;
+            this.TextBoxJson.Text = Constants.JSON_SAMPLE;
             this.LinkButtonEmpty.Text = "empty json form";
         }            
     }
@@ -171,7 +171,7 @@
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>    
     <link rel="stylesheet" href="https://area23.at/css/fortune.css" />
-    <link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
+    <link rel="stylesheet" href="res/css/area23.at.mono.css" />
     <title>json ser (apache2 mod_mono)</title>
     <script async src="res/js/area23.js"></script>
 </asp:Content>

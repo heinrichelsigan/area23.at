@@ -3,173 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace area23.at.www.mono.Util
+namespace Area23.At.Mono.Util
 {
+    /// <summary>
+    /// static Constants including static application settings
+    /// </summary>
     public static class Constants
     {
-        public const string APPNAME = "area23.at.www.mono";
-        public const string APPDIR = "mono";
+        #region public const
+        public const string APP_NAME = "Area23.At.Mono";
+        public const string APP_DIR = "mono";
         public const string VERSION = "v2.11.33";
-        public const string APPPATH = "https://area23.at/mono/test/";
-        public const string RPNURL = "https://area23.at/mono/test/RpnCalc.aspx";
-        public const string GITURL = "https://github.com/heinrichelsigan/area23.at";
-        public const string URLPIC = "https://area23.at/mono/test/res/img/";
-        public const string URLPREFIX = "https://area23.at/mono/test/res/";
-        public const string LOGDIR = "log";
-        public const string RESFOLDER = "res";
+        public const string APP_PATH = "https://area23.at/mono/test/";
+        public const string RPN_URL = "https://area23.at/mono/test/RpnCalc.aspx";
+        public const string GIT_URL = "https://github.com/heinrichelsigan/area23.at";
+        public const string URL_PIC = "https://area23.at/mono/test/res/img/";
+        public const string URL_PREFIX = "https://area23.at/mono/test/res/";
+        public const string LOG_DIR = "log";
+        public const string RES_FOLDER = "res";
         public const string ACCEPT_LANGUAGE = "Accept-Language";
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";
-        public const string DEFAULTMIMETYPE = "application/octet-stream";
+        public const string DEFAULT_MIMETYPE = "application/octet-stream";
 
-        public const char DATEDELIM = '-';
-        public const char WHITESPACE = ' ';
-        public const char UNDERSCORE = '_';
         public const char ANNOUNCE = ':';
+        public const char DATE_DELIM = '-';
+        public const char WHITE_SPACE = ' ';
+        public const char UNDER_SCORE = '_';
 
-        private static System.Globalization.CultureInfo locale = null;
-        private static String defaultLang = null;
-        public static System.Globalization.CultureInfo Locale
-        {
-            get
-            {
-                if (locale == null)
-                {
-                    defaultLang = "en";
-                    try
-                    {
-                        if (HttpContext.Current.Request != null && HttpContext.Current.Request.Headers != null &&
-                            HttpContext.Current.Request.Headers[ACCEPT_LANGUAGE] != null)
-                        {
-                            string firstLang = HttpContext.Current.Request.Headers[ACCEPT_LANGUAGE].
-                                ToString().Split(',').FirstOrDefault();
-                            defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
-                        }
+        public const string BACK_COLOR = "BackColor";
+        public const string QR_COLOR = "QrColor";
+        public const string BACK_COLOR_STRING = "BackColorString";
+        public const string QR_COLOR_STRING = "QrColorString";
 
-                        locale = new System.Globalization.CultureInfo(defaultLang);
-                    }
-                    catch (Exception)
-                    {
-                        defaultLang = "en";
-                        locale = new System.Globalization.CultureInfo(defaultLang);
-                    }
-                }
-                return locale;
-            }
-        }
-
-        public static string ISO2Lang { get => Locale.TwoLetterISOLanguageName; }
-
-
-        public static string DateArea23
-        {
-            get => DateTime.UtcNow.ToString("yyyy") + Constants.DATEDELIM +
-                DateTime.UtcNow.ToString("MM") + Constants.DATEDELIM +
-                DateTime.UtcNow.ToString("dd") + Constants.WHITESPACE +
-                DateTime.UtcNow.ToString("HH") + Constants.ANNOUNCE +
-                DateTime.UtcNow.ToString("mm") + Constants.ANNOUNCE + Constants.WHITESPACE;
-        }
-
-        public static string DateFile { get => DateArea23.Replace(WHITESPACE, UNDERSCORE).Replace(ANNOUNCE, UNDERSCORE); }
-
-        private static string backColorString = "#ffffff";
-        public static string BackColorString
-        {
-            get => backColorString;
-            set
-            {
-                backColor = ColorFrom.FromXrgb(value);
-                backColorString = backColor.ToXrgb();
-            }
-        }
-
-        private static string colorString = "#000000";
-        public static string ColorString
-        {
-            get => colorString;
-            set
-            {
-                qrColor = ColorFrom.FromXrgb(value);
-                colorString = qrColor.ToXrgb();
-            }
-        }
-
-        private static System.Drawing.Color qrColor, backColor;
-        public static System.Drawing.Color BackColor
-        {
-            get
-            {
-                try
-                {
-                    backColor = ColorFrom.FromXrgb(backColorString);
-                }
-                catch (Exception)
-                {
-                    backColorString = "#ffffff";
-                    backColor = ColorFrom.FromXrgb(backColorString);
-                    
-                    backColor.ToXrgb().ToString();
-                }
-                return qrColor;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    backColor = value;
-                    backColorString = value.ToXrgb();
-                }
-                else
-                {
-                    backColorString = "#ffffff";
-                    backColor = ColorFrom.FromXrgb(backColorString);
-                }
-            }
-        }
-
-        public static System.Drawing.Color QrColor
-        {
-            get
-            {       
-                try
-                {
-                    qrColor = ColorFrom.FromXrgb(colorString);
-                }
-                catch (Exception)
-                {
-                    colorString = "#000000";
-                    qrColor = ColorFrom.FromXrgb(colorString);
-                }
-                return qrColor;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    qrColor = value;
-                    colorString = value.ToXrgb();
-                }
-                else
-                {
-                    colorString = "#000000";
-                    qrColor = ColorFrom.FromHtml(colorString);
-                }
-            }                
-        } 
-
-        public static bool FortuneBool
-        {
-            get
-            {
-                if (HttpContext.Current.Session[FORTUNE_BOOL] == null)
-                    HttpContext.Current.Session[FORTUNE_BOOL] = false;
-                else
-                    HttpContext.Current.Session[FORTUNE_BOOL] = !((bool)HttpContext.Current.Session[FORTUNE_BOOL]);
-                
-                return (bool)HttpContext.Current.Session[FORTUNE_BOOL];
-            }
-        }
-
-        public const string JsonSample = "{ \n " +
+        public const string JSON_SAMPLE = "{ \n " +
             "\t\"quiz\": { \n " +
             "\t\t\"sport\": { \n " +
             "\t\t\t\"q1\": { \n " +
@@ -207,5 +73,140 @@ namespace area23.at.www.mono.Util
             "\t\t} \n " +
             "\t} \n " +
             "} \n ";
+        
+        #endregion public const
+
+        #region properties
+
+        private static System.Globalization.CultureInfo locale = null;
+        private static String defaultLang = null;
+
+        /// <summary>
+        /// Culture Info from HttpContext.Current.Request.Headers[ACCEPT_LANGUAGE]
+        /// </summary>
+        public static System.Globalization.CultureInfo Locale
+        {
+            get
+            {
+                if (locale == null)
+                {
+                    defaultLang = "en";
+                    try
+                    {
+                        if (HttpContext.Current.Request != null && HttpContext.Current.Request.Headers != null &&
+                            HttpContext.Current.Request.Headers[ACCEPT_LANGUAGE] != null)
+                        {
+                            string firstLang = HttpContext.Current.Request.Headers[ACCEPT_LANGUAGE].
+                                ToString().Split(',').FirstOrDefault();
+                            defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
+                        }
+
+                        locale = new System.Globalization.CultureInfo(defaultLang);
+                    }
+                    catch (Exception)
+                    {
+                        defaultLang = "en";
+                        locale = new System.Globalization.CultureInfo(defaultLang);
+                    }
+                }
+                return locale;
+            }
+        }
+
+        public static string ISO2Lang { get => Locale.TwoLetterISOLanguageName; }
+
+        /// <summary>
+        /// UTC DateTime Formated
+        /// </summary>
+        public static string DateArea23
+        {
+            get => DateTime.UtcNow.ToString("yyyy") + Constants.DATE_DELIM +
+                DateTime.UtcNow.ToString("MM") + Constants.DATE_DELIM +
+                DateTime.UtcNow.ToString("dd") + Constants.WHITE_SPACE +
+                DateTime.UtcNow.ToString("HH") + Constants.ANNOUNCE +
+                DateTime.UtcNow.ToString("mm") + Constants.ANNOUNCE + Constants.WHITE_SPACE;
+        }
+
+        /// <summary>
+        /// UTC DateTime File Prefix
+        /// </summary>
+        public static string DateFile { get => DateArea23.Replace(WHITE_SPACE, WHITE_SPACE).Replace(ANNOUNCE, UNDER_SCORE); }
+
+        private static readonly string backColorString = "#ffffff";
+        public static string BackColorString
+        {
+            get => (HttpContext.Current.Session != null && HttpContext.Current.Session[BACK_COLOR_STRING] != null) ?
+                    (string)HttpContext.Current.Session[BACK_COLOR_STRING] : backColorString;                
+            set
+            {
+                HttpContext.Current.Session[BACK_COLOR] = ColorFrom.FromXrgb(value);
+                HttpContext.Current.Session[BACK_COLOR_STRING] = value;
+            }
+        }
+
+        private static readonly string qrColorString = "#000000";
+        public static string QrColorString
+        {
+            get => (HttpContext.Current.Session != null && HttpContext.Current.Session[QR_COLOR_STRING] != null) ?
+                    (string)HttpContext.Current.Session[QR_COLOR_STRING] : qrColorString;
+            set
+            {
+                HttpContext.Current.Session[QR_COLOR] = ColorFrom.FromXrgb(value);
+                HttpContext.Current.Session[QR_COLOR_STRING] = value;
+            }
+        }
+
+        public static System.Drawing.Color BackColor
+        {
+            get => (HttpContext.Current.Session != null && HttpContext.Current.Session[BACK_COLOR] != null) ?
+                    (System.Drawing.Color)HttpContext.Current.Session[BACK_COLOR] : ColorFrom.FromXrgb(backColorString);
+            set
+            {
+                if (value != null)
+                {
+                    HttpContext.Current.Session[BACK_COLOR] = value;
+                    HttpContext.Current.Session[BACK_COLOR_STRING] = value.ToXrgb();
+                }
+                else
+                {
+                    HttpContext.Current.Session[BACK_COLOR_STRING] = backColorString;
+                    HttpContext.Current.Session[BACK_COLOR] = ColorFrom.FromXrgb(backColorString);
+                }
+            }
+        }
+
+        public static System.Drawing.Color QrColor
+        {
+            get => (HttpContext.Current.Session != null && HttpContext.Current.Session[QR_COLOR] != null) ?
+                    (System.Drawing.Color)HttpContext.Current.Session[QR_COLOR] : ColorFrom.FromXrgb(qrColorString);           
+            set
+            {
+                if (value != null)
+                {
+                    HttpContext.Current.Session[QR_COLOR_STRING] = backColorString;
+                    HttpContext.Current.Session[QR_COLOR] = ColorFrom.FromXrgb(backColorString);
+                }
+                else
+                {
+                    HttpContext.Current.Session[QR_COLOR_STRING] = qrColorString;
+                    HttpContext.Current.Session[QR_COLOR] = ColorFrom.FromXrgb(qrColorString);
+                }
+            }                
+        } 
+
+        public static bool FortuneBool
+        {
+            get
+            {
+                if (HttpContext.Current.Session[FORTUNE_BOOL] == null)
+                    HttpContext.Current.Session[FORTUNE_BOOL] = false;
+                else
+                    HttpContext.Current.Session[FORTUNE_BOOL] = !((bool)HttpContext.Current.Session[FORTUNE_BOOL]);
+                
+                return (bool)HttpContext.Current.Session[FORTUNE_BOOL];
+            }
+        }        
+
+        #endregion properties
     }
 }

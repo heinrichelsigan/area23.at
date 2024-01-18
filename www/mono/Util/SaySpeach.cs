@@ -10,7 +10,7 @@ using System.Speech.AudioFormat;
 using static System.Net.Mime.MediaTypeNames;
 using System.Web;
 
-namespace area23.at.www.mono
+namespace Area23.At.Mono
 {
     /// <summary>
     /// SaýSpeach is an audio wav generating singelton <see cref="Lazy{T}"/>.

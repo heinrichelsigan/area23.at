@@ -1,8 +1,8 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="HexDump.aspx.cs" Inherits="area23.at.www.mono.HexDump" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="HexDump.aspx.cs" Inherits="Area23.At.Mono.HexDump" %>
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="https://area23.at/css/od.css" />
-    <link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
+    <link rel="stylesheet" href="res/css/area23.at.mono.css" />
     <title>hex dump (apache2 mod_mono)</title>
     <script async src="res/js/area23.js"></script>
 </asp:Content>
@@ -48,7 +48,7 @@
         </span>
     </div>
     <div class="odDiv">
-        <span style="nowrap; width:90%; text-align: left;">
+        <span style="white-space: nowrap; width:90%; text-align: left;">
             <asp:RadioButtonList ID="RBL_Radix" runat="server" AutoPostBack="true" ToolTip="Radix format" RepeatDirection="Horizontal" OnSelectedIndexChanged="HexDump_ParameterChanged">
                 <asp:ListItem Selected="False" Value="d">Decimal</asp:ListItem>
                 <asp:ListItem Selected="False" Value="o">Octal</asp:ListItem>

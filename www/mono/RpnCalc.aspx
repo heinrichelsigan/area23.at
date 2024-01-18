@@ -1,9 +1,9 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="RpnCalc.aspx.cs" Inherits="area23.at.www.mono.RpnCalc" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="RpnCalc.aspx.cs" Inherits="Area23.At.Mono.RpnCalc" %>
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server" ClientIDMode="Static">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta id="metacursor" runat="server" content="9" />
 	<title>RPNCalc.Web</title>    
-	<link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
+	<link rel="stylesheet" href="res/css/area23.at.mono.css" />
     <link rel="stylesheet" href="res/css/rpncalcweb.css" />	
     <script async src="res/js/area23.js"></script>
 	<script type="text/javascript" src="res/js/rpn.js"></script>
@@ -30,7 +30,7 @@
 				<span id="rightNotes"></span>
 			</span>
 		</div>
-		<table class="rpnTbl" border="0" cellpadding="0" cellpadding="0">								
+		<table class="rpnTbl" border="0" cellpadding="0" cellspacing="0">								
 			<!--
 			<tr id="tr11" class="rpnTr">
 				<td class="rpnTd" width="10%" id="td11a"></td>

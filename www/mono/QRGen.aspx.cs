@@ -15,9 +15,9 @@ using System.Text;
 using System.Net;
 using System.Security.Policy;
 using static System.Net.WebRequestMethods;
-using area23.at.www.mono.Util;
+using Area23.At.Mono.Util;
 
-namespace area23.at.www.mono
+namespace Area23.At.Mono
 {
     public partial class QRGen : System.Web.UI.Page
     {
@@ -29,7 +29,12 @@ namespace area23.at.www.mono
         {
             if (!Page.IsPostBack)
             {
-                string qrCodeString = GetQrStringFromUrl(out redirectUrl);
+                string qrUrl = Request.QueryString["qrurl"];
+                if (string.IsNullOrEmpty(qrUrl))
+                    qrUrl = HttpUtility.UrlEncode("https://area23.at/", Encoding.UTF8);
+
+                redirectUrl = HttpUtility.UrlDecode(qrUrl, Encoding.UTF8);
+                string qrCodeString = GetQrStringFromUrl(ref redirectUrl);
                 if (!string.IsNullOrEmpty(qrCodeString)) {
                     Bitmap qrGenBmp = GetQRBitmap(qrCodeString);
                     SetQRImage(qrGenBmp, redirectUrl);
@@ -39,16 +44,15 @@ namespace area23.at.www.mono
         }
 
 
-        protected virtual string GetQrStringFromUrl(out string redirUrl, string qrQueryString = "qrurl")
+        /// <summary>
+        /// Get QR Code String from Url
+        /// </summary>
+        /// <param name="redirUrl">reference to url from which qr code is generated and where page redirects afer 8 sec</param>
+        /// <returns>QrCodeString</returns>
+        protected virtual string GetQrStringFromUrl(ref string redirUrl)
         {
             string qrString = "";
-            string qrUrl = Request.QueryString["qrurl"];
-            if (string.IsNullOrEmpty(qrUrl))
-            {
-                qrUrl = HttpUtility.UrlEncode("https://area23.at/", Encoding.UTF8);
-            }
-
-            redirUrl = HttpUtility.UrlDecode(qrUrl, Encoding.UTF8);            
+        
             redirectUri = new Uri(redirUrl);
             if (redirectUri.IsAbsoluteUri)
             {

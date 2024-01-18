@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="od.aspx.cs" Inherits="area23.at.www.mono.od" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="od.aspx.cs" Inherits="Area23.At.Mono.od" %>
 
 <!DOCTYPE html>
 

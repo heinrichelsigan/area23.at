@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace area23.at.www.mono.Util
+namespace Area23.At.Mono.Util
 {
     public static class ResReader
     {

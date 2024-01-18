@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="area23.at.www.mono.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Area23.At.Mono.Global" Language="C#" %>

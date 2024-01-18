@@ -1,7 +1,7 @@
-﻿<%@ Page Language="C#"  MasterPageFile="~/QRMaster.master" AutoEventWireup="true" CodeBehind="QRGen.aspx.cs" Inherits="area23.at.www.mono.QRGen" %>
+﻿<%@ Page Language="C#"  MasterPageFile="~/QRMaster.master" AutoEventWireup="true" CodeBehind="QRGen.aspx.cs" Inherits="Area23.At.Mono.QRGen" %>
 <asp:Content ID="QrHeadContent" ContentPlaceHolderID="QrHead" runat="server">
 	<title>qrcode url param passed (apache2 mod_mono)</title>
-	<link rel="stylesheet" href="res/css/area23.at.www.mono.css" />
+	<link rel="stylesheet" href="res/css/area23.at.mono.css" />
 	<meta name="keywords" content="QR code generator" />
 	<meta name="description" content="https://github.com/codebude/QRCoder/" />
 </asp:Content>

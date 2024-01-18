@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace area23.at.www.mono
+namespace Area23.At.Mono
 {
 
 
@@ -31,6 +31,15 @@ namespace area23.at.www.mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnUploadTrans;
+
+        /// <summary>
+        /// btnUpLoadRe control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnUpLoadRe;
 
         /// <summary>
         /// btnUploadRe control.

@@ -1,4 +1,4 @@
-﻿using area23.at.www.mono.Util;
+﻿using Area23.At.Mono.Util;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace area23.at.www.mono
+namespace Area23.At.Mono
 {
     public partial class ByteTransColor : System.Web.UI.Page
     {
@@ -85,7 +85,7 @@ namespace area23.at.www.mono
 
             string mimeType = ByteArrayToFile(bList.ToArray());   
             string base64Data = Convert.ToBase64String(bList.ToArray());
-            this.imgOut.Src = "data:" + mimeType + ";base64," + base64Data; 
+            imgOut.Src = "data:" + mimeType + ";base64," + base64Data; 
         }
 
 
@@ -134,7 +134,7 @@ namespace area23.at.www.mono
             MemoryStream ms = new MemoryStream();
             fromBytesTransImage.Save(ms, ImageFormat.Png);
             string base64Data = Convert.ToBase64String(ms.ToArray());
-            this.imgOut.Src = "data:image/png;base64," + base64Data;
+            imgOut.Src = "data:image/png;base64," + base64Data;
 
         }
 
@@ -147,7 +147,7 @@ namespace area23.at.www.mono
             strFileName = oFile.PostedFile.FileName;
             strFileName = Path.GetFileName(strFileName);
             lblUploadResult.Text = "";
-            if (oFile.Value != "")
+            if (!String.IsNullOrEmpty(oFile.Value))
             {                
                 // Save the uploaded file to the server.
                 strFilePath = ResFoler + strFileName;
@@ -167,8 +167,8 @@ namespace area23.at.www.mono
 
                 byte[] fileBytes = oFile.PostedFile.InputStream.ToByteArray();
                 string base64Data = Convert.ToBase64String(fileBytes);
-                this.imgIn.Src = "data:image;base64," + base64Data;
-                this.TransformImage(fileBytes, strFilePath);
+                imgIn.Src = "data:image;base64," + base64Data;
+                TransformImage(fileBytes, strFilePath);
             }
             else
             {
@@ -181,6 +181,10 @@ namespace area23.at.www.mono
         }
 
 
+        protected void buttonUpload_Click(object sender, EventArgs e)
+        {
+            btnUploadRe_Click(sender, e);
+        }
 
         protected void btnUploadRe_Click(object sender, EventArgs e)
         {
@@ -190,7 +194,7 @@ namespace area23.at.www.mono
             // Get the name of the file that is posted.
             strFileName = oFile.PostedFile.FileName;
             strFileName = Constants.DateFile + Path.GetFileName(strFileName);
-            if (oFile.Value != "")
+            if (!string.IsNullOrEmpty(oFile.Value))
             {
                 // Save the uploaded file to the server.
                 strFilePath = ResFoler + strFileName;
@@ -205,8 +209,8 @@ namespace area23.at.www.mono
 
                 byte[] fileBytes = oFile.PostedFile.InputStream.ToByteArray();
                 var base64Data = Convert.ToBase64String(fileBytes);
-                this.imgIn.Src = "data:image;base64," + base64Data;
-                this.ReTransformImage(strFilePath);
+                imgIn.Src = "data:image;base64," + base64Data;
+                ReTransformImage(strFilePath);
             }
             else
             {

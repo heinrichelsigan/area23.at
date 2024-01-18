@@ -6,13 +6,13 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8D7B72DC-A870-4762-8C3B-917C9FBE55AF}</ProjectGuid>
+    <ProjectGuid>{740A6674-AD04-410A-87B2-A30223EB1EED}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Area23.At.Mono</RootNamespace>
     <AssemblyName>Area23.At.Mono</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
@@ -49,9 +49,6 @@
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
@@ -98,14 +95,14 @@
     <Reference Include="System.Text.Encodings.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Text.Encodings.Web.8.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
-    <Reference Include="System.Text.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Text.Json.8.0.0\lib\net462\System.Text.Json.dll</HintPath>
+    <Reference Include="System.Text.Json, Version=2.0.0.11, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>D:\source\area23.at\www\packages\System.Text.Json.2.0.0.11\lib\net40\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>D:\source\area23.at\www\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData">
       <Private>True</Private>
@@ -157,6 +154,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="FortunAsp.aspx" />
+    <Content Include="res\css\area23.at.mono.css" />
     <Content Include="res\js\rpn.js" />
     <Content Include="RpnCalc.aspx" />
     <Content Include="HexDump.aspx" />
@@ -253,7 +251,6 @@
     <Content Include="od.html" />
     <Content Include="Qrc.aspx" />
     <Content Include="QRCodeGen.aspx" />
-    <Content Include="res\css\area23.at.www.mono.css" />
     <Content Include="Web.config" />
     <Content Include="OctalDump.aspx" />
   </ItemGroup>
@@ -368,7 +365,6 @@
     <Compile Include="Util\ColorForm.cs" />
     <Compile Include="Util\Constants.cs" />
     <Compile Include="Util\Extensions.cs" />
-    <Compile Include="Util\GlobalAppSettings.cs" />
     <Compile Include="Util\Area23Logger.cs" />
     <Compile Include="Util\MimeType.cs" />
     <Compile Include="Util\Paths.cs" />
@@ -394,8 +390,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Control\" />
-	<Folder Include="Control\Master\" />
+    <Folder Include="Control\Master\" />
     <Folder Include="Control\Page\" />
   </ItemGroup>
   <ItemGroup>

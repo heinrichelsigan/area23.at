@@ -1,4 +1,4 @@
-﻿using area23.at.www.mono.Util;
+﻿using Area23.At.Mono.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,19 +6,19 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace area23.at.www.mono
+namespace Area23.At.Mono
 {
     public partial class Area23 : System.Web.UI.MasterPage
     {
 
-        public global::System.Web.UI.HtmlControls.HtmlForm MasterForm { get => this.Area23MasterForm; }
-        public global::System.Web.UI.WebControls.ContentPlaceHolder MasterHead { get => this.HeadContentPlaceHolder; }
-        public global::System.Web.UI.WebControls.ContentPlaceHolder MasterBody { get => this.BodyContentPlaceHolder; }
+        public global::System.Web.UI.HtmlControls.HtmlForm MasterForm { get => Area23MasterForm; }
+        public global::System.Web.UI.WebControls.ContentPlaceHolder MasterHead { get => HeadContentPlaceHolder; }
+        public global::System.Web.UI.WebControls.ContentPlaceHolder MasterBody { get => BodyContentPlaceHolder; }
 
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!this.IsPostBack)
+            if (!Page.IsPostBack)
             {
                 NavFolderHandler(sender, e);
             }
@@ -39,39 +39,39 @@ namespace area23.at.www.mono
 
             try
             {
-                if (this.Request != null && this.Request.RawUrl != null)
+                if (Request != null && Request.RawUrl != null)
                 {
-                    if (this.Request.RawUrl.ToLower().Contains("fortun"))
+                    if (Request.RawUrl.ToLower().Contains("fortun"))
                     {
                         spanLeft.Style["background-color"] = "#ffddee";
                         return;
                     }
-                    if (this.Request.RawUrl.ToLower().Contains("hex"))
+                    if (Request.RawUrl.ToLower().Contains("hex"))
                     {
                         spanLeftCenter.Style["background-color"] = "#ffddee";
                         return;
                     }
-                    if (this.Request.RawUrl.ToLower().Contains("qr"))
+                    if (Request.RawUrl.ToLower().Contains("qr"))
                     {
                         spanCenter0.Style["background-color"] = "#ffddee";
                         return;
                     }
-                    if (this.Request.RawUrl.ToLower().Contains("json"))
+                    if (Request.RawUrl.ToLower().Contains("json"))
                     {
                         spanCenter1.Style["background-color"] = "#ffddee";
                         return;
                     }
-                    if (this.Request.RawUrl.ToLower().Contains("trans"))
+                    if (Request.RawUrl.ToLower().Contains("trans"))
                     {
                         spanCenter2.Style["background-color"] = "#ffddee";
                         return;
                     }
-                    if (this.Request.RawUrl.ToLower().Contains("rpn"))
+                    if (Request.RawUrl.ToLower().Contains("rpn"))
                     {
                         spanCenter3.Style["background-color"] = "#ffddee";
                         return;
                     }
-                    if (this.Request.RawUrl.ToLower().Contains("frog"))
+                    if (Request.RawUrl.ToLower().Contains("frog"))
                     {
                         spanRightCenter.Style["background-color"] = "#ffddee";
                         return;
@@ -85,29 +85,29 @@ namespace area23.at.www.mono
 
             try
             {
-                if (this.Page != null && this.Page.Title != null)
+                if (Page != null && Page.Title != null)
                 {
-                    if (this.Page.Title.ToLower().StartsWith("fortune"))
+                    if (Page.Title.ToLower().StartsWith("fortune"))
                     {
                         spanLeft.Style["background-color"] = "#ffddee";
                         return;
                     }
-                    if (this.Page.Title.ToLower().StartsWith("hex"))
+                    if (Page.Title.ToLower().StartsWith("hex"))
                     {
                         spanLeftCenter.Style["background-color"] = "#ffddee";
                         return;
                     }
-                    if (this.Page.Title.ToLower().Contains("qr"))
+                    if (Page.Title.ToLower().Contains("qr"))
                     {
                         spanCenter0.Style["background-color"] = "#ffddee";
                         return;
                     }
-                    if (this.Page.Title.ToLower().Contains("json"))
+                    if (Page.Title.ToLower().Contains("json"))
                     {
                         spanCenter1.Style["background-color"] = "#ffddee";
                         return;
                     }
-                    if (this.Page.Title.ToLower().Contains("trans"))
+                    if (Page.Title.ToLower().Contains("trans"))
                     {
                         spanCenter2.Style["background-color"] = "#ffddee";
                         return;

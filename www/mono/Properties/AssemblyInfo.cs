@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die
 // Assemblyinformationen zu ändern.
-[assembly: AssemblyTitle("area23.at.www.mono")]
-[assembly: AssemblyDescription("area23.at.www.mono small pages")]
+[assembly: AssemblyTitle("Area23.At.Mono")]
+[assembly: AssemblyDescription("Area23.At.Mono small pages")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("area23.at")]
-[assembly: AssemblyProduct("area23.at.www.mono")]
-[assembly: AssemblyCopyright("Copyleft Heinrich Elsigan ©  2022-2024")]
+[assembly: AssemblyProduct("Area23.At.Mono")]
+[assembly: AssemblyCopyright("Copyleft Heinrich Elsigan ©  2020-2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // Sie können alle Werte angeben oder die standardmäßigen Revisions- und Buildnummern 
 // übernehmen, indem Sie "*" wie folgt verwenden:
-[assembly: AssemblyVersion("1.2024.0113.0")]
-[assembly: AssemblyFileVersion("1.2024.0113.0")]
+[assembly: AssemblyVersion("1.2024.0118.0")]
+[assembly: AssemblyFileVersion("1.2024.0118.0")]
