@@ -17,6 +17,7 @@ namespace Area23.At.Mono
             get => _textCursor;
             set => _textCursor = (value > 0 && value <= 18) ? value : _textCursor;
         }
+        public TextBox CurrentTextBox { get => this.textboxRpn; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -33,9 +34,9 @@ namespace Area23.At.Mono
             }
             _textCursor = (metacursor.Attributes["content"] != null) ? Int32.Parse(metacursor.Attributes["content"]) : _textCursor;
         }
-
-        public TextBox CurrentTextBox { get => this.textboxRpn; }
-
+               
+         
+        [Obsolete("rpnCalc_Click is obseolte", false)]
         protected void rpnCalc_Click(object sender, EventArgs e)
         {
             object o1 = sender;
@@ -43,15 +44,35 @@ namespace Area23.At.Mono
 
         }
 
-        protected void bBracers_Click(object sender, EventArgs e)
-        {
-            string mathString = (sender is Button) ? ((Button)sender).Text : "";
-        }
-
+        [Obsolete("bDummy_Click is obseolte", false)]
         protected void bDummy_Click(object sender, EventArgs e)
         {
             bEnter_Click(sender, e);
         }
+
+
+        protected void bBracers_Click(object sender, EventArgs e)
+        {
+            string mathString = (sender is Button) ? ((Button)sender).Text : "";
+        }
+        
+        protected void bNumber_Click(object sender, EventArgs e)
+        {
+            string mathString = (sender is Button) ? ((Button)sender).Text : "";
+            this.textboxtop.Text += mathString.ToString();
+        }
+
+        protected void bPiE_Click(object sender, EventArgs e)
+        {
+            string mathString = (sender is Button) ? ((Button)sender).Text : "";
+            this.textboxtop.Text = mathString;
+            TextCursor++;
+            rpnStack.Push(textboxtop.Text);
+            this.textboxtop.Text = string.Empty;
+            RpnStackToTextBox();
+            SetMetaContent();
+        }
+
         protected void bMath_Click(object sender, EventArgs e)
         {
             string mathString = (sender is Button) ? ((Button)sender).Text : "";
@@ -63,8 +84,29 @@ namespace Area23.At.Mono
                     rpnStack.Push(mathString.ToString());
                     TextCursor++;
                     RpnStackToTextBox();
-                    SetMetaContent();                    
-                } 
+                    SetMetaContent();
+                }
+                else
+                {
+                    this.textboxtop.BorderColor = Color.Red;
+                    this.textboxRpn.BorderStyle = BorderStyle.Dotted;
+                }
+            }
+        }
+        
+        protected void bMath2Op_Click(object sender, EventArgs e)
+        {
+            string mathString = (sender is Button) ? ((Button)sender).Text : "";
+            if (!string.IsNullOrEmpty(mathString))
+            {
+                this.textboxtop.Text = mathString.ToString();
+                if (ValidateMath2Op(this.textboxtop.Text))
+                {
+                    rpnStack.Push(mathString.ToString());
+                    TextCursor++;
+                    RpnStackToTextBox();
+                    SetMetaContent();
+                }
                 else
                 {
                     this.textboxtop.BorderColor = Color.Red;
@@ -73,75 +115,40 @@ namespace Area23.At.Mono
             }
         }
 
-        protected bool ValidateMath2Op(string op)
+        protected void BClear_Click(object sender, EventArgs e)
         {
-            string[] rpnArr = rpnStack.ToArray();
-            if (rpnArr == null || rpnArr.Length < 2)
-                return false;
-            return (ValidateNumber(rpnArr[rpnArr.Length - 1]) && ValidateNumber(rpnArr[rpnArr.Length - 2]));
-        }
-        protected bool ValidateMath(string op) 
-        {
-            string[] rpnArr = rpnStack.ToArray();
-            return (ValidateNumber(rpnArr[rpnArr.Length - 1]));
-        }
-        protected bool ValidateNumber(string num)
-        {
-            if (string.IsNullOrEmpty(num))
-                return false;
+            this.textboxtop.Text = "";
+            this.textboxRpn.Text = "";
+            this.textbox0.Text = "";
+            this.rpnStack.Clear();
             
-            string rest = num.Trim("0123456789.,".ToArray());
-            return (string.IsNullOrEmpty(rest));            
         }
 
-        protected bool ValidateOperator(string op)
+        protected void Bdel_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(op))
+            if (!string.IsNullOrEmpty(this.textboxtop.Text) && textboxtop.Text.Length > 0)
             {
-                switch (op)
-                {
-                    case "*":
-                    case "×":
-                    case "+":
-                    case "-":
-                    case "/":
-                    case "xⁿ":
-                    case "÷":
-                    case "^":                    
-                    case "√":
-                    case "∛":
-                    case "∜":
-                    case "|x|":
-                    case "2ⁿ":
-                    case "10ⁿ":
-                    case "!":
-                    case "sin":
-                    case "cos":
-                    case "tan":
-                    case "x²":
-                    case "x³":
-                    case "1/x":
-                    case "log":
-                    case "ln":
-                    case "ld":
-                        return true;
-                    default: return false;
-                }
+                this.textboxtop.Text = string.Empty;
             }
-            return false;
-        }
+            else
+            {
+                if (rpnStack.Count > 0)
+                {
+                    rpnStack.Pop();
+                    TextCursor--;
+                    RpnStackToTextBox();
+                    SetMetaContent();
+                }
+                else this.textboxRpn.Text = string.Empty;
+            }
 
-        protected void bNumber_Click(object sender, EventArgs e)
-        {
-            string mathString = (sender is Button) ? ((Button)sender).Text : "";
-            this.textboxtop.Text += mathString.ToString();
         }
 
         protected void bEnter_Click(object sender, EventArgs e)
         {
             this.textboxtop.Text = textboxtop.Text.TrimStart(" ".ToArray()).TrimEnd(" ".ToArray());
             if (!string.IsNullOrEmpty(this.textboxtop.Text))
-            {                
+            {
                 if (ValidateNumber(this.textboxtop.Text))
                 {
                     TextCursor++;
@@ -157,27 +164,6 @@ namespace Area23.At.Mono
                 }
             }
 
-        }
-
-        protected void SetMetaContent()
-        {
-            this.textboxtop.BorderColor = Color.Black;
-            this.textboxtop.BorderStyle = BorderStyle.None;
-            this.textboxRpn.BorderStyle = BorderStyle.None;
-
-            if (metacursor.Attributes["content"] == null)
-                metacursor.Attributes.Add("content", TextCursor.ToString());
-            else
-                metacursor.Attributes["content"] = TextCursor.ToString();
-        }
-
-        protected void BClear_Click(object sender, EventArgs e)
-        {
-            this.textboxtop.Text = "";
-            this.textboxRpn.Text = "";
-            this.textbox0.Text = "";
-            this.rpnStack.Clear();
-            
         }
 
         protected void BEval_Click(object sender, EventArgs e)
@@ -280,6 +266,12 @@ namespace Area23.At.Mono
                         case "|x|":
                             result = Math.Abs(Double.Parse(n0)).ToString();
                             break;
+                        case "%":
+                            result = ((double)(Double.Parse(n0) / 100)).ToString();
+                            break;
+                        case "‰":
+                            result = ((double)(Double.Parse(n0) / 1000)).ToString();
+                            break;
                         default:
                             if (n1 != null)
                                 rpnStack.Push(n1);
@@ -300,24 +292,78 @@ namespace Area23.At.Mono
             }
         }
 
-        protected void Bdel_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(this.textboxtop.Text) && textboxtop.Text.Length > 0)
-            {
-                this.textboxtop.Text = string.Empty;
-            }
-            else
-            {
-                if (rpnStack.Count > 0)
-                {
-                    rpnStack.Pop();
-                    TextCursor--;
-                    RpnStackToTextBox();
-                    SetMetaContent();
-                }
-                else this.textboxRpn.Text = string.Empty;
-            } 
 
+        #region validate rpn
+        protected bool ValidateMath2Op(string op)
+        {
+            string[] rpnArr = rpnStack.ToArray();
+            if (rpnArr == null || rpnArr.Length < 2)
+                return false;
+            return (ValidateNumber(rpnArr[rpnArr.Length - 1]) && ValidateNumber(rpnArr[rpnArr.Length - 2]));
+        }
+        protected bool ValidateMath(string op)
+        {
+            string[] rpnArr = rpnStack.ToArray();
+            return (ValidateNumber(rpnArr[rpnArr.Length - 1]));
+        }
+        protected bool ValidateNumber(string num)
+        {
+            if (string.IsNullOrEmpty(num))
+                return false;
+
+            string rest = num.Trim("0123456789.,ℇπ,".ToArray());
+            return (string.IsNullOrEmpty(rest));
+        }
+        protected bool ValidateOperator(string op)
+        {
+            if (!string.IsNullOrEmpty(op))
+            {
+                switch (op)
+                {
+                    case "*":
+                    case "×":
+                    case "+":
+                    case "-":
+                    case "/":
+                    case "xⁿ":
+                    case "÷":
+                    case "^":
+                    case "√":
+                    case "∛":
+                    case "∜":
+                    case "‰":
+                    case "%":
+                    case "|x|":
+                    case "2ⁿ":
+                    case "10ⁿ":
+                    case "!":
+                    case "sin":
+                    case "cos":
+                    case "tan":
+                    case "x²":
+                    case "x³":
+                    case "1/x":
+                    case "log":
+                    case "ln":
+                    case "ld":
+                        return true;
+                    default: return false;
+                }
+            }
+            return false;
+        }
+
+        #endregion validate rpn
+        protected void SetMetaContent()
+        {
+            this.textboxtop.BorderColor = Color.Black;
+            this.textboxtop.BorderStyle = BorderStyle.None;
+            this.textboxRpn.BorderStyle = BorderStyle.None;
+
+            if (metacursor.Attributes["content"] == null)
+                metacursor.Attributes.Add("content", TextCursor.ToString());
+            else
+                metacursor.Attributes["content"] = TextCursor.ToString();
         }
 
         protected void RpnStackToTextBox()
@@ -325,38 +371,8 @@ namespace Area23.At.Mono
             this.textboxRpn.Text = string.Empty;
             rpnStack.ToList().ForEach(x => this.textboxRpn.Text += x.ToString() + "\n");
             Session["rpnStack"] = rpnStack;
+            this.textboxtop.Focus();
         }
 
-        protected void bPiE_Click(object sender, EventArgs e)
-        {
-            string mathString = (sender is Button) ? ((Button)sender).Text : "";
-            this.textboxtop.Text = mathString;
-            TextCursor++;
-            rpnStack.Push(textboxtop.Text);
-            this.textboxtop.Text = string.Empty;
-            RpnStackToTextBox();
-            SetMetaContent();
-        }
-
-        protected void bMath2Op_Click(object sender, EventArgs e)
-        {
-            string mathString = (sender is Button) ? ((Button)sender).Text : "";
-            if (!string.IsNullOrEmpty(mathString))
-            {
-                this.textboxtop.Text = mathString.ToString();
-                if (ValidateMath2Op(this.textboxtop.Text))
-                {
-                    rpnStack.Push(mathString.ToString());
-                    TextCursor++;
-                    RpnStackToTextBox();
-                    SetMetaContent();
-                }
-                else
-                {
-                    this.textboxtop.BorderColor = Color.Red;
-                    this.textboxRpn.BorderStyle = BorderStyle.Dotted;
-                }
-            }
-        }
     }
 }

@@ -60,15 +60,6 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCalcMode;
 
         /// <summary>
-        /// BDummy control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BDummy;
-
-        /// <summary>
         /// Bsin control.
         /// </summary>
         /// <remarks>
@@ -546,15 +537,6 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Bplusminus;
 
         /// <summary>
-        /// Beval control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Beval;
-
-        /// <summary>
         /// Bequ control.
         /// </summary>
         /// <remarks>
@@ -562,6 +544,15 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Bequ;
+
+        /// <summary>
+        /// Beval control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Beval;
 
         /// <summary>
         /// textbox0 control.

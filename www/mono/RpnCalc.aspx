@@ -33,7 +33,7 @@
 			</div>
 			<table class="rpnTbl" border="0" cellpadding="0" cellspacing="0">												
 				<tr id="tr9" class="rpnTr">
-					<td class="rpnTd" width="10%" id="td9a"><asp:Button ID="BDummy" ClientIDMode="Static" runat="server" Text=" " OnClick="bDummy_Click" /></td>
+					<td class="rpnTd" width="10%" id="td9a"></td>
 					<td class="gainsboroTd" width="10%" id="td9b" align="center"><asp:Button ID="Bsin" ClientIDMode="Static" runat="server" Text="sin" OnClick="bMath_Click" /></td>
 					<td class="gainsboroTd" width="10%" id="td9c" align="center"><asp:Button ID="Bcos" ClientIDMode="Static" runat="server" Text="cos" OnClick="bMath_Click" /></td>
 					<td class="gainsboroTd" width="10%" id="td9d" align="center"><asp:Button ID="Btan" ClientIDMode="Static" runat="server" Text="tan" OnClick="bMath_Click" /></td>
@@ -128,13 +128,13 @@
 					<td class="gainsboroTd" width="10%" id="td1d" align="center"><asp:Button ID="B0" runat="server" Text="0" OnClick="bNumber_Click" /></td>
 					<td class="gainsboroTd" width="10%" id="td1e" align="center"><asp:Button ID="Bcomma" runat="server" Text="," OnClick="bNumber_Click" /></td>
 					<td class="deeppinkTd" width="10%" id="td1f" align="center"><asp:Button ID="Bplusminus" ClientIDMode="Static" runat="server" Text="±" OnClick="bMath_Click" /></td>
-					<td class="palevioletredTd" width="10%" id="td1g" align="center"><asp:Button ID="Beval" ClientIDMode="Static" runat="server" Text="Eval" OnClick="BEval_Click" /></td>
+					<td class="palevioletredTd" width="10%" id="td1g" align="center"><asp:Button ID="Bequ" runat="server" Text="=" OnClick="BEval_Click" ClientIDMode="Static" /></td>
 					<td class="rpnTd" width="10%" id="td1h"></td>
 				</tr>
 				<tr id="tr0" class="rpnTr">
 					<td class="rpnTd" width="60%" colspan="6" id="td0a"></td>
-					<td class="palevioletredTd" width="10%" id="td0g" align="center">
-                        <asp:Button ID="Bequ" runat="server" Text="=" OnClick="BEval_Click" ClientIDMode="Static" /></td>
+					<td class="palevioletredTd" width="10%" id="td0g" align="center"><asp:Button ID="Beval" ClientIDMode="Static" runat="server" Text="Eval" OnClick="BEval_Click" />
+					</td>
                     <td class="rpnTd" width="10%" id="td0h"></td>
 					<td class="rpnTd" width="20%" id="td0i" colspan="2"><asp:TextBox ID="textbox0" ClientIDMode="Static" runat="server"></asp:TextBox></td>
 				</tr>
