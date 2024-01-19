@@ -89,7 +89,6 @@ function rpnInit() {
 					metacursor = document.getElementById("metacursor");
 				if (metacursor != null)  
 					metacursor.setAttribute("content", --textcursor);
-				textboxRpn.innerText += "\n" + textboxtop.innerText;
 			}
 			bEnter = document.getElementById("BEnter");
 			if (bEnter != null) {
@@ -98,22 +97,22 @@ function rpnInit() {
 			}
 		}
 
-		if (e.which >= 10 && e.which <= 15)
-			captureKey(e.which);
+		// if (e.which >= 10 && e.which <= 15)
+		//  	captureKey(e.which);
 
-		if (e.which >= 19 && e.which <= 36)
-			captureKey(e.which);
+		// if (e.which >= 19 && e.which <= 36)
+		// 	captureKey(e.which);
 
-		if (e.which >= 37 && e.which <= 40)
-			captureKey(e.which);
+		// if (e.which >= 37 && e.which <= 40)
+		// 	captureKey(e.which);
 
-		if (e.which >= 40 && e.which <= 128) {
-			captureKey(e.which);
-		}
+		// if (e.which >= 40 && e.which <= 128) {
+		// 	captureKey(e.which);
+		// }
 
-		if (e.which > 128 && e.which < 256) {
-			captureKey(e.which);
-		}
+		// if (e.which > 128 && e.which < 256) {
+		// 	captureKey(e.which);
+		// }
 	};
 }
 
