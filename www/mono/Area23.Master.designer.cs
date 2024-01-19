@@ -24,15 +24,6 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContentPlaceHolder;
 
         /// <summary>
-        /// Area23MasterForm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm Area23MasterForm;
-
-        /// <summary>
         /// spanLeft control.
         /// </summary>
         /// <remarks>
@@ -112,5 +103,14 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder BodyContentPlaceHolder;
+
+        /// <summary>
+        /// Area23MasterForm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlForm Area23MasterForm;
     }
 }

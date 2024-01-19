@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static System.Net.WebRequestMethods;
 
 namespace Area23.At.Mono
 {
@@ -15,7 +16,10 @@ namespace Area23.At.Mono
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Request.Files != null && Request.Files.Count > 0)
+            {
+                buttonUpload_Click(sender, e);
+            }
         }
 
         protected string ResFoler
@@ -40,7 +44,7 @@ namespace Area23.At.Mono
 
             List<Byte> bList = new List<byte>();
 
-            if (!string.IsNullOrEmpty(imgFileName) && File.Exists(imgFileName))
+            if (!string.IsNullOrEmpty(imgFileName) && System.IO.File.Exists(imgFileName))
                 x1Image = new Bitmap(imgFileName, false);
 
             List<long> transList = new List<long>();
@@ -94,7 +98,7 @@ namespace Area23.At.Mono
             System.Drawing.Bitmap x1Image = null;
             System.Drawing.Bitmap fromBytesTransImage = null;
 
-            if (!string.IsNullOrEmpty(imgFileName) && File.Exists(imgFileName))
+            if (!string.IsNullOrEmpty(imgFileName) && System.IO.File.Exists(imgFileName))
                 x1Image = new Bitmap(imgFileName);
 
             double dlen = (int)(data.Length / 3) + 1;
@@ -138,20 +142,35 @@ namespace Area23.At.Mono
 
         }
 
+
+        protected void buttonTransUpload_Click(object sender, EventArgs e)
+        {
+            if (Request.Files != null && Request.Files.Count > 0)
+                TransformUploadFile(Request.Files[0]);
+        }
+
+
         protected void btnUploadTrans_Click(object sender, EventArgs e)
         {
-            string strFileName;
+            if (!String.IsNullOrEmpty(oFile.Value))
+            {
+                TransformUploadFile(oFile.PostedFile);
+            }
+        }
+
+        protected void TransformUploadFile(HttpPostedFile pfile)
+        {
             string strFilePath;
-            
             // Get the name of the file that is posted.
-            strFileName = oFile.PostedFile.FileName;
+            string strFileName = pfile.FileName;
             strFileName = Path.GetFileName(strFileName);
             lblUploadResult.Text = "";
-            if (!String.IsNullOrEmpty(oFile.Value))
-            {                
+
+            if (pfile != null)
+            {
                 // Save the uploaded file to the server.
                 strFilePath = ResFoler + strFileName;
-                while (File.Exists(strFilePath))
+                while (System.IO.File.Exists(strFilePath))
                 {
                     string newFileName = strFilePath.Contains(Constants.DateFile) ?
                         Constants.DateFile + Guid.NewGuid().ToString() + "_" + strFileName :
@@ -161,14 +180,23 @@ namespace Area23.At.Mono
                         strFileName, newFileName);
                 }
 
-                oFile.PostedFile.SaveAs(strFilePath);
+                pfile.SaveAs(strFilePath);
                 if (string.IsNullOrEmpty(lblUploadResult.Text))
                     lblUploadResult.Text = strFileName + " has been successfully uploaded.";
 
-                byte[] fileBytes = oFile.PostedFile.InputStream.ToByteArray();
+                byte[] fileBytes = pfile.InputStream.ToByteArray();
                 string base64Data = Convert.ToBase64String(fileBytes);
                 imgIn.Src = "data:image;base64," + base64Data;
-                TransformImage(fileBytes, strFilePath);
+                
+                System.Drawing.Bitmap x1Image = null;
+                if (!string.IsNullOrEmpty(strFilePath) && System.IO.File.Exists(strFilePath))
+                {
+                    x1Image = new Bitmap(strFilePath);
+                    if (x1Image.Width == x1Image.Height)
+                        ReTransformImage(strFilePath);
+                    else
+                        TransformImage(fileBytes, strFilePath);
+                }                
             }
             else
             {
@@ -183,43 +211,17 @@ namespace Area23.At.Mono
 
         protected void buttonUpload_Click(object sender, EventArgs e)
         {
-            btnUploadRe_Click(sender, e);
+            if (Request.Files != null && Request.Files.Count > 0)
+                TransformUploadFile(Request.Files[0]);
         }
 
         protected void btnUploadRe_Click(object sender, EventArgs e)
         {
-            string strFileName;
-            string strFilePath;            
-
-            // Get the name of the file that is posted.
-            strFileName = oFile.PostedFile.FileName;
-            strFileName = Constants.DateFile + Path.GetFileName(strFileName);
+            
             if (!string.IsNullOrEmpty(oFile.Value))
             {
-                // Save the uploaded file to the server.
-                strFilePath = ResFoler + strFileName;
-                while (File.Exists(strFilePath))
-                {
-                    strFileName = Constants.DateFile + Guid.NewGuid().ToString() + "_" + Path.GetFileName(strFileName);
-                    strFilePath = ResFoler + strFileName;
-                }
-
-                oFile.PostedFile.SaveAs(strFilePath);
-                lblUploadResult.Text = strFileName + " successfully uploaded.";
-
-                byte[] fileBytes = oFile.PostedFile.InputStream.ToByteArray();
-                var base64Data = Convert.ToBase64String(fileBytes);
-                imgIn.Src = "data:image;base64," + base64Data;
-                ReTransformImage(strFilePath);
-            }
-            else
-            {
-                lblUploadResult.Text = "Click 'Browse' to select the file to upload.";
-            }
-
-
-            // Display the result of the upload.
-            frmConfirmation.Visible = true;
+                TransformUploadFile(oFile.PostedFile);
+            }            
         }
 
         public static string GetMimeTypeForImageBytes(byte[] bytes)
@@ -268,14 +270,14 @@ namespace Area23.At.Mono
                 Area23Log.LogStatic(ex);
             }
 
-            if (File.Exists(strPath))
+            if (System.IO.File.Exists(strPath))
             {
                 string mimeType = MimeType.GetMimeType(bytes, strPath);
                 if (fileName.EndsWith("tmp"))
                 {
                     string extR = MimeType.GetFileExtForMimeTypeApache(mimeType);
                     string newFileName = fileName.Replace("tmp", extR);
-                    File.Move(strPath, ResFoler + newFileName);
+                    System.IO.File.Move(strPath, ResFoler + newFileName);
                 }
                 return mimeType;
             }

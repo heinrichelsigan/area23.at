@@ -11,30 +11,31 @@
     </asp:ContentPlaceHolder>
 </head>
 <body>
-    <form id="Area23MasterForm" runat="server">
-        <div>
-            <div align="left" class="headercard">            
-                <span id="spanLeft" runat="server" class="headerLeft" align="left" valign="middle"><a href="FortunAsp.aspx">fortune</a></span>
-                <span id="spanLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a href="HexDump.aspx">hex dump</a></span>
-                <span id="spanCenter0" runat="server" class="headerCenter" align="center" valign="middle"><a href="QRCodeGen.aspx">qrcode tool</a></span>
-                <span id="spanCenter1" runat="server" class="headerCenter" align="center" valign="middle"><a href="json.aspx">json ser</a></span>
-                <span id="spanCenter2" runat="server" class="headerCenter" align="center" valign="middle"><a href="ByteTransColor.aspx">image trans</a></span>
-                <span id="spanCenter3" runat="server" class="headerCenter" align="center" valign="middle"><a href="RpnCalc.aspx">rpn calc</a></span>
-                <span id="spanRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a href="froga.aspx">froga</a></span>
-                <span id="spanRight" runat="server" class="headerRight" align="right" valign="middle"><a href="/mono/SchnapsNet/">schnapsen 66</a></span>
-            </div>
-            <asp:ContentPlaceHolder ID="BodyContentPlaceHolder" runat="server">
-            </asp:ContentPlaceHolder>
-            <hr />
-            <div align="left" class="footerDiv">            
-                <span class="footerLeft" align="left" valign="middle"><a href="http://blog.darkstar.work">blog.</a></span> 
-                <span class="footerLeftCenter" align="center" valign="middle"><a href="https://darkstar.work">darkstar.work</a></span> 
-                <span class="footerCenter" align="center" valign="middle"><a href="https://area23.at/mono/test/">area23.at/mono/test</a></span>
-                <span class="footerCenter" align="center" valign="middle"><a href="mailto:he@area23.at">Heinrich Elsigan</a></span>	
-                <span class="footerRightCenter" align="center" valign="middle">GNU General Public License 3.0</span>
-                <span class="footerRight" align="right" valign="middle"><a href="https://github.com/heinrichelsigan/area23.at" target="_blank">github.com/heinrichelsigan/area23.at</a></span>
-            </div>
+    <div>
+        <div align="left" class="headercard">            
+            <span id="spanLeft" runat="server" class="headerLeft" align="left" valign="middle"><a href="FortunAsp.aspx">fortune</a></span>
+            <span id="spanLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a href="HexDump.aspx">hex dump</a></span>
+            <span id="spanCenter0" runat="server" class="headerCenter" align="center" valign="middle"><a href="QRCodeGen.aspx">qrcode tool</a></span>
+            <span id="spanCenter1" runat="server" class="headerCenter" align="center" valign="middle"><a href="json.aspx">json ser</a></span>
+            <span id="spanCenter2" runat="server" class="headerCenter" align="center" valign="middle"><a href="ByteTransColor.aspx">image trans</a></span>
+            <span id="spanCenter3" runat="server" class="headerCenter" align="center" valign="middle"><a href="RpnCalc.aspx">rpn calc</a></span>
+            <span id="spanRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a href="froga.aspx">froga</a></span>
+            <span id="spanRight" runat="server" class="headerRight" align="right" valign="middle"><a href="/mono/SchnapsNet/">schnapsen 66</a></span>
         </div>
-    </form>
+        <asp:ContentPlaceHolder ID="BodyContentPlaceHolder" runat="server">
+            <form id="Area23MasterForm" runat="server">
+                
+            </form>      
+        </asp:ContentPlaceHolder>
+        <hr />
+        <div align="left" class="footerDiv">            
+            <span class="footerLeft" align="left" valign="middle"><a href="http://blog.darkstar.work">blog.</a></span> 
+            <span class="footerLeftCenter" align="center" valign="middle"><a href="https://darkstar.work">darkstar.work</a></span> 
+            <span class="footerCenter" align="center" valign="middle"><a href="https://area23.at/mono/test/">area23.at/mono/test</a></span>
+            <span class="footerCenter" align="center" valign="middle"><a href="mailto:he@area23.at">Heinrich Elsigan</a></span>	
+            <span class="footerRightCenter" align="center" valign="middle">GNU General Public License 3.0</span>
+            <span class="footerRight" align="right" valign="middle"><a href="https://github.com/heinrichelsigan/area23.at" target="_blank">github.com/heinrichelsigan/area23.at</a></span>
+        </div>
+    </div>
 </body>
 </html>

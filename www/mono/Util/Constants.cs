@@ -130,7 +130,7 @@ namespace Area23.At.Mono.Util
         /// <summary>
         /// UTC DateTime File Prefix
         /// </summary>
-        public static string DateFile { get => DateArea23.Replace(WHITE_SPACE, WHITE_SPACE).Replace(ANNOUNCE, UNDER_SCORE); }
+        public static string DateFile { get => DateArea23.Replace(WHITE_SPACE, UNDER_SCORE).Replace(ANNOUNCE, UNDER_SCORE); }
 
         private static readonly string backColorString = "#ffffff";
         public static string BackColorString
@@ -139,7 +139,7 @@ namespace Area23.At.Mono.Util
                     (string)HttpContext.Current.Session[BACK_COLOR_STRING] : backColorString;                
             set
             {
-                HttpContext.Current.Session[BACK_COLOR] = ColorFrom.FromXrgb(value);
+                HttpContext.Current.Session[BACK_COLOR] = ColorFrom.FromHtml(value);
                 HttpContext.Current.Session[BACK_COLOR_STRING] = value;
             }
         }
@@ -151,7 +151,7 @@ namespace Area23.At.Mono.Util
                     (string)HttpContext.Current.Session[QR_COLOR_STRING] : qrColorString;
             set
             {
-                HttpContext.Current.Session[QR_COLOR] = ColorFrom.FromXrgb(value);
+                HttpContext.Current.Session[QR_COLOR] = ColorFrom.FromHtml(value);
                 HttpContext.Current.Session[QR_COLOR_STRING] = value;
             }
         }
@@ -159,7 +159,7 @@ namespace Area23.At.Mono.Util
         public static System.Drawing.Color BackColor
         {
             get => (HttpContext.Current.Session != null && HttpContext.Current.Session[BACK_COLOR] != null) ?
-                    (System.Drawing.Color)HttpContext.Current.Session[BACK_COLOR] : ColorFrom.FromXrgb(backColorString);
+                    (System.Drawing.Color)HttpContext.Current.Session[BACK_COLOR] : ColorFrom.FromHtml(backColorString);
             set
             {
                 if (value != null)
@@ -170,7 +170,7 @@ namespace Area23.At.Mono.Util
                 else
                 {
                     HttpContext.Current.Session[BACK_COLOR_STRING] = backColorString;
-                    HttpContext.Current.Session[BACK_COLOR] = ColorFrom.FromXrgb(backColorString);
+                    HttpContext.Current.Session[BACK_COLOR] = ColorFrom.FromHtml(backColorString);
                 }
             }
         }
@@ -178,18 +178,18 @@ namespace Area23.At.Mono.Util
         public static System.Drawing.Color QrColor
         {
             get => (HttpContext.Current.Session != null && HttpContext.Current.Session[QR_COLOR] != null) ?
-                    (System.Drawing.Color)HttpContext.Current.Session[QR_COLOR] : ColorFrom.FromXrgb(qrColorString);           
+                    (System.Drawing.Color)HttpContext.Current.Session[QR_COLOR] : ColorFrom.FromHtml(qrColorString);           
             set
             {
                 if (value != null)
-                {
-                    HttpContext.Current.Session[QR_COLOR_STRING] = backColorString;
-                    HttpContext.Current.Session[QR_COLOR] = ColorFrom.FromXrgb(backColorString);
+                {                                        
+                    HttpContext.Current.Session[QR_COLOR] = value;
+                    HttpContext.Current.Session[QR_COLOR_STRING] = value.ToXrgb();
                 }
                 else
                 {
                     HttpContext.Current.Session[QR_COLOR_STRING] = qrColorString;
-                    HttpContext.Current.Session[QR_COLOR] = ColorFrom.FromXrgb(qrColorString);
+                    HttpContext.Current.Session[QR_COLOR] = ColorFrom.FromHtml(qrColorString);
                 }
             }                
         } 

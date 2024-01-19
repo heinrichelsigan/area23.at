@@ -126,6 +126,7 @@ namespace Area23.At.Mono
         protected override void GenerateQRImage(string qrString = "")
         {
             Bitmap aQrBitmap = null;
+            string qrImgPath = string.Empty;
 
             if (string.IsNullOrEmpty(this.input_color.Value))
                 this.input_color.Value = Constants.QrColorString;
@@ -151,11 +152,11 @@ namespace Area23.At.Mono
                 if (!string.IsNullOrEmpty(qrString))
                 {
                     // aQrBitmap = GetQRBitmap(qrString, Constants.QrColor, Color.Transparent);
-                    aQrBitmap = GetQRBitmap(qrString, Constants.QrColor);
+                    qrImgPath = GetQRImgPath(qrString, this.input_color.Value, this.input_backcolor.Value);
                 }
-                if (aQrBitmap != null)
+                if (!string.IsNullOrEmpty(qrImgPath))
                 {
-                    SetQRImage(aQrBitmap);
+                    SetQrImageUrl(qrImgPath);
                 }
             }
             catch (Exception ex)
@@ -178,6 +179,14 @@ namespace Area23.At.Mono
             this.ImageQr.BackColor = Util.ColorFrom.FromHtml(this.input_backcolor.Value);
             this.ImageQr.ImageUrl = "data:image/gif;base64," + base64Data;
             ResetFormElements();
+        }
+
+
+        protected override void SetQrImageUrl(string imgPth)
+        {
+            this.ImageQr.Visible = true;
+            this.ImageQr.BackColor = Util.ColorFrom.FromHtml(this.input_backcolor.Value);
+            this.ImageQr.ImageUrl = imgPth;
         }
 
     }

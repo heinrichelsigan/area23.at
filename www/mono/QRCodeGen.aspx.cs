@@ -82,7 +82,7 @@ namespace Area23.At.Mono
         {
             // base.ResetChangedElements();
             
-            foreach (var ctrl in ((QRMaster)this.Master).MasterForm.Controls)
+            foreach (var ctrl in Form.Controls)
             {
                 if (ctrl is TextBox)
                 {
@@ -116,6 +116,7 @@ namespace Area23.At.Mono
         protected override void GenerateQRImage(string qrString = "")
         {
             Bitmap aQrBitmap = null;
+            string qrImgPath = string.Empty;
             
             if (string.IsNullOrEmpty(this.input_color.Value))
                 this.input_color.Value = Constants.QrColorString;
@@ -146,14 +147,15 @@ namespace Area23.At.Mono
                 Constants.QrColor = Util.ColorFrom.FromXrgb(this.input_color.Value);
                 Constants.BackColor = Util.ColorFrom.FromXrgb(this.input_backcolor.Value);
                 qrString = GetQrString();
-
+                
                 if (!string.IsNullOrEmpty(qrString))
                 {
-                    aQrBitmap = GetQRBitmap(qrString, Constants.QrColor);
+                    qrImgPath = GetQRImgPath(qrString, this.input_color.Value, this.input_backcolor.Value);
                 }
-                if (aQrBitmap != null)
+                if (!string.IsNullOrEmpty(qrImgPath))
                 {
-                    SetQRImage(aQrBitmap);
+                    SetQrImageUrl(qrImgPath);
+                    // SetQRImage(aQrBitmap);
                 }
             }
             catch (Exception ex)
@@ -228,5 +230,32 @@ namespace Area23.At.Mono
             }
         }
 
+
+        protected override void SetQrImageUrl(string imgPth)
+        {
+            this.ImgQR.Src = imgPth;
+            if (this.input_backcolor != null && !string.IsNullOrEmpty(this.input_backcolor.Value))
+            {
+                if (this.ImgQR.Style["background-color"] == null)
+                    this.ImgQR.Style.Add("background-color", this.input_backcolor.Value);
+                else
+                    this.ImgQR.Style["background-color"] = this.input_backcolor.Value;
+
+                if (this.ImgQR.Style["border-color"] == null)
+                    this.ImgQR.Style.Add("border-color", this.input_backcolor.Value);
+                else
+                    this.ImgQR.Style["border-color"] = this.input_backcolor.Value;
+
+                if (this.ImgQR.Style["border-width"] == null)
+                    this.ImgQR.Style.Add("border-width", "1px");
+                else
+                    this.ImgQR.Style["border-width"] = "1px";
+
+                if (this.ImgQR.Style["border-style"] == null)
+                    this.ImgQR.Style.Add("border-style", "double");
+                else
+                    this.ImgQR.Style["border-style"] = "double";
+            }
+        }
     }
 }

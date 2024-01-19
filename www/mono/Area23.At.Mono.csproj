@@ -149,12 +149,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ByteTransColor.aspx" />
-    <Content Include="ColorPicker.html" />
     <Content Include="favicon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="FortunAsp.aspx" />
     <Content Include="res\css\area23.at.mono.css" />
+    <Content Include="res\img\transparent.gif" />
+    <Content Include="res\img\transparent.png" />
     <Content Include="res\js\rpn.js" />
     <Content Include="RpnCalc.aspx" />
     <Content Include="HexDump.aspx" />
@@ -381,6 +382,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="QRMaster.master" />
+    <Content Include="res\img\transparent.xcf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

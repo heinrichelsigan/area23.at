@@ -6,15 +6,16 @@
     <title>byte trans color image (apache2 mod_mono)</title>
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
-    <INPUT id="oFile" type="file" runat="server" NAME="oFile">
-    <asp:Button ID="btnUploadTrans" type="submit" Text="Transform" runat="server" OnClick="btnUploadTrans_Click"></asp:button>
-    <button id="btnUpLoadRe" type="submit" title="Reform" runat="server" OnClick="btnUploadRe_Click">Reform</button>
-    <asp:Button ID="btnUploadRe" type="submit" Text="Reform" runat="server" OnClick="btnUploadRe_Click"></asp:button>
-    <asp:Panel ID="frmConfirmation" Visible="False" Runat="server">
-        <img id="imgIn" runat="server" border="0" alt="Image uploaded" width="600" />
-        <br />
-        <asp:Label id="lblUploadResult" Runat="server"></asp:Label>
-        <br />
-        <img id="imgOut" runat="server" border="0" alt="Image transformed" />
-     </asp:Panel>
+    <form id="Area23MasterForm" runat="server" action="ByteTransColor.aspx" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True">
+        <INPUT id="oFile" type="file" runat="server" NAME="oFile">
+        <button id="buttonUploadTrans" type="submit" title="Transform" runat="server" OnClick="FormSubmit()">Transform</button>
+        <button id="btnUpLoad" type="submit" title="Reform" runat="server" OnClick="FormSubmit()">Reform</button>
+        <asp:Panel ID="frmConfirmation" Visible="False" Runat="server">
+            <img id="imgIn" runat="server" border="0" alt="Image uploaded" width="600" />
+            <br />
+            <asp:Label id="lblUploadResult" Runat="server"></asp:Label>
+            <br />
+            <img id="imgOut" runat="server" border="0" alt="Image transformed" />
+         </asp:Panel>
+    </form>
 </asp:Content>

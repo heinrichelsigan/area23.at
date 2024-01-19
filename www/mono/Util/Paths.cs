@@ -14,6 +14,7 @@ namespace Area23.At.Mono.Util
     public static class Paths
     {
         private static string appPath = null;
+        private static string resAppPath = null;
         private static string cardPicsPath = null;
         private static string cardPicsDir = null;
         
@@ -31,6 +32,23 @@ namespace Area23.At.Mono.Util
                         appPath += "/";
                 }
                 return appPath;
+            }
+        }
+
+        public static string ResAppPath 
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(resAppPath))
+                {
+                    string rsAppPath = HttpContext.Current.Request.Url.ToString().Replace("/Master/", "/").Replace("/Page/", "/").Replace("/Control/", "/");
+                    resAppPath = rsAppPath.Substring(0, rsAppPath.LastIndexOf("/"));
+                    if (!resAppPath.EndsWith("/"))
+                        resAppPath += "/";
+                    if (!resAppPath.Contains("/res/"))
+                        resAppPath += "res/";
+                }
+                return resAppPath;
             }
         }
 

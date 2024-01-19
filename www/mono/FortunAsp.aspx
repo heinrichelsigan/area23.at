@@ -7,9 +7,11 @@
     <title>fortune (apache2 mod_mono)</title>    
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
-    <div class="fortuneDiv" align="left">
-        <asp:Literal ID="LiteralFortune" runat="server"></asp:Literal>
-    </div>
-    <hr />
-    <pre id="PreFortune" runat="server" style="text-align: left; border-style: none; background-color: #bfbfbf; font-size: larger; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif"></pre>
+    <form id="Area23MasterForm" runat="server">
+        <div class="fortuneDiv" align="left">
+            <asp:Literal ID="LiteralFortune" runat="server"></asp:Literal>
+        </div>
+        <hr />
+        <pre id="PreFortune" runat="server" style="text-align: left; border-style: none; background-color: #bfbfbf; font-size: larger; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif"></pre>
+    </form>
 </asp:Content>

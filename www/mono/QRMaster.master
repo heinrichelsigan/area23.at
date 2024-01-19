@@ -7,7 +7,7 @@
         <meta name="description" content="https://github.com/codebude/QRCoder/" />
     </asp:ContentPlaceHolder>
 </asp:Content>
-<asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
+<asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">               
     <div id="rowqr" class="headercard" align="left">         
         <span id="headerLeft" runat="server" class="headerLeft" align="center" valign="middle"><a href="QRCodeGen.aspx">qr contact</a></span>
         <span id="headerLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a href="Qrc.aspx">qrcontact prefilled</a></span>	
@@ -15,6 +15,8 @@
         <span id="headerRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a href="QRGen.aspx">qrcode redirect</a></span>
     </div>
     <hr />
+    <form id="Area23MasterForm" runat="server">
     <asp:ContentPlaceHolder ID="QrBody" runat="server">
     </asp:ContentPlaceHolder>
+    </form>      
 </asp:Content>

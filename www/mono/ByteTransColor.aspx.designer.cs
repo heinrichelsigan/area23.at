@@ -15,6 +15,15 @@ namespace Area23.At.Mono
     {
 
         /// <summary>
+        /// Area23MasterForm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlForm Area23MasterForm;
+
+        /// <summary>
         /// oFile control.
         /// </summary>
         /// <remarks>
@@ -24,31 +33,22 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlInputFile oFile;
 
         /// <summary>
-        /// btnUploadTrans control.
+        /// buttonUploadTrans control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUploadTrans;
+        protected global::System.Web.UI.HtmlControls.HtmlButton buttonUploadTrans;
 
         /// <summary>
-        /// btnUpLoadRe control.
+        /// btnUpLoad control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton btnUpLoadRe;
-
-        /// <summary>
-        /// btnUploadRe control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUploadRe;
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnUpLoad;
 
         /// <summary>
         /// frmConfirmation control.

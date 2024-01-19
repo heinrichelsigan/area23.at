@@ -12,7 +12,7 @@
     </script>
 </asp:Content>
 <asp:Content ID="QrBodyContent" ContentPlaceHolderID="QrBody" runat="server" ClientIDMode="Static">
-	<table class="qrcTable" border="0" cellpadding="0" cellpadding="0">
+	<table class="qrcTable" border="0" cellpadding="0" cellspacing="0">
 		<tr id="tr0" class="qrcTr">
 			<td id="td0a" class="qrcTdRight" width="18%" height="30pt">first name:</td>
 			<td id="td0b" class="qrcTdLeft" width="32%" height="30pt">
