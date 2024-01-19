@@ -4,20 +4,14 @@
 
 var fX;
 var fY;
-var textbox0, textbox1, textbox2, textbox3, textbox4, textbox5, textbox6, textbox7, textbox8, textbox9, textbox10;
+var textbox0, textboxtop, textboxRpn;
 var textcursor = 9;
 var metacursor = document.getElementById("metacursor");
 var bEnter = document.getElementById("BEnter");
 textbox0 = document.getElementById("texbox0");
-textbox1 = document.getElementById("texbox1");
-textbox2 = document.getElementById("texbox2");
-textbox3 = document.getElementById("texbox3");
-textbox4 = document.getElementById("texbox4");
-textbox5 = document.getElementById("texbox5");
-textbox6 = document.getElementById("texbox6");
-textbox7 = document.getElementById("texbox7");
-textbox8 = document.getElementById("texbox8");
-textbox9 = document.getElementById("texbox9");
+textboxtop = document.getElementById("texboxtop");
+textboxRpn = document.getElementById("texboxRpn");
+
 if (textbox0 != null) textbox0.focus();
 
 var keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
@@ -31,7 +25,7 @@ var keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
 
 function rpnInit() {
 
-	document.getElementById("headerImg").src = "img/header.png";
+	document.getElementById("headerImg").src = "res/img/header.png";
 	if (metacursor == null)
 		metacursor = document.getElementById("metacursor");
 	if (metacursor != null) {
@@ -40,62 +34,62 @@ function rpnInit() {
 			textcursor = parseInt(metacontent);
 		else
 			metacursor.setAttribute("content", textcursor);
-	}
-	let currentTextBox = document.getElementById("textbox" + textcursor);
-	if (currentTextBox == null) {
-		alert("currentTextBox is null: document.getElementById('textbox'" + textcursor + ");");
+	} 
+	if (textboxtop == null) 
+		textboxtop = document.getElementById("textboxtop"); 
+	if (textboxtop == null) {
+		alert("textboxtop is null: document.getElementById('textbotop');");
 		return;
 	}
 
-
 	window.onkeydown = function (e) { // TODO: pressing two arrow keys at same time
 		if (e.which == 96 || e.which == 48) {
-			currentTextBox.innerText += "0";
+			textboxtop.innerText += "0";
 			return;
 		}
 		if (e.which == 97 || e.which == 49) {
-			currentTextBox.innerText += "1";
+			textboxtop.innerText += "1";
 			return;
 		}
 		if (e.which == 98 || e.which == 50) {
-			currentTextBox.innerText += "2";
+			textboxtop.innerText += "2";
 			return;
 		}
 		if (e.which == 99 || e.which == 51) {
-			currentTextBox.innerText += "3";
+			textboxtop.innerText += "3";
 			return;
 		}
 		if (e.which == 100 || e.which == 52) {
-			currentTextBox.innerText += "4";
+			textboxtop.innerText += "4";
 			return;
 		}
 		if (e.which == 101 || e.which == 53) {
-			currentTextBox.innerText += "5";
+			textboxtop.innerText += "5";
 			return;
 		}
 		if (e.which == 102 || e.which == 54) {
-			currentTextBox.innerText += "6";
+			textboxtop.innerText += "6";
 			return;
 		}
 		if (e.which == 103 || e.which == 55) {
-			currentTextBox.innerText += "7";
+			textboxtop.innerText += "7";
 			return;
 		}
 		if (e.which == 104 || e.which == 56) {
-			currentTextBox.innerText += "8";
+			textboxtop.innerText += "8";
 			return;
 		}
 		if (e.which == 105 || e.which == 57) {
-			currentTextBox.innerText += "9";
+			textboxtop.innerText += "9";
 			return;
 		}
 		if (e.which == 10 || e.which == 13) {
-			if (currentTextBox.innerText != null && currentTextBox.innerText.length > 0) {
+			if (textboxtop.innerText != null && textboxtop.innerText.length > 0) {
 				if (metacursor == null)
 					metacursor = document.getElementById("metacursor");
-				if (metacursor != null) {
+				if (metacursor != null)  
 					metacursor.setAttribute("content", --textcursor);
-				}
+				textboxRpn.innerText += "\n" + textboxtop.innerText;
 			}
 			bEnter = document.getElementById("BEnter");
 			if (bEnter != null) {

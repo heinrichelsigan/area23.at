@@ -67,18 +67,23 @@
 					<td class="gainsboroTd" width="10%" id="td9f" align="center"><asp:Button ID="Bcsc" runat="server" Text="csc" OnClick="bMath_Click" /></td>
 					<td class="gainsboroTd" width="10%" id="td9g" align="center"><asp:Button ID="Bcot" runat="server" Text="cot" OnClick="bMath_Click" /></td>
 					<td class="rpnTd" width="10%" id="td9h"></td>
-					<td class="rpnTd" width="20%" id="td9i" colspan="2"><asp:TextBox ID="textbox9" ClientIDMode="Static" runat="server"></asp:TextBox></td>
+					<td class="rpnTd" width="20%" id="td9i" colspan="2"><asp:TextBox ID="textboxtop" ClientIDMode="Static" runat="server" Columns="16" Font-Names="Courier New"></asp:TextBox></td>
 				</tr>
 				<tr id="tr8" class="rpnTr">
 					<td class="rpnTd" width="10%" id="td8a"></td>
-					<td class="gainsboroTd" width="10%" id="td8b" align="center"><asp:Button ID="Babs" runat="server" Text="|x|" OnClick="bMath_Click" /></td>
-					<td class="gainsboroTd" width="10%" id="td8c" align="center"><asp:Button ID="Bxpow2" runat="server" Text="x²" OnClick="bMath_Click" /></td>
-					<td class="gainsboroTd" width="10%" id="td8d" align="center"><asp:Button ID="B2pown" runat="server" Text="2ⁿ" OnClick="bMath_Click" /></td>
-					<td class="gainsboroTd" width="10%" id="td8e" align="center"><asp:Button ID="B10pown" runat="server" Text="10ⁿ" OnClick="bMath_Click" /></td>
-					<td class="gainsboroTd" width="10%" id="td8f" align="center"><asp:Button ID="Bpermutation" runat="server" Text="n!" OnClick="bMath_Click" /></td>
-					<td class="gainsboroTd" width="10%" id="td8g" align="center"><asp:Button ID="Bxpown" runat="server" Text="xⁿ" OnClick="bMath_Click" /></td>
-					<td class="rpnTd" width="10%" id="td8h"></td>
-					<td class="rpnTd" width="20%" id="td8i" colspan="2"><asp:TextBox ID="textbox8" ClientIDMode="Static" runat="server"></asp:TextBox></td>
+					<td class="gainsboroTd" width="10%" id="td8b" align="center">
+                        <asp:Button ID="Babs" runat="server" Text="|x|" AccessKey="|" OnClick="bMath_Click" /></td>
+					<td class="gainsboroTd" width="10%" id="td8c" align="center">
+                        <asp:Button ID="Bpow2" runat="server" Text="x²" OnClick="bMath_Click" AccessKey="²" />
+                    </td>
+					<td class="gainsboroTd" width="10%" id="td8d" align="center"><asp:Button ID="Bpow3" runat="server" Text="x³" AccessKey="³"  OnClick="bMath_Click" /></td>
+					<td class="gainsboroTd" width="10%" id="td8e" align="center"><asp:Button ID="B2pown" runat="server" Text="2ⁿ" OnClick="bMath_Click" /></td>
+					<td class="gainsboroTd" width="10%" id="td8f" align="center"><asp:Button ID="B10pown" runat="server" Text="10ⁿ" OnClick="bMath_Click" />
+                        </td>
+					<td class="gainsboroTd" width="10%" id="td8g" align="center"><asp:Button ID="Bpermutation" runat="server" Text="n!" OnClick="bMath_Click" AccessKey="!" /></td>
+					<td class="rpnTd" width="10%" id="td8h"><asp:Button ID="Bxpown" runat="server" Text="xⁿ" OnClick="bMath_Click" /></td>
+					<td class="rpnTd" width="20%" id="td8i" colspan="2" rowspan="8">
+                        <asp:TextBox TextMode="MultiLine" MaxLength="65536" ID="textboxRpn" ClientIDMode="Static" runat="server" Rows="18" Columns="16" Font-Names="Courier New"></asp:TextBox></td>
 				</tr>
 				<tr id="tr7" class="rpnTr">
 					<td class="rpnTd" width="10%" id="td7a"></td>
@@ -87,9 +92,8 @@
 					<td class="gainsboroTd" width="10%" id="td7d" align="center"><asp:Button ID="Bld" runat="server" Text="ld" OnClick="bMath_Click" /></td>
 					<td class="gainsboroTd" width="10%" id="td7e" align="center"><asp:Button ID="Binverse" runat="server" Text="1/x" OnClick="bMath_Click" /></td>
 					<td class="gainsboroTd" width="10%" id="td7f" align="center"><asp:Button ID="Bmod" runat="server" Text="mod" OnClick="bMath_Click" /></td>
-					<td class="gainsboroTd" width="10%" id="td7g" align="center"><asp:Button ID="Bexp" runat="server" Text="exp" OnClick="bMath_Click" /></td>
+					<td class="gainsboroTd" width="10%" id="td7g" align="center"></td>
 					<td class="rpnTd" width="10%" id="td7h"></td>
-					<td class="rpnTd" width="20%" id="td7i" colspan="2"><asp:TextBox ID="textbox7" ClientIDMode="Static" runat="server"></asp:TextBox></td>
 				</tr>
 				<tr id="tr6" class="rpnTr">
 					<td class="rpnTd" width="10%" id="td6a" runat="server" align="center"></td>
@@ -100,7 +104,6 @@
 					<td class="gainsboroTd" width="10%" id="td6f" align="center"><asp:Button ID="Bpermille" runat="server" Text="‰" OnClick="bMath_Click" /></td>
 					<td class="gainsboroTd" width="10%" id="td6g" align="center"></td>
 					<td class="rpnTd" width="10%" id="td6h"></td>
-					<td class="rpnTd" width="20%" id="td6i" colspan="2"><asp:TextBox ID="textbox6" ClientIDMode="Static" runat="server"></asp:TextBox></td>
 				</tr>
 				<tr id="tr5" class="rpnTr">
 					<td class="rpnTd" width="10%" id="td5a"></td>
@@ -111,7 +114,6 @@
 					<td class="deeppinkTd" width="10%" id="td5f" align="center"><asp:Button ID="Bdivision" runat="server" Text="÷" OnClick="bMath_Click" /></td>
 					<td class="palevioletredTd" width="10%" id="td5g" align="center"><asp:Button ID="BClear" runat="server" Text="C" ToolTip="Clear" OnClick="BClear_Click" /></td>
 					<td class="rpnTd" width="10%" id="td5h"></td>
-					<td class="rpnTd" width="20%" id="td5i" colspan="2"><asp:TextBox ID="textbox5" ClientIDMode="Static" runat="server"></asp:TextBox></td>
 				</tr>
 				<tr id="tr4" class="rpnTr">
 					<td class="rpnTd" width="10%" id="td4a"></td>
@@ -122,7 +124,6 @@
 					<td class="deeppinkTd" width="10%" id="td4f" align="center"><asp:Button ID="Bmultiply" runat="server" Text="×" OnClick="bMath_Click" /></td>
 					<td class="palevioletredTd" width="10%" id="td4g" align="center"><asp:Button ID="Bdel" runat="server" Text="␡" OnClick="Bdel_Click" /></td>
 					<td class="rpnTd" width="10%" id="td4h"></td>
-					<td class="rpnTd" width="20%" id="td4i" colspan="2"><asp:TextBox ID="textbox4" runat="server"></asp:TextBox></td>
 				</tr>
 				<tr id="tr3" class="rpnTr">
 					<td class="rpnTd" width="10%" id="td3a"></td>
@@ -133,7 +134,6 @@
 					<td class="deeppinkTd" width="10%" id="td3f" align="center"><asp:Button ID="Bminus" runat="server" Text="-" OnClick="bMath_Click" /></td>
 					<td class="palevioletredTd" width="10%" id="td3g" align="center"></td>
 					<td class="rpnTd" width="10%" id="td3h"></td>
-					<td class="rpnTd" width="20%" id="td3i" colspan="2"><asp:TextBox ID="textbox3" ClientIDMode="Static" runat="server"></asp:TextBox></td>
 				</tr>
 				<tr id="tr2" class="rpnTr">
 					<td class="rpnTd" width="10%" id="td2a"></td>
@@ -144,7 +144,6 @@
 					<td class="deeppinkTd" width="10%" id="td2f" align="center"><asp:Button ID="Bplus" runat="server" Text="+" OnClick="bMath_Click" /></td>
 					<td class="palevioletredTd" width="10%" id="td2g" align="center"><asp:Button ID="BEnter" runat="server" Text="&#9166;" OnClick="bEnter_Click" /></td>
 					<td class="rpnTd" width="10%" id="td2h"></td>
-					<td class="rpnTd" width="20%" id="td2i" colspan="2"><asp:TextBox ID="textbox2" ClientIDMode="Static" runat="server"></asp:TextBox></td>
 				</tr>
 				<tr id="tr1" class="rpnTr">
 					<td class="rpnTd" width="10%" id="td1a"></td>
@@ -153,12 +152,12 @@
 					<td class="gainsboroTd" width="10%" id="td1d" align="center"><asp:Button ID="B0" runat="server" Text="0" OnClick="bNumber_Click" /></td>
 					<td class="gainsboroTd" width="10%" id="td1e" align="center"><asp:Button ID="Bcomma" runat="server" Text="," OnClick="bNumber_Click" /></td>
 					<td class="deeppinkTd" width="10%" id="td1f" align="center"><asp:Button ID="Bplusminus" runat="server" Text="±" OnClick="bMath_Click" /></td>
-					<td class="palevioletredTd" width="10%" id="td1g" align="center"><asp:Button ID="Bequals" runat="server" Text="=" OnClick="bMath_Click" /></td>
+					<td class="palevioletredTd" width="10%" id="td1g" align="center"><asp:Button ID="Bequ" runat="server" Text="=" OnClick="bMath_Click" /></td>
 					<td class="rpnTd" width="10%" id="td1h"></td>
-					<td class="rpnTd" width="20%" id="td1i" colspan="2"><asp:TextBox ID="textbox1" ClientIDMode="Static" runat="server"></asp:TextBox></td>
 				</tr>
 				<tr id="tr0" class="rpnTr">
-					<td class="rpnTd" width="70%" colspan="7" id="td0a"></td>
+					<td class="rpnTd" width="60%" colspan="6" id="td0a"></td>
+					<td class="palevioletredTd" width="10%" id="td0g" align="center"><asp:Button ID="Bequals" runat="server" Text="=" OnClick="bMath_Click" /></td>
 					<td class="rpnTd" width="10%" id="td0h"></td>
 					<td class="rpnTd" width="20%" id="td0i" colspan="2"><asp:TextBox ID="textbox0" ClientIDMode="Static" runat="server"></asp:TextBox></td>
 				</tr>

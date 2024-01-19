@@ -41,6 +41,7 @@ namespace Area23.At.Mono
         }
 
 
+        /*
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
             string msg = String.Format("application begin request at {0} object sender = {1}, EventArgs e = {2}",
@@ -59,6 +60,7 @@ namespace Area23.At.Mono
                 (e == null) ? "(null)" : e.ToString());
             Area23Log.LogStatic(msg);
         }
+        */
 
         protected void Application_Error(object sender, EventArgs e)
         {

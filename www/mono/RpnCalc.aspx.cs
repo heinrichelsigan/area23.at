@@ -45,7 +45,7 @@ namespace Area23.At.Mono
             return null;
         }
 
-        public TextBox CurrentTextBox { get => FindTextBox(); }
+        public TextBox CurrentTextBox { get => this.textboxRpn; }
 
         protected void checkBoxRpnCalc_CheckedChanged(object sender, EventArgs e)
         {
@@ -69,7 +69,7 @@ namespace Area23.At.Mono
             string mathString = (sender is Button) ? ((Button)sender).Text : "";
             if (!string.IsNullOrEmpty(mathString))
             {
-                this.CurrentTextBox.Text += mathString.ToString();
+                this.CurrentTextBox.Text += mathString.ToString() + "\n";
                 TextCursor--;
                 if (metacursor.Attributes["content"] == null)
                     metacursor.Attributes.Add("content", TextCursor.ToString());
@@ -94,6 +94,7 @@ namespace Area23.At.Mono
             if (!string.IsNullOrEmpty(this.CurrentTextBox.Text))
             {
                 TextCursor--;
+                this.CurrentTextBox.Text += "\n";
                 if (metacursor.Attributes["content"] == null)
                     metacursor.Attributes.Add("content", TextCursor.ToString());
                 else
@@ -104,15 +105,10 @@ namespace Area23.At.Mono
 
         protected void BClear_Click(object sender, EventArgs e)
         {
+            this.textboxtop.Text = "";
+            this.textboxRpn.Text = "";
             this.textbox0.Text = "";
-            this.textbox1.Text = "";
-            this.textbox2.Text = "";
-            this.textbox3.Text = "";
-            this.textbox4.Text = "";
-            this.textbox5.Text = "";
-            this.textbox7.Text = "";
-            this.textbox8.Text = "";
-            this.textbox9.Text = "";
+            
         }
 
         protected void Bdel_Click(object sender, EventArgs e)

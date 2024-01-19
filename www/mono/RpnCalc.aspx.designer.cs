@@ -330,13 +330,13 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Bcot;
 
         /// <summary>
-        /// textbox9 control.
+        /// textboxtop control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox9;
+        protected global::System.Web.UI.WebControls.TextBox textboxtop;
 
         /// <summary>
         /// Babs control.
@@ -348,13 +348,22 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Babs;
 
         /// <summary>
-        /// Bxpow2 control.
+        /// Bpow2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Bxpow2;
+        protected global::System.Web.UI.WebControls.Button Bpow2;
+
+        /// <summary>
+        /// Bpow3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Bpow3;
 
         /// <summary>
         /// B2pown control.
@@ -393,13 +402,13 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Bxpown;
 
         /// <summary>
-        /// textbox8 control.
+        /// textboxRpn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox8;
+        protected global::System.Web.UI.WebControls.TextBox textboxRpn;
 
         /// <summary>
         /// Blog control.
@@ -445,24 +454,6 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Bmod;
-
-        /// <summary>
-        /// Bexp control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Bexp;
-
-        /// <summary>
-        /// textbox7 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox7;
 
         /// <summary>
         /// td6a control.
@@ -519,15 +510,6 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Bpermille;
 
         /// <summary>
-        /// textbox6 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox6;
-
-        /// <summary>
         /// Bopen control.
         /// </summary>
         /// <remarks>
@@ -580,15 +562,6 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button BClear;
-
-        /// <summary>
-        /// textbox5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox5;
 
         /// <summary>
         /// Bclose control.
@@ -645,15 +618,6 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Bdel;
 
         /// <summary>
-        /// textbox4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox4;
-
-        /// <summary>
         /// Bbopen control.
         /// </summary>
         /// <remarks>
@@ -697,15 +661,6 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Bminus;
-
-        /// <summary>
-        /// textbox3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox3;
 
         /// <summary>
         /// Bbclose control.
@@ -762,15 +717,6 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button BEnter;
 
         /// <summary>
-        /// textbox2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox2;
-
-        /// <summary>
         /// BDot control.
         /// </summary>
         /// <remarks>
@@ -807,6 +753,15 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Bplusminus;
 
         /// <summary>
+        /// Bequ control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Bequ;
+
+        /// <summary>
         /// Bequals control.
         /// </summary>
         /// <remarks>
@@ -814,15 +769,6 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Bequals;
-
-        /// <summary>
-        /// textbox1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox1;
 
         /// <summary>
         /// textbox0 control.
