@@ -10,6 +10,11 @@ namespace Area23.At.Mono.Util
 {
     public static class Extensions
     {
+        /// <summary>
+        /// Extension method for <see cref="System.IO.Stream"/>
+        /// </summary>
+        /// <param name="stream"><see cref="System.IO.Stream"/> which static methods are now extended</param>
+        /// <returns>binary <see cref="byte[]">byte[] array</see></returns>
         public static byte[] ToByteArray(this Stream stream)
         {
             if (stream is MemoryStream)
@@ -24,7 +29,12 @@ namespace Area23.At.Mono.Util
             }
         }
 
-
+        /// <summary>
+        /// GetImageMimeType - auto detect mime type of an image inside an binary byte[] array
+        /// via <see cref="ImageCodecInfo.GetImageEncoders()"/> <seealso cref="ImageCodecInfo.GetImageDecoders()"/>
+        /// </summary>
+        /// <param name="bytes">binary <see cref="byte[]">byte[] array</see></param>
+        /// <returns></returns>
         public static string GetImageMimeType(this byte[] bytes)
         {
             using (MemoryStream ms = new MemoryStream(bytes))

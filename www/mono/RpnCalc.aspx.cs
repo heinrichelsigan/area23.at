@@ -354,6 +354,7 @@ namespace Area23.At.Mono
         }
 
         #endregion validate rpn
+        
         protected void SetMetaContent()
         {
             this.textboxtop.BorderColor = Color.Black;

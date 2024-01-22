@@ -905,11 +905,46 @@ namespace Area23.At.Mono.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to { 
+        /// 	&quot;quiz&quot;: { 
+        /// 		&quot;sport&quot;: { 
+        /// 			&quot;q1&quot;: { 
+        /// 				&quot;question&quot;: &quot;Which one is correct team name in NBA?&quot;, 
+        /// 					&quot;options&quot;: [ 
+        /// 						&quot;New York Bulls&quot;, 
+        /// 							&quot;Los Angeles Kings&quot;, 
+        /// 							&quot;Golden State Warriros&quot;, 
+        /// 							&quot;Huston Rocket&quot; 
+        /// 						], 
+        /// 					&quot;answer&quot;: &quot;Huston Rocket&quot; 
+        /// 				} 
+        /// 			}, 
+        /// 		&quot;maths&quot;: { 
+        /// 			&quot;q1&quot;: { 
+        /// 				&quot;question&quot;: &quot;5 + 7 = ?&quot;, 
+        /// 					&quot;options&quot;: [ 
+        /// 						&quot;10&quot;, 
+        /// 						&quot;11&quot;, 
+        /// 						&quot;12&quot;, 
+        /// 						&quot;13&quot; 
+        /// 					], 
+        /// 					&quot;answer&quot;: &quot;12&quot; 
+        ///				}, 
+        /// 			&quot;q2&quot;: { 
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string json_sample0 {
             get {
                 return ResourceManager.GetString("json_sample0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string json_sample1 {
+            get {
+                return ResourceManager.GetString("json_sample1", resourceCulture);
             }
         }
         

@@ -366,7 +366,7 @@
     <Compile Include="Util\ColorForm.cs" />
     <Compile Include="Util\Constants.cs" />
     <Compile Include="Util\Extensions.cs" />
-    <Compile Include="Util\Area23Logger.cs" />
+    <Compile Include="Util\Area23Log.cs" />
     <Compile Include="Util\MimeType.cs" />
     <Compile Include="Util\Paths.cs" />
     <Compile Include="Util\ProcessCmd.cs" />

@@ -47,7 +47,7 @@ namespace Area23.At.Mono.Util
             try
             {
                 logMsg = String.Format("{0} \t{1}\r\n",
-                        DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                        Constants.DateArea23Seconds,
                         msg);
                 File.AppendAllText(LogFile, logMsg);
             }
@@ -82,7 +82,7 @@ namespace Area23.At.Mono.Util
             try
             {
                 string logMsg = String.Format("{0} \t{1}\r\n",
-                    DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                    Constants.DateArea23Seconds,
                     excMsg);
                 File.AppendAllText(LogFile, logMsg);
             }
@@ -112,9 +112,7 @@ namespace Area23.At.Mono.Util
         }
 
         /// <summary>
-        /// log - logs to NLog, if SupuAppRegSets.Singelton.Debug is set to true
-        /// to enable Debug and logging use command line Supu.exe with additional <para>debug</para> parameter
-        /// <c>Supu.exe master debug</c>       
+        /// log - logs to NLog
         /// </summary>
         /// <param name="msg">debug msg to log</param>
         /// <param name="logLevel">log level: 0 for Trace, 1 for Debug, ..., 4 for Error, 5 for Fatal</param>

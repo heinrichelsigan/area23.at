@@ -35,48 +35,11 @@ namespace Area23.At.Mono.Util
         public const string BACK_COLOR_STRING = "BackColorString";
         public const string QR_COLOR_STRING = "QrColorString";
 
-        public const string JSON_SAMPLE = "{ \n " +
-            "\t\"quiz\": { \n " +
-            "\t\t\"sport\": { \n " +
-            "\t\t\t\"q1\": { \n " +
-            "\t\t\t\t\"question\": \"Which one is correct team name in NBA?\", \n " +
-            "\t\t\t\t\t\"options\": [ \n " +
-            "\t\t\t\t\t\t\"New York Bulls\", \n " +
-            "\t\t\t\t\t\t\t\"Los Angeles Kings\", \n " +
-            "\t\t\t\t\t\t\t\"Golden State Warriros\", \n " +
-            "\t\t\t\t\t\t\t\"Huston Rocket\" \n " +
-            "\t\t\t\t\t\t], \n " +
-            "\t\t\t\t\t\"answer\": \"Huston Rocket\" \n " +
-            "\t\t\t\t} \n " +
-            "\t\t\t}, \n " +
-            "\t\t\"maths\": { \n " +
-            "\t\t\t\"q1\": { \n " +
-            "\t\t\t\t\"question\": \"5 + 7 = ?\", \n " +
-            "\t\t\t\t\t\"options\": [ \n " +
-            "\t\t\t\t\t\t\"10\", \n " +
-            "\t\t\t\t\t\t\"11\", \n " +
-            "\t\t\t\t\t\t\"12\", \n " +
-            "\t\t\t\t\t\t\"13\" \n " +
-            "\t\t\t\t\t], \n " +
-            "\t\t\t\t\t\"answer\": \"12\" \n" +
-            "\t\t\t\t}, \n " +
-            "\t\t\t\"q2\": { \n " +
-            "\t\t\t\t\"question\": \"12 - 8 = ?\", \n " +
-            "\t\t\t\t\"options\": [ \n " +
-            "\t\t\t\t\t\t\"1\", \n " +
-            "\t\t\t\t\t\t\"2\", \n " +
-            "\t\t\t\t\t\t\"3\", \n " +
-            "\t\t\t\t\t\t\"4\" \n " +
-            "\t\t\t\t\t\t], \n " +
-            "\t\t\t\t\t\"answer\": \"4\" \n " +
-            "\t\t\t\t}, \n " +
-            "\t\t} \n " +
-            "\t} \n " +
-            "} \n ";
-        
         #endregion public const
 
         #region properties
+
+        public static string JSON_SAMPLE { get => ResReader.GetValue("json_sample0"); }
 
         private static System.Globalization.CultureInfo locale = null;
         private static String defaultLang = null;
@@ -114,6 +77,11 @@ namespace Area23.At.Mono.Util
         }
 
         public static string ISO2Lang { get => Locale.TwoLetterISOLanguageName; }
+
+        /// <summary>
+        /// UT DateTime @area23.at including seconds
+        /// </summary>
+        public static string DateArea23Seconds { get => DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"); }
 
         /// <summary>
         /// UTC DateTime Formated
