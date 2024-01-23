@@ -35,7 +35,7 @@
 			<td id="td1d" class="qrcTdLeft" width="32%" height="30pt">
                 <asp:TextBox ID="TextBox_Mobile" runat="server" ToolTip="enter mobile phone number" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
                     MaxLength="84" Width="128pt" Height="24pt" CssClass="QRTextBoxRight" 
-					TextMode="Phone" AutoCompleteType="Cellular" Text="+436507527928" />
+					AutoCompleteType="Cellular" Text="+436507527928" />
 			</td>
 		</tr>
 		<tr id="tr2" class="qrcTr">
@@ -43,7 +43,7 @@
 			<td id="td2b" class="qrcTdLeft" width="32%" height="30pt">
                 <asp:TextBox ID="TextBox_Email" runat="server" ToolTip="enter email address" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
                     MaxLength="128" Width="128pt" Height="24pt" CssClass="QRTextBox" 
-					TextMode="Email" AutoCompleteType="Email" Text="office.area23@gmail.com" />
+					AutoCompleteType="Email" Text="office.area23@gmail.com" />
 			</td>
 			<td id="td2c" class="qrcTdRight" width="18%" height="30pt">www:</td>
 			<td id="td2d" class="qrcTdLeft" width="32%" height="30pt">
@@ -142,7 +142,7 @@
 			</td>
 			<td id="td9b" class="qrcTdLeft" width="32%">
 				<asp:TextBox ID="TextBox_Birthday" runat="server" ToolTip="Enter birthday" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged" 
-					MaxLength="128" Width="128pt" Height="24pt" TextMode="Date" CssClass="QRTextBoxLeft" Text="22/02/1973" />
+					MaxLength="128" Width="128pt" Height="24pt" TextMode="Date" CssClass="QRTextBoxLeft" Text="22.02.1973" />
 			</td>
 		</tr>
 	</table>			

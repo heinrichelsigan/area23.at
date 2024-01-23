@@ -24,6 +24,8 @@ namespace Area23.At.Mono.Util
         public const string ACCEPT_LANGUAGE = "Accept-Language";
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";
         public const string DEFAULT_MIMETYPE = "application/octet-stream";
+        public const string RPN_STACK = "rpnStack";
+        public const string CHANGE_CLICK_EVENTCNT = "change_Click_EventCnt";
 
         public const char ANNOUNCE = ':';
         public const char DATE_DELIM = '-';

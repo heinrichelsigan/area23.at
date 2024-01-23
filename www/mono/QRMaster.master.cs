@@ -26,11 +26,11 @@ namespace Area23.At.Mono
 
         protected void NavFolderHandler(object sender, EventArgs args)
         {
-            headerLeft.Style["background-color"] = "#ffccdd";
-            headerLeftCenter.Style["background-color"] = "#ffccdd";
-            headerCenter.Style["background-color"] = "#ffccdd";
-            headerRightCenter.Style["background-color"] = "#ffccdd";
-            // headerRight.Style["background-color"] = "#ffccdd";
+            headerLeft.Attributes["class"] = "headerLeft";
+            headerLeftCenter.Attributes["class"] = "headerLeftCenter";
+            headerCenter.Attributes["class"] = "headerCenter";
+            headerRightCenter.Attributes["class"] = "headerRightCenter";
+            // headerRight.Style["class"] = "headerRight";
 
             try
             {
@@ -38,27 +38,27 @@ namespace Area23.At.Mono
                 {
                     if (this.Request.RawUrl.Contains("QRCodeGen.aspx"))
                     {
-                        headerLeft.Style["background-color"] = "#ffdfef";
+                        headerLeft.Attributes["class"] = "headerLeftSelect";
                         return;
                     }
                     if (this.Request.RawUrl.Contains("Qrc.aspx"))
                     {
-                        headerLeftCenter.Style["background-color"] = "#ffdfef";
+                        headerLeftCenter.Attributes["class"] = "headerLeftCenter";
                         return;
                     }
                     if (this.Request.RawUrl.Contains("Qr.aspx"))
                     {
-                        headerCenter.Style["background-color"] = "#ffdfef";
+                        headerCenter.Style["class"] = "headerCenterSelect";
                         return;
                     }
                     if (this.Request.RawUrl.Contains("QRGen.aspx"))
                     {
-                        headerRightCenter.Style["background-color"] = "#ffdfef";
+                        headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
                         return;
                     }
                     if (this.Request.RawUrl.Contains("trans"))
                     {
-                        // headerRight.Style["background-color"] = "#ffdfef";
+                        // headerRight.Attributes["background-color"] = "headerRightSelect";
                         return;
                     }
                 }

@@ -55,7 +55,7 @@
 				ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />				
 		</span>
 		<span class="righthuge">
-			<asp:Image ID="ImageQr" runat="server" ImageUrl="~/res/qrsample2.png" Visible="false" BorderStyle="None" BackColor="Transparent" Width="244" />
+			<asp:Image ID="ImageQr" runat="server" ImageUrl="~/res/qrsample2.png" Visible="false" BorderStyle="None" BackColor="Transparent" />
 		</span>		
 	</div>
 	<div id="ErrorDiv" runat="server" class="footerDiv" visible="false">

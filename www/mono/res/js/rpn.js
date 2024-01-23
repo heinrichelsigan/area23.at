@@ -25,7 +25,7 @@ var keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
 
 function rpnInit() {
 
-	document.getElementById("headerImg").src = "res/img/header.png";
+	document.getElementById("headerImg").src = "res/img/rpnHeader.png";
 	if (metacursor == null)
 		metacursor = document.getElementById("metacursor");
 	if (metacursor != null) {

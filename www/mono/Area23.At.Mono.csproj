@@ -154,6 +154,7 @@
     </Content>
     <Content Include="FortunAsp.aspx" />
     <Content Include="res\css\area23.at.mono.css" />
+    <Content Include="res\img\rpnHeader.png" />
     <Content Include="res\img\transparent.gif" />
     <Content Include="res\img\transparent.png" />
     <Content Include="res\js\rpn.js" />

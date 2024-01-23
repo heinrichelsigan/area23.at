@@ -28,14 +28,14 @@ namespace Area23.At.Mono
 
         protected void NavFolderHandler(object sender, EventArgs args)
         {
-            spanLeft.Style["background-color"] = "#ffccdd";
-            spanLeftCenter.Style["background-color"] = "#ffccdd";
-            spanCenter0.Style["background-color"] = "#ffccdd";
-            spanCenter1.Style["background-color"] = "#ffccdd";
-            spanCenter2.Style["background-color"] = "#ffccdd";
-            spanCenter3.Style["background-color"] = "#ffccdd";
-            spanRightCenter.Style["background-color"] = "#ffccdd";
-            spanRight.Style["background-color"] = "#ffccdd";
+            spanLeft.Attributes["class"] = "headerLeft";
+            spanLeftCenter.Attributes["class"] = "headerLeftCenter";
+            spanCenter0.Attributes["class"] = "headerCenter";
+            spanCenter1.Attributes["class"] = "headerCenter";
+            spanCenter2.Attributes["class"] = "headerCenter";
+            spanCenter3.Attributes["class"] = "headerCenter";
+            spanRightCenter.Attributes["class"] = "headerRightCenter";
+            spanRight.Attributes["class"] = "headerRightCenter";
 
             try
             {
@@ -43,37 +43,37 @@ namespace Area23.At.Mono
                 {
                     if (Request.RawUrl.ToLower().Contains("fortun"))
                     {
-                        spanLeft.Style["background-color"] = "#ffddee";
+                        spanLeft.Attributes["class"] = "headerLeftSelect";
                         return;
                     }
                     if (Request.RawUrl.ToLower().Contains("hex"))
                     {
-                        spanLeftCenter.Style["background-color"] = "#ffddee";
+                        spanLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
                         return;
                     }
                     if (Request.RawUrl.ToLower().Contains("qr"))
                     {
-                        spanCenter0.Style["background-color"] = "#ffddee";
+                        spanCenter0.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
                     if (Request.RawUrl.ToLower().Contains("json"))
                     {
-                        spanCenter1.Style["background-color"] = "#ffddee";
+                        spanCenter1.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
                     if (Request.RawUrl.ToLower().Contains("trans"))
                     {
-                        spanCenter2.Style["background-color"] = "#ffddee";
+                        spanCenter2.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
                     if (Request.RawUrl.ToLower().Contains("rpn"))
                     {
-                        spanCenter3.Style["background-color"] = "#ffddee";
+                        spanCenter3.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
                     if (Request.RawUrl.ToLower().Contains("frog"))
                     {
-                        spanRightCenter.Style["background-color"] = "#ffddee";
+                        spanRightCenter.Attributes["class"] = "headerRightCenterSelect";
                         return;
                     }
                 }

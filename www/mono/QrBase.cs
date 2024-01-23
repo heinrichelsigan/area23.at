@@ -126,7 +126,7 @@ namespace Area23.At.Mono
             // Enum.TryParse(qrModStr, out ecclvl);
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, ecclvl);
             QRCode qrCode = new QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(1);
+            Bitmap qrCodeImage = qrCode.GetGraphic(2);
             // Bitmap qrCodeImage = qrCode.GetGraphic(1, qrhex, colLg.ToXrgb(), true);
             // Bitmap qrCodeImage = qrCode.GetGraphic(4, c, Color.White, true);
 

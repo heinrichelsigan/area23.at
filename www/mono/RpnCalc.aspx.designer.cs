@@ -87,24 +87,6 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Btan;
 
         /// <summary>
-        /// Bsec control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Bsec;
-
-        /// <summary>
-        /// Bcsc control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Bcsc;
-
-        /// <summary>
         /// Bcot control.
         /// </summary>
         /// <remarks>
@@ -112,6 +94,24 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Bcot;
+
+        /// <summary>
+        /// BRad control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BRad;
+
+        /// <summary>
+        /// Basin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Basin;
 
         /// <summary>
         /// textboxtop control.

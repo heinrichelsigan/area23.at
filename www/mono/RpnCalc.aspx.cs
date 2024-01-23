@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Area23.At.Mono.Util;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -19,20 +21,39 @@ namespace Area23.At.Mono
         }
         public TextBox CurrentTextBox { get => this.textboxRpn; }
 
+        public string Change_Click_EventCnt
+        {
+            get => (Session[Constants.CHANGE_CLICK_EVENTCNT] != null) ? 
+                (string)Session[Constants.CHANGE_CLICK_EVENTCNT] : string.Empty;
+            set => Session[Constants.CHANGE_CLICK_EVENTCNT] = value;
+        }
+        object bChange_Click_lock = new object();
+        object bEnter_Click_lock = new object();
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["rpnStack"] != null)
+            if (Session[Constants.RPN_STACK] != null)
             {
-                rpnStack = (Stack<string>)Session["rpnStack"];
+                rpnStack = (Stack<string>)Session[Constants.RPN_STACK];
+            }            
+            else
+            {
+                rpnStack = new Stack<string>();
+                if (metacursor.Attributes["content"] != null)
+                {
+                    string s = HttpUtility.HtmlDecode(metacursor.Attributes["content"].ToString());
+                }
+                
+                Session[Constants.RPN_STACK] = rpnStack;
             }
             if (!Page.IsPostBack)
             {
                 if (metacursor.Attributes["content"] == null)
-                    metacursor.Attributes.Add("content", TextCursor.ToString());
+                    metacursor.Attributes.Add("content", HttpUtility.HtmlEncode(rpnStack.ToArray().ToString()));
                 else
-                    metacursor.Attributes["content"] = TextCursor.ToString();
+                    metacursor.Attributes["content"] = HttpUtility.HtmlEncode(rpnStack.ToArray().ToString());
             }
-            _textCursor = (metacursor.Attributes["content"] != null) ? Int32.Parse(metacursor.Attributes["content"]) : _textCursor;
+            _textCursor = rpnStack.Count;
         }
                
          
@@ -56,6 +77,16 @@ namespace Area23.At.Mono
             string mathString = (sender is Button) ? ((Button)sender).Text : "";
         }
         
+        protected void bRad_Click(object sender, EventArgs e)
+        {
+            //TODO: implement it
+        }
+
+        protected void bArc_Click(object sender, EventArgs e)
+        {
+            //TODO: implement it
+        }
+
         protected void bNumber_Click(object sender, EventArgs e)
         {
             string mathString = (sender is Button) ? ((Button)sender).Text : "";
@@ -144,26 +175,41 @@ namespace Area23.At.Mono
 
         }
 
-        protected void bEnter_Click(object sender, EventArgs e)
+        protected void bChange_Click(object sender, EventArgs e)
         {
-            this.textboxtop.Text = textboxtop.Text.TrimStart(" ".ToArray()).TrimEnd(" ".ToArray());
-            if (!string.IsNullOrEmpty(this.textboxtop.Text))
+            lock (bChange_Click_lock)
             {
-                if (ValidateNumber(this.textboxtop.Text))
+                bEnter_Click_lock = new object();
+                if (!string.IsNullOrEmpty(this.textboxtop.Text))
                 {
-                    TextCursor++;
-                    rpnStack.Push(textboxtop.Text);
-                    this.textboxtop.Text = string.Empty;
-                    RpnStackToTextBox();
-                    SetMetaContent();
-                }
-                else
-                {
-                    this.textboxtop.BorderColor = Color.Red;
-                    this.textboxtop.BorderStyle = BorderStyle.Dashed;
+                    this.bEnter_Click(sender, e);
                 }
             }
+        }
 
+        protected void bEnter_Click(object sender, EventArgs e)
+        {
+            lock (bEnter_Click_lock)
+            {
+                this.textboxtop.Text = textboxtop.Text.TrimStart(" ".ToArray()).TrimEnd(" ".ToArray());
+                if (!string.IsNullOrEmpty(this.textboxtop.Text))
+                {
+                    if (ValidateNumber(this.textboxtop.Text))
+                    {
+                        TextCursor++;
+                        rpnStack.Push(textboxtop.Text);
+                        this.textboxtop.Text = string.Empty;
+                        RpnStackToTextBox();
+                        SetMetaContent();
+                        this.Change_Click_EventCnt = rpnStack.Peek();
+                    }
+                    else
+                    {
+                        this.textboxtop.BorderColor = Color.Red;
+                        this.textboxtop.BorderStyle = BorderStyle.Dashed;
+                    }
+                }
+            }
         }
 
         protected void BEval_Click(object sender, EventArgs e)
@@ -171,112 +217,109 @@ namespace Area23.At.Mono
             string result = null;
             if (rpnStack.Count >= 2)
             {
-                string n0 = null, n1 = null, op = rpnStack.Peek();
+                double n0 = double.NaN, n1 = double.NaN;
+                string op = rpnStack.Peek();
 
                 if (ValidateOperator(op))
                 {
                     op = rpnStack.Pop();
-                    n0 = rpnStack.Pop();
-                    if (n0 == "ℇ") n0 = Math.E.ToString();
-                    if (n0 == "π") n0 = Math.PI.ToString();
+                    n0 = NumberFromStack();
 
                     switch (op)
                     {
                         case "+":
-                            n1 = rpnStack.Pop();
-                            if (n1 == "ℇ") n1 = Math.E.ToString();
-                            if (n1 == "π") n1 = Math.PI.ToString();
-                            result = (Double.Parse(n1) + Double.Parse(n0)).ToString();
+                            n1 = NumberFromStack();
+                            result = (n1 + n0).ToString();
                             break;
                         case "-":
-                            n1 = rpnStack.Pop();
-                            if (n1 == "ℇ") n1 = Math.E.ToString();
-                            if (n1 == "π") n1 = Math.PI.ToString();
-                            result = (Double.Parse(n1) - Double.Parse(n0)).ToString();
+                            n1 = NumberFromStack();
+                            result = (n1 - n0).ToString();
                             break;
                         case "*":
                         case "×":
-                            n1 = rpnStack.Pop();
-                            if (n1 == "ℇ") n1 = Math.E.ToString();
-                            if (n1 == "π") n1 = Math.PI.ToString();
-                            result = (Double.Parse(n1) * Double.Parse(n0)).ToString();
+                            n1 = NumberFromStack();
+                            result = (n1 * n0).ToString();
                             break;
                         case "/":
                         case "÷":
-                            n1 = rpnStack.Pop();
-                            if (n1 == "ℇ") n1 = Math.E.ToString();
-                            if (n1 == "π") n1 = Math.PI.ToString();
-                            result = (Double.Parse(n1) / Double.Parse(n0)).ToString();
+                            n1 = NumberFromStack();                            
+                            result = (n1 / n0).ToString();
                             break;
                         case "^":
-                            n1 = rpnStack.Pop();
-                            if (n1 == "ℇ") n1 = Math.E.ToString();
-                            if (n1 == "π") n1 = Math.PI.ToString();
-                            result = (Math.Pow(Double.Parse(n0), Double.Parse(n1))).ToString();
+                        case "xⁿ":
+                            n1 = NumberFromStack();
+                            result = (Math.Pow(n1, n0)).ToString();
+                            break;
+                        case "mod":
+                            n1 = NumberFromStack();
+                            result = (n1 % n0).ToString();
                             break;
                         case "!":
                             long fkCnt = 1;
-                            for (fkCnt = 1; fkCnt < Int32.Parse(n0); fkCnt *= fkCnt++) ;
+                            for (fkCnt = 1; fkCnt < (n0.ToLong()); fkCnt *= fkCnt++) ;
                             result = fkCnt.ToString();
-                            break;
+                            break;                        
                         case "x²":
                         case "²":
-                            result = (Double.Parse(n0) * Double.Parse(n0)).ToString();
+                            result = (n0 * n0).ToString();
                             break;
                         case "x³":
                         case "³":
-                            result = (Double.Parse(n0) * Double.Parse(n0) * Double.Parse(n0)).ToString();
+                            result = (n0 * n0 * n0).ToString();
                             break;
                         case "sin":
-                            result = Math.Sin(Double.Parse(n0)).ToString();
+                            result = Math.Sin(n0).ToString();
                             break;
                         case "cos":
-                            result = Math.Cos(Double.Parse(n0)).ToString();
+                            result = Math.Cos(n0).ToString();
                             break;
                         case "tan":
-                            result = Math.Tan(Double.Parse(n0)).ToString();
+                            result = Math.Tan(n0).ToString();
+                            break;
+                        case "cot":
+                            result = (Math.Cos(n0) / Math.Sin(n0)).ToString();
                             break;
                         case "ln":
-                            result = Math.Log(Double.Parse(n0)).ToString();
+                            result = Math.Log(n0).ToString();
                             break;
                         case "log10":
-                            result = Math.Log10(Double.Parse(n0)).ToString();
+                            result = Math.Log10(n0).ToString();
                             break;
                         case "ld":
-                            result = (Math.Log10(Double.Parse(n0)) / Math.Log10(2)).ToString();
+                            result = (Math.Log10(n0) / Math.Log10(2)).ToString();
                             break;
                         case "1/x":
-                            result = (1 / Double.Parse(n0)).ToString();
+                            result = (1 / n0).ToString();
                             break;
                         case "√":
-                            result = Math.Sqrt(Double.Parse(n0)).ToString();
+                            result = Math.Sqrt(n0).ToString();
                             break;
                         case "∛":
-                            result = Math.Pow(Double.Parse(n0), ((double)(1/3))).ToString();
+                            result = Math.Pow(n0, ((double)(1/3))).ToString();
                             break;
                         case "∜":
-                            result = Math.Pow(Double.Parse(n0), ((double)(1 / 4))).ToString();
+                            result = Math.Pow(n0, ((double)(1 / 4))).ToString();
                             break;
                         case "2ⁿ":
-                            result = Math.Pow(2, Double.Parse(n0)).ToString();
+                            result = Math.Pow(2, n0).ToString();
                             break;
                         case "10ⁿ":
-                            result = Math.Pow(10, Double.Parse(n0)).ToString();
+                            result = Math.Pow(10, n0).ToString();
                             break;
                         case "|x|":
-                            result = Math.Abs(Double.Parse(n0)).ToString();
+                            result = Math.Abs(n0).ToString();
                             break;
                         case "%":
-                            result = ((double)(Double.Parse(n0) / 100)).ToString();
+                            result = ((double)(n0 / 100)).ToString();
                             break;
                         case "‰":
-                            result = ((double)(Double.Parse(n0) / 1000)).ToString();
+                            result = ((double)(n0 / 1000)).ToString();
                             break;
                         default:
-                            if (n1 != null)
-                                rpnStack.Push(n1);
-                            if (n0 != null)
-                                rpnStack.Push(n0);
+                            if (!n1.IsNan())
+                                rpnStack.Push(n1.ToString());
+                            if (!n0.IsNan())
+                                rpnStack.Push(n0.ToString());
                             rpnStack.Push(op);
                             break;
                     }
@@ -311,7 +354,11 @@ namespace Area23.At.Mono
             if (string.IsNullOrEmpty(num))
                 return false;
 
-            string rest = num.Trim("0123456789.,ℇπ,".ToArray());
+            string restnum = num.TrimStart('-');
+            if (string.IsNullOrEmpty(restnum))
+                return false;
+            
+            string rest = restnum.Trim("0123456789.,ℇπ,".ToArray());
             return (string.IsNullOrEmpty(rest));
         }
         protected bool ValidateOperator(string op)
@@ -325,9 +372,9 @@ namespace Area23.At.Mono
                     case "+":
                     case "-":
                     case "/":
-                    case "xⁿ":
                     case "÷":
-                    case "^":
+                    case "xⁿ":
+                    case "^":                                        
                     case "√":
                     case "∛":
                     case "∜":
@@ -340,8 +387,11 @@ namespace Area23.At.Mono
                     case "sin":
                     case "cos":
                     case "tan":
+                    case "cot":
                     case "x²":
+                    case "²":
                     case "x³":
+                    case "³":
                     case "1/x":
                     case "log":
                     case "ln":
@@ -354,7 +404,19 @@ namespace Area23.At.Mono
         }
 
         #endregion validate rpn
-        
+
+        #region helper
+
+        protected double NumberFromStack(bool peekOnly = false)
+        {
+            string n = (peekOnly) ? rpnStack.Peek() : rpnStack.Pop();
+            if (n == "ℇ") n = Math.E.ToString();
+            if (n == "π") n = Math.PI.ToString();
+            double d = Double.Parse(n);
+            if (d.IsRoundNumber()) ;
+            return d;
+        }
+
         protected void SetMetaContent()
         {
             this.textboxtop.BorderColor = Color.Black;
@@ -362,10 +424,12 @@ namespace Area23.At.Mono
             this.textboxRpn.BorderStyle = BorderStyle.None;
 
             if (metacursor.Attributes["content"] == null)
-                metacursor.Attributes.Add("content", TextCursor.ToString());
+                metacursor.Attributes.Add("content", HttpUtility.HtmlEncode(rpnStack.ToArray().ToString()));
             else
-                metacursor.Attributes["content"] = TextCursor.ToString();
+                metacursor.Attributes["content"] = HttpUtility.HtmlEncode(rpnStack.ToArray().ToString());
         }
+
+        #endregion helper
 
         protected void RpnStackToTextBox()
         {
@@ -374,6 +438,8 @@ namespace Area23.At.Mono
             Session["rpnStack"] = rpnStack;
             this.textboxtop.Focus();
         }
+        
+
 
     }
 }

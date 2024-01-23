@@ -44,6 +44,26 @@ namespace Area23.At.Mono.Util
             }
         }
 
+        /// <summary>
+        /// Checks, if a double is a round number
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns>true, if it's integer number</returns>
+        public static bool IsRoundNumber(this double d)
+        {
+            return (Math.Truncate(d) == d || Math.Round(d) == d);
+        }
+
+        public static long ToLong(this double d)
+        {
+            return Convert.ToInt64(d);
+        }
+
+        public static bool IsNan(this double d)
+        {
+            return double.IsNaN(d);
+        }
+
         #region System.Drawing.Color extensions
 
         /// <summary>
