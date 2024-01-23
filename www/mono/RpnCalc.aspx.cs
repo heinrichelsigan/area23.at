@@ -1,11 +1,14 @@
 ﻿using Area23.At.Mono.Util;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Media.Animation;
 
 namespace Area23.At.Mono
 {
@@ -21,10 +24,80 @@ namespace Area23.At.Mono
         }
         public TextBox CurrentTextBox { get => this.textboxRpn; }
 
-        public string Change_Click_EventCnt
+        private RPNRad _currentRad = RPNRad.DEG;
+        public string CurrentRad
+        {
+            get
+            {                
+                switch (this.metarad.Attributes["content"])
+                {
+                    case "GRAD": _currentRad = RPNRad.GRAD; return RPNRad.GRAD.ToString();
+                    case "RAD":  _currentRad = RPNRad.RAD; return RPNRad.RAD.ToString();
+                    case "DEG":
+                    default:     _currentRad = RPNRad.DEG; return RPNRad.DEG.ToString();
+                }
+            }
+            set
+            {
+                if (Enum.TryParse<RPNRad>(value, out _currentRad))
+                {
+                    switch (_currentRad)
+                    {
+                        case RPNRad.RAD:
+                            this.metarad.Attributes["content"] = RPNRad.RAD.ToString();
+                            this.Brad.Text = RPNRad.RAD.ToString();                            
+                            // this.Brad.Font.Size = FontUnit.Medium;
+                            this.Brad.BackColor = Color.FromKnownColor(KnownColor.ButtonShadow);
+                            break;
+                        case RPNRad.GRAD:
+                            this.metarad.Attributes["content"] = RPNRad.GRAD.ToString();
+                            this.Brad.Text = RPNRad.GRAD.ToString();
+                            // this.Brad.Font.Size = FontUnit.Small;
+                            this.Brad.BackColor = Color.FromKnownColor(KnownColor.ControlDarkDark);
+                            break;
+                        case RPNRad.DEG:
+                        default:
+                            this.metarad.Attributes["content"] = RPNRad.DEG.ToString();
+                            this.Brad.Text = RPNRad.DEG.ToString();
+                            // this.Brad.Font.Size = FontUnit.Medium;                            
+                            this.Brad.BackColor = Color.FromKnownColor(KnownColor.ButtonHighlight);
+                            break;
+                    }
+                }
+            }
+        }
+
+        public string CurrentArc
+        {
+            get => this.metaarc.Attributes["content"];
+            set
+            {
+                if (value.ToUpper() == "ARC")
+                {
+                    this.metaarc.Attributes["content"] = "ARC";
+                    this.Barc.BackColor = Color.FromKnownColor(KnownColor.ButtonShadow);
+                    this.Barc.Text = "arc";
+                    this.Bsin.Text = "asin";
+                    this.Bcos.Text = "acos";
+                    this.Btan.Text = "atan";
+                    this.Bcot.Text = "acot";
+                }
+                else
+                {
+                    this.metaarc.Attributes["content"] = "";
+                    this.Barc.BackColor = Color.FromKnownColor(KnownColor.ButtonHighlight);
+                    this.Barc.Text = "ARC";
+                    this.Bsin.Text = "sin";
+                    this.Bcos.Text = "cos";
+                    this.Btan.Text = "tan";
+                    this.Bcot.Text = "cot";
+                }
+            }
+        }
+        public DateTime Change_Click_EventDate
         {
             get => (Session[Constants.CHANGE_CLICK_EVENTCNT] != null) ? 
-                (string)Session[Constants.CHANGE_CLICK_EVENTCNT] : string.Empty;
+                (DateTime)Session[Constants.CHANGE_CLICK_EVENTCNT] : DateTime.MinValue;
             set => Session[Constants.CHANGE_CLICK_EVENTCNT] = value;
         }
         object bChange_Click_lock = new object();
@@ -32,27 +105,45 @@ namespace Area23.At.Mono
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            string jsonSer = string.Empty;
             if (Session[Constants.RPN_STACK] != null)
             {
                 rpnStack = (Stack<string>)Session[Constants.RPN_STACK];
-            }            
+            }
             else
             {
                 rpnStack = new Stack<string>();
-                if (metacursor.Attributes["content"] != null)
+                if (metacursor.Attributes["content"] != null && !string.IsNullOrEmpty(metacursor.Attributes["content"]))
                 {
-                    string s = HttpUtility.HtmlDecode(metacursor.Attributes["content"].ToString());
+                    jsonSer = HttpUtility.HtmlDecode(metacursor.Attributes["content"].ToString());
+                    rpnStack = JsonConvert.DeserializeObject<Stack<string>>(jsonSer);
                 }
-                
+
                 Session[Constants.RPN_STACK] = rpnStack;
             }
             if (!Page.IsPostBack)
             {
+                jsonSer = JsonConvert.SerializeObject(rpnStack);
                 if (metacursor.Attributes["content"] == null)
-                    metacursor.Attributes.Add("content", HttpUtility.HtmlEncode(rpnStack.ToArray().ToString()));
+                    metacursor.Attributes.Add("content", HttpUtility.HtmlEncode(jsonSer));
                 else
-                    metacursor.Attributes["content"] = HttpUtility.HtmlEncode(rpnStack.ToArray().ToString());
+                    metacursor.Attributes["content"] = HttpUtility.HtmlEncode(jsonSer);
+                this.textboxtop.Focus();
             }
+            if (!string.IsNullOrEmpty(this.metarad.Attributes["content"]))
+            {
+                Brad.Text = CurrentRad;
+                string curRad = Brad.Text;
+                CurrentRad = curRad;
+            }
+            if (!string.IsNullOrEmpty(this.metaarc.Attributes["content"]) &&
+                this.metaarc.Attributes["content"].ToUpper() == "ARC")
+            {
+                this.CurrentArc = "ARC";
+            }
+            else
+                this.CurrentArc = "";
+
             _textCursor = rpnStack.Count;
         }
                
@@ -65,12 +156,6 @@ namespace Area23.At.Mono
 
         }
 
-        [Obsolete("bDummy_Click is obseolte", false)]
-        protected void bDummy_Click(object sender, EventArgs e)
-        {
-            bEnter_Click(sender, e);
-        }
-
 
         protected void bBracers_Click(object sender, EventArgs e)
         {
@@ -79,12 +164,40 @@ namespace Area23.At.Mono
         
         protected void bRad_Click(object sender, EventArgs e)
         {
-            //TODO: implement it
+            if (!string.IsNullOrEmpty(this.metarad.Attributes["content"]))
+            {
+                switch (this.metarad.Attributes["content"])
+                {
+                    case "GRAD":
+                        this.metarad.Attributes["content"] = RPNRad.DEG.ToString();
+                        CurrentRad = RPNRad.DEG.ToString();                        
+                        break;
+                    case "RAD":
+                        this.metarad.Attributes["content"] = RPNRad.GRAD.ToString();
+                        CurrentRad = RPNRad.GRAD.ToString();                        
+                        break;
+                    case "DEG":
+                    default:
+                        this.metarad.Attributes["content"] = RPNRad.RAD.ToString();
+                        CurrentRad = RPNRad.RAD.ToString();                        
+                        break;
+                }
+            }
         }
 
         protected void bArc_Click(object sender, EventArgs e)
         {
-            //TODO: implement it
+            switch(this.metaarc.Attributes["content"]) 
+            {
+                case "":
+                    this.CurrentArc = "ARC";
+                    
+                    break;
+                case "ARC":
+                default:
+                    this.CurrentArc = "";
+                    break;
+            }
         }
 
         protected void bNumber_Click(object sender, EventArgs e)
@@ -106,37 +219,43 @@ namespace Area23.At.Mono
 
         protected void bMath_Click(object sender, EventArgs e)
         {
-            string mathString = (sender is Button) ? ((Button)sender).Text : "";
+            string mathString = (sender is Button) ? ((Button)sender).Text :
+                (sender is TextBox) ? ((TextBox)sender).Text : "";
+
             if (!string.IsNullOrEmpty(mathString))
             {
                 this.textboxtop.Text = mathString.ToString();
-                if (ValidateMath(this.textboxtop.Text))
+                if (ValidateMathOp1(mathString) != RPNType.False)
                 {
                     rpnStack.Push(mathString.ToString());
                     TextCursor++;
                     RpnStackToTextBox();
                     SetMetaContent();
+                    textboxtop.Text = string.Empty;
                 }
                 else
                 {
                     this.textboxtop.BorderColor = Color.Red;
                     this.textboxRpn.BorderStyle = BorderStyle.Dotted;
                 }
-            }
+            }            
         }
         
         protected void bMath2Op_Click(object sender, EventArgs e)
         {
-            string mathString = (sender is Button) ? ((Button)sender).Text : "";
+            string mathString = (sender is Button) ? ((Button)sender).Text :
+                (sender is TextBox) ? ((TextBox)sender).Text : "";
+            
             if (!string.IsNullOrEmpty(mathString))
             {
                 this.textboxtop.Text = mathString.ToString();
-                if (ValidateMath2Op(this.textboxtop.Text))
-                {
+                if (ValidateMathOp2(this.textboxtop.Text) != RPNType.False)
+                {                    
                     rpnStack.Push(mathString.ToString());
                     TextCursor++;
                     RpnStackToTextBox();
                     SetMetaContent();
+                    textboxtop.Text = string.Empty;
                 }
                 else
                 {
@@ -179,10 +298,13 @@ namespace Area23.At.Mono
         {
             lock (bChange_Click_lock)
             {
-                bEnter_Click_lock = new object();
-                if (!string.IsNullOrEmpty(this.textboxtop.Text))
+                TimeSpan t0 = DateTime.UtcNow.Subtract(this.Change_Click_EventDate);
+                if (t0.TotalMinutes >= 1 || t0.Ticks >= 2)
                 {
-                    this.bEnter_Click(sender, e);
+                    if (!string.IsNullOrEmpty(this.textboxtop.Text))
+                    {
+                        this.bEnter_Click(sender, e);
+                    }
                 }
             }
         }
@@ -194,19 +316,30 @@ namespace Area23.At.Mono
                 this.textboxtop.Text = textboxtop.Text.TrimStart(" ".ToArray()).TrimEnd(" ".ToArray());
                 if (!string.IsNullOrEmpty(this.textboxtop.Text))
                 {
-                    if (ValidateNumber(this.textboxtop.Text))
+                    if (ValidateNumber(this.textboxtop.Text) == RPNType.Number)
                     {
                         TextCursor++;
                         rpnStack.Push(textboxtop.Text);
                         this.textboxtop.Text = string.Empty;
                         RpnStackToTextBox();
                         SetMetaContent();
-                        this.Change_Click_EventCnt = rpnStack.Peek();
+                        this.Change_Click_EventDate = DateTime.UtcNow;
                     }
-                    else
+                    else 
                     {
-                        this.textboxtop.BorderColor = Color.Red;
-                        this.textboxtop.BorderStyle = BorderStyle.Dashed;
+                        RPNType rpnT = ValidateOperator(this.textboxtop.Text);
+                        if (rpnT != RPNType.False)
+                        {
+                            if (rpnT == RPNType.MathOp1)
+                                bMath_Click(sender, e);
+                            if (rpnT == RPNType.MathOp2)
+                                bMath2Op_Click(sender, e);
+                        }
+                        else
+                        {
+                            this.textboxtop.BorderColor = Color.Red;
+                            this.textboxtop.BorderStyle = BorderStyle.Dashed;
+                        }
                     }
                 }
             }
@@ -220,7 +353,7 @@ namespace Area23.At.Mono
                 double n0 = double.NaN, n1 = double.NaN;
                 string op = rpnStack.Peek();
 
-                if (ValidateOperator(op))
+                if (ValidateOperator(op) != RPNType.False)
                 {
                     op = rpnStack.Pop();
                     n0 = NumberFromStack();
@@ -253,6 +386,11 @@ namespace Area23.At.Mono
                         case "mod":
                             n1 = NumberFromStack();
                             result = (n1 % n0).ToString();
+                            break;
+                        case "ⁱ√":
+                        case "sqrti":
+                            n1 = NumberFromStack();
+                            Math.Pow(n0, ((double)(1 / n1))).ToString();
                             break;
                         case "!":
                             long fkCnt = 1;
@@ -337,31 +475,43 @@ namespace Area23.At.Mono
 
 
         #region validate rpn
-        protected bool ValidateMath2Op(string op)
+        protected RPNType ValidateMathOp2(string op)
         {
+            RPNType rpnT = RPNType.False;
             string[] rpnArr = rpnStack.ToArray();
             if (rpnArr == null || rpnArr.Length < 2)
-                return false;
-            return (ValidateNumber(rpnArr[rpnArr.Length - 1]) && ValidateNumber(rpnArr[rpnArr.Length - 2]));
+                return rpnT;
+            if (ValidateNumber(rpnArr[rpnArr.Length - 1]) == RPNType.Number 
+                && ValidateNumber(rpnArr[rpnArr.Length - 2]) == RPNType.Number)
+                rpnT = RPNType.Number;
+            return rpnT;
         }
-        protected bool ValidateMath(string op)
+
+        protected RPNType ValidateMathOp1(string op)
         {
+            RPNType rpnT = RPNType.False;
             string[] rpnArr = rpnStack.ToArray();
-            return (ValidateNumber(rpnArr[rpnArr.Length - 1]));
+            if (rpnArr == null || rpnArr.Length < 1)
+                return rpnT;
+            if (ValidateNumber(rpnArr[rpnArr.Length - 1]) == RPNType.Number)
+                rpnT = RPNType.Number;
+            return rpnT;
         }
-        protected bool ValidateNumber(string num)
+
+        protected RPNType ValidateNumber(string num)
         {
             if (string.IsNullOrEmpty(num))
-                return false;
+                return RPNType.False;
 
             string restnum = num.TrimStart('-');
             if (string.IsNullOrEmpty(restnum))
-                return false;
+                return RPNType.False;
             
             string rest = restnum.Trim("0123456789.,ℇπ,".ToArray());
-            return (string.IsNullOrEmpty(rest));
+            return (string.IsNullOrEmpty(rest)) ? RPNType.Number : RPNType.False;
         }
-        protected bool ValidateOperator(string op)
+
+        protected RPNType ValidateOperator(string op)
         {
             if (!string.IsNullOrEmpty(op))
             {
@@ -374,12 +524,17 @@ namespace Area23.At.Mono
                     case "/":
                     case "÷":
                     case "xⁿ":
-                    case "^":                                        
+                    case "^":
+                    case "mod":
+                    case "ⁱ√":
+                    case "sqrti":
+                        return RPNType.MathOp2;
                     case "√":
                     case "∛":
                     case "∜":
                     case "‰":
                     case "%":
+                    case "abs":
                     case "|x|":
                     case "2ⁿ":
                     case "10ⁿ":
@@ -396,11 +551,11 @@ namespace Area23.At.Mono
                     case "log":
                     case "ln":
                     case "ld":
-                        return true;
-                    default: return false;
+                        return RPNType.MathOp1;
+                    default: return RPNType.False;
                 }
             }
-            return false;
+            return RPNType.False;
         }
 
         #endregion validate rpn
@@ -413,7 +568,7 @@ namespace Area23.At.Mono
             if (n == "ℇ") n = Math.E.ToString();
             if (n == "π") n = Math.PI.ToString();
             double d = Double.Parse(n);
-            if (d.IsRoundNumber()) ;
+            if (d.IsRoundNumber()) { ; }
             return d;
         }
 
@@ -422,11 +577,11 @@ namespace Area23.At.Mono
             this.textboxtop.BorderColor = Color.Black;
             this.textboxtop.BorderStyle = BorderStyle.None;
             this.textboxRpn.BorderStyle = BorderStyle.None;
-
+            string jsonSerialize = Newtonsoft.Json.JsonConvert.SerializeObject(rpnStack);
             if (metacursor.Attributes["content"] == null)
-                metacursor.Attributes.Add("content", HttpUtility.HtmlEncode(rpnStack.ToArray().ToString()));
+                metacursor.Attributes.Add("content", HttpUtility.HtmlEncode(jsonSerialize));
             else
-                metacursor.Attributes["content"] = HttpUtility.HtmlEncode(rpnStack.ToArray().ToString());
+                metacursor.Attributes["content"] = HttpUtility.HtmlEncode(jsonSerialize);
         }
 
         #endregion helper
@@ -438,8 +593,6 @@ namespace Area23.At.Mono
             Session["rpnStack"] = rpnStack;
             this.textboxtop.Focus();
         }
-        
-
 
     }
 }

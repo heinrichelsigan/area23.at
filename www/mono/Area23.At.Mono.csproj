@@ -373,6 +373,7 @@
     <Compile Include="Util\ProcessCmd.cs" />
     <Compile Include="Util\QRGenericString.cs" />
     <Compile Include="Util\ResReader.cs" />
+    <Compile Include="Util\RPNType.cs" />
     <Compile Include="Util\SayBase.cs" />
     <Compile Include="Util\SaySpeach.cs" />
   </ItemGroup>

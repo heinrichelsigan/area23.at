@@ -157,6 +157,7 @@ td {
         background-color: lightgray;
     }
 
+
     td.gainsboroTd {
         width: 36pt;
         min-width: 36pt;
@@ -173,7 +174,7 @@ td {
         background-color: gainsboro;
     }
 
-    td.deeppinkTd {
+    td.azureTd {
         width: 36pt;
         min-width: 36pt;
         height: 27pt;
@@ -184,12 +185,12 @@ td {
         border-style: none;
         border-spacing: 0px;
         border-width: 0px;
-        background-repeat: no-repeat;
+        /* background-repeat: no-repeat; */
         background-size: 100% 100%;
-        background-color: deeppink;
+        background-color: azure;
     }
 
-    td.palevioletredTd {
+    td.mistyroseTd {
         width: 36pt;
         min-width: 36pt;
         height: 27pt;
@@ -202,7 +203,23 @@ td {
         border-width: 0px;
         background-repeat: no-repeat;
         background-size: 100% 100%;
-        background-color: palevioletred;
+        background-color: mistyrose;
+    }
+
+    td.salmonTd {
+        width: 36pt;
+        min-width: 36pt;
+        height: 27pt;
+        min-height: 27pt;
+        text-align: center;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0px;
+        border-width: 0px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-color: salmon;
     }
 
 
