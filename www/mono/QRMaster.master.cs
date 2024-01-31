@@ -43,12 +43,12 @@ namespace Area23.At.Mono
                     }
                     if (this.Request.RawUrl.Contains("Qrc.aspx"))
                     {
-                        headerLeftCenter.Attributes["class"] = "headerLeftCenter";
+                        headerLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
                         return;
                     }
                     if (this.Request.RawUrl.Contains("Qr.aspx"))
                     {
-                        headerCenter.Style["class"] = "headerCenterSelect";
+                        headerCenter.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
                     if (this.Request.RawUrl.Contains("QRGen.aspx"))
