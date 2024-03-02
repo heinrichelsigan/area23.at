@@ -153,6 +153,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="res\js\digiclock.js" />
+    <Content Include="Unix\Bc.aspx" />
     <Content Include="Unix\UnixMain.aspx" />
     <Content Include="Unix\FortunAsp.aspx" />
     <Content Include="res\css\area23.at.mono.css" />
@@ -273,6 +274,13 @@
     </Compile>
     <Compile Include="ByteTransColor.aspx.designer.cs">
       <DependentUpon>ByteTransColor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Unix\Bc.aspx.cs">
+      <DependentUpon>Bc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Unix\Bc.aspx.designer.cs">
+      <DependentUpon>Bc.aspx</DependentUpon>
     </Compile>
     <Compile Include="Unix\UnixMain.aspx.cs">
       <DependentUpon>UnixMain.aspx</DependentUpon>
