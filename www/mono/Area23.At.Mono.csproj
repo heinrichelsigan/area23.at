@@ -152,18 +152,20 @@
     <Content Include="favicon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="FortunAsp.aspx" />
+    <Content Include="res\js\digiclock.js" />
+    <Content Include="Unix\UnixMain.aspx" />
+    <Content Include="Unix\FortunAsp.aspx" />
     <Content Include="res\css\area23.at.mono.css" />
     <Content Include="res\img\rpnHeader.png" />
     <Content Include="res\img\transparent.gif" />
     <Content Include="res\img\transparent.png" />
     <Content Include="res\js\rpn.js" />
     <Content Include="RpnCalc.aspx" />
-    <Content Include="HexDump.aspx" />
+    <Content Include="Unix\HexDump.aspx" />
     <Content Include="froga.aspx" />
     <Content Include="log\TextFile.txt" />
-    <Content Include="Qr.aspx" />
-    <Content Include="QRGen.aspx" />
+    <Content Include="Qr\Qr.aspx" />
+    <Content Include="Qr\QRGen.aspx" />
     <Content Include="res\audio\frogaGameOver.mp3" />
     <Content Include="res\audio\frogaGameOver.ogg" />
     <Content Include="res\audio\frogCrash.mp3" />
@@ -245,16 +247,17 @@
     <Content Include="res\qrsample2.png" />
     <Content Include="json.aspx" />
     <Content Include="Default.aspx" />
-    <Content Include="Fortune.aspx" />
+    <Content Include="Unix\Fortune.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="fortune.c" />
-    <Content Include="od.aspx" />
-    <Content Include="od.c" />
-    <Content Include="od.html" />
-    <Content Include="Qrc.aspx" />
-    <Content Include="QRCodeGen.aspx" />
+    <Content Include="Unix\fortune.c" />
+    <Content Include="Unix\od.aspx" />
+    <Content Include="Unix\od.c" />
+    <Content Include="Unix\od.html" />
+    <Content Include="Qr\Qrc.aspx" />
+    <Content Include="Qr\QRCodeGen.aspx" />
+    <Content Include="Unix\QRGen.aspx" />
     <Content Include="Web.config" />
-    <Content Include="OctalDump.aspx" />
+    <Content Include="Unix\OctalDump.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Area23.Master.cs">
@@ -271,11 +274,18 @@
     <Compile Include="ByteTransColor.aspx.designer.cs">
       <DependentUpon>ByteTransColor.aspx</DependentUpon>
     </Compile>
-    <Compile Include="FortunAsp.aspx.cs">
+    <Compile Include="Unix\UnixMain.aspx.cs">
+      <DependentUpon>UnixMain.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Unix\UnixMain.aspx.designer.cs">
+      <DependentUpon>UnixMain.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Unix\FortunAsp.aspx.cs">
       <DependentUpon>FortunAsp.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="FortunAsp.aspx.designer.cs">
+    <Compile Include="Unix\FortunAsp.aspx.designer.cs">
       <DependentUpon>FortunAsp.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
@@ -291,18 +301,18 @@
     <Compile Include="RpnCalc.aspx.designer.cs">
       <DependentUpon>RpnCalc.aspx</DependentUpon>
     </Compile>
-    <Compile Include="HexDump.aspx.cs">
+    <Compile Include="Unix\HexDump.aspx.cs">
       <DependentUpon>HexDump.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="HexDump.aspx.designer.cs">
+    <Compile Include="Unix\HexDump.aspx.designer.cs">
       <DependentUpon>HexDump.aspx</DependentUpon>
     </Compile>
-    <Compile Include="od.aspx.cs">
+    <Compile Include="Unix\od.aspx.cs">
       <DependentUpon>od.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="od.aspx.designer.cs">
+    <Compile Include="Unix\od.aspx.designer.cs">
       <DependentUpon>od.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -326,43 +336,57 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource_de.resx</DependentUpon>
     </Compile>
-    <Compile Include="Qr.aspx.cs">
+    <Compile Include="Qr\Qr.aspx.cs">
       <DependentUpon>Qr.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Qr.aspx.designer.cs">
+    <Compile Include="Qr\Qr.aspx.designer.cs">
       <DependentUpon>Qr.aspx</DependentUpon>
     </Compile>
-    <Compile Include="QrBase.cs">
+    <Compile Include="Qr\QrBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Qrc.aspx.cs">
+    <Compile Include="Qr\Qrc.aspx.cs">
       <DependentUpon>Qrc.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Qrc.aspx.designer.cs">
+    <Compile Include="Qr\Qrc.aspx.designer.cs">
       <DependentUpon>Qrc.aspx</DependentUpon>
     </Compile>
-    <Compile Include="QRCodeGen.aspx.cs">
+    <Compile Include="Qr\QRCodeGen.aspx.cs">
       <DependentUpon>QRCodeGen.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="QRCodeGen.aspx.designer.cs">
+    <Compile Include="Qr\QRCodeGen.aspx.designer.cs">
       <DependentUpon>QRCodeGen.aspx</DependentUpon>
     </Compile>
-    <Compile Include="QRGen.aspx.cs">
+    <Compile Include="Qr\QRGen.aspx.cs">
       <DependentUpon>QRGen.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="QRGen.aspx.designer.cs">
+    <Compile Include="Qr\QRGen.aspx.designer.cs">
       <DependentUpon>QRGen.aspx</DependentUpon>
     </Compile>
-    <Compile Include="QRMaster.master.cs">
+    <Compile Include="Qr\QRMaster.master.cs">
       <DependentUpon>QRMaster.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="QRMaster.master.designer.cs">
+    <Compile Include="Qr\QRMaster.master.designer.cs">
       <DependentUpon>QRMaster.master</DependentUpon>
+    </Compile>
+    <Compile Include="Unix\QRGen.aspx.cs">
+      <DependentUpon>QRGen.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Unix\QRGen.aspx.designer.cs">
+      <DependentUpon>QRGen.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Unix\UnixMaster.master.cs">
+      <DependentUpon>UnixMaster.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Unix\UnixMaster.master.designer.cs">
+      <DependentUpon>UnixMaster.master</DependentUpon>
     </Compile>
     <Compile Include="Util\ColorForm.cs" />
     <Compile Include="Util\Constants.cs" />
@@ -383,8 +407,9 @@
     <Content Include="res\fortune.u8">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="QRMaster.master" />
+    <Content Include="Qr\QRMaster.master" />
     <Content Include="res\img\transparent.xcf" />
+    <Content Include="Unix\UnixMaster.master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -394,8 +419,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Control\Master\" />
-    <Folder Include="Control\Page\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resource.resx">

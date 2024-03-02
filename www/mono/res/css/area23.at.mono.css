@@ -199,6 +199,16 @@ div {
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
     }
 
+    div.digitalclock {
+        border-block: 2px solid #bab5b1;
+        background-color: #23cd43;
+        font-size: medium;
+        vertical-align: middle;
+        table-layout: fixed;
+        inset-block-start: initial;
+        font-family: 'Courier New', Courier New, Courier, monospace, 'Lucida Console', Consolas, 'Lucida Sans Unicode';
+    }
+
     .jsonRow {
         display: block;
         width: 100%;
@@ -393,20 +403,36 @@ div {
                 border-spacing: 1px 1px;
             }
 
-table.qrcTable {
-    width: 100%;
-    min-width: 400px;
-    height: 64%;
-    min-height: 220px;
-    align-content: center;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-    border-style: none;
-    border-spacing: 0px;
-    border-width: 0px;
-    border-color: transparent;
-    background-repeat: no-repeat;
-}
+        span.digitalClockSpan,
+        span#spanHoursId,
+        span#spanMinutesId,
+        span#spanSecondsId {
+            border-block: 1px solid #43cd66;
+            color: black;
+            background-color: #43cd23;
+            font-size: medium;
+            font-style: oblique;
+            text-decoration: blink;
+            vertical-align: middle;
+            table-layout: fixed;
+            inset-block-start: initial;
+            font-family: 'Courier New', Courier New, Courier, monospace, 'Lucida Console', Consolas, 'Lucida Sans Unicode';
+        }
+
+        table.qrcTable {
+            width: 100%;
+            min-width: 400px;
+            height: 64%;
+            min-height: 220px;
+            align-content: center;
+            padding: 0 0 0 0;
+            margin: 0 0 0 0;
+            border-style: none;
+            border-spacing: 0px;
+            border-width: 0px;
+            border-color: transparent;
+            background-repeat: no-repeat;
+        }
 
 tr.qrcTr {
     width: 100%;

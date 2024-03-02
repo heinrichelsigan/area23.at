@@ -41,12 +41,12 @@ namespace Area23.At.Mono
             {
                 if (Request != null && Request.RawUrl != null)
                 {
-                    if (Request.RawUrl.ToLower().Contains("fortun"))
+                    if (Request.RawUrl.ToLower().Contains("/"))
                     {
                         spanLeft.Attributes["class"] = "headerLeftSelect";
                         return;
                     }
-                    if (Request.RawUrl.ToLower().Contains("hex"))
+                    if (Request.RawUrl.ToLower().Contains("unix"))
                     {
                         spanLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
                         return;
