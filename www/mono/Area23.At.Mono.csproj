@@ -152,6 +152,7 @@
     <Content Include="favicon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="res\js\bc.js" />
     <Content Include="res\js\digiclock.js" />
     <Content Include="Unix\Bc.aspx" />
     <Content Include="Unix\UnixMain.aspx" />

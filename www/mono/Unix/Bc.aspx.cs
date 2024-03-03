@@ -14,14 +14,9 @@ namespace Area23.At.Mono.Unix
 {
     public partial class Bc : System.Web.UI.Page
     {
-        char radix = 'n';
-        int hexWidth = 8;
-        int wordWidth = 32;
-        long seekBytes = 0;
-        long readBytes = 1024;
-        string device = "urandom";
+        int lines = 4;
         static Random random;
-        string lastLine = null;
+        string lastLine = "";
         object bcLock = new object();
         const string bcCmdPath = "echo {0} | bc";
         const string bcSuidCmdPath = "/usr/bin/echo {0} | /usr/bin/bc";
@@ -35,25 +30,26 @@ namespace Area23.At.Mono.Unix
             InitBcText();
         }
 
-        protected void Button_ResetBc_Click(object sender, EventArgs e)
-        {
-            InitBcText();
-        }
-
+        /// <summary>
+        /// InitBcText - resets <see cref="bcText">bcText</see>.Text to inital string,
+        /// sets <see cref="lastLine"/> = null and
+        /// clears <see cref="Stack{string}"/> <see cref="bcStack">bcStack</see>
+        /// </summary>
         protected void InitBcText()
-        {
-            this.bcText.Text = "bc 1.07.1\r\nCopyright 1991-1994, 1997, 1998, 2000, 2004, 2006, 2008, 2012-2017 Free Software Foundation, Inc.\r\nThis is free software with ABSOLUTELY NO WARRANTY.\r\nFor details type `warranty'.\r\n";
-            lastLine = null;
+        {            
+            lastLine = "";
             bcStack.Clear();
+            // this.bcText.Focus();                                  
         }
 
-        protected void BcText_KeyPress(object sender, EventArgs e)
+        public void BcText_TextChanged(object sender, EventArgs e)
         {
             string sndr = sender.ToString();
             string currentLastLine = GetLastLineFromBcText();
-            lock (bcLock)
+            
+            if (currentLastLine != lastLine)
             {
-                if (currentLastLine != lastLine)
+                lock (bcLock)
                 {
                     lastLine = currentLastLine;
                     Perform_BasicCalculator();
@@ -61,27 +57,70 @@ namespace Area23.At.Mono.Unix
             }
         }
 
+        /// <summary>
+        /// ButtonReset_Click - resets the bcText.Text by calling <see cref="InitBcText"/>
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        protected void ButtonReset_Click(object sender, EventArgs e)
+        {
+            InitBcText();
+        }
+
+        /// <summary>
+        /// ButtonEnter_Click => Event fired, when hidden ButtonEnter is clicked (also clicked by javascript)
+        /// Last <see cref="bcText"/> line will be fetched by <see cref="GetLastLineFromBcText()"/> and
+        /// if last fetched line != <see cref="lastLine"/> an atomic spinlock 
+        ///   sets <see cref="lastline"/> to current last line 
+        ///   executes basic calculator line engine by calling <see cref="Perform_BasicCalculator()"/>
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        public void ButtonEnter_Click(object sender, EventArgs e)
+        {
+            string currentLastLine = GetLastLineFromBcText();
+            if (currentLastLine != lastLine)
+            {
+                lock (bcLock)
+                {
+                    lastLine = currentLastLine;
+                    Perform_BasicCalculator();
+                }
+            }
+        }
+
+        /// <summary>
+        /// GetLastLineFromBcText() - fetch last entered line in <see cref="bcText"/> by user
+        /// </summary>
+        /// <returns></returns>
         protected string GetLastLineFromBcText()
         {            
             char[] sep = "\r\n".ToCharArray();
-            foreach (string bcStr in this.bcText.Text.Split(sep))
+            string[] bcStrings = this.bcText.Text.Split(sep);
+            foreach (string bcStr in bcStrings)
             {
-                if (!string.IsNullOrEmpty(bcStr) && !bcStack.Contains(bcStr))
+                if (!string.IsNullOrEmpty(bcStr) && !bcStack.Contains(bcStr) &&
+                    !bcStr.StartsWith("bc 1.07.1") && !bcStr.ToLower().Contains("free software") && !bcStr.ToLower().Contains("warranty"))
+                {
                     bcStack.Push(bcStr);
+                }
             }
-            bcCurrentOp.Text = bcStack.Peek();
+            bcCurrentOp.Text = (bcStack.Count > 0) ? bcStack.Peek() : "";
             return bcCurrentOp.Text;
         }
 
         /// <summary>
-        /// Perform_Hexdump()
+        /// Perform_BasicCalculator()
         /// </summary>
-        protected void Perform_BasicCalculator()
+        /// <param name="bcStr"><see cref="string"/> bcStr passed to bc(1)</param>
+        protected void Perform_BasicCalculator(string bcStr = null)
         {
+            if (string.IsNullOrEmpty(bcStr))
+                bcStr = GetLastLineFromBcText();
             try
             {
-                string bcCmd = String.Format(bcCmdPath, GetLastLineFromBcText());
-                string bcOutPut = Process_Bc(bcSuidCmdPath, "");
+                string bcCmd = String.Format(bcSuidCmdPath, bcStr);
+                string bcOutPut = Process_Bc(bcCmd, "");
                 bcText.Text += "\r\n" + bcOutPut + "\r\n";
                 preOut.InnerText = "\r\n" + bcOutPut + "\r\n";
             } 

@@ -51,12 +51,12 @@ namespace Area23.At.Mono.Unix
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl preOut;
 
         /// <summary>
-        /// ButtonReset control.
+        /// buttonEnter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonReset;
+        protected global::System.Web.UI.WebControls.Button buttonEnter;
     }
 }
