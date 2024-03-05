@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>url shortner area23.at test form</title>
+    <link rel="stylesheet" href="/css/od.css" />
+    <script type="text/javascript" src="/js/od.js"></script>
+</head>
+<body>
+    <form method="post" action="/cgi/urls.cgi" id="form1">
+        <h1>area23 url shortner</h1>
+        <div class="odDiv">
+            <span class="smallSpan" style="width:16%; text-align: right;">
+                url to short:
+            </span>
+            <span class="smallSpan" style="width:82%; text-align: left;">
+                <input type="text" value="https://area23.at/s/" maxlength="256"
+                       name="input_urlshort" id="input_urlshort" title="url to short" class="ButtonTextBox" style="height:24pt;width:72%;" />
+            </span>
+        </div>
+        <div class="odDiv">
+            <br />
+        </div>
+        <div class="odDiv">
+            <span style="white-space: nowrap; width:82%; text-align: left;">
+                <table id="short_type" title="short type">
+                    <tr>
+                        <td><input id="short_index" type="radio" name="short_index" value="i" checked="checked" /><label for="short_index">directory shortend</label></td>
+                        <td><input id="short_parameter" type="radio" name="short_parameter" value="p" /><label for="short_parameter">parameter shortend</label></td>
+                        <td><input id="short_domain" type="radio" name="short_domain" value="d" /><label for="short_domain">domain shortend</label></td>
+                    </tr>
+                </table>
+            </span>
+        </div>
+        <div class="odDiv">
+            <br />
+        </div>
+        <div class="odDiv">
+            <span class="smallSpan" style="width: 16%; text-align: left;">
+                &nbsp;
+            </span>
+            <span style="width:25%; text-align: center;">
+                <input type="reset" name="input_reset" value="reset url" id="input_reset" title="Click to reset url shortner" />
+            </span>
+            <span style="width: 25%; text-align: center;">
+                <input type="submit" name="input_submit" value="short url" id="input_submit" title="Click to short url" />
+            </span>
+        </div>
+        <hr />
+        <pre id="preOut" style="visibility: hidden">
+        <a href="https://area23.at/s/23/" target="_blank">https://area23.at/s/23/</a>
+        </pre>
+        <hr />
+        <div align="left" class="footerDiv">
+            <span style="width:8%; text-align: left;" align="left" valign="middle"><a href="/cgi/fortune.cgi">fortune</a></span>
+            <span style="width:8%; text-align: center;" align="center" valign="middle"><a href="/froga/">froga</a></span>
+            <span style="width:8%; text-align: center;" align="center" valign="middle"><a href="/cgi/od.cgi">octal dump</a></span>
+            <span style="width:8%; text-align: center;" align="center" valign="middle"><a href="/mono/SchnapsNet/">schnapsen 66</a></span>
+            <span style="width:64%; text-align: center;" align="center" valign="middle">
+                <a href="mailto:he@area23.at">Heinrich Elsigan</a>, GNU General Public License 3.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://darkstar.work">darkstar.work</a>
+            </span>
+        </div>
+    </form>
+</body>
+</html>
+

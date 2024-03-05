@@ -149,6 +149,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ByteTransColor.aspx" />
+    <Content Include="c\urls.c" />
+    <Content Include="c\urls23.html" />
     <Content Include="favicon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -251,10 +253,10 @@
     <Content Include="Default.aspx" />
     <Content Include="Unix\Fortune.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Unix\fortune.c" />
+    <Content Include="c\fortune.c" />
     <Content Include="Unix\od.aspx" />
-    <Content Include="Unix\od.c" />
-    <Content Include="Unix\od.html" />
+    <Content Include="c\od.c" />
+    <Content Include="c\od.html" />
     <Content Include="Qr\Qrc.aspx" />
     <Content Include="Qr\QRCodeGen.aspx" />
     <Content Include="Unix\QRGen.aspx" />
