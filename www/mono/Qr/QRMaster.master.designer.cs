@@ -60,15 +60,6 @@ namespace Area23.At.Mono.Qr
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRightCenter;
 
         /// <summary>
-        /// Area23MasterForm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm Area23MasterForm;
-
-        /// <summary>
         /// QrBody control.
         /// </summary>
         /// <remarks>
@@ -76,5 +67,14 @@ namespace Area23.At.Mono.Qr
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder QrBody;
+
+        /// <summary>
+        /// Area23MasterForm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlForm Area23MasterForm;
     }
 }

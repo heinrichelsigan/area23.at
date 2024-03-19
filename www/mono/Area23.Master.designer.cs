@@ -33,6 +33,15 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanLeft;
 
         /// <summary>
+        /// aSlash control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aSlash;
+
+        /// <summary>
         /// spanLeftCenter control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanLeftCenter;
+
+        /// <summary>
+        /// aUnix control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aUnix;
 
         /// <summary>
         /// spanCenter0 control.
@@ -51,6 +69,15 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCenter0;
 
         /// <summary>
+        /// aQr control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aQr;
+
+        /// <summary>
         /// spanCenter1 control.
         /// </summary>
         /// <remarks>
@@ -58,6 +85,15 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCenter1;
+
+        /// <summary>
+        /// aJson control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aJson;
 
         /// <summary>
         /// spanCenter2 control.
@@ -69,6 +105,15 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCenter2;
 
         /// <summary>
+        /// aByteTransColor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aByteTransColor;
+
+        /// <summary>
         /// spanCenter3 control.
         /// </summary>
         /// <remarks>
@@ -76,6 +121,15 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCenter3;
+
+        /// <summary>
+        /// aRpnCalc control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aRpnCalc;
 
         /// <summary>
         /// spanRightCenter control.
@@ -87,6 +141,15 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanRightCenter;
 
         /// <summary>
+        /// aFroga control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aFroga;
+
+        /// <summary>
         /// spanRight control.
         /// </summary>
         /// <remarks>
@@ -94,6 +157,15 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanRight;
+
+        /// <summary>
+        /// aSchnapsNet control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aSchnapsNet;
 
         /// <summary>
         /// BodyContentPlaceHolder control.

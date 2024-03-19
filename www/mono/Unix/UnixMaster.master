@@ -9,10 +9,10 @@
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">               
     <div id="rowqr" class="headercard" align="left">         
-        <span id="headerLeft" runat="server" class="headerLeft" align="center" valign="middle"><a class="spanHeaderA" href="/Unix/UnixMain.aspx">Unix cmd tools</a></span>
-        <span id="headerLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a class="spanHeaderA" href="/Unix/FortunAsp.aspx">fortune(6)</a></span>	
-        <span id="headerCenter" runat="server" class="headerCenter" align="center" valign="middle"><a class="spanHeaderA" href="/Unix/HexDump.aspx">Hex Dump od(1)</a></span>	        
-        <span id="headerRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a class="spanHeaderA" href="/Unix/Bc.aspx">basic calculator bc(1)</a></span>
+        <span id="headerLeft" runat="server" class="headerLeft" align="center" valign="middle"><a class="spanHeaderA" href="<%= Area23.At.Mono.Util.Paths.UnixAppPath %>UnixMain.aspx">Unix cmd tools</a></span>
+        <span id="headerLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a class="spanHeaderA" href='<%= Area23.At.Mono.Util.Paths.UnixAppPath %>FortunAsp.aspx'>fortune(6)</a></span> 
+        <span id="headerCenter" runat="server" class="headerCenter" align="center" valign="middle"><a class="spanHeaderA" href='<%= Area23.At.Mono.Util.Paths.UnixAppPath %>HexDump.aspx'>Hex Dump od(1)</a></span> 
+        <span id="headerRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a class="spanHeaderA" href="<%= Area23.At.Mono.Util.Paths.UnixAppPath %>Bc.aspx">basic calculator bc(1)</a></span>
     </div>
 
     <hr />   

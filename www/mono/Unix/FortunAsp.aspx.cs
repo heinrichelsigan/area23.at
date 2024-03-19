@@ -43,9 +43,11 @@ namespace Area23.At.Mono.Unix
                 fortuneResult = (longFortune) ?
                     ProcessCmd.Execute("/usr/games/fortune", " -a -l ") :
                     ProcessCmd.Execute("/usr/games/fortune", "-o -s  ");
-            } 
-            catch (Exception)
+            }
+            catch (Exception ex)
             {
+                Area23Log.LogStatic(ex);
+
                 lock (fortuneLock)
                 {
                     string[] filenames = { Paths.OutDir + Paths.SepChar + "fortune.u8", Paths.OutDir + Paths.SepChar + "fortune.u8", "fortune.u8", "Properties" + Paths.SepChar + "fortune.u8" };

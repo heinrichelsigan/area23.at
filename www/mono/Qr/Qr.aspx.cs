@@ -110,11 +110,33 @@ namespace Area23.At.Mono.Qr
 
         protected override string GetQrString()
         {
-            QRCoder.PayloadGenerator.Url qrUrl = new QRCoder.PayloadGenerator.Url(this.TextBox_QrUrl.Text);
-            QRCoder.PayloadGenerator.BezahlCode qrBank = new BezahlCode(BezahlCode.AuthorityType.contact_v2,
-                TextBox_AccountName.Text, TextBox_AccountName.Text, "", TextBox_IBAN.Text, TextBox_BIC.Text, TextBox_Reason.Text);
-            QRCoder.PayloadGenerator.PhoneNumber qrPhone = new PhoneNumber(this.TextBox_QrPhone.Text);
-            string qrString = String.Concat(qrUrl.ToString(), qrPhone.ToString(), qrBank.ToString());
+            string qrUrlStr = "", qrGenStr = "", qrBankStr = "", qrPhoneStr = "";
+            if (!string.IsNullOrEmpty(this.TextBox_QrUrl.Text))
+            {
+                QRCoder.PayloadGenerator.Url qrUrl = new QRCoder.PayloadGenerator.Url(this.TextBox_QrUrl.Text);
+                qrUrlStr = qrUrl.ToString() + "\r\n";                
+            }
+            if (!string.IsNullOrEmpty(this.TextBox_QrString.Text))
+            {
+                QRGenericString qrGen = new QRGenericString(this.TextBox_QrString.Text);
+                qrGenStr = qrGen.ToString() + "\r\n";
+            }
+            if (!string.IsNullOrEmpty(TextBox_AccountName.Text))
+            {
+                QRCoder.PayloadGenerator.BezahlCode qrBank = new BezahlCode(BezahlCode.AuthorityType.contact_v2,
+                    TextBox_AccountName.Text, TextBox_AccountName.Text, "", TextBox_IBAN.Text, TextBox_BIC.Text, TextBox_Reason.Text);
+                qrBankStr = qrBank.ToString() + "\r\n";
+            }
+            if (!string.IsNullOrEmpty(this.TextBox_QrPhone.Text))
+            {
+                QRCoder.PayloadGenerator.PhoneNumber qrPhone = new PhoneNumber(this.TextBox_QrPhone.Text);
+                qrPhoneStr = qrPhone.ToString() + "\r\n";
+                if (!qrPhoneStr.ToLower().StartsWith("tel") && !qrPhoneStr.ToLower().Contains("tel:"))
+                { 
+                    qrPhoneStr = "tel:" + qrPhoneStr;
+                }
+            }
+            string qrString = String.Concat(qrGenStr, qrUrlStr, qrPhoneStr, qrBankStr);
             return qrString;
         }
 
@@ -124,9 +146,10 @@ namespace Area23.At.Mono.Qr
         }
 
         protected override void GenerateQRImage(string qrString = "")
-        {
-            Bitmap aQrBitmap = null;
+        {            
+            int qrWidth = -1;
             string qrImgPath = string.Empty;
+            Bitmap aQrBitmap = null;
 
             if (string.IsNullOrEmpty(this.input_color.Value))
                 this.input_color.Value = Constants.QrColorString;
@@ -147,16 +170,16 @@ namespace Area23.At.Mono.Qr
             {
                 Constants.QrColor = Util.ColorFrom.FromHtml(this.input_color.Value);
                 Constants.BackColor = Util.ColorFrom.FromHtml(this.input_backcolor.Value);
-                qrString = (string.IsNullOrEmpty(qrString)) ? GetQrString() : qrString;
+                qrString = (string.IsNullOrEmpty(qrString)) ? GetQrString() : qrString;                
 
                 if (!string.IsNullOrEmpty(qrString))
                 {
                     // aQrBitmap = GetQRBitmap(qrString, Constants.QrColor, Color.Transparent);
-                    qrImgPath = GetQRImgPath(qrString, this.input_color.Value, this.input_backcolor.Value);
+                    qrImgPath = GetQRImgPath(qrString, out qrWidth, this.input_color.Value, this.input_backcolor.Value);
                 }
                 if (!string.IsNullOrEmpty(qrImgPath))
                 {
-                    SetQrImageUrl(qrImgPath);
+                    SetQrImageUrl(qrImgPath, qrWidth);
                 }
             }
             catch (Exception ex)
@@ -182,11 +205,13 @@ namespace Area23.At.Mono.Qr
         }
 
 
-        protected override void SetQrImageUrl(string imgPth)
+        protected override void SetQrImageUrl(string imgPth, int qrWidth = -1)
         {
             this.ImageQr.Visible = true;
             this.ImageQr.BackColor = Util.ColorFrom.FromHtml(this.input_backcolor.Value);
             this.ImageQr.ImageUrl = imgPth;
+            if (qrWidth > 0)
+                this.ImageQr.Width = qrWidth;
         }
 
     }

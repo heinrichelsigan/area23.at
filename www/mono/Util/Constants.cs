@@ -20,7 +20,10 @@ namespace Area23.At.Mono.Util
         public const string URL_PIC = "https://area23.at/mono/test/res/img/";
         public const string URL_PREFIX = "https://area23.at/mono/test/res/";
         public const string LOG_DIR = "log";
+        public const string QR_DIR = "Qr";
+        public const string UNIX_DIR = "Unix";
         public const string RES_FOLDER = "res";
+        
         public const string ACCEPT_LANGUAGE = "Accept-Language";
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";
         public const string DEFAULT_MIMETYPE = "application/octet-stream";

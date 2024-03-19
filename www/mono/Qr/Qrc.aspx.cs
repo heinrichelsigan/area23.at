@@ -112,8 +112,9 @@ namespace Area23.At.Mono.Qr
 
         protected override void GenerateQRImage(string qrString = "")
         {
-            Bitmap aQrBitmap = null;
+            int qrWidth = -1;
             string qrImgPath = string.Empty;
+            Bitmap aQrBitmap = null;
 
             if (string.IsNullOrEmpty(this.input_color.Value))
                 this.input_color.Value = Constants.QrColorString;
@@ -139,11 +140,11 @@ namespace Area23.At.Mono.Qr
 
                 if (!string.IsNullOrEmpty(qrString))
                 {
-                    qrImgPath = GetQRImgPath(qrString, this.input_color.Value, this.input_backcolor.Value, 3);
+                    qrImgPath = GetQRImgPath(qrString, out qrWidth, this.input_color.Value, this.input_backcolor.Value, 3);
                 }
                 if (!string.IsNullOrEmpty(qrImgPath)) 
                 {
-                    SetQrImageUrl(qrImgPath);
+                    SetQrImageUrl(qrImgPath, -1);
                 }
             }
             catch (Exception ex)
@@ -221,7 +222,7 @@ namespace Area23.At.Mono.Qr
         }
 
 
-        protected override void SetQrImageUrl(string imgPth)
+        protected override void SetQrImageUrl(string imgPth, int qrWidth = -1)
         {
             this.ImgQR.Src = imgPth;
             if (this.input_backcolor != null && !string.IsNullOrEmpty(this.input_backcolor.Value))
@@ -246,6 +247,8 @@ namespace Area23.At.Mono.Qr
                 else
                     this.ImgQR.Style["border-style"] = "double";
             }
+            if (qrWidth > 0) 
+                this.ImgQR.Width = qrWidth;
         }
 
     }

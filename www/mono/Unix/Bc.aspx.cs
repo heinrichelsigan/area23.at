@@ -18,8 +18,8 @@ namespace Area23.At.Mono.Unix
         static Random random;
         string lastLine = "";
         object bcLock = new object();
-        const string bcCmdPath = "echo {0} | bc";
-        const string bcSuidCmdPath = "/usr/bin/echo {0} | /usr/bin/bc";
+        const string BC_CMD_PATH = "/usr/local/bin/bccmd.sh";
+        const string BC_CMD = "/usr/local/bin/bccmd.sh";
         Stack<string> bcStack = new Stack<string>();
 
 
@@ -119,8 +119,8 @@ namespace Area23.At.Mono.Unix
                 bcStr = GetLastLineFromBcText();
             try
             {
-                string bcCmd = String.Format(bcSuidCmdPath, bcStr);
-                string bcOutPut = Process_Bc(bcCmd, "");
+                string bcCmd = BC_CMD;
+                string bcOutPut = Process_Bc(bcCmd, bcStr);
                 bcText.Text += "\r\n" + bcOutPut + "\r\n";
                 preOut.InnerText = "\r\n" + bcOutPut + "\r\n";
             } 
@@ -137,7 +137,7 @@ namespace Area23.At.Mono.Unix
         /// <param name="args">od arguments passed to od</param>
         /// <returns>output of od cmd</returns>
         protected string Process_Bc(
-            string filepath = bcSuidCmdPath,
+            string filepath = BC_CMD_PATH,
             string args = "")
         {
             return ProcessCmd.Execute(filepath, args);

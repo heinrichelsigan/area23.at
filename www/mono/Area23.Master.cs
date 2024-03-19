@@ -18,13 +18,25 @@ namespace Area23.At.Mono
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            InitAHrefs();
             if (!Page.IsPostBack)
             {
                 NavFolderHandler(sender, e);
-            }
-            
+            }            
         }
 
+
+        protected void InitAHrefs()
+        {
+            this.aSlash.HRef = Paths.BaseAppPath;
+            this.aUnix.HRef = Paths.UnixAppPath + "UnixMain.aspx";
+            this.aQr.HRef = Paths.QrAppPath + "QRCodeGen.aspx";
+            this.aJson.HRef = Paths.BaseAppPath + "json.aspx";
+            this.aByteTransColor.HRef = Paths.BaseAppPath + "ByteTransColor.aspx";
+            this.aRpnCalc.HRef = Paths.BaseAppPath + "RpnCalc.aspx";
+            this.aFroga.HRef = Paths.BaseAppPath + "froga.aspx";
+            this.aSchnapsNet.HRef = "/mono/SchnapsNet/";
+        }
 
         protected void NavFolderHandler(object sender, EventArgs args)
         {
@@ -40,12 +52,7 @@ namespace Area23.At.Mono
             try
             {
                 if (Request != null && Request.RawUrl != null)
-                {
-                    if (Request.RawUrl.ToLower().Contains("/"))
-                    {
-                        spanLeft.Attributes["class"] = "headerLeftSelect";
-                        return;
-                    }
+                {                    
                     if (Request.RawUrl.ToLower().Contains("unix"))
                     {
                         spanLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
@@ -74,6 +81,11 @@ namespace Area23.At.Mono
                     if (Request.RawUrl.ToLower().Contains("frog"))
                     {
                         spanRightCenter.Attributes["class"] = "headerRightCenterSelect";
+                        return;
+                    }
+                    if (Request.RawUrl.ToLower().Contains("/"))
+                    {
+                        spanLeft.Attributes["class"] = "headerLeftSelect";
                         return;
                     }
                 }

@@ -1,5 +1,6 @@
 ﻿using Area23.At.Mono;
 using Area23.At.Mono.Util;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +15,10 @@ namespace Area23.At.Mono.Util
     public static class Paths
     {
         private static string appPath = null;
+        private static string baseAppPath = null;
         private static string resAppPath = null;
+        private static string qrAppPath = null;
+        private static string unixAppPath = null;
         private static string cardPicsPath = null;
         private static string cardPicsDir = null;
         
@@ -25,32 +29,78 @@ namespace Area23.At.Mono.Util
         {
             get
             {
+                
                 if (String.IsNullOrEmpty(appPath))
                 {
-                    appPath = HttpContext.Current.Request.ApplicationPath;
+                    string apPath = HttpContext.Current.Request.Url.ToString().Replace("/Unix/", "/").Replace("/Qr/", "/").
+                        Replace("/res/", "/").Replace("/js/", "/").Replace("/image/", "/").Replace("/css/", "/");
+                    // appPath = HttpContext.Current.Request.ApplicationPath;
+                    appPath = apPath.Substring(0, apPath.LastIndexOf("/"));
                     if (!appPath.EndsWith("/"))
                         appPath += "/";
                 }
-                return appPath;
+                return appPath;                
             }
         }
 
-        public static string ResAppPath 
+        public static string BaseAppPath
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(baseAppPath))
+                {
+                    string basApPath = HttpContext.Current.Request.Url.ToString().Replace("/Unix/", "/").Replace("/Qr/", "/").
+                        Replace("/res/", "/").Replace("/js/", "/").Replace("/image/", "/").Replace("/css/", "/");
+                    baseAppPath = basApPath.Substring(0, basApPath.LastIndexOf("/"));
+                    if (!baseAppPath.EndsWith("/"))
+                        baseAppPath += "/";
+                }
+                return baseAppPath;
+            }
+        }
+
+        public static string ResAppPath
         {
             get
             {
                 if (String.IsNullOrEmpty(resAppPath))
-                {
-                    string rsAppPath = HttpContext.Current.Request.Url.ToString().Replace("/Master/", "/").Replace("/Page/", "/").Replace("/Control/", "/");
-                    resAppPath = rsAppPath.Substring(0, rsAppPath.LastIndexOf("/"));
-                    if (!resAppPath.EndsWith("/"))
-                        resAppPath += "/";
-                    if (!resAppPath.Contains("/res/"))
-                        resAppPath += "res/";
+                {                    
+                    resAppPath = BaseAppPath;
+                    if (!resAppPath.Contains("/" + Constants.RES_FOLDER + "/"))
+                        resAppPath += Constants.RES_FOLDER + "/";
                 }
                 return resAppPath;
             }
         }
+
+        public static string QrAppPath 
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(qrAppPath))
+                {
+                    qrAppPath = BaseAppPath;
+                    if (!qrAppPath.Contains("/" + Constants.QR_DIR + "/"))
+                        qrAppPath += Constants.QR_DIR + "/"; 
+                }
+                return qrAppPath;
+            }
+        }
+
+        public static string UnixAppPath
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(unixAppPath))
+                {
+                    unixAppPath = BaseAppPath;
+                    if (!unixAppPath.Contains("/" + Constants.UNIX_DIR + "/"))
+                        unixAppPath += Constants.UNIX_DIR + "/";
+                }
+                return unixAppPath;
+            }
+        }
+        
 
         public static string AppFolder
         {

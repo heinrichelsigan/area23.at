@@ -105,11 +105,12 @@ namespace Area23.At.Mono.Qr
         /// <param name="c"></param>
         /// <returns><see cref="Bitmap"/></returns>
         /// <exception cref="ArgumentNullException">thrown, when <paramref name="qrString"/> is null or ""</exception>
-        protected virtual string GetQRImgPath(string qrString, string qrhex, string bghex = "#ffffff", short qrmode = 2)
+        protected virtual string GetQRImgPath(string qrString, out int qrWidth, string qrhex, string bghex = "#ffffff", short qrmode = 2)
         {
             if (string.IsNullOrEmpty(qrString))
                 throw new ArgumentNullException("qrString", "Error calling GetQRBitmap(qrString = null); qrString is null...");
 
+            qrWidth = -1;
             if (String.IsNullOrEmpty(qrhex))
                 qrhex = "#000000";
             string lighter = "#efefef"; // Color.FromArgb((Color.White.R - (byte)(c.R / 2)), (Color.White.G - (byte)(c.G / 2)), (Color.White.B - (byte)(c.B / 2)));
@@ -139,6 +140,9 @@ namespace Area23.At.Mono.Qr
             // Bitmap qrNewImg = new Bitmap(transImg);
             // qrNewImg.MakeTransparent();
             // qrNewImg.SetResolution(qrNewImg.HorizontalResolution, qrNewImg.VerticalResolution);
+
+            if(qrCodeImage.Width <= 128)
+                qrWidth = qrCodeImage.Width * 2;
 
             Color backGr = ColorFrom.FromHtml(bghex);
 
@@ -301,18 +305,22 @@ namespace Area23.At.Mono.Qr
             }            
         }
 
-        protected virtual void SetQrImageUrl(string imgPth)
+        protected virtual void SetQrImageUrl(string imgPth, int qrWidth = -1)
         {
             foreach (var ctrl in this.Controls)
             {
                 if (ctrl is HtmlControl && ctrl is HtmlImage)
-                {
+                {                    
                     ((HtmlImage)ctrl).Src = imgPth;
+                    if (qrWidth > 0)
+                        ((HtmlImage)ctrl).Width = qrWidth;
                     return;
                 }
                 if (ctrl is System.Web.UI.WebControls.Image)
                 {
                     ((System.Web.UI.WebControls.Image)ctrl).ImageUrl = imgPth;
+                    if (qrWidth > 0)
+                        ((System.Web.UI.WebControls.Image)ctrl).Width = qrWidth;
                     return;
                 }
             }            

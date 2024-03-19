@@ -62,12 +62,12 @@ namespace Area23.At.Mono.Unix
                         headerLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("Bc.aspx"))
+                    if (this.Request.RawUrl.Contains("HexDump.aspx"))
                     {
-                        headerCenter.Attributes["class"] = "headerCenterSelect";
+                        headerCenter.Attributes["class"] = "headerCenter";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("UnixMain.aspx"))
+                    if (this.Request.RawUrl.Contains("Bc.aspx"))
                     {
                         headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
                         return;

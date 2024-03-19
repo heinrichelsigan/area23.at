@@ -4,8 +4,8 @@
     <link rel="stylesheet" href="https://area23.at/css/od.css" />
     <link rel="stylesheet" href="../res/css/area23.at.mono.css" />    
     <title>basic calculator bc(1)</title>
-    <script async src="../res/js/area23.js"></script>
-    <script async src="../res/js/bc.js"></script>
+    <script src="../res/js/bc.js"></script>
+    <script async src="../res/js/area23.js"></script>    
     <script language="javascript">
         window.onload = function () {
             bcInit();
@@ -28,8 +28,8 @@ For details type `warranty'.
         <hr />
         <div class="odDiv">
             <span style="width: 28%; text-align: left;">
-                <input id="inputReset" title="Click to reset bc(1)" value="Reset bc(1)" 
-                     OnClientClick="setTimeout(function () { window.location.reload(); }, 100);" />
+                <input type="button" id="inputReset" title="Click to reset bc(1)" value="Reset bc(1)" 
+                     OnClientClick="setTimeout(function () { window.location.reload(); }, 100);" /> 
             </span>
             <span style="width:28%; text-align: right;">
                 <asp:Button ID="buttonEnter" ClientIDMode="Static" runat="server" Text="[Enter]" CssClass="Hidden" 

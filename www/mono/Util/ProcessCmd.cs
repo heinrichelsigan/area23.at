@@ -23,6 +23,7 @@ namespace Area23.At.Mono.Util
                 using (Process compiler = new Process())
                 {
                     compiler.StartInfo.FileName = filepath;
+                    compiler.StartInfo.CreateNoWindow = true;
                     string argTrys = (!string.IsNullOrEmpty(args)) ? args : "";
                     compiler.StartInfo.Arguments = argTrys;
                     compiler.StartInfo.UseShellExecute = false;

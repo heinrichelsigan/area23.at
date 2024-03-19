@@ -142,4 +142,3 @@ function setColorPicker() {
 // example for loading more javascript dynamically from main script by creating script elements in html head.
 loadScript('https://area23.at/js/fortune.js', false, function () { console.log('finished loading fortune: ' + GetFortuneForm()); });
 loadScript('https://area23.at/js/od.js', false, function () { console.log('finished loading od: ' + GetOdForm()); });
-loadScript('https://area23.at/js/gtag.js', true, function () { gTagInit(); console.log('fished loading google tag async script!'); });

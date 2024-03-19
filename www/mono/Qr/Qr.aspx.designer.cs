@@ -15,6 +15,15 @@ namespace Area23.At.Mono.Qr
     {
 
         /// <summary>
+        /// Form_Qr control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlForm Form_Qr;
+
+        /// <summary>
         /// LinkButton_QrString control.
         /// </summary>
         /// <remarks>
