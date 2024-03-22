@@ -421,6 +421,9 @@
     <Content Include="Qr\QRMaster.master" />
     <Content Include="res\img\transparent.xcf" />
     <Content Include="Unix\UnixMaster.master" />
+    <Content Include="res\bin\bccmd.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

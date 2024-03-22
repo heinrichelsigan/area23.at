@@ -10,13 +10,13 @@
     <script async src="res/js/area23.js"></script>	
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server" ClientIDMode="Static">
-	<form id="RpnCalcForm" runat="server" action="RpnCalc.aspx">
+	<form id="RpnCalcForm" runat="server">
 		<div class="rpnDiv" align="center">
 			<div class="rpnDivHeader">
 				<span id="headerLeft" style="min-height: 36pt; min-width: 60pt; vertical-align: middle; font-size: larger; text-align: right " align="right" valign="middle">
-					<span id="spanPreviousValue" runat="server" alt="previous value" style="color:greenyellow">0</span> 
-					<span id="spanLastValue" runat="server" alt="last value" style="color:aqua;">4</span>					
-					<span id="frogsDied" alt="frogs died" style="color:gainsboro">0</span>
+					<span id="spanPreviousValue" runat="server" alt="previous value" style="color:greenyellow">R</span> 
+					<span id="spanLastValue" runat="server" alt="last value" style="color:aqua;">P</span>					
+					<span id="frogsDied" alt="frogs died" style="color:gainsboro">N</span>
 				</span>
 				<span style="min-height: 36pt; min-width: 240pt; vertical-align:middle; font-size: medium; text-align: center" align="center" valign="middle">
 					<img class="rpnImg" src="res/img/header.png" id="headerImg" border="0" />
@@ -34,7 +34,7 @@
 					<td class="azureTd" width="10%" id="td9c" align="center"><asp:Button ID="Bcos" ClientIDMode="Static" runat="server" Text="cos" OnClick="bMath_Click" /></td>
 					<td class="azureTd" width="10%" id="td9d" align="center"><asp:Button ID="Btan" ClientIDMode="Static" runat="server" Text="tan" OnClick="bMath_Click" /></td>
 					<td class="azureTd" width="10%" id="td9e" align="center"><asp:Button ID="Bcot" ClientIDMode="Static" runat="server" Text="cot" OnClick="bMath_Click" /></td>
-					<td class="gainsboroTd" width="10%" id="td9f" align="center"><asp:Button ID="Brad" ClientIDMode="Static" runat="server" Text="DEG" OnClick="bRad_Click" /></td>
+					<td class="gainsboroTd" width="10%" id="td9f" align="center"><asp:Button ID="Brad" ClientIDMode="Static" runat="server" Text="RAD" OnClick="bRad_Click" /></td>
 					<td class="gainsboroTd" width="10%" id="td9g" align="center"><asp:Button ID="Barc" ClientIDMode="Static" runat="server" Text="ARC" OnClick="bArc_Click" /></td>
 					<td class="rpnTd" width="10%" id="td9h"></td>
 					<td class="rpnTd" width="20%" id="td9i" colspan="2"><asp:TextBox ID="textboxtop" ClientIDMode="Static" runat="server" Columns="16" AutoPostBack="true" OnTextChanged="bChange_Click" Font-Names="Courier New"></asp:TextBox></td>
@@ -76,7 +76,7 @@
 					<td class="gainsboroTd" width="10%" id="td5b" align="center"><asp:Button ID="Bopen" runat="server" ClientIDMode="Static" Text="(" OnClick="bBracers_Click" /></td>
 					<td class="gainsboroTd" width="10%" id="td5c" align="center"><asp:Button ID="Beuler" runat="server" Text="ℇ" ClientIDMode="Static" OnClick="bPiE_Click" /></td>
                     <td class="gainsboroTd" width="10%" id="td5d" align="center"><asp:Button ID="Bpi" runat="server" ClientIDMode="Static" Text="π" OnClick="bPiE_Click" /></td>
-					<td class="gainsboroTd" width="10%" id="td5e" align="center"><asp:Button ID="Binfite" runat="server" ClientIDMode="Static" Text="∞" OnClick="bPiE_Click" /></td>
+					<td class="gainsboroTd" width="10%" id="td5e" align="center"><asp:Button ID="Binfite" runat="server" ClientIDMode="Static" Text="∞" OnClick="bInfinite_Click" /></td>
 					<td class="mistyroseTd" width="10%" id="td5f" align="center"><asp:Button ID="Bdivision" runat="server" Text="÷" OnClick="bMath2Op_Click" ClientIDMode="Static" /></td>
                     <td class="salmonTd" width="10%" id="td5g" align="center"><asp:Button ID="BClear" runat="server" ClientIDMode="Static" Text="C" ToolTip="Clear" OnClick="BClear_Click" /></td>
 					<td class="rpnTd" width="10%" id="td5h"></td>

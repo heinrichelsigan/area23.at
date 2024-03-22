@@ -13,7 +13,7 @@ namespace Area23.At.Mono
         protected Uri backUrl = new Uri(Constants.RPN_URL);
 
         protected System.Globalization.CultureInfo locale;
-        public Mutex rpncalcMutex;
+        public Mutex mutex;
 
         public System.Globalization.CultureInfo Locale
         {

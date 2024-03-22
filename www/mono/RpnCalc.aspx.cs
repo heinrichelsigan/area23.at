@@ -2,12 +2,14 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Ink;
 using System.Windows.Media.Animation;
 
 namespace Area23.At.Mono
@@ -24,17 +26,18 @@ namespace Area23.At.Mono
         }
         public TextBox CurrentTextBox { get => this.textboxRpn; }
 
-        private RPNRad _currentRad = RPNRad.DEG;
+        private RPNRad _currentRad = RPNRad.RAD;
         public string CurrentRad
         {
             get
             {                
                 switch (this.metarad.Attributes["content"])
                 {
-                    case "GRAD": _currentRad = RPNRad.GRAD; return RPNRad.GRAD.ToString();
-                    case "RAD":  _currentRad = RPNRad.RAD; return RPNRad.RAD.ToString();
-                    case "DEG":
-                    default:     _currentRad = RPNRad.DEG; return RPNRad.DEG.ToString();
+                    case "GRD": _currentRad = RPNRad.GRD; return RPNRad.GRD.ToString(); 
+                    case "DEG": _currentRad = RPNRad.DEG; return RPNRad.DEG.ToString();
+                    case "RAD":
+                    default:
+                        _currentRad = RPNRad.RAD; return RPNRad.RAD.ToString();
                 }
             }
             set
@@ -42,25 +45,22 @@ namespace Area23.At.Mono
                 if (Enum.TryParse<RPNRad>(value, out _currentRad))
                 {
                     switch (_currentRad)
-                    {
-                        case RPNRad.RAD:
-                            this.metarad.Attributes["content"] = RPNRad.RAD.ToString();
-                            this.Brad.Text = RPNRad.RAD.ToString();                            
-                            // this.Brad.Font.Size = FontUnit.Medium;
-                            this.Brad.BackColor = Color.FromKnownColor(KnownColor.ButtonShadow);
+                    {                        
+                        case RPNRad.GRD:
+                            this.metarad.Attributes["content"] = RPNRad.GRD.ToString();
+                            this.Brad.Text = RPNRad.GRD.ToString();
+                            this.Brad.BackColor = Color.FromKnownColor(KnownColor.ControlLightLight);
                             break;
-                        case RPNRad.GRAD:
-                            this.metarad.Attributes["content"] = RPNRad.GRAD.ToString();
-                            this.Brad.Text = RPNRad.GRAD.ToString();
-                            // this.Brad.Font.Size = FontUnit.Small;
-                            this.Brad.BackColor = Color.FromKnownColor(KnownColor.ControlDarkDark);
-                            break;
-                        case RPNRad.DEG:
-                        default:
+                        case RPNRad.DEG:                        
                             this.metarad.Attributes["content"] = RPNRad.DEG.ToString();
-                            this.Brad.Text = RPNRad.DEG.ToString();
-                            // this.Brad.Font.Size = FontUnit.Medium;                            
+                            this.Brad.Text = RPNRad.DEG.ToString();                        
                             this.Brad.BackColor = Color.FromKnownColor(KnownColor.ButtonHighlight);
+                            break;
+                        case RPNRad.RAD:
+                        default:                        
+                            this.metarad.Attributes["content"] = RPNRad.RAD.ToString();
+                            this.Brad.Text = RPNRad.RAD.ToString();
+                            this.Brad.BackColor = Color.FromKnownColor(KnownColor.ButtonShadow);
                             break;
                     }
                 }
@@ -102,6 +102,7 @@ namespace Area23.At.Mono
         }
         object bChange_Click_lock = new object();
         object bEnter_Click_lock = new object();
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -168,18 +169,18 @@ namespace Area23.At.Mono
             {
                 switch (this.metarad.Attributes["content"])
                 {
-                    case "GRAD":
+                    case "GRD":
                         this.metarad.Attributes["content"] = RPNRad.DEG.ToString();
                         CurrentRad = RPNRad.DEG.ToString();                        
-                        break;
-                    case "RAD":
-                        this.metarad.Attributes["content"] = RPNRad.GRAD.ToString();
-                        CurrentRad = RPNRad.GRAD.ToString();                        
-                        break;
+                        break;                    
                     case "DEG":
-                    default:
                         this.metarad.Attributes["content"] = RPNRad.RAD.ToString();
                         CurrentRad = RPNRad.RAD.ToString();                        
+                        break;
+                    default:
+                    case "RAD":
+                        this.metarad.Attributes["content"] = RPNRad.GRD.ToString();
+                        CurrentRad = RPNRad.GRD.ToString();
                         break;
                 }
             }
@@ -190,8 +191,7 @@ namespace Area23.At.Mono
             switch(this.metaarc.Attributes["content"]) 
             {
                 case "":
-                    this.CurrentArc = "ARC";
-                    
+                    this.CurrentArc = "ARC";                    
                     break;
                 case "ARC":
                 default:
@@ -217,6 +217,19 @@ namespace Area23.At.Mono
             SetMetaContent();
         }
 
+
+        protected void bInfinite_Click(object sender, EventArgs e)
+        {
+            string mathString = (sender is Button) ? ((Button)sender).Text : "";
+            this.textboxtop.Text = mathString;
+            TextCursor++;
+            rpnStack.Push(textboxtop.Text);
+            this.textboxtop.Text = string.Empty;
+            RpnStackToTextBox();
+            SetMetaContent();
+        }
+
+
         protected void bMath_Click(object sender, EventArgs e)
         {
             string mathString = (sender is Button) ? ((Button)sender).Text :
@@ -225,7 +238,7 @@ namespace Area23.At.Mono
             if (!string.IsNullOrEmpty(mathString))
             {
                 this.textboxtop.Text = mathString.ToString();
-                if (ValidateMathOp1(mathString) != RPNType.False)
+                if (ValidateMathOp1(mathString) == RPNType.MathOp1)
                 {
                     rpnStack.Push(mathString.ToString());
                     TextCursor++;
@@ -236,7 +249,11 @@ namespace Area23.At.Mono
                 else
                 {
                     this.textboxtop.BorderColor = Color.Red;
-                    this.textboxRpn.BorderStyle = BorderStyle.Dotted;
+                    this.textboxtop.BorderStyle = BorderStyle.Dotted;
+                    this.textboxtop.ToolTip = "Math op " + mathString + " requires at least 1 numbers at top of stack";
+                    this.textboxRpn.BorderStyle = BorderStyle.Dashed;
+                    this.textboxRpn.BorderColor = Color.Red;
+                    this.textboxRpn.BorderWidth = 1;
                 }
             }            
         }
@@ -249,7 +266,7 @@ namespace Area23.At.Mono
             if (!string.IsNullOrEmpty(mathString))
             {
                 this.textboxtop.Text = mathString.ToString();
-                if (ValidateMathOp2(this.textboxtop.Text) != RPNType.False)
+                if (ValidateMathOp2(this.textboxtop.Text) == RPNType.MathOp2)
                 {                    
                     rpnStack.Push(mathString.ToString());
                     TextCursor++;
@@ -260,7 +277,11 @@ namespace Area23.At.Mono
                 else
                 {
                     this.textboxtop.BorderColor = Color.Red;
-                    this.textboxRpn.BorderStyle = BorderStyle.Dotted;
+                    this.textboxtop.BorderStyle = BorderStyle.Dotted;
+                    this.textboxtop.ToolTip = "Math op " + mathString + " requires at least 2 numbers at top of stack";
+                    this.textboxRpn.BorderStyle = BorderStyle.Dashed;
+                    this.textboxRpn.BorderColor = Color.Red;
+                    this.textboxRpn.BorderWidth = 1;
                 }
             }
         }
@@ -299,8 +320,9 @@ namespace Area23.At.Mono
             lock (bChange_Click_lock)
             {
                 TimeSpan t0 = DateTime.UtcNow.Subtract(this.Change_Click_EventDate);
-                if (t0.TotalMinutes >= 1 || t0.Ticks >= 2)
+                if (t0.TotalMilliseconds >= 1024 || t0.Seconds >= 2)
                 {
+                    string x = t0.Ticks.ToString();
                     if (!string.IsNullOrEmpty(this.textboxtop.Text))
                     {
                         this.bEnter_Click(sender, e);
@@ -318,12 +340,12 @@ namespace Area23.At.Mono
                 {
                     if (ValidateNumber(this.textboxtop.Text) == RPNType.Number)
                     {
+                        rpnStack.Push(textboxtop.Text.ToString());
                         TextCursor++;
-                        rpnStack.Push(textboxtop.Text);
-                        this.textboxtop.Text = string.Empty;
                         RpnStackToTextBox();
                         SetMetaContent();
-                        this.Change_Click_EventDate = DateTime.UtcNow;
+                        textboxtop.Text = string.Empty;
+                        this.Change_Click_EventDate = DateTime.UtcNow;                        
                     }
                     else 
                     {
@@ -406,16 +428,42 @@ namespace Area23.At.Mono
                             result = (n0 * n0 * n0).ToString();
                             break;
                         case "sin":
-                            result = Math.Sin(n0).ToString();
+                            if (this.CurrentRad == "GRD")
+                                n0 = n0 * Math.PI / 180;                            
+                            result = Math.Sin(n0).ToString();                            
                             break;
                         case "cos":
+                            if (this.CurrentRad == "GRD")
+                                n0 = n0 * Math.PI / 180;
                             result = Math.Cos(n0).ToString();
                             break;
                         case "tan":
+                            if (this.CurrentRad == "GRD")
+                                n0 = n0 * Math.PI / 180;
                             result = Math.Tan(n0).ToString();
                             break;
                         case "cot":
+                            if (this.CurrentRad == "GRD")
+                                n0 = n0 * Math.PI / 180;
                             result = (Math.Cos(n0) / Math.Sin(n0)).ToString();
+                            break;
+                        case "asin":
+                            double nSinResult = Math.Asin(n0);
+                            if (this.CurrentRad == "GRD")
+                                nSinResult = (nSinResult * 180) / Math.PI;
+                                result = nSinResult.ToString();
+                            break;
+                        case "acos":
+                            double nCosResult = Math.Acos(n0);
+                            if (this.CurrentRad == "GRD")
+                                nCosResult = (nCosResult * 180) / Math.PI;
+                            result = nCosResult.ToString();
+                            break;
+                        case "atan":
+                            double nTanResult = Math.Atan(n0);
+                            if (this.CurrentRad == "GRD")
+                                nTanResult = (nTanResult * 180) / Math.PI;
+                            result = nTanResult.ToString();
                             break;
                         case "ln":
                             result = Math.Log(n0).ToString();
@@ -453,6 +501,9 @@ namespace Area23.At.Mono
                         case "‰":
                             result = ((double)(n0 / 1000)).ToString();
                             break;
+                        case "±":
+                            result = ((double)(0 - n0)).ToString();
+                            break;
                         default:
                             if (!n1.IsNan())
                                 rpnStack.Push(n1.ToString());
@@ -481,9 +532,11 @@ namespace Area23.At.Mono
             string[] rpnArr = rpnStack.ToArray();
             if (rpnArr == null || rpnArr.Length < 2)
                 return rpnT;
-            if (ValidateNumber(rpnArr[rpnArr.Length - 1]) == RPNType.Number 
-                && ValidateNumber(rpnArr[rpnArr.Length - 2]) == RPNType.Number)
-                rpnT = RPNType.Number;
+            if (ValidateNumber(rpnArr[0]) == RPNType.Number
+                && ValidateNumber(rpnArr[1]) == RPNType.Number)
+            {
+                rpnT = ValidateAll(op);
+            }
             return rpnT;
         }
 
@@ -493,10 +546,11 @@ namespace Area23.At.Mono
             string[] rpnArr = rpnStack.ToArray();
             if (rpnArr == null || rpnArr.Length < 1)
                 return rpnT;
-            if (ValidateNumber(rpnArr[rpnArr.Length - 1]) == RPNType.Number)
-                rpnT = RPNType.Number;
+            if (ValidateNumber(rpnArr[0]) == RPNType.Number)
+                rpnT = ValidateAll(op);
             return rpnT;
         }
+        
 
         protected RPNType ValidateNumber(string num)
         {
@@ -513,50 +567,74 @@ namespace Area23.At.Mono
 
         protected RPNType ValidateOperator(string op)
         {
-            if (!string.IsNullOrEmpty(op))
+            RPNType rpnTy = RPNType.False;
+            rpnTy = ValidateAll(op);
+            switch (rpnTy)
             {
-                switch (op)
-                {
-                    case "*":
-                    case "×":
-                    case "+":
-                    case "-":
-                    case "/":
-                    case "÷":
-                    case "xⁿ":
-                    case "^":
-                    case "mod":
-                    case "ⁱ√":
-                    case "sqrti":
-                        return RPNType.MathOp2;
-                    case "√":
-                    case "∛":
-                    case "∜":
-                    case "‰":
-                    case "%":
-                    case "abs":
-                    case "|x|":
-                    case "2ⁿ":
-                    case "10ⁿ":
-                    case "!":
-                    case "sin":
-                    case "cos":
-                    case "tan":
-                    case "cot":
-                    case "x²":
-                    case "²":
-                    case "x³":
-                    case "³":
-                    case "1/x":
-                    case "log":
-                    case "ln":
-                    case "ld":
-                        return RPNType.MathOp1;
-                    default: return RPNType.False;
-                }
+                case RPNType.MathOp1:
+                    return rpnTy;
+                case RPNType.MathOp2:
+                    return rpnTy;
+                default:
+                    break;
             }
             return RPNType.False;
         }
+
+        protected RPNType ValidateAll(string op)
+        {
+            RPNType rpnType = RPNType.False;
+            switch (op)
+            {
+                case "+":
+                case "-":
+                case "*":
+                case "×":
+                case "/":
+                case "÷":
+                case "^":
+                case "xⁿ":
+                case "mod":
+                case "ⁱ√":
+                case "sqrti":
+                case "!":
+                    rpnType = RPNType.MathOp2;
+                    break;
+                case "x²":
+                case "²":
+                case "x³":
+                case "³":
+                case "sin":
+                case "cos":
+                case "tan":
+                case "asin":
+                case "acos":
+                case "atan":
+                case "cot":
+                case "ln":
+                case "log":
+                case "log10":
+                case "ld":
+                case "1/x":
+                case "√":
+                case "∛":
+                case "∜":
+                case "2ⁿ":
+                case "10ⁿ":
+                case "abs":
+                case "|x|":
+                case "%":
+                case "‰":
+                case "±":
+                    rpnType = RPNType.MathOp1;
+                    break;
+                default:
+                    rpnType = ValidateNumber(op);
+                    break;
+            }
+            return rpnType;
+        }
+
 
         #endregion validate rpn
 
@@ -567,6 +645,7 @@ namespace Area23.At.Mono
             string n = (peekOnly) ? rpnStack.Peek() : rpnStack.Pop();
             if (n == "ℇ") n = Math.E.ToString();
             if (n == "π") n = Math.PI.ToString();
+            if (n == "∞") n = Int64.MaxValue.ToString();
             double d = Double.Parse(n);
             if (d.IsRoundNumber()) { ; }
             return d;
@@ -574,22 +653,32 @@ namespace Area23.At.Mono
 
         protected void SetMetaContent()
         {
-            this.textboxtop.BorderColor = Color.Black;
-            this.textboxtop.BorderStyle = BorderStyle.None;
-            this.textboxRpn.BorderStyle = BorderStyle.None;
             string jsonSerialize = Newtonsoft.Json.JsonConvert.SerializeObject(rpnStack);
             if (metacursor.Attributes["content"] == null)
                 metacursor.Attributes.Add("content", HttpUtility.HtmlEncode(jsonSerialize));
             else
                 metacursor.Attributes["content"] = HttpUtility.HtmlEncode(jsonSerialize);
+
+            this.textboxtop.BorderColor = Color.Black;
+            this.textboxtop.BorderStyle = BorderStyle.None;
+            this.textboxtop.BorderWidth = 0;
+            this.textboxtop.ToolTip = "";
+            this.textboxRpn.BorderStyle = BorderStyle.None;
+            this.textboxRpn.BorderWidth = 0;
+            this.textboxRpn.BorderColor = Color.Black;
+            string rpnText = string.Empty;
+            rpnStack.ToList().ForEach(x => rpnText += x.ToString() + "\n");
+            this.textboxRpn.Text = rpnText;
         }
 
         #endregion helper
 
         protected void RpnStackToTextBox()
         {
-            this.textboxRpn.Text = string.Empty;
-            rpnStack.ToList().ForEach(x => this.textboxRpn.Text += x.ToString() + "\n");
+            // this.textboxRpn.Text = string.Empty;
+            string rpnText = string.Empty;
+            rpnStack.ToList().ForEach(x => rpnText += x.ToString() + "\n");
+            textboxRpn.Text = rpnText;
             Session["rpnStack"] = rpnStack;
             this.textboxtop.Focus();
         }

@@ -1,14 +1,7 @@
 ﻿using Area23.At.Mono.Util;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Services.Description;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Windows;
-using System.Windows.Input;
+using System.IO;
 
 namespace Area23.At.Mono.Unix
 {
@@ -18,15 +11,19 @@ namespace Area23.At.Mono.Unix
         static Random random;
         string lastLine = "";
         object bcLock = new object();
-        const string BC_CMD_PATH = "/usr/local/bin/bccmd.sh";
-        const string BC_CMD = "/usr/local/bin/bccmd.sh";
+        private static readonly bool USE_UNIX = (Path.DirectorySeparatorChar == '/') ? true : false;
+        private readonly string BC_CMD_PATH = (USE_UNIX) ? "/usr/local/bin/bccmd.sh" : Paths.BinDir + "bccmd.bat";
+        const string BC_CMD = "bc";             
         Stack<string> bcStack = new Stack<string>();
 
-
+        /// <summary>
+        /// Page_Load event triggered in normal lifecycle of asp.net classic page OnLoad
+        /// </summary>
+        /// <param name="sender"><see cref="object">object sender</see></param>
+        /// <param name="e"><see cref="EventArgs">EventArgs e</see></param>
         protected void Page_Load(object sender, EventArgs e)
         {
             // if (!Page.IsPostBack)
-
             InitBcText();
         }
 
@@ -57,15 +54,66 @@ namespace Area23.At.Mono.Unix
             }
         }
 
+
         /// <summary>
-        /// ButtonReset_Click - resets the bcText.Text by calling <see cref="InitBcText"/>
+        /// GetLastLineFromBcText() - fetch last entered line in <see cref="bcText"/> by user
         /// </summary>
-        /// <param name="sender">object sender</param>
-        /// <param name="e">EventArgs e</param>
-        protected void ButtonReset_Click(object sender, EventArgs e)
+        /// <returns>lastline from <see cref="System.Web.UI.WebControls.TextBox">TextBox bcText</see></returns>
+        protected string GetLastLineFromBcText()
         {
-            InitBcText();
+            char[] sep = "\r\n".ToCharArray();
+            string[] bcStrings = this.bcText.Text.Split(sep);
+            foreach (string bcStr in bcStrings)
+            {
+                if (!string.IsNullOrEmpty(bcStr) && !bcStack.Contains(bcStr) &&
+                    !bcStr.StartsWith("bc 1.07.1") && !bcStr.ToLower().Contains("free software") && !bcStr.ToLower().Contains("warranty"))
+                {
+                    bcStack.Push(bcStr);
+                }
+            }
+            bcCurrentOp.Text = (bcStack.Count > 0) ? bcStack.Peek() : "";
+            return bcCurrentOp.Text;
         }
+
+
+        /// <summary>
+        /// Process classical od cmd
+        /// </summary>
+        /// <param name="filepath">od cmd filepath</param>
+        /// <param name="args">od arguments passed to od</param>
+        /// <returns>output of od cmd</returns>
+        protected string Process_Bc(
+            string filepath = BC_CMD,
+            string args = "")
+        {
+            return ProcessCmd.Execute(filepath, args, false);
+        }
+
+
+        /// <summary>
+        /// Perform_BasicCalculator()
+        /// </summary>
+        /// <param name="bcStr"><see cref="string"/> bcStr passed to bc(1)</param>
+        protected void Perform_BasicCalculator(string bcStr = null)
+        {
+            if (string.IsNullOrEmpty(bcStr))
+                bcStr = GetLastLineFromBcText();
+
+            Area23Log.LogStatic(" Executing: " + BC_CMD_PATH + " " + bcStr);
+            try
+            {                
+                string bcCmd = BC_CMD_PATH;                
+                string bcOutPut = Process_Bc(bcCmd, bcStr);
+                bcOutPut = bcOutPut.Trim("\r\n".ToCharArray());
+                this.bcText.Text += "\r\n" + bcOutPut + "\r\n";
+                preOut.InnerText = "\r\n" + bcOutPut + "\r\n";
+            }
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);
+            }
+        }
+
 
         /// <summary>
         /// ButtonEnter_Click => Event fired, when hidden ButtonEnter is clicked (also clicked by javascript)
@@ -84,77 +132,21 @@ namespace Area23.At.Mono.Unix
                 lock (bcLock)
                 {
                     lastLine = currentLastLine;
-                    Perform_BasicCalculator();
+                    Perform_BasicCalculator(currentLastLine);
                 }
             }
         }
 
-        /// <summary>
-        /// GetLastLineFromBcText() - fetch last entered line in <see cref="bcText"/> by user
-        /// </summary>
-        /// <returns></returns>
-        protected string GetLastLineFromBcText()
-        {            
-            char[] sep = "\r\n".ToCharArray();
-            string[] bcStrings = this.bcText.Text.Split(sep);
-            foreach (string bcStr in bcStrings)
-            {
-                if (!string.IsNullOrEmpty(bcStr) && !bcStack.Contains(bcStr) &&
-                    !bcStr.StartsWith("bc 1.07.1") && !bcStr.ToLower().Contains("free software") && !bcStr.ToLower().Contains("warranty"))
-                {
-                    bcStack.Push(bcStr);
-                }
-            }
-            bcCurrentOp.Text = (bcStack.Count > 0) ? bcStack.Peek() : "";
-            return bcCurrentOp.Text;
-        }
 
         /// <summary>
-        /// Perform_BasicCalculator()
+        /// ButtonReset_Click - resets the bcText.Text by calling <see cref="InitBcText"/>
         /// </summary>
-        /// <param name="bcStr"><see cref="string"/> bcStr passed to bc(1)</param>
-        protected void Perform_BasicCalculator(string bcStr = null)
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        protected void ButtonReset_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(bcStr))
-                bcStr = GetLastLineFromBcText();
-            try
-            {
-                string bcCmd = BC_CMD;
-                string bcOutPut = Process_Bc(bcCmd, bcStr);
-                bcText.Text += "\r\n" + bcOutPut + "\r\n";
-                preOut.InnerText = "\r\n" + bcOutPut + "\r\n";
-            } 
-            catch (Exception ex)
-            {
-                Area23Log.LogStatic(ex);
-            }
+            InitBcText();
         }
 
-        /// <summary>
-        /// Process classical od cmd
-        /// </summary>
-        /// <param name="filepath">od cmd filepath</param>
-        /// <param name="args">od arguments passed to od</param>
-        /// <returns>output of od cmd</returns>
-        protected string Process_Bc(
-            string filepath = BC_CMD_PATH,
-            string args = "")
-        {
-            return ProcessCmd.Execute(filepath, args);
-        }
-
-
-
-        //protected void SaveSlot_Leave(object sender, EventArgs e)
-        //{
-        //    if (sender is TextBox myText && myText.ReadOnly == false)
-        //    {
-        //        myText.ForeColor = SupuColors.Instance.SlotText;
-        //        if (String.IsNullOrWhiteSpace(myText.Text))
-        //        {
-        //            myText.Text = myText.Tag.ToString().Replace(".supu", "");
-        //        }
-        //    }        
-        //}
     }
 }

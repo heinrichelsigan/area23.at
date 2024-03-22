@@ -99,7 +99,7 @@ namespace Area23.At.Mono.Qr
         }
 
         /// <summary>
-        /// GetQRImgPath - gets a <see cref="Bitmap"/> from qrString
+        /// GetQRImgPath - gets path to saved QRImage from qrString
         /// </summary>
         /// <param name="qrString"></param>
         /// <param name="c"></param>
@@ -112,8 +112,7 @@ namespace Area23.At.Mono.Qr
 
             qrWidth = -1;
             if (String.IsNullOrEmpty(qrhex))
-                qrhex = "#000000";
-            string lighter = "#efefef"; // Color.FromArgb((Color.White.R - (byte)(c.R / 2)), (Color.White.G - (byte)(c.G / 2)), (Color.White.B - (byte)(c.B / 2)));
+                qrhex = "#000000";            
             Color colFg = ColorFrom.FromHtml(qrhex);
             Color colWh = ColorFrom.FromHtml("#ffffff");
             Byte rB, gB, bB;
@@ -129,17 +128,10 @@ namespace Area23.At.Mono.Qr
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, ecclvl);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(qrmode);
-            // Bitmap qrCodeImage = qrCode.GetGraphic(1, qrhex, colLg.ToXrgb(), true);
-            // Bitmap qrCodeImage = qrCode.GetGraphic(4, c, Color.White, true);
 
             // qrCodeImage.MakeTransparent();
             var px0 = qrCodeImage.GetPixel(0, 0);
             var px1 = qrCodeImage.GetPixel(1, 1);
-
-            // string transImg = Paths.OutDir + "img" + Paths.SepChar + "transparent.png";
-            // Bitmap qrNewImg = new Bitmap(transImg);
-            // qrNewImg.MakeTransparent();
-            // qrNewImg.SetResolution(qrNewImg.HorizontalResolution, qrNewImg.VerticalResolution);
 
             if(qrCodeImage.Width <= 128)
                 qrWidth = qrCodeImage.Width * 2;
@@ -160,13 +152,11 @@ namespace Area23.At.Mono.Qr
                         ((getCol.R == px0.R) && (getCol.G + 1) == px0.G && (getCol.B + 1) == px0.B) ||
                         (((getCol.R + 1) == px0.R) && (getCol.G + 1) == px0.G && (getCol.B + 1) == px0.B))
                     {
-                        // qrNewImg.SetPixel(ix, iy, Color.Transparent);
                         qrCodeImage.SetPixel(ix, iy, Color.Transparent);
                     }
                     else
                     {
                         qrCodeImage.SetPixel(ix, iy, colFg);
-                        // qrNewImg.SetPixel(ix, iy, colFg);
                     }
                 }
             }
@@ -193,7 +183,6 @@ namespace Area23.At.Mono.Qr
 
             if (String.IsNullOrEmpty(qrhex))
                 qrhex = "#000000";
-            string lighter = "#efefef"; // Color.FromArgb((Color.White.R - (byte)(c.R / 2)), (Color.White.G - (byte)(c.G / 2)), (Color.White.B - (byte)(c.B / 2)));
             Color colFg = ColorFrom.FromHtml(qrhex);
             Color colWh = ColorFrom.FromHtml("#ffffff");
             Byte rB, gB, bB;
@@ -209,17 +198,10 @@ namespace Area23.At.Mono.Qr
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, ecclvl);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(1);
-            // Bitmap qrCodeImage = qrCode.GetGraphic(1, qrhex, colLg.ToXrgb(), true);
-            // Bitmap qrCodeImage = qrCode.GetGraphic(4, c, Color.White, true);
 
             // qrCodeImage.MakeTransparent();
             var px0 =qrCodeImage.GetPixel(0, 0);
             var px1 = qrCodeImage.GetPixel(1, 1);
-
-            // string transImg = Paths.OutDir + "img" + Paths.SepChar + "transparent.png";
-            // Bitmap qrNewImg = new Bitmap(transImg);
-            // qrNewImg.MakeTransparent();
-            // qrNewImg.SetResolution(qrNewImg.HorizontalResolution, qrNewImg.VerticalResolution);
 
             Color backGr = ColorFrom.FromHtml(bghex);
             

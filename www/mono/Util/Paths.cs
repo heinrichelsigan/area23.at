@@ -142,8 +142,6 @@ namespace Area23.At.Mono.Util
                     Area23Log.LogStatic(ex);
                 }
 
-                // if (!resPath.Contains(AppFolder))
-                //      resPath += AppFolder + SepChar;
                 if (!resPath.Contains(Constants.RES_FOLDER))
                     resPath += Constants.RES_FOLDER + SepChar;
 
@@ -156,6 +154,8 @@ namespace Area23.At.Mono.Util
                 return resPath;
             }
         }
+
+        public static string BinDir { get => OutDir + "bin" + SepChar; }
 
         public static string LogFile
         {
@@ -177,9 +177,6 @@ namespace Area23.At.Mono.Util
                 {
                     logAppPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
                 }
-
-                // if (!logAppPath.Contains(AppFolder))
-                //     logAppPath += AppFolder + SepChar;
 
                 logAppPath += String.Format("{0}{1}{2}_{3}.log",
                     Constants.LOG_DIR, SepChar, DateTime.UtcNow.ToString("yyyyMMdd"), Constants.APP_NAME);

@@ -29,13 +29,15 @@ function bcInit() {
 	if (bcText != null) { 			
 		bcText.focus();
 		bcText.selectionStart = bcText.innerHTML.length - 1;
-		bcText.selectionEnd = bcText.innerHTML.Length;
+		bcText.selectionEnd = bcText.innerHTML.length;
 		try {
-			setCaretToPos(document.getElementById("bcText"), -1);
+			setCaretToPos(document.getElementById("bcText"), (bcText.innerHTML.length - 1));
 		} catch (ePos) {
 			console.log(`Exception: ${ePos}`);
 		}
-		setTextCursor(document.getElementById("bcText"), bcText.value, 4, 0);
+		var cRow = bcText.value.split("\n").length - 1;
+		if (cRow < 4) cRow = 4;
+		setTextCursor(document.getElementById("bcText"), bcText.value, cRow, 0);
 	}
 	if (preOut == null)
 		preOut = document.getElementById("preOut");

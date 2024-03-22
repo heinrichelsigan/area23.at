@@ -17,7 +17,5 @@
 
     <hr />   
     <asp:ContentPlaceHolder ID="UnixBody" runat="server">
-        <form id="Area23MasterForm" runat="server">
-        </form>
     </asp:ContentPlaceHolder>    
 </asp:Content>

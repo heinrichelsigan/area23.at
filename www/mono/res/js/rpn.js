@@ -92,7 +92,7 @@ function rpnInit() {
 			}
 			bEnter = document.getElementById("BEnter");
 			if (bEnter != null) {
-				bEnter.click();
+			 	bEnter.click();
 				return;
 			}
 		}

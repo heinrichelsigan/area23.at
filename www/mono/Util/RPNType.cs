@@ -17,6 +17,6 @@ namespace Area23.At.Mono.Util
     {
         DEG = 0,
         RAD = 1,
-        GRAD = 2
+        GRD = 2
     }
 }

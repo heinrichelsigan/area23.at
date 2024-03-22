@@ -15,13 +15,13 @@ namespace Area23.At.Mono.Unix
     {
 
         /// <summary>
-        /// Area23MasterForm control.
+        /// Area23UnixMain control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm Area23MasterForm;
+        protected global::System.Web.UI.HtmlControls.HtmlForm Area23UnixMain;
 
         /// <summary>
         /// divDigitalTimeId control.

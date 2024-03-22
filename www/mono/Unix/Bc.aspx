@@ -13,7 +13,7 @@
     </script>
 </asp:Content>
 <asp:Content ID="UnixContentBody" ContentPlaceHolderID="UnixBody" runat="server">
-    <form id="Area23MasterForm" runat="server">       
+    <form id="Area23UnixBcForm" runat="server">       
         <asp:TextBox ID="bcCurrentOp" runat="server" TextMode="SingleLine" MaxLength="256" Columns="80" ReadOnly="true"></asp:TextBox>
         <asp:TextBox ID="bcText" runat="server" ClientIDMode="Static" AutoPostBack="true"
             TextMode="MultiLine" MaxLength="65536" Columns="80" Rows="24" 
