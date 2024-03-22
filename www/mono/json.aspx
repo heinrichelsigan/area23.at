@@ -176,7 +176,7 @@
     <script async src="res/js/area23.js"></script>
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
-    <form id="Area23MasterForm" runat="server">
+    <form id="Area23JsonForm" runat="server">
         <asp:Literal ID="LiteralDateTime" runat="server"></asp:Literal>
         <div class="jsonRow" style="display:block; width:100%;">
             <div class="jsonColumn" style="width:49%; float: left; display: inline-block;">

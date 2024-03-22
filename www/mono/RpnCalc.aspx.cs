@@ -33,12 +33,10 @@ namespace Area23.At.Mono
             {                
                 switch (this.metarad.Attributes["content"])
                 {
+                    case "RAD": _currentRad = RPNRad.RAD; return RPNRad.RAD.ToString();
                     case "GRD": _currentRad = RPNRad.GRD; return RPNRad.GRD.ToString(); 
-                    case "DEG": _currentRad = RPNRad.DEG; return RPNRad.DEG.ToString();
-                    case "RAD":
-                    default:
-                        _currentRad = RPNRad.RAD; return RPNRad.RAD.ToString();
-                }
+                    case "DEG": 
+                    default: _currentRad = RPNRad.DEG; return RPNRad.DEG.ToString();                }
             }
             set
             {
@@ -51,16 +49,16 @@ namespace Area23.At.Mono
                             this.Brad.Text = RPNRad.GRD.ToString();
                             this.Brad.BackColor = Color.FromKnownColor(KnownColor.ControlLightLight);
                             break;
-                        case RPNRad.DEG:                        
-                            this.metarad.Attributes["content"] = RPNRad.DEG.ToString();
-                            this.Brad.Text = RPNRad.DEG.ToString();                        
-                            this.Brad.BackColor = Color.FromKnownColor(KnownColor.ButtonHighlight);
-                            break;
                         case RPNRad.RAD:
-                        default:                        
                             this.metarad.Attributes["content"] = RPNRad.RAD.ToString();
                             this.Brad.Text = RPNRad.RAD.ToString();
                             this.Brad.BackColor = Color.FromKnownColor(KnownColor.ButtonShadow);
+                            break;
+                        case RPNRad.DEG:
+                        default:
+                            this.metarad.Attributes["content"] = RPNRad.DEG.ToString();
+                            this.Brad.Text = RPNRad.DEG.ToString();                        
+                            this.Brad.BackColor = Color.FromKnownColor(KnownColor.ButtonHighlight);
                             break;
                     }
                 }
@@ -94,6 +92,7 @@ namespace Area23.At.Mono
                 }
             }
         }
+        
         public DateTime Change_Click_EventDate
         {
             get => (Session[Constants.CHANGE_CLICK_EVENTCNT] != null) ? 
@@ -106,7 +105,7 @@ namespace Area23.At.Mono
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            string jsonSer = string.Empty;
+            string jsonSerRpnStack = string.Empty;
             if (Session[Constants.RPN_STACK] != null)
             {
                 rpnStack = (Stack<string>)Session[Constants.RPN_STACK];
@@ -116,19 +115,19 @@ namespace Area23.At.Mono
                 rpnStack = new Stack<string>();
                 if (metacursor.Attributes["content"] != null && !string.IsNullOrEmpty(metacursor.Attributes["content"]))
                 {
-                    jsonSer = HttpUtility.HtmlDecode(metacursor.Attributes["content"].ToString());
-                    rpnStack = JsonConvert.DeserializeObject<Stack<string>>(jsonSer);
+                    jsonSerRpnStack = HttpUtility.HtmlDecode(metacursor.Attributes["content"].ToString());
+                    rpnStack = JsonConvert.DeserializeObject<Stack<string>>(jsonSerRpnStack);
                 }
 
                 Session[Constants.RPN_STACK] = rpnStack;
             }
             if (!Page.IsPostBack)
             {
-                jsonSer = JsonConvert.SerializeObject(rpnStack);
+                jsonSerRpnStack = JsonConvert.SerializeObject(rpnStack);
                 if (metacursor.Attributes["content"] == null)
-                    metacursor.Attributes.Add("content", HttpUtility.HtmlEncode(jsonSer));
+                    metacursor.Attributes.Add("content", HttpUtility.HtmlEncode(jsonSerRpnStack));
                 else
-                    metacursor.Attributes["content"] = HttpUtility.HtmlEncode(jsonSer);
+                    metacursor.Attributes["content"] = HttpUtility.HtmlEncode(jsonSerRpnStack);
                 this.textboxtop.Focus();
             }
             if (!string.IsNullOrEmpty(this.metarad.Attributes["content"]))
@@ -169,18 +168,18 @@ namespace Area23.At.Mono
             {
                 switch (this.metarad.Attributes["content"])
                 {
+                    case "RAD":
+                        this.metarad.Attributes["content"] = RPNRad.GRD.ToString();
+                        CurrentRad = RPNRad.GRD.ToString();
+                        break;
                     case "GRD":
                         this.metarad.Attributes["content"] = RPNRad.DEG.ToString();
                         CurrentRad = RPNRad.DEG.ToString();                        
                         break;                    
                     case "DEG":
+                    default:
                         this.metarad.Attributes["content"] = RPNRad.RAD.ToString();
                         CurrentRad = RPNRad.RAD.ToString();                        
-                        break;
-                    default:
-                    case "RAD":
-                        this.metarad.Attributes["content"] = RPNRad.GRD.ToString();
-                        CurrentRad = RPNRad.GRD.ToString();
                         break;
                 }
             }
@@ -288,11 +287,11 @@ namespace Area23.At.Mono
 
         protected void BClear_Click(object sender, EventArgs e)
         {
+            this.rpnStack.Clear();
+            SetMetaContent();
             this.textboxtop.Text = "";
             this.textboxRpn.Text = "";
             this.textbox0.Text = "";
-            this.rpnStack.Clear();
-            
         }
 
         protected void Bdel_Click(object sender, EventArgs e)
@@ -429,41 +428,63 @@ namespace Area23.At.Mono
                             break;
                         case "sin":
                             if (this.CurrentRad == "GRD")
-                                n0 = n0 * Math.PI / 180;                            
+                                n0 = n0 * Math.PI / 200;
+                            else if (this.CurrentRad == "DEG")
+                                n0 = n0 * Math.PI / 180;
                             result = Math.Sin(n0).ToString();                            
                             break;
                         case "cos":
                             if (this.CurrentRad == "GRD")
-                                n0 = n0 * Math.PI / 180;
+                                n0 = (n0 * Math.PI) / 200;
+                            else if (this.CurrentRad == "DEG")
+                                n0 = (n0 * Math.PI) / 180;
                             result = Math.Cos(n0).ToString();
                             break;
                         case "tan":
                             if (this.CurrentRad == "GRD")
-                                n0 = n0 * Math.PI / 180;
+                                n0 = (n0 * Math.PI) / 200;
+                            else if (this.CurrentRad == "DEG")
+                                n0 = (n0 * Math.PI) / 180;
                             result = Math.Tan(n0).ToString();
                             break;
                         case "cot":
                             if (this.CurrentRad == "GRD")
-                                n0 = n0 * Math.PI / 180;
-                            result = (Math.Cos(n0) / Math.Sin(n0)).ToString();
+                                n0 = (n0 * Math.PI) / 200;
+                            else if (this.CurrentRad == "DEG")
+                                n0 = (n0 * Math.PI) / 180;
+                            result = (1 / Math.Tan(n0)).ToString();
                             break;
                         case "asin":
-                            double nSinResult = Math.Asin(n0);
+                            double nAsinResult = Math.Asin(n0);
                             if (this.CurrentRad == "GRD")
-                                nSinResult = (nSinResult * 180) / Math.PI;
-                                result = nSinResult.ToString();
+                                nAsinResult = (nAsinResult * 200) / Math.PI;
+                            if (this.CurrentRad == "DEG")
+                                nAsinResult = (nAsinResult * 180) / Math.PI;
+                            result = nAsinResult.ToString();
                             break;
                         case "acos":
-                            double nCosResult = Math.Acos(n0);
+                            double nAcosResult = Math.Acos(n0);
                             if (this.CurrentRad == "GRD")
-                                nCosResult = (nCosResult * 180) / Math.PI;
-                            result = nCosResult.ToString();
+                                nAcosResult = (nAcosResult * 200) / Math.PI;
+                            if (this.CurrentRad == "DEG")
+                                nAcosResult = (nAcosResult * 180) / Math.PI;
+                            result = nAcosResult.ToString();
                             break;
                         case "atan":
-                            double nTanResult = Math.Atan(n0);
+                            double nAtanResult = Math.Atan(n0);
                             if (this.CurrentRad == "GRD")
-                                nTanResult = (nTanResult * 180) / Math.PI;
-                            result = nTanResult.ToString();
+                                nAtanResult = (nAtanResult * 200) / Math.PI;
+                            if (this.CurrentRad == "DEG")
+                                nAtanResult = (nAtanResult * 180) / Math.PI;
+                            result = nAtanResult.ToString();
+                            break;
+                        case "acot":
+                            double nAcotResult = (Math.Atan(1 / n0));
+                            if (this.CurrentRad == "GRD")
+                                nAcotResult = (nAcotResult * 200) / Math.PI;
+                            if (this.CurrentRad == "DEG")
+                                nAcotResult = (nAcotResult * 180) / Math.PI;
+                            result = nAcotResult.ToString();
                             break;
                         case "ln":
                             result = Math.Log(n0).ToString();
@@ -551,7 +572,6 @@ namespace Area23.At.Mono
             return rpnT;
         }
         
-
         protected RPNType ValidateNumber(string num)
         {
             if (string.IsNullOrEmpty(num))
@@ -607,10 +627,11 @@ namespace Area23.At.Mono
                 case "sin":
                 case "cos":
                 case "tan":
+                case "cot":
                 case "asin":
                 case "acos":
                 case "atan":
-                case "cot":
+                case "acot":
                 case "ln":
                 case "log":
                 case "log10":
@@ -635,7 +656,6 @@ namespace Area23.At.Mono
             return rpnType;
         }
 
-
         #endregion validate rpn
 
         #region helper
@@ -653,11 +673,11 @@ namespace Area23.At.Mono
 
         protected void SetMetaContent()
         {
-            string jsonSerialize = Newtonsoft.Json.JsonConvert.SerializeObject(rpnStack);
+            string jsonSerializeRpnStack = Newtonsoft.Json.JsonConvert.SerializeObject(rpnStack);
             if (metacursor.Attributes["content"] == null)
-                metacursor.Attributes.Add("content", HttpUtility.HtmlEncode(jsonSerialize));
+                metacursor.Attributes.Add("content", HttpUtility.HtmlEncode(jsonSerializeRpnStack));
             else
-                metacursor.Attributes["content"] = HttpUtility.HtmlEncode(jsonSerialize);
+                metacursor.Attributes["content"] = HttpUtility.HtmlEncode(jsonSerializeRpnStack);
 
             this.textboxtop.BorderColor = Color.Black;
             this.textboxtop.BorderStyle = BorderStyle.None;

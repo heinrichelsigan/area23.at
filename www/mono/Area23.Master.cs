@@ -11,7 +11,7 @@ namespace Area23.At.Mono
     public partial class Area23 : System.Web.UI.MasterPage
     {
 
-        public global::System.Web.UI.HtmlControls.HtmlForm MasterForm { get => Area23MasterForm; }
+        // public global::System.Web.UI.HtmlControls.HtmlForm MasterForm { get => Area23MasterForm; }
         public global::System.Web.UI.WebControls.ContentPlaceHolder MasterHead { get => HeadContentPlaceHolder; }
         public global::System.Web.UI.WebControls.ContentPlaceHolder MasterBody { get => BodyContentPlaceHolder; }
 

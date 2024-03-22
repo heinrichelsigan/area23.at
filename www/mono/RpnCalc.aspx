@@ -10,7 +10,7 @@
     <script async src="res/js/area23.js"></script>	
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server" ClientIDMode="Static">
-	<form id="RpnCalcForm" runat="server">
+	<form id="RpnCalcForm" runat="server" action="RpnCalc.aspx">
 		<div class="rpnDiv" align="center">
 			<div class="rpnDivHeader">
 				<span id="headerLeft" style="min-height: 36pt; min-width: 60pt; vertical-align: middle; font-size: larger; text-align: right " align="right" valign="middle">
@@ -34,7 +34,7 @@
 					<td class="azureTd" width="10%" id="td9c" align="center"><asp:Button ID="Bcos" ClientIDMode="Static" runat="server" Text="cos" OnClick="bMath_Click" /></td>
 					<td class="azureTd" width="10%" id="td9d" align="center"><asp:Button ID="Btan" ClientIDMode="Static" runat="server" Text="tan" OnClick="bMath_Click" /></td>
 					<td class="azureTd" width="10%" id="td9e" align="center"><asp:Button ID="Bcot" ClientIDMode="Static" runat="server" Text="cot" OnClick="bMath_Click" /></td>
-					<td class="gainsboroTd" width="10%" id="td9f" align="center"><asp:Button ID="Brad" ClientIDMode="Static" runat="server" Text="RAD" OnClick="bRad_Click" /></td>
+					<td class="gainsboroTd" width="10%" id="td9f" align="center"><asp:Button ID="Brad" ClientIDMode="Static" runat="server" Text="DEG" OnClick="bRad_Click" /></td>
 					<td class="gainsboroTd" width="10%" id="td9g" align="center"><asp:Button ID="Barc" ClientIDMode="Static" runat="server" Text="ARC" OnClick="bArc_Click" /></td>
 					<td class="rpnTd" width="10%" id="td9h"></td>
 					<td class="rpnTd" width="20%" id="td9i" colspan="2"><asp:TextBox ID="textboxtop" ClientIDMode="Static" runat="server" Columns="16" AutoPostBack="true" OnTextChanged="bChange_Click" Font-Names="Courier New"></asp:TextBox></td>

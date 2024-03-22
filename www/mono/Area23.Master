@@ -22,10 +22,7 @@
             <span id="spanRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a id="aFroga" runat="server" class="spanHeaderA" href="/froga.aspx">froga</a></span>
             <span id="spanRight" runat="server" class="headerRight" align="right" valign="middle"><a id="aSchnapsNet" runat="server" class="spanHeaderA" href="/mono/SchnapsNet/">schnapsen 66</a></span>
         </div>
-        <asp:ContentPlaceHolder ID="BodyContentPlaceHolder" runat="server">
-            <form id="Area23MasterForm" runat="server">
-                
-            </form>      
+        <asp:ContentPlaceHolder ID="BodyContentPlaceHolder" runat="server">   
         </asp:ContentPlaceHolder>
         <hr />
         <div align="left" class="footerDiv">            

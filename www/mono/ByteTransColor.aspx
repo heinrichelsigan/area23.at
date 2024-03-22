@@ -6,7 +6,7 @@
     <title>byte trans color image (apache2 mod_mono)</title>
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
-    <form id="Area23MasterForm" runat="server" action="ByteTransColor.aspx" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True">
+    <form id="Area23TransColorForm" runat="server" action="ByteTransColor.aspx" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True">
         <INPUT id="oFile" type="file" runat="server" NAME="oFile">
         <button id="buttonUploadTrans" type="submit" title="Transform" runat="server" OnClick="FormSubmit()">Transform</button>
         <button id="btnUpLoad" type="submit" title="Reform" runat="server" OnClick="FormSubmit()">Reform</button>
