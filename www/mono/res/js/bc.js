@@ -46,7 +46,7 @@ function bcInit() {
 	if (btnEnter == null)
 		btnEnter = document.getElementById("buttonEnter");
 			
-	window.onkeydown = function (e) { // TODO: pressing two arrow keys at same time
+	// window.onkeydown = function (e) { // TODO: pressing two arrow keys at same time
 		//if (e.which == 96 || e.which == 48) {
 		//	bcText.innerHTML += "0";
 		//	return;
@@ -87,17 +87,17 @@ function bcInit() {
 		//	bcText.innerHTML += "9";
 		//	return;
 		//}
-		if (e.which == 10 || e.which == 13) {
-			if ((bcText.innerHTML != null && bcText.innerHTML.length > 0) ||
-				(bcText.value != null && bcText.value.length > 0)) {
-				console.log(`Enter pressed; text=${bcText.innerHTML}`);
-			}
-			btnEnter = document.getElementById("buttonEnter");
-			if (btnEnter != null) {
-				btnEnter.click();
-				return;
-			}
-		}
+		// if (e.which == 10 || e.which == 13) {
+		// 	if ((bcText.innerHTML != null && bcText.innerHTML.length > 0) ||
+		// 		(bcText.value != null && bcText.value.length > 0)) {
+		// 		console.log(`Enter pressed; text=${bcText.innerHTML}`);
+		// 	}
+		// 	btnEnter = document.getElementById("buttonEnter");
+		// 	if (btnEnter != null) {
+		// 		btnEnter.click();
+		// 		return;
+		// 	}
+		// }
 
 		//if (e.which >= 19 && e.which < 48)
 		// 	captureKey(e.which);

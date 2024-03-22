@@ -24,15 +24,6 @@ namespace Area23.At.Mono.Unix
         protected global::System.Web.UI.HtmlControls.HtmlForm Area23UnixBcForm;
 
         /// <summary>
-        /// bcCurrentOp control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox bcCurrentOp;
-
-        /// <summary>
         /// bcText control.
         /// </summary>
         /// <remarks>
@@ -40,6 +31,15 @@ namespace Area23.At.Mono.Unix
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox bcText;
+
+        /// <summary>
+        /// bcCurrentOp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox bcCurrentOp;
 
         /// <summary>
         /// preOut control.

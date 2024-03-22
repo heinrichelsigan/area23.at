@@ -13,9 +13,8 @@
     </script>
 </asp:Content>
 <asp:Content ID="UnixContentBody" ContentPlaceHolderID="UnixBody" runat="server">
-    <form id="Area23UnixBcForm" runat="server">       
-        <asp:TextBox ID="bcCurrentOp" runat="server" TextMode="SingleLine" MaxLength="256" Columns="80" ReadOnly="true"></asp:TextBox>
-        <asp:TextBox ID="bcText" runat="server" ClientIDMode="Static" AutoPostBack="true"
+    <form id="Area23UnixBcForm" runat="server">               
+        <asp:TextBox ID="bcText" runat="server" ClientIDMode="Static" AutoPostBack="true" OnTextChanged="BcText_TextChanged"
             TextMode="MultiLine" MaxLength="65536" Columns="80" Rows="24" 
             BackColor="Black" ForeColor="White" BorderWidth="1" BorderColor="#111111" BorderStyle="Outset"
             Text="bc 1.07.1
@@ -23,9 +22,10 @@ Copyright 1991-1994, 1997, 1998, 2000, 2004, 2006, 2008, 2012-2017 Free Software
 This is free software with ABSOLUTELY NO WARRANTY.
 For details type `warranty'.
 "            Width="84%" />
-        <pre id="preOut" runat="server">
-        </pre>
         <hr />
+        <asp:TextBox ID="bcCurrentOp" runat="server" TextMode="SingleLine" MaxLength="256" Columns="80" ReadOnly="true"></asp:TextBox>
+        <pre id="preOut" runat="server">
+        </pre>        
         <div class="odDiv">
             <span style="width: 28%; text-align: left;">
                 <input type="button" id="inputReset" title="Click to reset bc(1)" value="Reset bc(1)" 

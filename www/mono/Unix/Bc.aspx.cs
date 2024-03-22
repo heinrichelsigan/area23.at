@@ -16,6 +16,13 @@ namespace Area23.At.Mono.Unix
         const string BC_CMD = "bc";             
         Stack<string> bcStack = new Stack<string>();
 
+        public DateTime Change_Click_EventDate
+        {
+            get => (Session[Constants.CHANGE_CLICK_EVENTCNT] != null) ?
+                (DateTime)Session[Constants.CHANGE_CLICK_EVENTCNT] : DateTime.MinValue;
+            set => Session[Constants.CHANGE_CLICK_EVENTCNT] = value;
+        }
+
         /// <summary>
         /// Page_Load event triggered in normal lifecycle of asp.net classic page OnLoad
         /// </summary>
@@ -42,14 +49,18 @@ namespace Area23.At.Mono.Unix
         public void BcText_TextChanged(object sender, EventArgs e)
         {
             string sndr = sender.ToString();
-            string currentLastLine = GetLastLineFromBcText();
-            
-            if (currentLastLine != lastLine)
+            TimeSpan t0 = DateTime.UtcNow.Subtract(this.Change_Click_EventDate);
+            if (t0.TotalMilliseconds >= 1024 || t0.Seconds >= 2)
             {
-                lock (bcLock)
+                string currentLastLine = GetLastLineFromBcText();
+                if (currentLastLine != lastLine)
                 {
-                    lastLine = currentLastLine;
-                    Perform_BasicCalculator();
+                    lock (bcLock)
+                    {
+                        lastLine = currentLastLine;
+                        Perform_BasicCalculator();
+                        this.Change_Click_EventDate = DateTime.UtcNow;
+                    }
                 }
             }
         }
@@ -126,13 +137,18 @@ namespace Area23.At.Mono.Unix
         /// <param name="e">EventArgs e</param>
         public void ButtonEnter_Click(object sender, EventArgs e)
         {
-            string currentLastLine = GetLastLineFromBcText();
-            if (currentLastLine != lastLine)
+            TimeSpan t0 = DateTime.UtcNow.Subtract(this.Change_Click_EventDate);
+            if (t0.TotalMilliseconds >= 1024 || t0.Seconds >= 2)
             {
-                lock (bcLock)
+                string currentLastLine = GetLastLineFromBcText();
+                if (currentLastLine != lastLine)
                 {
-                    lastLine = currentLastLine;
-                    Perform_BasicCalculator(currentLastLine);
+                    lock (bcLock)
+                    {
+                        lastLine = currentLastLine;
+                        Perform_BasicCalculator(currentLastLine);
+                        this.Change_Click_EventDate = DateTime.UtcNow;
+                    }
                 }
             }
         }

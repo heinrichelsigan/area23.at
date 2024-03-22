@@ -359,7 +359,8 @@ namespace Area23.At.Mono
                         else
                         {
                             this.textboxtop.BorderColor = Color.Red;
-                            this.textboxtop.BorderStyle = BorderStyle.Dashed;
+                            this.textboxtop.BorderStyle = BorderStyle.Dotted;
+                            this.textboxtop.ToolTip = "Math op " + this.textboxtop.Text + " unknown";
                         }
                     }
                 }
