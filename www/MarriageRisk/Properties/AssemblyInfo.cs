@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die
 // Assemblyinformationen zu ändern.
-[assembly: AssemblyTitle("Area23.At.Test.MarriageRisk")]
+[assembly: AssemblyTitle("Area23.At.Web.S")]
 [assembly: AssemblyDescription("marriage risk calculator web app")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("darkstar.work")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // Sie können alle Werte angeben oder die standardmäßigen Revisions- und Buildnummern 
 // übernehmen, indem Sie "*" wie folgt verwenden:
-[assembly: AssemblyVersion("0.1.1.0")]
-[assembly: AssemblyFileVersion("0.1.1.0")]
+[assembly: AssemblyVersion("0.2024.3.24")]
+[assembly: AssemblyFileVersion("0.2024.3.24")]

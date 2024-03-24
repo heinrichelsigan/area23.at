@@ -5,11 +5,11 @@ using System.Linq;
 using System.Resources;
 using System.Web;
 using System.Xml;
-using Area23.At.Test.MarriageRisk;
-using Area23.At.Test.MarriageRisk.ConstEnum;
-using Area23.At.Test.MarriageRisk.Properties;
+using Area23.At.Web.S;
+using Area23.At.Web.S.Util;
+using Area23.At.Web.S.Properties;
 
-namespace Area23.At.Test.MarriageRisk.ConstEnum
+namespace Area23.At.Web.S.Util
 {
     public static class JavaResReader
     {

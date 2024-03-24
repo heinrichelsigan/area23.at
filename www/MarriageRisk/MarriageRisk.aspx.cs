@@ -7,15 +7,17 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using Area23.At.Test.MarriageRisk.ConstEnum;
-using Area23.At.Test.MarriageRisk.Models;
+using Area23.At.Web.S.Util;
+using Area23.At.Web.S.Models;
+using Area23.At.Web.Util;
 
-namespace Area23.At.Test.MarriageRisk
+namespace Area23.At.Web.S
 {
     public partial class MarriageRisk : Area23BasePage
     {        
         long errNum = 0; // Errors Ticker
         volatile byte psaychange = 0;
+        GlobalAppSettings globalVariable;
 
         public void InitSchnaps()
         {
@@ -27,7 +29,7 @@ namespace Area23.At.Test.MarriageRisk
         public void RefreshGlobalVariableSession()
         {
             
-            this.Context.Session[Constants.APPNAME] = globalVariable;
+            this.Context.Session[Constants.APP_NAME] = globalVariable;
 
         }
 
@@ -41,17 +43,17 @@ namespace Area23.At.Test.MarriageRisk
                     InitSchnaps();
                 }
 
-                if (this.Context.Session[Constants.APPNAME] == null)
+                if (this.Context.Session[Constants.APP_NAME] == null)
                 {
                     string initMsg = "New connection started from " + Request.UserHostAddress + " " + Request.UserHostName + " with " + Request.UserAgent + "!";
                     Log(initMsg);
                     Log("AppPath=" + HttpContext.Current.Request.ApplicationPath + " logging to " + LogFile);
                     globalVariable = new Models.GlobalAppSettings(this.Context, this.Session);
-                    this.Context.Session[Constants.APPNAME] = globalVariable;
+                    this.Context.Session[Constants.APP_NAME] = globalVariable;
                 }
                 else
                 {
-                    globalVariable = (GlobalAppSettings)this.Context.Session[Constants.APPNAME];
+                    globalVariable = (GlobalAppSettings)this.Context.Session[Constants.APP_NAME];
                 }
             }                     
             
@@ -87,6 +89,12 @@ namespace Area23.At.Test.MarriageRisk
             preOut.InnerHtml = "-------------------------------------------------------------------------\n";
             preOut.InnerText += JavaResReader.GetValue("help_text", globalVariable.TwoLetterISOLanguageName) + "\n";
             preOut.InnerHtml += "-------------------------------------------------------------------------\n";
+        }
+
+
+        protected override string GetQrString()
+        {
+            throw new NotImplementedException("GetQrString is not implemented!");
         }
 
     }

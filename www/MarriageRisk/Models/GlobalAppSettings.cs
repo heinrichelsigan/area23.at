@@ -6,16 +6,17 @@ using System.Web;
 using static System.Net.Mime.MediaTypeNames;
 using System.Web.UI.WebControls;
 using System.Globalization;
-using Area23.At.Test.MarriageRisk.ConstEnum;
+using Area23.At.Web.S.Util;
 using System.Web.SessionState;
+using Area23.At.Web.Util;
 
-namespace Area23.At.Test.MarriageRisk.Models
+namespace Area23.At.Web.S.Models
 {
     [Serializable]
     public class GlobalAppSettings
     {
-        public String pictureUrl = Constants.URLPIC;
-        public string prefixUrl = Constants.URLPREFIX;
+        public String pictureUrl = Constants.URL_PIC;
+        public string prefixUrl = Constants.URL_PREFIX;
         public Uri prefixUri = null;
         public Uri pictureUri = null;
         public CultureInfo systemLocale, locale;

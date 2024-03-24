@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarriageRisk", "MarriageRisk\MarriageRisk.csproj", "{8D7B72DC-8C3B-4763-A870-917C9FBE55AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.Web.Util", "Area23.At.Web.Util\Area23.At.Web.Util.csproj", "{AF63A048-CDF1-4EF9-846B-A61C712C3680}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8D7B72DC-8C3B-4763-A870-917C9FBE55AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D7B72DC-8C3B-4763-A870-917C9FBE55AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D7B72DC-8C3B-4763-A870-917C9FBE55AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF63A048-CDF1-4EF9-846B-A61C712C3680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF63A048-CDF1-4EF9-846B-A61C712C3680}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF63A048-CDF1-4EF9-846B-A61C712C3680}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF63A048-CDF1-4EF9-846B-A61C712C3680}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

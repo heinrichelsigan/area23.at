@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Area23.At.Test.MarriageRisk
+namespace Area23.At.Web.S
 {
 
 

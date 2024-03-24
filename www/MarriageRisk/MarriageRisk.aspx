@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MarriageRisk.aspx.cs" Inherits="Area23.At.Test.MarriageRisk.MarriageRisk" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MarriageRisk.aspx.cs" Inherits="Area23.At.Web.S.MarriageRisk" %>
 
 <!DOCTYPE html>
 

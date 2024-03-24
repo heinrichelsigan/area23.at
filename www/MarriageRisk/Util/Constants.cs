@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Area23.At.Test.MarriageRisk.ConstEnum
+namespace Area23.At.Web.S.ConstEnum
 {
     public class Constants
     {
