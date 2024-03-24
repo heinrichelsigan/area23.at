@@ -114,7 +114,7 @@ namespace Area23.At.Mono.Qr
         {
             int qrWidth = -1;
             string qrImgPath = string.Empty;
-            Bitmap aQrBitmap = null;
+            // Bitmap aQrBitmap = null;
 
             if (string.IsNullOrEmpty(this.input_color.Value))
                 this.input_color.Value = Constants.QrColorString;

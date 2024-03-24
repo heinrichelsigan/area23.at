@@ -3,13 +3,13 @@
 */
 
 var lines = 4;
-var bcCurrentOp = document.getElementById("bcCurrentOp");
-var bcText = document.getElementById("bcText");
-var preOut = document.getElementById("preOut");
-var btnReset = document.getElementById("inputReset");
-var btnEnter = document.getElementById("ButtonEnter");
+var textBoxBcOut = document.getElementById("TextBox_BcOut");
+var textBoxBcOp = document.getElementById("TextBox_BcOp");
+var textBoxBcResult = document.getElementById("TextBox_BcResult");
+var buttonEnter = document.getElementById("ButtonEnter");
+var buttonReset = document.getElementById("ButtonReset");
 
-if (bcText != null) bcText.focus();
+if (textBoxBcOut != null) textBoxBcOut.focus();
 
 var keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
 	"[", "]", "(", ")",
@@ -22,79 +22,80 @@ var keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
 
 function bcInit() {
 	// alert("bcInit()");
-	if (bcCurrentOp == null)
-		bcCurrentOp = document.getElementById("bcCurrentOp");
-	if (bcText == null)
-		bcText = document.getElementById("bcText");
-	if (bcText != null) { 			
-		bcText.focus();
-		bcText.selectionStart = bcText.innerHTML.length - 1;
-		bcText.selectionEnd = bcText.innerHTML.length;
+	if (textBoxBcOp == null)
+		textBoxBcOp = document.getElementById("TextBox_BcOp");
+	if (textBoxBcOut == null)
+		textBoxBcOut = document.getElementById("TextBox_BcOut");
+	if (textBoxBcOut != null) { 			
+		textBoxBcOut.focus();
+		textBoxBcOut.selectionStart = textBoxBcOut.innerHTML.length - 1;
+		textBoxBcOut.selectionEnd = textBoxBcOut.innerHTML.length;
 		try {
-			setCaretToPos(document.getElementById("bcText"), (bcText.innerHTML.length - 1));
+			setCaretToPos(document.getElementById("TextBox_BcOut"), (textBoxBcOut.innerHTML.length - 1));
 		} catch (ePos) {
 			console.log(`Exception: ${ePos}`);
 		}
-		var cRow = bcText.value.split("\n").length - 1;
+		var cRow = textBoxBcOut.value.split("\n").length - 1;
 		if (cRow < 4) cRow = 4;
-		setTextCursor(document.getElementById("bcText"), bcText.value, cRow, 0);
+		setTextCursor(document.getElementById("TextBox_BcOut"), textBoxBcOut.value, cRow, 0);
 	}
-	if (preOut == null)
-		preOut = document.getElementById("preOut");
-	if (btnReset == null)
-		btnReset = document.getElementById("inputReset");
-	if (btnEnter == null)
-		btnEnter = document.getElementById("buttonEnter");
+
+	//if (textBoxBcResult == null)
+	//	textBoxBcResult = document.getElementById("TextBox_BcResult");
+	//if (buttonReset == null)
+	//	buttonReset = document.getElementById("ButtonReset");
+	//if (buttonEnter == null)
+	//	buttonEnter = document.getElementById("ButtonEnter");
 			
 	// window.onkeydown = function (e) { // TODO: pressing two arrow keys at same time
 		//if (e.which == 96 || e.which == 48) {
-		//	bcText.innerHTML += "0";
+		//	textBoxBcOut.innerHTML += "0";
 		//	return;
 		//}
 		//if (e.which == 97 || e.which == 49) {
-		//	bcText.innerHTML += "1";
+		//	textBoxBcOut.innerHTML += "1";
 		//	return;
 		//}
 		//if (e.which == 98 || e.which == 50) {
-		//	bcText.innerHTML += "2";
+		//	textBoxBcOut.innerHTML += "2";
 		//	return;
 		//}
 		//if (e.which == 99 || e.which == 51) {
-		//	bcText.innerHTML += "3";
+		//	textBoxBcOut.innerHTML += "3";
 		//	return;
 		//}
 		//if (e.which == 100 || e.which == 52) {
-		//	bcText.innerHTML += "4";
+		//	textBoxBcOut.innerHTML += "4";
 		//	return;
 		//}
 		//if (e.which == 101 || e.which == 53) {
-		//	bcText.innerHTML += "5";
+		//	textBoxBcOut.innerHTML += "5";
 		//	return;
 		//}
 		//if (e.which == 102 || e.which == 54) {
-		//	bcText.innerHTML += "6";
+		//	textBoxBcOut.innerHTML += "6";
 		//	return;
 		//}
 		//if (e.which == 103 || e.which == 55) {
-		//	bcText.innerHTML += "7";
+		//	textBoxBcOut.innerHTML += "7";
 		//	return;
 		//}
 		//if (e.which == 104 || e.which == 56) {
-		//	bcText.innerHTML += "8";
+		//	textBoxBcOut.innerHTML += "8";
 		//	return;
 		//}
 		//if (e.which == 105 || e.which == 57) {
-		//	bcText.innerHTML += "9";
+		//	textBoxBcOut.innerHTML += "9";
 		//	return;
 		//}
 		// if (e.which == 10 || e.which == 13) {
-		// 	if ((bcText.innerHTML != null && bcText.innerHTML.length > 0) ||
-		// 		(bcText.value != null && bcText.value.length > 0)) {
-		// 		console.log(`Enter pressed; text=${bcText.innerHTML}`);
+		// 	if ((textBoxBcOut.innerHTML != null && textBoxBcOut.innerHTML.length > 0) ||
+		// 		(textBoxBcOut.value != null && textBoxBcOut.value.length > 0)) {
+		// 		console.log(`Enter pressed; text=${textBoxBcOut.innerHTML}`);
 		// 	}
-		// 	btnEnter = document.getElementById("buttonEnter");
-		// 	if (btnEnter != null) {
-		// 		btnEnter.click();
+		// 	buttonEnter = document.getElementById("buttonEnter");
+		// 	if (buttonEnter != null) {
+		// 		buttonEnter.click();
 		// 		return;
 		// 	}
 		// }
@@ -107,7 +108,7 @@ function bcInit() {
 
 		//if (e.which >= 106 && e.which < 128)
 		//	captureKey(e.which);
-	};
+	// };
 }
 
 

@@ -28,7 +28,7 @@ function initDigitalTime() {
     digiHours = (hours < 10) ? " " + hours : hours + "";
 
     digiTime = digiHours + ":" + digiMinutes + ":" + digiSeconds;
-
+    
     document.getElementById("spanHoursId").innerText = digiHours;
     document.getElementById("spanMinutesId").innerText = digiMinutes;
     document.getElementById("spanSecondsId").innerText = digiSeconds;

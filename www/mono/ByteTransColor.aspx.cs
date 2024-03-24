@@ -104,9 +104,9 @@ namespace Area23.At.Mono
             double dlen = (int)(data.Length / 3) + 1;
             int imgLen = (int)Math.Round(Math.Sqrt(dlen), MidpointRounding.AwayFromZero) + 1;
 
-            fromBytesTransImage = new Bitmap(imgLen, imgLen);            
+            fromBytesTransImage = new Bitmap(imgLen, imgLen);
+
             int x = 0, y = 0, c = 0;
-            int i = 0;
             byte b0, b1, b2;
             for (int xy = 0; xy < imgLen * imgLen; xy++)
             {

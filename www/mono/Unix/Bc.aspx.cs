@@ -39,14 +39,18 @@ namespace Area23.At.Mono.Unix
         /// sets <see cref="lastLine"/> = null and
         /// clears <see cref="Stack{string}"/> <see cref="bcStack">bcStack</see>
         /// </summary>
-        protected void InitBcText()
+        protected void InitBcText(bool fullReset = false)
         {            
             lastLine = "";
             bcStack.Clear();
-            // this.bcText.Focus();                                  
+            if (fullReset)
+            {
+                this.TextBox_BcOut.Text = Constants.BC_START_MSG;
+            }
         }
 
-        public void BcText_TextChanged(object sender, EventArgs e)
+
+        public void TextBox_BcOut_TextChanged(object sender, EventArgs e)
         {
             string sndr = sender.ToString();
             TimeSpan t0 = DateTime.UtcNow.Subtract(this.Change_Click_EventDate);
@@ -73,17 +77,19 @@ namespace Area23.At.Mono.Unix
         protected string GetLastLineFromBcText()
         {
             char[] sep = "\r\n".ToCharArray();
-            string[] bcStrings = this.bcText.Text.Split(sep);
+            string[] bcStrings = this.TextBox_BcOut.Text.Split(sep);
             foreach (string bcStr in bcStrings)
             {
                 if (!string.IsNullOrEmpty(bcStr) && !bcStack.Contains(bcStr) &&
                     !bcStr.StartsWith("bc 1.07.1") && !bcStr.ToLower().Contains("free software") && !bcStr.ToLower().Contains("warranty"))
                 {
-                    bcStack.Push(bcStr);
+                    if (!string.IsNullOrEmpty(bcStr))
+                        bcStack.Push(bcStr);
                 }
             }
-            bcCurrentOp.Text = (bcStack.Count > 0) ? bcStack.Peek() : "";
-            return bcCurrentOp.Text;
+
+            this.TextBox_BcOp.Text = (bcStack.Count > 0) ? bcStack.Peek() : "";
+            return this.TextBox_BcOp.Text;
         }
 
 
@@ -114,10 +120,10 @@ namespace Area23.At.Mono.Unix
             try
             {                
                 string bcCmd = BC_CMD_PATH;                
-                string bcOutPut = Process_Bc(bcCmd, bcStr);
-                bcOutPut = bcOutPut.Trim("\r\n".ToCharArray());
-                this.bcText.Text += "\r\n" + bcOutPut + "\r\n";
-                preOut.InnerText = "\r\n" + bcOutPut + "\r\n";
+                string bcOutPut = Process_Bc(bcCmd, bcStr).Trim("\r\n".ToCharArray());
+                this.TextBox_BcOut.Text += this.TextBox_BcOut.Text.EndsWith("\r\n") ? "" : "\r\n";
+                this.TextBox_BcOut.Text += bcOutPut + "\r\n";
+                this.TextBox_BcResult.Text = bcOutPut;
             }
             catch (Exception ex)
             {
@@ -161,7 +167,7 @@ namespace Area23.At.Mono.Unix
         /// <param name="e">EventArgs e</param>
         protected void ButtonReset_Click(object sender, EventArgs e)
         {
-            InitBcText();
+            InitBcText(true);
         }
 
     }

@@ -23,13 +23,15 @@ namespace Area23.At.Mono.Util
         public const string QR_DIR = "Qr";
         public const string UNIX_DIR = "Unix";
         public const string RES_FOLDER = "res";
-        
+        public const string JS_DIR = "js";
+        public const string CSS_DIR = "css";
+
         public const string ACCEPT_LANGUAGE = "Accept-Language";
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";
         public const string DEFAULT_MIMETYPE = "application/octet-stream";
         public const string RPN_STACK = "rpnStack";
         public const string CHANGE_CLICK_EVENTCNT = "change_Click_EventCnt";
-
+        public const string BC_START_MSG = "bc 1.07.1\r\nCopyright 1991-1994, 1997, 1998, 2000, 2004, 2006, 2008, 2012-2017 Free Software Foundation, Inc.\r\nThis is free software with ABSOLUTELY NO WARRANTY.\r\nFor details type `warranty'.\r\n";
         public const char ANNOUNCE = ':';
         public const char DATE_DELIM = '-';
         public const char WHITE_SPACE = ' ';

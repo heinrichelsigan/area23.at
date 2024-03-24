@@ -79,7 +79,7 @@ a#BodyContentPlaceHolder_QrBody_LinkButton_QrIBAN, #BodyContentPlaceHolder_QrBod
 
 .ButtonTextBox {
     height: 24px;
-    font-size: medium;
+    font-size: small;
 }
 
 #Button_HexDump,

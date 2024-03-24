@@ -73,6 +73,10 @@ namespace Area23.At.Mono.Util
             }
         }
 
+        public static string JsAppPath { get => ResAppPath + Constants.JS_DIR + "/"; }
+
+        public static string CssAppPath { get => ResAppPath + Constants.CSS_DIR + "/"; }    
+
         public static string QrAppPath 
         {
             get
@@ -184,8 +188,6 @@ namespace Area23.At.Mono.Util
                 return logAppPath;
             }
         }
-
-    
 
     }
 }
