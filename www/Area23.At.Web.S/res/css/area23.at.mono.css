@@ -21,19 +21,30 @@ a#BodyContentPlaceHolder_QrBody_, #BodyContentPlaceHolder_QrBody_LinkButton_QrSt
 a#BodyContentPlaceHolder_QrBody_LinkButton_QrUrl, #BodyContentPlaceHolder_QrBody_LinkButton_QrUrl,
 a#BodyContentPlaceHolder_QrBody_LinkButton_QrPhone, #BodyContentPlaceHolder_QrBody_LinkButton_QrPhone,
 a#BodyContentPlaceHolder_QrBody_LinkButton_QrIBAN, #BodyContentPlaceHolder_QrBody_LinkButton_QrIBAN {
-    height: 32px;
-    width: 224px;
+    min-height: 24pt;
+    height: 30pt;
+    width: 192pt;
     display: inline-block;
     border: 0px none white;
     /* left border-block: 1px inset aliceblue; */
 }
 
-.QRTextBoxLarge {
-    height: 32px;
+.QRTextBoxSmall {
+    min-height: 24pt;
+    height: 30pt;
     text-align: left;
-    font-size: medium;    
-    min-width: 360px;
-    width: 84%;
+    font-size: small;
+    min-width: 320pt;
+    width: 60%;
+}
+
+.QRTextBoxLarge {
+    min-height: 24pt;
+    height: 32pt;
+    text-align: left;
+    font-size: medium;
+    min-width: 320pt;
+    width: 60%;
 }
 .QRTextBoxName {
     height: 32px;
@@ -286,8 +297,8 @@ div {
     }
 
     span.lefthuge {
-        height: 192px;
-        width: 25%;
+        height: 224pt;
+        width: 192pt;
         text-align: left;
         vertical-align: top;
         font-size: medium;
@@ -314,7 +325,7 @@ div {
     }
 
     span.righthuge {
-        height: 192px;
+        height: 224pt;
         width: 75%;
         text-align: right;
         vertical-align: middle;

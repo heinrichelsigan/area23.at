@@ -8,7 +8,6 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using Area23.At.Web.S.Util;
-using Area23.At.Web.S.Models;
 using Area23.At.Web.Util;
 
 namespace Area23.At.Web.S
@@ -48,7 +47,7 @@ namespace Area23.At.Web.S
                     string initMsg = "New connection started from " + Request.UserHostAddress + " " + Request.UserHostName + " with " + Request.UserAgent + "!";
                     Log(initMsg);
                     Log("AppPath=" + HttpContext.Current.Request.ApplicationPath + " logging to " + LogFile);
-                    globalVariable = new Models.GlobalAppSettings(this.Context, this.Session);
+                    globalVariable = new GlobalAppSettings(this.Context, this.Session);
                     this.Context.Session[Constants.APP_NAME] = globalVariable;
                 }
                 else

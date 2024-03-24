@@ -13,7 +13,6 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using Area23.At.Web.S.Util;
-using Area23.At.Web.S.Models;
 using Area23.At.Web.Util;
 using QRCoder;
 
@@ -207,8 +206,8 @@ namespace Area23.At.Web.S
             }
 
             string qrfn = Constants.DateFile + DateTime.Now.Millisecond + ".png";
-            QrImgPath = Paths.ResAppPath + qrfn;
-            qrCodeImage.Save(Paths.OutDir + qrfn);
+            QrImgPath = Paths.QrAppPath + qrfn;
+            qrCodeImage.Save(Paths.QrDirPath + qrfn);
 
             return QrImgPath;
         }
@@ -276,8 +275,8 @@ namespace Area23.At.Web.S
             }
 
             string qrfn = Constants.DateFile + DateTime.Now.Millisecond + ".png";
-            QrImgPath = Paths.ResAppPath + qrfn;
-            qrCodeImage.Save(Paths.OutDir + Constants.DateFile + DateTime.Now.Millisecond + ".png");
+            QrImgPath = Paths.QrAppPath + qrfn;
+            qrCodeImage.Save(Paths.QrDirPath + Constants.DateFile + DateTime.Now.Millisecond + ".png");
 
             return qrCodeImage;
         }

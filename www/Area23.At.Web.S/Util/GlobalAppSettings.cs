@@ -10,7 +10,7 @@ using Area23.At.Web.S.Util;
 using System.Web.SessionState;
 using Area23.At.Web.Util;
 
-namespace Area23.At.Web.S.Models
+namespace Area23.At.Web.S.Util
 {
     [Serializable]
     public class GlobalAppSettings

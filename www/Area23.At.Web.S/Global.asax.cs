@@ -1,4 +1,5 @@
-﻿using Area23.At.Web.Util;
+﻿using Area23.At.Web.S.Util;
+using Area23.At.Web.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +23,8 @@ namespace Area23.At.Web.S
             //    DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
             //    (sender == null) ? "(null)" : sender.ToString(),
             //    (e == null) ? "(null)" : e.ToString());
-            //Area23Log.Logger.Log(msg);
-            //Area23Log.Logger.Log("logging to logfile = " + Area23Log.LogFile);
+            //Area23Log.LogStatic(msg);
+            //Area23Log.LogStatic("logging to logfile = " + Area23Log.LogFile);
         }
 
         protected void Application_Disposed(object sender, EventArgs e)
@@ -40,7 +41,7 @@ namespace Area23.At.Web.S
         }
 
 
-        /*
+        
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
             string msg = String.Format("application begin request at {0} object sender = {1}, EventArgs e = {2}",
@@ -48,18 +49,36 @@ namespace Area23.At.Web.S
                 (sender == null) ? "(null)" : sender.ToString(),
                 (e == null) ? "(null)" : e.ToString());
             Area23Log.LogStatic(msg);
+
+            string url = HttpContext.Current.Request.Url.ToString();
+            if (url.Contains('?'))
+            {
+                string hash = url.Substring(url.IndexOf("?") + 1);                
+                Dictionary<string, Uri> shortenMap = (HttpContext.Current.Application[Constants.APP_NAME] != null) ? 
+                    (Dictionary<string, Uri>)HttpContext.Current.Application[Constants.APP_NAME] : JsonHelper.GetShortenMapFromJson();
+                if (shortenMap.ContainsKey(hash))
+                {
+                    Uri redirUri = shortenMap[hash];
+                    if (redirUri.IsAbsoluteUri)
+                    {
+                        msg = String.Format("Hash = {0}, redirecting to {1} ...", hash, redirUri.ToString());
+                        Area23Log.LogStatic(msg);
+                        Response.Redirect(redirUri.ToString());
+                    }
+                }                
+            }            
         }
 
 
-        protected void Application_EndRequest(object sender, EventArgs e)
-        {
-            string msg = String.Format("application end request at {0} object sender = {1}, EventArgs e = {2}",
-                DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
-                (sender == null) ? "(null)" : sender.ToString(),
-                (e == null) ? "(null)" : e.ToString());
-            Area23Log.LogStatic(msg);
-        }
-        */
+        //protected void Application_EndRequest(object sender, EventArgs e)
+        //{
+        //    string msg = String.Format("application end request at {0} object sender = {1}, EventArgs e = {2}",
+        //        DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+        //        (sender == null) ? "(null)" : sender.ToString(),
+        //        (e == null) ? "(null)" : e.ToString());
+        //    Area23Log.LogStatic(msg);
+        //}
+        
 
         protected void Application_Error(object sender, EventArgs e)
         {
