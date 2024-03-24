@@ -114,15 +114,6 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Bcot;
 
         /// <summary>
-        /// Brad control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Brad;
-
-        /// <summary>
         /// Barc control.
         /// </summary>
         /// <remarks>
@@ -177,15 +168,6 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button B10pown;
 
         /// <summary>
-        /// Bpermutation control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Bpermutation;
-
-        /// <summary>
         /// Bxpown control.
         /// </summary>
         /// <remarks>
@@ -193,6 +175,15 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Bxpown;
+
+        /// <summary>
+        /// Brad control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Brad;
 
         /// <summary>
         /// textboxRpn control.
@@ -204,13 +195,13 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.TextBox textboxRpn;
 
         /// <summary>
-        /// Blog control.
+        /// Binverse control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Blog;
+        protected global::System.Web.UI.WebControls.Button Binverse;
 
         /// <summary>
         /// Bln control.
@@ -231,31 +222,31 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Bld;
 
         /// <summary>
-        /// Binverse control.
+        /// Blog control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Binverse;
+        protected global::System.Web.UI.WebControls.Button Blog;
 
         /// <summary>
-        /// Babs control.
+        /// Blogxy control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Babs;
+        protected global::System.Web.UI.WebControls.Button Blogxy;
 
         /// <summary>
-        /// Bmod control.
+        /// Bmodus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Bmod;
+        protected global::System.Web.UI.WebControls.Button Bmodus;
 
         /// <summary>
         /// td6a control.
@@ -294,6 +285,15 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Bsqr4;
 
         /// <summary>
+        /// Bsqrti control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Bsqrti;
+
+        /// <summary>
         /// Bpercent control.
         /// </summary>
         /// <remarks>
@@ -312,13 +312,31 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Bpermille;
 
         /// <summary>
-        /// Bsqrti control.
+        /// Babs control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Bsqrti;
+        protected global::System.Web.UI.WebControls.Button Babs;
+
+        /// <summary>
+        /// Bpermutation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Bpermutation;
+
+        /// <summary>
+        /// Bmod control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Bmod;
 
         /// <summary>
         /// Bopen control.
@@ -366,13 +384,13 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Bdivision;
 
         /// <summary>
-        /// BClear control.
+        /// Bdel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BClear;
+        protected global::System.Web.UI.WebControls.Button Bdel;
 
         /// <summary>
         /// Bclose control.
@@ -420,13 +438,13 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Bmultiply;
 
         /// <summary>
-        /// Bdel control.
+        /// BClear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Bdel;
+        protected global::System.Web.UI.WebControls.Button BClear;
 
         /// <summary>
         /// Bbopen control.
@@ -474,6 +492,15 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Bminus;
 
         /// <summary>
+        /// BEnter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BEnter;
+
+        /// <summary>
         /// Bbclose control.
         /// </summary>
         /// <remarks>
@@ -519,13 +546,13 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Bplus;
 
         /// <summary>
-        /// BEnter control.
+        /// Bequ control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BEnter;
+        protected global::System.Web.UI.WebControls.Button Bequ;
 
         /// <summary>
         /// BDot control.
@@ -562,15 +589,6 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Bplusminus;
-
-        /// <summary>
-        /// Bequ control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Bequ;
 
         /// <summary>
         /// Beval control.

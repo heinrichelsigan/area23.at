@@ -414,6 +414,12 @@ namespace Area23.At.Mono
                             n1 = NumberFromStack();
                             Math.Pow(n0, ((double)(1 / n1))).ToString();
                             break;
+                        case "logₕ𝒂":
+                        case "log&#x2095;&#x1d482;":
+                        case "bloga":
+                            n1 = NumberFromStack();
+                            result = (Math.Log10(n0) / Math.Log10(n1)).ToString();
+                            break;
                         case "!":
                             long fkCnt = 1;
                             for (fkCnt = 1; fkCnt < (n0.ToLong()); fkCnt *= fkCnt++) ;
@@ -618,21 +624,19 @@ namespace Area23.At.Mono
                 case "mod":
                 case "ⁱ√":
                 case "sqrti":
-                case "!":
+                case "logₕ𝒂":
+                case "log&#x2095;&#x1d482;":
+                case "bloga":
                     rpnType = RPNType.MathOp2;
                     break;
+                case "±":
                 case "x²":
                 case "²":
                 case "x³":
                 case "³":
-                case "sin":
-                case "cos":
-                case "tan":
-                case "cot":
-                case "asin":
-                case "acos":
-                case "atan":
-                case "acot":
+                case "2ⁿ":
+                case "10ⁿ":
+                case "!":
                 case "ln":
                 case "log":
                 case "log10":
@@ -641,13 +645,18 @@ namespace Area23.At.Mono
                 case "√":
                 case "∛":
                 case "∜":
-                case "2ⁿ":
-                case "10ⁿ":
                 case "abs":
                 case "|x|":
                 case "%":
                 case "‰":
-                case "±":
+                case "sin":
+                case "cos":
+                case "tan":
+                case "cot":
+                case "asin":
+                case "acos":
+                case "atan":
+                case "acot":                
                     rpnType = RPNType.MathOp1;
                     break;
                 default:
