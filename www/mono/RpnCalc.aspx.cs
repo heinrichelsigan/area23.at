@@ -199,6 +199,11 @@ namespace Area23.At.Mono
             }
         }
 
+        protected void bModus_Click(object sender, EventArgs e)
+        {
+            //TODO: implement it
+        }
+
         protected void bNumber_Click(object sender, EventArgs e)
         {
             string mathString = (sender is Button) ? ((Button)sender).Text : "";
