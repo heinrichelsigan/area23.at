@@ -30,19 +30,25 @@
 				Width="60%" Height="24pt" CssClass="QRTextBoxLarge"></asp:TextBox>				
 		</div>		
 		<div align="left" class="contentDiv">
-			<span class="lefthuge">
-				<input type="color" name="color1" id="color1" onchange="newQrColor(color1.value);" />&nbsp;
-				<input id="input_color" alt="qr color" runat="server" name="selected_color" type="text" value="" size="7" />	
-				<br />
-				<input type="color" name="color0" id="color0" onchange="newBackgroundColor(color0.value);" />&nbsp;
-				<input id="input_backcolor" alt="background color" runat="server" name="input_backcolor" type="text" value="" size="7" />
-				<br />
-				<asp:Button id="Button_QRCode" name="Button_QRCode" runat="server" ClientIDMode="Static" 
-					ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />				
-			</span>
-			<span class="righthuge">
+			<div class="hugeleft">
+				<span class="leftSpan">
+					<input type="color" name="color1" id="color1" onchange="newQrColor(color1.value);" />&nbsp;
+					<input id="input_color" alt="qr color" runat="server" name="selected_color" type="text" value="" size="7" />
+					<br />
+				</span>
+				<span class="leftSpan"> 
+					<input type="color" name="color0" id="color0" onchange="newBackgroundColor(color0.value);" />&nbsp;
+					<input id="input_backcolor" alt="background color" runat="server" name="input_backcolor" type="text" value="" size="7" />
+					<br />
+				</span>
+				<span class="leftSpan"> 
+					<asp:Button id="Button_QRCode" name="Button_QRCode" runat="server" ClientIDMode="Static" 
+						ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />				
+				</span>	
+			</div>
+			<div class="hugeright">
 				<asp:Image ID="ImageQr" runat="server" ImageUrl="~/res/img/qrsample2.png" Visible="false" BorderStyle="None" BackColor="Transparent" />
-			</span>		
+			</div>
 		</div>
 		<div id="ErrorDiv" runat="server" class="footerDiv" visible="false">
 		</div>

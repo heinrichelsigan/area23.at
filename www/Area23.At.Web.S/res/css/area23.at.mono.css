@@ -220,6 +220,33 @@ div {
         font-family: 'Courier New', Courier New, Courier, monospace, 'Lucida Console', Consolas, 'Lucida Sans Unicode';
     }
 
+    div.hugeleft
+    div.qrleft {
+        height: 192pt;
+        width: 192pt;
+        line-height: normal;
+        vertical-align: top;
+        text-align: left;
+        font-size: medium;
+        table-layout: fixed;
+        inset-block-start: initial;
+    }
+
+    div.hugeright,
+    div.qrright {
+        height: 192pt;
+        width: 50%;
+        line-height: normal;
+        vertical-align: top;
+        font-size: medium;
+        table-layout: fixed;
+        inset-block-start: initial;
+        margin-top: -60pt;
+        margin-left: 192pt;
+        text-align: left;
+    }
+
+
     .jsonRow {
         display: block;
         width: 100%;
@@ -290,7 +317,7 @@ div {
     span.leftqr,
     span.leftSpan {
         height: 24px;
-        width: 25%;
+        width: 192pt;
         text-align: left;
         vertical-align: middle;
         font-size: medium;

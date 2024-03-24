@@ -82,8 +82,17 @@ namespace Area23.At.Web.S
 
         protected void LinkButton_UrlQr_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(this.TextBox_UrlShort.Text) && (this.TextBox_UrlShort.Text.Contains(Constants.URL_SHORT)))
+            if (string.IsNullOrEmpty(this.TextBox_UrlShort.Text) || (!this.TextBox_UrlShort.Text.Contains(Constants.URL_SHORT)))
             {
+                if ((redirectUri = VerifyUri(this.TextBox_UrlLong.Text)) != null)
+                {
+                    hashKey = ShortenUri(redirectUri);
+                    this.TextBox_UrlShort.Text = ShortUrl;                    
+                }
+            }
+                
+            if (!string.IsNullOrEmpty(this.TextBox_UrlShort.Text) && (this.TextBox_UrlShort.Text.Contains(Constants.URL_SHORT)))
+            {                
                 ResetFormElements();
                 QRCoder.PayloadGenerator.Url qrUrl = new QRCoder.PayloadGenerator.Url(this.TextBox_UrlShort.Text);
                 GenerateQRImage(qrUrl.ToString());
@@ -207,36 +216,56 @@ namespace Area23.At.Web.S
         /// <returns>Uri</returns>
         protected virtual Uri VerifyUri(string redirUrl)
         {
-            redirectUri = new Uri(redirUrl);
-            if (redirectUri.IsAbsoluteUri)
+            if (string.IsNullOrEmpty(redirUrl))
             {
-                try
-                {
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(redirectUri.ToString());
-                    request.Method = "GET";
-                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                    if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Found || response.StatusCode == HttpStatusCode.Accepted)
-                    {
-                        response.Close();
-                        return redirectUri;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Area23Log.LogStatic(ex);                    
-                    ErrorDiv.InnerHtml = "<p style=\"font-size: large; color: red\">" + ex.Message + "</p>\r\n" +
-                        "<pre>" + ex.ToString() + "</pre>\r\n" +
-                        "<!-- " + ex.StackTrace.ToString() + " -->\r\n";
-                    ErrorDiv.Visible = true;
-                    if ((ex.Message.ToString().Contains("403")) ||
-                        (ex.Message.ToString().Contains("303")))
-                        return redirectUri;
+                ErrorDiv.InnerHtml = "<p style=\"font-size: large; color: red\">Url to shorten doesn't exist!</p>\r\n";
+                ErrorDiv.Visible = true;
+                this.TextBox_UrlLong.BackColor = Color.Red;
+                this.TextBox_UrlLong.BorderStyle = BorderStyle.Dashed;
+                this.TextBox_UrlLong.BorderWidth = 1;
+                return null;
+            }                
 
-                    redirectUri = null;
+            redirectUri = new Uri(redirUrl);
+            if (!redirectUri.IsAbsoluteUri)
+            {
+                ErrorDiv.InnerHtml = "<p><span style=\"font-size: large; color: red\">" + redirUrl + "</span><br />isn't an AbsoluteUri!</p>\r\n";
+                ErrorDiv.Visible = true;
+                this.TextBox_UrlLong.BackColor = Color.Red;
+                this.TextBox_UrlLong.BorderStyle = BorderStyle.Dotted;
+                this.TextBox_UrlLong.BorderWidth = 1;
+                return null;
+            }               
+            
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(redirectUri.ToString());
+                request.Method = "GET";
+                request.Timeout = 1500;
+                request.Headers.Add("accept-encoding", "gzip, deflate, br");
+                request.Headers.Add("cache-control", "max-age=0");
+                request.Headers.Add("accept-language", "en-US,en;q=0.9");
+                request.UserAgent = "Apache2 mod_mono Amazon aws by https://area23.at/s/ to verify shortend url";
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Found || response.StatusCode == HttpStatusCode.Accepted)
+                {
+                    response.Close();
+                    return redirectUri;
                 }
             }
-            else 
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);                    
+                ErrorDiv.InnerHtml = "<p style=\"font-size: large; color: red\">" + ex.Message + "</p>\r\n" +
+                    "<pre>" + ex.ToString() + "</pre>\r\n" +
+                    "<!-- " + ex.StackTrace.ToString() + " -->\r\n";
+                ErrorDiv.Visible = true;
+                if ((ex.Message.ToString().Contains("403")) ||
+                    (ex.Message.ToString().Contains("The operation has timed out.")))
+                    return redirectUri;
+
                 redirectUri = null;
+            }
 
             return redirectUri;
         }

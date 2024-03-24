@@ -194,8 +194,24 @@
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="MarriageRisk.aspx" />
+    <Content Include="Qr\2024-03-24_19_18__894.png" />
+    <Content Include="res\css\area23.at.mono.css" />
+    <Content Include="res\css\fortune.css" />
+    <Content Include="res\css\frga.css" />
+    <Content Include="res\css\frog.css" />
+    <Content Include="res\css\od.css" />
+    <Content Include="res\css\rpncalcweb.css" />
     <Content Include="res\img\qrsample1.gif" />
     <Content Include="res\img\qrsample2.png" />
+    <Content Include="res\js\area23.js" />
+    <Content Include="res\js\bc.js" />
+    <Content Include="res\js\digiclock.js" />
+    <Content Include="res\js\fortune.js" />
+    <Content Include="res\js\frga.js" />
+    <Content Include="res\js\frog.js" />
+    <Content Include="res\js\gtag.js" />
+    <Content Include="res\js\od.js" />
+    <Content Include="res\js\rpn.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -245,9 +261,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="log\" />
-    <Folder Include="Qr\" />
-    <Folder Include="res\css\" />
-    <Folder Include="res\js\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resource.resx">
