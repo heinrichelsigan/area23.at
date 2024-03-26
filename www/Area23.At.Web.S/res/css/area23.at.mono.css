@@ -287,6 +287,19 @@ div {
         */
     }
 
+a.Url_Short {
+    clear: both;
+    min-height: 24pt;
+    height: 32pt;
+    width: 60%;
+    border: outset;
+    text-align: left;
+    border-width: 2px;
+    border-color: purple;
+    font-size: medium;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif' min-width: 320pt;
+}
+
 .jsonButtons {
     clear: both;
     text-align: left;
@@ -355,7 +368,7 @@ div {
         height: 224pt;
         width: 75%;
         text-align: right;
-        vertical-align: middle;
+        vertical-align: top;
         font-size: medium;
     }
 

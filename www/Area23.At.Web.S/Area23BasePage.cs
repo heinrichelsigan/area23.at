@@ -149,7 +149,8 @@ namespace Area23.At.Web.S
         /// <param name="c"></param>
         /// <returns><see cref="Bitmap"/></returns>
         /// <exception cref="ArgumentNullException">thrown, when <paramref name="qrString"/> is null or ""</exception>
-        protected virtual string GetQRImgPath(string qrString, out int qrWidth, string qrhex, string bghex = "#ffffff", short qrmode = 2)
+        protected virtual string GetQRImgPath(string qrString, out int qrWidth, string qrhex, string bghex = "#ffffff", 
+            short qrmode = 4, QRCodeGenerator.ECCLevel ecclvl = QRCodeGenerator.ECCLevel.Q)
         {
             if (string.IsNullOrEmpty(qrString))
                 throw new ArgumentNullException("qrString", "Error calling GetQRBitmap(qrString = null); qrString is null...");
@@ -166,9 +167,6 @@ namespace Area23.At.Web.S
             Color colLg = Color.FromArgb(rB, gB, bB);
 
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            string qrModStr = Enum.GetNames(typeof(QRCoder.QRCodeGenerator.ECCLevel))[qrmode % 4];
-            QRCodeGenerator.ECCLevel ecclvl = QRCodeGenerator.ECCLevel.Q;
-            // Enum.TryParse(qrModStr, out ecclvl);
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, ecclvl);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(qrmode);

@@ -24,15 +24,6 @@ namespace Area23.At.Web.S
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// LinkButton_UrlShorten control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton_UrlShorten;
-
-        /// <summary>
         /// TextBox_UrlLong control.
         /// </summary>
         /// <remarks>
@@ -42,22 +33,13 @@ namespace Area23.At.Web.S
         protected global::System.Web.UI.WebControls.TextBox TextBox_UrlLong;
 
         /// <summary>
-        /// LinkButton_UrlQr control.
+        /// Button_QRCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton_UrlQr;
-
-        /// <summary>
-        /// TextBox_UrlShort control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_UrlShort;
+        protected global::System.Web.UI.WebControls.Button Button_QRCode;
 
         /// <summary>
         /// input_color control.
@@ -78,13 +60,31 @@ namespace Area23.At.Web.S
         protected global::System.Web.UI.HtmlControls.HtmlInputText input_backcolor;
 
         /// <summary>
-        /// Button_QRCode control.
+        /// DropDown_QrMode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button_QRCode;
+        protected global::System.Web.UI.WebControls.DropDownList DropDown_QrMode;
+
+        /// <summary>
+        /// DropDown_PixelPerUnit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDown_PixelPerUnit;
+
+        /// <summary>
+        /// hugeLeftId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hugeLeftId;
 
         /// <summary>
         /// ImageQr control.
@@ -94,6 +94,15 @@ namespace Area23.At.Web.S
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image ImageQr;
+
+        /// <summary>
+        /// HrefShort control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor HrefShort;
 
         /// <summary>
         /// ErrorDiv control.

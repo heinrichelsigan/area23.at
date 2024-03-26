@@ -15,6 +15,7 @@ using QRCoder;
 using System.Net;
 using System.Runtime.Serialization.Formatters;
 using System.Security.Policy;
+using System.Web.DynamicData;
 
 namespace Area23.At.Web.S
 {
@@ -23,6 +24,8 @@ namespace Area23.At.Web.S
         internal Dictionary<string, Uri> shortenMap = null;
         internal Uri redirectUri = null;
         internal string hashKey = string.Empty;
+        internal QRCodeGenerator.ECCLevel eCCLevel = QRCodeGenerator.ECCLevel.Q;
+        internal short qrMode = 2;
 
         internal String ShortUrl { get => Constants.URL_SHORT + hashKey; }
 
@@ -45,9 +48,57 @@ namespace Area23.At.Web.S
 
         protected void TextBox_UrlLong_TextChanged(object sender, EventArgs e)
         {
-            QRBase_ElementChanged(sender, e);
+            Button_QRCode_Click(sender, e);
         }
-        
+
+        protected void Button_QRCode_Click(object sender, EventArgs e)
+        {
+            if ((redirectUri = VerifyUri(this.TextBox_UrlLong.Text)) != null)
+            {
+                hashKey = ShortenUri(redirectUri);
+                this.HrefShort.HRef = ShortUrl;
+                this.HrefShort.InnerHtml = ShortUrl;
+                this.HrefShort.Visible = true;
+                ResetChangedElements();
+                GenerateQRImage();
+            }
+            else
+            {
+                this.HrefShort.Visible = false;
+                this.ImageQr.Visible = false;
+                QRBase_ElementChanged(sender, e);
+            }
+        }
+
+        protected void DropDown_PixelPerUnit_Changed(object sender, EventArgs e)
+        {
+            string qrModeStr = this.DropDown_PixelPerUnit.SelectedItem.Text;
+            switch (qrModeStr)
+            {
+                case "1": qrMode = 1; break;
+                case "2": qrMode = 2; break;
+                case "3": qrMode = 3; break;
+                case "4": qrMode = 4; break;
+                case "6": qrMode = 6; break;
+                case "8": qrMode = 8; break;
+                default: qrMode = 2; break;
+            }
+            Button_QRCode_Click(sender, e);
+        }
+
+        protected void DropDown_QrMode_Changed(object sender, EventArgs e)
+        {
+            string eccModeStr = this.DropDown_QrMode.SelectedItem.Text;
+            switch (eccModeStr)
+            {
+                case "L": eCCLevel = QRCodeGenerator.ECCLevel.L; break;
+                case "M": eCCLevel = QRCodeGenerator.ECCLevel.M; break;
+                case "Q": eCCLevel = QRCodeGenerator.ECCLevel.Q; break;
+                case "H": eCCLevel = QRCodeGenerator.ECCLevel.H; break;
+            }
+            Button_QRCode_Click(sender, e);
+        }
+
 
         protected virtual void ResetFormElements()
         {
@@ -58,56 +109,14 @@ namespace Area23.At.Web.S
         {
             // base.ResetChangedElements();
 
-            this.TextBox_UrlShort.BorderColor = Color.Black;
-            this.TextBox_UrlShort.BorderStyle = BorderStyle.Solid;
+            this.HrefShort.Visible = true;
+            // this.HrefShort.Style["Border"]
 
             this.TextBox_UrlLong.BorderColor = Color.Black;
             this.TextBox_UrlLong.BorderStyle = BorderStyle.Solid;
 
             this.ErrorDiv.InnerHtml = string.Empty;
             this.ErrorDiv.Visible = false;
-        }
-
-        protected void LinkButton_UrlShorten_Click(object sender, EventArgs e)
-        {
-            if ((redirectUri = VerifyUri(this.TextBox_UrlLong.Text)) != null)
-            {
-                hashKey = ShortenUri(redirectUri);
-                this.TextBox_UrlShort.Text = ShortUrl;
-                ResetFormElements();
-                QRCoder.PayloadGenerator.Url qrUrl = new QRCoder.PayloadGenerator.Url(this.TextBox_UrlLong.Text);
-                GenerateQRImage(qrUrl.ToString());
-            }            
-        }
-
-        protected void LinkButton_UrlQr_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(this.TextBox_UrlShort.Text) || (!this.TextBox_UrlShort.Text.Contains(Constants.URL_SHORT)))
-            {
-                if ((redirectUri = VerifyUri(this.TextBox_UrlLong.Text)) != null)
-                {
-                    hashKey = ShortenUri(redirectUri);
-                    this.TextBox_UrlShort.Text = ShortUrl;                    
-                }
-            }
-                
-            if (!string.IsNullOrEmpty(this.TextBox_UrlShort.Text) && (this.TextBox_UrlShort.Text.Contains(Constants.URL_SHORT)))
-            {                
-                ResetFormElements();
-                QRCoder.PayloadGenerator.Url qrUrl = new QRCoder.PayloadGenerator.Url(this.TextBox_UrlShort.Text);
-                GenerateQRImage(qrUrl.ToString());
-            }
-        }
-
-        protected void Button_QRCode_Click(object sender, EventArgs e)
-        {
-            if ((redirectUri = VerifyUri(this.TextBox_UrlLong.Text)) != null)
-            {
-                hashKey = ShortenUri(redirectUri);
-                this.TextBox_UrlShort.Text = ShortUrl;
-                ResetFormElements();
-                GenerateQRImage();
-            }
         }
 
         #region qrmembers
@@ -121,9 +130,9 @@ namespace Area23.At.Web.S
                 qrUrl = new QRCoder.PayloadGenerator.Url(this.TextBox_UrlLong.Text);
                 qrUrlStr = qrUrl.ToString();
             }
-            if (!string.IsNullOrEmpty(this.TextBox_UrlShort.Text))
+            if (!string.IsNullOrEmpty(this.HrefShort.HRef))
             {
-                qrUrl = new QRCoder.PayloadGenerator.Url(this.TextBox_UrlShort.Text);
+                qrUrl = new QRCoder.PayloadGenerator.Url(this.HrefShort.HRef);
                 qrUrlStr = qrUrl.ToString();
             }
 
@@ -165,7 +174,7 @@ namespace Area23.At.Web.S
                 if (!string.IsNullOrEmpty(qrString))
                 {
                     // aQrBitmap = GetQRBitmap(qrString, Constants.QrColor, Color.Transparent);
-                    qrImgPath = GetQRImgPath(qrString, out qrWidth, this.input_color.Value, this.input_backcolor.Value);
+                    qrImgPath = GetQRImgPath(qrString, out qrWidth, this.input_color.Value, this.input_backcolor.Value, qrMode, eCCLevel);
                 }
                 if (!string.IsNullOrEmpty(qrImgPath))
                 {
@@ -194,7 +203,7 @@ namespace Area23.At.Web.S
             this.ImageQr.Visible = true;
             this.ImageQr.BackColor = ColorFrom.FromHtml(this.input_backcolor.Value);
             this.ImageQr.ImageUrl = "data:image/gif;base64," + base64Data;
-            ResetFormElements();
+            ResetChangedElements();
         }
 
         protected override void SetQrImageUrl(string imgPth, int qrWidth = -1)
@@ -235,8 +244,15 @@ namespace Area23.At.Web.S
                 this.TextBox_UrlLong.BorderStyle = BorderStyle.Dotted;
                 this.TextBox_UrlLong.BorderWidth = 1;
                 return null;
-            }               
-            
+            }
+
+            if (shortenMap.ContainsValue(redirectUri))
+            {
+                foreach (var mapEntry in shortenMap)
+                    if (mapEntry.Value == redirectUri)
+                        return redirectUri;
+            }
+
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(redirectUri.ToString());
