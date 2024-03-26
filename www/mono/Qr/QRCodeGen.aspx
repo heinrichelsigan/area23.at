@@ -3,7 +3,7 @@
     <title>qr contact (apache2 mod_mono)</title>
     <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
 	<meta name="keywords" content="QR code generator" />
-	<meta name="description" content="https://github.com/codebude/QRCoder/" />
+	<meta name="description" content="https://github.com/heinrichelsigan/area23.at/" />
 	<script async src="../res/js/area23.js"></script>
 	<script>
 		window.onload = function () {

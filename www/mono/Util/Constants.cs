@@ -22,6 +22,7 @@ namespace Area23.At.Mono.Util
         public const string LOG_DIR = "log";
         public const string QR_DIR = "Qr";
         public const string UNIX_DIR = "Unix";
+        public const string CALC_DIR = "Calc";
         public const string RES_FOLDER = "res";
         public const string JS_DIR = "js";
         public const string CSS_DIR = "css";

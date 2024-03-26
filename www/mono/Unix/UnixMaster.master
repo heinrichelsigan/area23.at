@@ -3,8 +3,8 @@
     <asp:ContentPlaceHolder ID="UnixHead" runat="server">
         <title>Unix cmdline tools (apache2 mod_mono)</title>
         <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
-        <meta name="keywords" content="QR code generator" />
-        <meta name="description" content="https://github.com/codebude/QRCoder/" />
+        <meta name="keywords" content="old unix tools" />
+        <meta name="description" content="https://github.com/heinrichelsigan/area23.at/" />
     </asp:ContentPlaceHolder>
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">               

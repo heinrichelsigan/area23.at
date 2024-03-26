@@ -149,6 +149,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ByteTransColor.aspx" />
+    <Content Include="Calc\Calculator.aspx" />
+    <Content Include="Calc\RpnCalc.aspx" />
     <Content Include="c\urls.c" />
     <Content Include="c\urls23.html" />
     <Content Include="favicon.ico">
@@ -277,6 +279,27 @@
     </Compile>
     <Compile Include="ByteTransColor.aspx.designer.cs">
       <DependentUpon>ByteTransColor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Calc\Calc.master.cs">
+      <DependentUpon>Calc.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Calc\Calc.master.designer.cs">
+      <DependentUpon>Calc.master</DependentUpon>
+    </Compile>
+    <Compile Include="Calc\Calculator.aspx.cs">
+      <DependentUpon>Calculator.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Calc\Calculator.aspx.designer.cs">
+      <DependentUpon>Calculator.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Calc\RpnCalc.aspx.cs">
+      <DependentUpon>RpnCalc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Calc\RpnCalc.aspx.designer.cs">
+      <DependentUpon>RpnCalc.aspx</DependentUpon>
     </Compile>
     <Compile Include="Unix\Bc.aspx.cs">
       <DependentUpon>Bc.aspx</DependentUpon>
@@ -424,6 +447,7 @@
     <Content Include="res\bin\bccmd.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Calc\Calc.master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -3,7 +3,7 @@
 	<title>qrcode url param passed (apache2 mod_mono)</title>
 	<link rel="stylesheet" href="../res/css/area23.at.mono.css" />
 	<meta name="keywords" content="QR code generator" />
-	<meta name="description" content="https://github.com/codebude/QRCoder/" />
+	<meta name="description" content="https://github.com/heinrichelsigan/area23.at/" />
 </asp:Content>
 <asp:Content ID="QrBodyContent" ContentPlaceHolderID="QrBody" runat="server">
 	<form id="Form_QRGen" runat="server">

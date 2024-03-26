@@ -19,6 +19,7 @@ namespace Area23.At.Mono.Util
         private static string resAppPath = null;
         private static string qrAppPath = null;
         private static string unixAppPath = null;
+        private static string calcAppPath = null;
         private static string cardPicsPath = null;
         private static string cardPicsDir = null;
         
@@ -104,7 +105,22 @@ namespace Area23.At.Mono.Util
                 return unixAppPath;
             }
         }
-        
+
+        public static string CalcAppPath
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(calcAppPath))
+                {
+                    calcAppPath = BaseAppPath;
+                    if (!calcAppPath.Contains("/" + Constants.CALC_DIR + "/"))
+                        calcAppPath += Constants.CALC_DIR + "/";
+                }
+                return calcAppPath;
+            }
+        }
+
+
 
         public static string AppFolder
         {
