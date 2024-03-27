@@ -1,19 +1,17 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="Calc.master.cs" Inherits="Area23.At.Mono.Calc.Calc" %>
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
-    <asp:ContentPlaceHolder ID="CalcHead" runat="server">
-        <title>some calculators</title>
-        <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
-        <meta name="keywords" content="calculators calc rpn" />
-        <meta name="description" content="https://github.com/heinrichelsigan/" />
+    <asp:ContentPlaceHolder ID="CalcHead" runat="server">        
     </asp:ContentPlaceHolder>
 </asp:Content>
-<asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">               
-    <div id="rowqr" class="headercard" align="left">         
+<asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
+    <div id="rowqr" class="headercard" align="left">
         <span id="headerLeft" runat="server" class="headerLeft" align="center" valign="middle"><a class="spanHeaderA" href='<%= Area23.At.Mono.Util.Paths.CalcAppPath %>Calculator.aspx'>simple calculator</a></span>
-        <span id="headerLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a class="spanHeaderA" href="<%= Area23.At.Mono.Util.Paths.CalcAppPath %>RpnCalc.aspx">rpn calculator</a></span>	
-        <span id="headerCenter" runat="server" class="headerCenter" align="center" valign="middle"><a class="spanHeaderA" href='<%= Area23.At.Mono.Util.Paths.UnixAppPath %>Bc.aspx'>old unix bc(1)c</a></span>	        
+        <span id="headerLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a class="spanHeaderA" href='<%= Area23.At.Mono.Util.Paths.CalcAppPath %>RpnCalc.aspx'>rpn calculator</a></span>
+        <span id="headerCenter" runat="server" class="headerCenter" align="center" valign="middle"><a class="spanHeaderA" href="<%= Area23.At.Mono.Util.Paths.UnixAppPath %>Bc.aspx">unix bc(1)</a></span>
     </div>
-    <hr />    
-    <asp:ContentPlaceHolder ID="CalcBody" runat="server">
-    </asp:ContentPlaceHolder>
+    <hr />
+    <div class="rpnDiv" align="center">
+        <asp:ContentPlaceHolder ID="CalcBody" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
 </asp:Content>

@@ -287,6 +287,8 @@
     <Compile Include="Calc\Calc.master.designer.cs">
       <DependentUpon>Calc.master</DependentUpon>
     </Compile>
+    <Compile Include="Calc\CalcEnum.cs" />
+    <Compile Include="Calc\CalcTerms.cs" />
     <Compile Include="Calc\Calculator.aspx.cs">
       <DependentUpon>Calculator.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -431,7 +433,7 @@
     <Compile Include="Util\ProcessCmd.cs" />
     <Compile Include="Util\QRGenericString.cs" />
     <Compile Include="Util\ResReader.cs" />
-    <Compile Include="Util\RPNType.cs" />
+    <Compile Include="Calc\RPNType.cs" />
     <Compile Include="Util\SayBase.cs" />
     <Compile Include="Util\SaySpeach.cs" />
   </ItemGroup>

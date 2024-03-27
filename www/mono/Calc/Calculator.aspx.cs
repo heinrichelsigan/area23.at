@@ -23,8 +23,7 @@ namespace Area23.At.Mono.Calc
         {
             get => _textCursor;
             set => _textCursor = (value > 0 && value <= 18) ? value : _textCursor;
-        }
-        public TextBox CurrentTextBox { get => this.textboxRpn; }
+        }        
 
         private RPNRad _currentRad = RPNRad.RAD;
         public string CurrentRad
@@ -255,9 +254,6 @@ namespace Area23.At.Mono.Calc
                     this.textboxtop.BorderColor = Color.Red;
                     this.textboxtop.BorderStyle = BorderStyle.Dotted;
                     this.textboxtop.ToolTip = "Math op " + mathString + " requires at least 1 numbers at top of stack";
-                    this.textboxRpn.BorderStyle = BorderStyle.Dashed;
-                    this.textboxRpn.BorderColor = Color.Red;
-                    this.textboxRpn.BorderWidth = 1;
                 }
             }            
         }
@@ -283,9 +279,6 @@ namespace Area23.At.Mono.Calc
                     this.textboxtop.BorderColor = Color.Red;
                     this.textboxtop.BorderStyle = BorderStyle.Dotted;
                     this.textboxtop.ToolTip = "Math op " + mathString + " requires at least 2 numbers at top of stack";
-                    this.textboxRpn.BorderStyle = BorderStyle.Dashed;
-                    this.textboxRpn.BorderColor = Color.Red;
-                    this.textboxRpn.BorderWidth = 1;
                 }
             }
         }
@@ -295,8 +288,6 @@ namespace Area23.At.Mono.Calc
             this.rpnStack.Clear();
             SetMetaContent();
             this.textboxtop.Text = "";
-            this.textboxRpn.Text = "";
-            this.textbox0.Text = "";
         }
 
         protected void Bdel_Click(object sender, EventArgs e)
@@ -313,8 +304,7 @@ namespace Area23.At.Mono.Calc
                     TextCursor--;
                     RpnStackToTextBox();
                     SetMetaContent();
-                }
-                else this.textboxRpn.Text = string.Empty;
+                }                
             }
 
         }
@@ -548,7 +538,6 @@ namespace Area23.At.Mono.Calc
                     if (!string.IsNullOrEmpty(result))
                     {
                         rpnStack.Push(result);
-                        this.textbox0.Text = result;
                         RpnStackToTextBox();
                         SetMetaContent();
                         this.textboxtop.Text = string.Empty;
@@ -698,12 +687,8 @@ namespace Area23.At.Mono.Calc
             this.textboxtop.BorderStyle = BorderStyle.None;
             this.textboxtop.BorderWidth = 0;
             this.textboxtop.ToolTip = "";
-            this.textboxRpn.BorderStyle = BorderStyle.None;
-            this.textboxRpn.BorderWidth = 0;
-            this.textboxRpn.BorderColor = Color.Black;
             string rpnText = string.Empty;
             rpnStack.ToList().ForEach(x => rpnText += x.ToString() + "\n");
-            this.textboxRpn.Text = rpnText;
         }
 
         #endregion helper
@@ -711,10 +696,7 @@ namespace Area23.At.Mono.Calc
         protected void RpnStackToTextBox()
         {
             // this.textboxRpn.Text = string.Empty;
-            string rpnText = string.Empty;
-            rpnStack.ToList().ForEach(x => rpnText += x.ToString() + "\n");
-            textboxRpn.Text = rpnText;
-            Session["rpnStack"] = rpnStack;
+            string rpnText = string.Empty;            
             this.textboxtop.Focus();
         }
 

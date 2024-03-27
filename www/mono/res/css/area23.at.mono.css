@@ -167,21 +167,21 @@ div {
             background-color: #fdfdfd;
         }
 
-        div.contentDiv {
-            border-block: 1px solid #bab5b1;
-            border-style: solid;
-            border-width: thin;
-            /* border-spacing: 1px 1px; */
+    div.contentDiv {
+        border-block: 1px solid #bab5b1;
+        border-style: solid;
+        border-width: thin;
+        /* border-spacing: 1px 1px; */
 
-            width: 100%;
-            text-align: left;
-            background-color: #eeeeee;
-            vertical-align: middle;
-            font-size: medium;
-            table-layout: fixed;
-            inset-block-start: initial;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
-        }
+        width: 100%;
+        text-align: left;
+        background-color: #eeeeee;
+        vertical-align: middle;
+        font-size: medium;
+        table-layout: fixed;
+        inset-block-start: initial;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+    }
 
     div.footerDiv {
         border-block: 1px solid #bab5b1;
@@ -213,11 +213,11 @@ div {
         display: block;
         width: 100%;
     }
-    .jsonRow:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
+        .jsonRow:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
     .jsonColumn {
         width: 49%;
         float: left;
@@ -226,15 +226,15 @@ div {
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
     }
 
-    .jsonTextBox {
-        width: 98%;
-        table-layout: fixed;
-        /*
+.jsonTextBox {
+    width: 98%;
+    table-layout: fixed;
+    /*
             inset-block-start: initial;
         */
-        font-size: medium;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif'
-    }
+    font-size: medium;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif'
+}]
 
     .jsonPreOut, #BodyContentPlaceHolder_jsonPreOut {
         width: 98%;
@@ -285,41 +285,43 @@ div {
         font-size: medium;
     }
 
-    span.lefthuge {
-        height: 192px;
-        width: 25%;
-        text-align: left;
-        vertical-align: top;
-        font-size: medium;
-    }
+        span.lefthuge {
+            height: 192px;
+            width: 25%;
+            text-align: left;
+            vertical-align: top;
+            font-size: medium;
+        }
 
-    span.center,
-    span.centerqr,
-    span.centerSpan {
-        height: 24px;
-        width: 25%;
-        text-align: center;
-        vertical-align: middle;
-        font-size: medium;
-    }
+        span.center,
+        span.centerqr,
+        span.centerSpan {
+            height: 24px;
+            width: 25%;
+            text-align: center;
+            vertical-align: middle;
+            font-size: medium;
+        }
 
-    span.right,
-    span.rightqr,
-    span.rightSpan {
-        height: 24px;
-        width: 25%;
-        text-align: right;
-        vertical-align: middle;
-        font-size: medium;
-    }
+        span.right,
+        span.rightqr,
+        span.rightSpan {
+            height: 24px;
+            width: 25%;
+            text-align: right;
+            vertical-align: middle;
+            font-size: medium;
+        }
 
-    span.righthuge {
-        height: 192px;
-        width: 75%;
-        text-align: right;
-        vertical-align: middle;
-        font-size: medium;
-    }
+        span.righthuge {
+            height: 192px;
+            width: 75%;
+            text-align: right;
+            vertical-align: top;
+            letter-spacing: 2px;
+            word-spacing: 4px;
+            font-size: medium;
+        }
 
 
         span.headerLeft, span.headerLeftCenter, span.headerCenter, span.headerRightCenter, span.headerRight {

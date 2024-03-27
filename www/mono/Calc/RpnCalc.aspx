@@ -8,11 +8,10 @@
 	<link rel="stylesheet" href="../res/css/area23.at.mono.css" />
 	<link rel="stylesheet" href="../res/css/rpncalcweb.css" />	
 	<script async src="../res/js/area23.js"></script>	
-	<meta name="description" content="https://github.com/heinrich.elsigan/" />
+	<meta name="description" content="https://github.com/heinrich.elsigan/area23.at/" />
 </asp:Content>
 <asp:Content ID="CalcBodyContent" ContentPlaceHolderID="CalcBody" runat="server" ClientIDMode="Static">
 	<form id="RpnCalcForm" runat="server" action="RpnCalc.aspx">
-		<div class="rpnDiv" align="center">
 			<div class="rpnDivHeader">
 				<span id="headerLeft" style="min-height: 36pt; min-width: 60pt; vertical-align: middle; font-size: larger; text-align: right " align="right" valign="middle">
 					<span id="spanPreviousValue" runat="server" alt="previous value" style="color:greenyellow">R</span> 
