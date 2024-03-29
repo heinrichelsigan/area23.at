@@ -19,17 +19,19 @@ namespace Area23.At.Web.Util
         public const string GIT_URL = "https://github.com/heinrichelsigan/area23.at";
         public const string URL_PIC = "https://area23.at/mono/test/res/img/";
         public const string URL_PREFIX = "https://area23.at/mono/test/res/";
+        public const string AREA23_S = "https://area23.at/s/";
         public const string URL_SHORT = "https://area23.at/s/?";
         public const string LOG_DIR = "log";
         public const string QR_DIR = "Qr";
         public const string UNIX_DIR = "Unix";
         public const string RES_FOLDER = "res";
         public const string JS_DIR = "js";
-        public const string CSS_DIR = "css";
+        public const string CSS_DIR = "css";        
         public const string JSON_SAVE_FILE = "urlshort.json";
 
         public const string ACCEPT_LANGUAGE = "Accept-Language";
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";
+        public const string UNKNOWN = "UnKnown";
         public const string DEFAULT_MIMETYPE = "application/octet-stream";
         public const string RPN_STACK = "rpnStack";
         public const string CHANGE_CLICK_EVENTCNT = "change_Click_EventCnt";
@@ -43,6 +45,8 @@ namespace Area23.At.Web.Util
         public const string QR_COLOR = "QrColor";
         public const string BACK_COLOR_STRING = "BackColorString";
         public const string QR_COLOR_STRING = "QrColorString";
+
+        public const string SNULL = "(null)";
 
         #endregion public const
 

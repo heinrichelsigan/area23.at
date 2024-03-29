@@ -236,7 +236,7 @@ namespace Area23.At.Web.S
             }                
 
             redirectUri = new Uri(redirUrl);
-            if (!redirectUri.IsAbsoluteUri)
+            if (!redirectUri.IsAbsoluteUri && redirUrl.Length < 4)
             {
                 ErrorDiv.InnerHtml = "<p><span style=\"font-size: large; color: red\">" + redirUrl + "</span><br />isn't an AbsoluteUri!</p>\r\n";
                 ErrorDiv.Visible = true;
@@ -257,7 +257,7 @@ namespace Area23.At.Web.S
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(redirectUri.ToString());
                 request.Method = "GET";
-                request.Timeout = 1500;
+                request.Timeout = 2750;
                 request.Headers.Add("accept-encoding", "gzip, deflate, br");
                 request.Headers.Add("cache-control", "max-age=0");
                 request.Headers.Add("accept-language", "en-US,en;q=0.9");
@@ -298,6 +298,9 @@ namespace Area23.At.Web.S
 
             if (longUri != null)
             {
+                if (shortenMap == null || shortenMap.Count == 0)
+                    shortenMap = (Dictionary<string, Uri>)(Application[Constants.APP_NAME] ?? JsonHelper.GetShortenMapFromJson());
+                
                 // if already uri exists in Dictionary => return hash
                 if (shortenMap.ContainsValue(longUri))
                 {

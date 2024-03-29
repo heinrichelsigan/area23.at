@@ -44,29 +44,29 @@ namespace Area23.At.Web.S
         
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            string msg = String.Format("application begin request at {0} object sender = {1}, EventArgs e = {2}",
-                DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
-                (sender == null) ? "(null)" : sender.ToString(),
-                (e == null) ? "(null)" : e.ToString());
-            Area23Log.LogStatic(msg);
-
-            string url = HttpContext.Current.Request.Url.ToString();
-            if (url.Contains('?'))
+            JsonHelper.LogRequest(sender, e, "begin request");
+            
+            string url = HttpContext.Current.Request.Url.ToString();            
+                
+            if (url.Contains('?') || url.Contains(Constants.JSON_SAVE_FILE))
             {
-                string hash = url.Substring(url.IndexOf("?") + 1);                
-                Dictionary<string, Uri> shortenMap = (HttpContext.Current.Application[Constants.APP_NAME] != null) ? 
-                    (Dictionary<string, Uri>)HttpContext.Current.Application[Constants.APP_NAME] : JsonHelper.GetShortenMapFromJson();
+                string hash = (url.IndexOf("?") > -1) ? url.Substring(url.IndexOf("?") + 1) : "#";
+                Dictionary<string, Uri> shortenMap = (Dictionary<string, Uri>)(HttpContext.Current.Application[Constants.APP_NAME] ?? JsonHelper.GetShortenMapFromJson());
                 if (shortenMap.ContainsKey(hash))
                 {
                     Uri redirUri = shortenMap[hash];
                     if (redirUri.IsAbsoluteUri)
                     {
-                        msg = String.Format("Hash = {0}, redirecting to {1} ...", hash, redirUri.ToString());
+                        String msg = String.Format("Hash = {0}, redirecting to {1} ...", hash, redirUri.ToString());
                         Area23Log.LogStatic(msg);
                         Response.Redirect(redirUri.ToString());
+                        return;
                     }
-                }                
-            }            
+                }
+
+                Response.Redirect(Constants.AREA23_S);
+                return;
+            }
         }
 
 
@@ -82,31 +82,19 @@ namespace Area23.At.Web.S
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            string msg = String.Format("application error at {0} object sender = {1}, EventArgs e = {2}",
-                DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
-                (sender == null) ? "(null)" : sender.ToString(),
-                (e == null) ? "(null)" : e.ToString());
-            Area23Log.LogStatic(msg);
+            JsonHelper.LogRequest(sender, e, "Application Error");
         }
 
 
         protected void Session_Start(object sender, EventArgs e)
         {
-            string msg = String.Format("new session started at {0} object sender = {1}, EventArgs e = {2}",
-                DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
-                (sender == null) ? "(null)" : sender.ToString(),
-                (e == null) ? "(null)" : e.ToString());
-            Area23Log.LogStatic(msg);
+            JsonHelper.LogRequest(sender, e, "new Session started");
         }
 
 
         protected void Session_End(object sender, EventArgs e)
         {
-            string msg = String.Format("session ended at {0} object sender = {1}, EventArgs e = {2}",
-                DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
-                (sender == null) ? "(null)" : sender.ToString(),
-                (e == null) ? "(null)" : e.ToString());
-            Area23Log.LogStatic(msg);
+            JsonHelper.LogRequest(sender, e, "Session ended");            
         }
     }
 }

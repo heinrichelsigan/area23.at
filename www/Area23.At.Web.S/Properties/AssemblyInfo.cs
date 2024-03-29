@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die
 // Assemblyinformationen zu ändern.
 [assembly: AssemblyTitle("Area23.At.Web.S")]
-[assembly: AssemblyDescription("marriage risk calculator web app")]
+[assembly: AssemblyDescription("Area23.At url shortner")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("darkstar.work")]
-[assembly: AssemblyProduct("MarriageRisk.WebApp")]
+[assembly: AssemblyCompany("area23.at")]
+[assembly: AssemblyProduct("Area23.At.S yet another url shortner")]
 [assembly: AssemblyCopyright("Copyleft Heinrich Elsigan © 2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // Sie können alle Werte angeben oder die standardmäßigen Revisions- und Buildnummern 
 // übernehmen, indem Sie "*" wie folgt verwenden:
-[assembly: AssemblyVersion("0.2024.3.25")]
-[assembly: AssemblyFileVersion("0.2024.3.25")]
+[assembly: AssemblyVersion("0.2024.3.29")]
+[assembly: AssemblyFileVersion("0.2024.3.28")]
