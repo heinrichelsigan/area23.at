@@ -6,7 +6,7 @@
 <head runat="server">
     <title>area23.at/s/ - another url shortner</title>
 	<link rel="stylesheet" href="res/css/area23.at.mono.css" />
-	<meta name="keywords" content="UTF8 symbol emoji search" />
+	<meta name="keywords" content="Utf8 symbol emoji search" />
 	<meta name="author" content="Heinrich Elsigan" />
 	<meta name="description" content="https://github.com/heinrich.elsigan/" />
 	<script async src="res/js/area23.js"></script>
