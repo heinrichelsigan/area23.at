@@ -1,0 +1,350 @@
+﻿/*
+    froga.css ©
+    2023-11-05 by Heinrich Elsigan
+    https://area23.at/froga/froga.html
+    https://darkstar.work/froga/
+    2023-11-12 last change 
+*/
+/*
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0;
+    border-width: 0;
+*/
+
+
+body.frogbody {
+    color: white;
+    background-color: black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;    
+    border-style: none;
+    border-spacing: 0pt;
+    border-width: 0pt;
+    border-color: transparent;
+}
+
+div.froga {
+    width: 86%;
+    min-width: 387pt;
+    height: 84%;
+    min-height: 378pt;
+    line-height: normal;
+    vertical-align: middle;
+    color: white;
+    background-color: black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0pt;
+    border-width: 0pt;
+    border-color: transparent;
+}
+
+    div.froga.img {
+        width: 8%;
+        min-width: 36pt;
+        height: 6%;
+        min-height: 27pt;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0pt;
+        border-width: 0pt;
+        border-color: transparent;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+
+    div.froga.frogaHeader {
+        width: 90%;
+        min-width: 360pt;
+        height: 10%;
+        min-height: 45pt;
+        align-content: center;
+        font-size: medium;
+        line-height: normal;
+        border-color: white;
+        color: white;
+        background-color: black;
+        background-repeat: no-repeat;
+    }
+
+        div.frogaHeader#headerLeft {
+            height: 10%;
+            min-height: 45pt;
+            width: 27%;
+            min-width: 90pt;
+            vertical-align: middle;
+            font-size: larger;
+            text-align: right;
+        }
+
+        div.frogaHeader#headerCenter {
+            height: 10%;
+            min-height: 45pt;
+            width: 64%;
+            min-width: 297pt;
+            vertical-align: middle;
+            font-size: medium;
+            text-align: center;
+        }
+
+        div.frogaHeader.headerImage {
+            width: 60%;
+            min-width: 270pt;   
+            height: 10%;
+            min-height: 45pt;
+            padding: 0 0 0 0;
+            margin: 0 0 0 0;
+            border-style: none;
+            border-spacing: 0pt;
+            border-width: 0pt;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        div.frogaHeader#headerRight {
+            height: 10%;
+            min-height: 45pt;
+            width: 19.11%;
+            min-width: 86pt;
+            vertical-align: middle;
+            font-size: larger;
+            text-align: left;
+        }
+
+
+img.frogsInImg {
+    width: 32pt;
+    height: 27pt;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0pt;
+    border-width: 0pt;
+    border-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+span#leftNotes {
+    color: whitesmoke;
+    width: 5.33%;
+    max-width: 24pt;
+    font-size: large;
+}
+
+span#frogsInHole {
+    color: greenyellow;
+    width: 32pt;
+    margin-left: -18pt;
+    padding-right: 6pt;
+    font-weight: bold;
+}
+
+span#frogsLeft {
+    color: aqua;
+    width: 32pt;
+    margin-left: -18pt;
+    padding-right: 2pt;
+    font-size: large;
+    /*visibility: hidden; */
+}
+
+span#frogsDied {
+    color: gainsboro;
+    width: 32pt;
+    font-size: medium;
+    font-weight: bold;
+    margin-left: -18pt;
+    padding-right: 4pt;
+}
+
+span#frogsLevel {
+    color: orangered;
+    font-size: larger;
+}
+
+span#frogaLevel {
+    color: greenyellow;
+    font-size: larger;
+}
+
+span#rightNotes {
+    color: whitesmoke;
+    width: 5.33%;
+    max-width: 24pt;
+    font-size: large;
+}
+
+
+div.froga.frogaFooter {
+    width: 80%;
+    min-width: 360pt;
+    height: 8%;
+    min-height: 36pt;
+    text-align: center;
+    font-size: medium;
+    background-color: black;
+    align-content: center;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0pt;
+    border-width: 0pt;
+    border-color: transparent;
+    table-layout: fixed;
+    inset-block-start: initial;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+}
+
+        div.froga.frogaFooter#spanLeft {
+            height: 8%;
+            min-height: 36pt;
+            width: 40%;
+            min-width: 180pt;
+            vertical-align: middle;
+            text-align: left;
+        }
+
+        div.froga.frogaFooter#spanRight {
+            height: 8%;
+            min-height: 36pt;
+            width: 40%;
+            min-width: 180pt;
+            vertical-align: middle;
+            text-align: right
+        }
+
+
+table.frogaTable {
+    width: 80%;
+    min-width: 360pt;
+    height: 60%;
+    min-height: 270pt;
+    align-content: center;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0pt;
+    border-width: 0pt;
+    border-color: transparent;
+    background-repeat: no-repeat;
+}
+
+tr.frogaTr {
+    width: 80%;
+    min-width: 360px;
+    height: 6%;
+    min-height: 27px;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0pt;
+    border-width: 0pt;
+    border-color: transparent;
+    background-repeat: no-repeat;
+    /* background-size: 100% 100%; */
+}
+
+tr.frogaTrUpStreet {
+    width: 80%;
+    min-width: 360px;
+    height: 6%;
+    min-height: 27px;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0pt;
+    border-width: 0pt;
+    border-color: transparent;
+    background-repeat: no-repeat;
+    /* background-size: 100% 100%; */
+}
+
+td.frogaTd {
+    width: 8%;
+    min-width: 36pt;
+    height: 6%;
+    min-height: 27pt;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0pt;
+    border-width: 0pt;
+    border-color: transparent;
+    /* background-repeat: no-repeat; */
+    background-size: 100% 100%;
+}
+
+
+td.upStreetTd {
+    width: 8%;
+    min-width: 36pt;
+    height: 6%;
+    min-height: 27pt;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0pt;
+    border-width: 0pt;
+    border-color: transparent;
+    /* background-repeat: no-repeat; */
+    background-size: 100% 100%;
+}
+
+
+img.frogaImage,
+img.frogaWood {
+    width: 100%;
+    min-width: 36pt;
+    height: 100%;
+    min-height: 27pt;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0pt;
+    border-width: 0pt;
+    border-color: transparent;
+    background-repeat: no-repeat;
+    /* background-size: 100% 100%; */
+}
+
+img.frogaImage#frog0,
+img.frogaImage#frog1,
+img.frogaImage#frog2,
+img.frogaImage#frog3 {
+    width: 100%;
+    min-width: 36pt;
+    height: 100%;
+    min-height: 27pt;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0pt;
+    border-width: 0pt;
+    border-color: transparent;
+    background-repeat: no-repeat;
+    /* background-size: 100% 100%; */
+}
+
+
+img#aUp,
+img#aDown,
+img#aLeft,
+img#aRight {
+    width: 7.11%;
+    min-width: 32pt;
+    height: 6%;
+    min-height: 27pt;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0pt;
+    border-width: 0pt;
+    border-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
