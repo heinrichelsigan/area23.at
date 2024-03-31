@@ -6,7 +6,7 @@
 <head runat="server">
     <title>area23.at/s/ - another url shortner</title>
 	<link rel="stylesheet" href="res/css/area23.at.mono.css" />
-	<meta name="keywords" content="QR code generator" />
+	<meta name="keywords" content="Utf8 symbol emoji search" />
 	<meta name="author" content="Heinrich Elsigan" />
 	<meta name="description" content="https://github.com/heinrich.elsigan/" />
 	<script async src="res/js/area23.js"></script>
@@ -19,10 +19,18 @@
 <body>
     <form id="form1" runat="server">
 		<div align="left" class="contentDiv">
-			<asp:TextBox ID="TextBox_UrlLong" runat="server" ToolTip="enter url www web site" AutoPostBack="True" OnTextChanged="TextBox_UrlLong_TextChanged"
-				Width="75%" Height="24pt" AutoCompleteType="Homepage" CssClass="QRTextBoxSmall" />&nbsp;
-			<asp:Button id="Button_QRCode" name="Button_QRCode" runat="server" ClientIDMode="Static" 
-				ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />	
+			<span class="leftSpan">
+				<span class="textSpan">symbol search: </span>
+				<asp:Textbox id="TextBox_Search" runat="server"  ToolTip="search symbol here" AutoPostBack="True" OnTextChanged="TextBox_Search_TextChanged" Width="192pt" Height="24pt" CssClass="QRTextBoxSmall" />&nbsp;
+			</span>
+			<span class="centerSpan">
+				<span class="textSpan">symbol list: </span>
+				<asp:DropDownList ID="DropDown_Symbol" runat="server" ToolTip="symbols" AutoPostBack="True" OnSelectedIndexChanged="DropDown_Symbol_Changed" CssClass="DropDownList" 
+			</span>
+			<span class="rightSpan">			
+				<asp:Button id="Button_Search" name="Button_Search" runat="server" ClientIDMode="Static" 
+					ToolTip="Search symbol" Text="Search" OnClick="Button_Search_Click" />	
+			</span>
 		</div>
 		<div class="contentDiv">
 			<span class="leftSpan">
@@ -53,6 +61,28 @@
 					<asp:ListItem>6</asp:ListItem>
 					<asp:ListItem>8</asp:ListItem>
 				</asp:DropDownList>
+			</span>
+		</div>
+		<div align="left" class="contentDiv">			
+			<span class="leftSpan">
+				Symbol: <asp:Literal id="Literal_Symbol" runat="server" />
+			</span>
+			<span class="cemtertSpan">
+				Number: <asp:TextBox id="TextBox_Number" runat="server" MaxLength="8" Text="" TextMode="Number" />
+			</span>
+			<span class="cemtertRight">
+				Number: <asp:TextBox id="TextBox_Name" runat="server" MaxLength="32" Text="" />
+			</span>
+		</div>
+		<div align="left" class="contentDiv">			
+			<span class="leftSpan">
+				CodeSymbol  <asp:Literal id="Literal_CodeSymbol" runat="server" />
+			</span>
+			<span class="cemtertSpan">
+				HexCodeHtml: <asp:Literal id="Literal_HexCodeHtml" runat="server" />
+			</span>
+			<span class="cemtertRight">
+				CodeHtml: <asp:Literal id="Literal_CodeHtml" runat="server" />
 			</span>
 		</div>
 		<div align="left" class="contentDiv">

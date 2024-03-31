@@ -16,12 +16,13 @@ using System.Net;
 using System.Runtime.Serialization.Formatters;
 using System.Security.Policy;
 using System.Web.DynamicData;
+using System.Windows.Media.Animation;
 
 namespace Area23.At.Www.U
 {
     public partial class Default : Area23BasePage
     {
-        internal Dictionary<string, Uri> shortenMap = null;
+        internal Dictionary<long, Utf8Symbol> symbolDict = null;
         internal Uri redirectUri = null;
         internal string hashKey = string.Empty;
         internal QRCodeGenerator.ECCLevel eCCLevel = QRCodeGenerator.ECCLevel.Q;
@@ -38,39 +39,62 @@ namespace Area23.At.Www.U
                     this.input_color.Value = Constants.QrColorString;
                 if (this.input_backcolor != null && string.IsNullOrEmpty(input_backcolor.Value))
                     this.input_backcolor.Value = Constants.BackColorString;
+                
             }
 
-            if (shortenMap == null)
-            {
-                shortenMap = (Application[Constants.APP_NAME] != null) ? (Dictionary<string, Uri>)Application[Constants.APP_NAME] : JsonHelper.GetShortenMapFromJson();
-            }
+
         }
 
-        protected void TextBox_UrlLong_TextChanged(object sender, EventArgs e)
+
+        protected override void OnInit(EventArgs e)
         {
-            Button_QRCode_Click(sender, e);
+            base.OnInit(e);
+            if (symbolDict == null)
+            {
+                symbolDict = (Application[Constants.APP_NAME] != null) ? (Dictionary<long, Utf8Symbol>)Application[Constants.APP_NAME] : JsonHelper.GetUtf8Dictionary();
+            }
+            foreach (var symbol in symbolDict.Values)
+            {
+                ListItem item = new ListItem(symbol.HtmlCode, symbol.Utf8L.ToString());
+                DropDown_Symbol.Items.Add(item);
+            }
         }
 
-        protected void Button_QRCode_Click(object sender, EventArgs e)
+        protected void TextBox_Search_TextChanged(object sender, EventArgs e)
         {
-            if ((redirectUri = VerifyUri(this.TextBox_UrlLong.Text)) != null)
+            Button_Search_Click(sender, e);
+        }
+
+        protected void Button_Search_Click(object sender, EventArgs e)
+        {
+            // TODO: implement it
+        }
+
+        protected void DropDown_Symbol_Changed(object sender, EventArgs e)
+        {
+            long lindex = -1;
+            if (DropDown_Symbol.SelectedItem != null)
             {
-                hashKey = ShortenUri(redirectUri);
-                this.HrefShort.HRef = ShortUrl;
-                this.HrefShort.InnerHtml = ShortUrl;
-                this.HrefShort.Visible = true;
-                ResetChangedElements();
-                GenerateQRImage();
-            }
-            else
-            {
-                this.HrefShort.Visible = false;
-                this.ImageQr.Visible = false;
-                QRBase_ElementChanged(sender, e);
+                if (long.TryParse(DropDown_Symbol.SelectedItem.Value, out lindex))
+                {
+                    if (this.symbolDict != null && this.symbolDict.ContainsKey(lindex))
+                    {
+                        Utf8Symbol symbol = this.symbolDict[lindex];
+                        if (symbol != null)
+                        {
+                            this.Literal_Symbol.Text = symbol.HtmlCode;
+                            this.Literal_CodeSymbol.Text = symbol.HexCode;
+                            this.Literal_CodeHtml.Text = symbol.HtmlEncoded;
+                            this.Literal_HexCodeHtml.Text = symbol.HexHtmlEncoded;
+                            this.TextBox_Number.Text = symbol.Utf8L.ToString();
+                            this.TextBox_Name.Text = symbol.Name;
+                        }
+                    }
+                }
             }
         }
 
-        protected void DropDown_PixelPerUnit_Changed(object sender, EventArgs e)
+        protected void DropDown_PixelPerUnit_Changed(object sender, EventArgs e) 
         {
             string qrModeStr = this.DropDown_PixelPerUnit.SelectedItem.Text;
             switch (qrModeStr)
@@ -83,7 +107,7 @@ namespace Area23.At.Www.U
                 case "8": qrMode = 8; break;
                 default: qrMode = 2; break;
             }
-            Button_QRCode_Click(sender, e);
+            Button_Search_Click(sender, e);
         }
 
         protected void DropDown_QrMode_Changed(object sender, EventArgs e)
@@ -96,7 +120,7 @@ namespace Area23.At.Www.U
                 case "Q": eCCLevel = QRCodeGenerator.ECCLevel.Q; break;
                 case "H": eCCLevel = QRCodeGenerator.ECCLevel.H; break;
             }
-            Button_QRCode_Click(sender, e);
+            Button_Search_Click(sender, e);
         }
 
 
@@ -112,8 +136,8 @@ namespace Area23.At.Www.U
             this.HrefShort.Visible = true;
             // this.HrefShort.Style["Border"]
 
-            this.TextBox_UrlLong.BorderColor = Color.Black;
-            this.TextBox_UrlLong.BorderStyle = BorderStyle.Solid;
+            this.TextBox_Name.BorderColor = Color.Black;
+            this.TextBox_Search.BorderStyle = BorderStyle.Solid;
 
             this.ErrorDiv.InnerHtml = string.Empty;
             this.ErrorDiv.Visible = false;
@@ -123,20 +147,15 @@ namespace Area23.At.Www.U
 
         protected override string GetQrString()
         {
-            string qrUrlStr = "";
-            QRCoder.PayloadGenerator.Url qrUrl = null;
-            if (!string.IsNullOrEmpty(this.TextBox_UrlLong.Text))
+            string qrStr = "";
+            QRGenericString qrQStr = null;
+            if (!string.IsNullOrEmpty(this.Literal_Symbol.Text))
             {
-                qrUrl = new QRCoder.PayloadGenerator.Url(this.TextBox_UrlLong.Text);
-                qrUrlStr = qrUrl.ToString();
+                qrQStr = new QRGenericString(this.Literal_Symbol.Text);
+                qrStr = qrQStr.ToString();
             }
-            if (!string.IsNullOrEmpty(this.HrefShort.HRef))
-            {
-                qrUrl = new QRCoder.PayloadGenerator.Url(this.HrefShort.HRef);
-                qrUrlStr = qrUrl.ToString();
-            }
-
-            return qrUrlStr;
+            
+            return qrStr;
         }
 
         protected virtual string GetQrStringFromForm(System.Web.UI.HtmlControls.HtmlForm form)
@@ -160,10 +179,10 @@ namespace Area23.At.Www.U
             else
                 Constants.BackColorString = this.input_backcolor.Value;
 
-            if (this.Button_QRCode.Attributes["qrcolor"] != null)
-                this.Button_QRCode.Attributes["qrcolor"] = Constants.QrColorString;
+            if (this.Button_Search.Attributes["qrcolor"] != null)
+                this.Button_Search.Attributes["qrcolor"] = Constants.QrColorString;
             else
-                this.Button_QRCode.Attributes.Add("qrcode", Constants.QrColorString);
+                this.Button_Search.Attributes.Add("qrcode", Constants.QrColorString);
 
             try
             {
@@ -218,112 +237,96 @@ namespace Area23.At.Www.U
         #endregion qrmembers
 
 
-        /// <summary>
-        /// VerifyUri
-        /// </summary>
-        /// <param name="redirUrl">url from which qr code is generated and where page redirects afer 8 sec</param>
-        /// <returns>Uri</returns>
-        protected virtual Uri VerifyUri(string redirUrl)
-        {
-            if (string.IsNullOrEmpty(redirUrl))
-            {
-                ErrorDiv.InnerHtml = "<p style=\"font-size: large; color: red\">Url to shorten doesn't exist!</p>\r\n";
-                ErrorDiv.Visible = true;
-                this.TextBox_UrlLong.BackColor = Color.Red;
-                this.TextBox_UrlLong.BorderStyle = BorderStyle.Dashed;
-                this.TextBox_UrlLong.BorderWidth = 1;
-                return null;
-            }                
+        ///// <summary>
+        ///// VerifyUri
+        ///// </summary>
+        ///// <param name="redirUrl">url from which qr code is generated and where page redirects afer 8 sec</param>
+        ///// <returns>Uri</returns>
+        //protected virtual Uri VerifyUri(string redirUrl)
+        //{
+        //    if (string.IsNullOrEmpty(redirUrl))
+        //    {
+        //        ErrorDiv.InnerHtml = "<p style=\"font-size: large; color: red\">Url to shorten doesn't exist!</p>\r\n";
+        //        ErrorDiv.Visible = true;
+        //        this.TextBox_Search.BackColor = Color.Red;
+        //        this.TextBox_Search.BorderStyle = BorderStyle.Dashed;
+        //        this.TextBox_Search.BorderWidth = 1;
+        //        return null;
+        //    }                
 
-            redirectUri = new Uri(redirUrl);
-            if (!redirectUri.IsAbsoluteUri && redirUrl.Length < 4)
-            {
-                ErrorDiv.InnerHtml = "<p><span style=\"font-size: large; color: red\">" + redirUrl + "</span><br />isn't an AbsoluteUri!</p>\r\n";
-                ErrorDiv.Visible = true;
-                this.TextBox_UrlLong.BackColor = Color.Red;
-                this.TextBox_UrlLong.BorderStyle = BorderStyle.Dotted;
-                this.TextBox_UrlLong.BorderWidth = 1;
-                return null;
-            }
+        //    redirectUri = new Uri(redirUrl);
+        //    if (!redirectUri.IsAbsoluteUri && redirUrl.Length < 4)
+        //    {
+        //        ErrorDiv.InnerHtml = "<p><span style=\"font-size: large; color: red\">" + redirUrl + "</span><br />isn't an AbsoluteUri!</p>\r\n";
+        //        ErrorDiv.Visible = true;
+        //        this.TextBox_Search.BackColor = Color.Red;
+        //        this.TextBox_Search.BorderStyle = BorderStyle.Dotted;
+        //        this.TextBox_Search.BorderWidth = 1;
+        //        return null;
+        //    }
 
-            if (shortenMap.ContainsValue(redirectUri))
-            {
-                foreach (var mapEntry in shortenMap)
-                    if (mapEntry.Value == redirectUri)
-                        return redirectUri;
-            }
+        //    if (shortenMap.ContainsValue(redirectUri))
+        //    {
+        //        foreach (var mapEntry in shortenMap)
+        //            if (mapEntry.Value == redirectUri)
+        //                return redirectUri;
+        //    }
 
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(redirectUri.ToString());
-                request.Method = "GET";
-                request.Timeout = 2750;
-                request.Headers.Add("accept-encoding", "gzip, deflate, br");
-                request.Headers.Add("cache-control", "max-age=0");
-                request.Headers.Add("accept-language", "en-US,en;q=0.9");
-                request.UserAgent = "Apache2 mod_mono Amazon aws by https://area23.at/s/ to verify shortend url";
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Found || response.StatusCode == HttpStatusCode.Accepted)
-                {
-                    response.Close();
-                    return redirectUri;
-                }
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogStatic(ex);                    
-                ErrorDiv.InnerHtml = "<p style=\"font-size: large; color: red\">" + ex.Message + "</p>\r\n" +
-                    "<pre>" + ex.ToString() + "</pre>\r\n" +
-                    "<!-- " + ex.StackTrace.ToString() + " -->\r\n";
-                ErrorDiv.Visible = true;
-                if ((ex.Message.ToString().Contains("403")) ||
-                    (ex.Message.ToString().Contains("The operation has timed out.")))
-                    return redirectUri;
+        //    try
+        //    {
+        //        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(redirectUri.ToString());
+        //        request.Method = "GET";
+        //        request.Timeout = 2750;
+        //        request.Headers.Add("accept-encoding", "gzip, deflate, br");
+        //        request.Headers.Add("cache-control", "max-age=0");
+        //        request.Headers.Add("accept-language", "en-US,en;q=0.9");
+        //        request.UserAgent = "Apache2 mod_mono Amazon aws by https://area23.at/s/ to verify shortend url";
+        //        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+        //        if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Found || response.StatusCode == HttpStatusCode.Accepted)
+        //        {
+        //            response.Close();
+        //            return redirectUri;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Area23Log.LogStatic(ex);                    
+        //        ErrorDiv.InnerHtml = "<p style=\"font-size: large; color: red\">" + ex.Message + "</p>\r\n" +
+        //            "<pre>" + ex.ToString() + "</pre>\r\n" +
+        //            "<!-- " + ex.StackTrace.ToString() + " -->\r\n";
+        //        ErrorDiv.Visible = true;
+        //        if ((ex.Message.ToString().Contains("403")) ||
+        //            (ex.Message.ToString().Contains("The operation has timed out.")))
+        //            return redirectUri;
 
-                redirectUri = null;
-            }
+        //        redirectUri = null;
+        //    }
 
-            return redirectUri;
-        }
+        //    return redirectUri;
+        //}
 
 
         /// <summary>
         /// ShortenUri - shortens a Uri to hash
         /// </summary>
         /// <param name="longUri">long Uri</param>
-        /// <returns><see cref="string" />hashvalue from</returns>
-        protected virtual string ShortenUri(Uri longUri)
+        /// <returns>true on successfully saved</returns>
+        protected virtual bool Save(Utf8Symbol symbol)
         {            
             string shortHash = string.Empty;
 
-            if (longUri != null)
+            if (symbol != null)
             {
-                if (shortenMap == null || shortenMap.Count == 0)
-                    shortenMap = (Dictionary<string, Uri>)(Application[Constants.APP_NAME] ?? JsonHelper.GetShortenMapFromJson());
-                
-                // if already uri exists in Dictionary => return hash
-                if (shortenMap.ContainsValue(longUri))
+                if (!symbolDict.ContainsKey(symbol.Utf8L))
+                    symbolDict.Add(symbol.Utf8L, symbol);
+
+                if (!Utf8Dictionary.Uft8DictSingle.ContainsKey(symbol.Utf8L) || symbol.Name != Utf8Dictionary.Uft8DictSingle[symbol.Utf8L].Name)
                 {
-                    foreach (var mapEntry in shortenMap)
-                        if (mapEntry.Value == longUri)
-                            return mapEntry.Key;
+                    JsonHelper.SaveDictionaryToJson(symbolDict);
+                    return true;
                 }
-
-                Random rand = new Random(DateTime.Now.Millisecond);
-                Byte[] bytes = new Byte[2];
-
-                shortHash += String.Format("{0:x}", longUri.ToString().GetHashCode());
-                while (shortenMap.ContainsKey(shortHash))
-                {
-                    rand.NextBytes(bytes);
-                    shortHash += String.Format("{0:x2}{1:x2}", bytes[0], bytes[1]);                    
-                }
-
-                shortenMap.Add(shortHash, longUri);
-                JsonHelper.SaveDictionaryToJson(shortenMap);                
             }
-            
-            return shortHash;
+            return false;
         }
 
     }
