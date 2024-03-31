@@ -48,25 +48,25 @@ namespace Area23.At.Www.U
             
             string url = HttpContext.Current.Request.Url.ToString();            
                 
-            if (url.Contains('?') || url.Contains(Constants.JSON_SAVE_FILE))
-            {
-                string hash = (url.IndexOf("?") > -1) ? url.Substring(url.IndexOf("?") + 1) : "#";
-                Dictionary<string, Uri> shortenMap = (Dictionary<string, Uri>)(HttpContext.Current.Application[Constants.APP_NAME] ?? JsonHelper.GetShortenMapFromJson());
-                if (shortenMap.ContainsKey(hash))
-                {
-                    Uri redirUri = shortenMap[hash];
-                    if (redirUri.IsAbsoluteUri)
-                    {
-                        String msg = String.Format("Hash = {0}, redirecting to {1} ...", hash, redirUri.ToString());
-                        Area23Log.LogStatic(msg);
-                        Response.Redirect(redirUri.ToString());
-                        return;
-                    }
-                }
+            //if (url.Contains('?') || url.Contains(Constants.JSON_SAVE_FILE))
+            //{
+            //    string hash = (url.IndexOf("?") > -1) ? url.Substring(url.IndexOf("?") + 1) : "#";
+            //    Dictionary<string, Uri> shortenMap = (Dictionary<string, Uri>)(HttpContext.Current.Application[Constants.APP_NAME] ?? JsonHelper.GetShortenMapFromJson());
+            //    if (shortenMap.ContainsKey(hash))
+            //    {
+            //        Uri redirUri = shortenMap[hash];
+            //        if (redirUri.IsAbsoluteUri)
+            //        {
+            //            String msg = String.Format("Hash = {0}, redirecting to {1} ...", hash, redirUri.ToString());
+            //            Area23Log.LogStatic(msg);
+            //            Response.Redirect(redirUri.ToString());
+            //            return;
+            //        }
+            //    }
 
-                Response.Redirect(Constants.AREA23_S);
-                return;
-            }
+            //    Response.Redirect(Constants.AREA23_S);
+            //    return;
+            //}
         }
 
 

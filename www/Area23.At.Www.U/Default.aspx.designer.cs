@@ -24,22 +24,22 @@ namespace Area23.At.Www.U
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// TextBox_UrlLong control.
+        /// TextBox_Search control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_UrlLong;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Search;
 
         /// <summary>
-        /// Button_QRCode control.
+        /// Button_Search control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button_QRCode;
+        protected global::System.Web.UI.WebControls.Button Button_Search;
 
         /// <summary>
         /// input_color control.
@@ -76,6 +76,60 @@ namespace Area23.At.Www.U
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DropDown_PixelPerUnit;
+
+        /// <summary>
+        /// Literal_Symbol control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Literal_Symbol;
+
+        /// <summary>
+        /// TextBox_Number control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Number;
+
+        /// <summary>
+        /// TextBox_Name control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Name;
+
+        /// <summary>
+        /// Literal_CodeSymbol control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Literal_CodeSymbol;
+
+        /// <summary>
+        /// Literal_HexCodeHtml control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Literal_HexCodeHtml;
+
+        /// <summary>
+        /// Literal_CodeHtml control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Literal_CodeHtml;
 
         /// <summary>
         /// hugeLeftId control.

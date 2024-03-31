@@ -10,14 +10,14 @@ namespace Area23.At.Www.U.Util
 {
     public static class JsonHelper
     {
-        internal static Dictionary<string, Uri> GetShortenMapFromJson()
+        internal static Dictionary<long, Utf8Symbol> GetUtf8Dictionary()
         {
-            Dictionary<string, Uri> tmpDict = null;
+            Dictionary<long, Utf8Symbol> tmpDict = null;
             try
             {
-                string loadFileName = System.IO.Path.Combine(Paths.QrDirPath, Constants.JSON_SAVE_FILE);
+                string loadFileName = System.IO.Path.Combine(Paths.Utf8PathDir, Constants.UTF8_JSON);
                 string jsonText = File.ReadAllText(loadFileName);
-                tmpDict = JsonConvert.DeserializeObject<Dictionary<string, Uri>>(jsonText);
+                tmpDict = JsonConvert.DeserializeObject<Dictionary<long, Utf8Symbol>>(jsonText);
             }
             catch (Exception getMapEx)
             {
@@ -25,9 +25,9 @@ namespace Area23.At.Www.U.Util
                 tmpDict = null;
             }
 
-            if (tmpDict == null)
+            if (tmpDict == null || tmpDict.Count < 1)
             {
-                tmpDict = new Dictionary<string, Uri>();
+                tmpDict = new Dictionary<long, Utf8Symbol>(Utf8Dictionary.Uft8DictSingle);
             }
 
             HttpContext.Current.Application[Constants.APP_NAME] = tmpDict;
@@ -35,9 +35,9 @@ namespace Area23.At.Www.U.Util
         }
 
 
-        internal static void SaveDictionaryToJson(Dictionary<string, Uri> saveDict)
+        internal static void SaveDictionaryToJson(Dictionary<long, Utf8Symbol> saveDict)
         {
-            string saveFileName = System.IO.Path.Combine(Paths.QrDirPath, Constants.JSON_SAVE_FILE);
+            string saveFileName = System.IO.Path.Combine(Paths.Utf8PathDir, Constants.UTF8_JSON);
             JsonSerializerSettings jsets = new JsonSerializerSettings();
             jsets.Formatting = Formatting.Indented;            
             string jsonString = JsonConvert.SerializeObject(saveDict, Formatting.Indented);

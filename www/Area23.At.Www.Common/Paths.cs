@@ -200,6 +200,26 @@ namespace Area23.At.Www.Common
             }
         }
 
+        public static string Utf8PathDir
+        {
+            get
+            {
+                string utf8Path = AppDirPath;
+
+                if (!utf8Path.Contains(Constants.UTF8_DIR))
+                    utf8Path += Constants.UTF8_DIR + utf8Path;
+
+                if (!Directory.Exists(utf8Path))
+                {
+                    string dirNotFoundMsg = String.Format("{0} directory {0} doesn't exist, creating it!", Constants.UTF8_DIR, utf8Path);
+                    Area23Log.LogStatic(dirNotFoundMsg);
+                    Directory.CreateDirectory(utf8Path);
+                }
+                return utf8Path;
+            }
+        }
+
+
         public static string LogPathDir
         {
             get

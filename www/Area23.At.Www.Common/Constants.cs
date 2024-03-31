@@ -21,14 +21,16 @@ namespace Area23.At.Www.Common
         public const string URL_PREFIX = "https://area23.at/mono/test/res/";
         public const string AREA23_S = "https://area23.at/s/";
         public const string URL_SHORT = "https://area23.at/s/?";
-        public const string AREA23_UTF8 = "https://area23.at/u/";        
+        public const string AREA23_UTF8_URL = "https://area23.at/u/";        
         public const string LOG_DIR = "log";
         public const string QR_DIR = "Qr";
+        public const string UTF8_DIR = "Utf8";
         public const string UNIX_DIR = "Unix";
         public const string RES_FOLDER = "res";
         public const string JS_DIR = "js";
         public const string CSS_DIR = "css";        
         public const string JSON_SAVE_FILE = "urlshort.json";
+        public const string UTF8_JSON = "utf8symol.json";
 
         public const string ACCEPT_LANGUAGE = "Accept-Language";
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";

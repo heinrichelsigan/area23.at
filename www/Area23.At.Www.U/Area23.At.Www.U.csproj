@@ -165,7 +165,7 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Qr\2024-03-24_19_18__894.png" />
+    <Content Include="Utf8\2024-03-24_19_18__894.png" />
     <Content Include="res\css\area23.at.mono.css" />
     <Content Include="res\css\fortune.css" />
     <Content Include="res\css\frga.css" />
@@ -209,11 +209,13 @@
     <Compile Include="Util\JavaResReader.cs" />
     <Compile Include="Util\JsonHelper.cs" />
     <Compile Include="Util\QRGenericString.cs" />
+    <Compile Include="Util\Utf8Dictionary.cs" />
+    <Compile Include="Util\Utf8Symbol.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="log\20240324_Area23.At.Mono.log" />
     <None Include="packages.config" />
-    <Content Include="Qr\urlshort.json">
+    <Content Include="Utf8\urlshort.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Web.Debug.config">
