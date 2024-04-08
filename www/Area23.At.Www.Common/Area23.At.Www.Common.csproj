@@ -52,19 +52,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Area23Log.cs" />
     <Compile Include="ColorForm.cs" />
-    <Compile Include="Constants.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="MimeType.cs" />
+    <Compile Include="Const.cs" />
     <Compile Include="Paths.cs" />
-    <Compile Include="ProcessCmd.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SayBase.cs" />
     <Compile Include="SaySpeach.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Library\Library.csproj">
+      <Project>{4133904b-c57a-4f45-ad85-537aa97f765f}</Project>
+      <Name>Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

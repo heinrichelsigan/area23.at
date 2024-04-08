@@ -1,10 +1,9 @@
-﻿using Area23.At.Www.Common;
+﻿using Area23.At.Framework.Library;
 using NLog;
 using System;
 using System.IO;
-using System.Web;
 
-namespace Area23.At.Www.Common
+namespace Area23.At.Framework.Library
 {
     /// <summary>
     /// simple singelton logger via NLog
@@ -17,14 +16,12 @@ namespace Area23.At.Www.Common
         /// <summary>
         /// LogFile
         /// </summary>
-        public static string LogFile { get => Paths.LogFile; }
-
+        public static string LogFile { get => LibPaths.LogFile; }
 
         /// <summary>
         /// Get the Logger
         /// </summary>
         public static Area23Log Logger { get => instance.Value; }
-
 
         /// <summary>
         /// LogStatic - static logger without Area23Log.Logger singelton
@@ -41,19 +38,19 @@ namespace Area23.At.Www.Common
                 }
                 catch (Exception ex)
                 {
-                    Area23Log.LogStatic(ex);
+                    Console.WriteLine("Area23.At.Framework.Library.Area23Log Exception: \n" + ex.ToLogMsg());
                 }
             }
             try
             {
                 logMsg = String.Format("{0} \t{1}\r\n",
-                        Constants.DateArea23Seconds,
+                        Constants.DateTimeArea23Seconds,
                         msg);
                 File.AppendAllText(LogFile, logMsg);
             }
-            catch (Exception exLog)
+            catch (Exception e)
             {
-                Console.WriteLine("Area23.At.Mono Exception: " + exLog.ToString());
+                Console.WriteLine("Area23.At.Framework.Library.Area23Log Exception: \n" + e.ToLogMsg());
             }
         }
 
@@ -63,34 +60,8 @@ namespace Area23.At.Www.Common
         /// <param name="exLog"><see cref="Exception"/> to log</param>
         public static void LogStatic(Exception exLog)
         {
-            string excMsg = String.Format("Exception {0} ⇒ {1}\t{2}\t{3}",
-                exLog.GetType(),
-                exLog.Message,
-                exLog.ToString().Replace("\r", "").Replace("\n", " "),
-                exLog.StackTrace.Replace("\r", "").Replace("\n", " "));
-
-            if (!File.Exists(LogFile))
-            {
-                try
-                {
-                    File.Create(LogFile);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Area23.At.Mono Exception: " + e.ToString());
-                }
-            }
-            try
-            {
-                string logMsg = String.Format("{0} \t{1}\r\n",
-                    Constants.DateArea23Seconds,
-                    excMsg);
-                File.AppendAllText(LogFile, logMsg);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Area23.At.Mono Exception: " + e.ToString());
-            }
+            string exLogMsg = exLog.ToLogMsg();
+            LogStatic(exLogMsg);
         }
 
         /// <summary>

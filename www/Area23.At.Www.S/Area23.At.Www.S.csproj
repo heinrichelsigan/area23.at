@@ -213,8 +213,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="Util\GifEncoder.cs" />
+    <Compile Include="Util\GifMetadataAdapter.cs" />
     <Compile Include="Util\GlobalAppSettings.cs" />
     <Compile Include="Util\JavaResReader.cs" />
+    <Compile Include="Util\JpegMetadataAdapter.cs" />
     <Compile Include="Util\JsonHelper.cs" />
     <Compile Include="Util\QRGenericString.cs" />
   </ItemGroup>
@@ -241,6 +244,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Library\Library.csproj">
+      <Project>{4133904b-c57a-4f45-ad85-537aa97f765f}</Project>
+      <Name>Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Area23.At.Www.Common\Area23.At.Www.Common.csproj">
       <Project>{af63a048-cdf1-4ef9-846b-a61c712c3680}</Project>
       <Name>Area23.At.Www.Common</Name>

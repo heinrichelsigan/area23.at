@@ -33,6 +33,15 @@ namespace Area23.At.Www.U
         protected global::System.Web.UI.WebControls.TextBox TextBox_Search;
 
         /// <summary>
+        /// DropDown_Symbol control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDown_Symbol;
+
+        /// <summary>
         /// Button_Search control.
         /// </summary>
         /// <remarks>
