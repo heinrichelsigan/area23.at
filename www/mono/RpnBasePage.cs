@@ -41,7 +41,7 @@ namespace Area23.At.Mono
 
         public string LogFile
         {
-            get => Paths.LogFile;
+            get => Paths.LogPathFile;
         }
 
 

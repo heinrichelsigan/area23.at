@@ -17,7 +17,7 @@ namespace Area23.At.Mono.Util
         /// <summary>
         /// LogFile
         /// </summary>
-        public static string LogFile { get => Paths.LogFile; }
+        public static string LogFile { get => Paths.LogPathFile; }
 
 
         /// <summary>

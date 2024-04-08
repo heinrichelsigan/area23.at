@@ -428,6 +428,7 @@
     <Compile Include="Util\Constants.cs" />
     <Compile Include="Util\Extensions.cs" />
     <Compile Include="Util\Area23Log.cs" />
+    <Compile Include="Util\GifMetadataAdapter.cs" />
     <Compile Include="Util\MimeType.cs" />
     <Compile Include="Util\Paths.cs" />
     <Compile Include="Util\ProcessCmd.cs" />
