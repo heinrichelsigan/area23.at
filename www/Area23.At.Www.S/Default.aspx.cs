@@ -234,24 +234,38 @@ namespace Area23.At.Www.S
                 this.TextBox_UrlLong.BorderStyle = BorderStyle.Dashed;
                 this.TextBox_UrlLong.BorderWidth = 1;
                 return null;
-            }                
-
-            redirectUri = new Uri(redirUrl);
-            if (!redirectUri.IsAbsoluteUri && redirUrl.Length < 4)
-            {
-                ErrorDiv.InnerHtml = "<p><span style=\"font-size: large; color: red\">" + redirUrl + "</span><br />isn't an AbsoluteUri!</p>\r\n";
-                ErrorDiv.Visible = true;
-                this.TextBox_UrlLong.BackColor = Color.Red;
-                this.TextBox_UrlLong.BorderStyle = BorderStyle.Dotted;
-                this.TextBox_UrlLong.BorderWidth = 1;
-                return null;
             }
 
-            if (shortenMap.ContainsValue(redirectUri))
+            try
             {
-                foreach (var mapEntry in shortenMap)
-                    if (mapEntry.Value == redirectUri)
-                        return redirectUri;
+                redirectUri = new Uri(redirUrl);
+                if (!redirectUri.IsAbsoluteUri && redirUrl.Length < 4)
+                {
+                    ErrorDiv.InnerHtml = "<p><span style=\"font-size: large; color: red\">" + redirUrl + "</span><br />isn't an AbsoluteUri!</p>\r\n";
+                    ErrorDiv.Visible = true;
+                    this.TextBox_UrlLong.BackColor = Color.Red;
+                    this.TextBox_UrlLong.BorderStyle = BorderStyle.Dotted;
+                    this.TextBox_UrlLong.BorderWidth = 1;
+                    return null;
+                }
+
+                if (shortenMap.ContainsValue(redirectUri))
+                {
+                    foreach (var mapEntry in shortenMap)
+                        if (mapEntry.Value == redirectUri)
+                            return redirectUri;
+                }
+            }
+            catch (Exception exRedir)
+            {
+                Area23Log.LogStatic(exRedir);
+                ErrorDiv.InnerHtml = "<p style=\"font-size: large; color: red\">" + exRedir.Message + "</p>\r\n" +
+                    "<pre>" + exRedir.ToString() + "</pre>\r\n" +
+                    "<!-- " + exRedir.StackTrace.ToString() + " -->\r\n";
+                ErrorDiv.Visible = true;
+
+                redirectUri = null;
+                return redirectUri;
             }
 
             try

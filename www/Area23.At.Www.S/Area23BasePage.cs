@@ -202,7 +202,8 @@ namespace Area23.At.Www.S
                         ((getCol.R == px0.R) && (getCol.G + 1) == px0.G && (getCol.B + 1) == px0.B) ||
                         (((getCol.R + 1) == px0.R) && (getCol.G + 1) == px0.G && (getCol.B + 1) == px0.B))
                     {
-                        qrCodeImage.SetPixel(ix, iy, System.Drawing.Color.Transparent);
+                        // qrCodeImage.SetPixel(ix, iy, System.Drawing.Color.Transparent);
+                        qrCodeImage.SetPixel(ix, iy, backGr);
                     }
                     else
                     {
