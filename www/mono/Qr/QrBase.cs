@@ -71,7 +71,7 @@ namespace Area23.At.Mono.Qr
             Bitmap aQrBitmap = null;
             qrString = qrString ?? GetQrString();
             try
-            {                
+            {
                 if (!string.IsNullOrEmpty(qrString))
                 {
                     aQrBitmap = GetQRBitmap(qrString, Color.Black);
@@ -109,7 +109,7 @@ namespace Area23.At.Mono.Qr
         /// <param name="c"></param>
         /// <returns><see cref="Bitmap"/></returns>
         /// <exception cref="ArgumentNullException">thrown, when <paramref name="qrString"/> is null or ""</exception>
-        protected virtual string GetQRImgPath(string qrString, out int qrWidth, string qrhex, string bghex = "#ffffff", 
+        protected virtual string GetQRImgPath(string qrString, out int qrWidth, string qrhex, string bghex = "#ffffff",
             short qrmode = 2, QRCodeGenerator.ECCLevel ecclvl = QRCodeGenerator.ECCLevel.Q)
         {
             if (string.IsNullOrEmpty(qrString))
@@ -117,7 +117,7 @@ namespace Area23.At.Mono.Qr
 
             qrWidth = -1;
             if (String.IsNullOrEmpty(qrhex))
-                qrhex = "#000000";            
+                qrhex = "#000000";
             Color colFg = ColorFrom.FromHtml(qrhex);
             Color colWh = ColorFrom.FromHtml("#ffffff");
             Byte rB, gB, bB;
@@ -138,7 +138,7 @@ namespace Area23.At.Mono.Qr
             var px0 = qrCodeImage.GetPixel(0, 0);
             var px1 = qrCodeImage.GetPixel(1, 1);
 
-            if(qrCodeImage.Width <= 128)
+            if (qrCodeImage.Width <= 128)
                 qrWidth = qrCodeImage.Width * 2;
 
             Color backGr = ColorFrom.FromHtml(bghex);
@@ -166,7 +166,7 @@ namespace Area23.At.Mono.Qr
                     }
                 }
             }
-            
+
             string qrfn = DateTime.UtcNow.Area23DateTimeWithMillis();
             string qrOutPath = Paths.QrDirPath + qrfn + ".gif";
             QrImgPath = Paths.QrAppPath + qrfn + ".gif";
@@ -177,16 +177,16 @@ namespace Area23.At.Mono.Qr
 
             MemoryStream gifStrm = new MemoryStream();
             qrCodeImage.Save(gifStrm, ImageFormat.Gif);
-            string qrStringGif = qrString.Replace("\r", "").Replace("\n", " ").Replace("\t", " ");            
+            string qrStringGif = qrString.Replace("\r", "").Replace("\n", " ").Replace("\t", " ");
 
             byte[] gifBytes = gifStrm.ToArray();
             List<byte> toByteList = new List<byte>();
-            bool flagOnce = false;            
+            bool flagOnce = false;
 
             for (int bc = 0; bc < gifBytes.Length; bc++)
             {
                 if ((gifBytes[bc] == (byte)0x21) &&         // (byte)((char)'!')
-                    (gifBytes[bc+1] == (byte)0xf9 ||        // 0xf9 ||
+                    (gifBytes[bc + 1] == (byte)0xf9 ||        // 0xf9 ||
                         gifBytes[bc + 1] == (byte)0xfe) &&  // 0xfe
                     (gifBytes[bc + 2] == (byte)0x04) &&     // EOT
                     (gifBytes[bc + 3] == (byte)0x01) &&     // SOH                        
@@ -202,9 +202,9 @@ namespace Area23.At.Mono.Qr
                         flagOnce = true;
                     }
                 }
-                
+
                 if ((bc == gifBytes.Length - 1) &&      // only short check at end of gifBytes, 
-                    ((gifBytes[bc-1] == (byte)0x0) &&   // that penultimate byte is NUL
+                    ((gifBytes[bc - 1] == (byte)0x0) &&   // that penultimate byte is NUL
                         gifBytes[bc] == (byte)0x3b))    // and last byte of GIF is 0x3b
                 {
                     flagOnce = true;
@@ -222,109 +222,109 @@ namespace Area23.At.Mono.Qr
             return QrImgPath;
         }
 
-    /// <summary>
-    /// GenerateGifWithComment - hackish raw method to add a GIF-Comment
-    /// </summary>
-    /// <param name="codecImage">existing Bitmap to modify</param>
-    /// <param name="gifComment">comment, that you want to insert in CompuServe GIF</param>
-    /// <param name="saveFilePath">filepath to save modified GIF file with comment on filesysten with full directory path</param>
-    /// <returns></returns>
-    public Bitmap GenerateGifWithComment(Bitmap codecImage, string gifComment = null, string saveFilePath = null)
-    {
-        string outFullPath = System.AppDomain.CurrentDomain.BaseDirectory + System.IO.Path.PathSeparator;
-        string outGenerated = outFullPath + DateTime.UtcNow.ToString("{yyyy-MM-dd_HH.mm.ss.fff}.gif");
-            
-        saveFilePath = saveFilePath ?? outGenerated;
-        gifComment = gifComment ?? "";
-        gifComment = gifComment.Trim("\r\b\a\v".ToCharArray())            ;            
-            
-        MemoryStream gifMemStream = new MemoryStream();     // create gifMemStream - a new MemoryStream()
-        codecImage.Save(gifMemStream, ImageFormat.Gif);     // save codecImage to gifMemStream in ImageFormat.Gif
-        byte[] imgGifBytes = gifMemStream.ToArray();        // get all byte[] imgGifBytes from gifMemStream
-            
-        List<byte> toByteList = new List<byte>();
-        bool flagOnce = false;
-
-        for (int bydx = 0; bydx < imgGifBytes.Length; bydx++)
+        /// <summary>
+        /// GenerateGifWithComment - hackish raw method to add a GIF-Comment
+        /// </summary>
+        /// <param name="codecImage">existing Bitmap to modify</param>
+        /// <param name="gifComment">comment, that you want to insert in CompuServe GIF</param>
+        /// <param name="saveFilePath">filepath to save modified GIF file with comment on filesysten with full directory path</param>
+        /// <returns></returns>
+        public Bitmap GenerateGifWithComment(Bitmap codecImage, string gifComment = null, string saveFilePath = null)
         {
-            // this kind of MIT Magick Cookie will detect position, where to insert before GIF-Comment
-            //  insert GIF-Comment before <=  0x21 0xF9 0x04 0x01 0x00
-            //  insert GIF-Comment before <=  0x21 0xFE 0x04 0x01 0x00
-            if ((imgGifBytes[bydx] == (byte)0x21) &&        // 0x21 (byte)((char)'!')
-                (imgGifBytes[bydx + 1] == (byte)0xf9 ||     // 0xF9 | 0xFE
-                    imgGifBytes[bydx + 1] == (byte)0xfe) &&  
-                (imgGifBytes[bydx + 2] == (byte)0x04) &&    // 0x04     EOT
-                (imgGifBytes[bydx + 3] == (byte)0x01) &&    // 0x01     SOH                        
-                (imgGifBytes[bydx + 4] == (byte)0x00))      // 0x00     NUL
+            string outFullPath = System.AppDomain.CurrentDomain.BaseDirectory + System.IO.Path.PathSeparator;
+            string outGenerated = outFullPath + DateTime.UtcNow.ToString("{yyyy-MM-dd_HH.mm.ss.fff}.gif");
+
+            saveFilePath = saveFilePath ?? outGenerated;
+            gifComment = gifComment ?? "";
+            gifComment = gifComment.Trim("\r\b\a\v".ToCharArray());
+
+            MemoryStream gifMemStream = new MemoryStream();     // create gifMemStream - a new MemoryStream()
+            codecImage.Save(gifMemStream, ImageFormat.Gif);     // save codecImage to gifMemStream in ImageFormat.Gif
+            byte[] imgGifBytes = gifMemStream.ToArray();        // get all byte[] imgGifBytes from gifMemStream
+
+            List<byte> toByteList = new List<byte>();
+            bool flagOnce = false;
+
+            for (int bydx = 0; bydx < imgGifBytes.Length; bydx++)
             {
-                if (!flagOnce)
+                // this kind of MIT Magick Cookie will detect position, where to insert before GIF-Comment
+                //  insert GIF-Comment before <=  0x21 0xF9 0x04 0x01 0x00
+                //  insert GIF-Comment before <=  0x21 0xFE 0x04 0x01 0x00
+                if ((imgGifBytes[bydx] == (byte)0x21) &&        // 0x21 (byte)((char)'!')
+                    (imgGifBytes[bydx + 1] == (byte)0xf9 ||     // 0xF9 | 0xFE
+                        imgGifBytes[bydx + 1] == (byte)0xfe) &&
+                    (imgGifBytes[bydx + 2] == (byte)0x04) &&    // 0x04     EOT
+                    (imgGifBytes[bydx + 3] == (byte)0x01) &&    // 0x01     SOH                        
+                    (imgGifBytes[bydx + 4] == (byte)0x00))      // 0x00     NUL
                 {
-                    foreach (byte b in GifCommentBytes(gifComment))
+                    if (!flagOnce)
                     {
-                        toByteList.Add(b);
+                        foreach (byte b in GifCommentBytes(gifComment))
+                        {
+                            toByteList.Add(b);
+                        }
+                        flagOnce = true;
                     }
-                    flagOnce = true;
                 }
+
+                if ((bydx == imgGifBytes.Length - 1) &&         // only short check at end of gifBytes, 
+                    ((imgGifBytes[bydx - 1] == (byte)0x0) &&    // that penultimate byte is NUL 
+                        imgGifBytes[bydx] == (byte)0x3b))       // and last byte of GIF is 0x3b  
+                {; } /* <= only breakpoint trigger */
+
+                toByteList.Add(imgGifBytes[bydx]);               // Add next byte from gifBytes to ToByteList
             }
 
-            if ((bydx == imgGifBytes.Length - 1) &&         // only short check at end of gifBytes, 
-                ((imgGifBytes[bydx - 1] == (byte)0x0) &&    // that penultimate byte is NUL 
-                    imgGifBytes[bydx] == (byte)0x3b))       // and last byte of GIF is 0x3b  
-            { ; } /* <= only breakpoint trigger */
+            // save original codecImage as Gif to filename $"{dateTime.UtcNow:yyyy-MM-dd_HH.mm.ss.fff}_original.gif"
+            outGenerated = outFullPath + DateTime.UtcNow.ToString("{yyyy-MM-dd_HH.mm.ss.fff}_original.gif");
+            codecImage.Save(outGenerated, ImageFormat.Gif);
 
-            toByteList.Add(imgGifBytes[bydx]);               // Add next byte from gifBytes to ToByteList
+            // open a FileStream and write (byte[])toByteList.ToArray() fully out => flush
+            using (Stream fs = File.Open(saveFilePath, FileMode.Create, FileAccess.ReadWrite))
+            {
+                fs.Write(toByteList.ToArray(), 0, toByteList.Count);    // writes toByteList.Count byte[] from toByteList
+                fs.Flush();
+            }
+
+            // GifMetadataAdapter gifAdapter = new GifMetadataAdapter(saveFilePath);
+            // var meta = gifAdapter.Metadata;
+            Bitmap gifMap = new Bitmap(saveFilePath);
+            return gifMap;
         }
 
-        // save original codecImage as Gif to filename $"{dateTime.UtcNow:yyyy-MM-dd_HH.mm.ss.fff}_original.gif"
-        outGenerated = outFullPath + DateTime.UtcNow.ToString("{yyyy-MM-dd_HH.mm.ss.fff}_original.gif");            
-        codecImage.Save(outGenerated, ImageFormat.Gif);
 
-        // open a FileStream and write (byte[])toByteList.ToArray() fully out => flush
-        using (Stream fs = File.Open(saveFilePath, FileMode.Create, FileAccess.ReadWrite))
+        /// <summary>
+        /// GifCommentBytes - gets a byte[] for further comment to add to GIF
+        /// </summary>
+        /// <param name="c">GIF-Comment as <see cref="string"/></param>
+        /// <returns><see cref="byte[]">array of byte</see></returns>
+        protected virtual byte[] GifCommentBytes(string c)
         {
-            fs.Write(toByteList.ToArray(), 0, toByteList.Count);    // writes toByteList.Count byte[] from toByteList
-            fs.Flush();                                             
+            if (string.IsNullOrEmpty(c))
+                return new byte[0];
+
+            List<byte> byteList = new List<byte>();     // create a new generic List<byte>()                   
+            byteList.Add((byte)0x21);                   // Write first 0x21 '!' detection sequence
+            byteList.Add((byte)0xfe);                   // Write 0xfe ((byte)254) as snd byte
+
+            byte[] bytes = Encoding.ASCII.GetBytes(c);  // get byte[] from string ASCII
+            byte b0 = Convert.ToByte(c.Length & 0xff);  // write first content length of now following comment
+            if (c.Length > (int)0xff)                   // TODO: might be still buggy, if comment length >= 256 ;(
+            {
+                byte b1 = Convert.ToByte((c.Length >> 8) & 0xff);
+                byteList.Add(b1);                       // add most significant byte  from content length to List<byte>
+            }
+            byteList.Add(b0);                           // finally add the least significant byte from content length to List<byte>
+
+            foreach (byte b in bytes)                   // loop through all comment bytes
+            {
+                byteList.Add(b);                        // add byte per byte from byte[] comment to List<byte>
+            }
+
+            byteList.Add((byte)0x0);                    // add 0x00 as termination symbol to finish comment header in GIF
+
+            return byteList.ToArray();
         }
-
-        // GifMetadataAdapter gifAdapter = new GifMetadataAdapter(saveFilePath);
-        // var meta = gifAdapter.Metadata;
-        Bitmap gifMap = new Bitmap(saveFilePath);
-        return gifMap;
-    }
-
-
-    /// <summary>
-    /// GifCommentBytes - gets a byte[] for further comment to add to GIF
-    /// </summary>
-    /// <param name="c">GIF-Comment as <see cref="string"/></param>
-    /// <returns><see cref="byte[]">array of byte</see></returns>
-    protected virtual byte[] GifCommentBytes(string c)
-    {
-        if (string.IsNullOrEmpty(c))
-            return new byte[0];
-                        
-        List<byte> byteList = new List<byte>();     // create a new generic List<byte>()                   
-        byteList.Add((byte)0x21);                   // Write first 0x21 '!' detection sequence
-        byteList.Add((byte)0xfe);                   // Write 0xfe ((byte)254) as snd byte
-
-        byte[] bytes = Encoding.ASCII.GetBytes(c);  // get byte[] from string ASCII
-        byte b0 = Convert.ToByte(c.Length & 0xff);  // write first content length of now following comment
-        if (c.Length > (int)0xff)                   // TODO: might be still buggy, if comment length >= 256 ;(
-        {                
-            byte b1 = Convert.ToByte((c.Length >> 8) & 0xff);
-            byteList.Add(b1);                       // add most significant byte  from content length to List<byte>
-        }
-        byteList.Add(b0);                           // finally add the least significant byte from content length to List<byte>
-
-        foreach (byte b in bytes)                   // loop through all comment bytes
-        {
-            byteList.Add(b);                        // add byte per byte from byte[] comment to List<byte>
-        }
-
-        byteList.Add((byte)0x0);                    // add 0x00 as termination symbol to finish comment header in GIF
-
-        return byteList.ToArray();
-    }
 
 
 
@@ -359,11 +359,11 @@ namespace Area23.At.Mono.Qr
             Bitmap qrCodeImage = qrCode.GetGraphic(1);
 
             // qrCodeImage.MakeTransparent();
-            var px0 =qrCodeImage.GetPixel(0, 0);
+            var px0 = qrCodeImage.GetPixel(0, 0);
             var px1 = qrCodeImage.GetPixel(1, 1);
 
             Color backGr = ColorFrom.FromHtml(bghex);
-            
+
             for (int ix = 0; ix < qrCodeImage.Width; ix++)
             {
                 for (int iy = 0; iy < qrCodeImage.Height; iy++)
@@ -392,7 +392,7 @@ namespace Area23.At.Mono.Qr
             string qrfn = Constants.DateFile + DateTime.Now.Millisecond + ".png";
             QrImgPath = Paths.ResAppPath + qrfn;
             qrCodeImage.Save(Paths.OutDir + Constants.DateFile + DateTime.Now.Millisecond + ".png");
-            
+
             return qrCodeImage;
         }
 
@@ -443,7 +443,7 @@ namespace Area23.At.Mono.Qr
                     SetQRImage((System.Web.UI.WebControls.Image)ctrl, qrImage);
                     return;
                 }
-            }            
+            }
         }
 
         protected virtual void SetQrImageUrl(string imgPth, int qrWidth = -1)
@@ -451,7 +451,7 @@ namespace Area23.At.Mono.Qr
             foreach (var ctrl in this.Controls)
             {
                 if (ctrl is HtmlControl && ctrl is HtmlImage)
-                {                    
+                {
                     ((HtmlImage)ctrl).Src = imgPth;
                     if (qrWidth > 0)
                         ((HtmlImage)ctrl).Width = qrWidth;
@@ -464,7 +464,7 @@ namespace Area23.At.Mono.Qr
                         ((System.Web.UI.WebControls.Image)ctrl).Width = qrWidth;
                     return;
                 }
-            }            
+            }
         }
     }
 }
