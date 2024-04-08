@@ -103,12 +103,6 @@
 				</td>
 				<td id="td6c" class="qrcTdRight" width="18%" height="192pt" rowspan="4">
 					<span class="lefthuge">
-							<input type="color" name="color1" id="color1" onchange="newQrColor(color1.value);" />&nbsp;
-							<input id="input_color" ClientIDMode="Static" alt="qr color" runat="server" name="selected_color" type="text" value="" size="7" />										
-							<br />
-							<input type="color" name="color0" id="color0" onchange="newBackgroundColor(color0.value);" />&nbsp;
-							<input id="input_backcolor" ClientIDMode="Static" alt="background color" runat="server" name="back_color" type="text" value="" size="7" />										
-							<br />
 						<asp:Button id="Button_QRCode" name="Button_QRCode" runat="server" ClientIDMode="Static" 
 							ToolTip="Click to generate QRCode" Text="generate QRCode" OnClick="Button_QRCode_Click" />
 					</span>
@@ -121,30 +115,34 @@
 			</tr>
 			<tr id="tr7" class="qrcTr">
 				<td id="td7a" class="qrcTdRight" width="18%">
-					<asp:Label id="labelOrgTitle" runat="server" ToolTip="organisation titel" Text="org title" />:						
+					<asp:Label id="labelQrColor" runat="server" ToolTip="Qr color" Text="qr color:" />
 				</td>
 				<td id="td7b" class="qrcTdLeft" width="32%">
-					<asp:TextBox ID="TextBox_OrgTitle" runat="server" ToolTip="Enter organisation title" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged" 
-						MaxLength="128" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft" Text="FreeLancer" />
+					<input type="color" name="color1" id="color1" onchange="newQrColor(color1.value);" />&nbsp;
+					<input id="input_color" ClientIDMode="Static" alt="qr color" runat="server" name="selected_color" type="text" value="" size="7" />																	
 				</td>
 			</tr>
 			<tr id="tr8" class="qrcTr">
 				<td id="td8a" class="qrcTdRight" width="18%">
-					<asp:Label id="labelNote" runat="server" ToolTip="note" Text="note" />:
+					<asp:Label id="labelBgColor" runat="server" ToolTip="background color" Text="back color:" />
 				</td>
 				<td id="td8b" class="qrcTdLeft" width="32%">
-					<asp:TextBox ID="TextBox_Note" runat="server" ToolTip="Enter personal note" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"
-						MaxLength="128" Width="128pt" Height="24pt" Text="personal note" CssClass="QRTextBoxLeft" AutoCompleteType="Notes"  />
+					<input type="color" name="color0" id="color0" onchange="newBackgroundColor(color0.value);" />&nbsp;
+					<input id="input_backcolor" ClientIDMode="Static" alt="background color" runat="server" name="back_color" type="text" value="" size="7" />										
 				</td>
 			</tr>
 			<tr id="tr9" class="qrcTr">
 				<td id="td9a" class="qrcTdRight" width="18%">
-					<asp:Label id="labelBirthday" runat="server" ToolTip="birthday" Text="birthday" />:
+					<asp:Label id="labelNote" runat="server" ToolTip="note" Text="note:" Visible="false" Enabled="false" />
+					<asp:Label id="labelBirthday" runat="server" ToolTip="birthday" Text="birthday:" Visible="false" Enabled="false" />
 				</td>
 				<td id="td9b" class="qrcTdLeft" width="32%">
-					<asp:TextBox ID="TextBox_Birthday" runat="server" ToolTip="Enter birthday" AutoPostBack="False"  
-						TextMode="Date" Text="22.02.1973"
-						MaxLength="128" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft" />
+					<asp:TextBox ID="TextBox_Note" runat="server" ToolTip="Enter personal note" AutoPostBack="False" OnTextChanged="QRCode_ParameterChanged"
+						MaxLength="128" Width="128pt" Height="24pt" Text="personal note" CssClass="QRTextBoxLeft" AutoCompleteType="Notes" 
+						 Visible="false" Enabled="false"/>
+					<asp:TextBox ID="TextBox_Birthday" runat="server" ToolTip="Enter birthday" AutoPostBack="False" 
+						TextMode="Date" Text="22.02.1973" MaxLength="128" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft" 
+						Visible="false" Enabled="false" />
 				</td>
 			</tr>
 		</table>		

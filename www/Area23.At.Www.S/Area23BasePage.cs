@@ -211,16 +211,54 @@ namespace Area23.At.Www.S
                 }
             }
 
+
             string qrfn = DateTime.UtcNow.Area23DateTimeWithMillis();
             string qrOutPath = Paths.QrDirPath + qrfn + ".gif";
-            // string qrOutPath = Paths.QrDirPath + qrfn + ".jpg";
-
             QrImgPath = Paths.QrAppPath + qrfn + ".gif";
-            // QrImgPath = Paths.QrAppPath + qrfn + ".jpg";
+
+            // normal operation => save qrCodeImage to qrOutToPath
+            string qrOutToPath = Paths.QrDirPath + qrfn + "_11.gif";
+            qrCodeImage.Save(qrOutToPath);
 
             MemoryStream gifStrm = new MemoryStream();
-            qrCodeImage.Save(gifStrm, ImageFormat.Gif, new EncoderParameters(5));
-            byte[] gifBytes = gifStrm.ToByteArray();
+            qrCodeImage.Save(gifStrm, ImageFormat.Gif);
+            string qrStringGif = qrString.Replace("\r", "").Replace("\n", " ").Replace("\t", " ");
+
+            byte[] gifBytes = gifStrm.ToArray();
+            List<byte> toByteList = new List<byte>();
+            bool flagOnce = false;
+
+            for (int bc = 0; bc < gifBytes.Length; bc++)
+            {
+                if ((gifBytes[bc] == (byte)0x21) && // ! 
+                    (gifBytes[bc + 1] == (byte)0xf9 || gifBytes[bc + 1] == (byte)0xfe) &&
+                    (gifBytes[bc + 2] == (byte)0x04) && // EOT
+                    (gifBytes[bc + 3] == (byte)0x01) && // SOH                        
+                    (gifBytes[bc + 4] == (byte)0x00) && // NUL
+                    (0x00 == (byte)0x00))
+                {
+                    if (!flagOnce)
+                    {
+                        foreach (byte b in WriteGifComment(qrStringGif))
+                        {
+                            toByteList.Add(b);
+                        }
+                        flagOnce = true;
+                    }
+                }
+
+                if ((bc == gifBytes.Length - 1) && (gifBytes[bc] != (byte)0x0) && (gifBytes[bc - 1] == (byte)0x0))
+                {
+                    flagOnce = true;
+                }
+                toByteList.Add(gifBytes[bc]);
+            }
+
+            using (Stream fs = File.Open(qrOutPath, FileMode.Create, FileAccess.ReadWrite))
+            {
+                fs.Write(toByteList.ToArray(), 0, toByteList.Count);
+                fs.Flush();
+            }
 
             // GifMetadataAdapter gifAdapter = new GifMetadataAdapter(qrOutPath, gifStrm);
             // gifAdapter.Metadata.Comment = qrString;
@@ -262,22 +300,22 @@ namespace Area23.At.Www.S
             //}
 
 
-            try
-            {
-                MemoryStream gifStream = new MemoryStream();
-                GifEncoder gifEncoder = new GifEncoder(gifStream, qrCodeImage.Width, qrCodeImage.Height, null);
-                gifEncoder.AddFrame(qrCodeImage, 0, 0, null, qrString);
+            // try
+            // {
+            //    MemoryStream gifStream = new MemoryStream();
+            //    GifEncoder gifEncoder = new GifEncoder(gifStream, qrCodeImage.Width, qrCodeImage.Height, null);
+            //    gifEncoder.AddFrame(qrCodeImage, 0, 0, null, qrString);
             //    gifEncoder.Flush();
             //    gifStream.ToByteArray().ToFile(Paths.QrDirPath, qrfn, ".gif");
             //    QrImgPath = Paths.QrAppPath + qrfn + ".gif";
-            //} 
-            //catch (Exception encodeGifEx)
-            //{
+            // } 
+            // catch (Exception encodeGifEx)
+            // {
             //    Area23Log.LogStatic(encodeGifEx);
             //    qrfn = DateTime.UtcNow.Area23DateTimeWithMillis();
             //    qrCodeImage.Save(Paths.QrDirPath + qrfn + ".gif", ImageFormat.Gif);
             //    QrImgPath = Paths.QrAppPath + qrfn + ".gif";
-            //}
+            // }
 
             return QrImgPath;
         }
@@ -418,6 +456,40 @@ namespace Area23.At.Www.S
             QrImgPath = Paths.QrAppPath + qrfn + ".gif";
 
             return qrCodeThumbNail;
+        }
+
+
+        protected virtual byte[] WriteGifComment(string comment)
+        {
+            if (string.IsNullOrEmpty(comment))
+                return new byte[0];
+
+            List<byte> byteList = new List<byte>();
+            byte[] bytesComment = Encoding.ASCII.GetBytes(comment);
+            byte b21 = (byte)0x21;
+            byte bfe = (byte)0xfe;
+
+            byteList.Add((byte)b21);
+            byteList.Add((byte)bfe);
+
+            byte b0 = Convert.ToByte(comment.Length & 0xff);
+            byte b1 = Convert.ToByte((comment.Length >> 8) & 0xff);
+
+            if (comment.Length > (int)0xff)
+            {
+                byteList.Add(b1);
+                byteList.Add(b0);
+            }
+            else
+                byteList.Add(b0);
+
+            foreach (byte b in bytesComment)
+            {
+                byteList.Add(b);
+            }
+            byteList.Add((byte)0x0);
+
+            return byteList.ToArray();
         }
 
 
