@@ -212,27 +212,31 @@ namespace Area23.At.Www.S.Util.BumpKit
 
         private void WriteComment(string comment, int repeatCount = 0)
         {
-            int xff21 = 0xff21; // ApplicationExtensionBlockIdentifier; 
-            Byte b0 = Convert.ToByte(xff21 & 0xff);
+            int xfe21 = 0xfe21; // ApplicationExtensionBlockIdentifier; 
+            Byte b0 = Convert.ToByte(xfe21 & 0xff);
             _stream.WriteByte(b0);
-            Byte b1 = Convert.ToByte((xff21 >> 8) & 0xff);
+            Byte b1 = Convert.ToByte((xfe21 >> 8) & 0xff);
             _stream.WriteByte(b1);
                      
             byte[] bytesComment = Encoding.ASCII.GetBytes(comment);;
-            _stream.WriteByte((byte)bytesComment.Length);
-            _stream.Write(bytesComment, 0, bytesComment.Length);
-            
-            _stream.WriteByte(3); // Application block length
-            _stream.WriteByte(1);
-
-            // repeatCount = 0;
-            b0 = Convert.ToByte(0x0 & 0xff);
+            b0 = Convert.ToByte(bytesComment.Length & 0xff);
             _stream.WriteByte(b0);
-            b1 = Convert.ToByte((0x0 >> 8) & 0xff);
+            b1 = Convert.ToByte((bytesComment.Length >> 8) & 0xff);
             _stream.WriteByte(b1);
 
-            _stream.WriteByte(Convert.ToByte(0x0));
-            
+            _stream.Write(bytesComment, 0, bytesComment.Length);
+
+            // _stream.WriteByte(3); // Application block length
+            // _stream.WriteByte(1);
+            // TODO: fix it
+            // repeatCount = 0;
+            // b0 = Convert.ToByte(0x0 & 0xff);
+            // _stream.WriteByte(b0);
+            // b1 = Convert.ToByte((0x0 >> 8) & 0xff);
+            // _stream.WriteByte(b1);
+
+            // _stream.WriteByte(Convert.ToByte(0x0));
+
             // WriteByte(0); // terminator
 
         }

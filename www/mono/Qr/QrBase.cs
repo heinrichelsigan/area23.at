@@ -155,7 +155,8 @@ namespace Area23.At.Mono.Qr
                         ((getCol.R == px0.R) && (getCol.G + 1) == px0.G && (getCol.B + 1) == px0.B) ||
                         (((getCol.R + 1) == px0.R) && (getCol.G + 1) == px0.G && (getCol.B + 1) == px0.B))
                     {
-                        qrCodeImage.SetPixel(ix, iy, System.Drawing.Color.Transparent);
+                        // qrCodeImage.SetPixel(ix, iy, System.Drawing.Color.Transparent);
+                        qrCodeImage.SetPixel(ix, iy, backGr);
                     }
                     else
                     {
@@ -166,21 +167,19 @@ namespace Area23.At.Mono.Qr
             
             string qrfn = DateTime.UtcNow.Area23DateTimeWithMillis();
             string qrOutPath = Paths.QrDirPath + qrfn + ".gif";
-            // string qrfn = Constants.DateFile + DateTime.Now.Millisecond + ".png";
             QrImgPath = Paths.QrAppPath + qrfn + ".gif";
-            // normal operation
-            // qrCodeImage.Save(Paths.OutDir + qrfn + ".gif");
+
+            // normal operation => save qrCodeImage to qrOutToPath
+            string qrOutToPath = Paths.QrDirPath + qrfn + "_11.gif";
+            qrCodeImage.Save(qrOutToPath);
 
             MemoryStream gifStrm = new MemoryStream();
             qrCodeImage.Save(gifStrm, ImageFormat.Gif);
-            string qrStringGif = qrString.Replace("\r", "").Replace("\n", " ").Replace("\t", " ");
+            string qrStringGif = qrString.Replace("\r", "").Replace("\n", " ").Replace("\t", " ");            
 
-            // WriteGifComment(gifStrm, qrString.Replace("\r", "").Replace("\n", " ").Replace("\t", " "));
             byte[] gifBytes = gifStrm.ToArray();
-            byte[] toBytes = new byte[gifBytes.Length + qrStringGif.Length + 3];
-            int toCnt = 0;
+            List<byte> toByteList = new List<byte>();
             bool flagOnce = false;            
-            object xAtomSpinLock = new object();
 
             for (int bc = 0; bc < gifBytes.Length; bc++)
             {
@@ -193,40 +192,26 @@ namespace Area23.At.Mono.Qr
                 {
                     if (!flagOnce)
                     {
-                        // lock (xAtomSpinLock)
-                        // {
                         foreach (byte b in WriteGifComment(qrStringGif))
                         {
-                            toBytes[toCnt++] = b;
+                            toByteList.Add(b);
                         }
                         flagOnce = true;
-                        // }
                     }
                 }
                 
                 if ((bc == gifBytes.Length - 1) && (gifBytes[bc] != (byte)0x0) && (gifBytes[bc - 1] == (byte)0x0))
                 {
-                    xAtomSpinLock = new object();
-                    toBytes[toCnt++] = (byte)0x0;
+                    flagOnce = true;
                 }
-                else
-                    toBytes[toCnt++] = gifBytes[bc];
+                toByteList.Add(gifBytes[bc]);
             }
-
 
             using (Stream fs = File.Open(qrOutPath, FileMode.Create, FileAccess.ReadWrite))
             {
-                fs.Write(gifBytes, 0, gifBytes.Length);
+                fs.Write(toByteList.ToArray(), 0, toByteList.Count);
                 fs.Flush();
             }
-
-            string qrOutToPath = Paths.QrDirPath + qrfn + "_10_.gif";
-            using (Stream stream = File.Open(qrOutToPath, FileMode.Create, FileAccess.ReadWrite))
-            {
-                stream.Write(toBytes, 0, toBytes.Length - 1);
-                stream.Flush();
-            }
-
 
             return QrImgPath;
         }
@@ -237,19 +222,32 @@ namespace Area23.At.Mono.Qr
             if (string.IsNullOrEmpty(comment))
                 return new byte[0];
 
-            int commentCnt = 2;
-            byte[] commentBytes = new byte[comment.Length + 3];
-            commentBytes[0] = (byte)0x21;
-            commentBytes[1] = (byte)0xff;       
-
+            List<byte> byteList = new List<byte>();
             byte[] bytesComment = Encoding.ASCII.GetBytes(comment);
+            byte b21 = (byte)0x21;
+            byte bfe = (byte)0xfe; 
+
+            byteList.Add((byte)b21);
+            byteList.Add((byte)bfe);
+            
+            byte b0 = Convert.ToByte(comment.Length & 0xff);
+            byte b1 = Convert.ToByte((comment.Length >> 8) & 0xff);            
+            
+            if (comment.Length > (int)0xff)
+            {                
+                byteList.Add(b1);
+                byteList.Add(b0);
+            }
+            else 
+                byteList.Add(b0);
+
             foreach (byte b in bytesComment)
             {
-                commentBytes[commentCnt++] = b;
+                byteList.Add(b);
             }
-            commentBytes[commentCnt] = (byte)0x0;
+            byteList.Add((byte)0x0);
 
-            return commentBytes;
+            return byteList.ToArray();
         }
 
 

@@ -150,24 +150,6 @@ namespace Area23.At.Mono.Qr
         protected global::System.Web.UI.WebControls.TextBox TextBox_Org;
 
         /// <summary>
-        /// input_color control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText input_color;
-
-        /// <summary>
-        /// input_backcolor control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText input_backcolor;
-
-        /// <summary>
         /// Button_QRCode control.
         /// </summary>
         /// <remarks>
@@ -186,22 +168,40 @@ namespace Area23.At.Mono.Qr
         protected global::System.Web.UI.HtmlControls.HtmlImage ImgQR;
 
         /// <summary>
-        /// labelOrgTitle control.
+        /// labelQrColor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelOrgTitle;
+        protected global::System.Web.UI.WebControls.Label labelQrColor;
 
         /// <summary>
-        /// TextBox_OrgTitle control.
+        /// input_color control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_OrgTitle;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText input_color;
+
+        /// <summary>
+        /// labelBgColor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelBgColor;
+
+        /// <summary>
+        /// input_backcolor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText input_backcolor;
 
         /// <summary>
         /// labelNote control.
@@ -213,15 +213,6 @@ namespace Area23.At.Mono.Qr
         protected global::System.Web.UI.WebControls.Label labelNote;
 
         /// <summary>
-        /// TextBox_Note control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_Note;
-
-        /// <summary>
         /// labelBirthday control.
         /// </summary>
         /// <remarks>
@@ -229,6 +220,15 @@ namespace Area23.At.Mono.Qr
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label labelBirthday;
+
+        /// <summary>
+        /// TextBox_Note control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Note;
 
         /// <summary>
         /// TextBox_Birthday control.
