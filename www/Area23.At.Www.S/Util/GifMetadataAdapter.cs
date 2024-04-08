@@ -11,28 +11,29 @@ namespace Area23.At.Www.S.Util
     public class GifMetadataAdapter 
     {
         private readonly string path;
+        private readonly Stream stream;
         private BitmapFrame frame;
         public BitmapMetadata Metadata;
 
-        public GifMetadataAdapter(string path)
+        public GifMetadataAdapter(string _path)
         {
-            this.path = path;
+            this.path = _path;
             frame = getBitmapFrame(path);
             Metadata = (BitmapMetadata)frame.Metadata.Clone();            
         }
 
-        public GifMetadataAdapter(string path, Stream stream)
+        public GifMetadataAdapter(Stream _stream)
         {
-            this.path = path;
+            this.stream = _stream;
             frame = getBitmapFrame(stream);
             Metadata = (BitmapMetadata)getBitmapMetadata(stream).Clone();
-            // System.Windows.Freezable fr = (Freezable)getBitmapMetadata(stream).Clone().GetAsFrozen();
         }
 
-        public void Save()
-        {
-            SaveAs(path);
-        }
+        public GifMetadataAdapter(string _path, Stream _stream) : this(_path)  { this.stream = _stream; }
+
+        public GifMetadataAdapter(Stream _stream, string _path) : this(_stream) { this.path= _path; }
+
+        public void Save() { SaveAs(path); }
 
         public void SaveAs(string path)
         {
@@ -56,15 +57,13 @@ namespace Area23.At.Www.S.Util
 
         private BitmapFrame getBitmapFrame(Stream stream)
         {
-            GifBitmapDecoder decoder = null;
-            decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.OnLoad);            
+            GifBitmapDecoder decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.None);
             return decoder.Frames.First();
         }
 
         private BitmapMetadata getBitmapMetadata(Stream stream)
         {
-            GifBitmapDecoder decoder = null;
-            decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.OnLoad);
+            GifBitmapDecoder decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.OnLoad);
             return decoder.Metadata;
         }
 

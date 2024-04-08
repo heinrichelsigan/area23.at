@@ -213,7 +213,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Util\GifEncoder.cs" />
     <Compile Include="Util\GifMetadataAdapter.cs" />
     <Compile Include="Util\GlobalAppSettings.cs" />
     <Compile Include="Util\JavaResReader.cs" />

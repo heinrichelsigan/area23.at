@@ -16,7 +16,6 @@ using Area23.At.Www.S.Util;
 using Area23.At.Www.Common;
 using QRCoder;
 using Area23.At.Framework.Library;
-using Area23.At.Www.S.Util.BumpKit;
 using System.Windows.Media.Imaging;
 using System.Windows;
 using System.Windows.Media;
