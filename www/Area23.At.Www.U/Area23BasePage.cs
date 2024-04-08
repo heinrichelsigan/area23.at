@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using Area23.At.Framework.Library;
 using Area23.At.Www.Common;
 using QRCoder;
 
@@ -46,17 +47,7 @@ namespace Area23.At.Www.U
 
         public string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
 
-        public string LogFile
-        {
-            get
-            {
-                string logAppPath = MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
-                if (!logAppPath.Contains("MarriageRisk"))
-                    logAppPath += "MarriageRisk" + SepChar;
-                logAppPath += "log" + SepChar + DateTime.UtcNow.ToString("yyyyMMdd") + "_" + "marriage_risk.log";
-                return logAppPath;
-            }
-        }
+        public string LogFile { get => LibPaths.LogFile; }
 
 
         public String QrImgPath { get; protected set; }
@@ -197,7 +188,7 @@ namespace Area23.At.Www.U
                 }
             }
 
-            string qrfn = Constants.DateFile + DateTime.Now.Millisecond + ".png";
+            string qrfn = DateTime.UtcNow.Area23DateTimeWithMillis() + ".png";
             QrImgPath = Paths.QrAppPath + qrfn;
             qrCodeImage.Save(Paths.QrDirPath + qrfn);
 
@@ -266,9 +257,9 @@ namespace Area23.At.Www.U
                 }
             }
 
-            string qrfn = Constants.DateFile + DateTime.Now.Millisecond + ".png";
+            string qrfn = DateTime.UtcNow.Area23DateTimeWithMillis() + ".png";
             QrImgPath = Paths.QrAppPath + qrfn;
-            qrCodeImage.Save(Paths.QrDirPath + Constants.DateFile + DateTime.Now.Millisecond + ".png");
+            qrCodeImage.Save(Paths.QrDirPath + DateTime.UtcNow.Area23DateTimeWithMillis() + ".png");
 
             return qrCodeImage;
         }

@@ -25,7 +25,7 @@
 			</span>
 			<span class="centerSpan">
 				<span class="textSpan">symbol list: </span>
-				<asp:DropDownList ID="DropDown_Symbol" runat="server" ToolTip="symbols" AutoPostBack="True" OnSelectedIndexChanged="DropDown_Symbol_Changed" CssClass="DropDownList" 
+				<asp:DropDownList ID="DropDown_Symbol" runat="server" ToolTip="symbols" AutoPostBack="True" OnSelectedIndexChanged="DropDown_Symbol_Changed" CssClass="DropDownList" />
 			</span>
 			<span class="rightSpan">			
 				<asp:Button id="Button_Search" name="Button_Search" runat="server" ClientIDMode="Static" 
@@ -44,7 +44,7 @@
 			</span>
 			<span class="centerSpan">
 				<span class="textSpan">qr mode: </span>
-				<asp:DropDownList ID="DropDown_QrMode" runat="server" ToolTip="qr mode" AutoPostBack="True" OnSelectedIndexChanged="DropDown_QrMode_Changed" CssClass="DropDownList">
+				<asp:DropDownList id="DropDown_QrMode" runat="server" ToolTip="qr mode" AutoPostBack="True" OnSelectedIndexChanged="DropDown_QrMode_Changed" CssClass="DropDownList">
 					<asp:ListItem>L</asp:ListItem>
 					<asp:ListItem>M</asp:ListItem>				
 					<asp:ListItem Selected="True">Q</asp:ListItem>

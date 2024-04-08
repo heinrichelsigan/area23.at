@@ -40,9 +40,9 @@ namespace Area23.At.Www.Common
         /// <returns>Color, that was defined by hexadecimal rgb string</returns>
         public static System.Drawing.Color FromXrgb(string hex)
         {
-            if (String.IsNullOrWhiteSpace(hex) || hex.Length != 7 || !hex.StartsWith("#"))
+            if (String.IsNullOrWhiteSpace(hex) || hex.Length < 6 || hex.Length > 9)
                 throw new ArgumentException(
-                    String.Format("Area23.At.Mono.Util.ColorForm.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
+                    String.Format("Area23.At.Mono.Util.ColorForm.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" or \"rrggbb\"!", hex));
 
             string rgbWork = hex.TrimStart("#".ToCharArray());
             string colSeg = rgbWork.Substring(0, 2);

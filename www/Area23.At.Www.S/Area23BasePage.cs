@@ -15,6 +15,14 @@ using System.Web.UI.WebControls.WebParts;
 using Area23.At.Www.S.Util;
 using Area23.At.Www.Common;
 using QRCoder;
+using Area23.At.Framework.Library;
+using Area23.At.Www.S.Util.BumpKit;
+using System.Windows.Media.Imaging;
+using System.Windows;
+using System.Windows.Media;
+using System.Collections.ObjectModel;
+using System.Text;
+using System.Windows.Shapes;
 
 namespace Area23.At.Www.S
 {
@@ -50,7 +58,7 @@ namespace Area23.At.Www.S
             }
         }
 
-        public string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
+        public string SepChar { get => System.IO.Path.DirectorySeparatorChar.ToString(); }
 
         public string LogFile
         {
@@ -78,7 +86,7 @@ namespace Area23.At.Www.S
             {
                 if (sender is TextBox || sender is DropDownList)
                 {
-                    ((TextBox)(sender)).BorderColor = Color.Red;
+                    ((TextBox)(sender)).BorderColor = System.Drawing.Color.Red;
                     ((TextBox)(sender)).BorderStyle = BorderStyle.Dashed;
                 }
             }
@@ -93,7 +101,7 @@ namespace Area23.At.Www.S
             {
                 if (ctrl is TextBox || ctrl is DropDownList)
                 {
-                    ((TextBox)(ctrl)).BorderColor = Color.Black;
+                    ((TextBox)(ctrl)).BorderColor = System.Drawing.Color.Black;
                     ((TextBox)(ctrl)).BorderStyle = BorderStyle.Solid;
                 }
             }
@@ -114,7 +122,7 @@ namespace Area23.At.Www.S
             {
                 if (!string.IsNullOrEmpty(qrString))
                 {
-                    aQrBitmap = GetQRBitmap(qrString, Color.Black);
+                    aQrBitmap = GetQRBitmap(qrString, System.Drawing.Color.Black);
                 }
                 if (aQrBitmap != null)
                 {
@@ -131,13 +139,13 @@ namespace Area23.At.Www.S
             }
         }
 
-        protected virtual Bitmap GetQRBitmap(string qrString, Color c, Color bg)
+        protected virtual Bitmap GetQRBitmap(string qrString, System.Drawing.Color c, System.Drawing.Color bg)
         {
             return GetQRBitmap(qrString, c.ToXrgb(), bg.ToXrgb());
         }
 
 
-        protected virtual Bitmap GetQRBitmap(string qrString, Color c)
+        protected virtual Bitmap GetQRBitmap(string qrString, System.Drawing.Color c)
         {
             return GetQRBitmap(qrString, c.ToXrgb());
         }
@@ -158,13 +166,13 @@ namespace Area23.At.Www.S
             qrWidth = -1;
             if (String.IsNullOrEmpty(qrhex))
                 qrhex = "#000000";
-            Color colFg = ColorFrom.FromHtml(qrhex);
-            Color colWh = ColorFrom.FromHtml("#ffffff");
+            System.Drawing.Color colFg = ColorFrom.FromHtml(qrhex);
+            System.Drawing.Color colWh = ColorFrom.FromHtml("#ffffff");
             Byte rB, gB, bB;
             rB = (byte)(colFg.R + (byte)((colWh.R - colFg.R) / 2));
             gB = (byte)(colFg.G + (byte)((colWh.G - colFg.G) / 2));
             bB = (byte)(colFg.B + (byte)((colWh.B - colFg.B) / 2));
-            Color colLg = Color.FromArgb(rB, gB, bB);
+            System.Drawing.Color colLg = System.Drawing.Color.FromArgb(rB, gB, bB);
 
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, ecclvl);
@@ -178,13 +186,13 @@ namespace Area23.At.Www.S
             if (qrCodeImage.Width <= 128)
                 qrWidth = qrCodeImage.Width * 2;
 
-            Color backGr = ColorFrom.FromHtml(bghex);
+            System.Drawing.Color backGr = ColorFrom.FromHtml(bghex);
 
             for (int ix = 0; ix < qrCodeImage.Width; ix++)
             {
                 for (int iy = 0; iy < qrCodeImage.Height; iy++)
                 {
-                    Color getCol = qrCodeImage.GetPixel(ix, iy);
+                    System.Drawing.Color getCol = qrCodeImage.GetPixel(ix, iy);
                     if ((getCol.R == px0.R && getCol.G == px0.G && getCol.B == px0.B) ||
                         (((getCol.R + 1) == px0.R) && getCol.G == px0.G && getCol.B == px0.B) ||
                         ((getCol.R == px0.R) && (getCol.G + 1) == px0.G && getCol.B == px0.B) ||
@@ -194,7 +202,7 @@ namespace Area23.At.Www.S
                         ((getCol.R == px0.R) && (getCol.G + 1) == px0.G && (getCol.B + 1) == px0.B) ||
                         (((getCol.R + 1) == px0.R) && (getCol.G + 1) == px0.G && (getCol.B + 1) == px0.B))
                     {
-                        qrCodeImage.SetPixel(ix, iy, Color.Transparent);
+                        qrCodeImage.SetPixel(ix, iy, System.Drawing.Color.Transparent);
                     }
                     else
                     {
@@ -203,9 +211,71 @@ namespace Area23.At.Www.S
                 }
             }
 
-            string qrfn = Constants.DateFile + DateTime.Now.Millisecond + ".png";
-            QrImgPath = Paths.QrAppPath + qrfn;
-            qrCodeImage.Save(Paths.QrDirPath + qrfn);
+            string qrfn = DateTime.UtcNow.Area23DateTimeWithMillis();
+            string qrOutPath = Paths.QrDirPath + qrfn + ".gif";
+            // string qrOutPath = Paths.QrDirPath + qrfn + ".jpg";
+
+            QrImgPath = Paths.QrAppPath + qrfn + ".gif";
+            // QrImgPath = Paths.QrAppPath + qrfn + ".jpg";
+
+            MemoryStream gifStrm = new MemoryStream();
+            qrCodeImage.Save(gifStrm, ImageFormat.Gif);         
+            GifMetadataAdapter gifAdapter = new GifMetadataAdapter(qrOutPath, gifStrm);
+            // gifAdapter.Metadata.Comment = qrString;
+            // gifAdapter.Metadata.Title = qrfn;
+            gifAdapter.SaveAs(qrOutPath);
+
+            // MemoryStream jpegMs = new MemoryStream();
+            // qrCodeImage.Save(jpegMs, ImageFormat.Jpeg);
+            // JpegMetadataAdapter jpegAdapter = new JpegMetadataAdapter(qrOutPath, jpegMs);
+            // jpegAdapter.Metadata.Comment = qrString;
+            // jpegAdapter.Metadata.Title = qrfn;
+            // jpegAdapter.SaveAs(qrOutPath);
+
+            //GifBitmapEncoder gifBitmapEncoder = new System.Windows.Media.Imaging.GifBitmapEncoder();
+            //BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+            //    qrCodeImage.GetHbitmap(),
+            //    IntPtr.Zero,
+            //    Int32Rect.Empty,
+            //    System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+
+            //Bitmap thumbNail = GetQRThumbNail(qrString, qrhex, bghex.ToLower(), qrmode);
+            //BitmapSource thumbNailSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+            //    thumbNail.GetHbitmap(),
+            //    IntPtr.Zero,
+            //    Int32Rect.Empty,
+            //    System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+
+            //BitmapMetadata meta = new 
+            //meta.Comment = qrString;
+
+            //List<ColorContext> contextLists = new List<ColorContext>();
+            //contextLists.Add(new System.Windows.Media.ColorContext(ConvertPixelFormat(qrCodeImage.PixelFormat)));
+            //ReadOnlyCollection<ColorContext> colorContexts = new ReadOnlyCollection<ColorContext>(contextLists);
+
+            //gifBitmapEncoder.Frames.Add(BitmapFrame.Create(bitmapSource, thumbNailSource, meta, colorContexts));
+            //using (Stream stream = File.Open(qrOutPath, FileMode.Create, FileAccess.ReadWrite))
+            //{
+            //    gifBitmapEncoder.Save(stream);
+            //}
+
+
+            //try
+            //{
+            //    MemoryStream gifStream = new MemoryStream();
+            //    GifEncoder gifEncoder = new GifEncoder(gifStream, qrCodeImage.Width, qrCodeImage.Height, null);
+            //    gifEncoder.AddFrame(qrCodeImage, 0, 0, null, qrString);
+            //    gifEncoder.Flush();
+            //    gifStream.ToByteArray().ToFile(Paths.QrDirPath, qrfn, ".gif");
+            //    QrImgPath = Paths.QrAppPath + qrfn + ".gif";
+            //} 
+            //catch (Exception encodeGifEx)
+            //{
+            //    Area23Log.LogStatic(encodeGifEx);
+            //    qrfn = DateTime.UtcNow.Area23DateTimeWithMillis();
+            //    qrCodeImage.Save(Paths.QrDirPath + qrfn + ".gif", ImageFormat.Gif);
+            //    QrImgPath = Paths.QrAppPath + qrfn + ".gif";
+            //}
 
             return QrImgPath;
         }
@@ -225,13 +295,13 @@ namespace Area23.At.Www.S
 
             if (String.IsNullOrEmpty(qrhex))
                 qrhex = "#000000";
-            Color colFg = ColorFrom.FromHtml(qrhex);
-            Color colWh = ColorFrom.FromHtml("#ffffff");
+            System.Drawing.Color colFg = ColorFrom.FromHtml(qrhex);
+            System.Drawing.Color colWh = ColorFrom.FromHtml("#ffffff");
             Byte rB, gB, bB;
             rB = (byte)(colFg.R + (byte)((colWh.R - colFg.R) / 2));
             gB = (byte)(colFg.G + (byte)((colWh.G - colFg.G) / 2));
             bB = (byte)(colFg.B + (byte)((colWh.B - colFg.B) / 2));
-            Color colLg = Color.FromArgb(rB, gB, bB);
+            System.Drawing.Color colLg = System.Drawing.Color.FromArgb(rB, gB, bB);
 
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             string qrModStr = Enum.GetNames(typeof(QRCoder.QRCodeGenerator.ECCLevel))[qrmode % 4];
@@ -245,13 +315,13 @@ namespace Area23.At.Www.S
             var px0 = qrCodeImage.GetPixel(0, 0);
             var px1 = qrCodeImage.GetPixel(1, 1);
 
-            Color backGr = ColorFrom.FromHtml(bghex);
+            System.Drawing.Color backGr = ColorFrom.FromHtml(bghex);
 
             for (int ix = 0; ix < qrCodeImage.Width; ix++)
             {
                 for (int iy = 0; iy < qrCodeImage.Height; iy++)
                 {
-                    Color getCol = qrCodeImage.GetPixel(ix, iy);
+                    System.Drawing.Color getCol = qrCodeImage.GetPixel(ix, iy);
                     if ((getCol.R == px0.R && getCol.G == px0.G && getCol.B == px0.B) ||
                         (((getCol.R + 1) == px0.R) && getCol.G == px0.G && getCol.B == px0.B) ||
                         ((getCol.R == px0.R) && (getCol.G + 1) == px0.G && getCol.B == px0.B) ||
@@ -262,7 +332,7 @@ namespace Area23.At.Www.S
                         (((getCol.R + 1) == px0.R) && (getCol.G + 1) == px0.G && (getCol.B + 1) == px0.B))
                     {
                         // qrNewImg.SetPixel(ix, iy, Color.Transparent);
-                        qrCodeImage.SetPixel(ix, iy, Color.Transparent);
+                        qrCodeImage.SetPixel(ix, iy, System.Drawing.Color.Transparent);
                     }
                     else
                     {
@@ -272,11 +342,112 @@ namespace Area23.At.Www.S
                 }
             }
 
-            string qrfn = Constants.DateFile + DateTime.Now.Millisecond + ".png";
-            QrImgPath = Paths.QrAppPath + qrfn;
-            qrCodeImage.Save(Paths.QrDirPath + Constants.DateFile + DateTime.Now.Millisecond + ".png");
+            string qrfn = DateTime.UtcNow.Area23DateTimeWithMillis();
+            QrImgPath = Paths.QrAppPath + qrfn + ".gif";
+
 
             return qrCodeImage;
+        }
+
+
+
+        /// <summary>
+        /// GetQrBitmap - gets a <see cref="Bitmap"/> from qrString
+        /// </summary>
+        /// <param name="qrString"></param>
+        /// <param name="c"></param>
+        /// <returns><see cref="Bitmap"/></returns>
+        /// <exception cref="ArgumentNullException">thrown, when <paramref name="qrString"/> is null or ""</exception>
+        protected virtual Bitmap GetQRThumbNail(string qrString, string qrhex, string bghex = "#ffffff", short qrmode = 1)
+        {
+            if (string.IsNullOrEmpty(qrString))
+                throw new ArgumentNullException("qrString", "Error calling GetQRBitmap(qrString = null); qrString is null...");
+
+            if (String.IsNullOrEmpty(qrhex))
+                qrhex = "#000000";
+            System.Drawing.Color colFg = ColorFrom.FromHtml(qrhex);
+            System.Drawing.Color colWh = ColorFrom.FromHtml("#ffffff");
+            Byte rB, gB, bB;
+            rB = (byte)(colFg.R + (byte)((colWh.R - colFg.R) / 2));
+            gB = (byte)(colFg.G + (byte)((colWh.G - colFg.G) / 2));
+            bB = (byte)(colFg.B + (byte)((colWh.B - colFg.B) / 2));
+            System.Drawing.Color colLg = System.Drawing.Color.FromArgb(rB, gB, bB);
+
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            string qrModStr = Enum.GetNames(typeof(QRCoder.QRCodeGenerator.ECCLevel))[qrmode % 4];
+            QRCodeGenerator.ECCLevel ecclvl = QRCodeGenerator.ECCLevel.M;
+            // Enum.TryParse(qrModStr, out ecclvl);
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, ecclvl);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeThumbNail = qrCode.GetGraphic(1);
+
+            // qrCodeImage.MakeTransparent();
+            var px0 = qrCodeThumbNail.GetPixel(0, 0);
+            var px1 = qrCodeThumbNail.GetPixel(1, 1);
+
+            System.Drawing.Color backGr = ColorFrom.FromHtml(bghex);
+
+            for (int ix = 0; ix < qrCodeThumbNail.Width; ix++)
+            {
+                for (int iy = 0; iy < qrCodeThumbNail.Height; iy++)
+                {
+                    System.Drawing.Color getCol = qrCodeThumbNail.GetPixel(ix, iy);
+                    if ((getCol.R == px0.R && getCol.G == px0.G && getCol.B == px0.B) ||
+                        (((getCol.R + 1) == px0.R) && getCol.G == px0.G && getCol.B == px0.B) ||
+                        ((getCol.R == px0.R) && (getCol.G + 1) == px0.G && getCol.B == px0.B) ||
+                        ((getCol.R == px0.R) && getCol.G == px0.G && (getCol.B + 1) == px0.B) ||
+                        (((getCol.R + 1) == px0.R) && (getCol.G + 1) == px0.G && getCol.B == px0.B) ||
+                        (((getCol.R + 1) == px0.R) && getCol.G == px0.G && (getCol.B + 1) == px0.B) ||
+                        ((getCol.R == px0.R) && (getCol.G + 1) == px0.G && (getCol.B + 1) == px0.B) ||
+                        (((getCol.R + 1) == px0.R) && (getCol.G + 1) == px0.G && (getCol.B + 1) == px0.B))
+                    {
+                        // qrNewImg.SetPixel(ix, iy, Color.Transparent);
+                        qrCodeThumbNail.SetPixel(ix, iy, System.Drawing.Color.Transparent);
+                    }
+                    else
+                    {
+                        qrCodeThumbNail.SetPixel(ix, iy, colFg);
+                        // qrNewImg.SetPixel(ix, iy, colFg);
+                    }
+                }
+            }
+
+            string qrfn = DateTime.UtcNow.Area23DateTimeWithMillis();
+            QrImgPath = Paths.QrAppPath + qrfn + ".gif";
+
+            return qrCodeThumbNail;
+        }
+
+
+        private static System.Windows.Media.PixelFormat ConvertPixelFormat(System.Drawing.Imaging.PixelFormat sourceFormat)
+        {
+            switch (sourceFormat)
+            {
+                case System.Drawing.Imaging.PixelFormat.Format24bppRgb: return PixelFormats.Bgr24;
+                case System.Drawing.Imaging.PixelFormat.Format32bppArgb: return PixelFormats.Bgra32;
+                case System.Drawing.Imaging.PixelFormat.Format32bppRgb: return PixelFormats.Bgr32;
+                case System.Drawing.Imaging.PixelFormat.Indexed: return PixelFormats.Indexed1;
+                case System.Drawing.Imaging.PixelFormat.Format1bppIndexed: return PixelFormats.Indexed1;
+                case System.Drawing.Imaging.PixelFormat.Format4bppIndexed: return PixelFormats.Indexed4;
+                case System.Drawing.Imaging.PixelFormat.Format8bppIndexed: return PixelFormats.Indexed8;
+                case System.Drawing.Imaging.PixelFormat.Format16bppGrayScale: return PixelFormats.Gray16;
+                case System.Drawing.Imaging.PixelFormat.Format16bppRgb555: return PixelFormats.Bgr555;
+                case System.Drawing.Imaging.PixelFormat.Format16bppRgb565: return PixelFormats.Bgr565;
+                case System.Drawing.Imaging.PixelFormat.Format16bppArgb1555: return PixelFormats.Bgr101010;
+                case System.Drawing.Imaging.PixelFormat.Format32bppPArgb: return PixelFormats.Pbgra32;
+                case System.Drawing.Imaging.PixelFormat.Format48bppRgb: return PixelFormats.Rgb48;
+                case System.Drawing.Imaging.PixelFormat.Format64bppArgb: return PixelFormats.Rgba64;
+                case System.Drawing.Imaging.PixelFormat.Format64bppPArgb: return PixelFormats.Prgba64;
+                case System.Drawing.Imaging.PixelFormat.Gdi:
+                case System.Drawing.Imaging.PixelFormat.Alpha:
+                case System.Drawing.Imaging.PixelFormat.PAlpha:
+                case System.Drawing.Imaging.PixelFormat.Extended:
+                case System.Drawing.Imaging.PixelFormat.Canonical:
+                case System.Drawing.Imaging.PixelFormat.Undefined:
+                case System.Drawing.Imaging.PixelFormat.Max:
+                default:
+                    return new System.Windows.Media.PixelFormat();
+            }
         }
 
 

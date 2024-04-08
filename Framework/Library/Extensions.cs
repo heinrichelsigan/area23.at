@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Web;
 
-namespace Area23.At.Www.Common
+namespace Area23.At.Framework.Library
 {
     public static class Extensions
     {
@@ -33,6 +30,51 @@ namespace Area23.At.Www.Common
         }
 
         #endregion primitive types extensions
+
+        #region DateTime extensions
+
+        /// <summary>
+        /// Area23Date extension method for DateTime
+        /// </summary>
+        /// <param name="dateTime"><see cref="DateTime"/></param>
+        /// <returns>formatted date <see cref="string"/></returns>
+        public static string Area23Date(this DateTime dateTime)
+        {
+            return dateTime.ToString("yyyy-MM-dd");
+        }
+
+        /// <summary>
+        /// Area23DateTime extension method for DateTime
+        /// </summary>
+        /// <param name="dateTime"><see cref="DateTime"/></param>
+        /// <returns>formatted date time <see cref="string"/> </returns>
+        public static string Area23DateTime(this DateTime dateTime)
+        {
+            return dateTime.ToString("yyyy") + Constants.DATE_DELIM +
+                DateTime.UtcNow.ToString("MM") + Constants.DATE_DELIM +
+                DateTime.UtcNow.ToString("dd") + Constants.WHITE_SPACE +
+                DateTime.UtcNow.ToString("HH") + Constants.ANNOUNCE +
+                DateTime.UtcNow.ToString("mm") + Constants.ANNOUNCE + Constants.WHITE_SPACE;
+        }
+
+        /// <summary>
+        /// Area23DateTimeWithSeconds extension method for DateTime
+        /// </summary>
+        /// <param name="dateTime">d</param>
+        /// <returns><see cref="string"/> formatted date time including seconds</returns>
+        public static string Area23DateTimeWithSeconds(this DateTime dateTime)
+        {
+            return dateTime.ToString("yyyy-MM-dd_HH:mm:ss");
+        }
+
+        public static string Area23DateTimeWithMillis(this DateTime dateTime)
+        {
+            string formatted = String.Format("{0:yyyyMMdd_HHmmss}_{1}", dateTime, dateTime.Millisecond);
+            // return formatted;
+            return dateTime.ToString("yyyyMMdd_HHmmss_") + dateTime.Millisecond;
+        }
+
+        #endregion DateTime extensions
 
         #region byte[] and stream extensions
 
@@ -72,6 +114,55 @@ namespace Area23.At.Www.Common
             }
         }
 
+        /// <summary>
+        /// byte[} extension ToFile - writes a byte array to a file
+        /// </summary>
+        /// <param name="bytes"><see cref="byte[]"/></param>
+        /// <param name="filePath">filesystem path</param>
+        /// <param name="fileName">filename</param>
+        /// <param name="fext">file extension</param>
+        /// <returns>full file system path to new written file in case of success, on error simply null</returns>
+        public static string ToFile(this byte[] bytes, string filePath = null, string fileName = null, string fext = null)
+        {
+            if (string.IsNullOrEmpty(filePath) || !Directory.Exists(filePath))
+                filePath = LibPaths.AppDirPath;
+            if (!filePath.EndsWith(LibPaths.SepChar))
+                filePath += LibPaths.SepChar;
+
+            if (string.IsNullOrEmpty(fileName))
+                fileName = DateTime.UtcNow.Area23DateTimeWithMillis();
+
+            if (string.IsNullOrEmpty(fext) || fext.Length < 2)
+            {
+                fileName += "_" + Guid.NewGuid().ToString();
+                fext = ".tmp"; //                
+            }
+            else if (!fext.StartsWith("."))
+                fext = "." + fext;
+
+            string fullFileName = filePath + fileName + fext;
+                        
+            try
+            {
+                using (var fs = new FileStream(fullFileName, FileMode.Create, FileAccess.Write))
+                {
+                    fs.Write(bytes, 0, bytes.Length);
+                    fs.Flush();
+                }
+            }
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);
+            }
+
+            if (System.IO.File.Exists(fullFileName))
+            {
+                return fullFileName;
+            }
+
+            return null;
+        }
+
         #endregion byte[] and stream extensions
 
         #region System.Exception extensions
@@ -106,7 +197,7 @@ namespace Area23.At.Www.Common
                 throw new ArgumentException(
                     String.Format("System.Drawing.Color.FromHtml(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
 
-            Color _color = System.Drawing.ColorTranslator.FromHtml(hex);
+            System.Drawing.Color _color = System.Drawing.ColorTranslator.FromHtml(hex);
             return _color;
         }
 
@@ -118,10 +209,9 @@ namespace Area23.At.Www.Common
         /// <returns>Color, that was defined by hexadecimal rgb string</returns>
         public static System.Drawing.Color FromXrgb(this System.Drawing.Color color, string hex)
         {
-            // return Supu.Framework.Extensions.ColorFrom.FromXrgb(hex);
-            if (String.IsNullOrWhiteSpace(hex) || hex.Length != 7 || !hex.StartsWith("#"))
+            if (String.IsNullOrWhiteSpace(hex) || hex.Length < 6 || hex.Length > 9)
                 throw new ArgumentException(
-                    String.Format("System.Drawing.Color.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rdgdbd\" like \"#3f230e\"!", hex));
+                    String.Format("System.Drawing.Color.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" or \"rrggbb\"", hex));
 
             string rgbWork = hex.TrimStart("#".ToCharArray());
 
@@ -142,12 +232,12 @@ namespace Area23.At.Www.Common
         /// FromRGB gets color from R G B
         /// </summary>
         /// <param name="color">System.Drawing.Color.FromXrgb(string hex) extension method</param>
-        /// <param name="r"></param>
-        /// <param name="g"></param>
-        /// <param name="b"></param>
+        /// <param name="r">red byte</param>
+        /// <param name="g">green byte</param>
+        /// <param name="b">blue byte</param>
         /// <returns>Color, that was defined by hexadecimal rgb string</returns>
         /// <exception cref="ArgumentException"></exception>
-        public static System.Drawing.Color FromRGB(this System.Drawing.Color color, uint r, uint g, uint b)
+        public static System.Drawing.Color FromRGB(this System.Drawing.Color color, byte r, byte g, byte b)
         {
             return System.Drawing.Color.FromArgb((int)r, (int)g, (int)b);
         }

@@ -17,6 +17,7 @@ using System.Runtime.Serialization.Formatters;
 using System.Security.Policy;
 using System.Web.DynamicData;
 using System.Windows.Media.Animation;
+using Area23.At.Framework.Library;
 
 namespace Area23.At.Www.U
 {
@@ -36,12 +37,11 @@ namespace Area23.At.Www.U
             if (!Page.IsPostBack)
             {
                 if (this.input_color != null && string.IsNullOrEmpty(input_color.Value))
-                    this.input_color.Value = Constants.QrColorString;
+                    this.input_color.Value = Const.QrColorString;
                 if (this.input_backcolor != null && string.IsNullOrEmpty(input_backcolor.Value))
-                    this.input_backcolor.Value = Constants.BackColorString;
+                    this.input_backcolor.Value = Const.BackColorString;
                 
             }
-
 
         }
 
@@ -170,24 +170,24 @@ namespace Area23.At.Www.U
             // Bitmap aQrBitmap = null;
 
             if (string.IsNullOrEmpty(this.input_color.Value))
-                this.input_color.Value = Constants.QrColorString;
+                this.input_color.Value = Const.QrColorString;
             else
-                Constants.QrColorString = this.input_color.Value;
+                Const.QrColorString = this.input_color.Value;
 
             if (string.IsNullOrEmpty(this.input_backcolor.Value))
-                this.input_backcolor.Value = Constants.BackColorString;
+                this.input_backcolor.Value = Const.BackColorString;
             else
-                Constants.BackColorString = this.input_backcolor.Value;
+                Const.BackColorString = this.input_backcolor.Value;
 
             if (this.Button_Search.Attributes["qrcolor"] != null)
-                this.Button_Search.Attributes["qrcolor"] = Constants.QrColorString;
+                this.Button_Search.Attributes["qrcolor"] = Const.QrColorString;
             else
-                this.Button_Search.Attributes.Add("qrcode", Constants.QrColorString);
+                this.Button_Search.Attributes.Add("qrcode", Const.QrColorString);
 
             try
             {
-                Constants.QrColor = ColorFrom.FromHtml(this.input_color.Value);
-                Constants.BackColor = ColorFrom.FromHtml(this.input_backcolor.Value);
+                Const.QrColor = ColorFrom.FromHtml(this.input_color.Value);
+                Const.BackColor = ColorFrom.FromHtml(this.input_backcolor.Value);
                 qrString = (string.IsNullOrEmpty(qrString)) ? GetQrString() : qrString;
 
                 if (!string.IsNullOrEmpty(qrString))
