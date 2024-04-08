@@ -22,9 +22,49 @@ namespace Area23.At.Mono.Util
         private static string calcAppPath = null;
         private static string cardPicsPath = null;
         private static string cardPicsDir = null;
-        
+        private static string appDirPath = null;
 
         public static string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
+
+        public static string AppDirPath
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(appDirPath))
+                {
+                    appDirPath = "." + SepChar;
+
+                    if (AppContext.BaseDirectory != null)
+                        appDirPath = AppContext.BaseDirectory + SepChar;
+                    else if (AppDomain.CurrentDomain != null)
+                        appDirPath = AppDomain.CurrentDomain.BaseDirectory + SepChar;
+                }
+
+                return appDirPath;
+            }
+        }
+
+        public static string BinDir { get => AppDirPath + "bin" + SepChar; }
+
+        public static string LogPathDir
+        {
+            get
+            {
+                string logPath = AppDirPath;
+
+                if (!logPath.Contains(Constants.LOG_DIR))
+                    logPath += Constants.LOG_DIR + SepChar;
+
+                if (!Directory.Exists(logPath))
+                {
+                    string dirNotFoundMsg = String.Format("{0} directory {1} doesn't exist, creating it!", Constants.LOG_DIR, logPath);
+                    Area23Log.LogStatic(dirNotFoundMsg);
+                    Directory.CreateDirectory(logPath);
+                }
+                return logPath;
+            }
+        }
+       
 
         public static string AppPath
         {
@@ -77,20 +117,7 @@ namespace Area23.At.Mono.Util
         public static string JsAppPath { get => ResAppPath + Constants.JS_DIR + "/"; }
 
         public static string CssAppPath { get => ResAppPath + Constants.CSS_DIR + "/"; }    
-
-        public static string QrAppPath 
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(qrAppPath))
-                {
-                    qrAppPath = BaseAppPath;
-                    if (!qrAppPath.Contains("/" + Constants.QR_DIR + "/"))
-                        qrAppPath += Constants.QR_DIR + "/"; 
-                }
-                return qrAppPath;
-            }
-        }
+        
 
         public static string UnixAppPath
         {
@@ -120,7 +147,19 @@ namespace Area23.At.Mono.Util
             }
         }
 
-
+        public static string QrAppPath
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(qrAppPath))
+                {
+                    qrAppPath = BaseAppPath;
+                    if (!qrAppPath.Contains("/" + Constants.QR_DIR + "/"))
+                        qrAppPath += Constants.QR_DIR + "/";
+                }
+                return qrAppPath;
+            }
+        }
 
         public static string AppFolder
         {
@@ -175,35 +214,43 @@ namespace Area23.At.Mono.Util
             }
         }
 
-        public static string BinDir { get => OutDir + "bin" + SepChar; }
+        // public static string BinDir { get => OutDir + "bin" + SepChar; }
 
-        public static string LogFile
-        {
-            get
-            {
-                string logAppPath = "." + SepChar;
-                if (HttpContext.Current == null || HttpContext.Current.Request == null || HttpContext.Current.Request.ApplicationPath == null)
-                {
-                    if (AppContext.BaseDirectory != null)
-                    {
-                        logAppPath = AppContext.BaseDirectory + SepChar;
-                    }
-                    else if (AppDomain.CurrentDomain != null)
-                    {
-                        logAppPath = AppDomain.CurrentDomain.BaseDirectory + SepChar;
-                    }
-                }
-                else
-                {
-                    logAppPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
-                }
+        public static string QrDirPath { get => AppDirPath + Constants.QR_DIR + SepChar; }
 
-                logAppPath += String.Format("{0}{1}{2}_{3}.log",
-                    Constants.LOG_DIR, SepChar, DateTime.UtcNow.ToString("yyyyMMdd"), Constants.APP_NAME);
-                // if (Directory.Exists(logAppPath))
-                return logAppPath;
-            }
-        }
+        public static string Utf8PathDir { get => AppDirPath + Constants.UTF8_DIR + SepChar; }
+
+        public static string LogFile { get => LogPathDir + Constants.AppLogFile; }
+
+
+
+        //public static string LogFile
+        //{
+        //    get
+        //    {
+        //        string logAppPath = "." + SepChar;
+        //        if (HttpContext.Current == null || HttpContext.Current.Request == null || HttpContext.Current.Request.ApplicationPath == null)
+        //        {
+        //            if (AppContext.BaseDirectory != null)
+        //            {
+        //                logAppPath = AppContext.BaseDirectory + SepChar;
+        //            }
+        //            else if (AppDomain.CurrentDomain != null)
+        //            {
+        //                logAppPath = AppDomain.CurrentDomain.BaseDirectory + SepChar;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            logAppPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
+        //        }
+
+        //        logAppPath += String.Format("{0}{1}{2}_{3}.log",
+        //            Constants.LOG_DIR, SepChar, DateTime.UtcNow.ToString("yyyyMMdd"), Constants.APP_NAME);
+        //        // if (Directory.Exists(logAppPath))
+        //        return logAppPath;
+        //    }
+        //}
 
     }
 }

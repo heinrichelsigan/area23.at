@@ -12,6 +12,8 @@ using System.Xml;
 using System.Security.Cryptography;
 using Area23.At.Mono.Util;
 using Area23.At.Mono.Qr;
+using System.Text;
+using System.Xml.Linq;
 
 namespace Area23.At.Mono.Qr
 {
@@ -105,7 +107,8 @@ namespace Area23.At.Mono.Qr
         /// <param name="c"></param>
         /// <returns><see cref="Bitmap"/></returns>
         /// <exception cref="ArgumentNullException">thrown, when <paramref name="qrString"/> is null or ""</exception>
-        protected virtual string GetQRImgPath(string qrString, out int qrWidth, string qrhex, string bghex = "#ffffff", short qrmode = 2)
+        protected virtual string GetQRImgPath(string qrString, out int qrWidth, string qrhex, string bghex = "#ffffff", 
+            short qrmode = 2, QRCodeGenerator.ECCLevel ecclvl = QRCodeGenerator.ECCLevel.Q)
         {
             if (string.IsNullOrEmpty(qrString))
                 throw new ArgumentNullException("qrString", "Error calling GetQRBitmap(qrString = null); qrString is null...");
@@ -123,7 +126,7 @@ namespace Area23.At.Mono.Qr
 
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             string qrModStr = Enum.GetNames(typeof(QRCoder.QRCodeGenerator.ECCLevel))[qrmode % 4];
-            QRCodeGenerator.ECCLevel ecclvl = QRCodeGenerator.ECCLevel.Q;
+            // QRCodeGenerator.ECCLevel ecclvl = QRCodeGenerator.ECCLevel.Q;
             // Enum.TryParse(qrModStr, out ecclvl);
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, ecclvl);
             QRCode qrCode = new QRCode(qrCodeData);
@@ -142,7 +145,7 @@ namespace Area23.At.Mono.Qr
             {
                 for (int iy = 0; iy < qrCodeImage.Height; iy++)
                 {
-                    Color getCol = qrCodeImage.GetPixel(ix, iy);
+                    System.Drawing.Color getCol = qrCodeImage.GetPixel(ix, iy);
                     if ((getCol.R == px0.R && getCol.G == px0.G && getCol.B == px0.B) ||
                         (((getCol.R + 1) == px0.R) && getCol.G == px0.G && getCol.B == px0.B) ||
                         ((getCol.R == px0.R) && (getCol.G + 1) == px0.G && getCol.B == px0.B) ||
@@ -152,7 +155,7 @@ namespace Area23.At.Mono.Qr
                         ((getCol.R == px0.R) && (getCol.G + 1) == px0.G && (getCol.B + 1) == px0.B) ||
                         (((getCol.R + 1) == px0.R) && (getCol.G + 1) == px0.G && (getCol.B + 1) == px0.B))
                     {
-                        qrCodeImage.SetPixel(ix, iy, Color.Transparent);
+                        qrCodeImage.SetPixel(ix, iy, System.Drawing.Color.Transparent);
                     }
                     else
                     {
@@ -160,13 +163,95 @@ namespace Area23.At.Mono.Qr
                     }
                 }
             }
+            
+            string qrfn = DateTime.UtcNow.Area23DateTimeWithMillis();
+            string qrOutPath = Paths.QrDirPath + qrfn + ".gif";
+            // string qrfn = Constants.DateFile + DateTime.Now.Millisecond + ".png";
+            QrImgPath = Paths.QrAppPath + qrfn + ".gif";
+            // normal operation
+            // qrCodeImage.Save(Paths.OutDir + qrfn + ".gif");
 
-            string qrfn = Constants.DateFile + DateTime.Now.Millisecond + ".png";
-            QrImgPath = Paths.ResAppPath + qrfn;
-            qrCodeImage.Save(Paths.OutDir + qrfn);
+            MemoryStream gifStrm = new MemoryStream();
+            qrCodeImage.Save(gifStrm, ImageFormat.Gif);
+            string qrStringGif = qrString.Replace("\r", "").Replace("\n", " ").Replace("\t", " ");
+
+            // WriteGifComment(gifStrm, qrString.Replace("\r", "").Replace("\n", " ").Replace("\t", " "));
+            byte[] gifBytes = gifStrm.ToArray();
+            byte[] toBytes = new byte[gifBytes.Length + qrStringGif.Length + 3];
+            int toCnt = 0;
+            bool flagOnce = false;            
+            object xAtomSpinLock = new object();
+
+            for (int bc = 0; bc < gifBytes.Length; bc++)
+            {
+                if ((gifBytes[bc] == (byte)0x21) && // ! 
+                    (gifBytes[bc+1] == (byte)0xf9 || gifBytes[bc + 1] == (byte)0xfe) &&
+                    (gifBytes[bc + 2] == (byte)0x04) && // EOT
+                    (gifBytes[bc + 3] == (byte)0x01) && // SOH                        
+                    (gifBytes[bc + 4] == (byte)0x00) && // NUL
+                    (0x00 == (byte)0x00))
+                {
+                    if (!flagOnce)
+                    {
+                        // lock (xAtomSpinLock)
+                        // {
+                        foreach (byte b in WriteGifComment(qrStringGif))
+                        {
+                            toBytes[toCnt++] = b;
+                        }
+                        flagOnce = true;
+                        // }
+                    }
+                }
+                
+                if ((bc == gifBytes.Length - 1) && (gifBytes[bc] != (byte)0x0) && (gifBytes[bc - 1] == (byte)0x0))
+                {
+                    xAtomSpinLock = new object();
+                    toBytes[toCnt++] = (byte)0x0;
+                }
+                else
+                    toBytes[toCnt++] = gifBytes[bc];
+            }
+
+
+            using (Stream fs = File.Open(qrOutPath, FileMode.Create, FileAccess.ReadWrite))
+            {
+                fs.Write(gifBytes, 0, gifBytes.Length);
+                fs.Flush();
+            }
+
+            string qrOutToPath = Paths.QrDirPath + qrfn + "_10_.gif";
+            using (Stream stream = File.Open(qrOutToPath, FileMode.Create, FileAccess.ReadWrite))
+            {
+                stream.Write(toBytes, 0, toBytes.Length - 1);
+                stream.Flush();
+            }
+
 
             return QrImgPath;
         }
+
+
+        protected virtual byte[] WriteGifComment(string comment)
+        {
+            if (string.IsNullOrEmpty(comment))
+                return new byte[0];
+
+            int commentCnt = 2;
+            byte[] commentBytes = new byte[comment.Length + 3];
+            commentBytes[0] = (byte)0x21;
+            commentBytes[1] = (byte)0xff;       
+
+            byte[] bytesComment = Encoding.ASCII.GetBytes(comment);
+            foreach (byte b in bytesComment)
+            {
+                commentBytes[commentCnt++] = b;
+            }
+            commentBytes[commentCnt] = (byte)0x0;
+
+            return commentBytes;
+        }
+
 
 
         /// <summary>

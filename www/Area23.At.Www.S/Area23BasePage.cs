@@ -219,11 +219,13 @@ namespace Area23.At.Www.S
             // QrImgPath = Paths.QrAppPath + qrfn + ".jpg";
 
             MemoryStream gifStrm = new MemoryStream();
-            qrCodeImage.Save(gifStrm, ImageFormat.Gif);         
-            GifMetadataAdapter gifAdapter = new GifMetadataAdapter(qrOutPath, gifStrm);
+            qrCodeImage.Save(gifStrm, ImageFormat.Gif, new EncoderParameters(5));
+            byte[] gifBytes = gifStrm.ToByteArray();
+
+            // GifMetadataAdapter gifAdapter = new GifMetadataAdapter(qrOutPath, gifStrm);
             // gifAdapter.Metadata.Comment = qrString;
             // gifAdapter.Metadata.Title = qrfn;
-            gifAdapter.SaveAs(qrOutPath);
+            // gifAdapter.SaveAs(qrOutPath);
 
             // MemoryStream jpegMs = new MemoryStream();
             // qrCodeImage.Save(jpegMs, ImageFormat.Jpeg);
@@ -260,11 +262,11 @@ namespace Area23.At.Www.S
             //}
 
 
-            //try
-            //{
-            //    MemoryStream gifStream = new MemoryStream();
-            //    GifEncoder gifEncoder = new GifEncoder(gifStream, qrCodeImage.Width, qrCodeImage.Height, null);
-            //    gifEncoder.AddFrame(qrCodeImage, 0, 0, null, qrString);
+            try
+            {
+                MemoryStream gifStream = new MemoryStream();
+                GifEncoder gifEncoder = new GifEncoder(gifStream, qrCodeImage.Width, qrCodeImage.Height, null);
+                gifEncoder.AddFrame(qrCodeImage, 0, 0, null, qrString);
             //    gifEncoder.Flush();
             //    gifStream.ToByteArray().ToFile(Paths.QrDirPath, qrfn, ".gif");
             //    QrImgPath = Paths.QrAppPath + qrfn + ".gif";

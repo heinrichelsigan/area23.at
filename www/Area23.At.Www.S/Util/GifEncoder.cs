@@ -212,27 +212,28 @@ namespace Area23.At.Www.S.Util.BumpKit
 
         private void WriteComment(string comment, int repeatCount = 0)
         {
-            // _stream.WriteByte(Convert.ToByte(0x21));
-            // _stream.WriteByte(Convert.ToByte(0xff));
-            WriteShort(ApplicationExtensionBlockIdentifier); // 0xff21
-                                                             
-            // byte[] bytesCommentLength = new byte[comment.Length];
-            // int bCnt = 0;                                                             
-            // foreach (char ch in comment.Length.ToString("x"))                                                             
-            //     bytesCommentLength[bCnt++] = (byte)ch;
-
-            // _stream.WriteByte((byte)bytesCommentLength.Length);
-            // _stream.Write(bytesCommentLength, 0, bytesCommentLength.Length);
-            byte[] bytesComment = Encoding.ASCII.GetBytes(comment);
-            // WriteByte((byte)bytesComment.Length);
+            int xff21 = 0xff21; // ApplicationExtensionBlockIdentifier; 
+            Byte b0 = Convert.ToByte(xff21 & 0xff);
+            _stream.WriteByte(b0);
+            Byte b1 = Convert.ToByte((xff21 >> 8) & 0xff);
+            _stream.WriteByte(b1);
+                     
+            byte[] bytesComment = Encoding.ASCII.GetBytes(comment);;
             _stream.WriteByte((byte)bytesComment.Length);
             _stream.Write(bytesComment, 0, bytesComment.Length);
             
             _stream.WriteByte(3); // Application block length
             _stream.WriteByte(1);
-            WriteShort(repeatCount);
-            // _stream.WriteByte(0x00);
-            // _stream.WriteByte((byte)repeatCount);
+
+            // repeatCount = 0;
+            b0 = Convert.ToByte(0x0 & 0xff);
+            _stream.WriteByte(b0);
+            b1 = Convert.ToByte((0x0 >> 8) & 0xff);
+            _stream.WriteByte(b1);
+
+            _stream.WriteByte(Convert.ToByte(0x0));
+            
+            // WriteByte(0); // terminator
 
         }
 

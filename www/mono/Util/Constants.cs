@@ -20,12 +20,16 @@ namespace Area23.At.Mono.Util
         public const string URL_PIC = "https://area23.at/mono/test/res/img/";
         public const string URL_PREFIX = "https://area23.at/mono/test/res/";
         public const string LOG_DIR = "log";
+        public const string LOG_EXT = "log";
         public const string QR_DIR = "Qr";
+        public const string UTF8_DIR = "Utf8";
         public const string UNIX_DIR = "Unix";
         public const string CALC_DIR = "Calc";
         public const string RES_FOLDER = "res";
         public const string JS_DIR = "js";
         public const string CSS_DIR = "css";
+        public const string JSON_SAVE_FILE = "urlshort.json";
+        public const string UTF8_JSON = "utf8symol.json";
 
         public const string ACCEPT_LANGUAGE = "Accept-Language";
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";
@@ -43,11 +47,56 @@ namespace Area23.At.Mono.Util
         public const string BACK_COLOR_STRING = "BackColorString";
         public const string QR_COLOR_STRING = "QrColorString";
 
+        public const string JSON_SAMPLE = @"{ 
+ 	""quiz"": { 
+ 		""sport"": { 
+ 			""q1"": { 
+ 				""question"": ""Which one is correct team name in NBA?"", 
+ 					""options"": [ 
+ 						""New York Bulls"", 
+ 							""Los Angeles Kings"", 
+ 							""Golden State Warriros"", 
+ 							""Huston Rocket"" 
+ 						], 
+ 					""answer"": ""Huston Rocket"" 
+ 				} 
+ 			}, 
+ 		""maths"": { 
+ 			""q1"": { 
+ 				""question"": ""5 + 7 = ?"", 
+ 					""options"": [ 
+ 						""10"", 
+ 						""11"", 
+ 						""12"", 
+ 						""13"" 
+ 					], 
+ 					""answer"": ""12"" 
+				}, 
+ 			""q2"": { 
+ 				""question"": ""12 - 8 = ?"", 
+ 				""options"": [ 
+ 						""1"", 
+ 						""2"", 
+ 						""3"", 
+ 						""4"" 
+ 						], 
+ 					""answer"": ""4"" 
+ 				}, 
+ 		} 
+ 	} 
+ }";
+
         #endregion public const
 
         #region properties
 
-        public static string JSON_SAMPLE { get => ResReader.GetValue("json_sample0"); }
+        /// <summary>
+        /// AppLogFile - logfile with <see cref="At.Framework.Library.Extensions.Area23Date(DateTime)"/> prefix
+        /// </summary>
+        public static string AppLogFile { get => DateTime.UtcNow.Area23Date() + UNDER_SCORE + APP_NAME + LOG_EXT; }
+
+
+        public static string Json_Example { get => ResReader.GetValue("json_sample0"); }
 
         private static System.Globalization.CultureInfo locale = null;
         private static String defaultLang = null;
