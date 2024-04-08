@@ -13,6 +13,7 @@
         <span id="headerLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a class="spanHeaderA" href="<%= Area23.At.Mono.Util.Paths.QrAppPath %>Qrc.aspx">qrcontact prefilled</a></span>	
         <span id="headerCenter" runat="server" class="headerCenter" align="center" valign="middle"><a class="spanHeaderA" href='<%= Area23.At.Mono.Util.Paths.QrAppPath %>Qr.aspx'>qrcode generic</a></span>	        
         <span id="headerRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a class="spanHeaderA" href='<%= Area23.At.Mono.Util.Paths.QrAppPath %>QRGen.aspx'>qrcode redirect</a></span>
+        <span id="headerRight" runat="server" class="headerRight" align="center" valign="right"><a class="spanHeaderA" href="https://area23.at/s/">url shortner</a></span>
     </div>
     <hr />    
     <asp:ContentPlaceHolder ID="QrBody" runat="server">
