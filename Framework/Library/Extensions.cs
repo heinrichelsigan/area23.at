@@ -29,6 +29,43 @@ namespace Area23.At.Framework.Library
             return double.IsNaN(d);
         }
 
+        public static System.Drawing.Color ToColor(this byte[] rgb)
+        {
+            if (rgb == null || rgb.Length < 1)
+                return System.Drawing.Color.Transparent;
+            if (rgb.Length == 1)
+                return System.Drawing.Color.FromArgb(rgb[0], 0xff, 0xff);
+            else if (rgb.Length == 2)
+                return System.Drawing.Color.FromArgb(rgb[0], rgb[1], 0xff);
+            return System.Drawing.Color.FromArgb(rgb[0], rgb[1], rgb[2]);
+        }
+
+        /// <summary>
+        /// FromHtmlToColor gets color from hexadecimal rgb string
+        /// </summary>        
+        /// <param name="htmlHex">hexadecimal rgb string rrggbb or with starting #, like #rrggbb</param>
+        /// <returns>Color, that was defined by hexadecimal #rrggbb string</returns>
+        public static System.Drawing.Color FromHtmlToColor(this string htmlHex)
+        {
+            if (String.IsNullOrWhiteSpace(htmlHex) || htmlHex.Length < 6 || htmlHex.Length > 7)
+                throw new ArgumentException(
+                    String.Format("System.Drawing.Color String.FromHtmlToColor(this string htmlHex = {0}), hex must be an rgb string in format \"#rrggbb\" or \"rrggbb\"", htmlHex));
+
+            string rgbWork = htmlHex.TrimStart("#".ToCharArray());
+
+            string colSeg = rgbWork.Substring(0, 2);
+            colSeg = (colSeg.Contains("00")) ? "0" : colSeg.TrimStart("0".ToCharArray());
+            int r = Convert.ToUInt16(colSeg, 16);
+            colSeg = rgbWork.Substring(2, 2);
+            colSeg = (colSeg.Contains("00")) ? "0" : colSeg.TrimStart("0".ToCharArray());
+            int g = Convert.ToUInt16(colSeg, 16);
+            colSeg = rgbWork.Substring(4, 2);
+            colSeg = (colSeg.Contains("00")) ? "0" : colSeg.TrimStart("0".ToCharArray());
+            int b = Convert.ToUInt16(colSeg, 16);
+
+            return System.Drawing.Color.FromArgb(r, g, b);
+        }
+
         #endregion primitive types extensions
 
         #region DateTime extensions
@@ -197,35 +234,8 @@ namespace Area23.At.Framework.Library
                 throw new ArgumentException(
                     String.Format("System.Drawing.Color.FromHtml(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
 
-            System.Drawing.Color _color = System.Drawing.ColorTranslator.FromHtml(hex);
-            return _color;
-        }
-
-        /// <summary>
-        /// FromXrgb gets color from hexadecimal rgb string
-        /// </summary>
-        /// <param name="color">System.Drawing.Color.FromXrgb(string hex) extension method</param>
-        /// <param name="hex">hexadecimal rgb string with starting #</param>
-        /// <returns>Color, that was defined by hexadecimal rgb string</returns>
-        public static System.Drawing.Color FromXrgb(this System.Drawing.Color color, string hex)
-        {
-            if (String.IsNullOrWhiteSpace(hex) || hex.Length < 6 || hex.Length > 9)
-                throw new ArgumentException(
-                    String.Format("System.Drawing.Color.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" or \"rrggbb\"", hex));
-
-            string rgbWork = hex.TrimStart("#".ToCharArray());
-
-            string colSeg = rgbWork.Substring(0, 2);
-            colSeg = (colSeg.Contains("00")) ? "0" : colSeg.TrimStart("0".ToCharArray());
-            int r = Convert.ToUInt16(colSeg, 16);
-            colSeg = rgbWork.Substring(2, 2);
-            colSeg = (colSeg.Contains("00")) ? "0" : colSeg.TrimStart("0".ToCharArray());
-            int g = Convert.ToUInt16(colSeg, 16);
-            colSeg = rgbWork.Substring(4, 2);
-            colSeg = (colSeg.Contains("00")) ? "0" : colSeg.TrimStart("0".ToCharArray());
-            int b = Convert.ToUInt16(colSeg, 16);
-
-            return System.Drawing.Color.FromArgb(r, g, b);
+            color = System.Drawing.ColorTranslator.FromHtml(hex);
+            return color;
         }
 
         /// <summary>
@@ -239,8 +249,50 @@ namespace Area23.At.Framework.Library
         /// <exception cref="ArgumentException"></exception>
         public static System.Drawing.Color FromRGB(this System.Drawing.Color color, byte r, byte g, byte b)
         {
-            return System.Drawing.Color.FromArgb((int)r, (int)g, (int)b);
+            System.Drawing.Color _color = System.Drawing.Color.FromArgb((int)r, (int)g, (int)b);
+            return _color;
         }
+
+
+        /// <summary>
+        /// <see cref="System.Drawing.Color">System.Drawing.Color extension method</see> IsInLevenSteinDistance
+        /// </summary>
+        /// <param name="px0"></param>
+        /// <param name="disCol"></param>
+        /// <returns>true, if this baseColor is inside LevenStein distance to Color disColor</returns>
+        public static bool IsInLevenSteinDistance(this System.Drawing.Color baseCol, System.Drawing.Color disCol)
+        {
+            if (disCol.R == baseCol.R && disCol.G == baseCol.G && disCol.B == baseCol.B) // exact match => return true;
+                return true;
+
+            System.Drawing.Color lvstCol = disCol.FromRGB(disCol.R, disCol.G, disCol.B);
+
+            for (int rls = 0; Math.Abs(rls) < 4; rls = (rls >= 0) ? (0 - (++rls)) : Math.Abs(rls))
+            {
+                for (int gls = 0; Math.Abs(gls) < 4; gls = (gls >= 0) ? (0 - (++gls)) : Math.Abs(gls))
+                {
+                    for (int bls = 0; Math.Abs(bls) < 4; bls = (bls >= 0) ? (0 - (++bls)) : Math.Abs(bls))
+                    {
+                        byte r = ((byte)(disCol.R + rls) >= 0xff) ? (byte)(0xff) : (byte)(disCol.R + rls);
+                        byte g = ((byte)(disCol.G + gls) >= 0xff) ? (byte)(0xff) : (byte)(disCol.G + gls);
+                        byte b = ((byte)(disCol.B + bls) >= 0xff) ? (byte)(0xff) : (byte)(disCol.B + bls);
+                        lvstCol = lvstCol.FromRGB(r, g, b);
+
+                        if ((((lvstCol.R + rls) == baseCol.R) && lvstCol.G == baseCol.G && lvstCol.B == baseCol.B) ||
+                            ((lvstCol.R == baseCol.R) && (lvstCol.G + gls) == baseCol.G && lvstCol.B == baseCol.B) ||
+                            ((lvstCol.R == baseCol.R) && lvstCol.G == baseCol.G && (lvstCol.B + bls) == baseCol.B) ||
+                            (((lvstCol.R + rls) == baseCol.R) && (lvstCol.G + gls) == baseCol.G && lvstCol.B == baseCol.B) ||
+                            (((lvstCol.R + rls) == baseCol.R) && lvstCol.G == baseCol.G && (lvstCol.B + bls) == baseCol.B) ||
+                            ((lvstCol.R == baseCol.R) && (lvstCol.G + gls) == baseCol.G && (lvstCol.B + bls) == baseCol.B) ||
+                            (((lvstCol.R + rls) == baseCol.R) && (lvstCol.G + gls) == baseCol.G && (lvstCol.B + bls) == baseCol.B))
+                            return true;
+                    }
+                }
+            }
+            // not in LevenStein disctance
+            return false;
+        }
+
 
         /// <summary>
         /// Extension method Color.ToXrgb() converts current color to hex string 

@@ -147,7 +147,7 @@ namespace Area23.At.Www.S
 
         protected override void GenerateQRImage(string qrString = "")
         {
-            int qrWidth = -1;
+            int qrWidth = 128;
             string qrImgPath = string.Empty;
             // Bitmap aQrBitmap = null;
 
@@ -175,7 +175,7 @@ namespace Area23.At.Www.S
                 if (!string.IsNullOrEmpty(qrString))
                 {
                     // aQrBitmap = GetQRBitmap(qrString, Constants.QrColor, Color.Transparent);
-                    qrImgPath = GetQRImgPath(qrString, out qrWidth, this.input_color.Value, this.input_backcolor.Value, qrMode, eCCLevel);
+                    qrImgPath = GetQRImgPath(qrString, ref qrWidth, this.input_color.Value, this.input_backcolor.Value, qrMode, eCCLevel);
                 }
                 if (!string.IsNullOrEmpty(qrImgPath))
                 {
