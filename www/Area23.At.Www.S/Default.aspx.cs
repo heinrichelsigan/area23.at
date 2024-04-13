@@ -17,6 +17,7 @@ using System.Runtime.Serialization.Formatters;
 using System.Security.Policy;
 using System.Web.DynamicData;
 using Area23.At.Framework.Library;
+using System.Windows.Shapes;
 
 namespace Area23.At.Www.S
 {
@@ -218,11 +219,23 @@ namespace Area23.At.Www.S
             this.TextBoxShortenUrl.Text = ShortUrl;
             this.TextBoxShortenUrl.Visible = true;
             string invImgSrc = imgPth.Replace(".gif", "_i.gif");
-            if (invImgSrc.Contains("/Qr"))
+            if (invImgSrc.Contains("Qr/"))
             {
-                int idxQr = invImgSrc.IndexOf("/Qr");
+                int idxQr = invImgSrc.IndexOf("Qr/");
                 string qrInvPath = invImgSrc.Substring(idxQr);
-                string invPath = Server.MapPath(qrInvPath);
+                string invPath = Paths.AppDirPath + qrInvPath.Replace("/", Paths.SepChar);
+                try
+                {
+                    invPath = Server.MapPath(qrInvPath);
+                } 
+                catch (Exception exQrMapPath)
+                {
+                    Area23Log.LogStatic(exQrMapPath);
+                    invPath = Paths.AppDirPath;
+                    if (!invPath.EndsWith(Paths.SepChar)) 
+                        invPath += Paths.SepChar;
+                    invPath += qrInvPath.Replace("/", Paths.SepChar);
+                }
                 if (File.Exists(invPath)) 
                 {
                     this.imQrInverse.Visible = true;
