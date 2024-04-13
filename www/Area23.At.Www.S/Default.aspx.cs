@@ -214,6 +214,23 @@ namespace Area23.At.Www.S
             this.ImageQr.ImageUrl = imgPth;
             if (qrWidth > 0)
                 this.ImageQr.Width = qrWidth;
+
+            this.TextBoxShortenUrl.Text = ShortUrl;
+            this.TextBoxShortenUrl.Visible = true;
+            string invImgSrc = imgPth.Replace(".gif", "_i.gif");
+            if (invImgSrc.Contains("/Qr"))
+            {
+                int idxQr = invImgSrc.IndexOf("/Qr");
+                string qrInvPath = invImgSrc.Substring(idxQr);
+                string invPath = Server.MapPath(qrInvPath);
+                if (File.Exists(invPath)) 
+                {
+                    this.imQrInverse.Visible = true;
+                    this.imQrInverse.Src = invImgSrc;
+                    if (qrWidth > 0)
+                        this.imQrInverse.Width = qrWidth;
+                }
+            }           
         }
 
         #endregion qrmembers
