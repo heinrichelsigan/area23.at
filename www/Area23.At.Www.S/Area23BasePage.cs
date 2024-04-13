@@ -324,30 +324,34 @@ namespace Area23.At.Www.S
 
             Bitmap qrCodeImage = DrawQrBitmap(qrString, ref minWidth, qrColorRGBHex, backgroundColorRGBHex, qrMode, eccLevel);
 
-            string gifFileName = DateTime.UtcNow.Area23DateTimeWithMillis() + ".gif";
+            string datePrefix = DateTime.UtcNow.Area23DateTimeWithMillis();
+            string gifFileName = datePrefix + ".gif";
+            string gifInverseFileNae = datePrefix + "_i.gif";
 
             Color qrc0 = qrColorRGBHex.FromHtmlToColor();
             Color back0 = backgroundColorRGBHex.FromHtmlToColor();
             Color qrc1 = qrc0.FromRGB((byte)((byte)0xff - qrc0.R), (byte)((byte)0xff - qrc0.G), (byte)((byte)0xff - qrc0.B));
             Color back1 = back0.FromRGB((byte)((byte)0xff - back0.R), (byte)((byte)0xff - back0.G), (byte)((byte)0xff - back0.B));
             Bitmap qrCodeImage1 = DrawQrBitmap(qrString, ref minWidth, qrc1.ToXrgb(), back1.ToXrgb(), qrMode, eccLevel);
-            
-                       
-            GifEncoder enc = new GifEncoder(qrCodeImage, 256, new TimeSpan(0, 0, 4));
-            enc.AddFrame(qrCodeImage1);
+
+
+            TimeSpan twait1 = new TimeSpan(0, 0, 3);
+            TimeSpan twait = new TimeSpan(0, 0, 1);
+            GifEncoder enc = new GifEncoder(qrCodeImage1, 256, twait1);
+            enc.AddFrame(qrCodeImage, twait);
             enc.Finish();
             byte[] gifEncBytes = enc.GifData;
-            using (Stream fs1 = File.Open(Paths.QrDirPath + gifFileName, FileMode.Create, FileAccess.ReadWrite))
+            using (Stream fs1 = File.Open(Paths.QrDirPath + gifInverseFileNae, FileMode.Create, FileAccess.ReadWrite))
             {
                 fs1.Write(gifEncBytes, 0, gifEncBytes.Length);
                 fs1.Flush();
             }
-            QrImgPath = Paths.QrAppPath + gifFileName;
+            
             // normal operation => save qrCodeImage to qrOutToPath
             // qrCodeImage.Save(Paths.QrDirPath + qrfn + "_11.gif");
 
-            gifFileName = DateTime.UtcNow.Area23DateTimeWithMillis() + ".gif";
-            
+            QrImgPath = Paths.QrAppPath + gifFileName;
+            // BytesToWithGifComment(Paths.QrDirPath + gifFileName, gifEncBytes, qrString);             
             SaveWithGifComment(Paths.QrDirPath + gifFileName, qrCodeImage, qrString);            
 
             // GifMetadataAdapter gifAdapter = new GifMetadataAdapter(qrOutPath, gifStrm);
@@ -503,9 +507,14 @@ namespace Area23.At.Www.S
         {
             MemoryStream gifStrm = new MemoryStream();
             bitmap.Save(gifStrm, ImageFormat.Gif);
-            string gifComment = comment.Replace("\r", "").Replace("\n", " ").Replace("\t", " ");
-
             byte[] gifBytes = gifStrm.ToArray();
+            BytesToWithGifComment(fullOutFilePath, gifBytes, comment);
+        }
+
+        protected virtual void BytesToWithGifComment(string fullOutFilePath, byte[] gifBytes, string comment)
+        {
+
+            string gifComment = comment.Replace("\r", "").Replace("\n", " ").Replace("\t", " ");
             List<byte> toByteList = new List<byte>();
             bool flagOnce = false;
 

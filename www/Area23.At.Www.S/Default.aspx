@@ -56,11 +56,17 @@
 			</span>
 		</div>
 		<div align="left" class="contentDiv">
+			<asp:TextBox ID="TextBoxShortenUrl" runat="server" Width="75%" Height="24pt" ToolTip="shorten utl" Enabled="false" Visible="false" CssClass="QRTextBoxSmall" />&nbsp;
+		</div>
+		<div align="left" class="contentDiv">
+			<a id="HrefShort" runat="server" class="Url_Short" href="#" target="_blank" name="UrlShort" visible="false"></a>				
+		</div>
+		<div align="left" class="contentDiv">
 			<span class="lefthuge" id="hugeLeftId" runat="server">
 				<asp:Image ID="ImageQr" runat="server" ImageUrl="~/res/img/qrsample2.png" Visible="false" BorderStyle="None" BackColor="Transparent" />
 			</span>
 			<span class="righthuge">
-				<a id="HrefShort" runat="server" class="Url_Short" href="#" target="_blank" name="UrlShort" visible="false"></a>				
+				<img id="imQrInverse" runat="server" src="~/res/img/qrsample1.png" alt="Qr Code" visible="false" style="border-style: none; background-color: transparent" />
 			</span>
 		</div>		
 		<div id="ErrorDiv" runat="server" class="footerDiv" visible="false">

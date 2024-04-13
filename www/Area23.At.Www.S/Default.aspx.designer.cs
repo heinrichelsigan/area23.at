@@ -78,6 +78,24 @@ namespace Area23.At.Www.S
         protected global::System.Web.UI.WebControls.DropDownList DropDown_PixelPerUnit;
 
         /// <summary>
+        /// TextBoxShortenUrl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxShortenUrl;
+
+        /// <summary>
+        /// HrefShort control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor HrefShort;
+
+        /// <summary>
         /// hugeLeftId control.
         /// </summary>
         /// <remarks>
@@ -96,13 +114,13 @@ namespace Area23.At.Www.S
         protected global::System.Web.UI.WebControls.Image ImageQr;
 
         /// <summary>
-        /// HrefShort control.
+        /// imQrInverse control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor HrefShort;
+        protected global::System.Web.UI.HtmlControls.HtmlImage imQrInverse;
 
         /// <summary>
         /// ErrorDiv control.
