@@ -229,7 +229,7 @@ namespace Area23.At.Www.S
             Color colorQr = ColorFrom.FromHtml(qrColorRGBHex);
             Color colorBg = Color.White;
             colorBg = (string.IsNullOrEmpty(backgroundColorRGBHex) || backgroundColorRGBHex.Length != 7 || backgroundColorRGBHex == "#ffffff") ? 
-                Color.Transparent : 
+                Color.White : 
                 ColorFrom.FromHtml(backgroundColorRGBHex);
             
             Bitmap qrBitmap = DrawQrBitmap(qrString, colorQr, colorBg, minWidth, qrMode, eccLevel);
@@ -326,32 +326,33 @@ namespace Area23.At.Www.S
 
             string datePrefix = DateTime.UtcNow.Area23DateTimeWithMillis();
             string gifFileName = datePrefix + ".gif";
-            string gifInverseFileNae = datePrefix + "_i.gif";
+            string gifInverseFileName = datePrefix + "_i.gif";
 
             Color qrc0 = qrColorRGBHex.FromHtmlToColor();
             Color back0 = backgroundColorRGBHex.FromHtmlToColor();
             Color qrc1 = qrc0.FromRGB((byte)((byte)0xff - qrc0.R), (byte)((byte)0xff - qrc0.G), (byte)((byte)0xff - qrc0.B));
             Color back1 = back0.FromRGB((byte)((byte)0xff - back0.R), (byte)((byte)0xff - back0.G), (byte)((byte)0xff - back0.B));
-            Bitmap qrCodeImage1 = DrawQrBitmap(qrString, ref minWidth, qrc1.ToXrgb(), back1.ToXrgb(), qrMode, eccLevel);
+            Bitmap qrCodeImageInverse = DrawQrBitmap(qrString, ref minWidth, qrc1.ToXrgb(), back1.ToXrgb(), qrMode, eccLevel);
 
 
-            TimeSpan twait1 = new TimeSpan(0, 0, 3);
-            TimeSpan twait = new TimeSpan(0, 0, 1);
-            GifEncoder enc = new GifEncoder(qrCodeImage1, 256, twait1);
-            enc.AddFrame(qrCodeImage, twait);
-            enc.Finish();
-            byte[] gifEncBytes = enc.GifData;
-            using (Stream fs1 = File.Open(Paths.QrDirPath + gifInverseFileNae, FileMode.Create, FileAccess.ReadWrite))
-            {
-                fs1.Write(gifEncBytes, 0, gifEncBytes.Length);
-                fs1.Flush();
-            }
-            
+            //TimeSpan twait1 = new TimeSpan(0, 0, 2);
+            //TimeSpan twait = new TimeSpan(0, 0, 2);
+            //GifEncoder enc = new GifEncoder(qrCodeImageInverse, 2, twait1);
+            //enc.AddFrame(qrCodeImage, twait);
+            //enc.Finish();
+            //byte[] gifEncBytes = enc.GifData;
+            //using (Stream fs1 = File.Open(Paths.QrDirPath + gifInverseFileName, FileMode.Create, FileAccess.ReadWrite))
+            //{
+            //    fs1.Write(gifEncBytes, 0, gifEncBytes.Length);
+            //    fs1.Flush();
+            //}
+
             // normal operation => save qrCodeImage to qrOutToPath
             // qrCodeImage.Save(Paths.QrDirPath + qrfn + "_11.gif");
 
             QrImgPath = Paths.QrAppPath + gifFileName;
-            // BytesToWithGifComment(Paths.QrDirPath + gifFileName, gifEncBytes, qrString);             
+            // BytesToWithGifComment(Paths.QrDirPath + gifFileName, gifEncBytes, qrString);
+            SaveWithGifComment(Paths.QrDirPath + gifInverseFileName, qrCodeImageInverse, qrString);
             SaveWithGifComment(Paths.QrDirPath + gifFileName, qrCodeImage, qrString);            
 
             // GifMetadataAdapter gifAdapter = new GifMetadataAdapter(qrOutPath, gifStrm);
