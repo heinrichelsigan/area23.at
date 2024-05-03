@@ -1,4 +1,7 @@
-﻿using Area23.At.Mono.Util;
+﻿using Area23.At.Mono.Properties;
+using Area23.At.Mono.Util;
+using Area23.At.Mono.Util.Enum;
+using Area23.At.Mono.Util.SymChiffer;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,6 +9,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using static System.Net.WebRequestMethods;
@@ -18,7 +22,7 @@ namespace Area23.At.Mono
         {
             if (Request.Files != null && Request.Files.Count > 0)
             {
-                buttonUpload_Click(sender, e);
+                ; // handled by Event members
             }
         }
 
@@ -34,131 +38,57 @@ namespace Area23.At.Mono
             }
         }
 
-        protected void ReTransformImage(string imgFileName = null)
+        /// <summary>
+        /// Decrypt File
+        /// </summary>
+        /// <param name="data">byte[] of encrypted file</param>
+        /// <param name="imgFileName"></param>
+        /// <param name="symChiffre">encryption SymChiffre</param>
+        /// <returns></returns>
+        protected byte[] DecryptFile(byte[] data, string imgFileName = null, SymChiffre symChiffre = SymChiffre.NONE)
         {
-            System.Drawing.Bitmap x1Image = null;
+            string savedFile = "res/fortune.u8";
+            byte[] plainData = data;
 
-            byte b0 = Color.Transparent.R;
-            byte b1 = Color.Transparent.G;
-            byte b2 = Color.Transparent.B;
-
-            List<Byte> bList = new List<byte>();
-
-            if (!string.IsNullOrEmpty(imgFileName) && System.IO.File.Exists(imgFileName))
-                x1Image = new Bitmap(imgFileName, false);
-
-            List<long> transList = new List<long>();
-            bool shouldBreak = false;
-            int h = x1Image.Height;
-            int w = x1Image.Width;
-            for (int y = 0; y < h; y++)
-            {
-                for (int x = 0; x < w; x++)
-                {
-                    Color c = x1Image.GetPixel(x, y);
-                    if ((y > (h - 2)) || (x * y > ((h * w) - w)))
-                    {
-                        if (c.R == Color.Transparent.R && c.G == Color.Transparent.G && c.B == Color.Transparent.B)
-                        {
-                            transList.Add((x1Image.Width * y) + x);
-
-                            int trCnt = transList.Count;
-                            if (trCnt > 3 &&
-                                transList[trCnt - 4] == (transList[trCnt - 3] - 1) &&
-                                transList[trCnt - 3] == (transList[trCnt - 2] - 1) &&
-                                transList[trCnt - 2] == (transList[trCnt - 1] - 1))
-                            {
-                                while (bList[bList.Count - 1] == Color.Transparent.R)
-                                {
-                                    bList.RemoveAt(bList.Count - 1);
-                                }
-                                shouldBreak = true; break;
-                            }
-                        }
-                    }
-
-                    if (!shouldBreak)
-                    {
-                        bList.Add(c.R);
-                        bList.Add(c.G);
-                        bList.Add(c.B);
-                    }
-                }
-                if (shouldBreak) break;
-            }
-
-            string mimeType = ByteArrayToFile(bList.ToArray());   
-            string base64Data = Convert.ToBase64String(bList.ToArray());
-            imgOut.Src = "data:" + mimeType + ";base64," + base64Data; 
+            aTransFormed.HRef = savedFile;
+            imgOut.Src = "res/img/decrypted.png";
+            return plainData;
         }
 
 
-        protected void TransformImage(byte[] data, string imgFileName = null)
+        /// <summary>
+        /// Encrypt File
+        /// </summary>
+        /// <param name="data">byte[] of plain text file</param>
+        /// <param name="imgFileName"></param>
+        /// <param name="symChiffre">decryption SymChiffre</param>
+        /// <returns></returns>
+        protected byte[] EncryptFile(byte[] data, string imgFileName = null, SymChiffre symChiffre = SymChiffre.NONE)
         {
-            System.Drawing.Bitmap x1Image = null;
-            System.Drawing.Bitmap fromBytesTransImage = null;
-
-            if (!string.IsNullOrEmpty(imgFileName) && System.IO.File.Exists(imgFileName))
-                x1Image = new Bitmap(imgFileName);
-
-            double dlen = (int)(data.Length / 3) + 1;
-            int imgLen = (int)Math.Round(Math.Sqrt(dlen), MidpointRounding.AwayFromZero) + 1;
-
-            fromBytesTransImage = new Bitmap(imgLen, imgLen);
-
-            int x = 0, y = 0, c = 0;
-            byte b0, b1, b2;
-            for (int xy = 0; xy < imgLen * imgLen; xy++)
-            {
-                b0 = Color.Transparent.R;
-                b1 = Color.Transparent.G;
-                b2 = Color.Transparent.B;
-                if (c < data.Length)
-                {
-                    try
-                    {
-                        b0 = data[c];
-                        b1 = data[c + 1];
-                        b2 = data[c + 2];
-                    }
-                    catch (Exception e)
-                    {
-                        Area23Log.LogStatic(e);
-                    }
-                }
-                c += 3;
-                x = xy % imgLen;
-                if (xy > 0 && ((xy % imgLen) == 0))
-                    y++;
-                Color col = Color.FromArgb(Convert.ToInt16(b0), Convert.ToInt16(b1), Convert.ToInt16(b2));
-                fromBytesTransImage.SetPixel(x, y, col);                
-            }
-
-
-            MemoryStream ms = new MemoryStream();
-            fromBytesTransImage.Save(ms, ImageFormat.Png);
-            string base64Data = Convert.ToBase64String(ms.ToArray());
-            imgOut.Src = "data:image/png;base64," + base64Data;
-
+            string savedFile = "res/fortune.u8";
+            byte[] encryptedData = data;
+            aTransFormed.HRef = savedFile;
+            imgOut.Src = "res/img/encrypted.png";
+            return encryptedData;
         }
 
 
-        protected void buttonTransUpload_Click(object sender, EventArgs e)
+        protected void ButtonEncryptFile_Click(object sender, EventArgs e)
         {
             if (Request.Files != null && Request.Files.Count > 0)
-                TransformUploadFile(Request.Files[0]);
+                EnDeCryptUploadFile(Request.Files[0], true);
         }
 
 
-        protected void btnUploadTrans_Click(object sender, EventArgs e)
+        protected void ButtonDecryptFile_Click(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(oFile.Value))
             {
-                TransformUploadFile(oFile.PostedFile);
+                EnDeCryptUploadFile(oFile.PostedFile, false);
             }
         }
 
-        protected void TransformUploadFile(HttpPostedFile pfile)
+        protected void EnDeCryptUploadFile(HttpPostedFile pfile, bool crypt = true)
         {
             string strFilePath;
             // Get the name of the file that is posted.
@@ -166,7 +96,7 @@ namespace Area23.At.Mono
             strFileName = Path.GetFileName(strFileName);
             lblUploadResult.Text = "";
 
-            if (pfile != null)
+            if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
             {
                 // Save the uploaded file to the server.
                 strFilePath = ResFoler + strFileName;
@@ -185,17 +115,55 @@ namespace Area23.At.Mono
                     lblUploadResult.Text = strFileName + " has been successfully uploaded.";
 
                 byte[] fileBytes = pfile.InputStream.ToByteArray();
+
                 string base64Data = Convert.ToBase64String(fileBytes);
-                imgIn.Src = "data:image;base64," + base64Data;
                 
-                System.Drawing.Bitmap x1Image = null;
                 if (!string.IsNullOrEmpty(strFilePath) && System.IO.File.Exists(strFilePath))
                 {
-                    x1Image = new Bitmap(strFilePath);
-                    if (x1Image.Width == x1Image.Height)
-                        ReTransformImage(strFilePath);
+                    if (crypt)
+                    {
+                        foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
+                        {
+                            if (item.Value == "3DES" && item.Selected)
+                            {
+                                EncryptFile(fileBytes, strFilePath, SymChiffre.DES3);
+                            }
+                            if (item.Value == "AES" && item.Selected)
+                            {
+                                EncryptFile(fileBytes, strFilePath, SymChiffre.AES);
+                            }
+                            if (item.Value == "Serpent" && item.Selected)
+                            {
+                                EncryptFile(fileBytes, strFilePath, SymChiffre.SERPENT);
+                            }
+                        }
+                    }                        
                     else
-                        TransformImage(fileBytes, strFilePath);
+                    {
+                        bool tripleDesDecrypt = false;
+                        bool aesDecrypt = false;
+                        bool serpentDecrypt = false;
+
+                        foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
+                        {
+                            tripleDesDecrypt = (item.Value == "3DES" && item.Selected);
+                            aesDecrypt = (item.Value == "AES" && item.Selected);
+                            serpentDecrypt = (item.Value == "Serpent" && item.Selected);                            
+                        }
+                        if (serpentDecrypt)
+                        {
+                            DecryptFile(fileBytes, strFilePath, SymChiffre.SERPENT);
+                        }
+                        if (aesDecrypt)
+                        {
+                            DecryptFile(fileBytes, strFilePath, SymChiffre.AES);
+                        }
+                        if (tripleDesDecrypt)
+                        {
+                            DecryptFile(fileBytes, strFilePath, SymChiffre.DES3);
+                        }
+                    }
+                        
                 }                
             }
             else
@@ -208,22 +176,73 @@ namespace Area23.At.Mono
             frmConfirmation.Visible = true;
         }
 
-
-        protected void buttonUpload_Click(object sender, EventArgs e)
+        protected void ButtonEncrypt_Click(object sender, EventArgs e)
         {
-            if (Request.Files != null && Request.Files.Count > 0)
-                TransformUploadFile(Request.Files[0]);
-        }
-
-        protected void btnUploadRe_Click(object sender, EventArgs e)
-        {
-            
-            if (!string.IsNullOrEmpty(oFile.Value))
+            frmConfirmation.Visible = false;
+            if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
-                TransformUploadFile(oFile.PostedFile);
-            }            
+                string source = this.TextBoxSource.Text;
+                string encrypted = string.Empty;
+
+                foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
+                {
+                    if (item.Value == "3DES" && item.Selected)
+                    {
+                        encrypted = TripleDes.EncryptString(source);
+                        source = encrypted;
+                    }
+                    if (item.Value == "AES" && item.Selected)
+                    {
+                        encrypted = Aes.EncryptString(source, Aes.AesKey, Aes.AesIv);
+                        source = encrypted;
+                    }
+                    if (item.Value == "Serpent" && item.Selected)
+                    {
+                        encrypted = Serpent.EncryptString(source);
+                        source = encrypted;
+                    }
+                }
+                this.TextBoxDestionation.Text = encrypted;
+            }
         }
 
+        protected void ButtonDecrypt_Click(object sender, EventArgs e)
+        {
+            frmConfirmation.Visible = false;
+            if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
+            {
+                string source = this.TextBoxSource.Text;
+                string decrypted = string.Empty;
+                bool tripleDesDecrypt = false;
+                bool aesDecrypt = false;
+                bool serpentDecrypt = false;
+
+                foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
+                {
+                    tripleDesDecrypt = (item.Value == "3DES" && item.Selected);
+                    aesDecrypt = (item.Value == "AES" && item.Selected);
+                    serpentDecrypt = (item.Value == "Serpent" && item.Selected);
+                }
+                if (serpentDecrypt)
+                {
+                    decrypted = Serpent.DecryptString(source);
+                    source = decrypted;
+                }
+                if (aesDecrypt)
+                {
+                    decrypted = Aes.DecryptString(source, Aes.AesKey, Aes.AesIv);
+                    source = decrypted;
+                }
+                if (tripleDesDecrypt)
+                {
+                    decrypted = TripleDes.DecryptString(source);
+                    source = decrypted;
+                }
+                this.TextBoxDestionation.Text = decrypted;
+            }
+        }
+
+    
         public static string GetMimeTypeForImageBytes(byte[] bytes)
         {
             using (MemoryStream ms = new MemoryStream(bytes))

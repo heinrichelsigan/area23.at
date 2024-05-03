@@ -33,22 +33,67 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlInputFile oFile;
 
         /// <summary>
-        /// buttonUploadTrans control.
+        /// ButtonEncryptFile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton buttonUploadTrans;
+        protected global::System.Web.UI.WebControls.Button ButtonEncryptFile;
 
         /// <summary>
-        /// btnUpLoad control.
+        /// ButtonDecryptFile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton btnUpLoad;
+        protected global::System.Web.UI.WebControls.Button ButtonDecryptFile;
+
+        /// <summary>
+        /// CheckBoxListEncDeCryption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBoxList CheckBoxListEncDeCryption;
+
+        /// <summary>
+        /// TextBoxSource control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxSource;
+
+        /// <summary>
+        /// TextBoxDestionation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxDestionation;
+
+        /// <summary>
+        /// ButtonEncrypt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonEncrypt;
+
+        /// <summary>
+        /// ButtonDecrypt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonDecrypt;
 
         /// <summary>
         /// frmConfirmation control.
@@ -60,15 +105,6 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Panel frmConfirmation;
 
         /// <summary>
-        /// imgIn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage imgIn;
-
-        /// <summary>
         /// lblUploadResult control.
         /// </summary>
         /// <remarks>
@@ -76,6 +112,15 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblUploadResult;
+
+        /// <summary>
+        /// aTransFormed control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aTransFormed;
 
         /// <summary>
         /// imgOut control.
