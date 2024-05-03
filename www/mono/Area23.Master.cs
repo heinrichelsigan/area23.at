@@ -33,6 +33,7 @@ namespace Area23.At.Mono
             this.aQr.HRef = Paths.QrAppPath + "QRCodeGen.aspx";
             this.aJson.HRef = Paths.BaseAppPath + "json.aspx";
             this.aByteTransColor.HRef = Paths.BaseAppPath + "ByteTransColor.aspx";
+            this.aAesCrypt.HRef = Paths.BaseAppPath + "SAES_En_Decrypt.aspx";
             this.aRpnCalc.HRef = Paths.BaseAppPath + "RpnCalc.aspx";
             this.aFroga.HRef = Paths.BaseAppPath + "froga.aspx";
             this.aSchnapsNet.HRef = "/mono/SchnapsNet/";
@@ -46,6 +47,7 @@ namespace Area23.At.Mono
             spanCenter1.Attributes["class"] = "headerCenter";
             spanCenter2.Attributes["class"] = "headerCenter";
             spanCenter3.Attributes["class"] = "headerCenter";
+            spanCenter4.Attributes["class"] = "headerCenter";
             spanRightCenter.Attributes["class"] = "headerRightCenter";
             spanRight.Attributes["class"] = "headerRightCenter";
 
@@ -73,9 +75,14 @@ namespace Area23.At.Mono
                         spanCenter2.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
-                    if (Request.RawUrl.ToLower().Contains("rpn"))
+                    if (Request.RawUrl.ToLower().Contains("aes"))
                     {
                         spanCenter3.Attributes["class"] = "headerCenterSelect";
+                        return;
+                    }
+                    if (Request.RawUrl.ToLower().Contains("rpn"))
+                    {
+                        spanCenter4.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
                     if (Request.RawUrl.ToLower().Contains("frog"))
