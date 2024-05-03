@@ -148,6 +148,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="SAES_En_Decrypt.aspx" />
     <Content Include="ByteTransColor.aspx" />
     <Content Include="Calc\Calculator.aspx" />
     <Content Include="Calc\RpnCalc.aspx" />
@@ -272,6 +273,13 @@
     </Compile>
     <Compile Include="Area23.Master.designer.cs">
       <DependentUpon>Area23.Master</DependentUpon>
+    </Compile>
+    <Compile Include="SAES_En_Decrypt.aspx.cs">
+      <DependentUpon>SAES_En_Decrypt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SAES_En_Decrypt.aspx.designer.cs">
+      <DependentUpon>SAES_En_Decrypt.aspx</DependentUpon>
     </Compile>
     <Compile Include="ByteTransColor.aspx.cs">
       <DependentUpon>ByteTransColor.aspx</DependentUpon>
@@ -437,6 +445,8 @@
     <Compile Include="Calc\RPNType.cs" />
     <Compile Include="Util\SayBase.cs" />
     <Compile Include="Util\SaySpeach.cs" />
+    <Compile Include="Util\SymChiffer\Aes.cs" />
+    <Compile Include="Util\SymChiffer\TripleDes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Area23.Master" />
