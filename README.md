@@ -8,9 +8,9 @@ area23.at summarized repository containing tiny, small &amp; medium freaky proje
 - https://area23.at/net/
 
 ### simple QR Code generator 
-- https://area23.at/net/Qr.aspx](https://area23.at/net/Qr/Qr.aspx
-- https://area23.at/net/Qrc.aspx](https://area23.at/net/Qr/Qrc.aspx
-- https://area23.at/net/QRCodeGen.aspx](https://area23.at/net/Qr/QRCodeGen.aspx
+- https://area23.at/net/Qr.aspx
+- https://area23.at/net/Qrc.aspx
+- https://area23.at/net/QRCodeGen.aspx
 - https://area23.at/net/Qr/QrGen.aspx?qrurl=https%3A%2F%2Forf.at
 
   (here you pass the redirect url as qrurl parameter)
