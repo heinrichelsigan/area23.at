@@ -34,7 +34,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             var cipher = new SerpentEngine();
 
             byte[] nonce = new byte[16];
-            Arr
+            Array.Copy(Encoding.UTF8.GetBytes(Iv), nonce, 16);
 
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), new Pkcs7Padding());
 
@@ -78,7 +78,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             var cipher = new SerpentEngine();
 
             byte[] nonce = new byte[16];
-            Arr
+            Array.Copy(Encoding.UTF8.GetBytes(Iv), nonce, 16);
 
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), new Pkcs7Padding());
 

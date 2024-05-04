@@ -76,7 +76,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(inString);
             byte[] encryptedBytes = Encrypt(inBytes);
             string encryptedText = Convert.ToBase64String(encryptedBytes);
-            // System.Text.Encoding.ASCII.GetString(encryptedBytes).TrimEnd('\0');
+            // System.Text.Encoding.UTF8.GetString(encryptedBytes).TrimEnd('\0');
             return encryptedText;
         }
 
@@ -113,7 +113,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         {
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             byte[] decryptedBytes = Decrypt(cipherBytes);
-            string plaintext = System.Text.Encoding.ASCII.GetString(decryptedBytes).TrimEnd('\0');
+            string plaintext = System.Text.Encoding.UTF8.GetString(decryptedBytes).TrimEnd('\0');
             return plaintext;
         }
        
