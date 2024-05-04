@@ -47,7 +47,7 @@ namespace Area23.At.Mono.Util.SymChiffer
                 rijAlg.IV = IV;
 
                 // Create a decryptor to perform the stream transform.
-                ICryptoTransform encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
+            ICryptoTransform encryptor = rijAlg.CreateEncryptor(AesAlgo.Key, AesAlgo.IV);
 
                 // Create the streams used for encryption. 
                 using (MemoryStream msEncrypt = new MemoryStream())
@@ -123,7 +123,7 @@ namespace Area23.At.Mono.Util.SymChiffer
                 rijAlg.IV = IV;
 
                 // Create a decryptor to perform the stream transform.
-                ICryptoTransform encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
+            ICryptoTransform encryptor = AesAlgo.CreateEncryptor(AesAlgo.Key, rijAlg.IV);
 
                 // Create the streams used for encryption. 
                 using (MemoryStream msEncrypt = new MemoryStream())
@@ -169,7 +169,7 @@ namespace Area23.At.Mono.Util.SymChiffer
                 rijAlg.IV = IV;
 
                 // Create a decrytor to perform the stream transform.
-                ICryptoTransform decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
+            ICryptoTransform decryptor = AesAlgo.CreateDecryptor(AesAlgo.Key, rijAlg.IV);
 
                 // Create the streams used for decryption. 
                 using (MemoryStream msDecrypt = new MemoryStream(cipherText))
@@ -250,7 +250,7 @@ namespace Area23.At.Mono.Util.SymChiffer
                 rijAlg.IV = IV;
 
                 // Create a decrytor to perform the stream transform.
-                ICryptoTransform decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
+            ICryptoTransform decryptor = AesAlgo.CreateDecryptor(AesAlgo.Key, rijAlg.IV);
 
                 // Create the streams used for decryption. 
                 using (MemoryStream msDecrypt = new MemoryStream(cipherText))
