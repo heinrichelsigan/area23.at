@@ -151,6 +151,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="res\img\decrypted.png" />
+    <Content Include="res\img\encrypted.png" />
+    <Content Include="res\img\file.png" />
     <Content Include="SAES_En_Decrypt.aspx" />
     <Content Include="ByteTransColor.aspx" />
     <Content Include="Calc\Calculator.aspx" />
