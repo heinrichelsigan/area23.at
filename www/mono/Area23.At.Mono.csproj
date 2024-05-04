@@ -437,6 +437,7 @@
     </Compile>
     <Compile Include="Util\ColorForm.cs" />
     <Compile Include="Util\Constants.cs" />
+    <Compile Include="Util\Enum\SymChiffre.cs" />
     <Compile Include="Util\Extensions.cs" />
     <Compile Include="Util\Area23Log.cs" />
     <Compile Include="Util\GifMetadataAdapter.cs" />
