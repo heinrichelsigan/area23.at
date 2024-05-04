@@ -23,7 +23,7 @@ area23.at summarized repository containing tiny, small &amp; medium freaky proje
 
 ### 3DES AES encryption pipeline
 - https://area23.at/net/SAES_En_Decrypt.aspx
-- 
+  
 ### rpncalc
 rpncalc is a never finished project of reverse polnish notation calculator (still buggy)
 - https://area23.at/net/RpnCalc.aspx
