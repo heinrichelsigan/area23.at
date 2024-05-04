@@ -307,7 +307,7 @@ namespace Area23.At.Mono.Qr
             byteList.Add((byte)0x21);                   // Write first 0x21 '!' detection sequence
             byteList.Add((byte)0xfe);                   // Write 0xfe ((byte)254) as snd byte
 
-            byte[] bytes = Encoding.ASCII.GetBytes(c);  // get byte[] from string ASCII
+            byte[] bytes = Encoding.UTF8.GetBytes(c);  // get byte[] from string ASCII
             byte b0 = Convert.ToByte(c.Length & 0xff);  // write first content length of now following comment
             if (c.Length > (int)0xff)                   // TODO: might be still buggy, if comment length >= 256 ;(
             {

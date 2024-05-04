@@ -24,6 +24,15 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlForm Area23SAESDeEncryptForm;
 
         /// <summary>
+        /// CheckBoxListEncDeCryption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBoxList CheckBoxListEncDeCryption;
+
+        /// <summary>
         /// oFile control.
         /// </summary>
         /// <remarks>
@@ -49,15 +58,6 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonDecryptFile;
-
-        /// <summary>
-        /// CheckBoxListEncDeCryption control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBoxList CheckBoxListEncDeCryption;
 
         /// <summary>
         /// TextBoxSource control.

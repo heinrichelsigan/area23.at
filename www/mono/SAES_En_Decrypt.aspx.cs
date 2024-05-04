@@ -2,6 +2,7 @@
 using Area23.At.Mono.Util;
 using Area23.At.Mono.Util.Enum;
 using Area23.At.Mono.Util.SymChiffer;
+using Org.BouncyCastle.Crypto.Engines;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -127,9 +128,7 @@ namespace Area23.At.Mono
                     lblUploadResult.Text = strFileName + " has been successfully uploaded.";
 
                 byte[] fileBytes = pfile.InputStream.ToByteArray();
-                byte[] outBytes = null;
-
-                string base64Data = Convert.ToBase64String(fileBytes);
+                byte[] outBytes = null;                
                 
                 if (!string.IsNullOrEmpty(strFileName))
                 {
@@ -214,6 +213,10 @@ namespace Area23.At.Mono
 
                 foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
                 {
+                    if (item.Value == "2FISH" && item.Selected)
+                    {
+                        ; //TODO: implement Blowfish & TwoFish
+                    }
                     if (item.Value == "3DES" && item.Selected)
                     {
                         encrypted = TripleDes.EncryptString(source);
@@ -241,12 +244,14 @@ namespace Area23.At.Mono
             {
                 string source = this.TextBoxSource.Text;
                 string decrypted = string.Empty;
+                bool twoFíshDecrypted = false;
                 bool tripleDesDecrypt = false;
                 bool aesDecrypt = false;
                 bool serpentDecrypt = false;
 
                 foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
                 {
+                    if (item.Value == "2FISH" && item.Selected) twoFíshDecrypted = true;
                     if (item.Value == "3DES" && item.Selected) tripleDesDecrypt = true;
                     if (item.Value == "AES" && item.Selected) aesDecrypt = true;
                     if (item.Value == "Serpent" && item.Selected) serpentDecrypt = true;
@@ -266,11 +271,20 @@ namespace Area23.At.Mono
                     decrypted = TripleDes.DecryptString(source);
                     source = decrypted;
                 }
+                if (twoFíshDecrypted)
+                {
+                    ; //TODO: implement Blowfish & TwoFish
+                }
                 this.TextBoxDestionation.Text = decrypted;
             }
         }
 
     
+        /// <summary>
+        /// Get Image mime type for image bytes
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
         public static string GetMimeTypeForImageBytes(byte[] bytes)
         {
             using (MemoryStream ms = new MemoryStream(bytes))
@@ -289,8 +303,7 @@ namespace Area23.At.Mono
         /// <returns>fileName under which it was saved really</returns>
         public string ByteArrayToFile(byte[] bytes, string fileName = null)
         {
-            string strPath = ResFoler;
-
+            string strPath = ResFoler;            
             if (string.IsNullOrEmpty(fileName))
             {
                 fileName = Constants.DateFile + Guid.NewGuid().ToString();
@@ -311,9 +324,21 @@ namespace Area23.At.Mono
             if (fileName.LastIndexOf(".") < (fileName.Length - 5))
                 fileName += "." + ext;
 
+            string newFileName = fileName;
+
             strPath = ResFoler + fileName;
             try
             {
+                while (System.IO.File.Exists(strPath))
+                {
+                    newFileName = fileName.Contains(Constants.DateFile) ?
+                        Constants.DateFile + Guid.NewGuid().ToString() + "_" + fileName :
+                        Constants.DateFile + fileName;
+                    strPath = ResFoler + newFileName;
+                    lblUploadResult.Text = String.Format("{0} already exists on server, saving it to {1}.",
+                        fileName, newFileName);
+                    fileName = newFileName;
+                }
                 using (var fs = new FileStream(strPath, FileMode.Create, FileAccess.Write))
                 {
                     fs.Write(bytes, 0, bytes.Length);
@@ -330,7 +355,7 @@ namespace Area23.At.Mono
                 if (fileName.EndsWith("tmp"))
                 {
                     string extR = MimeType.GetFileExtForMimeTypeApache(mimeType);
-                    string newFileName = fileName.Replace("tmp", extR);
+                    newFileName = fileName.Replace("tmp", extR);
                     System.IO.File.Move(strPath, ResFoler + newFileName);
                     return newFileName;
                 }
