@@ -111,19 +111,19 @@ namespace Area23.At.Mono
 
             if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
             {
-                // Save the uploaded file to the server.
-                strFilePath = ResFoler + strFileName;
-                while (System.IO.File.Exists(strFilePath))
-                {
-                    string newFileName = strFilePath.Contains(Constants.DateFile) ?
-                        Constants.DateFile + Guid.NewGuid().ToString() + "_" + strFileName :
-                        Constants.DateFile + strFileName;
-                    strFilePath = ResFoler + newFileName;
-                    lblUploadResult.Text = String.Format("{0} already exists on server, saving it to {1}.",
-                        strFileName, newFileName);
-                }
+                //// Save the uploaded file to the server.
+                //strFilePath = ResFoler + strFileName;
+                //while (System.IO.File.Exists(strFilePath))
+                //{
+                //    string newFileName = strFilePath.Contains(Constants.DateFile) ?
+                //        Constants.DateFile + Guid.NewGuid().ToString() + "_" + strFileName :
+                //        Constants.DateFile + strFileName;
+                //    strFilePath = ResFoler + newFileName;
+                //    lblUploadResult.Text = String.Format("{0} already exists on server, saving it to {1}.",
+                //        strFileName, newFileName);
+                //}
 
-                pfile.SaveAs(strFilePath);
+                //pfile.SaveAs(strFilePath);
                 if (string.IsNullOrEmpty(lblUploadResult.Text))
                     lblUploadResult.Text = strFileName + " has been successfully uploaded.";
 
@@ -132,65 +132,88 @@ namespace Area23.At.Mono
                 
                 if (!string.IsNullOrEmpty(strFileName))
                 {
-                    if (crypt)
+                    string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
+                    if (algos.Length <= 1 || String.IsNullOrEmpty(algos[0]))
                     {
-                        imgOut.Src = "res/img/encrypted.png";
-                        foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
-                        {
-                            if (item.Value == "3DES" && item.Selected)
-                            {                                
-                                outBytes = EncryptFile(fileBytes, SymChiffre.DES3);
-                                fileBytes = outBytes;
-                                strFileName += ".3des";
-                            }
-                            if (item.Value == "AES" && item.Selected)
-                            {
-                                outBytes = EncryptFile(fileBytes, SymChiffre.AES);
-                                fileBytes = outBytes;
-                                strFileName += ".aes";
-                            }
-                            if (item.Value == "Serpent" && item.Selected)
-                            {
-                                outBytes = EncryptFile(fileBytes, SymChiffre.SERPENT);
-                                fileBytes = outBytes;
-                                strFileName += ".serpent";
-                            }
-                        }
-                    }                        
+                        imgOut.Src = "res/img/file.png";
+                        lblUploadResult.Text = "file keept unmodified and uploaded to ";
+                    }
                     else
                     {
-                        bool tripleDesDecrypt = false;
-                        bool aesDecrypt = false;
-                        bool serpentDecrypt = false;
-                        imgOut.Src = "res/img/decrypted.png";
-
-                        foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
+                        if (crypt)
                         {
-                            if (item.Value == "3DES" && item.Selected) tripleDesDecrypt = true;
-                            if (item.Value == "AES" && item.Selected) aesDecrypt = true;
-                            if (item.Value == "Serpent" && item.Selected) serpentDecrypt = true;
+                            imgOut.Src = "res/img/encrypted.png";
+                            int cryptCount = 0;
+                            foreach (string algo in algos)
+                            {
+                                if (algo.ToUpper() == "2FISH")
+                                {
+                                    outBytes = EncryptFile(fileBytes, SymChiffre.FISH2);
+                                    fileBytes = outBytes;
+                                    strFileName += ".2fish";
+                                    cryptCount++;
+                                }
+                                if (algo.ToUpper() == "3DES")
+                                {
+                                    outBytes = EncryptFile(fileBytes, SymChiffre.DES3);
+                                    fileBytes = outBytes;
+                                    strFileName += ".des";
+                                    cryptCount++;
+                                }
+                                if (algo.ToUpper() == "AES")
+                                {
+                                    outBytes = EncryptFile(fileBytes, SymChiffre.AES);
+                                    fileBytes = outBytes;
+                                    strFileName += ".aes";
+                                    cryptCount++;
+                                }
+                                if (algo.ToUpper() == "SERPENT")
+                                {
+                                    outBytes = EncryptFile(fileBytes, SymChiffre.SERPENT);
+                                    fileBytes = outBytes;
+                                    strFileName += ".serpent";
+                                    cryptCount++;
+                                }
+                            }
+                            lblUploadResult.Text = String.Format("file {0} x encrypted to ", cryptCount);
                         }
-                        if (serpentDecrypt)
+                        else
                         {
-                            outBytes = DecryptFile(fileBytes, SymChiffre.SERPENT);
-                            fileBytes = outBytes;
-                            strFileName = strFileName.EndsWith(".serpent") ? strFileName.Replace(".serpent", "") : strFilePath;
-                        }
-                        if (aesDecrypt)
-                        {
-                            outBytes = DecryptFile(fileBytes, SymChiffre.AES);
-                            fileBytes = outBytes;
-                            strFileName = strFileName.EndsWith(".aes") ? strFileName.Replace(".aes", "") : strFilePath;
-                        }
-                        if (tripleDesDecrypt)
-                        {
-                            outBytes = DecryptFile(fileBytes, SymChiffre.DES3);
-                            fileBytes = outBytes;
-                            strFileName = strFileName.EndsWith(".3des") ? strFileName.Replace(".3des", "") : strFilePath;
-                        }                        
+                            imgOut.Src = "res/img/decrypted.png";
+                            for (int ig = (algos.Length - 1); ig >= 0; ig--)
+                            {
+                                if (algos[ig].ToUpper() == "2FISH")
+                                {
+                                    outBytes = DecryptFile(fileBytes, SymChiffre.SERPENT);
+                                    fileBytes = outBytes;
+                                    strFileName = strFileName.EndsWith(".2fish") ? strFileName.Replace(".2fish", "") : strFileName;
+                                }
+                                if (algos[ig].ToUpper() == "3DES")
+                                {
+                                    outBytes = DecryptFile(fileBytes, SymChiffre.DES3);
+                                    fileBytes = outBytes;
+                                    strFileName = strFileName.EndsWith(".3des") ? strFileName.Replace(".3des", "") : strFileName;
+                                    strFileName = strFileName.EndsWith(".des") ? strFileName.Replace(".des", "") : strFileName;
+                                }
+                                if (algos[ig].ToUpper() == "AES")
+                                {
+                                    outBytes = DecryptFile(fileBytes, SymChiffre.AES);
+                                    fileBytes = outBytes;
+                                    strFileName = strFileName.EndsWith(".aes") ? strFileName.Replace(".aes", "") : strFileName;
+                                }
+                                if (algos[ig].ToUpper() == "SERPENT")
+                                {
+                                    outBytes = DecryptFile(fileBytes, SymChiffre.SERPENT);
+                                    fileBytes = outBytes;
+                                    strFileName = strFileName.EndsWith(".serpent") ? strFileName.Replace(".serpent", "") : strFileName;
+                                }
+                            }
+                            lblUploadResult.Text = "file has been decrypted to ";
+                        }                                                
                     }
                     string savedTransFile = this.ByteArrayToFile(outBytes, strFileName);
                     aTransFormed.HRef = "res/" + savedTransFile;
+                    lblUploadResult.Text += savedTransFile;
                 }                
             }
             else
@@ -209,31 +232,58 @@ namespace Area23.At.Mono
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
                 string source = this.TextBoxSource.Text;
-                string encrypted = string.Empty;
+                string encryptedText = string.Empty;
 
-                foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
+                string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
+                byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
+                byte[] encryptedBytes = inBytes;
+                foreach (string algo in algos)
                 {
-                    if (item.Value == "2FISH" && item.Selected)
+                    if (algo.ToUpper() == "2FISH")
                     {
-                        ; //TODO: implement Blowfish & TwoFish
+                        ; //TODO implement it
                     }
-                    if (item.Value == "3DES" && item.Selected)
+                    if (algo.ToUpper() == "3DES")
                     {
-                        encrypted = TripleDes.EncryptString(source);
-                        source = encrypted;
+                        encryptedBytes = TripleDes.Encrypt(inBytes);
+                        inBytes = encryptedBytes;
                     }
-                    if (item.Value == "AES" && item.Selected)
+                    if (algo.ToUpper() == "AES")
                     {
-                        encrypted = Aes.EncryptString(source);
-                        source = encrypted;
+                        encryptedBytes = Aes.Encrypt(inBytes);
+                        inBytes = encryptedBytes;
                     }
-                    if (item.Value == "Serpent" && item.Selected)
+                    if (algo.ToUpper() == "SERPENT")
                     {
-                        encrypted = Serpent.EncryptString(source);
-                        source = encrypted;
+                        encryptedBytes = Serpent.Encrypt(inBytes);
+                        inBytes = encryptedBytes;
                     }
                 }
-                this.TextBoxDestionation.Text = encrypted;
+                encryptedText = Convert.ToBase64String(encryptedBytes);
+
+                //foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
+                //{
+                //    if (item.Value == "2FISH" && item.Selected)
+                //    {
+                //        ; //TODO: implement Blowfish & TwoFish
+                //    }
+                //    if (item.Value == "3DES" && item.Selected)
+                //    {
+                //        encrypted = TripleDes.EncryptString(source);
+                //        source = encrypted;
+                //    }
+                //    if (item.Value == "AES" && item.Selected)
+                //    {
+                //        encrypted = Aes.EncryptString(source);
+                //        source = encrypted;
+                //    }
+                //    if (item.Value == "Serpent" && item.Selected)
+                //    {
+                //        encrypted = Serpent.EncryptString(source);
+                //        source = encrypted;
+                //    }
+                //}
+                this.TextBoxDestionation.Text = encryptedText;
             }
         }
 
@@ -242,44 +292,57 @@ namespace Area23.At.Mono
             frmConfirmation.Visible = false;
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
-                string source = this.TextBoxSource.Text;
-                string decrypted = string.Empty;
-                bool twoFíshDecrypted = false;
-                bool tripleDesDecrypt = false;
-                bool aesDecrypt = false;
-                bool serpentDecrypt = false;
+                string cipherText = this.TextBoxSource.Text;
+                string decryptedText = string.Empty;
+                byte[] cipherBytes = Convert.FromBase64String(cipherText);
+                byte[] decryptedBytes = cipherBytes;
 
-                foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
+                string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
+                for (int ig = (algos.Length - 1); ig >= 0; ig--)
                 {
-                    if (item.Value == "2FISH" && item.Selected) twoFíshDecrypted = true;
-                    if (item.Value == "3DES" && item.Selected) tripleDesDecrypt = true;
-                    if (item.Value == "AES" && item.Selected) aesDecrypt = true;
-                    if (item.Value == "Serpent" && item.Selected) serpentDecrypt = true;
+                    if (algos[ig].ToUpper() == "2FISH")
+                    {
+                        ; //TODO: implement Blowfish & TwoFish
+                    }
+                    if (algos[ig].ToUpper() == "3DES")
+                    {
+                        decryptedBytes = TripleDes.Decrypt(cipherBytes);
+                        cipherBytes = decryptedBytes;
+                    }
+                    if (algos[ig].ToUpper() == "AES")
+                    {
+                        decryptedBytes = Aes.Decrypt(cipherBytes);
+                        cipherBytes = decryptedBytes;
+                    }
+                    if (algos[ig].ToUpper() == "SERPENT")
+                    {
+                        decryptedBytes = Serpent.Decrypt(cipherBytes);
+                        cipherBytes = decryptedBytes;
+                    }
                 }
-                if (serpentDecrypt)
-                {
-                    decrypted = Serpent.DecryptString(source);
-                    source = decrypted;
-                }
-                if (aesDecrypt)
-                {
-                    decrypted = Aes.DecryptString(source);
-                    source = decrypted;
-                }
-                if (tripleDesDecrypt)
-                {
-                    decrypted = TripleDes.DecryptString(source);
-                    source = decrypted;
-                }
-                if (twoFíshDecrypted)
-                {
-                    ; //TODO: implement Blowfish & TwoFish
-                }
-                this.TextBoxDestionation.Text = decrypted;
+                decryptedText = System.Text.Encoding.UTF8.GetString(decryptedBytes).TrimEnd('\0');
+                
+                this.TextBoxDestionation.Text = decryptedText;
             }
         }
 
-    
+
+        protected void Button_Clear_Click(object sender, EventArgs e)
+        {
+            this.TextBox_Encryption.Text = "";
+        }
+
+        protected void Button_Reset_KeyIV_Click(object sender, EventArgs e)
+        {
+            // TODO: implement it
+        }
+
+        protected void ImageButton_Add_Click(object sender, EventArgs e)
+        {
+            string addChiffre = DropDownList_SymChiffer.SelectedValue.ToString() + "⇛";
+            this.TextBox_Encryption.Text += addChiffre;
+        }
+
         /// <summary>
         /// Get Image mime type for image bytes
         /// </summary>

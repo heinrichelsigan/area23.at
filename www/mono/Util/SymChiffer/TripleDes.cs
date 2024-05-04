@@ -113,7 +113,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         {
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             byte[] decryptedBytes = Decrypt(cipherBytes);
-            string plaintext = System.Text.Encoding.UTF8.GetString(decryptedBytes).TrimEnd('\0');
+            string plaintext = System.Text.Encoding.UTF8.GetString(decryptedBytes);
             return plaintext;
         }
        
