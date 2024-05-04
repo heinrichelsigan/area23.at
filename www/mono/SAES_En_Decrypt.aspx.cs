@@ -339,8 +339,13 @@ namespace Area23.At.Mono
 
         protected void ImageButton_Add_Click(object sender, EventArgs e)
         {
-            string addChiffre = DropDownList_SymChiffer.SelectedValue.ToString() + "⇛";
-            this.TextBox_Encryption.Text += addChiffre;
+            string addChiffre = "";
+            if (DropDownList_SymChiffer.SelectedValue.ToString().ToUpper() == "3DES" ||
+                DropDownList_SymChiffer.SelectedValue.ToString().ToUpper() == "AES")
+            {
+                addChiffre = DropDownList_SymChiffer.SelectedValue.ToString() + "⇛";
+                this.TextBox_Encryption.Text += addChiffre;
+            }
         }
 
         /// <summary>
