@@ -7,6 +7,7 @@
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
     <form id="Area23SAESDeEncryptForm" runat="server" action="SAES_En_Decrypt.aspx" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True">
+            <asp:ListItem Text="Serpent" Enabled="true" Value="Serpent" Selected="False"></asp:ListItem>
         <INPUT id="oFile" type="file" runat="server" NAME="oFile" />
         <asp:Button ID="ButtonEncryptFile" runat="server" ToolTip="Encrypt file" OnClick="ButtonEncryptFile_Click" Text="Encrypt file" />
         <asp:Button ID="ButtonDecryptFile" runat="server" ToolTip="Decrypt file" OnClick="ButtonDecryptFile_Click" Text="Decrypt file" />
