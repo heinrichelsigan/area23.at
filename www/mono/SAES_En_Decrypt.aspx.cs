@@ -45,13 +45,18 @@ namespace Area23.At.Mono
         /// <param name="imgFileName"></param>
         /// <param name="symChiffre">encryption SymChiffre</param>
         /// <returns></returns>
-        protected byte[] DecryptFile(byte[] data, string imgFileName = null, SymChiffre symChiffre = SymChiffre.NONE)
+        protected byte[] DecryptFile(byte[] data, SymChiffre symChiffre = SymChiffre.NONE)
         {
-            string savedFile = "res/fortune.u8";
             byte[] plainData = data;
-
-            aTransFormed.HRef = savedFile;
-            imgOut.Src = "res/img/decrypted.png";
+            switch (symChiffre)
+            {                
+                case SymChiffre.DES3: plainData = TripleDes.Decrypt(data); break;
+                case SymChiffre.AES: plainData = Aes.Decrypt(data); break;
+                case SymChiffre.SERPENT: plainData = Serpent.Decrypt(data); break;
+                case SymChiffre.NONE:
+                default: break;
+            }            
+            
             return plainData;
         }
 
@@ -63,12 +68,19 @@ namespace Area23.At.Mono
         /// <param name="imgFileName"></param>
         /// <param name="symChiffre">decryption SymChiffre</param>
         /// <returns></returns>
-        protected byte[] EncryptFile(byte[] data, string imgFileName = null, SymChiffre symChiffre = SymChiffre.NONE)
+        protected byte[] EncryptFile(byte[] data, SymChiffre symChiffre = SymChiffre.NONE)
         {
-            string savedFile = "res/fortune.u8";
             byte[] encryptedData = data;
-            aTransFormed.HRef = savedFile;
-            imgOut.Src = "res/img/encrypted.png";
+
+            switch (symChiffre)
+            {
+                case SymChiffre.DES3: encryptedData = TripleDes.Encrypt(data); break;
+                case SymChiffre.AES: encryptedData = Aes.Encrypt(data); break;
+                case SymChiffre.SERPENT: encryptedData = Serpent.Encrypt(data); break;
+                case SymChiffre.NONE:
+                default: break;
+            }
+
             return encryptedData;
         }
 
@@ -115,26 +127,34 @@ namespace Area23.At.Mono
                     lblUploadResult.Text = strFileName + " has been successfully uploaded.";
 
                 byte[] fileBytes = pfile.InputStream.ToByteArray();
+                byte[] outBytes = null;
 
                 string base64Data = Convert.ToBase64String(fileBytes);
                 
-                if (!string.IsNullOrEmpty(strFilePath) && System.IO.File.Exists(strFilePath))
+                if (!string.IsNullOrEmpty(strFileName))
                 {
                     if (crypt)
                     {
+                        imgOut.Src = "res/img/encrypted.png";
                         foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
                         {
                             if (item.Value == "3DES" && item.Selected)
-                            {
-                                EncryptFile(fileBytes, strFilePath, SymChiffre.DES3);
+                            {                                
+                                outBytes = EncryptFile(fileBytes, SymChiffre.DES3);
+                                fileBytes = outBytes;
+                                strFileName += ".3des";
                             }
                             if (item.Value == "AES" && item.Selected)
                             {
-                                EncryptFile(fileBytes, strFilePath, SymChiffre.AES);
+                                outBytes = EncryptFile(fileBytes, SymChiffre.AES);
+                                fileBytes = outBytes;
+                                strFileName += ".aes";
                             }
                             if (item.Value == "Serpent" && item.Selected)
                             {
-                                EncryptFile(fileBytes, strFilePath, SymChiffre.SERPENT);
+                                outBytes = EncryptFile(fileBytes, SymChiffre.SERPENT);
+                                fileBytes = outBytes;
+                                strFileName += ".serpent";
                             }
                         }
                     }                        
@@ -143,27 +163,35 @@ namespace Area23.At.Mono
                         bool tripleDesDecrypt = false;
                         bool aesDecrypt = false;
                         bool serpentDecrypt = false;
+                        imgOut.Src = "res/img/decrypted.png";
 
                         foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
                         {
-                            tripleDesDecrypt = (item.Value == "3DES" && item.Selected);
-                            aesDecrypt = (item.Value == "AES" && item.Selected);
-                            serpentDecrypt = (item.Value == "Serpent" && item.Selected);                            
+                            if (item.Value == "3DES" && item.Selected) tripleDesDecrypt = true;
+                            if (item.Value == "AES" && item.Selected) aesDecrypt = true;
+                            if (item.Value == "Serpent" && item.Selected) serpentDecrypt = true;
                         }
                         if (serpentDecrypt)
                         {
-                            DecryptFile(fileBytes, strFilePath, SymChiffre.SERPENT);
+                            outBytes = DecryptFile(fileBytes, SymChiffre.SERPENT);
+                            fileBytes = outBytes;
+                            strFileName = strFileName.EndsWith(".serpent") ? strFileName.Replace(".serpent", "") : strFilePath;
                         }
                         if (aesDecrypt)
                         {
-                            DecryptFile(fileBytes, strFilePath, SymChiffre.AES);
+                            outBytes = DecryptFile(fileBytes, SymChiffre.AES);
+                            fileBytes = outBytes;
+                            strFileName = strFileName.EndsWith(".aes") ? strFileName.Replace(".aes", "") : strFilePath;
                         }
                         if (tripleDesDecrypt)
                         {
-                            DecryptFile(fileBytes, strFilePath, SymChiffre.DES3);
-                        }
+                            outBytes = DecryptFile(fileBytes, SymChiffre.DES3);
+                            fileBytes = outBytes;
+                            strFileName = strFileName.EndsWith(".3des") ? strFileName.Replace(".3des", "") : strFilePath;
+                        }                        
                     }
-                        
+                    string savedTransFile = this.ByteArrayToFile(outBytes, strFileName);
+                    aTransFormed.HRef = "res/" + savedTransFile;
                 }                
             }
             else
@@ -193,7 +221,7 @@ namespace Area23.At.Mono
                     }
                     if (item.Value == "AES" && item.Selected)
                     {
-                        encrypted = Aes.EncryptString(source, Aes.AesKey, Aes.AesIv);
+                        encrypted = Aes.EncryptString(source);
                         source = encrypted;
                     }
                     if (item.Value == "Serpent" && item.Selected)
@@ -219,9 +247,9 @@ namespace Area23.At.Mono
 
                 foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
                 {
-                    tripleDesDecrypt = (item.Value == "3DES" && item.Selected);
-                    aesDecrypt = (item.Value == "AES" && item.Selected);
-                    serpentDecrypt = (item.Value == "Serpent" && item.Selected);
+                    if (item.Value == "3DES" && item.Selected) tripleDesDecrypt = true;
+                    if (item.Value == "AES" && item.Selected) aesDecrypt = true;
+                    if (item.Value == "Serpent" && item.Selected) serpentDecrypt = true;
                 }
                 if (serpentDecrypt)
                 {
@@ -230,7 +258,7 @@ namespace Area23.At.Mono
                 }
                 if (aesDecrypt)
                 {
-                    decrypted = Aes.DecryptString(source, Aes.AesKey, Aes.AesIv);
+                    decrypted = Aes.DecryptString(source);
                     source = decrypted;
                 }
                 if (tripleDesDecrypt)
@@ -252,6 +280,13 @@ namespace Area23.At.Mono
             }
         }
 
+
+        /// <summary>
+        /// Saves a byte[] to a fileName
+        /// </summary>
+        /// <param name="bytes">byte[] of raw data</param>
+        /// <param name="fileName">filename to save</param>
+        /// <returns>fileName under which it was saved really</returns>
         public string ByteArrayToFile(byte[] bytes, string fileName = null)
         {
             string strPath = ResFoler;
@@ -297,8 +332,9 @@ namespace Area23.At.Mono
                     string extR = MimeType.GetFileExtForMimeTypeApache(mimeType);
                     string newFileName = fileName.Replace("tmp", extR);
                     System.IO.File.Move(strPath, ResFoler + newFileName);
+                    return newFileName;
                 }
-                return mimeType;
+                return fileName;
             }
             return null;
         }

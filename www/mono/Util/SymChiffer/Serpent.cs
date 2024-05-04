@@ -15,11 +15,19 @@ using System.Windows.Interop;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
-    public class Serpent
+    public static class Serpent
     {
-        public static string Iv { get; set; } = "00112233445566778899AABBCCDDEEFF00";
-        public static int Size { get; set; } = 128;
-        public static string Mode { get; set; } = "CBC";
+        public static string Iv { get; private set; }
+        public static int Size { get; private set; }
+        public static string Mode { get; private set; } 
+
+        static Serpent()
+        {
+            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.SERPENT_IV));
+            Iv = ToHexString(iv);
+            Size = 128;
+            Mode = "CBC"; 
+        }
 
         public static byte[] Encrypt(byte[] plainTextData)
         {            

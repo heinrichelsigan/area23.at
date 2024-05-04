@@ -61,6 +61,24 @@ namespace Area23.At.Mono.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to a6iJrMU44DKZ1puxD5ErzqQotD4tXSrxM6ME3UgmHSY=.
+        /// </summary>
+        internal static string _3DesIv {
+            get {
+                return ResourceManager.GetString("3DesIv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0ersgfaO/uP7+HrpTwZjU9VoyobLofw7KvwCAcOVMRc=.
+        /// </summary>
+        internal static string _3DesKey {
+            get {
+                return ResourceManager.GetString("3DesKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
         internal static string action_about {
@@ -156,6 +174,24 @@ namespace Area23.At.Mono.Properties {
         internal static string action_stop {
             get {
                 return ResourceManager.GetString("action_stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 6pU0BotI3zzF0cWKz56bkQ==.
+        /// </summary>
+        internal static string AesIv {
+            get {
+                return ResourceManager.GetString("AesIv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0ersgfaO/uP7+HrpTwZjU9VoyobLofw7KvwCAcOVMRc=.
+        /// </summary>
+        internal static string AesKey {
+            get {
+                return ResourceManager.GetString("AesKey", resourceCulture);
             }
         }
         
@@ -1026,6 +1062,24 @@ namespace Area23.At.Mono.Properties {
         internal static string say_pair {
             get {
                 return ResourceManager.GetString("say_pair", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MEJBQjUxMEJBQjUxMEJBQjUxMEJBQjUxMEJBQjUwQkFCNQ==.
+        /// </summary>
+        internal static string SerpentIv {
+            get {
+                return ResourceManager.GetString("SerpentIv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MEJBQjUxMEJBQjUxMEJBQjU=.
+        /// </summary>
+        internal static string SerpentKey {
+            get {
+                return ResourceManager.GetString("SerpentKey", resourceCulture);
             }
         }
         

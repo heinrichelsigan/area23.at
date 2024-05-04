@@ -47,6 +47,14 @@ namespace Area23.At.Mono.Util
         public const string BACK_COLOR_STRING = "BackColorString";
         public const string QR_COLOR_STRING = "QrColorString";
 
+        public const string AES_KEY = "AesKey";
+        public const string AES_IV = "AesIv";
+        public const string DES3_KEY = "3DesKey";
+        public const string DES3_IV = "3DesIv";
+        public const string SERPENT_KEY = "SerpentKey";
+        public const string SERPENT_IV = "SerpentIv";
+
+
         public const string JSON_SAMPLE = @"{ 
  	""quiz"": { 
  		""sport"": { 

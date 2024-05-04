@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="3DesIv" xml:space="preserve">
+    <value>a6iJrMU44DKZ1puxD5ErzqQotD4tXSrxM6ME3UgmHSY=</value>
+  </data>
+  <data name="3DesKey" xml:space="preserve">
+    <value>0ersgfaO/uP7+HrpTwZjU9VoyobLofw7KvwCAcOVMRc=</value>
+  </data>
   <data name="action_about" xml:space="preserve">
     <value>About</value>
   </data>
@@ -149,6 +155,12 @@
   </data>
   <data name="action_stop" xml:space="preserve">
     <value>Stop</value>
+  </data>
+  <data name="AesIv" xml:space="preserve">
+    <value>6pU0BotI3zzF0cWKz56bkQ==</value>
+  </data>
+  <data name="AesKey" xml:space="preserve">
+    <value>0ersgfaO/uP7+HrpTwZjU9VoyobLofw7KvwCAcOVMRc=</value>
   </data>
   <data name="app_name" xml:space="preserve">
     <value>Schnaps.Net</value>
@@ -497,6 +509,12 @@
   </data>
   <data name="say_pair" xml:space="preserve">
     <value>say pair</value>
+  </data>
+  <data name="SerpentIv" xml:space="preserve">
+    <value>MEJBQjUxMEJBQjUxMEJBQjUxMEJBQjUxMEJBQjUwQkFCNQ==</value>
+  </data>
+  <data name="SerpentKey" xml:space="preserve">
+    <value>MEJBQjUxMEJBQjUxMEJBQjU=</value>
   </data>
   <data name="sPoints" xml:space="preserve">
     <value>Points</value>
