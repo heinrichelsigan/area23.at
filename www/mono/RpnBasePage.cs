@@ -9,11 +9,9 @@ namespace Area23.At.Mono
 {
     public partial class RpnBasePage : System.Web.UI.Page
     {
-        protected Uri gitUrl = new Uri(Constants.GIT_URL);
-        protected Uri backUrl = new Uri(Constants.RPN_URL);
-
-        protected System.Globalization.CultureInfo locale;
-        public Mutex mutex;
+        private Uri gitUrl;
+        private Uri backUrl;
+        private System.Globalization.CultureInfo locale;
 
         public System.Globalization.CultureInfo Locale
         {
@@ -39,10 +37,7 @@ namespace Area23.At.Mono
 
         public string SepChar { get => Paths.SepChar.ToString(); }
 
-        public string LogFile
-        {
-            get => Paths.LogPathFile;
-        }
+        public string LogFile { get => Paths.LogPathFile; }
 
 
         protected override void OnInit(EventArgs e)
@@ -51,12 +46,12 @@ namespace Area23.At.Mono
             locale = Locale;
             InitURLBase();
         }
-       
+
 
         public virtual void InitURLBase()
         {
             gitUrl = new Uri(Constants.GIT_URL);
-            backUrl = new Uri(Constants.RPN_URL);
+            backUrl = new Uri(Request.RawUrl);
         }
 
         public virtual void Log(string msg)

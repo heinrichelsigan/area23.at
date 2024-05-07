@@ -234,7 +234,7 @@ div {
         */
     font-size: medium;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif'
-}]
+}
 
     .jsonPreOut, #BodyContentPlaceHolder_jsonPreOut {
         width: 98%;
@@ -478,7 +478,6 @@ tr.qrcTdRight {
     border-width: 0px;
     border-color: transparent;
     /* 	background-repeat: no-repeat; */
-    align: right;
     text-align: right;
 }
 
@@ -494,7 +493,6 @@ td.qrcTdLeft {
     border-spacing: 0px;
     border-width: 0px;
     border-color: transparent;
-    align: left;
     text-align: left;
     /* 	background-repeat: no-repeat; 
     	background-size: 100% 100%;

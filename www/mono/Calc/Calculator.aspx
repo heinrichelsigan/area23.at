@@ -11,14 +11,13 @@
 	<link rel="stylesheet" href="../res/css/rpncalcweb.css" />	
 	<script async src="../res/js/area23.js"></script>
 </asp:Content>
-<asp:Content ID="CalcBodyContent" ContentPlaceHolderID="CalcBody" runat="server" ClientIDMode="Static" EnableViewState="true">
-	<form id="CalculatorForm" runat="server" method="dialog">
+<asp:Content ID="CalcBodyContent" ContentPlaceHolderID="CalcBody" runat="server" ClientIDMode="Static">
+	<form id="CalcForm" runat="server" action="Calculator.aspx">
 	
 		<table class="rpnTbl" border="0">
 			<tr id="trA" class="rpnTr">
 				<td id="tdAa" width="12%" align="left" class="rpnTd"></td>
-				<td id="tdAb" width="60%" align="left" class="rpnTd" colspan="5"><asp:TextBox ID="textboxtop" ClientIDMode="Static" runat="server" Columns="30" AutoPostBack="true" OnTextChanged="bChange_Click" Font-Names="Courier New" /></td>
-				<td id="tdAg" width="12%" align="center" class="salmonTd"><asp:Button ID="Bdel" runat="server" Text="␡" OnClick="Bdel_Click" /></td>
+				<td id="tdAb" width="60%" align="center" class="rpnTd" colspan="6"><asp:TextBox ID="textboxtop" ClientIDMode="Static" runat="server" Columns="30" AutoPostBack="true" OnTextChanged="bChange_Click" Font-Names="Courier New" /></td>
 				<td id="tdAh" width="12%" align="right" class="rpnTd"></td>				
 			</tr>
 			<tr id="tr9" class="rpnTr">
@@ -28,7 +27,7 @@
 				<td id="td9d" width="12%" align="center" class="azureTd"><asp:Button ID="Btan" ClientIDMode="Static" runat="server" Text="tan" OnClick="bMath_Click" /></td>
 				<td id="td9e" width="12%" align="center" class="azureTd"><asp:Button ID="Bcot" ClientIDMode="Static" runat="server" Text="cot" OnClick="bMath_Click" /></td>
 				<td id="td9f" width="12%" align="center" class="azureTd"></td>
-				<td id="td9g" width="12%" align="center" class="salmonTd"><asp:Button ID="BClear" runat="server" ClientIDMode="Static" Text="C" ToolTip="Clear" OnClick="BClear_Click" /></td>
+				<td id="td9g" width="12%" align="center" class="salmonTd"></td>
 				<td id="td9h" width="12%" align="center" class="rpnTd"></td>
 			</tr>
 			<tr id="tr8" class="rpnTr">
@@ -58,7 +57,7 @@
 				<td class="azureTd" width="12%" id="td6d" align="center"><asp:Button ID="Bsqr4" runat="server" ClientIDMode="Static" Text="∜" OnClick="bMath_Click" /></td>
 				<td class="azureTd" width="12%" id="td6e" align="center"></td>
 				<td class="mistyroseTd" width="12%" id="td6f" align="center"><asp:Button ID="Bsqrti" runat="server" ClientIDMode="Static" Text="ⁱ√" OnClick="bMath_Click" /></td>
-				<td class="rpnTd" width="12%" id="td6g" align="center"></td>
+				<td class="salmonTd" width="12%" id="td6g" align="center"></td>
 				<td class="rpnTd" width="12%" id="td6h"></td>
 			</tr>
 			<tr id="tr5" class="rpnTr">
@@ -78,7 +77,7 @@
 				<td class="gainsboroTd" width="12%" id="td4d" align="center"><asp:Button ID="Bpi" runat="server" ClientIDMode="Static" Text="π" OnClick="bPiE_Click" /></td>
 				<td class="gainsboroTd" width="12%" id="td4e" align="center"><asp:Button ID="Binfite" runat="server" ClientIDMode="Static" Text="∞" OnClick="bInfinite_Click" /></td>
 				<td class="mistyroseTd" width="12%" id="td4f" align="center"><asp:Button ID="Bdivision" runat="server" Text="÷" OnClick="bMath2Op_Click" ClientIDMode="Static" /></td>
-				<td class="rpnTd" width="12%" id="td4g" align="center"></td>
+				<td class="salmonTd" width="12%" id="td4g" align="center"></td>
 				<td class="rpnTd" width="12%" id="td4h"></td>
 			</tr>
 			<tr id="tr3" class="rpnTr">
@@ -88,7 +87,7 @@
 				<td class="gainsboroTd" width="12%" id="td3d" align="center"><asp:Button ID="B8" runat="server" Text="8" OnClick="bNumber_Click" /></td>
 				<td class="gainsboroTd" width="12%" id="td3e" align="center"><asp:Button ID="B9" runat="server" Text="9" OnClick="bNumber_Click" /></td>
 				<td class="mistyroseTd" width="12%" id="td3f" align="center"><asp:Button ID="Bmultiply" runat="server" Text="×" OnClick="bMath2Op_Click" /></td>
-				<td class="rpnTd" width="12%" id="td3g" align="center"></td>
+				<td class="salmonTd" width="12%" id="td3g" align="center"><asp:Button ID="Bdel" runat="server" Text="␡" OnClick="Bdel_Click" /></td>
 				<td class="rpnTd" width="12%" id="td3h"></td>
 			</tr>
 			<tr id="tr2" class="rpnTr">
@@ -98,7 +97,7 @@
 				<td class="gainsboroTd" width="12%" id="td2d" align="center"><asp:Button ID="B5" runat="server" Text="5" OnClick="bNumber_Click" /></td>
 				<td class="gainsboroTd" width="12%" id="td2e" align="center"><asp:Button ID="B6" runat="server" Text="6" OnClick="bNumber_Click" /></td>
 				<td class="mistyroseTd" width="12%" id="td2f" align="center"><asp:Button ID="Bminus" runat="server" Text="-" OnClick="bMath2Op_Click" /></td>
-				<td class="rpnTd" width="12%" id="td2g" align="center"></td>
+				<td class="salmonTd" width="12%" id="td2g" align="center"><asp:Button ID="BClear" runat="server" ClientIDMode="Static" Text="C" ToolTip="Clear" OnClick="BClear_Click" /></td>
 				<td class="rpnTd" width="12%" id="td2h"></td>
 			</tr>
 			<tr id="tr1" class="rpnTr">

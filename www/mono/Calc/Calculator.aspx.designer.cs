@@ -42,13 +42,13 @@ namespace Area23.At.Mono.Calc
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl metaarc;
 
         /// <summary>
-        /// CalculatorForm control.
+        /// CalcForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm CalculatorForm;
+        protected global::System.Web.UI.HtmlControls.HtmlForm CalcForm;
 
         /// <summary>
         /// textboxtop control.
@@ -58,15 +58,6 @@ namespace Area23.At.Mono.Calc
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox textboxtop;
-
-        /// <summary>
-        /// Bdel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Bdel;
 
         /// <summary>
         /// Bsin control.
@@ -103,15 +94,6 @@ namespace Area23.At.Mono.Calc
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Bcot;
-
-        /// <summary>
-        /// BClear control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BClear;
 
         /// <summary>
         /// Bpow2 control.
@@ -411,6 +393,15 @@ namespace Area23.At.Mono.Calc
         protected global::System.Web.UI.WebControls.Button Bmultiply;
 
         /// <summary>
+        /// Bdel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Bdel;
+
+        /// <summary>
         /// Bbopen control.
         /// </summary>
         /// <remarks>
@@ -454,6 +445,15 @@ namespace Area23.At.Mono.Calc
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Bminus;
+
+        /// <summary>
+        /// BClear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BClear;
 
         /// <summary>
         /// Bbclose control.

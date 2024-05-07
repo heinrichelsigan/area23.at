@@ -391,7 +391,7 @@ namespace Area23.At.Mono.Qr
 
             string qrfn = Constants.DateFile + DateTime.Now.Millisecond + ".png";
             QrImgPath = Paths.ResAppPath + qrfn;
-            qrCodeImage.Save(Paths.OutDir + Constants.DateFile + DateTime.Now.Millisecond + ".png");
+            qrCodeImage.Save(Paths.OutDirPath + Constants.DateFile + DateTime.Now.Millisecond + ".png");
 
             return qrCodeImage;
         }

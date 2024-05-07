@@ -59,8 +59,8 @@ namespace Area23.At.Mono
             get
             {
                 string audioPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
-                if (!audioPath.Contains(Paths.AppFolder))
-                    audioPath += Paths.AppFolder + SepChar;
+                if (!audioPath.Contains(Paths.AppPath))
+                    audioPath += Paths.AppPath + SepChar;
                 if (!audioPath.Contains("res"))
                     audioPath += "res" + SepChar;
                 // if (!Directory.Exists(audioPath))

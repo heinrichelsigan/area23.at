@@ -19,7 +19,7 @@
 					<span id="frogsDied" alt="frogs died" style="color:gainsboro">N</span>
 				</span>
 				<span style="min-height: 36pt; min-width: 240pt; vertical-align:middle; font-size: medium; text-align: center" align="center" valign="middle">
-					<img class="rpnImg" src="res/img/header.png" id="headerImg" border="0" />
+					<img class="rpnImg" src="../res/img/header.png" id="headerImg" border="0" />
 				</span>
 				<span id="headerRight" style="min-height: 36pt; min-width: 60pt; vertical-align: middle; font-size: larger; text-align: left" align="left" valign="middle">								
 					&nbsp;<span id="spanCalcModeLabel" alt="calculator mode">mode</span>

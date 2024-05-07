@@ -23,25 +23,49 @@ namespace Area23.At.Mono.Util
         private static string cardPicsPath = null;
         private static string cardPicsDir = null;
         private static string appDirPath = null;
+        private static string outDirPath = null;
+        private static string resDirPath = null;
 
         public static string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
-        
-        
+
         public static string AppPath
         {
             get
             {
-                
                 if (String.IsNullOrEmpty(appPath))
                 {
-                    string apPath = HttpContext.Current.Request.Url.ToString().Replace("/Unix/", "/").Replace("/Qr/", "/").
-                        Replace("/res/", "/").Replace("/js/", "/").Replace("/image/", "/").Replace("/css/", "/");
-                    // appPath = HttpContext.Current.Request.ApplicationPath;
-                    appPath = apPath.Substring(0, apPath.LastIndexOf("/"));
-                    if (!appPath.EndsWith("/"))
-                        appPath += "/";
+                    try
+                    {
+                        if (System.Configuration.ConfigurationManager.AppSettings["AppDir"] != null)
+                            appPath = System.Configuration.ConfigurationManager.AppSettings["AppDir"];
+                    }
+                    catch (Exception appFolderEx)
+                    {
+                        Area23Log.LogStatic(appFolderEx);
+                    }
+                    if (String.IsNullOrEmpty(appPath))
+                        appPath = Constants.APP_DIR;
                 }
-                return appPath;                
+                return appPath;
+            }
+        }
+
+
+        public static string AppDirPath
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(appDirPath))
+                {
+                    appDirPath = "." + SepChar;
+
+                    if (AppContext.BaseDirectory != null)
+                        appDirPath = AppContext.BaseDirectory + SepChar;
+                    else if (AppDomain.CurrentDomain != null)
+                        appDirPath = AppDomain.CurrentDomain.BaseDirectory + SepChar;
+                }
+
+                return appDirPath;
             }
         }
 
@@ -51,8 +75,10 @@ namespace Area23.At.Mono.Util
             {
                 if (String.IsNullOrEmpty(baseAppPath))
                 {
-                    string basApPath = HttpContext.Current.Request.Url.ToString().Replace("/Unix/", "/").Replace("/Qr/", "/").
-                        Replace("/res/", "/").Replace("/js/", "/").Replace("/image/", "/").Replace("/css/", "/");
+                    string basApPath = HttpContext.Current.Request.Url.ToString().
+                        Replace("/Unix/", "/").Replace("/Qr/", "/").Replace("/Calc/", "/").
+                        Replace("/res/", "/").Replace("/js/", "/").Replace("/img/", "/").
+                        Replace("/css/", "/").Replace("/out/", "/").Replace("/audio/","/");
                     baseAppPath = basApPath.Substring(0, basApPath.LastIndexOf("/"));
                     if (!baseAppPath.EndsWith("/"))
                         baseAppPath += "/";
@@ -86,10 +112,38 @@ namespace Area23.At.Mono.Util
                 if (String.IsNullOrEmpty(resAppPath))
                 {
                     resAppPath = BaseAppPath;
-                    if (!resAppPath.Contains("/" + Constants.RES_FOLDER + "/"))
-                        resAppPath += Constants.RES_FOLDER + "/";
+                    if (!resAppPath.Contains("/" + Constants.RES_DIR + "/"))
+                        resAppPath += Constants.RES_DIR + "/";
                 }
                 return resAppPath;
+            }
+        }
+
+        public static string ResDirPath
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(resDirPath))
+                {
+                    resDirPath = AppDirPath;
+                    if (!resDirPath.Contains(Constants.RES_DIR))
+                        resDirPath += Constants.RES_DIR + SepChar;                    
+
+                    if (!Directory.Exists(resDirPath))
+                    {
+                        try
+                        {
+                            string dirNotFoundMsg = String.Format("out directory {0} doesn't exist, creating it!", resDirPath);
+                            Area23Log.LogStatic(dirNotFoundMsg);
+                            Directory.CreateDirectory(resDirPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Area23Log.LogStatic(ex);
+                        }
+                    }
+                }
+                return resDirPath;
             }
         }
 
@@ -122,42 +176,6 @@ namespace Area23.At.Mono.Util
         }
 
 
-        public static string AppFolder
-        {
-            get
-            {
-                try
-                {
-                    if (System.Configuration.ConfigurationManager.AppSettings["AppFolder"] != null)
-                        return System.Configuration.ConfigurationManager.AppSettings["AppFolder"];
-                }
-                catch (Exception appFolderEx) 
-                {
-                    Area23Log.LogStatic(appFolderEx);
-                }
-                return Constants.APP_DIR;
-            }
-        }
-
-
-        public static string AppDirPath
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(appDirPath))
-                {
-                    appDirPath = "." + SepChar;
-
-                    if (AppContext.BaseDirectory != null)
-                        appDirPath = AppContext.BaseDirectory + SepChar;
-                    else if (AppDomain.CurrentDomain != null)
-                        appDirPath = AppDomain.CurrentDomain.BaseDirectory + SepChar;
-                }
-
-                return appDirPath;
-            }
-        }
-
         public static string BinDir { get => AppDirPath + "bin" + SepChar; }
 
         public static string LogPathDir
@@ -181,40 +199,35 @@ namespace Area23.At.Mono.Util
 
         public static string LogPathFile { get => LogPathDir + Constants.AppLogFile; }
 
+        public static string OutAppPath { get => ResAppPath + Constants.OUT_DIR + "/"; }
 
-        public static string OutDir
+        public static string OutDirPath
         {
             get
-            {                
-                string resPath = "." + SepChar;                
-
-                if (AppContext.BaseDirectory != null)
-                    resPath = AppContext.BaseDirectory + SepChar;
-                else if (AppDomain.CurrentDomain != null)
-                    resPath = AppDomain.CurrentDomain.BaseDirectory + SepChar;
-
-                try
+            {
+                if (String.IsNullOrEmpty(outDirPath))
                 {
-                    if (HttpContext.Current != null && HttpContext.Current.Request != null && HttpContext.Current.Request.ApplicationPath != null)
+                    outDirPath = AppDirPath;
+                    if (!outDirPath.Contains(Constants.RES_DIR))
+                        outDirPath += Constants.RES_DIR + SepChar;
+                    if (!outDirPath.Contains(Constants.OUT_DIR))
+                        outDirPath += Constants.OUT_DIR + SepChar;
+
+                    if (!Directory.Exists(outDirPath))
                     {
-                        resPath = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
+                        try
+                        {
+                            string dirNotFoundMsg = String.Format("out directory {0} doesn't exist, creating it!", outDirPath);
+                            Area23Log.LogStatic(dirNotFoundMsg);
+                            Directory.CreateDirectory(outDirPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Area23Log.LogStatic(ex);
+                        }
                     }
-                } 
-                catch (Exception ex)
-                {
-                    Area23Log.LogStatic(ex);
                 }
-
-                if (!resPath.Contains(Constants.RES_FOLDER))
-                    resPath += Constants.RES_FOLDER + SepChar;
-
-                if (!Directory.Exists(resPath))
-                {
-                    string dirNotFoundMsg = String.Format("res directory {0} doesn't exist, creating it!", resPath);
-                    Area23Log.LogStatic(dirNotFoundMsg);
-                    Directory.CreateDirectory(resPath);                    
-                }
-                return resPath;
+                return outDirPath;
             }
         }
 

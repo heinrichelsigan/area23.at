@@ -50,7 +50,7 @@ namespace Area23.At.Mono.Unix
 
                 lock (fortuneLock)
                 {
-                    string[] filenames = { Paths.OutDir + Paths.SepChar + "fortune.u8", Paths.OutDir + Paths.SepChar + "fortune.u8", "fortune.u8", "Properties" + Paths.SepChar + "fortune.u8" };
+                    string[] filenames = { Paths.ResDirPath + "FortunAsp.u8", Paths.ResDirPath + "fortune.u8", "fortune.u8", Paths.AppDirPath + "Properties" + Paths.SepChar + "fortune.u8" };
                     int fp = 0;
                     while (!File.Exists(filenames[fp]))
                         ++fp;

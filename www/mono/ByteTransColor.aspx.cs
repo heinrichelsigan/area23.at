@@ -12,25 +12,13 @@ using static System.Net.WebRequestMethods;
 
 namespace Area23.At.Mono
 {
-    public partial class ByteTransColor : System.Web.UI.Page
+    public partial class ByteTransColor : Util.UIPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Request.Files != null && Request.Files.Count > 0)
             {
                 buttonUpload_Click(sender, e);
-            }
-        }
-
-        protected string ResFoler
-        {
-            get
-            {
-                string strFolder = Server.MapPath("./res/");
-                // Create the directory if it does not exist.
-                if (!Directory.Exists(strFolder))
-                    Directory.CreateDirectory(strFolder);
-                return strFolder;
             }
         }
 
@@ -87,7 +75,8 @@ namespace Area23.At.Mono
                 if (shouldBreak) break;
             }
 
-            string mimeType = ByteArrayToFile(bList.ToArray());   
+            string outMsg;
+            string mimeType = ByteArrayToFile(bList.ToArray(), out outMsg);   
             string base64Data = Convert.ToBase64String(bList.ToArray());
             imgOut.Src = "data:" + mimeType + ";base64," + base64Data; 
         }
@@ -169,13 +158,13 @@ namespace Area23.At.Mono
             if (pfile != null)
             {
                 // Save the uploaded file to the server.
-                strFilePath = ResFoler + strFileName;
+                strFilePath = Paths.OutDirPath + strFileName;
                 while (System.IO.File.Exists(strFilePath))
                 {
                     string newFileName = strFilePath.Contains(Constants.DateFile) ?
                         Constants.DateFile + Guid.NewGuid().ToString() + "_" + strFileName :
                         Constants.DateFile + strFileName;
-                    strFilePath = ResFoler + newFileName;
+                    strFilePath = Paths.OutDirPath + newFileName;
                     lblUploadResult.Text = String.Format("{0} already exists on server, saving it to {1}.",
                         strFileName, newFileName);
                 }
@@ -224,80 +213,5 @@ namespace Area23.At.Mono
             }            
         }
 
-        public static string GetMimeTypeForImageBytes(byte[] bytes)
-        {
-            using (MemoryStream ms = new MemoryStream(bytes))
-            using (System.Drawing.Image img = System.Drawing.Image.FromStream(ms))
-            {
-                return ImageCodecInfo.GetImageEncoders().First(codec => codec.FormatID == img.RawFormat.Guid).MimeType;
-            }
-        }
-
-        public string ByteArrayToFile(byte[] bytes, string fileName = null)
-        {
-            string strPath = ResFoler;
-
-            if (string.IsNullOrEmpty(fileName))
-            {
-                fileName = Constants.DateFile + Guid.NewGuid().ToString();
-            }
-            string ext = "tmp";
-            try
-            {
-                string mimeTypeExt = MimeType.GetMimeType(bytes, strPath + fileName);
-                ext = MimeType.GetFileExtForMimeTypeApache(mimeTypeExt);
-                // GetMimeTypeForImageBytes(bytes);
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogStatic(ex);
-                ext = "tmp";
-            }
-
-            if (fileName.LastIndexOf(".") < (fileName.Length - 5))
-                fileName += "." + ext;
-
-            strPath = ResFoler + fileName;
-            try
-            {
-                using (var fs = new FileStream(strPath, FileMode.Create, FileAccess.Write))
-                {
-                    fs.Write(bytes, 0, bytes.Length);
-                }
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogStatic(ex);
-            }
-
-            if (System.IO.File.Exists(strPath))
-            {
-                string mimeType = MimeType.GetMimeType(bytes, strPath);
-                if (fileName.EndsWith("tmp"))
-                {
-                    string extR = MimeType.GetFileExtForMimeTypeApache(mimeType);
-                    string newFileName = fileName.Replace("tmp", extR);
-                    System.IO.File.Move(strPath, ResFoler + newFileName);
-                }
-                return mimeType;
-            }
-            return null;
-        }
-
-        private byte[] GetFileByteArray(string filename)
-        {
-            FileStream oFileStream = new FileStream(filename, FileMode.Open, FileAccess.Read);
-
-            // Create a byte array of file size.
-            byte[] FileByteArrayData = new byte[oFileStream.Length];
-
-            //Read file in bytes from stream into the byte array
-            oFileStream.Read(FileByteArrayData, 0, System.Convert.ToInt32(oFileStream.Length));
-
-            //Close the File Stream
-            oFileStream.Close();
-
-            return FileByteArrayData; //return the byte data
-        }
     }
 }

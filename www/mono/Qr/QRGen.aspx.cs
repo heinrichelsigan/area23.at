@@ -111,7 +111,7 @@ namespace Area23.At.Mono.Qr
 
         protected virtual void SetQRImage(Bitmap qrImage, string redirUrl) 
         {
-            string fileName = Paths.OutDir + GetRedirectUrlName(redirUrl);
+            string fileName = Paths.OutDirPath + GetRedirectUrlName(redirUrl);
             MemoryStream ms = new MemoryStream();
             qrImage.Save(ms, ImageFormat.Gif);
             qrImage.Save(fileName, ImageFormat.Gif);

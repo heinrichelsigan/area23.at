@@ -17,7 +17,7 @@ using static System.Net.WebRequestMethods;
 
 namespace Area23.At.Mono
 {
-    public partial class SAES_En_Decrypt : System.Web.UI.Page
+    public partial class SAES_En_Decrypt : Util.UIPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -27,17 +27,6 @@ namespace Area23.At.Mono
             }
         }
 
-        protected string ResFoler
-        {
-            get
-            {
-                string strFolder = Server.MapPath("./res/");
-                // Create the directory if it does not exist.
-                if (!Directory.Exists(strFolder))
-                    Directory.CreateDirectory(strFolder);
-                return strFolder;
-            }
-        }
 
         /// <summary>
         /// Decrypt File
@@ -112,13 +101,13 @@ namespace Area23.At.Mono
             if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
             {
                 //// Save the uploaded file to the server.
-                //strFilePath = ResFoler + strFileName;
+                //strFilePath = Paths.OutDirPath + strFileName;
                 //while (System.IO.File.Exists(strFilePath))
                 //{
                 //    string newFileName = strFilePath.Contains(Constants.DateFile) ?
                 //        Constants.DateFile + Guid.NewGuid().ToString() + "_" + strFileName :
                 //        Constants.DateFile + strFileName;
-                //    strFilePath = ResFoler + newFileName;
+                //    strFilePath = Paths.OutDirPath + newFileName;
                 //    lblUploadResult.Text = String.Format("{0} already exists on server, saving it to {1}.",
                 //        strFileName, newFileName);
                 //}
@@ -211,9 +200,10 @@ namespace Area23.At.Mono
                             lblUploadResult.Text = "file has been decrypted to ";
                         }                                                
                     }
-                    string savedTransFile = this.ByteArrayToFile(outBytes, strFileName);
+                    string outMsg;
+                    string savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName);
                     aTransFormed.HRef = "res/" + savedTransFile;
-                    lblUploadResult.Text += savedTransFile;
+                    lblUploadResult.Text += outMsg;
                 }                
             }
             else
@@ -348,104 +338,5 @@ namespace Area23.At.Mono
             }
         }
 
-        /// <summary>
-        /// Get Image mime type for image bytes
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
-        public static string GetMimeTypeForImageBytes(byte[] bytes)
-        {
-            using (MemoryStream ms = new MemoryStream(bytes))
-            using (System.Drawing.Image img = System.Drawing.Image.FromStream(ms))
-            {
-                return ImageCodecInfo.GetImageEncoders().First(codec => codec.FormatID == img.RawFormat.Guid).MimeType;
-            }
-        }
-
-
-        /// <summary>
-        /// Saves a byte[] to a fileName
-        /// </summary>
-        /// <param name="bytes">byte[] of raw data</param>
-        /// <param name="fileName">filename to save</param>
-        /// <returns>fileName under which it was saved really</returns>
-        public string ByteArrayToFile(byte[] bytes, string fileName = null)
-        {
-            string strPath = ResFoler;            
-            if (string.IsNullOrEmpty(fileName))
-            {
-                fileName = Constants.DateFile + Guid.NewGuid().ToString();
-            }
-            string ext = "tmp";
-            try
-            {
-                string mimeTypeExt = MimeType.GetMimeType(bytes, strPath + fileName);
-                ext = MimeType.GetFileExtForMimeTypeApache(mimeTypeExt);
-                // GetMimeTypeForImageBytes(bytes);
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogStatic(ex);
-                ext = "tmp";
-            }
-
-            if (fileName.LastIndexOf(".") < (fileName.Length - 5))
-                fileName += "." + ext;
-
-            string newFileName = fileName;
-
-            strPath = ResFoler + fileName;
-            try
-            {
-                while (System.IO.File.Exists(strPath))
-                {
-                    newFileName = fileName.Contains(Constants.DateFile) ?
-                        Constants.DateFile + Guid.NewGuid().ToString() + "_" + fileName :
-                        Constants.DateFile + fileName;
-                    strPath = ResFoler + newFileName;
-                    lblUploadResult.Text = String.Format("{0} already exists on server, saving it to {1}.",
-                        fileName, newFileName);
-                    fileName = newFileName;
-                }
-                using (var fs = new FileStream(strPath, FileMode.Create, FileAccess.Write))
-                {
-                    fs.Write(bytes, 0, bytes.Length);
-                }
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogStatic(ex);
-            }
-
-            if (System.IO.File.Exists(strPath))
-            {
-                string mimeType = MimeType.GetMimeType(bytes, strPath);
-                if (fileName.EndsWith("tmp"))
-                {
-                    string extR = MimeType.GetFileExtForMimeTypeApache(mimeType);
-                    newFileName = fileName.Replace("tmp", extR);
-                    System.IO.File.Move(strPath, ResFoler + newFileName);
-                    return newFileName;
-                }
-                return fileName;
-            }
-            return null;
-        }
-
-        private byte[] GetFileByteArray(string filename)
-        {
-            FileStream oFileStream = new FileStream(filename, FileMode.Open, FileAccess.Read);
-
-            // Create a byte array of file size.
-            byte[] FileByteArrayData = new byte[oFileStream.Length];
-
-            //Read file in bytes from stream into the byte array
-            oFileStream.Read(FileByteArrayData, 0, System.Convert.ToInt32(oFileStream.Length));
-
-            //Close the File Stream
-            oFileStream.Close();
-
-            return FileByteArrayData; //return the byte data
-        }
     }
 }
