@@ -30,20 +30,21 @@ namespace Area23.At.Mono.Calc
         public string CurrentRad
         {
             get
-            {                
+            {
                 switch (this.metarad.Attributes["content"])
                 {
                     case "RAD": _currentRad = RPNRad.RAD; return RPNRad.RAD.ToString();
-                    case "GRD": _currentRad = RPNRad.GRD; return RPNRad.GRD.ToString(); 
-                    case "DEG": 
-                    default: _currentRad = RPNRad.DEG; return RPNRad.DEG.ToString();                }
+                    case "GRD": _currentRad = RPNRad.GRD; return RPNRad.GRD.ToString();
+                    case "DEG":
+                    default: _currentRad = RPNRad.DEG; return RPNRad.DEG.ToString();
+                }
             }
             set
             {
                 if (Enum.TryParse<RPNRad>(value, out _currentRad))
                 {
                     switch (_currentRad)
-                    {                        
+                    {
                         case RPNRad.GRD:
                             this.metarad.Attributes["content"] = RPNRad.GRD.ToString();
                             this.Brad.Text = RPNRad.GRD.ToString();
@@ -57,7 +58,7 @@ namespace Area23.At.Mono.Calc
                         case RPNRad.DEG:
                         default:
                             this.metarad.Attributes["content"] = RPNRad.DEG.ToString();
-                            this.Brad.Text = RPNRad.DEG.ToString();                        
+                            this.Brad.Text = RPNRad.DEG.ToString();
                             this.Brad.BackColor = Color.FromKnownColor(KnownColor.ButtonHighlight);
                             break;
                     }
@@ -92,16 +93,15 @@ namespace Area23.At.Mono.Calc
                 }
             }
         }
-        
+
         public DateTime Change_Click_EventDate
         {
-            get => (Session[Constants.CHANGE_CLICK_EVENTCNT] != null) ? 
+            get => (Session[Constants.CHANGE_CLICK_EVENTCNT] != null) ?
                 (DateTime)Session[Constants.CHANGE_CLICK_EVENTCNT] : DateTime.MinValue;
             set => Session[Constants.CHANGE_CLICK_EVENTCNT] = value;
         }
         object bChange_Click_lock = new object();
         object bEnter_Click_lock = new object();
-
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -146,8 +146,8 @@ namespace Area23.At.Mono.Calc
 
             _textCursor = rpnStack.Count;
         }
-               
-         
+
+
         [Obsolete("rpnCalc_Click is obseolte", false)]
         protected void rpnCalc_Click(object sender, EventArgs e)
         {
@@ -156,12 +156,11 @@ namespace Area23.At.Mono.Calc
 
         }
 
-
         protected void bBracers_Click(object sender, EventArgs e)
         {
             string mathString = (sender is Button) ? ((Button)sender).Text : "";
         }
-        
+
         protected void bRad_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(this.metarad.Attributes["content"]))
@@ -174,12 +173,12 @@ namespace Area23.At.Mono.Calc
                         break;
                     case "GRD":
                         this.metarad.Attributes["content"] = RPNRad.DEG.ToString();
-                        CurrentRad = RPNRad.DEG.ToString();                        
-                        break;                    
+                        CurrentRad = RPNRad.DEG.ToString();
+                        break;
                     case "DEG":
                     default:
                         this.metarad.Attributes["content"] = RPNRad.RAD.ToString();
-                        CurrentRad = RPNRad.RAD.ToString();                        
+                        CurrentRad = RPNRad.RAD.ToString();
                         break;
                 }
             }
@@ -187,10 +186,10 @@ namespace Area23.At.Mono.Calc
 
         protected void bArc_Click(object sender, EventArgs e)
         {
-            switch(this.metaarc.Attributes["content"]) 
+            switch (this.metaarc.Attributes["content"])
             {
                 case "":
-                    this.CurrentArc = "ARC";                    
+                    this.CurrentArc = "ARC";
                     break;
                 case "ARC":
                 default:
@@ -259,19 +258,19 @@ namespace Area23.At.Mono.Calc
                     this.textboxRpn.BorderColor = Color.Red;
                     this.textboxRpn.BorderWidth = 1;
                 }
-            }            
+            }
         }
-        
+
         protected void bMath2Op_Click(object sender, EventArgs e)
         {
             string mathString = (sender is Button) ? ((Button)sender).Text :
                 (sender is TextBox) ? ((TextBox)sender).Text : "";
-            
+
             if (!string.IsNullOrEmpty(mathString))
             {
                 this.textboxtop.Text = mathString.ToString();
                 if (ValidateMathOp2(this.textboxtop.Text) == RPNType.MathOp2)
-                {                    
+                {
                     rpnStack.Push(mathString.ToString());
                     TextCursor++;
                     RpnStackToTextBox();
@@ -349,9 +348,9 @@ namespace Area23.At.Mono.Calc
                         RpnStackToTextBox();
                         SetMetaContent();
                         textboxtop.Text = string.Empty;
-                        this.Change_Click_EventDate = DateTime.UtcNow;                        
+                        this.Change_Click_EventDate = DateTime.UtcNow;
                     }
-                    else 
+                    else
                     {
                         RPNType rpnT = ValidateOperator(this.textboxtop.Text);
                         if (rpnT != RPNType.False)
@@ -402,7 +401,7 @@ namespace Area23.At.Mono.Calc
                             break;
                         case "/":
                         case "÷":
-                            n1 = NumberFromStack();                            
+                            n1 = NumberFromStack();
                             result = (n1 / n0).ToString();
                             break;
                         case "^":
@@ -429,7 +428,7 @@ namespace Area23.At.Mono.Calc
                             long fkCnt = 1;
                             for (fkCnt = 1; fkCnt < (n0.ToLong()); fkCnt *= fkCnt++) ;
                             result = fkCnt.ToString();
-                            break;                        
+                            break;
                         case "x²":
                         case "²":
                             result = (n0 * n0).ToString();
@@ -443,7 +442,7 @@ namespace Area23.At.Mono.Calc
                                 n0 = n0 * Math.PI / 200;
                             else if (this.CurrentRad == "DEG")
                                 n0 = n0 * Math.PI / 180;
-                            result = Math.Sin(n0).ToString();                            
+                            result = Math.Sin(n0).ToString();
                             break;
                         case "cos":
                             if (this.CurrentRad == "GRD")
@@ -514,7 +513,7 @@ namespace Area23.At.Mono.Calc
                             result = Math.Sqrt(n0).ToString();
                             break;
                         case "∛":
-                            result = Math.Pow(n0, ((double)(1/3))).ToString();
+                            result = Math.Pow(n0, ((double)(1 / 3))).ToString();
                             break;
                         case "∜":
                             result = Math.Pow(n0, ((double)(1 / 4))).ToString();
@@ -583,7 +582,7 @@ namespace Area23.At.Mono.Calc
                 rpnT = ValidateAll(op);
             return rpnT;
         }
-        
+
         protected RPNType ValidateNumber(string num)
         {
             if (string.IsNullOrEmpty(num))
@@ -592,7 +591,7 @@ namespace Area23.At.Mono.Calc
             string restnum = num.TrimStart('-');
             if (string.IsNullOrEmpty(restnum))
                 return RPNType.False;
-            
+
             string rest = restnum.Trim("0123456789.,ℇπ,".ToArray());
             return (string.IsNullOrEmpty(rest)) ? RPNType.Number : RPNType.False;
         }
@@ -661,7 +660,7 @@ namespace Area23.At.Mono.Calc
                 case "asin":
                 case "acos":
                 case "atan":
-                case "acot":                
+                case "acot":
                     rpnType = RPNType.MathOp1;
                     break;
                 default:
@@ -682,7 +681,7 @@ namespace Area23.At.Mono.Calc
             if (n == "π") n = Math.PI.ToString();
             if (n == "∞") n = Int64.MaxValue.ToString();
             double d = Double.Parse(n);
-            if (d.IsRoundNumber()) { ; }
+            if (d.IsRoundNumber()) {; }
             return d;
         }
 

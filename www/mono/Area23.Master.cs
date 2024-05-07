@@ -34,7 +34,7 @@ namespace Area23.At.Mono
             this.aJson.HRef = Paths.BaseAppPath + "json.aspx";
             this.aByteTransColor.HRef = Paths.BaseAppPath + "ByteTransColor.aspx";
             this.aAesCrypt.HRef = Paths.BaseAppPath + "SAES_En_Decrypt.aspx";
-            this.aRpnCalc.HRef = Paths.BaseAppPath + "RpnCalc.aspx";
+            this.aRpnCalc.HRef = Paths.CalcAppPath + "RpnCalc.aspx";
             this.aFroga.HRef = Paths.BaseAppPath + "froga.aspx";
             this.aSchnapsNet.HRef = "/mono/SchnapsNet/";
         }
@@ -80,7 +80,7 @@ namespace Area23.At.Mono
                         spanCenter3.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
-                    if (Request.RawUrl.ToLower().Contains("rpn"))
+                    if (Request.RawUrl.ToLower().Contains("rpn") || Request.RawUrl.ToLower().Contains("calc"))
                     {
                         spanCenter4.Attributes["class"] = "headerCenterSelect";
                         return;

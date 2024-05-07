@@ -12,7 +12,7 @@ namespace Area23.At.Mono.Unix
         string lastLine = "";
         object bcLock = new object();
         private static readonly bool USE_UNIX = (Path.DirectorySeparatorChar == '/') ? true : false;
-        private readonly string BC_CMD_PATH = (USE_UNIX) ? "/usr/local/bin/bccmd.sh" : Paths.BinDir + "bccmd.bat";
+        private readonly string BC_CMD_PATH = (USE_UNIX) ? "/usr/local/bin/bccmd.sh" : Paths.AdditionalBinDir + "bccmd.bat";
         const string BC_CMD = "bc";             
         Stack<string> bcStack = new Stack<string>();
 

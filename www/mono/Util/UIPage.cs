@@ -51,7 +51,7 @@ namespace Area23.At.Mono.Util
         public virtual void InitURLBase()
         {
             gitUrl = new Uri(Constants.GIT_URL);
-            backUrl = new Uri(Request.RawUrl);
+            backUrl = new Uri(Request.Url.ToString());
         }
 
         public virtual void Log(string msg)

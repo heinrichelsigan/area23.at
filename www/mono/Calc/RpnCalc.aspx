@@ -12,6 +12,7 @@
 </asp:Content>
 <asp:Content ID="CalcBodyContent" ContentPlaceHolderID="CalcBody" runat="server" ClientIDMode="Static">
 	<form id="RpnCalcForm" runat="server" action="RpnCalc.aspx">
+		<div>
 			<div class="rpnDivHeader">
 				<span id="headerLeft" style="min-height: 36pt; min-width: 60pt; vertical-align: middle; font-size: larger; text-align: right " align="right" valign="middle">
 					<span id="spanPreviousValue" runat="server" alt="previous value" style="color:greenyellow">R</span> 

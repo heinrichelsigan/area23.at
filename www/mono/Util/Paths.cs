@@ -176,7 +176,7 @@ namespace Area23.At.Mono.Util
         }
 
 
-        public static string BinDir { get => AppDirPath + "bin" + SepChar; }
+        public static string AdditionalBinDir { get => ResDirPath + "bin" + SepChar; }
 
         public static string LogPathDir
         {

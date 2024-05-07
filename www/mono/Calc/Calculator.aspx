@@ -14,7 +14,7 @@
 <asp:Content ID="CalcBodyContent" ContentPlaceHolderID="CalcBody" runat="server" ClientIDMode="Static">
 	<form id="CalcForm" runat="server" action="Calculator.aspx">
 	
-		<table class="rpnTbl" border="0">
+		<table class="rpnTbl" border="0" cellpadding="0" cellspacing="0">
 			<tr id="trA" class="rpnTr">
 				<td id="tdAa" width="12%" align="left" class="rpnTd"></td>
 				<td id="tdAb" width="60%" align="center" class="rpnTd" colspan="6"><asp:TextBox ID="textboxtop" ClientIDMode="Static" runat="server" Columns="30" AutoPostBack="true" OnTextChanged="bChange_Click" Font-Names="Courier New" /></td>
