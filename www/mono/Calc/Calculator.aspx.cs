@@ -344,7 +344,7 @@ namespace Area23.At.Mono.Calc
                     else 
                     {
                         RPNType rpnT = ValidateOperator(this.textboxtop.Text);
-                        if (rpnT != RPNType.False)
+                        if (rpnT != RPNType.Invalid)
                         {
                             if (rpnT == RPNType.MathOp1)
                                 bMath_Click(sender, e);
@@ -370,7 +370,7 @@ namespace Area23.At.Mono.Calc
                 double n0 = double.NaN, n1 = double.NaN;
                 string op = rpnStack.Peek();
 
-                if (ValidateOperator(op) != RPNType.False)
+                if (ValidateOperator(op) != RPNType.Invalid)
                 {
                     op = rpnStack.Pop();
                     n0 = NumberFromStack();
@@ -550,7 +550,7 @@ namespace Area23.At.Mono.Calc
         #region validate rpn
         protected RPNType ValidateMathOp2(string op)
         {
-            RPNType rpnT = RPNType.False;
+            RPNType rpnT = RPNType.Invalid;
             string[] rpnArr = rpnStack.ToArray();
             if (rpnArr == null || rpnArr.Length < 2)
                 return rpnT;
@@ -564,7 +564,7 @@ namespace Area23.At.Mono.Calc
 
         protected RPNType ValidateMathOp1(string op)
         {
-            RPNType rpnT = RPNType.False;
+            RPNType rpnT = RPNType.Invalid;
             string[] rpnArr = rpnStack.ToArray();
             if (rpnArr == null || rpnArr.Length < 1)
                 return rpnT;
@@ -576,19 +576,19 @@ namespace Area23.At.Mono.Calc
         protected RPNType ValidateNumber(string num)
         {
             if (string.IsNullOrEmpty(num))
-                return RPNType.False;
+                return RPNType.Invalid;
 
             string restnum = num.TrimStart('-');
             if (string.IsNullOrEmpty(restnum))
-                return RPNType.False;
+                return RPNType.Invalid;
             
             string rest = restnum.Trim("0123456789.,ℇπ,".ToArray());
-            return (string.IsNullOrEmpty(rest)) ? RPNType.Number : RPNType.False;
+            return (string.IsNullOrEmpty(rest)) ? RPNType.Number : RPNType.Invalid;
         }
 
         protected RPNType ValidateOperator(string op)
         {
-            RPNType rpnTy = RPNType.False;
+            RPNType rpnTy = RPNType.Invalid;
             rpnTy = ValidateAll(op);
             switch (rpnTy)
             {
@@ -599,12 +599,12 @@ namespace Area23.At.Mono.Calc
                 default:
                     break;
             }
-            return RPNType.False;
+            return RPNType.Invalid;
         }
 
         protected RPNType ValidateAll(string op)
         {
-            RPNType rpnType = RPNType.False;
+            RPNType rpnType = RPNType.Invalid;
             switch (op)
             {
                 case "+":

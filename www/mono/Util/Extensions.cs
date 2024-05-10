@@ -264,5 +264,22 @@ namespace Area23.At.Mono.Util
         }
 
         #endregion System.Drawing.Color extensions
+
+
+        /// <summary>
+        /// Extension method for Stack<T> 
+        /// </summary>      
+        /// <typeparam name="T">type parameter for generic <see cref="Stack{T}"/></typeparam>
+        /// <param name="stack">a generic  <see cref="Stack{T}">Stack</see></param>  
+        /// <returns>a string concatenation of reversed (fifoed) stack</returns>
+        public static string ReverseToString<T>(this Stack<T> stack)
+        {
+            string reverse = string.Empty;
+            foreach (object s in stack.Reverse().ToArray()) 
+            {
+                reverse += s.ToString();
+            }
+            return reverse;
+        }
     }
 }

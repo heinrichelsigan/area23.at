@@ -54,8 +54,8 @@
                 <img id="imgOut" runat="server" border="0" alt="File transformed" src="res/img/file.png" /></a>
          </asp:Panel>
         <h2>En-/Decrypt text</h2>
-        <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="16384" Rows="5" Columns="36"></asp:TextBox>
-        <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="5" Columns="36" MaxLength="16384"></asp:TextBox>
+        <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="5" Columns="36" ToolTip="Transformed Text"></asp:TextBox>
+        <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="5" Columns="36" MaxLength="16384" ToolTip="Destination Text"></asp:TextBox>
         <br />
         <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClick="ButtonEncrypt_Click" />
         <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClick="ButtonDecrypt_Click" />        

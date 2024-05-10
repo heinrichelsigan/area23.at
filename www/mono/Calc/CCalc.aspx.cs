@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Web;
 using System.Web.DynamicData;
 using System.Web.UI;
@@ -206,7 +207,7 @@ namespace Area23.At.Mono.Calc
         protected void bNumber_Click(object sender, EventArgs e)
         {
             string mathString = (sender is Button) ? ((Button)sender).Text : "";
-            this.CurrentTextBox.Text = mathString.ToString();
+            this.CurrentTextBox.Text += mathString.ToString();
         }
 
         protected void bPiE_Click(object sender, EventArgs e)
@@ -241,21 +242,45 @@ namespace Area23.At.Mono.Calc
             if (!string.IsNullOrEmpty(mathString))
             {
                 this.CurrentTextBox.Text = mathString.ToString();
+
+                string newElem = this.CurrentTextBox.Text;
+                string newTerm = this.TextBox_Calc.Text + newElem;
+                CalcTerm term = null;
+                bool validated = true;
+                string unvalidateReasion = ".";
+
                 if (ValidateMathOp1(mathString) == RPNType.MathOp1)
                 {
-                    rpnStack.Push(mathString.ToString());
-                    TextCursor++;
-                    RpnStackToTextBox();
-                    SetMetaContent();
-                    CurrentTextBox.Text = string.Empty;
+                    try
+                    {                        
+                        term = new CalcTerm(newTerm);
+                        validated = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Area23Log.LogStatic(ex);
+                        unvalidateReasion = ": " + ex.Message;
+                        validated = false;
+                    }
+
+                    if (validated)
+                    {
+                        rpnStack.Push(mathString.ToString());
+                        TextCursor++;
+                        RpnStackToTextBox();
+                        SetMetaContent();
+                        CurrentTextBox.Text = string.Empty;
+                        this.Change_Click_EventDate = DateTime.UtcNow;
+                        return;
+                    }
                 }
-                else
+                
+                if (!validated)
                 {
                     this.CurrentTextBox.BorderColor = Color.Red;
-                    this.CurrentTextBox.BorderStyle = BorderStyle.Dotted;
-                    this.CurrentTextBox.ToolTip = "Math op " + mathString + " requires at least 1 numbers at top of stack";
                     this.CurrentTextBox.BorderStyle = BorderStyle.Dashed;
                     this.CurrentTextBox.BorderWidth = 1;
+                    this.CurrentTextBox.ToolTip = "Unary math op " + this.CurrentTextBox.Text + " invalid: " + unvalidateReasion;
                 }
             }
         }
@@ -265,22 +290,46 @@ namespace Area23.At.Mono.Calc
             string mathString = (sender is Button) ? ((Button)sender).Text :
                 (sender is TextBox) ? ((TextBox)sender).Text : "";
 
+
             if (!string.IsNullOrEmpty(mathString))
             {
                 this.CurrentTextBox.Text = mathString.ToString();
+
+                string newElem = this.CurrentTextBox.Text;
+                string newTerm = this.TextBox_Calc.Text + newElem;
+                CalcTerm term = null;
+                bool validated = true;
+                string unvalidateReasion = ".";
+
                 if (ValidateMathOp2(this.CurrentTextBox.Text) == RPNType.MathOp2)
                 {
-                    rpnStack.Push(mathString.ToString());
-                    TextCursor++;
-                    RpnStackToTextBox();
-                    SetMetaContent();
-                    CurrentTextBox.Text = string.Empty;
+                    try
+                    {
+                        term = new CalcTerm(newTerm);
+                        validated = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Area23Log.LogStatic(ex);
+                        unvalidateReasion = ": " + ex.Message;
+                        validated = false;
+                    }
+
+                    if (validated)
+                    {
+                        rpnStack.Push(mathString.ToString());
+                        TextCursor++;
+                        RpnStackToTextBox();
+                        SetMetaContent();
+                        CurrentTextBox.Text = string.Empty;
+                        return;
+                    }
                 }
-                else
+                if (!validated)
                 {
                     this.CurrentTextBox.BorderColor = Color.Red;
                     this.CurrentTextBox.BorderStyle = BorderStyle.Dotted;
-                    this.CurrentTextBox.ToolTip = "Math op " + mathString + " requires at least 2 numbers at top of stack";
+                    this.CurrentTextBox.ToolTip = "Binary math op " + mathString + " is invalid in this context" + unvalidateReasion;
                     this.CurrentTextBox.BorderStyle = BorderStyle.Dashed;
                     this.CurrentTextBox.BorderColor = Color.Red;
                     this.CurrentTextBox.BorderWidth = 1;
@@ -312,9 +361,12 @@ namespace Area23.At.Mono.Calc
                     RpnStackToTextBox();
                     SetMetaContent();
                 }
-                else this.CurrentTextBox.Text = string.Empty;
+                else
+                {
+                    this.CurrentTextBox.Text = string.Empty;
+                    this.TextBox_Calc.Text = string.Empty;
+                }
             }
-
         }
 
         protected void bChange_Click(object sender, EventArgs e)
@@ -340,32 +392,32 @@ namespace Area23.At.Mono.Calc
                 this.CurrentTextBox.Text = CurrentTextBox.Text.TrimStart(" ".ToArray()).TrimEnd(" ".ToArray());
                 if (!string.IsNullOrEmpty(this.CurrentTextBox.Text))
                 {
-                    if (ValidateNumber(this.CurrentTextBox.Text) == RPNType.Number)
+                    string newElem = this.CurrentTextBox.Text;
+                    string newTerm = this.TextBox_Calc.Text + newElem;
+                    CalcTerm term = null;
+
+                    if (ValidateAll(newElem) != RPNType.Invalid)
                     {
+                        try
+                        {
+                            term = new CalcTerm(newTerm);
+                        }
+                        catch (Exception ex)
+                        {
+                            Area23Log.LogStatic(ex);
+                            this.CurrentTextBox.BorderColor = Color.Red;
+                            this.CurrentTextBox.BorderStyle = BorderStyle.Dotted;
+                            this.CurrentTextBox.ToolTip = "Math op " + this.CurrentTextBox.Text + " invalid: " +ex.Message;
+                            return;
+                        }
+
                         rpnStack.Push(CurrentTextBox.Text.ToString());
                         TextCursor++;
                         RpnStackToTextBox();
                         SetMetaContent();
                         CurrentTextBox.Text = string.Empty;
                         this.Change_Click_EventDate = DateTime.UtcNow;
-                    }
-                    else
-                    {
-                        RPNType rpnT = ValidateOperator(this.CurrentTextBox.Text);
-                        if (rpnT != RPNType.False)
-                        {
-                            if (rpnT == RPNType.MathOp1)
-                                bMath_Click(sender, e);
-                            if (rpnT == RPNType.MathOp2)
-                                bMath2Op_Click(sender, e);
-                        }
-                        else
-                        {
-                            this.CurrentTextBox.BorderColor = Color.Red;
-                            this.CurrentTextBox.BorderStyle = BorderStyle.Dotted;
-                            this.CurrentTextBox.ToolTip = "Math op " + this.CurrentTextBox.Text + " unknown";
-                        }
-                    }
+                    }                    
                 }
             }
         }
@@ -376,10 +428,38 @@ namespace Area23.At.Mono.Calc
             if (rpnStack.Count >= 2)
             {
                 double n0 = double.NaN, n1 = double.NaN;
-                string op = rpnStack.Peek();
+                string op = rpnStack.Reverse().First();
+                string stackTermStr = string.Empty;
+                CalcTerm stackTerm = null, textTerm = null;
 
-                if (ValidateOperator(op) != RPNType.False)
+                if ((ValidateOperator(op) == RPNType.MathOp1) || (ValidateAll(op) == RPNType.Number))
                 {
+                    while (rpnStack.Count > 1)
+                    {
+                        stackTermStr = rpnStack.ReverseToString<string>();
+                        stackTerm = new CalcTerm(stackTermStr);
+                        textTerm = new CalcTerm(TextBox_Calc.Text);
+                        stackTerm.EvaluateTerms(_currentRad);
+                        this.TextBox_Calc.Text = stackTerm.ToString();
+                        rpnStack.Clear();
+                        foreach (var selem in stackTerm.sterms)
+                            rpnStack.Push(selem.Elem);
+
+                    }
+
+                    RpnStackToTextBox();
+                    SetMetaContent();
+
+                    if (rpnStack.Count == 1)
+                    {
+                        this.TextBox_Calc.BorderColor = Color.Green;
+                        this.TextBox_Calc.BorderStyle = BorderStyle.Groove;
+                        this.TextBox_Calc.BorderWidth = 1;
+                        this.TextBox_Calc.ToolTip = "Result is " + result;
+                    }
+
+
+                    /*
                     op = rpnStack.Pop();
                     n0 = NumberFromStack();
 
@@ -553,6 +633,7 @@ namespace Area23.At.Mono.Calc
                         this.CurrentTextBox.BorderStyle = BorderStyle.Groove;
                         this.CurrentTextBox.ToolTip = "Result is " + result;
                     }
+                    */
                 }
             }
         }
@@ -561,7 +642,7 @@ namespace Area23.At.Mono.Calc
         #region validate rpn
         protected RPNType ValidateMathOp2(string op)
         {
-            RPNType rpnT = RPNType.False;
+            RPNType rpnT = RPNType.Invalid;
             string[] rpnArr = rpnStack.ToArray();
             if (rpnArr == null || rpnArr.Length < 2)
                 return rpnT;
@@ -575,7 +656,7 @@ namespace Area23.At.Mono.Calc
 
         protected RPNType ValidateMathOp1(string op)
         {
-            RPNType rpnT = RPNType.False;
+            RPNType rpnT = RPNType.Invalid;
             string[] rpnArr = rpnStack.ToArray();
             if (rpnArr == null || rpnArr.Length < 1)
                 return rpnT;
@@ -587,19 +668,19 @@ namespace Area23.At.Mono.Calc
         protected RPNType ValidateNumber(string num)
         {
             if (string.IsNullOrEmpty(num))
-                return RPNType.False;
+                return RPNType.Invalid;
 
             string restnum = num.TrimStart('-');
             if (string.IsNullOrEmpty(restnum))
-                return RPNType.False;
+                return RPNType.Invalid;
 
             string rest = restnum.Trim("0123456789.,ℇπ,".ToArray());
-            return (string.IsNullOrEmpty(rest)) ? RPNType.Number : RPNType.False;
+            return (string.IsNullOrEmpty(rest)) ? RPNType.Number : RPNType.Invalid;
         }
 
         protected RPNType ValidateOperator(string op)
         {
-            RPNType rpnTy = RPNType.False;
+            RPNType rpnTy = RPNType.Invalid;
             rpnTy = ValidateAll(op);
             switch (rpnTy)
             {
@@ -610,12 +691,12 @@ namespace Area23.At.Mono.Calc
                 default:
                     break;
             }
-            return RPNType.False;
+            return RPNType.Invalid;
         }
 
         protected RPNType ValidateAll(string op)
         {
-            RPNType rpnType = RPNType.False;
+            RPNType rpnType = RPNType.Invalid;
             switch (op)
             {
                 case "+":
@@ -682,7 +763,7 @@ namespace Area23.At.Mono.Calc
             if (n == "π") n = Math.PI.ToString();
             if (n == "∞") n = Int64.MaxValue.ToString();
             double d = Double.Parse(n);
-            if (d.IsRoundNumber()) {; }
+            if (d.IsRoundNumber()) { ; }
             return d;
         }
 
@@ -701,8 +782,7 @@ namespace Area23.At.Mono.Calc
             this.TextBox_Calc.BorderStyle = BorderStyle.None;
             this.TextBox_Calc.BorderWidth = 0;
             this.TextBox_Calc.BorderColor = Color.Black;
-            string rpnText = string.Empty;
-            rpnStack.ToList().ForEach(x => rpnText += x.ToString());
+            string rpnText = rpnStack.ReverseToString<string>();
             this.TextBox_Calc.Text = rpnText;
         }
 
@@ -711,8 +791,7 @@ namespace Area23.At.Mono.Calc
         protected void RpnStackToTextBox()
         {
             // this.textboxRpn.Text = string.Empty;
-            string rpnText = string.Empty;
-            rpnStack.ToList().ForEach(x => rpnText += x.ToString());
+            string rpnText = rpnStack.ReverseToString<string>();
             TextBox_Calc.Text = rpnText;
             Session["rpnStack"] = rpnStack;
             this.CurrentTextBox.Focus();

@@ -59,7 +59,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             tdes.Mode = CipherMode.ECB;
             tdes.Padding = PaddingMode.PKCS7;
             ICryptoTransform cTransform = tdes.CreateEncryptor();
-            byte[] cryptedBytes =cTransform.TransformFinalBlock(inBytes, 0, inBytes.Length);
+            byte[] cryptedBytes = cTransform.TransformFinalBlock(inBytes, 0, inBytes.Length);
             tdes.Clear();
 
             return cryptedBytes;

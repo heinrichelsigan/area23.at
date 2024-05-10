@@ -7,10 +7,10 @@ namespace Area23.At.Mono.Calc
 {
     public enum RPNType
     {
-        False = 0,
+        Invalid = -1,
+        Number = 0,
         MathOp1 = 1,
-        MathOp2 = 2,
-        Number = 3
+        MathOp2 = 2        
     }
 
     public enum RPNRad
@@ -19,4 +19,5 @@ namespace Area23.At.Mono.Calc
         RAD = 1,
         GRD = 2
     }
+
 }
