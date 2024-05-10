@@ -58,7 +58,7 @@
 					<td class="azureTd" width="10%" id="td7c" align="center"><asp:Button ID="Bln" runat="server" ClientIDMode="Static" Text="ln" OnClick="bMath_Click" /></td>
 					<td class="azureTd" width="10%" id="td7d" align="center"><asp:Button ID="Bld" runat="server" ClientIDMode="Static" Text="ld" OnClick="bMath_Click" /></td>
 					<td class="azureTd" width="10%" id="td7e" align="center"><asp:Button ID="Blog" runat="server" ClientIDMode="Static" Text="log" OnClick="bMath_Click" /></td>
-					<td class="mistyroseTd" width="10%" id="td7f" align="center"><asp:Button ID="Blogxy" runat="server" ClientIDMode="Static" Text="log&#x2095;&#x1d482;" OnClick="bMath2Op_Click" /></td>
+					<td class="mistyroseTd" width="10%" id="td7f" align="center"><asp:Button ID="Blogxy" runat="server" ClientIDMode="Static" Text="log&#x2095;a" OnClick="bMath2Op_Click" /></td>
                     <td class="funckeyId" width="10%" id="td7g" align="center"><asp:Button ID="Bmodus" ClientIDMode="Static" runat="server" Text="md10" OnClick="bModus_Click" /></td>
 					<td class="rpnTd" width="10%" id="td7h"></td>
 				</tr>

@@ -251,7 +251,7 @@ namespace Area23.At.Mono.Calc
                 {
                     if (STerms[ti + 1].Elem == "^" || STerms[ti + 1].Elem == "xⁿ" || STerms[ti + 1].Elem == "mod" ||
                         STerms[ti + 1].Elem == "ⁱ√" || STerms[ti + 1].Elem == "sqrti" || STerms[ti + 1].Elem == "xⁿ" ||
-                        STerms[ti + 1].Elem == "logₕ𝒂" || STerms[ti + 1].Elem == "log&#x2095;&#x1d482;" || STerms[ti + 1].Elem == "bloga")
+                        STerms[ti + 1].Elem == "logₕ𝒂" || STerms[ti + 1].Elem == "log&#x2095;a" || STerms[ti + 1].Elem == "bloga")
                     {
                         subTermStr = STerms[ti].Elem + STerms[ti + 1].Elem + STerms[ti + 2].Elem;
                         subTermBinary = new CalcTerm(subTermStr);
@@ -439,7 +439,7 @@ namespace Area23.At.Mono.Calc
                 {
                     if (STerms[ti + 1].Elem == "^" || STerms[ti + 1].Elem == "xⁿ" || STerms[ti + 1].Elem == "mod" ||
                         STerms[ti + 1].Elem == "ⁱ√" || STerms[ti + 1].Elem == "sqrti" ||
-                        STerms[ti + 1].Elem == "logₕ𝒂" || STerms[ti + 1].Elem == "log&#x2095;&#x1d482;" || STerms[ti + 1].Elem == "bloga")
+                        STerms[ti + 1].Elem == "logₕ𝒂" || STerms[ti + 1].Elem == "log&#x2095;a" || STerms[ti + 1].Elem == "bloga")
                     {
                         dnum0 = Convert.ToDouble(STerms[ti].Elem);
                         dnum1 = Convert.ToDouble(STerms[ti + 2].Elem);

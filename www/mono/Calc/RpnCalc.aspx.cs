@@ -419,7 +419,7 @@ namespace Area23.At.Mono.Calc
                             Math.Pow(n0, ((double)(1 / n1))).ToString();
                             break;
                         case "logₕ𝒂":
-                        case "log&#x2095;&#x1d482;":
+                        case "log&#x2095;a":
                         case "bloga":
                             n1 = NumberFromStack();
                             result = (Math.Log10(n0) / Math.Log10(n1)).ToString();
@@ -629,7 +629,7 @@ namespace Area23.At.Mono.Calc
                 case "ⁱ√":
                 case "sqrti":
                 case "logₕ𝒂":
-                case "log&#x2095;&#x1d482;":
+                case "log&#x2095;a":
                 case "bloga":
                     rpnType = RPNType.MathOp2;
                     break;

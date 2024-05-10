@@ -51,7 +51,7 @@ namespace Area23.At.Mono.Calc
     public class MathOpBinary : MathOp
     {
         protected internal static new string[] validElems = { "+", "-", "*", "×", "/", "÷", 
-            "^", "xⁿ", "mod", "ⁱ√", "sqrti", "logₕ𝒂", "log&#x2095;&#x1d482;", "bloga" };
+            "^", "xⁿ", "mod", "ⁱ√", "sqrti", "logₕ𝒂", "log&#x2095;a", "bloga" };
 
         public MathOpBinary(string elem) : base(elem) { }
 
