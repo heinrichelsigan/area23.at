@@ -33,6 +33,15 @@ namespace Area23.At.Mono.Calc
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeft;
 
         /// <summary>
+        /// aCCalc control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aCCalc;
+
+        /// <summary>
         /// headerLeftCenter control.
         /// </summary>
         /// <remarks>
@@ -42,6 +51,15 @@ namespace Area23.At.Mono.Calc
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeftCenter;
 
         /// <summary>
+        /// aRpnCalc control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aRpnCalc;
+
+        /// <summary>
         /// headerCenter control.
         /// </summary>
         /// <remarks>
@@ -49,6 +67,15 @@ namespace Area23.At.Mono.Calc
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerCenter;
+
+        /// <summary>
+        /// aBc control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aBc;
 
         /// <summary>
         /// CalcBody control.

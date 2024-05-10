@@ -21,8 +21,16 @@ namespace Area23.At.Mono.Calc
         {
             if (!Page.IsPostBack)
             {
+                InitAHrefs();
                 NavFolderHandler(sender, e);
             }
+        }
+
+        protected void InitAHrefs()
+        {
+            this.aCCalc.HRef = Paths.CalcAppPath + "CCalc.aspx";
+            this.aRpnCalc.HRef = Paths.CalcAppPath + "RpnCalc.aspx";
+            this.aBc.HRef = Paths.UnixAppPath + "Bc.aspx";
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)
@@ -37,7 +45,7 @@ namespace Area23.At.Mono.Calc
             {
                 if (this.Request != null && this.Request.RawUrl != null)
                 {
-                    if (this.Request.RawUrl.Contains("Calculator.aspx"))
+                    if (this.Request.RawUrl.Contains("CCalc.aspx"))
                     {
                         headerLeft.Attributes["class"] = "headerLeftSelect";
                         return;
