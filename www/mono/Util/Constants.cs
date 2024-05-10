@@ -15,12 +15,12 @@ namespace Area23.At.Mono.Util
         public const string APP_DIR = "mono";
         public const string VERSION = "v2.11.33";
         public const string APP_PATH = "https://area23.at/net/";
-        public const string RPN_URL = "https://area23.at/net/RpnCalc.aspx";
+        public const string RPN_URL = "https://area23.at/net/Calc/RpnCalc.aspx";
         public const string GIT_URL = "https://github.com/heinrichelsigan/area23.at";
         public const string URL_PIC = "https://area23.at/net/res/img/";
         public const string URL_PREFIX = "https://area23.at/net/res/";
         public const string LOG_DIR = "log";
-        public const string LOG_EXT = "log";
+        public const string LOG_EXT = ".log";
         public const string QR_DIR = "Qr";
         public const string UTF8_DIR = "Utf8";
         public const string UNIX_DIR = "Unix";

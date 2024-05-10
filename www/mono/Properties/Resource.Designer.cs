@@ -134,14 +134,13 @@ namespace Area23.At.Mono.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h1&gt;Schnapslet v2.24.1227 - Pre Alpha Release&lt;/h1&gt;
-        ///	Implementation of the card game Schnapsen as a simple Asp.Net WebApp
-        ///	by Heinrich Elsigan (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
-        ///	&lt;br /&gt;
-        ///	Schnapslet is open source under GPL 3 and publicly accessible via &lt;a href=&quot;https://github.com/&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt; repository &lt;a href=&quot;https://github.com/heinrichelsigan/schnapslet&quot; target=&quot;_blank&quot;&gt;github.com/heinrichelsigan/schnapslet&lt;/a&gt;.
-        ///	&lt;hr /&gt;
-        ///	&lt;h2&gt;Functionality:&lt;/h2&gt;
-        ///	&lt;p&gt;The  [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;h1&gt;Area23.At.Mono&lt;/h1&gt;
+        ///&lt;p&gt;C# .Net Samples for apache2 mod_mono
+        ///by Heinrich Elsigan (&lt;a href=&quot;mailto:he@area23.at&quot;&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
+        ///&lt;/p&gt;
+        ///&lt;hr /&gt;
+        ///Code is open source under GPL 3 and publicly accessible via &lt;a href=&quot;https://github.com/&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt; repository &lt;a href=&quot;https://github.com/heinrichelsigan/area23.at/&quot; target=&quot;_blank&quot;&gt;github.com/heinrichelsigan/area23.at&lt;/a&gt;.
+        ///&lt;br /&gt;.
         /// </summary>
         internal static string help_text {
             get {
@@ -212,7 +211,7 @@ namespace Area23.At.Mono.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.24.12127.
+        ///   Looks up a localized string similar to v2.2024.510.
         /// </summary>
         internal static string version_name {
             get {

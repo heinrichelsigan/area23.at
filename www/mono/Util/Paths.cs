@@ -92,7 +92,7 @@ namespace Area23.At.Mono.Util
                 if (String.IsNullOrEmpty(calcAppPath))
                 {
                     calcAppPath = BaseAppPath;
-                    if (!calcAppPath.Contains("/" + Constants.CALC_DIR + "/"))
+                    if (!calcAppPath.Contains(Constants.CALC_DIR))
                         calcAppPath += Constants.CALC_DIR + "/";
                 }
                 return calcAppPath;

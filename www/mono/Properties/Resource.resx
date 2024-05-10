@@ -143,31 +143,13 @@
     <value>https://github.com/heinrichelsigan/area23.at/</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>&lt;h1&gt;Schnapslet v2.24.1227 - Pre Alpha Release&lt;/h1&gt;
-	Implementation of the card game Schnapsen as a simple Asp.Net WebApp
-	by Heinrich Elsigan (&lt;a href="mailto:he@area23.at"&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
-	&lt;br /&gt;
-	Schnapslet is open source under GPL 3 and publicly accessible via &lt;a href="https://github.com/" target="_blank"&gt;GitHub&lt;/a&gt; repository &lt;a href="https://github.com/heinrichelsigan/schnapslet" target="_blank"&gt;github.com/heinrichelsigan/schnapslet&lt;/a&gt;.
-	&lt;hr /&gt;
-	&lt;h2&gt;Functionality:&lt;/h2&gt;
-	&lt;p&gt;The game is designed to play against the computer.
-	When it is your turn, you can play a card by clicking on the card icon.
-	Other options, such as "&lt;i&gt;Exchange Atou&lt;/i&gt;" or "&lt;i&gt;Announce a pair in [&lt;b&gt;CardColor&lt;/b&gt;]&lt;/i&gt;" 
-	are possible via the buttons below the card symbols; 
-	these options must be chosen before playing a card!
-	&lt;br /&gt;
-	When it is  computer's turn, it plays a card and 
-	you can click on your own cards to trick or give up!
-	The rules correspond to the Austrian Schnapsen, 
-	but there are still small bugs!
-	&lt;br /&gt;
-	'&lt;i&gt;Closing Game&lt;/i&gt;' is implemented: 
-	You just have to click on the &lt;b&gt;atou (trump)&lt;/b&gt; card. 
-	&lt;/p&gt;
-	&lt;hr /&gt;
-	Ideas, suggestions, improvements are gladly accepted!
-	&lt;br /&gt;
-	Rules correspond to the Austrian &lt;a href="https://en.wikipedia.org/wiki/Schnapsen" target="_blank"&gt;Schnapsen&lt;/a&gt;.</value>
+    <value>&lt;h1&gt;Area23.At.Mono&lt;/h1&gt;
+&lt;p&gt;C# .Net Samples for apache2 mod_mono
+by Heinrich Elsigan (&lt;a href="mailto:he@area23.at"&gt;heinrich.elsigan@area23.at&lt;/a&gt;).
+&lt;/p&gt;
+&lt;hr /&gt;
+Code is open source under GPL 3 and publicly accessible via &lt;a href="https://github.com/" target="_blank"&gt;GitHub&lt;/a&gt; repository &lt;a href="https://github.com/heinrichelsigan/area23.at/" target="_blank"&gt;github.com/heinrichelsigan/area23.at&lt;/a&gt;.
+&lt;br /&gt;</value>
   </data>
   <data name="json_sample0" xml:space="preserve">
     <value>{ 
@@ -219,7 +201,7 @@
     <value>MEJBQjUxMEJBQjUxMEJBQjU=</value>
   </data>
   <data name="version_name" xml:space="preserve">
-    <value>v2.24.12127</value>
+    <value>v2.2024.510</value>
   </data>
   <data name="wiki_uri" xml:space="preserve">
     <value>https://github.com/heinrichelsigan/area23.at/</value>
