@@ -1,0 +1,2004 @@
+2024-04-01_02:40:26 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-01_02:40:27 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-01_02:40:27 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-01_02:40:30 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-01_02:40:30 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-01_02:40:32 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-01_02:40:48 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-01_02:40:48 	Hash = 247da40c, redirecting to https://drive.google.com/file/d/1-WHbT4Z14QDamkJKzMkoxm23u8CBzTye/view?usp=drive_link ...
+2024-04-01_02:41:21 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-01_02:41:24 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-01_02:41:48 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-01_02:41:48 	Hash = ca2aea8d, redirecting to https://drive.google.com/drive/folders/0Bzp8yYU5yBOBb3BwVGhTOHBBek0?resourcekey=0-RCZwX_6KGzbEC76KfaxKTg&usp=sharing ...
+2024-04-05_07:01:29 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-05_07:01:30 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_07:01:30 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_07:02:08 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_07:02:12 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_07:02:26 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_07:02:27 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_07:02:27 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_07:10:32 	108.174.2.214 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_07:10:32 	Hash = 37808894, redirecting to https://hldwtg.en.alibaba.com/ ...
+2024-04-05_07:11:04 	108.174.2.214 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_07:11:04 	Hash = 37808894, redirecting to https://hldwtg.en.alibaba.com/ ...
+2024-04-05_07:11:15 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_07:11:27 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_07:11:27 	Hash = 37808894, redirecting to https://hldwtg.en.alibaba.com/ ...
+2024-04-05_07:26:13 	20.169.168.224 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_07:26:13 	Hash = 37808894, redirecting to https://hldwtg.en.alibaba.com/ ...
+2024-04-05_08:04:00 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_08:04:01 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-05_08:04:01 	res directory ./Qr/ doesn't exist, creating it!
+2024-04-05_08:04:01 	Exception System.UnauthorizedAccessException ⇒ Access to the path '/Qr/' is denied.	System.UnauthorizedAccessException: Access to the path '/Qr/' is denied. ---> System.IO.IOException: Permission denied    --- End of inner exception stack trace ---   at System.IO.FileSystem.CreateDirectory (System.String fullPath) [0x001f1] in <12b418a7818c4ca0893feeaaf67f1e7f>:0    at System.IO.Directory.CreateDirectory (System.String path) [0x00033] in <12b418a7818c4ca0893feeaaf67f1e7f>:0    at Area23.At.Web.Util.Paths.get_QrDirPath () [0x0003c] in <32cdb44098a34642948b6807ce40984f>:0    at Area23.At.Web.S.Util.JsonHelper.GetShortenMapFromJson () [0x00002] in <681b2ed85ecd40df832ae43385d2f6e8>:0 	  at System.IO.FileSystem.CreateDirectory (System.String fullPath) [0x001f1] in <12b418a7818c4ca0893feeaaf67f1e7f>:0    at System.IO.Directory.CreateDirectory (System.String path) [0x00033] in <12b418a7818c4ca0893feeaaf67f1e7f>:0    at Area23.At.Web.Util.Paths.get_QrDirPath () [0x0003c] in <32cdb44098a34642948b6807ce40984f>:0    at Area23.At.Web.S.Util.JsonHelper.GetShortenMapFromJson () [0x00002] in <681b2ed85ecd40df832ae43385d2f6e8>:0 
+2024-04-05_08:04:23 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_08:04:26 	Exception System.Net.WebException ⇒ The operation has timed out.	System.Net.WebException: The operation has timed out.   at System.Net.HttpWebRequest.RunWithTimeoutWorker[T] (System.Threading.Tasks.Task`1[TResult] workerTask, System.Int32 timeout, System.Action abort, System.Func`1[TResult] aborted, System.Threading.CancellationTokenSource cts) [0x00118] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at System.Net.HttpWebRequest.GetResponse () [0x00019] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at Area23.At.Web.S.Default.VerifyUri (System.String redirUrl) [0x001a4] in <681b2ed85ecd40df832ae43385d2f6e8>:0 	  at System.Net.HttpWebRequest.RunWithTimeoutWorker[T] (System.Threading.Tasks.Task`1[TResult] workerTask, System.Int32 timeout, System.Action abort, System.Func`1[TResult] aborted, System.Threading.CancellationTokenSource cts) [0x00118] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at System.Net.HttpWebRequest.GetResponse () [0x00019] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at Area23.At.Web.S.Default.VerifyUri (System.String redirUrl) [0x001a4] in <681b2ed85ecd40df832ae43385d2f6e8>:0 
+2024-04-05_08:04:27 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_08:07:10 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_08:07:10 	Hash = 575895e0, redirecting to https://pinnxun.en.alibaba.com/ ...
+2024-04-05_08:29:15 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_08:29:15 	Hash = 37808894, redirecting to https://hldwtg.en.alibaba.com/ ...
+2024-04-05_12:36:56 	192.95.30.12 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_12:36:56 	Hash = 🍁, redirecting to https://www.canada.ca/ ...
+2024-04-05_12:37:00 	192.95.30.12 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_12:37:00 	Hash = 🕁, redirecting to https://www.pul.va/ ...
+2024-04-05_12:37:06 	192.95.30.12 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_12:37:06 	Hash = 🚲, redirecting to https://ner.bike/ ...
+2024-04-05_12:37:09 	192.95.30.12 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_12:37:09 	Hash = 🚴, redirecting to https://www.lightest.bike/SHOP/ ...
+2024-04-05_12:37:15 	192.95.30.12 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_12:37:15 	Hash = 🛧, redirecting to https://duckduckgo.com/?q=site:aero&va=i&t=hb&ia=web# ...
+2024-04-05_12:37:17 	192.95.30.12 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_12:37:17 	Hash = 🪠, redirecting to https://www.google.com/search?q=witch+broom ...
+2024-04-05_16:47:43 	216.244.66.195 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-05_16:47:43 	Hash = 🪠, redirecting to https://www.google.com/search?q=witch+broom ...
+2024-04-06_00:38:35 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-06_15:08:54 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-06_15:08:55 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-06_15:08:55 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-06_15:08:55 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-06_19:15:25 	216.244.66.195 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-06_19:15:25 	Hash = 🚲, redirecting to https://ner.bike/ ...
+2024-04-06_19:15:29 	216.244.66.195 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-06_19:15:29 	Hash = 🛧, redirecting to https://duckduckgo.com/?q=site:aero&va=i&t=hb&ia=web# ...
+2024-04-08_05:48:04 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-08_05:48:04 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_05:48:04 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_05:48:14 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_05:48:14 	Hash = 97a4bf8d, redirecting to https://www.deviantart.com/digidink ...
+2024-04-08_05:50:22 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_07:18:41 	216.244.66.195 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_07:18:41 	Hash = 🚴, redirecting to https://www.lightest.bike/SHOP/ ...
+2024-04-08_10:11:27 	65.108.2.171 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_10:11:27 	Hash = 🍁, redirecting to https://www.canada.ca/ ...
+2024-04-08_10:11:31 	65.108.2.171 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_10:11:31 	Hash = 🕁, redirecting to https://www.pul.va/ ...
+2024-04-08_10:13:02 	65.108.2.171 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_10:13:02 	Hash = 🚲, redirecting to https://ner.bike/ ...
+2024-04-08_10:13:06 	65.108.2.171 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_10:13:06 	Hash = 🚴, redirecting to https://www.lightest.bike/SHOP/ ...
+2024-04-08_10:13:13 	65.108.2.171 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_10:13:13 	Hash = 🛧, redirecting to https://duckduckgo.com/?q=site:aero&va=i&t=hb&ia=web# ...
+2024-04-08_10:13:16 	65.108.2.171 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_10:13:16 	Hash = 🪠, redirecting to https://www.google.com/search?q=witch+broom ...
+2024-04-08_10:56:54 	216.244.66.195 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_10:56:54 	Hash = 🕁, redirecting to https://www.pul.va/ ...
+2024-04-08_15:19:22 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_15:19:22 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-08_15:19:23 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_15:19:26 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_15:19:27 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_15:19:31 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_15:19:31 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_16:52:41 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_16:52:41 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-08_16:52:41 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_16:52:41 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_16:50:56 	 Executing: /usr/local/bin/bccmd.sh 10 + 2
+2024-04-08_16:50:56 	ProcessCmd.Execute(filepath = $/usr/local/bin/bccmd.sh, args = 10 + 2, useShellExecute = False) called ...
+2024-04-08_16:50:56 	ProcessCmd.Execute consoleOutput: 12
+
+2024-04-08_17:09:49 	new session started at 2024-04-08_17:09:49 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-08_17:32:54 	new session started at 2024-04-08_17:32:54 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-08_17:32:55 	new session started at 2024-04-08_17:32:55 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-08_17:40:21 	new session started at 2024-04-08_17:40:21 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-08_17:40:21 	new session started at 2024-04-08_17:40:21 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-08_17:08:19 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:08:19 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:08:41 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:08:42 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:08:52 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:08:52 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:09:17 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:09:17 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:09:40 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:09:40 	Hash = cd2d66, redirecting to https://linuxmint-installation-guide.readthedocs.io/en/latest/efi.html#efi-boot-order ...
+2024-04-08_17:22:05 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:22:05 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-08_17:23:07 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:23:07 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:26:57 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:26:58 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:27:01 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:27:02 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:32:50 	217.182.175.162 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:32:50 	217.182.175.162 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-08_17:40:21 	51.15.164.30 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_17:40:21 	51.15.164.30 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-08_19:57:33 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_19:57:33 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-08_20:16:16 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_20:16:19 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_20:16:20 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_20:16:27 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-08_20:16:27 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_11:04:41 	application error at 2024-04-10_11:04:41 object sender = ASP.global_asax, EventArgs e = System.EventArgs
+2024-04-10_11:06:00 	application error at 2024-04-10_11:06:00 object sender = ASP.global_asax, EventArgs e = System.EventArgs
+2024-04-10_12:10:59 	application error at 2024-04-10_12:10:59 object sender = ASP.global_asax, EventArgs e = System.EventArgs
+2024-04-10_12:11:04 	application error at 2024-04-10_12:11:04 object sender = ASP.global_asax, EventArgs e = System.EventArgs
+2024-04-10_12:11:10 	new session started at 2024-04-10_12:11:10 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-10_12:11:26 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:11:26 	ProcessCmd.Execute consoleOutput: A male gynecologist is like an auto mechanic who has never owned a car.
+		-- Carrie Snow
+
+2024-04-10_12:11:26 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:11:26 	ProcessCmd.Execute consoleOutput: Although we modern persons tend to take our electric lights, radios, mixers,
+etc., for granted, hundreds of years ago people did not have any of these
+things, which is just as well because there was no place to plug them in.
+Then along came the first Electrical Pioneer, Benjamin Franklin, who flew a
+kite in a lighting storm and received a serious electrical shock.  This
+proved that lighting was powered by the same force as carpets, but it also
+damaged Franklin's brain so severely that he started speaking only in
+incomprehensible maxims, such as "A penny saved is a penny earned."
+Eventually he had to be given a job running the post office.
+		-- Dave Barry, "What is Electricity?"
+
+2024-04-10_12:12:18 	application error at 2024-04-10_12:12:18 object sender = ASP.global_asax, EventArgs e = System.EventArgs
+2024-04-10_12:12:20 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:12:20 	ProcessCmd.Execute consoleOutput: Why is it that when you DIE, you can't take your HOME ENTERTAINMENT
+CENTER with you??
+
+2024-04-10_12:12:20 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:12:20 	ProcessCmd.Execute consoleOutput: I guess what I'm saying is that the croak in question is requiring
+agreement (in the linguistic sense) that isn't buying us anything.
+		-- Larry Wall in <199709241628.JAA08908@wall.org>
+
+2024-04-10_12:12:28 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:12:28 	ProcessCmd.Execute consoleOutput: over in west Philadelphia a puppy is vomiting ...
+
+2024-04-10_12:12:28 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:12:28 	ProcessCmd.Execute consoleOutput: Much to his Mum and Dad's dismay, Horace ate himself one day.
+He didn't stop to say his grace, he just sat down and ate his face.
+"We can't have this!" his Dad declared, "If that lad's ate, he should
+	be shared."
+But even as he spoke they saw Horace eating more and more:
+First his legs and then his thighs, his arms, his nose, his hair, his eyes...
+"Stop him someone!" Mother cried, "Those eyeballs would be better fried!"
+But all too late, for they were gone, and he had started on his dong...
+"Oh! foolish child!" the father mourns "You could have deep-fried that
+	with prawns,
+Some parsley and and some tartar sauce..."
+But H. was on his second course: his liver and his lights and lung,
+His ears, his neck, his chin, his tongue; "To think I raised him from the cot,
+And now he's going to scoff the lot!"
+His Mother cried: "What shall we do?  What's left won't even make a stew..."
+And as she wept, her son was seen, to eat his head, his heart his spleen.
+and there he lay: a boy no more, just a stomach on the floor...
+None the less, since it *was* his, they ate it -- that's what haggis is.
+
+2024-04-10_12:13:10 	new session started at 2024-04-10_12:13:10 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-10_12:13:10 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:13:10 	ProcessCmd.Execute consoleOutput: ... or were you driving the PONTIAC that HONKED at me in MIAMI last Tuesday?
+
+2024-04-10_12:13:10 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:13:10 	ProcessCmd.Execute consoleOutput: "...little children who have begun to live in their mothers' womb
+ and have there died, or who, having just been born, have passed
+ away from the world without the sacrament of holy baptism...
+ must be punished by the eternal torture of undying fire."
+        [quoted in  _Hell, A Christian Doctrine_]
+
+2024-04-10_12:26:24 	new session started at 2024-04-10_12:26:24 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-10_12:31:04 	application error at 2024-04-10_12:31:04 object sender = ASP.global_asax, EventArgs e = System.EventArgs
+2024-04-10_12:31:29 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:31:29 	ProcessCmd.Execute consoleOutput: QOTD:
+	"Are you into casual sex, or should I dress up?"
+
+2024-04-10_12:31:29 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:31:29 	ProcessCmd.Execute consoleOutput: So this elderly couple were sitting in their tiny cold water flat on the
+lower East Side when the husband said, "Doris, we're in bad shape.  Inflation
+has eaten up our Social Security check.  The next one isn't due for a week
+and we've got no money left for food."
+	"Could I do anything to help?" she asked.
+	"Yes," he said.  "I hate to see you do this but it's the only way.
+You're going to have to go out and hustle."
+	"Me?" she asked.  "At the age of sixty-five?"
+	"It's the only way," he said.
+Resigned to the situation, she went out into the warm night.  She came
+staggering in early the next morning.
+	"How did you do?" asked the husband.
+	"Here," she said, "I've got four dollars and ten cents."
+	"Four dollars and ten cents," he said .  "Who gave you the ten cents?"
+	"Everybody," she said.
+
+2024-04-10_12:35:21 	new session started at 2024-04-10_12:35:21 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-10_12:35:21 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:35:21 	ProcessCmd.Execute consoleOutput: A mystic is someone who wants to understand
+the universe, but is too lazy to study physics
+
+2024-04-10_12:35:21 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:35:21 	ProcessCmd.Execute consoleOutput: Decay and Renewal
+
+Empty the self completely;
+Embrace perfect peace.
+The world will rise and move;
+Watch it return to rest.
+All the flourishing things
+Will return to their source.
+This return is peaceful;
+It is the flow of nature,
+An eternal decay and renewal.
+Accepting this brings enlightenment,
+Ignoring this brings misery.
+Who accepts nature's flow becomes all-cherishing;
+Being all-cherishing he becomes impartial;
+Being impartial he becomes magnanimous;
+Being magnanimous he becomes natural;
+Being natural he becomes one with the Way;
+Being one with the Way he becomes immortal:
+Though his body will decay, the Way will not.
+		-- Lao Tse, "Tao Te Ching"
+
+2024-04-10_12:36:23 	new session started at 2024-04-10_12:36:23 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-10_12:36:23 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:36:23 	ProcessCmd.Execute consoleOutput: Whatever you say about pornography, sex is here to stay.
+
+2024-04-10_12:36:23 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:36:23 	ProcessCmd.Execute consoleOutput: I see the eigenvalue in thine eye,
+I hear the tender tensor in thy sigh.
+Bernoulli would have been content to die
+Had he but known such _a-squared cos 2(phi)!
+		-- Stanislaw Lem, "Cyberiad"
+
+2024-04-10_12:36:40 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:36:40 	ProcessCmd.Execute consoleOutput: "Those who believe in hell can never know
+ truth, for they are blinded by fear."
+         [Emmett F. Fields]
+
+2024-04-10_12:36:40 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:36:40 	ProcessCmd.Execute consoleOutput: "Miracles happen to those who believe in them.  Otherwise
+ why does not the Virgin Mary appear to Lamaists, Mohammedans,
+ or Hindus who have never heard of her."
+           [Bernard Berenson (1865-1959),
+            New York Times Book Review]
+
+2024-04-10_12:36:56 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:36:56 	ProcessCmd.Execute consoleOutput: Some of the management around here are the final proof that the Indians
+fucked the buffalo.
+
+2024-04-10_12:36:56 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:36:56 	ProcessCmd.Execute consoleOutput: "Men think epilepsy divine, merely because they do not understand
+ it.  But if they called everything divine which they do not
+ understand, why, there would be no end of divine things."
+                   [Hippocrates]
+
+2024-04-10_12:37:13 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:37:13 	ProcessCmd.Execute consoleOutput: "I would suggest the taxation of all property
+ equally whether church or corporation."
+      [Ulysses S. Grant (1822-1885)]
+
+2024-04-10_12:37:13 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:37:13 	ProcessCmd.Execute consoleOutput: Since this database is not used for profit, and since entire works are not
+published, it falls under fair use, as we understand it.  However, if any
+half-assed idiot decides to make a profit off of this, they will need to
+double check it all...
+		-- Notes included with the default fortunes database
+
+2024-04-10_12:37:30 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:37:30 	ProcessCmd.Execute consoleOutput: A foolish geologist from Kissen
+Just didn't know what he was missin',
+	By studying rock
+	And neglecting his cock,
+And using it merely for pissin'.
+
+2024-04-10_12:37:30 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:37:30 	ProcessCmd.Execute consoleOutput: A child can go only so far in life without potty training.  It is not
+mere coincidence that six of the last seven presidents were potty
+trained, not to mention nearly half of the nation's state legislators.
+		-- Dave Barry
+
+2024-04-10_12:37:46 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:37:46 	ProcessCmd.Execute consoleOutput: A vacuum is a hell of a lot better than some of the stuff that nature
+replaces it with.
+		-- Tennessee Williams
+
+2024-04-10_12:37:46 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:37:46 	ProcessCmd.Execute consoleOutput: There was a young man of St. John's
+Who wanted to bugger the swans.
+	But the loyal hall porter
+	Said, "Pray take my daughter!
+Those birds are reserved for the dons."
+
+2024-04-10_12:38:03 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:38:03 	ProcessCmd.Execute consoleOutput: There once was a girl from Madras
+Who had such a beautiful ass --
+	It was not round and pink
+	(As you bastards think)
+But had two ears, a tail, and ate grass.
+
+2024-04-10_12:38:03 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:38:03 	ProcessCmd.Execute consoleOutput: On an isolated stretch of beach near Cannes, a beautiful French girl threw
+herself into the sea and drowned despite a young man's attempt to save her.
+The man dragged the half-nude body ashore and left it on the sand while he
+went to notify the authorities.  Upon his return, he was horrified to find
+a man making love to the corpse.
+	"Monsieur, monsieur," he shouted, "that woman is dead,
+that woman is dead!"
+	"Sacre bleu," exclaimed the man, springing up.
+"I thought she was an American!"
+
+2024-04-10_12:38:20 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:38:20 	ProcessCmd.Execute consoleOutput: Always talk to your wife while you're making love... if there's a phone handy.
+
+2024-04-10_12:38:20 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:38:20 	ProcessCmd.Execute consoleOutput: 			HOW TO PROVE IT, PART 1
+
+proof by example:
+	The author gives only the case n = 2 and suggests that it
+	contains most of the ideas of the general proof.
+
+proof by intimidation:
+	'Trivial'.
+
+proof by vigorous handwaving:
+	Works well in a classroom or seminar setting.
+
+2024-04-10_12:38:36 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:38:36 	ProcessCmd.Execute consoleOutput: Spend extra time on hobby.  Get plenty of rolling papers.
+
+2024-04-10_12:38:36 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:38:36 	ProcessCmd.Execute consoleOutput: Four Oxford dons were taking their evening walk together and as
+usual, were engaged in casual but learned conversation.  On this particular
+evening, their conversation was about the names given to groups of animals,
+such as a "pride of lions" or a "gaggle of geese."
+	One of the professors noticed a group of prostitutes down the block,
+and posed the question, "What name would be given to that group?"  The four
+fell into silence for a moment, as they pondered the possibilities...
+	At last, one spoke: "How about 'a Jam of Tarts'?"  The others nodded
+in acknowledgement as they continued to consider the problem.  A second
+professor spoke: "I'd suggest 'an Essay of Trollops.'"  Again, the others
+nodded.  A third spoke: "I propose 'a Flourish of Strumpets.'"
+	They continued their walk in silence, until the first professor
+remarked to the remaining professor, who was the most senior and learned of
+the four, "You haven't suggested a name for our ladies.  What are your
+thoughts?"
+	Replied the fourth professor, "'An Anthology of Prose.'"
+
+2024-04-10_12:38:53 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:38:53 	ProcessCmd.Execute consoleOutput: "Where prayer, amulets and incantations work it
+ is only a manifestation of the patient's belief."
+              [Hippocrates]
+
+2024-04-10_12:38:53 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:38:53 	ProcessCmd.Execute consoleOutput: Rincewind looked down at him and grinned slowly.  It was a wide, manic, and
+utterly humourless rictus.  It was the sort of grin that is normally
+accompanied by small riverside birds wandering in and out, picking scraps
+out of the teeth.
+		-- Terry Pratchett, "The Lure of the Wyrm"
+
+2024-04-10_12:39:10 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:39:10 	ProcessCmd.Execute consoleOutput: There are very few personal problems that cannot be solved through a
+suitable application of high explosives.
+
+2024-04-10_12:39:10 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:39:10 	ProcessCmd.Execute consoleOutput: "It has been said that faith dies the death of a thousand qualifications.
+ Faith inevitably meets the same fate when it is continually attenuated
+ with rambling, nondescript, and pretentious definitions. The liberating
+ truth, of course, is that the readiness with which the term faith evokes
+ sobering qualifications and erratic definitions betrays the superficial
+ manner in which it is used by religionists."
+    [Chester Dolan, "Holy Daze: Coming to Grips with "Religion," the Holy
+     Daze of Humanity", "Faith" section, pp.130-135, MOPAH Publications]
+
+2024-04-10_12:39:27 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:39:27 	ProcessCmd.Execute consoleOutput: The difference between her and the Titanic is that only 1100 men went down
+on the Titanic.
+
+2024-04-10_12:39:27 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:39:27 	ProcessCmd.Execute consoleOutput: "Our national debt already hangs like a millstone round the poor man's neck,
+ and our national church and general religious institutions cost us, upon
+ accredited computation, about 20 millions annually.  Worship being thus
+ expensive, I appeal to your heads and your pocketbooks whether we are not
+ too poor to have a God?  If poor men cost the state as much, they would be
+ put like officers upon half-pay, and while our distress lasts I think it
+ would be wise to do the same thing with deity."
+            [George Jacob Holyoake, from "The History of
+             the Last trial by Jury for Atheism," 1851]
+
+2024-04-10_12:39:43 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:39:43 	ProcessCmd.Execute consoleOutput: Vote for ME -- I'm well-tapered, half-cocked, ill-conceived and TAX-DEFERRED!
+
+2024-04-10_12:39:43 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:39:43 	ProcessCmd.Execute consoleOutput: "Science... warns me to be careful how I adopt a view which jumps
+ with my preconceptions, and to require stronger evidence for such
+ belief than for one to which I was previously hostile.  My business
+ is to teach my aspirations to conform themselves to fact, not to
+ try and make facts harmonize with my aspirations."
+                    [Thomas Huxley, 1960]
+
+2024-04-10_12:40:00 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-10_12:40:00 	ProcessCmd.Execute consoleOutput: A gifted young fellow from Sparta
+Was widely renowned as a farta'.
+	He could fart anything
+	From "Of Thee I Sing,"
+To Beethoven's "Moonlight Sonata."
+
+2024-04-10_12:40:00 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-10_12:40:00 	ProcessCmd.Execute consoleOutput: There was this New Yorker that had a lifelong ambition to be an Texan.
+Fortunately, he had an Texan friend and went to him for advice.  "Mike,
+you know I've always wanted to be a Texan.  You're a *____real* Texan, what
+should I do?"
+	"Well," answered Mike, "The first thing you've got to do is look
+like a Texan.  That means you have to dress right.  The second thing
+you've got to do is speak in a southern drawl."
+	"Thanks, Mike, I'll give it a try," replied the New Yorker.
+	A few weeks passed and the New Yorker saunters into a store dressed
+in a ten-gallon hat, cowboy boots, Levi jeans and a bandanna.  "Hey, there,
+pardner, I'd like some beef, not too rare, and some of them fresh biscuits,"
+he tells the counterman.
+	The guy behind the counter takes a long look at him and then says,
+"You must be from New York."
+	The New Yorker blushes, and says, "Well, yes, I am.  How did
+you know?"
+	"Because this is a hardware store."
+
+2024-04-10_13:43:53 	new session started at 2024-04-10_13:43:53 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-10_13:43:55 	new session started at 2024-04-10_13:43:55 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-10_15:47:46 	new session started at 2024-04-10_15:47:46 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-10_15:47:47 	new session started at 2024-04-10_15:47:47 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-10_21:20:07 	new session started at 2024-04-10_21:20:07 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-10_01:32:08 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_01:32:08 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:32:08 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:32:09 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:32:25 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:32:29 	Exception System.Net.WebException ⇒ The operation has timed out.	System.Net.WebException: The operation has timed out.   at System.Net.HttpWebRequest.RunWithTimeoutWorker[T] (System.Threading.Tasks.Task`1[TResult] workerTask, System.Int32 timeout, System.Action abort, System.Func`1[TResult] aborted, System.Threading.CancellationTokenSource cts) [0x00118] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at System.Net.HttpWebRequest.GetResponse () [0x00019] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at Area23.At.Www.S.Default.VerifyUri (System.String redirUrl) [0x0022f] in <9ea51ce2d06c44d3abf177214a7864e7>:0 	  at System.Net.HttpWebRequest.RunWithTimeoutWorker[T] (System.Threading.Tasks.Task`1[TResult] workerTask, System.Int32 timeout, System.Action abort, System.Func`1[TResult] aborted, System.Threading.CancellationTokenSource cts) [0x00118] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at System.Net.HttpWebRequest.GetResponse () [0x00019] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at Area23.At.Www.S.Default.VerifyUri (System.String redirUrl) [0x0022f] in <9ea51ce2d06c44d3abf177214a7864e7>:0 
+2024-04-10_01:32:29 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:33:03 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:33:06 	Exception System.Net.WebException ⇒ The operation has timed out.	System.Net.WebException: The operation has timed out.   at System.Net.HttpWebRequest.RunWithTimeoutWorker[T] (System.Threading.Tasks.Task`1[TResult] workerTask, System.Int32 timeout, System.Action abort, System.Func`1[TResult] aborted, System.Threading.CancellationTokenSource cts) [0x00118] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at System.Net.HttpWebRequest.GetResponse () [0x00019] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at Area23.At.Www.S.Default.VerifyUri (System.String redirUrl) [0x0022f] in <9ea51ce2d06c44d3abf177214a7864e7>:0 	  at System.Net.HttpWebRequest.RunWithTimeoutWorker[T] (System.Threading.Tasks.Task`1[TResult] workerTask, System.Int32 timeout, System.Action abort, System.Func`1[TResult] aborted, System.Threading.CancellationTokenSource cts) [0x00118] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at System.Net.HttpWebRequest.GetResponse () [0x00019] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at Area23.At.Www.S.Default.VerifyUri (System.String redirUrl) [0x0022f] in <9ea51ce2d06c44d3abf177214a7864e7>:0 
+2024-04-10_01:33:06 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:33:08 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:33:08 	Hash = 1b1710d1, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800?language=de&ac=KelkooCSS&asc=pmax&gad_source=1&gclid=Cj0KCQjwztOwBhD7ARIsAPDKnkCkkv1n0nSTDf4lBPOVZnpIRbtvSKeYm8TSt09LscBWDpp3dQpzt4YaArWgEALw_wcB ...
+2024-04-10_01:33:26 	31.13.127.120 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:33:26 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_01:33:26 	31.13.127.112 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:33:26 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_01:33:30 	31.13.127.116 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:33:30 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_01:33:30 	31.13.127.117 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:33:30 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_01:56:22 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:56:22 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:56:22 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_01:56:23 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:56:23 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:56:36 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:56:36 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:58:58 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:58:58 	Hash = 82778b95, redirecting to https://www.amazon.de/Musikinstrumente-DJ-Equipment/b/?ie=UTF8&node=340849031&ref_=sv_ce_8 ...
+2024-04-10_01:59:14 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:59:14 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:59:27 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_01:59:27 	Hash = 🍁, redirecting to https://www.canada.ca/ ...
+2024-04-10_02:05:27 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:05:27 	Hash = ГЛОНАСС, redirecting to https://ru.wikipedia.org/wiki/ГЛОНАСС ...
+2024-04-10_02:05:58 	31.13.127.7 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:05:58 	31.13.127.117 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:05:58 	31.13.127.7 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:05:59 	31.13.127.117 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:05:59 	31.13.127.9 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:05:59 	31.13.127.2 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:00 	31.13.127.7 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_02:06:00 	31.13.127.2 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_02:06:00 	31.13.127.117 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_02:06:01 	31.13.127.4 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:01 	31.13.127.4 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_02:06:02 	31.13.127.11 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:02 	Hash = ГЛОНАСС, redirecting to https://ru.wikipedia.org/wiki/ГЛОНАСС ...
+2024-04-10_02:06:02 	31.13.127.119 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:02 	Hash = ГЛОНАСС, redirecting to https://ru.wikipedia.org/wiki/ГЛОНАСС ...
+2024-04-10_02:06:02 	31.13.127.7 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:02 	31.13.127.7 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_02:06:02 	31.13.127.4 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:02 	31.13.127.118 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:02 	31.13.127.119 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:02 	31.13.127.119 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_02:06:02 	31.13.127.7 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:02 	31.13.127.7 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_02:06:02 	173.252.95.1 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:02 	Hash = ГЛОНАСС, redirecting to https://ru.wikipedia.org/wiki/ГЛОНАСС ...
+2024-04-10_02:06:02 	31.13.127.3 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:02 	31.13.127.3 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_02:06:03 	31.13.127.4 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:03 	31.13.127.4 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_02:06:03 	31.13.127.118 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:03 	31.13.127.118 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_02:06:03 	31.13.127.7 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:03 	31.13.127.118 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:03 	173.252.87.116 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:03 	173.252.87.116 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_02:06:03 	69.171.249.2 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:06:03 	69.171.249.2 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_02:08:30 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:08:32 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:08:32 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_02:08:41 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:08:42 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:09:02 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:09:03 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:09:15 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:09:15 	Hash = ГЛОНАСС, redirecting to https://ru.wikipedia.org/wiki/ГЛОНАСС ...
+2024-04-10_02:18:48 	173.252.95.5 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:18:48 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_02:18:48 	173.252.95.119 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:18:48 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_02:18:48 	173.252.83.6 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:18:48 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_02:18:48 	173.252.83.120 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:18:48 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_02:18:51 	31.13.127.9 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:18:51 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_02:18:55 	31.13.127.8 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:18:55 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_02:19:44 	173.252.79.111 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:19:44 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_02:19:44 	173.252.79.116 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_02:19:44 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_03:44:56 	31.13.115.7 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_03:44:56 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_03:44:57 	66.220.149.19 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_03:44:57 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_03:45:05 	173.252.127.15 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_03:45:05 	Hash = ГЛОНАСС, redirecting to https://ru.wikipedia.org/wiki/ГЛОНАСС ...
+2024-04-10_05:20:38 	31.13.115.2 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_05:20:38 	Hash = ГЛОНАСС, redirecting to https://ru.wikipedia.org/wiki/ГЛОНАСС ...
+2024-04-10_06:26:52 	173.252.107.7 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_06:26:52 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_06:26:54 	173.252.107.8 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_06:26:54 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_06:26:54 	173.252.107.1 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_06:26:54 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-10_11:03:17 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_11:03:18 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_11:03:18 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_11:03:18 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_11:31:40 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_11:31:40 	Hash = 🪠, redirecting to https://www.google.com/search?q=witch+broom ...
+2024-04-10_12:50:14 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_12:50:15 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_12:50:15 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_16:03:36 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_16:03:37 	217.149.168.66 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-10_16:03:38 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_16:03:38 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_16:03:42 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_16:03:44 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_16:03:48 	217.149.168.66 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_16:03:48 	Hash = 6f4f85d1, redirecting to https://www.codeproject.com/Articles/157001/Full-getopt-Port-for-Unicode-and-Multibyte-Microso ...
+2024-04-10_17:46:40 	173.252.83.10 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_17:46:40 	Hash = ГЛОНАСС, redirecting to https://ru.wikipedia.org/wiki/ГЛОНАСС ...
+2024-04-10_17:46:41 	173.252.83.10 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-10_17:46:41 	Hash = 29a7134a, redirecting to https://www.fruugo.at/usb-gps-empfanger-gmouse-usb-gps-empfanger-glonass-unterstutzung-windows-1087-langlebig/p-271787822-602661800 ...
+2024-04-11_06:51:04 	new session started at 2024-04-11_06:51:04 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-11_07:36:04 	new session started at 2024-04-11_07:36:04 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-11_09:06:04 	new session started at 2024-04-11_09:06:04 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-11_09:53:35 	new session started at 2024-04-11_09:53:35 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-11_18:21:12 	new session started at 2024-04-11_18:21:12 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-11_19:51:13 	new session started at 2024-04-11_19:51:13 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-11_21:05:23 	new session started at 2024-04-11_21:05:23 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-11_23:12:17 	new session started at 2024-04-11_23:12:17 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-11_23:46:46 	new session started at 2024-04-11_23:46:46 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-11_23:12:02 	188.165.212.137 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-11_23:12:02 	Hash = 🕁, redirecting to https://www.pul.va/ ...
+2024-04-11_23:12:14 	188.165.212.137 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-11_23:12:14 	Hash = 🚲, redirecting to https://ner.bike/ ...
+2024-04-11_23:12:22 	188.165.212.137 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-11_23:12:22 	Hash = 🚴, redirecting to https://www.lightest.bike/SHOP/ ...
+2024-04-11_23:12:36 	188.165.212.137 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-11_23:12:36 	Hash = 🛧, redirecting to https://duckduckgo.com/?q=site:aero&va=i&t=hb&ia=web# ...
+2024-04-11_23:12:44 	188.165.212.137 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-11_23:12:44 	Hash = 🪠, redirecting to https://www.google.com/search?q=witch+broom ...
+2024-04-12_05:16:43 	new session started at 2024-04-12_05:16:43 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_06:01:42 	new session started at 2024-04-12_06:01:42 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_06:46:40 	new session started at 2024-04-12_06:46:40 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_07:31:46 	new session started at 2024-04-12_07:31:46 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_09:01:41 	new session started at 2024-04-12_09:01:41 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_09:50:46 	new session started at 2024-04-12_09:50:46 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_11:14:16 	new session started at 2024-04-12_11:14:16 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_11:20:05 	new session started at 2024-04-12_11:20:05 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_12:23:35 	new session started at 2024-04-12_12:23:35 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_12:51:27 	new session started at 2024-04-12_12:51:27 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_13:38:33 	new session started at 2024-04-12_13:38:33 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_13:38:33 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-12_13:38:33 	ProcessCmd.Execute consoleOutput: I left my WALLET in the BATHROOM!!
+
+2024-04-12_13:38:33 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-12_13:38:33 	ProcessCmd.Execute consoleOutput: Have you ever wondered what makes Californians so calm?  Besides drugs, I
+mean.  The answer is hot tubs.  A hot tub is a redwood container filled with
+water that you sit in naked with members of the opposite sex, none of whom
+is necessarily your spouse.  After a few hours in their hot tubs,
+Californians don't give a damn about earthquakes or mass murderers.  They
+don't give a damn about anything , which is why they are able to produce
+"Laverne and Shirley" week after week.
+		-- Dave Barry, "The Taming of the Screw"
+
+2024-04-12_13:39:44 	new session started at 2024-04-12_13:39:44 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_14:08:31 	new session started at 2024-04-12_14:08:31 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_14:31:01 	new session started at 2024-04-12_14:31:01 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_14:44:58 	new session started at 2024-04-12_14:44:58 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_14:48:45 	new session started at 2024-04-12_14:48:45 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_14:48:45 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-12_14:48:45 	ProcessCmd.Execute consoleOutput:  438be4ed09290537 ebe4cb7c57a3f665 db280e851cc554de e086b28bcdb5a4b7  >7.)....Ce..W|....T....(.........<
+ b9cec3d9d8003c52 de2e5707c81225d3 11776497482271ac cfac531e00481c7b  >R<.......%...W...q"H.dw.{.H..S..<
+ 29276bc80254ed7d 205497f1ff9290af e5147fa19ade9ecf 11139e5629419120  >}.T..k')......T ........ .A)V...<
+ 7015e94d868da488 fdd5b8acd4257a9a 0a82c038e8655a4d b357ef7bd5374651  >....M..p.z%.....MZe.8...QF7.{.W.<
+ c3ea9845cd6dbc33 92c956896fbe1d54 0a67f8e0e9566e52 c5367c0272273732  >3.m.E...T..o.V..RnV...g.27'r.|6.<
+ 3bb97f0c0bdcb6bc af2184056326e48c fd5f0e23e62b44b8 c8d1600024bb92ae  >.......;..&c..!..D+.#._....$.`..<
+ 5bea8b6588095335 7224039b3d0b22ea 0cb3a5c0e3e0f0ec 69e42de5b81d7d39  >5S..e..[.".=..$r........9}...-.i<
+ 0ee8c385e50c3f59 c4e69fe52721f614 7df25364e324c912 83c57367e9e66255  >Y?........!'......$.dS.}Ub..gs..<
+ b20f4aebe364733e b9b7779fac3bc410 95e42e28c03f54bb 249b36add88ab744  >>sd..J....;..w...T?.(...D....6.$<
+ 27a8742c948c199c 6d3d1c42fc895334 16d54201d121e248 658ab5c45d3838cf  >....,t.'4S..B.=mH.!..B...88]...e<
+ e1f65491ad19b789 e63607565304c656 1beb1f023aa66666 50a76fd4a128b76b  >.....T..V..SV.6.ff.:....k.(..o.P<
+ 323519d0405ed30a 34d9015e5261548b 74d08907ef072f0c c1bd89c1d197739b  >..^@..52.TaR^..4./.....t.s......<
+ fe27bd83522bc8f9 c07ad436414c2cc8 7075de5d88e0ae0c ad819f2aa062d9cf  >..+R..'..,LA6.z.....].up..b.*...<
+ 36381baf8bb618d5 99290b78d05c7963 eac833c6e07048fc 82414503b3474f3d  >......86cy\.x.)..Hp..3..=OG..EA.<
+ a35e7797a701bbdd 6132515e92bfeaa8 a00ce21acbb33a02 3c3aa23559a767fa  >.....w^.....^Q2a.:.......g.Y5.:<<
+ 282ab215bb9d1948 955fdae6af1cca05 86dd038a4bed8874 c80f8cbc64c736e0  >H.....*(......_.t..K.....6.d....<
+ f209c4184b25d1f4 6ed63c52fcadd53b 3e98124f9ca80fb6 de0e074200df146d  >..%K....;...R<.n....O..>m...B...<
+ ba92e8ed517ff84b d84efbd08cb8de4c 25a82a94c30793f9 a282f0f989e37525  >K..Q....L.....N......*.%%u......<
+ a5088e90ace02db2 bfa00628498c6317 84db028b548e5fe4 006346276ceca952  >.-.......c.I(...._.T....R..l'Fc.<
+ 64451c34e4d8d076 880906381422ec5e 5f78686c263cf991 288fbb77ef3dd77b  >v...4.Ed^.".8.....<&lhx_{.=.w..(<
+ 16ef6740f0d5ce82 32668ca9e0027c84 104ddcdc270522b7 a2086879ae1abc6e  >....@g...|....f2.".'..M.n...yh..<
+ 86a7cec057043df8 1cde89934dbe8c83 11b83f08118427a5 b31476be05c04287  >.=.W.......M.....'...?...B...v..<
+ f05c07f46d303302 a4d00aa38fb2ea70 7ce904e8e4c184d7 cdcddaeb4c60261d  >.30m..\.p..............|.&`L....<
+ 2a68231dc85dc83e 494535377a56b3c4 d43b54784e011ccf 2004e55f487c6808  >>.]..#h*..Vz75EI...NxT;..h|H_.. <
+ 86c8c329b430d6ba 7a134c24a8ac0f21 05c90e6c5e130de4 7537fe5452c11b71  >..0.)...!...$L.z...^l...q..RT.7u<
+ f2412422bb34bc21 3ec3593e5120ee8a 1edd089bc9ae6017 266b51d5fc0b8495  >!.4."$A... Q>Y.>.`...........Qk&<
+ 51e89a8d8388d79c 603d398262dbdd8d f39b64c996e0aa19 837f11db94d08a8d  >.......Q...b.9=`.....d..........<
+ 8b16d9e06ef27ceb e8613f49b6d3711e 149ba2852eaef293 dfa50fffe39e3cfd  >.|.n.....q..I?a..........<......<
+ 8b8c068d0aa7cb43 57e34c0aafa8c610 fae0f40d6ac13a33 e8148e28bff4a377  >C............L.W3:.j....w...(...<
+ d20abd5e1a3ab211 298f7457219ec930 a5ae9cf9421c331e e5d8b810eae46209  >..:.^...0..!Wt.).3.B.....b......<
+ c693a6656ebe36c5 63ceb7f0a54e9da9 2e11ee96bceb0908 73f55ff3ce09a7c7  >.6.ne.....N....c............._.s<
+ d86e37e09fa0e07b f8feb53bfbb2e8b6 849d2f92ac80aa89 6be2bd035ba5b200  >{....7n.....;......../.....[...k<
+
+2024-04-12_14:53:31 	new session started at 2024-04-12_14:53:31 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_15:16:01 	new session started at 2024-04-12_15:16:01 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_15:38:31 	new session started at 2024-04-12_15:38:31 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_15:51:22 	new session started at 2024-04-12_15:51:22 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_16:01:01 	new session started at 2024-04-12_16:01:01 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_16:23:31 	new session started at 2024-04-12_16:23:31 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_17:06:14 	new session started at 2024-04-12_17:06:14 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_17:08:31 	new session started at 2024-04-12_17:08:31 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_17:32:09 	new session started at 2024-04-12_17:32:09 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_17:32:11 	new session started at 2024-04-12_17:32:11 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_17:50:38 	new session started at 2024-04-12_17:50:38 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_18:53:10 	new session started at 2024-04-12_18:53:10 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_19:12:47 	new session started at 2024-04-12_19:12:47 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_19:33:16 	new session started at 2024-04-12_19:33:16 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_20:08:35 	new session started at 2024-04-12_20:08:35 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_20:53:12 	new session started at 2024-04-12_20:53:12 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_20:53:13 	new session started at 2024-04-12_20:53:13 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_22:54:13 	new session started at 2024-04-12_22:54:13 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_22:59:27 	new session started at 2024-04-12_22:59:27 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_22:59:27 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-12_22:59:27 	ProcessCmd.Execute consoleOutput: Q:	Why do Scotsmen wear kilts?
+A:	Because a sheep can hear the sound of a zipper from fifty feet away.
+		-- Iain MacKintosh, Glasgow folksinger
+
+2024-04-12_22:59:27 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-12_22:59:27 	ProcessCmd.Execute consoleOutput: "We wanted to build the chat system of the future, and we
+ended up with application-layer multicast streaming media. In 1999.
+We were a bit ahead of our time [??????]"
+
+[??????] This is marketing-speak for ???wrong???; you can say the same thing
+for a batter???s swing when he takes a strike.
+
+    -- Thomas Ptacek, http://www.matasano.com/log/914/
+
+2024-04-12_23:19:43 	new session started at 2024-04-12_23:19:43 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-12_14:09:31 	185.191.171.2 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-12_14:09:31 	Hash = 🚴, redirecting to https://www.lightest.bike/SHOP/ ...
+2024-04-12_18:38:32 	66.249.74.96 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-12_18:38:32 	66.249.74.96 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-12_23:16:33 	217.149.174.226 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-12_23:16:33 	217.149.174.226 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-12_23:16:34 	217.149.174.226 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-12_23:16:34 	217.149.174.226 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-12_23:16:42 	217.149.174.226 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-12_23:16:42 	217.149.174.226 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-12_23:16:51 	217.149.174.226 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-12_23:16:51 	217.149.174.226 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_23:36:34 	new session started at 2024-04-13_23:36:34 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-13_23:45:07 	new session started at 2024-04-13_23:45:07 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-13_23:50:47 	application error at 2024-04-13_23:50:47 object sender = ASP.global_asax, EventArgs e = System.EventArgs
+2024-04-13_23:52:41 	application error at 2024-04-13_23:52:41 object sender = ASP.global_asax, EventArgs e = System.EventArgs
+2024-04-13_23:52:49 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:52:49 	ProcessCmd.Execute consoleOutput: "I have kindness and candor enough to say that
+ Calvin and Edwards were both insane."
+  [Robert G. Ingersoll, "Why I Am An Agnostic", 1896]
+
+2024-04-13_23:52:49 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:52:49 	ProcessCmd.Execute consoleOutput: Here is an Appalachian version of management's answer to those who are
+concerned with the fate of the project:
+"Don't worry about the mule.  Just load the wagon."
+		-- Mike Dennison's hillbilly uncle
+
+2024-04-13_23:53:06 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:53:06 	ProcessCmd.Execute consoleOutput: We call our dog Egypt, because in every room he leaves a pyramid.
+
+2024-04-13_23:53:06 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:53:06 	ProcessCmd.Execute consoleOutput: Two men were standing around talking while nearby a large German Shepherd
+lay licking his balls.  One man says to the other, "Damn, I wish I could
+do that."
+	The other man replies, "Well, it's okay by me, but I think you
+ought to get to know him a little first."
+
+2024-04-13_23:53:23 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:53:23 	ProcessCmd.Execute consoleOutput: Th' MIND is the Pizza Palace of th' SOUL
+
+2024-04-13_23:53:23 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:53:23 	ProcessCmd.Execute consoleOutput: The difference between science and the fuzzy subjects is that science
+requires reasoning while those other subjects merely require scholarship.
+		-- Robert Heinlein
+
+2024-04-13_23:53:39 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:53:39 	ProcessCmd.Execute consoleOutput: Jesus rose from the dead and the apostles
+came unto him saying "How's Elvis?"
+
+2024-04-13_23:53:39 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:53:39 	ProcessCmd.Execute consoleOutput: There's a handsome boy who tells me how I've changed his past.  He buys me
+a brandy...  Could it be he's really just after my ass?
+		-- Pete Townshend, "How Many Friends"
+
+2024-04-13_23:53:44 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:53:44 	ProcessCmd.Execute consoleOutput: "I still believe in God, but God no longer believes in me"
+    [Andrew Eldritch, singer of the Sisters of Mercy]
+
+2024-04-13_23:53:44 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:53:44 	ProcessCmd.Execute consoleOutput: "The folkish-minded man, in particular, has the sacred duty, each in
+ his own denomination, of making people stop just talking superficially
+ of God's will, and actually fulfill God's will, and not let God's word
+ be desecrated.  For God's will gave men their form, their essence and
+ their abilities.  Anyone who destroys His work is declaring war on the
+ Lord's creation, the divine will."
+          [Adolf Hitler, "Mein Kampf" Vol. 2 Chapter 10]
+
+2024-04-13_23:54:00 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:54:00 	ProcessCmd.Execute consoleOutput: Quick, sing me the BUDAPEST NATIONAL ANTHEM!!
+
+2024-04-13_23:54:00 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:54:00 	ProcessCmd.Execute consoleOutput: Lisp hackers
+	... do it in CARS.
+	... do it with tail recursion.
+	... first do it in the front, then do it in the back.
+	... have DEFUN while doing it.
+	... have to be bound to do it.
+	... have Moby dicks.
+
+2024-04-13_23:54:17 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:54:17 	ProcessCmd.Execute consoleOutput: If God had wanted people to give blow jobs, he wouldn't have given them teeth.
+
+2024-04-13_23:54:17 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:54:17 	ProcessCmd.Execute consoleOutput: Santa Claus comes down the chimney and the nubile sixteen-year-old
+has been waiting for him.  Santa sees her, and in typically unflappable
+Santa-style says, "And what do you want for Christmas, little girl?"
+	The girl, and she's not so little, tells him.  Well, Santa is
+definitely flapped by this, but he manages to come out with, "Ho ho ho,
+gotta go, gotta get the children their toys, you know."
+	The girl, not to be daunted, takes off her robe.  "Aw, please stay
+Santa," she begs.
+	He replies, "Ho ho ho, gotta go, gotta get the children their toys,
+you know."
+	She then takes off her pajama top, her firm pouting breasts pointing
+at Santa like an accusation.  "Aw, please stay Santa," she pleads.
+	"Ho ho ho, gotta go, gotta get the children their toys, you know."
+	Finally, she takes off her pajama bottoms, revealing to Santa her
+warm mound of delight.  "Aw, please stay, Santa," she begs.
+	Being only mortal, Santa finally gives in, sighing, "Hey hey hey,
+gotta stay, can't get up the chimney with my dick this way."
+
+2024-04-13_23:54:34 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:54:34 	ProcessCmd.Execute consoleOutput: Man created God in his own image.
+
+2024-04-13_23:54:34 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:54:34 	ProcessCmd.Execute consoleOutput: The perfect friend sees the best in you -- sees it constantly -- not just
+when you occasionally are that way, but also when you waver, when you
+forget yourself, act like less than you are. In time, you become more
+like his vision of you -- which is the person you have always wanted to be.
+		-- Nancy Friday
+
+2024-04-13_23:54:51 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:54:51 	ProcessCmd.Execute consoleOutput: "But if it's 80% glucose, then why does it taste salty?"
+		-- Anonymous med school student.
+
+2024-04-13_23:54:51 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:54:51 	ProcessCmd.Execute consoleOutput: 	A housewife, an accountant and a lawyer were asked to add 2 and 2.
+	The housewife replied, "Four!".
+	The accountant said, "It's either 3 or 4.  Let me run those figures
+through my spread sheet one more time."
+	The lawyer pulled the drapes, dimmed the lights and asked in a
+hushed voice, "How much do you want it to be?"
+
+2024-04-13_23:55:08 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:55:08 	ProcessCmd.Execute consoleOutput: Prostitution is the only business where you can go into the hole and
+still come out ahead.
+
+2024-04-13_23:55:08 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:55:08 	ProcessCmd.Execute consoleOutput: telepression, n.:
+	The deep-seated guilt which stems from knowing that you did not try
+	hard enough to look up the number on your own and instead put the
+	burden on the directory assistant.
+		-- "Sniglets", Rich Hall & Friends
+
+2024-04-13_23:55:24 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:55:24 	ProcessCmd.Execute consoleOutput: A girl of the Enterprise crew
+Refused every offer to screw.
+	But a Vulcan named Spock
+	Crawled under her smock,
+And now she is eating for two.
+
+2024-04-13_23:55:24 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:55:24 	ProcessCmd.Execute consoleOutput: 	"No, I understand now," Auberon said, calm in the woods -- it was so
+simple, really.  "I didn't, for a long time, but I do now.  You just can't
+hold people, you can't own them.  I mean it's only natural, a natural process
+really.  Meet.  Love.  Part.  Life goes on.  There was never any reason to
+expect her to stay always the same -- I mean `in love,' you know."  There were
+those doubt-quotes of Smoky's, heavily indicated.  "I don't hold a grudge.  I
+can't."
+	"You do," Grandfather Trout said.  "And you don't understand."
+		-- Little, Big, "John Crowley"
+
+2024-04-13_23:55:41 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:55:41 	ProcessCmd.Execute consoleOutput: "NO proof. NO god. NO problem."
+         [Kamian]
+
+2024-04-13_23:55:41 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:55:41 	ProcessCmd.Execute consoleOutput: Here is an Appalachian version of management's answer to those who are
+concerned with the fate of the project:
+"Don't worry about the mule.  Just load the wagon."
+		-- Mike Dennison's hillbilly uncle
+
+2024-04-13_23:55:58 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:55:58 	ProcessCmd.Execute consoleOutput: Confucious say:
+	man who suck nipples make clean breast of things.
+
+2024-04-13_23:55:58 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:55:58 	ProcessCmd.Execute consoleOutput: Seduced, shaggy Samson snored.
+She scissored short.  Sorely shorn,
+Soon shackled slave, Samson sighed,
+Silently scheming,
+Sightlessly seeking
+Some savage, spectacular suicide.
+		-- Stanislaw Lem, "Cyberiad"
+
+2024-04-13_23:56:14 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:56:14 	ProcessCmd.Execute consoleOutput: Boy, am I glad it's only 1971...
+
+2024-04-13_23:56:14 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:56:14 	ProcessCmd.Execute consoleOutput: Please stand for the National Anthem:
+
+	God save our Gracious Queen!
+	Long live our Noble Queen!
+	God save the Queen!
+	Send her victorious,
+	Happy and glorious,
+	Long to reign o'er us!
+	God save the Queen!
+
+Thank you.  You may resume your seat.
+
+2024-04-13_23:56:31 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:56:31 	ProcessCmd.Execute consoleOutput: What did Mickey Mouse get for Christmas?
+
+A Dan Quayle watch.
+
+2024-04-13_23:56:31 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:56:31 	ProcessCmd.Execute consoleOutput: When in this world the headlines read
+Of those whose hearts are filled with greed
+Who rob and steal from those who need
+The cry goes up with blinding speed for Underdog (UNDERDOG!)
+Underdog (UNDERDOG!)
+Speed of lightning, roar of thunder
+Fighting all who rob or plunder
+Underdog (ah-ah-ah-ah)
+Underdog
+UNDERDOG!
+
+2024-04-13_23:56:48 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:56:48 	ProcessCmd.Execute consoleOutput: "This is a job for BOB VIOLENCE and SCUM, the INCREDIBLY STUPID MUTANT DOG."
+		-- Bob Violence
+
+2024-04-13_23:56:48 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:56:48 	ProcessCmd.Execute consoleOutput: So do the noble fall.  For they are ever caught in a trap of their own making.
+A trap -- walled by duty, and locked by reality.  Against the greater force
+they must fall -- for, against that force they fight because of duty, because
+of obligations.  And when the noble fall, the base remain.  The base -- whose
+only purpose is the corruption of what the noble did protect.  Whose only
+purpose is to destroy.  The noble: who, even when fallen, retain a vestige of
+strength.  For theirs is a strength born of things other than mere force.
+Theirs is a strength supreme... theirs is the strength -- to restore.
+		-- Gerry Conway, "Thor", #193
+
+2024-04-13_23:57:05 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:57:05 	ProcessCmd.Execute consoleOutput: UH-OH!!  I think KEN is OVER-DUE on his R.V. PAYMENTS and HE'S having a
+NERVOUS BREAKDOWN too!!  Ha ha.
+
+2024-04-13_23:57:05 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:57:05 	ProcessCmd.Execute consoleOutput: Hello.  Jim Rockford's machine, this is Larry Doheny's machine.  Will you
+please have your master call my master at his convenience?  Thank you.
+Thank you.  Thank you.  Thank you.  Thank you.  Thank you.
+		-- "The Rockford Files"
+
+2024-04-13_23:57:22 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:57:22 	ProcessCmd.Execute consoleOutput: Cthulhu Cthucks!
+
+2024-04-13_23:57:22 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:57:22 	ProcessCmd.Execute consoleOutput: "I find homosexuality disgustingly disturbing. This calls God
+ and his designs into question. I feel a strong sense of fear
+ for anyone who questions God's designs."
+      [Arizona State Rep. Debra Brimhall (R-Snowflake)
+       quoted in Arizona Republic, Feb. 4, 1999]
+
+2024-04-13_23:57:38 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:57:38 	ProcessCmd.Execute consoleOutput: Her figure described a set of parabolas that could cause cardiac arrest
+in a yak.
+		-- Woody Allen
+
+2024-04-13_23:57:38 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:57:38 	ProcessCmd.Execute consoleOutput: Subtlety
+
+The ancients did not seek to rule people with knowledge,
+But to help them become natural.
+It is difficult for knowledgeable people to become natural.
+To use law to control a nation weakens the nation.
+But to use nature to control a nation strengthens the nation.
+Understanding these two paths is understanding subtlety;
+Subtlety runs deep, ranges wide,
+Resolves confusion and preserves peace.
+		-- Lao Tse, "Tao Te Ching"
+
+2024-04-13_23:57:55 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:57:55 	ProcessCmd.Execute consoleOutput: "A bad man is worse when he pretends to be a saint."
+              [Francis Bacon]
+
+2024-04-13_23:57:55 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:57:55 	ProcessCmd.Execute consoleOutput: I call it the "Madman Theory".  I want the North Vietnamese to believe that
+I've reached the point where I might do *anything* to stop the war.  We'll
+just slip the word to them that "For God's sake, you know, Nixon is obsessed
+about Communism.  We can't restrain him when he's angry -- and he has his
+hand on the nuclear button."
+		-- Richard Nixon
+
+2024-04-13_23:58:12 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:58:12 	ProcessCmd.Execute consoleOutput: To jaw-jaw is better than to war-war.
+		-- W. Churchill, on Korean War negotiations
+
+2024-04-13_23:58:12 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:58:12 	ProcessCmd.Execute consoleOutput: Er, Tom, I hate to be the one to point this out, but your fix list
+is starting to resemble a feature list.  You must be human or something.
+		-- Larry Wall in <199801081824.KAA29602@wall.org>
+
+2024-04-13_23:58:28 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:58:28 	ProcessCmd.Execute consoleOutput: "I had to censor everything my sons watched ... even on the Mary Tyler
+Moore show I heard the word 'damn'!"
+		-- Mary Lou Bax
+
+2024-04-13_23:58:28 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:58:28 	ProcessCmd.Execute consoleOutput: "Truth does not demand belief. Scientists do not join hands every Sunday,
+ singing, "yes, gravity is real! I will have faith! I will be strong! I
+ believe in my heart that what goes up, up, up must come down, down. down.
+ Amen!" If they did, we would think they were pretty insecure about it."
+                   [ex-preacher Dan Barker]
+
+2024-04-13_23:58:45 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:58:45 	ProcessCmd.Execute consoleOutput: The right to be heard does not automatically include the right to be
+taken seriously.
+		-- Hubert Humphrey
+
+2024-04-13_23:58:45 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:58:45 	ProcessCmd.Execute consoleOutput: Love is always open arms.  With arms open you allow love to come and
+go as it wills, freely, for it will do so anyway.  If you close your
+arms about love you'll find you are left only holding yourself.
+
+2024-04-13_23:59:02 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:59:02 	ProcessCmd.Execute consoleOutput: Montana:
+	A grizzly bear praying for the early arrival of cable television.
+
+2024-04-13_23:59:02 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:59:02 	ProcessCmd.Execute consoleOutput: If a putt passes over the hole without dropping, it is deemed to have dropped.
+The law of gravity holds that any object attempting to maintain a position
+in the atmosphere without something to support it must drop.  The law of
+gravity supercedes the law of golf.
+		-- Donald A. Metz
+
+2024-04-13_23:59:19 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:59:19 	ProcessCmd.Execute consoleOutput: An impish young fellow named James
+Had a passion for idiot games.
+	He lighted the hair
+	Of his lady's affair
+And laughed as she pissed through the flames.
+
+2024-04-13_23:59:19 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:59:19 	ProcessCmd.Execute consoleOutput: When I heated my home with oil, I used an average of 800 gallons a year.  I
+have found that I can keep comfortably warm for an entire winter with
+slightly over half that quantity of beer.
+		-- Dave Barry, "Postpetroleum Guzzler"
+
+2024-04-13_23:59:35 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-13_23:59:35 	ProcessCmd.Execute consoleOutput: I had a dream that all the victims of The Pill came back...boy, were they mad!
+		-- Steven Wright
+
+2024-04-13_23:59:35 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-13_23:59:35 	ProcessCmd.Execute consoleOutput: "Liberals who have actually read the Bible rationalize their adherence
+ to Christianity by saying that the Bible doesn't really mean what it
+ says. In calling themselves Christians, they are appropriating a
+ hallowed name and applying it to a made-up religion of their own."
+        [C. W. Dalton, "The Right Brain and Religion"]
+
+2024-04-13_00:33:10 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_00:33:10 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_00:37:27 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_00:37:27 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_00:56:11 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_00:56:11 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_00:56:55 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_00:56:55 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_00:57:15 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_00:57:15 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_00:57:23 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_00:57:23 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_00:57:28 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_00:57:28 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_00:57:31 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_00:57:31 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_00:57:34 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_00:57:34 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_00:57:40 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_00:57:40 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_00:58:17 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_00:58:17 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_00:59:10 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_00:59:10 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:03:07 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:03:07 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:05:00 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:05:00 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:05:45 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:05:45 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:13:37 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:13:37 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:14:02 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:14:02 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:14:36 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:14:36 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:15:03 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:15:03 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:15:32 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:15:32 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:15:55 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:15:55 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:15:55 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:15:55 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:15:55 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:15:59 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:15:59 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:16:25 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:16:25 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:16:51 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:16:51 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:17:25 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:17:25 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:17:54 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:17:54 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:19:39 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:19:39 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:20:09 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:20:09 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:21:13 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:21:13 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:21:31 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:21:31 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:21:40 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:21:40 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:30:11 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:30:12 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:30:15 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:30:18 	Exception System.InvalidOperationException ⇒ Failed to map path '/Qr/20240413_013017_638_i.gif'	System.InvalidOperationException: Failed to map path '/Qr/20240413_013017_638_i.gif'   at System.Web.HttpRequest.MapPath (System.String virtualPath, System.String baseVirtualDir, System.Boolean allowCrossAppMapping) [0x0014f] in <104e6566bcca4c7abc3969f72e3a7c56>:0    at System.Web.HttpRequest.MapPath (System.String virtualPath) [0x00015] in <104e6566bcca4c7abc3969f72e3a7c56>:0    at System.Web.HttpServerUtility.MapPath (System.String path) [0x0000b] in <104e6566bcca4c7abc3969f72e3a7c56>:0    at Area23.At.Www.S.Default.SetQrImageUrl (System.String imgPth, System.Int32 qrWidth) [0x0009d] in <588aaab706494cc5bcdd589126071e5e>:0    at Area23.At.Www.S.Default.GenerateQRImage (System.String qrString) [0x0013b] in <588aaab706494cc5bcdd589126071e5e>:0 	  at System.Web.HttpRequest.MapPath (System.String virtualPath, System.String baseVirtualDir, System.Boolean allowCrossAppMapping) [0x0014f] in <104e6566bcca4c7abc3969f72e3a7c56>:0    at System.Web.HttpRequest.MapPath (System.String virtualPath) [0x00015] in <104e6566bcca4c7abc3969f72e3a7c56>:0    at System.Web.HttpServerUtility.MapPath (System.String path) [0x0000b] in <104e6566bcca4c7abc3969f72e3a7c56>:0    at Area23.At.Www.S.Default.SetQrImageUrl (System.String imgPth, System.Int32 qrWidth) [0x0009d] in <588aaab706494cc5bcdd589126071e5e>:0    at Area23.At.Www.S.Default.GenerateQRImage (System.String qrString) [0x0013b] in <588aaab706494cc5bcdd589126071e5e>:0 
+2024-04-13_01:30:18 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:37:05 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:37:05 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:37:16 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:37:16 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:39:38 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:39:38 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:39:41 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:39:43 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:39:43 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:44:11 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:44:11 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:44:14 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:44:14 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:49:33 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:49:34 	212.95.5.179 new Session started object sender=System.Web.SessionState.SessionStateModule, EventArgs e=System.EventArgs
+2024-04-13_01:49:38 	Exception System.Net.WebException ⇒ The operation has timed out.	System.Net.WebException: The operation has timed out.   at System.Net.HttpWebRequest.RunWithTimeoutWorker[T] (System.Threading.Tasks.Task`1[TResult] workerTask, System.Int32 timeout, System.Action abort, System.Func`1[TResult] aborted, System.Threading.CancellationTokenSource cts) [0x00118] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at System.Net.HttpWebRequest.GetResponse () [0x00019] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at Area23.At.Www.S.Default.VerifyUri (System.String redirUrl) [0x0022f] in <3d883b2058ce46f494803a0021bbd1f4>:0 	  at System.Net.HttpWebRequest.RunWithTimeoutWorker[T] (System.Threading.Tasks.Task`1[TResult] workerTask, System.Int32 timeout, System.Action abort, System.Func`1[TResult] aborted, System.Threading.CancellationTokenSource cts) [0x00118] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at System.Net.HttpWebRequest.GetResponse () [0x00019] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0    at Area23.At.Www.S.Default.VerifyUri (System.String redirUrl) [0x0022f] in <3d883b2058ce46f494803a0021bbd1f4>:0 
+2024-04-13_01:49:40 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-13_01:49:40 	212.95.5.179 begin request object sender=ASP.global_asax, EventArgs e=System.EventArgs
+2024-04-15_01:12:49 	new session started at 2024-04-15_01:12:49 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-15_01:51:55 	new session started at 2024-04-15_01:51:55 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-15_01:51:56 	new session started at 2024-04-15_01:51:56 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-15_02:53:34 	new session started at 2024-04-15_02:53:34 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-15_04:14:00 	new session started at 2024-04-15_04:14:00 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-15_05:47:50 	new session started at 2024-04-15_05:47:50 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-15_17:15:48 	new session started at 2024-04-15_17:15:48 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-15_17:15:48 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-15_17:15:48 	ProcessCmd.Execute consoleError: No fortunes found
+
+2024-04-15_17:15:48 	ProcessCmd.Execute consoleOutput: 
+2024-04-15_17:15:48 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-15_17:15:48 	ProcessCmd.Execute consoleOutput: "Speak, thou vast and venerable head," muttered Ahab, "which, though
+ungarnished with a beard, yet here and there lookest hoary with mosses; speak,
+mighty head, and tell us the secret thing that is in thee.  Of all divers,
+thou has dived the deepest.  That head upon which the upper sun now gleams has
+moved amid the world's foundations.  Where unrecorded names and navies rust,
+and untold hopes and anchors rot; where in her murderous hold this frigate
+earth is ballasted with bones of millions of the drowned; there, in that awful
+water-land, there was thy most familiar home.  Thou hast been where bell or
+diver never went; has slept by many a sailer's side, where sleepless mothers
+would give their lives to lay them down.  Thou saw'st the locked lovers when
+leaping from their flaming ship; heart to heart they sank beneath the exulting
+wave; true to each other, when heaven seemed false to them.  Thou saw'st the
+murdered mate when tossed by pirates from the midnight deck; for hours he fell
+into the deeper midnight of the insatiate maw; and his murderers still sailed
+on unharmed -- while swift lightnings shivered the neighboring ship that would
+have borne a righteous husband to outstretched, longing arms.  O head! thou has
+seen enough to split the planets and make an infidel of Abraham, and not one
+syllable is thine!"
+		-- H. Melville, "Moby Dick"
+
+2024-04-15_17:19:02 	new session started at 2024-04-15_17:19:02 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-16_16:06:18 	new session started at 2024-04-16_16:06:18 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-16_16:06:18 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-16_16:06:18 	ProcessCmd.Execute consoleOutput:  bbf88fce12837ef7 38de543f4cab3401 4bd02d5a6a2c41d3 549064f35acebc59  >.~.......4.L?T.8.A,jZ-.KY..Z.d.T<
+ b45db9378a73a22c 815b545c41a63c01 4fadda31c9f71222 c0483412d78a8f5d  >,.s.7.]..<.A\T[."...1..O]....4H.<
+ 629aa14c46582e11 ae42fd6de1d4522b 2f323b02a08ec8b0 52e1aa85d921cdc0  >..XFL..b+R..m.B......;2/..!....R<
+ 1c9b5656f8cab77f 95b49951644ffe96 b90ceed5806cacaf 1dc621da722524ed  >....VV....OdQ.....l......$%r.!..<
+ 8aa9dc94473bc62a 003b42615061c63d c34704b5aa5aaaf8 4939c7898354028b  >*.;G....=.aPaB;...Z...G...T...9I<
+ 7baab5d0a7c87196 674381bb68eaac34 17cc9214d3d7fe79 715363aa1ebe6ade  >.q.....{4..h..Cgy........j...cSq<
+ eb96f4f25a1700b3 d4ee6c267f202195 d3fb82a853db4e60 fdaa2791084091e1  >...Z.....! .&l..`N.S......@..'..<
+ 3a6205de6e613c60 2489f15a80b210b8 0034dcb3d3b2c73f c373a6737c318e99  >`<an..b:....Z..$?.....4...1|s.s.<
+ ce57cdfb46086f1a 1a9fc56c78048fab b147332a286ca249 b6c2f02a2d58bb05  >.o.F..W....xl...I.l(*3G...X-*...<
+ e615b8780ba5a5dd 0d60435e47128262 0345bc8cc0ed45fe 517749e1370182a6  >....x...b..G^C`..E....E....7.IwQ<
+ fc4b7001cabde80f 0b13ac0242ea4b89 f83849e6571da196 ec1534b46e470eb5  >.....pK..K.B.......W.I8...Gn.4..<
+ 119684d649940088 91b42d2778d93049 bd207b43251e14db ea3d74a53e1ba9dd  >...I....I0.x'-.....%C{ ....>.t=.<
+ 1acfadfcda83a98a e286498560a3b159 5b2e3c832d027047 2fc92d7c26df1bcc  >........Y..`.I..Gp.-.<.[...&|-./<
+ 542f9291ab355501 7b04fa9224d0ffdb 5f9031f8db1f0cd3 c5238b3cd8780ab1  >.U5.../T...$...{.....1._..x.<.#.<
+ 08e02cc2ba1cebed 0566f13352f38a05 134b5d8b2c3c64b8 2e95c7c70c5c6f53  >.....,.....R3.f..d<,.]K.So\.....<
+ d1a172fa185d756d 554c4806c09015aa a3b8c870d6f35a59 42e38cb9fefcf128  >mu]..r.......HLUYZ..p...(......B<
+ a6543c2f8084779c 21b7294b88e251d8 77c6b0806ef825a4 0611ee307567c5af  >.w../<T..Q..K).!.%.n...w..gu0...<
+ 3316a77c2b975a43 3b3cfbdad779b55d 203ac2091124bbaa 571df132f38a77eb  >CZ.+|..3].y...<;..$...: .w..2..W<
+ fe0723b2216e9338 eed7abeaab69f1cd 5efa3c7f188e70f3 20401d02e73ba231  >8.n!.#....i......p...<.^1.;...@ <
+ 0ef935ae1b768aee 5571328e6392c1ba 5ce5f28b56c194d7 53f84aa1e791d4e5  >..v..5.....c.2qU...V...\.....J.S<
+ a40207f6ef72d03c a883e26378addba1 4c8ea1e6d9b09d7f 7cdb00b36ce4831b  ><.r........xc..........L...l...|<
+ f019a2dfed41557f fbc95b830a21e9de 269b2e570d15ac12 aafb931315282bed  >.UA.......!..[......W..&.+(.....<
+ 126251fed65e9bff 32f9a267a6b3b57c 3771595da3637ab8 158af81fed127c4a  >..^..Qb.|...g..2.zc.]Yq7J|......<
+ a49ffa3fb7f37207 31c9e550313754b5 16655afc16439fb4 53273854607c9717  >.r..?....T71P..1..C..Ze...|`T8'S<
+ d0ae134a592cd3fe 1a8e7a1b1d60c953 b3719c04664f2060 cd02832610cdad41  >..,YJ...S.`..z..` Of..q.A...&...<
+ c56db03a3fd0bebf 148be5c1f54f7d54 d313daf6f6298cff 4f50f0d0569a41d6  >...?:.m.T}O.......)......A.V..PO<
+ e9a36d0e56aa2e0b eec307d384116c35 caee7d5df4899a77 213e55792d507834  >...V.m..5l......w...]}..4xP-yU>!<
+ b5daa4af82256dbd 7a292e0abf591792 c40e43309241e4d8 2138d861bb532610  >.m%.......Y...)z..A.0C...&S.a.8!<
+ 3380a7dacdc4c3e7 2d1323f049680742 b90b7cf3fe2d5cb7 95b3e3f0b27caf90  >.......3B.hI.#.-.\-..|....|.....<
+ 7adfe53de28a3be2 1f2b312756d0df8b 9daa5fac166656b7 f09f3f0c44dc6d9d  >.;..=..z...V'1+..Vf.._...m.D.?..<
+ 9811cd98ef363a61 31a71c17a6839bf6 f918767f3422b1c8 c3777525b0314674  >a:6............1.."4.v..tF1.%uw.<
+ c79ed0646518f4e6 a67a760ca7ad61dc a24b4e5a1f634d40 7c8f9b9893b79453  >...ed....a...vz.@Mc.ZNK.S......|<
+
+2024-04-16_16:28:51 	new session started at 2024-04-16_16:28:51 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-16_16:55:34 	new session started at 2024-04-16_16:55:34 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-16_16:55:34 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-16_16:55:34 	ProcessCmd.Execute consoleError: No fortunes found
+
+2024-04-16_16:55:34 	ProcessCmd.Execute consoleOutput: 
+2024-04-16_16:55:34 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-16_16:55:34 	ProcessCmd.Execute consoleOutput: "I understand this is your first dead client," Sabian was saying.  The
+absurdity of the statement made me want to laugh but they don't call me
+Deadpan Allie and lie.
+		-- Pat Cadigan, "Mindplayers"
+
+2024-04-16_20:54:03 	new session started at 2024-04-16_20:54:03 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:26:07 	new session started at 2024-04-17_04:26:07 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:26:07 	new session started at 2024-04-17_04:26:07 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:27:11 	new session started at 2024-04-17_04:27:11 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:27:11 	new session started at 2024-04-17_04:27:11 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:27:12 	new session started at 2024-04-17_04:27:12 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:27:12 	new session started at 2024-04-17_04:27:12 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:27:28 	new session started at 2024-04-17_04:27:28 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:27:28 	new session started at 2024-04-17_04:27:28 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:27:30 	new session started at 2024-04-17_04:27:30 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:27:30 	new session started at 2024-04-17_04:27:30 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:27:45 	new session started at 2024-04-17_04:27:45 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:27:45 	new session started at 2024-04-17_04:27:45 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:28:03 	new session started at 2024-04-17_04:28:03 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:28:04 	new session started at 2024-04-17_04:28:04 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:28:09 	new session started at 2024-04-17_04:28:09 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:28:09 	new session started at 2024-04-17_04:28:09 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:28:20 	new session started at 2024-04-17_04:28:20 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:28:21 	new session started at 2024-04-17_04:28:21 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:28:45 	new session started at 2024-04-17_04:28:45 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:28:45 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-17_04:28:45 	ProcessCmd.Execute consoleError: No fortunes found
+
+2024-04-17_04:28:45 	ProcessCmd.Execute consoleOutput: 
+2024-04-17_04:28:45 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-17_04:28:45 	ProcessCmd.Execute consoleOutput: For the fashion of Minas Tirith was such that it was built on seven levels,
+each delved into a hill, and about each was set a wall, and in each wall
+was a gate.
+		-- J.R.R. Tolkien, "The Return of the King"
+
+	[Quoted in "VMS Internals and Data Structures", V4.4, when
+	 referring to system overview.]
+
+
+2024-04-17_04:28:46 	new session started at 2024-04-17_04:28:46 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:28:46 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-17_04:28:46 	ProcessCmd.Execute consoleError: No fortunes found
+
+2024-04-17_04:28:46 	ProcessCmd.Execute consoleOutput: 
+2024-04-17_04:28:46 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-17_04:28:46 	ProcessCmd.Execute consoleOutput: A Tale of Two Cities LITE(tm)
+	-- by Charles Dickens
+
+	A lawyer who looks like a French Nobleman is executed in his place.
+
+The Metamorphosis LITE(tm)
+	-- by Franz Kafka
+
+	A man turns into a bug and his family gets annoyed.
+
+Lord of the Rings LITE(tm)
+	-- by J. R. R. Tolkien
+
+	Some guys take a long vacation to throw a ring into a volcano.
+
+Hamlet LITE(tm)
+	-- by Wm. Shakespeare
+
+	A college student on vacation with family problems, a screwy
+	girl-friend and a mother who won't act her age.
+
+2024-04-17_04:28:55 	new session started at 2024-04-17_04:28:55 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:28:55 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-17_04:28:55 	ProcessCmd.Execute consoleOutput:  bebcbe9493fef8f0 ab94274c87162f65 e95b2d4941b802ff aea21786afa1de0a  >........e/..L'.....AI-[.........<
+ f947a382dbd694e3 9a3391fb827cf546 d87a25c36970cfef 9201b7e30edae005  >......G.F.|...3...pi.%z.........<
+ 4d00371875609eb0 da578cdd22ac31f2 a40b82a0230c6524 c9b00858dc9128e5  >..`u.7.M.1."..W.$e.#.....(..X...<
+ ec574ac7da653e17 61344814174e217d 2979e556f977d934 9f37d6d5013e375c  >.>e..JW.}!N..H4a4.w.V.y)\7>...7.<
+ 103c1891d90761a9 a1f698e5bdc671ef 9d77b2e5d5f30e02 5f936f7540af9b11  >.a....<..q............w....@uo._<
+ 7bf4a62e79d80c83 87dc1286b3a6bb34 7a34d3295c2b483e f39cb02c50b7e510  >...y...{4.......>H+\).4z...P,...<
+ f7e73e50ffa2a653 c450740c12f6d81d f73f8ac2edadc713 a22da0b51114b8ed  >S...P>.......tP.......?.......-.<
+ b01aecfe2960f739 7b9c971b42d04490 b2042f82903e91bf 54a2c507617f8191  >9.`).....D.B...{..>../.....a...T<
+ 11ae209a05cd570c 7c79f1d522820896 8477c8de31e2b9ae d50a39dd6dfc95ba  >.W... ....."..y|...1..w....m.9..<
+ 3727701001c3b4fa 9b24d32a39542506 cfc4490f371babd6 460cb015ef9d09c6  >.....p'7.%T9*.$....7.I.........F<
+ 41b2f36fc9347931 373063c9046a1ce9 9704b1ff74b10b3e 57ff745c8ebcab34  >1y4.o..A..j..c07>..t....4...\t.W<
+ b84ee93627be50a2 03cf8b1424ff5861 8ee623a0b9c2959d c5ad77133049530d  >.P.'6.N.aX.$.........#...SI0.w..<
+ 0355147162b9c996 edea8d963dfb8531 f5d40611a359c091 abae2a83fe3004e8  >...bq.U.1..=......Y.......0..*..<
+ 3255c5d3fa4ae785 d9b007cfb022c80c 9647938095ec4276 b44c5bee905df76b  >..J...U2..".....vB....G.k.]..[L.<
+ a5b573cce2679dc0 976dd328106bb4f3 81037366a14cced9 0eca220782525798  >..g..s....k.(.m...L.fs...WR.."..<
+ 785481ecc073413d d22b96cd6f289b66 575f7f3843dd5dad c71555fce863773d  >=As...Txf.(o..+..].C8._W=wc..U..<
+ ad9e3ceda779b2cc 757e30627e2cb1f9 dfe38cbb07127f4f a15b1f7deb9609c8  >..y..<....,~b0~uO...........}.[.<
+ 38733e3af95281b4 3b0730161afcdcc6 5c49acb129852dc0 b275bd2c87487cda  >..R.:>s8.....0.;.-.)..I\.|H.,.u.<
+ ea13801cbc32905c f3c41409eae13113 8e824b0bbf1c1229 745f2eede743a4bc  >\.2......1......)....K....C..._t<
+ 7b3a9b3164dee991 12b7ded4663465d9 3e3101ccd0349111 c21df8e30d492fe4  >...d1.:{.e4f......4...1>./I.....<
+ d095779376262aa7 c1f67e83a8d5689c 7cdc7cba55715dca 7f8b1a64b0059e64  >.*&v.w...h...~...]qU.|.|d...d...<
+ f2ad3278d551788c 972f81cf595888f7 cff3cfe96dc430fc f93af902886274e1  >.xQ.x2....XY../..0.m.....tb...:.<
+ 160e1c5c55680c0d ead7bed7bf153949 e4fd708be0d560ae ee5b5efe1de4265d  >..hU\...I9.......`...p..]&...^[.<
+ 59cbe11a547f9e9c 8fbd939c60a172a5 b285fa033a1492c6 0414167fcccd4961  >...T...Y.r.`.......:....aI......<
+ ff059b084743e73a 22073697f4a63c28 012c6adebfd3e695 1cef6083dbb290c6  >:.CG....(<...6.".....j,......`..<
+ b227887b5ee0a29c 1b5e524b9beabf3e afbf655e562f1928 23017b390bad5252  >...^{.'.>...KR^.(./V^e..RR..9{.#<
+ 42ee45ded71bec6e b066bef0d2c2a49c ca96c3db7d2b42de eb439c6837599409  >n....E.B......f..B+}......Y7h.C.<
+ 642d85a09cf36767 ded33b0e9a1df75a 6a1279d5eb3b082c 59b339a509f0c0d4  >gg....-dZ....;..,.;..y.j.....9.Y<
+ a3d0a9f8d3f0877b d4e736e0736d4476 b45aefe015556cac c6a1807255299f17  >{.......vDms.6...lU...Z...)Ur...<
+ 622e7b706c799716 f6c2c437f23ca09f 5f2400abcf4ae8b0 5577d01aeaf96edc  >..ylp{.b..<.7.....J...$_.n....wU<
+ 0f3efac8e2b68ada 43e9603076895141 c52f6f761e2aa480 9e15970848e37d82  >......>.AQ.v0`.C..*.vo/..}.H....<
+ e2ce9e9c408d9b3f 8c786292e73002ba 0c55df173b145106 b5937559c1030ce3  >?..@......0..bx..Q.;..U.....Yu..<
+
+2024-04-17_04:28:55 	new session started at 2024-04-17_04:28:55 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:28:55 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-17_04:28:55 	ProcessCmd.Execute consoleOutput:  4ca89e30109ca3d4 92a57b8b89d83e0b 32d6b2571c8549cd 9c23be8444fc10ba  >....0..L.>...{...I..W..2...D..#.<
+ b477441959e7fa3d 00662db4abfdf84f 2f88730a15239c21 0d58b581ea811014  >=..Y.Dw.O....-f.!.#..s./......X.<
+ 67de217d775719b6 54a52d70e73f134e e598f00f86288715 5ff945ecb6ce0cd9  >..Ww}!.gN.?.p-.T..(..........E._<
+ f7e2121435edf9e6 2dc81d5358239c62 a44c69f03cf280ca 3e6e66d514696e85  >...5....b.#XS..-...<.iL..ni..fn><
+ 448407fd773faf33 47810560aa01e57f ae92a7c463f16c29 c5c272c606965ddd  >3.?w...D....`..G)l.c.....]...r..<
+ cfe68e5d307168bf b02a1eeb979d88d5 50e4f9d53bdab381 7750cce539e0a614  >.hq0].........*....;...P...9..Pw<
+ 577c418aed264492 309389e4348d8789 13456bd9d788dc92 d68ee6c47b1ed164  >.D&..A|W...4...0.....kE.d..{....<
+ e077aa2c1632e61d a046dcde464323eb 278225534f903c32 9418e7a07fae7812  >..2.,.w..#CF..F.2<.OS%.'.x......<
+ 346770c1cf83d580 8b68ebb86d4256cc 38d608545596c4b8 0b734a8e8ddd9eb3  >.....pg4.VBm..h....UT..8.....Js.<
+ 16addc5c7e8a53de ab5825da836b3d09 409fb0d479e8e334 44503eaed9008a16  >.S.~\....=k..%X.4..y...@.....>PD<
+ ea9cd8555cd65dce bb1166a5f779baf1 a7774d7f93643366 1567d5b7db2c5068  >.].\U.....y..f..f3d..Mw.hP,...g.<
+ 8c96323ac9a2ee6d 8061c59ce17375e3 75d256d690899f76 b46da11748384655  >m...:2...us...a.v....V.uUF8H..m.<
+ ec2d7c0fc0054781 2d0682519fb3f91f e28f26417f03065f aa2be752f846a91a  >.G...|-.....Q..-_...A&....F.R.+.<
+ db48fbab91672ff7 ff343dc7ffd25f05 3c8f90a8c2301c90 abf7251ea9e41ff8  >./g...H.._...=4...0....<.....%..<
+ 698759fb1fd94244 7e041490f0bbf0ac f3dd9b4f2c0528cc 3974818d992c1580  >DB...Y.i.......~.(.,O.....,...t9<
+ 26f28bc1bca0cd7e fca476446970c42b 2a7a926d88c33205 2331411f62b6542b  >~......&+.piDv...2..m.z*+T.b.A1#<
+ d4ffb2c5abb4abeb 06fba4f493e76807 6bc42691221a4799 595dfbdc709fd549  >.........h.......G.".&.kI..p..]Y<
+ ddcddfb246dac63c b5a4ae1a19c72000 59c1c62e8a1e022d dfa0f35a52b4069a  ><..F..... ......-......Y...RZ...<
+ 2cb7037f36cb6e9c b54e1e95d58105ab fc2ebbf2ff59e5cf 0bfc3d0b2d8833ce  >.n.6...,......N...Y......3.-.=..<
+ b81ae6ed49727bc3 cdb256f383305abb 2d87a5caa2c50d99 5b7be988fffdb0ee  >.{rI.....Z0..V.........-......{[<
+ bb17533106e45e06 a9795f908c360854 d9f2b2dbc653b5e2 dc532d446e338ad7  >.^..1S..T.6.._y...S.......3nD-S.<
+ aea464b7410ac16c ad0078b94e4403da 93265a3d8c8b0cac 24a0dec36e9c4107  >l..A.d....DN.x......=Z&..A.n...$<
+ e236ddfa74bdf5f9 ef5af68699336d8f 55fe0133c048320b b4db2217c8a27611  >...t..6..m3...Z..2H.3..U.v..."..<
+ 6192a01cac3cf039 fdaa6b6cd99c444b 01365f227961508f 2ef650fcb8548fe6  >9.<....aKD..lk...Pay"_6...T..P..<
+ 7bf5bffc9227c440 750ab47e5d5ff0fd 96a322c5754a6be3 0a5194a882b7b075  >@.'....{.._]~..u.kJu."..u.....Q.<
+ 4e52ef352513aabd 6acb914b8250e634 0a7eb2287e68a74b 2923d3f7e6af4f9d  >...%5.RN4.P.K..jK.h~(.~..O....#)<
+ 30b5f0d9677b8661 bcc57e3a83264c82 65b5302c2f5fbff8 f835621cfeba7eb3  >a.{g...0.L&.:~...._/,0.e.~...b5.<
+ 8056a07810aea484 5d38e9a980240018 124fbc68a3bb2894 b8df831762883b89  >....x.V...$...8].(..h.O..;.b....<
+ 6c9e34171511ffef 571ad3cc2e97b709 183a6f32f4bc43a3 d1865544e2d595e1  >.....4.l.......W.C..2o:.....DU..<
+ 129d2920904966fd efe01c950f5b9788 231e286d54965f8b dcc928365d4c6cda  >.fI. )....[......_.Tm(.#.lL]6(..<
+ 0d400a954527e978 4fdc7dfd70f0cb8f cdd622598a3adb19 13acf2e13772b867  >x.'E..@....p.}.O..:.Y"..g.r7....<
+ 0deca2deb9e9e6ea a44befd7d941d422 5a52a252dfb0c9b8 a9eae66e42776836  >........".A...K.....R.RZ6hwBn...<
+
+2024-04-17_04:29:02 	new session started at 2024-04-17_04:29:02 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_04:29:02 	new session started at 2024-04-17_04:29:02 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_07:06:01 	new session started at 2024-04-17_07:06:01 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_13:06:46 	new session started at 2024-04-17_13:06:46 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_13:06:48 	new session started at 2024-04-17_13:06:48 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_16:50:37 	new session started at 2024-04-17_16:50:37 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:16 	new session started at 2024-04-17_17:08:16 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:16 	new session started at 2024-04-17_17:08:16 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:19 	new session started at 2024-04-17_17:08:19 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:19 	new session started at 2024-04-17_17:08:19 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:19 	new session started at 2024-04-17_17:08:19 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:20 	new session started at 2024-04-17_17:08:20 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:20 	new session started at 2024-04-17_17:08:20 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:20 	new session started at 2024-04-17_17:08:20 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:20 	new session started at 2024-04-17_17:08:20 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:20 	new session started at 2024-04-17_17:08:20 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:20 	new session started at 2024-04-17_17:08:20 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:20 	new session started at 2024-04-17_17:08:20 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:20 	new session started at 2024-04-17_17:08:20 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:20 	new session started at 2024-04-17_17:08:20 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:21 	new session started at 2024-04-17_17:08:21 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:21 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-17_17:08:21 	ProcessCmd.Execute consoleError: No fortunes found
+
+2024-04-17_17:08:21 	ProcessCmd.Execute consoleOutput: 
+2024-04-17_17:08:21 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-17_17:08:21 	ProcessCmd.Execute consoleOutput: Q:	How many members of the U.S.S. Enterprise does it take to change a
+	light bulb?
+A:	Seven.  Scotty has to report to Captain Kirk that the light bulb in
+	the Engineering Section is getting dim, at which point Kirk will send
+	Bones to pronounce the bulb dead (although he'll immediately claim
+	that he's a doctor, not an electrician).  Scotty, after checking
+	around, realizes that they have no more new light bulbs, and complains
+	that he "canna" see in the dark.  Kirk will make an emergency stop at
+	the next uncharted planet, Alpha Regula IV, to procure a light bulb
+	from the natives, who, are friendly, but seem to be hiding something.
+	Kirk, Spock, Bones, Yeoman Rand and two red shirt security officers
+	beam down to the planet, where the two security officers are promply
+	killed by the natives, and the rest of the landing party is captured.
+	As something begins to develop between the Captain and Yeoman Rand,
+	Scotty, back in orbit, is attacked by a Klingon destroyer and must
+	warp out of orbit.  Although badly outgunned, he cripples the Klingon
+	and races back to the planet in order to rescue Kirk et. al. who have
+	just saved the natives' from an awful fate and, as a reward, been
+	given all light bulbs they can carry.  The new bulb is then inserted
+	and the Enterprise continues on its five year mission.
+
+2024-04-17_17:08:21 	new session started at 2024-04-17_17:08:21 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:21 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-17_17:08:21 	ProcessCmd.Execute consoleError: No fortunes found
+
+2024-04-17_17:08:21 	ProcessCmd.Execute consoleOutput: 
+2024-04-17_17:08:21 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-17_17:08:21 	ProcessCmd.Execute consoleOutput: Persons attempting to find a motive in this narrative will be prosecuted;
+persons attempting to find a moral in it will be banished; persons attempting
+to find a plot in it will be shot.  By Order of the Author
+		-- Mark Twain, "The Adventures of Huckleberry Finn"
+
+2024-04-17_17:08:21 	new session started at 2024-04-17_17:08:21 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:21 	new session started at 2024-04-17_17:08:21 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_17:08:21 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-17_17:08:21 	ProcessCmd.Execute consoleOutput:  f2e9e88495cca7de 039f5f7af1686ee8 98057865b36e180b 6d6d120564a4caca  >.........nh.z_....n.ex.....d..mm<
+ 19172c734138e94d 6ad9d7cbe2aca291 dc6bebb55ffbbb7c 30878aa9d8a84c39  >M.8As,.........j|.._..k.9L.....0<
+ 865446de50659e52 2f0d9e1d3746e1f4 c88bcb9c03255000 7c150fb546082245  >R.eP.FT...F7.../.P%.....E".F...|<
+ 39f1ad288400104e 37c10ff0a246b040 1835ad4c57a7b66f 5ebcd63bb5b8624b  >N...(..9@.F....7o..WL.5.Kb..;..^<
+ f3d3bbacf5b72f9a 9edbe7edb1e5122c 770b7b9d6cd5d5ea 3eb324c922f635c0  >./......,..........l.{.w.5.".$.><
+ 9c24caca5c9a387c b686e11c41233176 83e4e70bf2f8ba1d 5b377d1a1a8eb777  >|8.\..$.v1#A............w....}7[<
+ b66698b5f7e8f8af 06ba2d4dfd389d34 bc85d826c68d053a 00ea61a8bad16b15  >......f.4.8.M-..:...&....k...a..<
+ 552f2cf5c4f303fe b612eb9ad5ebb46f 5108a20beacaadb2 8a980a2786e24432  >.....,/Uo..............Q2D..'...<
+ 44a8867cf28a348b 92e3699f0dacd976 688ad457ca673afe 1a2e6057b0488ce5  >.4..|..Dv....i...:g.W..h..H.W`..<
+ 2f52ab32ec02701b 0fcfa2360842e0e5 edf01982b2524b2e 7bdb6a86ccdc6eb1  >.p..2.R/..B.6....KR......n...j.{<
+ 3ec09e1de3223418 2f9fcd142c01604b d3d28c0abe52f81f e07082f5c84e4dcb  >.4"....>K`.,.../..R......MN...p.<
+ fb54d8b79303ee38 dc6049db9a57a7b1 3c8ddb6f7666fb46 555fa0e6b32740b3  >8.....T...W..I`.F.fvo..<.@'..._U<
+ c5a04025c9981d0c 28f89c34b3537b86 edd7203e787ddd9d f3d4680edff8d23d  >....%@...{S.4..(..}x> ..=....h..<
+ 44508082b8f9390a fef287419afc0bea 3ff20a8f767428c4 e5c85f59e471114d  >.9....PD....A....(tv...?M.q.Y_..<
+ 0efec7a0f899c508 7cabd5429f0d936a bcd69edd329f435e 0f38e31e6ce2e3d9  >........j...B..|^C.2.......l..8.<
+ 78acc2860b07f3a3 4ad1ced0c0cd679c c391514a3e3189e2 221fa01afe9f1603  >.......x.g.....J..1>JQ........."<
+ 635e283afb35e943 b73c639a0cb99c25 f47a91ed00ba090e 0019a8e5cf8660e8  >C.5.:(^c%....c<.......z..`......<
+ afe30ea2c9ab1dd9 4a33f541228dea27 eb60e5f3ffbaeadc 3ec6aa709f4bc82a  >........'.."A.3J......`.*.K.p..><
+ e20412d27092a548 87f62788b2fd5c8f 12176782e784b752 d9cdcddef13aef51  >H..p.....\...'..R....g..Q.:.....<
+ 575d518bab454327 6e973a8a1049b883 d8357ab378f74965 92e9c8cc09520f3c  >'CE..Q]W..I..:.neI.x.z5.<.R.....<
+ ba6bd68b16aa93a2 bc03089e7ae1b398 f5fb6cf4779a040b d4ed8f2b557097d9  >......k....z.......w.l....pU+...<
+ a99781542b26e498 a906e8d8350e46c0 80d6981744351858 7722e5dde5789af3  >..&+T....F.5....X.5D......x..."w<
+ b1292771d0d9b947 988b9751dd8b5813 34a61355847c41f4 762c0df9bcb31885  >G...q')..X..Q....A|.U..4......,v<
+ 55e6c1f936dfd5e3 b963cba3ac62b909 01c5a154a6439112 f815055b9ec03ab8  >...6...U..b...c...C.T....:..[...<
+ 2d68b7c6b7785c35 14cbaed6094416a6 cf575afef2cf5f73 9f20e65f69982fda  >5\x...h-..D.....s_...ZW../.i_. .<
+ 4757097f13367f40 e0674e99ee5dec1b ab407adfbeef9847 8d79992670acc3fa  >@.6...WG..]..Ng.G....z@....p&.y.<
+ 7d1b2632a50e8825 9c6cf97ca0afb32a 1bfdd46ad0c8c01b 84f45fde113f1414  >%...2&.}*...|.l.....j.....?.._..<
+ dce7d2f52fc0b240 70297aef75ba8d70 54287a3641c758f9 19ee5677dde38db5  >@../....p..u.z)p.X.A6z(T....wV..<
+ 76507888d0d39d79 85dc0207a6800d0c d028e48aecea6a28 f5f80247e0654772  >y....xPv........(j....(.rGe.G...<
+ 0ef87831447a3f27 ac929ce352112686 6eff8027c5bcfb0a 32a853e7ddebbf9b  >'?zD1x...&.R........'..n.....S.2<
+ ca79a4a63515fc3a 4e1794d3db997711 f4f3fdde2c9b6c2b ad7c0c35d4069e17  >:..5..y..w.....N+l.,........5.|.<
+ 2eb674dbc42e6918 495b30c055621e7d 430da9a6a1c2cdb6 dfa046158a9e0ae4  >.i...t..}.bU.0[I.......C.....F..<
+
+2024-04-17_17:08:21 	new session started at 2024-04-17_17:08:21 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-17_20:37:46 	new session started at 2024-04-17_20:37:46 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-18_04:33:08 	new session started at 2024-04-18_04:33:08 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-18_04:42:12 	new session started at 2024-04-18_04:42:12 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-18_04:42:12 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-18_04:42:12 	ProcessCmd.Execute consoleOutput:  2a366c0a22785718 2c61e49f7548b92f 62c12edb9139f1ec e15ce0752982e46a  >.Wx".l6*/.Hu..a,..9....bj..)u.\.<
+ 87388c28cf10c771 38c921d23ca73892 48edbe069f1e6fc3 06bbc8cd4a882d60  >q...(.8..8.<.!.8.o.....H`-.J....<
+ 3c07d95b8cf012eb a1ecc5d24fa9aaf2 b4b7becc53a745b4 a6b9d542f90354a9  >....[..<...O.....E.S.....T..B...<
+ b1f5aad5ab6da5ef 78467c5b8bce18c5 caf1ce19493fe51b 7517df23f333634f  >..m.........[|Fx..?I....Oc3.#..u<
+ 287fe4b8dc516853 d1051ad0a249ebcb f6946cdaf23291a4 70b335174a6db9d3  >ShQ....(..I.......2..l....mJ.5.p<
+ a7b1a19de85c6487 7109a57443af945f be2b910b03675cb9 3ca1e36a5aab96de  >.d\....._..Ct..q.\g...+....Zj..<<
+ 10bd9705b3d1432b af385e2314661fbc 05aae1daf7d4aeb7 db2a785b946243c6  >+C........f.#^8..........Cb.[x*.<
+ b1299e2058625aee c9b2ab50d0a1194a d065347e2fa6c900 d3eec6395b7b1e4a  >.ZbX .).J...P....../~4e.J.{[9...<
+ 3cdbe6aef469030d 506660c4457cfe8a 6fc88aed5f6a428f 902548b621cd6354  >..i....<..|E.`fP.Bj_...oTc.!.H%.<
+ 9ab49d387e13f126 3ba807473b029ddb 04ac37dae7dd37ad 92cd45999a2fdf19  >&..~8......;G..;.7...7..../..E..<
+ 725016348f278bed f6f87974577be42a 4b9627568cc3ea69 afbb0de0c47e2e1d  >..'.4.Pr*.{Wty..i...V'.K..~.....<
+ ba080ddc56ca716f 88658dfb63ee82b5 0473c1b038def839 3930a1f2e4022a53  >oq.V.......c..e.9..8..s.S*....09<
+ e1f664e7df667f52 c9e92e0eee00d1d3 a503ba579a0a1e3b e579f0d6805cfef2  >R.f..d..........;...W.....\...y.<
+ 8ac43c60c8ee6e5b b3b455470eddc1ca 325e3be53194b910 3a3eeb934c7c6f8b  >[n..`<......GU.....1.;^2.o|L..>:<
+ 1f95df0b4b4bd139 458eb4757c7db111 5d92e62429d413d7 ae1ab52dd8ccd1e2  >9.KK......}|u..E...)$..]....-...<
+ dabad9dbab8798ed 7a46057a96bf6668 fa8d9e474e865df5 ffdfb7986b8a73cc  >........hf..z.Fz.].NG....s.k....<
+ a10c67b07d9810ca 1cc93e384d6d4f57 ac7cda092985a82b 0dca72d333346901  >...}.g..WOmM8>..+..)..|..i43.r..<
+ f78ee3b2ef3ad2cf cd81c2080b9defd3 7c24ccff6ffdc541 c2fe44636bcb326c  >..:.............A..o..$|l2.kcD..<
+ 2b9e65580e5521d4 77eb88c0a415049f b7a423f11a479d2f 022f2501eb30c632  >.!U.Xe.+.......w/.G..#..2.0..%/.<
+ 869d636c9a2d30aa 4c30a5240e2c5b3b 5bef19846da0edcf 9076960f5767bbb7  >.0-.lc..;[,.$.0L...m...[..gW..v.<
+ b7f7c3cac0b1d8dd 35f3eb8a1961c69b 9dbf3410877537cd dfbf65c0db9ad6e2  >..........a....5.7u..4.......e..<
+ 8655f58521a1b0d0 ea1ba546c915ed72 5d48c6d3a6b9a2a1 94d1efece77a02a7  >...!..U.r...F.........H]..z.....<
+ f2a5b2a056f97ded b4b404de2a980a22 0a636386cf16d07d 2acef9c97b571e56  >.}.V...."..*....}....cc.V.W{...*<
+ d47d46d4f3f4fee9 343a625008805454 3dcc731418dc44d7 a7a9a74490add335  >.....F}.TT..Pb:4.D...s.=5...D...<
+ e876422cbab9c9d7 43668ed4e944ebd5 ed9b0137b563fc31 45a4d6307ae32af8  >....,Bv...D...fC1.c.7....*.z0..E<
+ 49498515dfd274da 94eb53b2ac7230e9 e18f978e459a296a 6b1a284b4416114b  >.t....II.0r..S..j).E....K..DK(.k<
+ 6b8cbc2a705c9c03 573d34d28be2cafc 0ea5cf0bb034506d 12615ae6370a0d79  >..\p*..k.....4=WmP4.....y..7.Za.<
+ 899714bab79781ae 800ec8360a497d48 28c6c729ed285589 f168388fc73b1b8e  >........H}I.6....U(.)..(..;..8h.<
+ 25b6142a894bebba 01c9a3a6a50269c0 6eb5b0e7375b0fa8 1e2aa5fc10486e23  >..K.*..%.i........[7...n#nH...*.<
+ ea939127397abf20 e9168a56966929dd 7d1ff7419db60de0 6e94f4a31de3053d  > .z9'....)i.V.......A..}=......n<
+ e595672f1529dd1e f94a4f92f6990d85 515a0f2c0405fd50 8f58c91ef1d9666a  >..)./g.......OJ.P...,.ZQjf....X.<
+ 4bd61bf30ef38ef0 e19acee46a016c86 17dc2627c3a4bf2b e43327d0bca7c079  >.......K.l.j....+...'&..y....'3.<
+
+2024-04-18_08:02:18 	new session started at 2024-04-18_08:02:18 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-18_08:02:18 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-18_08:02:18 	ProcessCmd.Execute consoleError: No fortunes found
+
+2024-04-18_08:02:18 	ProcessCmd.Execute consoleOutput: 
+2024-04-18_08:02:18 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-18_08:02:18 	ProcessCmd.Execute consoleOutput: "I understand this is your first dead client," Sabian was saying.  The
+absurdity of the statement made me want to laugh but they don't call me
+Deadpan Allie and lie.
+		-- Pat Cadigan, "Mindplayers"
+
+2024-04-18_15:54:37 	new session started at 2024-04-18_15:54:37 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-18_15:55:12 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-18_15:55:12 	ProcessCmd.Execute consoleError: No fortunes found
+
+2024-04-18_15:55:12 	ProcessCmd.Execute consoleOutput: 
+2024-04-18_15:55:12 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-18_15:55:12 	ProcessCmd.Execute consoleOutput: I reverently believe that the maker who made us all  makes everything in New
+England, but the weather.  I don't know who makes that, but I think it must be
+raw apprentices in the weather-clerks factory who experiment and learn how, in
+New England, for board and clothes, and then are promoted to make weather for
+countries that require a good article, and will take their custom elsewhere
+if they don't get it.
+		-- Mark Twain
+
+2024-04-18_15:55:14 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-18_15:55:14 	ProcessCmd.Execute consoleOutput:  7ff12c6581f9cfb2 d8a3575eda8ef8ca 310376935b821015 7e7e32135120cbed  >....e,......^W.....[.v.1.. Q.2~~<
+ 299fdaa103308e89 cffa581675676bd0 dfa71e8139353082 386951dc92305500  >..0....).kgu.X...059.....U0..Qi8<
+ ee818c887e28b3ca 3062866ddb939e2c 799a780bb0427be2 cb4d6374b714219e  >..(~....,...m.b0.{B..x.y.!..tcM.<
+ 99a677bed186583d 39f60f701382d913 322c2fdfa88fa048 aaef72c43c676af0  >=X...w......p..9H..../,2.jg<.r..<
+ 78f053669df346b2 942d0f473811dd6c 603249d5fa60c2dd 01ab52a2d5cc1b48  >.F..fS.xl..8G.-...`..I2`H....R..<
+ a2cf9a3f9eb487c8 9962fbda42a918b8 a4fcfc1f0a8f31f8 61586dd54768022d  >....?......B..b..1......-.hG.mXa<
+ cc028c8804220868 419434beb12171ec 2515132ac6460920 e7c3deaf907ee3fe  >h."......q!..4.A .F.*..%..~.....<
+ 10a93feaf08d257a 75a72d43f8e92494 31dba136d8f6033a 2992a1cb33e0a77d  >z%...?...$..C-.u:...6..1}..3...)<
+ 9cf269ee6de14f2b 3f5f9fceb95fd06a a9aa147a2d42cfd0 8b3157961a8874cd  >+O.m.i..j._..._?..B-z....t...W1.<
+ fc845bed10f12450 90c51f178c54dde1 5e87f750d3607ef4 9b75dabf7be69d64  >P$...[....T......~`.P..^d..{..u.<
+ dd4b7cacfdc1d83b 265891c447cb3ec8 08c6b2830fee41e6 6e48fb60c25a31ef  >;....|K..>.G..X&.A.......1Z.`.Hn<
+ d9a9c6ba8b6c20b4 56d57a24dda3a556 6f0cac56b6311999 a4d9740f3c37345a  >. l.....V...$z.V..1.V..oZ47<.t..<
+ 034f7a2df7c1d892 ebbda831c6fc52b0 39fc9814b55991f7 95bdc96f1633c1c6  >....-zO..R..1.....Y....9..3.o...<
+ add809bfeac042c9 47355be014db1d36 eb1eb06c83c26d08 5ff6b585f031ec2c  >.B......6....[5G.m..l...,.1...._<
+ 53ebe7c1d3436e02 2aa8d2f5bfd81751 478f638f09120027 49f5bca7e028ba49  >.nC....SQ......*'....c.GI.(....I<
+ a51c7ad0df09babf 961874c4c154f12c 023aac9d010851ed 8fdab28319580113  >.....z..,.T..t...Q....:...X.....<
+ 4c9ec73276affb1f c44d205b7e8c4665 a7883abb08ba4d75 ac878140125f677d  >...v2..LeF.~[ M.uM...:..}g_.@...<
+ 76be4f0bfa85407d d064f4e7b0d0f63e ddd83f04b9962c0d 00017811067a3fc3  >}@...O.v>.....d..,...?...?z..x..<
+ 7384c839c248607b 76489f7ba8b879a0 a29c0f3fcff3f8ea 368921d117d7853b  >{`H.9..s.y..{.Hv....?...;....!.6<
+ 7ba2fec396baf141 2881d7cdb35f4902 e38c730d21b9bb9a 83170a18ff146d81  >A......{.I_....(...!.s...m......<
+ b83d115eb2a4cff7 07d75ba016ab2a34 b29e4648f0ca6c69 b8b36bc41b1db3fa  >....^.=.4*...[..il..HF.......k..<
+ 9972633cd2cf13c2 2352313e243be976 76b908a07d115a64 8d75f711e4b730ad  >....<cr.v.;$>1R#dZ.}...v.0....u.<
+ a6add98899492484 c272e260240a791b dae74d925e819e04 aac6bc51ba8b8ed6  >.$I......y.$`.r....^.M......Q...<
+ 3475a54b2b8dffe2 531802700c34d9f5 68bac25e7ac13736 64101371e94fa5c7  >...+K.u4..4.p..S67.z^..h..O.q..d<
+ 35bad079fddbd0a6 ee37930540846d32 99238b57c1b6c089 6766892fdba06188  >....y..52m.@..7.....W.#..a../.fg<
+ 568b0f7fbef6ae6c e2b5bb76ef7752cf c9aa5b9cff434e04 385a463e97f1647a  >l......V.Rw.v....NC..[..zd..>FZ8<
+ 62dca2b1bc43208d 2d16963cf8969080 e97d1102708ed5db 2c04ffa1875e22f5  >. C....b....<..-...p..}.."^....,<
+ 589cf5373b6785b9 68ea6747268cc701 d8128b52a1504542 75da58f739cd1227  >..g;7..X...&Gg.hBEP.R...'..9.X.u<
+ 71079bebff3e0f2f bb00bee34a811a74 30dbe21dbef5896b 0bc3575cfa156fdc  >/.>....qt..J....k......0.o..\W..<
+ 8b7df2d30b1433fb 3cacd9bfe15691b5 bf7f0a9b53f682cb 5827b8a0c94a635a  >.3....}...V....<...S....ZcJ...'X<
+ b1e3fb774d8391ef a082e73bbbf9efd5 14297cd7e7b34322 b5338d44717d503f  >...Mw.......;..."C...|).?P}qD.3.<
+ 71fd14153ddd36c7 efe4e6ad35cd1d21 25e86a88fcc3abec 0b7f29454a01a939  >.6.=...q!..5.........j.%9..JE)..<
+
+2024-04-19_01:39:43 	new session started at 2024-04-19_01:39:43 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_01:39:47 	new session started at 2024-04-19_01:39:47 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_01:39:47 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-19_01:39:47 	ProcessCmd.Execute consoleOutput:  385ba28951964678 8d4cdd7c42c3f2f7 6499191b4803df82 b2a85f39b4516eb7  >xF.Q..[8...B|.L....H...d.nQ.9_..<
+ a19d36d37c1740d9 774839e66ebc3dff 0a5d21bbc475769d 82d47c63f9bdcbe2  >.@.|.6...=.n.9Hw.vu..!].....c|..<
+ 59f024ef4392af0b 42c8ccb3b00fe831 edf429878fe6bca9 55395c1d00e08f64  >...C.$.Y1......B.....)..d....\9U<
+ 827cbb8b70cfb99f aa0446921244d438 08b10c225bd5855f e0b06d338848bbaa  >...p..|.8.D..F.._..[".....H.3m..<
+ 6e057ee941975440 0a3231ecbc0a8274 babc6d7dba7ad980 36b7c262e153e349  >@T.A.~.nt....12...z.}m..I.S.b..6<
+ 3ee8c15f56540958 f20ea4c0da88809b 3502435b3928b5eb 6a193cb63bad055f  >X.TV_..>..........(9[C.5_..;.<.j<
+ fa0e41fdd993c14d 0d60229f46b0b070 87c636deecded40c 43482cdfc581ff3b  >M....A..p..F."`......6..;....,HC<
+ bfe683206e0ec634 618a9fd24900b789 cce0caea3e353b43 ca0cd25308ca66e9  >4..n ......I...aC;5>.....f..S...<
+ d4e6994626553ea6 098376618b782ce0 9489fc676cafe16c 20059aeb7add4f8e  >.>U&F....,x.av..l..lg....O.z... <
+ 798ca68011a73683 888f373ed8cd40ae 23d596db1c3c58df 316e5a07479fe535  >.6.....y.@..>7...X<....#5..G.Zn1<
+ 44aae47cd1ff49ec 0658ffd900e4113b 26b9d46074ce6e0e d4402dc0c6f5083d  >.I..|..D;.....X..n.t`..&=....-@.<
+ 5e735c8ce1ebabf6 cb35f4b8460c238c b0348235044f491a fc07774a8b8703e1  >.....\s^.#.F..5..IO.5.4.....Jw..<
+ 4a6c480097e36cf1 263eb3cafc0bcc3a 8b57456eccb86110 34db1fd820fc839f  >.l...HlJ:.....>&.a..nEW.... ...4<
+ e3faa67b5ec7446b 4f85129f05cd50d4 ad0feffdf4f8b56e 7dd7e5bcd30ca783  >kD.^{....P.....On..............}<
+ 1918857e46923bf3 169d9da5f654944a c31483e6385c4451 7d7771f7f83f02ff  >.;.F~...J.T.....QD\8......?..qw}<
+ 412a9efe88781735 7413281372927a28 acd2b13bfe5e08b0 157b7b0ca8fe32dd  >5.x...*A(z.r.(.t..^.;....2...{{.<
+ b14292fd87ee79b5 cd4a32a4623474c1 bbcd2d45e193c8f6 7d8d6e20836f7896  >.y....B..t4b.2J.....E-...xo. n.}<
+ e6268925e0778009 1f90cbf9e54c92cb 664af12c9dfc1841 a1a893eea87dbba9  >..w.%.&...L.....A...,.Jf..}.....<
+ ac095306ee48ac25 bcb2c4ce9f991001 2cb5fa5c5d65b5f3 c812c905dad8b7d1  >%.H..S............e]\..,........<
+ 932195f200fcea4a 8b0ad39016443e07 1aa100ac6ac23009 59deac5b8d8ca0e2  >J.....!..>D......0.j........[..Y<
+ a254750ca761864a 89abf3997df7b987 847ac6d69d6692f9 3d69c30ff516578e  >J.a..uT....}......f...z..W....i=<
+ 447b13deb4d9957a 37a618d83b931252 2baffd7e6a479e33 1cc86ff148132c5a  >z.....{DR..;...73.Gj~..+Z,.H.o..<
+ 6eb80f08031ab3e4 374692cb7c455d80 5b2208de62ec7bde 084ae21dc6dcc39b  >.......n.]E|..F7.{.b.."[......J.<
+ ed8dfeb4ca46dbba f1b1d14046bf68b3 997499f1cb7175a0 0e2927d4c4ae071f  >..F......h.F@....uq...t......').<
+ 62e969349beaa1d0 cdf1e7e001814a54 0e52c0818803d401 11a4b1f9bb1dc0e2  >....4i.bTJ............R.........<
+ 612cd0680cebb37e f3cc131210000138 9730eadbf76144a4 f20b7c2ba4f3f495  >~...h.,a8........Da...0.....+|..<
+ f527d34509b81b2c dc418fbe1c02e8b7 b8ded5bfad7f46a9 6cc8a0f24bf584d9  >,...E.'.......A..F.........K...l<
+ d934d79fdffd5cb6 981fde0c5edbd7c1 5c1374da0a358b38 f06d7210be1a15f6  >.\....4....^....8.5..t.\.....rm.<
+ ae590b207df1dcee 50a4f53226f49a57 30c8a56f7d4e728c dbfeab64a730925f  >...} .Y.W..&2..P.rN}o..0_.0.d...<
+ fd213028e0d0661e 0e8c573c109a09d2 c95a35f4420bdfe3 6f80e331fe0d39f1  >.f..(0!.....<W.....B.5Z..9..1..o<
+ 94ff754aec3c3434 d586d7ef4b9c2f68 f8dce8a013b219b1 b9ea9737aa76ec5d  >44<.Ju..h/.K............].v.7...<
+ 89ccfdae4e4caf93 408bc18c603e72b7 4e4b42ff9d6dcdbe 1ad3b5f2ee667a68  >..LN.....r>`...@..m..BKNhzf.....<
+
+2024-04-19_01:39:50 	new session started at 2024-04-19_01:39:50 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_01:39:54 	new session started at 2024-04-19_01:39:54 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_01:39:58 	new session started at 2024-04-19_01:39:58 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_01:40:03 	new session started at 2024-04-19_01:40:03 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_01:40:07 	new session started at 2024-04-19_01:40:07 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_01:40:13 	new session started at 2024-04-19_01:40:13 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_01:40:15 	new session started at 2024-04-19_01:40:15 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_01:41:43 	new session started at 2024-04-19_01:41:43 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_01:41:47 	new session started at 2024-04-19_01:41:47 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_01:41:51 	new session started at 2024-04-19_01:41:51 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:13:24 	new session started at 2024-04-19_04:13:24 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:13:55 	new session started at 2024-04-19_04:13:55 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:13:55 	new session started at 2024-04-19_04:13:55 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:13:57 	new session started at 2024-04-19_04:13:57 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:13:57 	new session started at 2024-04-19_04:13:57 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:14:12 	new session started at 2024-04-19_04:14:12 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:14:12 	new session started at 2024-04-19_04:14:12 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:14:12 	new session started at 2024-04-19_04:14:12 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:14:12 	new session started at 2024-04-19_04:14:12 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:14:28 	new session started at 2024-04-19_04:14:28 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:14:28 	new session started at 2024-04-19_04:14:28 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:14:29 	new session started at 2024-04-19_04:14:29 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:14:29 	new session started at 2024-04-19_04:14:29 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:14:46 	new session started at 2024-04-19_04:14:46 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:14:46 	new session started at 2024-04-19_04:14:46 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:15:00 	new session started at 2024-04-19_04:15:00 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:15:00 	new session started at 2024-04-19_04:15:00 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:15:03 	new session started at 2024-04-19_04:15:03 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:15:03 	new session started at 2024-04-19_04:15:03 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:15:34 	new session started at 2024-04-19_04:15:34 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:15:34 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-19_04:15:34 	ProcessCmd.Execute consoleError: No fortunes found
+
+2024-04-19_04:15:34 	ProcessCmd.Execute consoleOutput: 
+2024-04-19_04:15:34 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-19_04:15:34 	ProcessCmd.Execute consoleOutput: The Least Successful Collector
+	Betsy Baker played a central role in the history of collecting.  She
+was employed as a servant in the house of John Warburton (1682-1759) who had
+amassed a fine collection of 58 first edition plays, including most of the
+works of Shakespeare.
+	One day Warburton returned home to find 55 of them charred beyond
+legibility.  Betsy had either burned them or used them as pie bottoms.  The
+remaining three folios are now in the British Museum.
+	The only comparable literary figure was the maid who in 1835 burned
+the manuscript of the first volume of Thomas Carlyle's "The Hisory of the
+French Revolution", thinking it was wastepaper.
+		-- Stephen Pile, "The Book of Heroic Failures"
+
+2024-04-19_04:15:34 	new session started at 2024-04-19_04:15:34 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:15:34 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-19_04:15:34 	ProcessCmd.Execute consoleError: No fortunes found
+
+2024-04-19_04:15:34 	ProcessCmd.Execute consoleOutput: 
+2024-04-19_04:15:34 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-19_04:15:34 	ProcessCmd.Execute consoleOutput: "I wonder", he said to himself, "what's in a book while it's closed.  Oh, I
+know it's full of letters printed on paper, but all the same, something must
+be happening, because as soon as I open it, there's a whole story with people
+I don't know yet and all kinds of adventures and battles."
+		-- Bastian B. Bux
+
+2024-04-19_04:15:37 	new session started at 2024-04-19_04:15:37 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:15:37 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-19_04:15:37 	ProcessCmd.Execute consoleOutput:  8da9100d86d3185a 0a726584afac6300 6a2f448a4608232e 8a685486b3375f2f  >Z........c...er..#.F.D/j/_7..Th.<
+ 01d7a9fa43c125c0 2a3686c36e260348 29f27ec379986fff a0526d2d7c18b81b  >.%.C....H.&n..6*.o.y.~.)...|-mR.<
+ faa4deadf225d118 9b011cf83720493f aadaaf7dd3ff55fc 131da97c74b78366  >..%.....?I 7.....U..}...f..t|...<
+ 87a3827863b0bb4e d15ebb7b88336a3a 9ca74b81db110591 18740d42836e98d0  >N..cx...:j3.{.^......K....n.B.t.<
+ 8adf357856d09318 c24fd9eeeea74cc8 9665806559bf5d00 04b80c38da31ccef  >...Vx5...L....O..].Ye.e...1.8...<
+ ab5de0081b250fca 94e1cdd26e60246f dd9f632019e44444 547c248aac0879ef  >..%...].o$`n....DD.. c...y...$|T<
+ f9af1bd222c2f299 1d10871ac5aa7500 fb024993ce083b8e abbe5c2443bbf1a2  >...".....u.......;...I.....C$\..<
+ 5a30bcf12f8e4e22 c9eb29789e1cafe0 71d356a5849612f8 0e50c728aa5722be  >"N./..0Z....x).......V.q."W.(.P.<
+ 46e23200fb2eb4d9 2cbea0853779ab90 28ccee3b94a0f22a 5a252659731caaa7  >.....2.F..y7...,*...;..(...sY&%Z<
+ 60895932f88bf6a5 21869d894bb97272 14efd08d5cc20bce 0d9a94b86a04450a  >....2Y.`rr.K...!...\.....E.j....<
+ 62f396a5e9f9c0e2 ec8f562c9f109647 63c32dd5675aeb50 98488964accb8c42  >.......bG...,V..P.Zg.-.cB...d.H.<
+ 58c1fbe84791c6c0 d2b4c547d6d098a7 9f5c9dd431e4628b 97d34f99acdebfdd  >...G...X....G....b.1..\......O..<
+ 517b678959c8bae5 fdeefb54dbd025a7 0cbd336a0c76c7d5 9ad7f05dd8dd064b  >...Y.g{Q.%..T.....v.j3..K...]...<
+ 6c28f7353edb57f5 e739c25c3a6ddbad b000d311f8257ca6 f04d061ee1d97dc5  >.W.>5.(l..m:\.9..|%......}....M.<
+ 7aec2fa2cb2387e5 455dc744b0cc449b 332aaacf384416e0 01cc3ea7509cf38f  >..#../.z.D..D.]E..D8..*3...P.>..<
+ 434a836169750049 5b3144e665944463 8277a876e072f531 5d13344249513776  >I.uia.JCcD.e.D1[1.r.v.w.v7QIB4.]<
+ e49ac76787ffc7e4 35fa7a242fb3d363 877646b230ce8e2d 8c8769801e10f0d6  >....g...c../$z.5-..0.Fv......i..<
+ 8a2957617643c49e 2d2d70bbe777b0e5 48959f81c573bc85 dbe580118de82fff  >..CvaW)...w..p--..s....H./......<
+ 1358b242180336b3 8ad3b93d34367c48 f9442f2716360edd 712e17d26ecb5dd1  >.6..B.X.H|64=.....6.'/D..].n...q<
+ 2f68af63e94e4a9d a0dedfbe5c55bdd6 b983cc3ff64e7ec2 0cd37010de58a163  >.JN.c.h/..U\.....~N.?...c.X..p..<
+ dbd90159aa7926c2 682d91cfd65de8e1 845a92fb9775177b ce30dd850d7abacd  >.&y.Y.....]...-h{.u...Z...z...0.<
+ b2d327b8d63bc9be ec788c0bbc838eac 2c78fdd0a9e9a1e4 0de30a05a55101c1  >..;..'........x.......x,..Q.....<
+ e4976b0320e32204 1d7249f1a62f20f9 56cffce4f13fd5d9 55311cc15925c263  >.". .k... /..Ir...?....Vc.%Y..1U<
+ e68dab77c86c8ab7 0290d0e443cc4282 e082f64bf46d8569 a66e9da6da69c8a7  >..l.w....B.C....i.m.K.....i...n.<
+ 1e8eec4851bb76e9 4539681c4fff482f f3643e87b34e9541 a98153085963854c  >.v.QH.../H.O.h9EA.N..>d.L.cY.S..<
+ 0ed8fd82088a046d 46f2aac607d49fa7 7d800f6821a4c4e2 0a71b705ba7ecda1  >m..............F...!h..}..~...q.<
+ ee785196c2a35b77 8842f0fa70603876 4c836bbf0d009be2 f1eb1273e5f0deaf  >w[...Qx.v8`p..B......k.L....s...<
+ ef92cef9c14edb65 b875d4d87e600dda 97cf9080f8ea4bb9 de0c379d261fab88  >e.N.......`~..u..K.........&.7..<
+ 582f425a3882f92f c83973f7db4a6e25 f8c2b26f77b99f42 32d2dee3c0b49ade  >/..8ZB/X%nJ..s9.B..wo..........2<
+ 4da1e48306760f44 a4267d2cc37becd1 05d0b1a457729265 688b6a30cfdd425a  >D.v....M..{.,}&.e.rW....ZB..0j.h<
+ daa7f4634d65b68e bd499282c6b0111f 1381443205af82ef 75952e0be686641c  >..eMc.........I.....2D...d.....u<
+ b71dcbd72b195670 c1b3d4a718d8eee5 d46fdaebbb586651 bfcc9cddcf5525b5  >pV.+............QfX...o..%U.....<
+
+2024-04-19_04:15:37 	new session started at 2024-04-19_04:15:37 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:15:37 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-19_04:15:37 	ProcessCmd.Execute consoleOutput:  99ff77fa433a1716 a041e8764a087190 af9b4c45ad593658 9656778cfb4bf6f4  >..:C.w...q.Jv.A.X6Y.EL....K..wV.<
+ 7b7d5a93a14b200e 2cebe37ddc3bb54b fdb5c582e28accc2 c0ccfa1e1743d379  >. K..Z}{K.;.}..,........y.C.....<
+ b16147032fc42cb7 a038b4b8c22fd2d2 fbee176f245c9b68 1045d52552628a42  >.,./.Ga.../...8.h.\$o...B.bR%.E.<
+ 35ebc44d04c1d609 a72322beae50f4c3 b055e65a93971a2c 2f0e991bb7e49b97  >....M..5..P.."#.,...Z.U......../<
+ d720f4569ec7dd09 078419488f0719c6 84c1cbc393f750ad 30843f4ede8e2c04  >....V. .....H....P.......,..N?.0<
+ b0d2de83b86a3bfb a194bc0bcccb8bd4 dde10f723d02d45f 7bff222e21ccd893  >.;j............._..=r......!.".{<
+ 3dd92ba1740aac4a 84e99646cd3909ac e0c4ea0bc2838d22 9999907fd6a6e12c  >J..t.+.=..9.F...".......,.......<
+ 5928fbe866af207b 6ca29c2cb0777995 6d3935379349ad34 efd8b4c49f4eb379  >{ .f..(Y.yw.,..l4.I.759my.N.....<
+ 8c181a70f328a7d9 7b3dee76caa07b0e f43be13b7d6e4959 94df4381379d7b30  >..(.p....{..v.={YIn};.;.0{.7.C..<
+ 4583c1070e770bac c9fd3ffd94bd96e3 959a2a039300caf1 17d8ab62781c8add  >..w....E.....?.......*.....xb...<
+ ddca6dbd223b01e7 cb57d170466d8d93 a36dd2e1185aaf9c e395dfe876866203  >..;".m....mFp.W...Z...m..b.v....<
+ 5b42b9182e73c921 cdbbe9c6ff3c3c33 4aeebb9c64f80520 9f2445d85eb3d946  >!.s...B[3<<..... ..d...JF..^.E$.<
+ 5793a95e2db039d3 34fee8307b757460 3cc654dc2b304975 108e99e824db2104  >.9.-^..W`tu{0..4uI0+.T.<.!.$....<
+ 642107a2f9b2b470 d2744accd83d724b 7b635baf4d969ad0 5b9b6d25728316fb  >p.....!dKr=..Jt....M.[c{...r%m.[<
+ b3629143bb6d775d c57659d4ec75c22c 727c2de5b168267b 49e6f1b29fb92eec  >]wm.C.b.,.u..Yv.{&h..-|r.......I<
+ fe24801f05ad0068 35f41a41ad320d67 2f04dc72a69aa662 2c217c3a2d8becba  >h.....$.g.2.A..5b...r../...-:|!,<
+ a77bd6940f10e1ce f6909875cf0fb629 632cf738f9356d9f 2cdd5e1425cc56f7  >......{.)...u....m5.8.,c.V.%.^.,<
+ bb34115a07d4111e 973386e6f239f790 f39215023e854dfc c0357e4dcee2400c  >....Z.4...9...3..M.>.....@..M~5.<
+ c388cb1073a49fa2 67fd24302dc8a903 fa24ee5bb590bcf3 0e6bfa426e02c632  >...s.......-0$.g....[.$.2..nB.k.<
+ 07d731df5206c72f 44651231772895c4 4645193da30e22b4 d1a5f4f1a91f301c  >/..R.1....(w1.eD."..=.EF.0......<
+ 5fda660edbade938 aa02ea999d85b158 759be65f8101794e 45c78cfaf3d9eea4  >8....f._X.......Ny.._..u.......E<
+ 7ce384ee6244ba97 99fc84ca374e5603 2e0f38b70e194bbd a990e820d1784768  >..Db...|.VN7.....K...8..hGx. ...<
+ 64d86f3c383ec0c4 960e5dcc93369e00 381dad709729ab35 0c70d00a9b7589e4  >..>8<o.d..6..]..5.).p..8..u...p.<
+ c3b60032a529a5ff e7d343456b35a591 173b838532d3501f f197aee9d351af00  >..).2.....5kEC...P.2..;...Q.....<
+ 61bce4c9cb79f50d b39f4402980582ab d2ac71e7da8c1bbd ff8b8add0f7225cf  >..y....a.....D.......q...%r.....<
+ 4a925aca31518356 1603d1f268310b4b f34f68cc247b112d b4fde110917b5285  >V.Q1.Z.JK.1h....-.{$.hO..R{.....<
+ f2327164997af556 8a9243e30ba740da dd9be260cde1bd54 b60cba057e6423ee  >V.z.dq2..@...C..T...`....#d~....<
+ 6035810420bf33dc 855dbeed133a921a 39121d104fd3806f 1b11f34e9daff1f5  >.3. ..5`..:...].o..O...9....N...<
+ c9da35718513aab7 8646841d3868b222 671eb02ac5947ea1 a93cec272492c6f7  >....q5..".h8..F..~..*..g...$'.<.<
+ 820208213b84bbd4 9d99fca524440ff1 778eaa7142813a1f 45cd5c3e2b35991a  >...;!.....D$.....:.Bq..w..5+>\.E<
+ bc14e729ff3795b2 3f1a025efd256d95 89ffe1473f80a758 41a42611350c8201  >..7.)....m%.^..?X..?G......5.&.A<
+ 48e6daa9b7d26b74 ced2ab07c6dbc0ee 910775f5eae14912 7326af1ca89b7c3f  >tk.....H.........I...u..?|....&s<
+
+2024-04-19_04:15:52 	new session started at 2024-04-19_04:15:52 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_04:15:52 	new session started at 2024-04-19_04:15:52 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_06:23:27 	new session started at 2024-04-19_06:23:27 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_14:52:16 	new session started at 2024-04-19_14:52:16 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_14:52:24 	new session started at 2024-04-19_14:52:24 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-19_21:29:00 	new session started at 2024-04-19_21:29:00 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-20_12:44:05 	new session started at 2024-04-20_12:44:05 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-20_12:44:05 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-20_12:44:05 	ProcessCmd.Execute consoleOutput:  d2f638ee07b732a9 5c59ffeb673ba17f 65519067767069df 398c32b6a118fa5f  >.2...8....;g..Y\.ipvg.Qe_....2.9<
+ cbd97eb4a537c52d 811a206ce9925bae 8c3129bfb71dd583 10f02cbba5d93162  >-.7..~...[..l .......)1.b1...,..<
+ bbdc87ec54a3a5e7 c9846b5bb3051b11 2ee9d8caa62af853 098e87c06a0d54b5  >...T........[k..S.*......T.j....<
+ bc34a82891647470 01014b63f4c53e49 e0bd37c6816a8c23 efb1671f8d026c0e  >ptd.(.4.I>..cK..#.j..7...l...g..<
+ d5b51f73933f284e ae20496704f23a42 af92ef8a1785c412 c73f4ba6b2cb8bec  >N(?.s...B:..gI ..............K?.<
+ 6e1dcbd64465b264 63f832ae3104f794 74db9397b1a57029 c6652d193f2cffa7  >d.eD...n...1.2.c)p.....t..,?.-e.<
+ 6552c093e5ed5236 63fc49d80672bbfa e1a3a67f97511e58 1a7ba48e90e27658  >6R....Re..r..I.cX.Q.....Xv....{.<
+ 1ae7280e553eea0c 5d4323b536707c4c dc1d19d7f7e67279 8930fa6644622d00  >..>U.(..L|p6.#C]yr.......-bDf.0.<
+ 8a925085f49cc9fa 1aeb917f6cba9cea 35d298c6d8342af6 cfaa9858c95eeeae  >.....P.....l.....*4....5..^.X...<
+ 524c1fb22466964a 0866e09b60895ca5 c31dec2ea3736281 dde68f964c6288cd  >J.f$..LR.\.`..f..bs.......bL....<
+ ef3ce744aebc60fe 6354b1b3da395ec4 a8d31aa7379a3266 743e917509cdbbec  >.`..D.<..^9...Tcf2.7........u.>t<
+ 473978055b972be1 98b5af960f254b0d 161a6838b6c05521 f16972151022e575  >.+.[.x9G.K%.....!U..8h..u."..ri.<
+ be0c38d30e2141ef 1b81b64f995c92e8 724452bacb9ce97f c0ae7462a0e52e16  >.A!..8....\.O........RDr....bt..<
+ d6cb1b52a751850f 33d3dc02899cd140 ae83fc203d4aaacf 5ffa41a8b9c97cda  >..Q.R...@......3..J= ....|...A._<
+ 4ea75d66bab69efd b4d934d800d645bd 87be1cb6127d103f 58a1889b42df1846  >....f].N.E...4..?.}.....F..B...X<
+ 3a2c752eb3ea26c7 ecf647f26f66fe80 68285229a6b62186 25641114fd3971da  >.&...u,:..fo.G...!..)R(h.q9...d%<
+ 79f754232f2d9363 0975844e1f57e2a4 fbb52877f46f7734 06ab4ed3cd89254c  >c.-/#T.y..W.N.u.4wo.w(..L%...N..<
+ 3f097e7a309075b9 9abca8bf1214394f 3a4cb7716c9ea287 5bcf6d9b6e233103  >.u.0z~.?O9.........lq.L:.1#n.m.[<
+ da5c3b91ca4f38aa f5991c0766cd844f b91e9820c39eff12 dde824b4f7d49b94  >.8O..;\.O..f........ ........$..<
+ b5c4e63a8ba87e4c 33dd3dddaf167c20 b350ecdaeee81db7 7326d2c7af982c0b  >L~..:... |...=.3......P..,....&s<
+ ee77b66d9103b6d3 2ea83c0f192cfa45 5442f578ad4a0980 95eb2766c2391955  >....m.w.E.,..<....J.x.BTU.9.f'..<
+ a1399e38c312da60 d58f5567c381e020 74c391cb9fedaa2f bbe183d1855f0cc2  >`...8.9. ...gU../......t.._.....<
+ a39f2e7eb5372b66 6d8be5b5d94f2ba9 03c31eb36e962f31 bb71725532a46622  >f+7.~....+O....m1/.n...."f.2Urq.<
+ 9d80e1d0d3efb75a 6f640add15c74fe0 1f0471f789050825 64cb91a4db8191f0  >Z........O....do%....q.........d<
+ 17e3dcbbb16465c9 8e3336ddf0dcafa8 4537714725878c00 23b9646a60ffba00  >.ed..........63....%Gq7E...`jd.#<
+ 0b6f2bad64226f5a 0183f1a50db2e58e eafb2bf946c4c976 ca0573c7720dcc5b  >Zo"d.+o.........v..F.+..[..r.s..<
+ 369fc2ee859b54a0 e53fbb2904615ef8 62d2ffe9d2c16803 d093ada81a233b44  >.T.....6.^a.).?..h.....bD;#.....<
+ 3095c432020d86d2 bc8bb716addb3277 db66d657328bcccd d9faa0877857be9b  >....2..0w2.........2W.f...Wx....<
+ 360fb693fc7ed794 7053b12864270594 1ac160ff01c4eebc 6a5c55575132a7a2  >..~....6..'d(.Sp.....`....2QWU\j<
+ 8e8fc497bbb10d39 e4ca3405bc13ce01 715fdc71912107d4 dd4a175ba69aa3c5  >9............4....!.q._q....[.J.<
+ 37dbdf538a93833f a745c09336a71cb1 69683543739aa96a e4c29e84ae868df7  >?...S..7...6..E.j..sC5hi........<
+ 3a069022fd0720ad 302ef54ef15ce959 31af79bd365a3070 8a2d328a94e0b0e3  >. .."..:Y.\.N..0p0Z6.y.1.....2-.<
+
+2024-04-20_13:52:54 	new session started at 2024-04-20_13:52:54 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-20_13:52:57 	new session started at 2024-04-20_13:52:57 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-20_14:31:32 	new session started at 2024-04-20_14:31:32 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-20_14:53:26 	new session started at 2024-04-20_14:53:26 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-20_15:39:51 	new session started at 2024-04-20_15:39:51 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-20_16:11:41 	new session started at 2024-04-20_16:11:41 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-20_17:20:18 	new session started at 2024-04-20_17:20:18 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-20_17:28:27 	new session started at 2024-04-20_17:28:27 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-20_18:56:44 	new session started at 2024-04-20_18:56:44 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-20_19:40:13 	new session started at 2024-04-20_19:40:13 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-20_20:35:09 	new session started at 2024-04-20_20:35:09 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-20_20:35:11 	new session started at 2024-04-20_20:35:11 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_05:22:02 	new session started at 2024-04-21_05:22:02 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_05:22:02 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-21_05:22:02 	ProcessCmd.Execute consoleOutput:  86c72cdb77c9038d 2bafb0c547cd0bc4 2fb2510ff6a1fcb3 549624e6f19d2fd6  >...w.,.....G...+.....Q././...$.T<
+ b7779f5c0dd79dcf 274df294ff6788d9 9d33cba4bcadd2ca 3a3500f837f3c167  >....\.w...g...M'......3.g..7..5:<
+ 7d6774165cd89505 575829326813c0d9 d6cc9ace2af09924 8b378ca02bb7333c  >...\.tg}...h2)XW$..*....<3.+..7.<
+ e37829007bdf7c2f 0956afba935c45a4 7f66680b869dca81 bcae0430484c359e  >/|.{.)x..E\...V......hf..5LH0...<
+ f486dcd3c4bc7570 29c12159f14d6596 51301bc8d6424291 bfa6385661d224e4  >pu.......eM.Y!.).BB...0Q.$.aV8..<
+ b11de6d355c1f118 a75fe992dc1dcf22 e9a2a37185a6a58e f994789441c934b7  >...U...."....._.....q....4.A.x..<
+ 40437965eba1781b 00b3ad3d88f33080 bdf1c95371b12c47 98eb1cf77259e431  >.x..eyC@.0..=...G,.qS...1.Yr....<
+ 3103db005448c917 a5c46536a3c7f74d 02899b09c5ccd53f 02912f42295cb581  >..HT...1M...6e..?.........\)B/..<
+ 4aa530223cddc0bd f4d545279a504340 ceef5b74b2034dc2 e66ddd33011cab23  >...<"0.J@CP.'E...M..t[..#...3.m.<
+ ffc1486abf2f6f90 1dbd83550472aae6 c155acd069bf2b1c 9e28c383d1a6f52d  >.o/.jH....r.U....+.i..U.-.....(.<
+ e149498a183ed510 3cdd52919dee7ad0 4fbeda52303bf07a cc2c08dd81b1c4a8  >..>..II..z...R.<z.;0R..O......,.<
+ be44564053e02f60 1cda6b4cb55a4f0d 66d0972f947bc9f5 fd7029f2e9cf2d45  >`/.S@VD..OZ.Lk....{./..fE-...)p.<
+ b61ead19c22d0f69 aa5ab5d0bff47545 5567a6a04a67e330 896a9fb80e2a8b5d  >i.-.....Eu....Z.0.gJ..gU].*...j.<
+ 0c4f2ebb2c713e71 650aed2249868f91 aef8dd8b7015acf0 bf0cea438b7d57ca  >q>q,..O....I"..e...p.....W}.C...<
+ 7c4fe9428d4e6c2b 776244074d7ee066 9ea5f90395c63080 6d0a85a7e5dcf656  >+lN.B.O|f.~M.Dbw.0......V......m<
+ de641b29873e88fd 73b39fa6c5b4f074 733dbcedc8bf7ece a390f1efb6e75e00  >..>.).d.t......s.~....=s.^......<
+ ddcfbca44e74f39e 8a73aff81bf429ae ef7bc1074877dda1 75a99a84a3fa7855  >..tN.....)....s...wH..{.Ux.....u<
+ 3d100de9a99be098 d89bdca58ffb1fe0 7573cae581ffee70 c410af6a13b5c981  >.......=........p.....su....j...<
+ dcba4331a9d74776 4a8edff7c9d56c9c 92142cf92fbbf282 c19eba6eb5587bc5  >vG..1C...l.....J.../.,...{X.n...<
+ b5571cdb7bb45cc1 901468ed7bd542b5 77a33a2d8d428b5e 147f3f1685b9780d  >.\.{..W..B.{.h..^.B.-:.w.x...?..<
+ fe5cd6daaba984dc 7cb33cf2b3195380 a14e5aef8f894766 3cf6518614dd03ec  >......\..S...<.|fG...ZN......Q.<<
+ 63bb1e2b5be7bc59 17abc69575cb0a1e 24a97a077d8c8741 0e9d5d0d2bef3a97  >Y..[+..c...u....A..}.z.$.:.+.]..<
+ 21e314f25bf50dd3 ddb403b9d6776a3e 1026977116b2db21 a9f582b81b118035  >...[...!>jw.....!...q.&.5.......<
+ bada72f2df14a05a 9c0ead11d3fe6248 ecd071e475d36e0a 5411f14113106d1c  >Z....r..Hb.......n.u.q...m..A..T<
+ 9653d90e79fd9211 51c4d72f7d342ec9 d8fd8f9a26a97bc6 c47823c1b08bec49  >...y..S...4}/..Q.{.&....I....#x.<
+ 53acb77347ffc78d df206b17f46205f2 195e42506fe4fe49 307b5b002b99aca5  >...Gs..S..b..k .I..oPB^....+.[{0<
+ c13fdc912ff0386e 2797ac75302e180c ed2d42e6a798dc76 20cbf5ea2c2432f8  >n8./..?....0u..'v....B-..2$,... <
+ a3f1014dfeb03cb2 2b3320f17bc9792c 3fe68a8a775bc8a1 99dcd80cfb4f0cd9  >.<..M...,y.{. 3+..[w...?..O.....<
+ a9a76852b5760027 2dc363d7b9c15d27 1f4a3354e2871794 c6656a3608ceaf0a  >'.v.Rh..']...c.-....T3J.....6je.<
+ 8c1771aa038936d3 6030dd569efb724d 02c20c08e64b851e 0619fc918e27ac57  >.6...q..Mr..V.0`..K.....W.'.....<
+ a5b90f279f53e120 2ee333bb5b070471 f74826096f5970aa a45e4996b9490f54  > .S.'...q..[.3...pYo.&H.T.I..I^.<
+ 0044c315263c8ea6 2d086de368194499 92389f95ec61ffce ea26e79d1c713368  >..<&..D..D.h.m.-..a...8.h3q...&.<
+
+2024-04-21_17:18:35 	new session started at 2024-04-21_17:18:35 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:08 	new session started at 2024-04-21_17:19:08 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:08 	new session started at 2024-04-21_17:19:08 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:09 	new session started at 2024-04-21_17:19:09 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:24 	new session started at 2024-04-21_17:19:24 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:24 	new session started at 2024-04-21_17:19:24 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:25 	new session started at 2024-04-21_17:19:25 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:25 	new session started at 2024-04-21_17:19:25 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:40 	new session started at 2024-04-21_17:19:40 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:40 	new session started at 2024-04-21_17:19:40 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:41 	new session started at 2024-04-21_17:19:41 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:41 	new session started at 2024-04-21_17:19:41 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:56 	new session started at 2024-04-21_17:19:56 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:56 	new session started at 2024-04-21_17:19:56 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:56 	new session started at 2024-04-21_17:19:56 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:19:56 	new session started at 2024-04-21_17:19:56 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:20:14 	new session started at 2024-04-21_17:20:14 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:20:15 	new session started at 2024-04-21_17:20:15 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:20:29 	new session started at 2024-04-21_17:20:29 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:20:30 	new session started at 2024-04-21_17:20:30 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:20:31 	new session started at 2024-04-21_17:20:31 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:20:32 	new session started at 2024-04-21_17:20:32 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:21:07 	new session started at 2024-04-21_17:21:07 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:21:07 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-21_17:21:07 	ProcessCmd.Execute consoleError: No fortunes found
+
+2024-04-21_17:21:07 	ProcessCmd.Execute consoleOutput: 
+2024-04-21_17:21:07 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-21_17:21:07 	ProcessCmd.Execute consoleOutput: "Speak, thou vast and venerable head," muttered Ahab, "which, though
+ungarnished with a beard, yet here and there lookest hoary with mosses; speak,
+mighty head, and tell us the secret thing that is in thee.  Of all divers,
+thou has dived the deepest.  That head upon which the upper sun now gleams has
+moved amid the world's foundations.  Where unrecorded names and navies rust,
+and untold hopes and anchors rot; where in her murderous hold this frigate
+earth is ballasted with bones of millions of the drowned; there, in that awful
+water-land, there was thy most familiar home.  Thou hast been where bell or
+diver never went; has slept by many a sailer's side, where sleepless mothers
+would give their lives to lay them down.  Thou saw'st the locked lovers when
+leaping from their flaming ship; heart to heart they sank beneath the exulting
+wave; true to each other, when heaven seemed false to them.  Thou saw'st the
+murdered mate when tossed by pirates from the midnight deck; for hours he fell
+into the deeper midnight of the insatiate maw; and his murderers still sailed
+on unharmed -- while swift lightnings shivered the neighboring ship that would
+have borne a righteous husband to outstretched, longing arms.  O head! thou has
+seen enough to split the planets and make an infidel of Abraham, and not one
+syllable is thine!"
+		-- H. Melville, "Moby Dick"
+
+2024-04-21_17:21:07 	new session started at 2024-04-21_17:21:07 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:21:07 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args = -o -s  , useShellExecute = False) called ...
+2024-04-21_17:21:07 	ProcessCmd.Execute consoleError: No fortunes found
+
+2024-04-21_17:21:07 	ProcessCmd.Execute consoleOutput: 
+2024-04-21_17:21:07 	ProcessCmd.Execute(filepath = $/usr/games/fortune, args =  -a -l , useShellExecute = False) called ...
+2024-04-21_17:21:07 	ProcessCmd.Execute consoleOutput: Q:	How many hardware engineers does it take to change a light bulb?
+A:	None.  We'll fix it in software.
+
+Q:	How many system programmers does it take to change a light bulb?
+A:	None.  The application can work around it.
+
+Q:	How many software engineers does it take to change a light bulb?
+A:	None.  We'll document it in the manual.
+
+Q:	How many tech writers does it take to change a light bulb?
+A:	None.  The user can figure it out.
+
+2024-04-21_17:21:22 	new session started at 2024-04-21_17:21:22 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:21:22 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-21_17:21:22 	ProcessCmd.Execute consoleOutput:  0088addd0394e945 867159fcc3e87b75 6e208ba3cd8f68e3 2592c6cb0cb15ef4  >E.......u{...Yq..h.... n.^.....%<
+ 86c13dfd16228093 ecdf26a809b13259 f7703bd5b116a6a4 37c97371e4df5c41  >.."..=..Y2...&.......;p.A\..qs.7<
+ b76ec988f0152978 ae846f009e59c51a 8708b498a4695ff6 83a4cd1f1c0fa227  >x)....n...Y..o..._i.....'.......<
+ 82aea0bd04584e5c 679f05bf40eb154f bd967af4e605edf2 f2bc9444dc3b7703  >\NX.....O..@...g.....z...w;.D...<
+ 333b8037fa1166b5 b39542abfff8b931 a3a9dcc63323f09c 4aed6bc0b12439d9  >.f..7.;31....B....#3.....9$..k.J<
+ 916fcf260908cf65 71339341241974b6 4358aadee7a468bb 7185a33315471d5e  >e...&.o..t.$A.3q.h....XC^.G.3..q<
+ 647989c879d000c2 6a5a27effe4ca4e9 5e76f8f36dde69c2 9271dd0133feab1d  >...y..yd..L..'Zj.i.m..v^...3..q.<
+ ec3ada6b51158a08 4caa4b446cb12243 1820f7061e6a6605 5f5a197daaefd99b  >...Qk.:.C".lDK.L.fj... .....}.Z_<
+ 5ae4e6d256943fb1 fa387dd0c893dff4 0f5f985af8d1a301 f27cc4f73dac07ae  >.?.V...Z.....}8.....Z._....=..|.<
+ f9532bcc899cf9e3 608fc2b7e5b1455f b57b6e27eae57fe8 1734e9ae6a1d71d6  >.....+S._E.....`....'n{..q.j..4.<
+ 5dda4f35046a442f d7b885549d104c10 130aa2aa2a4c0542 3f55479d5f4b98fe  >/Dj.5O.].L..T...B.L*......K_.GU?<
+ 66e6959a8c6a5157 4e2a5ac6d7981386 5de91734355cda58 be833182f4166ad6  >WQj....f.....Z*NX.\54..].j...1..<
+ 7cfc67b72183a98a 46b639efa5c6e36b 207e0b659ed2fd58 99a58efe1d6d89c3  >...!.g.|k....9.FX...e.~ ..m.....<
+ 21a41401cffca667 c103f200b1e715af 8d0e142d3a242b9c 83841e904fbcaad5  >g......!.........+$:-......O....<
+ 07ff798ec239347f f73b43fcbdd62282 9394632972212870 a4b37c2fe23f91a1  >.49..y..."...C;.p(!r)c....?./|..<
+ 13c12b208460e940 9fff98a203f42e6f 2bf244eeba4d1342 6a68cf284299c33c  >@.`. +..o.......B.M..D.+<..B(.hj<
+ e5ef8f05535c489b 8381fdb5d5572556 42ce25088583b213 164adfcd7e8bfcf6  >.H\S....V%W..........%.B...~..J.<
+ 85cb4377005e3332 65a1e21d6f869136 13395ce49137c8d4 a663b3215cf340a9  >23^.wC..6..o...e..7..\9..@.\!.c.<
+ cf6aa75ea0710609 be8f756a5d105b27 3bd0181da8d08334 5072f84216bcc128  >..q.^.j.'[.]ju..4......;(...B.rP<
+ ce3f45ecc4b7c017 d4ceed64e7c30acf 814844996bba8a39 c658351b590a00a2  >.....E?.....d...9..k.DH....Y.5X.<
+ e880cc85cea1d438 df629540d496c043 8c8c451d52f4d6e0 1e911ae22c4feeb3  >8.......C...@.b....R.E....O,....<
+ c1fbbdea988f382f c7dc39f52fbba945 5c32922493094efd 800f396e277006fc  >/8......E../.9...N..$.2\..p'n9..<
+ b29e4e7cb46938ab 5615c166ea51af2b a3203614c548fb38 6537b60a4451bc31  >.8i.|N..+.Q.f..V8.H..6 .1.QD..7e<
+ 55a0fc9046011111 d942d4650c8bb294 1100b22157506634 0ec4a2317fcd2aba  >...F...U....e.B.4fPW!....*..1...<
+ ddccb063078d2ea4 5fdc2eb063d57bfb 2ece32feb0ff1453 02e9217ec43011fc  >....c....{.c..._S....2....0.~!..<
+ 532e83a12c7683e5 3b8fb11b4ef63678 4412dbd03ac79154 7f850d232fbb5359  >..v,...Sx6.N...;T..:...DYS./#...<
+ 8fbd0bc7c6da0848 5b4f507efe2a51f1 1152ab3df14d9174 b35182464b30a1fa  >H........Q*.~PO[t.M.=.R...0KF.Q.<
+ 64e078cae09a0d54 23b229fa6011b4ec f1916900b3090150 5824c3b50631ae83  >T....x.d...`.).#P....i....1...$X<
+ 081848b833b00381 2e732bb1da601fe3 421cad391a4d10f2 a1d844103df6af07  >...3.H....`..+s...M.9..B...=.D..<
+ 35cd8911097c9a45 02f7bc2f96a00e4c 452c79f6073b86cc 01089d85fcda9a8a  >E.|....5L.../.....;..y,E........<
+ d009b8d891c043eb 1e16715040503a15 d47c42c2c4b05e29 ca37caf0826edffe  >.C.......:P@Pq..)^...B|...n...7.<
+ 79aaae16c07f2ec0 b63849c6e151f588 2e676ce829cd6f73 221ae9e4909bbbfc  >.......y..Q..I8.so.).lg........"<
+
+2024-04-21_17:21:22 	new session started at 2024-04-21_17:21:22 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:21:22 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-21_17:21:22 	ProcessCmd.Execute consoleOutput:  0a0000f6f0761b84 0c63c71d20882585 56baf89fc5d2160b d972b9a2ec6ed19e  >..v......%. ..c........V..n...r.<
+ 612c12fa693cc28f e8aea7220398de5e 5f77d6235b2c2b55 5893c49fcf4a63bd  >..<i..,a^..."...U+,[#.w_.cJ....X<
+ 7ab5b502ecfc0501 c443bcac6d7381c9 3dd3b91e3bab103a 0b14d43f6799140d  >.......z..sm..C.:..;...=...g?...<
+ 2e47e853c4432a8a 5549a6f7abe4b415 72cdc06dcb198896 92f78f29d54a6c25  >.*C.S.G.......IU....m..r%lJ.)...<
+ fc0ee46d3231a81e c36365f9895af19d 36b55e8485356a4e 94af05b3821e9178  >..12m.....Z..ec.Nj5..^.6x.......<
+ 623001cbe138108d c4a17404d41a15ff 19c3438055d4e0d8 5b39e72a4ad21d37  >..8...0b.....t.....U.C..7..J*.9[<
+ 4f096f614e4bf69d 9546b7c50ba3c744 41bdc71e9c65b447 c464c8692ca2040b  >..KNao.OD.....F.G.e....A...,i.d.<
+ 82929e237d6feb01 155838857a223a69 4bf761d01251ca05 c5f5dabbb780b69b  >..o}#...i:"z.8X...Q..a.K........<
+ 2e9a26c1257504b7 bd73bdc2c6e69ba0 53b0bc8d6e592b1c a9d4a2a99b57f8c6  >..u%.&........s..+Yn...S..W.....<
+ a07d988803914447 4e7f0b57f2368cc0 191e30a9655cd324 2d8ce4eb9169c3d0  >GD....}...6.W..N$.\e.0....i....-<
+ bcf063ee21ac29a4 4ca3397579a71381 a11e3baef17e7c25 fa3e9e3224dade4b  >.).!.c.....yu9.L%|~..;..K..$2.>.<
+ aba4910f8f116b17 74334c163f4f1636 20a51691838d55c1 7aa74dad7ca0d307  >.k......6.O?.L3t.U..... ...|.M.z<
+ 00ebf072af4bcff9 2fb6b31d83fb25e3 414808deeeee35a3 de8693b0cb63d627  >..K.r....%...../.5....HA'.c.....<
+ ac49f05fb0834667 fb3163a3b4ca299b f4754ba02ac23438 b6d3cc6cb97669ac  >gF.._.I..)...c1.84.*.Ku..iv.l...<
+ 6bb358a8062b4246 37be4dce25c201e9 e59d885b9317382f eee6ba8c66c5bca1  >FB+..X.k...%.M.7/8..[......f....<
+ 01318eaf883bfa77 1a4139773a8245b3 baafa8820122162f fc81302b45846873  >w.;...1..E.:w9A./.".....sh.E+0..<
+ 76599ce7f81088d2 f11261ccbc3011df 1139139bd2e4f374 75bada41a4b31950  >......Yv..0..a..t.....9.P...A..u<
+ 6ac44bc877ae4b0b 360be1742e398b36 7710464fedd4c465 3c67a26cd5299c8e  >.K.w.K.j6.9.t..6e...OF.w..).l.g<<
+ bf650401d5158b14 9210888fc5d84ba3 d45d923687d89016 cb53952318ad9fac  >......e..K..........6.].....#.S.<
+ c9bb5869550798b3 ae3417f645ae50aa 10b902aa26f1f37a 8bfa843aa1617f94  >...UiX...P.E..4.z..&......a.:...<
+ f863ea1700020da5 cd7fcb709345cbe4 62aac0bb9ce560e9 6311e9258bb87bae  >......c...E.p....`.....b.{..%..c<
+ 07c5220165be7ce3 4f5b855e4e459348 c2ccd0fbb4044931 10924476c0c04622  >.|.e."..H.EN^.[O1I......"F..vD..<
+ c1ff9f1103441661 627452355b2b03fb e02cdf2d093292dc 586d6703fff3d265  >a.D.......+[5Rtb..2.-.,.e....gmX<
+ dffada073631f495 06d4963fcd31ff54 1786ba2f17f25b7d 79e1586da1ccb7f5  >..16....T.1.?...}[../.......mX.y<
+ 2127cd2b3128613c c3ec7db638ac767b 8a4d122144ba4577 87089d7fe457bc2d  ><a(1+.'!{v.8.}..wE.D!.M.-.W.....<
+ 522e9f86626d5f00 65f009ffbe705af9 e41bca23a9a48683 550b8ae42bea3566  >._mb...R.Zp....e....#...f5.+...U<
+ 67a0f3a7b9ef6bc7 32c84761d9d03810 9f3bce3645d4d31a ff24abc6cafdce4e  >.k.....g.8..aG.2...E6.;.N.....$.<
+ 8da352e4e2d2185e 2cdb178aa8ae012f 3cfa8755712af63d 9fe5ed0e806f0159  >^....R../......,=.*qU..<Y.o.....<
+ 8c4cd6ba9e942fc9 98c12bab4ef35213 1d0f7ae71f2a7e90 421efa5e0f7787a6  >./....L..R.N.+...~*..z....w.^..B<
+ 65fe99e5fbb3bfba 5d48f42cd5bc1db9 0782a16fbbe5c1b4 61889a8c49f22b9f  >.......e....,.H]....o....+.I...a<
+ fb3a3e3568e97ce1 6f2efa516dd68320 7b413940d74dde79 f4afaccd1fc87bb8  >.|.h5>:. ..mQ..oy.M.@9A{.{......<
+ db4756d84107d17a adb0fdcab1b35bdd d5423bf0ca57f8d8 2d719bb1f01c9bd4  >z..A.VG..[........W..;B.......q-<
+
+2024-04-21_17:21:22 	new session started at 2024-04-21_17:21:22 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-21_17:21:22 	new session started at 2024-04-21_17:21:22 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-22_02:24:16 	new session started at 2024-04-22_02:24:16 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-22_02:24:16 	new session started at 2024-04-22_02:24:16 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-22_02:24:18 	new session started at 2024-04-22_02:24:18 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-22_22:13:04 	new session started at 2024-04-22_22:13:04 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-22_22:13:05 	new session started at 2024-04-22_22:13:05 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-23_10:54:33 	new session started at 2024-04-23_10:54:33 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-23_14:02:20 	new session started at 2024-04-23_14:02:20 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-23_19:12:20 	new session started at 2024-04-23_19:12:20 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-25_22:09:53 	new session started at 2024-04-25_22:09:53 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-26_03:46:14 	new session started at 2024-04-26_03:46:13 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-26_04:09:28 	new session started at 2024-04-26_04:09:28 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-26_06:20:08 	new session started at 2024-04-26_06:20:08 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-26_06:20:09 	new session started at 2024-04-26_06:20:09 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-26_06:42:23 	new session started at 2024-04-26_06:42:23 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-26_08:42:26 	new session started at 2024-04-26_08:42:26 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-26_09:55:37 	new session started at 2024-04-26_09:55:37 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-26_11:20:24 	new session started at 2024-04-26_11:20:24 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-26_11:28:51 	new session started at 2024-04-26_11:28:51 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-26_14:22:56 	new session started at 2024-04-26_14:22:56 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-26_15:36:02 	new session started at 2024-04-26_15:36:02 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-26_18:28:41 	new session started at 2024-04-26_18:28:41 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-26_19:14:41 	new session started at 2024-04-26_19:14:41 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-27_05:14:59 	new session started at 2024-04-27_05:14:59 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-27_06:11:42 	new session started at 2024-04-27_06:11:42 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-27_19:38:49 	new session started at 2024-04-27_19:38:49 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-28_15:17:08 	new session started at 2024-04-28_15:17:08 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-28_22:10:25 	new session started at 2024-04-28_22:10:25 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-29_15:19:23 	new session started at 2024-04-29_15:19:23 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-29_15:19:27 	new session started at 2024-04-29_15:19:27 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-29_15:19:30 	new session started at 2024-04-29_15:19:30 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-29_15:19:34 	new session started at 2024-04-29_15:19:34 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-29_15:19:38 	new session started at 2024-04-29_15:19:38 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-29_15:19:41 	new session started at 2024-04-29_15:19:41 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-29_15:19:46 	new session started at 2024-04-29_15:19:46 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-29_15:19:46 	ProcessCmd.Execute(filepath = $/usr/bin/od, args =  -A n -t x8z -w32 -v -j 0 -N 1024 /dev/urandom, useShellExecute = False) called ...
+2024-04-29_15:19:46 	ProcessCmd.Execute consoleOutput:  7774c5f39b5ad8b5 01066d51612e2c3f c85d6572a5dc3f85 283bc813b1339578  >..Z...tw?,.aQm...?..re].x.3...;(<
+ a3cd2114719f4551 73e79932a0982a53 a74558c858eed084 857bec4b55d3b085  >QE.q.!..S*..2..s...X.XE....UK.{.<
+ ef81f7706aa0931e 69c23d3761c0fef8 5756e0ce43bceaac 1daf8d60ae9b4a3d  >...jp......a7=.i...C..VW=J..`...<
+ 81ed4e2a94a54fe6 853352e3df7fb110 cc8c5a3b776236ae 437501ed75a9e207  >.O..*N.......R3..6bw;Z.....u..uC<
+ 125765fb4f9a9a60 b554656f7adad114 c01dbd66ef8554a2 6b2794ad45417bce  >`..O.eW....zoeT..T..f....{AE..'k<
+ 9db35c7613b3561e 333ba085afb1537f f8bca1d1c3c69305 597a7aadb7aacc3a  >.V..v\...S....;3........:....zzY<
+ ec44f1707150e5a8 a2d4d6dae076f499 3d30729e6598b459 b9095d4ea6ecb3a8  >..Pqp.D...v.....Y..e.r0=....N]..<
+ 4890adf0260ff4cc 9a702e00cb5d3e0a 62efc9b7b54d0979 b615bcdc62016718  >...&...H.>]...p.y.M....b.g.b....<
+ bc777718c149e670 3a258b644e5f68b7 d08074cb3ba67ad4 b33f051198ba1c38  >p.I..ww..h_Nd.%:.z.;.t..8.....?.<
+ 1df2e04baae6b830 797cf9dfdfa681ae f9fb6f265bfcd138 156ae878f3c0c223  >0...K.........|y8..[&o..#...x.j.<
+ 88af59f403fbf314 9d1958364ae5c898 8440ab60fab19067 e406196598e80705  >.....Y.....J6X..g...`.@.....e...<
+ 0b3fa2e214bf6b8b e90a88c56df7f86d 5113ffe341569703 2863cfbb82f769d2  >.k....?.m..m......VA...Q.i....c(<
+ 9daf34325ae01996 676b31ee77323950 601941b3e7b5f684 3999477069ed0378  >...Z24..P92w.1kg.....A.`x..ipG.9<
+ e4bac3e6c6fb7b6c 6525d0441c9f229b 3381e4cfc40ba64a 997915ae5be0b68b  >l{......."..D.%eJ......3...[..y.<
+ 6b31be1d0fcf6100 5c5a8d421ac9bd4c 42a84a0040b31692 53e5449d8d2af398  >.a....1kL...B.Z\...@.J.B..*..D.S<
+ f9062703cc07a5ae 880fa3b67ddc0c26 90176e4d79360862 55a77dc2587e6a72  >.....'..&..}....b.6yMn..rj~X.}.U<
+ 40240fab33b603df cf7d04d171d18a65 2e64ab6d75fb3c9c 8a1b7007faf91c8e  >...3..$@e..q..}..<.um.d......p..<
+ d2ecc23ae95ea185 a61ea28f01d1e257 713084232cc394f6 8e23cb8bdf6a21d5  >..^.:...W..........,#.0q.!j...#.<
+ cfe8b6d65e647169 f0d560d9a8baa1d4 f2a18a3c096622e5 68e52e1bdd9c8991  >iqd^.........`..."f.<..........h<
+ e4954283f9a0cf86 5f5a8bc54e33d58f 397401ffb30d031d c77b0ff6714294b9  >.....B....3N..Z_......t9..Bq..{.<
+ ca8cb3950caae129 03dfc69c8fd80fc5 cc287facbd8692cd 5d763833ac28fd3d  >).....................(.=.(.38v]<
+ 890501bba30e4578 7a55a68f6fe51145 6237a3610ae4e6bd 0a4010d38ef3d1df  >xE......E..o..Uz....a.7b......@.<
+ 13760215592ef283 fc5c2587bb31a157 1f08bf0ae7b63e70 ccd0f98e3a885486  >...Y..v.W.1..%\.p>.......T.:....<
+ b4f6e164e20ac5db 4a5ef3ef9a97b881 e46e36bc1864709e 0e7633cd28289dcd  >....d.........^J.pd..6n...((.3v.<
+ 5dacefc75f7284ce b40d5b94fefb31d3 4e061dce76bf203b 997431fe1f74a280  >..r_...].1...[..; .v...N..t..1t.<
+ 20450b8efb623b83 e60fe46528c4071c 1adeafe8ce67d3cc bae3c0e39744533b  >.;b...E ...(e.....g.....;SD.....<
+ c984955579a39d02 97e44c560128af20 9af7b1bde42e6a1a 807f488b961b2c5a  >...yU... .(.VL...j......Z,...H..<
+ 6b3adddb52c517f5 204a1ea9a478e2eb 2ceac43b98312b9b e3ad97247597915b  >...R..:k..x...J .+1.;..,[..u$...<
+ 91b24f3abfca3953 980e10df20090519 6eab71d805d54c44 1302ee636ef1d848  >S9..:O..... ....DL...q.nH..nc...<
+ 3aa28d09d7bccedb aa31ee140ae08c8e 30bcaf636439b043 4e953f4f901147f0  >.......:......1.C.9dc..0.G..O?.N<
+ 59c3105adff6e8e0 d7ad035c879856e9 94734dc37f3cb301 b8670795ee1c39f3  >....Z..Y.V..\.....<..Ms..9....g.<
+ 0464f595c6b7f63f 862c72305ec5a672 85acd35d4cc127f5 ea07887760b5d2ba  >?.....d.r..^0r,..'.L]......`w...<
+
+2024-04-29_15:19:51 	new session started at 2024-04-29_15:19:51 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-29_15:19:59 	new session started at 2024-04-29_15:19:59 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-29_15:20:04 	new session started at 2024-04-29_15:20:04 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-29_15:20:06 	new session started at 2024-04-29_15:20:06 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-29_15:20:10 	new session started at 2024-04-29_15:20:10 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-30_14:31:38 	new session started at 2024-04-30_14:31:38 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-30_14:31:41 	new session started at 2024-04-30_14:31:41 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
+2024-04-30_23:25:17 	new session started at 2024-04-30_23:25:17 object sender = System.Web.SessionState.SessionStateModule, EventArgs e = System.EventArgs
