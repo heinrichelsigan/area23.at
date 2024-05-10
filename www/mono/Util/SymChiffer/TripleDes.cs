@@ -56,8 +56,9 @@ namespace Area23.At.Mono.Util.SymChiffer
         {
             TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
             tdes.Key = DesKey;
-            tdes.Mode = CipherMode.ECB;
-            tdes.Padding = PaddingMode.PKCS7;
+            tdes.IV = DesIv;
+            tdes.Mode = CipherMode.CBC;
+            tdes.Padding = PaddingMode.None;
             ICryptoTransform cTransform = tdes.CreateEncryptor();
             byte[] cryptedBytes = cTransform.TransformFinalBlock(inBytes, 0, inBytes.Length);
             tdes.Clear();
@@ -93,8 +94,9 @@ namespace Area23.At.Mono.Util.SymChiffer
 
             TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();            
             tdes.Key = DesKey;
-            tdes.Mode = CipherMode.ECB;            
-            tdes.Padding = PaddingMode.PKCS7;
+            tdes.IV = DesIv;
+            tdes.Mode = CipherMode.CBC;            
+            tdes.Padding = PaddingMode.None;
             toDecryptArray = new byte[cipherBytes.Length * 2];
             ICryptoTransform cTransform = tdes.CreateDecryptor();
             byte[] decryptedBytes = cTransform.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);        

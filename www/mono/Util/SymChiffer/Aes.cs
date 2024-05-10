@@ -100,24 +100,22 @@ namespace Area23.At.Mono.Util.SymChiffer
                 throw new ArgumentNullException("cipherBytes");            
 
             byte[] outBytes = null;
-            byte[] decrypted = null;
             ICryptoTransform decryptor = AesAlgo.CreateDecryptor(AesAlgo.Key, AesAlgo.IV);
 
             using (MemoryStream msDecryptStr = new MemoryStream(cipherBytes))
             {
                 using (CryptoStream csDecryptStr = new CryptoStream(msDecryptStr, decryptor, CryptoStreamMode.Read))
                 {
-                    csDecryptStr.Read(outBytes, 0, (int)csDecryptStr.Length);
-                    decrypted = msDecryptStr.ToArray();
-                    // using (StreamReader srDecrypt = new StreamReader(csDecryptStr)) { plaintext = srDecrypt.ReadToEnd(); }
-                    // csDecryptStr.Close();
-                    // csDecryptStr.Dispose();
+                    // csDecryptStr.Read(outBytes, 0, (int)csDecryptStr.Length);
+                    using (var msPlain = new System.IO.MemoryStream())
+                    {
+                        csDecryptStr.CopyTo(msPlain);
+                        outBytes = msPlain.ToArray();
+                    }
                 }
             }
 
-            if ((outBytes != null && decrypted == null) || (outBytes != null && decrypted != null && outBytes.Length >= decrypted.Length))
-                return outBytes;
-            return decrypted;
+            return outBytes;
         }
 
 

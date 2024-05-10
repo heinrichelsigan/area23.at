@@ -289,6 +289,9 @@ namespace Area23.At.Mono.Calc
         {
             string mathString = (sender is Button) ? ((Button)sender).Text :
                 (sender is TextBox) ? ((TextBox)sender).Text : "";
+            
+            if (mathString == "log&#x2095;a")
+                mathString = "bloga";
 
 
             if (!string.IsNullOrEmpty(mathString))

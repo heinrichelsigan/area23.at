@@ -16,7 +16,7 @@
 			<table class="rpnTbl" border="0" cellpadding="0" cellspacing="0">
 				<tr id="trA" class="rpnTr">
 					<td id="tdAa" width="12%" align="left" class="rpnTd"></td>
-					<td id="tdAb" width="60%" align="center" colspan="5" class="rpnTd"><asp:TextBox ID="TextBox_Calc" ClientIDMode="Static" runat="server" Columns="48" Font-Names="Courier New" /></td>
+					<td id="tdAb" width="60%" align="center" colspan="5" class="rpnTd"><asp:TextBox ID="TextBox_Calc" ClientIDMode="Static" runat="server" ReadOnly="true" Columns="48" Font-Names="Courier New" /></td>
 					<td id="tdAc" width="12%" align="center" class="rpnTd"><asp:TextBox ID="TextBox_Top" ClientIDMode="Static" runat="server" Columns="10" AutoPostBack="true" OnTextChanged="bChange_Click" Font-Names="Courier New" /></td>
 					<td id="tdAd" width="12%" align="right" class="rpnTd"></td>
 				</tr>
