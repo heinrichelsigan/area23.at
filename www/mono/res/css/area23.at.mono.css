@@ -334,7 +334,8 @@ div {
             vertical-align: middle;
             text-decoration: none;
             /*                              */
-            background-color: #ffaacc; /* background-image: url(folder1.png); */
+            background-color: #ffaacc; 
+            background-image: url('../img/folder1.png'); 
             background-repeat: no-repeat;
             /*                              */
             border-block: 1px outset #ecbafa;
@@ -346,23 +347,25 @@ div {
                 text-decoration: none;
             }
 
-            span.headerLeftSelect, span.headerLeftCenterSelect, span.headerCenterSelect, span.headerRightCenterSelect, span.headerRightSelect, .headerSelect {
-                min-width: 144px;
-                width: 192px;
-                outline-width: 192px;
-                height: 40px;
-                /*                              */
-                text-align: center;
-                vertical-align: middle;
-                text-decoration: none;
-                /*                      */
-                background-color: #ffccee; /* background-image: url(folder1.png); */
-                background-repeat: no-repeat;
-                /*                              */
-                border-block: 1px outset #ecbafa;
-                border: 1px outset #ecbafa;
-                border-spacing: 1px 1px;
-            }
+        span.headerLeftSelect, span.headerLeftCenterSelect, span.headerCenterSelect, span.headerRightCenterSelect, span.headerRightSelect, .headerSelect {
+            min-width: 144px;
+            width: 192px;
+            outline-width: 192px;
+            height: 40px;
+            /*                              */
+            text-align: center;
+            vertical-align: middle;
+            text-decoration: none;
+            /*                      */
+            background-color: #ffccee;
+            /* background-image: url('../img/folder1.png'); */
+            background-image: url('../img/folder1.png');
+            background-repeat: no-repeat;
+            /*                              */
+            border-block: 1px outset #ecbafa;
+            border: 1px outset #ecbafa;
+            border-spacing: 1px 1px;
+        }
 
                 .spanHeaderA, span.headerLeftSelect.a, span.headerLeftCenterSelect.a, span.headerCenterSelect.a, span.headerRightCenterSelect.a, span.headerRightSelect.a, .headerSelect.a {
                     text-decoration: none;
@@ -377,7 +380,9 @@ div {
             text-align: center;
             vertical-align: middle;
             /*                              */
-            background-color: #dedede; /* background-image: url(folder1.png); */
+            background-color: #dedede;
+            /* background-image: url(folder1.png); */
+            background-image: url('../img/folder1.png');
             background-repeat: no-repeat;
             text-decoration: none;
             /*                              */
@@ -390,20 +395,21 @@ div {
                 text-decoration: none;
             }
 
-            span.footerRight {
-                width: 64%;
-                height: 40px;
-                /*                              */
-                text-align: right;
-                vertical-align: middle;
-                /*                              */
-                background-color: #dedede; /* background-image: url(folder1.png); */
-                background-repeat: no-repeat;
-                /*                              */
-                border-block: 1px outset #ecdbfa;
-                border: 1px outset #ecdbfa;
-                border-spacing: 1px 1px;
-            }
+        span.footerRight {
+            width: 64%;
+            height: 40px;
+            /*                              */
+            text-align: right;
+            vertical-align: middle;
+            /*                              */
+            background-color: #dedede; /* background-image: url(folder1.png); */
+            background-image: url('../img/folder1.png');
+            background-repeat: no-repeat;
+            /*                              */
+            border-block: 1px outset #ecdbfa;
+            border: 1px outset #ecdbfa;
+            border-spacing: 1px 1px;
+        }
 
         span.digitalClockSpan,
         span#spanHoursId,

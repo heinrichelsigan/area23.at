@@ -20,8 +20,6 @@ namespace Area23.At.Mono.Util
         private static string qrAppPath = null;
         private static string unixAppPath = null;
         private static string calcAppPath = null;
-        private static string cardPicsPath = null;
-        private static string cardPicsDir = null;
         private static string appDirPath = null;
         private static string outDirPath = null;
         private static string resDirPath = null;
@@ -176,7 +174,12 @@ namespace Area23.At.Mono.Util
         }
 
 
-        public static string AdditionalBinDir { get => ResDirPath + "bin" + SepChar; }
+        public static string AdditionalBinDir { get => ResDirPath + Constants.BIN_DIR + SepChar; }
+
+        public static string TextDirPath { get => ResDirPath + Constants.TEXT_DIR + SepChar; }
+
+        public static string TextAppPath { get => ResAppPath + Constants.TEXT_DIR + "/"; }
+
 
         public static string LogPathDir
         {

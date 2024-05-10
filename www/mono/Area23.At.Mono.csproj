@@ -155,6 +155,9 @@
     <Content Include="res\img\decrypted.png" />
     <Content Include="res\img\encrypted.png" />
     <Content Include="res\img\file.png" />
+    <Content Include="res\img\folder1.gif" />
+    <Content Include="res\img\folder1.png" />
+    <Content Include="res\img\qrsample.gif" />
     <Content Include="res\out\Rational_ObjectOrientedAnalysis-UML %281%29.jpg" />
     <Content Include="res\out\Rational_Rose_Certificate.jpg" />
     <Content Include="res\out\Seretide_Forte.jpg" />
@@ -178,7 +181,6 @@
     <Content Include="res\js\rpn.js" />
     <Content Include="Unix\HexDump.aspx" />
     <Content Include="froga.aspx" />
-    <Content Include="log\TextFile.txt" />
     <Content Include="Qr\Qr.aspx" />
     <Content Include="Qr\QRGen.aspx" />
     <Content Include="res\audio\frogaGameOver.mp3" />
@@ -200,9 +202,6 @@
     <Content Include="res\css\frog.css" />
     <Content Include="res\css\od.css" />
     <Content Include="res\css\rpncalcweb.css" />
-    <Content Include="res\folder1.gif" />
-    <Content Include="res\folder1.png" />
-    <Content Include="res\https--area23_at-.gif" />
     <Content Include="res\img\a_down.gif" />
     <Content Include="res\img\a_left.gif" />
     <Content Include="res\img\a_right.gif" />
@@ -258,8 +257,6 @@
     <Content Include="res\js\frga.js" />
     <Content Include="res\js\frog.js" />
     <Content Include="res\js\od.js" />
-    <Content Include="res\qrsample1.gif" />
-    <Content Include="res\qrsample2.png" />
     <Content Include="json.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Unix\Fortune.aspx" />
@@ -363,21 +360,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Resource_en.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resource_en.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Resource_fr.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resource_fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Resource_de.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resource_de.resx</DependentUpon>
-    </Compile>
     <Compile Include="Qr\Qr.aspx.cs">
       <DependentUpon>Qr.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -453,8 +435,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Area23.Master" />
+    <Content Include="log\2024-03-00_Area23.At.Mono.log" />
+    <Content Include="log\2024-04-00_Area23.At.Mono.log" />
     <None Include="packages.config" />
-    <Content Include="res\fortune.u8">
+    <Content Include="res\text\fortune.u8">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Qr\QRMaster.master" />
@@ -464,6 +448,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Calc\Calc.master" />
+    <Content Include="res\bin\bccmd.bat" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -478,18 +463,7 @@
     <EmbeddedResource Include="Properties\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resource_en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource_en.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resource_fr.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource_fr.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resource_de.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource_de.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

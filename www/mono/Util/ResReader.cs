@@ -18,23 +18,7 @@ namespace Area23.At.Mono.Util
         public static string GetValue(string key, string langCode = "")
         {
             string retVal = Properties.Resource.ResourceManager.GetString(key);
-
-            if (langCode.ToLower() == "de")
-            {
-                string retVal_de = Properties.Resource_de.ResourceManager.GetString(key);
-                if (!string.IsNullOrEmpty(retVal_de))
-                {
-                    return retVal_de;
-                }
-            }
-            if (langCode.ToLower() == "fr")
-            {
-                string retVal_fr = Properties.Resource_fr.ResourceManager.GetString(key);
-                if (!string.IsNullOrEmpty(retVal_fr))
-                {
-                    return retVal_fr;
-                }
-            }
+            
             return (!string.IsNullOrEmpty(retVal)) ? retVal : key;
         }
 
@@ -49,27 +33,6 @@ namespace Area23.At.Mono.Util
         {
             string lang2IsoToLower = (ci != null) ? ci.TwoLetterISOLanguageName.ToLower() : string.Empty;
             string retVal = Properties.Resource.ResourceManager.GetString(key);
-
-            switch (lang2IsoToLower)
-            {
-                case "de":
-                    string retValDe = Properties.Resource_de.ResourceManager.GetString(key);
-                    if (!string.IsNullOrEmpty(retValDe) && retValDe.Length > 0)
-                        return retValDe;
-                    break;
-                case "fr":
-                    string retValFr = Properties.Resource_de.ResourceManager.GetString(key);
-                    if (!string.IsNullOrEmpty(retValFr) && retValFr.Length > 0)
-                        return retValFr;
-                    break;
-                case "en":
-                    string retValLang = Properties.Resource_en.ResourceManager.GetString(key);
-                    if (!string.IsNullOrEmpty(retValLang) && retValLang.Length > 0)
-                        retVal = retValLang;
-                    break;
-                default:
-                    break;
-            }
 
             return (!string.IsNullOrEmpty(retVal)) ? retVal : key.Replace("_", " ");
         }
@@ -87,23 +50,6 @@ namespace Area23.At.Mono.Util
             string retVal = Properties.Resource.ResourceManager.GetString(key);
             string retValLang = retVal;
 
-            switch (lang2IsoToLower)
-            {
-                case "de":
-                    if ((retValLang = Properties.Resource_de.ResourceManager.GetString(key)) != null && retValLang.Length > 0)
-                        retVal = retValLang;
-                    break;
-                case "fr":
-                    if ((retValLang = Properties.Resource_fr.ResourceManager.GetString(key)) != null && retValLang.Length > 0)
-                        retVal = retValLang;
-                    break;
-                case "en":
-                default:
-                    if ((retValLang = Properties.Resource_en.ResourceManager.GetString(key)) != null && retValLang.Length > 0)
-                        retVal = retValLang;
-                    break;
-            }
-
             if (!string.IsNullOrEmpty(retVal))
             {
                 if (args != null && args.Length > 0 &&
@@ -116,6 +62,12 @@ namespace Area23.At.Mono.Util
             }
 
             return key.Replace("_", " ");
+        }
+
+        public static string GetAllFortunes()
+        {           
+            string fortuneString = System.Text.Encoding.UTF8.GetString(Properties.Resource.fortune_u8);
+            return fortuneString;
         }
     }
 }

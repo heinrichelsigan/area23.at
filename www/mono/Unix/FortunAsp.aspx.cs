@@ -13,10 +13,16 @@ namespace Area23.At.Mono.Unix
     public partial class FortunAsp : System.Web.UI.Page
     {
         static object fortuneLock;
+        static bool useExec = true;
+        static short execTimes = 0;
+        protected internal List<string> fortunes = new List<string>();
+
+        public string[] Fortunes { get => fortunes.ToArray(); }
 
         public FortunAsp()
         {
-                fortuneLock = new object();
+            fortuneLock = new object();
+            fortunes = new List<string>();
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -38,37 +44,55 @@ namespace Area23.At.Mono.Unix
         protected string ExecFortune(bool longFortune = true)
         {
             string fortuneResult = string.Empty;
-            try
+            if (useExec) 
             {
-                fortuneResult = (longFortune) ?
-                    ProcessCmd.Execute("/usr/games/fortune", " -a -l ") :
-                    ProcessCmd.Execute("/usr/games/fortune", "-o -s  ");
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogStatic(ex);
-
-                lock (fortuneLock)
+                try
                 {
-                    string[] filenames = { Paths.ResDirPath + "fortune.u8", "fortune.u8", Paths.AppDirPath + "Properties" + Paths.SepChar + "fortune.u8" };
-                    int fp = 0;
-                    while (!File.Exists(filenames[fp]))
-                        ++fp;
-
-                    string[] sep = { "\r\n%\r\n", "\r\n%", "%\r\n" };
-                    string[] allFortunes = File.ReadAllText(filenames[fp]).Split(sep, StringSplitOptions.RemoveEmptyEntries);
-                    Random rand = new Random(DateTime.UtcNow.Millisecond);
-                    int nowFortune = rand.Next(allFortunes.Length);
-                    while (longFortune ^ allFortunes[nowFortune].Contains("\n"))
-                    {
-                        ++nowFortune;
-                        nowFortune %= allFortunes.Length;
-                    }
-                    fortuneResult = allFortunes[nowFortune];
+                    ++execTimes; execTimes %= 256;
+                    fortuneResult = (longFortune) ?
+                        ProcessCmd.Execute("/usr/games/fortune", " -a -l ") :
+                        ProcessCmd.Execute("/usr/games/fortune", "-o -s  ");
+                    useExec = true;
+                    if (!fortunes.Contains(fortuneResult))
+                        fortunes.Add(fortuneResult);
+                }
+                catch (Exception ex)
+                {
+                    Area23Log.LogStatic(ex);
+                    if (execTimes >= 8) useExec = false;
                 }
             }
-            finally { } // nothing todo here
+            if (string.IsNullOrEmpty(fortuneResult))
+            {
+                lock (fortuneLock)
+                {
+                    if (fortunes.Count < 1)
+                        ReadAllFortunes();
+
+                    Random rand = new Random(DateTime.UtcNow.Millisecond);
+                    int nowFortune = rand.Next(Fortunes.Length);
+                    while (longFortune ^ Fortunes[nowFortune].Contains("\n"))
+                    {
+                        ++nowFortune;
+                        nowFortune %= Fortunes.Length;
+                    }
+                    fortuneResult = Fortunes[nowFortune];
+                }
+            }
+
             return fortuneResult;
+        }
+
+        public void ReadAllFortunes()
+        {
+            string fortuneFile = Paths.TextDirPath + "fortune.u8";
+            string fortuneString = (File.Exists(fortuneFile)) ? File.ReadAllText(fortuneFile) : ResReader.GetAllFortunes();
+            string[] sep = { "\r\n%\r\n", "\r\n%", "%\r\n" };
+            fortunes = new List<string>();
+            foreach (string addFortune in fortuneString.Split(sep, StringSplitOptions.RemoveEmptyEntries))
+            {
+                fortunes.Add(addFortune);
+            }            
         }
     }
 }

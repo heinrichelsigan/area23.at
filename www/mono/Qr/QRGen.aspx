@@ -10,7 +10,7 @@
 		<div>
 			<a id="aHref" runat="server" href="" title="Redirecting to ...">Redirecting to ...</a>
 			<br />
-			<img id="ImgQR" runat="server" alt="QRCode" height="244" width="244" tooltip="QRCode" src="../res/qrsample1.gif" />
+			<img id="ImgQR" runat="server" alt="QRCode" height="244" width="244" tooltip="QRCode" src="../res/img/qrsample.gif" />
 		</div>
 	</form>
 </asp:Content>
