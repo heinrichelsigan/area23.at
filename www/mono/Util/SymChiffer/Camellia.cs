@@ -20,14 +20,15 @@ namespace Area23.At.Mono.Util.SymChiffer
         public static byte[] Key { get; private set; }
         public static byte[] Iv { get; private set; }
         public static int Size { get; private set; }
-        public static string Mode { get; private set; } 
-
+        public static string Mode { get; private set; }
+        public static IBlockCipherPadding BlockCipherPadding { get; private set; }
         public static char[] Chars { get; private set; }
 
         static Camellia()
         {
             byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
             byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+            BlockCipherPadding = new ZeroBytePadding();
             Key = new byte[32];
             Iv = new byte[32];
             Array.Copy(iv, Key, 32);
@@ -40,9 +41,9 @@ namespace Area23.At.Mono.Util.SymChiffer
         {
             var cipher = new CamelliaEngine();
 
-            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), new Pkcs7Padding());
-            if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), new Pkcs7Padding());
-            else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), new Pkcs7Padding());
+            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
+            if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
+            else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
             KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
@@ -80,9 +81,9 @@ namespace Area23.At.Mono.Util.SymChiffer
         {
             var cipher = new CamelliaEngine();
 
-            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), new Pkcs7Padding());
-            if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), new Pkcs7Padding());
-            else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), new Pkcs7Padding());
+            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
+            if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
+            else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
             KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
@@ -96,7 +97,8 @@ namespace Area23.At.Mono.Util.SymChiffer
                 cipherMode.Init(false, keyParamIV);
             }
 
-            int outputSize = (int)Math.Max(cipherMode.GetOutputSize(cipherData.Length), cipherMode.GetOutputSize(cipherData.Length));
+            int outputSize = cipherMode.GetOutputSize(cipherData.Length);
+            // int outputSize = (int)Math.Max(cipherMode.GetOutputSize(cipherData.Length), cipherMode.GetOutputSize(cipherData.Length));
             byte[] plainTextData = new byte[outputSize];
             int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainTextData, 0);
             cipherMode.DoFinal(plainTextData, result);

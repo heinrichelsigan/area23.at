@@ -26,7 +26,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             AesAlgo = new RijndaelManaged();
             AesAlgo.Mode = CipherMode.CBC;
             AesAlgo.KeySize = 256;
-            AesAlgo.Padding = PaddingMode.PKCS7;
+            AesAlgo.Padding = PaddingMode.None;
             // AesAlgo.GenerateIV();
             // AesAlgo.GenerateKey();
             AesAlgo.Key = AesKey;

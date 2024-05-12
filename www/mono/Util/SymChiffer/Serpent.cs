@@ -97,7 +97,8 @@ namespace Area23.At.Mono.Util.SymChiffer
                 cipherMode.Init(false, keyParamIV);
             }
 
-            int outputSize = (int)Math.Max(cipherMode.GetOutputSize(cipherData.Length), cipherMode.GetUpdateOutputSize(cipherData.Length));
+            int outputSize = cipherMode.GetOutputSize(cipherData.Length);
+            // int outputSize = (int)Math.Max(cipherMode.GetOutputSize(cipherData.Length), cipherMode.GetUpdateOutputSize(cipherData.Length));
             byte[] plainTextData = new byte[outputSize];
             int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainTextData, 0);
             cipherMode.DoFinal(plainTextData, result);
