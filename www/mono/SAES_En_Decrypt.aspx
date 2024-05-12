@@ -32,7 +32,10 @@
                 </asp:DropDownList>
             </span>
             <span class="centerSpan">
-                <asp:ImageButton ID="ImageButton_Add" runat="server" ImageUrl="res/img/a_right.gif" OnClick="ImageButton_Add_Click" />
+                <asp:ImageButton ID="ImageButton_Add" ClientIDMode="Static" runat="server" ImageUrl="res/img/a_right.gif" 
+                    OnClick="ImageButton_Add_Click" AlternateText="Add symetric chiffer algorithm"
+                    onmouseover="document.getElementById('ImageButton_Add').src='res/img/a_right_hover.gif'"                     
+                    onmouseout="document.getElementById('ImageButton_Add').src='res/img/a_right.gif'" />
             </span>
             <span class="centerSpan">
                 <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true" TextMode="SingleLine" Text="" />
