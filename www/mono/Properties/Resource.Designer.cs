@@ -157,7 +157,7 @@ namespace Area23.At.Mono.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to a6iJrMU44DKZ1puxD5ErzqQotD4tXSrxM6ME3UgmHSY=.
+        ///   Looks up a localized string similar to fcKZpNSKLTs=.
         /// </summary>
         internal static string M0Rlc0l2 {
             get {
@@ -202,7 +202,7 @@ namespace Area23.At.Mono.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0ersgfaO/uP7+HrpTwZjU9VoyobLofw7KvwCAcOVMRc=.
+        ///   Looks up a localized string similar to C6S5DegwbQopnitJnAu/g4BXa0M32ZGZ.
         /// </summary>
         internal static string RGVzS2V5 {
             get {

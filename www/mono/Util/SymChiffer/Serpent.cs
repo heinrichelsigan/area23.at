@@ -68,15 +68,6 @@ namespace Area23.At.Mono.Util.SymChiffer
             return cipherData;
         }
 
-        public static string EncryptString(string inString)
-        {
-            byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inString);
-            byte[] encryptedData = Encrypt(plainTextData);
-            string encryptedString = Convert.ToBase64String(encryptedData); 
-                // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
-            return encryptedString;
-        }
-
         public static byte[] Decrypt(byte[] cipherData)
         {
             var cipher = new SerpentEngine();
@@ -107,6 +98,16 @@ namespace Area23.At.Mono.Util.SymChiffer
             // byte[] plainData = cipherMode.ProcessBytes(cipherData);
             
             return plainData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
+        }
+
+
+        public static string EncryptString(string inPlainString)
+        {
+            byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inPlainString);
+            byte[] encryptedData = Encrypt(plainTextData);
+            string encryptedString = Convert.ToBase64String(encryptedData);
+            // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
+            return encryptedString;
         }
 
         public static string DecryptString(string inCryptString)

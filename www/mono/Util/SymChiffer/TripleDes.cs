@@ -29,20 +29,8 @@ namespace Area23.At.Mono.Util.SymChiffer
         static TripleDes()
         {
             // Generate a key using SHA256 hash function
-            byte[] key = new byte[16];
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] hash = sha256.ComputeHash(Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY)));
-                Array.Copy(hash, key, 16);
-            }
-
-            // Generate a IV using SHA256 hash function
-            byte[] iv = new byte[8];
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] hash = sha256.ComputeHash(Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV)));
-                Array.Copy(hash, iv, 8);
-            }
+            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
+            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
             DesIv = iv;
             DesKey = key;
         }
@@ -57,28 +45,13 @@ namespace Area23.At.Mono.Util.SymChiffer
             TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
             tdes.Key = DesKey;
             tdes.IV = DesIv;
-            tdes.Mode = CipherMode.CBC;
-            tdes.Padding = PaddingMode.PKCS7;
+            tdes.Mode = CipherMode.ECB;
+            tdes.Padding = PaddingMode.None;
             ICryptoTransform cTransform = tdes.CreateEncryptor();
             byte[] cryptedBytes = cTransform.TransformFinalBlock(inBytes, 0, inBytes.Length);
             tdes.Clear();
 
             return cryptedBytes;
-        }
-
-
-        /// <summary>
-        /// 3Des encrypt string
-        /// </summary>
-        /// <param name="inString">string in plain text</param>
-        /// <returns>Base64 encoded encrypted byte array</returns>
-        public static string EncryptString(string inString)
-        {
-            byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(inString);
-            byte[] encryptedBytes = Encrypt(inBytes);
-            string encryptedText = Convert.ToBase64String(encryptedBytes);
-            // System.Text.Encoding.UTF8.GetString(encryptedBytes).TrimEnd('\0');
-            return encryptedText;
         }
 
         /// <summary>
@@ -95,8 +68,8 @@ namespace Area23.At.Mono.Util.SymChiffer
             TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();            
             tdes.Key = DesKey;
             tdes.IV = DesIv;
-            tdes.Mode = CipherMode.CBC;            
-            tdes.Padding = PaddingMode.PKCS7;
+            tdes.Mode = CipherMode.ECB;            
+            tdes.Padding = PaddingMode.None;
             toDecryptArray = new byte[cipherBytes.Length * 2];
             ICryptoTransform cTransform = tdes.CreateDecryptor();
             byte[] decryptedBytes = cTransform.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);        
@@ -104,6 +77,23 @@ namespace Area23.At.Mono.Util.SymChiffer
             
             // return decrypted byte[]
             return decryptedBytes;
+        }
+
+
+        #region EnDeCryptString
+
+        /// <summary>
+        /// 3Des encrypt string
+        /// </summary>
+        /// <param name="inString">string in plain text</param>
+        /// <returns>Base64 encoded encrypted byte array</returns>
+        public static string EncryptString(string inString)
+        {
+            byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(inString);
+            byte[] encryptedBytes = Encrypt(inBytes);
+            string encryptedText = Convert.ToBase64String(encryptedBytes);
+            // System.Text.Encoding.UTF8.GetString(encryptedBytes).TrimEnd('\0');
+            return encryptedText;
         }
 
         /// <summary>
@@ -118,6 +108,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             string plaintext = System.Text.Encoding.UTF8.GetString(decryptedBytes);
             return plaintext;
         }
-       
+
+        #endregion EnDeCryptString       
     }
 }
