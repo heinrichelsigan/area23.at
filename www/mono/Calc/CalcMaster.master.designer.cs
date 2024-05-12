@@ -11,7 +11,7 @@ namespace Area23.At.Mono.Calc
 {
 
 
-    public partial class Calc
+    public partial class CalcMaster
     {
 
         /// <summary>

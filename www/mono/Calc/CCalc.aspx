@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#"  MasterPageFile="~/Calc/Calc.master" AutoEventWireup="true" CodeBehind="CCalc.aspx.cs" Inherits="Area23.At.Mono.Calc.CCalc" %>
+﻿<%@ Page Language="C#"  MasterPageFile="~/Calc/CalcMaster.master" AutoEventWireup="true" CodeBehind="CCalc.aspx.cs" Inherits="Area23.At.Mono.Calc.CCalc" %>
 <asp:Content ID="CalcHeadContent" ContentPlaceHolderID="CalcHead" runat="server">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta id="metacursor" runat="server" content="" />
@@ -116,7 +116,7 @@
 					<td class="gainsboroTd" width="12%" id="td0c" align="center"><asp:Button ID="BDot" runat="server" Text="." OnClick="bNumber_Click" /></td>
 					<td class="gainsboroTd" width="12%" id="td0d" align="center"><asp:Button ID="B0" runat="server" Text="0" OnClick="bNumber_Click" /></td>
 					<td class="gainsboroTd" width="12%" id="td0e" align="center"><asp:Button ID="Bcomma" runat="server" Text="," OnClick="bNumber_Click" /></td>
-					<td class="azureTd" width="12%" id="td0f" align="center"><asp:Button ID="Bplusminus" ClientIDMode="Static" runat="server" Text="±" OnClick="bMath_Click" /></td>
+					<td class="azureTd" width="12%" id="td0f" align="center"><asp:Button ID="Bplusminus" ClientIDMode="Static" runat="server" Text="±" OnClick="bPlusMinus_Click" /></td>
 					<td class="salmonTd" width="12%" id="td0g" align="center"><asp:Button ID="BEnter" ClientIDMode="Static" runat="server" Text="&#9166;" OnClick="bEnter_Click" /></td>
 					<td class="rpnTd" width="12%" id="td0h"></td>
 				</tr>

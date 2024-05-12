@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace Area23.At.Mono.Calc
 {
-    public partial class Calc : System.Web.UI.MasterPage
+    public partial class CalcMaster : System.Web.UI.MasterPage
     {
         // public global::System.Web.UI.HtmlControls.HtmlForm MasterForm { get => ((Area23)(this.Master)).MasterForm; }
         public global::System.Web.UI.WebControls.ContentPlaceHolder MasterHead { get => ((Area23)(this.Master)).MasterHead; }

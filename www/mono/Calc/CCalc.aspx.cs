@@ -210,6 +210,16 @@ namespace Area23.At.Mono.Calc
             this.CurrentTextBox.Text += mathString.ToString();
         }
 
+        protected void bPlusMinus_Click(object sender, EventArgs e)
+        {
+            if (this.CurrentTextBox.Text.StartsWith("-"))
+                this.CurrentTextBox.Text = this.CurrentTextBox.Text.TrimStart("-".ToCharArray());
+            else
+                if (!string.IsNullOrEmpty(this.CurrentTextBox.Text) || 
+                    this.CurrentTextBox.Text != "0" || this.CurrentTextBox.Text != "0,0")
+                    this.CurrentTextBox.Text = "-" + this.CurrentTextBox.Text;
+        }
+
         protected void bPiE_Click(object sender, EventArgs e)
         {
             string mathString = (sender is Button) ? ((Button)sender).Text : "";
@@ -238,6 +248,9 @@ namespace Area23.At.Mono.Calc
         {
             string mathString = (sender is Button) ? ((Button)sender).Text :
                 (sender is TextBox) ? ((TextBox)sender).Text : "";
+
+            if (mathString == "|x|")
+                mathString = "abs";
 
             if (!string.IsNullOrEmpty(mathString))
             {
@@ -343,6 +356,7 @@ namespace Area23.At.Mono.Calc
         protected void BClear_Click(object sender, EventArgs e)
         {
             this.rpnStack.Clear();
+            TextCursor = 0;
             SetMetaContent();
             this.CurrentTextBox.Text = "";
             this.TextBox_Top.Text = "";
@@ -444,6 +458,7 @@ namespace Area23.At.Mono.Calc
                         stackTerm.EvaluateTerms(_currentRad);
                         this.TextBox_Calc.Text = stackTerm.ToString();
                         rpnStack.Clear();
+                        TextCursor = 0;
                         foreach (var selem in stackTerm.sterms)
                             rpnStack.Push(selem.Elem);
 

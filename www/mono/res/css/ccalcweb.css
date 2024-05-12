@@ -1,5 +1,5 @@
 ﻿/*
-    2024-05-12 ccalcweb.css by heinrich elsigan 
+    2023-11-05 rpncalcweb.css by heinrich elsigan 
 */
 body {
 }
@@ -67,9 +67,9 @@ div {
     }
 
 table {
-    width: 72%;
-    min-width: 360pt;
-    height: 54%;
+    width: 56%;
+    min-width: 256pt;
+    height: 56%;
     min-height: 270pt;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
@@ -79,9 +79,9 @@ table {
     background-repeat: no-repeat;
 }
 
-    table.ccalcTbl {
-        width: 360pt;
-        min-width: 360pt;
+    table.rpnTbl {
+        width: 256pt;
+        min-width: 256pt;
         height: 270pt;
         min-height: 270pt;
         align-content: center;
@@ -94,8 +94,8 @@ table {
     }
 
 tr {
-    width: 72%;
-    min-width: 360pt;
+    width: 56%;
+    min-width: 256pt;
     height: 27pt;
     min-height: 27pt;
     padding: 0 0 0 0;
@@ -108,10 +108,10 @@ tr {
     /* background-size: 100% 100%; */
 }
 
-    tr.ccalcTr {
+    tr.rpnTr {
         /* width: 72%; */
-        width: 360pt;
-        min-width: 360pt;
+        width: 256pt;
+        min-width: 256pt;
         height: 27pt;
         min-height: 27pt;
         padding: 0 0 0 0;
@@ -126,8 +126,8 @@ tr {
 
 
 td {
-    width: 36pt;
-    min-width: 36pt;
+    width: 32pt;
+    min-width: 32pt;
     height: 27pt;
     min-height: 27pt;
     text-align: center;
@@ -141,9 +141,9 @@ td {
     /* background-size: 100% 100%; */
 }
 
-    td.ccalcTd {
-        width: 36pt;
-        min-width: 36pt;
+    td.rpnTd {
+        width: 32pt;
+        min-width: 32pt;
         height: 27pt;
         min-height: 27pt;
         text-align: center;
@@ -159,8 +159,8 @@ td {
 
 
     td.gainsboroTd {
-        width: 36pt;
-        min-width: 36pt;
+        width: 32pt;
+        min-width: 32pt;
         height: 27pt;
         min-height: 27pt;
         text-align: center;
@@ -175,8 +175,8 @@ td {
     }
 
     td.azureTd {
-        width: 36pt;
-        min-width: 36pt;
+        width: 32pt;
+        min-width: 32pt;
         height: 27pt;
         min-height: 27pt;
         text-align: center;
@@ -191,8 +191,8 @@ td {
     }
 
     td.mistyroseTd {
-        width: 36pt;
-        min-width: 36pt;
+        width: 32pt;
+        min-width: 32pt;
         height: 27pt;
         min-height: 27pt;
         text-align: center;
@@ -207,8 +207,8 @@ td {
     }
 
     td.funckeyId {
-        width: 36pt;
-        min-width: 36pt;
+        width: 32pt;
+        min-width: 32pt;
         height: 27pt;
         min-height: 27pt;
         text-align: center;
@@ -223,8 +223,8 @@ td {
     }
 
     td.salmonTd {
-        width: 36pt;
-        min-width: 36pt;
+        width: 32pt;
+        min-width: 32pt;
         height: 27pt;
         min-height: 27pt;
         text-align: center;
@@ -250,8 +250,8 @@ td {
 }
 
 img {
-    width: 36pt;
-    min-width: 36pt;
+    width: 32pt;
+    min-width: 32pt;
     height: 27pt;
     min-height: 27pt;
     padding: 0 0 0 0;
@@ -264,8 +264,8 @@ img {
 }
 
     img.rpnImg {
-        width: 36pt;
-        min-width: 36pt;
+        width: 32pt;
+        min-width: 32pt;
         height: 27pt;
         min-height: 27pt;
         visibility: visible;
@@ -283,7 +283,7 @@ img {
     img.rpnImgHeader {
         width: 240pt;
         min-width: 240pt;
-        height: 36pt;
+        height: 32pt;
         min-height: 32pt;
         padding: 0 0 0 0;
         margin: 0 0 0 0;

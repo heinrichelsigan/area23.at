@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#"  MasterPageFile="~/Calc/Calc.master" AutoEventWireup="true" CodeBehind="RpnCalc.aspx.cs" Inherits="Area23.At.Mono.Calc.RpnCalc" %>
+﻿<%@ Page Language="C#"  MasterPageFile="~/Calc/CalcMaster.master" AutoEventWireup="true" CodeBehind="RpnCalc.aspx.cs" Inherits="Area23.At.Mono.Calc.RpnCalc" %>
 <asp:Content ID="CalcHeadContent" ContentPlaceHolderID="CalcHead" runat="server">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta id="metacursor" runat="server" content="" />
@@ -20,7 +20,7 @@
 					<span id="frogsDied" alt="frogs died" style="color:gainsboro">N</span>
 				</span>
 				<span style="min-height: 36pt; min-width: 240pt; vertical-align:middle; font-size: medium; text-align: center" align="center" valign="middle">
-					<img class="rpnImg" src="../res/img/header.png" id="headerImg" border="0" />
+					<img class="rpnImg" src="../res/img/rpnheader.png" id="headerImg" border="0" />
 				</span>
 				<span id="headerRight" style="min-height: 36pt; min-width: 60pt; vertical-align: middle; font-size: larger; text-align: left" align="left" valign="middle">								
 					&nbsp;<span id="spanCalcModeLabel" alt="calculator mode">mode</span>
