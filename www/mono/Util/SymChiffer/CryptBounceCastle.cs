@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Windows.Interop;
 using System.Linq;
 using System.Web;
 using Org.BouncyCastle.Crypto;
@@ -10,38 +11,40 @@ using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Utilities;
 using Org.BouncyCastle.Crypto.Engines;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
-using System.Windows.Interop;
+using static Org.BouncyCastle.Crypto.Engines.RsaEngine;
+using Org.BouncyCastle.Asn1.Cms;
+
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
-    public static class Serpent
+    public class CryptBounceCastle
     {
-        public static byte[] Key { get; private set; }
-        public static byte[] Iv { get; private set; }
-        public static int Size { get; private set; }
+        public byte[] Key { get; private set; }
+        public byte[] Iv { get; private set; }
+        public int Size { get; private set; }
+        public IBlockCipher BlockCipher { get; private set; }
+        public IBlockCipherPadding BlockCipherPadding { get; private set; }
         public static string Mode { get; private set; }
-        public static IBlockCipherPadding BlockCipherPadding { get; private set; }
 
-        static Serpent()
+        public CryptBounceCastle(IBlockCipher blockCipher)
         {
+            BlockCipher = (blockCipher == null) ? new AesEngine() : blockCipher;
+            BlockCipherPadding = new ZeroBytePadding();
             byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
             byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-            BlockCipherPadding = new ZeroBytePadding();
-            Key = new byte[16];
-            Iv = new byte[16];
-            Array.Copy(iv, Iv, 16);
-            Array.Copy(key, Key, 16);
-            Size = 128;
-            Mode = "ECB"; 
+            Key = new byte[32];
+            Iv = new byte[32];
+            Array.Copy(iv, Iv, 32);
+            Array.Copy(key, Key, 32);
+            Size = 256;
+            Mode = "ECB";
         }
 
-        public static byte[] Encrypt(byte[] plainData)
-        {            
-            var cipher = new SerpentEngine();
+        public byte[] Encrypt(byte[] plainData, out byte[] encryptedData)
+        {
+            var cipher = BlockCipher;
 
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
-            
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
@@ -58,28 +61,28 @@ namespace Area23.At.Mono.Util.SymChiffer
             }
 
             int outputSize = cipherMode.GetOutputSize(plainData.Length);
-            byte[] cipherTextData = new byte[outputSize];
-            int result = cipherMode.ProcessBytes(plainData, 0, plainData.Length, cipherTextData, 0);
-            cipherMode.DoFinal(cipherTextData, result);
-            var cipherData = cipherTextData;
-
-            // byte[] cipherData = cipherMode.ProcessBytes(plainData);            
-
+            byte[] cipherData = new byte[outputSize];
+            int result = cipherMode.ProcessBytes(plainData, 0, plainData.Length, cipherData, 0);
+            cipherMode.DoFinal(cipherData, result);
+            
+            encryptedData = cipherMode.ProcessBytes(plainData);            
+            
             return cipherData;
         }
 
-        public static string EncryptString(string inString)
+        public string EncryptString(string inString)
         {
             byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inString);
-            byte[] encryptedData = Encrypt(plainTextData);
-            string encryptedString = Convert.ToBase64String(encryptedData); 
-                // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
+            byte[] encryptedData;
+            byte[] cipherData = this.Encrypt(plainTextData, out encryptedData);
+            string encryptedString = Convert.ToBase64String(encryptedData);
+            // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
             return encryptedString;
         }
 
-        public static byte[] Decrypt(byte[] cipherData)
+        public byte[] Decrypt(byte[] cipherData, out byte[] decryptedData)
         {
-            var cipher = new SerpentEngine();
+            var cipher = BlockCipher;
 
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
@@ -97,26 +100,26 @@ namespace Area23.At.Mono.Util.SymChiffer
                 cipherMode.Init(false, keyParamIV);
             }
 
-            int outputSize = (int)Math.Max(cipherMode.GetOutputSize(cipherData.Length), cipherMode.GetUpdateOutputSize(cipherData.Length));
-            byte[] plainTextData = new byte[outputSize];
-            int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainTextData, 0);
-            cipherMode.DoFinal(plainTextData, result);
-            var plainData = plainTextData;
+            int outputSize = cipherMode.GetOutputSize(cipherData.Length);
+            // int outputSize = (int)Math.Max(cipherMode.GetOutputSize(cipherData.Length), cipherMode.GetUpdateOutputSize(cipherData.Length));
+            byte[] plainData = new byte[outputSize];
+            int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainData, 0);
+            cipherMode.DoFinal(plainData, result);
 
-            // byte[] plainData = cipherMode.ProcessBytes(cipherData);
-            
+            decryptedData = cipherMode.ProcessBytes(cipherData);            
+
             return plainData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
         }
 
-        public static string DecryptString(string inCryptString)
+        public string DecryptString(string inCryptString)
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
             //  System.Text.Encoding.UTF8.GetBytes(inCryptString);
-            byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+            byte[] decryptedData;
+            byte[] plainData = Decrypt(cryptData, out decryptedData);
+            string plainTextString = System.Text.Encoding.ASCII.GetString(plainData).TrimEnd('\0');
             return plainTextString;
         }
-
 
     }
 

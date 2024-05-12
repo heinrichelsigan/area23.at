@@ -14,30 +14,40 @@ namespace Area23.At.Mono
 
         protected void Application_Init(object sender, EventArgs e)
         {
-
+            string msg = String.Format("application init at {0} object sender = {1}, EventArgs e = {2}",
+                DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                (sender == null) ? "(null)" : sender.ToString(),
+                (e == null) ? "(null)" : e.ToString());
+            Area23Log.LogStatic(msg);
+            Area23Log.Logger.Log("logging to logfile = " + Area23Log.LogFile);
         }
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            //string msg = String.Format("application started at {0} object sender = {1}, EventArgs e = {2}",
-            //    DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
-            //    (sender == null) ? "(null)" : sender.ToString(),
-            //    (e == null) ? "(null)" : e.ToString());
-            //Area23Log.Logger.Log(msg);
-            //Area23Log.Logger.Log("logging to logfile = " + Area23Log.LogFile);
+            string msg = String.Format("application started at {0} object sender = {1}, EventArgs e = {2}",
+                DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                (sender == null) ? "(null)" : sender.ToString(),
+                (e == null) ? "(null)" : e.ToString());
+            Area23Log.LogStatic(msg);
+            Area23Log.Logger.Log("logging to logfile = " + Area23Log.LogFile);
         }
 
         protected void Application_Disposed(object sender, EventArgs e) 
-        { 
+        {
+            string msg = String.Format("application disposed at {0} object sender = {1}, EventArgs e = {2}",
+                DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                (sender == null) ? "(null)" : sender.ToString(),
+                (e == null) ? "(null)" : e.ToString());
+            Area23Log.Logger.Log(msg);
         }
 
         protected void Application_End(object sender, EventArgs e)
         {
-            //string msg = String.Format("application ended at {0} object sender = {1}, EventArgs e = {2}",
-            //    DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
-            //    (sender == null) ? "(null)" : sender.ToString(),
-            //    (e == null) ? "(null)" : e.ToString());
-            //Area23Log.Logger.Log(msg);
+            string msg = String.Format("application ended at {0} object sender = {1}, EventArgs e = {2}",
+                DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
+                (sender == null) ? "(null)" : sender.ToString(),
+                (e == null) ? "(null)" : e.ToString());
+            Area23Log.Logger.Log(msg);
         }
 
 

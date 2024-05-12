@@ -32,7 +32,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             byte[] key = new byte[16];
             using (SHA256 sha256 = SHA256.Create())
             {
-                byte[] hash = sha256.ComputeHash(Convert.FromBase64String(ResReader.GetValue(Constants.SERPENT_IV)));
+                byte[] hash = sha256.ComputeHash(Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY)));
                 Array.Copy(hash, key, 16);
             }
 
@@ -40,7 +40,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             byte[] iv = new byte[8];
             using (SHA256 sha256 = SHA256.Create())
             {
-                byte[] hash = sha256.ComputeHash(Convert.FromBase64String(ResReader.GetValue(Constants.SERPENT_IV)));
+                byte[] hash = sha256.ComputeHash(Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV)));
                 Array.Copy(hash, iv, 8);
             }
             DesIv = iv;
@@ -58,7 +58,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             tdes.Key = DesKey;
             tdes.IV = DesIv;
             tdes.Mode = CipherMode.CBC;
-            tdes.Padding = PaddingMode.None;
+            tdes.Padding = PaddingMode.PKCS7;
             ICryptoTransform cTransform = tdes.CreateEncryptor();
             byte[] cryptedBytes = cTransform.TransformFinalBlock(inBytes, 0, inBytes.Length);
             tdes.Clear();
@@ -96,7 +96,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             tdes.Key = DesKey;
             tdes.IV = DesIv;
             tdes.Mode = CipherMode.CBC;            
-            tdes.Padding = PaddingMode.None;
+            tdes.Padding = PaddingMode.PKCS7;
             toDecryptArray = new byte[cipherBytes.Length * 2];
             ICryptoTransform cTransform = tdes.CreateDecryptor();
             byte[] decryptedBytes = cTransform.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);        

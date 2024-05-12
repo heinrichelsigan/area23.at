@@ -15,7 +15,7 @@ using System.Windows.Interop;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
-    public static class Serpent
+    public static class TwoFish
     {
         public static byte[] Key { get; private set; }
         public static byte[] Iv { get; private set; }
@@ -23,28 +23,27 @@ namespace Area23.At.Mono.Util.SymChiffer
         public static string Mode { get; private set; }
         public static IBlockCipherPadding BlockCipherPadding { get; private set; }
 
-        static Serpent()
+        static TwoFish()
         {
             byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
             byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
             BlockCipherPadding = new ZeroBytePadding();
-            Key = new byte[16];
-            Iv = new byte[16];
-            Array.Copy(iv, Iv, 16);
-            Array.Copy(key, Key, 16);
-            Size = 128;
-            Mode = "ECB"; 
+            Key = new byte[32];
+            Iv = new byte[32];
+            Array.Copy(iv, Iv, 32);
+            Array.Copy(key, Key, 32);
+            Size = 256;
+            Mode = "ECB";
         }
 
         public static byte[] Encrypt(byte[] plainData)
-        {            
-            var cipher = new SerpentEngine();
+        {
+            var cipher = new TwofishEngine();
 
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
-            
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
-
+            
             KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
 
@@ -62,9 +61,9 @@ namespace Area23.At.Mono.Util.SymChiffer
             int result = cipherMode.ProcessBytes(plainData, 0, plainData.Length, cipherTextData, 0);
             cipherMode.DoFinal(cipherTextData, result);
             var cipherData = cipherTextData;
-
-            // byte[] cipherData = cipherMode.ProcessBytes(plainData);            
-
+            
+            // byte[] cipherData = cipherMode.ProcessBytes(plainData);
+            
             return cipherData;
         }
 
@@ -72,14 +71,14 @@ namespace Area23.At.Mono.Util.SymChiffer
         {
             byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inString);
             byte[] encryptedData = Encrypt(plainTextData);
-            string encryptedString = Convert.ToBase64String(encryptedData); 
-                // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
+            string encryptedString = Convert.ToBase64String(encryptedData);
+            // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
             return encryptedString;
         }
 
         public static byte[] Decrypt(byte[] cipherData)
         {
-            var cipher = new SerpentEngine();
+            var cipher = new TwofishEngine();
 
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
@@ -97,14 +96,14 @@ namespace Area23.At.Mono.Util.SymChiffer
                 cipherMode.Init(false, keyParamIV);
             }
 
-            int outputSize = (int)Math.Max(cipherMode.GetOutputSize(cipherData.Length), cipherMode.GetUpdateOutputSize(cipherData.Length));
-            byte[] plainTextData = new byte[outputSize];
-            int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainTextData, 0);
-            cipherMode.DoFinal(plainTextData, result);
-            var plainData = plainTextData;
+            int outputSize = cipherMode.GetOutputSize(cipherData.Length);
+            // int outputSize = (int)Math.Max(cipherMode.GetOutputSize(cipherData.Length), cipherMode.GetUpdateOutputSize(cipherData.Length));
+            byte[] plainData = new byte[outputSize];
+            int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainData, 0);
+            cipherMode.DoFinal(plainData, result);
 
             // byte[] plainData = cipherMode.ProcessBytes(cipherData);
-            
+
             return plainData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
         }
 
@@ -116,7 +115,6 @@ namespace Area23.At.Mono.Util.SymChiffer
             string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
             return plainTextString;
         }
-
 
     }
 

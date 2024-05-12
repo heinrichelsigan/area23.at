@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace Area23.At.Mono.Util
@@ -79,7 +80,7 @@ namespace Area23.At.Mono.Util
 
         #endregion DateTime extensions
 
-        #region byte[] and stream extensions
+        #region byte[], string and stream extensions
 
         /// <summary>
         /// Extension method for <see cref="System.IO.Stream"/>
@@ -118,7 +119,7 @@ namespace Area23.At.Mono.Util
         }
 
         /// <summary>
-        /// byte[} extension ToFile - writes a byte array to a file
+        /// byte[] extension ToFile - writes a byte array to a file
         /// </summary>
         /// <param name="bytes"><see cref="byte[]"/></param>
         /// <param name="filePath">filesystem path</param>
@@ -164,6 +165,40 @@ namespace Area23.At.Mono.Util
             }
 
             return null;
+        }
+
+
+        /// <summary>
+        /// Extension method for converting byte[] to HexString
+        /// </summary>
+        /// <param name="bytes">Array of <see cref="byte"/></param>
+        /// <returns>hexadecimal string</returns>
+        public static string ToHexString(this byte[] bytes)
+        {
+            var sb = new StringBuilder();
+
+            foreach (var t in bytes)
+            {
+                sb.Append(t.ToString("X2"));
+            }
+
+            return sb.ToString(); // returns: "48656C6C6F20776F726C64" for "Hello world"
+        }
+
+        /// <summary>
+        /// Extension method for converting hexadecimal string to byte[]
+        /// </summary>
+        /// <param name="hexString">hexadecimal string</param>
+        /// <returns><see cref="byte[]">byte[]</see> Array of <see cref="byte"/></returns>
+        public static byte[] FromHexString(this string hexString)
+        {
+            byte[] bytes = new byte[hexString.Length / 2];
+            for (var i = 0; i < bytes.Length; i++)
+            {
+                bytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
+            }
+
+            return bytes; // returns: "Hello world" for "48656C6C6F20776F726C64"
         }
 
         #endregion byte[] and stream extensions

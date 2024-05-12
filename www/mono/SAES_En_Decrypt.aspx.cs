@@ -2,14 +2,18 @@
 using Area23.At.Mono.Util;
 using Area23.At.Mono.Util.Enum;
 using Area23.At.Mono.Util.SymChiffer;
+using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
+using System.Web.Caching;
 using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -27,53 +31,7 @@ namespace Area23.At.Mono
             }
         }
 
-
-        /// <summary>
-        /// Decrypt File
-        /// </summary>
-        /// <param name="data">byte[] of encrypted file</param>
-        /// <param name="imgFileName"></param>
-        /// <param name="symChiffre">encryption SymChiffre</param>
-        /// <returns></returns>
-        protected byte[] DecryptFile(byte[] data, SymChiffre symChiffre = SymChiffre.NONE)
-        {
-            byte[] plainData = data;
-            switch (symChiffre)
-            {                
-                case SymChiffre.DES3: plainData = TripleDes.Decrypt(data); break;
-                case SymChiffre.AES: plainData = Aes.Decrypt(data); break;
-                case SymChiffre.SERPENT: plainData = Serpent.Decrypt(data); break;
-                case SymChiffre.NONE:
-                default: break;
-            }            
-            
-            return plainData;
-        }
-
-
-        /// <summary>
-        /// Encrypt File
-        /// </summary>
-        /// <param name="data">byte[] of plain text file</param>
-        /// <param name="imgFileName"></param>
-        /// <param name="symChiffre">decryption SymChiffre</param>
-        /// <returns></returns>
-        protected byte[] EncryptFile(byte[] data, SymChiffre symChiffre = SymChiffre.NONE)
-        {
-            byte[] encryptedData = data;
-
-            switch (symChiffre)
-            {
-                case SymChiffre.DES3: encryptedData = TripleDes.Encrypt(data); break;
-                case SymChiffre.AES: encryptedData = Aes.Encrypt(data); break;
-                case SymChiffre.SERPENT: encryptedData = Serpent.Encrypt(data); break;
-                case SymChiffre.NONE:
-                default: break;
-            }
-
-            return encryptedData;
-        }
-
+        #region page_events
 
         protected void ButtonEncryptFile_Click(object sender, EventArgs e)
         {
@@ -90,6 +48,112 @@ namespace Area23.At.Mono
             }
         }
 
+
+        protected void ButtonEncrypt_Click(object sender, EventArgs e)
+        {
+            frmConfirmation.Visible = false;
+            if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
+            {
+                string source = this.TextBoxSource.Text;
+                string encryptedText = string.Empty;
+                byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
+                string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
+                byte[] encryptBytes = inBytes;
+                foreach (string algo in algos)
+                {
+                    encryptBytes = EncryptBytes(inBytes, algo);
+                    inBytes = encryptBytes;
+                }
+
+                encryptedText = Convert.ToBase64String(encryptBytes);
+                this.TextBoxDestionation.Text = encryptedText;
+            }
+        }
+
+        protected void ButtonDecrypt_Click(object sender, EventArgs e)
+        {
+            frmConfirmation.Visible = false;
+            string cipherText = this.TextBoxSource.Text;
+            string decryptedText = string.Empty;
+            byte[] cipherBytes = Convert.FromBase64String(cipherText);
+            byte[] decryptedBytes = cipherBytes;
+            if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
+            {
+                string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
+                for (int ig = (algos.Length - 1); ig >= 0; ig--)
+                {
+                    decryptedBytes = DecryptBytes(cipherBytes, algos[ig]);
+                    cipherBytes = decryptedBytes;
+                }
+                List<char> charList = new List<char>();
+                for (int i = 0; i < 32; i++)
+                {
+                    if (i != 10 && i != 13)
+                    {
+                        char ch = (char)i;
+                        if (ch != '\v' && ch != '\t' && ch != '\r' && ch != '\n')
+                            charList.Add(ch);
+                    }
+                }
+                char[] chars = charList.ToArray();
+                decryptedText = System.Text.Encoding.UTF8.GetString(decryptedBytes).TrimEnd(chars);
+                foreach (char ch in chars)
+                {
+                    if (decryptedText.IndexOf(ch) > 0)
+                        decryptedText = decryptedText.Substring(0, decryptedText.IndexOf(ch) + 1);
+                }
+                if (decryptedText.LastIndexOf('\0') > 0)
+                    decryptedText = decryptedText.Substring(0, decryptedText.LastIndexOf('\0'));
+                this.TextBoxDestionation.Text = decryptedText;
+            }
+        }
+
+
+        protected void Button_Clear_Click(object sender, EventArgs e)
+        {
+            this.TextBox_Encryption.Text = "";
+        }
+
+        protected void Button_Reset_KeyIV_Click(object sender, EventArgs e)
+        {
+            // TODO: implement it
+        }
+
+        protected void ImageButton_Add_Click(object sender, EventArgs e)
+        {
+            string addChiffre = "";
+            if (DropDownList_SymChiffer.SelectedValue.ToString() == "2FISH" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "3FISH" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "3DES" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "AES" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Camellia" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "DesEde" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Gost28147" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "RC2" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "RC532" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "RC564" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "RC6" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Rijndael" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Serpent" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Skipjack" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Tea" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Tnepres" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "XTea")
+            {
+                addChiffre = DropDownList_SymChiffer.SelectedValue.ToString() + "⇛";
+                this.TextBox_Encryption.Text += addChiffre;
+            }
+        }
+
+        #endregion page_events
+
+        #region enryption_decryption_members 
+
+        /// <summary>
+        /// Encrypts or Decrypts uploaded file
+        /// </summary>
+        /// <param name="pfile">HttpPostedFile pfile</param>
+        /// <param name="crypt">true for encrypt, false for decrypt</param>
         protected void EnDeCryptUploadFile(HttpPostedFile pfile, bool crypt = true)
         {
             string strFilePath;
@@ -117,8 +181,8 @@ namespace Area23.At.Mono
                     lblUploadResult.Text = strFileName + " has been successfully uploaded.";
 
                 byte[] fileBytes = pfile.InputStream.ToByteArray();
-                byte[] outBytes = null;                
-                
+                byte[] outBytes = null;
+
                 if (!string.IsNullOrEmpty(strFileName))
                 {
                     string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
@@ -129,40 +193,17 @@ namespace Area23.At.Mono
                     }
                     else
                     {
+                        int cryptCount = 0;
                         if (crypt)
                         {
                             imgOut.Src = "res/img/encrypted.png";
-                            int cryptCount = 0;
+                            
                             foreach (string algo in algos)
                             {
-                                if (algo.ToUpper() == "2FISH")
-                                {
-                                    outBytes = EncryptFile(fileBytes, SymChiffre.FISH2);
-                                    fileBytes = outBytes;
-                                    strFileName += ".2fish";
-                                    cryptCount++;
-                                }
-                                if (algo.ToUpper() == "3DES")
-                                {
-                                    outBytes = EncryptFile(fileBytes, SymChiffre.DES3);
-                                    fileBytes = outBytes;
-                                    strFileName += ".des";
-                                    cryptCount++;
-                                }
-                                if (algo.ToUpper() == "AES")
-                                {
-                                    outBytes = EncryptFile(fileBytes, SymChiffre.AES);
-                                    fileBytes = outBytes;
-                                    strFileName += ".aes";
-                                    cryptCount++;
-                                }
-                                if (algo.ToUpper() == "SERPENT")
-                                {
-                                    outBytes = EncryptFile(fileBytes, SymChiffre.SERPENT);
-                                    fileBytes = outBytes;
-                                    strFileName += ".serpent";
-                                    cryptCount++;
-                                }
+                                outBytes = EncryptBytes(fileBytes, algo);
+                                fileBytes = outBytes;
+                                cryptCount++;
+                                strFileName += "." + algo.ToLower();                                
                             }
                             lblUploadResult.Text = String.Format("file {0} x encrypted to ", cryptCount);
                         }
@@ -170,173 +211,204 @@ namespace Area23.At.Mono
                         {
                             imgOut.Src = "res/img/decrypted.png";
                             for (int ig = (algos.Length - 1); ig >= 0; ig--)
-                            {
-                                if (algos[ig].ToUpper() == "2FISH")
-                                {
-                                    outBytes = DecryptFile(fileBytes, SymChiffre.SERPENT);
-                                    fileBytes = outBytes;
-                                    strFileName = strFileName.EndsWith(".2fish") ? strFileName.Replace(".2fish", "") : strFileName;
-                                }
-                                if (algos[ig].ToUpper() == "3DES")
-                                {
-                                    outBytes = DecryptFile(fileBytes, SymChiffre.DES3);
-                                    fileBytes = outBytes;
-                                    strFileName = strFileName.EndsWith(".3des") ? strFileName.Replace(".3des", "") : strFileName;
-                                    strFileName = strFileName.EndsWith(".des") ? strFileName.Replace(".des", "") : strFileName;
-                                }
-                                if (algos[ig].ToUpper() == "AES")
-                                {
-                                    outBytes = DecryptFile(fileBytes, SymChiffre.AES);
-                                    fileBytes = outBytes;
-                                    strFileName = strFileName.EndsWith(".aes") ? strFileName.Replace(".aes", "") : strFileName;
-                                }
-                                if (algos[ig].ToUpper() == "SERPENT")
-                                {
-                                    outBytes = DecryptFile(fileBytes, SymChiffre.SERPENT);
-                                    fileBytes = outBytes;
-                                    strFileName = strFileName.EndsWith(".serpent") ? strFileName.Replace(".serpent", "") : strFileName;
-                                }
+                            {                                
+                                outBytes = DecryptBytes(fileBytes, algos[ig]);
+                                fileBytes = outBytes;
+                                cryptCount++;
+                                strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;                                
                             }
                             lblUploadResult.Text = "file has been decrypted to ";
-                        }                                                
+                        }
                     }
                     string outMsg;
                     string savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName);
                     aTransFormed.HRef = "res/" + savedTransFile;
                     lblUploadResult.Text += outMsg;
-                }                
+                }
             }
             else
             {
                 lblUploadResult.Text = "Click 'Browse' to select the file to upload.";
             }
 
-
             // Display the result of the upload.
             frmConfirmation.Visible = true;
         }
 
-        protected void ButtonEncrypt_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Generic encrypt bytes to bytes
+        /// </summary>
+        /// <param name="inBytes">Array of byte</param>
+        /// <param name="algo">Symetric chiffre algorithm</param>
+        /// <returns>encrypted byte Array</returns>
+        protected byte[] EncryptBytes(byte[] inBytes, string algo)
         {
-            frmConfirmation.Visible = false;
-            if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
+            byte[] encryptBytes = inBytes;
+            byte[] outBytes;
+            if (algo == "2FISH")
             {
-                string source = this.TextBoxSource.Text;
-                string encryptedText = string.Empty;
-
-                string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
-                byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
-                byte[] encryptedBytes = inBytes;
-                foreach (string algo in algos)
+                encryptBytes = TwoFish.Encrypt(inBytes);
+            }
+            if (algo == "3FISH")
+            {
+                encryptBytes = ThreeFish.Encrypt(inBytes);
+            }
+            if (algo == "3DES")
+            {
+                encryptBytes = TripleDes.Encrypt(inBytes);
+            }
+            if (algo == "AES")
+            {
+                encryptBytes = Aes.Encrypt(inBytes);
+            }
+            if (algo == "DesEde")
+            {
+                encryptBytes = DesEde.Encrypt(inBytes);
+            }
+            if (algo == "Camellia")
+            {
+                encryptBytes = Camellia.Encrypt(inBytes);
+            }
+            if (algo == "RC564")
+            {
+                encryptBytes = RC564.Encrypt(inBytes);
+            }
+            //if (algo == "Serpent")
+            //    encryptBytes = Serpent.Encrypt(inBytes);
+            if (algo == "Gost28147" || algo == "RC2" || algo == "RC532" || algo == "RC6" ||
+                algo == "Rijndael" || algo == "Skipjack" || algo == "Rfc5649" ||
+                algo == "Serpent" || algo == "Tea" || algo == "Tnepres" || algo == "XTea")
+            {
+                IBlockCipher blockCipher;
+                switch (algo)
                 {
-                    if (algo.ToUpper() == "2FISH")
-                    {
-                        ; //TODO implement it
-                    }
-                    if (algo.ToUpper() == "3DES")
-                    {
-                        encryptedBytes = TripleDes.Encrypt(inBytes);
-                        inBytes = encryptedBytes;
-                    }
-                    if (algo.ToUpper() == "AES")
-                    {
-                        encryptedBytes = Aes.Encrypt(inBytes);
-                        inBytes = encryptedBytes;
-                    }
-                    if (algo.ToUpper() == "SERPENT")
-                    {
-                        encryptedBytes = Serpent.Encrypt(inBytes);
-                        inBytes = encryptedBytes;
-                    }
+                    case "Camellia":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaEngine();
+                        break;
+                    case "Gost28147":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
+                        break;
+                    case "RC2":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
+                        break;
+                    case "RC532":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
+                        break;
+                    case "RC6":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
+                        break;
+                    case "Rijndael":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RijndaelEngine();
+                        break;
+                    case "Skipjack":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
+                        break;
+                    case "Tea":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
+                        break;
+                    case "Tnepres":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();
+                        break;
+                    case "XTea":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
+                        break;
+                    default:
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
+                        break;
                 }
-                encryptedText = Convert.ToBase64String(encryptedBytes);
-
-                //foreach (ListItem item in this.CheckBoxListEncDeCryption.Items)
-                //{
-                //    if (item.Value == "2FISH" && item.Selected)
-                //    {
-                //        ; //TODO: implement Blowfish & TwoFish
-                //    }
-                //    if (item.Value == "3DES" && item.Selected)
-                //    {
-                //        encrypted = TripleDes.EncryptString(source);
-                //        source = encrypted;
-                //    }
-                //    if (item.Value == "AES" && item.Selected)
-                //    {
-                //        encrypted = Aes.EncryptString(source);
-                //        source = encrypted;
-                //    }
-                //    if (item.Value == "Serpent" && item.Selected)
-                //    {
-                //        encrypted = Serpent.EncryptString(source);
-                //        source = encrypted;
-                //    }
-                //}
-                this.TextBoxDestionation.Text = encryptedText;
+                CryptBounceCastle cryptCastle = new CryptBounceCastle(blockCipher);
+                encryptBytes = cryptCastle.Encrypt(inBytes, out outBytes);
             }
+
+            return encryptBytes;
         }
 
-        protected void ButtonDecrypt_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Generic decrypt bytes to bytes
+        /// </summary>
+        /// <param name="cipherBytes">Encrypted array of byte</param>
+        /// <param name="algorithmName">Symetric chiffre algorithm</param>
+        /// <returns>decrypted byte Array</returns>
+        protected byte[] DecryptBytes(byte[] cipherBytes, string algorithmName)
         {
-            frmConfirmation.Visible = false;
-            if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
+            byte[] decryptBytes = cipherBytes;
+            byte[] plainBytes;
+            if (algorithmName == "2FISH")
             {
-                string cipherText = this.TextBoxSource.Text;
-                string decryptedText = string.Empty;
-                byte[] cipherBytes = Convert.FromBase64String(cipherText);
-                byte[] decryptedBytes = cipherBytes;
-
-                string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
-                for (int ig = (algos.Length - 1); ig >= 0; ig--)
+                decryptBytes = TwoFish.Decrypt(cipherBytes);
+            }
+            if (algorithmName == "3FISH")
+            {
+                decryptBytes = ThreeFish.Decrypt(cipherBytes);
+            }
+            if (algorithmName == "3DES")
+            {
+                decryptBytes = TripleDes.Decrypt(cipherBytes);
+            }
+            if (algorithmName == "AES")
+            {
+                decryptBytes = Aes.Decrypt(cipherBytes);
+            }
+            if (algorithmName == "DesEde")
+            {
+                decryptBytes = DesEde.Decrypt(cipherBytes);
+            }
+            if (algorithmName == "Camellia")
+            {
+                decryptBytes = Camellia.Decrypt(cipherBytes);
+            }
+            if (algorithmName.ToUpper() == "RC564")
+            {
+                decryptBytes = RC564.Decrypt(cipherBytes);
+            }
+            //if (algorithmName.ToUpper() == "Serpent")
+            //    decryptBytes = Serpent.Decrypt(cipherBytes);
+            if (algorithmName == "Gost28147" ||
+                algorithmName == "RC2" || algorithmName == "RC532" || algorithmName == "RC6" ||
+                algorithmName == "Rijndael" || algorithmName == "Skipjack" || algorithmName == "Rfc5649" ||
+                algorithmName == "Serpent" || algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea") 
+            {
+                IBlockCipher blockCipher;
+                switch (algorithmName)
                 {
-                    if (algos[ig].ToUpper() == "2FISH")
-                    {
-                        ; //TODO: implement Blowfish & TwoFish
-                    }
-                    if (algos[ig].ToUpper() == "3DES")
-                    {
-                        decryptedBytes = TripleDes.Decrypt(cipherBytes);
-                        cipherBytes = decryptedBytes;
-                    }
-                    if (algos[ig].ToUpper() == "AES")
-                    {
-                        decryptedBytes = Aes.Decrypt(cipherBytes);
-                        cipherBytes = decryptedBytes;
-                    }
-                    if (algos[ig].ToUpper() == "SERPENT")
-                    {
-                        decryptedBytes = Serpent.Decrypt(cipherBytes);
-                        cipherBytes = decryptedBytes;
-                    }
+                    case "Gost28147":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
+                        break;
+                    case "RC2":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
+                        break;
+                    case "RC532":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
+                        break;
+                    case "RC6":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
+                        break;
+                    case "Rijndael":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RijndaelEngine();
+                        break;
+                    case "Skipjack":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
+                        break;
+                    case "Tea":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
+                        break;
+                    case "Tnepres":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();
+                        break;
+                    case "XTea":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
+                        break;
+                    default:
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
+                        break;
                 }
-                decryptedText = System.Text.Encoding.UTF8.GetString(decryptedBytes).TrimEnd('\0');
-                
-                this.TextBoxDestionation.Text = decryptedText;
+                CryptBounceCastle cryptCastle = new CryptBounceCastle(blockCipher);
+                decryptBytes = cryptCastle.Decrypt(cipherBytes, out plainBytes);
             }
+
+            return decryptBytes;
         }
 
-
-        protected void Button_Clear_Click(object sender, EventArgs e)
-        {
-            this.TextBox_Encryption.Text = "";
-        }
-
-        protected void Button_Reset_KeyIV_Click(object sender, EventArgs e)
-        {
-            // TODO: implement it
-        }
-
-        protected void ImageButton_Add_Click(object sender, EventArgs e)
-        {
-            string addChiffre = "";
-            if (DropDownList_SymChiffer.SelectedValue.ToString().ToUpper() == "3DES" ||
-                DropDownList_SymChiffer.SelectedValue.ToString().ToUpper() == "AES")
-            {
-                addChiffre = DropDownList_SymChiffer.SelectedValue.ToString() + "⇛";
-                this.TextBox_Encryption.Text += addChiffre;
-            }
-        }
-
+        #endregion enryption_decryption_members 
     }
 }

@@ -61,42 +61,6 @@ namespace Area23.At.Mono.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to a6iJrMU44DKZ1puxD5ErzqQotD4tXSrxM6ME3UgmHSY=.
-        /// </summary>
-        internal static string _3DesIv {
-            get {
-                return ResourceManager.GetString("3DesIv", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 0ersgfaO/uP7+HrpTwZjU9VoyobLofw7KvwCAcOVMRc=.
-        /// </summary>
-        internal static string _3DesKey {
-            get {
-                return ResourceManager.GetString("3DesKey", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 6pU0BotI3zzF0cWKz56bkQ==.
-        /// </summary>
-        internal static string AesIv {
-            get {
-                return ResourceManager.GetString("AesIv", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 0ersgfaO/uP7+HrpTwZjU9VoyobLofw7KvwCAcOVMRc=.
-        /// </summary>
-        internal static string AesKey {
-            get {
-                return ResourceManager.GetString("AesKey", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Area23.At.Mono.
         /// </summary>
         internal static string app_name {
@@ -193,20 +157,56 @@ namespace Area23.At.Mono.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEJBQjUxMEJBQjUxMEJBQjUxMEJBQjUxMEJBQjUwQkFCNQ==.
+        ///   Looks up a localized string similar to a6iJrMU44DKZ1puxD5ErzqQotD4tXSrxM6ME3UgmHSY=.
         /// </summary>
-        internal static string SerpentIv {
+        internal static string M0Rlc0l2 {
             get {
-                return ResourceManager.GetString("SerpentIv", resourceCulture);
+                return ResourceManager.GetString("M0Rlc0l2", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEJBQjUxMEJBQjUxMEJBQjU=.
+        ///   Looks up a localized string similar to MEJBQjUxMEJBQjUxMEJBQjUxMEJBQjUxMEJBQjUwQkE=.
         /// </summary>
-        internal static string SerpentKey {
+        internal static string Q0FTVExF {
             get {
-                return ResourceManager.GetString("SerpentKey", resourceCulture);
+                return ResourceManager.GetString("Q0FTVExF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GvJd0SRyg3AcTF4Sidyrn/nJM1BNUJqKms19FZKx1Z4=.
+        /// </summary>
+        internal static string Qk9VTkNF {
+            get {
+                return ResourceManager.GetString("Qk9VTkNF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0ersgfaO/uP7+HrpTwZjU9VoyobLofw7KvwCAcOVMRc=.
+        /// </summary>
+        internal static string QWVzS2V5 {
+            get {
+                return ResourceManager.GetString("QWVzS2V5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 6pU0BotI3zzF0cWKz56bkQ==.
+        /// </summary>
+        internal static string QWVzSXY0 {
+            get {
+                return ResourceManager.GetString("QWVzSXY0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0ersgfaO/uP7+HrpTwZjU9VoyobLofw7KvwCAcOVMRc=.
+        /// </summary>
+        internal static string RGVzS2V5 {
+            get {
+                return ResourceManager.GetString("RGVzS2V5", resourceCulture);
             }
         }
         

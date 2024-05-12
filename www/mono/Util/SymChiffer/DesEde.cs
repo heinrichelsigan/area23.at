@@ -15,7 +15,7 @@ using System.Windows.Interop;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
-    public static class Serpent
+    public static class DesEde
     {
         public static byte[] Key { get; private set; }
         public static byte[] Iv { get; private set; }
@@ -23,28 +23,31 @@ namespace Area23.At.Mono.Util.SymChiffer
         public static string Mode { get; private set; }
         public static IBlockCipherPadding BlockCipherPadding { get; private set; }
 
-        static Serpent()
+        static DesEde()
         {
-            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
             BlockCipherPadding = new ZeroBytePadding();
             Key = new byte[16];
             Iv = new byte[16];
             Array.Copy(iv, Iv, 16);
             Array.Copy(key, Key, 16);
             Size = 128;
-            Mode = "ECB"; 
+            Mode = "ECB";            
         }
 
         public static byte[] Encrypt(byte[] plainData)
         {            
-            var cipher = new SerpentEngine();
+            var cipher = new DesEdeEngine();
 
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
             
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
+            CipherKeyGenerator keyGen = new CipherKeyGenerator();
+            keyGen.Init(new KeyGenerationParameters(new SecureRandom(), Size));
+            byte[] ekey = keyGen.GenerateKey();
             KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
 
@@ -58,14 +61,13 @@ namespace Area23.At.Mono.Util.SymChiffer
             }
 
             int outputSize = cipherMode.GetOutputSize(plainData.Length);
-            byte[] cipherTextData = new byte[outputSize];
-            int result = cipherMode.ProcessBytes(plainData, 0, plainData.Length, cipherTextData, 0);
-            cipherMode.DoFinal(cipherTextData, result);
-            var cipherData = cipherTextData;
+            byte[] ciphertData = new byte[outputSize];
+            int result = cipherMode.ProcessBytes(plainData, 0, plainData.Length, ciphertData, 0);
+            cipherMode.DoFinal(ciphertData, result);
 
-            // byte[] cipherData = cipherMode.ProcessBytes(plainData);            
+            // byte[] ciphertData = cipherMode.ProcessBytes(plainData);
 
-            return cipherData;
+            return ciphertData;
         }
 
         public static string EncryptString(string inString)
@@ -79,12 +81,16 @@ namespace Area23.At.Mono.Util.SymChiffer
 
         public static byte[] Decrypt(byte[] cipherData)
         {
-            var cipher = new SerpentEngine();
+            var cipher = new DesEdeEngine();
 
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
+            CipherKeyGenerator keyGen = new CipherKeyGenerator();
+            keyGen.Init(new KeyGenerationParameters(new SecureRandom(), Size));
+            KeyParameter keyParameter = keyGen.GenerateKeyParameter();
+            byte[] key = keyParameter.GetKey();
             KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
             // Decrypt
@@ -97,14 +103,14 @@ namespace Area23.At.Mono.Util.SymChiffer
                 cipherMode.Init(false, keyParamIV);
             }
 
-            int outputSize = (int)Math.Max(cipherMode.GetOutputSize(cipherData.Length), cipherMode.GetUpdateOutputSize(cipherData.Length));
-            byte[] plainTextData = new byte[outputSize];
-            int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainTextData, 0);
-            cipherMode.DoFinal(plainTextData, result);
-            var plainData = plainTextData;
+            int outputSize = cipherMode.GetOutputSize(cipherData.Length);
+            // int outputSize = (int)Math.Max(cipherMode.GetOutputSize(cipherData.Length), cipherMode.GetUpdateOutputSize(cipherData.Length));
+            byte[] plainData = new byte[outputSize];
+            int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainData, 0);
+            cipherMode.DoFinal(plainData, result);
 
             // byte[] plainData = cipherMode.ProcessBytes(cipherData);
-            
+
             return plainData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
         }
 

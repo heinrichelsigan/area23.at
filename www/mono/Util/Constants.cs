@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace Area23.At.Mono.Util
@@ -50,12 +51,14 @@ namespace Area23.At.Mono.Util
         public const string BACK_COLOR_STRING = "BackColorString";
         public const string QR_COLOR_STRING = "QrColorString";
 
-        public const string AES_KEY = "AesKey";
-        public const string AES_IV = "AesIv";
-        public const string DES3_KEY = "3DesKey";
-        public const string DES3_IV = "3DesIv";
-        public const string SERPENT_KEY = "SerpentKey";
-        public const string SERPENT_IV = "SerpentIv";
+        public static readonly string AES_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("AesKey")); 
+        public static readonly string AES_IV = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("AesIv4"));
+        public static readonly string DES3_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("DesKey"));
+        public static readonly string DES3_IV = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("3DesIv"));
+        // public static readonly string SERPENT_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("BOUNCE"));
+        // public static readonly string SERPENT_IV = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("CASTLE"));
+        public static readonly string BOUNCEK = Convert.ToBase64String(Encoding.UTF8.GetBytes("BOUNCE"));
+        public static readonly string BOUNCE4 = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("CASTLE"));
 
 
         public const string JSON_SAMPLE = @"{ 

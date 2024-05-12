@@ -117,18 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="3DesIv" xml:space="preserve">
-    <value>a6iJrMU44DKZ1puxD5ErzqQotD4tXSrxM6ME3UgmHSY=</value>
-  </data>
-  <data name="3DesKey" xml:space="preserve">
-    <value>0ersgfaO/uP7+HrpTwZjU9VoyobLofw7KvwCAcOVMRc=</value>
-  </data>
-  <data name="AesIv" xml:space="preserve">
-    <value>6pU0BotI3zzF0cWKz56bkQ==</value>
-  </data>
-  <data name="AesKey" xml:space="preserve">
-    <value>0ersgfaO/uP7+HrpTwZjU9VoyobLofw7KvwCAcOVMRc=</value>
-  </data>
   <data name="app_name" xml:space="preserve">
     <value>Area23.At.Mono</value>
   </data>
@@ -194,11 +182,23 @@ Code is open source under GPL 3 and publicly accessible via &lt;a href="https://
   <data name="json_sample1" xml:space="preserve">
     <value />
   </data>
-  <data name="SerpentIv" xml:space="preserve">
-    <value>MEJBQjUxMEJBQjUxMEJBQjUxMEJBQjUxMEJBQjUwQkFCNQ==</value>
+  <data name="M0Rlc0l2" xml:space="preserve">
+    <value>a6iJrMU44DKZ1puxD5ErzqQotD4tXSrxM6ME3UgmHSY=</value>
   </data>
-  <data name="SerpentKey" xml:space="preserve">
-    <value>MEJBQjUxMEJBQjUxMEJBQjU=</value>
+  <data name="Q0FTVExF" xml:space="preserve">
+    <value>MEJBQjUxMEJBQjUxMEJBQjUxMEJBQjUxMEJBQjUwQkE=</value>
+  </data>
+  <data name="Qk9VTkNF" xml:space="preserve">
+    <value>GvJd0SRyg3AcTF4Sidyrn/nJM1BNUJqKms19FZKx1Z4=</value>
+  </data>
+  <data name="QWVzS2V5" xml:space="preserve">
+    <value>0ersgfaO/uP7+HrpTwZjU9VoyobLofw7KvwCAcOVMRc=</value>
+  </data>
+  <data name="QWVzSXY0" xml:space="preserve">
+    <value>6pU0BotI3zzF0cWKz56bkQ==</value>
+  </data>
+  <data name="RGVzS2V5" xml:space="preserve">
+    <value>0ersgfaO/uP7+HrpTwZjU9VoyobLofw7KvwCAcOVMRc=</value>
   </data>
   <data name="version_name" xml:space="preserve">
     <value>v2.2024.510</value>
