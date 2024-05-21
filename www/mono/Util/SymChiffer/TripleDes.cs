@@ -46,9 +46,10 @@ namespace Area23.At.Mono.Util.SymChiffer
             tdes.Key = DesKey;
             tdes.IV = DesIv;
             tdes.Mode = CipherMode.ECB;
-            tdes.Padding = PaddingMode.None;
+            tdes.Padding = PaddingMode.Zeros; ;
             ICryptoTransform cTransform = tdes.CreateEncryptor();
-            byte[] cryptedBytes = cTransform.TransformFinalBlock(inBytes, 0, inBytes.Length);
+            byte[] cryptedBytes;
+            cryptedBytes = cTransform.TransformFinalBlock(inBytes, 0, inBytes.Length);
             tdes.Clear();
 
             return cryptedBytes;
@@ -69,7 +70,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             tdes.Key = DesKey;
             tdes.IV = DesIv;
             tdes.Mode = CipherMode.ECB;            
-            tdes.Padding = PaddingMode.None;
+            tdes.Padding = PaddingMode.Zeros;
             toDecryptArray = new byte[cipherBytes.Length * 2];
             ICryptoTransform cTransform = tdes.CreateDecryptor();
             byte[] decryptedBytes = cTransform.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);        
