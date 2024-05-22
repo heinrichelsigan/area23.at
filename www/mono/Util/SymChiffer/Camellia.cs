@@ -62,9 +62,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             int result = cipherMode.ProcessBytes(plainData, 0, plainData.Length, cipherTextData, 0);
             cipherMode.DoFinal(cipherTextData, result);
             var cipherData = cipherTextData;
-            
-            // byte[] cipherData = cipherMode.ProcessBytes(plainData);
-            
+
             return cipherData;
         }
 
@@ -72,8 +70,8 @@ namespace Area23.At.Mono.Util.SymChiffer
         {
             byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inString);
             byte[] encryptedData = Encrypt(plainTextData);
-            string encryptedString = Convert.ToBase64String(encryptedData); 
-                // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
+            string encryptedString = Convert.ToBase64String(encryptedData);
+
             return encryptedString;
         }
 
@@ -104,20 +102,17 @@ namespace Area23.At.Mono.Util.SymChiffer
             cipherMode.DoFinal(plainTextData, result);
             var plainData = plainTextData;
             
-            // byte[] plainData = cipherMode.ProcessBytes(cipherData);
-            
             return plainData; // System.Text.Encoding.ASCII.GetString(plainData).TrimEnd('\0');
         }
 
         public static string DecryptString(string inCryptString)
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
-            //  System.Text.Encoding.UTF8.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
             string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+
             return plainTextString;
         }
-
 
     }
 

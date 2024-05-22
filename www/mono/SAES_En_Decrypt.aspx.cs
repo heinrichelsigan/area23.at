@@ -265,17 +265,14 @@ namespace Area23.At.Mono
             {
                 encryptBytes = DesEde.Encrypt(inBytes);
             }
-            if (algo == "Camellia")
-            {
-                encryptBytes = Camellia.Encrypt(inBytes);
-            }
             if (algo == "RC564")
             {
                 encryptBytes = RC564.Encrypt(inBytes);
             }
             //if (algo == "Serpent")
             //    encryptBytes = Serpent.Encrypt(inBytes);
-            if (algo == "Gost28147" || algo == "RC2" || algo == "RC532" || algo == "RC6" ||
+            if (algo == "Camellia" || algo == "Gost28147" || 
+                algo == "RC2" || algo == "RC532" || algo == "RC6" ||
                 algo == "Rijndael" || algo == "Skipjack" || algo == "Rfc5649" ||
                 algo == "Serpent" || algo == "Tea" || algo == "Tnepres" || algo == "XTea")
             {
@@ -353,17 +350,13 @@ namespace Area23.At.Mono
             {
                 decryptBytes = DesEde.Decrypt(cipherBytes);
             }
-            if (algorithmName == "Camellia")
-            {
-                decryptBytes = Camellia.Decrypt(cipherBytes);
-            }
             if (algorithmName.ToUpper() == "RC564")
             {
                 decryptBytes = RC564.Decrypt(cipherBytes);
             }
             //if (algorithmName.ToUpper() == "Serpent")
             //    decryptBytes = Serpent.Decrypt(cipherBytes);
-            if (algorithmName == "Gost28147" ||
+            if (algorithmName == "Camellia" || algorithmName == "Gost28147" ||
                 algorithmName == "RC2" || algorithmName == "RC532" || algorithmName == "RC6" ||
                 algorithmName == "Rijndael" || algorithmName == "Skipjack" || algorithmName == "Rfc5649" ||
                 algorithmName == "Serpent" || algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea") 
@@ -371,6 +364,9 @@ namespace Area23.At.Mono
                 IBlockCipher blockCipher;
                 switch (algorithmName)
                 {
+                    case "Camellia":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaEngine();
+                        break;
                     case "Gost28147":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
                         break;
