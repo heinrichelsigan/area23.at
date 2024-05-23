@@ -97,6 +97,7 @@ namespace Area23.At.Mono
                 }
                 char[] chars = charList.ToArray();
                 decryptedText = System.Text.Encoding.UTF8.GetString(decryptedBytes).TrimEnd(chars);
+                // decryptedText = System.Text.Encoding.UTF8.GetString(decryptedBytes).TrimStart(chars).TrimEnd(chars);
                 foreach (char ch in chars)
                 {
                     if (decryptedText.IndexOf(ch) > 0)
