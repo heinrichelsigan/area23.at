@@ -30,18 +30,23 @@ namespace Area23.At.Mono.Util.SymChiffer
             Iv = new byte[16];
             Array.Copy(iv, Iv, 16);
             Array.Copy(key, Key, 16);
-            Size = 128;
-            Mode = "CFB"; 
+            Size = 64;
+            Mode = "ECB"; 
         }
 
+        /// <summary>
+        /// RC564 Encrypt member function
+        /// </summary>
+        /// <param name="plainTextData">plain data as <see cref="byte[]"/></param>
+        /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
         public static byte[] Encrypt(byte[] plainTextData)
         {            
             var cipher = new RC564Engine();
 
-            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), new Pkcs7Padding());
+            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), new ZeroBytePadding());
             
-            if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), new Pkcs7Padding());
-            else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), new Pkcs7Padding());
+            if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), new ZeroBytePadding());
+            else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), new ZeroBytePadding());
 
             KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
@@ -55,31 +60,23 @@ namespace Area23.At.Mono.Util.SymChiffer
                 cipherMode.Init(true, keyParamIV);
             }
 
-            // int outputSize = cipherMode.GetOutputSize(plainTextData.Length);
-            // byte[] cipherTextData = new byte[outputSize];
-            // int result = cipherMode.ProcessBytes(plainTextData, 0, plainTextData.Length, cipherTextData, 0);
-            // cipherMode.DoFinal(cipherTextData, result);
             byte[] chipherData = cipherMode.ProcessBytes(plainTextData);
             
             return chipherData;
         }
 
-        public static string EncryptString(string inString)
-        {
-            byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inString);
-            byte[] encryptedData = Encrypt(plainTextData);
-            string encryptedString = Convert.ToBase64String(encryptedData); 
-                // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
-            return encryptedString;
-        }
-
+        /// <summary>
+        /// RC564 Decrypt member function
+        /// </summary>
+        /// <param name="cipherTextData">encrypted <see cref="byte[]">bytes</see></param>
+        /// <returns>decrypted plain byte[] data</returns>
         public static byte[] Decrypt(byte[] cipherTextData)
         {
             var cipher = new RC564Engine();
 
-            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), new Pkcs7Padding());
-            if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), new Pkcs7Padding());
-            else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), new Pkcs7Padding());
+            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), new ZeroBytePadding());
+            if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), new ZeroBytePadding());
+            else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), new ZeroBytePadding());
             
             KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
@@ -93,27 +90,42 @@ namespace Area23.At.Mono.Util.SymChiffer
                 cipherMode.Init(false, keyParamIV);
             }
 
-            // int outputSize = cipherMode.GetOutputSize(cipherTextData.Length);
-            // outputSize = outputSize + (int)(outputSize / 2);
-            // byte[] plainTextData = new byte[outputSize];
-            // int result = cipherMode.ProcessBytes(cipherTextData, 0, cipherTextData.Length, plainTextData, 0);
-            // cipherMode.DoFinal(plainTextData, result);
             byte[] plainData = cipherMode.ProcessBytes(cipherTextData);
 
-            var pln = plainData;
-
-            return pln; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
+            return plainData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
         }
 
+        #region EnDecryptString
+
+        /// <summary>
+        /// RC564 enrypt string method
+        /// </summary>
+        /// <param name="inString">plain string to encrypt</param>
+        /// <returns>base64 encoded encrypted string</returns>
+        public static string EncryptString(string inString)
+        {
+            byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inString);
+            byte[] encryptedData = Encrypt(plainTextData);
+            string encryptedString = Convert.ToBase64String(encryptedData);
+
+            return encryptedString;
+        }
+
+        /// <summary>
+        /// RC564 decrypt string method
+        /// </summary>
+        /// <param name="inCryptString">base64 encrypted string</param>
+        /// <returns>plain text decrypted string</returns>
         public static string DecryptString(string inCryptString)
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
-            //  System.Text.Encoding.UTF8.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
             string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+
             return plainTextString;
         }
 
+        #endregion EnDecryptString
 
     }
 

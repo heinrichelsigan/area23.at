@@ -11,19 +11,18 @@
         <div class="odDiv">
             <span class="leftSpan">
                 <asp:DropDownList ID="DropDownList_SymChiffer" runat="server">
-                    <asp:ListItem Enabled="true" Value="2FISH" Selected="false">2FISH</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="3FISH" Selected="false">3FISH</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="3DES" Selected="false">3DES</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="2FISH" Selected="false">2FISH</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="3FISH" Selected="false">3FISH</asp:ListItem>                    
                     <asp:ListItem Enabled="true" Value="AES" Selected="true">AES</asp:ListItem>                     
                     <asp:ListItem Enabled="true" Value="Camellia" Selected="False">Camellia</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="DesEde" Selected="False">DesEde</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Gost28147" Selected="false">Gost28147</asp:ListItem> 
-                    <asp:ListItem Enabled="true" Value="RC2" Selected="false">RC2</asp:ListItem> 
-                    <asp:ListItem Enabled="true" Value="RC4" Selected="false">RC4</asp:ListItem> 
-                    <asp:ListItem Enabled="true" Value="RC532" Selected="false">RC532</asp:ListItem> 
-                    <asp:ListItem Enabled="true" Value="RC564" Selected="false">RC564</asp:ListItem> 
+                    <asp:ListItem Enabled="true" Value="Idea" Selected="false">Idea</asp:ListItem> 
+                    <asp:ListItem Enabled="true" Value="RC2" Selected="false">RC2</asp:ListItem>                     
                     <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem> 
                     <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem> 
+                    <asp:ListItem Enabled="true" Value="Seed" Selected="false">Seed</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Skipjack" Selected="false">Skipjack</asp:ListItem>                    
                     <asp:ListItem Enabled="true" Value="Tea" Selected="false">Tea</asp:ListItem>      

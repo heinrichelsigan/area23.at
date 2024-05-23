@@ -434,7 +434,6 @@
     <Compile Include="Util\SaySpeach.cs" />
     <Compile Include="Util\SymChiffer\Aes.cs" />
     <Compile Include="Util\SymChiffer\CryptBounceCastle.cs" />
-    <Compile Include="Util\SymChiffer\Camellia.cs" />
     <Compile Include="Util\SymChiffer\RC564.cs" />
     <Compile Include="Util\SymChiffer\DesEde.cs" />
     <Compile Include="Util\SymChiffer\TwoFish.cs" />

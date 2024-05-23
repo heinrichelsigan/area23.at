@@ -19,9 +19,26 @@ namespace Area23.At.Mono.Util.SymChiffer
     {
         public byte[] Key { get; private set; }
         public byte[] Iv { get; private set; }
+
+        /// <summary>
+        /// Block Size
+        /// </summary>
         public int Size { get; private set; }
+
+        /// <summary>
+        /// Base symmetric key block cipher interface, contains at runtime block cipher instance to constructor
+        /// </summary>
         public IBlockCipher BlockCipher { get; private set; }
+
+        /// <summary>
+        /// IBlockCipherPadding BlockCipherPadding mode
+        /// </summary>
         public IBlockCipherPadding BlockCipherPadding { get; private set; }
+
+        /// <summary>
+        /// Valid modes are currently "CBC", "ECB", "CFB", "CCM", "CTS", "EAX", "GOFB"
+        /// <see cref="Org.BouncyCastle.Crypto.Modes"/> for crypto modes details.
+        /// </summary>
         public static string Mode { get; private set; }
 
         /// <summary>
@@ -29,18 +46,21 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// </summary>
         /// <param name="blockCipher">Base symmetric key block cipher interface, pass instance to constructor, e.g. 
         /// <code>CryptBounceCastle cryptCastle = new CryptBounceCastle(new Org.BouncyCastle.Crypto.Engines.CamelliaEngine());</code></param>
-        public CryptBounceCastle(IBlockCipher blockCipher)
+        /// <param name="size">block size with default value 256</param>
+        /// <param name="keyLen">key length with default value 32</param>
+        /// <param name="mode">cipher mode string, default value "ECB"</param>
+        public CryptBounceCastle(IBlockCipher blockCipher, int size = 256, int keyLen = 32, string mode = "ECB")
         {
             BlockCipher = (blockCipher == null) ? new AesEngine() : blockCipher;
             BlockCipherPadding = new ZeroBytePadding();
             byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
             byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-            Key = new byte[32];
-            Iv = new byte[32];
-            Array.Copy(iv, Iv, 32);
-            Array.Copy(key, Key, 32);
-            Size = 256;
-            Mode = "ECB";
+            Key = new byte[keyLen];
+            Iv = new byte[keyLen];
+            Array.Copy(iv, Iv, keyLen);
+            Array.Copy(key, Key, keyLen);
+            Size = size;
+            Mode = mode;
         }
 
         /// <summary>
@@ -53,10 +73,36 @@ namespace Area23.At.Mono.Util.SymChiffer
         public byte[] Encrypt(byte[] plainData, out byte[] encryptedData)
         {
             var cipher = BlockCipher;
+            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(BlockCipher), BlockCipherPadding);
 
-            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
-            if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
-            else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
+            switch (Mode)
+            {
+                case "CBC":
+                    cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(BlockCipher), BlockCipherPadding);
+                    break;
+                case "ECB": cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(BlockCipher), BlockCipherPadding);
+                    break;
+                case "CFB": cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(BlockCipher, Size), BlockCipherPadding);
+                    break;
+                case "CCM":
+                    Org.BouncyCastle.Crypto.Modes.CcmBlockCipher ccmCipher = new CcmBlockCipher(BlockCipher);
+                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ccmCipher, BlockCipherPadding);
+                    break;
+                case "CTS":
+                    Org.BouncyCastle.Crypto.Modes.CtsBlockCipher ctsCipher = new CtsBlockCipher(BlockCipher);
+                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ctsCipher, BlockCipherPadding);
+                    break;
+                case "EAX":
+                    Org.BouncyCastle.Crypto.Modes.EaxBlockCipher eaxCipher = new EaxBlockCipher(BlockCipher);
+                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)eaxCipher, BlockCipherPadding);
+                    break;
+                case "GOFB":
+                    Org.BouncyCastle.Crypto.Modes.GOfbBlockCipher gOfbCipher = new GOfbBlockCipher(BlockCipher);
+                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)gOfbCipher, BlockCipherPadding);
+                    break;
+                default:
+                    break;
+            }            
 
             KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
@@ -90,13 +136,42 @@ namespace Area23.At.Mono.Util.SymChiffer
         public byte[] Decrypt(byte[] cipherData, out byte[] decryptedData)
         {
             var cipher = BlockCipher;
+            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(BlockCipher), BlockCipherPadding);
 
-            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
-            if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
-            else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
+            switch (Mode)
+            {
+                case "CBC":
+                    cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(BlockCipher), BlockCipherPadding);
+                    break;
+                case "ECB":
+                    cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(BlockCipher), BlockCipherPadding);
+                    break;
+                case "CFB":
+                    cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(BlockCipher, Size), BlockCipherPadding);
+                    break;
+                case "CCM":
+                    Org.BouncyCastle.Crypto.Modes.CcmBlockCipher ccmCipher = new CcmBlockCipher(BlockCipher);
+                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ccmCipher, BlockCipherPadding);
+                    break;
+                case "CTS":
+                    Org.BouncyCastle.Crypto.Modes.CtsBlockCipher ctsCipher = new CtsBlockCipher(BlockCipher);
+                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ctsCipher, BlockCipherPadding);
+                    break;
+                case "EAX":
+                    Org.BouncyCastle.Crypto.Modes.EaxBlockCipher eaxCipher = new EaxBlockCipher(BlockCipher);
+                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)eaxCipher, BlockCipherPadding);
+                    break;
+                case "GOFB":
+                    Org.BouncyCastle.Crypto.Modes.GOfbBlockCipher gOfbCipher = new GOfbBlockCipher(BlockCipher);
+                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)gOfbCipher, BlockCipherPadding);
+                    break;
+                default:
+                    break;
+            }
 
             KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
+
             // Decrypt
             if (Mode == "ECB")
             {

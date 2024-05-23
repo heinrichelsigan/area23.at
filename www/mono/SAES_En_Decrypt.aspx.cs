@@ -48,7 +48,11 @@ namespace Area23.At.Mono
             }
         }
 
-
+        /// <summary>
+        /// ButtonEncrypt_Click fired when ButtonEncrypt for text encryption receives event Click
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         protected void ButtonEncrypt_Click(object sender, EventArgs e)
         {
             frmConfirmation.Visible = false;
@@ -70,6 +74,11 @@ namespace Area23.At.Mono
             }
         }
 
+        /// <summary>
+        /// ButtonDecrypt_Click fired when ButtonDecrypt for text decryption receives event Click
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         protected void ButtonDecrypt_Click(object sender, EventArgs e)
         {
             frmConfirmation.Visible = false;
@@ -77,39 +86,47 @@ namespace Area23.At.Mono
             string decryptedText = string.Empty;
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             byte[] decryptedBytes = cipherBytes;
+            int i = 0, ig = 0;
+
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
                 string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
-                for (int ig = (algos.Length - 1); ig >= 0; ig--)
+                for (ig = (algos.Length - 1); ig >= 0; ig--)
                 {
                     decryptedBytes = DecryptBytes(cipherBytes, algos[ig]);
                     cipherBytes = decryptedBytes;
                 }
                 List<char> charList = new List<char>();
-                for (int i = 0; i < 32; i++)
+                for (i = 0; i < 32; i++)
                 {
                     if (i != 10 && i != 13)
                     {
                         char ch = (char)i;
-                        if (ch != '\v' && ch != '\t' && ch != '\r' && ch != '\n')
+                        if (ch != '\v' && ch != '\f' && ch != '\t' && ch != '\r' && ch != '\n')
                             charList.Add(ch);
                     }
                 }
                 char[] chars = charList.ToArray();
                 decryptedText = System.Text.Encoding.UTF8.GetString(decryptedBytes).TrimEnd(chars);
-                // decryptedText = System.Text.Encoding.UTF8.GetString(decryptedBytes).TrimStart(chars).TrimEnd(chars);
+                decryptedText = System.Text.Encoding.UTF8.GetString(decryptedBytes).TrimStart(chars);
+                decryptedText =     decryptedText.Replace("\0", "");
                 foreach (char ch in chars)
                 {
-                    if (decryptedText.IndexOf(ch) > 0)
-                        decryptedText = decryptedText.Substring(0, decryptedText.IndexOf(ch) + 1);
+                    while ((ig = decryptedText.IndexOf(ch)) > 0)
+                    {
+                        decryptedText = decryptedText.Substring(0, ig) + decryptedText.Substring(ig + 1);
+                    }                        
                 }
-                if (decryptedText.LastIndexOf('\0') > 0)
-                    decryptedText = decryptedText.Substring(0, decryptedText.LastIndexOf('\0'));
+
                 this.TextBoxDestionation.Text = decryptedText;
             }
         }
 
-
+        /// <summary>
+        /// Clear encryption pipeline
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         protected void Button_Clear_Click(object sender, EventArgs e)
         {
             this.TextBox_Encryption.Text = "";
@@ -120,22 +137,28 @@ namespace Area23.At.Mono
             // TODO: implement it
         }
 
+        /// <summary>
+        /// Add encryption alog to encryption pipeline
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         protected void ImageButton_Add_Click(object sender, EventArgs e)
         {
             string addChiffre = "";
-            if (DropDownList_SymChiffer.SelectedValue.ToString() == "2FISH" ||
+            if (DropDownList_SymChiffer.SelectedValue.ToString() == "3DES" || 
+                DropDownList_SymChiffer.SelectedValue.ToString() == "2FISH" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "3FISH" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "3DES" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "AES" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Camellia" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "DesEde" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Gost28147" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Idea" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Noekeon" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "RC2" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "RC532" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "RC564" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "RC6" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Rijndael" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Serpent" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Seed" || 
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Skipjack" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Tea" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Tnepres" ||
@@ -246,6 +269,9 @@ namespace Area23.At.Mono
         {
             byte[] encryptBytes = inBytes;
             byte[] outBytes;
+            string mode = "ECB";
+            int keyLen = 32, blockSize = 256;
+
             if (algo == "2FISH")
             {
                 encryptBytes = TwoFish.Encrypt(inBytes);
@@ -271,11 +297,15 @@ namespace Area23.At.Mono
                 encryptBytes = RC564.Encrypt(inBytes);
             }
             //if (algo == "Serpent")
+            //{
             //    encryptBytes = Serpent.Encrypt(inBytes);
+            //}                
             if (algo == "Camellia" || algo == "Gost28147" || 
-                algo == "RC2" || algo == "RC532" || algo == "RC6" ||
-                algo == "Rijndael" || algo == "Skipjack" || algo == "Rfc5649" ||
-                algo == "Serpent" || algo == "Tea" || algo == "Tnepres" || algo == "XTea")
+                algo == "Idea" || algo == "Noekeon" ||
+                algo == "RC2" || algo == "RC6" ||
+                algo == "Rijndael" || 
+                algo == "Seed" || algo == "Serpent" || algo == "Skipjack" ||
+                algo == "Tea" || algo == "Tnepres" || algo == "XTea")
             {
                 IBlockCipher blockCipher;
                 switch (algo)
@@ -286,17 +316,32 @@ namespace Area23.At.Mono
                     case "Gost28147":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
                         break;
+                    case "Idea":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
+                        break;
+                    case "Noekeon":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
+                        break;
                     case "RC2":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
-                        break;
-                    case "RC532":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
                         break;
                     case "RC6":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
                         break;
                     case "Rijndael":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.RijndaelEngine();
+                        break;
+                    case "Seed":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
+                        blockSize = 128;
+                        keyLen = 16;
+                        mode = "CBC";
+                        break;
+                    case "Serpent":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
+                        blockSize = 128;
+                        keyLen = 16;
+                        mode = "CBC";
                         break;
                     case "Skipjack":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
@@ -314,7 +359,7 @@ namespace Area23.At.Mono
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                         break;
                 }
-                CryptBounceCastle cryptCastle = new CryptBounceCastle(blockCipher);
+                CryptBounceCastle cryptCastle = new CryptBounceCastle(blockCipher, blockSize, keyLen, mode);
                 encryptBytes = cryptCastle.Encrypt(inBytes, out outBytes);
             }
 
@@ -331,6 +376,9 @@ namespace Area23.At.Mono
         {
             byte[] decryptBytes = cipherBytes;
             byte[] plainBytes;
+            string mode = "ECB";
+            int keyLen = 32, blockSize = 256;
+
             if (algorithmName == "2FISH")
             {
                 decryptBytes = TwoFish.Decrypt(cipherBytes);
@@ -356,11 +404,15 @@ namespace Area23.At.Mono
                 decryptBytes = RC564.Decrypt(cipherBytes);
             }
             //if (algorithmName.ToUpper() == "Serpent")
+            //{
             //    decryptBytes = Serpent.Decrypt(cipherBytes);
+            //}
             if (algorithmName == "Camellia" || algorithmName == "Gost28147" ||
-                algorithmName == "RC2" || algorithmName == "RC532" || algorithmName == "RC6" ||
-                algorithmName == "Rijndael" || algorithmName == "Skipjack" || algorithmName == "Rfc5649" ||
-                algorithmName == "Serpent" || algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea") 
+                algorithmName == "Idea" || algorithmName == "Noekeon" ||
+                algorithmName == "RC2" || algorithmName == "RC6" ||
+                algorithmName == "Rijndael" ||
+                algorithmName == "Seed" || algorithmName == "Serpent" || algorithmName == "Skipjack" ||
+                algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea") 
             {
                 IBlockCipher blockCipher;
                 switch (algorithmName)
@@ -371,17 +423,32 @@ namespace Area23.At.Mono
                     case "Gost28147":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
                         break;
+                    case "Idea":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
+                        break;
+                    case "Noekeon":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
+                        break;
                     case "RC2":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
-                        break;
-                    case "RC532":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
                         break;
                     case "RC6":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
                         break;
                     case "Rijndael":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.RijndaelEngine();
+                        break;
+                    case "Seed":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
+                        blockSize = 128;
+                        keyLen = 16;
+                        mode = "CBC";
+                        break;
+                    case "Serpent":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
+                        blockSize = 128;
+                        keyLen = 16;
+                        mode = "CBC";
                         break;
                     case "Skipjack":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
@@ -399,7 +466,7 @@ namespace Area23.At.Mono
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                         break;
                 }
-                CryptBounceCastle cryptCastle = new CryptBounceCastle(blockCipher);
+                CryptBounceCastle cryptCastle = new CryptBounceCastle(blockCipher, blockSize, keyLen, mode);
                 decryptBytes = cryptCastle.Decrypt(cipherBytes, out plainBytes);
             }
 
