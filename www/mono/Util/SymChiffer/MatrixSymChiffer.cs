@@ -50,13 +50,17 @@ namespace Area23.At.Mono.Util.SymChiffer
             PermKeyHash = new HashSet<sbyte>(MatrixBasePerm);
         }
 
-        internal static sbyte[] SwapSByte(ref sbyte a, ref sbyte b)
+        internal static sbyte[] SwapSByte(sbyte[] sbArray, int i, int j)
         {
-            sbyte[] tmp = new sbyte[2];
-            tmp[0] = b;
-            tmp[1] = a;
-            a = tmp[0];
-            b = tmp[1];
+            sbyte[] tmp = null;
+            if (sbArray != null && sbArray.Length >= 16)
+            {
+                tmp = new sbyte[2];
+                tmp[0] = sbArray[i];
+                tmp[1] = sbArray[j];
+                sbArray[i] = tmp[1];
+                sbArray[j] = tmp[0];
+            }
             return tmp;
         }
 
@@ -67,7 +71,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             {
                 for (int j = MatrixBasePerm.Length - 1; j >= i; j -= 2)
                 {
-                    SwapSByte(ref MatrixPermKey[i], ref MatrixPermKey[j]);
+                    SwapSByte(MatrixPermKey, i, j);
                 }
             }
 
@@ -76,10 +80,10 @@ namespace Area23.At.Mono.Util.SymChiffer
             for (int randomizeCnt = 0; randomizeCnt <= 0x3f; randomizeCnt++)
             {
                 Random rand = new Random(System.DateTime.UtcNow.Millisecond);
-                int pos = (int)rand.Next(0x9, 0xf);
+                int pos = (int)rand.Next(0x0, 0xf);
                 while (dicedPos.Contains(pos))
                 {
-                    pos = (int)rand.Next(0x9, 0xf);
+                    pos = (int)rand.Next(0x0, 0xf);
                 }
                 dicedPos.Add(pos);
                 sbyte talenS = PermKeyHash.ElementAt(pos);
