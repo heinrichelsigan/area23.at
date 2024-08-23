@@ -50,17 +50,13 @@ namespace Area23.At.Mono.Util.SymChiffer
             PermKeyHash = new HashSet<sbyte>(MatrixBasePerm);
         }
 
-        internal static sbyte[] SwapSByte(sbyte[] sbArray, int i, int j)
+        internal static sbyte[] SwapSByte(ref sbyte sba, ref sbyte sbb)
         {
-            sbyte[] tmp = null;
-            if (sbArray != null && sbArray.Length >= 16)
-            {
-                tmp = new sbyte[2];
-                tmp[0] = sbArray[i];
-                tmp[1] = sbArray[j];
-                sbArray[i] = tmp[1];
-                sbArray[j] = tmp[0];
-            }
+            sbyte[] tmp = new sbyte[2];
+            tmp[0] = Convert.ToSByte(sba.ToString());
+            tmp[1] = Convert.ToSByte(sbb.ToString());
+            sba = tmp[1];
+            sbb = tmp[0];            
             return tmp;
         }
 
@@ -71,7 +67,15 @@ namespace Area23.At.Mono.Util.SymChiffer
             {
                 for (int j = MatrixBasePerm.Length - 1; j >= i; j -= 2)
                 {
-                    SwapSByte(MatrixPermKey, i, j);
+                    sbyte ba = MatrixBasePerm[i];
+                    sbyte bb = MatrixBasePerm[j];
+                    SwapSByte(ref ba, ref bb);
+                    MatrixBasePerm[i] = ba;
+                    MatrixBasePerm[j] = bb;
+
+                    //sbyte tmp = MatrixPermKey[i];
+                    //MatrixBasePerm[i] = MatrixPermKey[j];
+                    //MatrixPermKey[j] = tmp;
                 }
             }
 
@@ -80,18 +84,25 @@ namespace Area23.At.Mono.Util.SymChiffer
             for (int randomizeCnt = 0; randomizeCnt <= 0x3f; randomizeCnt++)
             {
                 Random rand = new Random(System.DateTime.UtcNow.Millisecond);
+                int hpos = 0;
                 int pos = (int)rand.Next(0x0, 0xf);
                 while (dicedPos.Contains(pos))
                 {
                     pos = (int)rand.Next(0x0, 0xf);
+                    if (dicedPos.Contains(pos))
+                    {
+                        pos = hpos++;
+                        if (hpos >= 16)
+                            hpos = 0;
+                    }
                 }
                 dicedPos.Add(pos);
                 sbyte talenS = PermKeyHash.ElementAt(pos);
                 takenSBytes.Add(talenS);
-                if (takenSBytes.Count > 0xf)
+                if (takenSBytes.Count == 16)
                 {
                     PermKeySalt = new sbyte[16];
-                    takenSBytes.CopyTo(PermKeySalt, 16);
+                    takenSBytes.CopyTo(PermKeySalt);
                     PermKeyHash = new HashSet<sbyte>(PermKeySalt);
                     takenSBytes = new HashSet<sbyte>();
                     dicedPos = new HashSet<int>();
@@ -166,10 +177,14 @@ namespace Area23.At.Mono.Util.SymChiffer
             byte[] outBytesEncrypted = new byte[outputSize];
             for (bCnt = 0; bCnt < inBytesPadding.Length; bCnt++)
             {
-                inBytesPadding[bCnt] = (byte)0x0;
+                if (bCnt < plainData.Length)
+                    inBytesPadding[bCnt] = plainData[bCnt];
+                else
+                    inBytesPadding[bCnt] = (byte)0x0;
+
                 outBytesEncrypted[bCnt] = (byte)0x0;
             }
-            plainData.CopyTo(inBytesPadding, plainData.Length);
+
             for (int processCnt = 0; processCnt < inBytesPadding.Length; processCnt += 16)
             {
                 byte[] retByte = ProcessEncryptBytes(inBytesPadding, processCnt, 16);
@@ -198,10 +213,14 @@ namespace Area23.At.Mono.Util.SymChiffer
             byte[] outBytesPlainPadding = new byte[outputSize];
             for (bCnt = 0; bCnt < inBytesEncrypted.Length; bCnt++)
             {
-                inBytesEncrypted[bCnt] = (byte)0x0;
+                if (bCnt < cipherData.Length)
+                    inBytesEncrypted[bCnt] = cipherData[bCnt];
+                else
+                    inBytesEncrypted[bCnt] = (byte)0x0;
+
                 outBytesPlainPadding[bCnt] = (byte)0x0;
             }
-            cipherData.CopyTo(inBytesEncrypted, cipherData.Length);
+           3
             for (int processCnt = 0; processCnt < inBytesEncrypted.Length; processCnt += 16)
             {
                 byte[] retByte = ProcessDecryptBytes(inBytesEncrypted, processCnt, 16);
