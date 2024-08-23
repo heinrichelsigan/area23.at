@@ -16,12 +16,13 @@
                     <asp:ListItem Enabled="true" Value="3FISH" Selected="false">3FISH</asp:ListItem>                    
                     <asp:ListItem Enabled="true" Value="AES" Selected="true">AES</asp:ListItem>                     
                     <asp:ListItem Enabled="true" Value="Camellia" Selected="False">Camellia</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="Idea" Selected="false">Idea</asp:ListItem>                     
+                    <asp:ListItem Enabled="true" Value="Idea" Selected="false">Idea</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem>                    
                     <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>                    
                     <asp:ListItem Enabled="true" Value="Tea" Selected="false">Tea</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Tnepres" Selected="false">Tnepres</asp:ListItem>                    
-                    <asp:ListItem Enabled="true" Value="XTea" Selected="false">XTea</asp:ListItem>      
+                    <asp:ListItem Enabled="true" Value="XTea" Selected="false">XTea</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="ZenMatrix" Selected="false">ZenMatrix</asp:ListItem>
                 </asp:DropDownList>
             </span>
             <span class="centerSpan">

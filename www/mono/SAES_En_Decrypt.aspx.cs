@@ -162,7 +162,8 @@ namespace Area23.At.Mono
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Skipjack" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Tea" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Tnepres" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "XTea")
+                DropDownList_SymChiffer.SelectedValue.ToString() == "XTea" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "ZenMatrix")
             {
                 addChiffre = DropDownList_SymChiffer.SelectedValue.ToString() + "⇛";
                 this.TextBox_Encryption.Text += addChiffre;
@@ -296,10 +297,10 @@ namespace Area23.At.Mono
             {
                 encryptBytes = RC564.Encrypt(inBytes);
             }
-            //if (algo == "Serpent")
-            //{
-            //    encryptBytes = Serpent.Encrypt(inBytes);
-            //}                
+            if (algo == "ZenMatrix")
+            {
+                encryptBytes = MatrixSymChiffer.Encrypt(inBytes);
+            }                
             if (algo == "Camellia" || algo == "Gost28147" || 
                 algo == "Idea" || algo == "Noekeon" ||
                 algo == "RC2" || algo == "RC6" ||
@@ -403,10 +404,10 @@ namespace Area23.At.Mono
             {
                 decryptBytes = RC564.Decrypt(cipherBytes);
             }
-            //if (algorithmName.ToUpper() == "Serpent")
-            //{
-            //    decryptBytes = Serpent.Decrypt(cipherBytes);
-            //}
+            if (algorithmName.ToUpper() == "ZenMatrix")
+            {
+                decryptBytes = MatrixSymChiffer.Decrypt(cipherBytes);
+            }
             if (algorithmName == "Camellia" || algorithmName == "Gost28147" ||
                 algorithmName == "Idea" || algorithmName == "Noekeon" ||
                 algorithmName == "RC2" || algorithmName == "RC6" ||
