@@ -1,15 +1,6 @@
-﻿using Org.BouncyCastle.Crypto.Engines;
-using Org.BouncyCastle.Crypto.Modes;
-using Org.BouncyCastle.Crypto.Paddings;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Security;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
-using System.Windows.Input;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
@@ -20,28 +11,30 @@ namespace Area23.At.Mono.Util.SymChiffer
     {
         internal static readonly sbyte[] MatrixBasePerm = { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf };
 
-        internal static sbyte[] MatrixPermKey { get; private set; }
+        internal static sbyte[] MatrixPermKey { get; set; }
 
         internal static sbyte[] MatrixReverse { get; private set; }
 
-        internal static sbyte[] PermKeySalt { get; private set; }
+        internal static sbyte[] MatrixPermSalt { get; private set; }
 
         internal static HashSet<sbyte> PermKeyHash { get; private set; }
 
 
         static MatrixSymChiffer()
         {
-            InitMatrixPermutations();
-            sbyte[] NatrixPermSalt = GetMatrixPermutation(null);
-            MatrixReverse = BuildReveseMatrix(NatrixPermSalt);
+            InitMatrixSymChiffer();
+            sbyte[] BytesASaltN = GetMatrixPermutation(null);
+            MatrixReverse = BuildReveseMatrix(BytesASaltN);
         }
 
-
-        internal static void InitMatrixPermutations()
+        /// <summary>
+        /// InitMatrixSymChiffer - base initialization of variables, needed for matrix sym chiffer encryption
+        /// </summary>
+        internal static void InitMatrixSymChiffer()
         {
             sbyte cntSby = 0x0;
             MatrixPermKey = new sbyte[16];
-            PermKeySalt = new sbyte[0x10];
+            MatrixPermSalt = new sbyte[0x10];
             foreach (sbyte s in MatrixBasePerm)
             {
                 MatrixPermKey[cntSby++] = s;
@@ -50,38 +43,57 @@ namespace Area23.At.Mono.Util.SymChiffer
             PermKeyHash = new HashSet<sbyte>(MatrixBasePerm);
         }
 
+        /// <summary>
+        /// BuildReveseMatrix, builds the determinant decryption matrix for sbyte{16] encryption matrix
+        /// </summary>
+        /// <param name="matrix">sbyte{16] encryption matrix</param>
+        /// <returns>sbyte{16] decryption matrix</returns>
+        internal static sbyte[] BuildReveseMatrix(sbyte[] matrix)
+        {
+            sbyte[] rmatrix = null;
+            if (matrix != null && matrix.Length > 7)
+            {
+                rmatrix = new sbyte[matrix.Length];
+                for (int m = 0; m < matrix.Length; m++)
+                {
+                    sbyte sm = matrix[m];
+                    rmatrix[(int)sm] = (sbyte)m;
+                }
+            }
+            return rmatrix;
+        }
+
+
         internal static sbyte[] SwapSByte(ref sbyte sba, ref sbyte sbb)
         {
             sbyte[] tmp = new sbyte[2];
             tmp[0] = Convert.ToSByte(sba.ToString());
             tmp[1] = Convert.ToSByte(sbb.ToString());
             sba = tmp[1];
-            sbb = tmp[0];            
+            sbb = tmp[0];
             return tmp;
         }
 
         internal static sbyte[] GetMatrixPermutation(sbyte[] salt)
         {
-            InitMatrixPermutations();
-            for (int i = 0x0; i < MatrixBasePerm.Length; i += 3)
-            {
-                for (int j = MatrixBasePerm.Length - 1; j >= i; j -= 2)
-                {
-                    sbyte ba = MatrixBasePerm[i];
-                    sbyte bb = MatrixBasePerm[j];
-                    SwapSByte(ref ba, ref bb);
-                    MatrixBasePerm[i] = ba;
-                    MatrixBasePerm[j] = bb;
+            if (PermKeyHash == null ||  PermKeyHash.Count == 0)
+                InitMatrixSymChiffer();
 
-                    //sbyte tmp = MatrixPermKey[i];
-                    //MatrixBasePerm[i] = MatrixPermKey[j];
-                    //MatrixPermKey[j] = tmp;
+            for (int i = 0x0; i < MatrixPermKey.Length; i += 3)
+            {
+                for (int j = MatrixPermKey.Length - 1; j >= i; j -= 2)
+                {
+                    sbyte ba = MatrixPermKey[i];
+                    sbyte bb = MatrixPermKey[j];
+                    SwapSByte(ref ba, ref bb);
+                    MatrixPermKey[i] = ba;
+                    MatrixPermKey[j] = bb;
                 }
             }
 
             HashSet<sbyte> takenSBytes = new HashSet<sbyte>();
             HashSet<int> dicedPos = new HashSet<int>();
-            for (int randomizeCnt = 0; randomizeCnt <= 0x3f; randomizeCnt++)
+            for (int randomizeCnt = 0; randomizeCnt <= 0x1f; randomizeCnt++)
             {
                 Random rand = new Random(System.DateTime.UtcNow.Millisecond);
                 int hpos = 0;
@@ -101,9 +113,9 @@ namespace Area23.At.Mono.Util.SymChiffer
                 takenSBytes.Add(talenS);
                 if (takenSBytes.Count == 16)
                 {
-                    PermKeySalt = new sbyte[16];
-                    takenSBytes.CopyTo(PermKeySalt);
-                    PermKeyHash = new HashSet<sbyte>(PermKeySalt);
+                    MatrixPermSalt = new sbyte[16];
+                    takenSBytes.CopyTo(MatrixPermSalt);
+                    PermKeyHash = new HashSet<sbyte>(MatrixPermSalt);
                     takenSBytes = new HashSet<sbyte>();
                     dicedPos = new HashSet<int>();
                 }
@@ -112,22 +124,47 @@ namespace Area23.At.Mono.Util.SymChiffer
             return MatrixPermKey;
         }
 
-        internal static sbyte[] BuildReveseMatrix(sbyte[] matrix)
+
+        public static sbyte[] GenerateMatrixPermutationByKey(string key) 
         {
-            sbyte[] rmatrix = null;
-            if (matrix != null && matrix.Length > 7)
+            int aCnt = 0, bCnt = 0;            
+
+            InitMatrixSymChiffer();            
+            
+            PermKeyHash = new HashSet<sbyte>();
+            foreach (byte b in System.Text.Encoding.UTF8.GetBytes(key).ToList())
             {
-                rmatrix = new sbyte[matrix.Length];
-                for (int m = 0; m < matrix.Length; m++)
+                sbyte sb = (sbyte)(((int)b)%16);
+                if (!PermKeyHash.Contains(sb)) 
+                    PermKeyHash.Add(sb);
+            }
+
+            MatrixPermSalt = new sbyte[16];
+            foreach (sbyte sph in PermKeyHash)
+            {
+                MatrixPermSalt[bCnt++] = MatrixPermKey[(int)sph];
+            }
+            for (aCnt = 0; aCnt < 16; aCnt++)
+            {
+                if (!PermKeyHash.Contains(((sbyte)aCnt)))
                 {
-                    sbyte sm = matrix[m];
-                    rmatrix[(int)sm] = (sbyte)m;
+                    MatrixPermSalt[bCnt++] = MatrixPermKey[(int)aCnt];
                 }
             }
-            return rmatrix;
+
+            MatrixReverse = BuildReveseMatrix(MatrixPermSalt);
+            return MatrixPermSalt;
         }
 
 
+
+        /// <summary>
+        /// ProcessEncryptBytes, processes the next len=16 bytes to encrypt, starting at offSet
+        /// </summary>
+        /// <param name="inBytesPadding">in bytes array to encrypt</param>
+        /// <param name="offSet">starting offSet</param>
+        /// <param name="len">len of byte block (default 16)</param>
+        /// <returns>byte[len] (default: 16) segment of encrypted bytes</returns>
         public static byte[] ProcessEncryptBytes(byte[] inBytesPadding, int offSet = 0, int len = 16)
         {
             int aCnt = 0, bCnt = 0;
@@ -146,6 +183,13 @@ namespace Area23.At.Mono.Util.SymChiffer
             return processedEncrypted;
         }
 
+        /// <summary>
+        /// ProcessDecryptBytes  processes the next len=16 bytes to decrypt, starting at offSet
+        /// </summary>
+        /// <param name="inBytesEncrypted">encrypted bytes array to deccrypt</param>
+        /// <param name="offSet">starting offSet</param>
+        /// <param name="len">len of byte block (default 16)</param>
+        /// <returns>byte[len] (default: 16) segment of decrypted bytes</returns>
         public static byte[] ProcessDecryptBytes(byte[] inBytesEncrypted, int offSet = 0, int len = 16)
         {
             int aCnt = 0, bCnt = 0;
@@ -198,8 +242,6 @@ namespace Area23.At.Mono.Util.SymChiffer
 
         }
 
-
-
         /// <summary>
         /// MatrixSymChiffer Decrypt member function
         /// </summary>
@@ -220,7 +262,7 @@ namespace Area23.At.Mono.Util.SymChiffer
 
                 outBytesPlainPadding[bCnt] = (byte)0x0;
             }
-           3
+            
             for (int processCnt = 0; processCnt < inBytesEncrypted.Length; processCnt += 16)
             {
                 byte[] retByte = ProcessDecryptBytes(inBytesEncrypted, processCnt, 16);
@@ -234,5 +276,37 @@ namespace Area23.At.Mono.Util.SymChiffer
 
         }
 
+
+        #region EnDecryptString
+
+        /// <summary>
+        /// Encrypts a string
+        /// </summary>
+        /// <param name="inPlainString">plain text string</param>
+        /// <returns>Base64 encoded encrypted byte[]</returns>
+        public static string EncryptString(string inPlainString)
+        {
+            byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inPlainString);
+            byte[] encryptedData = Encrypt(plainTextData);
+            string encryptedString = Convert.ToBase64String(encryptedData);
+            // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
+            return encryptedString;
+        }
+
+        /// <summary>
+        /// Decrypts a string, that is truely a base64 encoded encrypted byte[]
+        /// </summary>
+        /// <param name="inCryptString">base64 encoded string from encrypted byte[]</param>
+        /// <returns>plain text string (decrypted)</returns>
+        public static string DecryptString(string inCryptString)
+        {
+            byte[] cryptData = Convert.FromBase64String(inCryptString);
+            //  System.Text.Encoding.UTF8.GetBytes(inCryptString);
+            byte[] plainTextData = Decrypt(cryptData);
+            string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+            return plainTextString;
+        }
+
+        #endregion EnDecryptString
     }
 }
