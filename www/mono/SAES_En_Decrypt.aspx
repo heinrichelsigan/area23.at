@@ -50,7 +50,7 @@
                 <asp:TextBox ID="TextBox_IV" runat="server" Enabled="false" Text="0x000ade1e" />
             </span>            
             <span class="rightSpan">
-                <asp:Button ID="Button_Reset_KeyIV" runat="server" Text="Reset Key/IV" Enabled="false" ToolTip="Reset secret key / iv" OnClick="Button_Reset_KeyIV_Click" />
+                <asp:Button ID="Button_Reset_KeyIV" runat="server" Text="Reset Key/IV" ToolTip="Reset secret key / iv" OnClick="Button_Reset_KeyIV_Click" />
             </span>
         </div>
         <h2>En-/Decrypt file</h2>

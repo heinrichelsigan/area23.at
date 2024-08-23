@@ -34,7 +34,6 @@ namespace Area23.At.Mono.Util.SymChiffer
         internal static void InitMatrixSymChiffer()
         {
             sbyte cntSby = 0x0;
-            int iCnt = 0;
             MatrixPermKey = new sbyte[16];
             foreach (sbyte s in MatrixBasePerm)
             {
@@ -164,7 +163,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
         public static byte[] Encrypt(byte[] plainData)
         {
-            int bCnt = 0, outCnt = 0;
+            int bCnt = 0;
             int oSize = plainData.Length + (16 - (plainData.Length % 16));
             int outputSize = ((int)(oSize / 16)) * 16;
             byte[] inBytesPadding = new byte[outputSize];
@@ -198,7 +197,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <returns>decrypted plain byte[] data</returns>
         public static byte[] Decrypt(byte[] cipherData)
         {
-            int bCnt = 0, outCnt = 0;
+            int bCnt = 0;
             int oSize = cipherData.Length + (16 - (cipherData.Length % 16));
             int outputSize = ((int)(oSize / 16)) * 16;
             byte[] inBytesEncrypted = new byte[outputSize];

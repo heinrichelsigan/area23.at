@@ -5,7 +5,6 @@ using Org.BouncyCastle.Crypto.Paddings;
 using Org.BouncyCastle.Crypto.Parameters;
 using System;
 
-
 namespace Area23.At.Mono.Util.SymChiffer
 {
     /// <summary>

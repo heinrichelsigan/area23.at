@@ -21,8 +21,17 @@ using static System.Net.WebRequestMethods;
 
 namespace Area23.At.Mono
 {
+    /// <summary>
+    /// SAES_En_Decrypt En-/De-cryption pipeline page 
+    /// Feature to encrypt and decrypt simple plain text or files
+    /// </summary>
     public partial class SAES_En_Decrypt : Util.UIPage
     {
+        /// <summary>
+        /// Page_Load
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Request.Files != null && Request.Files.Count > 0)
@@ -43,6 +52,11 @@ namespace Area23.At.Mono
 
         #region page_events
 
+        /// <summary>
+        /// ButtonEncryptFile_Click
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         protected void ButtonEncryptFile_Click(object sender, EventArgs e)
         {
             if (Request.Files != null && Request.Files.Count > 0)
@@ -50,6 +64,11 @@ namespace Area23.At.Mono
         }
 
 
+        /// <summary>
+        /// ButtonDecryptFile_Click
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         protected void ButtonDecryptFile_Click(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(oFile.Value))
@@ -175,6 +194,11 @@ namespace Area23.At.Mono
             }
         }
 
+        /// <summary>
+        /// TextBox_Key_TextChanged - fired on <see cref="TextBox_Key"/> TextChanged event
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
 
         protected void TextBox_Key_TextChanged(object sender, EventArgs e)
         {
@@ -187,6 +211,11 @@ namespace Area23.At.Mono
             this.TextBox_IV.Text = ivStr;
         }
 
+        /// <summary>
+        /// Button_Reset_KeyIV_Click resets <see cref="TextBox_Key"/> and <see cref="TextBox_IV"/> to default loaded values
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         protected void Button_Reset_KeyIV_Click(object sender, EventArgs e)
         {
             // TODO: implement it
