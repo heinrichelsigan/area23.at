@@ -28,6 +28,16 @@ namespace Area23.At.Mono
             if (Request.Files != null && Request.Files.Count > 0)
             {
                 ; // handled by Event members
+                if (!Page.IsPostBack)
+                {
+                    byte[] keyTextData = System.Text.Encoding.UTF8.GetBytes(this.TextBox_Key.Text);
+                    string ivStr = string.Empty;
+                    foreach (byte b in keyTextData)
+                    {
+                        ivStr += b.ToString();
+                    }
+                    this.TextBox_IV.Text = ivStr;
+                }
             }
         }
 
@@ -132,11 +142,6 @@ namespace Area23.At.Mono
             this.TextBox_Encryption.Text = "";
         }
 
-        protected void Button_Reset_KeyIV_Click(object sender, EventArgs e)
-        {
-            // TODO: implement it
-        }
-
         /// <summary>
         /// Add encryption alog to encryption pipeline
         /// </summary>
@@ -169,6 +174,32 @@ namespace Area23.At.Mono
                 this.TextBox_Encryption.Text += addChiffre;
             }
         }
+
+
+        protected void TextBox_Key_TextChanged(object sender, EventArgs e)
+        {
+            byte[] keyTextData = System.Text.Encoding.UTF8.GetBytes(this.TextBox_Key.Text);
+            string ivStr = string.Empty;
+            foreach (byte b in keyTextData)
+            {
+                ivStr += b.ToString();
+            }
+            this.TextBox_IV.Text = ivStr;
+        }
+
+        protected void Button_Reset_KeyIV_Click(object sender, EventArgs e)
+        {
+            // TODO: implement it
+            this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
+            byte[] keyTextData = System.Text.Encoding.UTF8.GetBytes(this.TextBox_Key.Text);
+            string ivStr = string.Empty;
+            foreach (byte b in keyTextData)
+            {
+                ivStr += b.ToString();
+            }
+            this.TextBox_IV.Text = ivStr;
+        }
+
 
         #endregion page_events
 

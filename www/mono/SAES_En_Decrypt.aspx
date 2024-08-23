@@ -40,11 +40,10 @@
         </div>
         <div class="odDiv">
             <span class="leftSpan">
-                [future enabled]
+                Secret key:
             </span>
-            <span class="centerSpan">
-                <span class="textSpan">key: </span>
-                <asp:TextBox ID="TextBox_Key" runat="server" Text="heinrich.elsigan@area23.at" />
+            <span class="centerSpan">                
+                <asp:TextBox ID="TextBox_Key" runat="server" ToolTip="Enter your personal email address or secret key here" Text="heinrich.elsigan@area23.at" Width="216px" AutoPostBack="true" OnTextChanged="TextBox_Key_TextChanged" />
             </span>
             <span class="centerSpan">
                 <span class="textSpan">iv: </span>
