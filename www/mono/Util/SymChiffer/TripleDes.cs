@@ -3,10 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
@@ -29,8 +27,28 @@ namespace Area23.At.Mono.Util.SymChiffer
         static TripleDes()
         {
             // Generate a key using SHA256 hash function
-            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
-            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
+            TripleDesFromKey(null);
+        }
+
+        /// <summary>
+        /// Generates TripleDesFromKey 
+        /// </summary>
+        /// <param name="secretKey">your plain text secret key</param>
+        public static void TripleDesFromKey(string secretKey = null)
+        {
+            byte[] key;
+            byte[] iv;
+            if (string.IsNullOrEmpty(secretKey))
+            {
+                key = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
+                iv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
+            }
+            else
+            {
+                MD5 md5 = new MD5CryptoServiceProvider();
+                key = md5.ComputeHash(Encoding.Unicode.GetBytes(secretKey));
+                iv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
+            }
             DesIv = iv;
             DesKey = key;
         }

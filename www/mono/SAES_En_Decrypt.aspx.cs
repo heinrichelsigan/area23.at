@@ -283,14 +283,18 @@ namespace Area23.At.Mono
             }
             if (algo == "3DES")
             {
+                string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
+                TripleDes.TripleDesFromKey(secretKey);
                 encryptBytes = TripleDes.Encrypt(inBytes);
             }
             if (algo == "AES")
             {
+                string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
+                Aes.AesGenWithNewKey(secretKey);
                 encryptBytes = Aes.Encrypt(inBytes);
             }
             if (algo == "DesEde")
-            {
+            {                
                 encryptBytes = DesEde.Encrypt(inBytes);
             }
             if (algo == "RC564")
@@ -299,7 +303,7 @@ namespace Area23.At.Mono
             }
             if (algo == "ZenMatrix")
             {
-                // MatrixSymChiffer.MatrixPermKey = MatrixSymChiffer.GenerateMatrixPermutationByKey(this.TextBox_Key.Text);
+                sbyte[] transFormMatrix = MatrixSymChiffer.GenerateMatrixPermutationByKey(this.TextBox_Key.Text);
                 encryptBytes = MatrixSymChiffer.Encrypt(inBytes);
             }                
             if (algo == "Camellia" || algo == "Gost28147" || 
@@ -391,10 +395,14 @@ namespace Area23.At.Mono
             }
             if (algorithmName == "3DES")
             {
+                string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
+                TripleDes.TripleDesFromKey(secretKey);
                 decryptBytes = TripleDes.Decrypt(cipherBytes);
             }
             if (algorithmName == "AES")
             {
+                string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
+                TripleDes.TripleDesFromKey(secretKey);
                 decryptBytes = Aes.Decrypt(cipherBytes);
             }
             if (algorithmName == "DesEde")
@@ -405,9 +413,10 @@ namespace Area23.At.Mono
             {
                 decryptBytes = RC564.Decrypt(cipherBytes);
             }
-            if (algorithmName.ToUpper() == "ZenMatrix")
+            if (algorithmName == "ZenMatrix")
             {
-                // MatrixSymChiffer.MatrixPermKey = MatrixSymChiffer.GenerateMatrixPermutationByKey(this.TextBox_Key.Text);
+                string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
+                sbyte[] transFormMatrix = MatrixSymChiffer.GenerateMatrixPermutationByKey(secretKey);
                 decryptBytes = MatrixSymChiffer.Decrypt(cipherBytes);
             }
             if (algorithmName == "Camellia" || algorithmName == "Gost28147" ||

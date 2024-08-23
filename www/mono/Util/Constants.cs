@@ -58,6 +58,7 @@ namespace Area23.At.Mono.Util
         public const string BACK_COLOR_STRING = "BackColorString";
         public const string QR_COLOR_STRING = "QrColorString";
 
+        public const string AES_ENVIROMENT_KEY = "APP_ENCRYPTION_SECRET_KEY";
         public static readonly string AES_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("AesKey")); 
         public static readonly string AES_IV = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("AesIv4"));
         public static readonly string DES3_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("DesKey"));

@@ -13,24 +13,75 @@ namespace Area23.At.Mono.Util.SymChiffer
     /// </summary>
     public static class Aes
     {
-        static public byte[] AesKey { get; set; }
+        public static byte[] AesKey { get; private set; }
 
-        static public byte[] AesIv { get; set; }
+        public static byte[] AesIv { get; private set; }
 
         public static RijndaelManaged AesAlgo { get; private set; }
 
+        private static string PrivateKey
+        {
+            get
+            {
+                string key = "3fb7fe5dbb0643caa984f53de6fffd0f";
+                string envKeyValue = Environment.GetEnvironmentVariable(Constants.AES_ENVIROMENT_KEY);
+                if (envKeyValue != null)
+                {
+                    key = envKeyValue;
+                }
+                return key;
+            }
+        }
+
+
+        /// <summary>
+        /// static constructor
+        /// </summary>
         static Aes()
         {
-            AesKey = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
-            AesIv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+            AesGenWithNewKey(null);
+        }
+
+        /// <summary>
+        /// AesGenWithNewKey generates a new static Aes RijndaelManaged symetric encryption 
+        /// </summary>
+        /// <param name="inputKey"></param>
+        public static void AesGenWithNewKey(string inputKey = null)
+        {
+            if (string.IsNullOrEmpty(inputKey))
+            {
+                AesKey = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
+                AesIv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+            }
+            else
+            {
+                AesKey = CreateAesKey(inputKey);
+                AesIv = GenerateRandomPublicKey();
+            }
             AesAlgo = new RijndaelManaged();
             AesAlgo.Mode = CipherMode.ECB;
             AesAlgo.KeySize = 256;
-            AesAlgo.Padding = PaddingMode.Zeros; ;
+            AesAlgo.Padding = PaddingMode.Zeros;
+
             // AesAlgo.GenerateIV();
             // AesAlgo.GenerateKey();
             AesAlgo.Key = AesKey;
             AesAlgo.IV = AesIv;
+        }
+
+
+        private static byte[] GenerateRandomPublicKey()
+        {
+            byte[] iv = new byte[16]; // AES > IV > 128 bit
+            var randomNumGen = RandomNumberGenerator.Create();
+            randomNumGen.GetBytes(iv, 0, iv.Length);
+            // iv = RandomNumberGenerator.GetBytes(iv.Length);
+            return iv;
+        }
+
+        private static byte[] CreateAesKey(string inputString)
+        {
+            return Encoding.UTF8.GetByteCount(inputString) == 32 ? Encoding.UTF8.GetBytes(inputString) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(inputString));
         }
 
 
@@ -163,4 +214,5 @@ namespace Area23.At.Mono.Util.SymChiffer
         #endregion EnDecryptWithStream
 
     }
+
 }

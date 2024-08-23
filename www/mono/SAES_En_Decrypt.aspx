@@ -44,7 +44,7 @@
             </span>
             <span class="centerSpan">
                 <span class="textSpan">key: </span>
-                <asp:TextBox ID="TextBox_Key" runat="server" ReadOnly="true" Text="heinrich.elsigan@area23.at" />
+                <asp:TextBox ID="TextBox_Key" runat="server" Text="heinrich.elsigan@area23.at" />
             </span>
             <span class="centerSpan">
                 <span class="textSpan">iv: </span>

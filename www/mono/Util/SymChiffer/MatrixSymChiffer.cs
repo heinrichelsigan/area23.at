@@ -13,11 +13,9 @@ namespace Area23.At.Mono.Util.SymChiffer
 
         internal static sbyte[] MatrixPermKey { get; set; }
 
-        internal static sbyte[] MatrixReverse { get; private set; }
+        internal static sbyte[] MatrixReverse { get; set; }
 
-        internal static sbyte[] MatrixPermSalt { get; private set; }
-
-        internal static HashSet<sbyte> PermKeyHash { get; private set; }
+        internal static HashSet<sbyte> PermKeyHash { get; set; }
 
         /// <summary>
         /// Static constructor
@@ -25,6 +23,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         static MatrixSymChiffer()
         {
             InitMatrixSymChiffer();
+            // MatrixPermSalt = GenerateMatrixPermutationByKey(Constants.AUTHOR);
             // MatrixPermKey = GetMatrixPermutation(Constants.AUTHOR_EMAIL);
             // MatrixReverse = BuildReveseMatrix(MatrixPermKey);
         }
@@ -37,31 +36,14 @@ namespace Area23.At.Mono.Util.SymChiffer
             sbyte cntSby = 0x0;
             int iCnt = 0;
             MatrixPermKey = new sbyte[16];
-            MatrixPermSalt = new sbyte[16];
             foreach (sbyte s in MatrixBasePerm)
             {
                 MatrixPermKey[cntSby++] = s;
             }
 
-            for (int i = 0x0; i < MatrixPermKey.Length; i += 3)
-            {
-                for (int j = MatrixPermKey.Length - 1; j >= i; j -= 2)
-                {
-                    sbyte ba = MatrixPermKey[i];
-                    sbyte bb = MatrixPermKey[j];
-                    SwapSByte(ref ba, ref bb);
-                    MatrixPermKey[i] = ba;
-                    MatrixPermKey[j] = bb;
-                }
-            }
-
             PermKeyHash = new HashSet<sbyte>(MatrixBasePerm);            
-            for (int d = MatrixPermKey.Length - 1; d >= 0; d--)
-            {
-                MatrixPermSalt[iCnt++] = MatrixBasePerm[d];
-            }
-            MatrixReverse = BuildReveseMatrix(MatrixPermKey);
 
+            MatrixReverse = BuildReveseMatrix(MatrixPermKey);
         }
 
         /// <summary>
@@ -71,10 +53,9 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <returns>sbyte{16] decryption matrix</returns>
         internal static sbyte[] BuildReveseMatrix(sbyte[] matrix)
         {
-            sbyte[] rmatrix = null;
-            if (matrix != null && matrix.Length > 7)
+            sbyte[] rmatrix = new sbyte[matrix.Length];
+            if (matrix != null && matrix.Length >= 12)
             {
-                rmatrix = new sbyte[matrix.Length];
                 for (int m = 0; m < matrix.Length; m++)
                 {
                     sbyte sm = matrix[m];
@@ -96,7 +77,6 @@ namespace Area23.At.Mono.Util.SymChiffer
             int aCnt = 0, bCnt = 0;           
 
             InitMatrixSymChiffer();
-            MatrixPermSalt = MatrixPermKey;
 
             PermKeyHash = new HashSet<sbyte>();
             byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
@@ -109,20 +89,19 @@ namespace Area23.At.Mono.Util.SymChiffer
                     aCnt = (int)sb;
                     if (aCnt != bCnt)
                     {
-                        sbyte ba = MatrixPermSalt[aCnt];
-                        sbyte bb = MatrixPermSalt[bCnt];
+                        sbyte ba = MatrixPermKey[aCnt];
+                        sbyte bb = MatrixPermKey[bCnt];
                         SwapSByte(ref ba, ref bb);
-                        MatrixPermSalt[aCnt] = ba;
-                        MatrixPermSalt[bCnt] = bb;
+                        MatrixPermKey[aCnt] = ba;
+                        MatrixPermKey[bCnt] = bb;
                     }
                     bCnt++;
                 }
             }
 
-            MatrixPermKey = MatrixPermSalt;            
-            MatrixReverse = BuildReveseMatrix(MatrixPermSalt);
+            MatrixReverse = BuildReveseMatrix(MatrixPermKey);
 
-            return MatrixPermSalt;
+            return MatrixPermKey;
         }
 
 
@@ -140,6 +119,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             if (offSet < inBytesPadding.Length && offSet + len <= inBytesPadding.Length)
             {
                 processedEncrypted = new byte[len];
+                aCnt = 0;
                 for (bCnt = offSet; bCnt < offSet + len; bCnt++)
                 {
                     byte b = inBytesPadding[bCnt];
@@ -165,6 +145,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             if (offSet < inBytesEncrypted.Length && offSet + len <= inBytesEncrypted.Length)
             {
                 processedDecrypted = new byte[len];
+                aCnt = 0;
                 for (bCnt = offSet; bCnt < offSet + len; bCnt++)
                 {
                     byte b = inBytesEncrypted[bCnt];
@@ -298,7 +279,6 @@ namespace Area23.At.Mono.Util.SymChiffer
             int aCnt = 0, bCnt = 0;
 
             InitMatrixSymChiffer();
-            MatrixPermSalt = MatrixPermKey;
 
             PermKeyHash = new HashSet<sbyte>();
             byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
@@ -311,17 +291,16 @@ namespace Area23.At.Mono.Util.SymChiffer
                     aCnt = (int)sb;
                     if (aCnt != bCnt)
                     {
-                        sbyte ba = MatrixPermSalt[aCnt];
-                        sbyte bb = MatrixPermSalt[bCnt];
+                        sbyte ba = MatrixPermKey[aCnt];
+                        sbyte bb = MatrixPermKey[bCnt];
                         SwapSByte(ref ba, ref bb);
-                        MatrixPermSalt[aCnt] = ba;
-                        MatrixPermSalt[bCnt] = bb;
+                        MatrixPermKey[aCnt] = ba;
+                        MatrixPermKey[bCnt] = bb;
                     }
                     bCnt++;
                 }
             }
 
-            MatrixPermKey = MatrixPermSalt;
             MatrixReverse = BuildReveseMatrix(MatrixPermKey);
 
             /*
