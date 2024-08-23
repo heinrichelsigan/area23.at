@@ -127,16 +127,28 @@ namespace Area23.At.Mono.Util.SymChiffer
 
         public static sbyte[] GenerateMatrixPermutationByKey(string key) 
         {
-            int aCnt = 0, bCnt = 0;            
+            int aCnt = 0, bCnt = 0, sCnt = 0;           
 
             InitMatrixSymChiffer();            
             
             PermKeyHash = new HashSet<sbyte>();
-            foreach (byte b in System.Text.Encoding.UTF8.GetBytes(key).ToList())
+            byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
+            foreach (byte b in keyBytes)
             {
+                sCnt = 0;   
                 sbyte sb = (sbyte)(((int)b)%16);
-                if (!PermKeyHash.Contains(sb)) 
+                if (!PermKeyHash.Contains(sb))
                     PermKeyHash.Add(sb);
+                else
+                {
+                    while (PermKeyHash.Contains(sb) || sCnt < 16)
+                    {
+                        sb = (sbyte)(((int)++sb) % 16);
+                        sCnt++;
+                    }
+                    if (!PermKeyHash.Contains(sb))
+                        PermKeyHash.Add(sb);
+                }
             }
 
             MatrixPermSalt = new sbyte[16];
