@@ -19,12 +19,14 @@ namespace Area23.At.Mono.Util.SymChiffer
 
         internal static HashSet<sbyte> PermKeyHash { get; private set; }
 
-
+        /// <summary>
+        /// Static constructor
+        /// </summary>
         static MatrixSymChiffer()
         {
             InitMatrixSymChiffer();
-            sbyte[] BytesASaltN = GetMatrixPermutation(null);
-            MatrixReverse = BuildReveseMatrix(BytesASaltN);
+            // MatrixPermKey = GetMatrixPermutation(Constants.AUTHOR_EMAIL);
+            // MatrixReverse = BuildReveseMatrix(MatrixPermKey);
         }
 
         /// <summary>
@@ -33,14 +35,33 @@ namespace Area23.At.Mono.Util.SymChiffer
         internal static void InitMatrixSymChiffer()
         {
             sbyte cntSby = 0x0;
+            int iCnt = 0;
             MatrixPermKey = new sbyte[16];
-            MatrixPermSalt = new sbyte[0x10];
+            MatrixPermSalt = new sbyte[16];
             foreach (sbyte s in MatrixBasePerm)
             {
                 MatrixPermKey[cntSby++] = s;
             }
 
-            PermKeyHash = new HashSet<sbyte>(MatrixBasePerm);
+            for (int i = 0x0; i < MatrixPermKey.Length; i += 3)
+            {
+                for (int j = MatrixPermKey.Length - 1; j >= i; j -= 2)
+                {
+                    sbyte ba = MatrixPermKey[i];
+                    sbyte bb = MatrixPermKey[j];
+                    SwapSByte(ref ba, ref bb);
+                    MatrixPermKey[i] = ba;
+                    MatrixPermKey[j] = bb;
+                }
+            }
+
+            PermKeyHash = new HashSet<sbyte>(MatrixBasePerm);            
+            for (int d = MatrixPermKey.Length - 1; d >= 0; d--)
+            {
+                MatrixPermSalt[iCnt++] = MatrixBasePerm[d];
+            }
+            MatrixReverse = BuildReveseMatrix(MatrixPermKey);
+
         }
 
         /// <summary>
@@ -63,111 +84,46 @@ namespace Area23.At.Mono.Util.SymChiffer
             return rmatrix;
         }
 
-
-        internal static sbyte[] SwapSByte(ref sbyte sba, ref sbyte sbb)
-        {
-            sbyte[] tmp = new sbyte[2];
-            tmp[0] = Convert.ToSByte(sba.ToString());
-            tmp[1] = Convert.ToSByte(sbb.ToString());
-            sba = tmp[1];
-            sbb = tmp[0];
-            return tmp;
-        }
-
-        internal static sbyte[] GetMatrixPermutation(sbyte[] salt)
-        {
-            if (PermKeyHash == null ||  PermKeyHash.Count == 0)
-                InitMatrixSymChiffer();
-
-            for (int i = 0x0; i < MatrixPermKey.Length; i += 3)
-            {
-                for (int j = MatrixPermKey.Length - 1; j >= i; j -= 2)
-                {
-                    sbyte ba = MatrixPermKey[i];
-                    sbyte bb = MatrixPermKey[j];
-                    SwapSByte(ref ba, ref bb);
-                    MatrixPermKey[i] = ba;
-                    MatrixPermKey[j] = bb;
-                }
-            }
-
-            HashSet<sbyte> takenSBytes = new HashSet<sbyte>();
-            HashSet<int> dicedPos = new HashSet<int>();
-            for (int randomizeCnt = 0; randomizeCnt <= 0x1f; randomizeCnt++)
-            {
-                Random rand = new Random(System.DateTime.UtcNow.Millisecond);
-                int hpos = 0;
-                int pos = (int)rand.Next(0x0, 0xf);
-                while (dicedPos.Contains(pos))
-                {
-                    pos = (int)rand.Next(0x0, 0xf);
-                    if (dicedPos.Contains(pos))
-                    {
-                        pos = hpos++;
-                        if (hpos >= 16)
-                            hpos = 0;
-                    }
-                }
-                dicedPos.Add(pos);
-                sbyte talenS = PermKeyHash.ElementAt(pos);
-                takenSBytes.Add(talenS);
-                if (takenSBytes.Count == 16)
-                {
-                    MatrixPermSalt = new sbyte[16];
-                    takenSBytes.CopyTo(MatrixPermSalt);
-                    PermKeyHash = new HashSet<sbyte>(MatrixPermSalt);
-                    takenSBytes = new HashSet<sbyte>();
-                    dicedPos = new HashSet<int>();
-                }
-            }
-
-            return MatrixPermKey;
-        }
-
-
+        /// <summary>
+        /// Generate Matrix sym chiffre permutation by key string
+        /// </summary>
+        /// <param name="key">string key to generate permutation <see cref="MatrixPermKey"/> 
+        /// and <see cref="MatrixPermSalt"/> for encryption 
+        /// and reverse matrix <see cref="MatrixReverse"/> for decryption</param>
+        /// <returns>sbyte[] permutation matrix for encryption</returns>
         public static sbyte[] GenerateMatrixPermutationByKey(string key) 
         {
-            int aCnt = 0, bCnt = 0, sCnt = 0;           
+            int aCnt = 0, bCnt = 0;           
 
-            InitMatrixSymChiffer();            
-            
+            InitMatrixSymChiffer();
+            MatrixPermSalt = MatrixPermKey;
+
             PermKeyHash = new HashSet<sbyte>();
             byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
             foreach (byte b in keyBytes)
             {
-                sCnt = 0;   
-                sbyte sb = (sbyte)(((int)b)%16);
+                sbyte sb = (sbyte)(((int)b) % 16);
                 if (!PermKeyHash.Contains(sb))
+                {
                     PermKeyHash.Add(sb);
-                else
-                {
-                    while (PermKeyHash.Contains(sb) || sCnt < 16)
+                    aCnt = (int)sb;
+                    if (aCnt != bCnt)
                     {
-                        sb = (sbyte)(((int)++sb) % 16);
-                        sCnt++;
+                        sbyte ba = MatrixPermSalt[aCnt];
+                        sbyte bb = MatrixPermSalt[bCnt];
+                        SwapSByte(ref ba, ref bb);
+                        MatrixPermSalt[aCnt] = ba;
+                        MatrixPermSalt[bCnt] = bb;
                     }
-                    if (!PermKeyHash.Contains(sb))
-                        PermKeyHash.Add(sb);
+                    bCnt++;
                 }
             }
 
-            MatrixPermSalt = new sbyte[16];
-            foreach (sbyte sph in PermKeyHash)
-            {
-                MatrixPermSalt[bCnt++] = MatrixPermKey[(int)sph];
-            }
-            for (aCnt = 0; aCnt < 16; aCnt++)
-            {
-                if (!PermKeyHash.Contains(((sbyte)aCnt)))
-                {
-                    MatrixPermSalt[bCnt++] = MatrixPermKey[(int)aCnt];
-                }
-            }
-
+            MatrixPermKey = MatrixPermSalt;            
             MatrixReverse = BuildReveseMatrix(MatrixPermSalt);
+
             return MatrixPermSalt;
         }
-
 
 
         /// <summary>
@@ -228,28 +184,28 @@ namespace Area23.At.Mono.Util.SymChiffer
         public static byte[] Encrypt(byte[] plainData)
         {
             int bCnt = 0, outCnt = 0;
-            int outputSize = plainData.Length + (16 - plainData.Length % 16);
+            int oSize = plainData.Length + (16 - (plainData.Length % 16));
+            int outputSize = ((int)(oSize / 16)) * 16;
             byte[] inBytesPadding = new byte[outputSize];
-            byte[] outBytesEncrypted = new byte[outputSize];
             for (bCnt = 0; bCnt < inBytesPadding.Length; bCnt++)
             {
                 if (bCnt < plainData.Length)
                     inBytesPadding[bCnt] = plainData[bCnt];
                 else
                     inBytesPadding[bCnt] = (byte)0x0;
-
-                outBytesEncrypted[bCnt] = (byte)0x0;
             }
 
+            List<byte> outBytes = new List<byte>();
             for (int processCnt = 0; processCnt < inBytesPadding.Length; processCnt += 16)
             {
                 byte[] retByte = ProcessEncryptBytes(inBytesPadding, processCnt, 16);
                 foreach (byte rb in retByte)
                 {
-                    outBytesEncrypted[outCnt++] = rb;
+                    outBytes.Add(rb);
                 }
             }
 
+            byte[] outBytesEncrypted = outBytes.ToArray();
             return outBytesEncrypted;
 
         }
@@ -262,30 +218,29 @@ namespace Area23.At.Mono.Util.SymChiffer
         public static byte[] Decrypt(byte[] cipherData)
         {
             int bCnt = 0, outCnt = 0;
-            int outputSize = cipherData.Length + (16 - cipherData.Length % 16);
+            int oSize = cipherData.Length + (16 - (cipherData.Length % 16));
+            int outputSize = ((int)(oSize / 16)) * 16;
             byte[] inBytesEncrypted = new byte[outputSize];
-            byte[] outBytesPlainPadding = new byte[outputSize];
             for (bCnt = 0; bCnt < inBytesEncrypted.Length; bCnt++)
             {
                 if (bCnt < cipherData.Length)
                     inBytesEncrypted[bCnt] = cipherData[bCnt];
                 else
                     inBytesEncrypted[bCnt] = (byte)0x0;
-
-                outBytesPlainPadding[bCnt] = (byte)0x0;
             }
-            
+
+            List<byte> outBytes = new List<byte>();
             for (int processCnt = 0; processCnt < inBytesEncrypted.Length; processCnt += 16)
             {
                 byte[] retByte = ProcessDecryptBytes(inBytesEncrypted, processCnt, 16);
                 foreach (byte rb in retByte)
                 {
-                    outBytesPlainPadding[outCnt++] = rb;
+                    outBytes.Add(rb);
                 }
             }
 
+            byte[] outBytesPlainPadding = outBytes.ToArray();
             return outBytesPlainPadding;
-
         }
 
 
@@ -320,5 +275,90 @@ namespace Area23.At.Mono.Util.SymChiffer
         }
 
         #endregion EnDecryptString
+
+
+        #region ObsoleteDeprecated
+
+        // [Obsolete("SwapSBytes is obsolete", false)]
+        internal static sbyte[] SwapSByte(ref sbyte sba, ref sbyte sbb)
+        {
+            sbyte[] tmp = new sbyte[2];
+            tmp[0] = Convert.ToSByte(sba.ToString());
+            tmp[1] = Convert.ToSByte(sbb.ToString());
+            sba = tmp[1];
+            sbb = tmp[0];
+            return tmp;
+        }
+
+        [Obsolete("GetMatrixPermutation is obsolete, use GenerateMatrixPermutationByKey(string key) instead!", false)]
+        internal static sbyte[] GetMatrixPermutation(string key)
+        {            
+            InitMatrixSymChiffer();
+
+            int aCnt = 0, bCnt = 0;
+
+            InitMatrixSymChiffer();
+            MatrixPermSalt = MatrixPermKey;
+
+            PermKeyHash = new HashSet<sbyte>();
+            byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
+            foreach (byte b in keyBytes)
+            {
+                sbyte sb = (sbyte)(((int)b) % 16);
+                if (!PermKeyHash.Contains(sb))
+                {
+                    PermKeyHash.Add(sb);
+                    aCnt = (int)sb;
+                    if (aCnt != bCnt)
+                    {
+                        sbyte ba = MatrixPermSalt[aCnt];
+                        sbyte bb = MatrixPermSalt[bCnt];
+                        SwapSByte(ref ba, ref bb);
+                        MatrixPermSalt[aCnt] = ba;
+                        MatrixPermSalt[bCnt] = bb;
+                    }
+                    bCnt++;
+                }
+            }
+
+            MatrixPermKey = MatrixPermSalt;
+            MatrixReverse = BuildReveseMatrix(MatrixPermKey);
+
+            /*
+            HashSet<sbyte> takenSBytes = new HashSet<sbyte>();
+            HashSet<int> dicedPos = new HashSet<int>();
+            for (int randomizeCnt = 0; randomizeCnt <= 0x1f; randomizeCnt++)
+            {
+                Random rand = new Random(System.DateTime.UtcNow.Millisecond);
+                int hpos = 0;
+                int pos = (int)rand.Next(0x0, 0xf);
+                while (dicedPos.Contains(pos))
+                {
+                    pos = (int)rand.Next(0x0, 0xf);
+                    if (dicedPos.Contains(pos))
+                    {
+                        pos = hpos++;
+                        if (hpos >= 16)
+                            hpos = 0;
+                    }
+                }
+                dicedPos.Add(pos);
+                sbyte talenS = PermKeyHash.ElementAt(pos);
+                takenSBytes.Add(talenS);
+                if (takenSBytes.Count == 16)
+                {
+                    MatrixPermSalt = new sbyte[16];
+                    takenSBytes.CopyTo(MatrixPermSalt);
+                    PermKeyHash = new HashSet<sbyte>(MatrixPermSalt);
+                    takenSBytes = new HashSet<sbyte>();
+                    dicedPos = new HashSet<int>();
+                }
+            }
+            */
+
+            return MatrixPermKey;
+        }
+
+        #endregion ObsoleteDeprecated
     }
 }

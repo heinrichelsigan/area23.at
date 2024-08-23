@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Web;
+using static QRCoder.PayloadGenerator;
+using static System.Net.WebRequestMethods;
 
 namespace Area23.At.Mono.Util
 {
@@ -23,6 +26,10 @@ namespace Area23.At.Mono.Util
         public const string LOG_DIR = "log";
         public const string LOG_EXT = ".log";
         public const string QR_DIR = "Qr";
+        public const string AUTHOR = "Heinrich Elsigan";
+        public const string AUTHOR_EMAIL = "heinrich.elsigan@gmail.com";
+        public const string AUTHOR_SIGNATURE = "-- \nHeinrich G.Elsigan\nTheresianumgasse 6/28, A-1040 Vienna\n phone: +43 650 752 79 28 \nmobile: +43 670 406 89 83 \nemails: heinrich.elsigan @gmail.com\n        root@darkstar.work he@area23.at\n        heinrich.elsigan @live.at\n        sites: darkstar.work area23.at\nweblog: blog.darkstar.work\n   wko: https://firmen.wko.at/DetailsKontakt.aspx?FirmaID=19800fbd-84a2-456d-890e-eb1fa213100f";
+
         public const string UTF8_DIR = "Utf8";
         public const string UNIX_DIR = "Unix";
         public const string CALC_DIR = "Calc";

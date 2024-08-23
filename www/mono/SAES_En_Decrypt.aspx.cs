@@ -299,7 +299,7 @@ namespace Area23.At.Mono
             }
             if (algo == "ZenMatrix")
             {
-                MatrixSymChiffer.MatrixPermKey = MatrixSymChiffer.GenerateMatrixPermutationByKey(this.TextBox_Key.Text);
+                // MatrixSymChiffer.MatrixPermKey = MatrixSymChiffer.GenerateMatrixPermutationByKey(this.TextBox_Key.Text);
                 encryptBytes = MatrixSymChiffer.Encrypt(inBytes);
             }                
             if (algo == "Camellia" || algo == "Gost28147" || 
@@ -407,7 +407,7 @@ namespace Area23.At.Mono
             }
             if (algorithmName.ToUpper() == "ZenMatrix")
             {
-                MatrixSymChiffer.MatrixPermKey = MatrixSymChiffer.GenerateMatrixPermutationByKey(this.TextBox_Key.Text);
+                // MatrixSymChiffer.MatrixPermKey = MatrixSymChiffer.GenerateMatrixPermutationByKey(this.TextBox_Key.Text);
                 decryptBytes = MatrixSymChiffer.Decrypt(cipherBytes);
             }
             if (algorithmName == "Camellia" || algorithmName == "Gost28147" ||
