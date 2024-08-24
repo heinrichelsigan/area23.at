@@ -107,7 +107,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             cipherMode.DoFinal(plainData, result);
 
 
-            return plainData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
+            return plainData; 
         }
 
         #region EnDecryptString

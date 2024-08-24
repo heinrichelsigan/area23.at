@@ -39,13 +39,7 @@ namespace Area23.At.Mono
                 ; // handled by Event members
                 if (!Page.IsPostBack)
                 {
-                    byte[] keyTextData = System.Text.Encoding.UTF8.GetBytes(this.TextBox_Key.Text);
-                    string ivStr = string.Empty;
-                    foreach (byte b in keyTextData)
-                    {
-                        ivStr += b.ToString();
-                    }
-                    this.TextBox_IV.Text = ivStr;
+                    Reset_TextBox_IV();
                 }
             }
         }
@@ -87,6 +81,7 @@ namespace Area23.At.Mono
             frmConfirmation.Visible = false;
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
+                Reset_TextBox_IV();
                 string source = this.TextBoxSource.Text;
                 string encryptedText = string.Empty;
                 byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
@@ -94,8 +89,11 @@ namespace Area23.At.Mono
                 byte[] encryptBytes = inBytes;
                 foreach (string algo in algos)
                 {
-                    encryptBytes = EncryptBytes(inBytes, algo);
-                    inBytes = encryptBytes;
+                    if (!string.IsNullOrEmpty(algo))
+                    {
+                        encryptBytes = EncryptBytes(inBytes, algo);
+                        inBytes = encryptBytes;
+                    }
                 }
 
                 encryptedText = Convert.ToBase64String(encryptBytes);
@@ -119,11 +117,15 @@ namespace Area23.At.Mono
 
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
+                Reset_TextBox_IV();
                 string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
                 for (ig = (algos.Length - 1); ig >= 0; ig--)
                 {
-                    decryptedBytes = DecryptBytes(cipherBytes, algos[ig]);
-                    cipherBytes = decryptedBytes;
+                    if (!string.IsNullOrEmpty(algos[ig]))
+                    {
+                        decryptedBytes = DecryptBytes(cipherBytes, algos[ig]);
+                        cipherBytes = decryptedBytes;
+                    }
                 }
                 List<char> charList = new List<char>();
                 for (i = 0; i < 32; i++)
@@ -220,13 +222,7 @@ namespace Area23.At.Mono
         {
             // TODO: implement it
             this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
-            byte[] keyTextData = System.Text.Encoding.UTF8.GetBytes(this.TextBox_Key.Text);
-            string ivStr = string.Empty;
-            foreach (byte b in keyTextData)
-            {
-                ivStr += b.ToString();
-            }
-            this.TextBox_IV.Text = ivStr;
+            Reset_TextBox_IV();
         }
 
 
@@ -282,13 +278,16 @@ namespace Area23.At.Mono
                         if (crypt)
                         {
                             imgOut.Src = "res/img/encrypted.png";
-                            
+
                             foreach (string algo in algos)
                             {
-                                outBytes = EncryptBytes(fileBytes, algo);
-                                fileBytes = outBytes;
-                                cryptCount++;
-                                strFileName += "." + algo.ToLower();                                
+                                if (!string.IsNullOrEmpty(algo))
+                                {
+                                    outBytes = EncryptBytes(fileBytes, algo);
+                                    fileBytes = outBytes;
+                                    cryptCount++;
+                                    strFileName += "." + algo.ToLower();
+                                }
                             }
                             lblUploadResult.Text = String.Format("file {0} x encrypted to ", cryptCount);
                         }
@@ -296,11 +295,14 @@ namespace Area23.At.Mono
                         {
                             imgOut.Src = "res/img/decrypted.png";
                             for (int ig = (algos.Length - 1); ig >= 0; ig--)
-                            {                                
-                                outBytes = DecryptBytes(fileBytes, algos[ig]);
-                                fileBytes = outBytes;
-                                cryptCount++;
-                                strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;                                
+                            {
+                                if (!string.IsNullOrEmpty(algos[ig]))
+                                {
+                                    outBytes = DecryptBytes(fileBytes, algos[ig]);
+                                    fileBytes = outBytes;
+                                    cryptCount++;
+                                    strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;
+                                }
                             }
                             lblUploadResult.Text = "file has been decrypted to ";
                         }
@@ -328,29 +330,31 @@ namespace Area23.At.Mono
         /// <returns>encrypted byte Array</returns>
         protected byte[] EncryptBytes(byte[] inBytes, string algo)
         {
+            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
+
             byte[] encryptBytes = inBytes;
             byte[] outBytes;
             string mode = "ECB";
             int keyLen = 32, blockSize = 256;
 
             if (algo == "2FISH")
-            {
+            {                
+                TwoFish.TwoFishGenWithKey(secretKey, true);
                 encryptBytes = TwoFish.Encrypt(inBytes);
             }
             if (algo == "3FISH")
             {
-                encryptBytes = ThreeFish.Encrypt(inBytes);
+                ThreeFish.ThreeFishGenWithKey(secretKey, true);
+                encryptBytes = ThreeFish.Encrypt(inBytes);                
             }
             if (algo == "3DES")
             {
-                string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
-                TripleDes.TripleDesFromKey(secretKey);
-                encryptBytes = TripleDes.Encrypt(inBytes);
+                TripleDes.TripleDesFromKey(secretKey, true);
+                encryptBytes = TripleDes.Encrypt(inBytes);                
             }
             if (algo == "AES")
             {
-                string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
-                Aes.AesGenWithNewKey(secretKey);
+                Aes.AesGenWithNewKey(secretKey, true);
                 encryptBytes = Aes.Encrypt(inBytes);
             }
             if (algo == "DesEde")
@@ -361,16 +365,21 @@ namespace Area23.At.Mono
             {
                 encryptBytes = RC564.Encrypt(inBytes);
             }
+            if (algo == "Serpent")
+            {
+                Serpent.SerpentGenWithKey(secretKey, true);
+                encryptBytes = Serpent.Encrypt(inBytes);
+            }
             if (algo == "ZenMatrix")
             {
-                sbyte[] transFormMatrix = MatrixSymChiffer.GenerateMatrixPermutationByKey(this.TextBox_Key.Text);
-                encryptBytes = MatrixSymChiffer.Encrypt(inBytes);
+                ZenMatrix.ZenMatrixGenWithKey(secretKey);
+                encryptBytes = ZenMatrix.Encrypt(inBytes);
             }                
             if (algo == "Camellia" || algo == "Gost28147" || 
                 algo == "Idea" || algo == "Noekeon" ||
                 algo == "RC2" || algo == "RC6" ||
                 algo == "Rijndael" || 
-                algo == "Seed" || algo == "Serpent" || algo == "Skipjack" ||
+                algo == "Seed" || algo == "Skipjack" ||
                 algo == "Tea" || algo == "Tnepres" || algo == "XTea")
             {
                 IBlockCipher blockCipher;
@@ -403,12 +412,12 @@ namespace Area23.At.Mono
                         keyLen = 16;
                         mode = "CBC";
                         break;
-                    case "Serpent":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
-                        blockSize = 128;
-                        keyLen = 16;
-                        mode = "CBC";
-                        break;
+                    // case "Serpent":
+                        // blockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
+                        // blockSize = 128;
+                        // keyLen = 16;
+                        // mode = "CBC";
+                        // break;
                     case "Skipjack":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
                         break;
@@ -440,30 +449,33 @@ namespace Area23.At.Mono
         /// <returns>decrypted byte Array</returns>
         protected byte[] DecryptBytes(byte[] cipherBytes, string algorithmName)
         {
+            bool sameKey = true;
+            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
+
             byte[] decryptBytes = cipherBytes;
             byte[] plainBytes;
             string mode = "ECB";
             int keyLen = 32, blockSize = 256;
 
             if (algorithmName == "2FISH")
-            {
+            {                
+                sameKey = TwoFish.TwoFishGenWithKey(secretKey, false);
                 decryptBytes = TwoFish.Decrypt(cipherBytes);
             }
             if (algorithmName == "3FISH")
             {
-                decryptBytes = ThreeFish.Decrypt(cipherBytes);
+                sameKey = ThreeFish.ThreeFishGenWithKey(secretKey, false);
+                decryptBytes = ThreeFish.Decrypt(cipherBytes);                
             }
             if (algorithmName == "3DES")
             {
-                string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
-                TripleDes.TripleDesFromKey(secretKey);
-                decryptBytes = TripleDes.Decrypt(cipherBytes);
+                sameKey = TripleDes.TripleDesFromKey(secretKey, false);                
+                decryptBytes = TripleDes.Decrypt(cipherBytes);                
             }
             if (algorithmName == "AES")
             {
-                string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
-                TripleDes.TripleDesFromKey(secretKey);
-                decryptBytes = Aes.Decrypt(cipherBytes);
+                sameKey = Aes.AesGenWithNewKey(secretKey, false);
+                decryptBytes = Aes.Decrypt(cipherBytes);                
             }
             if (algorithmName == "DesEde")
             {
@@ -473,17 +485,21 @@ namespace Area23.At.Mono
             {
                 decryptBytes = RC564.Decrypt(cipherBytes);
             }
+            if (algorithmName == "Serpent")
+            {
+                sameKey = Serpent.SerpentGenWithKey(secretKey, false); 
+                decryptBytes = Serpent.Decrypt(cipherBytes);
+            }
             if (algorithmName == "ZenMatrix")
             {
-                string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
-                sbyte[] transFormMatrix = MatrixSymChiffer.GenerateMatrixPermutationByKey(secretKey);
-                decryptBytes = MatrixSymChiffer.Decrypt(cipherBytes);
+                sameKey = ZenMatrix.ZenMatrixGenWithKey(secretKey, false);
+                decryptBytes = ZenMatrix.Decrypt(cipherBytes);
             }
             if (algorithmName == "Camellia" || algorithmName == "Gost28147" ||
                 algorithmName == "Idea" || algorithmName == "Noekeon" ||
                 algorithmName == "RC2" || algorithmName == "RC6" ||
                 algorithmName == "Rijndael" ||
-                algorithmName == "Seed" || algorithmName == "Serpent" || algorithmName == "Skipjack" ||
+                algorithmName == "Seed" || algorithmName == "Skipjack" ||
                 algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea") 
             {
                 IBlockCipher blockCipher;
@@ -516,12 +532,12 @@ namespace Area23.At.Mono
                         keyLen = 16;
                         mode = "CBC";
                         break;
-                    case "Serpent":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
-                        blockSize = 128;
-                        keyLen = 16;
-                        mode = "CBC";
-                        break;
+                    //case "Serpent":
+                    //    blockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
+                    //    blockSize = 128;
+                    //    keyLen = 16;
+                    //    mode = "CBC";
+                    //    break;
                     case "Skipjack":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
                         break;
@@ -542,9 +558,32 @@ namespace Area23.At.Mono
                 decryptBytes = cryptCastle.Decrypt(cipherBytes, out plainBytes);
             }
 
+            if (!sameKey)
+            {
+                this.TextBox_IV.Text = "Private Key changed!";
+                this.TextBox_IV.ToolTip = "Check Enforce decrypt (without key check).";
+                this.TextBox_IV.BorderColor = Color.Red;
+                this.TextBox_IV.BorderWidth = 2;
+            }
+
             return decryptBytes;
         }
 
         #endregion enryption_decryption_members 
+
+        protected void Reset_TextBox_IV()
+        {
+            if (string.IsNullOrEmpty(this.TextBox_Key.Text))
+                this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
+            byte[] keyTextData = System.Text.Encoding.UTF8.GetBytes(this.TextBox_Key.Text);
+            string ivStr = string.Empty;
+            foreach (byte b in keyTextData)
+            {
+                ivStr += b.ToString();
+            }
+            this.TextBox_IV.Text = ivStr;
+            this.TextBox_IV.BorderColor = Color.LightGray;
+            this.TextBox_IV.BorderWidth = 1;
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using System.Windows.Input;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
@@ -13,25 +14,12 @@ namespace Area23.At.Mono.Util.SymChiffer
     /// </summary>
     public static class Aes
     {
-        public static byte[] AesKey { get; private set; }
+        private static string privateKey = string.Empty;
 
-        public static byte[] AesIv { get; private set; }
+        internal static byte[] AesKey { get; private set; }
+        internal static byte[] AesIv { get; private set; }
 
-        public static RijndaelManaged AesAlgo { get; private set; }
-
-        private static string PrivateKey
-        {
-            get
-            {
-                string key = "3fb7fe5dbb0643caa984f53de6fffd0f";
-                string envKeyValue = Environment.GetEnvironmentVariable(Constants.AES_ENVIROMENT_KEY);
-                if (envKeyValue != null)
-                {
-                    key = envKeyValue;
-                }
-                return key;
-            }
-        }
+        internal static RijndaelManaged AesAlgo { get; private set; }
 
 
         /// <summary>
@@ -39,51 +27,67 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// </summary>
         static Aes()
         {
-            AesGenWithNewKey(null);
-        }
-
-        /// <summary>
-        /// AesGenWithNewKey generates a new static Aes RijndaelManaged symetric encryption 
-        /// </summary>
-        /// <param name="inputKey"></param>
-        public static void AesGenWithNewKey(string inputKey = null)
-        {
-            if (string.IsNullOrEmpty(inputKey))
-            {
-                AesKey = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
-                AesIv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
-            }
-            else
-            {
-                AesKey = CreateAesKey(inputKey);
-                AesIv = GenerateRandomPublicKey();
-            }
             AesAlgo = new RijndaelManaged();
             AesAlgo.Mode = CipherMode.ECB;
             AesAlgo.KeySize = 256;
             AesAlgo.Padding = PaddingMode.Zeros;
 
+            AesKey = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
+            AesIv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+            
+            AesAlgo.Key = AesKey;
+            AesAlgo.IV = AesIv;
+            // AesGenWithNewKey(string.Empty, true);
+        }
+
+        /// <summary>
+        /// AesGenWithNewKey generates a new static Aes RijndaelManaged symetric encryption 
+        /// </summary>
+        /// <param name="secretKey">key param for encryption</param>
+        /// <param name="init">init three fish first time with a new key</param>
+        /// <returns>true, if init was with same key successfull</returns>
+        public static bool AesGenWithNewKey(string secretKey = "", bool init = true)
+        {
+            byte[] iv = new byte[16]; // AES > IV > 128 bit
+
+            if (!init)
+            {
+                if ((string.IsNullOrEmpty(privateKey) && !string.IsNullOrEmpty(secretKey)) ||
+                    (!privateKey.Equals(secretKey, StringComparison.InvariantCultureIgnoreCase)))
+                    return false;
+            }
+
+            privateKey = secretKey;
+
+            if (string.IsNullOrEmpty(secretKey))
+            {
+                AesKey = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
+                if (AesIv == null || AesIv.Length == 0)
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+            }
+            else
+            {
+                AesKey = Encoding.UTF8.GetByteCount(secretKey) == 32 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
+                if (AesIv == null || AesIv.Length == 0)
+                {
+                    RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
+                    randomNumGen.GetBytes(iv, 0, iv.Length);
+                }
+            }
+
+            if (AesIv == null || AesIv.Length == 0)
+            {
+                AesIv = new byte[16];
+                Array.Copy(iv, AesIv, 16);
+            }
+
             // AesAlgo.GenerateIV();
             // AesAlgo.GenerateKey();
             AesAlgo.Key = AesKey;
             AesAlgo.IV = AesIv;
+
+            return true;
         }
-
-
-        private static byte[] GenerateRandomPublicKey()
-        {
-            byte[] iv = new byte[16]; // AES > IV > 128 bit
-            var randomNumGen = RandomNumberGenerator.Create();
-            randomNumGen.GetBytes(iv, 0, iv.Length);
-            // iv = RandomNumberGenerator.GetBytes(iv.Length);
-            return iv;
-        }
-
-        private static byte[] CreateAesKey(string inputString)
-        {
-            return Encoding.UTF8.GetByteCount(inputString) == 32 ? Encoding.UTF8.GetBytes(inputString) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(inputString));
-        }
-
 
         /// <summary>
         /// AES Encrypt by using RijndaelManaged
@@ -93,9 +97,9 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <exception cref="ArgumentNullException">is thrown when input enrypted <see cref="byte[]"/> is null or zero length</exception>
         public static byte[] Encrypt(byte[] plainData)
         {
-            // Check arguments. 
+            // Check arguments.
             if (plainData == null || plainData.Length <= 0)
-                throw new ArgumentNullException("plainData is null or length = 0 in static byte[] EncryptBytes(byte[] plainData)...");
+                throw new ArgumentNullException("Aes byte[] Encrypt(byte[] plainData): ArgumentNullException plainData = null or Lenght 0.");
 
             // create a decryptor by AesAlgo.CreateEncrypto(AesAlgo.Key, AesAlgo.IV);
             ICryptoTransform encryptor = AesAlgo.CreateEncryptor(AesAlgo.Key, AesAlgo.IV);
@@ -103,7 +107,6 @@ namespace Area23.At.Mono.Util.SymChiffer
 
             // return the encrypted bytes
             return encryptedBytes;
-
         }
 
 
@@ -115,9 +118,8 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <exception cref="ArgumentNullException">is thrown when input enrypted <see cref="byte[]"/> is null or zero length</exception>
         public static byte[] Decrypt(byte[] encryptedBytes) 
         {
-            // Check arguments. 
             if (encryptedBytes == null || encryptedBytes.Length <= 0)
-                throw new ArgumentNullException("ArgumentNullException encryptedBytes = null or Lenght 0 in static string DecryptBytes(byte[] encryptedBytes)...");
+                throw new ArgumentNullException("Aes byte[] Decrypt(byte[] encryptedBytes): ArgumentNullException encryptedBytes = null or Lenght 0.");
 
             // Create a decrytor to perform the stream transform.
             ICryptoTransform decryptor = AesAlgo.CreateDecryptor(AesAlgo.Key, AesAlgo.IV);
@@ -153,6 +155,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             //  System.Text.Encoding.UTF8.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
             string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+
             return plainTextString;
         }
 
@@ -162,7 +165,6 @@ namespace Area23.At.Mono.Util.SymChiffer
 
         public static byte[] EncryptWithStream(byte[] inBytes)
         {
-            // Check arguments. 
             if (inBytes == null || inBytes.Length <= 0)
                 throw new ArgumentNullException("inBytes");
             byte[] encrypted;
@@ -187,7 +189,6 @@ namespace Area23.At.Mono.Util.SymChiffer
 
         public static byte[] DecryptByStream(byte[] cipherBytes)
         {
-            // Check arguments. 
             if (cipherBytes == null || cipherBytes.Length <= 0)
                 throw new ArgumentNullException("cipherBytes");
 
@@ -213,6 +214,25 @@ namespace Area23.At.Mono.Util.SymChiffer
 
         #endregion EnDecryptWithStream
 
+        #region ObsoleteDeprecated 
+
+        [Obsolete("byte[] GenerateRandomPublicKey() is deprecated, and will be used only inside void AesGenWithNewKey(string inputKey = null).")]
+        private static byte[] GenerateRandomPublicKey()
+        {
+            byte[] iv = new byte[16]; // AES > IV > 128 bit
+            var randomNumGen = RandomNumberGenerator.Create();
+            randomNumGen.GetBytes(iv, 0, iv.Length);
+            // iv = RandomNumberGenerator.GetBytes(iv.Length);
+            return iv;
+        }
+
+        [Obsolete("byte[] CreateAesKey(string inputString) is deprecated, please use void AesGenWithNewKey(string inputKey = null)", false)]
+        private static byte[] CreateAesKey(string inputString)
+        {
+            return Encoding.UTF8.GetByteCount(inputString) == 32 ? Encoding.UTF8.GetBytes(inputString) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(inputString));
+        }
+
+        #endregion ObsoleteDeprecated 
     }
 
 }

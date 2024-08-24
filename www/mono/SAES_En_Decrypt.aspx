@@ -20,7 +20,7 @@
                     <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem>                    
                     <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>                    
                     <asp:ListItem Enabled="true" Value="Tea" Selected="false">Tea</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="Tnepres" Selected="false">Tnepres</asp:ListItem>                    
+                    <asp:ListItem Enabled="true" Value="Tnepres" Selected="false">Tnepres</asp:ListItem>                  
                     <asp:ListItem Enabled="true" Value="XTea" Selected="false">XTea</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="ZenMatrix" Selected="false">ZenMatrix</asp:ListItem>
                 </asp:DropDownList>

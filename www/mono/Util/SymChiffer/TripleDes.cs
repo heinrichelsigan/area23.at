@@ -15,29 +15,44 @@ namespace Area23.At.Mono.Util.SymChiffer
     /// </summary>
     public static class TripleDes
     {
-        public static byte[] toDecryptArray;
+        private static string privateKey = string.Empty;
 
-        static public byte[] DesKey { get; private set; }
+        internal static byte[] DesKey { get; private set; }
+        internal static byte[] DesIv { get; private set; }
 
-        static public byte[] DesIv { get; private set; }
-        
+        internal static byte[] toDecryptArray;
+
         /// <summary>
         /// static constructor
         /// </summary>
         static TripleDes()
         {
+            DesKey = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
+            DesIv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
             // Generate a key using SHA256 hash function
-            TripleDesFromKey(null);
+            // TripleDesFromKey(null);
         }
 
         /// <summary>
         /// Generates TripleDesFromKey 
         /// </summary>
         /// <param name="secretKey">your plain text secret key</param>
-        public static void TripleDesFromKey(string secretKey = null)
+        /// <param name="init">init TripleDes first time with a new key</param>
+        /// <returns>true, if init was with same key successfull</returns>
+        public static bool TripleDesFromKey(string secretKey = "", bool init = true)
         {
             byte[] key;
             byte[] iv;
+
+            if (!init)
+            {
+                if ((string.IsNullOrEmpty(privateKey) && !string.IsNullOrEmpty(secretKey)) ||
+                    (!privateKey.Equals(secretKey, StringComparison.InvariantCultureIgnoreCase)))
+                    return false;
+            }
+
+            privateKey = secretKey;
+
             if (string.IsNullOrEmpty(secretKey))
             {
                 key = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
@@ -51,6 +66,8 @@ namespace Area23.At.Mono.Util.SymChiffer
             }
             DesIv = iv;
             DesKey = key;
+
+            return true;
         }
 
         /// <summary>

@@ -12,31 +12,87 @@ using Org.BouncyCastle.Utilities;
 using Org.BouncyCastle.Crypto.Engines;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 using System.Windows.Interop;
+using System.Security.Cryptography;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
     public static class Serpent
     {
-        public static byte[] Key { get; private set; }
-        public static byte[] Iv { get; private set; }
-        public static int Size { get; private set; }
-        public static string Mode { get; private set; }
-        public static IBlockCipherPadding BlockCipherPadding { get; private set; }
+        private static string privateKey = string.Empty;
+
+        internal static byte[] SerpentKey { get; private set; }
+        internal static byte[] SerpentIv { get; private set; }
+
+        internal static int Size { get; private set; }
+        internal static string Mode { get; private set; }
+        internal static IBlockCipherPadding BlockCipherPadding { get; private set; }
 
         /// <summary>
         /// static constructor for serpent encryption
         /// </summary>
         static Serpent()
         {
-            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
             byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-            BlockCipherPadding = new ZeroBytePadding();
-            Key = new byte[16];
-            Iv = new byte[16];
-            Array.Copy(iv, Iv, 16);
-            Array.Copy(key, Key, 16);
+            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+            SerpentKey = new byte[16];
+            SerpentIv = new byte[16];
+            Array.Copy(iv, SerpentIv, 16);
+            Array.Copy(key, SerpentKey, 16);
             Size = 128;
-            Mode = "ECB"; 
+            Mode = "ECB";
+            BlockCipherPadding = new ZeroBytePadding();
+            SerpentGenWithKey(string.Empty, true);
+        }
+
+
+        /// <summary>
+        /// ThreeFishGenWithKey => Generates new <see cref="Serpent"/> with secret key
+        /// </summary>
+        /// <param name="secretKey">key param for encryption</param>
+        /// <param name="init">init <see cref="Serpent"/> first time with a new key</param>
+        /// <returns>true, if init was with same key successfull</returns>
+        public static bool SerpentGenWithKey(string secretKey = null, bool init = true)
+        {
+            byte[] iv = new byte[16]; // Serpent > IV <= 128 bit
+            byte[] key; // = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+
+            if (!init)
+            {
+                if ((string.IsNullOrEmpty(privateKey) && !string.IsNullOrEmpty(secretKey)) ||
+                    (!privateKey.Equals(secretKey, StringComparison.InvariantCultureIgnoreCase)))
+                    return false;
+            }
+
+            privateKey = secretKey;
+
+            if (string.IsNullOrEmpty(secretKey))
+            {
+                key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+                if (SerpentIv == null || SerpentIv.Length == 0)
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+            }
+            else
+            {
+                key = Encoding.UTF8.GetByteCount(secretKey) == 32 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
+                if (SerpentIv == null || SerpentIv.Length == 0)
+                {
+                    // iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                    RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
+                    randomNumGen.GetBytes(iv, 0, iv.Length);
+                }
+                else
+                    Array.Copy(SerpentIv, iv, 16);
+            }
+
+            SerpentKey = new byte[16];
+            if (SerpentIv == null || SerpentIv.Length == 0)
+            {
+                SerpentIv = new byte[16];
+                Array.Copy(iv, SerpentIv, 16);
+            }
+            Array.Copy(key, SerpentKey, 16);
+
+            return true;
         }
 
         /// <summary>
@@ -53,8 +109,8 @@ namespace Area23.At.Mono.Util.SymChiffer
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
-            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
-            ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
+            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(SerpentKey);
+            ICipherParameters keyParamIV = new ParametersWithIV(keyParam, SerpentIv);
 
             if (Mode == "ECB")
             {
@@ -87,8 +143,8 @@ namespace Area23.At.Mono.Util.SymChiffer
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
-            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
-            ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
+            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(SerpentKey);
+            ICipherParameters keyParamIV = new ParametersWithIV(keyParam, SerpentIv);
             // Decrypt
             if (Mode == "ECB")
             {

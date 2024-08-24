@@ -7,20 +7,20 @@ namespace Area23.At.Mono.Util.SymChiffer
     /// <summary>
     /// Simple Matrix SymChiffer maybe already invented, but created by zen@area23.at (Heinrich Elsigan)
     /// </summary>
-    public static class MatrixSymChiffer
+    public static class ZenMatrix
     {
-        internal static readonly sbyte[] MatrixBasePerm = { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf };
+        private static string privateKey = string.Empty;
 
+        private static readonly sbyte[] MatrixBasePerm = { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf };
         internal static sbyte[] MatrixPermKey { get; set; }
+        private static sbyte[] MatrixReverse { get; set; }
 
-        internal static sbyte[] MatrixReverse { get; set; }
-
-        internal static HashSet<sbyte> PermKeyHash { get; set; }
+        private static HashSet<sbyte> PermKeyHash { get; set; }
 
         /// <summary>
         /// Static constructor
         /// </summary>
-        static MatrixSymChiffer()
+        static ZenMatrix()
         {
             InitMatrixSymChiffer();
             // MatrixPermSalt = GenerateMatrixPermutationByKey(Constants.AUTHOR);
@@ -40,8 +40,7 @@ namespace Area23.At.Mono.Util.SymChiffer
                 MatrixPermKey[cntSby++] = s;
             }
 
-            PermKeyHash = new HashSet<sbyte>(MatrixBasePerm);            
-
+            PermKeyHash = new HashSet<sbyte>(MatrixBasePerm);
             MatrixReverse = BuildReveseMatrix(MatrixPermKey);
         }
 
@@ -64,21 +63,31 @@ namespace Area23.At.Mono.Util.SymChiffer
             return rmatrix;
         }
 
+
         /// <summary>
-        /// Generate Matrix sym chiffre permutation by key string
+        /// Generate Matrix sym chiffre permutation with a personal key string
         /// </summary>
-        /// <param name="key">string key to generate permutation <see cref="MatrixPermKey"/> 
+        /// <param name="secretKey">string key to generate permutation <see cref="MatrixPermKey"/> 
         /// and <see cref="MatrixPermSalt"/> for encryption 
         /// and reverse matrix <see cref="MatrixReverse"/> for decryption</param>
-        /// <returns>sbyte[] permutation matrix for encryption</returns>
-        public static sbyte[] GenerateMatrixPermutationByKey(string key) 
+        /// <param name="init">init three fish first time with a new key</param>
+        /// <returns>true, if init was with same key successfull</returns>
+        public static bool ZenMatrixGenWithKey(string secretKey = "", bool init = true)
         {
-            int aCnt = 0, bCnt = 0;           
+            int aCnt = 0, bCnt = 0;
+
+            if (!init)
+            {
+                if ((string.IsNullOrEmpty(privateKey) && !string.IsNullOrEmpty(secretKey)) ||
+                    (!privateKey.Equals(secretKey, StringComparison.InvariantCultureIgnoreCase)))
+                    return false;
+            }
+
+            privateKey = secretKey;
 
             InitMatrixSymChiffer();
 
-            PermKeyHash = new HashSet<sbyte>();
-            byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
+            byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(secretKey);
             foreach (byte b in keyBytes)
             {
                 sbyte sb = (sbyte)(((int)b) % 16);
@@ -100,7 +109,7 @@ namespace Area23.At.Mono.Util.SymChiffer
 
             MatrixReverse = BuildReveseMatrix(MatrixPermKey);
 
-            return MatrixPermKey;
+            return true;
         }
 
 
@@ -163,6 +172,10 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
         public static byte[] Encrypt(byte[] plainData)
         {
+            // Check arguments.
+            if (plainData == null || plainData.Length <= 0)
+                throw new ArgumentNullException("ZenMatrix byte[] Encrypt(byte[] plainData): ArgumentNullException plainData = null or Lenght 0.");
+
             int bCnt = 0;
             int oSize = plainData.Length + (16 - (plainData.Length % 16));
             int outputSize = ((int)(oSize / 16)) * 16;
@@ -197,6 +210,9 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <returns>decrypted plain byte[] data</returns>
         public static byte[] Decrypt(byte[] cipherData)
         {
+            if (cipherData == null || cipherData.Length <= 0)
+                throw new ArgumentNullException("ZenMatrix byte[] Encrypt(byte[] cipherData): ArgumentNullException cipherData = null or Lenght 0.");
+
             int bCnt = 0;
             int oSize = cipherData.Length + (16 - (cipherData.Length % 16));
             int outputSize = ((int)(oSize / 16)) * 16;
@@ -251,6 +267,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             //  System.Text.Encoding.UTF8.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
             string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+            
             return plainTextString;
         }
 
