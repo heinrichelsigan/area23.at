@@ -13,14 +13,14 @@
                 <asp:DropDownList ID="DropDownList_SymChiffer" runat="server">
                     <asp:ListItem Enabled="true" Value="3DES" Selected="false">3DES</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="2FISH" Selected="false">2FISH</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="3FISH" Selected="false">3FISH</asp:ListItem>                    
-                    <asp:ListItem Enabled="true" Value="AES" Selected="true">AES</asp:ListItem>                     
+                    <asp:ListItem Enabled="true" Value="3FISH" Selected="false">3FISH</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="AES" Selected="true">AES</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Camellia" Selected="False">Camellia</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Idea" Selected="false">Idea</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem>                    
-                    <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>                    
+                    <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Tea" Selected="false">Tea</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="Tnepres" Selected="false">Tnepres</asp:ListItem>                  
+                    <asp:ListItem Enabled="true" Value="Tnepres" Selected="false">Tnepres</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="XTea" Selected="false">XTea</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="ZenMatrix" Selected="false">ZenMatrix</asp:ListItem>
                 </asp:DropDownList>
@@ -32,7 +32,7 @@
                     onmouseout="document.getElementById('ImageButton_Add').src='res/img/a_right.gif'" />
             </span>
             <span class="centerSpan">
-                <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true" TextMode="SingleLine" Text="" />
+                <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true" TextMode="SingleLine" Text="" Width="416px" MaxLength="512" />
             </span>
             <span class="rightSpan">
                 <asp:Button ID="Button_Clear" runat="server" Text="Clear" ToolTip="Clear SymChiffre Pipeline" OnClick="Button_Clear_Click" />
@@ -43,11 +43,11 @@
                 Secret key:
             </span>
             <span class="centerSpan">                
-                <asp:TextBox ID="TextBox_Key" runat="server" ToolTip="Enter your personal email address or secret key here" Text="heinrich.elsigan@area23.at" Width="216px" AutoPostBack="true" OnTextChanged="TextBox_Key_TextChanged" />
+                <asp:TextBox ID="TextBox_Key" runat="server" ToolTip="Enter your personal email address or secret key here" Text="heinrich.elsigan@area23.at" MaxLength="256" Width="216px" AutoPostBack="true" OnTextChanged="TextBox_Key_TextChanged" />
             </span>
             <span class="centerSpan">
                 <span class="textSpan">iv: </span>
-                <asp:TextBox ID="TextBox_IV" runat="server" Enabled="false" Text="0x000ade1e" />
+                <asp:TextBox ID="TextBox_IV" runat="server" ReadOnly="true" Text="0x000ade1e" MaxLength="128" />
             </span>            
             <span class="rightSpan">
                 <asp:Button ID="Button_Reset_KeyIV" runat="server" Text="Reset Key/IV" ToolTip="Reset secret key / iv" OnClick="Button_Reset_KeyIV_Click" />
@@ -64,8 +64,8 @@
                 <img id="imgOut" runat="server" border="0" alt="File transformed" src="res/img/file.png" /></a>
          </asp:Panel>
         <h2>En-/Decrypt text</h2>
-        <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="5" Columns="36" ToolTip="Transformed Text"></asp:TextBox>
-        <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="5" Columns="36" MaxLength="16384" ToolTip="Destination Text"></asp:TextBox>
+        <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="8" Columns="40" ToolTip="Source Text" Text="[Enter text to en-/decrypt here]"></asp:TextBox>
+        <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="8" Columns="40" MaxLength="32768" ReadOnly="true" ToolTip="Destination Text"></asp:TextBox>
         <br />
         <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClick="ButtonEncrypt_Click" />
         <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClick="ButtonDecrypt_Click" />        

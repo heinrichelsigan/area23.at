@@ -151,9 +151,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Calc\CCalc.aspx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Calc\CCalc.aspx" />
     <Content Include="res\css\ccalcweb.css" />
     <Content Include="res\img\a_right_hover.gif" />
     <Content Include="res\img\decrypted.png" />
@@ -286,11 +284,9 @@
     <Compile Include="Calc\CCalc.aspx.cs">
       <DependentUpon>CCalc.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Calc\CCalc.aspx.designer.cs">
       <DependentUpon>CCalc.aspx</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="SAES_En_Decrypt.aspx.cs">
       <DependentUpon>SAES_En_Decrypt.aspx</DependentUpon>
@@ -461,6 +457,7 @@
     </Content>
     <Content Include="Calc\CalcMaster.master" />
     <Content Include="res\bin\bccmd.bat" />
+    <None Include="Properties\PublishProfiles\ReleaseBuild.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

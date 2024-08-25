@@ -113,7 +113,7 @@ namespace Area23.At.Mono
             string decryptedText = string.Empty;
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             byte[] decryptedBytes = cipherBytes;
-            int i = 0, ig = 0;
+            int ig = 0;
 
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
@@ -127,27 +127,17 @@ namespace Area23.At.Mono
                         cipherBytes = decryptedBytes;
                     }
                 }
-                List<char> charList = new List<char>();
-                for (i = 0; i < 32; i++)
+                
+                if ((ig = decryptedBytes.ArrayIndexOf((byte)0)) > 0)
                 {
-                    if (i != 10 && i != 13)
-                    {
-                        char ch = (char)i;
-                        if (ch != '\v' && ch != '\f' && ch != '\t' && ch != '\r' && ch != '\n')
-                            charList.Add(ch);
-                    }
+                    byte[] decryptedNonNullBytes = new byte[ig];
+                    Array.Copy(decryptedBytes, decryptedNonNullBytes, ig);
+                    decryptedText = System.Text.Encoding.UTF8.GetString(decryptedNonNullBytes);
                 }
-                char[] chars = charList.ToArray();
-                decryptedText = System.Text.Encoding.UTF8.GetString(decryptedBytes).TrimEnd(chars);
-                decryptedText = System.Text.Encoding.UTF8.GetString(decryptedBytes).TrimStart(chars);
-                decryptedText =     decryptedText.Replace("\0", "");
-                foreach (char ch in chars)
-                {
-                    while ((ig = decryptedText.IndexOf(ch)) > 0)
-                    {
-                        decryptedText = decryptedText.Substring(0, ig) + decryptedText.Substring(ig + 1);
-                    }                        
-                }
+                else
+                    decryptedText = System.Text.Encoding.UTF8.GetString(decryptedBytes);
+
+                // decryptedText = Trim_Decrypted_Text(decryptedText);
 
                 this.TextBoxDestionation.Text = decryptedText;
             }
@@ -585,5 +575,32 @@ namespace Area23.At.Mono
             this.TextBox_IV.BorderColor = Color.LightGray;
             this.TextBox_IV.BorderWidth = 1;
         }
+
+        protected string Trim_Decrypted_Text(string decryptedText)
+        {
+            int ig = 0;
+            List<char> charList = new List<char>();
+            for (int i = 1; i < 32; i++)
+            {
+                char ch = (char)i;
+                if (ch != '\v' && ch != '\f' && ch != '\t' && ch != '\r' && ch != '\n')
+                    charList.Add(ch);
+            }
+            char[] chars = charList.ToArray();
+            decryptedText = decryptedText.TrimEnd(chars);
+            decryptedText = decryptedText.TrimStart(chars);
+            decryptedText = decryptedText.Replace("\0", "");
+            foreach (char ch in chars)
+            {
+                while ((ig = decryptedText.IndexOf(ch)) > 0)
+                {
+                    decryptedText = decryptedText.Substring(0, ig) + decryptedText.Substring(ig + 1);
+                }
+            }
+
+            return decryptedText;
+        }
+
+        
     }
 }

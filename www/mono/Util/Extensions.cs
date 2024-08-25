@@ -9,25 +9,39 @@ using System.Web;
 
 namespace Area23.At.Mono.Util
 {
+    /// <summary>
+    /// Extension methods for Area23.At.Mono
+    /// </summary>
     public static class Extensions
     {
+
         #region primitive types extensions
 
         /// <summary>
-        /// Checks, if a double is a round number
+        /// <see cref="double"/>.IsRoundNumber() extension methods: checks, if a double is a round number
         /// </summary>
-        /// <param name="d"></param>
+        /// <param name="d">double to check</param>
         /// <returns>true, if it's integer number</returns>
         public static bool IsRoundNumber(this double d)
         {
             return (Math.Truncate(d) == d || Math.Round(d) == d);
         }
 
+        /// <summary>
+        /// <see cref="double"/>.ToLong() extension methods: converts a double to a long <see cref="Int64"/>
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
         public static long ToLong(this double d)
         {
             return Convert.ToInt64(d);
         }
 
+        /// <summary>
+        /// <see cref="double"/>.IsNan() extension methods: checks, if a double is not a number
+        /// </summary>
+        /// <param name="d">double to check</param>
+        /// <returns>true, if dounble is not a number, otherwise false</returns>
         public static bool IsNan(this double d)
         {
             return double.IsNaN(d);
@@ -38,7 +52,7 @@ namespace Area23.At.Mono.Util
         #region DateTime extensions
 
         /// <summary>
-        /// Area23Date extension method for DateTime
+        /// <see cref="DateTime"/>.Area23Date() extension method: formats <see cref="DateTime"/>.ToString("yyyy-MM-dd")
         /// </summary>
         /// <param name="dateTime"><see cref="DateTime"/></param>
         /// <returns>formatted date <see cref="string"/></returns>
@@ -48,7 +62,7 @@ namespace Area23.At.Mono.Util
         }
 
         /// <summary>
-        /// Area23DateTime extension method for DateTime
+        /// <see cref="DateTime"/>.Area23DateTime() extension method: formats <see cref="DateTime"/>.ToString("yyyy-MM-dd HH:mm")
         /// </summary>
         /// <param name="dateTime"><see cref="DateTime"/></param>
         /// <returns>formatted date time <see cref="string"/> </returns>
@@ -62,7 +76,7 @@ namespace Area23.At.Mono.Util
         }
 
         /// <summary>
-        /// Area23DateTimeWithSeconds extension method for DateTime
+        /// <see cref="DateTime"/>.Area23DateTimeWithSeconds() extension method: formats <see cref="DateTime"/>.ToString("yyyy-MM-dd_HH:mm:ss")
         /// </summary>
         /// <param name="dateTime">d</param>
         /// <returns><see cref="string"/> formatted date time including seconds</returns>
@@ -71,6 +85,11 @@ namespace Area23.At.Mono.Util
             return dateTime.ToString("yyyy-MM-dd_HH:mm:ss");
         }
 
+        /// <summary>
+        /// <see cref="DateTime"/>.Area23DateTimeWithMillis() extension method: formats <see cref="DateTime"/>.ToString("yyyyMMdd_HHmmss_milis")
+        /// </summary>
+        /// <param name="dateTime"><see cref="DateTime"/></param>
+        /// <returns>formatted date time <see cref="string"/> </returns>
         public static string Area23DateTimeWithMillis(this DateTime dateTime)
         {
             string formatted = String.Format("{0:yyyyMMdd_HHmmss}_{1}", dateTime, dateTime.Millisecond);
@@ -83,7 +102,7 @@ namespace Area23.At.Mono.Util
         #region byte[], string and stream extensions
 
         /// <summary>
-        /// Extension method for <see cref="System.IO.Stream"/>
+        /// <see cref="System.IO.Stream"/>.ToByteArray() extension method: converts <see cref="System.IO.Stream"/> to <see cref="byte[]"/> array
         /// </summary>
         /// <param name="stream"><see cref="System.IO.Stream"/> which static methods are now extended</param>
         /// <returns>binary <see cref="byte[]">byte[] array</see></returns>
@@ -102,7 +121,7 @@ namespace Area23.At.Mono.Util
         }
 
         /// <summary>
-        /// GetImageMimeType - auto detect mime type of an image inside an binary byte[] array
+        /// <see cref="byte[]"/>.GetImageMimeType() extension method: auto detect mime type of an image inside an binary byte[] array
         /// via <see cref="ImageCodecInfo.GetImageEncoders()"/> <seealso cref="ImageCodecInfo.GetImageDecoders()"/>
         /// </summary>
         /// <param name="bytes">binary <see cref="byte[]">byte[] array</see></param>
@@ -119,7 +138,7 @@ namespace Area23.At.Mono.Util
         }
 
         /// <summary>
-        /// byte[] extension ToFile - writes a byte array to a file
+        /// <see cref="byte[]"/>.ToFile(string filePath, string fileName, string fext) extension method: writes a byte array to a file
         /// </summary>
         /// <param name="bytes"><see cref="byte[]"/></param>
         /// <param name="filePath">filesystem path</param>
@@ -167,9 +186,8 @@ namespace Area23.At.Mono.Util
             return null;
         }
 
-
         /// <summary>
-        /// Extension method for converting byte[] to HexString
+        /// <see cref="byte[]"/>.ToHexString() extension method: converts byte[] to HexString
         /// </summary>
         /// <param name="bytes">Array of <see cref="byte"/></param>
         /// <returns>hexadecimal string</returns>
@@ -186,7 +204,7 @@ namespace Area23.At.Mono.Util
         }
 
         /// <summary>
-        /// Extension method for converting hexadecimal string to byte[]
+        /// <see cref="string"/>.FromHexString() extension method: converts hexadecimal string to byte[]
         /// </summary>
         /// <param name="hexString">hexadecimal string</param>
         /// <returns><see cref="byte[]">byte[]</see> Array of <see cref="byte"/></returns>
@@ -201,12 +219,28 @@ namespace Area23.At.Mono.Util
             return bytes; // returns: "Hello world" for "48656C6C6F20776F726C64"
         }
 
+        /// <summary>
+        /// <see cref="byte[]"/>.ArrayIndexOf(byte value) extension method: gets the first index of specified byte value
+        /// </summary>
+        /// <param name="bytes">byte[] to search</param>
+        /// <param name="value">byte to find</param>
+        /// <returns>index in array if found, otherwise -1</returns>
+        public static int ArrayIndexOf(this byte[] bytes, byte value)
+        {
+            for (int bCnt = 0; bCnt < bytes.Length; bCnt++)
+            {
+                if (bytes[bCnt] == value) 
+                    return bCnt;
+            }
+            return -1;
+        }
+
         #endregion byte[] and stream extensions
 
         #region System.Exception extensions
 
         /// <summary>
-        /// ToLogMsg - extension method to format an exception to a well formatted logging message
+        /// <see cref="Exception"/>.ToLogMsg() extension method: formats an exception to a well formatted logging message
         /// </summary>
         /// <param name="exc">the <see cref="Exception">exception</see></param>
         /// <returns><see cref="string">logMsg</see></returns>
@@ -224,7 +258,7 @@ namespace Area23.At.Mono.Util
         #region System.Drawing.Color extensions
 
         /// <summary>
-        /// FromHtml gets color from hexadecimal rgb string html standard
+        /// <see cref="System.Drawing.Color"/>.FromHtml(string hex) extension method: gets color from hexadecimal rgb string html standard
         /// </summary>
         /// <param name="color">System.Drawing.Color.FromHtml(string hex) extension method</param>
         /// <param name="hex">hexadecimal rgb string with starting #</param>
@@ -240,7 +274,7 @@ namespace Area23.At.Mono.Util
         }
 
         /// <summary>
-        /// FromXrgb gets color from hexadecimal rgb string
+        /// <see cref="System.Drawing.Color"/>.FromXrgb(string hex) extension method: gets color from hexadecimal rgb string
         /// </summary>
         /// <param name="color">System.Drawing.Color.FromXrgb(string hex) extension method</param>
         /// <param name="hex">hexadecimal rgb string with starting #</param>
@@ -267,7 +301,7 @@ namespace Area23.At.Mono.Util
         }
 
         /// <summary>
-        /// FromRGB gets color from R G B
+        /// <see cref="System.Drawing.Color"/>.FromRGB(byte r, byte g, byte b) extension method: gets color from R G B
         /// </summary>
         /// <param name="color">System.Drawing.Color.FromXrgb(string hex) extension method</param>
         /// <param name="r">red byte</param>
@@ -281,7 +315,7 @@ namespace Area23.At.Mono.Util
         }
 
         /// <summary>
-        /// Extension method Color.ToXrgb() converts current color to hex string 
+        /// <see cref="System.Drawing.Color"/>.ToXrgb() extension method: converts current color to hex string 
         /// </summary>
         /// <param name="color">current color</param>
         /// <returns>hexadecimal #rrGGbb string with leading # character</returns>
@@ -302,7 +336,7 @@ namespace Area23.At.Mono.Util
 
 
         /// <summary>
-        /// Extension method for Stack<T> 
+        /// <see cref="Stack{T}"/>.ReverseToString<typeparamref name="T"/> extension method: reverses a objects in a stack to a string
         /// </summary>      
         /// <typeparam name="T">type parameter for generic <see cref="Stack{T}"/></typeparam>
         /// <param name="stack">a generic  <see cref="Stack{T}">Stack</see></param>  
@@ -316,5 +350,6 @@ namespace Area23.At.Mono.Util
             }
             return reverse;
         }
+    
     }
 }
