@@ -54,7 +54,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         public static bool SerpentGenWithKey(string secretKey = null, bool init = true)
         {
             byte[] iv = new byte[16]; // Serpent > IV <= 128 bit
-            byte[] key; // = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+            byte[] key = new byte[16];
 
             if (!init)
             {
@@ -63,34 +63,27 @@ namespace Area23.At.Mono.Util.SymChiffer
                     return false;
             }
 
-            privateKey = secretKey;
-
-            if (string.IsNullOrEmpty(secretKey))
+            if (init)
             {
-                key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-                if (SerpentIv == null || SerpentIv.Length == 0)
-                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-            }
-            else
-            {
-                key = Encoding.UTF8.GetByteCount(secretKey) == 32 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
-                if (SerpentIv == null || SerpentIv.Length == 0)
+                if (string.IsNullOrEmpty(secretKey))
                 {
-                    // iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-                    RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                    randomNumGen.GetBytes(iv, 0, iv.Length);
+                    privateKey = string.Empty;
+                    key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
                 }
                 else
-                    Array.Copy(SerpentIv, iv, 16);
-            }
+                {
+                    privateKey = secretKey;
+                    key = Encoding.UTF8.GetByteCount(secretKey) == 16 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                }
 
-            SerpentKey = new byte[16];
-            if (SerpentIv == null || SerpentIv.Length == 0)
-            {
+                SerpentKey = new byte[16];
                 SerpentIv = new byte[16];
+                Array.Copy(key, SerpentKey, 16);
                 Array.Copy(iv, SerpentIv, 16);
             }
-            Array.Copy(key, SerpentKey, 16);
+            
 
             return true;
         }

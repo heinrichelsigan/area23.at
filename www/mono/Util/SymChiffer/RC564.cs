@@ -12,27 +12,77 @@ using Org.BouncyCastle.Utilities;
 using Org.BouncyCastle.Crypto.Engines;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 using System.Windows.Interop;
+using System.Security.Cryptography;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
     public static class RC564
     {
-        public static byte[] Key { get; private set; }
-        public static byte[] Iv { get; private set; }
-        public static int Size { get; private set; }
-        public static string Mode { get; private set; } 
+        private static string privateKey = string.Empty;
 
+        internal static byte[] Key { get; private set; }
+        internal static byte[] Iv { get; private set; }
+        internal static int Size { get; private set; }
+        internal static string Mode { get; private set; } 
+
+        /// <summary>
+        /// static ctor
+        /// </summary>
         static RC564()
         {
             byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));            
             Key = new byte[16];
             Iv = new byte[16];
             Array.Copy(iv, Iv, 16);
             Array.Copy(key, Key, 16);
             Size = 64;
-            Mode = "ECB"; 
+            Mode = "CBC"; 
         }
+
+        /// <summary>
+        /// RC564GenWithKey => Generates new <see cref="RC564"/> with secret key
+        /// </summary>
+        /// <param name="secretKey">key param for encryption</param>
+        /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
+        /// <returns>true, if init was with same key successfull</returns>
+        public static bool RC564GenWithKey(string secretKey = "", bool init = true)
+        {
+            byte[] key = new byte[16];
+            byte[] iv = new byte[16]; // RC564 => IV = 64 bit
+
+            if (!init)
+            {
+                if ((string.IsNullOrEmpty(privateKey) && !string.IsNullOrEmpty(secretKey)) ||
+                    (!privateKey.Equals(secretKey, StringComparison.InvariantCultureIgnoreCase)))
+                    return false;
+            }
+
+            if (init)
+            {
+                if (string.IsNullOrEmpty(secretKey))
+                {
+                    privateKey = string.Empty;
+                    key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                }
+                else
+                {
+                    privateKey = secretKey;
+                    key = Encoding.UTF8.GetByteCount(secretKey) == 16 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));                    
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                }
+
+                Key = new byte[16];
+                Iv = new byte[16];
+                Array.Copy(key, Key, 16);
+                Array.Copy(iv, Iv, 16);
+            } 
+
+            return true;
+        }
+
+
 
         /// <summary>
         /// RC564 Encrypt member function
@@ -40,15 +90,15 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <param name="plainTextData">plain data as <see cref="byte[]"/></param>
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
         public static byte[] Encrypt(byte[] plainTextData)
-        {            
+        {
             var cipher = new RC564Engine();
-
+            
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), new ZeroBytePadding());
             
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), new ZeroBytePadding());
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), new ZeroBytePadding());
 
-            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
+            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key, 0, 16);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
 
             if (Mode == "ECB")
@@ -77,8 +127,8 @@ namespace Area23.At.Mono.Util.SymChiffer
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), new ZeroBytePadding());
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), new ZeroBytePadding());
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), new ZeroBytePadding());
-            
-            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
+
+            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key, 0, 16);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
             // Decrypt
             if (Mode == "ECB")

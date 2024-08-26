@@ -57,28 +57,23 @@ namespace Area23.At.Mono.Util.SymChiffer
                     return false;
             }
 
-            privateKey = secretKey;
-
-            if (string.IsNullOrEmpty(secretKey))
+            if (init)
             {
-                AesKey = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
-                if (AesIv == null || AesIv.Length == 0)
-                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
-            }
-            else
-            {
-                AesKey = Encoding.UTF8.GetByteCount(secretKey) == 32 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
-                if (AesIv == null || AesIv.Length == 0)
+                if (string.IsNullOrEmpty(secretKey))
                 {
-                    RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                    randomNumGen.GetBytes(iv, 0, iv.Length);
+                    privateKey = string.Empty;
+                    AesKey = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
                 }
-            }
+                else
+                {
+                    privateKey = secretKey;
+                    AesKey = Encoding.UTF8.GetByteCount(secretKey) == 32 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));                    
+                }
 
-            if (AesIv == null || AesIv.Length == 0)
-            {
                 AesIv = new byte[16];
-                Array.Copy(iv, AesIv, 16);
+                Array.Copy(iv, AesIv, 16);                
             }
 
             // AesAlgo.GenerateIV();

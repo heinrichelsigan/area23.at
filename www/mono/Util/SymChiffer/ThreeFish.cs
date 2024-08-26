@@ -48,7 +48,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <returns>true, if init was with same key successfull</returns>
         public static bool ThreeFishGenWithKey(string secretKey = "", bool init = true)
         {            
-            byte[] key;
+            byte[] key = new byte[32];
             byte[] iv = new byte[32]; // 3FISH > IV > 128 bit
 
             if (!init)
@@ -58,32 +58,26 @@ namespace Area23.At.Mono.Util.SymChiffer
                     return false;
             }
 
-            privateKey = secretKey;
-
-            if (string.IsNullOrEmpty(secretKey))
+            if (init)
             {
-                key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-                if (FishIv == null || FishIv.Length == 0)
+                if (string.IsNullOrEmpty(secretKey))
+                {
+                    privateKey = string.Empty;
+                    key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
                     iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-            }
-            else
-            {
-                key = Encoding.UTF8.GetByteCount(secretKey) == 32 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
-                if (FishIv == null || FishIv.Length == 0)
-                {                    
-                    RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                    randomNumGen.GetBytes(iv, 0, iv.Length);
                 }
                 else
-                    Array.Copy(FishIv, iv, 32);
-            }
-            FishKey = new byte[32];
-            if (FishIv == null || FishIv.Length == 0)
-            {
+                {
+                    privateKey = secretKey;
+                    key = Encoding.UTF8.GetByteCount(secretKey) == 32 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                }
+
+                FishKey = new byte[32];
                 FishIv = new byte[32];
-                Array.Copy(iv, FishIv, 32);
-            }
-            Array.Copy(key, FishKey, 32);
+                Array.Copy(key, FishKey, 32);
+                Array.Copy(iv, FishIv, 32);                
+            }                 
 
             return true;
         }
@@ -102,7 +96,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
-            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey);
+            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey, 0, 32);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, FishIv);
 
             if (Mode == "ECB")
@@ -135,7 +129,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
-            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey);
+            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey, 0, 32);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, FishIv);
             // Decrypt
             if (Mode == "ECB")

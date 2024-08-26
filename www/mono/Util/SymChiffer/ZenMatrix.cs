@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
@@ -83,31 +85,40 @@ namespace Area23.At.Mono.Util.SymChiffer
                     return false;
             }
 
-            privateKey = secretKey;
-
-            InitMatrixSymChiffer();
-
-            byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(secretKey);
-            foreach (byte b in keyBytes)
+            if (init)
             {
-                sbyte sb = (sbyte)(((int)b) % 16);
-                if (!PermKeyHash.Contains(sb))
-                {
-                    PermKeyHash.Add(sb);
-                    aCnt = (int)sb;
-                    if (aCnt != bCnt)
-                    {
-                        sbyte ba = MatrixPermKey[aCnt];
-                        sbyte bb = MatrixPermKey[bCnt];
-                        SwapSByte(ref ba, ref bb);
-                        MatrixPermKey[aCnt] = ba;
-                        MatrixPermKey[bCnt] = bb;
-                    }
-                    bCnt++;
-                }
-            }
+                if (string.IsNullOrEmpty(secretKey))
+                    privateKey = string.Empty;
+                else
+                    privateKey = secretKey;
 
-            MatrixReverse = BuildReveseMatrix(MatrixPermKey);
+                InitMatrixSymChiffer();
+
+                byte[] keyBytes = (!string.IsNullOrEmpty(secretKey)) ? 
+                    System.Text.Encoding.UTF8.GetBytes(secretKey) :
+                    SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Constants.BOUNCEK));
+
+                foreach (byte b in keyBytes)
+                {
+                    sbyte sb = (sbyte)(((int)b) % 16);
+                    if (!PermKeyHash.Contains(sb))
+                    {
+                        PermKeyHash.Add(sb);
+                        aCnt = (int)sb;
+                        if (aCnt != bCnt)
+                        {
+                            sbyte ba = MatrixPermKey[aCnt];
+                            sbyte bb = MatrixPermKey[bCnt];
+                            SwapSByte(ref ba, ref bb);
+                            MatrixPermKey[aCnt] = ba;
+                            MatrixPermKey[bCnt] = bb;
+                        }
+                        bCnt++;
+                    }
+                }
+
+                MatrixReverse = BuildReveseMatrix(MatrixPermKey);
+            }
 
             return true;
         }

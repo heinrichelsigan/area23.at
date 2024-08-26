@@ -171,10 +171,11 @@ namespace Area23.At.Mono
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Idea" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Noekeon" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "RC2" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "RC564" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "RC6" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Rijndael" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Seed" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Serpent" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Seed" || 
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Skipjack" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Tea" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Tnepres" ||
@@ -323,7 +324,7 @@ namespace Area23.At.Mono
             string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
 
             byte[] encryptBytes = inBytes;
-            byte[] outBytes;
+            byte[] outBytes = null;
             string mode = "ECB";
             int keyLen = 32, blockSize = 256;
 
@@ -353,6 +354,7 @@ namespace Area23.At.Mono
             }
             if (algo == "RC564")
             {
+                RC564.RC564GenWithKey(secretKey, true);
                 encryptBytes = RC564.Encrypt(inBytes);
             }
             if (algo == "Serpent")
@@ -424,10 +426,11 @@ namespace Area23.At.Mono
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                         break;
                 }
-                CryptBounceCastle cryptCastle = new CryptBounceCastle(blockCipher, blockSize, keyLen, mode);
+                CryptBounceCastle cryptCastle = new CryptBounceCastle(blockCipher, blockSize, keyLen, mode, secretKey, true);
                 encryptBytes = cryptCastle.Encrypt(inBytes, out outBytes);
             }
 
+            // return (outBytes != null || outBytes.Length > 16) ? outBytes : encryptBytes;
             return encryptBytes;
         }
 
@@ -443,7 +446,7 @@ namespace Area23.At.Mono
             string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
 
             byte[] decryptBytes = cipherBytes;
-            byte[] plainBytes;
+            byte[] plainBytes = null;
             string mode = "ECB";
             int keyLen = 32, blockSize = 256;
 
@@ -473,6 +476,7 @@ namespace Area23.At.Mono
             }
             if (algorithmName.ToUpper() == "RC564")
             {
+                RC564.RC564GenWithKey(secretKey, false);
                 decryptBytes = RC564.Decrypt(cipherBytes);
             }
             if (algorithmName == "Serpent")
@@ -544,7 +548,7 @@ namespace Area23.At.Mono
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                         break;
                 }
-                CryptBounceCastle cryptCastle = new CryptBounceCastle(blockCipher, blockSize, keyLen, mode);
+                CryptBounceCastle cryptCastle = new CryptBounceCastle(blockCipher, blockSize, keyLen, mode, secretKey, false);
                 decryptBytes = cryptCastle.Decrypt(cipherBytes, out plainBytes);
             }
 
@@ -556,6 +560,7 @@ namespace Area23.At.Mono
                 this.TextBox_IV.BorderWidth = 2;
             }
 
+            // return (plainBytes != null && plainBytes.Length >= 16) ? plainBytes : decryptBytes;
             return decryptBytes;
         }
 

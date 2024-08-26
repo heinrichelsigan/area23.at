@@ -4,6 +4,9 @@ using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Paddings;
 using Org.BouncyCastle.Crypto.Parameters;
 using System;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
@@ -16,29 +19,36 @@ namespace Area23.At.Mono.Util.SymChiffer
     /// </summary>
     public class CryptBounceCastle
     {
+        private string privateKey = string.Empty;
+
         internal byte[] Key { get; private set; }
         internal byte[] Iv { get; private set; }
 
         /// <summary>
         /// Block Size
         /// </summary>
-        public int Size { get; private set; }
+        internal int Size { get; private set; }
+
+        /// <summary>
+        /// KeyLen byte[KeyLen] of Key and Iv
+        /// </summary>
+        internal int KeyLen { get; private set; }
 
         /// <summary>
         /// Base symmetric key block cipher interface, contains at runtime block cipher instance to constructor
         /// </summary>
-        public IBlockCipher CryptoBlockCipher { get; private set; }
+        internal IBlockCipher CryptoBlockCipher { get; private set; }
 
         /// <summary>
         /// IBlockCipherPadding BlockCipherPadding mode
         /// </summary>
-        public IBlockCipherPadding CryptoBlockCipherPadding { get; private set; }
+        internal IBlockCipherPadding CryptoBlockCipherPadding { get; private set; }
 
         /// <summary>
         /// Valid modes are currently "CBC", "ECB", "CFB", "CCM", "CTS", "EAX", "GOFB"
         /// <see cref="Org.BouncyCastle.Crypto.Modes"/> for crypto modes details.
         /// </summary>
-        public static string Mode { get; private set; }
+        internal static string Mode { get; private set; }
 
         /// <summary>
         /// Generic CryptBounceCastle constructor
@@ -48,19 +58,108 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <param name="size">block size with default value 256</param>
         /// <param name="keyLen">key length with default value 32</param>
         /// <param name="mode">cipher mode string, default value "ECB"</param>
-        public CryptBounceCastle(IBlockCipher blockCipher, int size = 256, int keyLen = 32, string mode = "ECB")
+        /// <param name="secretKey">key param for encryption</param>
+        /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
+        public CryptBounceCastle(IBlockCipher blockCipher, int size = 256, int keyLen = 32, string mode = "ECB", string secretKey = "", bool init = true)
         {
-            CryptoBlockCipher = (blockCipher == null) ? new AesEngine() : blockCipher;
+            byte[] key = new byte[keyLen];
+            byte[] iv = new byte[keyLen];
+            CryptoBlockCipher = (blockCipher == null) ? new AesEngine() : blockCipher;            
             CryptoBlockCipherPadding = new ZeroBytePadding();
-            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+            string algoName = CryptoBlockCipher.AlgorithmName;
+
+            if (string.IsNullOrEmpty(secretKey))
+            {
+                privateKey = string.Empty;
+                iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+            }
+            else
+            {
+                privateKey = secretKey;
+                if (HttpContext.Current.Session[algoName + secretKey] == null)
+                {
+                    HttpContext.Current.Session[algoName + secretKey] = Encoding.UTF8.GetByteCount(secretKey) == keyLen ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
+                }
+                key = (byte[])HttpContext.Current.Session[algoName + secretKey];
+
+                if (HttpContext.Current.Session[algoName + Constants.BOUNCE4] == null)
+                {
+                    RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
+                    randomNumGen.GetBytes(iv, 0, iv.Length);
+                    HttpContext.Current.Session[algoName + Constants.BOUNCE4] = iv;
+                }
+                iv = (byte[])HttpContext.Current.Session[algoName + Constants.BOUNCE4];
+                // iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+            }
+
             Key = new byte[keyLen];
             Iv = new byte[keyLen];
             Array.Copy(iv, Iv, keyLen);
             Array.Copy(key, Key, keyLen);
+            KeyLen = keyLen;
             Size = size;
             Mode = mode;
         }
+
+        /// <summary>
+        /// CryptBounceCastleGenWithKey => Generates new <see cref="CryptBounceCastle"/> with secret key
+        /// </summary>
+        /// <param name="secretKey">key param for encryption</param>
+        /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
+        /// <returns>true, if init was with same key successfull</returns>
+        public bool CryptBounceCastleGenWithKey(string secretKey = "", bool init = true)
+        {
+            byte[] key = new byte[KeyLen];
+            byte[] iv = new byte[KeyLen];
+            string algoName = CryptoBlockCipher.AlgorithmName;
+
+            if (!init)
+            {
+                if ((string.IsNullOrEmpty(privateKey) && !string.IsNullOrEmpty(secretKey)) ||
+                    (!privateKey.Equals(secretKey, StringComparison.InvariantCultureIgnoreCase)))
+                    return false;
+            }
+            
+            if (init)
+            {
+                if (string.IsNullOrEmpty(secretKey))
+                {
+                    privateKey = string.Empty;
+                    key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4)); ;
+                }
+                else
+                {
+                    privateKey = secretKey;
+                    // key = Encoding.UTF8.GetByteCount(secretKey) == KeyLen ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
+                    if (HttpContext.Current.Session[algoName + secretKey] == null)
+                    {
+                        HttpContext.Current.Session[algoName + secretKey] = Encoding.UTF8.GetByteCount(secretKey) == KeyLen ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
+                    }
+                    key = (byte[])HttpContext.Current.Session[algoName + secretKey];
+
+                    if (HttpContext.Current.Session[algoName + Constants.BOUNCE4] == null)
+                    {
+                        RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
+                        randomNumGen.GetBytes(iv, 0, iv.Length);
+                        HttpContext.Current.Session[algoName + Constants.BOUNCE4] = iv;
+                    }
+                    iv = (byte[])HttpContext.Current.Session[algoName + Constants.BOUNCE4];
+                    // iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                }
+
+                Key = new byte[KeyLen];
+                Iv = new byte[KeyLen];
+                Array.Copy(key, Key, KeyLen);
+                Array.Copy(iv, Iv, KeyLen);
+            }            
+
+            return true;
+        }
+
+
+
 
         /// <summary>
         /// Generic CryptBounceCastle Encrypt member function
@@ -101,7 +200,7 @@ namespace Area23.At.Mono.Util.SymChiffer
                     break;
                 default:
                     break;
-            }            
+            }
 
             KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);

@@ -42,7 +42,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         public static bool TripleDesFromKey(string secretKey = "", bool init = true)
         {
             byte[] key;
-            byte[] iv;
+            byte[] iv = new byte[8];
 
             if (!init)
             {
@@ -51,21 +51,25 @@ namespace Area23.At.Mono.Util.SymChiffer
                     return false;
             }
 
-            privateKey = secretKey;
+            if (init)
+            {
+                if (string.IsNullOrEmpty(secretKey))
+                {
+                    privateKey = string.Empty;
+                    key = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
+                }
+                else
+                {
+                    privateKey = secretKey;
+                    MD5 md5 = new MD5CryptoServiceProvider();
+                    key = md5.ComputeHash(Encoding.UTF8.GetBytes(secretKey));
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
+                }
 
-            if (string.IsNullOrEmpty(secretKey))
-            {
-                key = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
-                iv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
+                DesIv = iv;
+                DesKey = key;
             }
-            else
-            {
-                MD5 md5 = new MD5CryptoServiceProvider();
-                key = md5.ComputeHash(Encoding.Unicode.GetBytes(secretKey));
-                iv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
-            }
-            DesIv = iv;
-            DesKey = key;
 
             return true;
         }
@@ -81,7 +85,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             tdes.Key = DesKey;
             tdes.IV = DesIv;
             tdes.Mode = CipherMode.ECB;
-            tdes.Padding = PaddingMode.Zeros; ;
+            tdes.Padding = PaddingMode.Zeros;
             ICryptoTransform cTransform = tdes.CreateEncryptor();
             byte[] cryptedBytes;
             cryptedBytes = cTransform.TransformFinalBlock(inBytes, 0, inBytes.Length);

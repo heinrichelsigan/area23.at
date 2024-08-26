@@ -456,6 +456,7 @@
     </Content>
     <Content Include="Calc\CalcMaster.master" />
     <Content Include="res\bin\bccmd.bat" />
+    <None Include="Properties\PublishProfiles\app.publish.pubxml" />
     <None Include="Properties\PublishProfiles\ReleaseBuild.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
