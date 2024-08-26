@@ -51,7 +51,7 @@ namespace Area23.At.Mono.Unix
                     ++execTimes; execTimes %= 256;
                     fortuneResult = (longFortune) ?
                         ProcessCmd.Execute("/usr/games/fortune", " -a -l ") :
-                        ProcessCmd.Execute("/usr/games/fortune", "-o -s  ");
+                        ProcessCmd.Execute("/usr/games/fortune", " -a -i -s  ");
                     useExec = true;
                     if (!fortunes.Contains(fortuneResult))
                         fortunes.Add(fortuneResult);

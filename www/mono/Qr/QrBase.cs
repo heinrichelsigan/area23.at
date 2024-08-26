@@ -13,7 +13,7 @@ using System.Security.Cryptography;
 using Area23.At.Mono.Util;
 using Area23.At.Mono.Qr;
 using System.Text;
-using System.Xml.Linq;
+// using System.Xml.Linq;
 using System.Data.SqlTypes;
 using System.Windows.Media.Imaging;
 
