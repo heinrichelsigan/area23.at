@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Area23.At.Framework.ScreenCapture
@@ -12,13 +13,14 @@ namespace Area23.At.Framework.ScreenCapture
     /// Heinrich Elsigan
     /// GNU General Public License v3
     /// </summary>
-    public class ScreenCapture
+    public static class ScreenCapture
     {
+
         /// <summary>
         /// CaptureScreen creates an Image object containing a screen shot of the entire desktop
         /// </summary>
         /// <returns></returns>
-        public Image CaptureScreen()
+        public static Image CaptureScreen()
         {
             return CaptureWindow(NativeMethods.User32.GetDesktopWindow());
         }
@@ -28,7 +30,7 @@ namespace Area23.At.Framework.ScreenCapture
         /// </summary>
         /// <param name="filename"></param>
         /// <param name="format"></param>
-        public Image CaptureDesktopScreen()
+        public static Image CaptureDesktopScreen()
         {
             // capture desktop window            
             IntPtr ptrDesk = NativeMethods.User32.GetDesktopWindow();
@@ -41,17 +43,35 @@ namespace Area23.At.Framework.ScreenCapture
         /// CaptureAllDesktops capture all existing windows desktop
         /// </summary>
         /// <returns>Image, that contains all windows desktop capture</returns>
-        public Image CaptureAllDesktops()
+        public static Image CaptureAllDesktops()
         {
             Screen[] screens;
             screens = Screen.AllScreens;
             int noofscreens = screens.Length, maxwidth = 0, maxheight = 0;
+            int minX = 0, minY = 0;
+            //for (int j = 0; j < noofscreens; j++)
+            //{
+            //    if (screens[j].Bounds.X < minX)
+            //        minX = screens[j].Bounds.X;
+            //    if (screens[j].WorkingArea.X < minX)
+            //        minX = screens[j].WorkingArea.X;
+            //    if (screens[j].Bounds.Y < minY)
+            //        minY = screens[j].Bounds.Y;
+            //    if (screens[j].WorkingArea.Y < minY)
+            //        minY = screens[j].WorkingArea.Y;
+            //}
+
             for (int i = 0; i < noofscreens; i++)
             {
                 if (maxwidth < (screens[i].Bounds.X + screens[i].Bounds.Width)) maxwidth = screens[i].Bounds.X + screens[i].Bounds.Width;
                 if (maxheight < (screens[i].Bounds.Y + screens[i].Bounds.Height)) maxheight = screens[i].Bounds.Y + screens[i].Bounds.Height;
             }
-            Image desktopImage = CaptureAllScreen(0, 0, maxwidth, maxheight);
+            //if (minX < 0)
+            //    maxwidth += Math.Abs(minX);
+            //if (minY < 0)
+            //    maxheight += Math.Abs(minY);
+
+            Image desktopImage = CaptureAllScreen(minX, minY, maxwidth, maxheight);
             return desktopImage;
         }
 
@@ -59,29 +79,42 @@ namespace Area23.At.Framework.ScreenCapture
         /// Creates an Image object containing a screen shot of the entire desktop and child windows
         /// </summary>
         /// <returns>Array of Images</returns>
-        public Image[] CaptureAllWindows()
+        public static Image[] CaptureAllWindows()
         {
-            List<Image> windowImages = new List<Image>();
+            // List<Image> windowImages = new List<Image>();
+            Dictionary<IntPtr, Image> windowsImages = new Dictionary<IntPtr, Image>();
+            Image imageAllSreens = CaptureAllDesktops();
+            windowsImages.Add(IntPtr.Zero, imageAllSreens);
+
             IntPtr deskPtr = NativeMethods.User32.GetDesktopWindow();
             Image imageDesk = CaptureWindow(deskPtr);
-            windowImages.Add(imageDesk);
+            windowsImages.Add(deskPtr, imageDesk);
+
             IntPtr topPtr = NativeMethods.User32.GetTopWindow(deskPtr);
             Image imageTop = CaptureWindow(topPtr);
-            windowImages.Add(imageTop);
+            windowsImages.Add(topPtr, imageTop);
+
             IntPtr nextPtr = topPtr;
-            for (int i = 0; i < 16384; i++)
+            for (uint winCnt = 0; winCnt < 16384; winCnt++)
             {
                 try
                 {
                     nextPtr = NativeMethods.User32.GetWindow(nextPtr, NativeMethods.User32.GW_HWNDNEXT);
-                    Image nextImage = CaptureWindow(nextPtr);
-                    if (nextImage.Height > 1 && nextImage.Width > 1)
-                        windowImages.Add(nextImage);
+                    if (!windowsImages.Keys.Contains(nextPtr))
+                    {
+                        Image nextImage = CaptureWindow(nextPtr);
+                        if (nextImage.Height > 1 && nextImage.Width > 1)
+                            windowsImages.Add(nextPtr, nextImage);
+                    }                                        
                 }
-                catch (Exception) { }
+                catch (Exception exCapture) 
+                {
+                    Library.Area23Log.Logger.LogOriginMsgEx("ScreenCapture.CaptureAllWindows()",
+                        $"Exception on capturing window {winCnt} with windows handle {nextPtr.ToString()}.", exCapture);
+                }
             }
 
-            return windowImages.ToArray();
+            return windowsImages.Values.ToArray();
         }
 
 
@@ -90,7 +123,7 @@ namespace Area23.At.Framework.ScreenCapture
         /// </summary>
         /// <param name="handle">The handle to the window. (In windows forms, this is obtained by the Handle property)</param>
         /// <returns>Image</returns>
-        public Image CaptureWindow(IntPtr handle)
+        public static Image CaptureWindow(IntPtr handle)
         {
             // get te hDC of the target window
             IntPtr hdcSrc = NativeMethods.User32.GetWindowDC(handle);
@@ -129,7 +162,7 @@ namespace Area23.At.Framework.ScreenCapture
         /// <param name="width">full with of all screens</param>
         /// <param name="height">full height of all screens</param>
         /// <returns>Image, that contains all screen capture cutting</returns>        
-        public Image CaptureAllScreen(int x, int y, int width, int height)
+        public static Image CaptureAllScreen(int x, int y, int width, int height)
         {
             //create DC for the entire virtual screen
             int hdcSrc = NativeMethods.GDI32.CreateDC("DISPLAY", null, null, IntPtr.Zero);
@@ -191,7 +224,7 @@ namespace Area23.At.Framework.ScreenCapture
         /// <param name="handle"></param>
         /// <param name="filename"></param>
         /// <param name="format"></param>
-        public void CaptureWindowToFile(IntPtr handle, string filename, ImageFormat format)
+        public static void CaptureWindowToFile(IntPtr handle, string filename, ImageFormat format)
         {
             Image img = CaptureWindow(handle);
             img.Save(filename, format);
@@ -202,7 +235,7 @@ namespace Area23.At.Framework.ScreenCapture
         /// </summary>
         /// <param name="filename"></param>
         /// <param name="format"></param>
-        public void CaptureScreenToFile(string filename, ImageFormat format)
+        public static void CaptureScreenToFile(string filename, ImageFormat format)
         {
             Image img = CaptureScreen();
             img.Save(filename, format);
@@ -213,26 +246,40 @@ namespace Area23.At.Framework.ScreenCapture
         /// </summary>
         /// <param name="directory"></param>
         /// <param name="format"></param>
-        public void CaptureScreenAndAllWindowsToDirectory(string directory, ImageFormat format)
+        public static Image[] CaptureScreenAndAllWindowsToDirectory(string directory)
         {
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
 
-            Image[] imgs = CaptureAllWindows();
-            int ix = 0;
-            foreach (Image img in imgs)
+            string[] files = Directory.GetFiles(directory);
+            foreach (string f in files)
             {
-                string filename = Path.Combine(directory, DateTime.Now.Ticks.ToString() + ix++ + ".png");
-                img.Save(filename, format);
+                try
+                {
+                    File.Delete(f);
+                }
+                catch { }
             }
 
-            string[] files = Directory.GetFiles(directory);
-            foreach (string file in files)
+            ImageFormat format = ImageFormat.Png;
+            Image[] imgs = CaptureAllWindows();
+            int ix = 0;            
+            foreach (Image img in imgs)
+            {
+                string filename = Path.Combine(directory, $"{ix:X4} {DateTime.Now.Ticks}.png");
+                img.Save(filename, format);
+                ix++;
+            }
+
+            string[] filez = Directory.GetFiles(directory);
+            foreach (string file in filez)
             {
                 FileInfo fi = new FileInfo(file);
-                if (fi.Length <= 2048)
+                if (fi.Length <= 16384)
                     fi.Delete();
             }
+
+            return imgs;
         }
 
     }

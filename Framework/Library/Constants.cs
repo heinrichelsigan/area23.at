@@ -19,7 +19,7 @@ namespace Area23.At.Framework.Library
         public const string URL_PREFIX = "https://area23.at/mono/test/res/";
         public const string AREA23_S = "https://area23.at/s/";
         public const string URL_SHORT = "https://area23.at/s/?";
-        public const string AREA23_UTF8_URL = "https://area23.at/u/";        
+        public const string AREA23_UTF8_URL = "https://area23.at/u/";
         public const string LOG_DIR = "log";
         public const string LOG_EXT = ".log";
         public const string QR_DIR = "Qr";
@@ -27,7 +27,7 @@ namespace Area23.At.Framework.Library
         public const string UNIX_DIR = "Unix";
         public const string RES_FOLDER = "res";
         public const string JS_DIR = "js";
-        public const string CSS_DIR = "css";        
+        public const string CSS_DIR = "css";
         public const string JSON_SAVE_FILE = "urlshort.json";
         public const string UTF8_JSON = "utf8symol.json";
 
@@ -48,8 +48,30 @@ namespace Area23.At.Framework.Library
         public const string BACK_COLOR_STRING = "BackColorString";
         public const string QR_COLOR_STRING = "QrColorString";
 
+        public const string EXE_COMMAND_CMD = "cmd";
+        public const string EXE_POWER_SHELL = "powershell";
+
+        public const string EXE_WIN_INIT = "wininit";
+        public const string EXE_SERVICES = "services";
+        public const string EXE_SVC_HOST = "svchost";
+        public const string EXE_TASK_HOST = "taskhostw";
+        public const string EXE_DLL_HOST = "dllhost";
+        public const string EXE_SCHEDULER = "scheduler";
+        public const string EXE_VM_COMPUTE = "vmcompute";        
+        public const string EXE_WIN_DEFENDER = "MsMpEng";
+        public const string EXE_LASS = "lsass";                     // local Security Authority Subsystem Service. 
+        public const string EXE_CSRSS = "csrss";                    // hosts the server side of the Win32 subsystem
+
+        public const string EXE_WIN_LOGON = "winlogon";             // windows logon handler for current logon
+        public const string EXE_DESKTOP_WINDOW_MANAGER = "dwm";     // window manager for current logon
+
         public const string SNULL = "(null)";
 
+        public static readonly string[] EXE_WIN_SYSTEM = { EXE_WIN_INIT, EXE_SERVICES,
+            EXE_SVC_HOST, EXE_TASK_HOST, EXE_DLL_HOST,
+            EXE_SCHEDULER, EXE_VM_COMPUTE, EXE_WIN_DEFENDER, EXE_LASS, EXE_CSRSS,
+            EXE_WIN_LOGON, EXE_DESKTOP_WINDOW_MANAGER
+        };
 
         public const string JSON_SAMPLE = @"{ 
  	""quiz"": { 

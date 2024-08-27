@@ -1,3 +1,6 @@
+using Area23.At.Framework;
+using Area23.At.Framework.ScreenCapture;
+
 namespace Area23.At.WinForm.TWinFormCore
 {
     internal static class Program
@@ -8,10 +11,14 @@ namespace Area23.At.WinForm.TWinFormCore
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+
+            // MessageBox.Show("ScreenCapture", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
             Application.Run(new TWinForm());
+
         }
     }
 }

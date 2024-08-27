@@ -61,8 +61,7 @@ namespace Area23.At.WinForm.TWinFormCore
             lock (spinLock)
             {
                 // this.WindowState = FormWindowState.Minimized;
-                ScreenCapture sc = new ScreenCapture();
-                winDesktopImg = sc.CaptureAllDesktops();
+                winDesktopImg = ScreenCapture.CaptureAllDesktops();
                 this.WindowState = FormWindowState.Normal;
                 lastCapture = DateTime.Now;
                 locChangedOff = false;
@@ -76,8 +75,9 @@ namespace Area23.At.WinForm.TWinFormCore
         {
             if (this.winDeskImg == null)
                 SetTransBG();
-            ScreenCapture sc = new ScreenCapture();
-            sc.CaptureScreenAndAllWindowsToDirectory(Application.UserAppDataPath, ImageFormat.Png);
+            string captureDir = Application.UserAppDataPath;
+            captureDir = "d:\\source\tmp";
+            // ScreenCapture.CaptureScreenAndAllWindowsToDirectory(captureDir);
         }
 
         private void OnResizeEnd(object sender, EventArgs e)

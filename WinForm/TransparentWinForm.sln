@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransparentForms", "Transpa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCapture", "..\Framework\ScreenCapture\ScreenCapture.csproj", "{2A5DF944-9D12-46D8-B0D5-94CD30D815BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "C:\Users\pc\source\area23.at\Framework\Library\Library.csproj", "{4133904B-C57A-4F45-AD85-537AA97F765F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2A5DF944-9D12-46D8-B0D5-94CD30D815BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A5DF944-9D12-46D8-B0D5-94CD30D815BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A5DF944-9D12-46D8-B0D5-94CD30D815BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4133904B-C57A-4F45-AD85-537AA97F765F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4133904B-C57A-4F45-AD85-537AA97F765F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4133904B-C57A-4F45-AD85-537AA97F765F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4133904B-C57A-4F45-AD85-537AA97F765F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

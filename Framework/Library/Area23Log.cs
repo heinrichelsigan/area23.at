@@ -132,6 +132,35 @@ namespace Area23.At.Framework.Library
                 Log(ex.StackTrace, level);
         }
 
+
+        /// <summary>
+        /// LogOriginMsg - logs a msg by origin
+        /// </summary>
+        /// <param name="origin">Exception source origin, class, instance</param>
+        /// <param name="msg">message to log</param>
+        /// <param name="level">logging level, default to 2</param>
+        public void LogOriginMsg(string origin, string msg, int level = 2)
+        {
+            Log($"{origin}:\t{msg}", level);
+        }
+
+        /// <summary>
+        /// LogOriginMsgEx - logs an exception by origin with seperate msg
+        /// </summary>
+        /// <param name="origin">Exception source origin, class, instance</param>
+        /// <param name="msg">message to log</param>
+        /// <param name="ex">Exception to log</param>
+        /// <param name="level">logging level, default to 2</param>
+        public void LogOriginMsgEx(string origin, string msg, Exception ex, int level = 2)
+        {
+            if (level >= 4)
+                Log($"{origin}:\t{msg}\tException: {ex.Message}", level);
+            else if (level >= 2 && level < 4)
+                Log($"{origin}:\t{msg}\tException: {ex.Message}\r\n{ex}", level);
+            else if (level < 2)
+                Log($"{origin}:\t{msg}\tException: {ex.Message}\r\n{ex}\r\n{ex.StackTrace}", level);
+        }
+
     }
 
 }
