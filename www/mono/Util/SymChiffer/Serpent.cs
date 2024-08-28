@@ -151,6 +151,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             int outputSize = cipherMode.GetOutputSize(cipherData.Length);
             byte[] plainTextData = new byte[outputSize];
             int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainTextData, 0);
+            // cipherMode.DoFinal(cipherData, result, cipherData.Length, plainTextData, result);
             cipherMode.DoFinal(plainTextData, result);
 
             return plainTextData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');

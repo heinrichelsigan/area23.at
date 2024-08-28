@@ -95,9 +95,10 @@ namespace Area23.At.Mono.Util.SymChiffer
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
-
-            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey, 0, 32);
+            
+            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, FishIv);
+
 
             if (Mode == "ECB")
             {
@@ -129,7 +130,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
-            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey, 0, 32);
+            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, FishIv);
             // Decrypt
             if (Mode == "ECB")
@@ -141,7 +142,7 @@ namespace Area23.At.Mono.Util.SymChiffer
                 cipherMode.Init(false, keyParamIV);
             }
 
-            int outputSize = (int)Math.Max(cipherMode.GetOutputSize(cipherData.Length), cipherMode.GetUpdateOutputSize(cipherData.Length));
+            int outputSize = (int)cipherMode.GetOutputSize(cipherData.Length); //  cipherMode.GetUpdateOutputSize(cipherData.Length));
             byte[] plainTextData = new byte[outputSize];
             int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainTextData, 0);
             cipherMode.DoFinal(plainTextData, result);

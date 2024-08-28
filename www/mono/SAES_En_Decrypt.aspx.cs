@@ -319,6 +319,7 @@ namespace Area23.At.Mono
         /// <param name="inBytes">Array of byte</param>
         /// <param name="algo">Symetric chiffre algorithm</param>
         /// <returns>encrypted byte Array</returns>
+        /// 
         protected byte[] EncryptBytes(byte[] inBytes, string algo)
         {
             string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
@@ -402,7 +403,7 @@ namespace Area23.At.Mono
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
                         blockSize = 128;
                         keyLen = 16;
-                        mode = "CBC";
+                        mode = "ECB";
                         break;
                     // case "Serpent":
                         // blockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
@@ -426,11 +427,10 @@ namespace Area23.At.Mono
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                         break;
                 }
-                CryptBounceCastle cryptCastle = new CryptBounceCastle(blockCipher, blockSize, keyLen, mode, secretKey, true);
-                encryptBytes = cryptCastle.Encrypt(inBytes, out outBytes);
+                CryptBounceCastle.InitBounceCastleAlgo(blockCipher, blockSize, keyLen, mode, secretKey, true);
+                encryptBytes = CryptBounceCastle.Encrypt(inBytes);
             }
 
-            // return (outBytes != null || outBytes.Length > 16) ? outBytes : encryptBytes;
             return encryptBytes;
         }
 
@@ -524,7 +524,7 @@ namespace Area23.At.Mono
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
                         blockSize = 128;
                         keyLen = 16;
-                        mode = "CBC";
+                        mode = "ECB";
                         break;
                     //case "Serpent":
                     //    blockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
@@ -548,8 +548,8 @@ namespace Area23.At.Mono
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                         break;
                 }
-                CryptBounceCastle cryptCastle = new CryptBounceCastle(blockCipher, blockSize, keyLen, mode, secretKey, false);
-                decryptBytes = cryptCastle.Decrypt(cipherBytes, out plainBytes);
+                CryptBounceCastle.InitBounceCastleAlgo(blockCipher, blockSize, keyLen, mode, secretKey, false);
+                decryptBytes = CryptBounceCastle.Decrypt(cipherBytes);
             }
 
             if (!sameKey)
@@ -560,7 +560,6 @@ namespace Area23.At.Mono
                 this.TextBox_IV.BorderWidth = 2;
             }
 
-            // return (plainBytes != null && plainBytes.Length >= 16) ? plainBytes : decryptBytes;
             return decryptBytes;
         }
 
