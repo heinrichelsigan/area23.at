@@ -9,6 +9,7 @@ using System.Web;
 
 namespace Area23.At.Mono.Util
 {
+
     /// <summary>
     /// Extension methods for Area23.At.Mono
     /// </summary>
@@ -229,7 +230,7 @@ namespace Area23.At.Mono.Util
         {
             for (int bCnt = 0; bCnt < bytes.Length; bCnt++)
             {
-                if (bytes[bCnt] == value) 
+                if (bytes[bCnt] == value)
                     return bCnt;
             }
             return -1;
@@ -344,12 +345,13 @@ namespace Area23.At.Mono.Util
         public static string ReverseToString<T>(this Stack<T> stack)
         {
             string reverse = string.Empty;
-            foreach (object s in stack.Reverse().ToArray()) 
+            foreach (object s in stack.Reverse().ToArray())
             {
                 reverse += s.ToString();
             }
             return reverse;
         }
-    
+
     }
+
 }

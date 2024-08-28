@@ -1,4 +1,6 @@
-﻿using Org.BouncyCastle.Utilities;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Symchiffer;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,13 +10,17 @@ using System.Text;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
+
     /// <summary>
-    /// static 3Des encryption helper
+    /// static Des3 encryption helper
     /// <see cref="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.tripledes.-ctor?view=net-8.0" />
     /// <seealso cref="https://www.c-sharpcorner.com/article/tripledes-encryption-and-decryption-in-c-sharp/ "/>
     /// </summary>
-    public static class TripleDes
+    public static class Des3
     {
+
+        #region fields
+
         private static string privateKey = string.Empty;
 
         internal static byte[] DesKey { get; private set; }
@@ -22,10 +28,14 @@ namespace Area23.At.Mono.Util.SymChiffer
 
         internal static byte[] toDecryptArray;
 
+        #endregion fields
+
+        #region ctor_gen
+
         /// <summary>
         /// static constructor
         /// </summary>
-        static TripleDes()
+        static Des3()
         {
             DesKey = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
             DesIv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
@@ -34,12 +44,12 @@ namespace Area23.At.Mono.Util.SymChiffer
         }
 
         /// <summary>
-        /// Generates TripleDesFromKey 
+        /// Generates Des3FromKey 
         /// </summary>
         /// <param name="secretKey">your plain text secret key</param>
         /// <param name="init">init TripleDes first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool TripleDesFromKey(string secretKey = "", bool init = true)
+        public static bool Des3FromKey(string secretKey = "", bool init = true)
         {
             byte[] key;
             byte[] iv = new byte[8];
@@ -74,6 +84,10 @@ namespace Area23.At.Mono.Util.SymChiffer
             return true;
         }
 
+        #endregion ctor_gen
+
+        #region EncryptDecryptBytes
+
         /// <summary>
         /// 3Des encrypt bytes
         /// </summary>
@@ -105,20 +119,21 @@ namespace Area23.At.Mono.Util.SymChiffer
             if (cipherBytes == null || cipherBytes.Length <= 0)
                 throw new ArgumentNullException("cipherBytes");
 
-            TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();            
+            TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
             tdes.Key = DesKey;
             tdes.IV = DesIv;
-            tdes.Mode = CipherMode.ECB;            
+            tdes.Mode = CipherMode.ECB;
             tdes.Padding = PaddingMode.Zeros;
             toDecryptArray = new byte[cipherBytes.Length * 2];
             ICryptoTransform cTransform = tdes.CreateDecryptor();
-            byte[] decryptedBytes = cTransform.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);        
+            byte[] decryptedBytes = cTransform.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);
             tdes.Clear();
-            
+
             // return decrypted byte[]
             return decryptedBytes;
         }
 
+        #endregion EncryptDecryptBytes
 
         #region EnDeCryptString
 
@@ -150,5 +165,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         }
 
         #endregion EnDeCryptString       
+
     }
+
 }

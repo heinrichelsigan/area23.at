@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Win32Api;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Area23.At.Framework.ScreenCapture;
 
 namespace Area23.At.WinForm.WinCRoach
 {
@@ -89,8 +90,7 @@ namespace Area23.At.WinForm.WinCRoach
             lock (spinLock)
             {
                 this.WindowState = FormWindowState.Minimized;
-                ScreenCapture sc = new ScreenCapture();
-                winDesktopImg = sc.CaptureScreen();
+                winDesktopImg = ScreenCapture.CaptureScreen();
                 this.WindowState = FormWindowState.Normal;
                 lastCapture = DateTime.Now;
                 locChangedOff = false;
@@ -102,8 +102,8 @@ namespace Area23.At.WinForm.WinCRoach
         {
             if (this.winDeskImg == null)
                 SetTransBG();
-            ScreenCapture sc = new ScreenCapture();
-            sc.CaptureScreenAndAllWindowsToDirectory(Application.UserAppDataPath, ImageFormat.Png);            
+            
+            // ScreenCapture.CaptureScreenAndAllWindowsToDirectory(Application.UserAppDataPath);            
         }
 
         private void OnResizeEnd(object sender, EventArgs e)

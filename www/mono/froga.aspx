@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="froga" Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="false"  %>
+<%@ Import namespace="Area23.At.Framework.Library" %>
 <%@ Import namespace="System" %>
 <%@ Import namespace="System.Collections.Generic" %>
 <%@ Import namespace="System.Web"%>

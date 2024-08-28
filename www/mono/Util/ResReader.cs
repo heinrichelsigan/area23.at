@@ -7,6 +7,7 @@ using System.Text;
 
 namespace Area23.At.Mono.Util
 {
+
     public static class ResReader
     {
         /// <summary>
@@ -18,7 +19,7 @@ namespace Area23.At.Mono.Util
         public static string GetValue(string key, string langCode = "")
         {
             string retVal = Properties.Resource.ResourceManager.GetString(key);
-            
+
             return (!string.IsNullOrEmpty(retVal)) ? retVal : key;
         }
 
@@ -65,9 +66,10 @@ namespace Area23.At.Mono.Util
         }
 
         public static string GetAllFortunes()
-        {           
+        {
             string fortuneString = System.Text.Encoding.UTF8.GetString(Properties.Resource.fortune_u8);
             return fortuneString;
         }
     }
+
 }

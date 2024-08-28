@@ -114,9 +114,9 @@
     <None Include="Resources\CRoach.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\ScreenCapture\ScreenCapture.csproj">
-      <Project>{2a5df944-9d12-46d8-b0d5-94cd30d815bc}</Project>
-      <Name>ScreenCapture</Name>
+    <ProjectReference Include="..\..\Framework\Library\Area23.At.Framework.Library.csproj">
+      <Project>{4133904b-c57a-4f45-ad85-537aa97f765f}</Project>
+      <Name>Area23.At.Framework.Library</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

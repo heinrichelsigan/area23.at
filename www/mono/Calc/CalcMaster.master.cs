@@ -1,5 +1,5 @@
-﻿using Area23.At.Mono.Calc;
-using Area23.At.Mono.Util;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Mono.Calc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +28,9 @@ namespace Area23.At.Mono.Calc
 
         protected void InitAHrefs()
         {
-            this.aCCalc.HRef = Paths.CalcAppPath + "CCalc.aspx";
-            this.aRpnCalc.HRef = Paths.CalcAppPath + "RpnCalc.aspx";
-            this.aBc.HRef = Paths.UnixAppPath + "Bc.aspx";
+            this.aCCalc.HRef = LibPaths.CalcAppPath + "CCalc.aspx";
+            this.aRpnCalc.HRef = LibPaths.CalcAppPath + "RpnCalc.aspx";
+            this.aBc.HRef = LibPaths.UnixAppPath + "Bc.aspx";
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)

@@ -7,9 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TWinFormCore", "TWinFormCor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransparentForms", "TransparentForms\TransparentForms.csproj", "{C572DA89-7546-4B21-8EBE-8E0A5EA230A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCapture", "..\Framework\ScreenCapture\ScreenCapture.csproj", "{2A5DF944-9D12-46D8-B0D5-94CD30D815BC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "C:\Users\pc\source\area23.at\Framework\Library\Library.csproj", "{4133904B-C57A-4F45-AD85-537AA97F765F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.Framework.Library", "..\Framework\Library\Area23.At.Framework.Library.csproj", "{4133904B-C57A-4F45-AD85-537AA97F765F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{C572DA89-7546-4B21-8EBE-8E0A5EA230A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C572DA89-7546-4B21-8EBE-8E0A5EA230A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C572DA89-7546-4B21-8EBE-8E0A5EA230A7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2A5DF944-9D12-46D8-B0D5-94CD30D815BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2A5DF944-9D12-46D8-B0D5-94CD30D815BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2A5DF944-9D12-46D8-B0D5-94CD30D815BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2A5DF944-9D12-46D8-B0D5-94CD30D815BC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4133904B-C57A-4F45-AD85-537AA97F765F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4133904B-C57A-4F45-AD85-537AA97F765F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4133904B-C57A-4F45-AD85-537AA97F765F}.Release|Any CPU.ActiveCfg = Release|Any CPU

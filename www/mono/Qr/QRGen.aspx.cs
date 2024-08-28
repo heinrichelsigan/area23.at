@@ -1,4 +1,4 @@
-﻿using Area23.At.Mono.Util;
+﻿using Area23.At.Framework.Library;
 using Area23.At.Mono.Qr;
 using System;
 using System.Collections.Generic;
@@ -111,7 +111,7 @@ namespace Area23.At.Mono.Qr
 
         protected virtual void SetQRImage(Bitmap qrImage, string redirUrl) 
         {
-            string fileName = Paths.OutDirPath + GetRedirectUrlName(redirUrl);
+            string fileName = LibPaths.OutDirPath + GetRedirectUrlName(redirUrl);
             MemoryStream ms = new MemoryStream();
             qrImage.Save(ms, ImageFormat.Gif);
             qrImage.Save(fileName, ImageFormat.Gif);

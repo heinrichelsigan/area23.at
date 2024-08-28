@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" %>
+<%@ Import namespace="Area23.At.Framework.Library" %>
 <%@ Import namespace="System" %>
 <%@ Import namespace="System.Reflection" %>
 <%@ Import namespace="System.Web" %>
@@ -16,13 +17,13 @@
 </head>
 
 <script runat="server" language="C#">
-    
+
     protected void Page_Load(object sender, EventArgs e)
     {
         Response.Redirect("HexDump.aspx");
         Response.End();
     }
-    
+
 </script>
 
 <body>

@@ -1,4 +1,5 @@
-﻿using QRCoder;
+﻿using Area23.At.Framework.Library;
+using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
@@ -10,7 +11,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using static QRCoder.PayloadGenerator;
 using System.Runtime.CompilerServices;
-using Area23.At.Mono.Util;
 
 namespace Area23.At.Mono.Qr
 {
@@ -134,8 +134,8 @@ namespace Area23.At.Mono.Qr
 
             try
             {
-                Constants.QrColor = Util.ColorFrom.FromHtml(this.input_color.Value);
-                Constants.BackColor = Util.ColorFrom.FromHtml(this.input_backcolor.Value);
+                Constants.QrColor = ColorFrom.FromHtml(this.input_color.Value);
+                Constants.BackColor = ColorFrom.FromHtml(this.input_backcolor.Value);
                 qrString = GetQrString();
 
                 if (!string.IsNullOrEmpty(qrString))

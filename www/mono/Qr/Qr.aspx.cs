@@ -1,4 +1,5 @@
-﻿using Area23.At.Mono.Util;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Mono.Util;
 using QRCoder;
 using System;
 using System.Collections.Generic;
@@ -168,8 +169,8 @@ namespace Area23.At.Mono.Qr
 
             try
             {
-                Constants.QrColor = Util.ColorFrom.FromHtml(this.input_color.Value);
-                Constants.BackColor = Util.ColorFrom.FromHtml(this.input_backcolor.Value);
+                Constants.QrColor = ColorFrom.FromHtml(this.input_color.Value);
+                Constants.BackColor = ColorFrom.FromHtml(this.input_backcolor.Value);
                 qrString = (string.IsNullOrEmpty(qrString)) ? GetQrString() : qrString;                
 
                 if (!string.IsNullOrEmpty(qrString))
@@ -199,7 +200,7 @@ namespace Area23.At.Mono.Qr
             var base64Data = Convert.ToBase64String(ms.ToArray());
             // this.ImgQR.Src = "data:image/gif;base64," + base64Data;
             this.ImageQr.Visible = true;
-            this.ImageQr.BackColor = Util.ColorFrom.FromHtml(this.input_backcolor.Value);
+            this.ImageQr.BackColor = ColorFrom.FromHtml(this.input_backcolor.Value);
             this.ImageQr.ImageUrl = "data:image/gif;base64," + base64Data;
             ResetFormElements();
         }
@@ -208,7 +209,7 @@ namespace Area23.At.Mono.Qr
         protected override void SetQrImageUrl(string imgPth, int qrWidth = -1)
         {
             this.ImageQr.Visible = true;
-            this.ImageQr.BackColor = Util.ColorFrom.FromHtml(this.input_backcolor.Value);
+            this.ImageQr.BackColor = ColorFrom.FromHtml(this.input_backcolor.Value);
             this.ImageQr.ImageUrl = imgPth;
             if (qrWidth > 0)
                 this.ImageQr.Width = qrWidth;

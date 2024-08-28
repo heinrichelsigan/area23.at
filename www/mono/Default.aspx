@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" %>
+<%@ Import Namespace="Area23.At.Framework.Library" %>
 <%@ Import namespace="System" %>
 <%@ Import namespace="System.Reflection" %>
 <%@ Import namespace="System.Web"%>

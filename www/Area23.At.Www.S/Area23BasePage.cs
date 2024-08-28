@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Win32Api;
+using Area23.At.Www.S.Util;
+using QRCoder;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -12,10 +16,6 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using Area23.At.Www.S.Util;
-using Area23.At.Www.Common;
-using QRCoder;
-using Area23.At.Framework.Library;
 using System.Windows.Media.Imaging;
 using System.Windows;
 using System.Collections.ObjectModel;
@@ -350,10 +350,10 @@ namespace Area23.At.Www.S
             // normal operation => save qrCodeImage to qrOutToPath
             // qrCodeImage.Save(Paths.QrDirPath + qrfn + "_11.gif");
 
-            QrImgPath = Paths.QrAppPath + gifFileName;
-            // BytesToWithGifComment(Paths.QrDirPath + gifFileName, gifEncBytes, qrString);
-            SaveWithGifComment(Paths.QrDirPath + gifInverseFileName, qrCodeImageInverse, qrString);
-            SaveWithGifComment(Paths.QrDirPath + gifFileName, qrCodeImage, qrString);            
+            QrImgPath = LibPaths.QrAppPath + gifFileName;
+            // BytesToWithGifComment(LibPaths.QrDirPath + gifFileName, gifEncBytes, qrString);
+            SaveWithGifComment(LibPaths.QrDirPath + gifInverseFileName, qrCodeImageInverse, qrString);
+            SaveWithGifComment(LibPaths.QrDirPath + gifFileName, qrCodeImage, qrString);            
 
             // GifMetadataAdapter gifAdapter = new GifMetadataAdapter(qrOutPath, gifStrm);
             // gifAdapter.Metadata.Comment = qrString;
@@ -498,7 +498,7 @@ namespace Area23.At.Www.S
             }
 
             string qrfn = DateTime.UtcNow.Area23DateTimeWithMillis();
-            QrImgPath = Paths.QrAppPath + qrfn + ".gif";
+            QrImgPath = LibPaths.QrAppPath + qrfn + ".gif";
 
             return qrCodeThumbNail;
         }

@@ -1,6 +1,7 @@
+using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Win32Api;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using Area23.At.Framework.ScreenCapture;
 
 namespace Area23.At.WinForm.TWinFormCore
 {

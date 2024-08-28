@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.Mono", "www\mono\Area23.At.Mono.csproj", "{740A6674-AD04-410A-87B2-A30223EB1EED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.Www.Mono", "www\mono\Area23.At.Www.Mono.csproj", "{740A6674-AD04-410A-87B2-A30223EB1EED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.Www.Common", "www\Area23.At.Www.Common\Area23.At.Www.Common.csproj", "{AF63A048-CDF1-4EF9-846B-A61C712C3680}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Framework\Library\Library.csproj", "{4133904B-C57A-4F45-AD85-537AA97F765F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.Framework.Library", "Framework\Library\Area23.At.Framework.Library.csproj", "{4133904B-C57A-4F45-AD85-537AA97F765F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		{740A6674-AD04-410A-87B2-A30223EB1EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{740A6674-AD04-410A-87B2-A30223EB1EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{740A6674-AD04-410A-87B2-A30223EB1EED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AF63A048-CDF1-4EF9-846B-A61C712C3680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF63A048-CDF1-4EF9-846B-A61C712C3680}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF63A048-CDF1-4EF9-846B-A61C712C3680}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF63A048-CDF1-4EF9-846B-A61C712C3680}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4133904B-C57A-4F45-AD85-537AA97F765F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4133904B-C57A-4F45-AD85-537AA97F765F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4133904B-C57A-4F45-AD85-537AA97F765F}.Release|Any CPU.ActiveCfg = Release|Any CPU

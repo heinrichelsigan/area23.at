@@ -1,5 +1,6 @@
-﻿using Area23.At.Mono.Qr;
-using Area23.At.Mono.Util;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Win32Api;
+using Area23.At.Mono.Qr;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,6 @@
-﻿using Area23.At.Mono.Unix;
-using Area23.At.Mono.Util;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Win32Api;
+using Area23.At.Mono.Unix;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -85,7 +86,7 @@ namespace Area23.At.Mono.Unix
 
         public void ReadAllFortunes()
         {
-            string fortuneFile = Paths.TextDirPath + "fortune.u8";
+            string fortuneFile = LibPaths.TextDirPath + "fortune.u8";
             string fortuneString = (File.Exists(fortuneFile)) ? File.ReadAllText(fortuneFile) : ResReader.GetAllFortunes();
             string[] sep = { "\r\n%\r\n", "\r\n%", "%\r\n" };
             fortunes = new List<string>();

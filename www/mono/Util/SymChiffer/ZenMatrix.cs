@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Symchiffer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -6,11 +8,15 @@ using System.Text;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
+
     /// <summary>
     /// Simple Matrix SymChiffer maybe already invented, but created by zen@area23.at (Heinrich Elsigan)
     /// </summary>
     public static class ZenMatrix
     {
+
+        #region fields
+
         private static string privateKey = string.Empty;
 
         private static readonly sbyte[] MatrixBasePerm = { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf };
@@ -18,6 +24,10 @@ namespace Area23.At.Mono.Util.SymChiffer
         private static sbyte[] MatrixReverse { get; set; }
 
         private static HashSet<sbyte> PermKeyHash { get; set; }
+
+        #endregion fields
+
+        #region ctor_init_gen_reverse
 
         /// <summary>
         /// Static constructor
@@ -47,26 +57,6 @@ namespace Area23.At.Mono.Util.SymChiffer
         }
 
         /// <summary>
-        /// BuildReveseMatrix, builds the determinant decryption matrix for sbyte{16] encryption matrix
-        /// </summary>
-        /// <param name="matrix">sbyte{16] encryption matrix</param>
-        /// <returns>sbyte{16] decryption matrix</returns>
-        internal static sbyte[] BuildReveseMatrix(sbyte[] matrix)
-        {
-            sbyte[] rmatrix = new sbyte[matrix.Length];
-            if (matrix != null && matrix.Length >= 12)
-            {
-                for (int m = 0; m < matrix.Length; m++)
-                {
-                    sbyte sm = matrix[m];
-                    rmatrix[(int)sm] = (sbyte)m;
-                }
-            }
-            return rmatrix;
-        }
-
-
-        /// <summary>
         /// Generate Matrix sym chiffre permutation with a personal key string
         /// </summary>
         /// <param name="secretKey">string key to generate permutation <see cref="MatrixPermKey"/> 
@@ -94,7 +84,7 @@ namespace Area23.At.Mono.Util.SymChiffer
 
                 InitMatrixSymChiffer();
 
-                byte[] keyBytes = (!string.IsNullOrEmpty(secretKey)) ? 
+                byte[] keyBytes = (!string.IsNullOrEmpty(secretKey)) ?
                     System.Text.Encoding.UTF8.GetBytes(secretKey) :
                     SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Constants.BOUNCEK));
 
@@ -123,6 +113,30 @@ namespace Area23.At.Mono.Util.SymChiffer
             return true;
         }
 
+
+        /// <summary>
+        /// BuildReveseMatrix, builds the determinant decryption matrix for sbyte{16] encryption matrix
+        /// </summary>
+        /// <param name="matrix">sbyte{16] encryption matrix</param>
+        /// <returns>sbyte{16] decryption matrix</returns>
+        internal static sbyte[] BuildReveseMatrix(sbyte[] matrix)
+        {
+            sbyte[] rmatrix = new sbyte[matrix.Length];
+            if (matrix != null && matrix.Length >= 12)
+            {
+                for (int m = 0; m < matrix.Length; m++)
+                {
+                    sbyte sm = matrix[m];
+                    rmatrix[(int)sm] = (sbyte)m;
+                }
+            }
+            return rmatrix;
+        }
+
+
+        #endregion ctor_init_gen_reverse
+
+        #region ProcessEncryptDecryptBytes
 
         /// <summary>
         /// ProcessEncryptBytes, processes the next len=16 bytes to encrypt, starting at offSet
@@ -175,6 +189,10 @@ namespace Area23.At.Mono.Util.SymChiffer
             }
             return processedDecrypted;
         }
+
+        #endregion ProcessEncryptDecryptBytes
+
+        #region EncryptDecryptBytes
 
         /// <summary>
         /// MatrixSymChiffer Encrypt member function
@@ -250,6 +268,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             return outBytesPlainPadding;
         }
 
+        #endregion EncryptDecryptBytes
 
         #region EnDecryptString
 
@@ -278,7 +297,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             //  System.Text.Encoding.UTF8.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
             string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
-            
+
             return plainTextString;
         }
 
@@ -300,7 +319,7 @@ namespace Area23.At.Mono.Util.SymChiffer
 
         [Obsolete("GetMatrixPermutation is obsolete, use GenerateMatrixPermutationByKey(string key) instead!", false)]
         internal static sbyte[] GetMatrixPermutation(string key)
-        {            
+        {
             InitMatrixSymChiffer();
 
             int aCnt = 0, bCnt = 0;
@@ -366,5 +385,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         }
 
         #endregion ObsoleteDeprecated
+
     }
+
 }

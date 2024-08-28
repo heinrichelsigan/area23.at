@@ -6,6 +6,7 @@ using System.Web;
 
 namespace Area23.At.Mono.Util
 {
+
     /// <summary>
     /// Static class alternative for System.Drawing.Color Extension Methods
     /// </summary>
@@ -60,4 +61,5 @@ namespace Area23.At.Mono.Util
 
         #endregion Extensions.ColorFrom static methods
     }
+
 }

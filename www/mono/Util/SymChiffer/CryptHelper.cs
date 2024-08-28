@@ -1,13 +1,24 @@
-﻿using System;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Symchiffer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
+
+    /// <summary>
+    /// static class CryptHelper provides static helper methods for encryption / decryption
+    /// </summary>
     public static class CryptHelper
     {
 
+        /// <summary>
+        /// KeyHexString transforms a private secret key to hex string
+        /// </summary>
+        /// <param name="key">private secret key</param>
+        /// <returns>hex string of bytes</returns>
         public static string KeyHexString(string key)
         {
             byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
@@ -15,6 +26,12 @@ namespace Area23.At.Mono.Util.SymChiffer
             return ivStr;
         }
 
+        /// <summary>
+        /// GetBytesFromString gets byte[] array representing binary transformation of a string
+        /// </summary>
+        /// <param name="inString">string to transfer to binary byte[] data</param>
+        /// <param name="upStretchToCorrectBlockSize">fills at the end of byte[] padding zero 0 bytes</param>
+        /// <returns>byte[] array of binary byte</returns>
         public static byte[] GetBytesFromString(string inString, bool upStretchToCorrectBlockSize = false)
         {
             string sourceString = (string.IsNullOrEmpty(inString)) ? string.Empty : inString;
@@ -38,6 +55,11 @@ namespace Area23.At.Mono.Util.SymChiffer
             return inBytes;
         }
 
+        /// <summary>
+        /// GetStringFromBytesTrimNulls gets a plain text string from binary byte[] data and truncate all 0 byte at the end.
+        /// </summary>
+        /// <param name="decryptedBytes">decrypted byte[]</param>
+        /// <returns>truncated string without a lot of \0 (null) characters</returns>
         public static string GetStringFromBytesTrimNulls(byte[] decryptedBytes)
         {
             int ig = -1;
@@ -55,6 +77,11 @@ namespace Area23.At.Mono.Util.SymChiffer
             return decryptedText;
         }
 
+        /// <summary>
+        /// Trim_Decrypted_Text removes all special control characters from a text string
+        /// </summary>
+        /// <param name="decryptedText">string to trim and strip from special control characters.</param>
+        /// <returns>text only string with at least text formation special characters.</returns>
         public static string Trim_Decrypted_Text(string decryptedText)
         {
             int ig = 0;
@@ -79,5 +106,7 @@ namespace Area23.At.Mono.Util.SymChiffer
 
             return decryptedText;
         }
+
     }
+
 }

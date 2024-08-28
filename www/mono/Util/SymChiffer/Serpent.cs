@@ -1,8 +1,5 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Symchiffer;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Paddings;
@@ -11,13 +8,26 @@ using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Utilities;
 using Org.BouncyCastle.Crypto.Engines;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
-using System.Windows.Interop;
+using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Windows.Interop;
+using System.Linq;
+using System.Text;
+using System.Web;
+
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
+
+    /// <summary>
+    /// Serpent static class implementing Serpent symetric chiffer algorithm
+    /// </summary>
     public static class Serpent
     {
+
+        #region fields
+
         private static string privateKey = string.Empty;
 
         internal static byte[] SerpentKey { get; private set; }
@@ -26,6 +36,10 @@ namespace Area23.At.Mono.Util.SymChiffer
         internal static int Size { get; private set; }
         internal static string Mode { get; private set; }
         internal static IBlockCipherPadding BlockCipherPadding { get; private set; }
+
+        #endregion fields
+
+        #region ctor_gen
 
         /// <summary>
         /// static constructor for serpent encryption
@@ -43,7 +57,6 @@ namespace Area23.At.Mono.Util.SymChiffer
             BlockCipherPadding = new ZeroBytePadding();
             SerpentGenWithKey(string.Empty, true);
         }
-
 
         /// <summary>
         /// ThreeFishGenWithKey => Generates new <see cref="Serpent"/> with secret key
@@ -83,10 +96,14 @@ namespace Area23.At.Mono.Util.SymChiffer
                 Array.Copy(key, SerpentKey, 16);
                 Array.Copy(iv, SerpentIv, 16);
             }
-            
+
 
             return true;
         }
+
+        #endregion ctor_gen
+
+        #region EncryptDecryptBytes
 
         /// <summary>
         /// Serpent Encrypt member function
@@ -94,11 +111,11 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <param name="plainData">plain data as <see cref="byte[]"/></param>
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
         public static byte[] Encrypt(byte[] plainData)
-        {            
+        {
             var cipher = new SerpentEngine();
 
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
-            
+
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
@@ -121,7 +138,6 @@ namespace Area23.At.Mono.Util.SymChiffer
 
             return cipherTextData;
         }
-
 
         /// <summary>
         /// Serpent Decrypt member function
@@ -156,6 +172,8 @@ namespace Area23.At.Mono.Util.SymChiffer
 
             return plainTextData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
         }
+
+        #endregion EncryptDecryptBytes
 
         #region EnDecryptString
 

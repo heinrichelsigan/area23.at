@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Area23.At.Framework.Library;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
@@ -35,9 +36,9 @@ namespace Area23.At.Mono.Util
             }
         }
 
-        public string SepChar { get => Paths.SepChar.ToString(); }
+        public string SepChar { get => LibPaths.SepChar.ToString(); }
 
-        public string LogFile { get => Paths.LogPathFile; }
+        public string LogFile { get => LibPaths.LogPathFile; }
 
 
         protected override void OnInit(EventArgs e)
@@ -84,7 +85,7 @@ namespace Area23.At.Mono.Util
         /// <returns>fileName under which it was saved really</returns>
         protected virtual string ByteArrayToFile(byte[] bytes, out string outMsg, string fileName = null)
         {
-            string strPath = Paths.OutDirPath;
+            string strPath = LibPaths.OutDirPath;
             outMsg = String.Empty;
             if (string.IsNullOrEmpty(fileName))
             {
@@ -108,7 +109,7 @@ namespace Area23.At.Mono.Util
 
             string newFileName = fileName;
             
-            strPath = Paths.OutDirPath + fileName;            
+            strPath = LibPaths.OutDirPath + fileName;            
             try
             {
                 while (System.IO.File.Exists(strPath))
@@ -116,7 +117,7 @@ namespace Area23.At.Mono.Util
                     newFileName = fileName.Contains(Constants.DateFile) ?
                         Constants.DateFile + Guid.NewGuid().ToString() + "_" + fileName :
                         Constants.DateFile + fileName;
-                    strPath = Paths.OutDirPath + newFileName;
+                    strPath = LibPaths.OutDirPath + newFileName;
                     outMsg = String.Format("{0} already exists on server, saving it to ", fileName);
                     fileName = newFileName;
                 }
@@ -137,7 +138,7 @@ namespace Area23.At.Mono.Util
                 {
                     string extR = MimeType.GetFileExtForMimeTypeApache(mimeType);
                     newFileName = fileName.Replace("tmp", extR);
-                    System.IO.File.Move(strPath, Paths.OutDirPath + newFileName);
+                    System.IO.File.Move(strPath, LibPaths.OutDirPath + newFileName);
                     outMsg += newFileName;
                     return newFileName;
                 }

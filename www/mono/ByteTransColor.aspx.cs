@@ -1,4 +1,5 @@
-﻿using Area23.At.Mono.Util;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Mono.Util;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -158,13 +159,13 @@ namespace Area23.At.Mono
             if (pfile != null)
             {
                 // Save the uploaded file to the server.
-                strFilePath = Paths.OutDirPath + strFileName;
+                strFilePath = LibPaths.OutDirPath + strFileName;
                 while (System.IO.File.Exists(strFilePath))
                 {
                     string newFileName = strFilePath.Contains(Constants.DateFile) ?
                         Constants.DateFile + Guid.NewGuid().ToString() + "_" + strFileName :
                         Constants.DateFile + strFileName;
-                    strFilePath = Paths.OutDirPath + newFileName;
+                    strFilePath = LibPaths.OutDirPath + newFileName;
                     lblUploadResult.Text = String.Format("{0} already exists on server, saving it to {1}.",
                         strFileName, newFileName);
                 }

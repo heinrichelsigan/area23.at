@@ -1,5 +1,5 @@
 ﻿using Area23.At.Framework.Library;
-using Area23.At.Www.Common;
+using Area23.At.Www.U;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace Area23.At.Www.U.Util
             Dictionary<long, Utf8Symbol> tmpDict = null;
             try
             {
-                string loadFileName = System.IO.Path.Combine(Paths.Utf8PathDir, Constants.UTF8_JSON);
+                string loadFileName = System.IO.Path.Combine(LibPaths.Utf8PathDir, Constants.UTF8_JSON);
                 string jsonText = File.ReadAllText(loadFileName);
                 tmpDict = JsonConvert.DeserializeObject<Dictionary<long, Utf8Symbol>>(jsonText);
             }
@@ -38,7 +38,7 @@ namespace Area23.At.Www.U.Util
 
         internal static void SaveDictionaryToJson(Dictionary<long, Utf8Symbol> saveDict)
         {
-            string saveFileName = System.IO.Path.Combine(Paths.Utf8PathDir, Constants.UTF8_JSON);
+            string saveFileName = System.IO.Path.Combine(LibPaths.Utf8PathDir, Constants.UTF8_JSON);
             JsonSerializerSettings jsets = new JsonSerializerSettings();
             jsets.Formatting = Formatting.Indented;            
             string jsonString = JsonConvert.SerializeObject(saveDict, Formatting.Indented);

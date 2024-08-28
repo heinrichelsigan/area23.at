@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Mono.Qr;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Drawing;
@@ -10,8 +12,6 @@ using QRCoder;
 using System.Web.UI.WebControls;
 using System.Xml;
 using System.Security.Cryptography;
-using Area23.At.Mono.Util;
-using Area23.At.Mono.Qr;
 using System.Text;
 // using System.Xml.Linq;
 using System.Data.SqlTypes;
@@ -168,11 +168,11 @@ namespace Area23.At.Mono.Qr
             }
 
             string qrfn = DateTime.UtcNow.Area23DateTimeWithMillis();
-            string qrOutPath = Paths.OutDirPath + qrfn + ".gif";
-            QrImgPath = Paths.OutAppPath + qrfn + ".gif";
+            string qrOutPath = LibPaths.OutDirPath + qrfn + ".gif";
+            QrImgPath = LibPaths.OutAppPath + qrfn + ".gif";
 
             // normal operation => save qrCodeImage to qrOutToPath
-            string qrOutToPath = Paths.OutDirPath + qrfn + "_11.gif";
+            string qrOutToPath = LibPaths.OutDirPath + qrfn + "_11.gif";
             qrCodeImage.Save(qrOutToPath);
 
             MemoryStream gifStrm = new MemoryStream();
@@ -390,8 +390,8 @@ namespace Area23.At.Mono.Qr
             }
 
             string qrfn = Constants.DateFile + DateTime.Now.Millisecond + ".png";
-            QrImgPath = Paths.OutAppPath + qrfn;
-            qrCodeImage.Save(Paths.OutDirPath + qrfn);
+            QrImgPath = LibPaths.OutAppPath + qrfn;
+            qrCodeImage.Save(LibPaths.OutDirPath + qrfn);
 
             return qrCodeImage;
         }

@@ -7,6 +7,7 @@ using System.Web;
 
 namespace Area23.At.Mono.Util
 {
+
     public class MimeType
     {
         private static readonly byte[] BMP = { 66, 77 };

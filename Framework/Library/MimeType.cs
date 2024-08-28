@@ -7,6 +7,10 @@ using System.Web;
 
 namespace Area23.At.Framework.Library
 {
+
+    /// <summary>
+    /// MimeType gets mime type out of content byte[] (and filename) by MIT magick cookie
+    /// </summary>
     public class MimeType
     {
         private static readonly byte[] BMP = { 66, 77 };
@@ -292,8 +296,6 @@ namespace Area23.At.Framework.Library
 
             return "oct";
         }
-
-
 
     }
 

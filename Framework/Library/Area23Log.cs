@@ -5,6 +5,7 @@ using System.IO;
 
 namespace Area23.At.Framework.Library
 {
+
     /// <summary>
     /// simple singelton logger via NLog
     /// </summary>
@@ -16,12 +17,14 @@ namespace Area23.At.Framework.Library
         /// <summary>
         /// LogFile
         /// </summary>
-        public static string LogFile { get => LibPaths.LogFile; }
+        public static string LogFile { get => LibPaths.LogPathFile; }
+
 
         /// <summary>
         /// Get the Logger
         /// </summary>
         public static Area23Log Logger { get => instance.Value; }
+
 
         /// <summary>
         /// LogStatic - static logger without Area23Log.Logger singelton
@@ -38,19 +41,18 @@ namespace Area23.At.Framework.Library
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Area23.At.Framework.Library.Area23Log Exception: \n" + ex.ToLogMsg());
+                    Area23Log.LogStatic(ex);
                 }
             }
             try
             {
                 logMsg = String.Format("{0} \t{1}\r\n",
-                        Constants.DateTimeArea23Seconds,
+                        Constants.DateArea23Seconds,
                         msg);
                 File.AppendAllText(LogFile, logMsg);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("Area23.At.Framework.Library.Area23Log Exception: \n" + e.ToLogMsg());
             }
         }
 
@@ -60,8 +62,34 @@ namespace Area23.At.Framework.Library
         /// <param name="exLog"><see cref="Exception"/> to log</param>
         public static void LogStatic(Exception exLog)
         {
-            string exLogMsg = exLog.ToLogMsg();
-            LogStatic(exLogMsg);
+            string excMsg = String.Format("Exception {0} ⇒ {1}\t{2}\t{3}",
+                exLog.GetType(),
+                exLog.Message,
+                exLog.ToString().Replace("\r", "").Replace("\n", " "),
+                exLog.StackTrace.Replace("\r", "").Replace("\n", " "));
+
+            if (!File.Exists(LogFile))
+            {
+                try
+                {
+                    File.Create(LogFile);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Area23.At.Mono Exception: " + e.ToString());
+                }
+            }
+            try
+            {
+                string logMsg = String.Format("{0} \t{1}\r\n",
+                    Constants.DateArea23Seconds,
+                    excMsg);
+                File.AppendAllText(LogFile, logMsg);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Area23.At.Mono Exception: " + e.ToString());
+            }
         }
 
         /// <summary>
@@ -89,7 +117,7 @@ namespace Area23.At.Framework.Library
         /// <param name="msg">debug msg to log</param>
         /// <param name="logLevel">log level: 0 for Trace, 1 for Debug, ..., 4 for Error, 5 for Fatal</param>
         public void Log(string msg, int logLevel = 3)
-        {            
+        {
             NLog.LogLevel nlogLvl = NLog.LogLevel.FromOrdinal(logLevel);
             logger.Log(nlogLvl, msg);
         }
@@ -134,33 +162,35 @@ namespace Area23.At.Framework.Library
 
 
         /// <summary>
-        /// LogOriginMsg - logs a msg by origin
+        /// Log origin with message to NLog
         /// </summary>
-        /// <param name="origin">Exception source origin, class, instance</param>
-        /// <param name="msg">message to log</param>
-        /// <param name="level">logging level, default to 2</param>
-        public void LogOriginMsg(string origin, string msg, int level = 2)
+        /// <param name="origin">origin of message</param>
+        /// <param name="message">enabler message to log</param>
+        /// <param name="level">log level: 0 for Trace, 1 for Debug, ..., 4 for Error, 5 for Fatal</param>
+        public void LogOriginMsg(string origin, string message, int level = 2)
         {
-            Log($"{origin}:\t{msg}", level);
+            string logMsg = (string.IsNullOrEmpty(origin) ? "  \t" : origin + " \t") + message;
+            Log(logMsg, level);
         }
+
 
         /// <summary>
-        /// LogOriginMsgEx - logs an exception by origin with seperate msg
+        /// Log origin with message and thrown exception to NLog
         /// </summary>
-        /// <param name="origin">Exception source origin, class, instance</param>
-        /// <param name="msg">message to log</param>
-        /// <param name="ex">Exception to log</param>
-        /// <param name="level">logging level, default to 2</param>
-        public void LogOriginMsgEx(string origin, string msg, Exception ex, int level = 2)
+        /// <param name="origin">origin of message</param>
+        /// <param name="message">logging <see cref="string">string message</see></param>
+        /// <param name="ex">logging <see cref="Exception">Exception ex</see></param>
+        /// <param name="level"><see cref="int">int log level</see>: 0 for Trace, 1 for Debug, ..., 4 for Error, 5 for Fatal</param>
+        public void LogOriginMsgEx(string origin, string message, Exception ex, int level = 2)
         {
-            if (level >= 4)
-                Log($"{origin}:\t{msg}\tException: {ex.Message}", level);
-            else if (level >= 2 && level < 4)
-                Log($"{origin}:\t{msg}\tException: {ex.Message}\r\n{ex}", level);
-            else if (level < 2)
-                Log($"{origin}:\t{msg}\tException: {ex.Message}\r\n{ex}\r\n{ex.StackTrace}", level);
+            string logPrefix = string.IsNullOrEmpty(origin) ? "   " : origin;
+            Log($"{logPrefix} \t{message} {ex.GetType()}: \t{ex.Message}", level);
+            if (level < 4)
+                Log($"{logPrefix} \tException {ex.GetType()}: \t{ex.ToString()}", level);
+            if (level < 2)
+                Log($"{logPrefix} \t{ex.GetType()} StackTrace: \t{ex.StackTrace}", level);
         }
-
     }
+
 
 }

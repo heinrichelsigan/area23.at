@@ -7,7 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinCRoach", "WinCRoach\WinC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinRoachCore", "WinRoachCore\WinRoachCore.csproj", "{6E23BC43-240F-43E1-A851-8E0A5EA230A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCapture", "..\Framework\ScreenCapture\ScreenCapture.csproj", "{2A5DF944-9D12-46D8-B0D5-94CD30D815BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.Framework.Library", "..\Framework\Library\Area23.At.Framework.Library.csproj", "{4133904B-C57A-4F45-AD85-537AA97F765F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{774341FC-25E6-459F-8539-29C9AD1FB5D2}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +28,10 @@ Global
 		{6E23BC43-240F-43E1-A851-8E0A5EA230A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E23BC43-240F-43E1-A851-8E0A5EA230A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E23BC43-240F-43E1-A851-8E0A5EA230A7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2A5DF944-9D12-46D8-B0D5-94CD30D815BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2A5DF944-9D12-46D8-B0D5-94CD30D815BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2A5DF944-9D12-46D8-B0D5-94CD30D815BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2A5DF944-9D12-46D8-B0D5-94CD30D815BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4133904B-C57A-4F45-AD85-537AA97F765F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4133904B-C57A-4F45-AD85-537AA97F765F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4133904B-C57A-4F45-AD85-537AA97F765F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4133904B-C57A-4F45-AD85-537AA97F765F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

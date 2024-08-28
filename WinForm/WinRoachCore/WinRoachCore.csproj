@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\ScreenCapture\ScreenCapture.csproj" />
+    <ProjectReference Include="..\..\Framework\Library\Area23.At.Framework.Library.csproj" />
   </ItemGroup>
     
 	<ItemGroup>

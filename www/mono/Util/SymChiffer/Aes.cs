@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Symchiffer;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,11 +11,15 @@ using System.Windows.Input;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
+
     /// <summary>
     /// <see cref="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aes?view=net-8.0" />
     /// </summary>
     public static class Aes
     {
+
+        #region fields
+
         private static string privateKey = string.Empty;
 
         internal static byte[] AesKey { get; private set; }
@@ -21,6 +27,9 @@ namespace Area23.At.Mono.Util.SymChiffer
 
         internal static RijndaelManaged AesAlgo { get; private set; }
 
+        #endregion fields
+
+        #region Ctor_Gen
 
         /// <summary>
         /// static constructor
@@ -34,7 +43,7 @@ namespace Area23.At.Mono.Util.SymChiffer
 
             AesKey = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
             AesIv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
-            
+
             AesAlgo.Key = AesKey;
             AesAlgo.IV = AesIv;
             // AesGenWithNewKey(string.Empty, true);
@@ -69,11 +78,11 @@ namespace Area23.At.Mono.Util.SymChiffer
                 {
                     privateKey = secretKey;
                     AesKey = Encoding.UTF8.GetByteCount(secretKey) == 32 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
-                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));                    
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
                 }
 
                 AesIv = new byte[16];
-                Array.Copy(iv, AesIv, 16);                
+                Array.Copy(iv, AesIv, 16);
             }
 
             // AesAlgo.GenerateIV();
@@ -84,6 +93,9 @@ namespace Area23.At.Mono.Util.SymChiffer
             return true;
         }
 
+        #endregion Ctor_Gen
+
+        #region EncryptDecryptBytes
 
         /// <summary>
         /// AES Encrypt by using RijndaelManaged
@@ -111,7 +123,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <param name="encryptedBytes">Array of encrypted data byte</param>
         /// <returns>Array of plain data byte</returns>
         /// <exception cref="ArgumentNullException">is thrown when input enrypted <see cref="byte[]"/> is null or zero length</exception>
-        public static byte[] Decrypt(byte[] encryptedBytes) 
+        public static byte[] Decrypt(byte[] encryptedBytes)
         {
             if (encryptedBytes == null || encryptedBytes.Length <= 0)
                 throw new ArgumentNullException("Aes byte[] Decrypt(byte[] encryptedBytes): ArgumentNullException encryptedBytes = null or Lenght 0.");
@@ -123,6 +135,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             return decryptedBytes;
         }
 
+        #endregion EncryptDecryptBytes
 
         #region EnDecryptString
 
@@ -230,7 +243,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         }
 
         #endregion ObsoleteDeprecated 
-    
+
     }
 
 }

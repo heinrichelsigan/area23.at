@@ -87,9 +87,9 @@
     <Content Include="TransparentFormsIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\ScreenCapture\ScreenCapture.csproj">
-      <Project>{000bab51-7546-4b21-8ebe-8e0a5ea230a7}</Project>
-      <Name>ScreenCapture</Name>
+    <ProjectReference Include="..\..\Framework\Library\Area23.At.Framework.Library.csproj">
+      <Project>{4133904b-c57a-4f45-ad85-537aa97f765f}</Project>
+      <Name>Area23.At.Framework.Library</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

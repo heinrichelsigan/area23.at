@@ -413,20 +413,10 @@
     <Compile Include="Unix\UnixMaster.master.designer.cs">
       <DependentUpon>UnixMaster.master</DependentUpon>
     </Compile>
-    <Compile Include="Util\ColorForm.cs" />
-    <Compile Include="Util\Constants.cs" />
-    <Compile Include="Util\Enum\SymChiffre.cs" />
-    <Compile Include="Util\Extensions.cs" />
-    <Compile Include="Util\Area23Log.cs" />
+    <Compile Include="Util\SymChiffer\SymChifferEnum.cs" />
     <Compile Include="Util\GifMetadataAdapter.cs" />
-    <Compile Include="Util\MimeType.cs" />
-    <Compile Include="Util\Paths.cs" />
-    <Compile Include="Util\ProcessCmd.cs" />
     <Compile Include="Util\QRGenericString.cs" />
-    <Compile Include="Util\ResReader.cs" />
     <Compile Include="Calc\RPNType.cs" />
-    <Compile Include="Util\SayBase.cs" />
-    <Compile Include="Util\SaySpeach.cs" />
     <Compile Include="Util\SymChiffer\Aes.cs" />
     <Compile Include="Util\SymChiffer\BounceCastle .cs" />
     <Compile Include="Util\SymChiffer\CryptBounceCastle.cs" />
@@ -434,10 +424,10 @@
     <Compile Include="Util\SymChiffer\ZenMatrix.cs" />
     <Compile Include="Util\SymChiffer\RC564.cs" />
     <Compile Include="Util\SymChiffer\DesEde.cs" />
-    <Compile Include="Util\SymChiffer\TwoFish.cs" />
+    <Compile Include="Util\SymChiffer\Fish2.cs" />
     <Compile Include="Util\SymChiffer\Serpent.cs" />
-    <Compile Include="Util\SymChiffer\ThreeFish.cs" />
-    <Compile Include="Util\SymChiffer\TripleDes.cs" />
+    <Compile Include="Util\SymChiffer\Fish3.cs" />
+    <Compile Include="Util\SymChiffer\Des3.cs" />
     <Compile Include="Util\UIPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -471,6 +461,12 @@
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Library\Area23.At.Framework.Library.csproj">
+      <Project>{4133904b-c57a-4f45-ad85-537aa97f765f}</Project>
+      <Name>Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

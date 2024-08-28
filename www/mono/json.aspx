@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Json Deserialize" Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true"  %>
+<%@ Import namespace="Area23.At.Framework.Library" %>
 <%@ Import namespace="Newtonsoft.Json" %>
 <%@ Import namespace="Newtonsoft.Json.Linq" %>
 <%@ Import namespace="Newtonsoft.Json.Bson" %>

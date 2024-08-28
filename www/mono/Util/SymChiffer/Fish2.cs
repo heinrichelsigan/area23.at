@@ -1,4 +1,6 @@
-﻿using Org.BouncyCastle.Crypto;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Symchiffer;
+using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Paddings;
@@ -9,24 +11,32 @@ using System.Text;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
+
     /// <summary>
-    /// static class, that implements 3FISH static Encrypt & Decrypt members
+    /// static class Fish2, that implements 2FISH static Encrypt & Decrypt members
     /// </summary>
-    public static class TwoFish
+    public static class Fish2
     {
+
+        #region fields
+
         private static string privateKey = string.Empty;
 
         public static byte[] FishKey { get; private set; }
         public static byte[] FishIv { get; private set; }
-        
+
         public static int Size { get; private set; }
         public static string Mode { get; private set; }
         public static IBlockCipherPadding BlockCipherPadding { get; private set; }
 
+        #endregion fields
+
+        #region ctor_gen
+
         /// <summary>
-        /// static 2FISH constructor
+        /// static Fish2 constructor
         /// </summary>
-        static TwoFish()
+        static Fish2()
         {
             byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
             byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
@@ -42,12 +52,12 @@ namespace Area23.At.Mono.Util.SymChiffer
         }
 
         /// <summary>
-        /// Generate new <see cref="TwoFish"/> with secret key
+        /// Fish2GenWithKey - Generate new <see cref="Fish2"/> with secret key
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
-        /// <param name="init">init <see cref="TwoFish"/> first time with a new key</param>
+        /// <param name="init">init <see cref="Fish2"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool TwoFishGenWithKey(string secretKey = "", bool init = true)
+        public static bool Fish2GenWithKey(string secretKey = "", bool init = true)
         {
             byte[] key;
             byte[] iv = new byte[32];
@@ -83,8 +93,12 @@ namespace Area23.At.Mono.Util.SymChiffer
             return true;
         }
 
+        #endregion ctor_gen
+
+        #region EncryptDecryptBytes
+
         /// <summary>
-        /// 2FISH Encrypt member function
+        /// Fish2 Encrypt member function
         /// </summary>
         /// <param name="plainData">plain data as <see cref="byte[]"/></param>
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
@@ -112,12 +126,12 @@ namespace Area23.At.Mono.Util.SymChiffer
             byte[] cipherTextData = new byte[outputSize];
             int result = cipherMode.ProcessBytes(plainData, 0, plainData.Length, cipherTextData, 0);
             cipherMode.DoFinal(cipherTextData, result);
-            
+
             return cipherTextData;
         }
 
         /// <summary>
-        /// 2FISH Decrypt member function
+        /// Fish2 Decrypt member function
         /// </summary>
         /// <param name="cipherData">encrypted <see cref="byte[]">bytes</see></param>
         /// <returns>decrypted plain byte[] data</returns>
@@ -148,6 +162,8 @@ namespace Area23.At.Mono.Util.SymChiffer
 
             return plainData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
         }
+
+        #endregion EncryptDecryptBytes
 
         #region EnDecryptString
 

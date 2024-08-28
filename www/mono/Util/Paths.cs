@@ -12,6 +12,7 @@ using System.Web.UI.WebControls;
 
 namespace Area23.At.Mono.Util
 {
+
     public static class Paths
     {
         private static string appPath = null;
@@ -76,7 +77,7 @@ namespace Area23.At.Mono.Util
                     string basApPath = HttpContext.Current.Request.Url.ToString().
                         Replace("/Unix/", "/").Replace("/Qr/", "/").Replace("/Calc/", "/").
                         Replace("/res/", "/").Replace("/js/", "/").Replace("/img/", "/").
-                        Replace("/css/", "/").Replace("/out/", "/").Replace("/audio/","/");
+                        Replace("/css/", "/").Replace("/out/", "/").Replace("/audio/", "/");
                     baseAppPath = basApPath.Substring(0, basApPath.LastIndexOf("/"));
                     if (!baseAppPath.EndsWith("/"))
                         baseAppPath += "/";
@@ -125,7 +126,7 @@ namespace Area23.At.Mono.Util
                 {
                     resDirPath = AppDirPath;
                     if (!resDirPath.Contains(Constants.RES_DIR))
-                        resDirPath += Constants.RES_DIR + SepChar;                    
+                        resDirPath += Constants.RES_DIR + SepChar;
 
                     if (!Directory.Exists(resDirPath))
                     {
@@ -270,4 +271,5 @@ namespace Area23.At.Mono.Util
         //}
 
     }
+
 }

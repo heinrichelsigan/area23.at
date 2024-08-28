@@ -1,19 +1,26 @@
-﻿using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Engines;
+﻿using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Paddings;
 using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Crypto;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Area23.At.Mono.Util.SymChiffer
+namespace Area23.At.Framework.Library.Symchiffer
 {
+
     /// <summary>
-    /// static class, that implements 3FISH static Encrypt & Decrypt members
+    /// static class Fish3, that implements 3FISH static Encrypt & Decrypt members
     /// </summary>
-    public static class ThreeFish
+    public static class Fish3
     {
+
+        #region fields
+
         private static string privateKey = string.Empty;
 
         internal static byte[] FishKey { get; private set; }
@@ -23,10 +30,14 @@ namespace Area23.At.Mono.Util.SymChiffer
         internal static string Mode { get; private set; }
         internal static IBlockCipherPadding BlockCipherPadding { get; private set; }
 
+        #endregion fields
+
+        #region ctor_gen
+
         /// <summary>
-        /// static 3FISH constructor
+        /// static Fish3 constructor
         /// </summary>
-        static ThreeFish()
+        static Fish3()
         {
             byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
             byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
@@ -41,13 +52,13 @@ namespace Area23.At.Mono.Util.SymChiffer
         }
 
         /// <summary>
-        /// ThreeFishGenWithKey => Generates new <see cref="ThreeFish"/> with secret key
+        /// Fish3GenWithKey => Generates new <see cref="ThreeFish"/> with secret key
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
         /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool ThreeFishGenWithKey(string secretKey = "", bool init = true)
-        {            
+        public static bool Fish3GenWithKey(string secretKey = "", bool init = true)
+        {
             byte[] key = new byte[32];
             byte[] iv = new byte[32]; // 3FISH > IV > 128 bit
 
@@ -76,15 +87,18 @@ namespace Area23.At.Mono.Util.SymChiffer
                 FishKey = new byte[32];
                 FishIv = new byte[32];
                 Array.Copy(key, FishKey, 32);
-                Array.Copy(iv, FishIv, 32);                
-            }                 
+                Array.Copy(iv, FishIv, 32);
+            }
 
             return true;
         }
-        
+
+        #endregion ctor_gen
+
+        #region EncryptDecryptBytes
 
         /// <summary>
-        /// 3FISH Encrypt member function
+        /// Fish3 Encrypt member function
         /// </summary>
         /// <param name="plainData">plain data as <see cref="byte[]"/></param>
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
@@ -95,7 +109,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
-            
+
             KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, FishIv);
 
@@ -113,12 +127,12 @@ namespace Area23.At.Mono.Util.SymChiffer
             byte[] cipherTextData = new byte[outputSize];
             int result = cipherMode.ProcessBytes(plainData, 0, plainData.Length, cipherTextData, 0);
             cipherMode.DoFinal(cipherTextData, result);
-          
+
             return cipherTextData;
         }
 
         /// <summary>
-        /// 3FISH Decrypt member function
+        /// Fish3 Decrypt member function
         /// </summary>
         /// <param name="cipherData">encrypted <see cref="byte[]">bytes</see></param>
         /// <returns>decrypted plain byte[] data</returns>
@@ -150,6 +164,8 @@ namespace Area23.At.Mono.Util.SymChiffer
             return plainTextData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
         }
 
+        #endregion EncryptDecryptBytes
+
         #region EnDecryptString
 
         /// <summary>
@@ -162,7 +178,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
-            
+
             return encryptedString;
         }
 

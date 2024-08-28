@@ -1,5 +1,6 @@
+using Area23.At.Framework.Library;
 using Area23.At.Framework;
-using Area23.At.Framework.ScreenCapture;
+
 
 namespace Area23.At.WinForm.TWinFormCore
 {

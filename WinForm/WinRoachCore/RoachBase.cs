@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Win32Api;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Area23.At.Framework.ScreenCapture;
 
 namespace Area23.At.WinForm.WinRoachCore
 {
@@ -48,8 +49,7 @@ namespace Area23.At.WinForm.WinRoachCore
             lock (spinLockImage)
             {
                 this.WindowState = FormWindowState.Minimized;
-                ScreenCapture sc = new ScreenCapture();
-                winDesktopImg = sc.CaptureScreen();
+                winDesktopImg = ScreenCapture.CaptureScreen();
                 lastCapture = DateTime.Now;
                 locChangedOff = false;
             }

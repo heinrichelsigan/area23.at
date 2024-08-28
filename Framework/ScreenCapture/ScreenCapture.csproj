@@ -89,9 +89,9 @@
     <Content Include="Resources\TransparentFormsIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Users\pc\source\area23.at\Framework\Library\Library.csproj">
+    <ProjectReference Include="..\Library\Area23.At.Framework.Library.csproj">
       <Project>{4133904b-c57a-4f45-ad85-537aa97f765f}</Project>
-      <Name>Library</Name>
+      <Name>Area23.At.Framework.Library</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

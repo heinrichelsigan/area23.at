@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Area23.At.Www.Common
+namespace Area23.At.Framework.Library
 {
+
     /// <summary>
     /// Static class alternative for System.Drawing.Color Extension Methods
     /// </summary>
@@ -40,9 +42,9 @@ namespace Area23.At.Www.Common
         /// <returns>Color, that was defined by hexadecimal rgb string</returns>
         public static System.Drawing.Color FromXrgb(string hex)
         {
-            if (String.IsNullOrWhiteSpace(hex) || hex.Length < 6 || hex.Length > 9)
+            if (String.IsNullOrWhiteSpace(hex) || hex.Length != 7 || !hex.StartsWith("#"))
                 throw new ArgumentException(
-                    String.Format("Area23.At.Mono.Util.ColorForm.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" or \"rrggbb\"!", hex));
+                    String.Format("Area23.At.Mono.Util.ColorForm.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
 
             string rgbWork = hex.TrimStart("#".ToCharArray());
             string colSeg = rgbWork.Substring(0, 2);
@@ -60,4 +62,5 @@ namespace Area23.At.Www.Common
 
         #endregion Extensions.ColorFrom static methods
     }
+
 }

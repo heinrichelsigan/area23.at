@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using Area23.At.Framework.Library;
+using NLog;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Modes;
@@ -12,6 +13,7 @@ using System.Web.UI;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
+
     /// <summary>
     /// Generic CryptBounceCastle Encryption / Decryption class
     /// supports <see cref="Org.BouncyCastle.Crypto.Engines.CamelliaEngine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.Gost28147Engine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.RC2Engine"/>,
@@ -21,18 +23,24 @@ namespace Area23.At.Mono.Util.SymChiffer
     /// </summary>
     public class CryptBounceCastle
     {
+
+        #region fields
+
         private string privateKey = string.Empty;
 
         private string userHostIpAddress = string.Empty;
+
+        private byte[] tmpIv;
+        private byte[] tmpKey;
+
+        #endregion fields
+
+        #region properties
 
         internal string PrivateKeyUser { get => string.Concat(privateKey, userHostIpAddress); }
 
         internal byte[] Key { get; private set; }
         internal byte[] Iv { get; private set; }
-
-
-        private byte[] tmpIv;
-        private byte[] tmpKey;
 
         /// <summary>
         /// Block Size
@@ -62,6 +70,13 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// </summary>
         public string Mode { get; private set; }
 
+        #endregion properties
+
+        #region ctor_init_gen
+
+        /// <summary>
+        /// parameterless default constructor
+        /// </summary>
         public CryptBounceCastle()
         {
             CryptoBlockCipher = null;
@@ -70,19 +85,18 @@ namespace Area23.At.Mono.Util.SymChiffer
             Size = 256;
             Mode = "ECB";
 
-            privateKey = string.Empty;                   
+            privateKey = string.Empty;
             tmpKey = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
             tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-            
+
             Key = new byte[KeyLen];
             Iv = new byte[KeyLen];
             Array.Copy(tmpIv, Iv, KeyLen);
             Array.Copy(tmpKey, Key, KeyLen);
-            
+
             tmpKey = null;
             tmpIv = null;
         }
-
 
         /// <summary>
         /// Generic CryptBounceCastle constructor
@@ -95,7 +109,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <param name="userHostAddr">user host address</param>
         /// <param name="secretKey">key param for encryption</param>
         /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
-        public CryptBounceCastle(IBlockCipher blockCipher, int size = 256, int keyLen = 32, string mode = "ECB", 
+        public CryptBounceCastle(IBlockCipher blockCipher, int size = 256, int keyLen = 32, string mode = "ECB",
             string userHostAddr = "", string secretKey = "", bool init = true)
         {
             CryptoBlockCipher = (blockCipher == null) ? new AesEngine() : blockCipher;
@@ -141,7 +155,6 @@ namespace Area23.At.Mono.Util.SymChiffer
                 }
             }
         }
-
 
         /// <summary>
         /// InitBounceCastleAlgo
@@ -191,7 +204,7 @@ namespace Area23.At.Mono.Util.SymChiffer
 
                 return true;
             }
-            
+
             if (tmpKey == null || tmpIv == null || tmpKey.Length <= 1 || tmpIv.Length <= 1)
             {
                 tmpKey = new byte[keyLen];
@@ -217,7 +230,7 @@ namespace Area23.At.Mono.Util.SymChiffer
                     (!privateKey.Equals(secretKey, StringComparison.InvariantCultureIgnoreCase)))
                     return false;
             }
-            
+
             if (init)
             {
                 tmpKey = new byte[KeyLen];
@@ -256,6 +269,8 @@ namespace Area23.At.Mono.Util.SymChiffer
 
             return true;
         }
+
+        #endregion ctor_init_gen
 
         /// <summary>
         /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
@@ -307,6 +322,7 @@ namespace Area23.At.Mono.Util.SymChiffer
 
         }
 
+        #region EncryptDecryptBytes
 
         /// <summary>
         /// Generic CryptBounceCastle Encrypt member function
@@ -324,10 +340,10 @@ namespace Area23.At.Mono.Util.SymChiffer
                 case "CBC":
                     cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
                     break;
-                case "ECB": 
+                case "ECB":
                     cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
                     break;
-                case "CFB": 
+                case "CFB":
                     cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(CryptoBlockCipher, Size), CryptoBlockCipherPadding);
                     break;
                 case "CCM":
@@ -441,8 +457,10 @@ namespace Area23.At.Mono.Util.SymChiffer
             int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainData, 0);
             cipherMode.DoFinal(plainData, result);
 
-            return plainData; 
+            return plainData;
         }
+
+        #endregion EncryptDecryptBytes
 
         #region EnDecryptString
 
@@ -456,7 +474,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
-            
+
             return encryptedString;
         }
 
@@ -474,7 +492,7 @@ namespace Area23.At.Mono.Util.SymChiffer
 
             return plainTextString;
         }
-        
+
         #endregion EnDecryptString
 
     }

@@ -1,8 +1,9 @@
 using System;
 using System.Diagnostics;
 
-namespace Area23.At.Framework.Library
+namespace Area23.At.Framework.Library.Win32Api
 {
+
     /// <summary>
     /// ProcessCmd static class for running an executable or processing shell command
     /// <see cref="https://github.com/heinrichelsigan/area23.at/blob/main/Framework/Library/ProcessCmd.cs">ProcessCmd.cs at github.com/heinrichelsigan</see>
@@ -121,4 +122,5 @@ namespace Area23.At.Framework.Library
         }
 
     }
+
 }

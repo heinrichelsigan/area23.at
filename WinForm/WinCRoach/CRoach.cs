@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Win32Api;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Area23.At.WinForm.WinCRoach;
-using Area23.At.Framework.ScreenCapture;
+using System.Reflection;
 
 namespace Area23.At.WinForm.WinCRoach
 {
@@ -22,6 +24,7 @@ namespace Area23.At.WinForm.WinCRoach
         volatile int roachCnt = 0;
         long maxTicks = 0;
         object spinLock = new object(), innerLock = new object();
+        DateTime roachStartDate = DateTime.Now;
         DateTime lastCapture = DateTime.Now;
         DateTime lastSay = DateTime.Now;
         int scrX = -1;
@@ -44,7 +47,7 @@ namespace Area23.At.WinForm.WinCRoach
                 spinLock = new object();
                 lock (spinLock)
                 {
-                    winDeskImg = (Image)System.AppDomain.CurrentDomain.GetData("DesktopImage");
+                    winDeskImg = (Image)System.AppDomain.CurrentDomain.GetData(Constants.ROACH_DESKTOP_WINDOW);
 
                     if (winDeskImg == null || everCapture)
                     {
@@ -52,8 +55,9 @@ namespace Area23.At.WinForm.WinCRoach
                         innerLock = new object();
                         lock (innerLock)
                         {
-                            ScreenCapture sc = new ScreenCapture();
-                            winDeskImg = sc.CaptureAllDesktops();
+                            winDeskImg = ScreenCapture.CaptureAllDesktops();
+                            if (winDeskImg != null)
+                                System.AppDomain.CurrentDomain.SetData(Constants.ROACH_DESKTOP_WINDOW, winDeskImg);
                             lastCapture = DateTime.Now;
                         }
                         this.Visible = true;
@@ -90,7 +94,7 @@ namespace Area23.At.WinForm.WinCRoach
         {
             winDeskImg = (desktopImage != null && changed) ? desktopImage : GetDesktopImage();
 
-            if (pt == Point.Empty || (pt.X == 0 && pt.Y == 0))
+            if (pt == Point.Empty || (pt.X <= 0 && pt.Y <= 0))
             {
                 pt = new Point(((int)(winDeskImg.Width - 48)),
                     ((int)(winDeskImg.Height - 48)));
@@ -151,9 +155,9 @@ namespace Area23.At.WinForm.WinCRoach
                 scrX = DesktopLocation.X - 1;
                 scrY = DesktopLocation.Y - 1;
 
-                if (scrX < 0)
+                if (scrX <= 0)
                     scrX = winDeskImg.Width - 48;
-                if (scrY < 0)
+                if (scrY <= 0)
                     scrY = winDeskImg.Height - 48;
 
                 Point roachPosition = new Point(scrX, scrY);
@@ -164,7 +168,8 @@ namespace Area23.At.WinForm.WinCRoach
                     lock (spinLock)
                     {
                         DateTime t0 = DateTime.Now;
-                        winDeskImg = GetDesktopImage(true);
+                        if ((winDeskImg = GetDesktopImage(true)) != null)
+                            System.AppDomain.CurrentDomain.SetData(Constants.ROACH_DESKTOP_WINDOW, winDeskImg);
                         DateTime t1 = DateTime.Now;
                         TimeSpan ts = t1.Subtract(t0);
                         if (ts.Ticks > maxTicks)
@@ -217,11 +222,13 @@ namespace Area23.At.WinForm.WinCRoach
 
         private void RoachExit(object sender, MouseEventArgs e)
         {
-            Application.Exit();
+            AppExit(sender, e);
         }
 
         private void AppExit(object sender, EventArgs e)
         {
+            string roachName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
+            MessageBox.Show($"Roach {Application.ProductName} is exiting now!", $"{roachName} roach exit", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Application.Exit();
         }
 

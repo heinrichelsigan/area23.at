@@ -1,4 +1,4 @@
-﻿using Area23.At.Mono.Util;
+﻿using Area23.At.Framework.Library;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,14 +28,14 @@ namespace Area23.At.Mono
 
         protected void InitAHrefs()
         {
-            this.aSlash.HRef = Paths.BaseAppPath;
-            this.aUnix.HRef = Paths.UnixAppPath + "UnixMain.aspx";
-            this.aQr.HRef = Paths.QrAppPath + "QRCodeGen.aspx";
-            this.aJson.HRef = Paths.BaseAppPath + "json.aspx";
-            this.aByteTransColor.HRef = Paths.BaseAppPath + "ByteTransColor.aspx";
-            this.aAesCrypt.HRef = Paths.BaseAppPath + "SAES_En_Decrypt.aspx";
-            this.aRpnCalc.HRef = Paths.CalcAppPath + "RpnCalc.aspx";
-            this.aFroga.HRef = Paths.BaseAppPath + "froga.aspx";
+            this.aSlash.HRef = LibPaths.BaseAppPath;
+            this.aUnix.HRef = LibPaths.UnixAppPath + "UnixMain.aspx";
+            this.aQr.HRef = LibPaths.QrAppPath + "QRCodeGen.aspx";
+            this.aJson.HRef = LibPaths.BaseAppPath + "json.aspx";
+            this.aByteTransColor.HRef = LibPaths.BaseAppPath + "ByteTransColor.aspx";
+            this.aAesCrypt.HRef = LibPaths.BaseAppPath + "SAES_En_Decrypt.aspx";
+            this.aRpnCalc.HRef = LibPaths.CalcAppPath + "RpnCalc.aspx";
+            this.aFroga.HRef = LibPaths.BaseAppPath + "froga.aspx";
             this.aSchnapsNet.HRef = "/mono/SchnapsNet/";
         }
 

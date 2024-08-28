@@ -11,8 +11,8 @@
 	<meta name="description" content="https://github.com/heinrich.elsigan/area23.at/" />
 </asp:Content>
 <asp:Content ID="CalcBodyContent" ContentPlaceHolderID="CalcBody" runat="server" ClientIDMode="Static">
-	<form id="CCalcForm" runat="server" action="CCalc.aspx" method="post">
-		<div>
+	<form id="CCalcForm" runat="server" action="CCalc.aspx">
+		<div>			
 			<table class="rpnTbl" border="0" cellpadding="0" cellspacing="0">
 				<tr id="trA" class="rpnTr">
 					<td id="tdAa" width="12%" align="left" class="rpnTd"></td>

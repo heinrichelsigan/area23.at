@@ -6,6 +6,7 @@ using System.Web;
 
 namespace Area23.At.Mono.Util
 {
+
     /// <summary>
     /// simple singelton logger via NLog
     /// </summary>
@@ -117,7 +118,7 @@ namespace Area23.At.Mono.Util
         /// <param name="msg">debug msg to log</param>
         /// <param name="logLevel">log level: 0 for Trace, 1 for Debug, ..., 4 for Error, 5 for Fatal</param>
         public void Log(string msg, int logLevel = 3)
-        {            
+        {
             NLog.LogLevel nlogLvl = NLog.LogLevel.FromOrdinal(logLevel);
             logger.Log(nlogLvl, msg);
         }

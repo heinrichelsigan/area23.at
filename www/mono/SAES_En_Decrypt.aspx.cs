@@ -1,6 +1,5 @@
-﻿using Area23.At.Mono.Properties;
-using Area23.At.Mono.Util;
-using Area23.At.Mono.Util.Enum;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Mono.Properties;
 using Area23.At.Mono.Util.SymChiffer;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
@@ -12,6 +11,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Caching;
 using System.Web.DynamicData;
@@ -189,12 +189,14 @@ namespace Area23.At.Mono
                 DropDownList_SymChiffer.SelectedValue.ToString() == "3FISH" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "AES" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Camellia" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Cast5" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Cast6" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "DesEde" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Gost28147" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Idea" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Noekeon" ||
+                // DropDownList_SymChiffer.SelectedValue.ToString() == "Noekeon" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "RC2" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "RC564" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "RC532" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "RC6" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Rijndael" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Seed" ||
@@ -356,33 +358,33 @@ namespace Area23.At.Mono
 
             if (algo == "2FISH")
             {                
-                TwoFish.TwoFishGenWithKey(secretKey, true);
-                encryptBytes = TwoFish.Encrypt(inBytes);
+                Fish2.Fish2GenWithKey(secretKey, true);
+                encryptBytes = Fish2.Encrypt(inBytes);
             }
             if (algo == "3FISH")
             {
-                ThreeFish.ThreeFishGenWithKey(secretKey, true);
-                encryptBytes = ThreeFish.Encrypt(inBytes);                
+                Fish3.Fish3GenWithKey(secretKey, true);
+                encryptBytes = Fish3.Encrypt(inBytes);                
             }
             if (algo == "3DES")
             {
-                TripleDes.TripleDesFromKey(secretKey, true);
-                encryptBytes = TripleDes.Encrypt(inBytes);                
+                Des3.Des3FromKey(secretKey, true);
+                encryptBytes = Des3.Encrypt(inBytes);                
             }
             if (algo == "AES")
             {
-                Aes.AesGenWithNewKey(secretKey, true);
-                encryptBytes = Aes.Encrypt(inBytes);
+                Util.SymChiffer.Aes.AesGenWithNewKey(secretKey, true);
+                encryptBytes = Util.SymChiffer.Aes.Encrypt(inBytes);
             }
             if (algo == "DesEde")
             {                
                 encryptBytes = DesEde.Encrypt(inBytes);
             }
-            if (algo == "RC564")
-            {
-                RC564.RC564GenWithKey(secretKey, true);
-                encryptBytes = RC564.Encrypt(inBytes);
-            }
+            //if (algo == "RC564")
+            //{
+            //    RC564.RC564GenWithKey(secretKey, true);
+            //    encryptBytes = RC564.Encrypt(inBytes);
+            //}
             if (algo == "Serpent")
             {
                 Serpent.SerpentGenWithKey(secretKey, true);
@@ -393,9 +395,9 @@ namespace Area23.At.Mono
                 ZenMatrix.ZenMatrixGenWithKey(secretKey);
                 encryptBytes = ZenMatrix.Encrypt(inBytes);
             }                
-            if (algo == "Camellia" || algo == "Gost28147" || 
-                algo == "Idea" || algo == "Noekeon" ||
-                algo == "RC2" || algo == "RC6" ||
+            if (algo == "Camellia" || algo == "Cast5" || algo == "Cast6" ||
+                algo == "Gost28147" || algo == "Idea" || // algo == "Noekeon" ||
+                algo == "RC2" || algo == "RC532" || algo == "RC6" ||
                 algo == "Rijndael" || 
                 algo == "Seed" || algo == "Skipjack" ||
                 algo == "Tea" || algo == "Tnepres" || algo == "XTea")
@@ -406,18 +408,27 @@ namespace Area23.At.Mono
                     case "Camellia":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaEngine();
                         break;
+                    case "Cast5":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.Cast5Engine();
+                        break;
+                    case "Cast6":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
+                        break;
                     case "Gost28147":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
                         break;
                     case "Idea":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
                         break;
-                    case "Noekeon":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
-                        break;
+                    //case "Noekeon":
+                    //    blockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
+                    //    break;
                     case "RC2":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
                         break;
+                    case "RC532":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
+                    break;
                     case "RC6":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
                         break;
@@ -430,12 +441,6 @@ namespace Area23.At.Mono
                         keyLen = 16;
                         mode = "ECB";
                         break;
-                    // case "Serpent":
-                        // blockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
-                        // blockSize = 128;
-                        // keyLen = 16;
-                        // mode = "CBC";
-                        // break;
                     case "Skipjack":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
                         break;
@@ -483,33 +488,33 @@ namespace Area23.At.Mono
 
             if (algorithmName == "2FISH")
             {                
-                sameKey = TwoFish.TwoFishGenWithKey(secretKey, false);
-                decryptBytes = TwoFish.Decrypt(cipherBytes);
+                sameKey = Fish2.Fish2GenWithKey(secretKey, false);
+                decryptBytes = Fish2.Decrypt(cipherBytes);
             }
             if (algorithmName == "3FISH")
             {
-                sameKey = ThreeFish.ThreeFishGenWithKey(secretKey, false);
-                decryptBytes = ThreeFish.Decrypt(cipherBytes);                
+                sameKey = Fish3.Fish3GenWithKey(secretKey, false);
+                decryptBytes = Fish3.Decrypt(cipherBytes);                
             }
             if (algorithmName == "3DES")
             {
-                sameKey = TripleDes.TripleDesFromKey(secretKey, false);                
-                decryptBytes = TripleDes.Decrypt(cipherBytes);                
+                sameKey = Des3.Des3FromKey(secretKey, false);                
+                decryptBytes = Des3.Decrypt(cipherBytes);                
             }
             if (algorithmName == "AES")
             {
-                sameKey = Aes.AesGenWithNewKey(secretKey, false);
-                decryptBytes = Aes.Decrypt(cipherBytes);                
+                sameKey = Util.SymChiffer.Aes.AesGenWithNewKey(secretKey, false);
+                decryptBytes = Util.SymChiffer.Aes.Decrypt(cipherBytes);                
             }
             if (algorithmName == "DesEde")
             {
                 decryptBytes = DesEde.Decrypt(cipherBytes);
             }
-            if (algorithmName.ToUpper() == "RC564")
-            {
-                RC564.RC564GenWithKey(secretKey, false);
-                decryptBytes = RC564.Decrypt(cipherBytes);
-            }
+            //if (algorithmName.ToUpper() == "RC564")
+            //{
+            //    RC564.RC564GenWithKey(secretKey, false);
+            //    decryptBytes = RC564.Decrypt(cipherBytes);
+            //}
             if (algorithmName == "Serpent")
             {
                 sameKey = Serpent.SerpentGenWithKey(secretKey, false); 
@@ -520,9 +525,9 @@ namespace Area23.At.Mono
                 sameKey = ZenMatrix.ZenMatrixGenWithKey(secretKey, false);
                 decryptBytes = ZenMatrix.Decrypt(cipherBytes);
             }
-            if (algorithmName == "Camellia" || algorithmName == "Gost28147" ||
-                algorithmName == "Idea" || algorithmName == "Noekeon" ||
-                algorithmName == "RC2" || algorithmName == "RC6" ||
+            if (algorithmName == "Camellia" || algorithmName == "Cast5" || algorithmName == "Cast6" ||
+                algorithmName == "Gost28147" || algorithmName == "Idea" || // algorithmName == "Noekeon" ||
+                algorithmName == "RC2" || algorithmName == "RC532" || algorithmName == "RC6" ||
                 algorithmName == "Rijndael" ||
                 algorithmName == "Seed" || algorithmName == "Skipjack" ||
                 algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea") 
@@ -533,17 +538,26 @@ namespace Area23.At.Mono
                     case "Camellia":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaEngine();
                         break;
+                    case "Cast5":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.Cast5Engine();
+                        break;
+                    case "Cast6":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
+                        break;
                     case "Gost28147":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
                         break;
                     case "Idea":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
                         break;
-                    case "Noekeon":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
-                        break;
+                    //case "Noekeon":
+                    //    blockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
+                    //    break;
                     case "RC2":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
+                        break;
+                    case "RC532":
+                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
                         break;
                     case "RC6":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
@@ -557,12 +571,6 @@ namespace Area23.At.Mono
                         keyLen = 16;
                         mode = "ECB";
                         break;
-                    //case "Serpent":
-                    //    blockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
-                    //    blockSize = 128;
-                    //    keyLen = 16;
-                    //    mode = "CBC";
-                    //    break;
                     case "Skipjack":
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
                         break;

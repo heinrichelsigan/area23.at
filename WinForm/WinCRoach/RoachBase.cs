@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Win32Api;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Area23.At.Framework.ScreenCapture;
 
 namespace Area23.At.WinForm.WinCRoach
 {
@@ -48,8 +49,7 @@ namespace Area23.At.WinForm.WinCRoach
             lock (spinLockImage)
             {
                 this.WindowState = FormWindowState.Minimized;
-                ScreenCapture sc = new ScreenCapture();
-                winDesktopImg = sc.CaptureAllDesktops();
+                winDesktopImg = ScreenCapture.CaptureAllDesktops();
                 lastCapture = DateTime.Now;
                 locChangedOff = false;
             }
@@ -81,7 +81,7 @@ namespace Area23.At.WinForm.WinCRoach
         public void PersistDesktopImage()
         {
             winDeskImg = GetDesktopImage();
-            System.AppDomain.CurrentDomain.SetData("DesktopImage", winDeskImg);
+            System.AppDomain.CurrentDomain.SetData(Constants.ROACH_DESKTOP_WINDOW, winDeskImg);
         }
 
         public void RotateSay()

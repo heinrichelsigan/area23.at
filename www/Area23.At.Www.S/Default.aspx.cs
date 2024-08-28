@@ -1,23 +1,22 @@
-﻿using Area23.At.Www.Common;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Www.S.Util;
+using Newtonsoft.Json;
+using QRCoder;
+using static QRCoder.PayloadGenerator;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using static QRCoder.PayloadGenerator;
-using Area23.At.Www.S.Util;
-using Newtonsoft.Json;
-using QRCoder;
-using System.Net;
+using System.Web.DynamicData;
+using System.Windows.Shapes;
 using System.Runtime.Serialization.Formatters;
 using System.Security.Policy;
-using System.Web.DynamicData;
-using Area23.At.Framework.Library;
-using System.Windows.Shapes;
 
 namespace Area23.At.Www.S
 {
@@ -37,9 +36,9 @@ namespace Area23.At.Www.S
             if (!Page.IsPostBack)
             {
                 if (this.input_color != null && string.IsNullOrEmpty(input_color.Value))
-                    this.input_color.Value = Const.QrColorString;
+                    this.input_color.Value = Constants.QrColorString;
                 if (this.input_backcolor != null && string.IsNullOrEmpty(input_backcolor.Value))
-                    this.input_backcolor.Value = Const.BackColorString;
+                    this.input_backcolor.Value = Constants.BackColorString;
             }
 
             if (shortenMap == null)
@@ -153,24 +152,24 @@ namespace Area23.At.Www.S
             // Bitmap aQrBitmap = null;
 
             if (string.IsNullOrEmpty(this.input_color.Value))
-                this.input_color.Value = Const.QrColorString;
+                this.input_color.Value = Constants.QrColorString;
             else
-                Const.QrColorString = this.input_color.Value;
+                Constants.QrColorString = this.input_color.Value;
 
             if (string.IsNullOrEmpty(this.input_backcolor.Value))
-                this.input_backcolor.Value = Const.BackColorString;
+                this.input_backcolor.Value = Constants.BackColorString;
             else
-                Const.BackColorString = this.input_backcolor.Value;
+                Constants.BackColorString = this.input_backcolor.Value;
 
             if (this.Button_QRCode.Attributes["qrcolor"] != null)
-                this.Button_QRCode.Attributes["qrcolor"] = Const.QrColorString;
+                this.Button_QRCode.Attributes["qrcolor"] = Constants.QrColorString;
             else
-                this.Button_QRCode.Attributes.Add("qrcode", Const.QrColorString);
+                this.Button_QRCode.Attributes.Add("qrcode", Constants.QrColorString);
 
             try
             {
-                Const.QrColor = ColorFrom.FromHtml(this.input_color.Value);
-                Const.BackColor = ColorFrom.FromHtml(this.input_backcolor.Value);
+                Constants.QrColor = ColorFrom.FromHtml(this.input_color.Value);
+                Constants.BackColor = ColorFrom.FromHtml(this.input_backcolor.Value);
                 qrString = (string.IsNullOrEmpty(qrString)) ? GetQrString() : qrString;
 
                 if (!string.IsNullOrEmpty(qrString))
@@ -223,7 +222,7 @@ namespace Area23.At.Www.S
             {
                 int idxQr = invImgSrc.IndexOf("Qr/");
                 string qrInvPath = invImgSrc.Substring(idxQr);
-                string invPath = Paths.AppDirPath + qrInvPath.Replace("/", Paths.SepChar);
+                string invPath = LibPaths.AppDirPath + qrInvPath.Replace("/", LibPaths.SepChar);
                 try
                 {
                     invPath = Server.MapPath(qrInvPath);
@@ -231,10 +230,10 @@ namespace Area23.At.Www.S
                 catch (Exception exQrMapPath)
                 {
                     Area23Log.LogStatic(exQrMapPath);
-                    invPath = Paths.AppDirPath;
-                    if (!invPath.EndsWith(Paths.SepChar)) 
-                        invPath += Paths.SepChar;
-                    invPath += qrInvPath.Replace("/", Paths.SepChar);
+                    invPath = LibPaths.AppDirPath;
+                    if (!invPath.EndsWith(LibPaths.SepChar)) 
+                        invPath += LibPaths.SepChar;
+                    invPath += qrInvPath.Replace("/", LibPaths.SepChar);
                 }
                 if (File.Exists(invPath)) 
                 {
