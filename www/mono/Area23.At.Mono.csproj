@@ -445,17 +445,12 @@
   <ItemGroup>
     <Content Include="Area23.Master" />
     <Content Include="log\2024-03-00_Area23.At.Mono.log" />
-    <Content Include="log\2024-04-00_Area23.At.Mono.log" />
     <None Include="packages.config" />
-    <Content Include="res\text\fortune.u8">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="res\text\fortune.u8" />
     <Content Include="Qr\QRMaster.master" />
     <Content Include="res\img\transparent.xcf" />
     <Content Include="Unix\UnixMaster.master" />
-    <Content Include="res\bin\bccmd.sh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="res\bin\bccmd.sh" />
     <Content Include="Calc\CalcMaster.master" />
     <Content Include="res\bin\bccmd.bat" />
     <None Include="Properties\PublishProfiles\app.publish.pubxml" />
