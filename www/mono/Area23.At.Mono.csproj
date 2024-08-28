@@ -428,7 +428,9 @@
     <Compile Include="Util\SayBase.cs" />
     <Compile Include="Util\SaySpeach.cs" />
     <Compile Include="Util\SymChiffer\Aes.cs" />
+    <Compile Include="Util\SymChiffer\BounceCastle .cs" />
     <Compile Include="Util\SymChiffer\CryptBounceCastle.cs" />
+    <Compile Include="Util\SymChiffer\CryptHelper.cs" />
     <Compile Include="Util\SymChiffer\ZenMatrix.cs" />
     <Compile Include="Util\SymChiffer\RC564.cs" />
     <Compile Include="Util\SymChiffer\DesEde.cs" />

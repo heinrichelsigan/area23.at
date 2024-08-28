@@ -12,11 +12,12 @@ namespace Area23.At.Framework.Library
         public const string APP_NAME = "area23.at.mono";
         public const string APP_DIR = "mono";
         public const string VERSION = "v2.2023.4";
-        public const string APP_PATH = "https://area23.at/mono/test/";
-        public const string RPN_URL = "https://area23.at/mono/test/RpnCalc.aspx";
+        public const string AREA23_URL = "https://area23.at";
+        public const string APP_PATH = "https://area23.at/net/";
+        public const string RPN_URL = "https://area23.at/net/RpnCalc.aspx";
         public const string GIT_URL = "https://github.com/heinrichelsigan/area23.at";
-        public const string URL_PIC = "https://area23.at/mono/test/res/img/";
-        public const string URL_PREFIX = "https://area23.at/mono/test/res/";
+        public const string URL_PIC = "https://area23.at/net/res/img/";
+        public const string URL_PREFIX = "https://area23.at/net/res/";
         public const string AREA23_S = "https://area23.at/s/";
         public const string URL_SHORT = "https://area23.at/s/?";
         public const string AREA23_UTF8_URL = "https://area23.at/u/";
@@ -42,6 +43,9 @@ namespace Area23.At.Framework.Library
         public const char DATE_DELIM = '-';
         public const char WHITE_SPACE = ' ';
         public const char UNDER_SCORE = '_';
+
+        public const string AUTHOR_NAME = "Heinrich Elsigan";
+        public const string AUTHOR_EMAIL = "heinrich.elsigan@gmail.com";
 
         public const string BACK_COLOR = "BackColor";
         public const string QR_COLOR = "QrColor";

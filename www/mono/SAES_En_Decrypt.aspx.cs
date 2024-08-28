@@ -27,6 +27,9 @@ namespace Area23.At.Mono
     /// </summary>
     public partial class SAES_En_Decrypt : Util.UIPage
     {
+        internal CryptBounceCastle cryptBounceCastle;
+
+
         /// <summary>
         /// Page_Load
         /// </summary>
@@ -34,13 +37,15 @@ namespace Area23.At.Mono
         /// <param name="e">EventArgs e</param>
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Page.IsPostBack)
+            {
+                Reset_TextBox_IV(Constants.AUTHOR_EMAIL);
+            }
+
             if (Request.Files != null && Request.Files.Count > 0)
             {
                 ; // handled by Event members
-                if (!Page.IsPostBack)
-                {
-                    Reset_TextBox_IV();
-                }
+                this.TextBox_Key.Text = Constants.AREA23_EMAIL;
             }
         }
 
@@ -79,12 +84,18 @@ namespace Area23.At.Mono
         protected void ButtonEncrypt_Click(object sender, EventArgs e)
         {
             frmConfirmation.Visible = false;
+
+            string usrMailKey = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
+            Reset_TextBox_IV(usrMailKey);
+
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
-            {
-                Reset_TextBox_IV();
+            {                
+
                 string source = this.TextBoxSource.Text;
                 string encryptedText = string.Empty;
-                byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
+                byte[] inBytes = Util.SymChiffer.CryptHelper.GetBytesFromString(this.TextBoxSource.Text, true);
+                // System.Text.Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
+
                 string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
                 byte[] encryptBytes = inBytes;
                 foreach (string algo in algos)
@@ -99,6 +110,16 @@ namespace Area23.At.Mono
                 encryptedText = Convert.ToBase64String(encryptBytes);
                 this.TextBoxDestionation.Text = encryptedText;
             }
+            else
+            {
+                this.TextBox_IV.Text = "TextBox source is empty!";
+                this.TextBox_IV.ForeColor = Color.BlueViolet;
+                this.TextBox_IV.BorderColor = Color.Blue;
+
+                this.TextBoxSource.BorderColor = Color.BlueViolet;
+                this.TextBoxSource.BorderStyle = BorderStyle.Dotted;
+                this.TextBoxSource.BorderWidth = 2;
+            }
         }
 
         /// <summary>
@@ -108,16 +129,18 @@ namespace Area23.At.Mono
         /// <param name="e">EventArgs e</param>
         protected void ButtonDecrypt_Click(object sender, EventArgs e)
         {
-            frmConfirmation.Visible = false;
-            string cipherText = this.TextBoxSource.Text;
-            string decryptedText = string.Empty;
-            byte[] cipherBytes = Convert.FromBase64String(cipherText);
-            byte[] decryptedBytes = cipherBytes;
-            int ig = 0;
+            frmConfirmation.Visible = false;            
+            string usrMailKey = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
+            Reset_TextBox_IV(usrMailKey);
 
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
-                Reset_TextBox_IV();
+                string cipherText = this.TextBoxSource.Text;
+                string decryptedText = string.Empty;
+                byte[] cipherBytes = Convert.FromBase64String(cipherText);
+                byte[] decryptedBytes = cipherBytes;
+                int ig = 0;
+
                 string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
                 for (ig = (algos.Length - 1); ig >= 0; ig--)
                 {
@@ -127,19 +150,19 @@ namespace Area23.At.Mono
                         cipherBytes = decryptedBytes;
                     }
                 }
-                
-                if ((ig = decryptedBytes.ArrayIndexOf((byte)0)) > 0)
-                {
-                    byte[] decryptedNonNullBytes = new byte[ig];
-                    Array.Copy(decryptedBytes, decryptedNonNullBytes, ig);
-                    decryptedText = System.Text.Encoding.UTF8.GetString(decryptedNonNullBytes);
-                }
-                else
-                    decryptedText = System.Text.Encoding.UTF8.GetString(decryptedBytes);
 
-                // decryptedText = Trim_Decrypted_Text(decryptedText);
-
+                decryptedText = Util.SymChiffer.CryptHelper.GetStringFromBytesTrimNulls(decryptedBytes);
                 this.TextBoxDestionation.Text = decryptedText;
+            }
+            else
+            {
+                this.TextBox_IV.Text = "TextBox source is empty!";
+                this.TextBox_IV.ForeColor = Color.BlueViolet;
+                this.TextBox_IV.BorderColor = Color.Blue;
+
+                this.TextBoxSource.BorderColor = Color.BlueViolet;
+                this.TextBoxSource.BorderStyle = BorderStyle.Dotted;
+                this.TextBoxSource.BorderWidth = 2;
             }
         }
 
@@ -184,6 +207,7 @@ namespace Area23.At.Mono
             {
                 addChiffre = DropDownList_SymChiffer.SelectedValue.ToString() + "⇛";
                 this.TextBox_Encryption.Text += addChiffre;
+                this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
             }
         }
 
@@ -195,13 +219,13 @@ namespace Area23.At.Mono
 
         protected void TextBox_Key_TextChanged(object sender, EventArgs e)
         {
-            byte[] keyTextData = System.Text.Encoding.UTF8.GetBytes(this.TextBox_Key.Text);
-            string ivStr = string.Empty;
-            foreach (byte b in keyTextData)
-            {
-                ivStr += b.ToString();
-            }
-            this.TextBox_IV.Text = ivStr;
+            this.TextBox_IV.Text = Util.SymChiffer.CryptHelper.KeyHexString(this.TextBox_Key.Text);
+            this.TextBox_IV.BorderColor = Color.GreenYellow;
+            this.TextBox_IV.ForeColor = Color.DarkOliveGreen;
+            this.TextBox_IV.BorderStyle = BorderStyle.Dotted;
+            this.TextBox_IV.BorderWidth = 1;
+
+            this.TextBox_Encryption.BorderStyle = BorderStyle.Solid;
         }
 
         /// <summary>
@@ -211,9 +235,7 @@ namespace Area23.At.Mono
         /// <param name="e">EventArgs e</param>
         protected void Button_Reset_KeyIV_Click(object sender, EventArgs e)
         {
-            // TODO: implement it
-            this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
-            Reset_TextBox_IV();
+            Reset_TextBox_IV(Constants.AUTHOR_EMAIL);
         }
 
 
@@ -280,7 +302,7 @@ namespace Area23.At.Mono
                                     strFileName += "." + algo.ToLower();
                                 }
                             }
-                            lblUploadResult.Text = String.Format("file {0} x encrypted to ", cryptCount);
+                            lblUploadResult.Text = string.Format("file {0} x encrypted to ", cryptCount);
                         }
                         else
                         {
@@ -322,7 +344,10 @@ namespace Area23.At.Mono
         /// 
         protected byte[] EncryptBytes(byte[] inBytes, string algo)
         {
-            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
+            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : string.Empty;
+            string userHostString = (!string.IsNullOrEmpty(Page.Request.UserHostName)) ?
+                Page.Request.UserHostName :
+                ((!string.IsNullOrEmpty(Page.Request.UserHostAddress)) ? Page.Request.UserHostAddress : "2600:1f18:7a3f:a700::6291");
 
             byte[] encryptBytes = inBytes;
             byte[] outBytes = null;
@@ -427,8 +452,10 @@ namespace Area23.At.Mono
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                         break;
                 }
-                CryptBounceCastle.InitBounceCastleAlgo(blockCipher, blockSize, keyLen, mode, secretKey, true);
-                encryptBytes = CryptBounceCastle.Encrypt(inBytes);
+
+                cryptBounceCastle = new CryptBounceCastle(blockCipher, blockSize, keyLen, mode, userHostString, secretKey, true);
+                encryptBytes = cryptBounceCastle.Encrypt(inBytes);
+            
             }
 
             return encryptBytes;
@@ -443,7 +470,11 @@ namespace Area23.At.Mono
         protected byte[] DecryptBytes(byte[] cipherBytes, string algorithmName)
         {
             bool sameKey = true;
-            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : null;
+            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : string.Empty;
+            string userHostString = (!string.IsNullOrEmpty(Page.Request.UserHostName)) ?
+                Page.Request.UserHostName :
+                ((!string.IsNullOrEmpty(Page.Request.UserHostAddress)) ? Page.Request.UserHostAddress : "2600:1f18:7a3f:a700::6291");
+
 
             byte[] decryptBytes = cipherBytes;
             byte[] plainBytes = null;
@@ -548,8 +579,9 @@ namespace Area23.At.Mono
                         blockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                         break;
                 }
-                CryptBounceCastle.InitBounceCastleAlgo(blockCipher, blockSize, keyLen, mode, secretKey, false);
-                decryptBytes = CryptBounceCastle.Decrypt(cipherBytes);
+
+                cryptBounceCastle = new CryptBounceCastle(blockCipher, blockSize, keyLen, mode, userHostString, secretKey, true);
+                decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
             }
 
             if (!sameKey)
@@ -565,46 +597,40 @@ namespace Area23.At.Mono
 
         #endregion enryption_decryption_members 
 
-        protected void Reset_TextBox_IV()
+        protected void Reset_TextBox_IV(string userEmailKey = "")
         {
-            if (string.IsNullOrEmpty(this.TextBox_Key.Text))
+            if (!string.IsNullOrEmpty(userEmailKey))
+                this.TextBox_Key.Text = userEmailKey;
+            else if (string.IsNullOrEmpty(this.TextBox_Key.Text))
                 this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
-            byte[] keyTextData = System.Text.Encoding.UTF8.GetBytes(this.TextBox_Key.Text);
-            string ivStr = string.Empty;
-            foreach (byte b in keyTextData)
-            {
-                ivStr += b.ToString();
-            }
-            this.TextBox_IV.Text = ivStr;
+
+            this.TextBox_IV.Text = Util.SymChiffer.CryptHelper.KeyHexString(this.TextBox_Key.Text);
+
+            this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BorderColor = Color.LightGray;
+            this.TextBox_IV.BorderStyle = BorderStyle.Solid;
             this.TextBox_IV.BorderWidth = 1;
+
+            this.TextBoxSource.ForeColor = this.TextBox_Key.ForeColor;
+            this.TextBoxSource.BorderStyle = BorderStyle.Solid;
+            this.TextBoxSource.BorderColor = Color.LightGray;
+            this.TextBoxSource.BorderWidth = 1;
+
+            this.TextBoxDestionation.ForeColor = this.TextBox_Key.ForeColor;
+            this.TextBoxDestionation.BorderStyle = BorderStyle.Solid;
+            this.TextBoxDestionation.BorderColor = Color.LightGray;
+            this.TextBoxDestionation.BorderWidth = 1;
+
+            this.TextBox_Encryption.BorderStyle = BorderStyle.Solid;
+            this.TextBox_Encryption.BorderColor = Color.LightGray;
+            this.TextBox_Encryption.BorderWidth = 1;
         }
 
         protected string Trim_Decrypted_Text(string decryptedText)
         {
-            int ig = 0;
-            List<char> charList = new List<char>();
-            for (int i = 1; i < 32; i++)
-            {
-                char ch = (char)i;
-                if (ch != '\v' && ch != '\f' && ch != '\t' && ch != '\r' && ch != '\n')
-                    charList.Add(ch);
-            }
-            char[] chars = charList.ToArray();
-            decryptedText = decryptedText.TrimEnd(chars);
-            decryptedText = decryptedText.TrimStart(chars);
-            decryptedText = decryptedText.Replace("\0", "");
-            foreach (char ch in chars)
-            {
-                while ((ig = decryptedText.IndexOf(ch)) > 0)
-                {
-                    decryptedText = decryptedText.Substring(0, ig) + decryptedText.Substring(ig + 1);
-                }
-            }
-
-            return decryptedText;
+            return Util.SymChiffer.CryptHelper.Trim_Decrypted_Text(decryptedText);
         }
 
-        
+
     }
 }

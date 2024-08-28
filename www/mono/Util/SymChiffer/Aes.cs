@@ -84,6 +84,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             return true;
         }
 
+
         /// <summary>
         /// AES Encrypt by using RijndaelManaged
         /// </summary>
@@ -104,7 +105,6 @@ namespace Area23.At.Mono.Util.SymChiffer
             return encryptedBytes;
         }
 
-
         /// <summary>
         /// AES Decrypt by using RijndaelManaged
         /// </summary>
@@ -122,6 +122,7 @@ namespace Area23.At.Mono.Util.SymChiffer
 
             return decryptedBytes;
         }
+
 
         #region EnDecryptString
 
@@ -156,8 +157,11 @@ namespace Area23.At.Mono.Util.SymChiffer
 
         #endregion EnDecryptString
 
-        #region EnDecryptWithStream
 
+        #region ObsoleteDeprecated 
+
+
+        [Obsolete("EncryptWithStream(byte[] inBytes) is obsolete, use byte[] Encrypt(byte[] plainData) instead.", false)]
         public static byte[] EncryptWithStream(byte[] inBytes)
         {
             if (inBytes == null || inBytes.Length <= 0)
@@ -182,6 +186,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             return encrypted;
         }
 
+        [Obsolete("DecryptByStream(byte[] cipherBytes) is obsolete, use byte[] Decrypt(byte[] encryptedBytes) instead.", false)]
         public static byte[] DecryptByStream(byte[] cipherBytes)
         {
             if (cipherBytes == null || cipherBytes.Length <= 0)
@@ -207,9 +212,6 @@ namespace Area23.At.Mono.Util.SymChiffer
             return outBytes;
         }
 
-        #endregion EnDecryptWithStream
-
-        #region ObsoleteDeprecated 
 
         [Obsolete("byte[] GenerateRandomPublicKey() is deprecated, and will be used only inside void AesGenWithNewKey(string inputKey = null).")]
         private static byte[] GenerateRandomPublicKey()
@@ -228,6 +230,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         }
 
         #endregion ObsoleteDeprecated 
+    
     }
 
 }

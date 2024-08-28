@@ -8,7 +8,6 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
-using System.Web.UI;
 
 namespace Area23.At.Mono.Util.SymChiffer
 {
@@ -19,66 +18,79 @@ namespace Area23.At.Mono.Util.SymChiffer
     /// <see cref="Org.BouncyCastle.Crypto.Engines.SkipjackEngine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.TeaEngine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.TnepresEngine"/>,
     /// <see cref="Org.BouncyCastle.Crypto.Engines.XteaEngine"/>, ... and many more
     /// </summary>
-    public class CryptBounceCastle
+    public static class BounceCastle
     {
-        private string privateKey = string.Empty;
+        private static string privateKey = string.Empty;
 
-        private string userHostIpAddress = string.Empty;
-
-        internal string PrivateKeyUser { get => string.Concat(privateKey, userHostIpAddress); }
-
-        internal byte[] Key { get; private set; }
-        internal byte[] Iv { get; private set; }
+        internal static byte[] Key { get; private set; }
+        internal static byte[] Iv { get; private set; }
 
 
-        private byte[] tmpIv;
-        private byte[] tmpKey;
+
+        static byte[] tmpKey;
+        static byte[] tmpIv;
 
         /// <summary>
         /// Block Size
         /// </summary>
-        public int Size { get; private set; }
+        internal static int Size { get; private set; }
 
         /// <summary>
         /// KeyLen byte[KeyLen] of Key and Iv
         /// </summary>
-        public int KeyLen { get; private set; }
+        internal static int KeyLen { get; private set; }
 
         /// <summary>
         /// Base symmetric key block cipher interface, contains at runtime block cipher instance to constructor
         /// </summary>
-        public IBlockCipher CryptoBlockCipher { get; private set; }
+        internal static IBlockCipher CryptoBlockCipher { get; private set; }
 
         /// <summary>
         /// IBlockCipherPadding BlockCipherPadding mode
         /// </summary>
-        public IBlockCipherPadding CryptoBlockCipherPadding { get; private set; }
+        internal static IBlockCipherPadding CryptoBlockCipherPadding { get; private set; }
 
-        internal PaddedBufferedBlockCipher PadBufBChipger { get; private set; }
+        internal static PaddedBufferedBlockCipher PadBufBChipger { get; private set; }
 
         /// <summary>
         /// Valid modes are currently "CBC", "ECB", "CFB", "CCM", "CTS", "EAX", "GOFB"
         /// <see cref="Org.BouncyCastle.Crypto.Modes"/> for crypto modes details.
         /// </summary>
-        public string Mode { get; private set; }
+        internal static string Mode { get; private set; }
 
-        public CryptBounceCastle()
+        static BounceCastle()
         {
-            CryptoBlockCipher = null;
-            CryptoBlockCipherPadding = null;
-            KeyLen = 32;
-            Size = 256;
-            Mode = "ECB";
+            IBlockCipher blockCipher = new AesEngine();
+            int size = 256;
+            int keyLen = 32;
+            string mode = "ECB";
 
-            privateKey = string.Empty;                   
-            tmpKey = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-            tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-            
-            Key = new byte[KeyLen];
-            Iv = new byte[KeyLen];
-            Array.Copy(tmpIv, Iv, KeyLen);
-            Array.Copy(tmpKey, Key, KeyLen);
-            
+            tmpKey = new byte[keyLen];
+            tmpIv = new byte[keyLen];
+            CryptoBlockCipher = (blockCipher == null) ? new AesEngine() : blockCipher;
+            CryptoBlockCipherPadding = new ZeroBytePadding();
+
+            if (string.IsNullOrEmpty(privateKey))
+            {
+                privateKey = string.Empty;
+                tmpKey = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+                tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+            }
+            else
+            {
+                tmpKey = Encoding.UTF8.GetByteCount(privateKey) == keyLen ? Encoding.UTF8.GetBytes(privateKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(privateKey));
+                tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                // iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+            }
+
+            Key = new byte[keyLen];
+            Iv = new byte[keyLen];
+            Array.Copy(tmpIv, Iv, keyLen);
+            Array.Copy(tmpKey, Key, keyLen);
+            KeyLen = keyLen;
+            Size = size;
+            Mode = mode;
+
             tmpKey = null;
             tmpIv = null;
         }
@@ -92,12 +104,10 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <param name="size">block size with default value 256</param>
         /// <param name="keyLen">key length with default value 32</param>
         /// <param name="mode">cipher mode string, default value "ECB"</param>
-        /// <param name="userHostAddr">user host address</param>
         /// <param name="secretKey">key param for encryption</param>
         /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
-        public CryptBounceCastle(IBlockCipher blockCipher, int size = 256, int keyLen = 32, string mode = "ECB", 
-            string userHostAddr = "", string secretKey = "", bool init = true)
-        {
+        public static void InitBounceCastleAlgo(IBlockCipher blockCipher, int size = 256, int keyLen = 32, string mode = "ECB", string secretKey = "", bool init = true)
+        {            
             CryptoBlockCipher = (blockCipher == null) ? new AesEngine() : blockCipher;
             CryptoBlockCipherPadding = new ZeroBytePadding();
             KeyLen = keyLen;
@@ -109,7 +119,6 @@ namespace Area23.At.Mono.Util.SymChiffer
                 tmpKey = new byte[keyLen];
                 tmpIv = new byte[keyLen];
 
-                userHostIpAddress = (string.IsNullOrEmpty(userHostAddr)) ? string.Empty : userHostAddr;
                 if (string.IsNullOrEmpty(secretKey))
                 {
                     privateKey = string.Empty;
@@ -119,7 +128,7 @@ namespace Area23.At.Mono.Util.SymChiffer
                 else
                 {
                     privateKey = secretKey;
-                    tmpKey = GetUserKeyBytes(userHostAddr, secretKey);
+                    tmpKey = Encoding.UTF8.GetByteCount(secretKey) == keyLen ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
                     tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
                     //    RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
                     //    randomNumGen.GetBytes(tmpIv, 0, tmpIv.Length);
@@ -142,74 +151,13 @@ namespace Area23.At.Mono.Util.SymChiffer
             }
         }
 
-
-        /// <summary>
-        /// InitBounceCastleAlgo
-        /// </summary>
-        /// <param name="blockCipher">Base symmetric key block cipher interface, pass instance to constructor, e.g. 
-        /// <code>CryptBounceCastle cryptCastle = new CryptBounceCastle(new Org.BouncyCastle.Crypto.Engines.CamelliaEngine());</code></param>
-        /// <param name="size">block size with default value 256</param>
-        /// <param name="keyLen">key length with default value 32</param>
-        /// <param name="mode">cipher mode string, default value "ECB"</param>
-        /// <param name="userHostAddr">user host address</param>
-        /// <param name="secretKey">key param for encryption</param>
-        /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
-
-        public bool InitBounceCastleAlgo(IBlockCipher blockCipher, int size = 256, int keyLen = 32, string mode = "ECB",
-            string userHostAddr = "", string secretKey = "", bool init = true)
-        {
-            CryptoBlockCipher = (blockCipher == null) ? new AesEngine() : blockCipher;
-            CryptoBlockCipherPadding = new ZeroBytePadding();
-            KeyLen = keyLen;
-            Size = size;
-            Mode = mode;
-
-            if (init)
-            {
-                tmpKey = new byte[keyLen];
-                tmpIv = new byte[keyLen];
-
-                if (string.IsNullOrEmpty(secretKey))
-                {
-                    privateKey = string.Empty;
-                    tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-                    tmpKey = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-                }
-                else
-                {
-                    privateKey = secretKey;
-                    tmpKey = GetUserKeyBytes(userHostAddr, secretKey);
-                    tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-                    //    RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                    //    randomNumGen.GetBytes(tmpIv, 0, tmpIv.Length);
-                }
-
-                Key = new byte[keyLen];
-                Iv = new byte[keyLen];
-                Array.Copy(tmpIv, Iv, keyLen);
-                Array.Copy(tmpKey, Key, keyLen);
-
-                return true;
-            }
-            
-            if (tmpKey == null || tmpIv == null || tmpKey.Length <= 1 || tmpIv.Length <= 1)
-            {
-                tmpKey = new byte[keyLen];
-                tmpIv = new byte[keyLen];
-                Array.Copy(Iv, tmpIv, keyLen);
-                Array.Copy(Key, tmpKey, keyLen);
-            }
-            return false;
-        }
-
         /// <summary>
         /// CryptBounceCastleGenWithKey => Generates new <see cref="CryptBounceCastle"/> with secret key
         /// </summary>
-        /// <param name="userHostAddr">user host address</param>
         /// <param name="secretKey">key param for encryption</param>
         /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public bool CryptBounceCastleGenWithKey(string userHostAddr = "", string secretKey = "", bool init = true)
+        public static bool CryptBounceCastleGenWithKey(string secretKey = "", bool init = true)
         {
             if (!init)
             {
@@ -232,7 +180,7 @@ namespace Area23.At.Mono.Util.SymChiffer
                 else
                 {
                     privateKey = secretKey;
-                    tmpKey = GetUserKeyBytes(userHostAddr, secretKey);
+                    tmpKey = Encoding.UTF8.GetByteCount(secretKey) == KeyLen ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
                     tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
                     // RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
                     // randomNumGen.GetBytes(tmpIv, 0, tmpIv.Length);
@@ -257,55 +205,7 @@ namespace Area23.At.Mono.Util.SymChiffer
             return true;
         }
 
-        /// <summary>
-        /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
-        /// </summary>
-        /// <param name="usrHostAddr">user host ip address</param>
-        /// <param name="secretKey">user secret key, default email address</param>
-        /// <returns>Array of byte with length KeyLen</returns>
-        internal byte[] GetUserKeyBytes(string usrHostAddr = "127.0.0.1", string secretKey = "postmaster@localhost")
-        {
-            privateKey = secretKey;
-            userHostIpAddress = usrHostAddr;
 
-            int keyByteCnt = -1;
-            string keyByteHashString = privateKey;
-            tmpKey = new byte[KeyLen];
-
-            if ((keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString)) < KeyLen)
-            {
-                keyByteHashString = PrivateKeyUser;
-                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
-            }
-            if (keyByteCnt < KeyLen)
-            {
-                RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                randomNumGen.GetBytes(tmpKey, 0, KeyLen);
-
-                byte[] tinyKeyBytes = new byte[keyByteCnt];
-                tinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
-                int tinyLength = tinyKeyBytes.Length;
-
-                for (int bytCnt = 0; bytCnt < KeyLen; bytCnt++)
-                {
-                    tmpKey[bytCnt] = tinyKeyBytes[bytCnt % tinyLength];
-                }
-            }
-            else
-            {
-                byte[] ssSmallNotTinyKeyBytes = new byte[keyByteCnt];
-                ssSmallNotTinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
-                int ssSmallByteCnt = ssSmallNotTinyKeyBytes.Length;
-
-                for (int bytIdx = 0; bytIdx < KeyLen; bytIdx++)
-                {
-                    tmpKey[bytIdx] = ssSmallNotTinyKeyBytes[bytIdx];
-                }
-            }
-
-            return tmpKey;
-
-        }
 
 
         /// <summary>
@@ -314,7 +214,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// </summary>
         /// <param name="plainData">plain data as <see cref="byte[]"/></param>
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
-        public byte[] Encrypt(byte[] plainData)
+        public static byte[] Encrypt(byte[] plainData)
         {
             // var cipher = CryptoBlockCipher;
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
@@ -379,7 +279,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// </summary>
         /// <param name="cipherData">encrypted <see cref="byte[]">bytes</see></param>
         /// <returns>decrypted plain byte[] data</returns>
-        public byte[] Decrypt(byte[] cipherData)
+        public static byte[] Decrypt(byte[] cipherData)
         {
             // var cipher = CryptoBlockCipher;
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
@@ -451,7 +351,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// </summary>
         /// <param name="inString">plain string to encrypt</param>
         /// <returns>base64 encoded encrypted string</returns>
-        public string EncryptString(string inString)
+        public static string EncryptString(string inString)
         {
             byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inString);
             byte[] encryptedData = Encrypt(plainTextData);
@@ -465,7 +365,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// </summary>
         /// <param name="inCryptString">base64 encrypted string</param>
         /// <returns>plain text decrypted string</returns>
-        public string DecryptString(string inCryptString)
+        public static string DecryptString(string inCryptString)
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
             byte[] decryptedData;
