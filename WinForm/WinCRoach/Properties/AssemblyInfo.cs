@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Area23.At.WinForm.WinCRoach")]
 [assembly: AssemblyDescription("Area23.At.WinForm WinRoach (based on xroach) sample")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("area23.at")]
+[assembly: AssemblyCompany("area23.at Heinrich Elsigan")]
 [assembly: AssemblyProduct("Area23.At.WinForm.WinCRoach")]
-[assembly: AssemblyCopyright("CopyLeft he@area23.at 2022")]
+[assembly: AssemblyCopyright("Copyleft ©  2022-2032")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // Sie können alle Werte angeben oder Standardwerte für die Build- und Revisionsnummern verwenden,
 // indem Sie "*" wie unten gezeigt eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1.1.0")]
-[assembly: AssemblyFileVersion("1.1.1.0")]
+[assembly: AssemblyVersion("2.24.830.0")]
+[assembly: AssemblyFileVersion("2.24.830.0")]

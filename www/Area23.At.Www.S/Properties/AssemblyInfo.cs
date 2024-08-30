@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("area23.at")]
 [assembly: AssemblyProduct("Area23.At.Www.Syet another url shortner")]
-[assembly: AssemblyCopyright("Copyleft Heinrich Elsigan © 2023")]
+[assembly: AssemblyCopyright("Copyleft Heinrich Elsigan © 2000 - 2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // Sie können alle Werte angeben oder die standardmäßigen Revisions- und Buildnummern 
 // übernehmen, indem Sie "*" wie folgt verwenden:
-[assembly: AssemblyVersion("0.2024.3.31")]
-[assembly: AssemblyFileVersion("0.2024.3.31")]
+[assembly: AssemblyVersion("2.24.830.0")]
+[assembly: AssemblyFileVersion("2.24.830.0")]

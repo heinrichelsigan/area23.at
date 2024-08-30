@@ -2,12 +2,18 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Area23.At.WinForm.WinRoachCore</RootNamespace>
     <ApplicationIcon>WinCRoach.ico</ApplicationIcon>
+    <Copyright>Copyleft ©  2022-2032</Copyright>
+    <PackageProjectUrl>https://github.com/heinrichelsigan/area23.at</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>
+    <PackageReleaseNotes>WinRoach .Net Core sample project</PackageReleaseNotes>
+    <AssemblyVersion>2.24.830</AssemblyVersion>
+    <FileVersion>2.24.830</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

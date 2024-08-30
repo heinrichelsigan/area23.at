@@ -7,6 +7,12 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Area23.At.WinForm.TWinFormCore</RootNamespace>
+    <Copyright>Copyleft ©  2000 - 2032</Copyright>
+    <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/heinrichelsigan/area23.at</PackageProjectUrl>
+    <AssemblyVersion>2.24.830</AssemblyVersion>
+    <FileVersion>2.24.830</FileVersion>
+    <Description>area23.at Heinrich Elsigan</Description>
   </PropertyGroup>
 
   <ItemGroup>
