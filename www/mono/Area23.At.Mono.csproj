@@ -348,13 +348,6 @@
     <Compile Include="Unix\HexDump.aspx.designer.cs">
       <DependentUpon>HexDump.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Unix\od.aspx.cs">
-      <DependentUpon>od.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Unix\od.aspx.designer.cs">
-      <DependentUpon>od.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -465,7 +458,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\Library\Area23.At.Framework.Library.csproj">
       <Project>{4133904b-c57a-4f45-ad85-537aa97f765f}</Project>
-      <Name>Library</Name>
+      <Name>Area23.At.Framework.Library</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
