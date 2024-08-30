@@ -33,6 +33,15 @@ namespace Area23.At.Mono.Unix
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeft;
 
         /// <summary>
+        /// aUnixMain control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aUnixMain;
+
+        /// <summary>
         /// headerLeftCenter control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace Area23.At.Mono.Unix
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeftCenter;
+
+        /// <summary>
+        /// aFortunAsp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aFortunAsp;
 
         /// <summary>
         /// headerCenter control.
@@ -51,6 +69,15 @@ namespace Area23.At.Mono.Unix
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerCenter;
 
         /// <summary>
+        /// aHexDump control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aHexDump;
+
+        /// <summary>
         /// headerRightCenter control.
         /// </summary>
         /// <remarks>
@@ -58,6 +85,15 @@ namespace Area23.At.Mono.Unix
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRightCenter;
+
+        /// <summary>
+        /// aBc control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aBc;
 
         /// <summary>
         /// UnixBody control.

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Area23.At.Framework.Library;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace Area23.At.Framework.Library
 
             if (String.IsNullOrWhiteSpace(hex) || hex.Length != 7 || !hex.StartsWith("#"))
                 throw new ArgumentException(
-                    String.Format("Area23.At.Mono.Util.ColorForm.FromHtml(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
+                    String.Format("Area23.At.Framework.Library.ColorForm.FromHtml(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
 
             Color _color = System.Drawing.ColorTranslator.FromHtml(hex);
             return _color;
@@ -44,7 +45,7 @@ namespace Area23.At.Framework.Library
         {
             if (String.IsNullOrWhiteSpace(hex) || hex.Length != 7 || !hex.StartsWith("#"))
                 throw new ArgumentException(
-                    String.Format("Area23.At.Mono.Util.ColorForm.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
+                    String.Format("Area23.At.Framework.Library.ColorForm.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
 
             string rgbWork = hex.TrimStart("#".ToCharArray());
             string colSeg = rgbWork.Substring(0, 2);

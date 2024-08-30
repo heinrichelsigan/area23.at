@@ -85,6 +85,7 @@ namespace Area23.At.Framework.Library.Symchiffer
             Mode = "ECB";
 
             privateKey = string.Empty;
+            userHostIpAddress = string.Empty;
             tmpKey = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
             tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
 
@@ -399,58 +400,52 @@ namespace Area23.At.Framework.Library.Symchiffer
             // var cipher = CryptoBlockCipher;
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
 
-            if (PadBufBChipger == null)
+            switch (Mode)
             {
-                switch (Mode)
-                {
-                    case "CBC":
-                        cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
-                        break;
-                    case "ECB":
-                        cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
-                        break;
-                    case "CFB":
-                        cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(CryptoBlockCipher, Size), CryptoBlockCipherPadding);
-                        break;
-                    case "CCM":
-                        Org.BouncyCastle.Crypto.Modes.CcmBlockCipher ccmCipher = new CcmBlockCipher(CryptoBlockCipher);
-                        cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ccmCipher, CryptoBlockCipherPadding);
-                        break;
-                    case "CTS":
-                        Org.BouncyCastle.Crypto.Modes.CtsBlockCipher ctsCipher = new CtsBlockCipher(CryptoBlockCipher);
-                        cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ctsCipher, CryptoBlockCipherPadding);
-                        break;
-                    case "EAX":
-                        Org.BouncyCastle.Crypto.Modes.EaxBlockCipher eaxCipher = new EaxBlockCipher(CryptoBlockCipher);
-                        cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)eaxCipher, CryptoBlockCipherPadding);
-                        break;
-                    case "GOFB":
-                        Org.BouncyCastle.Crypto.Modes.GOfbBlockCipher gOfbCipher = new GOfbBlockCipher(CryptoBlockCipher);
-                        cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)gOfbCipher, CryptoBlockCipherPadding);
-                        break;
-                    default:
-                        break;
-                }
-                // cipherMode.Reset()                
-
-                KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
-                ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
-
-                // Decrypt
-                cipherMode.Init(false, keyParam);
-                //if (Mode == "ECB")
-                //    cipherMode.Init(false, keyParam);
-                //else
-                //    cipherMode.Init(false, keyParamIV);
-
-                // decryptedData = cipherMode.ProcessBytes(cipherData);
-                if (cipherMode != null)
-                    PadBufBChipger = cipherMode;
+                case "CBC":
+                    cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
+                    break;
+                case "ECB":
+                    cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
+                    break;
+                case "CFB":
+                    cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(CryptoBlockCipher, Size), CryptoBlockCipherPadding);
+                    break;
+                case "CCM":
+                    Org.BouncyCastle.Crypto.Modes.CcmBlockCipher ccmCipher = new CcmBlockCipher(CryptoBlockCipher);
+                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ccmCipher, CryptoBlockCipherPadding);
+                    break;
+                case "CTS":
+                    Org.BouncyCastle.Crypto.Modes.CtsBlockCipher ctsCipher = new CtsBlockCipher(CryptoBlockCipher);
+                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ctsCipher, CryptoBlockCipherPadding);
+                    break;
+                case "EAX":
+                    Org.BouncyCastle.Crypto.Modes.EaxBlockCipher eaxCipher = new EaxBlockCipher(CryptoBlockCipher);
+                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)eaxCipher, CryptoBlockCipherPadding);
+                    break;
+                case "GOFB":
+                    Org.BouncyCastle.Crypto.Modes.GOfbBlockCipher gOfbCipher = new GOfbBlockCipher(CryptoBlockCipher);
+                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)gOfbCipher, CryptoBlockCipherPadding);
+                    break;
+                default:
+                    break;
             }
-            else
-                cipherMode = PadBufBChipger;
+            // cipherMode.Reset()                
 
+            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
+            ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
 
+            // Decrypt
+            cipherMode.Init(false, keyParam);
+            //if (Mode == "ECB")
+            //    cipherMode.Init(false, keyParam);
+            //else
+            //    cipherMode.Init(false, keyParamIV);
+
+            // decryptedData = cipherMode.ProcessBytes(cipherData);
+            if (cipherMode != null)
+                PadBufBChipger = cipherMode;
+            
             int outputSize = cipherMode.GetOutputSize(cipherData.Length);
             byte[] plainData = new byte[outputSize];
             int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainData, 0);

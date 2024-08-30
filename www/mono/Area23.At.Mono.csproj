@@ -406,21 +406,9 @@
     <Compile Include="Unix\UnixMaster.master.designer.cs">
       <DependentUpon>UnixMaster.master</DependentUpon>
     </Compile>
-    <Compile Include="Util\SymChiffer\SymChifferEnum.cs" />
     <Compile Include="Util\GifMetadataAdapter.cs" />
     <Compile Include="Util\QRGenericString.cs" />
     <Compile Include="Calc\RPNType.cs" />
-    <Compile Include="Util\SymChiffer\Aes.cs" />
-    <Compile Include="Util\SymChiffer\BounceCastle .cs" />
-    <Compile Include="Util\SymChiffer\CryptBounceCastle.cs" />
-    <Compile Include="Util\SymChiffer\CryptHelper.cs" />
-    <Compile Include="Util\SymChiffer\ZenMatrix.cs" />
-    <Compile Include="Util\SymChiffer\RC564.cs" />
-    <Compile Include="Util\SymChiffer\DesEde.cs" />
-    <Compile Include="Util\SymChiffer\Fish2.cs" />
-    <Compile Include="Util\SymChiffer\Serpent.cs" />
-    <Compile Include="Util\SymChiffer\Fish3.cs" />
-    <Compile Include="Util\SymChiffer\Des3.cs" />
     <Compile Include="Util\UIPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -447,6 +435,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Util\SymChiffer\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resource.resx">

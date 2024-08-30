@@ -294,7 +294,7 @@ namespace Area23.At.Framework.Library
                 default: break;
             }
 
-            return "oct";
+            return "hex";
         }
 
     }

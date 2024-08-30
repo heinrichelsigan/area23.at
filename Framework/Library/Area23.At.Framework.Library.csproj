@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Area23.At.Framework.Library</RootNamespace>
     <AssemblyName>Area23.At.Framework.Library</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -68,6 +68,7 @@
     <Compile Include="ResReader.cs" />
     <Compile Include="Symchiffer\CryptBounceCastle.cs" />
     <Compile Include="Symchiffer\CryptHelper.cs" />
+    <Compile Include="Symchiffer\CryptParams.cs" />
     <Compile Include="Symchiffer\Fish2.cs" />
     <Compile Include="Symchiffer\Fish3.cs" />
     <Compile Include="Symchiffer\Serpent.cs" />

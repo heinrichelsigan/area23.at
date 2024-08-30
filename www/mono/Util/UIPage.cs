@@ -91,17 +91,18 @@ namespace Area23.At.Mono.Util
             {
                 fileName = Constants.DateFile + Guid.NewGuid().ToString();
             }
-            string ext = "tmp";
+            string ext = "hex";
+            string extension = "oct";
             try
             {
                 string mimeTypeExt = MimeType.GetMimeType(bytes, strPath + fileName);
-                ext = MimeType.GetFileExtForMimeTypeApache(mimeTypeExt);
+                extension = MimeType.GetFileExtForMimeTypeApache(mimeTypeExt);
                 // GetMimeTypeForImageBytes(bytes);
             }
             catch (Exception ex)
             {
                 Area23Log.LogStatic(ex);
-                ext = "tmp";
+                ext = "hex";
             }
 
             if (fileName.LastIndexOf(".") < (fileName.Length - 5))

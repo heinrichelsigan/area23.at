@@ -22,8 +22,18 @@ namespace Area23.At.Mono.Unix
         {
             if (!Page.IsPostBack)
             {
+                InitAHrefs();
                 NavFolderHandler(sender, e);
             }
+        }
+
+
+        protected void InitAHrefs()
+        {
+            this.aUnixMain.HRef = LibPaths.UnixAppPath + "UnixMain.aspx";
+            this.aFortunAsp.HRef = LibPaths.UnixAppPath + "FortunAsp.aspx";
+            this.aHexDump.HRef = LibPaths.UnixAppPath + "HexDump.aspx";
+            this.aBc.HRef = LibPaths.UnixAppPath + "Bc.aspx";
         }
 
         public static string GetFinalUrl(string suffixUrl = "")

@@ -33,6 +33,15 @@ namespace Area23.At.Mono.Qr
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeft;
 
         /// <summary>
+        /// aQrCodeGen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aQrCodeGen;
+
+        /// <summary>
         /// headerLeftCenter control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace Area23.At.Mono.Qr
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeftCenter;
+
+        /// <summary>
+        /// aQrc control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aQrc;
 
         /// <summary>
         /// headerCenter control.
@@ -51,6 +69,15 @@ namespace Area23.At.Mono.Qr
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerCenter;
 
         /// <summary>
+        /// aQr control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aQr;
+
+        /// <summary>
         /// headerRightCenter control.
         /// </summary>
         /// <remarks>
@@ -60,6 +87,15 @@ namespace Area23.At.Mono.Qr
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRightCenter;
 
         /// <summary>
+        /// aQrGen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aQrGen;
+
+        /// <summary>
         /// headerRight control.
         /// </summary>
         /// <remarks>
@@ -67,6 +103,15 @@ namespace Area23.At.Mono.Qr
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRight;
+
+        /// <summary>
+        /// aUrlShortner control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aUrlShortner;
 
         /// <summary>
         /// QrBody control.

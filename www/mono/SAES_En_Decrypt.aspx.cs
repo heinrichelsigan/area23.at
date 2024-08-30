@@ -1,8 +1,9 @@
-﻿using Area23.At.Framework.Library;
+﻿using Area23.At;
+using Area23.At.Framework.Library;
 using Area23.At.Mono.Properties;
-using Area23.At.Mono.Util.SymChiffer;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
+using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Area23.At.Mono
     /// </summary>
     public partial class SAES_En_Decrypt : Util.UIPage
     {
-        internal CryptBounceCastle cryptBounceCastle;
+        internal Framework.Library.Symchiffer.CryptBounceCastle cryptBounceCastle;
 
 
         /// <summary>
@@ -40,12 +41,12 @@ namespace Area23.At.Mono
             if (!Page.IsPostBack)
             {
                 Reset_TextBox_IV(Constants.AUTHOR_EMAIL);
-            }
 
-            if (Request.Files != null && Request.Files.Count > 0)
-            {
-                ; // handled by Event members
-                this.TextBox_Key.Text = Constants.AREA23_EMAIL;
+                if (Request.Files != null && Request.Files.Count > 0)
+                {
+                    ; // handled by Event members
+                    // Reset_TextBox_IV(Constants.AREA23_EMAIL);
+                }
             }
         }
 
@@ -93,7 +94,7 @@ namespace Area23.At.Mono
 
                 string source = this.TextBoxSource.Text;
                 string encryptedText = string.Empty;
-                byte[] inBytes = Util.SymChiffer.CryptHelper.GetBytesFromString(this.TextBoxSource.Text, true);
+                byte[] inBytes = Framework.Library.Symchiffer.CryptHelper.GetBytesFromString(this.TextBoxSource.Text, true);
                 // System.Text.Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
 
                 string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
@@ -151,7 +152,7 @@ namespace Area23.At.Mono
                     }
                 }
 
-                decryptedText = Util.SymChiffer.CryptHelper.GetStringFromBytesTrimNulls(decryptedBytes);
+                decryptedText = Framework.Library.Symchiffer.CryptHelper.GetStringFromBytesTrimNulls(decryptedBytes);
                 this.TextBoxDestionation.Text = decryptedText;
             }
             else
@@ -221,7 +222,7 @@ namespace Area23.At.Mono
 
         protected void TextBox_Key_TextChanged(object sender, EventArgs e)
         {
-            this.TextBox_IV.Text = Util.SymChiffer.CryptHelper.KeyHexString(this.TextBox_Key.Text);
+            this.TextBox_IV.Text = Framework.Library.Symchiffer.CryptHelper.KeyHexString(this.TextBox_Key.Text);
             this.TextBox_IV.BorderColor = Color.GreenYellow;
             this.TextBox_IV.ForeColor = Color.DarkOliveGreen;
             this.TextBox_IV.BorderStyle = BorderStyle.Dotted;
@@ -261,7 +262,7 @@ namespace Area23.At.Mono
             if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
             {
                 //// Save the uploaded file to the server.
-                //strFilePath = Paths.OutDirPath + strFileName;
+                // strFilePath = LibPaths.OutDirPath + strFileName;
                 //while (System.IO.File.Exists(strFilePath))
                 //{
                 //    string newFileName = strFilePath.Contains(Constants.DateFile) ?
@@ -272,7 +273,7 @@ namespace Area23.At.Mono
                 //        strFileName, newFileName);
                 //}
 
-                //pfile.SaveAs(strFilePath);
+                // pfile.SaveAs(strFilePath);
                 if (string.IsNullOrEmpty(lblUploadResult.Text))
                     lblUploadResult.Text = strFileName + " has been successfully uploaded.";
 
@@ -318,13 +319,18 @@ namespace Area23.At.Mono
                                     cryptCount++;
                                     strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;
                                 }
+                                else
+                                {
+                                    strFileName = strFileName.EndsWith(".hex") ? strFileName.Replace(".hex", "") : strFileName;
+                                    strFileName = strFileName.EndsWith(".oct") ? strFileName.Replace(".oct", "") : strFileName;
+                                }
                             }
                             lblUploadResult.Text = "file has been decrypted to ";
                         }
                     }
                     string outMsg;
                     string savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName);
-                    aTransFormed.HRef = "res/" + savedTransFile;
+                    aTransFormed.HRef = LibPaths.OutAppPath + savedTransFile;
                     lblUploadResult.Text += outMsg;
                 }
             }
@@ -357,29 +363,29 @@ namespace Area23.At.Mono
             int keyLen = 32, blockSize = 256;
 
             if (algo == "2FISH")
-            {                
-                Fish2.Fish2GenWithKey(secretKey, true);
-                encryptBytes = Fish2.Encrypt(inBytes);
+            {
+                Framework.Library.Symchiffer.Fish2.Fish2GenWithKey(secretKey, true);
+                encryptBytes = Framework.Library.Symchiffer.Fish2.Encrypt(inBytes);
             }
             if (algo == "3FISH")
             {
-                Fish3.Fish3GenWithKey(secretKey, true);
-                encryptBytes = Fish3.Encrypt(inBytes);                
+                Framework.Library.Symchiffer.Fish3.Fish3GenWithKey(secretKey, true);
+                encryptBytes = Framework.Library.Symchiffer.Fish3.Encrypt(inBytes);                
             }
             if (algo == "3DES")
             {
-                Des3.Des3FromKey(secretKey, true);
-                encryptBytes = Des3.Encrypt(inBytes);                
+                Framework.Library.Symchiffer.Des3.Des3FromKey(secretKey, true);
+                encryptBytes = Framework.Library.Symchiffer.Des3.Encrypt(inBytes);                
             }
             if (algo == "AES")
             {
-                Util.SymChiffer.Aes.AesGenWithNewKey(secretKey, true);
-                encryptBytes = Util.SymChiffer.Aes.Encrypt(inBytes);
+                Framework.Library.Symchiffer.Aes.AesGenWithNewKey(secretKey, true);
+                encryptBytes = Framework.Library.Symchiffer.Aes.Encrypt(inBytes);
             }
-            if (algo == "DesEde")
-            {                
-                encryptBytes = DesEde.Encrypt(inBytes);
-            }
+            //if (algo == "DesEde")
+            //{                
+            //    encryptBytes = DesEde.Encrypt(inBytes);
+            //}
             //if (algo == "RC564")
             //{
             //    RC564.RC564GenWithKey(secretKey, true);
@@ -387,13 +393,13 @@ namespace Area23.At.Mono
             //}
             if (algo == "Serpent")
             {
-                Serpent.SerpentGenWithKey(secretKey, true);
-                encryptBytes = Serpent.Encrypt(inBytes);
+                Framework.Library.Symchiffer.Serpent.SerpentGenWithKey(secretKey, true);
+                encryptBytes = Framework.Library.Symchiffer.Serpent.Encrypt(inBytes);
             }
             if (algo == "ZenMatrix")
             {
-                ZenMatrix.ZenMatrixGenWithKey(secretKey);
-                encryptBytes = ZenMatrix.Encrypt(inBytes);
+                Framework.Library.Symchiffer.ZenMatrix.ZenMatrixGenWithKey(secretKey);
+                encryptBytes = Framework.Library.Symchiffer.ZenMatrix.Encrypt(inBytes);
             }                
             if (algo == "Camellia" || algo == "Cast5" || algo == "Cast6" ||
                 algo == "Gost28147" || algo == "Idea" || // algo == "Noekeon" ||
@@ -402,63 +408,9 @@ namespace Area23.At.Mono
                 algo == "Seed" || algo == "Skipjack" ||
                 algo == "Tea" || algo == "Tnepres" || algo == "XTea")
             {
-                IBlockCipher blockCipher;
-                switch (algo)
-                {
-                    case "Camellia":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaEngine();
-                        break;
-                    case "Cast5":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.Cast5Engine();
-                        break;
-                    case "Cast6":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
-                        break;
-                    case "Gost28147":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
-                        break;
-                    case "Idea":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
-                        break;
-                    //case "Noekeon":
-                    //    blockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
-                    //    break;
-                    case "RC2":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
-                        break;
-                    case "RC532":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
-                    break;
-                    case "RC6":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
-                        break;
-                    case "Rijndael":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RijndaelEngine();
-                        break;
-                    case "Seed":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
-                        blockSize = 128;
-                        keyLen = 16;
-                        mode = "ECB";
-                        break;
-                    case "Skipjack":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
-                        break;
-                    case "Tea":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
-                        break;
-                    case "Tnepres":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();
-                        break;
-                    case "XTea":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
-                        break;
-                    default:
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
-                        break;
-                }
-
-                cryptBounceCastle = new CryptBounceCastle(blockCipher, blockSize, keyLen, mode, userHostString, secretKey, true);
+                IBlockCipher blockCipher = Framework.Library.Symchiffer.CryptHelper.GetBlockCipher(algo, ref mode, ref blockSize, ref keyLen);
+                
+                cryptBounceCastle = new Framework.Library.Symchiffer.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, userHostString, secretKey, true);
                 encryptBytes = cryptBounceCastle.Encrypt(inBytes);
             
             }
@@ -488,28 +440,28 @@ namespace Area23.At.Mono
 
             if (algorithmName == "2FISH")
             {                
-                sameKey = Fish2.Fish2GenWithKey(secretKey, false);
-                decryptBytes = Fish2.Decrypt(cipherBytes);
+                sameKey = Framework.Library.Symchiffer.Fish2.Fish2GenWithKey(secretKey, false);
+                decryptBytes = Framework.Library.Symchiffer.Fish2.Decrypt(cipherBytes);
             }
             if (algorithmName == "3FISH")
             {
-                sameKey = Fish3.Fish3GenWithKey(secretKey, false);
-                decryptBytes = Fish3.Decrypt(cipherBytes);                
+                sameKey = Framework.Library.Symchiffer.Fish3.Fish3GenWithKey(secretKey, false);
+                decryptBytes = Framework.Library.Symchiffer.Fish3.Decrypt(cipherBytes);                
             }
             if (algorithmName == "3DES")
             {
-                sameKey = Des3.Des3FromKey(secretKey, false);                
-                decryptBytes = Des3.Decrypt(cipherBytes);                
+                sameKey = Framework.Library.Symchiffer.Des3.Des3FromKey(secretKey, false);                
+                decryptBytes = Framework.Library.Symchiffer.Des3.Decrypt(cipherBytes);                
             }
             if (algorithmName == "AES")
             {
-                sameKey = Util.SymChiffer.Aes.AesGenWithNewKey(secretKey, false);
-                decryptBytes = Util.SymChiffer.Aes.Decrypt(cipherBytes);                
+                sameKey = Framework.Library.Symchiffer.Aes.AesGenWithNewKey(secretKey, false);
+                decryptBytes = Framework.Library.Symchiffer.Aes.Decrypt(cipherBytes);                
             }
-            if (algorithmName == "DesEde")
-            {
-                decryptBytes = DesEde.Decrypt(cipherBytes);
-            }
+            //if (algorithmName == "DesEde")
+            //{
+            //    decryptBytes = DesEde.Decrypt(cipherBytes);
+            //}
             //if (algorithmName.ToUpper() == "RC564")
             //{
             //    RC564.RC564GenWithKey(secretKey, false);
@@ -517,13 +469,13 @@ namespace Area23.At.Mono
             //}
             if (algorithmName == "Serpent")
             {
-                sameKey = Serpent.SerpentGenWithKey(secretKey, false); 
-                decryptBytes = Serpent.Decrypt(cipherBytes);
+                sameKey = Framework.Library.Symchiffer.Serpent.SerpentGenWithKey(secretKey, false); 
+                decryptBytes = Framework.Library.Symchiffer.Serpent.Decrypt(cipherBytes);
             }
             if (algorithmName == "ZenMatrix")
             {
-                sameKey = ZenMatrix.ZenMatrixGenWithKey(secretKey, false);
-                decryptBytes = ZenMatrix.Decrypt(cipherBytes);
+                sameKey = Framework.Library.Symchiffer.ZenMatrix.ZenMatrixGenWithKey(secretKey, false);
+                decryptBytes = Framework.Library.Symchiffer.ZenMatrix.Decrypt(cipherBytes);
             }
             if (algorithmName == "Camellia" || algorithmName == "Cast5" || algorithmName == "Cast6" ||
                 algorithmName == "Gost28147" || algorithmName == "Idea" || // algorithmName == "Noekeon" ||
@@ -532,63 +484,9 @@ namespace Area23.At.Mono
                 algorithmName == "Seed" || algorithmName == "Skipjack" ||
                 algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea") 
             {
-                IBlockCipher blockCipher;
-                switch (algorithmName)
-                {
-                    case "Camellia":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaEngine();
-                        break;
-                    case "Cast5":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.Cast5Engine();
-                        break;
-                    case "Cast6":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
-                        break;
-                    case "Gost28147":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
-                        break;
-                    case "Idea":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
-                        break;
-                    //case "Noekeon":
-                    //    blockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
-                    //    break;
-                    case "RC2":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
-                        break;
-                    case "RC532":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
-                        break;
-                    case "RC6":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
-                        break;
-                    case "Rijndael":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.RijndaelEngine();
-                        break;
-                    case "Seed":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
-                        blockSize = 128;
-                        keyLen = 16;
-                        mode = "ECB";
-                        break;
-                    case "Skipjack":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
-                        break;
-                    case "Tea":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
-                        break;
-                    case "Tnepres":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();
-                        break;
-                    case "XTea":
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
-                        break;
-                    default:
-                        blockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
-                        break;
-                }
+                IBlockCipher blockCipher = Framework.Library.Symchiffer.CryptHelper.GetBlockCipher(algorithmName, ref mode, ref blockSize, ref keyLen);
 
-                cryptBounceCastle = new CryptBounceCastle(blockCipher, blockSize, keyLen, mode, userHostString, secretKey, true);
+                cryptBounceCastle = new Framework.Library.Symchiffer.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, userHostString, secretKey, true);
                 decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
             }
 
@@ -612,7 +510,7 @@ namespace Area23.At.Mono
             else if (string.IsNullOrEmpty(this.TextBox_Key.Text))
                 this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
 
-            this.TextBox_IV.Text = Util.SymChiffer.CryptHelper.KeyHexString(this.TextBox_Key.Text);
+            this.TextBox_IV.Text = Framework.Library.Symchiffer.CryptHelper.KeyHexString(this.TextBox_Key.Text);
 
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BorderColor = Color.LightGray;
@@ -636,7 +534,7 @@ namespace Area23.At.Mono
 
         protected string Trim_Decrypted_Text(string decryptedText)
         {
-            return Util.SymChiffer.CryptHelper.Trim_Decrypted_Text(decryptedText);
+            return Framework.Library.Symchiffer.CryptHelper.Trim_Decrypted_Text(decryptedText);
         }
 
 

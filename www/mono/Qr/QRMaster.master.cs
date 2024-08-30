@@ -21,8 +21,18 @@ namespace Area23.At.Mono.Qr
         {
             if (!Page.IsPostBack)
             {
+                InitAHrefs();
                 NavFolderHandler(sender, e);
             }
+        }
+
+        protected void InitAHrefs()
+        {
+            this.aQrCodeGen.HRef = LibPaths.QrAppPath + "QRCodeGen.aspx";
+            this.aQrc.HRef = LibPaths.QrAppPath + "Qrc.aspx";
+            this.aQr.HRef = LibPaths.QrAppPath + "Qr.aspx";
+            this.aQrGen.HRef = LibPaths.QrAppPath + "QRGen.aspx";
+            this.aUrlShortner.HRef = Constants.AREA23_S;          
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)
