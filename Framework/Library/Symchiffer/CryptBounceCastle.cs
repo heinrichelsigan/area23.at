@@ -36,7 +36,9 @@ namespace Area23.At.Framework.Library.Symchiffer
 
         #region properties
 
-        internal string PrivateKeyUser { get => string.Concat(privateKey, userHostIpAddress); }
+        internal string PrivateUserKey { get => string.Concat(privateKey, privateKey); }
+
+        internal string PrivateUserHostKey { get => string.Concat(privateKey, userHostIpAddress, privateKey, userHostIpAddress); }
 
         internal byte[] Key { get; private set; }
         internal byte[] Iv { get; private set; }
@@ -127,16 +129,14 @@ namespace Area23.At.Framework.Library.Symchiffer
                 if (string.IsNullOrEmpty(secretKey))
                 {
                     privateKey = string.Empty;
-                    tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-                    tmpKey = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+                    tmpKey = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCEK), userHostIpAddress);
+                    tmpIv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), userHostIpAddress);                    
                 }
                 else
                 {
                     privateKey = secretKey;
-                    tmpKey = GetUserKeyBytes(userHostAddr, secretKey);
-                    tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-                    //    RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                    //    randomNumGen.GetBytes(tmpIv, 0, tmpIv.Length);
+                    tmpKey = GetUserKeyBytes(secretKey, userHostAddr);
+                    tmpIv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), secretKey);
                 }
 
                 Key = new byte[keyLen];
@@ -185,16 +185,14 @@ namespace Area23.At.Framework.Library.Symchiffer
                 if (string.IsNullOrEmpty(secretKey))
                 {
                     privateKey = string.Empty;
-                    tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-                    tmpKey = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+                    tmpKey = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCEK), userHostIpAddress);
+                    tmpIv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), userHostIpAddress);
                 }
                 else
                 {
                     privateKey = secretKey;
-                    tmpKey = GetUserKeyBytes(userHostAddr, secretKey);
-                    tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-                    //    RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                    //    randomNumGen.GetBytes(tmpIv, 0, tmpIv.Length);
+                    tmpKey = GetUserKeyBytes(secretKey, userHostAddr);                   
+                    tmpIv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), secretKey);
                 }
 
                 Key = new byte[keyLen];
@@ -239,14 +237,14 @@ namespace Area23.At.Framework.Library.Symchiffer
                 if (string.IsNullOrEmpty(secretKey))
                 {
                     privateKey = string.Empty;
-                    tmpKey = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-                    tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4)); ;
+                    tmpKey = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCEK), userHostIpAddress);
+                    tmpIv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), userHostIpAddress);
                 }
                 else
                 {
                     privateKey = secretKey;
-                    tmpKey = GetUserKeyBytes(userHostAddr, secretKey);
-                    tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                    tmpKey = GetUserKeyBytes(secretKey, userHostAddr);
+                    tmpIv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), secretKey);
                     // RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
                     // randomNumGen.GetBytes(tmpIv, 0, tmpIv.Length);
                 }
@@ -278,7 +276,7 @@ namespace Area23.At.Framework.Library.Symchiffer
         /// <param name="usrHostAddr">user host ip address</param>
         /// <param name="secretKey">user secret key, default email address</param>
         /// <returns>Array of byte with length KeyLen</returns>
-        internal byte[] GetUserKeyBytes(string usrHostAddr = "127.0.0.1", string secretKey = "postmaster@localhost")
+        internal byte[] GetUserKeyBytes(string secretKey = "postmaster@localhost", string usrHostAddr = "127.0.0.1")
         {
             privateKey = secretKey;
             userHostIpAddress = usrHostAddr;
@@ -289,10 +287,15 @@ namespace Area23.At.Framework.Library.Symchiffer
 
             if ((keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString)) < KeyLen)
             {
-                keyByteHashString = PrivateKeyUser;
+                keyByteHashString = PrivateUserKey;
                 keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
             }
             if (keyByteCnt < KeyLen)
+            {
+                keyByteHashString = PrivateUserHostKey;
+                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
+            }
+            if (keyByteCnt < KeyLen) 
             {
                 RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
                 randomNumGen.GetBytes(tmpKey, 0, KeyLen);
@@ -370,10 +373,10 @@ namespace Area23.At.Framework.Library.Symchiffer
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
 
             cipherMode.Init(true, keyParam);
-            //if (Mode == "ECB")
-            //    cipherMode.Init(true, keyParam);
-            //else
-            //    cipherMode.Init(true, keyParamIV);
+            // if (Mode == "ECB")
+            //     cipherMode.Init(true, keyParam);
+            // else
+            //      cipherMode.Init(true, keyParamIV);
 
 
             if (PadBufBChipger == null && cipherMode != null)
@@ -448,8 +451,27 @@ namespace Area23.At.Framework.Library.Symchiffer
             
             int outputSize = cipherMode.GetOutputSize(cipherData.Length);
             byte[] plainData = new byte[outputSize];
-            int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainData, 0);
-            cipherMode.DoFinal(plainData, result);
+            byte[] decryptedData = new byte[outputSize];
+            try
+            {
+                int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainData, 0);
+                cipherMode.DoFinal(plainData, result);
+            }
+            catch (Exception exDecrypt)
+            {
+                Area23Log.Logger.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {cipherMode.AlgorithmName}: Exceptíon on decrypting final block", exDecrypt);
+                try
+                {
+                    plainData = new byte[outputSize];
+                    plainData = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length);
+                }
+                catch (Exception exDecrypt2)
+                {
+                    Area23Log.Logger.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {cipherMode.AlgorithmName}: Exceptíon on 2x decrypting final block", exDecrypt2);
+                    plainData = new byte[outputSize];
+                    plainData = cipherMode.ProcessBytes(cipherData);
+                }
+            }
 
             return plainData;
         }

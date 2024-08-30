@@ -94,7 +94,7 @@ namespace Area23.At.Mono
 
                 string source = this.TextBoxSource.Text;
                 string encryptedText = string.Empty;
-                byte[] inBytes = Framework.Library.Symchiffer.CryptHelper.GetBytesFromString(this.TextBoxSource.Text, true);
+                byte[] inBytes = Framework.Library.Symchiffer.CryptHelper.GetBytesFromString(this.TextBoxSource.Text, 256, true);
                 // System.Text.Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
 
                 string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
@@ -195,9 +195,10 @@ namespace Area23.At.Mono
                 DropDownList_SymChiffer.SelectedValue.ToString() == "DesEde" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Gost28147" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Idea" ||
-                // DropDownList_SymChiffer.SelectedValue.ToString() == "Noekeon" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Noekeon" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "RC2" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "RC532" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "RC564" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "RC6" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Rijndael" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Seed" ||
@@ -374,7 +375,7 @@ namespace Area23.At.Mono
             }
             if (algo == "3DES")
             {
-                Framework.Library.Symchiffer.Des3.Des3FromKey(secretKey, true);
+                Framework.Library.Symchiffer.Des3.Des3FromKey(secretKey, userHostString, true);
                 encryptBytes = Framework.Library.Symchiffer.Des3.Encrypt(inBytes);                
             }
             if (algo == "AES")
@@ -402,10 +403,10 @@ namespace Area23.At.Mono
                 encryptBytes = Framework.Library.Symchiffer.ZenMatrix.Encrypt(inBytes);
             }                
             if (algo == "Camellia" || algo == "Cast5" || algo == "Cast6" ||
-                algo == "Gost28147" || algo == "Idea" || // algo == "Noekeon" ||
-                algo == "RC2" || algo == "RC532" || algo == "RC6" ||
+                algo == "Gost28147" || algo == "Idea" || algo == "Noekeon" ||
+                algo == "RC2" || algo == "RC532" || algo == "RC6" || // || algo == "RC564"
                 algo == "Rijndael" || 
-                algo == "Seed" || algo == "Skipjack" ||
+                algo == "Seed" || algo == "Skipjack" || // algo == "Serpent" ||
                 algo == "Tea" || algo == "Tnepres" || algo == "XTea")
             {
                 IBlockCipher blockCipher = Framework.Library.Symchiffer.CryptHelper.GetBlockCipher(algo, ref mode, ref blockSize, ref keyLen);
@@ -450,7 +451,7 @@ namespace Area23.At.Mono
             }
             if (algorithmName == "3DES")
             {
-                sameKey = Framework.Library.Symchiffer.Des3.Des3FromKey(secretKey, false);                
+                sameKey = Framework.Library.Symchiffer.Des3.Des3FromKey(secretKey, userHostString, false);                
                 decryptBytes = Framework.Library.Symchiffer.Des3.Decrypt(cipherBytes);                
             }
             if (algorithmName == "AES")
@@ -478,10 +479,10 @@ namespace Area23.At.Mono
                 decryptBytes = Framework.Library.Symchiffer.ZenMatrix.Decrypt(cipherBytes);
             }
             if (algorithmName == "Camellia" || algorithmName == "Cast5" || algorithmName == "Cast6" ||
-                algorithmName == "Gost28147" || algorithmName == "Idea" || // algorithmName == "Noekeon" ||
-                algorithmName == "RC2" || algorithmName == "RC532" || algorithmName == "RC6" ||
+                algorithmName == "Gost28147" || algorithmName == "Idea" || algorithmName == "Noekeon" ||
+                algorithmName == "RC2" || algorithmName == "RC532" || algorithmName == "RC6" || // || algorithmName == "RC564" 
                 algorithmName == "Rijndael" ||
-                algorithmName == "Seed" || algorithmName == "Skipjack" ||
+                algorithmName == "Seed" || algorithmName == "Skipjack" || // algorithmName == "Serpent" || 
                 algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea") 
             {
                 IBlockCipher blockCipher = Framework.Library.Symchiffer.CryptHelper.GetBlockCipher(algorithmName, ref mode, ref blockSize, ref keyLen);

@@ -20,8 +20,9 @@
                     <asp:ListItem Enabled="true" Value="Camellia" Selected="False">Camellia</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Gost28147" Selected="False">Gost28147</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Idea" Selected="false">Idea</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="Noekeon" Selected="false">Noekeon</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="RC2" Selected="false">RC2</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="RC532" Selected="false">RC532</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="RC532" Selected="false">RC532</asp:ListItem>                    
                     <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Seed" Selected="false">Seed</asp:ListItem>

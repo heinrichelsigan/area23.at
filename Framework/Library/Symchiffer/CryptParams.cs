@@ -49,6 +49,9 @@ namespace Area23.At.Framework.Library.Symchiffer
             switch (requestedAlgorithm)
             {
                 case "Camellia":
+                    cParams.BlockSize = 128;
+                    cParams.KeyLen = 16;
+                    cParams.Mode = "ECB";
                     cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.CamelliaEngine();
                     break;
                 case "Cast5":
@@ -58,17 +61,29 @@ namespace Area23.At.Framework.Library.Symchiffer
                     cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.Cast5Engine();
                     break;
                 case "Cast6":
+                    cParams.BlockSize = 256;
+                    cParams.KeyLen = 32;
+                    cParams.Mode = "ECB";
                     cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
                     break;
                 case "Gost28147":
+                    cParams.BlockSize = 256;
+                    cParams.KeyLen = 32;
+                    cParams.Mode = "ECB";
                     cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
                     break;
                 case "Idea":
+                    cParams.BlockSize = 256;
+                    cParams.KeyLen = 32;
+                    cParams.Mode = "ECB";
                     cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
                     break;
-                //case "Noekeon":
-                //    blockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
-                //    break;
+                case "Noekeon":
+                    cParams.BlockSize = 128;
+                    cParams.KeyLen = 16;
+                    cParams.Mode = "ECB";
+                    cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
+                    break;
                 case "RC2":
                     cParams.BlockSize = 256;
                     cParams.KeyLen = 32;
@@ -76,13 +91,22 @@ namespace Area23.At.Framework.Library.Symchiffer
                     cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
                     break;
                 case "RC532":
+                    cParams.BlockSize = 256;
+                    cParams.KeyLen = 32;
+                    cParams.Mode = "ECB";
                     cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
                     break;
+                //case "RC564":
+                //    cParams.BlockSize = 256;
+                //    cParams.KeyLen = 32;
+                //    cParams.Mode = "ECB";
+                //    cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
+                //    break;
                 case "RC6":
+                    cParams.BlockSize = 256;
+                    cParams.KeyLen = 32;
+                    cParams.Mode = "ECB";
                     cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
-                    break;
-                case "Rijndael":
-                    cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.RijndaelEngine();
                     break;
                 case "Seed":
                     cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
@@ -90,7 +114,16 @@ namespace Area23.At.Framework.Library.Symchiffer
                     cParams.KeyLen = 16;
                     cParams.Mode = "ECB";
                     break;
+                //case "Serpent":
+                //    cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
+                //    cParams.BlockSize = 256;
+                //    cParams.KeyLen = 16;
+                //    cParams.Mode = "ECB";
+                //    break;
                 case "Skipjack":
+                    cParams.BlockSize = 256;
+                    cParams.KeyLen = 32;
+                    cParams.Mode = "ECB";
                     cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
                     break;
                 case "Tea":
@@ -100,6 +133,9 @@ namespace Area23.At.Framework.Library.Symchiffer
                     cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
                     break;
                 case "Tnepres":
+                    cParams.BlockSize = 128;
+                    cParams.KeyLen = 16;
+                    cParams.Mode = "ECB";
                     cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();
                     break;
                 case "XTea":
@@ -108,7 +144,11 @@ namespace Area23.At.Framework.Library.Symchiffer
                     cParams.Mode = "ECB";
                     cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
+                case "Rijndael":
                 default:
+                    cParams.BlockSize = 256;
+                    cParams.KeyLen = 32;
+                    cParams.Mode = "ECB";
                     cParams.AlgorithmName = "Aes";
                     cParams.BlockChipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;

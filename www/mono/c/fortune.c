@@ -36,7 +36,7 @@ int main(int argc, char** argv)
 
     // printf("Content-type:text/plain\n\n");
     printf("Content-type: text/html\n\n");
-    sprintf(fortunecmd, "/usr/games/fortune -o -%c", fortuneOp);
+    sprintf(fortunecmd, "/usr/games/fortune -a -%c", fortuneOp);
 
     printf("<!DOCTYPE html>\n");
     printf("<html xmlns=\"http://www.w3.org/1999/xhtml\">\n");
@@ -84,7 +84,7 @@ int main(int argc, char** argv)
     printf("\t\t\t<span class=\"fortuneFooterLeftCenter\" align=\"center\" valign=\"middle\"><a href=\"/froga/\">froga</a></span>\n");
     printf("\t\t\t<span class=\"fortuneFooterCenter\" align=\"center\" valign=\"middle\"><a href=\"/cgi/od.cgi\">octal dump</a></span>\t\t\t\n");
     printf("\t\t\t<span class=\"fortuneFooterRightCenter\" align=\"center\" valign=\"middle\"><a href=\"/mono/SchnapsNet/\">schnapsen 66</a></span>\n");
-    printf("\t\t\t<span class=\"fortuneFooterRight\" align=\"right\" valign=\"middle\"><a href=\"mailto:root@darkstar.work\">Heinrich Elsigan</a>, GNU General Public License 3.0, [<a href=\"http://blog.darkstar.work\">blog.</a>]<a href=\"https://darkstar.work\">darkstar.work</a></span>\n");
+    printf("\t\t\t<span class=\"fortuneFooterRight\" align=\"right\" valign=\"middle\"><a href=\"mailto:zen@area23.at\">Heinrich Elsigan</a>, GNU General Public License 3.0, [<a href=\"http://blog.area23.at\">blog.</a>]<a href=\"https://area23.at\">area23.at</a></span>\n");
     printf("\t\t</div>\n");
     printf("\t</form>\n");
     printf("</body>\n");

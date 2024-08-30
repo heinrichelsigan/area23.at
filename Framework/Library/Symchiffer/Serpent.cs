@@ -115,19 +115,34 @@ namespace Area23.At.Framework.Library.Symchiffer
             KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(SerpentKey);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, SerpentIv);
 
-            if (Mode == "ECB")
-            {
-                cipherMode.Init(true, keyParam);
-            }
-            else
-            {
-                cipherMode.Init(true, keyParamIV);
-            }
+            cipherMode.Init(true, keyParam);
+            //if (Mode == "ECB")
+            //    cipherMode.Init(true, keyParam);
+            //else
+            //    cipherMode.Init(true, keyParamIV);
 
             int outputSize = cipherMode.GetOutputSize(plainData.Length);
             byte[] cipherTextData = new byte[outputSize];
-            int result = cipherMode.ProcessBytes(plainData, 0, plainData.Length, cipherTextData, 0);
-            cipherMode.DoFinal(cipherTextData, result);
+            try
+            {
+                int result = cipherMode.ProcessBytes(plainData, 0, plainData.Length, cipherTextData, 0);
+                cipherMode.DoFinal(cipherTextData, result);
+            }
+            catch (Exception exEncrypt)
+            {
+                Area23Log.Logger.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {cipherMode.AlgorithmName}: Exceptíon on encrypting final block", exEncrypt);
+                try
+                {
+                    cipherTextData = new byte[outputSize];
+                    cipherTextData = cipherMode.ProcessBytes(plainData, 0, plainData.Length);
+                }
+                catch (Exception exEncrypt2)
+                {
+                    Area23Log.Logger.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {cipherMode.AlgorithmName}: Exceptíon on 2x encrypting final block", exEncrypt2);
+                    cipherTextData = new byte[outputSize];
+                    cipherTextData = cipherMode.ProcessBytes(plainData);
+                }
+            }
 
             return cipherTextData;
         }
@@ -148,20 +163,34 @@ namespace Area23.At.Framework.Library.Symchiffer
             KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(SerpentKey);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, SerpentIv);
             // Decrypt
-            if (Mode == "ECB")
-            {
-                cipherMode.Init(false, keyParam);
-            }
-            else
-            {
-                cipherMode.Init(false, keyParamIV);
-            }
+            cipherMode.Init(false, keyParam);
+            //if (Mode == "ECB")
+            //    cipherMode.Init(false, keyParam);
+            //else
+            //    cipherMode.Init(false, keyParamIV);
 
             int outputSize = cipherMode.GetOutputSize(cipherData.Length);
             byte[] plainTextData = new byte[outputSize];
-            int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainTextData, 0);
-            // cipherMode.DoFinal(cipherData, result, cipherData.Length, plainTextData, result);
-            cipherMode.DoFinal(plainTextData, result);
+            try
+            {
+                int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainTextData, 0);
+                cipherMode.DoFinal(plainTextData, result);
+            }
+            catch (Exception exDecrypt)
+            {
+                Area23Log.Logger.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {cipherMode.AlgorithmName}: Exceptíon on decrypting final block", exDecrypt);
+                try
+                {
+                    plainTextData = new byte[outputSize];
+                    plainTextData = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length);
+                }
+                catch (Exception exDecrypt2)
+                {
+                    Area23Log.Logger.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {cipherMode.AlgorithmName}: Exceptíon on 2x decrypting final block", exDecrypt2);
+                    plainTextData = new byte[outputSize];
+                    plainTextData = cipherMode.ProcessBytes(cipherData);
+                }
+            }
 
             return plainTextData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
         }
