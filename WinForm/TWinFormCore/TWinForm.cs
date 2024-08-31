@@ -1,5 +1,5 @@
-using Area23.At.Framework.Library;
-using Area23.At.Framework.Library.Win32Api;
+using Area23.At.Framework.Library.Core;
+using Area23.At.Framework.Library.Core.Win32Api;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 

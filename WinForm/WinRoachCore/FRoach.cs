@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 namespace Area23.At.WinForm.WinRoachCore
 {
-    public partial class CRoach : Form
+    public partial class FRoach : Form
     {
         internal string[] setences = {"Twenty", "Atou Marriage Fourty", "close down", "last beat winner", "Thank you and enough",
             "I change with Jack", "Last but not least", "Hey Mister", "Hey misses"};
@@ -35,12 +35,11 @@ namespace Area23.At.WinForm.WinRoachCore
         int scrX = -1;
         int scrY = -1;
 
-        public CRoach(int roachNum)
+        public FRoach(int roachNum)
         {
             InitializeComponent();
-            Name = "CRoach" + roachNum;
-            panelRoach.Name = "panelRoach" + roachNum;
-            SetRoachBG(this.Location);
+            Name = "FRoach" + roachNum;
+            panelFRoach.Name = "panelRoach" + roachNum;
         }
 
         public Image GetDesktopImage(bool everCapture = false)
@@ -114,22 +113,23 @@ namespace Area23.At.WinForm.WinRoachCore
             if (roachCnt % 7 == 0)
             {
                 if (roachCnt % 4 == 0)
-                    this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
+                    this.panelFRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
                 else if (roachCnt % 4 == 1)
-                    this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach1;
+                    this.panelFRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach1;
                 if (roachCnt % 4 == 2)
-                    this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
+                    this.panelFRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
                 else if (roachCnt % 4 == 3)
-                    this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach0;
+                    this.panelFRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach0;
             }
             if (roachCnt > 65536 * 16) roachCnt = 0;
+            
         }
 
 
         private void OnLoad(object sender, EventArgs e)
         {
             SetRoachBG(this.Location);
-            SelfMoveRoach(10);            
+            SelfMoveRoach(44);
         }
 
         public void SelfMoveRoach(int interval = 0)
@@ -196,7 +196,7 @@ namespace Area23.At.WinForm.WinRoachCore
                     AppExit("RoachMove", new EventArgs());
                     break;
                 }
-                System.Threading.Thread.Sleep(144);
+                System.Threading.Thread.Sleep(192);
             }
         }
 
@@ -221,7 +221,7 @@ namespace Area23.At.WinForm.WinRoachCore
             }
             if (control is Form) 
             { 
-                if (((Form)control).Name.StartsWith("CRoach"))
+                if (((Form)control).Name.StartsWith("FRoach"))
                 {
                     return (Form)control;
                 }
@@ -229,7 +229,7 @@ namespace Area23.At.WinForm.WinRoachCore
             return (Form)Form.ActiveForm;            
         }
 
-        internal void RoachExit(object sender, MouseEventArgs e)
+        private void RoachExit(object sender, MouseEventArgs e)
         {
             string orocRoachName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
             System.Diagnostics.Process[] processes = Area23.At.Framework.Library.Core.Win32Api.Processes.GetRunningProcessesByName(orocRoachName);
@@ -252,26 +252,9 @@ namespace Area23.At.WinForm.WinRoachCore
             AppExit(sender, e);
         }
 
-        internal void AppExit(object sender, EventArgs e)
+        private void AppExit(object sender, EventArgs e)
         {
-            string orocRoachName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
-            System.Diagnostics.Process[] processes = Area23.At.Framework.Library.Core.Win32Api.Processes.GetRunningProcessesByName(orocRoachName);
-            if (processes != null && processes.Length > 0)
-            {
-                foreach (System.Diagnostics.Process process in processes)
-                {
-                    System.Timers.Timer tProcKill = new System.Timers.Timer { Interval = 100 + process.Id };
-                    tProcKill.Elapsed += (s, en) =>
-                    {
-                        this.Invoke(new Action(() =>
-                        {
-                            Area23.At.Framework.Library.Core.Win32Api.Processes.KillProcessTree(process.Id, true, 0, true);
-                        }));
-                        tProcKill.Stop(); // Stop the timer(otherwise keeps on calling)
-                    };
-                    tProcKill.Start();
-                }
-            }
+            string orocRoachName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);           
             MessageBox.Show($"Roach {orocRoachName} is exiting now!", $"{orocRoachName} roach exit", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Application.Exit();
         }

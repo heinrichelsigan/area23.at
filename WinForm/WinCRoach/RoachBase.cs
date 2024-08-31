@@ -81,7 +81,8 @@ namespace Area23.At.WinForm.WinCRoach
         public void PersistDesktopImage()
         {
             winDeskImg = GetDesktopImage();
-            System.AppDomain.CurrentDomain.SetData(Constants.ROACH_DESKTOP_WINDOW, winDeskImg);
+            if (winDeskImg != null) 
+                System.AppDomain.CurrentDomain.SetData(Constants.ROACH_DESKTOP_WINDOW, winDeskImg);
         }
 
         public void RotateSay()
@@ -167,7 +168,7 @@ namespace Area23.At.WinForm.WinCRoach
                         cRoach = new CRoach() { Location = dPt };
                         // cRoach.SelfMoveRoach(100);
                         cRoach.Show();
-                        // PollDesktopImage();
+                        PollDesktopImage();
                     }
 
                 }));

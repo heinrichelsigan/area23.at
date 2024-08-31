@@ -1,9 +1,10 @@
-﻿using Area23.At.Framework.Library;
-using Area23.At.Framework.Library.Win32Api;
+﻿using Area23.At.Framework.Library.Core;
+using Area23.At.Framework.Library.Core.Win32Api;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -24,7 +25,11 @@ namespace Area23.At.WinForm.WinRoachCore
         object spinLockImage = new object(), spinLock = new object();
         DateTime lastCapture = DateTime.Now;
         DateTime lastSay = DateTime.Now;
-        CRoach cRoach, dRoach;
+        volatile int roachNum = 0;
+        CRoach cRoach;
+        DRoach dRoach;
+        ERoach eRoach;
+        FRoach fRoach;            
         int scrX = -1;
         int scrY = -1;
 
@@ -35,8 +40,9 @@ namespace Area23.At.WinForm.WinRoachCore
             "Tausch gegen den Buam aus", "Letzter fertzter", "Na oida" };
 
 
-        public RoachBase()
+        public RoachBase(int num)
         {
+            roachNum = num;
             InitializeComponent();
         }
 
@@ -49,7 +55,7 @@ namespace Area23.At.WinForm.WinRoachCore
             lock (spinLockImage)
             {
                 this.WindowState = FormWindowState.Minimized;
-                winDesktopImg = ScreenCapture.CaptureScreen();
+                winDesktopImg = ScreenCapture.CaptureAllDesktops();                
                 lastCapture = DateTime.Now;
                 locChangedOff = false;
             }
@@ -81,7 +87,8 @@ namespace Area23.At.WinForm.WinRoachCore
         public void PersistDesktopImage()
         {
             winDeskImg = GetDesktopImage();
-            System.AppDomain.CurrentDomain.SetData("DesktopImage", winDeskImg);
+            if (winDeskImg != null) 
+                System.AppDomain.CurrentDomain.SetData("DesktopImage", winDeskImg);
         }
 
         public virtual void RotateSay()
@@ -103,137 +110,181 @@ namespace Area23.At.WinForm.WinRoachCore
                 PersistDesktopImage();
             }
 
-            Point dPt = new Point((int)(winDeskImg.Width / 3), (int)((winDeskImg.Height) / 3));
-            if (cRoach == null)
-            {
-                cRoach = new CRoach();
-                // dRoach.SelfMoveRoach(400);
-                cRoach.Show();
-                // dRoach.SetDesktopLocation(dPt.X, dPt.Y);                    
-            }
-
-            // startRoach();
-
-            //System.Timers.Timer tLoad0 = new System.Timers.Timer { Interval = 450 };
-            //tLoad0.Elapsed += (s, en) =>
+            startRoach(roachNum);
+            //Point dPt = new Point((int)(winDeskImg.Width / 3), (int)((winDeskImg.Height) / 3));
+            //if (cRoach == null)
             //{
-            //    this.Invoke(new Action(() =>
+            //    cRoach = new CRoach(0);
+            //    cRoach.SetRoachBG(dPt, this.winDeskImg, true);
+            //    cRoach.Show();
+            //    // dRoach.SetDesktopLocation(dPt.X, dPt.Y);                    
+            //}          
+        }
+
+        private void startRoach(int numRoach = 0)
+        {
+            Point dPt0 = new Point((int)(winDeskImg.Width / 3), (int)((winDeskImg.Height) / 3));
+            Point dPt1 = new Point(((int)(winDeskImg.Width / 2) + 96), ((int)((winDeskImg.Height) / 2) + 48));
+            Point dPt3 = new Point(((int)(winDeskImg.Width / 2) - 48), ((int)((winDeskImg.Height) / 2) - 24));
+            Point dPt2 = new Point((int)((winDeskImg.Width / 3) * 2), (int)(((winDeskImg.Height) / 3) * 2));
+
+            if (numRoach == 0)
+            {
+                System.Timers.Timer tLoad0 = new System.Timers.Timer { Interval = (100 + (numRoach * 400)) };
+                tLoad0.Elapsed += (s, en) =>
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        if (cRoach == null)
+                        {
+                            cRoach = new CRoach(numRoach);
+                            cRoach.SetRoachBG(dPt0, this.winDeskImg, true);
+                            cRoach.Show();
+                            // PollDesktopImage();
+                        }
+                        Process.Start(new ProcessStartInfo
+                        {
+                            UseShellExecute = true,
+                            WorkingDirectory = Environment.CurrentDirectory,
+                            FileName = System.Windows.Forms.Application.ExecutablePath,
+                            Arguments = (numRoach + 3).ToString()
+                        });
+                    }));
+                    tLoad0.Stop(); // Stop the timer(otherwise keeps on calling)
+                };
+                tLoad0.Start();
+            }
+            //if (numRoach == 1)
+            //{
+            //    System.Timers.Timer tLoad1 = new System.Timers.Timer { Interval = (100 + (numRoach * 800)) };
+            //    tLoad1.Elapsed += (s, en) =>
             //    {
-            //        if (dRoach == null)
+            //        this.Invoke(new Action(() =>
             //        {
-            //            dRoach = new CRoach();
-            //            // dRoach.SelfMoveRoach(400);
-            //            dRoach.ShowDialog();
-            //            // dRoach.SetDesktopLocation(dPt.X, dPt.Y);                    
-            //        }
-            //        //if (eRoach == null)
-            //        //{
-            //        //    Point ePt = new Point(dPt.X + 128, dPt.Y + 126);
-            //        //    eRoach = new CRoach() { Location = ePt };
-            //        //    // eRoach.SetDesktopLocation(ePt.X, ePt.Y);
-            //        //    eRoach.SelfMoveRoach(200);
-            //        //    eRoach.Show();
-            //        //    eRoach.SetDesktopLocation(ePt.X, ePt.Y);
-            //        //}
-
-            //    }));
-            //    tLoad0.Stop(); // Stop the timer(otherwise keeps on calling)
-            //};
-            //tLoad0.Start();
-
-
-            //System.Timers.Timer tLoad3 = new System.Timers.Timer { Interval = 750 };
-            //tLoad3.Elapsed += (s, en) =>
+            //            if (dRoach == null)
+            //            {
+            //                dRoach = new DRoach(numRoach);
+            //                dRoach.SetRoachBG(dPt0, this.winDeskImg, true);
+            //                dRoach.Show();
+            //                // PollDesktopImage();
+            //            }
+            //            Process.Start(new ProcessStartInfo
+            //            {
+            //                UseShellExecute = true,
+            //                WorkingDirectory = Environment.CurrentDirectory,
+            //                FileName = System.Windows.Forms.Application.ExecutablePath,
+            //                Arguments = (++numRoach).ToString()
+            //            });
+            //        }));
+            //        tLoad1.Stop(); // Stop the timer(otherwise keeps on calling)
+            //    };
+            //    tLoad1.Start();
+            //}
+            //if (numRoach == 2)
             //{
-            //    this.Invoke(new Action(() =>
+            //    System.Timers.Timer tLoad2 = new System.Timers.Timer { Interval = (100 + (numRoach * 1200)) };
+            //    tLoad2.Elapsed += (s, en) =>
             //    {
-            //        startRoach();
-            //    }));
-            //    tLoad3.Stop(); // Stop the timer(otherwise keeps on calling)
-            //};
-            //tLoad3.Start();           
-        }
-
-        private void startRoach()
-        {
-            Point dPt = new Point(((int)(winDeskImg.Width / 2) + 96), ((int)((winDeskImg.Height) / 2) + 48));
-            System.Timers.Timer tLoad0 = new System.Timers.Timer { Interval = 125 };
-            tLoad0.Elapsed += (s, en) =>
+            //        this.Invoke(new Action(() =>
+            //        {
+            //            if (eRoach == null)
+            //            {
+            //                eRoach = new ERoach(numRoach);
+            //                eRoach.SetRoachBG(dPt0, this.winDeskImg, true);
+            //                eRoach.Show();
+            //                // PollDesktopImage();
+            //            }
+            //            Process.Start(new ProcessStartInfo
+            //            {
+            //                UseShellExecute = true,
+            //                WorkingDirectory = Environment.CurrentDirectory,
+            //                FileName = System.Windows.Forms.Application.ExecutablePath,
+            //                Arguments = (++numRoach).ToString()
+            //            });
+            //        }));
+            //        tLoad2.Stop(); // Stop the timer(otherwise keeps on calling)
+            //    };
+            //    tLoad2.Start();
+            //}
+            if (numRoach >= 3)
             {
-                this.Invoke(new Action(() =>
+                System.Timers.Timer tLoad3 = new System.Timers.Timer { Interval = (100 + (numRoach * 2000)) };
+                tLoad3.Elapsed += (s, en) =>
                 {
-                    if (cRoach == null)
+                    this.Invoke(new Action(() =>
                     {
-                        cRoach = new CRoach() { Location = dPt };
-                        // cRoach.SelfMoveRoach(100);
-                        cRoach.Show();
-                        PollDesktopImage();
-                    }
-
-                }));
-                tLoad0.Stop(); // Stop the timer(otherwise keeps on calling)
-            };
-            tLoad0.Start();
-
-        }
-
-        private void PollDesktopImage()
-        {
-            while(true)
-            {
-                // PersistDesktopImage();
-                RoachMove();                
-                System.Threading.Thread.Sleep(250);
+                        if (fRoach == null)
+                        {
+                            fRoach = new FRoach(numRoach);
+                            fRoach.SetRoachBG(dPt3, this.winDeskImg, true);
+                            fRoach.Show();
+                        }
+                        // PollDesktopImage();
+                    }));
+                    tLoad3.Stop(); // Stop the timer(otherwise keeps on calling)
+                };
+                tLoad3.Start();
             }
+            
         }
 
-        private void RoachMove()
-        {
-            Form f = cRoach.FindForm();
-            scrX = f.DesktopBounds.Location.X - 1;
-            scrY = f.DesktopBounds.Location.Y - 1;
+        //private void PollDesktopImage()
+        //{
+        //    while(true)
+        //    {
+        //        // PersistDesktopImage();
+        //        RoachMove();                
+        //        System.Threading.Thread.Sleep(192);
+        //    }
+        //}
 
-            scrX = cRoach.DesktopLocation.X - 1;
-            scrY = cRoach.DesktopLocation.Y - 1;            
+        //private void RoachMove()
+        //{
+        //    Form f = cRoach.FindForm();
+        //    scrX = f.DesktopBounds.Location.X - 1;
+        //    scrY = f.DesktopBounds.Location.Y - 1;
+
+        //    scrX = cRoach.DesktopLocation.X - 1;
+        //    scrY = cRoach.DesktopLocation.Y - 1;            
                        
-            if (scrX < 0)
-                scrX = winDeskImg.Width - 48;
-            if (scrY < 0)
-                scrY = winDeskImg.Height - 48;
+        //    if (scrX < 0)
+        //        scrX = winDeskImg.Width - 64;
+        //    if (scrY < 0)
+        //        scrY = winDeskImg.Height - 64;
 
-            Point roachPosition = new Point(scrX, scrY);
+        //    Point roachPosition = new Point(scrX, scrY);
 
-            spinLock = new object();
-            if (++roachCnt % 23 == 0)
-            {
-                lock (spinLock)
-                {
-                    DateTime t0 = DateTime.Now;
-                    cRoach.Visible = false;
-                    winDeskImg = GetDesktopImage();
-                    cRoach.Visible = true;
-                    DateTime t1 = DateTime.Now;
-                    TimeSpan ts = t1.Subtract(t0);
-                    if (ts.Ticks > maxTicks)
-                    {
-                        maxTicks = ts.Ticks;
-                        Console.Error.WriteLine($"MaxTicks={maxTicks} \t ts: {ts.ToString()}");
-                    }
-                }
-                cRoach.SetRoachBG(roachPosition, winDeskImg, true);
-                cRoach.BringToFront();
-                RotateSay();
-            }
-            else
-            {
-                cRoach.SetRoachBG(roachPosition);
-                if (roachCnt % 11 == 1)
-                    cRoach.Show();
-            }
+        //    spinLock = new object();
+        //    if (++roachCnt % 23 == 0)
+        //    {
+        //        lock (spinLock)
+        //        {
+        //            DateTime t0 = DateTime.Now;
+        //            cRoach.Visible = false;
+        //            winDeskImg = GetDesktopImage();
+        //            cRoach.Visible = true;
+        //            DateTime t1 = DateTime.Now;
+        //            TimeSpan ts = t1.Subtract(t0);
+        //            if (ts.Ticks > maxTicks)
+        //            {
+        //                maxTicks = ts.Ticks;
+        //                Console.Error.WriteLine($"MaxTicks={maxTicks} \t ts: {ts.ToString()}");
+        //            }
+        //        }
+        //        cRoach.SetRoachBG(roachPosition, winDeskImg, true);
+        //        cRoach.BringToFront();
+        //        // RotateSay();
+        //    }
+        //    else
+        //    {
+        //        cRoach.SetRoachBG(roachPosition);
+        //        if (roachCnt % 11 == 1)
+        //            cRoach.Show();
+        //    }
 
           
-            // System.Threading.Thread.Sleep(333);
-        }
+        //    // System.Threading.Thread.Sleep(333);
+        //}
 
     }
 }

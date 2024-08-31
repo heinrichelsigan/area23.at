@@ -2,7 +2,7 @@
 
 namespace Area23.At.WinForm.WinRoachCore
 {
-    partial class CRoach
+    partial class FRoach
     {
         /// <summary>
         /// Erforderliche Designervariable.
@@ -30,24 +30,24 @@ namespace Area23.At.WinForm.WinRoachCore
         /// </summary>
         private void InitializeComponent()
         {
-            this.panelRoach = new System.Windows.Forms.Panel();
+            this.panelFRoach = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // panelRoach
             // 
-            this.panelRoach.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panelFRoach.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelRoach.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panelRoach.BackColor = System.Drawing.Color.Transparent;
-            this.panelRoach.BackgroundImage = (System.Drawing.Image)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
-            this.panelRoach.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.panelRoach.Location = new System.Drawing.Point(0, 0);
-            this.panelRoach.Margin = new System.Windows.Forms.Padding(0);
-            this.panelRoach.Name = "panelRoach";
-            this.panelRoach.Size = new System.Drawing.Size(64, 64);
-            this.panelRoach.TabIndex = 0;
-            this.panelRoach.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.RoachExit);
+            this.panelFRoach.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panelFRoach.BackColor = System.Drawing.Color.Transparent;
+            this.panelFRoach.BackgroundImage = (System.Drawing.Image)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
+            this.panelFRoach.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.panelFRoach.Location = new System.Drawing.Point(0, 0);
+            this.panelFRoach.Margin = new System.Windows.Forms.Padding(0);
+            this.panelFRoach.Name = "panelFRoach";
+            this.panelFRoach.Size = new System.Drawing.Size(64, 64);
+            this.panelFRoach.TabIndex = 0;
+            this.panelFRoach.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.RoachExit);
             // 
             // CRoach
             // 
@@ -55,13 +55,13 @@ namespace Area23.At.WinForm.WinRoachCore
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(64, 64);
             this.ControlBox = false;
-            this.Controls.Add(this.panelRoach);
+            this.Controls.Add(this.panelFRoach);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(64, 64);
             this.MinimizeBox = false;
-            this.Name = "CRoach";
+            this.Name = "FRoach";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
@@ -76,7 +76,7 @@ namespace Area23.At.WinForm.WinRoachCore
 
         #endregion
 
-        internal System.Windows.Forms.Panel panelRoach;
+        internal System.Windows.Forms.Panel panelFRoach;
     }
 }
 

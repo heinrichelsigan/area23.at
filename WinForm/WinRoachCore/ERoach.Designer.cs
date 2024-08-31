@@ -2,7 +2,7 @@
 
 namespace Area23.At.WinForm.WinRoachCore
 {
-    partial class CRoach
+    partial class ERoach
     {
         /// <summary>
         /// Erforderliche Designervariable.
@@ -47,7 +47,7 @@ namespace Area23.At.WinForm.WinRoachCore
             this.panelRoach.Name = "panelRoach";
             this.panelRoach.Size = new System.Drawing.Size(64, 64);
             this.panelRoach.TabIndex = 0;
-            this.panelRoach.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.RoachExit);
+            this.panelRoach.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RoachExit);
             // 
             // CRoach
             // 
@@ -61,15 +61,15 @@ namespace Area23.At.WinForm.WinRoachCore
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(64, 64);
             this.MinimizeBox = false;
-            this.Name = "CRoach";
+            this.Name = "ERoach";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.TopMost = true;
+            this.TopMost = false;
             this.Load += new System.EventHandler(this.OnLoad);
             this.Shown += new System.EventHandler(this.OnLoad);
             this.Click += new System.EventHandler(this.AppExit);
-            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.RoachExit);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RoachExit);
             this.ResumeLayout(false);
 
         }

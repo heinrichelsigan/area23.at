@@ -25,10 +25,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Library\Area23.At.Framework.Library.csproj" />
+    <ProjectReference Include="..\..\Framework\Area23.At.Framework.Library.Core\Area23.At.Framework.Library.Core.csproj" />
   </ItemGroup>
     
 	<ItemGroup>
+        <Compile Update="FRoach.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="DRoach..cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="ERoach.cs">
+          <SubType>Form</SubType>
+        </Compile>
         <Compile Update="Properties\Resource.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>

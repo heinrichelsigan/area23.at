@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransparentForms", "Transpa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.Framework.Library", "..\Framework\Library\Area23.At.Framework.Library.csproj", "{4133904B-C57A-4F45-AD85-537AA97F765F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.Framework.Library.Core", "..\Framework\Area23.At.Framework.Library.Core\Area23.At.Framework.Library.Core.csproj", "{847099E1-5794-4DF1-B809-14476097186F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4133904B-C57A-4F45-AD85-537AA97F765F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4133904B-C57A-4F45-AD85-537AA97F765F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4133904B-C57A-4F45-AD85-537AA97F765F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{847099E1-5794-4DF1-B809-14476097186F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{847099E1-5794-4DF1-B809-14476097186F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{847099E1-5794-4DF1-B809-14476097186F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{847099E1-5794-4DF1-B809-14476097186F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 namespace Area23.At.WinForm.WinRoachCore
 {
-    public partial class CRoach : Form
+    public partial class ERoach : Form
     {
         internal string[] setences = {"Twenty", "Atou Marriage Fourty", "close down", "last beat winner", "Thank you and enough",
             "I change with Jack", "Last but not least", "Hey Mister", "Hey misses"};
@@ -35,12 +35,12 @@ namespace Area23.At.WinForm.WinRoachCore
         int scrX = -1;
         int scrY = -1;
 
-        public CRoach(int roachNum)
+        public ERoach(int roachNum)
         {
             InitializeComponent();
-            Name = "CRoach" + roachNum;
+            Name = "ERoach" + roachNum;
             panelRoach.Name = "panelRoach" + roachNum;
-            SetRoachBG(this.Location);
+
         }
 
         public Image GetDesktopImage(bool everCapture = false)
@@ -221,7 +221,7 @@ namespace Area23.At.WinForm.WinRoachCore
             }
             if (control is Form) 
             { 
-                if (((Form)control).Name.StartsWith("CRoach"))
+                if (((Form)control).Name.StartsWith("ERoach"))
                 {
                     return (Form)control;
                 }
@@ -229,50 +229,15 @@ namespace Area23.At.WinForm.WinRoachCore
             return (Form)Form.ActiveForm;            
         }
 
-        internal void RoachExit(object sender, MouseEventArgs e)
+        private void RoachExit(object sender, MouseEventArgs e)
         {
-            string orocRoachName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
-            System.Diagnostics.Process[] processes = Area23.At.Framework.Library.Core.Win32Api.Processes.GetRunningProcessesByName(orocRoachName);
-            if (processes != null && processes.Length > 0)
-            {
-                foreach (System.Diagnostics.Process process in processes)
-                {
-                    System.Timers.Timer tProcKill = new System.Timers.Timer { Interval = 600 + process.Id };
-                    tProcKill.Elapsed += (s, en) =>
-                    {
-                        this.Invoke(new Action(() =>
-                        {
-                            Area23.At.Framework.Library.Core.Win32Api.Processes.KillProcessTree(process.Id, true, 0, true);
-                        }));
-                        tProcKill.Stop(); // Stop the timer(otherwise keeps on calling)
-                    };
-                    tProcKill.Start();
-                }
-            }
             AppExit(sender, e);
         }
 
-        internal void AppExit(object sender, EventArgs e)
+        private void AppExit(object sender, EventArgs e)
         {
-            string orocRoachName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
-            System.Diagnostics.Process[] processes = Area23.At.Framework.Library.Core.Win32Api.Processes.GetRunningProcessesByName(orocRoachName);
-            if (processes != null && processes.Length > 0)
-            {
-                foreach (System.Diagnostics.Process process in processes)
-                {
-                    System.Timers.Timer tProcKill = new System.Timers.Timer { Interval = 100 + process.Id };
-                    tProcKill.Elapsed += (s, en) =>
-                    {
-                        this.Invoke(new Action(() =>
-                        {
-                            Area23.At.Framework.Library.Core.Win32Api.Processes.KillProcessTree(process.Id, true, 0, true);
-                        }));
-                        tProcKill.Stop(); // Stop the timer(otherwise keeps on calling)
-                    };
-                    tProcKill.Start();
-                }
-            }
-            MessageBox.Show($"Roach {orocRoachName} is exiting now!", $"{orocRoachName} roach exit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string roachName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
+            MessageBox.Show($"Roach {Application.ProductName} is exiting now!", $"{roachName} roach exit", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Application.Exit();
         }
 

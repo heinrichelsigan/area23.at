@@ -123,7 +123,7 @@ namespace Area23.At.WinForm.WinCRoach
 
         private void OnLoad(object sender, EventArgs e)
         {
-             SetRoachBG(this.Location);
+            SetRoachBG(this.Location);
             SelfMoveRoach(10);            
         }
 
