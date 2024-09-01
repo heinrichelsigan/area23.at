@@ -33,7 +33,7 @@ namespace Area23.At.WinForm.WinRoachCore
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RoachBase));
             this.SuspendLayout();
             // 
-            // RoachBase
+            // WinFormCoreRoach
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
@@ -42,10 +42,10 @@ namespace Area23.At.WinForm.WinRoachCore
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = (System.Drawing.Icon)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.WinCRoach;
             this.MaximizeBox = false;
-            this.Name = "RoachBase";
+            this.Name = "WinFormCoreRoach";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.Text = "WinCRoach";
+            this.Text = "WinFormCoreRoach";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.Load += new System.EventHandler(this.OnLoad);
             this.ResumeLayout(false);

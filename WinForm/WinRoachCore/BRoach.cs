@@ -16,46 +16,39 @@ using System.Windows.Forms;
 
 namespace Area23.At.WinForm.WinRoachCore
 {
-    public partial class FRoach : Form
+    public partial class BRoach : Form
     {
-        internal string[] setences = {"Twenty", "Atou Marriage Fourty", "close down", "last beat winner", "Thank you and enough",
-            "I change with Jack", "Last but not least", "Hey Mister", "Hey misses"};
+        protected internal Image winDeskImg = null;
+        protected internal Rectangle roachPosRect = new Rectangle();
+        protected internal Point roachPosition = Point.Empty;
+        internal volatile bool roachInit = false;
+        internal volatile int cX = -1, cY = -1, roachCnt = 0, roachNum = 0;
+        protected internal long maxTicks = 0;
+        protected internal object lock0 = new object(), lock1 = new object(), lock2 = new object(), lock3 = new object();
+        protected internal DateTime lastCapture = DateTime.Now;
 
-        internal string[] schnapserlm = { "Und Zwanzig", "Vierzig", "Danke und genug hab I", "I drah zua", "Habeas tibi",
-            "Tausch gegen den Buam aus", "Letzter fertzter", "Na oida" };
 
-        protected Image winDeskImg = null;
-        volatile int speachCnt = 0;
-        volatile bool locChangedOff = false;
-        volatile int roachCnt = 0;
-        long maxTicks = 0;
-        object spinLock = new object(), innerLock = new object();
-        DateTime lastCapture = DateTime.Now;
-        DateTime lastSay = DateTime.Now;
-        int scrX = -1;
-        int scrY = -1;
-
-        public FRoach(int roachNum)
+        public BRoach()
         {
+            roachNum = 0;
             InitializeComponent();
-            Name = "FRoach" + roachNum;
-            panelFRoach.Name = "panelRoach" + roachNum;
+            Name = "BRoach" + roachNum;            
         }
 
-        public Image GetDesktopImage(bool everCapture = false)
+        internal virtual Image GetDesktopImage(bool everCapture = false)
         {
             if (winDeskImg == null || everCapture)
             {
-                spinLock = new object();
-                lock (spinLock)
+                lock0 = new object();
+                lock (lock0)
                 {
                     winDeskImg = (Image)System.AppDomain.CurrentDomain.GetData(Constants.ROACH_DESKTOP_WINDOW);
 
                     if (winDeskImg == null || everCapture)
                     {
                         this.Visible = false;
-                        innerLock = new object();
-                        lock (innerLock)
+                        lock1 = new object();
+                        lock (lock1)
                         {
                             winDeskImg = ScreenCapture.CaptureAllDesktops();
                             if (winDeskImg != null)
@@ -70,7 +63,7 @@ namespace Area23.At.WinForm.WinRoachCore
             return winDeskImg;            
         }
 
-        public Image Crop(Image image, int width, int height, int x, int y)
+        internal virtual Image Crop(Image image, int width, int height, int x, int y)
         {
             try
             {
@@ -92,9 +85,12 @@ namespace Area23.At.WinForm.WinRoachCore
             }
         }
 
-        public void SetRoachBG(Point pt, Image desktopImage = null, bool changed = false)
-        {
-            winDeskImg = (desktopImage != null && changed) ? desktopImage : GetDesktopImage();
+        internal virtual void SetRoachBG(Point pt, Image desktopImage = null, bool changed = false)
+        {            
+            if (roachCnt % 13 == 0)
+                winDeskImg = GetDesktopImage(changed);
+            else
+                winDeskImg = (desktopImage != null) ? desktopImage : GetDesktopImage(changed);
 
             if (pt == Point.Empty || (pt.X <= 0 && pt.Y <= 0))
             {
@@ -104,40 +100,42 @@ namespace Area23.At.WinForm.WinRoachCore
             this.Location = pt;
             this.SetDesktopLocation(pt.X, pt.Y);
             
-            Graphics g = Graphics.FromImage(winDeskImg);
-            // Form f = this.FindForm();
             Image bgImg = Crop(winDeskImg, 64, 64, pt.X - 1, pt.Y - 1);
-            // Image bgImg = Crop(winDeskImg, DesktopBounds.Size.Width, DesktopBounds.Size.Height, f.DesktopBounds.Location.X, f.DesktopBounds.Location.Y);
             this.BackgroundImage = bgImg;
-            roachCnt++;
+            
             if (roachCnt % 7 == 0)
             {
                 if (roachCnt % 4 == 0)
-                    this.panelFRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
+                    this.panelBRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
                 else if (roachCnt % 4 == 1)
-                    this.panelFRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach1;
+                    this.panelBRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach1;
                 if (roachCnt % 4 == 2)
-                    this.panelFRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
+                    this.panelBRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
                 else if (roachCnt % 4 == 3)
-                    this.panelFRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach0;
+                    this.panelBRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach0;
+            }            
+        }
+
+
+        protected internal virtual void OnLoad(object sender, EventArgs e)
+        {
+            if (!roachInit)
+            {
+                SelfMoveRoach(144);
             }
-            if (roachCnt > 65536 * 16) roachCnt = 0;
-            
         }
 
 
-        private void OnLoad(object sender, EventArgs e)
+        protected internal virtual void OnShow(object sender, EventArgs e)
         {
             SetRoachBG(this.Location);
-            SelfMoveRoach(44);
         }
 
-        public void SelfMoveRoach(int interval = 0)
+        protected internal virtual void SelfMoveRoach(int interval = 0)
         {
-            SetRoachBG(this.Location);
-            winDeskImg = GetDesktopImage(true);
+            SetRoachBG(this.Location, winDeskImg, true);
 
-            System.Timers.Timer tRoachMove = new System.Timers.Timer { Interval = 200 + interval };
+            System.Timers.Timer tRoachMove = new System.Timers.Timer { Interval = interval + (interval * roachNum) };
             tRoachMove.Elapsed += (s, en) =>
             {
                 this.Invoke(new Action(() =>
@@ -149,31 +147,51 @@ namespace Area23.At.WinForm.WinRoachCore
             tRoachMove.Start();
         }
 
-        private void RoachMove()
+        protected internal virtual void RoachMove()
         {
-            while (true)
+            lock2 = new object();
+            lock(lock2)
             {
-                Form f = FindInternal();
-                scrX = f.DesktopBounds.Location.X - 1;
-                scrY = f.DesktopBounds.Location.Y - 1;
+                roachInit = true;
+            }
 
-                scrX = DesktopLocation.X - 1;
-                scrY = DesktopLocation.Y - 1;
+            Form f = FindInternal();
+            roachPosRect = f.DesktopBounds;
 
-                if (scrX <= 0)
-                    scrX = winDeskImg.Width - 64;
-                if (scrY <= 0)
-                    scrY = winDeskImg.Height - 64;
+            for (roachCnt = 0; roachCnt < 16384; roachCnt++)
+            {
+                roachPosition = DesktopLocation;
+                cX = roachPosition.X - 1;
+                cY = roachPosition.Y - 1;                
 
-                Point roachPosition = new Point(scrX, scrY);
-
-                spinLock = new object();
-                if (++roachCnt % 23 == 0)
+                if (cX <= 0 || cY <= 0)
                 {
-                    lock (spinLock)
+                    lock3 = new object();
+                    lock (lock3)
                     {
-                        DateTime t0 = DateTime.Now;
-                        winDeskImg = GetDesktopImage(true);
+                        f = FindInternal();
+                        roachPosRect = f.DesktopBounds;                        
+
+                        if (cX <= 0)
+                            cX = winDeskImg.Width - 64;
+                        if (cY <= 0)
+                            cY = winDeskImg.Height - 64;
+                    }
+                }
+
+                roachPosition = new Point(cX, cY);
+
+                lock2 = new object();
+                lock (lock2)
+                {
+                    DateTime t0 = DateTime.Now;
+                    if (t0.Second >= 59 && t0.Microsecond >= 250)
+                    {
+                        lock3 = new object();
+                        lock (lock3)
+                        {
+                            winDeskImg = GetDesktopImage(true);
+                        }
                         DateTime t1 = DateTime.Now;
                         TimeSpan ts = t1.Subtract(t0);
                         if (ts.Ticks > maxTicks)
@@ -181,38 +199,25 @@ namespace Area23.At.WinForm.WinRoachCore
                             maxTicks = ts.Ticks;
                             Console.Error.WriteLine($"MaxTicks={maxTicks} \t ts: {ts.ToString()}");
                         }
+                        SetRoachBG(roachPosition, winDeskImg, true);
+                        BringToFront();
                     }
-                    SetRoachBG(roachPosition, winDeskImg, true);
-                    BringToFront();
-                    // RotateSay();
+                    else
+                    {
+                        SetRoachBG(roachPosition, winDeskImg, false);
+                        if (roachCnt % 11 == 1)
+                            Show();
+                    }
                 }
-                else
-                {
-                    SetRoachBG(roachPosition);
-                    if (roachCnt % 11 == 1)
-                        Show();
-                }
-                if (roachCnt > 65535) {
-                    AppExit("RoachMove", new EventArgs());
-                    break;
-                }
-                System.Threading.Thread.Sleep(192);
+
+                System.Threading.Thread.Sleep(125);
             }
+
+            AppExit("RoachMove", new EventArgs());
         }
 
-        public virtual void RotateSay()
-        {
-            spinLock = new object();
-            lock (spinLock)
-            {
-                if (++speachCnt >= setences.Length)
-                    speachCnt = 0;
-                lastSay = DateTime.Now;
-            }
-            SaySpeachCore.Instance.Say(setences[speachCnt]);
-        }
-
-        internal Form FindInternal()
+        
+        protected internal virtual Form FindInternal()
         {
             Control control = this;
             while (control != null && !(control is Form))
@@ -221,7 +226,7 @@ namespace Area23.At.WinForm.WinRoachCore
             }
             if (control is Form) 
             { 
-                if (((Form)control).Name.StartsWith("FRoach"))
+                if (((Form)control).Name.Contains("Roach", StringComparison.InvariantCultureIgnoreCase))
                 {
                     return (Form)control;
                 }
@@ -229,10 +234,10 @@ namespace Area23.At.WinForm.WinRoachCore
             return (Form)Form.ActiveForm;            
         }
 
-        private void RoachExit(object sender, MouseEventArgs e)
+        protected internal virtual void RoachExit(object sender, MouseEventArgs e)
         {
-            string orocRoachName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
-            System.Diagnostics.Process[] processes = Area23.At.Framework.Library.Core.Win32Api.Processes.GetRunningProcessesByName(orocRoachName);
+            string procRoachName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
+            System.Diagnostics.Process[] processes = Area23.At.Framework.Library.Core.Win32Api.Processes.GetRunningProcessesByName(procRoachName);
             if (processes != null && processes.Length > 0)
             {
                 foreach (System.Diagnostics.Process process in processes)
@@ -252,7 +257,7 @@ namespace Area23.At.WinForm.WinRoachCore
             AppExit(sender, e);
         }
 
-        private void AppExit(object sender, EventArgs e)
+        protected internal virtual void AppExit(object sender, EventArgs e)
         {
             string orocRoachName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);           
             MessageBox.Show($"Roach {orocRoachName} is exiting now!", $"{orocRoachName} roach exit", MessageBoxButtons.OK, MessageBoxIcon.Information);
