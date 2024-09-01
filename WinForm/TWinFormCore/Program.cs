@@ -33,7 +33,7 @@ namespace Area23.At.WinForm.TWinFormCore
 
             // MessageBox.Show("ScreenCapture", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             
-            Application.Run(new TWinForm());
+            Application.Run(new TransparentFormCore8());
 
         }
     }

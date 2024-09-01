@@ -1,14 +1,14 @@
 ﻿namespace Area23.At.WinForm.TWinFormCore
 {
-    partial class TWinForm
+    partial class TransparentFormCore8
     {
         /// <summary>
-        ///  Required designer variable.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        ///  Clean up any resources being used.
+        /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
@@ -23,31 +23,23 @@
         #region Windows Form Designer generated code
 
         /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TWinForm));
             SuspendLayout();
             // 
-            // TWinForm
+            // TransparentFormCore8
             // 
-            AutoScaleMode = AutoScaleMode.None;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = SystemColors.ControlLightLight;
             BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(640, 480);
-            DoubleBuffered = true;
-            FormBorderStyle = FormBorderStyle.Fixed3D;
-            Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "TWinForm";
-            StartPosition = FormStartPosition.CenterParent;
-            Text = "TWinFoirm";
+            ClientSize = new Size(784, 561);
+            Name = "TransparentFormCore8";
+            Text = "TransparentFormCore8";
             TransparencyKey = SystemColors.ControlLightLight;
-            Load += OnLoad;
-            ResizeEnd += OnResizeEnd;
-            LocationChanged += OnLocationChanged;
             ResumeLayout(false);
         }
 

@@ -32,6 +32,9 @@
         <Compile Update="BRoach.cs">
           <SubType>Form</SubType>
         </Compile>
+        <Compile Update="ERoach.cs">
+          <SubType>Form</SubType>
+        </Compile>
         <Compile Update="MRoach..cs">
           <SubType>Form</SubType>
         </Compile>

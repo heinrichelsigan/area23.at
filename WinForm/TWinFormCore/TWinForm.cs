@@ -12,11 +12,13 @@ namespace Area23.At.WinForm.TWinFormCore
         volatile bool locChangedOff = false;
         object spinLock = new object();
         DateTime lastCapture = DateTime.Now;
-
+        TransparentFormCore8 formCore8;
 
         public TWinForm()
         {
             InitializeComponent();
+            formCore8 = new TransparentFormCore8();
+            formCore8.Show();
         }
 
 
@@ -77,7 +79,7 @@ namespace Area23.At.WinForm.TWinFormCore
             if (this.winDeskImg == null)
                 SetTransBG();
             string captureDir = Application.UserAppDataPath;
-            captureDir = "d:\\source\tmp";
+            // captureDir = "D:\\source\\tmp";
             // ScreenCapture.CaptureScreenAndAllWindowsToDirectory(captureDir);
         }
 

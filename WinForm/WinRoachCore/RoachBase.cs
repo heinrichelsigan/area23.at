@@ -28,6 +28,7 @@ namespace Area23.At.WinForm.WinRoachCore
         volatile int roachNum = 0;
         CRoach cRoach;
         DRoach dRoach;
+        ERoach eRoach;
         MRoach mRoach;
         Process? procStarted;
 
@@ -36,6 +37,7 @@ namespace Area23.At.WinForm.WinRoachCore
             roachNum = num;
             cRoach = null;
             dRoach = null;
+            eRoach = null;
             mRoach = null;
             InitializeComponent();
         }
@@ -74,7 +76,7 @@ namespace Area23.At.WinForm.WinRoachCore
                 PersistDesktopImage();
             }
 
-            if ((roachNum == 0 && cRoach == null) || (roachNum == 1 && dRoach == null) || (roachNum == 2 && mRoach == null))
+            if ((roachNum == 0 && cRoach == null) || (roachNum == 1 && dRoach == null) || (roachNum == 2 && eRoach == null) || (roachNum == 3 && mRoach == null))
             {
                 StartRoach(roachNum);
             }
@@ -89,15 +91,15 @@ namespace Area23.At.WinForm.WinRoachCore
             {
                 ;
             }
-            else if ((numRoach < 2) && (procStarted == null || procStarted.HasExited))
+            else if ((numRoach < 3) && (procStarted == null || procStarted.HasExited))
             {
-                //procStarted = Process.Start(new ProcessStartInfo
-                //{
-                //    UseShellExecute = true,
-                //    WorkingDirectory = Environment.CurrentDirectory,
-                //    FileName = System.Windows.Forms.Application.ExecutablePath,
-                //    Arguments = (numRoach + 1).ToString()
-                //});
+                procStarted = Process.Start(new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    WorkingDirectory = Environment.CurrentDirectory,
+                    FileName = System.Windows.Forms.Application.ExecutablePath,
+                    Arguments = (numRoach + 1).ToString()
+                });
             }
 
             System.Timers.Timer tLoad = new System.Timers.Timer { Interval = (250 + (numRoach * 250)) };
@@ -110,21 +112,28 @@ namespace Area23.At.WinForm.WinRoachCore
                         dPt = new Point((int)(winDeskImg.Width / 3), (int)((winDeskImg.Height) / 3));
                         cRoach = new CRoach(numRoach);
                         // cRoach.TopMost = true;
-                        cRoach.SetRoachBG(dPt, winDeskImg, true);
+                        cRoach.SetRoachBG(dPt);
                         cRoach.Show();
                     }
                     if (numRoach == 1 && dRoach == null)
                     {
                         dPt = new Point(((int)(winDeskImg.Width / 2) + 96), ((int)((winDeskImg.Height) / 2) + 48));
                         dRoach = new DRoach(numRoach);
-                        dRoach.SetRoachBG(dPt, winDeskImg, false);
+                        dRoach.SetRoachBG(dPt);
                         dRoach.Show();
                     }
                     if (numRoach == 2 && mRoach != null)
                     {
+                        dPt = new Point(((int)(winDeskImg.Width - 192)), ((int)(winDeskImg.Height - 128)));
+                        eRoach = new ERoach(numRoach);
+                        eRoach.SetRoachBG(dPt);
+                        eRoach.Show();
+                    }
+                    if (numRoach == 3 && mRoach != null)
+                    {
                         dPt = new Point(((int)(winDeskImg.Width - 96)), ((int)(winDeskImg.Height - 48)));
                         mRoach = new MRoach(numRoach);
-                        mRoach.SetRoachBG(dPt, winDeskImg, false);
+                        mRoach.SetRoachBG(dPt);
                         mRoach.Show();
                     }
                     // PollDesktopImage();

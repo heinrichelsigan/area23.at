@@ -2,7 +2,7 @@
 
 namespace Area23.At.WinForm.WinRoachCore
 {
-    partial class BRoach
+    partial class ERoach
     {
         /// <summary>
         /// Erforderliche Designervariable.
@@ -28,53 +28,38 @@ namespace Area23.At.WinForm.WinRoachCore
         /// Erforderliche Methode für die Designerunterstützung.
         /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
         /// </summary>
-        protected internal virtual void InitializeComponent()
+        private void InitializeComponent()
         {
-            panelRoach = new Panel();
             SuspendLayout();
+            
             // 
-            // panelRoach
-            // 
-            panelRoach.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panelRoach.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            panelRoach.BackColor = Color.Transparent;
-            panelRoach.BackgroundImage = (System.Drawing.Image)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
-            panelRoach.BackgroundImageLayout = ImageLayout.None;
-            panelRoach.Location = new Point(0, 0);
-            panelRoach.Margin = new Padding(0);
-            panelRoach.Name = "panelRoach";
-            panelRoach.Size = new Size(64, 64);
-            panelRoach.TabIndex = 0;
-            panelRoach.MouseDoubleClick += RoachExit;
-            // 
-            // BRoach
+            // ERoach
             // 
             AutoScaleMode = AutoScaleMode.None;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackColor = SystemColors.ControlLightLight;
             BackgroundImageLayout = ImageLayout.None;
+            BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.DRoach;
             ClientSize = new Size(64, 64);
             ControlBox = false;
-            Controls.Add(panelRoach);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             MaximumSize = new Size(64, 64);
             MinimizeBox = false;
-            Name = "BRoach";
+            Name = "ERoach";
             ShowIcon = false;
             ShowInTaskbar = false;
             SizeGripStyle = SizeGripStyle.Hide;
             TransparencyKey = SystemColors.ControlLightLight;
             Load += OnLoad;
             Shown += OnShow;
-            MouseDoubleClick += RoachExit;
+            MouseClick += RoachExit;
             ResumeLayout(false);
         }
 
         #endregion
-
-        internal System.Windows.Forms.Panel panelRoach;
+       
     }
 }
 

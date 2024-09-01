@@ -21,7 +21,7 @@ namespace Area23.At.WinForm.WinRoachCore
             roachName += roachNum.ToString();
 
             Mutex mutex = new Mutex(false, roachName);
-            if (!mutex.WaitOne(1200, false))
+            if (roachNum > 3 || !mutex.WaitOne(1200, false))
             {
                 // NativeMethods.Kernel32.AttachConsole(NativeMethods.Kernel32.ATTACH_PARENT_PROCESS);
                 Area23.At.Framework.Library.Core.Area23Log.Logger.LogOriginMsg(roachName, $"Another instance of {roachName} is already running!");

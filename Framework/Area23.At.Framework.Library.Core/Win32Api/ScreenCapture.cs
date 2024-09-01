@@ -275,7 +275,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
             foreach (string file in filez)
             {
                 FileInfo fi = new FileInfo(file);
-                if (fi.Length <= 16384)
+                if (fi.Length <= 8192)
                     fi.Delete();
             }
 
