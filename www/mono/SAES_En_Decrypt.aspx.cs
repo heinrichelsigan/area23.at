@@ -29,7 +29,7 @@ namespace Area23.At.Mono
     /// </summary>
     public partial class SAES_En_Decrypt : Util.UIPage
     {
-        internal Framework.Library.Symchiffer.CryptBounceCastle cryptBounceCastle;
+        internal Framework.Library.Cipher.Symmetric.CryptBounceCastle cryptBounceCastle;
 
 
         /// <summary>
@@ -94,9 +94,9 @@ namespace Area23.At.Mono
             {
                 string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;
                 string encryptedText = string.Empty;
-                byte[] inBytesText = Framework.Library.Symchiffer.CryptHelper.GetBytesFromString(this.TextBoxSource.Text, 256, false);
-                byte[] inBytesHash = Framework.Library.Symchiffer.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
-                // byte[] inBytes = Framework.Library.Symchiffer.CryptHelper.GetBytesFromString(source, 256, true);
+                byte[] inBytesText = Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesFromString(this.TextBoxSource.Text, 256, false);
+                byte[] inBytesHash = Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
+                // byte[] inBytes = Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesFromString(source, 256, true);
 
                 List<byte> enc = new List<byte>(inBytesText);
                 enc.AddRange(inBytesHash);
@@ -156,7 +156,7 @@ namespace Area23.At.Mono
                     cipherBytes = decryptedBytes;
                 }
 
-                decryptedText = Framework.Library.Symchiffer.CryptHelper.GetStringFromBytesTrimNulls(decryptedBytes);
+                decryptedText = Framework.Library.Cipher.Symmetric.CryptHelper.GetStringFromBytesTrimNulls(decryptedBytes);
                 this.TextBoxDestionation.Text = HandleString_PrivateKey_Changed(decryptedText);
             }
             else
@@ -228,7 +228,7 @@ namespace Area23.At.Mono
 
         protected void TextBox_Key_TextChanged(object sender, EventArgs e)
         {
-            this.TextBox_IV.Text = Framework.Library.Symchiffer.CryptHelper.KeyHexString(this.TextBox_Key.Text);
+            this.TextBox_IV.Text = Framework.Library.Cipher.Symmetric.CryptHelper.KeyHexString(this.TextBox_Key.Text);
             this.TextBox_IV.BorderColor = Color.GreenYellow;
             this.TextBox_IV.ForeColor = Color.DarkOliveGreen;
             this.TextBox_IV.BorderStyle = BorderStyle.Dotted;
@@ -331,7 +331,7 @@ namespace Area23.At.Mono
                                 strFileName = strFileName.EndsWith("." + decryptAlogrithm.ToLower()) ? strFileName.Replace("." + decryptAlogrithm.ToLower(), "") : strFileName;
                             }
 
-                            fileBytes = Framework.Library.Symchiffer.CryptHelper.GetBytesTrimNulls(outBytes);
+                            fileBytes = Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesTrimNulls(outBytes);
                             outBytes = fileBytes;
                             //outBytes = HandleBytes_PrivateKey_Changed(fileBytes, out bool success);
                             //if (success)
@@ -374,23 +374,23 @@ namespace Area23.At.Mono
 
             if (algo == "2FISH")
             {
-                Framework.Library.Symchiffer.Fish2.Fish2GenWithKey(secretKey, userHostString, true);
-                encryptBytes = Framework.Library.Symchiffer.Fish2.Encrypt(inBytes);
+                Framework.Library.Cipher.Symmetric.Fish2.Fish2GenWithKey(secretKey, userHostString, true);
+                encryptBytes = Framework.Library.Cipher.Symmetric.Fish2.Encrypt(inBytes);
             }
             if (algo == "3FISH")
             {
-                Framework.Library.Symchiffer.Fish3.Fish3GenWithKey(secretKey, userHostString, true);
-                encryptBytes = Framework.Library.Symchiffer.Fish3.Encrypt(inBytes);
+                Framework.Library.Cipher.Symmetric.Fish3.Fish3GenWithKey(secretKey, userHostString, true);
+                encryptBytes = Framework.Library.Cipher.Symmetric.Fish3.Encrypt(inBytes);
             }
             if (algo == "3DES")
             {
-                Framework.Library.Symchiffer.Des3.Des3FromKey(secretKey, userHostString, true);
-                encryptBytes = Framework.Library.Symchiffer.Des3.Encrypt(inBytes);
+                Framework.Library.Cipher.Symmetric.Des3.Des3FromKey(secretKey, userHostString, true);
+                encryptBytes = Framework.Library.Cipher.Symmetric.Des3.Encrypt(inBytes);
             }
             if (algo == "AES")
             {
-                Framework.Library.Symchiffer.Aes.AesGenWithNewKey(secretKey, userHostString, true);
-                encryptBytes = Framework.Library.Symchiffer.Aes.Encrypt(inBytes);
+                Framework.Library.Cipher.Symmetric.Aes.AesGenWithNewKey(secretKey, userHostString, true);
+                encryptBytes = Framework.Library.Cipher.Symmetric.Aes.Encrypt(inBytes);
             }
             //if (algo == "RC564")
             //{
@@ -399,18 +399,18 @@ namespace Area23.At.Mono
             //}
             if (algo == "Serpent")
             {
-                Framework.Library.Symchiffer.Serpent.SerpentGenWithKey(secretKey, userHostString, true);
-                encryptBytes = Framework.Library.Symchiffer.Serpent.Encrypt(inBytes);
+                Framework.Library.Cipher.Symmetric.Serpent.SerpentGenWithKey(secretKey, userHostString, true);
+                encryptBytes = Framework.Library.Cipher.Symmetric.Serpent.Encrypt(inBytes);
             }
             if (algo == "YenMatrix")
             {
-                Framework.Library.Symchiffer.YenMatrix.YenMatrixGenWithKey(secretKey, userHostString, true);
-                encryptBytes = Framework.Library.Symchiffer.YenMatrix.Encrypt(inBytes);
+                Framework.Library.Cipher.Symmetric.YenMatrix.YenMatrixGenWithKey(secretKey, userHostString, true);
+                encryptBytes = Framework.Library.Cipher.Symmetric.YenMatrix.Encrypt(inBytes);
             }
             if (algo == "ZenMatrix")
             {
-                Framework.Library.Symchiffer.ZenMatrix.ZenMatrixGenWithKey(secretKey, true);
-                encryptBytes = Framework.Library.Symchiffer.ZenMatrix.Encrypt(inBytes);
+                Framework.Library.Cipher.Symmetric.ZenMatrix.ZenMatrixGenWithKey(secretKey, true);
+                encryptBytes = Framework.Library.Cipher.Symmetric.ZenMatrix.Encrypt(inBytes);
             }
             if (algo == "Camellia" || algo == "Cast5" || algo == "Cast6" ||
                 algo == "Gost28147" || algo == "Idea" || algo == "Noekeon" ||
@@ -419,9 +419,9 @@ namespace Area23.At.Mono
                 algo == "Seed" || algo == "Skipjack" || // algo == "Serpent" ||
                 algo == "Tea" || algo == "Tnepres" || algo == "XTea")
             {
-                IBlockCipher blockCipher = Framework.Library.Symchiffer.CryptHelper.GetBlockCipher(algo, ref mode, ref blockSize, ref keyLen);
+                IBlockCipher blockCipher = Framework.Library.Cipher.Symmetric.CryptHelper.GetBlockCipher(algo, ref mode, ref blockSize, ref keyLen);
 
-                cryptBounceCastle = new Framework.Library.Symchiffer.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, userHostString, secretKey, true);
+                cryptBounceCastle = new Framework.Library.Cipher.Symmetric.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, userHostString, secretKey, true);
                 encryptBytes = cryptBounceCastle.Encrypt(inBytes);
 
             }
@@ -448,23 +448,23 @@ namespace Area23.At.Mono
 
             if (algorithmName == "2FISH")
             {
-                sameKey = Framework.Library.Symchiffer.Fish2.Fish2GenWithKey(secretKey, userHostString, false);
-                decryptBytes = Framework.Library.Symchiffer.Fish2.Decrypt(cipherBytes);
+                sameKey = Framework.Library.Cipher.Symmetric.Fish2.Fish2GenWithKey(secretKey, userHostString, false);
+                decryptBytes = Framework.Library.Cipher.Symmetric.Fish2.Decrypt(cipherBytes);
             }
             if (algorithmName == "3FISH")
             {
-                sameKey = Framework.Library.Symchiffer.Fish3.Fish3GenWithKey(secretKey, userHostString, true);
-                decryptBytes = Framework.Library.Symchiffer.Fish3.Decrypt(cipherBytes);
+                sameKey = Framework.Library.Cipher.Symmetric.Fish3.Fish3GenWithKey(secretKey, userHostString, true);
+                decryptBytes = Framework.Library.Cipher.Symmetric.Fish3.Decrypt(cipherBytes);
             }
             if (algorithmName == "3DES")
             {
-                sameKey = Framework.Library.Symchiffer.Des3.Des3FromKey(secretKey, userHostString, true);
-                decryptBytes = Framework.Library.Symchiffer.Des3.Decrypt(cipherBytes);
+                sameKey = Framework.Library.Cipher.Symmetric.Des3.Des3FromKey(secretKey, userHostString, true);
+                decryptBytes = Framework.Library.Cipher.Symmetric.Des3.Decrypt(cipherBytes);
             }
             if (algorithmName == "AES")
             {
-                sameKey = Framework.Library.Symchiffer.Aes.AesGenWithNewKey(secretKey, userHostString, false);
-                decryptBytes = Framework.Library.Symchiffer.Aes.Decrypt(cipherBytes);
+                sameKey = Framework.Library.Cipher.Symmetric.Aes.AesGenWithNewKey(secretKey, userHostString, false);
+                decryptBytes = Framework.Library.Cipher.Symmetric.Aes.Decrypt(cipherBytes);
             }
             //if (algorithmName.ToUpper() == "RC564")
             //{
@@ -473,18 +473,18 @@ namespace Area23.At.Mono
             //}
             if (algorithmName == "Serpent")
             {
-                sameKey = Framework.Library.Symchiffer.Serpent.SerpentGenWithKey(secretKey, userHostString, false);
-                decryptBytes = Framework.Library.Symchiffer.Serpent.Decrypt(cipherBytes);
+                sameKey = Framework.Library.Cipher.Symmetric.Serpent.SerpentGenWithKey(secretKey, userHostString, false);
+                decryptBytes = Framework.Library.Cipher.Symmetric.Serpent.Decrypt(cipherBytes);
             }
             if (algorithmName == "YenMatrix")
             {
-                sameKey = Framework.Library.Symchiffer.YenMatrix.YenMatrixGenWithKey(secretKey, userHostString, false);
-                decryptBytes = Framework.Library.Symchiffer.YenMatrix.Decrypt(cipherBytes);
+                sameKey = Framework.Library.Cipher.Symmetric.YenMatrix.YenMatrixGenWithKey(secretKey, userHostString, false);
+                decryptBytes = Framework.Library.Cipher.Symmetric.YenMatrix.Decrypt(cipherBytes);
             }
             if (algorithmName == "ZenMatrix")
             {
-                sameKey = Framework.Library.Symchiffer.ZenMatrix.ZenMatrixGenWithKey(secretKey, false);
-                decryptBytes = Framework.Library.Symchiffer.ZenMatrix.Decrypt(cipherBytes);
+                sameKey = Framework.Library.Cipher.Symmetric.ZenMatrix.ZenMatrixGenWithKey(secretKey, false);
+                decryptBytes = Framework.Library.Cipher.Symmetric.ZenMatrix.Decrypt(cipherBytes);
             }
             if (algorithmName == "Camellia" || algorithmName == "Cast5" || algorithmName == "Cast6" ||
                 algorithmName == "Gost28147" || algorithmName == "Idea" || algorithmName == "Noekeon" ||
@@ -493,9 +493,9 @@ namespace Area23.At.Mono
                 algorithmName == "Seed" || algorithmName == "Skipjack" || // algorithmName == "Serpent" || 
                 algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea")
             {
-                IBlockCipher blockCipher = Framework.Library.Symchiffer.CryptHelper.GetBlockCipher(algorithmName, ref mode, ref blockSize, ref keyLen);
+                IBlockCipher blockCipher = Framework.Library.Cipher.Symmetric.CryptHelper.GetBlockCipher(algorithmName, ref mode, ref blockSize, ref keyLen);
 
-                cryptBounceCastle = new Framework.Library.Symchiffer.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, userHostString, secretKey, true);
+                cryptBounceCastle = new Framework.Library.Cipher.Symmetric.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, userHostString, secretKey, true);
                 decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
             }
 
@@ -511,7 +511,7 @@ namespace Area23.At.Mono
             else if (string.IsNullOrEmpty(this.TextBox_Key.Text))
                 this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
 
-            this.TextBox_IV.Text = Framework.Library.Symchiffer.CryptHelper.KeyHexString(this.TextBox_Key.Text);
+            this.TextBox_IV.Text = Framework.Library.Cipher.Symmetric.CryptHelper.KeyHexString(this.TextBox_Key.Text);
 
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BorderColor = Color.LightGray;
@@ -532,13 +532,13 @@ namespace Area23.At.Mono
             this.TextBox_Encryption.BorderColor = Color.LightGray;
             this.TextBox_Encryption.BorderWidth = 1;
         }
+        
 
-        protected string Trim_Decrypted_Text(string decryptedText)
-        {
-            return Framework.Library.Symchiffer.CryptHelper.Trim_Decrypted_Text(decryptedText);
-        }
-
-
+        /// <summary>
+        /// Handles string decryption, compares if private key & hex hash match in decrypted text
+        /// </summary>
+        /// <param name="decryptedText">decrypted plain text</param>
+        /// <returns>decrypted plain text without check hash or an error message, in case that check hash doesn't match.</returns>
         protected string HandleString_PrivateKey_Changed(string decryptedText)
         {
             bool sameKey = false;
@@ -549,31 +549,41 @@ namespace Area23.At.Mono
                     decryptedText = decryptedText.Substring(0, decryptedText.Length - shouldEndWithIv.Length);
                 else
                 {
-                    shouldEndWithIv = this.TextBox_IV.Text;
-                    if ((sameKey = decryptedText.EndsWith(shouldEndWithIv, StringComparison.InvariantCultureIgnoreCase)))
-                        decryptedText = decryptedText.Substring(0, decryptedText.Length - shouldEndWithIv.Length);
+                    if ((sameKey = decryptedText.Contains(shouldEndWithIv)))
+                    {
+                        int idxEnd = decryptedText.IndexOf(shouldEndWithIv);
+                        decryptedText = decryptedText.Substring(0, idxEnd);
+                    }
                 }
             }
 
             if (!sameKey)
             {
+                string errorMsg = $"Decryption failed!\r\nKey: {this.TextBox_Key.Text} with HexHash: {this.TextBox_Key.Text} doesn't match!";
                 this.TextBox_IV.Text = "Private Key changed!";
                 this.TextBox_IV.ToolTip = "Check Enforce decrypt (without key check).";
                 this.TextBox_IV.BorderColor = Color.Red;
                 this.TextBox_IV.BorderWidth = 2;
 
-                return $"Decryption failed!\r\nKey: {this.TextBox_Key.Text} with HexHash: {this.TextBox_Key.Text} doesn't match!";
+                return errorMsg;
             }
 
             return decryptedText;
         }
 
+        /// <summary>
+        /// Handles decrypted byte[] and checks hash of private key
+        /// TODO: not well implemented yet, need to rethink hash merged at end of files with huge byte stream
+        /// </summary>
+        /// <param name="decryptedBytes"></param>
+        /// <param name="success"></param>
+        /// <returns></returns>
         protected byte[] HandleBytes_PrivateKey_Changed(byte[] decryptedBytes, out bool success)
         {
             success = false;
             byte[] outBytesSameKey = null;
             byte[] ivBytesHash = System.Text.Encoding.UTF8.GetBytes("\r\n" + this.TextBox_IV.Text);
-            // Framework.Library.Symchiffer.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
+            // Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
             if (decryptedBytes != null && decryptedBytes.Length > ivBytesHash.Length)
             {
                 int j = decryptedBytes.Length - 1;

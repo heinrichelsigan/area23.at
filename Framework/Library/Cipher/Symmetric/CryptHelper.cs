@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
-namespace Area23.At.Framework.Library.Symchiffer
+namespace Area23.At.Framework.Library.Cipher.Symmetric
 {
 
     /// <summary>

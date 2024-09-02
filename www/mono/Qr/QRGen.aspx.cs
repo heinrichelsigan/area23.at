@@ -12,7 +12,6 @@ using System.Web.UI.WebControls;
 using QRCoder;
 using System.Web.UI.HtmlControls;
 using static QRCoder.PayloadGenerator;
-using System.Text.Encodings.Web;
 using System.Text;
 using System.Net;
 using System.Security.Policy;

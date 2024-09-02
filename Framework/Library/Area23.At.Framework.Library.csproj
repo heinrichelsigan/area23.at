@@ -68,18 +68,18 @@
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
     <Compile Include="ResReader.cs" />
-    <Compile Include="Symchiffer\CryptBounceCastle.cs" />
-    <Compile Include="Symchiffer\CryptHelper.cs" />
-    <Compile Include="Symchiffer\CryptParams.cs" />
-    <Compile Include="Symchiffer\Fish2.cs" />
-    <Compile Include="Symchiffer\Fish3.cs" />
-    <Compile Include="Symchiffer\Serpent.cs" />
-    <Compile Include="Symchiffer\SymChifferEnum.cs" />
-    <Compile Include="Symchiffer\YenMatrix.cs" />
-    <Compile Include="Symchiffer\ZenMatrix.cs" />
+    <Compile Include="Cipher\Symmetric\CryptBounceCastle.cs" />
+    <Compile Include="Cipher\Symmetric\CryptHelper.cs" />
+    <Compile Include="Cipher\Symmetric\CryptParams.cs" />
+    <Compile Include="Cipher\Symmetric\Fish2.cs" />
+    <Compile Include="Cipher\Symmetric\Fish3.cs" />
+    <Compile Include="Cipher\Symmetric\Serpent.cs" />
+    <Compile Include="Cipher\Symmetric\SymChipherEnum.cs" />
+    <Compile Include="Cipher\Symmetric\YenMatrix.cs" />
+    <Compile Include="Cipher\Symmetric\ZenMatrix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Symchiffer\Des3.cs" />
-    <Compile Include="Symchiffer\Aes.cs" />
+    <Compile Include="Cipher\Symmetric\Des3.cs" />
+    <Compile Include="Cipher\Symmetric\Aes.cs" />
     <Compile Include="Win32Api\HWndInfo.cs" />
     <Compile Include="Win32Api\InternalErrorException.cs" />
     <Compile Include="Win32Api\NativeMethods.cs" />

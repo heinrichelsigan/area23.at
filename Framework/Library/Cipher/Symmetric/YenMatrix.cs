@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Symchiffer
+namespace Area23.At.Framework.Library.Cipher.Symmetric
 {
 
     /// <summary>

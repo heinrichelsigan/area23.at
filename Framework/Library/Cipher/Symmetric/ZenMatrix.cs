@@ -5,11 +5,11 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Symchiffer
+namespace Area23.At.Framework.Library.Cipher.Symmetric
 {
 
     /// <summary>
-    /// Simple Matrix SymChiffer maybe already invented, but created by zen@area23.at (Heinrich Elsigan)
+    /// Simple Matrix symmetric cipher maybe already invented, but created by zen@area23.at (Heinrich Elsigan)
     /// </summary>
     public static class ZenMatrix
     {
