@@ -60,6 +60,15 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.Button Button_Clear;
 
         /// <summary>
+        /// ImageButton_Key control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton_Key;
+
+        /// <summary>
         /// TextBox_Key control.
         /// </summary>
         /// <remarks>
@@ -67,6 +76,15 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBox_Key;
+
+        /// <summary>
+        /// ImageButton_Hash control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton_Hash;
 
         /// <summary>
         /// TextBox_IV control.
@@ -184,6 +202,5 @@ namespace Area23.At.Mono
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonDecrypt;
-
     }
 }

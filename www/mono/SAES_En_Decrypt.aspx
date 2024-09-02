@@ -50,15 +50,27 @@
         </div>
         <div class="odDiv">
             <span class="leftSpan">
-                Secret key:
+                Secret cipher:
             </span>
-            <span class="centerSpan">                
-                <asp:TextBox ID="TextBox_Key" runat="server" ToolTip="Enter your personal email address or secret key here" Text="heinrich.elsigan@area23.at" MaxLength="256" Width="216px" AutoPostBack="true" OnTextChanged="TextBox_Key_TextChanged" />
+            <span class="centerSpan" style="max-width: 72px">
+                <asp:ImageButton ID="ImageButton_Key" ClientIDMode="Static" runat="server" ImageUrl="res/img/a_right_key.png" 
+                OnClick="Button_Reset_KeyIV_Click" AlternateText="Key for symmetric cipher algorithm" />
             </span>
-            <span class="centerSpan">
-                <span class="textSpan">iv: </span>
-                <asp:TextBox ID="TextBox_IV" runat="server" ReadOnly="true" Text="0x000ade1e" MaxLength="128" />
-            </span>            
+            <span class="centerSpan">               
+               <asp:TextBox ID="TextBox_Key" runat="server" ToolTip="Enter your personal email address or secret key here" Text="heinrich.elsigan@area23.at" MaxLength="256" Width="416px" AutoPostBack="true" OnTextChanged="TextBox_Key_TextChanged" />
+            </span>
+        </div>
+        <div class="odDiv">
+            <span class="leftSpan">
+                <span class="textSpan">&nbsp;Key hash  iv: </span>
+            </span>           
+            <span class="centerSpan" style="max-width: 72px">
+                <asp:ImageButton ID="ImageButton_Hash" ClientIDMode="Static" runat="server" ImageUrl="res/img/a_hash.png" 
+                OnClick="Button_Reset_KeyIV_Click" AlternateText="Hash generated from key" />
+            </span>
+            <span class="centerSpan">    
+                &nbsp;<asp:TextBox ID="TextBox_IV" runat="server" ReadOnly="true" Text="0x000ade1e" MaxLength="192"  Width="416px" />
+            </span>
             <span class="rightSpan">
                 <asp:Button ID="Button_Reset_KeyIV" runat="server" Text="Reset Key/IV" ToolTip="Reset secret key / iv" OnClick="Button_Reset_KeyIV_Click" />
             </span>
@@ -74,8 +86,8 @@
                 <img id="imgOut" runat="server" border="0" alt="File transformed" src="res/img/file.png" /></a>
          </asp:Panel>
         <h2>En-/Decrypt text</h2>
-        <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="8" Columns="40" ToolTip="Source Text" Text="[Enter text to en-/decrypt here]"></asp:TextBox>
-        <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="8" Columns="40" MaxLength="32768" ReadOnly="true" ToolTip="Destination Text"></asp:TextBox>
+        <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="10" Columns="48" ToolTip="Source Text" Text="[Enter text to en-/decrypt here]"></asp:TextBox>
+        <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="10" Columns="48" MaxLength="32768" ReadOnly="true" ToolTip="Destination Text"></asp:TextBox>
         <br />
         <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClick="ButtonEncrypt_Click" />
         <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClick="ButtonDecrypt_Click" />        
