@@ -91,7 +91,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <Content Include="Properties\fortune.u8" />
+    <EmbeddedResource Include="Properties\fortune.u8">
+      <CustomToolNamespace>Area23.At.Framework.Library.Properties</CustomToolNamespace>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resource.resx">
