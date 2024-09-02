@@ -299,11 +299,9 @@ namespace Area23.At.Mono
                         int cryptCount = 0;
                         if (crypt)
                         {
-                            //byte[] inBytesHash = System.Text.Encoding.UTF8.GetBytes("\r\n" + this.TextBox_IV.Text);
-                            //List<byte> byteList = new List<byte>(fileBytes);
-                            //byteList.AddRange(inBytesHash);
-                            //byte[] inBytes = byteList.ToArray();
-                            byte[] inBytes = fileBytes;
+                            byte[] inBytesSeperator = System.Text.Encoding.UTF8.GetBytes("\r\n");
+                            byte[] inBytesKeyHash = System.Text.Encoding.UTF8.GetBytes(this.TextBox_IV.Text);
+                            byte[] inBytes = Framework.Library.Cipher.Symmetric.CryptHelper.TarBytes(fileBytes, inBytesSeperator, inBytesKeyHash);
 
                             imgOut.Src = "res/img/encrypted.png";
 
@@ -332,12 +330,12 @@ namespace Area23.At.Mono
                             }
 
                             fileBytes = Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesTrimNulls(outBytes);
-                            outBytes = fileBytes;
-                            //outBytes = HandleBytes_PrivateKey_Changed(fileBytes, out bool success);
-                            //if (success)
+                            // outBytes = fileBytes;
+                            outBytes = HandleBytes_PrivateKey_Changed(fileBytes, out bool success);
+                            if (success)
                                 lblUploadResult.Text = "file has been decrypted to ";
-                            //else
-                            //    lblUploadResult.Text = "decrypting file failed, byte trash saved  to ";                            
+                            else
+                                lblUploadResult.Text = "decrypting file failed, byte trash saved  to ";                            
                         }
                     }
                     string outMsg;
@@ -575,9 +573,9 @@ namespace Area23.At.Mono
         /// Handles decrypted byte[] and checks hash of private key
         /// TODO: not well implemented yet, need to rethink hash merged at end of files with huge byte stream
         /// </summary>
-        /// <param name="decryptedBytes"></param>
-        /// <param name="success"></param>
-        /// <returns></returns>
+        /// <param name="decryptedBytes">huge file bytes[], that contains at the end the CR + LF + iv key hash</param>
+        /// <param name="success">out parameter, if finding and trimming the CR + LF + iv key hash was successfully</param>
+        /// <returns>an trimmed proper array of huge byte, representing the file, otherwise a huge (maybe wrong decrypted) byte trash</returns>
         protected byte[] HandleBytes_PrivateKey_Changed(byte[] decryptedBytes, out bool success)
         {
             success = false;
@@ -586,52 +584,30 @@ namespace Area23.At.Mono
             // Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
             if (decryptedBytes != null && decryptedBytes.Length > ivBytesHash.Length)
             {
-                int j = decryptedBytes.Length - 1;
-                int i = ivBytesHash.Length - 1;
-                while (decryptedBytes[j] != ivBytesHash[i] && decryptedBytes[j - 1] != ivBytesHash[i - 1])
+                int needleFound = Framework.Library.Cipher.Symmetric.CryptHelper.BytesBytes(ivBytesHash, decryptedBytes, ivBytesHash.Length - 1);
+                if (needleFound > 0)
                 {
-                    j--;
-                    if (decryptedBytes.Length > 1024 && j < decryptedBytes.Length - 1024)
-                        break;
+                    success = true;
+                    outBytesSameKey = new byte[needleFound];
+                    Array.Copy(decryptedBytes, outBytesSameKey, needleFound);
+                    return outBytesSameKey;
                 }
-                for (i = ivBytesHash.Length - 1; i >= 0; i--)
-                {
-                    if (decryptedBytes[j] == ivBytesHash[i])
-                    {
-                        if (i == 0)
-                        {
-                            success = true;
-                            break;
-                        }
-                        j--;
-                    }
-                    else
-                    {
-                        success = false;
-                        break;
-                    }
-                }
-                if (success)
-                {
-                    outBytesSameKey = new byte[decryptedBytes.Length - ivBytesHash.Length];
-                    Array.Copy(decryptedBytes, outBytesSameKey, (decryptedBytes.Length - ivBytesHash.Length));
-                }                
             }
 
             if (!success)
             {
+                string errorMsg = $"Decryption failed!\r\nKey: {this.TextBox_Key.Text} with HexHash: {this.TextBox_Key.Text} doesn't match!"; 
+
                 this.TextBox_IV.Text = "Private Key changed!";
                 this.TextBox_IV.ToolTip = "Check Enforce decrypt (without key check).";
                 this.TextBox_IV.BorderColor = Color.Red;
                 this.TextBox_IV.BorderWidth = 2;
 
-                this.TextBoxDestionation.Text =
-                    $"Decryption failed!\r\nKey: {this.TextBox_Key.Text} with HexHash: {this.TextBox_Key.Text} doesn't match!";
+                this.TextBoxDestionation.Text = errorMsg;
 
-                outBytesSameKey = decryptedBytes;
             }
 
-            return outBytesSameKey;
+            return decryptedBytes;
         }
 
     }

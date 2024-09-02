@@ -17,6 +17,57 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
     {
 
         /// <summary>
+        /// BytesBytes, a static method inspired by strstr 
+        /// </summary>
+        /// <param name="needle">byte[] of needle to find</param>
+        /// <param name="hayStack">byte[] of haystack to search through</param>
+        /// <param name="matchBytes">match the only first matchBytes of needle, -1 for all bytes</param>
+        /// <returns>index of first byte of matching needle in haystack</returns>
+        public static int BytesBytes(byte[] needle, byte[] hayStack, int matchBytes = -1)
+        {
+            if (needle == null || needle.Length == 0 || hayStack == null || hayStack.Length == 0 || needle.Length > hayStack.Length)
+                return -1;
+
+            int needleIt = 0;
+            for (int fFwdIt = 0; fFwdIt < hayStack.Length - needle.Length; fFwdIt++)
+            {
+                if (hayStack[fFwdIt] == needle[needleIt])
+                {
+                    if (needle.Length == 1)
+                        return fFwdIt;
+
+                    for (needleIt = 1; needleIt < needle.Length; needleIt++)
+                    {
+                        if (hayStack[fFwdIt + needleIt] != needle[needleIt])
+                        {
+                            needleIt = 0;
+                            break;
+                        }
+                        if (matchBytes > 0 && needleIt == matchBytes)
+                            return fFwdIt;
+
+                        if (needleIt >= (needle.Length - 1))
+                            return fFwdIt;
+                    }
+                }
+            }
+
+            return -1;
+        }
+
+        public static byte[] TarBytes(byte[] baseBytes, params byte[][] bytesToAdd)
+        {
+            List<byte> largeBytesList = new List<byte>(baseBytes);
+
+            foreach (byte[] bs in bytesToAdd)
+            {
+                largeBytesList.AddRange(bs);
+            }
+
+            return largeBytesList.ToArray();
+        }
+
+        /// <summary>
         /// KeyHexString transforms a private secret key to hex string
         /// </summary>
         /// <param name="key">private secret key</param>
