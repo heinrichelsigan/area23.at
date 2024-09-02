@@ -18,13 +18,21 @@ namespace Area23.At.Framework.Library.Symchiffer
         #region fields
 
         private static string privateKey = string.Empty;
+        private static string userHostIpAddress = string.Empty;
+
+        #endregion fields
+
+        #region Properties
 
         internal static byte[] AesKey { get; private set; }
         internal static byte[] AesIv { get; private set; }
 
+        internal static string PrivateUserKey { get => string.Concat(privateKey, privateKey); }
+        internal static string PrivateUserHostKey { get => string.Concat(privateKey, userHostIpAddress, privateKey, userHostIpAddress); }
+
         internal static RijndaelManaged AesAlgo { get; private set; }
 
-        #endregion fields
+        #endregion Properties
 
         #region Ctor_Gen
 
@@ -33,13 +41,19 @@ namespace Area23.At.Framework.Library.Symchiffer
         /// </summary>
         static Aes()
         {
+            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
+            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+
             AesAlgo = new RijndaelManaged();
             AesAlgo.Mode = CipherMode.ECB;
             AesAlgo.KeySize = 256;
             AesAlgo.Padding = PaddingMode.Zeros;
 
-            AesKey = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
-            AesIv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+
+            AesKey = new byte[32];
+            AesIv = new byte[16];
+            Array.Copy(key, AesKey, 32);
+            Array.Copy(iv, AesIv, 16);
 
             AesAlgo.Key = AesKey;
             AesAlgo.IV = AesIv;
@@ -50,10 +64,12 @@ namespace Area23.At.Framework.Library.Symchiffer
         /// AesGenWithNewKey generates a new static Aes RijndaelManaged symetric encryption 
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
+        /// <param name="userHostAddr">user host address is here part of private key</param>
         /// <param name="init">init three fish first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool AesGenWithNewKey(string secretKey = "", bool init = true)
+        public static bool AesGenWithNewKey(string secretKey = "", string userHostAddr = "", bool init = true)
         {
+            byte[] key = new byte[32]; 
             byte[] iv = new byte[16]; // AES > IV > 128 bit
 
             if (!init)
@@ -68,17 +84,19 @@ namespace Area23.At.Framework.Library.Symchiffer
                 if (string.IsNullOrEmpty(secretKey))
                 {
                     privateKey = string.Empty;
-                    AesKey = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
+                    key = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
                     iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
                 }
                 else
                 {
                     privateKey = secretKey;
-                    AesKey = Encoding.UTF8.GetByteCount(secretKey) == 32 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
+                    key = GetUserKeyBytes(secretKey, userHostIpAddress, 32);
                     iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
                 }
 
+                AesKey = new byte[32];
                 AesIv = new byte[16];
+                Array.Copy(key, AesKey, 32);
                 Array.Copy(iv, AesIv, 16);
             }
 
@@ -91,6 +109,67 @@ namespace Area23.At.Framework.Library.Symchiffer
         }
 
         #endregion Ctor_Gen
+
+
+        #region GetUserKeyBytes
+
+        /// <summary>
+        /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
+        /// </summary>
+        /// <param name="secretKey">user secret key, default email address</param>
+        /// <param name="usrHostAddr">user host ip address</param>
+        /// <returns>Array of byte with length KeyLen</returns>
+        internal static byte[] GetUserKeyBytes(string secretKey = "postmaster@localhost", string usrHostAddr = "127.0.0.1", int keyLen = 32)
+        {
+            privateKey = secretKey;
+            userHostIpAddress = usrHostAddr;
+
+            int keyByteCnt = -1;
+            string keyByteHashString = privateKey;
+            byte[] tmpKey = new byte[keyLen];
+
+            if ((keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString)) < keyLen)
+            {
+                keyByteHashString = PrivateUserKey;
+                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
+            }
+            if (keyByteCnt < keyLen)
+            {
+                keyByteHashString = PrivateUserHostKey;
+                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
+            }
+            if (keyByteCnt < keyLen)
+            {
+                RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
+                randomNumGen.GetBytes(tmpKey, 0, keyLen);
+
+                byte[] tinyKeyBytes = new byte[keyByteCnt];
+                tinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
+                int tinyLength = tinyKeyBytes.Length;
+
+                for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
+                {
+                    tmpKey[bytCnt] = tinyKeyBytes[bytCnt % tinyLength];
+                }
+            }
+            else
+            {
+                byte[] ssSmallNotTinyKeyBytes = new byte[keyByteCnt];
+                ssSmallNotTinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
+                int ssSmallByteCnt = ssSmallNotTinyKeyBytes.Length;
+
+                for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)
+                {
+                    tmpKey[bytIdx] = ssSmallNotTinyKeyBytes[bytIdx];
+                }
+            }
+
+            return tmpKey;
+
+        }
+
+        #endregion GetUserKeyBytes
+
 
         #region EncryptDecryptBytes
 

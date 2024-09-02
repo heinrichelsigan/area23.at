@@ -19,15 +19,15 @@ namespace Area23.At.Framework.Library.Symchiffer
 
         #region fields
 
-        private static string privateKey = string.Empty;
+        internal static string privateKey = string.Empty;
 
-        private static string userHostIpAddress = string.Empty;
+        internal static string userHostIpAddress = string.Empty;
 
         #endregion fields
 
         #region Properties
 
-        internal static byte[] DesKey { get; private set; }
+        public static byte[] DesKey { get; private set; }
         internal static byte[] DesIv { get; private set; }
 
         internal static int KeyLen { get; private set; } = 24;
@@ -35,7 +35,6 @@ namespace Area23.At.Framework.Library.Symchiffer
         internal static int IvLen { get; private set; } = 8;
 
         internal static string PrivateUserKey { get => string.Concat(privateKey, privateKey); }
-
         internal static string PrivateUserHostKey { get => string.Concat(privateKey, userHostIpAddress, privateKey, userHostIpAddress); }
 
         internal static byte[] toDecryptArray;
@@ -49,10 +48,13 @@ namespace Area23.At.Framework.Library.Symchiffer
         /// </summary>
         static Des3()
         {
-            DesKey = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
-            DesIv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
-            // Generate a key using SHA256 hash function
-            // TripleDesFromKey(null);
+            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
+            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
+
+            DesKey = new byte[KeyLen];
+            DesIv = new byte[IvLen];
+            Array.Copy(key, DesKey, KeyLen);
+            Array.Copy(iv, DesIv, IvLen);
         }
 
         /// <summary>
@@ -63,7 +65,7 @@ namespace Area23.At.Framework.Library.Symchiffer
         /// <returns>true, if init was with same key successfull</returns>
         public static bool Des3FromKey(string secretKey = "", string userHostAddress = "", bool init = true)
         {
-            byte[] key = new byte[KeyLen];
+            byte[] key;
             byte[] iv = new byte[IvLen];
 
             if (!init)
@@ -78,8 +80,8 @@ namespace Area23.At.Framework.Library.Symchiffer
                 if (string.IsNullOrEmpty(secretKey))
                 {
                     privateKey = string.Empty;
-                    key = GetUserKeyBytes(ResReader.GetValue(Constants.DES3_KEY), ResReader.GetValue(Constants.DES3_IV), 24);
-                    iv = GetUserKeyBytes(ResReader.GetValue(Constants.DES3_IV), ResReader.GetValue(Constants.DES3_KEY), 8);
+                    key = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
                 }
                 else
                 {
@@ -90,14 +92,20 @@ namespace Area23.At.Framework.Library.Symchiffer
                     iv = GetUserKeyBytes(ResReader.GetValue(Constants.DES3_IV), secretKey, 8);
                 }
 
-                DesIv = iv;
-                DesKey = key;
+                DesKey = new byte[KeyLen];
+                DesIv = new byte[IvLen];
+                Array.Copy(key, DesKey, KeyLen);
+                Array.Copy(iv, DesIv, IvLen);
+                // DesIv = iv;
+                // DesKey = key;
             }
 
             return true;
         }
 
         #endregion ctor_gen
+
+        #region GetUserKeyBytes
 
         /// <summary>
         /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
@@ -153,6 +161,8 @@ namespace Area23.At.Framework.Library.Symchiffer
             return tmpKey;
 
         }
+
+        #endregion GetUserKeyBytes
 
         #region EncryptDecryptBytes
 

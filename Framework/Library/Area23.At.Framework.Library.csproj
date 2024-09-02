@@ -75,6 +75,7 @@
     <Compile Include="Symchiffer\Fish3.cs" />
     <Compile Include="Symchiffer\Serpent.cs" />
     <Compile Include="Symchiffer\SymChifferEnum.cs" />
+    <Compile Include="Symchiffer\YenMatrix.cs" />
     <Compile Include="Symchiffer\ZenMatrix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Symchiffer\Des3.cs" />

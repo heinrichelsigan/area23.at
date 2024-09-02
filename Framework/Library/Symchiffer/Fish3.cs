@@ -22,15 +22,24 @@ namespace Area23.At.Framework.Library.Symchiffer
         #region fields
 
         private static string privateKey = string.Empty;
+        private static string userHostIpAddress = string.Empty;
+
+        #endregion fields
+
+        #region Properties
 
         internal static byte[] FishKey { get; private set; }
         internal static byte[] FishIv { get; private set; }
 
         internal static int Size { get; private set; }
         internal static string Mode { get; private set; }
+
+        internal static string PrivateUserKey { get => string.Concat(privateKey, privateKey); }
+        internal static string PrivateUserHostKey { get => string.Concat(privateKey, userHostIpAddress, privateKey, userHostIpAddress); }
+
         internal static IBlockCipherPadding BlockCipherPadding { get; private set; }
 
-        #endregion fields
+        #endregion Properties
 
         #region ctor_gen
 
@@ -39,8 +48,10 @@ namespace Area23.At.Framework.Library.Symchiffer
         /// </summary>
         static Fish3()
         {
-            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+            byte[] key = new byte[32];
+            byte[] iv = new byte[32];
+            key = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCEK), ResReader.GetValue(Constants.BOUNCE4), 32);
+            iv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), ResReader.GetValue(Constants.BOUNCEK), 32);
             FishKey = new byte[32];
             FishIv = new byte[32];
             Array.Copy(iv, FishIv, 32);
@@ -51,13 +62,15 @@ namespace Area23.At.Framework.Library.Symchiffer
             // ThreeFishGenWithKey(string.Empty, true);
         }
 
+
         /// <summary>
         /// Fish3GenWithKey => Generates new <see cref="ThreeFish"/> with secret key
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
+        /// <param name="userHostAddr">user host address is here part of private key</param>
         /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool Fish3GenWithKey(string secretKey = "", bool init = true)
+        public static bool Fish3GenWithKey(string secretKey = "", string userHostAddr = "", bool init = true)
         {
             byte[] key = new byte[32];
             byte[] iv = new byte[32]; // 3FISH > IV > 128 bit
@@ -74,14 +87,14 @@ namespace Area23.At.Framework.Library.Symchiffer
                 if (string.IsNullOrEmpty(secretKey))
                 {
                     privateKey = string.Empty;
-                    key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                    key = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCEK), ResReader.GetValue(Constants.BOUNCE4), 32);
+                    iv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), ResReader.GetValue(Constants.BOUNCEK), 32);
                 }
                 else
                 {
                     privateKey = secretKey;
-                    key = Encoding.UTF8.GetByteCount(secretKey) == 32 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
-                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                    key = GetUserKeyBytes(secretKey, userHostIpAddress, 32);
+                    iv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), ResReader.GetValue(Constants.BOUNCEK), 32);
                 }
 
                 FishKey = new byte[32];
@@ -94,6 +107,65 @@ namespace Area23.At.Framework.Library.Symchiffer
         }
 
         #endregion ctor_gen
+
+        #region GetUserKeyBytes
+
+        /// <summary>
+        /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
+        /// </summary>
+        /// <param name="usrHostAddr">user host ip address</param>
+        /// <param name="secretKey">user secret key, default email address</param>
+        /// <returns>Array of byte with length KeyLen</returns>
+        internal static byte[] GetUserKeyBytes(string secretKey = "postmaster@localhost", string usrHostAddr = "127.0.0.1", int keyLen = 24)
+        {
+            privateKey = secretKey;
+            userHostIpAddress = usrHostAddr;
+
+            int keyByteCnt = -1;
+            string keyByteHashString = privateKey;
+            byte[] tmpKey = new byte[keyLen];
+
+            if ((keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString)) < keyLen)
+            {
+                keyByteHashString = PrivateUserKey;
+                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
+            }
+            if (keyByteCnt < keyLen)
+            {
+                keyByteHashString = PrivateUserHostKey;
+                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
+            }
+            if (keyByteCnt < keyLen)
+            {
+                RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
+                randomNumGen.GetBytes(tmpKey, 0, keyLen);
+
+                byte[] tinyKeyBytes = new byte[keyByteCnt];
+                tinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
+                int tinyLength = tinyKeyBytes.Length;
+
+                for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
+                {
+                    tmpKey[bytCnt] = tinyKeyBytes[bytCnt % tinyLength];
+                }
+            }
+            else
+            {
+                byte[] ssSmallNotTinyKeyBytes = new byte[keyByteCnt];
+                ssSmallNotTinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
+                int ssSmallByteCnt = ssSmallNotTinyKeyBytes.Length;
+
+                for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)
+                {
+                    tmpKey[bytIdx] = ssSmallNotTinyKeyBytes[bytIdx];
+                }
+            }
+
+            return tmpKey;
+
+        }
+
+        #endregion GetUserKeyBytes
 
         #region EncryptDecryptBytes
 

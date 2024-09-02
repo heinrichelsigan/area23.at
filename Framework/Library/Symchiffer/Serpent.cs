@@ -22,15 +22,24 @@ namespace Area23.At.Framework.Library.Symchiffer
         #region fields
 
         private static string privateKey = string.Empty;
+        private static string userHostIpAddress = string.Empty;
+
+        #endregion fields
+
+        #region Properties
 
         internal static byte[] SerpentKey { get; private set; }
         internal static byte[] SerpentIv { get; private set; }
 
         internal static int Size { get; private set; }
         internal static string Mode { get; private set; }
+
+        internal static string PrivateUserKey { get => string.Concat(privateKey, privateKey); }
+        internal static string PrivateUserHostKey { get => string.Concat(privateKey, userHostIpAddress, privateKey, userHostIpAddress); }
+
         internal static IBlockCipherPadding BlockCipherPadding { get; private set; }
 
-        #endregion fields
+        #endregion Properties
 
         #region ctor_gen
 
@@ -48,16 +57,17 @@ namespace Area23.At.Framework.Library.Symchiffer
             Size = 128;
             Mode = "ECB";
             BlockCipherPadding = new ZeroBytePadding();
-            SerpentGenWithKey(string.Empty, true);
+            // SerpentGenWithKey(string.Empty, true);
         }
 
         /// <summary>
         /// ThreeFishGenWithKey => Generates new <see cref="Serpent"/> with secret key
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
+        /// <param name="userHostAddr">user host address is here part of private key</param>
         /// <param name="init">init <see cref="Serpent"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool SerpentGenWithKey(string secretKey = null, bool init = true)
+        public static bool SerpentGenWithKey(string secretKey = null, string userHostAddr = "", bool init = true)
         {
             byte[] iv = new byte[16]; // Serpent > IV <= 128 bit
             byte[] key = new byte[16];
@@ -80,7 +90,7 @@ namespace Area23.At.Framework.Library.Symchiffer
                 else
                 {
                     privateKey = secretKey;
-                    key = Encoding.UTF8.GetByteCount(secretKey) == 16 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
+                    key = GetUserKeyBytes(secretKey, userHostIpAddress, 16);
                     iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
                 }
 
@@ -95,6 +105,65 @@ namespace Area23.At.Framework.Library.Symchiffer
         }
 
         #endregion ctor_gen
+
+        #region GetUserKeyBytes
+
+        /// <summary>
+        /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
+        /// </summary>
+        /// <param name="secretKey">user secret key, default email address</param>
+        /// <param name="usrHostAddr">user host ip address</param>
+        /// <returns>Array of byte with length KeyLen</returns>
+        internal static byte[] GetUserKeyBytes(string secretKey = "postmaster@localhost", string usrHostAddr = "127.0.0.1", int keyLen = 16)
+        {
+            privateKey = secretKey;
+            userHostIpAddress = usrHostAddr;
+
+            int keyByteCnt = -1;
+            string keyByteHashString = privateKey;
+            byte[] tmpKey = new byte[keyLen];
+
+            if ((keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString)) < keyLen)
+            {
+                keyByteHashString = PrivateUserKey;
+                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
+            }
+            if (keyByteCnt < keyLen)
+            {
+                keyByteHashString = PrivateUserHostKey;
+                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
+            }
+            if (keyByteCnt < keyLen)
+            {
+                RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
+                randomNumGen.GetBytes(tmpKey, 0, keyLen);
+
+                byte[] tinyKeyBytes = new byte[keyByteCnt];
+                tinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
+                int tinyLength = tinyKeyBytes.Length;
+
+                for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
+                {
+                    tmpKey[bytCnt] = tinyKeyBytes[bytCnt % tinyLength];
+                }
+            }
+            else
+            {
+                byte[] ssSmallNotTinyKeyBytes = new byte[keyByteCnt];
+                ssSmallNotTinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
+                int ssSmallByteCnt = ssSmallNotTinyKeyBytes.Length;
+
+                for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)
+                {
+                    tmpKey[bytIdx] = ssSmallNotTinyKeyBytes[bytIdx];
+                }
+            }
+
+            return tmpKey;
+
+        }
+
+        #endregion GetUserKeyBytes
 
         #region EncryptDecryptBytes
 
