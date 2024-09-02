@@ -51,33 +51,6 @@ namespace Area23.At.Mono.Calc
         protected global::System.Web.UI.HtmlControls.HtmlForm RpnCalcForm;
 
         /// <summary>
-        /// spanPreviousValue control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanPreviousValue;
-
-        /// <summary>
-        /// spanLastValue control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanLastValue;
-
-        /// <summary>
-        /// spanCalcMode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCalcMode;
-
-        /// <summary>
         /// Bsin control.
         /// </summary>
         /// <remarks>
