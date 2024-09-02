@@ -7,8 +7,8 @@ namespace Area23.At.Mono.Unix
 {
     public partial class Bc : System.Web.UI.Page
     {
-        int lines = 4;
-        static Random random;
+        // int lines = 4;
+        // static Random random;
         string lastLine = "";
         object bcLock = new object();
         private static readonly bool USE_UNIX = (Path.DirectorySeparatorChar == '/') ? true : false;

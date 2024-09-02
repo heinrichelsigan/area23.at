@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
@@ -81,6 +82,27 @@ namespace Area23.At.Framework.Library.Symchiffer
                 decryptedText = System.Text.Encoding.UTF8.GetString(decryptedBytes);
 
             return decryptedText;
+        }
+
+        /// <summary>
+        /// GetBytesTrimNulls gets a byte[] from binary byte[] data and truncate all 0 byte at the end.
+        /// </summary>
+        /// <param name="decryptedBytes">decrypted byte[]</param>
+        /// <returns>truncated byte[] without a lot of \0 (null) characters</returns>
+        public static byte[] GetBytesTrimNulls(byte[] decryptedBytes)
+        {
+            int ig = -1;
+            byte[] decryptedNonNullBytes = null;
+
+            if ((ig = decryptedBytes.ArrayIndexOf((byte)0)) > 0)
+            {
+                decryptedNonNullBytes = new byte[ig];
+                Array.Copy(decryptedBytes, decryptedNonNullBytes, ig);
+            }
+            else
+                decryptedNonNullBytes = decryptedBytes;
+
+            return decryptedNonNullBytes;
         }
 
         /// <summary>
@@ -249,6 +271,89 @@ namespace Area23.At.Framework.Library.Symchiffer
             return cryptParams.BlockChipher;
         }
 
+
+        #region GetUserKeyBytes
+
+        /// <summary>
+        /// PrivateUserKey, helper to double private secret key to get a longer byte[]
+        /// </summary>
+        /// <param name="secretKey">users private secret key</param>
+        /// <returns>doubled concatendated string of secretKey</returns>
+        internal static string PrivateUserKey(string secretKey)
+        {
+            string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
+            return string.Concat(secKey, secKey);
+        }
+
+        /// <summary>
+        /// PrivateKeyWithUserHash, helper to double private secret key with hash
+        /// </summary>
+        /// <param name="secretKey">users private secret key</param>
+        /// <param name="userHash">users private secret key hash</param>
+        /// <returns>doubled concatendated string of (secretKey + hash)</returns>
+        internal static string PrivateKeyWithUserHash(string secretKey, string userHash)
+        {
+            string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
+            string usrHash = string.IsNullOrEmpty(userHash) ? Constants.AREA23_EMAIL : userHash;
+
+            return string.Concat(secKey, usrHash, secKey, usrHash);
+        }
+
+
+        /// <summary>
+        /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
+        /// </summary>
+        /// <param name="secretKey">user secret key, default email address</param>
+        /// <param name="usrHostAddr">user host ip address</param>
+        /// <returns>Array of byte with length KeyLen</returns>
+        public static byte[] GetUserKeyBytes(string secretKey = "postmaster@localhost", string usrHostAddr = "127.0.0.1", int keyLen = 32)
+        {
+            
+            int keyByteCnt = -1;
+            string keyByteHashString = secretKey;
+            byte[] tmpKey = new byte[keyLen];
+
+            if ((keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString)) < keyLen)
+            {
+                keyByteHashString = PrivateUserKey(secretKey);
+                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
+            }
+            if (keyByteCnt < keyLen)
+            {
+                keyByteHashString = PrivateKeyWithUserHash(secretKey, usrHostAddr);
+                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
+            }
+            if (keyByteCnt < keyLen)
+            {
+                RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
+                randomNumGen.GetBytes(tmpKey, 0, keyLen);
+
+                byte[] tinyKeyBytes = new byte[keyByteCnt];
+                tinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
+                int tinyLength = tinyKeyBytes.Length;
+
+                for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
+                {
+                    tmpKey[bytCnt] = tinyKeyBytes[bytCnt % tinyLength];
+                }
+            }
+            else
+            {
+                byte[] ssSmallNotTinyKeyBytes = new byte[keyByteCnt];
+                ssSmallNotTinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
+                int ssSmallByteCnt = ssSmallNotTinyKeyBytes.Length;
+
+                for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)
+                {
+                    tmpKey[bytIdx] = ssSmallNotTinyKeyBytes[bytIdx];
+                }
+            }
+
+            return tmpKey;
+
+        }
+
+        #endregion GetUserKeyBytes
 
 
     }

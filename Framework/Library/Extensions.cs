@@ -147,10 +147,12 @@ namespace Area23.At.Framework.Library
         /// <returns>index in array if found, otherwise -1</returns>
         public static int ArrayIndexOf(this byte[] bytes, byte value)
         {
-            for (int bCnt = 0; bCnt < bytes.Length; bCnt++)
+            for (int bCnt = bytes.Length - 1; bCnt >= 0; bCnt--)
             {
-                if (bytes[bCnt] == value)
+                if (bytes[bCnt] != value)
+                {
                     return bCnt;
+                }                
             }
             return -1;
         }

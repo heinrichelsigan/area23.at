@@ -19,12 +19,17 @@ namespace Area23.At.Framework.Library.Symchiffer
         private static string privateKey = string.Empty;
 
         private static readonly sbyte[] MatrixBasePerm = { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf };
+
+        #endregion fields
+
+        #region Properties
+
         internal static sbyte[] MatrixPermKey { get; set; }
         private static sbyte[] MatrixReverse { get; set; }
 
         private static HashSet<sbyte> PermKeyHash { get; set; }
 
-        #endregion fields
+        #endregion Properties
 
         #region ctor_init_gen_reverse
 
@@ -76,16 +81,12 @@ namespace Area23.At.Framework.Library.Symchiffer
 
             if (init)
             {
-                if (string.IsNullOrEmpty(secretKey))
-                    privateKey = string.Empty;
-                else
-                    privateKey = secretKey;
+                privateKey = string.IsNullOrEmpty(secretKey) ? string.Empty : secretKey;
 
                 InitMatrixSymChiffer();
 
-                byte[] keyBytes = (!string.IsNullOrEmpty(secretKey)) ?
-                    System.Text.Encoding.UTF8.GetBytes(secretKey) :
-                    SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Constants.BOUNCEK));
+                byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(secretKey);
+                // SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Constants.BOUNCEK));
 
                 foreach (byte b in keyBytes)
                 {

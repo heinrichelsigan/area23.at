@@ -34,9 +34,6 @@ namespace Area23.At.Framework.Library.Symchiffer
 
         internal static int IvLen { get; private set; } = 8;
 
-        internal static string PrivateUserKey { get => string.Concat(privateKey, privateKey); }
-        internal static string PrivateUserHostKey { get => string.Concat(privateKey, userHostIpAddress, privateKey, userHostIpAddress); }
-
         internal static byte[] toDecryptArray;
 
         #endregion Properties
@@ -63,7 +60,7 @@ namespace Area23.At.Framework.Library.Symchiffer
         /// <param name="secretKey">your plain text secret key</param>
         /// <param name="init">init TripleDes first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool Des3FromKey(string secretKey = "", string userHostAddress = "", bool init = true)
+        public static bool Des3FromKey(string secretKey = "", string userHostAddr = "", bool init = true)
         {
             byte[] key;
             byte[] iv = new byte[IvLen];
@@ -86,10 +83,11 @@ namespace Area23.At.Framework.Library.Symchiffer
                 else
                 {
                     privateKey = secretKey;
+                    userHostIpAddress = userHostAddr;
                     // MD5 md5 = new MD5CryptoServiceProvider();
                     // key = md5.ComputeHash(Encoding.UTF8.GetBytes(secretKey));
-                    key = GetUserKeyBytes(secretKey, userHostIpAddress, 24);
-                    iv = GetUserKeyBytes(ResReader.GetValue(Constants.DES3_IV), secretKey, 8);
+                    key = CryptHelper.GetUserKeyBytes(secretKey, userHostIpAddress, 24);
+                    iv = CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.DES3_IV), secretKey, 8);
                 }
 
                 DesKey = new byte[KeyLen];
@@ -104,65 +102,6 @@ namespace Area23.At.Framework.Library.Symchiffer
         }
 
         #endregion ctor_gen
-
-        #region GetUserKeyBytes
-
-        /// <summary>
-        /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
-        /// </summary>
-        /// <param name="usrHostAddr">user host ip address</param>
-        /// <param name="secretKey">user secret key, default email address</param>
-        /// <returns>Array of byte with length KeyLen</returns>
-        internal static byte[] GetUserKeyBytes(string secretKey = "postmaster@localhost", string usrHostAddr = "127.0.0.1", int keyLen = 24)
-        {
-            privateKey = secretKey;
-            userHostIpAddress = usrHostAddr;
-
-            int keyByteCnt = -1;
-            string keyByteHashString = privateKey;
-            byte[] tmpKey = new byte[keyLen];
-
-            if ((keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString)) < keyLen)
-            {
-                keyByteHashString = PrivateUserKey;
-                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
-            }
-            if (keyByteCnt < keyLen)
-            {
-                keyByteHashString = PrivateUserHostKey;
-                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
-            }
-            if (keyByteCnt < keyLen)
-            {
-                RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                randomNumGen.GetBytes(tmpKey, 0, KeyLen);
-
-                byte[] tinyKeyBytes = new byte[keyByteCnt];
-                tinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
-                int tinyLength = tinyKeyBytes.Length;
-
-                for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
-                {
-                    tmpKey[bytCnt] = tinyKeyBytes[bytCnt % tinyLength];
-                }
-            }
-            else
-            {
-                byte[] ssSmallNotTinyKeyBytes = new byte[keyByteCnt];
-                ssSmallNotTinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
-                int ssSmallByteCnt = ssSmallNotTinyKeyBytes.Length;
-
-                for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)
-                {
-                    tmpKey[bytIdx] = ssSmallNotTinyKeyBytes[bytIdx];
-                }
-            }
-
-            return tmpKey;
-
-        }
-
-        #endregion GetUserKeyBytes
 
         #region EncryptDecryptBytes
 

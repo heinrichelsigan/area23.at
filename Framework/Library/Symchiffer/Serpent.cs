@@ -34,9 +34,6 @@ namespace Area23.At.Framework.Library.Symchiffer
         internal static int Size { get; private set; }
         internal static string Mode { get; private set; }
 
-        internal static string PrivateUserKey { get => string.Concat(privateKey, privateKey); }
-        internal static string PrivateUserHostKey { get => string.Concat(privateKey, userHostIpAddress, privateKey, userHostIpAddress); }
-
         internal static IBlockCipherPadding BlockCipherPadding { get; private set; }
 
         #endregion Properties
@@ -83,14 +80,15 @@ namespace Area23.At.Framework.Library.Symchiffer
             {
                 if (string.IsNullOrEmpty(secretKey))
                 {
-                    privateKey = string.Empty;
+                    privateKey = string.Empty;                    
                     key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
                     iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
                 }
                 else
                 {
                     privateKey = secretKey;
-                    key = GetUserKeyBytes(secretKey, userHostIpAddress, 16);
+                    userHostIpAddress = userHostAddr;
+                    key = CryptHelper.GetUserKeyBytes(secretKey, userHostIpAddress, 16);
                     iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
                 }
 
@@ -105,65 +103,6 @@ namespace Area23.At.Framework.Library.Symchiffer
         }
 
         #endregion ctor_gen
-
-        #region GetUserKeyBytes
-
-        /// <summary>
-        /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
-        /// </summary>
-        /// <param name="secretKey">user secret key, default email address</param>
-        /// <param name="usrHostAddr">user host ip address</param>
-        /// <returns>Array of byte with length KeyLen</returns>
-        internal static byte[] GetUserKeyBytes(string secretKey = "postmaster@localhost", string usrHostAddr = "127.0.0.1", int keyLen = 16)
-        {
-            privateKey = secretKey;
-            userHostIpAddress = usrHostAddr;
-
-            int keyByteCnt = -1;
-            string keyByteHashString = privateKey;
-            byte[] tmpKey = new byte[keyLen];
-
-            if ((keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString)) < keyLen)
-            {
-                keyByteHashString = PrivateUserKey;
-                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
-            }
-            if (keyByteCnt < keyLen)
-            {
-                keyByteHashString = PrivateUserHostKey;
-                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
-            }
-            if (keyByteCnt < keyLen)
-            {
-                RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                randomNumGen.GetBytes(tmpKey, 0, keyLen);
-
-                byte[] tinyKeyBytes = new byte[keyByteCnt];
-                tinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
-                int tinyLength = tinyKeyBytes.Length;
-
-                for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
-                {
-                    tmpKey[bytCnt] = tinyKeyBytes[bytCnt % tinyLength];
-                }
-            }
-            else
-            {
-                byte[] ssSmallNotTinyKeyBytes = new byte[keyByteCnt];
-                ssSmallNotTinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
-                int ssSmallByteCnt = ssSmallNotTinyKeyBytes.Length;
-
-                for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)
-                {
-                    tmpKey[bytIdx] = ssSmallNotTinyKeyBytes[bytIdx];
-                }
-            }
-
-            return tmpKey;
-
-        }
-
-        #endregion GetUserKeyBytes
 
         #region EncryptDecryptBytes
 

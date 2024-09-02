@@ -927,7 +927,7 @@ namespace Area23.At.Framework.Library.Win32Api
             {
                 if (!handle.IsInvalid)
                 {
-                    FILETIME ftCreationTime, ftLastAccessTime, ftLastWriteTime;
+                    System.Runtime.InteropServices.ComTypes.FILETIME ftCreationTime, ftLastAccessTime, ftLastWriteTime;
                     if (!GetFileTime(handle, out ftCreationTime, out ftLastAccessTime, out ftLastWriteTime) != true)
                     {
                         long fileTime = ((long)(uint)ftLastWriteTime.dwHighDateTime) << 32 |
@@ -1360,9 +1360,9 @@ namespace Area23.At.Framework.Library.Win32Api
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool GetFileTime(
             SafeFileHandle hFile,
-            out FILETIME lpCreationTime,
-            out FILETIME lpLastAccessTime,
-            out FILETIME lpLastWriteTime
+            out System.Runtime.InteropServices.ComTypes.FILETIME lpCreationTime,
+            out System.Runtime.InteropServices.ComTypes.FILETIME lpLastAccessTime,
+            out System.Runtime.InteropServices.ComTypes.FILETIME lpLastWriteTime
             );
 
         #endregion

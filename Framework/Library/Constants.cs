@@ -241,6 +241,7 @@ namespace Area23.At.Framework.Library
                     (System.Drawing.Color)HttpContext.Current.Session[BACK_COLOR] : ColorFrom.FromHtml(backColorString);
             set
             {
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 if (value != null)
                 {
                     HttpContext.Current.Session[BACK_COLOR] = value;
@@ -251,6 +252,7 @@ namespace Area23.At.Framework.Library
                     HttpContext.Current.Session[BACK_COLOR_STRING] = backColorString;
                     HttpContext.Current.Session[BACK_COLOR] = ColorFrom.FromHtml(backColorString);
                 }
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
             }
         }
 
@@ -260,6 +262,7 @@ namespace Area23.At.Framework.Library
                     (System.Drawing.Color)HttpContext.Current.Session[QR_COLOR] : ColorFrom.FromHtml(qrColorString);
             set
             {
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 if (value != null)
                 {
                     HttpContext.Current.Session[QR_COLOR] = value;
@@ -270,6 +273,7 @@ namespace Area23.At.Framework.Library
                     HttpContext.Current.Session[QR_COLOR_STRING] = qrColorString;
                     HttpContext.Current.Session[QR_COLOR] = ColorFrom.FromHtml(qrColorString);
                 }
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
             }
         }
 

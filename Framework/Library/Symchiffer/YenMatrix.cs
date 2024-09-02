@@ -16,23 +16,24 @@ namespace Area23.At.Framework.Library.Symchiffer
 
         #region fields
 
-        private static string privateKey = string.Empty, userHostAddress = string.Empty;
+        private static string privateKey = string.Empty;
+        private static string userHostAddress = string.Empty;
 
         private static readonly sbyte[] MatrixBasePerm = {
             0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
             0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f
         };
 
-        internal static string PrivateUserKey { get => string.Concat(privateKey, privateKey); }
+        #endregion fields
 
-        internal static string PrivateUserHostKey { get => string.Concat(privateKey, userHostAddress, privateKey, userHostAddress); }
+        #region Properties
 
         internal static sbyte[] MatrixPermKey { get; set; }
         private static sbyte[] MatrixReverse { get; set; }
 
         private static HashSet<sbyte> PermKeyHash { get; set; }
 
-        #endregion fields
+        #endregion Properties
 
         #region ctor_init_gen_reverse
 
@@ -64,61 +65,6 @@ namespace Area23.At.Framework.Library.Symchiffer
         }
 
         /// <summary>
-        /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
-        /// </summary>
-        /// <param name="usrHostAddr">user host ip address</param>
-        /// <param name="secretKey">user secret key, default email address</param>
-        /// <returns>Array of byte with length KeyLen</returns>
-        internal static byte[] GetUserKeyBytes(string secretKey = "postmaster@localhost", string usrHostAddr = "127.0.0.1", int keyLen = 16)
-        {
-            privateKey = secretKey;
-            userHostAddress = usrHostAddr;
-
-            int keyByteCnt = -1;
-            string keyByteHashString = privateKey;
-            byte[] tmpKey = new byte[keyLen];
-
-            if ((keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString)) < keyLen)
-            {
-                keyByteHashString = PrivateUserKey;
-                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
-            }
-            if (keyByteCnt < keyLen)
-            {
-                keyByteHashString = PrivateUserHostKey;
-                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
-            }
-            if (keyByteCnt < keyLen)
-            {
-                RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                randomNumGen.GetBytes(tmpKey, 0, keyLen);
-
-                byte[] tinyKeyBytes = new byte[keyByteCnt];
-                tinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
-                int tinyLength = tinyKeyBytes.Length;
-
-                for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
-                {
-                    tmpKey[bytCnt] = tinyKeyBytes[bytCnt % tinyLength];
-                }
-            }
-            else
-            {
-                byte[] ssSmallNotTinyKeyBytes = new byte[keyByteCnt];
-                ssSmallNotTinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
-                int ssSmallByteCnt = ssSmallNotTinyKeyBytes.Length;
-
-                for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)
-                {
-                    tmpKey[bytIdx] = ssSmallNotTinyKeyBytes[bytIdx];
-                }
-            }
-
-            return tmpKey;
-
-        }
-
-        /// <summary>
         /// Generate Matrix sym chiffre permutation with a personal key string
         /// </summary>
         /// <param name="secretKey">string key to generate permutation <see cref="MatrixPermKey"/> 
@@ -139,18 +85,13 @@ namespace Area23.At.Framework.Library.Symchiffer
 
             if (init)
             {
-                if (string.IsNullOrEmpty(secretKey))
-                    privateKey = string.Empty;
-                else
-                    privateKey = secretKey;
+                privateKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;                    
+                userHostAddress = string.IsNullOrEmpty(userHostAddr) ? Constants.AREA23_EMAIL : userHostAddr;
 
                 InitMatrixSymChiffer();
 
-                byte[] keyBytes = (!string.IsNullOrEmpty(secretKey)) ?
-                    GetUserKeyBytes(privateKey, userHostAddr, 16) :
-                    GetUserKeyBytes(string.Concat(Constants.DES3_KEY, Constants.AES_KEY, Constants.BOUNCEK),
-                        string.Concat(Constants.DES3_IV, Constants.AES_IV, Constants.BOUNCE4), 16);
-
+                byte[] keyBytes = CryptHelper.GetUserKeyBytes(privateKey, userHostAddress, 16);
+                    
                 foreach (byte keyByte in keyBytes)
                 {
                     sbyte b = (sbyte)(((int)keyByte) % 16);
@@ -176,7 +117,6 @@ namespace Area23.At.Framework.Library.Symchiffer
             return true;
         }
 
-
         /// <summary>
         /// BuildReveseMatrix, builds the determinant decryption matrix for byte{16] encryption matrix
         /// </summary>
@@ -195,7 +135,6 @@ namespace Area23.At.Framework.Library.Symchiffer
             }
             return rmatrix;
         }
-
 
         #endregion ctor_init_gen_reverse
 

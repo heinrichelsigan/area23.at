@@ -12,7 +12,7 @@ namespace Area23.At.Framework.Library.Symchiffer
     /// <summary>
     /// <see cref="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aes?view=net-8.0" />
     /// </summary>
-    public static class Aes
+    public static class Aes 
     {
 
         #region fields
@@ -225,7 +225,7 @@ namespace Area23.At.Framework.Library.Symchiffer
             byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inPlainString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
-            // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
+            
             return encryptedString;
         }
 

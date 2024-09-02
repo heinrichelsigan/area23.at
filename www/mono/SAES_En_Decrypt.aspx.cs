@@ -91,20 +91,27 @@ namespace Area23.At.Mono
             Reset_TextBox_IV(usrMailKey);
 
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
-            {                
+            {
                 string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;
                 string encryptedText = string.Empty;
-                byte[] inBytes = Framework.Library.Symchiffer.CryptHelper.GetBytesFromString(source, 256, true);                
+                byte[] inBytesText = Framework.Library.Symchiffer.CryptHelper.GetBytesFromString(this.TextBoxSource.Text, 256, false);
+                byte[] inBytesHash = Framework.Library.Symchiffer.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
+                // byte[] inBytes = Framework.Library.Symchiffer.CryptHelper.GetBytesFromString(source, 256, true);
+
+                List<byte> enc = new List<byte>(inBytesText);
+                enc.AddRange(inBytesHash);
+                byte[] inBytes = enc.ToArray();
+
                 // System.Text.Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
 
                 string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
                 byte[] encryptBytes = inBytes;
                 foreach (string algo in algos)
                 {
-                    string cryptAlgorithm = (string.IsNullOrEmpty(algo)) ? "YenMatrix" : algo;                    
+                    string cryptAlgorithm = (string.IsNullOrEmpty(algo)) ? "YenMatrix" : algo;
                     encryptBytes = EncryptBytes(inBytes, cryptAlgorithm);
                     inBytes = encryptBytes;
-                    
+
                 }
 
                 encryptedText = Convert.ToBase64String(encryptBytes);
@@ -129,7 +136,7 @@ namespace Area23.At.Mono
         /// <param name="e">EventArgs e</param>
         protected void ButtonDecrypt_Click(object sender, EventArgs e)
         {
-            frmConfirmation.Visible = false;            
+            frmConfirmation.Visible = false;
             string usrMailKey = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
             Reset_TextBox_IV(usrMailKey);
 
@@ -149,8 +156,8 @@ namespace Area23.At.Mono
                     cipherBytes = decryptedBytes;
                 }
 
-                decryptedText = Framework.Library.Symchiffer.CryptHelper.GetStringFromBytesTrimNulls(decryptedBytes);                
-                this.TextBoxDestionation.Text = Handle_PrivateKey_Changed(decryptedText);
+                decryptedText = Framework.Library.Symchiffer.CryptHelper.GetStringFromBytesTrimNulls(decryptedBytes);
+                this.TextBoxDestionation.Text = HandleString_PrivateKey_Changed(decryptedText);
             }
             else
             {
@@ -182,7 +189,7 @@ namespace Area23.At.Mono
         protected void ImageButton_Add_Click(object sender, EventArgs e)
         {
             string addChiffre = "";
-            if (DropDownList_SymChiffer.SelectedValue.ToString() == "3DES" || 
+            if (DropDownList_SymChiffer.SelectedValue.ToString() == "3DES" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "2FISH" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "3FISH" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "AES" ||
@@ -251,11 +258,11 @@ namespace Area23.At.Mono
         /// <param name="pfile">HttpPostedFile pfile</param>
         /// <param name="crypt">true for encrypt, false for decrypt</param>
         protected void EnDeCryptUploadFile(HttpPostedFile pfile, bool crypt = true)
-        {
-            string strFilePath;
+        {            
             // Get the name of the file that is posted.
             string strFileName = pfile.FileName;
             strFileName = Path.GetFileName(strFileName);
+            // string strFilePath;
             lblUploadResult.Text = "";
 
             if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
@@ -292,39 +299,45 @@ namespace Area23.At.Mono
                         int cryptCount = 0;
                         if (crypt)
                         {
+                            //byte[] inBytesHash = System.Text.Encoding.UTF8.GetBytes("\r\n" + this.TextBox_IV.Text);
+                            //List<byte> byteList = new List<byte>(fileBytes);
+                            //byteList.AddRange(inBytesHash);
+                            //byte[] inBytes = byteList.ToArray();
+                            byte[] inBytes = fileBytes;
+
                             imgOut.Src = "res/img/encrypted.png";
 
                             foreach (string algo in algos)
                             {
-                                if (!string.IsNullOrEmpty(algo))
-                                {
-                                    outBytes = EncryptBytes(fileBytes, algo);
-                                    fileBytes = outBytes;
-                                    cryptCount++;
-                                    strFileName += "." + algo.ToLower();
-                                }
+                                string encryptAlgorithm = !string.IsNullOrEmpty(algo) ? algo : "YenMatrix";
+                                outBytes = EncryptBytes(inBytes, encryptAlgorithm);
+                                inBytes = outBytes;
+                                cryptCount++;
+                                strFileName += "." + encryptAlgorithm.ToLower();
                             }
                             lblUploadResult.Text = string.Format("file {0} x encrypted to ", cryptCount);
                         }
                         else
                         {
+                            strFileName = strFileName.EndsWith(".hex") ? strFileName.Replace(".hex", "") : strFileName;
+                            strFileName = strFileName.EndsWith(".oct") ? strFileName.Replace(".oct", "") : strFileName;
                             imgOut.Src = "res/img/decrypted.png";
                             for (int ig = (algos.Length - 1); ig >= 0; ig--)
                             {
-                                if (!string.IsNullOrEmpty(algos[ig]))
-                                {
-                                    outBytes = DecryptBytes(fileBytes, algos[ig]);
-                                    fileBytes = outBytes;
-                                    cryptCount++;
-                                    strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;
-                                }
-                                else
-                                {
-                                    strFileName = strFileName.EndsWith(".hex") ? strFileName.Replace(".hex", "") : strFileName;
-                                    strFileName = strFileName.EndsWith(".oct") ? strFileName.Replace(".oct", "") : strFileName;
-                                }
+                                string decryptAlogrithm = !string.IsNullOrEmpty(algos[ig]) ? algos[ig] : "YenMatrix";
+                                outBytes = DecryptBytes(fileBytes, decryptAlogrithm);
+                                fileBytes = outBytes;
+                                cryptCount++;
+                                strFileName = strFileName.EndsWith("." + decryptAlogrithm.ToLower()) ? strFileName.Replace("." + decryptAlogrithm.ToLower(), "") : strFileName;
                             }
-                            lblUploadResult.Text = "file has been decrypted to ";
+
+                            fileBytes = Framework.Library.Symchiffer.CryptHelper.GetBytesTrimNulls(outBytes);
+                            outBytes = fileBytes;
+                            //outBytes = HandleBytes_PrivateKey_Changed(fileBytes, out bool success);
+                            //if (success)
+                                lblUploadResult.Text = "file has been decrypted to ";
+                            //else
+                            //    lblUploadResult.Text = "decrypting file failed, byte trash saved  to ";                            
                         }
                     }
                     string outMsg;
@@ -355,7 +368,7 @@ namespace Area23.At.Mono
             string userHostString = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : string.Empty;
 
             byte[] encryptBytes = inBytes;
-            byte[] outBytes = null;
+            // byte[] outBytes = null;
             string mode = "ECB";
             int keyLen = 32, blockSize = 256;
 
@@ -367,12 +380,12 @@ namespace Area23.At.Mono
             if (algo == "3FISH")
             {
                 Framework.Library.Symchiffer.Fish3.Fish3GenWithKey(secretKey, userHostString, true);
-                encryptBytes = Framework.Library.Symchiffer.Fish3.Encrypt(inBytes);                
+                encryptBytes = Framework.Library.Symchiffer.Fish3.Encrypt(inBytes);
             }
             if (algo == "3DES")
             {
                 Framework.Library.Symchiffer.Des3.Des3FromKey(secretKey, userHostString, true);
-                encryptBytes = Framework.Library.Symchiffer.Des3.Encrypt(inBytes);                
+                encryptBytes = Framework.Library.Symchiffer.Des3.Encrypt(inBytes);
             }
             if (algo == "AES")
             {
@@ -398,19 +411,19 @@ namespace Area23.At.Mono
             {
                 Framework.Library.Symchiffer.ZenMatrix.ZenMatrixGenWithKey(secretKey, true);
                 encryptBytes = Framework.Library.Symchiffer.ZenMatrix.Encrypt(inBytes);
-            }                
+            }
             if (algo == "Camellia" || algo == "Cast5" || algo == "Cast6" ||
                 algo == "Gost28147" || algo == "Idea" || algo == "Noekeon" ||
                 algo == "RC2" || algo == "RC532" || algo == "RC6" || // || algo == "RC564"
-                algo == "Rijndael" || 
+                algo == "Rijndael" ||
                 algo == "Seed" || algo == "Skipjack" || // algo == "Serpent" ||
                 algo == "Tea" || algo == "Tnepres" || algo == "XTea")
             {
                 IBlockCipher blockCipher = Framework.Library.Symchiffer.CryptHelper.GetBlockCipher(algo, ref mode, ref blockSize, ref keyLen);
-                
+
                 cryptBounceCastle = new Framework.Library.Symchiffer.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, userHostString, secretKey, true);
                 encryptBytes = cryptBounceCastle.Encrypt(inBytes);
-            
+
             }
 
             return encryptBytes;
@@ -429,30 +442,30 @@ namespace Area23.At.Mono
             string userHostString = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : string.Empty;
 
             byte[] decryptBytes = cipherBytes;
-            byte[] plainBytes = null;
+            // byte[] plainBytes = null;
             string mode = "ECB";
             int keyLen = 32, blockSize = 256;
 
             if (algorithmName == "2FISH")
-            {                
+            {
                 sameKey = Framework.Library.Symchiffer.Fish2.Fish2GenWithKey(secretKey, userHostString, false);
                 decryptBytes = Framework.Library.Symchiffer.Fish2.Decrypt(cipherBytes);
             }
             if (algorithmName == "3FISH")
             {
                 sameKey = Framework.Library.Symchiffer.Fish3.Fish3GenWithKey(secretKey, userHostString, true);
-                decryptBytes = Framework.Library.Symchiffer.Fish3.Decrypt(cipherBytes);                
+                decryptBytes = Framework.Library.Symchiffer.Fish3.Decrypt(cipherBytes);
             }
             if (algorithmName == "3DES")
             {
-                sameKey = Framework.Library.Symchiffer.Des3.Des3FromKey(secretKey, userHostString, true);                
-                decryptBytes = Framework.Library.Symchiffer.Des3.Decrypt(cipherBytes);                
+                sameKey = Framework.Library.Symchiffer.Des3.Des3FromKey(secretKey, userHostString, true);
+                decryptBytes = Framework.Library.Symchiffer.Des3.Decrypt(cipherBytes);
             }
             if (algorithmName == "AES")
             {
                 sameKey = Framework.Library.Symchiffer.Aes.AesGenWithNewKey(secretKey, userHostString, false);
-                decryptBytes = Framework.Library.Symchiffer.Aes.Decrypt(cipherBytes);                
-            }            
+                decryptBytes = Framework.Library.Symchiffer.Aes.Decrypt(cipherBytes);
+            }
             //if (algorithmName.ToUpper() == "RC564")
             //{
             //    RC564.RC564GenWithKey(secretKey, false);
@@ -460,7 +473,7 @@ namespace Area23.At.Mono
             //}
             if (algorithmName == "Serpent")
             {
-                sameKey = Framework.Library.Symchiffer.Serpent.SerpentGenWithKey(secretKey, userHostString, false); 
+                sameKey = Framework.Library.Symchiffer.Serpent.SerpentGenWithKey(secretKey, userHostString, false);
                 decryptBytes = Framework.Library.Symchiffer.Serpent.Decrypt(cipherBytes);
             }
             if (algorithmName == "YenMatrix")
@@ -478,13 +491,13 @@ namespace Area23.At.Mono
                 algorithmName == "RC2" || algorithmName == "RC532" || algorithmName == "RC6" || // || algorithmName == "RC564" 
                 algorithmName == "Rijndael" ||
                 algorithmName == "Seed" || algorithmName == "Skipjack" || // algorithmName == "Serpent" || 
-                algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea") 
+                algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea")
             {
                 IBlockCipher blockCipher = Framework.Library.Symchiffer.CryptHelper.GetBlockCipher(algorithmName, ref mode, ref blockSize, ref keyLen);
 
                 cryptBounceCastle = new Framework.Library.Symchiffer.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, userHostString, secretKey, true);
                 decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
-            }            
+            }
 
             return decryptBytes;
         }
@@ -526,7 +539,7 @@ namespace Area23.At.Mono
         }
 
 
-        protected string Handle_PrivateKey_Changed(string decryptedText)
+        protected string HandleString_PrivateKey_Changed(string decryptedText)
         {
             bool sameKey = false;
             string shouldEndWithIv = "\r\n" + this.TextBox_IV.Text;
@@ -549,10 +562,66 @@ namespace Area23.At.Mono
                 this.TextBox_IV.BorderColor = Color.Red;
                 this.TextBox_IV.BorderWidth = 2;
 
-               return $"Decryption failed!\r\nKey: {this.TextBox_Key.Text} with HexHash: {this.TextBox_Key.Text} doesn't match!";
+                return $"Decryption failed!\r\nKey: {this.TextBox_Key.Text} with HexHash: {this.TextBox_Key.Text} doesn't match!";
             }
 
             return decryptedText;
+        }
+
+        protected byte[] HandleBytes_PrivateKey_Changed(byte[] decryptedBytes, out bool success)
+        {
+            success = false;
+            byte[] outBytesSameKey = null;
+            byte[] ivBytesHash = System.Text.Encoding.UTF8.GetBytes("\r\n" + this.TextBox_IV.Text);
+            // Framework.Library.Symchiffer.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
+            if (decryptedBytes != null && decryptedBytes.Length > ivBytesHash.Length)
+            {
+                int j = decryptedBytes.Length - 1;
+                int i = ivBytesHash.Length - 1;
+                while (decryptedBytes[j] != ivBytesHash[i] && decryptedBytes[j - 1] != ivBytesHash[i - 1])
+                {
+                    j--;
+                    if (decryptedBytes.Length > 1024 && j < decryptedBytes.Length - 1024)
+                        break;
+                }
+                for (i = ivBytesHash.Length - 1; i >= 0; i--)
+                {
+                    if (decryptedBytes[j] == ivBytesHash[i])
+                    {
+                        if (i == 0)
+                        {
+                            success = true;
+                            break;
+                        }
+                        j--;
+                    }
+                    else
+                    {
+                        success = false;
+                        break;
+                    }
+                }
+                if (success)
+                {
+                    outBytesSameKey = new byte[decryptedBytes.Length - ivBytesHash.Length];
+                    Array.Copy(decryptedBytes, outBytesSameKey, (decryptedBytes.Length - ivBytesHash.Length));
+                }                
+            }
+
+            if (!success)
+            {
+                this.TextBox_IV.Text = "Private Key changed!";
+                this.TextBox_IV.ToolTip = "Check Enforce decrypt (without key check).";
+                this.TextBox_IV.BorderColor = Color.Red;
+                this.TextBox_IV.BorderWidth = 2;
+
+                this.TextBoxDestionation.Text =
+                    $"Decryption failed!\r\nKey: {this.TextBox_Key.Text} with HexHash: {this.TextBox_Key.Text} doesn't match!";
+
+                outBytesSameKey = decryptedBytes;
+            }
+
+            return outBytesSameKey;
         }
 
     }
