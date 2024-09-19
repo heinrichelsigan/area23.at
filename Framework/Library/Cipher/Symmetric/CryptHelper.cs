@@ -203,7 +203,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
                     blockSize = 128;
                     keyLen = 16;
                     mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaEngine();
+                    blockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
                     break;
                 case "Cast5":
                     blockSize = 128;

@@ -108,7 +108,7 @@ namespace Area23.At.Mono
                 byte[] encryptBytes = inBytes;
                 foreach (string algo in algos)
                 {
-                    string cryptAlgorithm = (string.IsNullOrEmpty(algo)) ? "YenMatrix" : algo;
+                    string cryptAlgorithm = (string.IsNullOrEmpty(algo)) ? "ZenMatrix" : algo;
                     encryptBytes = EncryptBytes(inBytes, cryptAlgorithm);
                     inBytes = encryptBytes;
 
@@ -151,7 +151,7 @@ namespace Area23.At.Mono
                 string[] algos = this.TextBox_Encryption.Text.Split("⇛;,".ToCharArray());
                 for (ig = (algos.Length - 1); ig >= 0; ig--)
                 {
-                    string decryptAlgorithm = string.IsNullOrEmpty(algos[ig]) ? "YenMatrix" : algos[ig];
+                    string decryptAlgorithm = string.IsNullOrEmpty(algos[ig]) ? "ZenMatrix" : algos[ig];
                     decryptedBytes = DecryptBytes(cipherBytes, decryptAlgorithm);
                     cipherBytes = decryptedBytes;
                 }
@@ -307,7 +307,7 @@ namespace Area23.At.Mono
 
                             foreach (string algo in algos)
                             {
-                                string encryptAlgorithm = !string.IsNullOrEmpty(algo) ? algo : "YenMatrix";
+                                string encryptAlgorithm = !string.IsNullOrEmpty(algo) ? algo : "ZenMatrix";
                                 outBytes = EncryptBytes(inBytes, encryptAlgorithm);
                                 inBytes = outBytes;
                                 cryptCount++;
@@ -322,7 +322,7 @@ namespace Area23.At.Mono
                             imgOut.Src = "res/img/decrypted.png";
                             for (int ig = (algos.Length - 1); ig >= 0; ig--)
                             {
-                                string decryptAlogrithm = !string.IsNullOrEmpty(algos[ig]) ? algos[ig] : "YenMatrix";
+                                string decryptAlogrithm = !string.IsNullOrEmpty(algos[ig]) ? algos[ig] : "ZenMatrix";
                                 outBytes = DecryptBytes(fileBytes, decryptAlogrithm);
                                 fileBytes = outBytes;
                                 cryptCount++;
@@ -390,30 +390,25 @@ namespace Area23.At.Mono
                 Framework.Library.Cipher.Symmetric.Aes.AesGenWithNewKey(secretKey, userHostString, true);
                 encryptBytes = Framework.Library.Cipher.Symmetric.Aes.Encrypt(inBytes);
             }
-            //if (algo == "RC564")
-            //{
-            //    RC564.RC564GenWithKey(secretKey, true);
-            //    encryptBytes = RC564.Encrypt(inBytes);
-            //}
+            if (algo == "Rijndael")
+            {
+                Framework.Library.Cipher.Symmetric.Rijndael.RijndaelGenWithKey(secretKey, userHostString, true);
+                encryptBytes = Framework.Library.Cipher.Symmetric.Rijndael.Encrypt(inBytes);
+            }
             if (algo == "Serpent")
             {
                 Framework.Library.Cipher.Symmetric.Serpent.SerpentGenWithKey(secretKey, userHostString, true);
                 encryptBytes = Framework.Library.Cipher.Symmetric.Serpent.Encrypt(inBytes);
             }
-            if (algo == "YenMatrix")
-            {
-                Framework.Library.Cipher.Symmetric.YenMatrix.YenMatrixGenWithKey(secretKey, userHostString, true);
-                encryptBytes = Framework.Library.Cipher.Symmetric.YenMatrix.Encrypt(inBytes);
-            }
             if (algo == "ZenMatrix")
             {
-                Framework.Library.Cipher.Symmetric.ZenMatrix.ZenMatrixGenWithKey(secretKey, true);
+                Framework.Library.Cipher.Symmetric.ZenMatrix.ZenMatrixGenWithKey(secretKey, userHostString, true);
                 encryptBytes = Framework.Library.Cipher.Symmetric.ZenMatrix.Encrypt(inBytes);
             }
             if (algo == "Camellia" || algo == "Cast5" || algo == "Cast6" ||
                 algo == "Gost28147" || algo == "Idea" || algo == "Noekeon" ||
                 algo == "RC2" || algo == "RC532" || algo == "RC6" || // || algo == "RC564"
-                algo == "Rijndael" ||
+                // algo == "Rijndael" ||
                 algo == "Seed" || algo == "Skipjack" || // algo == "Serpent" ||
                 algo == "Tea" || algo == "Tnepres" || algo == "XTea")
             {
@@ -464,30 +459,25 @@ namespace Area23.At.Mono
                 sameKey = Framework.Library.Cipher.Symmetric.Aes.AesGenWithNewKey(secretKey, userHostString, false);
                 decryptBytes = Framework.Library.Cipher.Symmetric.Aes.Decrypt(cipherBytes);
             }
-            //if (algorithmName.ToUpper() == "RC564")
-            //{
-            //    RC564.RC564GenWithKey(secretKey, false);
-            //    decryptBytes = RC564.Decrypt(cipherBytes);
-            //}
+            if (algorithmName == "Rijndael")
+            {
+                Framework.Library.Cipher.Symmetric.Rijndael.RijndaelGenWithKey(secretKey, userHostString, false);
+                decryptBytes = Framework.Library.Cipher.Symmetric.Rijndael.Decrypt(cipherBytes);
+            }
             if (algorithmName == "Serpent")
             {
                 sameKey = Framework.Library.Cipher.Symmetric.Serpent.SerpentGenWithKey(secretKey, userHostString, false);
                 decryptBytes = Framework.Library.Cipher.Symmetric.Serpent.Decrypt(cipherBytes);
             }
-            if (algorithmName == "YenMatrix")
-            {
-                sameKey = Framework.Library.Cipher.Symmetric.YenMatrix.YenMatrixGenWithKey(secretKey, userHostString, false);
-                decryptBytes = Framework.Library.Cipher.Symmetric.YenMatrix.Decrypt(cipherBytes);
-            }
             if (algorithmName == "ZenMatrix")
             {
-                sameKey = Framework.Library.Cipher.Symmetric.ZenMatrix.ZenMatrixGenWithKey(secretKey, false);
+                sameKey = Framework.Library.Cipher.Symmetric.ZenMatrix.ZenMatrixGenWithKey(secretKey, userHostString, false);
                 decryptBytes = Framework.Library.Cipher.Symmetric.ZenMatrix.Decrypt(cipherBytes);
             }
             if (algorithmName == "Camellia" || algorithmName == "Cast5" || algorithmName == "Cast6" ||
                 algorithmName == "Gost28147" || algorithmName == "Idea" || algorithmName == "Noekeon" ||
                 algorithmName == "RC2" || algorithmName == "RC532" || algorithmName == "RC6" || // || algorithmName == "RC564" 
-                algorithmName == "Rijndael" ||
+                // algorithmName == "Rijndael" ||
                 algorithmName == "Seed" || algorithmName == "Skipjack" || // algorithmName == "Serpent" || 
                 algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea")
             {

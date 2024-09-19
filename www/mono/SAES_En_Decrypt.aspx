@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="SAES_En_Decrypt.aspx.cs" Inherits="Area23.At.Mono.SAES_En_Decrypt" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="SAES_En_Decrypt.aspx.cs" Inherits="Area23.At.Mono.SAES_En_Decrypt" validateRequest="false" %>
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="https://area23.at/css/od.css" />
@@ -14,24 +14,23 @@
                     <asp:ListItem Enabled="true" Value="3DES" Selected="false">3DES</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="2FISH" Selected="false">2FISH</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="3FISH" Selected="false">3FISH</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="AES" Selected="true">AES</asp:ListItem>                                       
+                    <asp:ListItem Enabled="true" Value="AES" Selected="true">AES</asp:ListItem>              
                     <asp:ListItem Enabled="true" Value="Cast5" Selected="False">Cast5</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Cast6" Selected="False">Cast6</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Camellia" Selected="False">Camellia</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Gost28147" Selected="False">Gost28147</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Idea" Selected="false">Idea</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Noekeon" Selected="false">Noekeon</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="RC2" Selected="false">RC2</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="RC532" Selected="false">RC532</asp:ListItem>                    
-                    <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="RC2" Selected="false">RC2</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="RC532" Selected="false">RC532</asp:ListItem>                
+                    <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Seed" Selected="false">Seed</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Skipjack" Selected="false">Skipjack</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Tea" Selected="false">Tea</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="Tnepres" Selected="false">Tnepres</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="XTea" Selected="false">XTea</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="YenMatrix" Selected="false">YenMatrix</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="ZenMatrix" Selected="false">ZenMatrix</asp:ListItem>
                 </asp:DropDownList>
             </span>
@@ -86,7 +85,7 @@
                 <img id="imgOut" runat="server" border="0" alt="File transformed" src="res/img/file.png" /></a>
          </asp:Panel>
         <h2>En-/Decrypt text</h2>
-        <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="10" Columns="48" ToolTip="Source Text" Text="[Enter text to en-/decrypt here]"></asp:TextBox>
+        <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="10" Columns="48" ValidateRequestMode="Disabled" ToolTip="Source Text" Text="[Enter text to en-/decrypt here]"></asp:TextBox>
         <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="10" Columns="48" MaxLength="32768" ReadOnly="true" ToolTip="Destination Text"></asp:TextBox>
         <br />
         <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClick="ButtonEncrypt_Click" />

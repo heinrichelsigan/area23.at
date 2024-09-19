@@ -17,7 +17,6 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Win32Api
 {
-
     /// <summary>
     /// NativeMethods contain inner classes for User32, Kernel32 and GDI32 Windows Core API calls
     /// </summary>
@@ -182,6 +181,29 @@ namespace Area23.At.Framework.Library.Win32Api
 
         }
 
+        public enum CopyProgressResult : uint
+        {
+            PROGRESS_CONTINUE = 0,
+            PROGRESS_CANCEL = 1,
+            PROGRESS_STOP = 2,
+            PROGRESS_QUIET = 3
+        }
+
+        public enum CopyProgressCallbackReason : uint
+        {
+            CALLBACK_CHUNK_FINISHED = 0x00000000,
+            CALLBACK_STREAM_SWITCH = 0x00000001
+        }
+
+        [Flags]
+        public enum CopyFileFlags : uint
+        {
+            COPY_FILE_FAIL_IF_EXISTS = 0x00000001,
+            COPY_FILE_RESTARTABLE = 0x00000002,
+            COPY_FILE_OPEN_SOURCE_FOR_WRITE = 0x00000004,
+            COPY_FILE_ALLOW_DECRYPTED_DESTINATION = 0x00000008
+        }
+
         #endregion
 
         #region Member_Properties_Data
@@ -258,8 +280,24 @@ namespace Area23.At.Framework.Library.Win32Api
         /// </summary>
         public static ProcessorArchitectures ProcessorArchitectureNative => SystemInformation.ProcessorArchitectureTypeNative;
 
+        private static int pbCancel;
+
         #endregion Member_Properties_Data
 
+        #region delegates
+
+        public delegate CopyProgressResult CopyProgressRoutine(
+           long TotalFileSize,
+           long TotalBytesTransferred,
+           long StreamSize,
+           long StreamBytesTransferred,
+           uint dwStreamNumber,
+           CopyProgressCallbackReason dwCallbackReason,
+           IntPtr hSourceFile,
+           IntPtr hDestinationFile,
+           IntPtr lpData);
+
+        #endregion delegates
 
         #region InnerClasses_Structs
 
@@ -393,7 +431,7 @@ namespace Area23.At.Framework.Library.Win32Api
 
             [DllImport("user32.dll")]
             public static extern IntPtr GetWindowDC(IntPtr hWnd);
-            
+
             [DllImport("user32.dll")]
             public static extern IntPtr GetWindowRect(IntPtr hWnd, ref RECT rect);
 
@@ -464,7 +502,7 @@ namespace Area23.At.Framework.Library.Win32Api
             public MemoryStatus()
             {
 #if (CLR2COMPATIBILITY)
-            _length = (uint)Marshal.SizeOf(typeof(NativeMethods.MemoryStatus));
+                _length = (uint)Marshal.SizeOf(typeof(NativeMethods.MemoryStatus));
 #else
                 _length = (uint)Marshal.SizeOf<NativeMethods.MemoryStatus>();
 #endif
@@ -532,7 +570,7 @@ namespace Area23.At.Framework.Library.Win32Api
             public SecurityAttributes()
             {
 #if (CLR2COMPATIBILITY)
-            _nLength = (uint)Marshal.SizeOf(typeof(NativeMethods.SecurityAttributes));
+                _nLength = (uint)Marshal.SizeOf(typeof(NativeMethods.SecurityAttributes));
 #else
                 _nLength = (uint)Marshal.SizeOf<NativeMethods.SecurityAttributes>();
 #endif
@@ -725,7 +763,6 @@ namespace Area23.At.Framework.Library.Win32Api
 
         #endregion InnerClasses_Structs
 
-
         #region SetErrorMode_[copied_from_BCL]
 
         private static readonly Version s_threadErrorModeMinOsVersion = new Version(6, 1, 0x1db0);
@@ -753,24 +790,7 @@ namespace Area23.At.Framework.Library.Win32Api
 
         #endregion SetErrorMode_[copied_from_BCL]
 
-        #region Wrapper methods
-
-        /// <summary>
-        /// Really truly non pumping wait.
-        /// Raw IntPtrs have to be used, because the marshaller does not support arrays of SafeHandle, only
-        /// single SafeHandles.
-        /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
-        public static extern Int32 WaitForMultipleObjects(uint handle, IntPtr[] handles, bool waitAll, uint milliseconds);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern void GetSystemInfo(ref SYSTEM_INFO lpSystemInfo);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern void GetNativeSystemInfo(ref SYSTEM_INFO lpSystemInfo);
+        #region static wrapper methods
 
         /// <summary>
         /// Get the last write time of the fullpath to a directory. If the pointed path is not a directory, or
@@ -1189,7 +1209,188 @@ namespace Area23.At.Framework.Library.Win32Api
             return Directory.GetCurrentDirectory();
         }
 
-        #endregion
+        public static void XCopy(string oldFile, string newFile)
+        {
+            CopyFileEx(oldFile, newFile, new CopyProgressRoutine(CopyProgressHandler), IntPtr.Zero, ref pbCancel, CopyFileFlags.COPY_FILE_RESTARTABLE);
+        }
+
+        public static CopyProgressResult CopyProgressHandler(long total, long transferred, long streamSize, long StreamByteTrans, uint dwStreamNumber, CopyProgressCallbackReason reason, IntPtr hSourceFile, IntPtr hDestinationFile, IntPtr lpData)
+        {
+            return CopyProgressResult.PROGRESS_CONTINUE;
+        }
+
+        #region helper methods
+
+        internal static void VerifyThrowInternalError(bool condition, string message, params object[] args)
+        {
+            if (!condition)
+            {
+                ThrowInternalError(message, args);
+            }
+        }
+
+        /// <summary>
+        /// This method should be used in places where one would normally put
+        /// an "assert". It should be used to validate that our assumptions are
+        /// true, where false would indicate that there must be a bug in our
+        /// code somewhere. This should not be used to throw errors based on bad
+        /// user input or anything that the user did wrong.
+        /// </summary>
+        internal static void VerifyThrow(bool condition, string unformattedMessage)
+        {
+            if (!condition)
+            {
+                ThrowInternalError(unformattedMessage, null, null);
+            }
+        }
+
+        /// <summary>
+        /// Overload for one string format argument.
+        /// </summary>
+        internal static void VerifyThrow(bool condition, string unformattedMessage, object arg0)
+        {
+            if (!condition)
+            {
+                ThrowInternalError(unformattedMessage, arg0);
+            }
+        }
+
+        /// <summary>
+        /// Overload for two string format arguments.
+        /// </summary>
+        internal static void VerifyThrow(bool condition, string unformattedMessage, object arg0, object arg1)
+        {
+            if (!condition)
+            {
+                ThrowInternalError(unformattedMessage, arg0, arg1);
+            }
+        }
+
+        /// <summary>
+        /// Overload for three string format arguments.
+        /// </summary>
+        internal static void VerifyThrow(bool condition, string unformattedMessage, object arg0, object arg1, object arg2)
+        {
+            if (!condition)
+            {
+                ThrowInternalError(unformattedMessage, arg0, arg1, arg2);
+            }
+        }
+
+        /// <summary>
+        /// Overload for four string format arguments.
+        /// </summary>
+        internal static void VerifyThrow(bool condition, string unformattedMessage, object arg0, object arg1, object arg2, object arg3)
+        {
+            if (!condition)
+            {
+                ThrowInternalError(unformattedMessage, arg0, arg1, arg2, arg3);
+            }
+        }
+
+        /// <summary>
+        /// Throws InternalErrorException.
+        /// This is only for situations that would mean that there is a bug in MSBuild itself.
+        /// </summary>]
+        internal static void ThrowInternalError(string message, params object[] args)
+        {
+            throw new InternalErrorException(FormatString(message, args));
+        }
+
+        internal static bool FileExists(string path)
+        {
+            WIN32_FILE_ATTRIBUTE_DATA data = new WIN32_FILE_ATTRIBUTE_DATA();
+            return GetFileAttributesEx(path, 0, ref data);
+        }
+
+        /// <summary>
+        /// Formats the given string using the variable arguments passed in.
+        ///
+        /// PERF WARNING: calling a method that takes a variable number of arguments is expensive, because memory is allocated for
+        /// the array of arguments -- do not call this method repeatedly in performance-critical scenarios
+        ///
+        /// Thread safe.
+        /// </summary>
+        /// <param name="unformatted">The string to format.</param>
+        /// <param name="args">Optional arguments for formatting the given string.</param>
+        /// <returns>The formatted string.</returns>
+        internal static string FormatString(string unformatted, params object[] args)
+        {
+            string formatted = unformatted;
+
+            // NOTE: String.Format() does not allow a null arguments array
+            if ((args?.Length > 0))
+            {
+#if DEBUG
+                // If you accidentally pass some random type in that can't be converted to a string,
+                // FormatResourceString calls ToString() which returns the full name of the type!
+                foreach (object param in args)
+                {
+                    // Check it has a real implementation of ToString() and the type is not actually System.String
+                    if (param != null)
+                    {
+                        if (string.Equals(param.GetType().ToString(), param.ToString(), StringComparison.Ordinal) &&
+                            param.GetType() != typeof(string))
+                        {
+                            formatted += string.Format("Invalid resource parameter type, was {0}", param.GetType().FullName);
+                        }
+                    }
+                }
+#endif
+                // Format the string, using the variable arguments passed in.
+                // NOTE: all String methods are thread-safe
+                formatted = String.Format(CultureInfo.CurrentCulture, unformatted, args);
+            }
+
+            return formatted;
+        }
+
+        #endregion helper methods
+
+        #region extension methods
+
+        /// <summary>
+        /// Waits while pumping APC messages.  This is important if the waiting thread is an STA thread which is potentially
+        /// servicing COM calls from other threads.
+        /// </summary>
+        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Runtime.InteropServices.SafeHandle.DangerousGetHandle", Scope = "member", Target = "Microsoft.Build.Shared.NativeMethods.#MsgWaitOne(System.Threading.WaitHandle,System.Int32)", Justification = "This is necessary and it has been used for a long time. No need to change it now.")]
+        public static bool MsgWaitOne(this WaitHandle handle)
+        {
+            return handle.MsgWaitOne(Timeout.Infinite);
+        }
+
+        /// <summary>
+        /// Waits while pumping APC messages.  This is important if the waiting thread is an STA thread which is potentially
+        /// servicing COM calls from other threads.
+        /// </summary>
+        public static bool MsgWaitOne(this WaitHandle handle, TimeSpan timeout)
+        {
+            return MsgWaitOne(handle, (int)timeout.TotalMilliseconds);
+        }
+
+        /// <summary>
+        /// Waits while pumping APC messages.  This is important if the waiting thread is an STA thread which is potentially
+        /// servicing COM calls from other threads.
+        /// </summary>
+        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Runtime.InteropServices.SafeHandle.DangerousGetHandle", Justification = "Necessary to avoid pumping")]
+        public static bool MsgWaitOne(this WaitHandle handle, int timeout)
+        {
+            // CoWaitForMultipleHandles allows us to wait in an STA apartment and still service RPC requests from other threads.
+            // VS needs this in order to allow the in-proc compilers to properly initialize, since they will make calls from the
+            // build thread which the main thread (blocked on BuildSubmission.Execute) must service.
+            int waitIndex;
+#if FEATURE_HANDLE_SAFEWAITHANDLE
+            IntPtr handlePtr = handle.SafeWaitHandle.DangerousGetHandle();
+#else
+            IntPtr handlePtr = handle.GetSafeWaitHandle().DangerousGetHandle();
+#endif
+            int returnValue = CoWaitForMultipleHandles(COWAIT_FLAGS.COWAIT_NONE, timeout, 1, new IntPtr[] { handlePtr }, out waitIndex);
+            VerifyThrow(returnValue == 0 || ((uint)returnValue == RPC_S_CALLPENDING && timeout != Timeout.Infinite), "Received {0} from CoWaitForMultipleHandles, but expected 0 (S_OK)", returnValue); return returnValue == 0;
+        }
+
+        #endregion extension methods
+
+        #endregion static wrapper methods
 
         #region PInvoke
 
@@ -1365,177 +1566,35 @@ namespace Area23.At.Framework.Library.Win32Api
             out System.Runtime.InteropServices.ComTypes.FILETIME lpLastWriteTime
             );
 
-        #endregion
-
-        #region ExtensionsMethods
 
         /// <summary>
-        /// Waits while pumping APC messages.  This is important if the waiting thread is an STA thread which is potentially
-        /// servicing COM calls from other threads.
+        /// Really truly non pumping wait.
+        /// Raw IntPtrs have to be used, because the marshaller does not support arrays of SafeHandle, only
+        /// single SafeHandles.
         /// </summary>
-        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Runtime.InteropServices.SafeHandle.DangerousGetHandle", Scope = "member", Target = "Microsoft.Build.Shared.NativeMethods.#MsgWaitOne(System.Threading.WaitHandle,System.Int32)", Justification = "This is necessary and it has been used for a long time. No need to change it now.")]
-        public static bool MsgWaitOne(this WaitHandle handle)
-        {
-            return handle.MsgWaitOne(Timeout.Infinite);
-        }
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        public static extern Int32 WaitForMultipleObjects(uint handle, IntPtr[] handles, bool waitAll, uint milliseconds);
 
-        /// <summary>
-        /// Waits while pumping APC messages.  This is important if the waiting thread is an STA thread which is potentially
-        /// servicing COM calls from other threads.
-        /// </summary>
-        public static bool MsgWaitOne(this WaitHandle handle, TimeSpan timeout)
-        {
-            return MsgWaitOne(handle, (int)timeout.TotalMilliseconds);
-        }
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern void GetSystemInfo(ref SYSTEM_INFO lpSystemInfo);
 
-        /// <summary>
-        /// Waits while pumping APC messages.  This is important if the waiting thread is an STA thread which is potentially
-        /// servicing COM calls from other threads.
-        /// </summary>
-        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Runtime.InteropServices.SafeHandle.DangerousGetHandle", Justification = "Necessary to avoid pumping")]
-        public static bool MsgWaitOne(this WaitHandle handle, int timeout)
-        {
-            // CoWaitForMultipleHandles allows us to wait in an STA apartment and still service RPC requests from other threads.
-            // VS needs this in order to allow the in-proc compilers to properly initialize, since they will make calls from the
-            // build thread which the main thread (blocked on BuildSubmission.Execute) must service.
-            int waitIndex;
-#if FEATURE_HANDLE_SAFEWAITHANDLE
-            IntPtr handlePtr = handle.SafeWaitHandle.DangerousGetHandle();
-#else
-            IntPtr handlePtr = handle.GetSafeWaitHandle().DangerousGetHandle();
-#endif
-            int returnValue = CoWaitForMultipleHandles(COWAIT_FLAGS.COWAIT_NONE, timeout, 1, new IntPtr[] { handlePtr }, out waitIndex);
-            VerifyThrow(returnValue == 0 || ((uint)returnValue == RPC_S_CALLPENDING && timeout != Timeout.Infinite), "Received {0} from CoWaitForMultipleHandles, but expected 0 (S_OK)", returnValue); return returnValue == 0;
-        }
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern void GetNativeSystemInfo(ref SYSTEM_INFO lpSystemInfo);
 
-        #endregion ExtensionsMethods
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CopyFileEx(string lpExistingFileName, string lpNewFileName,
+            CopyProgressRoutine lpProgressRoutine, IntPtr lpData, ref Int32 pbCancel,
+            CopyFileFlags dwCopyFlags);
 
-        #region helper methods
+        [DllImport("kernel32.dll")]
+        static extern uint GetCurrentThreadId();
 
-        internal static void VerifyThrowInternalError(bool condition, string message, params object[] args)
-        {
-            if (!condition)
-            {
-                ThrowInternalError(message, args);
-            }
-        }
-
-        /// <summary>
-        /// This method should be used in places where one would normally put
-        /// an "assert". It should be used to validate that our assumptions are
-        /// true, where false would indicate that there must be a bug in our
-        /// code somewhere. This should not be used to throw errors based on bad
-        /// user input or anything that the user did wrong.
-        /// </summary>
-        internal static void VerifyThrow(bool condition, string unformattedMessage)
-        {
-            if (!condition)
-            {
-                ThrowInternalError(unformattedMessage, null, null);
-            }
-        }
-
-        /// <summary>
-        /// Overload for one string format argument.
-        /// </summary>
-        internal static void VerifyThrow(bool condition, string unformattedMessage, object arg0)
-        {
-            if (!condition)
-            {
-                ThrowInternalError(unformattedMessage, arg0);
-            }
-        }
-
-        /// <summary>
-        /// Overload for two string format arguments.
-        /// </summary>
-        internal static void VerifyThrow(bool condition, string unformattedMessage, object arg0, object arg1)
-        {
-            if (!condition)
-            {
-                ThrowInternalError(unformattedMessage, arg0, arg1);
-            }
-        }
-
-        /// <summary>
-        /// Overload for three string format arguments.
-        /// </summary>
-        internal static void VerifyThrow(bool condition, string unformattedMessage, object arg0, object arg1, object arg2)
-        {
-            if (!condition)
-            {
-                ThrowInternalError(unformattedMessage, arg0, arg1, arg2);
-            }
-        }
-
-        /// <summary>
-        /// Overload for four string format arguments.
-        /// </summary>
-        internal static void VerifyThrow(bool condition, string unformattedMessage, object arg0, object arg1, object arg2, object arg3)
-        {
-            if (!condition)
-            {
-                ThrowInternalError(unformattedMessage, arg0, arg1, arg2, arg3);
-            }
-        }
-
-
-        /// <summary>
-        /// Throws InternalErrorException.
-        /// This is only for situations that would mean that there is a bug in MSBuild itself.
-        /// </summary>]
-        internal static void ThrowInternalError(string message, params object[] args)
-        {
-            throw new InternalErrorException(FormatString(message, args));
-        }
-
-        internal static bool FileExists(string path)
-        {
-            WIN32_FILE_ATTRIBUTE_DATA data = new WIN32_FILE_ATTRIBUTE_DATA();
-            return GetFileAttributesEx(path, 0, ref data);
-        }
-
-        /// <summary>
-        /// Formats the given string using the variable arguments passed in.
-        ///
-        /// PERF WARNING: calling a method that takes a variable number of arguments is expensive, because memory is allocated for
-        /// the array of arguments -- do not call this method repeatedly in performance-critical scenarios
-        ///
-        /// Thread safe.
-        /// </summary>
-        /// <param name="unformatted">The string to format.</param>
-        /// <param name="args">Optional arguments for formatting the given string.</param>
-        /// <returns>The formatted string.</returns>
-        internal static string FormatString(string unformatted, params object[] args)
-        {
-            string formatted = unformatted;
-
-            // NOTE: String.Format() does not allow a null arguments array
-            if ((args?.Length > 0))
-            {
-#if DEBUG
-                // If you accidentally pass some random type in that can't be converted to a string,
-                // FormatResourceString calls ToString() which returns the full name of the type!
-                foreach (object param in args)
-                {
-                    // Check it has a real implementation of ToString() and the type is not actually System.String
-                    if (param != null)
-                    {
-                        if (string.Equals(param.GetType().ToString(), param.ToString(), StringComparison.Ordinal) &&
-                            param.GetType() != typeof(string))
-                        {
-                            formatted += string.Format("Invalid resource parameter type, was {0}", param.GetType().FullName);
-                        }
-                    }
-                }
-#endif
-                // Format the string, using the variable arguments passed in.
-                // NOTE: all String methods are thread-safe
-                formatted = String.Format(CultureInfo.CurrentCulture, unformatted, args);
-            }
-
-            return formatted;
-        }
+        [DllImport("kernel32.dll")]
+        static extern uint GetCurrentProcessId();
 
         #endregion
 
