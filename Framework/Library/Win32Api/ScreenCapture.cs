@@ -8,10 +8,12 @@ using System.Windows.Forms;
 
 namespace Area23.At.Framework.Library.Win32Api
 {
-    
+
     /// <summary>
-    /// Heinrich Elsigan
-    /// GNU General Public License v3
+    /// Thanks to <see href="https://github.com/dotnet">github.com/dotnet</see>,
+    /// <see href="https://stackoverflow.com/">stackoverflow.com/</see>,
+    /// <see href="https://www.pinvoke.net/">pinvoke.net</see> and
+    /// <see cref="https://www.codeproject.com/Articles/546006/Screen-Capture-on-Multiple-Monitors"/>
     /// </summary>
     public static class ScreenCapture
     {
@@ -22,7 +24,7 @@ namespace Area23.At.Framework.Library.Win32Api
         /// <returns></returns>
         public static Image CaptureScreen()
         {
-            return CaptureWindow(NativeMethods.User32.GetDesktopWindow());
+            return CaptureWindow(NativeWrapper.User32.GetDesktopWindow());
         }
 
         /// <summary>
@@ -33,7 +35,7 @@ namespace Area23.At.Framework.Library.Win32Api
         public static Image CaptureDesktopScreen()
         {
             // capture desktop window            
-            IntPtr ptrDesk = NativeMethods.User32.GetDesktopWindow();
+            IntPtr ptrDesk = NativeWrapper.User32.GetDesktopWindow();
             Image imageDesk = CaptureWindow(ptrDesk);
 
             return imageDesk;
@@ -86,11 +88,11 @@ namespace Area23.At.Framework.Library.Win32Api
             Image imageAllSreens = CaptureAllDesktops();
             windowsImages.Add(IntPtr.Zero, imageAllSreens);
 
-            IntPtr deskPtr = NativeMethods.User32.GetDesktopWindow();
+            IntPtr deskPtr = NativeWrapper.User32.GetDesktopWindow();
             Image imageDesk = CaptureWindow(deskPtr);
             windowsImages.Add(deskPtr, imageDesk);
 
-            IntPtr topPtr = NativeMethods.User32.GetTopWindow(deskPtr);
+            IntPtr topPtr = NativeWrapper.User32.GetTopWindow(deskPtr);
             Image imageTop = CaptureWindow(topPtr);
             windowsImages.Add(topPtr, imageTop);
 
@@ -99,7 +101,7 @@ namespace Area23.At.Framework.Library.Win32Api
             {
                 try
                 {
-                    nextPtr = NativeMethods.User32.GetWindow(nextPtr, NativeMethods.User32.GW_HWNDNEXT);
+                    nextPtr = NativeWrapper.User32.GetWindow(nextPtr, NativeWrapper.User32.GW_HWNDNEXT);
                     if (!windowsImages.Keys.Contains(nextPtr))
                     {
                         Image nextImage = CaptureWindow(nextPtr);
@@ -126,30 +128,30 @@ namespace Area23.At.Framework.Library.Win32Api
         public static Image CaptureWindow(IntPtr handle)
         {
             // get te hDC of the target window
-            IntPtr hdcSrc = NativeMethods.User32.GetWindowDC(handle);
+            IntPtr hdcSrc = NativeWrapper.User32.GetWindowDC(handle);
             // get the size
-            NativeMethods.User32.RECT windowRect = new NativeMethods.User32.RECT();
-            NativeMethods.User32.GetWindowRect(handle, ref windowRect);
+            NativeWrapper.User32.RECT windowRect = new NativeWrapper.User32.RECT();
+            NativeWrapper.User32.GetWindowRect(handle, ref windowRect);
             int width = windowRect.right - windowRect.left;
             int height = windowRect.bottom - windowRect.top;
             // create a device context we can copy to
-            IntPtr hdcDest = NativeMethods.GDI32.CreateCompatibleDC(hdcSrc);
+            IntPtr hdcDest = NativeWrapper.GDI32.CreateCompatibleDC(hdcSrc);
             // create a bitmap we can copy it to,
             // using GetDeviceCaps to get the width/height
-            IntPtr hBitmap = NativeMethods.GDI32.CreateCompatibleBitmap(hdcSrc, width, height);
+            IntPtr hBitmap = NativeWrapper.GDI32.CreateCompatibleBitmap(hdcSrc, width, height);
             // select the bitmap object
-            IntPtr hOld = NativeMethods.GDI32.SelectObject(hdcDest, hBitmap);
+            IntPtr hOld = NativeWrapper.GDI32.SelectObject(hdcDest, hBitmap);
             // bitblt over
-            NativeMethods.GDI32.BitBlt(hdcDest, 0, 0, width, height, hdcSrc, 0, 0, NativeMethods.GDI32.SRCCOPY);
+            NativeWrapper.GDI32.BitBlt(hdcDest, 0, 0, width, height, hdcSrc, 0, 0, NativeWrapper.GDI32.SRCCOPY);
             // restore selection
-            NativeMethods.GDI32.SelectObject(hdcDest, hOld);
+            NativeWrapper.GDI32.SelectObject(hdcDest, hOld);
             // clean up
-            NativeMethods.GDI32.DeleteDC(hdcDest);
-            NativeMethods.User32.ReleaseDC(handle, hdcSrc);
+            NativeWrapper.GDI32.DeleteDC(hdcDest);
+            NativeWrapper.User32.ReleaseDC(handle, hdcSrc);
             // get a .NET image object for it
             Image img = Image.FromHbitmap(hBitmap);
             // free up the Bitmap object
-            NativeMethods.GDI32.DeleteObject(hBitmap);
+            NativeWrapper.GDI32.DeleteObject(hBitmap);
             return img;
         }
 
@@ -165,10 +167,10 @@ namespace Area23.At.Framework.Library.Win32Api
         public static Image CaptureAllScreen(int x, int y, int width, int height)
         {
             //create DC for the entire virtual screen
-            int hdcSrc = NativeMethods.GDI32.CreateDC("DISPLAY", null, null, IntPtr.Zero);
-            int hdcDest = NativeMethods.GDI32.CreateCompatibleDC(hdcSrc);
-            int hBitmap = NativeMethods.GDI32.CreateCompatibleBitmap(hdcSrc, width, height);
-            NativeMethods.GDI32.SelectObject(hdcDest, hBitmap);
+            int hdcSrc = NativeWrapper.GDI32.CreateDC("DISPLAY", null, null, IntPtr.Zero);
+            int hdcDest = NativeWrapper.GDI32.CreateCompatibleDC(hdcSrc);
+            int hBitmap = NativeWrapper.GDI32.CreateCompatibleBitmap(hdcSrc, width, height);
+            NativeWrapper.GDI32.SelectObject(hdcDest, hBitmap);
 
             // set the destination area White - a little complicated
             Bitmap bmp = new Bitmap(width, height);
@@ -176,7 +178,7 @@ namespace Area23.At.Framework.Library.Win32Api
             Graphics gf = Graphics.FromImage(ii);
             IntPtr hdc = gf.GetHdc();
             //use whiteness flag to make destination screen white
-            NativeMethods.GDI32.BitBlt(hdcDest, 0, 0, width, height, (int)hdc, 0, 0, 0x00FF0062);
+            NativeWrapper.GDI32.BitBlt(hdcDest, 0, 0, width, height, (int)hdc, 0, 0, 0x00FF0062);
             gf.Dispose();
             ii.Dispose();
             bmp.Dispose();
@@ -203,7 +205,7 @@ namespace Area23.At.Framework.Library.Win32Api
                         Y1 = screendata[i].Bounds.Y + screendata[i].Bounds.Height;
                     else Y1 = y + height;
                     // Main API that does memory data transfer
-                    NativeMethods.GDI32.BitBlt(hdcDest, X - x, Y - y, X1 - X, Y1 - Y, hdcSrc, X, Y,
+                    NativeWrapper.GDI32.BitBlt(hdcDest, X - x, Y - y, X1 - X, Y1 - Y, hdcSrc, X, Y,
                              0x40000000 | 0x00CC0020); //SRCCOPY AND CAPTUREBLT
                 }
             }
@@ -211,9 +213,9 @@ namespace Area23.At.Framework.Library.Win32Api
             // send image to clipboard
             Image imgHBmp = Image.FromHbitmap(new IntPtr(hBitmap));
 
-            NativeMethods.GDI32.DeleteDC(hdcSrc);
-            NativeMethods.GDI32.DeleteDC(hdcDest);
-            NativeMethods.GDI32.DeleteObject(hBitmap);
+            NativeWrapper.GDI32.DeleteDC(hdcSrc);
+            NativeWrapper.GDI32.DeleteDC(hdcDest);
+            NativeWrapper.GDI32.DeleteObject(hBitmap);
 
             return imgHBmp;
         }

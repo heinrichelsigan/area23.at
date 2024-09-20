@@ -83,7 +83,7 @@
     <Compile Include="Cipher\Symmetric\Aes.cs" />
     <Compile Include="Win32Api\HWndInfo.cs" />
     <Compile Include="Win32Api\InternalErrorException.cs" />
-    <Compile Include="Win32Api\NativeMethods.cs" />
+    <Compile Include="Win32Api\NativeWrapper.cs" />
     <Compile Include="Win32Api\Processes.cs" />
     <Compile Include="Win32Api\ScreenCapture.cs" />
   </ItemGroup>

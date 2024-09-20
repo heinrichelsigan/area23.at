@@ -10,6 +10,10 @@ namespace Area23.At.Framework.Library.Win32Api
 
     /// <summary>
     /// HWndInfo - window handle class
+    /// Thanks to <see href="https://github.com/dotnet">github.com/dotnet</see>,
+    /// <see href="https://stackoverflow.com/">stackoverflow.com/</see>,
+    /// <see href="https://www.pinvoke.net/">pinvoke.net</see> and
+    /// <see cref="https://www.codeproject.com/">cpdeproject.com</see>
     /// </summary>
     public class HWndInfo
     {
@@ -119,7 +123,7 @@ namespace Area23.At.Framework.Library.Win32Api
         /// <exception cref="InvalidOperationException"></exception>
         public static IntPtr GetDesktopWindow()
         {
-            IntPtr deskPtr = NativeMethods.User32.GetDesktopWindow();
+            IntPtr deskPtr = NativeWrapper.User32.GetDesktopWindow();
             if (deskPtr == IntPtr.Zero)
                 throw new InvalidOperationException("HWndInfo.GetDesktopWindow() returned IntPtr.Zero");
             return deskPtr;
@@ -132,7 +136,7 @@ namespace Area23.At.Framework.Library.Win32Api
         /// <returns>top most window handle</returns>
         public static IntPtr GetTopWindow(IntPtr hWnd)
         {
-            IntPtr myPtr = NativeMethods.User32.GetTopWindow(hWnd);
+            IntPtr myPtr = NativeWrapper.User32.GetTopWindow(hWnd);
             return myPtr;
         }
 

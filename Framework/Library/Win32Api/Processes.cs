@@ -16,6 +16,10 @@ namespace Area23.At.Framework.Library.Win32Api
 {
     /// <summary>
     /// Processes - a windows process Library using Win32 Api
+    /// Thanks to <see href="https://github.com/dotnet">github.com/dotnet</see>,
+    /// <see href="https://stackoverflow.com/">stackoverflow.com/</see>,
+    /// <see href="https://www.pinvoke.net/">pinvoke.net</see> and
+    /// <see cref="https://www.codeproject.com/">cpdeproject.com</see>
     /// </summary>
     public static class Processes
     {
@@ -195,7 +199,7 @@ namespace Area23.At.Framework.Library.Win32Api
         /// <returns>parent process identifier</returns>
         internal static int GetParentProcessId(int pid)
         {
-            return NativeMethods.GetParentProcessId(pid);
+            return NativeWrapper.GetParentProcessId(pid);
         }
 
         /// <summary>
@@ -205,7 +209,7 @@ namespace Area23.At.Framework.Library.Win32Api
         /// <returns><see cref="System.Diagnostics.Process"/></returns>
         public static Process GetParentProcessById(int pid)
         {
-            int pPid = NativeMethods.GetParentProcessId(pid);
+            int pPid = NativeWrapper.GetParentProcessId(pid);
             Process pProcess = Process.GetProcessById(pPid);
             return (pProcess != null && !pProcess.HasExited) ? pProcess : null;
         }
@@ -250,7 +254,7 @@ namespace Area23.At.Framework.Library.Win32Api
             DateTime parentStartTime = parentProcess.StartTime;
 
             // processList = NativeMethods.GetChildProcessIds(pPid, parentStartTime);
-            List<KeyValuePair<int, NativeMethods.SafeProcessHandle>> processList = NativeMethods.GetChildProcessIds(pPid, parentStartTime);
+            List<KeyValuePair<int, NativeWrapper.SafeProcessHandle>> processList = NativeWrapper.GetChildProcessIds(pPid, parentStartTime);
 
             foreach (var elem in processList)
             {
@@ -309,7 +313,7 @@ namespace Area23.At.Framework.Library.Win32Api
             DateTime parentStartTime = parentProcess.StartTime;
 
             // GetChildProcessIds
-            List<KeyValuePair<int, NativeMethods.SafeProcessHandle>> processHandleList = NativeMethods.GetChildProcessIds(pPid, parentStartTime);
+            List<KeyValuePair<int, NativeWrapper.SafeProcessHandle>> processHandleList = NativeWrapper.GetChildProcessIds(pPid, parentStartTime);
 
             foreach (var elem in processHandleList)
             {
@@ -450,7 +454,7 @@ namespace Area23.At.Framework.Library.Win32Api
         [Obsolete("KillTree(int pPidToKill) is obsolete, use better new implementation static int KillProcessTree(int pid, bool killParent = true, int psKilled = 0, bool ignoreWin32SystemProcesses = true).", false)]
         public static void KillTree(int pPidToKill)
         {
-            NativeMethods.KillTree(pPidToKill);
+            NativeWrapper.KillTree(pPidToKill);
         }
 
         /// <summary>
