@@ -17,7 +17,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
         #region fields
 
         private static string privateKey = string.Empty;
-        private static string userHostAddress = string.Empty;
+        private static string userHash = string.Empty;
 
         private static readonly sbyte[] MatrixBasePerm = {
             0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
@@ -70,9 +70,10 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
         /// <param name="secretKey">string key to generate permutation <see cref="MatrixPermKey"/> 
         /// and <see cref="MatrixPermSalt"/> for encryption 
         /// and reverse matrix <see cref="MatrixReverse"/> for decryption</param>
+        /// <param name="usrHash">user key hash</param>
         /// <param name="init">init three fish first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool ZenMatrixGenWithKey(string secretKey = "", string userHostAddr = "", bool init = true) // , byte[] textForEncryption = null)
+        public static bool ZenMatrixGenWithKey(string secretKey = "he@area23.at", string usrHash = "elsigan@area23.at", bool init = true) // , byte[] textForEncryption = null)
         {
             int aCnt = 0, bCnt = 0;
 
@@ -86,11 +87,11 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
             if (init)
             {
                 privateKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
-                userHostAddress = string.IsNullOrEmpty(userHostAddr) ? Constants.AREA23_EMAIL : userHostAddr;
+                userHash = string.IsNullOrEmpty(usrHash) ? Constants.AREA23_EMAIL : usrHash;
 
                 InitMatrixSymChiffer();
 
-                byte[] keyBytes = CryptHelper.GetUserKeyBytes(privateKey, userHostAddress, 16);
+                byte[] keyBytes = CryptHelper.GetUserKeyBytes(privateKey, userHash, 16);
 
                 foreach (byte keyByte in keyBytes)
                 {

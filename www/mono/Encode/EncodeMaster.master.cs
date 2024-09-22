@@ -45,7 +45,7 @@ namespace Area23.At.Mono.Encode
                         headerLeft.Attributes["class"] = "headerLeftSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("Aes.aspx"))
+                    if (this.Request.RawUrl.Contains("AesImprove.aspx"))
                     {
                         headerLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
                         return;

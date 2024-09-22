@@ -23,7 +23,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
 
         private static string privateKey = string.Empty;
 
-        private static string userHostIpAddress = string.Empty;
+        private static string userHash = string.Empty;
 
         #endregion fields
 
@@ -62,9 +62,10 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
         /// RijndaelGenWithKey - Generate new <see cref="Rijndael"/> with secret key
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
+        /// <param name="usrHash">user key hash</param>
         /// <param name="init">init <see cref="Fish2"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool RijndaelGenWithKey(string secretKey = "", string userHostAddr = "", bool init = true)
+        public static bool RijndaelGenWithKey(string secretKey = "heinrich.elsigan@area23.at", string usrHash = "https://area23.at/net", bool init = true)
         {
             byte[] key;
             byte[] iv = new byte[32];
@@ -87,9 +88,10 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
                 else
                 {
                     privateKey = secretKey;
-                    userHostIpAddress = userHostAddr;
-                    key = CryptHelper.GetUserKeyBytes(secretKey, userHostAddr, 32);
-                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+                    userHash = usrHash;
+                    key = CryptHelper.GetUserKeyBytes(secretKey, userHash, 32);
+                    // iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+                    iv = CryptHelper.GetUserKeyBytes(userHash, secretKey, 16);
                 }
 
                 RijndaelKey = new byte[32];

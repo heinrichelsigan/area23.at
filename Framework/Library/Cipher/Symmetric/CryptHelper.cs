@@ -163,7 +163,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         internal static string PrivateUserKey(string secretKey)
         {
             string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
-            return string.Concat(secKey, secKey);
+            return string.Concat(secKey);
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
             string usrHash = string.IsNullOrEmpty(userHash) ? Constants.AREA23_EMAIL : userHash;
 
-            return string.Concat(secKey, usrHash, secKey, usrHash);
+            return string.Concat(secKey, usrHash);
         }
 
 
@@ -185,9 +185,9 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
         /// </summary>
         /// <param name="secretKey">user secret key, default email address</param>
-        /// <param name="usrHostAddr">user host ip address</param>
+        /// <param name="usrHash">user hash</param>
         /// <returns>Array of byte with length KeyLen</returns>
-        public static byte[] GetUserKeyBytes(string secretKey = "postmaster@kernel.org", string usrHostAddr = "kernel.org", int keyLen = 32)
+        public static byte[] GetUserKeyBytes(string secretKey = "postmaster@kernel.org", string usrHash = "kernel.org", int keyLen = 32)
         {
             
             int keyByteCnt = -1;
@@ -201,7 +201,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             }
             if (keyByteCnt < keyLen)
             {
-                keyByteHashString = PrivateKeyWithUserHash(secretKey, usrHostAddr);
+                keyByteHashString = PrivateKeyWithUserHash(secretKey, usrHash);
                 keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
             }
             if (keyByteCnt < keyLen)

@@ -21,7 +21,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
 
         internal static string privateKey = string.Empty;
 
-        internal static string userHostIpAddress = string.Empty;
+        internal static string userHash = string.Empty;
 
         #endregion fields
 
@@ -58,9 +58,10 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
         /// Generates Des3FromKey 
         /// </summary>
         /// <param name="secretKey">your plain text secret key</param>
+        /// <param name="usrHash">user key hash</param>
         /// <param name="init">init TripleDes first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool Des3FromKey(string secretKey = "", string userHostAddr = "", bool init = true)
+        public static bool Des3FromKey(string secretKey = "postmaster@area23.at", string usrHash = "mail.area23.at", bool init = true)
         {
             byte[] key;
             byte[] iv = new byte[IvLen];
@@ -83,11 +84,12 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
                 else
                 {
                     privateKey = secretKey;
-                    userHostIpAddress = userHostAddr;
+                    userHash = usrHash;
                     // MD5 md5 = new MD5CryptoServiceProvider();
                     // key = md5.ComputeHash(Encoding.UTF8.GetBytes(secretKey));
-                    key = CryptHelper.GetUserKeyBytes(secretKey, userHostIpAddress, 24);
-                    iv = CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.DES3_IV), secretKey, 8);
+                    key = CryptHelper.GetUserKeyBytes(secretKey, userHash, 24);
+                    iv = CryptHelper.GetUserKeyBytes(secretKey, userHash, 8);  
+                    // CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.DES3_IV), secretKey, 8);
                 }
 
                 DesKey = new byte[KeyLen];

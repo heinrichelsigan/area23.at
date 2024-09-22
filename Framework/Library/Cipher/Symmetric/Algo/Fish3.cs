@@ -22,7 +22,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
         #region fields
 
         private static string privateKey = string.Empty;
-        private static string userHostIpAddress = string.Empty;
+        private static string userHash = string.Empty;
 
         #endregion fields
 
@@ -64,10 +64,10 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
         /// Fish3GenWithKey => Generates new <see cref="ThreeFish"/> with secret key
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
-        /// <param name="userHostAddr">user host address is here part of private key</param>
+        /// <param name="usrHash">user key hash</param>
         /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool Fish3GenWithKey(string secretKey = "", string userHostAddr = "", bool init = true)
+        public static bool Fish3GenWithKey(string secretKey = "zen@area23.at", string usrHash = "mail.area23.at", bool init = true)
         {
             byte[] key = new byte[32];
             byte[] iv = new byte[32]; // 3FISH > IV > 128 bit
@@ -90,9 +90,10 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
                 else
                 {
                     privateKey = secretKey;
-                    userHostIpAddress = userHostAddr;
-                    key = CryptHelper.GetUserKeyBytes(secretKey, userHostIpAddress, 32);
-                    iv = CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), ResReader.GetValue(Constants.BOUNCEK), 32);
+                    userHash = usrHash;
+                    key = CryptHelper.GetUserKeyBytes(secretKey, userHash, 32);
+                    iv = CryptHelper.GetUserKeyBytes(userHash, secretKey, 32);
+                    // iv = CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), ResReader.GetValue(Constants.BOUNCEK), 32);
                 }
 
                 FishKey = new byte[32];

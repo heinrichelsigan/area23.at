@@ -22,7 +22,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
         #region fields
 
         private static string privateKey = string.Empty;
-        private static string userHostIpAddress = string.Empty;
+        private static string userHash = string.Empty;
 
         #endregion fields
 
@@ -61,10 +61,10 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
         /// ThreeFishGenWithKey => Generates new <see cref="Serpent"/> with secret key
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
-        /// <param name="userHostAddr">user host address is here part of private key</param>
+        /// <param name="usrHash">user key hash</param>
         /// <param name="init">init <see cref="Serpent"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool SerpentGenWithKey(string secretKey = null, string userHostAddr = "", bool init = true)
+        public static bool SerpentGenWithKey(string secretKey = "heinrich.elsigan@live.at", string usrHash = "heinrich.elsigan@gmail.com", bool init = true)
         {
             byte[] iv = new byte[16]; // Serpent > IV <= 128 bit
             byte[] key = new byte[16];
@@ -87,9 +87,10 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
                 else
                 {
                     privateKey = secretKey;
-                    userHostIpAddress = userHostAddr;
-                    key = CryptHelper.GetUserKeyBytes(secretKey, userHostIpAddress, 16);
-                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                    userHash = usrHash;
+                    key = CryptHelper.GetUserKeyBytes(secretKey, userHash, 16);
+                    // iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                    iv = CryptHelper.GetUserKeyBytes(userHash, secretKey, 16);
                 }
 
                 SerpentKey = new byte[16];
