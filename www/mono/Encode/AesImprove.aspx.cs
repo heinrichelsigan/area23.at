@@ -327,11 +327,13 @@ namespace Area23.At.Mono.Encode
 
                             foreach (string algo in algos)
                             {
-                                string encryptAlgorithm = !string.IsNullOrEmpty(algo) ? algo : "ZenMatrix";
-                                outBytes = EncryptBytes(inBytes, encryptAlgorithm);
-                                inBytes = outBytes;
-                                cryptCount++;
-                                strFileName += "." + encryptAlgorithm.ToLower();
+                                if (!string.IsNullOrEmpty(algo))
+                                {
+                                    outBytes = EncryptBytes(inBytes, algo);
+                                    inBytes = outBytes;
+                                    cryptCount++;
+                                    strFileName += "." + algo.ToLower();
+                                }
                             }
                             lblUploadResult.Text = string.Format("file {0} x encrypted to ", cryptCount);
                         }
@@ -342,11 +344,13 @@ namespace Area23.At.Mono.Encode
                             imgOut.Src = LibPaths.ResAppPath + "img/decrypted.png";
                             for (int ig = (algos.Length - 1); ig >= 0; ig--)
                             {
-                                string decryptAlogrithm = !string.IsNullOrEmpty(algos[ig]) ? algos[ig] : "ZenMatrix";
-                                outBytes = DecryptBytes(fileBytes, decryptAlogrithm);
-                                fileBytes = outBytes;
-                                cryptCount++;
-                                strFileName = strFileName.EndsWith("." + decryptAlogrithm.ToLower()) ? strFileName.Replace("." + decryptAlogrithm.ToLower(), "") : strFileName;
+                                if (!string.IsNullOrEmpty(algos[ig]))
+                                {
+                                    outBytes = DecryptBytes(fileBytes, algos[ig]);
+                                    fileBytes = outBytes;
+                                    cryptCount++;
+                                    strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;
+                                }
                             }
 
                             fileBytes = DeEnCoder.GetBytesTrimNulls(outBytes);
