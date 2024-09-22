@@ -10,45 +10,43 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Cipher.Symmetric
+namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
 {
 
     /// <summary>
-    /// static class Fish3, that implements 3FISH static Encrypt & Decrypt members
+    /// static class Fish2, that implements 2FISH static Encrypt & Decrypt members
     /// </summary>
-    public static class Fish3
+    public static class Fish2
     {
 
         #region fields
 
         private static string privateKey = string.Empty;
+
         private static string userHostIpAddress = string.Empty;
 
         #endregion fields
 
         #region Properties
 
-        internal static byte[] FishKey { get; private set; }
-        internal static byte[] FishIv { get; private set; }
+        public static byte[] FishKey { get; private set; }
+        public static byte[] FishIv { get; private set; }
 
-        internal static int Size { get; private set; }
-        internal static string Mode { get; private set; }
-
-        internal static IBlockCipherPadding BlockCipherPadding { get; private set; }
+        public static int Size { get; private set; }
+        public static string Mode { get; private set; }
+        public static IBlockCipherPadding BlockCipherPadding { get; private set; }
 
         #endregion Properties
 
         #region ctor_gen
 
         /// <summary>
-        /// static Fish3 constructor
+        /// static Fish2 constructor
         /// </summary>
-        static Fish3()
+        static Fish2()
         {
-            byte[] key = new byte[32];
-            byte[] iv = new byte[32];
-            key = CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCEK), ResReader.GetValue(Constants.BOUNCE4), 32);
-            iv = CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), ResReader.GetValue(Constants.BOUNCEK), 32);
+            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
             FishKey = new byte[32];
             FishIv = new byte[32];
             Array.Copy(iv, FishIv, 32);
@@ -56,21 +54,20 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             Size = 256;
             Mode = "ECB";
             BlockCipherPadding = new ZeroBytePadding();
-            // ThreeFishGenWithKey(string.Empty, true);
+
+            // TwoFishGenWithKey(string.Empty, true);
         }
 
-
         /// <summary>
-        /// Fish3GenWithKey => Generates new <see cref="ThreeFish"/> with secret key
+        /// Fish2GenWithKey - Generate new <see cref="Fish2"/> with secret key
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
-        /// <param name="userHostAddr">user host address is here part of private key</param>
-        /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
+        /// <param name="init">init <see cref="Fish2"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool Fish3GenWithKey(string secretKey = "", string userHostAddr = "", bool init = true)
+        public static bool Fish2GenWithKey(string secretKey = "", string userHostAddr = "", bool init = true)
         {
-            byte[] key = new byte[32];
-            byte[] iv = new byte[32]; // 3FISH > IV > 128 bit
+            byte[] key;
+            byte[] iv = new byte[32];
 
             if (!init)
             {
@@ -84,15 +81,15 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
                 if (string.IsNullOrEmpty(secretKey))
                 {
                     privateKey = string.Empty;
-                    key = CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCEK), ResReader.GetValue(Constants.BOUNCE4), 32);
-                    iv = CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), ResReader.GetValue(Constants.BOUNCEK), 32);
+                    key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
                 }
                 else
                 {
                     privateKey = secretKey;
                     userHostIpAddress = userHostAddr;
-                    key = CryptHelper.GetUserKeyBytes(secretKey, userHostIpAddress, 32);
-                    iv = CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), ResReader.GetValue(Constants.BOUNCEK), 32);
+                    key = CryptHelper.GetUserKeyBytes(secretKey, userHostAddr, 32);
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
                 }
 
                 FishKey = new byte[32];
@@ -109,7 +106,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         #region EncryptDecryptBytes
 
         /// <summary>
-        /// Fish3 Encrypt member function
+        /// Fish2 Encrypt member function
         /// </summary>
         /// <param name="plainData">plain data as <see cref="byte[]"/></param>
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
@@ -121,9 +118,8 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
-            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey);
+            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey, 0, 32);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, FishIv);
-
 
             if (Mode == "ECB")
             {
@@ -143,7 +139,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         }
 
         /// <summary>
-        /// Fish3 Decrypt member function
+        /// Fish2 Decrypt member function
         /// </summary>
         /// <param name="cipherData">encrypted <see cref="byte[]">bytes</see></param>
         /// <returns>decrypted plain byte[] data</returns>
@@ -155,7 +151,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
-            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey);
+            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey, 0, 32);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, FishIv);
             // Decrypt
             if (Mode == "ECB")
@@ -167,12 +163,12 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
                 cipherMode.Init(false, keyParamIV);
             }
 
-            int outputSize = (int)cipherMode.GetOutputSize(cipherData.Length); //  cipherMode.GetUpdateOutputSize(cipherData.Length));
-            byte[] plainTextData = new byte[outputSize];
-            int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainTextData, 0);
-            cipherMode.DoFinal(plainTextData, result);
+            int outputSize = cipherMode.GetOutputSize(cipherData.Length);
+            byte[] plainData = new byte[outputSize];
+            int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainData, 0);
+            cipherMode.DoFinal(plainData, result);
 
-            return plainTextData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
+            return plainData; // Encoding.ASCII.GetString(pln).TrimEnd('\0');
         }
 
         #endregion EncryptDecryptBytes
@@ -180,21 +176,22 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         #region EnDecryptString
 
         /// <summary>
-        /// 3FISH Encrypt String method
+        /// 2FISH Encrypt String method
         /// </summary>
         /// <param name="inString">plain string to encrypt</param>
         /// <returns>base64 encoded encrypted string</returns>
         public static string EncryptString(string inString)
         {
-            byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inString);
+            byte[] plainTextData = Encoding.UTF8.GetBytes(inString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
 
             return encryptedString;
         }
 
+
         /// <summary>
-        /// 3FISH Decrypt String method
+        /// 2FISH Decrypt String method
         /// </summary>
         /// <param name="inCryptString">base64 encrypted string</param>
         /// <returns>plain text decrypted string</returns>
@@ -202,7 +199,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;
         }

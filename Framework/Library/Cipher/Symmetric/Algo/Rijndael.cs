@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Cipher.Symmetric
+namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
 {
 
     /// <summary>
@@ -168,7 +168,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainData, 0);
             cipherMode.DoFinal(plainData, result);
 
-            return plainData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
+            return plainData; // Encoding.ASCII.GetString(pln).TrimEnd('\0');
         }
 
         #endregion EncryptDecryptBytes
@@ -182,7 +182,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         /// <returns>base64 encoded encrypted string</returns>
         public static string EncryptString(string inString)
         {
-            byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inString);
+            byte[] plainTextData = Encoding.UTF8.GetBytes(inString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
 
@@ -199,7 +199,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;
         }

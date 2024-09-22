@@ -1,18 +1,19 @@
-﻿using Area23.At.Framework.Library;
-using Area23.At.Framework.Library.Symchiffer;
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Area23.At.Mono.Util.SymChiffer
+namespace Area23.At.Framework.Library.EnDeCoding
 {
-
-    /// <summary>
-    /// static class CryptHelper provides static helper methods for encryption / decryption
-    /// </summary>
-    public static class CryptHelper
+    public static class DeEnCoder
     {
+
+        static DeEnCoder()
+        {
+        }
+
 
         /// <summary>
         /// KeyHexString transforms a private secret key to hex string
@@ -21,7 +22,7 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// <returns>hex string of bytes</returns>
         public static string KeyHexString(string key)
         {
-            byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
             string ivStr = keyBytes.ToHexString();
             return ivStr;
         }
@@ -30,20 +31,25 @@ namespace Area23.At.Mono.Util.SymChiffer
         /// GetBytesFromString gets byte[] array representing binary transformation of a string
         /// </summary>
         /// <param name="inString">string to transfer to binary byte[] data</param>
-        /// <param name="upStretchToCorrectBlockSize">fills at the end of byte[] padding zero 0 bytes</param>
+        /// <param name="blockSize">current block size, default: 256</param>
+        /// <param name="upStretchToCorrectBlockSize">fills at the end of byte[] padding zero 0 bytes, default: false</param>
         /// <returns>byte[] array of binary byte</returns>
-        public static byte[] GetBytesFromString(string inString, bool upStretchToCorrectBlockSize = false)
+        public static byte[] GetBytesFromString(string inString, int blockSize = 256, bool upStretchToCorrectBlockSize = false)
         {
             string sourceString = (string.IsNullOrEmpty(inString)) ? string.Empty : inString;
-            byte[] sourceBytes = System.Text.Encoding.UTF8.GetBytes(sourceString);
+            byte[] sourceBytes = Encoding.UTF8.GetBytes(sourceString);
             int inBytesLen = sourceBytes.Length;
+            if (blockSize == 0)
+                blockSize = 256;
+            else if (blockSize < 0)
+                blockSize = Math.Abs(blockSize);
 
             if (upStretchToCorrectBlockSize)
             {
-                int mul = ((int)(sourceBytes.Length / 256));
-                double dDiv = (double)(sourceBytes.Length / 256);
+                int mul = ((int)(sourceBytes.Length / blockSize));
+                double dDiv = (double)(sourceBytes.Length / blockSize);
                 int iFactor = (int)Math.Min(Math.Truncate(dDiv), Math.Round(dDiv));
-                inBytesLen = (iFactor + 1) * 256;
+                inBytesLen = (iFactor + 1) * blockSize;
             }
 
             byte[] inBytes = new byte[inBytesLen];
@@ -65,16 +71,38 @@ namespace Area23.At.Mono.Util.SymChiffer
             int ig = -1;
             string decryptedText = string.Empty;
 
-            if ((ig = decryptedBytes.ArrayIndexOf((byte)0)) > 0)
+            ig = decryptedBytes.ArrayIndexOf((byte)0);
+            if (ig > 0)
             {
-                byte[] decryptedNonNullBytes = new byte[ig];
-                Array.Copy(decryptedBytes, decryptedNonNullBytes, ig);
-                decryptedText = System.Text.Encoding.UTF8.GetString(decryptedNonNullBytes);
+                byte[] decryptedNonNullBytes = new byte[ig + 1];
+                Array.Copy(decryptedBytes, decryptedNonNullBytes, ig + 1);
+                decryptedText = Encoding.UTF8.GetString(decryptedNonNullBytes);
             }
             else
-                decryptedText = System.Text.Encoding.UTF8.GetString(decryptedBytes);
+                decryptedText = Encoding.UTF8.GetString(decryptedBytes);
 
             return decryptedText;
+        }
+
+        /// <summary>
+        /// GetBytesTrimNulls gets a byte[] from binary byte[] data and truncate all 0 byte at the end.
+        /// </summary>
+        /// <param name="decryptedBytes">decrypted byte[]</param>
+        /// <returns>truncated byte[] without a lot of \0 (null) characters</returns>
+        public static byte[] GetBytesTrimNulls(byte[] decryptedBytes)
+        {
+            int ig = -1;
+            byte[] decryptedNonNullBytes = null;
+
+            if ((ig = decryptedBytes.ArrayIndexOf((byte)0)) > 0)
+            {
+                decryptedNonNullBytes = new byte[ig];
+                Array.Copy(decryptedBytes, decryptedNonNullBytes, ig);
+            }
+            else
+                decryptedNonNullBytes = decryptedBytes;
+
+            return decryptedNonNullBytes;
         }
 
         /// <summary>
@@ -107,6 +135,6 @@ namespace Area23.At.Mono.Util.SymChiffer
             return decryptedText;
         }
 
-    }
 
+    }
 }

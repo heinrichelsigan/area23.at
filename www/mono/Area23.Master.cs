@@ -32,8 +32,8 @@ namespace Area23.At.Mono
             this.aUnix.HRef = LibPaths.UnixAppPath + "UnixMain.aspx";
             this.aQr.HRef = LibPaths.QrAppPath + "QRCodeGen.aspx";
             this.aJson.HRef = LibPaths.BaseAppPath + "json.aspx";
-            this.aByteTransColor.HRef = LibPaths.BaseAppPath + "ByteTransColor.aspx";
-            this.aAesCrypt.HRef = LibPaths.BaseAppPath + "SAES_En_Decrypt.aspx";
+            // this.aByteTransColor.HRef = LibPaths.BaseAppPath + "ByteTransColor.aspx";
+            this.aAesCrypt.HRef = LibPaths.EncodeAppPath + "AesImprove.aspx";
             this.aRpnCalc.HRef = LibPaths.CalcAppPath + "RpnCalc.aspx";
             this.aFroga.HRef = LibPaths.BaseAppPath + "froga.aspx";
             this.aSchnapsNet.HRef = "/mono/SchnapsNet/";
@@ -45,7 +45,7 @@ namespace Area23.At.Mono
             spanLeftCenter.Attributes["class"] = "headerLeftCenter";
             spanCenter0.Attributes["class"] = "headerCenter";
             spanCenter1.Attributes["class"] = "headerCenter";
-            spanCenter2.Attributes["class"] = "headerCenter";
+            // spanCenter2.Attributes["class"] = "headerCenter";
             spanCenter3.Attributes["class"] = "headerCenter";
             spanCenter4.Attributes["class"] = "headerCenter";
             spanRightCenter.Attributes["class"] = "headerRightCenter";
@@ -70,12 +70,12 @@ namespace Area23.At.Mono
                         spanCenter1.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
-                    if (Request.RawUrl.ToLower().Contains("trans"))
-                    {
-                        spanCenter2.Attributes["class"] = "headerCenterSelect";
-                        return;
-                    }
-                    if (Request.RawUrl.ToLower().Contains("aes"))
+                    //if (Request.RawUrl.ToLower().Contains("trans"))
+                    //{
+                    //    spanCenter2.Attributes["class"] = "headerCenterSelect";
+                    //    return;
+                    //}
+                    if (Request.RawUrl.ToLower().Contains("encode"))
                     {
                         spanCenter3.Attributes["class"] = "headerCenterSelect";
                         return;
@@ -126,11 +126,11 @@ namespace Area23.At.Mono
                         spanCenter1.Style["background-color"] = "#ffddee";
                         return;
                     }
-                    if (Page.Title.ToLower().Contains("trans"))
-                    {
-                        spanCenter2.Style["background-color"] = "#ffddee";
-                        return;
-                    }
+                    //if (Page.Title.ToLower().Contains("trans"))
+                    //{
+                    //    spanCenter2.Style["background-color"] = "#ffddee";
+                    //    return;
+                    //}
                 }
             }
             catch (Exception ex)

@@ -28,6 +28,7 @@ namespace Area23.At.Framework.Library
         public const string LOG_DIR = "log";
         public const string LOG_EXT = ".log";
         public const string QR_DIR = "Qr";
+        public const string ENCODE_DIR = "Encode";
         public const string AUTHOR = "Heinrich Elsigan";
         public const string AUTHOR_EMAIL = "heinrich.elsigan@gmail.com";
         public const string AREA23_EMAIL = "zen@area23.at";

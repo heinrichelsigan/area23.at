@@ -11,20 +11,18 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using static System.Net.WebRequestMethods;
 
-namespace Area23.At.Mono
+namespace Area23.At.Mono.Encode
 {
-    public partial class ByteTransColor : Util.UIPage
+    public partial class ImgPngCrypt : Util.UIPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Response.Redirect(LibPaths.EncodeAppPath + "ImgPngCrypt.aspx");
-            //if (Request.Files != null && Request.Files.Count > 0)
-            //{
-            //    buttonUpload_Click(sender, e);
-            //}
+            if (Request.Files != null && Request.Files.Count > 0)
+            {
+                buttonUpload_Click(sender, e);
+            }
         }
 
-        /*
         protected void ReTransformImage(string imgFileName = null)
         {
             System.Drawing.Bitmap x1Image = null;
@@ -215,6 +213,6 @@ namespace Area23.At.Mono
                 TransformUploadFile(oFile.PostedFile);
             }            
         }
-        */
+
     }
 }

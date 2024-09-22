@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Cipher.Symmetric
+namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
 {
 
     /// <summary>
@@ -222,7 +222,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         /// <returns>Base64 encoded encrypted byte[]</returns>
         public static string EncryptString(string inPlainString)
         {
-            byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inPlainString);
+            byte[] plainTextData = Encoding.UTF8.GetBytes(inPlainString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
             
@@ -237,9 +237,9 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         public static string DecryptString(string inCryptString)
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
-            //  System.Text.Encoding.UTF8.GetBytes(inCryptString);
+            //  Encoding.UTF8.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;
         }
@@ -315,7 +315,9 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         [Obsolete("byte[] CreateAesKey(string inputString) is deprecated, please use void AesGenWithNewKey(string inputKey = null)", false)]
         private static byte[] CreateAesKey(string inputString)
         {
-            return Encoding.UTF8.GetByteCount(inputString) == 32 ? Encoding.UTF8.GetBytes(inputString) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(inputString));
+            return Encoding.UTF8.GetByteCount(inputString) == 32 ? 
+                Encoding.UTF8.GetBytes(inputString) : 
+                SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(inputString));
         }
 
         #endregion ObsoleteDeprecated 

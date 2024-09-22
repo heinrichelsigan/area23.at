@@ -7,173 +7,209 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Area23.At.Mono
+namespace Area23.At.Mono.Encode
 {
 
 
-    public partial class Area23
+    public partial class AesImprove
     {
 
         /// <summary>
-        /// HeadContentPlaceHolder control.
+        /// AesImproveForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContentPlaceHolder;
+        protected global::System.Web.UI.HtmlControls.HtmlForm AesImproveForm;
 
         /// <summary>
-        /// spanLeft control.
+        /// DropDownList_SymChiffer control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanLeft;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList_SymChiffer;
 
         /// <summary>
-        /// aSlash control.
+        /// ImageButton_Add control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aSlash;
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton_Add;
 
         /// <summary>
-        /// spanLeftCenter control.
+        /// TextBox_Encryption control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanLeftCenter;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Encryption;
 
         /// <summary>
-        /// aUnix control.
+        /// Button_Clear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aUnix;
+        protected global::System.Web.UI.WebControls.Button Button_Clear;
 
         /// <summary>
-        /// spanCenter0 control.
+        /// ImageButton_Key control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCenter0;
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton_Key;
 
         /// <summary>
-        /// aQr control.
+        /// TextBox_Key control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aQr;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Key;
 
         /// <summary>
-        /// spanCenter1 control.
+        /// DropDownList_Encoding control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCenter1;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList_Encoding;
 
         /// <summary>
-        /// aJson control.
+        /// ImageButton_Hash control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aJson;
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton_Hash;
 
         /// <summary>
-        /// spanCenter3 control.
+        /// TextBox_IV control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCenter3;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_IV;
 
         /// <summary>
-        /// aAesCrypt control.
+        /// Button_Reset_KeyIV control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aAesCrypt;
+        protected global::System.Web.UI.WebControls.Button Button_Reset_KeyIV;
 
         /// <summary>
-        /// spanCenter4 control.
+        /// oFile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCenter4;
+        protected global::System.Web.UI.HtmlControls.HtmlInputFile oFile;
 
         /// <summary>
-        /// aRpnCalc control.
+        /// ButtonEncryptFile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aRpnCalc;
+        protected global::System.Web.UI.WebControls.Button ButtonEncryptFile;
 
         /// <summary>
-        /// spanRightCenter control.
+        /// ButtonDecryptFile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanRightCenter;
+        protected global::System.Web.UI.WebControls.Button ButtonDecryptFile;
 
         /// <summary>
-        /// aFroga control.
+        /// frmConfirmation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aFroga;
+        protected global::System.Web.UI.WebControls.Panel frmConfirmation;
 
         /// <summary>
-        /// spanRight control.
+        /// lblUploadResult control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanRight;
+        protected global::System.Web.UI.WebControls.Label lblUploadResult;
 
         /// <summary>
-        /// aSchnapsNet control.
+        /// aTransFormed control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aSchnapsNet;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aTransFormed;
 
         /// <summary>
-        /// BodyContentPlaceHolder control.
+        /// imgOut control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder BodyContentPlaceHolder;
+        protected global::System.Web.UI.HtmlControls.HtmlImage imgOut;
+
+        /// <summary>
+        /// TextBoxSource control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxSource;
+
+        /// <summary>
+        /// TextBoxDestionation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxDestionation;
+
+        /// <summary>
+        /// ButtonEncrypt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonEncrypt;
+
+        /// <summary>
+        /// ButtonDecrypt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonDecrypt;
     }
 }
