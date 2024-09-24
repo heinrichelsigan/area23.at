@@ -164,11 +164,11 @@ namespace Area23.At.Framework.Library.Core
         {
             get
             {
-                defaultLang = "en";
-                string? firstLang = defaultLang;
-                Microsoft.Extensions.Primitives.StringValues acceptLanguage;
+                defaultLang = "en";                
                 if (locale == null)
-                {                    
+                {
+                    string? firstLang = defaultLang;
+                    Microsoft.Extensions.Primitives.StringValues acceptLanguage;
                     try
                     {
                         if (HttpContextWrapper.Current.Request != null && HttpContextWrapper.Current.Request.Headers != null &&
