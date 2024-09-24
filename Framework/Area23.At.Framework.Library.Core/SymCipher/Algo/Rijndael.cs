@@ -10,41 +10,47 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Core.SymCipher
+namespace Area23.At.Framework.Library.Core.SymCipher.Algo
 {
 
     /// <summary>
     /// static class Fish2, that implements 2FISH static Encrypt & Decrypt members
     /// </summary>
-    public static class Fish2
+    public static class Rijndael
     {
 
         #region fields
 
         private static string privateKey = string.Empty;
 
-        public static byte[] FishKey { get; private set; }
-        public static byte[] FishIv { get; private set; }
+        private static string userHash = string.Empty;
+
+        #endregion fields
+
+        #region Properties
+
+        public static byte[] RijndaelKey { get; private set; }
+        public static byte[] RijndaelIv { get; private set; }
 
         public static int Size { get; private set; }
         public static string Mode { get; private set; }
         public static IBlockCipherPadding BlockCipherPadding { get; private set; }
 
-        #endregion fields
+        #endregion Properties
 
         #region ctor_gen
 
         /// <summary>
         /// static Fish2 constructor
         /// </summary>
-        static Fish2()
+        static Rijndael()
         {
-            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-            FishKey = new byte[32];
-            FishIv = new byte[32];
-            Array.Copy(iv, FishIv, 32);
-            Array.Copy(key, FishKey, 32);
+            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
+            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+            RijndaelKey = new byte[32];
+            RijndaelIv = new byte[16];
+            Array.Copy(iv, RijndaelIv, 16);
+            Array.Copy(key, RijndaelKey, 32);
             Size = 256;
             Mode = "ECB";
             BlockCipherPadding = new ZeroBytePadding();
@@ -53,12 +59,13 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         }
 
         /// <summary>
-        /// Fish2GenWithKey - Generate new <see cref="Fish2"/> with secret key
+        /// RijndaelGenWithKey - Generate new <see cref="Rijndael"/> with secret key
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
+        /// <param name="usrHash">user key hash</param>
         /// <param name="init">init <see cref="Fish2"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool Fish2GenWithKey(string secretKey = "", bool init = true)
+        public static bool RijndaelGenWithKey(string secretKey = "heinrich.elsigan@area23.at", string usrHash = "https://area23.at/net", bool init = true)
         {
             byte[] key;
             byte[] iv = new byte[32];
@@ -75,20 +82,22 @@ namespace Area23.At.Framework.Library.Core.SymCipher
                 if (string.IsNullOrEmpty(secretKey))
                 {
                     privateKey = string.Empty;
-                    key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                    key = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
                 }
                 else
                 {
                     privateKey = secretKey;
-                    key = Encoding.UTF8.GetByteCount(secretKey) == 32 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
-                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                    userHash = usrHash;
+                    key = CryptHelper.GetUserKeyBytes(secretKey, userHash, 32);
+                    // iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+                    iv = CryptHelper.GetUserKeyBytes(userHash, secretKey, 16);
                 }
 
-                FishKey = new byte[32];
-                FishIv = new byte[32];
-                Array.Copy(key, FishKey, 32);
-                Array.Copy(iv, FishIv, 32);
+                RijndaelKey = new byte[32];
+                RijndaelIv = new byte[16];
+                Array.Copy(key, RijndaelKey, 32);
+                Array.Copy(iv, RijndaelIv, 16);
             }
 
             return true;
@@ -99,20 +108,20 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         #region EncryptDecryptBytes
 
         /// <summary>
-        /// Fish2 Encrypt member function
+        /// Rijndael Encrypt member function
         /// </summary>
         /// <param name="plainData">plain data as <see cref="byte[]"/></param>
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
         public static byte[] Encrypt(byte[] plainData)
         {
-            var cipher = new TwofishEngine();
+            var cipher = new AesLightEngine();
 
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
-            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey, 0, 32);
-            ICipherParameters keyParamIV = new ParametersWithIV(keyParam, FishIv);
+            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(RijndaelKey, 0, 32);
+            ICipherParameters keyParamIV = new ParametersWithIV(keyParam, RijndaelIv);
 
             if (Mode == "ECB")
             {
@@ -132,20 +141,20 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         }
 
         /// <summary>
-        /// Fish2 Decrypt member function
+        /// Rijndael Decrypt member function
         /// </summary>
         /// <param name="cipherData">encrypted <see cref="byte[]">bytes</see></param>
         /// <returns>decrypted plain byte[] data</returns>
         public static byte[] Decrypt(byte[] cipherData)
         {
-            var cipher = new TwofishEngine();
+            var cipher = new AesLightEngine();
 
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(cipher), BlockCipherPadding);
             if (Mode == "ECB") cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(cipher), BlockCipherPadding);
             else if (Mode == "CFB") cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(cipher, Size), BlockCipherPadding);
 
-            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(FishKey, 0, 32);
-            ICipherParameters keyParamIV = new ParametersWithIV(keyParam, FishIv);
+            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(RijndaelKey, 0, 32);
+            ICipherParameters keyParamIV = new ParametersWithIV(keyParam, RijndaelIv);
             // Decrypt
             if (Mode == "ECB")
             {
@@ -161,7 +170,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher
             int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainData, 0);
             cipherMode.DoFinal(plainData, result);
 
-            return plainData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
+            return plainData; // Encoding.ASCII.GetString(pln).TrimEnd('\0');
         }
 
         #endregion EncryptDecryptBytes
@@ -175,7 +184,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         /// <returns>base64 encoded encrypted string</returns>
         public static string EncryptString(string inString)
         {
-            byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inString);
+            byte[] plainTextData = Encoding.UTF8.GetBytes(inString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
 
@@ -192,7 +201,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;
         }

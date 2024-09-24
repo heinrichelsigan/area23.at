@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Text;
 using System.Web;
 
@@ -12,8 +13,8 @@ namespace Area23.At.Framework.Library.Core
     {
         #region public const
         public const string APP_NAME = "Area23.At.Mono";
-        public const string APP_DIR = "net";
-        public const string VERSION = "v2.24.831";
+        public const string APP_DIR = "mono";
+        public const string VERSION = "v2.24.830";
         public const string AREA23_URL = "https://area23.at";
         public const string APP_PATH = "https://area23.at/net/";
         public const string RPN_URL = "https://area23.at/net/RpnCalc.aspx";
@@ -28,6 +29,7 @@ namespace Area23.At.Framework.Library.Core
         public const string LOG_DIR = "log";
         public const string LOG_EXT = ".log";
         public const string QR_DIR = "Qr";
+        public const string ENCODE_DIR = "Encode";
         public const string AUTHOR = "Heinrich Elsigan";
         public const string AUTHOR_EMAIL = "heinrich.elsigan@gmail.com";
         public const string AREA23_EMAIL = "zen@area23.at";
@@ -153,27 +155,28 @@ namespace Area23.At.Framework.Library.Core
         public static string Json_Example { get => ResReader.GetValue("json_sample0"); }
 
         private static System.Globalization.CultureInfo locale = null;
-        private static String defaultLang = "en";
+        private static String defaultLang = null;
 
         /// <summary>
-        /// Culture Info from HttpContext.Current.Request.Headers[ACCEPT_LANGUAGE]
+        /// Culture Info from HttpContext.Request.Headers[ACCEPT_LANGUAGE]
         /// </summary>
         public static System.Globalization.CultureInfo Locale
         {
             get
             {
+                defaultLang = "en";
+                string? firstLang = defaultLang;
+                Microsoft.Extensions.Primitives.StringValues acceptLanguage;
                 if (locale == null)
-                {
-                    defaultLang = "en";
+                {                    
                     try
                     {
-                        //if (HttpContext.Current.Request != null && HttpContext.Current.Request.Headers != null &&
-                        //    HttpContext.Current.Request.Headers[ACCEPT_LANGUAGE] != null)
-                        //{
-                        //    string firstLang = HttpContext.Current.Request.Headers[ACCEPT_LANGUAGE].
-                        //        ToString().Split(',')[0];
-                        //    defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
-                        //}
+                        if (HttpContextWrapper.Current.Request != null && HttpContextWrapper.Current.Request.Headers != null &&
+                            HttpContextWrapper.Current.Request.Headers.TryGetValue(ACCEPT_LANGUAGE, out acceptLanguage))
+                        {
+                            firstLang = acceptLanguage.FirstOrDefault();
+                            defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
+                        }
 
                         locale = new System.Globalization.CultureInfo(defaultLang);
                     }
@@ -214,114 +217,55 @@ namespace Area23.At.Framework.Library.Core
         private static readonly string backColorString = "#ffffff";
         public static string BackColorString
         {
-            get
-            {
-                if (System.AppDomain.CurrentDomain.GetData(BACK_COLOR_STRING) != null)
-                    return (string)System.AppDomain.CurrentDomain.GetData(BACK_COLOR_STRING).ToString();
-                
-                return backColorString;
-            }
-            set
-            {               
-                System.AppDomain.CurrentDomain.SetData(BACK_COLOR, ColorFrom.FromHtml(value));
-                System.AppDomain.CurrentDomain.SetData(BACK_COLOR_STRING, value);
-            }
+            get => ((HttpContextWrapper.Current.Session != null && HttpContextWrapper.Current.Session.Keys.Contains(BACK_COLOR_STRING)) ?
+                    (string)HttpContextWrapper.Current.Session.GetString(BACK_COLOR_STRING) : backColorString);
+            set => HttpContextWrapper.Current.Session.SetString(BACK_COLOR_STRING, value);
         }
 
         private static readonly string qrColorString = "#000000";
         public static string QrColorString
         {
-            get
-            {
-                if (System.AppDomain.CurrentDomain.GetData(QR_COLOR_STRING) != null)
-                    return (string)System.AppDomain.CurrentDomain.GetData(QR_COLOR_STRING).ToString();
-                
-                return qrColorString;
-            } 
-            set
-            {
-                System.AppDomain.CurrentDomain.SetData(QR_COLOR, ColorFrom.FromHtml(value));
-                System.AppDomain.CurrentDomain.SetData(QR_COLOR_STRING, value);
-            }
+            get => ((HttpContextWrapper.Current.Session != null && HttpContextWrapper.Current.Session.Keys.Contains(QR_COLOR_STRING)) ?
+                    (string)HttpContextWrapper.Current.Session.GetString(QR_COLOR_STRING) : qrColorString);
+            set => HttpContextWrapper.Current.Session.SetString(QR_COLOR_STRING, value);
         }
 
         public static System.Drawing.Color BackColor
         {
-            get
-            {
-                if (System.AppDomain.CurrentDomain.GetData(BACK_COLOR) != null)
-                    return (System.Drawing.Color)System.AppDomain.CurrentDomain.GetData(BACK_COLOR);
-                
-                if (System.AppDomain.CurrentDomain.GetData(BACK_COLOR_STRING) != null)
-                {
-                    string _backColorString = (string)System.AppDomain.CurrentDomain.GetData(BACK_COLOR_STRING).ToString();
-                    return ColorFrom.FromHtml(_backColorString);
-                }
-                
-                return ColorFrom.FromHtml(backColorString);
-            } 
-            set
-            {
-                if (value != null)
-                {
-                    System.AppDomain.CurrentDomain.SetData(BACK_COLOR, value);
-                    System.AppDomain.CurrentDomain.SetData(BACK_COLOR_STRING, value.ToXrgb());
-                }
-                else
-                {
-                    System.AppDomain.CurrentDomain.SetData(BACK_COLOR_STRING, backColorString);
-                    System.AppDomain.CurrentDomain.SetData(BACK_COLOR, ColorFrom.FromHtml(backColorString));
-                }
-            }
+            get => ColorFrom.FromHtml(BackColorString);
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            set => HttpContextWrapper.Current.Session.SetString(BACK_COLOR_STRING, ((value != null) ? value.ToXrgb() : backColorString));
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         public static System.Drawing.Color QrColor
         {
-            get
-            {
-                if (System.AppDomain.CurrentDomain.GetData(QR_COLOR) != null)
-                    return (System.Drawing.Color)System.AppDomain.CurrentDomain.GetData(QR_COLOR);
-                
-                if (System.AppDomain.CurrentDomain.GetData(QR_COLOR_STRING) != null)
-                {
-                    string _qrColorString = (string)System.AppDomain.CurrentDomain.GetData(QR_COLOR_STRING).ToString();
-                    return ColorFrom.FromHtml(_qrColorString);
-                }
-
-                return ColorFrom.FromHtml(qrColorString);
-            }            
-            set
-            {
-                if (value != null)
-                {
-                    System.AppDomain.CurrentDomain.SetData(QR_COLOR, value);
-                    System.AppDomain.CurrentDomain.SetData(QR_COLOR_STRING, value.ToXrgb());
-                }
-                else
-                {
-                    System.AppDomain.CurrentDomain.SetData(QR_COLOR_STRING, qrColorString);
-                    System.AppDomain.CurrentDomain.SetData(QR_COLOR, ColorFrom.FromHtml(qrColorString));
-                }
-            }
+            get => ColorFrom.FromHtml(QrColorString);
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            set => HttpContextWrapper.Current.Session.SetString(QR_COLOR_STRING, ((value != null) ? value.ToXrgb() : qrColorString));
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'            
         }
 
         public static bool FortuneBool
         {
             get
             {
-                if (System.AppDomain.CurrentDomain.GetData(FORTUNE_BOOL) == null) 
-                    System.AppDomain.CurrentDomain.SetData(FORTUNE_BOOL, false);
+                if (!HttpContextWrapper.Current.Session.Keys.Contains(FORTUNE_BOOL))
+                    HttpContextWrapper.Current.Session.SetString(FORTUNE_BOOL, "false");
                 else
                 {
-                    bool fortuneBool = (bool)System.AppDomain.CurrentDomain.GetData(FORTUNE_BOOL);
-                    System.AppDomain.CurrentDomain.SetData(FORTUNE_BOOL, !fortuneBool);
+                    if (HttpContextWrapper.Current.Session.GetString(FORTUNE_BOOL).Equals("false", StringComparison.InvariantCultureIgnoreCase))
+                        HttpContextWrapper.Current.Session.SetString(FORTUNE_BOOL, "true");
+                    else
+                        HttpContextWrapper.Current.Session.SetString(FORTUNE_BOOL, "false");
                 }
 
-                return (bool)System.AppDomain.CurrentDomain.GetData(FORTUNE_BOOL);
+                return (bool)(HttpContextWrapper.Current.Session.GetString(FORTUNE_BOOL).Equals("false", StringComparison.InvariantCultureIgnoreCase));
             }
         }
 
         #endregion properties
+
     }
 
 }

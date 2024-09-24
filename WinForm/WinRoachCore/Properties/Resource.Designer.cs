@@ -105,6 +105,18 @@ namespace Area23.At.WinForm.WinRoachCore.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ERoach
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("ERoach", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MRoach {
             get {
                 object obj = ResourceManager.GetObject("MRoach", resourceCulture);

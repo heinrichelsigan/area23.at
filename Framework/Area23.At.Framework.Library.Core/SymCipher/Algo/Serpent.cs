@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Core.SymCipher
+namespace Area23.At.Framework.Library.Core.SymCipher.Algo
 {
 
     /// <summary>
@@ -22,15 +22,21 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         #region fields
 
         private static string privateKey = string.Empty;
+        private static string userHash = string.Empty;
+
+        #endregion fields
+
+        #region Properties
 
         internal static byte[] SerpentKey { get; private set; }
         internal static byte[] SerpentIv { get; private set; }
 
         internal static int Size { get; private set; }
         internal static string Mode { get; private set; }
+
         internal static IBlockCipherPadding BlockCipherPadding { get; private set; }
 
-        #endregion fields
+        #endregion Properties
 
         #region ctor_gen
 
@@ -48,16 +54,17 @@ namespace Area23.At.Framework.Library.Core.SymCipher
             Size = 128;
             Mode = "ECB";
             BlockCipherPadding = new ZeroBytePadding();
-            SerpentGenWithKey(string.Empty, true);
+            // SerpentGenWithKey(string.Empty, true);
         }
 
         /// <summary>
         /// ThreeFishGenWithKey => Generates new <see cref="Serpent"/> with secret key
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
+        /// <param name="usrHash">user key hash</param>
         /// <param name="init">init <see cref="Serpent"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool SerpentGenWithKey(string secretKey = null, bool init = true)
+        public static bool SerpentGenWithKey(string secretKey = "heinrich.elsigan@live.at", string usrHash = "heinrich.elsigan@gmail.com", bool init = true)
         {
             byte[] iv = new byte[16]; // Serpent > IV <= 128 bit
             byte[] key = new byte[16];
@@ -73,15 +80,17 @@ namespace Area23.At.Framework.Library.Core.SymCipher
             {
                 if (string.IsNullOrEmpty(secretKey))
                 {
-                    privateKey = string.Empty;
+                    privateKey = string.Empty;                    
                     key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
                     iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
                 }
                 else
                 {
                     privateKey = secretKey;
-                    key = Encoding.UTF8.GetByteCount(secretKey) == 16 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
-                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                    userHash = usrHash;
+                    key = CryptHelper.GetUserKeyBytes(secretKey, userHash, 16);
+                    // iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                    iv = CryptHelper.GetUserKeyBytes(userHash, secretKey, 16);
                 }
 
                 SerpentKey = new byte[16];
@@ -192,7 +201,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher
                 }
             }
 
-            return plainTextData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
+            return plainTextData; // Encoding.ASCII.GetString(pln).TrimEnd('\0');
         }
 
         #endregion EncryptDecryptBytes
@@ -206,7 +215,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         /// <returns>base64 encoded encrypted string</returns>
         public static string EncryptString(string inPlainString)
         {
-            byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inPlainString);
+            byte[] plainTextData = Encoding.UTF8.GetBytes(inPlainString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
 
@@ -222,7 +231,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;
         }

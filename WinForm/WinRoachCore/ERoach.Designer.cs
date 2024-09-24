@@ -37,9 +37,9 @@ namespace Area23.At.WinForm.WinRoachCore
             // 
             AutoScaleMode = AutoScaleMode.None;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            BackColor = SystemColors.ControlLightLight;
+            BackColor = SystemColors.Control;
             BackgroundImageLayout = ImageLayout.None;
-            BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.DRoach;
+            BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.ERoach;
             ClientSize = new Size(64, 64);
             ControlBox = false;
             DoubleBuffered = true;
@@ -51,7 +51,7 @@ namespace Area23.At.WinForm.WinRoachCore
             ShowIcon = false;
             ShowInTaskbar = false;
             SizeGripStyle = SizeGripStyle.Hide;
-            TransparencyKey = SystemColors.ControlLightLight;
+            TransparencyKey = SystemColors.Control;
             Load += OnLoad;
             Shown += OnShow;
             MouseClick += RoachExit;

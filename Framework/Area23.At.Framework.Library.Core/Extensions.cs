@@ -101,6 +101,8 @@ namespace Area23.At.Framework.Library.Core
 
         #region stream_byteArray_string_extensions
 
+        #region stream_extensions
+
         /// <summary>
         /// <see cref="System.IO.Stream"/>.ToByteArray() extension method: converts <see cref="System.IO.Stream"/> to <see cref="byte[]"/> array
         /// </summary>
@@ -119,6 +121,8 @@ namespace Area23.At.Framework.Library.Core
                 }
             }
         }
+
+        #endregion stream_extensions
 
         #region byteArray_extensions
 
@@ -147,10 +151,12 @@ namespace Area23.At.Framework.Library.Core
         /// <returns>index in array if found, otherwise -1</returns>
         public static int ArrayIndexOf(this byte[] bytes, byte value)
         {
-            for (int bCnt = 0; bCnt < bytes.Length; bCnt++)
+            for (int bCnt = bytes.Length - 1; bCnt >= 0; bCnt--)
             {
-                if (bytes[bCnt] == value)
+                if (bytes[bCnt] != value)
+                {
                     return bCnt;
+                }                
             }
             return -1;
         }
@@ -221,7 +227,98 @@ namespace Area23.At.Framework.Library.Core
             return sb.ToString(); // returns: "48656C6C6F20776F726C64" for "Hello world"
         }
 
+
+        /// <summary>
+        /// <see cref="byte[]"/>.FindBytes extension method: searches hayStack for the first occurence of needle, 
+        /// FindBytes uses static equivalent <see cref="BytesBytes(byte[], byte[], int)"/> 
+        /// </summary>
+        /// <param name="hayStack">byte[] of haystack to search through</param>
+        /// <param name="needle">byte[] of needle to find</param>        
+        /// <param name="matchBytes">match the only first matchBytes of needle, -1 for all bytes</param>
+        /// <returns>index of first byte of matching needle in haystack</returns>
+        public static int FindBytes(this byte[] hayStack, byte[] needle, int matchBytes = -1)
+        {
+            return BytesBytes(hayStack, needle, matchBytes);
+        }
+
+        /// <summary>
+        /// BytesBytes static method: searches hayStack for the first occurence of needle, 
+        /// BytesBytes was inspired by unix posix c function strstr 
+        /// </summary>
+        /// <param name="hayStack">byte[] of haystack to search through</param>
+        /// <param name="needle">byte[] of needle to find</param>        
+        /// <param name="matchBytes">match the only first matchBytes of needle, -1 for all bytes</param>
+        /// <returns>index of first byte of matching needle in haystack</returns>
+        public static int BytesBytes(byte[] hayStack, byte[] needle, int matchBytes = -1)
+        {
+            if (needle == null || needle.Length == 0 || hayStack == null || hayStack.Length == 0 || needle.Length > hayStack.Length)
+                return -1;
+
+            int needleIt = 0;
+            for (int fFwdIt = 0; fFwdIt < hayStack.Length - needle.Length; fFwdIt++)
+            {
+                if (hayStack[fFwdIt] == needle[needleIt])
+                {
+                    if (needle.Length == 1)
+                        return fFwdIt;
+
+                    for (needleIt = 1; needleIt < needle.Length; needleIt++)
+                    {
+                        if (hayStack[fFwdIt + needleIt] != needle[needleIt])
+                        {
+                            needleIt = 0;
+                            break;
+                        }
+                        if (matchBytes > 0 && needleIt == matchBytes)
+                            return fFwdIt;
+
+                        if (needleIt >= (needle.Length - 1))
+                            return fFwdIt;
+                    }
+                }
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// <see cref="byte[]"/>.TarBytes extension method: tars 
+        /// </summary>
+        /// <param name="baseBytes">base byte array</param>
+        /// <param name="bytesToAdd">more byte arrays</param>
+        /// <returns>large tared byte array</returns>
+        public static byte[] TarBytes(this byte[] baseBytes, params byte[][] bytesToAdd)
+        {
+            List<byte> largeBytesList = new List<byte>(baseBytes);
+
+            foreach (byte[] bs in bytesToAdd)
+            {
+                largeBytesList.AddRange(bs);
+            }
+
+            return largeBytesList.ToArray();
+        }
+
+        /// <summary>
+        /// TarBytes static method: tars all parameters of bytes array to one large byte array
+        /// </summary>
+        /// <param name="bytesToAdd">one up to many byte arrays</param>
+        /// <returns>large tared byte array</returns>
+        public static byte[] TarBytes(params byte[][] bytesToAdd)
+        {
+            List<byte> largeBytesList = new List<byte>();
+
+            foreach (byte[] bs in bytesToAdd)
+            {
+                largeBytesList.AddRange(bs);
+            }
+
+            return largeBytesList.ToArray();
+        }
+
         #endregion byte_array_extensions
+
+        #region string_extensions
 
         /// <summary>
         /// <see cref="string"/>.FromHexString() extension method: converts hexadecimal string to byte[]
@@ -254,6 +351,8 @@ namespace Area23.At.Framework.Library.Core
             System.Drawing.Color _color = System.Drawing.ColorTranslator.FromHtml(htmlRGBString);
             return _color;
         }
+
+        #endregion string_extensions
 
         #endregion stream_byteArray_string_extensions
 

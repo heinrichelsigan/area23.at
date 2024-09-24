@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Core.SymCipher
+namespace Area23.At.Framework.Library.Core.SymCipher.Algo
 {
 
     /// <summary>
@@ -19,24 +19,20 @@ namespace Area23.At.Framework.Library.Core.SymCipher
 
         #region fields
 
-        private static string privateKey = string.Empty;
+        internal static string privateKey = string.Empty;
 
-        private static string userHostIpAddress = string.Empty;
+        internal static string userHash = string.Empty;
 
         #endregion fields
 
         #region Properties
 
-        internal static byte[] DesKey { get; private set; }
+        public static byte[] DesKey { get; private set; }
         internal static byte[] DesIv { get; private set; }
 
         internal static int KeyLen { get; private set; } = 24;
 
         internal static int IvLen { get; private set; } = 8;
-
-        internal static string PrivateUserKey { get => string.Concat(privateKey, privateKey); }
-
-        internal static string PrivateUserHostKey { get => string.Concat(privateKey, userHostIpAddress, privateKey, userHostIpAddress); }
 
         internal static byte[] toDecryptArray;
 
@@ -49,21 +45,25 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         /// </summary>
         static Des3()
         {
-            DesKey = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
-            DesIv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
-            // Generate a key using SHA256 hash function
-            // TripleDesFromKey(null);
+            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
+            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
+
+            DesKey = new byte[KeyLen];
+            DesIv = new byte[IvLen];
+            Array.Copy(key, DesKey, KeyLen);
+            Array.Copy(iv, DesIv, IvLen);
         }
 
         /// <summary>
         /// Generates Des3FromKey 
         /// </summary>
         /// <param name="secretKey">your plain text secret key</param>
+        /// <param name="usrHash">user key hash</param>
         /// <param name="init">init TripleDes first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool Des3FromKey(string secretKey = "", string userHostAddress = "", bool init = true)
+        public static bool Des3FromKey(string secretKey = "postmaster@area23.at", string usrHash = "mail.area23.at", bool init = true)
         {
-            byte[] key = new byte[KeyLen];
+            byte[] key;
             byte[] iv = new byte[IvLen];
 
             if (!init)
@@ -78,81 +78,32 @@ namespace Area23.At.Framework.Library.Core.SymCipher
                 if (string.IsNullOrEmpty(secretKey))
                 {
                     privateKey = string.Empty;
-                    key = GetUserKeyBytes(ResReader.GetValue(Constants.DES3_KEY), ResReader.GetValue(Constants.DES3_IV), 24);
-                    iv = GetUserKeyBytes(ResReader.GetValue(Constants.DES3_IV), ResReader.GetValue(Constants.DES3_KEY), 8);
+                    key = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
+                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
                 }
                 else
                 {
                     privateKey = secretKey;
+                    userHash = usrHash;
                     // MD5 md5 = new MD5CryptoServiceProvider();
                     // key = md5.ComputeHash(Encoding.UTF8.GetBytes(secretKey));
-                    key = GetUserKeyBytes(secretKey, userHostIpAddress, 24);
-                    iv = GetUserKeyBytes(ResReader.GetValue(Constants.DES3_IV), secretKey, 8);
+                    key = CryptHelper.GetUserKeyBytes(secretKey, userHash, 24);
+                    iv = CryptHelper.GetUserKeyBytes(secretKey, userHash, 8);  
+                    // CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.DES3_IV), secretKey, 8);
                 }
 
-                DesIv = iv;
-                DesKey = key;
+                DesKey = new byte[KeyLen];
+                DesIv = new byte[IvLen];
+                Array.Copy(key, DesKey, KeyLen);
+                Array.Copy(iv, DesIv, IvLen);
+                // DesIv = iv;
+                // DesKey = key;
             }
 
             return true;
         }
 
         #endregion ctor_gen
-
-        /// <summary>
-        /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
-        /// </summary>
-        /// <param name="usrHostAddr">user host ip address</param>
-        /// <param name="secretKey">user secret key, default email address</param>
-        /// <returns>Array of byte with length KeyLen</returns>
-        internal static byte[] GetUserKeyBytes(string secretKey = "postmaster@localhost", string usrHostAddr = "127.0.0.1", int keyLen = 24)
-        {
-            privateKey = secretKey;
-            userHostIpAddress = usrHostAddr;
-
-            int keyByteCnt = -1;
-            string keyByteHashString = privateKey;
-            byte[] tmpKey = new byte[keyLen];
-
-            if ((keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString)) < keyLen)
-            {
-                keyByteHashString = PrivateUserKey;
-                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
-            }
-            if (keyByteCnt < keyLen)
-            {
-                keyByteHashString = PrivateUserHostKey;
-                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
-            }
-            if (keyByteCnt < keyLen)
-            {
-                RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                randomNumGen.GetBytes(tmpKey, 0, KeyLen);
-
-                byte[] tinyKeyBytes = new byte[keyByteCnt];
-                tinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
-                int tinyLength = tinyKeyBytes.Length;
-
-                for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
-                {
-                    tmpKey[bytCnt] = tinyKeyBytes[bytCnt % tinyLength];
-                }
-            }
-            else
-            {
-                byte[] ssSmallNotTinyKeyBytes = new byte[keyByteCnt];
-                ssSmallNotTinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
-                int ssSmallByteCnt = ssSmallNotTinyKeyBytes.Length;
-
-                for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)
-                {
-                    tmpKey[bytIdx] = ssSmallNotTinyKeyBytes[bytIdx];
-                }
-            }
-
-            return tmpKey;
-
-        }
 
         #region EncryptDecryptBytes
 
@@ -212,10 +163,10 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         /// <returns>Base64 encoded encrypted byte array</returns>
         public static string EncryptString(string inString)
         {
-            byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(inString);
+            byte[] inBytes = Encoding.UTF8.GetBytes(inString);
             byte[] encryptedBytes = Encrypt(inBytes);
             string encryptedText = Convert.ToBase64String(encryptedBytes);
-            // System.Text.Encoding.UTF8.GetString(encryptedBytes).TrimEnd('\0');
+            // Encoding.UTF8.GetString(encryptedBytes).TrimEnd('\0');
             return encryptedText;
         }
 
@@ -228,7 +179,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         {
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             byte[] decryptedBytes = Decrypt(cipherBytes);
-            string plaintext = System.Text.Encoding.UTF8.GetString(decryptedBytes);
+            string plaintext = Encoding.UTF8.GetString(decryptedBytes);
             return plaintext;
         }
 

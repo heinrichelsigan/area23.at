@@ -91,7 +91,7 @@ namespace Area23.At.WinForm.WinRoachCore
             {
                 ;
             }
-            else if ((numRoach < 3) && (procStarted == null || procStarted.HasExited))
+            else if ((numRoach < 4) && (procStarted == null || procStarted.HasExited))
             {
                 procStarted = Process.Start(new ProcessStartInfo
                 {
@@ -122,14 +122,14 @@ namespace Area23.At.WinForm.WinRoachCore
                         dRoach.SetRoachBG(dPt);
                         dRoach.Show();
                     }
-                    if (numRoach == 2 && mRoach != null)
+                    if (numRoach == 2 && eRoach == null)
                     {
                         dPt = new Point(((int)(winDeskImg.Width - 192)), ((int)(winDeskImg.Height - 128)));
                         eRoach = new ERoach(numRoach);
                         eRoach.SetRoachBG(dPt);
                         eRoach.Show();
                     }
-                    if (numRoach == 3 && mRoach != null)
+                    if (numRoach == 3 && mRoach == null)
                     {
                         dPt = new Point(((int)(winDeskImg.Width - 96)), ((int)(winDeskImg.Height - 48)));
                         mRoach = new MRoach(numRoach);

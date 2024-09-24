@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Core.SymCipher
+namespace Area23.At.Framework.Library.Core.SymCipher.Algo
 {
 
     /// <summary>
@@ -22,15 +22,21 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         #region fields
 
         private static string privateKey = string.Empty;
+        private static string userHash = string.Empty;
+
+        #endregion fields
+
+        #region Properties
 
         internal static byte[] FishKey { get; private set; }
         internal static byte[] FishIv { get; private set; }
 
         internal static int Size { get; private set; }
         internal static string Mode { get; private set; }
+
         internal static IBlockCipherPadding BlockCipherPadding { get; private set; }
 
-        #endregion fields
+        #endregion Properties
 
         #region ctor_gen
 
@@ -39,8 +45,10 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         /// </summary>
         static Fish3()
         {
-            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+            byte[] key = new byte[32];
+            byte[] iv = new byte[32];
+            key = CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCEK), ResReader.GetValue(Constants.BOUNCE4), 32);
+            iv = CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), ResReader.GetValue(Constants.BOUNCEK), 32);
             FishKey = new byte[32];
             FishIv = new byte[32];
             Array.Copy(iv, FishIv, 32);
@@ -51,13 +59,15 @@ namespace Area23.At.Framework.Library.Core.SymCipher
             // ThreeFishGenWithKey(string.Empty, true);
         }
 
+
         /// <summary>
         /// Fish3GenWithKey => Generates new <see cref="ThreeFish"/> with secret key
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
+        /// <param name="usrHash">user key hash</param>
         /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool Fish3GenWithKey(string secretKey = "", bool init = true)
+        public static bool Fish3GenWithKey(string secretKey = "zen@area23.at", string usrHash = "mail.area23.at", bool init = true)
         {
             byte[] key = new byte[32];
             byte[] iv = new byte[32]; // 3FISH > IV > 128 bit
@@ -74,14 +84,16 @@ namespace Area23.At.Framework.Library.Core.SymCipher
                 if (string.IsNullOrEmpty(secretKey))
                 {
                     privateKey = string.Empty;
-                    key = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                    key = CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCEK), ResReader.GetValue(Constants.BOUNCE4), 32);
+                    iv = CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), ResReader.GetValue(Constants.BOUNCEK), 32);
                 }
                 else
                 {
                     privateKey = secretKey;
-                    key = Encoding.UTF8.GetByteCount(secretKey) == 32 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
-                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+                    userHash = usrHash;
+                    key = CryptHelper.GetUserKeyBytes(secretKey, userHash, 32);
+                    iv = CryptHelper.GetUserKeyBytes(userHash, secretKey, 32);
+                    // iv = CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), ResReader.GetValue(Constants.BOUNCEK), 32);
                 }
 
                 FishKey = new byte[32];
@@ -161,7 +173,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher
             int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainTextData, 0);
             cipherMode.DoFinal(plainTextData, result);
 
-            return plainTextData; // System.Text.Encoding.ASCII.GetString(pln).TrimEnd('\0');
+            return plainTextData; // Encoding.ASCII.GetString(pln).TrimEnd('\0');
         }
 
         #endregion EncryptDecryptBytes
@@ -175,7 +187,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         /// <returns>base64 encoded encrypted string</returns>
         public static string EncryptString(string inString)
         {
-            byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inString);
+            byte[] plainTextData = Encoding.UTF8.GetBytes(inString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
 
@@ -191,7 +203,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;
         }

@@ -19,10 +19,13 @@ namespace Area23.At.WinForm.WinRoachCore
     public class MRoach : BRoach
     {
         public MRoach(int roachNumber)
-        {
+        {            
             roachNum = roachNumber;
             InitializeComponent();
+            this.BackColor = SystemColors.Control;
+            this.TransparencyKey = SystemColors.Control;
             Name = "MRoach" + roachNum;
+            this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.MRoach;
         }
 
         internal override void SetRoachBG(Point pt)
@@ -37,10 +40,10 @@ namespace Area23.At.WinForm.WinRoachCore
             this.Location = pt;
             this.SetDesktopLocation(pt.X, pt.Y);
 
-            Image bgImg = CaptureForm(this);
+            // Image bgImg = CaptureForm(this);
             // this.BackgroundImage = bgImg;
 
-            if (roachCnt % 7 == 0)
+            if (roachCnt % 4 == 0)
             {
                 this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.MRoach;
             }

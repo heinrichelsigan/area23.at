@@ -184,7 +184,7 @@ namespace Area23.At.WinForm.WinCRoach
             {
                 // PersistDesktopImage();
                 RoachMove();                
-                System.Threading.Thread.Sleep(250);
+                System.Threading.Thread.Sleep(192);
             }
         }
 

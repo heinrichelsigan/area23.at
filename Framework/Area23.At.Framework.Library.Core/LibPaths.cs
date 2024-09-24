@@ -1,5 +1,5 @@
 ﻿using Area23.At.Framework.Library.Core;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using NLog;
 using System;
 using System.IO;
@@ -17,11 +17,13 @@ namespace Area23.At.Framework.Library.Core
         private static string baseAppPath = null;
         private static string resAppPath = null;
         private static string qrAppPath = null;
+        private static string encodeAppPath = null;
         private static string unixAppPath = null;
         private static string calcAppPath = null;
         private static string appDirPath = null;
         private static string outDirPath = null;
         private static string resDirPath = null;
+
 
         public static string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
 
@@ -70,11 +72,16 @@ namespace Area23.At.Framework.Library.Core
         {
             get
             {
-                if (string.IsNullOrEmpty(baseAppPath))
+                if (String.IsNullOrEmpty(baseAppPath))
                 {
-                    string basApPath = AppPath;
-                    if (!baseAppPath.StartsWith("/"))
-                        baseAppPath = "/" + basApPath;
+                    string basApPath = HttpContextWrapper.Current.Request.GetDisplayUrl().ToString().
+                        Replace("/Unix/", "/").Replace("/Qr/", "/").
+                        Replace("/Calc/", "/").Replace("/Enc/", "/").
+                        Replace("/res/", "/").Replace("/audio/", "/").Replace("/bin/", "/").
+                        Replace("/css/", "/").Replace("/img/", "/").Replace("/js/", "/").
+                        Replace("/out/", "/").Replace("/text/", "/").Replace("/fortune.u8", "/").
+                        Replace("/log/", "/").Replace("/c/", "/");
+                    baseAppPath = basApPath.Substring(0, basApPath.LastIndexOf("/"));
                     if (!baseAppPath.EndsWith("/"))
                         baseAppPath += "/";
                 }
@@ -167,6 +174,20 @@ namespace Area23.At.Framework.Library.Core
                         qrAppPath += Constants.QR_DIR + "/";
                 }
                 return qrAppPath;
+            }
+        }
+
+        public static string EncodeAppPath
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(encodeAppPath))
+                {
+                    encodeAppPath = BaseAppPath;
+                    if (!encodeAppPath.Contains("/" + Constants.ENCODE_DIR + "/"))
+                        encodeAppPath += Constants.ENCODE_DIR + "/";
+                }
+                return encodeAppPath;
             }
         }
 

@@ -8,16 +8,69 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Area23.At.WinForm.WinRoachCore</RootNamespace>
     <ApplicationIcon>WinCRoach.ico</ApplicationIcon>
-    <Copyright>Copyleft ©  2022-2032</Copyright>
+    <Copyright>Copyleft © 2022-2032</Copyright>
     <PackageProjectUrl>https://github.com/heinrichelsigan/area23.at</PackageProjectUrl>
     <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>
     <PackageReleaseNotes>WinRoach .Net Core sample project</PackageReleaseNotes>
-    <AssemblyVersion>2.24.830</AssemblyVersion>
-    <FileVersion>2.24.830</FileVersion>
+    <AssemblyVersion>2.24.924</AssemblyVersion>
+    <FileVersion>2.24.924</FileVersion>
+	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\**" />
+    <EmbeddedResource Remove="Resources\**" />
+    <None Remove="Resources\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Properties\Resources\CRoach.png" />
+    <None Remove="Properties\Resources\CRoach0.png" />
+    <None Remove="Properties\Resources\CRoach1.png" />
+    <None Remove="Properties\Resources\DRoach.png" />
+    <None Remove="Properties\Resources\ERoach.png" />
+    <None Remove="Properties\Resources\MRoach.png" />
+    <None Remove="Properties\Resources\TransparentFormsIcon.ico" />
+    <None Remove="Properties\Resources\WinCRoach.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="WinCRoach.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources\CRoach.png">
+      <CustomToolNamespace>Area23.At.WinForm.WinRoachCore.Properties.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources\CRoach0.png">
+      <CustomToolNamespace>Area23.At.WinForm.WinRoachCore.Properties.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources\CRoach1.png">
+      <CustomToolNamespace>Area23.At.WinForm.WinRoachCore.Properties.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+    <Content Include="Properties\Resources\ERoach.png">
+      <CustomToolNamespace>Area23.At.WinForm.WinRoachCore.Properties.Resources</CustomToolNamespace>
+    </Content>
+    <EmbeddedResource Include="Properties\Resources\DRoach.png">
+      <CustomToolNamespace>Area23.At.WinForm.WinRoachCore.Properties.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources\MRoach.png">
+      <CustomToolNamespace>Area23.At.WinForm.WinRoachCore.Properties.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources\TransparentFormsIcon.ico">
+      <CustomToolNamespace>Area23.At.WinForm.WinRoachCore.Properties.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources\WinCRoach.ico">
+      <CustomToolNamespace>Area23.At.WinForm.WinRoachCore.Properties.Resources</CustomToolNamespace>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

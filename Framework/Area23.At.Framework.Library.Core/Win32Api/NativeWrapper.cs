@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
@@ -18,57 +17,60 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Core.Win32Api
 {
-
     /// <summary>
-    /// NativeMethods contain inner classes for User32, Kernel32 and GDI32 Windows Core API calls
+    /// NativeWrapper contain inner classes for User32, Kernel32 and GDI32 Windows Core API calls
+    /// Thanks to <see href="https://github.com/dotnet">github.com/dotnet</see>,
+    /// <see href="https://stackoverflow.com/">stackoverflow.com/</see>,
+    /// <see href="https://www.pinvoke.net/">pinvoke.net</see> and
+    /// <see cref="https://www.codeproject.com/">cpdeproject.com</see>
     /// </summary>
     [SuppressUnmanagedCodeSecurityAttribute]
-    public static class NativeMethods
+    public static class NativeWrapper
     {
 
         #region Constants
 
-        public const uint ERROR_INSUFFICIENT_BUFFER = 0x8007007A;
-        public const uint STARTUP_LOADER_SAFEMODE = 0x10;
-        public const uint S_OK = 0x0;
-        public const uint S_FALSE = 0x1;
-        public const uint ERROR_ACCESS_DENIED = 0x5;
-        public const uint ERROR_FILE_NOT_FOUND = 0x80070002;
-        public const uint FUSION_E_PRIVATE_ASM_DISALLOWED = 0x80131044; // Tried to find unsigned assembly in GAC
-        public const uint RUNTIME_INFO_DONT_SHOW_ERROR_DIALOG = 0x40;
-        public const uint FILE_TYPE_CHAR = 0x0002;
-        public const Int32 STD_OUTPUT_HANDLE = -11;
-        public const uint RPC_S_CALLPENDING = 0x80010115;
-        public const uint E_ABORT = (uint)0x80004004;
+        internal const uint ERROR_INSUFFICIENT_BUFFER = 0x8007007A;
+        internal const uint STARTUP_LOADER_SAFEMODE = 0x10;
+        internal const uint S_OK = 0x0;
+        internal const uint S_FALSE = 0x1;
+        internal const uint ERROR_ACCESS_DENIED = 0x5;
+        internal const uint ERROR_FILE_NOT_FOUND = 0x80070002;
+        internal const uint FUSION_E_PRIVATE_ASM_DISALLOWED = 0x80131044; // Tried to find unsigned assembly in GAC
+        internal const uint RUNTIME_INFO_DONT_SHOW_ERROR_DIALOG = 0x40;
+        internal const uint FILE_TYPE_CHAR = 0x0002;
+        internal const Int32 STD_OUTPUT_HANDLE = -11;
+        internal const uint RPC_S_CALLPENDING = 0x80010115;
+        internal const uint E_ABORT = (uint)0x80004004;
 
-        public const int FILE_ATTRIBUTE_READONLY = 0x00000001;
-        public const int FILE_ATTRIBUTE_DIRECTORY = 0x00000010;
-        public const int FILE_ATTRIBUTE_REPARSE_POINT = 0x00000400;
+        internal const int FILE_ATTRIBUTE_READONLY = 0x00000001;
+        internal const int FILE_ATTRIBUTE_DIRECTORY = 0x00000010;
+        internal const int FILE_ATTRIBUTE_REPARSE_POINT = 0x00000400;
 
         private const string kernel32Dll = "kernel32.dll";
         private const string mscoreeDLL = "mscoree.dll";
 
 #if FEATURE_HANDLEREF
-        public static HandleRef NullHandleRef = new HandleRef(null, IntPtr.Zero);
+        internal static HandleRef NullHandleRef = new HandleRef(null, IntPtr.Zero);
 #endif
 
-        public static IntPtr NullIntPtr = new IntPtr(0);
+        internal static IntPtr NullIntPtr = new IntPtr(0);
 
         // As defined in winnt.h:
-        public const ushort PROCESSOR_ARCHITECTURE_INTEL = 0;
-        public const ushort PROCESSOR_ARCHITECTURE_ARM = 5;
-        public const ushort PROCESSOR_ARCHITECTURE_IA64 = 6;
-        public const ushort PROCESSOR_ARCHITECTURE_AMD64 = 9;
+        internal const ushort PROCESSOR_ARCHITECTURE_INTEL = 0;
+        internal const ushort PROCESSOR_ARCHITECTURE_ARM = 5;
+        internal const ushort PROCESSOR_ARCHITECTURE_IA64 = 6;
+        internal const ushort PROCESSOR_ARCHITECTURE_AMD64 = 9;
 
-        public const uint INFINITE = 0xFFFFFFFF;
-        public const uint WAIT_ABANDONED_0 = 0x00000080;
-        public const uint WAIT_OBJECT_0 = 0x00000000;
-        public const uint WAIT_TIMEOUT = 0x00000102;
+        internal const uint INFINITE = 0xFFFFFFFF;
+        internal const uint WAIT_ABANDONED_0 = 0x00000080;
+        internal const uint WAIT_OBJECT_0 = 0x00000000;
+        internal const uint WAIT_TIMEOUT = 0x00000102;
 
 #if FEATURE_CHARSET_AUTO
-        public const CharSet AutoOrUnicode = CharSet.Auto;
+        internal const CharSet AutoOrUnicode = CharSet.Auto;
 #else
-        public const CharSet AutoOrUnicode = CharSet.Unicode;
+        internal const CharSet AutoOrUnicode = CharSet.Unicode;
 #endif
 
         #endregion
@@ -140,7 +142,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// Flags for CoWaitForMultipleHandles
         /// </summary>
         [Flags]
-        public enum COWAIT_FLAGS : int
+        internal enum COWAIT_FLAGS : int
         {
 
             /// <summary>
@@ -163,7 +165,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// <summary>
         /// Processor architecture values
         /// </summary>
-        public enum ProcessorArchitectures
+        internal enum ProcessorArchitectures
         {
 
             // Intel 32 bit
@@ -183,6 +185,29 @@ namespace Area23.At.Framework.Library.Core.Win32Api
 
         }
 
+        internal enum CopyProgressResult : uint
+        {
+            PROGRESS_CONTINUE = 0,
+            PROGRESS_CANCEL = 1,
+            PROGRESS_STOP = 2,
+            PROGRESS_QUIET = 3
+        }
+
+        internal enum CopyProgressCallbackReason : uint
+        {
+            CALLBACK_CHUNK_FINISHED = 0x00000000,
+            CALLBACK_STREAM_SWITCH = 0x00000001
+        }
+
+        [Flags]
+        internal enum CopyFileFlags : uint
+        {
+            COPY_FILE_FAIL_IF_EXISTS = 0x00000001,
+            COPY_FILE_RESTARTABLE = 0x00000002,
+            COPY_FILE_OPEN_SOURCE_FOR_WRITE = 0x00000004,
+            COPY_FILE_ALLOW_DECRYPTED_DESTINATION = 0x00000008
+        }
+
         #endregion
 
         #region Member_Properties_Data
@@ -194,14 +219,14 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// This member is intentionally not a constant because we want to allow
         /// unit tests to change it.
         /// </remarks>
-        public static int MAX_PATH = 260;
+        internal static int MAX_PATH = 260;
 
         private static readonly object IsMonoLock = new object();
 
         /// <summary>
         /// Gets a flag indicating if we are running under some version of Windows
         /// </summary>
-        public static bool IsWindows
+        internal static bool IsWindows
         {
 #if CLR2COMPATIBILITY
             get { return true; }
@@ -214,7 +239,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// Gets a string for the current OS. This matches the OS env variable
         /// for Windows (Windows_NT).
         /// </summary>
-        public static string OSName
+        internal static string OSName
         {
             get { return IsWindows ? "Windows_NT" : "Unix"; }
         }
@@ -252,15 +277,31 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// <summary>
         /// Architecture getter
         /// </summary>
-        public static ProcessorArchitectures ProcessorArchitecture => SystemInformation.ProcessorArchitectureType;
+        internal static ProcessorArchitectures ProcessorArchitecture => SystemInformation.ProcessorArchitectureType;
 
         /// <summary>
         /// Native architecture getter
         /// </summary>
-        public static ProcessorArchitectures ProcessorArchitectureNative => SystemInformation.ProcessorArchitectureTypeNative;
+        internal static ProcessorArchitectures ProcessorArchitectureNative => SystemInformation.ProcessorArchitectureTypeNative;
+
+        private static int pbCancel;
 
         #endregion Member_Properties_Data
 
+        #region delegates
+
+        internal delegate CopyProgressResult CopyProgressRoutine(
+           long TotalFileSize,
+           long TotalBytesTransferred,
+           long StreamSize,
+           long StreamBytesTransferred,
+           uint dwStreamNumber,
+           CopyProgressCallbackReason dwCallbackReason,
+           IntPtr hSourceFile,
+           IntPtr hDestinationFile,
+           IntPtr lpData);
+
+        #endregion delegates
 
         #region InnerClasses_Structs
 
@@ -283,101 +324,101 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// <summary>
         /// Helper class containing Gdi32 API functions
         /// </summary>
-        public class GDI32
+        internal class GDI32
         {
 
-            public const int SRCCOPY = 0x00CC0020; // BitBlt dwRop parameter            
+            internal const int SRCCOPY = 0x00CC0020; // BitBlt dwRop parameter            
 
             [DllImport("gdi32.dll")]
-            public static extern bool BitBlt(IntPtr hObject, int nXDest, int nYDest,
+            internal static extern bool BitBlt(IntPtr hObject, int nXDest, int nYDest,
                 int nWidth, int nHeight, IntPtr hObjectSource,
                 int nXSrc, int nYSrc, int dwRop);
             [DllImport("GDI32.dll")]
-            public static extern bool BitBlt(int hdcDest, int nXDest, int nYDest,
+            internal static extern bool BitBlt(int hdcDest, int nXDest, int nYDest,
                 int nWidth, int nHeight, int hdcSrc,
                 int nXSrc, int nYSrc, int dwRop);
 
             [DllImport("gdi32.dll")]
-            public static extern IntPtr CreateCompatibleBitmap(IntPtr hDC, int nWidth, int nHeight);
+            internal static extern IntPtr CreateCompatibleBitmap(IntPtr hDC, int nWidth, int nHeight);
             [DllImport("GDI32.dll")]
-            public static extern int CreateCompatibleBitmap(int hdc, int nWidth, int nHeight);
+            internal static extern int CreateCompatibleBitmap(int hdc, int nWidth, int nHeight);
 
             [DllImport("gdi32.dll")]
-            public static extern IntPtr CreateCompatibleDC(IntPtr hDC);
+            internal static extern IntPtr CreateCompatibleDC(IntPtr hDC);
             [DllImport("GDI32.dll")]
-            public static extern int CreateCompatibleDC(int hdc);
+            internal static extern int CreateCompatibleDC(int hdc);
 
             [DllImport("gdi32.dll")]
-            public static extern int CreateDC(string lpszDriver, string lpszDevice, string lpszOutput, IntPtr lpInitData);
-
-
-            [DllImport("gdi32.dll")]
-            public static extern bool DeleteDC(IntPtr hDC);
-            [DllImport("GDI32.dll")]
-            public static extern bool DeleteDC(int hdc);
+            internal static extern int CreateDC(string lpszDriver, string lpszDevice, string lpszOutput, IntPtr lpInitData);
 
 
             [DllImport("gdi32.dll")]
-            public static extern bool DeleteObject(IntPtr hObject);
+            internal static extern bool DeleteDC(IntPtr hDC);
             [DllImport("GDI32.dll")]
-            public static extern bool DeleteObject(int hObject);
+            internal static extern bool DeleteDC(int hdc);
 
-            [DllImport("GDI32.dll")]
-            public static extern int GetDeviceCaps(int hdc, int nIndex);
-
-            [DllImport("GDI32.dll")]
-            public static extern int SelectObject(int hdc, int hgdiobj);
 
             [DllImport("gdi32.dll")]
-            public static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
+            internal static extern bool DeleteObject(IntPtr hObject);
+            [DllImport("GDI32.dll")]
+            internal static extern bool DeleteObject(int hObject);
+
+            [DllImport("GDI32.dll")]
+            internal static extern int GetDeviceCaps(int hdc, int nIndex);
+
+            [DllImport("GDI32.dll")]
+            internal static extern int SelectObject(int hdc, int hgdiobj);
+
+            [DllImport("gdi32.dll")]
+            internal static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
 
         }
 
         /// <summary>
         /// User class containing simplified User32 API functions with int instead of IntPtr
         /// </summary>
-        public class User
+        internal class User
         {
 
             [DllImport("user32.dll")]
-            public static extern int GetDesktopWindow();
+            internal static extern int GetDesktopWindow();
 
             [DllImport("user32.dll")]
-            public static extern IntPtr GetTopWindow(IntPtr hWnd);
+            internal static extern IntPtr GetTopWindow(IntPtr hWnd);
 
         }
 
         /// <summary>
         /// Helper class containing User32 API functions
         /// </summary>
-        public class User32
+        internal class User32
         {
 
-            public const int HT_CAPTION = 0x2;
+            internal const int HT_CAPTION = 0x2;
 
-            public const uint GW_HWNDFIRST = 0x000;
-            public const uint GW_HWNDLAST = 0x001;
-            public const uint GW_HWNDNEXT = 0x002;
-            public const uint GW_HWNDPREV = 0x003;
-            public const uint GW_OWNER = 0x004;
-            public const uint GW_CHILD = 0x005;
-            public const uint GW_ENABLEDPOPUP = 0x006;
+            internal const uint GW_HWNDFIRST = 0x000;
+            internal const uint GW_HWNDLAST = 0x001;
+            internal const uint GW_HWNDNEXT = 0x002;
+            internal const uint GW_HWNDPREV = 0x003;
+            internal const uint GW_OWNER = 0x004;
+            internal const uint GW_CHILD = 0x005;
+            internal const uint GW_ENABLEDPOPUP = 0x006;
 
-            public const uint WM_PRINT = 0x317;
-            public const int WM_NCLBUTTONDOWN = 0xA1;
-            public const int WM_APPCOMMAND = 0x319;
+            internal const uint WM_PRINT = 0x317;
+            internal const int WM_NCLBUTTONDOWN = 0xA1;
+            internal const int WM_APPCOMMAND = 0x319;
 
             [StructLayout(LayoutKind.Sequential)]
-            public struct RECT
+            internal struct RECT
             {
-                public int left;
-                public int top;
-                public int right;
-                public int bottom;
+                internal int left;
+                internal int top;
+                internal int right;
+                internal int bottom;
             }
 
             [Flags]
-            public enum PRF_FLAGS : uint
+            internal enum PRF_FLAGS : uint
             {
                 CHECKVISIBLE = 0x01,
                 CHILDREN = 0x02,
@@ -389,40 +430,40 @@ namespace Area23.At.Framework.Library.Core.Win32Api
 
 
             [DllImport("user32.dll")]
-            public static extern IntPtr GetDesktopWindow();
+            internal static extern IntPtr GetDesktopWindow();
 
 
             [DllImport("user32.dll")]
-            public static extern IntPtr GetWindowDC(IntPtr hWnd);
-            
-            [DllImport("user32.dll")]
-            public static extern IntPtr GetWindowRect(IntPtr hWnd, ref RECT rect);
+            internal static extern IntPtr GetWindowDC(IntPtr hWnd);
 
             [DllImport("user32.dll")]
-            public static extern IntPtr GetTopWindow(IntPtr hWnd);
+            internal static extern IntPtr GetWindowRect(IntPtr hWnd, ref RECT rect);
 
             [DllImport("user32.dll")]
-            public static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
+            internal static extern IntPtr GetTopWindow(IntPtr hWnd);
+
+            [DllImport("user32.dll")]
+            internal static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
             [DllImport("User32.dll")]
-            public static extern int GetWindowDC(int hWnd);
+            internal static extern int GetWindowDC(int hWnd);
 
             [System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
-            public static extern bool ReleaseCapture();
+            internal static extern bool ReleaseCapture();
 
             [DllImport("user32.dll")]
-            public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);
+            internal static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);
             [DllImport("User32.dll")]
-            public static extern int ReleaseDC(int hWnd, int hDC);
+            internal static extern int ReleaseDC(int hWnd, int hDC);
 
 
             [System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
-            public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+            internal static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
             [System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
-            public static extern IntPtr SendMessageW(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+            internal static extern IntPtr SendMessageW(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
 
             [DllImport("user32.dll")]
-            public static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr hdc, PRF_FLAGS drawingOptions);
+            internal static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr hdc, PRF_FLAGS drawingOptions);
 
         }
 
@@ -430,7 +471,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// <summary>
         /// Wrap the intptr returned by OpenProcess in a safe handle.
         /// </summary>
-        public class SafeProcessHandle : SafeHandleZeroOrMinusOneIsInvalid
+        internal class SafeProcessHandle : SafeHandleZeroOrMinusOneIsInvalid
         {
 
             // Create a SafeHandle, informing the base class
@@ -456,16 +497,16 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// Contains information about the current state of both physical and virtual memory, including extended memory
         /// </summary>
         [StructLayout(LayoutKind.Sequential, CharSet = AutoOrUnicode)]
-        public class MemoryStatus
+        internal class MemoryStatus
         {
 
             /// <summary>
             /// Initializes a new instance of the <see cref="T:MemoryStatus"/> class.
             /// </summary>
-            public MemoryStatus()
+            internal MemoryStatus()
             {
 #if (CLR2COMPATIBILITY)
-            _length = (uint)Marshal.SizeOf(typeof(NativeMethods.MemoryStatus));
+                _length = (uint)Marshal.SizeOf(typeof(NativeWrapper.MemoryStatus));
 #else
                 _length = (uint)Marshal.SizeOf<NativeMethods.MemoryStatus>();
 #endif
@@ -480,45 +521,45 @@ namespace Area23.At.Framework.Library.Core.Win32Api
             /// Number between 0 and 100 that specifies the approximate percentage of physical
             /// memory that is in use (0 indicates no memory use and 100 indicates full memory use).
             /// </summary>
-            public uint MemoryLoad;
+            internal uint MemoryLoad;
 
             /// <summary>
             /// Total size of physical memory, in bytes.
             /// </summary>
-            public ulong TotalPhysical;
+            internal ulong TotalPhysical;
 
             /// <summary>
             /// Size of physical memory available, in bytes.
             /// </summary>
-            public ulong AvailablePhysical;
+            internal ulong AvailablePhysical;
 
             /// <summary>
             /// Size of the committed memory limit, in bytes. This is physical memory plus the
             /// size of the page file, minus a small overhead.
             /// </summary>
-            public ulong TotalPageFile;
+            internal ulong TotalPageFile;
 
             /// <summary>
             /// Size of available memory to commit, in bytes. The limit is ullTotalPageFile.
             /// </summary>
-            public ulong AvailablePageFile;
+            internal ulong AvailablePageFile;
 
             /// <summary>
             /// Total size of the user mode portion of the virtual address space of the calling process, in bytes.
             /// </summary>
-            public ulong TotalVirtual;
+            internal ulong TotalVirtual;
 
             /// <summary>
             /// Size of unreserved and uncommitted memory in the user mode portion of the virtual
             /// address space of the calling process, in bytes.
             /// </summary>
-            public ulong AvailableVirtual;
+            internal ulong AvailableVirtual;
 
             /// <summary>
             /// Size of unreserved and uncommitted memory in the extended portion of the virtual
             /// address space of the calling process, in bytes.
             /// </summary>
-            public ulong AvailableExtendedVirtual;
+            internal ulong AvailableExtendedVirtual;
 
         }
 
@@ -527,13 +568,13 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// the handle retrieved by specifying this structure is inheritable.
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
-        public class SecurityAttributes
+        internal class SecurityAttributes
         {
 
-            public SecurityAttributes()
+            internal SecurityAttributes()
             {
 #if (CLR2COMPATIBILITY)
-            _nLength = (uint)Marshal.SizeOf(typeof(NativeMethods.SecurityAttributes));
+                _nLength = (uint)Marshal.SizeOf(typeof(NativeWrapper.SecurityAttributes));
 #else
                 _nLength = (uint)Marshal.SizeOf<NativeMethods.SecurityAttributes>();
 #endif
@@ -541,9 +582,9 @@ namespace Area23.At.Framework.Library.Core.Win32Api
 
             private uint _nLength;
 
-            public IntPtr lpSecurityDescriptor;
+            internal IntPtr lpSecurityDescriptor;
 
-            public bool bInheritHandle;
+            internal bool bInheritHandle;
 
         }
 
@@ -555,12 +596,12 @@ namespace Area23.At.Framework.Library.Core.Win32Api
             /// It's x86 in wow64 (native architecture is x64 in that case).
             /// Otherwise it's the same as the native architecture.
             /// </summary>
-            public readonly ProcessorArchitectures ProcessorArchitectureType;
+            internal readonly ProcessorArchitectures ProcessorArchitectureType;
 
             /// <summary>
             /// Actual architecture of the system.
             /// </summary>
-            public readonly ProcessorArchitectures ProcessorArchitectureTypeNative;
+            internal readonly ProcessorArchitectures ProcessorArchitectureTypeNative;
 
             /// <summary>
             /// Convert SYSTEM_INFO architecture values to the internal enum
@@ -587,7 +628,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
             /// <summary>
             /// Read system info values
             /// </summary>
-            public SystemInformationData()
+            internal SystemInformationData()
             {
                 ProcessorArchitectureType = ProcessorArchitectures.Unknown;
                 ProcessorArchitectureTypeNative = ProcessorArchitectures.Unknown;
@@ -666,22 +707,22 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// Structure that contain information about the system on which we are running
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
-        public struct SYSTEM_INFO
+        internal struct SYSTEM_INFO
         {
 
             // This is a union of a DWORD and a struct containing 2 WORDs.
-            public ushort wProcessorArchitecture;
-            public ushort wReserved;
+            internal ushort wProcessorArchitecture;
+            internal ushort wReserved;
 
-            public uint dwPageSize;
-            public IntPtr lpMinimumApplicationAddress;
-            public IntPtr lpMaximumApplicationAddress;
-            public IntPtr dwActiveProcessorMask;
-            public uint dwNumberOfProcessors;
-            public uint dwProcessorType;
-            public uint dwAllocationGranularity;
-            public ushort wProcessorLevel;
-            public ushort wProcessorRevision;
+            internal uint dwPageSize;
+            internal IntPtr lpMinimumApplicationAddress;
+            internal IntPtr lpMaximumApplicationAddress;
+            internal IntPtr dwActiveProcessorMask;
+            internal uint dwNumberOfProcessors;
+            internal uint dwProcessorType;
+            internal uint dwAllocationGranularity;
+            internal ushort wProcessorLevel;
+            internal ushort wProcessorRevision;
 
         }
 
@@ -689,14 +730,14 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         private struct PROCESS_BASIC_INFORMATION
         {
 
-            public IntPtr ExitStatus;
-            public IntPtr PebBaseAddress;
-            public IntPtr AffinityMask;
-            public IntPtr BasePriority;
-            public IntPtr UniqueProcessId;
-            public IntPtr InheritedFromUniqueProcessId;
+            internal IntPtr ExitStatus;
+            internal IntPtr PebBaseAddress;
+            internal IntPtr AffinityMask;
+            internal IntPtr BasePriority;
+            internal IntPtr UniqueProcessId;
+            internal IntPtr InheritedFromUniqueProcessId;
 
-            public int Size
+            internal int Size
             {
                 get { return (6 * IntPtr.Size); }
             }
@@ -707,18 +748,18 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// Contains information about a file or directory; used by GetFileAttributesEx.
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
-        public struct WIN32_FILE_ATTRIBUTE_DATA
+        internal struct WIN32_FILE_ATTRIBUTE_DATA
         {
 
-            public int fileAttributes;
-            public uint ftCreationTimeLow;
-            public uint ftCreationTimeHigh;
-            public uint ftLastAccessTimeLow;
-            public uint ftLastAccessTimeHigh;
-            public uint ftLastWriteTimeLow;
-            public uint ftLastWriteTimeHigh;
-            public uint fileSizeHigh;
-            public uint fileSizeLow;
+            internal int fileAttributes;
+            internal uint ftCreationTimeLow;
+            internal uint ftCreationTimeHigh;
+            internal uint ftLastAccessTimeLow;
+            internal uint ftLastAccessTimeHigh;
+            internal uint ftLastWriteTimeLow;
+            internal uint ftLastWriteTimeHigh;
+            internal uint fileSizeHigh;
+            internal uint fileSizeLow;
 
         }
 
@@ -726,12 +767,11 @@ namespace Area23.At.Framework.Library.Core.Win32Api
 
         #endregion InnerClasses_Structs
 
-
         #region SetErrorMode_[copied_from_BCL]
 
         private static readonly Version s_threadErrorModeMinOsVersion = new Version(6, 1, 0x1db0);
 
-        public static int SetErrorMode(int newMode)
+        internal static int SetErrorMode(int newMode)
         {
 #if FEATURE_OSVERSION
             if (Environment.OSVersion.Version < s_threadErrorModeMinOsVersion)
@@ -754,24 +794,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
 
         #endregion SetErrorMode_[copied_from_BCL]
 
-        #region Wrapper methods
-
-        /// <summary>
-        /// Really truly non pumping wait.
-        /// Raw IntPtrs have to be used, because the marshaller does not support arrays of SafeHandle, only
-        /// single SafeHandles.
-        /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
-        public static extern Int32 WaitForMultipleObjects(uint handle, IntPtr[] handles, bool waitAll, uint milliseconds);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern void GetSystemInfo(ref SYSTEM_INFO lpSystemInfo);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern void GetNativeSystemInfo(ref SYSTEM_INFO lpSystemInfo);
+        #region static wrapper methods
 
         /// <summary>
         /// Get the last write time of the fullpath to a directory. If the pointed path is not a directory, or
@@ -779,7 +802,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// </summary>
         /// <param name="fullPath">Full path to the file in the filesystem</param>
         /// <param name="fileModifiedTimeUtc">The UTC last write time for the directory</param>
-        public static bool GetLastWriteDirectoryUtcTime(string fullPath, out DateTime fileModifiedTimeUtc)
+        internal static bool GetLastWriteDirectoryUtcTime(string fullPath, out DateTime fileModifiedTimeUtc)
         {
             // This code was copied from the reference manager, if there is a bug fix in that code, see if the same fix should also be made
             // there
@@ -816,7 +839,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// <summary>
         /// Takes the path and returns the short path
         /// </summary>
-        public static string GetShortFilePath(string path)
+        internal static string GetShortFilePath(string path)
         {
             if (!IsWindows)
             {
@@ -855,7 +878,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static string GetLongFilePath(string path)
+        internal static string GetLongFilePath(string path)
         {
             if (path != null)
             {
@@ -887,12 +910,12 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// <summary>
         /// Retrieves the current global memory status.
         /// </summary>
-        public static MemoryStatus GetMemoryStatus()
+        internal static MemoryStatus GetMemoryStatus()
         {
-            if (NativeMethods.IsWindows)
+            if (NativeWrapper.IsWindows)
             {
                 MemoryStatus status = new MemoryStatus();
-                bool returnValue = NativeMethods.GlobalMemoryStatusEx(status);
+                bool returnValue = NativeWrapper.GlobalMemoryStatusEx(status);
                 if (!returnValue)
                 {
                     return null;
@@ -928,7 +951,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
             {
                 if (!handle.IsInvalid)
                 {
-                    FILETIME ftCreationTime, ftLastAccessTime, ftLastWriteTime;
+                    System.Runtime.InteropServices.ComTypes.FILETIME ftCreationTime, ftLastAccessTime, ftLastWriteTime;
                     if (!GetFileTime(handle, out ftCreationTime, out ftLastAccessTime, out ftLastWriteTime) != true)
                     {
                         long fileTime = ((long)(uint)ftLastWriteTime.dwHighDateTime) << 32 |
@@ -945,7 +968,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// <summary>
         /// Did the HRESULT succeed
         /// </summary>
-        public static bool HResultSucceeded(int hr)
+        internal static bool HResultSucceeded(int hr)
         {
             return (hr >= 0);
         }
@@ -953,7 +976,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// <summary>
         /// Did the HRESULT Fail
         /// </summary>
-        public static bool HResultFailed(int hr)
+        internal static bool HResultFailed(int hr)
         {
             return (hr < 0);
         }
@@ -962,7 +985,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// Given an error code, converts it to an HRESULT and throws the appropriate exception.
         /// </summary>
         /// <param name="errorCode"></param>
-        public static void ThrowExceptionForErrorCode(int errorCode)
+        internal static void ThrowExceptionForErrorCode(int errorCode)
         {
             // See ndp\clr\src\bcl\system\io\__error.cs for this code as it appears in the CLR.
 
@@ -980,7 +1003,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// <summary>
         /// Kills the specified process by id and all of its children recursively.
         /// </summary>
-        public static void KillTree(int processIdToKill)
+        internal static void KillTree(int processIdToKill)
         {
             // Note that GetProcessById does *NOT* internally hold on to the process handle.
             // Only when you create the process using the Process object
@@ -1062,7 +1085,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// Returns the parent process id for the specified process.
         /// Returns zero if it cannot be gotten for some reason.
         /// </summary>
-        public static int GetParentProcessId(int processId)
+        internal static int GetParentProcessId(int processId)
         {
             int ParentID = 0;
 #if !CLR2COMPATIBILITY
@@ -1127,7 +1150,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// Returns an array of all the immediate child processes by id.
         /// NOTE: The IntPtr in the tuple is the handle of the child process.  CloseHandle MUST be called on this.
         /// </summary>
-        public static List<KeyValuePair<int, SafeProcessHandle>> GetChildProcessIds(int parentProcessId, DateTime parentStartTime)
+        internal static List<KeyValuePair<int, SafeProcessHandle>> GetChildProcessIds(int parentProcessId, DateTime parentStartTime)
         {
             List<KeyValuePair<int, SafeProcessHandle>> myChildren = new List<KeyValuePair<int, SafeProcessHandle>>();
 
@@ -1177,7 +1200,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         /// Internal, optimized GetCurrentDirectory implementation that simply delegates to the native method
         /// </summary>
         /// <returns></returns>
-        public static string GetCurrentDirectory()
+        internal static string GetCurrentDirectory()
         {
             if (IsWindows)
             {
@@ -1190,226 +1213,15 @@ namespace Area23.At.Framework.Library.Core.Win32Api
             return Directory.GetCurrentDirectory();
         }
 
-        #endregion
-
-        #region PInvoke
-
-        /// <summary>
-        /// Gets the current OEM code page which is used by console apps
-        /// (as opposed to the Windows/ANSI code page used by the normal people)
-        /// Basically for each ANSI code page (set in Regional settings) there's a corresponding OEM code page
-        /// that needs to be used for instance when writing to batch files
-        /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport(kernel32Dll)]
-        public static extern int GetOEMCP();
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetFileAttributesEx(String name, int fileInfoLevel, ref WIN32_FILE_ATTRIBUTE_DATA lpFileInformation);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport(kernel32Dll, SetLastError = true, CharSet = CharSet.Unicode)]
-        private static extern uint SearchPath
-        (
-            string path,
-            string fileName,
-            string extension,
-            int numBufferChars,
-            [Out] StringBuilder buffer,
-            int[] filePart
-        );
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", PreserveSig = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FreeLibrary([In] IntPtr module);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", PreserveSig = true, BestFitMapping = false, ThrowOnUnmappableChar = true, CharSet = CharSet.Ansi, SetLastError = true)]
-        public static extern IntPtr GetProcAddress(IntPtr module, string procName);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, PreserveSig = true, SetLastError = true)]
-        public static extern IntPtr LoadLibrary(string fileName);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport(mscoreeDLL, SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern uint GetRequestedRuntimeInfo(String pExe,
-                                                String pwszVersion,
-                                                String pConfigurationFile,
-                                                uint startupFlags,
-                                                uint runtimeInfoFlags,
-                                                [Out] StringBuilder pDirectory,
-                                                int dwDirectory,
-                                                out uint dwDirectoryLength,
-                                                [Out] StringBuilder pVersion,
-                                                int cchBuffer,
-                                                out uint dwlength);
-
-        /// <summary>
-        /// Gets the fully qualified filename of the currently executing .exe
-        /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport(kernel32Dll, SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern int GetModuleFileName(
-#if FEATURE_HANDLEREF
-            HandleRef hModule,
-#else
-            IntPtr hModule,
-#endif
-            [Out] StringBuilder buffer, int length);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr GetStdHandle(int nStdHandle);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll")]
-        public static extern uint GetFileType(IntPtr hFile);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [SuppressMessage("Microsoft.Usage", "CA2205:UseManagedEquivalentsOfWin32Api", Justification = "Using unmanaged equivalent for performance reasons")]
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern int GetCurrentDirectory(int nBufferLength, [Out] StringBuilder lpBuffer);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [SuppressMessage("Microsoft.Usage", "CA2205:UseManagedEquivalentsOfWin32Api", Justification = "Using unmanaged equivalent for performance reasons")]
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "SetCurrentDirectory")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetCurrentDirectoryWindows(string path);
-
-        public static bool SetCurrentDirectory(string path)
+        internal static void XCopy(string oldFile, string newFile)
         {
-            if (IsWindows)
-            {
-                return SetCurrentDirectoryWindows(path);
-            }
-
-            // Make sure this does not throw
-            try
-            {
-                Directory.SetCurrentDirectory(path);
-            }
-            catch
-            {
-            }
-            return true;
+            CopyFileEx(oldFile, newFile, new CopyProgressRoutine(CopyProgressHandler), IntPtr.Zero, ref pbCancel, CopyFileFlags.COPY_FILE_RESTARTABLE);
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static unsafe extern int GetFullPathName(string target, int bufferLength, char* buffer, IntPtr mustBeZero);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("KERNEL32.DLL")]
-        private static extern SafeProcessHandle OpenProcess(eDesiredAccess dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, int dwProcessId);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("NTDLL.DLL")]
-        private static extern int NtQueryInformationProcess(SafeProcessHandle hProcess, PROCESSINFOCLASS pic, ref PROCESS_BASIC_INFORMATION pbi, int cb, ref int pSize);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport("kernel32.dll", CharSet = AutoOrUnicode, SetLastError = true)]
-        private static extern bool GlobalMemoryStatusEx([In, Out] MemoryStatus lpBuffer);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, BestFitMapping = false)]
-        public static extern int GetShortPathName(string path, [Out] StringBuilder fullpath, [In] int length);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, BestFitMapping = false)]
-        public static extern int GetLongPathName([In] string path, [Out] StringBuilder fullpath, [In] int length);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", CharSet = AutoOrUnicode, SetLastError = true)]
-        public static extern bool CreatePipe(out SafeFileHandle hReadPipe, out SafeFileHandle hWritePipe, SecurityAttributes lpPipeAttributes, int nSize);
-
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("kernel32.dll", CharSet = AutoOrUnicode, SetLastError = true)]
-        public static extern bool ReadFile(SafeFileHandle hFile, byte[] lpBuffer, uint nNumberOfBytesToRead, out uint lpNumberOfBytesRead, IntPtr lpOverlapped);
-
-        /// <summary>
-        /// CoWaitForMultipleHandles allows us to wait in an STA apartment and still service RPC requests from other threads.
-        /// VS needs this in order to allow the in-proc compilers to properly initialize, since they will make calls from the
-        /// build thread which the main thread (blocked on BuildSubmission.Execute) must service.
-        /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
-        [DllImport("ole32.dll")]
-        public static extern int CoWaitForMultipleHandles(COWAIT_FLAGS dwFlags, int dwTimeout, int cHandles, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] pHandles, out int pdwIndex);
-
-        public const uint GENERIC_READ = 0x80000000;
-        public const uint FILE_SHARE_READ = 0x1;
-        public const uint FILE_ATTRIBUTE_NORMAL = 0x80;
-        public const uint FILE_FLAG_OPEN_REPARSE_POINT = 0x00200000;
-        public const uint OPEN_EXISTING = 3;
-
-        [DllImport("kernel32.dll", CharSet = AutoOrUnicode, CallingConvention = CallingConvention.StdCall,
-            SetLastError = true)]
-        public static extern SafeFileHandle CreateFile(
-            string lpFileName,
-            uint dwDesiredAccess,
-            uint dwShareMode,
-            IntPtr lpSecurityAttributes,
-            uint dwCreationDisposition,
-            uint dwFlagsAndAttributes,
-            IntPtr hTemplateFile
-            );
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool GetFileTime(
-            SafeFileHandle hFile,
-            out FILETIME lpCreationTime,
-            out FILETIME lpLastAccessTime,
-            out FILETIME lpLastWriteTime
-            );
-
-        #endregion
-
-        #region ExtensionsMethods
-
-        /// <summary>
-        /// Waits while pumping APC messages.  This is important if the waiting thread is an STA thread which is potentially
-        /// servicing COM calls from other threads.
-        /// </summary>
-        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Runtime.InteropServices.SafeHandle.DangerousGetHandle", Scope = "member", Target = "Microsoft.Build.Shared.NativeMethods.#MsgWaitOne(System.Threading.WaitHandle,System.Int32)", Justification = "This is necessary and it has been used for a long time. No need to change it now.")]
-        public static bool MsgWaitOne(this WaitHandle handle)
+        internal static CopyProgressResult CopyProgressHandler(long total, long transferred, long streamSize, long StreamByteTrans, uint dwStreamNumber, CopyProgressCallbackReason reason, IntPtr hSourceFile, IntPtr hDestinationFile, IntPtr lpData)
         {
-            return handle.MsgWaitOne(Timeout.Infinite);
+            return CopyProgressResult.PROGRESS_CONTINUE;
         }
-
-        /// <summary>
-        /// Waits while pumping APC messages.  This is important if the waiting thread is an STA thread which is potentially
-        /// servicing COM calls from other threads.
-        /// </summary>
-        public static bool MsgWaitOne(this WaitHandle handle, TimeSpan timeout)
-        {
-            return MsgWaitOne(handle, (int)timeout.TotalMilliseconds);
-        }
-
-        /// <summary>
-        /// Waits while pumping APC messages.  This is important if the waiting thread is an STA thread which is potentially
-        /// servicing COM calls from other threads.
-        /// </summary>
-        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Runtime.InteropServices.SafeHandle.DangerousGetHandle", Justification = "Necessary to avoid pumping")]
-        public static bool MsgWaitOne(this WaitHandle handle, int timeout)
-        {
-            // CoWaitForMultipleHandles allows us to wait in an STA apartment and still service RPC requests from other threads.
-            // VS needs this in order to allow the in-proc compilers to properly initialize, since they will make calls from the
-            // build thread which the main thread (blocked on BuildSubmission.Execute) must service.
-            int waitIndex;
-#if FEATURE_HANDLE_SAFEWAITHANDLE
-            IntPtr handlePtr = handle.SafeWaitHandle.DangerousGetHandle();
-#else
-            IntPtr handlePtr = handle.GetSafeWaitHandle().DangerousGetHandle();
-#endif
-            int returnValue = CoWaitForMultipleHandles(COWAIT_FLAGS.COWAIT_NONE, timeout, 1, new IntPtr[] { handlePtr }, out waitIndex);
-            VerifyThrow(returnValue == 0 || ((uint)returnValue == RPC_S_CALLPENDING && timeout != Timeout.Infinite), "Received {0} from CoWaitForMultipleHandles, but expected 0 (S_OK)", returnValue); return returnValue == 0;
-        }
-
-        #endregion ExtensionsMethods
 
         #region helper methods
 
@@ -1480,7 +1292,6 @@ namespace Area23.At.Framework.Library.Core.Win32Api
             }
         }
 
-
         /// <summary>
         /// Throws InternalErrorException.
         /// This is only for situations that would mean that there is a bug in MSBuild itself.
@@ -1537,6 +1348,257 @@ namespace Area23.At.Framework.Library.Core.Win32Api
 
             return formatted;
         }
+
+        #endregion helper methods
+
+        #region extension methods
+
+        /// <summary>
+        /// Waits while pumping APC messages.  This is important if the waiting thread is an STA thread which is potentially
+        /// servicing COM calls from other threads.
+        /// </summary>
+        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Runtime.InteropServices.SafeHandle.DangerousGetHandle", Scope = "member", Target = "Microsoft.Build.Shared.NativeMethods.#MsgWaitOne(System.Threading.WaitHandle,System.Int32)", Justification = "This is necessary and it has been used for a long time. No need to change it now.")]
+        internal static bool MsgWaitOne(this WaitHandle handle)
+        {
+            return handle.MsgWaitOne(Timeout.Infinite);
+        }
+
+        /// <summary>
+        /// Waits while pumping APC messages.  This is important if the waiting thread is an STA thread which is potentially
+        /// servicing COM calls from other threads.
+        /// </summary>
+        internal static bool MsgWaitOne(this WaitHandle handle, TimeSpan timeout)
+        {
+            return MsgWaitOne(handle, (int)timeout.TotalMilliseconds);
+        }
+
+        /// <summary>
+        /// Waits while pumping APC messages.  This is important if the waiting thread is an STA thread which is potentially
+        /// servicing COM calls from other threads.
+        /// </summary>
+        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Runtime.InteropServices.SafeHandle.DangerousGetHandle", Justification = "Necessary to avoid pumping")]
+        internal static bool MsgWaitOne(this WaitHandle handle, int timeout)
+        {
+            // CoWaitForMultipleHandles allows us to wait in an STA apartment and still service RPC requests from other threads.
+            // VS needs this in order to allow the in-proc compilers to properly initialize, since they will make calls from the
+            // build thread which the main thread (blocked on BuildSubmission.Execute) must service.
+            int waitIndex;
+#if FEATURE_HANDLE_SAFEWAITHANDLE
+            IntPtr handlePtr = handle.SafeWaitHandle.DangerousGetHandle();
+#else
+            IntPtr handlePtr = handle.GetSafeWaitHandle().DangerousGetHandle();
+#endif
+            int returnValue = CoWaitForMultipleHandles(COWAIT_FLAGS.COWAIT_NONE, timeout, 1, new IntPtr[] { handlePtr }, out waitIndex);
+            VerifyThrow(returnValue == 0 || ((uint)returnValue == RPC_S_CALLPENDING && timeout != Timeout.Infinite), "Received {0} from CoWaitForMultipleHandles, but expected 0 (S_OK)", returnValue); return returnValue == 0;
+        }
+
+        #endregion extension methods
+
+        #endregion static wrapper methods
+
+        #region PInvoke
+
+        /// <summary>
+        /// Gets the current OEM code page which is used by console apps
+        /// (as opposed to the Windows/ANSI code page used by the normal people)
+        /// Basically for each ANSI code page (set in Regional settings) there's a corresponding OEM code page
+        /// that needs to be used for instance when writing to batch files
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport(kernel32Dll)]
+        internal static extern int GetOEMCP();
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetFileAttributesEx(String name, int fileInfoLevel, ref WIN32_FILE_ATTRIBUTE_DATA lpFileInformation);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport(kernel32Dll, SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern uint SearchPath
+        (
+            string path,
+            string fileName,
+            string extension,
+            int numBufferChars,
+            [Out] StringBuilder buffer,
+            int[] filePart
+        );
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", PreserveSig = true, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool FreeLibrary([In] IntPtr module);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", PreserveSig = true, BestFitMapping = false, ThrowOnUnmappableChar = true, CharSet = CharSet.Ansi, SetLastError = true)]
+        internal static extern IntPtr GetProcAddress(IntPtr module, string procName);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, PreserveSig = true, SetLastError = true)]
+        internal static extern IntPtr LoadLibrary(string fileName);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport(mscoreeDLL, SetLastError = true, CharSet = CharSet.Unicode)]
+        internal static extern uint GetRequestedRuntimeInfo(String pExe,
+                                                String pwszVersion,
+                                                String pConfigurationFile,
+                                                uint startupFlags,
+                                                uint runtimeInfoFlags,
+                                                [Out] StringBuilder pDirectory,
+                                                int dwDirectory,
+                                                out uint dwDirectoryLength,
+                                                [Out] StringBuilder pVersion,
+                                                int cchBuffer,
+                                                out uint dwlength);
+
+        /// <summary>
+        /// Gets the fully qualified filename of the currently executing .exe
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport(kernel32Dll, SetLastError = true, CharSet = CharSet.Unicode)]
+        internal static extern int GetModuleFileName(
+#if FEATURE_HANDLEREF
+            HandleRef hModule,
+#else
+            IntPtr hModule,
+#endif
+            [Out] StringBuilder buffer, int length);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll")]
+        internal static extern IntPtr GetStdHandle(int nStdHandle);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll")]
+        internal static extern uint GetFileType(IntPtr hFile);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [SuppressMessage("Microsoft.Usage", "CA2205:UseManagedEquivalentsOfWin32Api", Justification = "Using unmanaged equivalent for performance reasons")]
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        internal static extern int GetCurrentDirectory(int nBufferLength, [Out] StringBuilder lpBuffer);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [SuppressMessage("Microsoft.Usage", "CA2205:UseManagedEquivalentsOfWin32Api", Justification = "Using unmanaged equivalent for performance reasons")]
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "SetCurrentDirectory")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool SetCurrentDirectoryWindows(string path);
+
+        internal static bool SetCurrentDirectory(string path)
+        {
+            if (IsWindows)
+            {
+                return SetCurrentDirectoryWindows(path);
+            }
+
+            // Make sure this does not throw
+            try
+            {
+                Directory.SetCurrentDirectory(path);
+            }
+            catch
+            {
+            }
+            return true;
+        }
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        internal static unsafe extern int GetFullPathName(string target, int bufferLength, char* buffer, IntPtr mustBeZero);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("KERNEL32.DLL")]
+        private static extern SafeProcessHandle OpenProcess(eDesiredAccess dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, int dwProcessId);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("NTDLL.DLL")]
+        private static extern int NtQueryInformationProcess(SafeProcessHandle hProcess, PROCESSINFOCLASS pic, ref PROCESS_BASIC_INFORMATION pbi, int cb, ref int pSize);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        [DllImport("kernel32.dll", CharSet = AutoOrUnicode, SetLastError = true)]
+        private static extern bool GlobalMemoryStatusEx([In, Out] MemoryStatus lpBuffer);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, BestFitMapping = false)]
+        internal static extern int GetShortPathName(string path, [Out] StringBuilder fullpath, [In] int length);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, BestFitMapping = false)]
+        internal static extern int GetLongPathName([In] string path, [Out] StringBuilder fullpath, [In] int length);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", CharSet = AutoOrUnicode, SetLastError = true)]
+        internal static extern bool CreatePipe(out SafeFileHandle hReadPipe, out SafeFileHandle hWritePipe, SecurityAttributes lpPipeAttributes, int nSize);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", CharSet = AutoOrUnicode, SetLastError = true)]
+        internal static extern bool ReadFile(SafeFileHandle hFile, byte[] lpBuffer, uint nNumberOfBytesToRead, out uint lpNumberOfBytesRead, IntPtr lpOverlapped);
+
+        /// <summary>
+        /// CoWaitForMultipleHandles allows us to wait in an STA apartment and still service RPC requests from other threads.
+        /// VS needs this in order to allow the in-proc compilers to properly initialize, since they will make calls from the
+        /// build thread which the main thread (blocked on BuildSubmission.Execute) must service.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("ole32.dll")]
+        internal static extern int CoWaitForMultipleHandles(COWAIT_FLAGS dwFlags, int dwTimeout, int cHandles, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] pHandles, out int pdwIndex);
+
+        internal const uint GENERIC_READ = 0x80000000;
+        internal const uint FILE_SHARE_READ = 0x1;
+        internal const uint FILE_ATTRIBUTE_NORMAL = 0x80;
+        internal const uint FILE_FLAG_OPEN_REPARSE_POINT = 0x00200000;
+        internal const uint OPEN_EXISTING = 3;
+
+        [DllImport("kernel32.dll", CharSet = AutoOrUnicode, CallingConvention = CallingConvention.StdCall,
+            SetLastError = true)]
+        internal static extern SafeFileHandle CreateFile(
+            string lpFileName,
+            uint dwDesiredAccess,
+            uint dwShareMode,
+            IntPtr lpSecurityAttributes,
+            uint dwCreationDisposition,
+            uint dwFlagsAndAttributes,
+            IntPtr hTemplateFile
+            );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern bool GetFileTime(
+            SafeFileHandle hFile,
+            out System.Runtime.InteropServices.ComTypes.FILETIME lpCreationTime,
+            out System.Runtime.InteropServices.ComTypes.FILETIME lpLastAccessTime,
+            out System.Runtime.InteropServices.ComTypes.FILETIME lpLastWriteTime
+            );
+
+
+        /// <summary>
+        /// Really truly non pumping wait.
+        /// Raw IntPtrs have to be used, because the marshaller does not support arrays of SafeHandle, only
+        /// single SafeHandles.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        internal static extern Int32 WaitForMultipleObjects(uint handle, IntPtr[] handles, bool waitAll, uint milliseconds);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern void GetSystemInfo(ref SYSTEM_INFO lpSystemInfo);
+
+        [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Justification = "Class name is NativeMethodsShared for increased clarity")]
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern void GetNativeSystemInfo(ref SYSTEM_INFO lpSystemInfo);
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool CopyFileEx(string lpExistingFileName, string lpNewFileName,
+            CopyProgressRoutine lpProgressRoutine, IntPtr lpData, ref Int32 pbCancel,
+            CopyFileFlags dwCopyFlags);
+
+        [DllImport("kernel32.dll")]
+        static extern uint GetCurrentThreadId();
+
+        [DllImport("kernel32.dll")]
+        static extern uint GetCurrentProcessId();
 
         #endregion
 

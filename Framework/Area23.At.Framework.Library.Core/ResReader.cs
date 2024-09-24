@@ -70,7 +70,7 @@ namespace Area23.At.Framework.Library.Core
 
         public static string GetAllFortunes()
         {
-            string fortuneString = System.Text.Encoding.UTF8.GetString(Properties.Resource.fortune_u8);
+            string fortuneString = Encoding.UTF8.GetString(Properties.Resource.fortune_u8);
             return fortuneString;
         }
     

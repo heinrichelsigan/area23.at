@@ -11,14 +11,11 @@ namespace Area23.At.WinForm.TWinFormCore
         int speachCnt = 0;
         volatile bool locChangedOff = false;
         object spinLock = new object();
-        DateTime lastCapture = DateTime.Now;
-        TransparentFormCore8 formCore8;
+        DateTime lastCapture = DateTime.Now;        
 
         public TWinForm()
         {
             InitializeComponent();
-            formCore8 = new TransparentFormCore8();
-            formCore8.Show();
         }
 
 
@@ -28,7 +25,7 @@ namespace Area23.At.WinForm.TWinFormCore
                 winDeskImg = GetDesktopImage();
 
             Graphics g = Graphics.FromImage(winDeskImg);
-            Form f = this.FindForm();
+            Form f = FindForm();
             Image? bgImg = Crop(winDeskImg, DesktopBounds.Size.Width, DesktopBounds.Size.Height, f.DesktopBounds.Location.X + 8, f.DesktopBounds.Location.Y + 32);
             if (bgImg != null)
                 this.BackgroundImage = bgImg;

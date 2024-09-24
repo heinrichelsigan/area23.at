@@ -30,26 +30,25 @@ namespace Area23.At.WinForm.WinRoachCore
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RoachBase));
-            this.SuspendLayout();
+            SuspendLayout();
             // 
-            // WinFormCoreRoach
+            // RoachBase
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(16, 0);
-            this.ControlBox = false;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Icon = (System.Drawing.Icon)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.WinCRoach;
-            this.MaximizeBox = false;
-            this.Name = "WinFormCoreRoach";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
-            this.Text = "WinFormCoreRoach";
-            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
-            this.Load += new System.EventHandler(this.OnLoad);
-            this.ResumeLayout(false);
-
+            AutoScaleMode = AutoScaleMode.None;
+            BackgroundImageLayout = ImageLayout.None;
+            ClientSize = new Size(16, 0);
+            ControlBox = false;
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            Icon = Area23.At.WinForm.WinRoachCore.Properties.Resource.WinCRoach;
+            MaximizeBox = false;
+            Name = "RoachBase";
+            ShowIcon = false;
+            ShowInTaskbar = false;
+            Text = "WinFormCoreRoach";
+            TransparencyKey = SystemColors.Control;
+            WindowState = FormWindowState.Minimized;
+            Load += OnLoad;
+            ResumeLayout(false);
         }
 
         #endregion

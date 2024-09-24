@@ -26,6 +26,7 @@ namespace Area23.At.WinForm.WinRoachCore
             roachNum = roachNumber;
             InitializeComponent();
             Name = "CRoach" + roachNum;
+            Text = Name;
         }
 
 
@@ -35,16 +36,22 @@ namespace Area23.At.WinForm.WinRoachCore
 
             if (pt == Point.Empty || (pt.X <= 0 && pt.Y <= 0))
             {
-                pt = new Point(((int)(screen.Bounds.Width) - 64),
-                    ((int)(screen.Bounds.Height) - 64));
+                int pX = screen.Bounds.Width;
+                int pY = screen.Bounds.Height;
+                foreach (Screen aScreen in Screen.AllScreens)
+                    if (pX < aScreen.Bounds.Width)
+                        pX = aScreen.Bounds.Width;
+                pX -= 32;
+                foreach (Screen aScreen in Screen.AllScreens)
+                    if (pY < aScreen.Bounds.Height)
+                        pY = aScreen.Bounds.Height;
+                pY -= 32;
+                pt = new Point(pX, pY);
             }
             this.Location = pt;
             this.SetDesktopLocation(pt.X, pt.Y);
 
-            Image bgImg = CaptureForm(this);            
-            // this.BackgroundImage = bgImg;
-
-            if (roachCnt % 7 == 0)
+            if (roachCnt > 0)
             {
                 if (roachCnt % 4 == 0)
                     this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;

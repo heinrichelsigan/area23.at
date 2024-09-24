@@ -1,7 +1,7 @@
 ﻿namespace Area23.At.Framework.Library.Core.SymCipher
 {
 
-    public enum SymChifferEnum
+    public enum SymChipherEnum
     {
         NONE = 0x0,
 

@@ -30,6 +30,7 @@ namespace Area23.At.WinForm.WinRoachCore
         /// </summary>
         protected internal virtual void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BRoach));
             panelRoach = new Panel();
             SuspendLayout();
             // 
@@ -38,7 +39,7 @@ namespace Area23.At.WinForm.WinRoachCore
             panelRoach.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panelRoach.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panelRoach.BackColor = Color.Transparent;
-            panelRoach.BackgroundImage = (System.Drawing.Image)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
+            panelRoach.BackgroundImage = Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach0;
             panelRoach.BackgroundImageLayout = ImageLayout.None;
             panelRoach.Location = new Point(0, 0);
             panelRoach.Margin = new Padding(0);
@@ -51,7 +52,7 @@ namespace Area23.At.WinForm.WinRoachCore
             // 
             AutoScaleMode = AutoScaleMode.None;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            BackColor = SystemColors.ControlLightLight;
+            BackColor = SystemColors.Control;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(64, 64);
             ControlBox = false;
@@ -65,7 +66,7 @@ namespace Area23.At.WinForm.WinRoachCore
             ShowIcon = false;
             ShowInTaskbar = false;
             SizeGripStyle = SizeGripStyle.Hide;
-            TransparencyKey = SystemColors.ControlLightLight;
+            TransparencyKey = SystemColors.Control;
             Load += OnLoad;
             Shown += OnShow;
             MouseDoubleClick += RoachExit;

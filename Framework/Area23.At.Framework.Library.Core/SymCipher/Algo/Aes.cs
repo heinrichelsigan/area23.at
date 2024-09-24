@@ -6,25 +6,33 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Core.SymCipher
+namespace Area23.At.Framework.Library.Core.SymCipher.Algo
 {
 
     /// <summary>
     /// <see cref="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aes?view=net-8.0" />
     /// </summary>
-    public static class Aes
+    public static class Aes 
     {
 
         #region fields
 
         private static string privateKey = string.Empty;
+        private static string userHostIpAddress = string.Empty;
+
+        #endregion fields
+
+        #region Properties
 
         internal static byte[] AesKey { get; private set; }
         internal static byte[] AesIv { get; private set; }
 
+        internal static string PrivateUserKey { get => string.Concat(privateKey, privateKey); }
+        internal static string PrivateUserHostKey { get => string.Concat(privateKey, userHostIpAddress, privateKey, userHostIpAddress); }
+
         internal static RijndaelManaged AesAlgo { get; private set; }
 
-        #endregion fields
+        #endregion Properties
 
         #region Ctor_Gen
 
@@ -33,13 +41,19 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         /// </summary>
         static Aes()
         {
+            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
+            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+
             AesAlgo = new RijndaelManaged();
             AesAlgo.Mode = CipherMode.ECB;
             AesAlgo.KeySize = 256;
             AesAlgo.Padding = PaddingMode.Zeros;
 
-            AesKey = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
-            AesIv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+
+            AesKey = new byte[32];
+            AesIv = new byte[16];
+            Array.Copy(key, AesKey, 32);
+            Array.Copy(iv, AesIv, 16);
 
             AesAlgo.Key = AesKey;
             AesAlgo.IV = AesIv;
@@ -50,10 +64,12 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         /// AesGenWithNewKey generates a new static Aes RijndaelManaged symetric encryption 
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
+        /// <param name="userHostAddr">user host address is here part of private key</param>
         /// <param name="init">init three fish first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool AesGenWithNewKey(string secretKey = "", bool init = true)
+        public static bool AesGenWithNewKey(string secretKey = "", string userHash = "", bool init = true)
         {
+            byte[] key = new byte[32]; 
             byte[] iv = new byte[16]; // AES > IV > 128 bit
 
             if (!init)
@@ -68,17 +84,20 @@ namespace Area23.At.Framework.Library.Core.SymCipher
                 if (string.IsNullOrEmpty(secretKey))
                 {
                     privateKey = string.Empty;
-                    AesKey = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
+                    key = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
                     iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
                 }
                 else
                 {
                     privateKey = secretKey;
-                    AesKey = Encoding.UTF8.GetByteCount(secretKey) == 32 ? Encoding.UTF8.GetBytes(secretKey) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(secretKey));
-                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+                    key = CryptHelper.GetUserKeyBytes(secretKey, userHash, 32);
+                    iv = CryptHelper.GetUserKeyBytes(secretKey, userHash, 16);
+                    // iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
                 }
 
+                AesKey = new byte[32];
                 AesIv = new byte[16];
+                Array.Copy(key, AesKey, 32);
                 Array.Copy(iv, AesIv, 16);
             }
 
@@ -91,6 +110,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         }
 
         #endregion Ctor_Gen
+
 
         #region EncryptDecryptBytes
 
@@ -143,10 +163,10 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         /// <returns>Base64 encoded encrypted byte[]</returns>
         public static string EncryptString(string inPlainString)
         {
-            byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inPlainString);
+            byte[] plainTextData = Encoding.UTF8.GetBytes(inPlainString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
-            // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
+            
             return encryptedString;
         }
 
@@ -158,9 +178,9 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         public static string DecryptString(string inCryptString)
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
-            //  System.Text.Encoding.UTF8.GetBytes(inCryptString);
+            //  Encoding.UTF8.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;
         }
@@ -236,7 +256,9 @@ namespace Area23.At.Framework.Library.Core.SymCipher
         [Obsolete("byte[] CreateAesKey(string inputString) is deprecated, please use void AesGenWithNewKey(string inputKey = null)", false)]
         private static byte[] CreateAesKey(string inputString)
         {
-            return Encoding.UTF8.GetByteCount(inputString) == 32 ? Encoding.UTF8.GetBytes(inputString) : SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(inputString));
+            return Encoding.UTF8.GetByteCount(inputString) == 32 ? 
+                Encoding.UTF8.GetBytes(inputString) : 
+                SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(inputString));
         }
 
         #endregion ObsoleteDeprecated 

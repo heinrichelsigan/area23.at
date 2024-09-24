@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -37,6 +38,7 @@ namespace Area23.At.WinForm.WinRoachCore
             roachNum = roachNumber;
             InitializeComponent();
             Name = "DRoach" + roachNum;
+            Text = Name;
         }
 
 
@@ -53,20 +55,29 @@ namespace Area23.At.WinForm.WinRoachCore
 
             if (pt == Point.Empty || (pt.X <= 0 && pt.Y <= 0))
             {
-                pt = new Point(((int)(screen.Bounds.Width) - 64),
-                    ((int)(screen.Bounds.Height) - 64));
+                int pX = screen.Bounds.Width;
+                int pY = screen.Bounds.Height;
+                foreach (Screen aScreen in Screen.AllScreens)
+                    if (pX < aScreen.Bounds.Width)
+                        pX = aScreen.Bounds.Width;
+                pX -= 32;
+                foreach (Screen aScreen in Screen.AllScreens)
+                    if (pY < aScreen.Bounds.Height)
+                        pY = aScreen.Bounds.Height;
+                pY -= 32;
+                pt = new Point(pX, pY);
             }
             this.Location = pt;
             this.SetDesktopLocation(pt.X, pt.Y);
 
+            // if (roachCnt % 31 == 3)
+            // {
+            //      this.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.DRoach;
+            //      this.panelDRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.DRoach;           
+            // }
 
-            if (roachCnt % 31 == 3)
-            {
-                // this.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.DRoach;
-                this.panelDRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.DRoach;           
-            }
 
-            Image bgImg = ScreenCapture.CaptureWindow(this.Handle);
+            // Image bgImg = ScreenCapture.CaptureWindow(this.Handle);
             // this.BackgroundImage = bgImg;
 
             //    }));
@@ -143,7 +154,7 @@ namespace Area23.At.WinForm.WinRoachCore
                 lock (lock2)
                 {
                     SetRoachBG(roachPosition);
-                    if (roachCnt % 23 == 2)
+                    if (roachCnt % 24 == 2)
                     {
                         lock3 = new object();
                         lock (lock3)
@@ -151,7 +162,7 @@ namespace Area23.At.WinForm.WinRoachCore
                             BringToFront();
                         }
                     }
-                    else if (roachCnt % 11 == 1)
+                    else if (roachCnt % 12 == 0)
                     {
                         lock3 = new object();
                         lock (lock3)
@@ -161,10 +172,10 @@ namespace Area23.At.WinForm.WinRoachCore
                     }
                 }
 
-                System.Threading.Thread.Sleep(125);
+                System.Threading.Thread.Sleep(112);
             }
 
-            AppExit("RoachMove", new EventArgs());
+            RoachExit("RoachMove", new MouseEventArgs(MouseButtons.Left, 1, roachPosition.X + 2, roachPosition.Y + 2, 4));
         }
 
         internal virtual void RotateSay()
@@ -199,18 +210,17 @@ namespace Area23.At.WinForm.WinRoachCore
 
         protected virtual void RoachExit(object sender, MouseEventArgs e)
         {
-            string procRoachName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
-            System.Diagnostics.Process[] processes = Area23.At.Framework.Library.Core.Win32Api.Processes.GetRunningProcessesByName(procRoachName);
+            System.Diagnostics.Process[] processes = Processes.GetRunningProcessesByName(Program.progName);
             if (processes != null && processes.Length > 0)
             {
-                foreach (System.Diagnostics.Process process in processes)
+                foreach (Process process in processes)
                 {
                     System.Timers.Timer tProcKill = new System.Timers.Timer { Interval = 600 + process.Id };
                     tProcKill.Elapsed += (s, en) =>
                     {
                         this.Invoke(new Action(() =>
                         {
-                            Area23.At.Framework.Library.Core.Win32Api.Processes.KillProcessTree(process.Id, true, 0, true);
+                            Processes.KillProcessTree(process.Id, true, 0, true);
                         }));
                         tProcKill.Stop(); // Stop the timer(otherwise keeps on calling)
                     };
@@ -224,7 +234,12 @@ namespace Area23.At.WinForm.WinRoachCore
         {
             string orocRoachName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
             MessageBox.Show($"Roach {orocRoachName} is exiting now!", $"{orocRoachName} roach exit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Program.ReleaseCloseDisposeMutex();
+
+            Dispose();
+            Application.ExitThread();
             Application.Exit();
+            Environment.Exit(0);
         }
 
 
