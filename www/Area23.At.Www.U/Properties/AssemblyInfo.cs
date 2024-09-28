@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("area23.at")]
 [assembly: AssemblyProduct("Area23.At.U uft8 symbol searcher")]
-[assembly: AssemblyCopyright("Copyleft Heinrich Elsigan © 2000 - 2025")]
+[assembly: AssemblyCopyright("Copyleft Heinrich Elsigan © 2000 - 2040")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // Sie können alle Werte angeben oder die standardmäßigen Revisions- und Buildnummern 
 // übernehmen, indem Sie "*" wie folgt verwenden:
-[assembly: AssemblyVersion("2.24.830.0")]
-[assembly: AssemblyFileVersion("2.24.830.0")]
+[assembly: AssemblyVersion("2.24.928.0")]
+[assembly: AssemblyFileVersion("2.24.928.0")]
