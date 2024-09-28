@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("area23.at")]
 [assembly: AssemblyProduct("Area23.At.Www.Syet another url shortner")]
-[assembly: AssemblyCopyright("Copyleft Heinrich Elsigan © 2000 - 2025")]
+[assembly: AssemblyCopyright("Copyleft Heinrich Elsigan © 2000 - 2040")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
