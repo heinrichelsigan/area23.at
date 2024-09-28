@@ -7,6 +7,7 @@
 var buttonQRCode, inputcolor, inputbackcolor, colorpicker, backcolorpicker;
 
 function loadScript(src, asyn, f) {
+
     var head = document.getElementsByTagName("head")[0];
     var script = document.createElement("script");
     
@@ -27,10 +28,12 @@ function loadScript(src, asyn, f) {
             head.removeChild(script);
         }
     };
+
     head.appendChild(script);
 }
 
 function highLightOnChange(highLightId) {
+
     if (highLightId != null && document.getElementById(highLightId) != null) {
         if (document.getElementById(highLightId).style.borderStyle == "dotted" ||
             document.getElementById(highLightId).style.borderColor == "red") {
@@ -47,25 +50,11 @@ function highLightOnChange(highLightId) {
             document.getElementById(highLightId).style.borderStyle = "dashed";
         }
     }
+
 }
 
 
 function newQrColor(color) {
-
-
-    // try {
-    //     if (document.getElementById("TextBox_Color") != null) {
-    //         let textBoxColorId = document.getElementById("TextBox_Color");
-    //         textBoxColorId.title = color;
-    //         textBoxColorId.setAttribute("text", color);
-    //         textBoxColorId.setAttribute("qrcolor", color);
-    //         textBoxColorId.value = color;
-    //         textBoxColorId.style.borderColor = color;
-    //         // textBoxColorId.style.backgroundColor = color;
-    //     }
-    // } catch (exCol) {
-    //     alert("getElementById('TextBox_Color') " + exCol);
-    // }
 
     try {
         if (document.getElementById("Button_QRCode") != null) {
@@ -88,20 +77,7 @@ function newQrColor(color) {
         }
     } catch (exCol) {
         alert("getElementsById('input_color') " + exCol);
-    }
-    // try {
-    //     if (document.getElementsByName("selected_color") != null) {
-    //         var inputcolors = document.getElementsByName("selected_color");
-    //         inputcolors.value = color;
-    //         inputcolors.setAttribute("text", color);
-    //         inputcolors.setAttribute("qrcolor", color);
-    // 		inputcolors.style.borderColor = color;
-    //         inputcolors.style.textColor = color;
-    //         // inputcolors.style.backgroundColor = color;
-    //     }
-    // } catch (exCol) {
-    //     alert("getElementsByName('selected_color') " + exCol);
-    // }
+    }   
 }
 
 function newBackgroundColor(bgcolor) {

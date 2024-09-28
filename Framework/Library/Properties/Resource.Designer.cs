@@ -211,7 +211,7 @@ namespace Area23.At.Framework.Library.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.2024.510.
+        ///   Looks up a localized string similar to v2.24.928.
         /// </summary>
         internal static string version_name {
             get {

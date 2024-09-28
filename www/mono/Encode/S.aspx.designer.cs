@@ -11,124 +11,124 @@ namespace Area23.At.Mono.Encode
 {
 
 
-    public partial class EncodeMaster
+    public partial class S
     {
 
         /// <summary>
-        /// EncodeHead control.
+        /// UrlShortnerForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder EncodeHead;
+        protected global::System.Web.UI.HtmlControls.HtmlForm UrlShortnerForm;
 
         /// <summary>
-        /// headerLeft control.
+        /// TextBox_UrlLong control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeft;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_UrlLong;
 
         /// <summary>
-        /// aUueMime control.
+        /// Button_QRCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aUueMime;
+        protected global::System.Web.UI.WebControls.Button Button_QRCode;
 
         /// <summary>
-        /// headerLeftCenter control.
+        /// input_color control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeftCenter;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText input_color;
 
         /// <summary>
-        /// aAes control.
+        /// input_backcolor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aAes;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText input_backcolor;
 
         /// <summary>
-        /// headerCenter control.
+        /// DropDown_QrMode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerCenter;
+        protected global::System.Web.UI.WebControls.DropDownList DropDown_QrMode;
 
         /// <summary>
-        /// aImgCrypt control.
+        /// DropDown_PixelPerUnit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aImgCrypt;
+        protected global::System.Web.UI.WebControls.DropDownList DropDown_PixelPerUnit;
 
         /// <summary>
-        /// headerRightCenter control.
+        /// TextBoxShortenUrl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRightCenter;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxShortenUrl;
 
         /// <summary>
-        /// aCoolCrypt control.
+        /// HrefShort control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aCoolCrypt;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor HrefShort;
 
         /// <summary>
-        /// headerRight control.
+        /// hugeLeftId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRight;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hugeLeftId;
 
         /// <summary>
-        /// aUrlShort control.
+        /// ImageQr control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aUrlShort;
+        protected global::System.Web.UI.WebControls.Image ImageQr;
 
         /// <summary>
-        /// EncodeBody control.
+        /// imQrInverse control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder EncodeBody;
+        protected global::System.Web.UI.HtmlControls.HtmlImage imQrInverse;
 
         /// <summary>
-        /// EncodeMasterForm control.
+        /// ErrorDiv control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm EncodeMasterForm;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ErrorDiv;
     }
 }

@@ -196,7 +196,7 @@ namespace Area23.At.Www.S.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.4.23.
+        ///   Looks up a localized string similar to v2.24.928.
         /// </summary>
         internal static string version_name {
             get {

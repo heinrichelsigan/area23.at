@@ -25,7 +25,7 @@ namespace Area23.At.Mono.Encode
             this.aAes.HRef = LibPaths.EncodeAppPath + "AesImprove.aspx";
             this.aImgCrypt.HRef = LibPaths.EncodeAppPath + "ImgPngCrypt.aspx";
             this.aCoolCrypt.HRef = LibPaths.EncodeAppPath + "CoolCrypt.aspx";
-            this.aUrlShortner.HRef = Constants.AREA23_S;
+            this.aUrlShort.HRef = LibPaths.EncodeAppPath + "S.aspx";
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)
@@ -60,9 +60,9 @@ namespace Area23.At.Mono.Encode
                         headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("trans"))
+                    if (this.Request.RawUrl.Contains("S.aspx"))
                     {
-                        // headerRight.Attributes["background-color"] = "headerRightSelect";
+                        headerRight.Attributes["background-color"] = "headerRightSelect";
                         return;
                     }
                 }
