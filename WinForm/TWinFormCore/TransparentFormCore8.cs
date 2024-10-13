@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace Area23.At.WinForm.TWinFormCore
 {
@@ -170,7 +171,7 @@ namespace Area23.At.WinForm.TWinFormCore
                 MessageBox.Show($"Already {formsCount} instances of {TFormType} currently running!", $"{Program.progName}: maximum reached!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            EnDeCodingForm endecodeForm = new EnDeCodingForm();
+            EnDeCodingForm endecodeForm = new EnDeCodingForm(true, false);
             Program.tFormsNew.Add(endecodeForm);
             endecodeForm.Show();
             endecodeForm.BringToFront();
@@ -185,7 +186,7 @@ namespace Area23.At.WinForm.TWinFormCore
                 MessageBox.Show($"Already {formsCount} instances of {TFormType} currently running!", $"{Program.progName}: maximum reached!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            EnDeCodingForm endecodeForm = new EnDeCodingForm();
+            EnDeCodingForm endecodeForm = new EnDeCodingForm(false, false);
             Program.tFormsNew.Add(endecodeForm);
             endecodeForm.Show();
             endecodeForm.BringToFront();
@@ -195,6 +196,35 @@ namespace Area23.At.WinForm.TWinFormCore
         protected internal virtual void toolStripMenuItemSave_Click(object sender, EventArgs e)
         {
             SafeFileName();
+        }
+
+        protected virtual byte[] OpenCryptFileDialog(ref string loadDir)
+        {            
+            if (openFileDialog == null)
+                openFileDialog = new OpenFileDialog();
+            byte[] fileBytes;
+            if (string.IsNullOrEmpty(loadDir))
+                loadDir = Environment.GetEnvironmentVariable("TEMP") ?? System.AppDomain.CurrentDomain.BaseDirectory;
+            if (loadDir != null)
+            {
+                openFileDialog.InitialDirectory = loadDir;
+                openFileDialog.RestoreDirectory = true;
+            }
+            DialogResult diaOpenRes = openFileDialog.ShowDialog();
+            if (diaOpenRes == DialogResult.OK || diaOpenRes == DialogResult.Yes)
+            {
+                if (!string.IsNullOrEmpty(openFileDialog.FileName) && File.Exists(openFileDialog.FileName))
+                {
+                    loadDir = Path.GetDirectoryName(openFileDialog.FileName) ?? System.AppDomain.CurrentDomain.BaseDirectory;
+                    fileBytes = File.ReadAllBytes(openFileDialog.FileName);
+                    return fileBytes;
+                }
+            }
+
+            
+
+            fileBytes = new byte[0];
+            return fileBytes;
         }
 
         protected virtual string SafeFileName(string? filePath = "", byte[]? content = null)
@@ -217,7 +247,7 @@ namespace Area23.At.WinForm.TWinFormCore
             }
             saveFileDialog.FileName = fileName;
             DialogResult diaRes = saveFileDialog.ShowDialog();
-            if (diaRes == DialogResult.OK)
+            if (diaRes == DialogResult.OK || diaRes == DialogResult.Yes)
             {
                 if (content != null && content.Length > 0) 
                     System.IO.File.WriteAllBytes(saveFileDialog.FileName, content);

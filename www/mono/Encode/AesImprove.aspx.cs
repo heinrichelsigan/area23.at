@@ -462,6 +462,11 @@ namespace Area23.At.Mono.Encode
                         int idxEnd = decryptedText.IndexOf(shouldEndWithIv);
                         decryptedText = decryptedText.Substring(0, idxEnd);
                     }
+                    else if ((sameKey = decryptedText.Contains(shouldEndWithIv.Substring(0, shouldEndWithIv.Length -3))))
+                    {
+                        int idxEnd = decryptedText.IndexOf(shouldEndWithIv.Substring(0, shouldEndWithIv.Length - 3));
+                        decryptedText = decryptedText.Substring(0, idxEnd);
+                    }
                 }
             }
 

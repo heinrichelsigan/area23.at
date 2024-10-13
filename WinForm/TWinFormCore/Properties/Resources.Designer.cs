@@ -63,6 +63,106 @@ namespace Area23.At.WinForm.TWinFormCore.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap a_hash {
+            get {
+                object obj = ResourceManager.GetObject("a_hash", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap a_hash1 {
+            get {
+                object obj = ResourceManager.GetObject("a_hash1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap a_hash2 {
+            get {
+                object obj = ResourceManager.GetObject("a_hash2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap a_hash3 {
+            get {
+                object obj = ResourceManager.GetObject("a_hash3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap a_hash4 {
+            get {
+                object obj = ResourceManager.GetObject("a_hash4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap a_hash5 {
+            get {
+                object obj = ResourceManager.GetObject("a_hash5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap a_right {
+            get {
+                object obj = ResourceManager.GetObject("a_right", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap a_right_hover {
+            get {
+                object obj = ResourceManager.GetObject("a_right_hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap a_right_key {
+            get {
+                object obj = ResourceManager.GetObject("a_right_key", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrow_right_hover {
+            get {
+                object obj = ResourceManager.GetObject("arrow_right_hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MenuImageDialog {
             get {
                 object obj = ResourceManager.GetObject("MenuImageDialog", resourceCulture);
@@ -116,16 +216,6 @@ namespace Area23.At.WinForm.TWinFormCore.Properties {
         internal static System.Drawing.Bitmap WinFormAboutDialog {
             get {
                 object obj = ResourceManager.GetObject("WinFormAboutDialog", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap WinFormAboutDialog1 {
-            get {
-                object obj = ResourceManager.GetObject("WinFormAboutDialog1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

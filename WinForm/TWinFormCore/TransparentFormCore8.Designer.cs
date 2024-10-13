@@ -65,11 +65,12 @@
             // 
             // toolStripMenuMain
             // 
-            toolStripMenuMain.BackColor = Color.Transparent;
+            toolStripMenuMain.BackColor = SystemColors.ControlLight;
             toolStripMenuMain.BackgroundImageLayout = ImageLayout.None;
             toolStripMenuMain.DisplayStyle = ToolStripItemDisplayStyle.Text;
             toolStripMenuMain.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItemNew, toolStripMenuItemOld, toolStripSeparator1, toolStripMenuItemClose, toolStripMenuItemExit });
             toolStripMenuMain.Font = new Font("Lucida Sans Unicode", 10F);
+            toolStripMenuMain.ForeColor = SystemColors.Desktop;
             toolStripMenuMain.ImageTransparentColor = Color.Transparent;
             toolStripMenuMain.Name = "toolStripMenuMain";
             toolStripMenuMain.Padding = new Padding(3, 0, 3, 0);
@@ -83,26 +84,26 @@
             toolStripMenuItemNew.BackgroundImage = Properties.Resources.TransparentMenuImage;
             toolStripMenuItemNew.BackgroundImageLayout = ImageLayout.None;
             toolStripMenuItemNew.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripMenuItemNew.ForeColor = SystemColors.Desktop;
             toolStripMenuItemNew.Image = Properties.Resources.TransparentMenuImage1;
             toolStripMenuItemNew.Name = "toolStripMenuItemNew";
             toolStripMenuItemNew.Padding = new Padding(0, 2, 0, 2);
             toolStripMenuItemNew.ShortcutKeys = Keys.Alt | Keys.N;
-            toolStripMenuItemNew.Size = new Size(162, 24);
+            toolStripMenuItemNew.Size = new Size(180, 24);
             toolStripMenuItemNew.Text = "New";
             toolStripMenuItemNew.Click += toolStripMenuItemNew_Click;
             // 
             // toolStripMenuItemOld
             // 
             toolStripMenuItemOld.BackColor = Color.Transparent;
-            toolStripMenuItemOld.BackgroundImage = Properties.Resources.MenuImageOld;
             toolStripMenuItemOld.BackgroundImageLayout = ImageLayout.None;
-            toolStripMenuItemOld.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripMenuItemOld.Image = Properties.Resources.MenuImageOld;
+            toolStripMenuItemOld.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripMenuItemOld.ForeColor = SystemColors.Desktop;
             toolStripMenuItemOld.ImageTransparentColor = Color.Transparent;
             toolStripMenuItemOld.Name = "toolStripMenuItemOld";
             toolStripMenuItemOld.Padding = new Padding(0, 2, 0, 2);
             toolStripMenuItemOld.ShortcutKeys = Keys.Alt | Keys.O;
-            toolStripMenuItemOld.Size = new Size(162, 24);
+            toolStripMenuItemOld.Size = new Size(180, 24);
             toolStripMenuItemOld.Text = "Old";
             toolStripMenuItemOld.TextImageRelation = TextImageRelation.ImageAboveText;
             toolStripMenuItemOld.Click += toolStripMenuItemOld_Click;
@@ -110,33 +111,36 @@
             // toolStripSeparator1
             // 
             toolStripSeparator1.BackColor = Color.Transparent;
+            toolStripSeparator1.ForeColor = SystemColors.Desktop;
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(159, 6);
+            toolStripSeparator1.Size = new Size(177, 6);
             // 
             // toolStripMenuItemClose
             // 
             toolStripMenuItemClose.BackColor = Color.Transparent;
+            toolStripMenuItemClose.ForeColor = SystemColors.Desktop;
             toolStripMenuItemClose.Name = "toolStripMenuItemClose";
             toolStripMenuItemClose.Padding = new Padding(0, 2, 0, 2);
-            toolStripMenuItemClose.ShortcutKeys = Keys.Alt | Keys.C;
-            toolStripMenuItemClose.Size = new Size(162, 24);
+            toolStripMenuItemClose.Size = new Size(180, 24);
             toolStripMenuItemClose.Text = "Close";
             toolStripMenuItemClose.Click += toolStripMenuItemClose_Click;
             // 
             // toolStripMenuItemExit
             // 
             toolStripMenuItemExit.BackColor = Color.Transparent;
+            toolStripMenuItemExit.ForeColor = SystemColors.Desktop;
             toolStripMenuItemExit.Name = "toolStripMenuItemExit";
             toolStripMenuItemExit.Padding = new Padding(0, 2, 0, 2);
             toolStripMenuItemExit.ShortcutKeys = Keys.Alt | Keys.X;
-            toolStripMenuItemExit.Size = new Size(162, 24);
+            toolStripMenuItemExit.Size = new Size(180, 24);
             toolStripMenuItemExit.Text = "Exit";
             toolStripMenuItemExit.Click += toolStripMenuItemExit_Click;
             // 
             // toolStripMenuFile
             // 
-            toolStripMenuFile.BackColor = SystemColors.Control;
+            toolStripMenuFile.BackColor = SystemColors.ControlLightLight;
             toolStripMenuFile.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItemLoad, toolStripMenuItemSave });
+            toolStripMenuFile.ForeColor = SystemColors.Desktop;
             toolStripMenuFile.Name = "toolStripMenuFile";
             toolStripMenuFile.Padding = new Padding(3, 0, 3, 0);
             toolStripMenuFile.ShortcutKeys = Keys.Alt | Keys.F;
@@ -148,11 +152,11 @@
             toolStripMenuItemLoad.BackColor = Color.Transparent;
             toolStripMenuItemLoad.BackgroundImageLayout = ImageLayout.None;
             toolStripMenuItemLoad.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripMenuItemLoad.ForeColor = SystemColors.Desktop;
             toolStripMenuItemLoad.ImageScaling = ToolStripItemImageScaling.None;
             toolStripMenuItemLoad.ImageTransparentColor = SystemColors.Control;
             toolStripMenuItemLoad.Name = "toolStripMenuItemLoad";
             toolStripMenuItemLoad.Padding = new Padding(0, 2, 0, 2);
-            toolStripMenuItemLoad.ShortcutKeys = Keys.Alt | Keys.L;
             toolStripMenuItemLoad.Size = new Size(180, 24);
             toolStripMenuItemLoad.Text = "Load";
             toolStripMenuItemLoad.Click += toolStripMenuItemLoad_Click;
@@ -161,17 +165,18 @@
             // 
             toolStripMenuItemSave.BackColor = SystemColors.ControlLightLight;
             toolStripMenuItemSave.BackgroundImageLayout = ImageLayout.None;
+            toolStripMenuItemSave.ForeColor = SystemColors.Desktop;
             toolStripMenuItemSave.ImageScaling = ToolStripItemImageScaling.None;
             toolStripMenuItemSave.Name = "toolStripMenuItemSave";
-            toolStripMenuItemSave.ShortcutKeys = Keys.Alt | Keys.S;
             toolStripMenuItemSave.Size = new Size(180, 22);
             toolStripMenuItemSave.Text = "Save";
             toolStripMenuItemSave.Click += toolStripMenuItemSave_Click;
             // 
             // toolStripMenuUnix
             // 
-            toolStripMenuUnix.BackColor = SystemColors.Control;
+            toolStripMenuUnix.BackColor = SystemColors.ControlLight;
             toolStripMenuUnix.BackgroundImageLayout = ImageLayout.None;
+            toolStripMenuUnix.ForeColor = SystemColors.Desktop;
             toolStripMenuUnix.ImageTransparentColor = Color.Transparent;
             toolStripMenuUnix.Name = "toolStripMenuUnix";
             toolStripMenuUnix.Padding = new Padding(3, 0, 3, 0);
@@ -183,8 +188,8 @@
             // 
             toolStripMenuQr.BackColor = SystemColors.ControlLightLight;
             toolStripMenuQr.BackgroundImageLayout = ImageLayout.None;
+            toolStripMenuQr.ForeColor = SystemColors.Desktop;
             toolStripMenuQr.ImageScaling = ToolStripItemImageScaling.None;
-            toolStripMenuQr.ImageTransparentColor = SystemColors.ControlLightLight;
             toolStripMenuQr.Name = "toolStripMenuQr";
             toolStripMenuQr.Padding = new Padding(3, 0, 3, 0);
             toolStripMenuQr.ShortcutKeys = Keys.Alt | Keys.Q;
@@ -197,6 +202,7 @@
             cryptToolStripMenu.BackgroundImageLayout = ImageLayout.None;
             cryptToolStripMenu.DisplayStyle = ToolStripItemDisplayStyle.Text;
             cryptToolStripMenu.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItemEnDeCode, toolStripMenuItemCrypt });
+            cryptToolStripMenu.ForeColor = SystemColors.Desktop;
             cryptToolStripMenu.ImageScaling = ToolStripItemImageScaling.None;
             cryptToolStripMenu.ImageTransparentColor = Color.Transparent;
             cryptToolStripMenu.Name = "cryptToolStripMenu";
@@ -207,30 +213,33 @@
             // 
             toolStripMenuItemEnDeCode.BackgroundImageLayout = ImageLayout.None;
             toolStripMenuItemEnDeCode.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripMenuItemEnDeCode.ForeColor = SystemColors.Desktop;
             toolStripMenuItemEnDeCode.ImageTransparentColor = SystemColors.Control;
             toolStripMenuItemEnDeCode.Name = "toolStripMenuItemEnDeCode";
-            toolStripMenuItemEnDeCode.Size = new Size(163, 22);
+            toolStripMenuItemEnDeCode.Size = new Size(180, 22);
             toolStripMenuItemEnDeCode.Text = "En-/Decode";
             toolStripMenuItemEnDeCode.Click += toolStripMenuItemEnDeCode_Click;
             // 
             // toolStripMenuItemCrypt
             // 
             toolStripMenuItemCrypt.BackgroundImageLayout = ImageLayout.None;
+            toolStripMenuItemCrypt.ForeColor = SystemColors.Desktop;
             toolStripMenuItemCrypt.Name = "toolStripMenuItemCrypt";
-            toolStripMenuItemCrypt.Size = new Size(163, 22);
+            toolStripMenuItemCrypt.Size = new Size(180, 22);
             toolStripMenuItemCrypt.Text = "En-/DeCrypt";
             toolStripMenuItemCrypt.Click += toolStripMenuItemCrypt_Click;
             // 
             // toolStripMenuItem1
             // 
-            toolStripMenuItem1.BackColor = SystemColors.ControlDark;
+            toolStripMenuItem1.BackColor = SystemColors.ControlLightLight;
             toolStripMenuItem1.BackgroundImageLayout = ImageLayout.None;
             toolStripMenuItem1.DisplayStyle = ToolStripItemDisplayStyle.Text;
             toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItemAbout, toolStripMenuItemHelp, toolStripMenuItemInfo });
+            toolStripMenuItem1.ForeColor = SystemColors.Desktop;
             toolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
             toolStripMenuItem1.Name = "toolStripMenuItem1";
             toolStripMenuItem1.Padding = new Padding(3, 0, 3, 0);
-            toolStripMenuItem1.ShortcutKeys = Keys.Alt | Keys.D7;
+            toolStripMenuItem1.ShortcutKeys = Keys.Alt | Keys.F7;
             toolStripMenuItem1.Size = new Size(24, 21);
             toolStripMenuItem1.Text = "?";
             // 
@@ -238,11 +247,12 @@
             // 
             toolStripMenuItemAbout.BackColor = Color.Transparent;
             toolStripMenuItemAbout.BackgroundImageLayout = ImageLayout.None;
+            toolStripMenuItemAbout.ForeColor = SystemColors.Desktop;
             toolStripMenuItemAbout.ImageTransparentColor = Color.Transparent;
             toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
             toolStripMenuItemAbout.Padding = new Padding(0, 2, 0, 2);
             toolStripMenuItemAbout.ShortcutKeys = Keys.Alt | Keys.A;
-            toolStripMenuItemAbout.Size = new Size(166, 24);
+            toolStripMenuItemAbout.Size = new Size(180, 24);
             toolStripMenuItemAbout.Text = "About";
             toolStripMenuItemAbout.TextImageRelation = TextImageRelation.TextAboveImage;
             toolStripMenuItemAbout.Click += toolStripMenuItemAbout_Click;
@@ -251,24 +261,22 @@
             // 
             toolStripMenuItemHelp.BackColor = SystemColors.ControlLightLight;
             toolStripMenuItemHelp.BackgroundImageLayout = ImageLayout.None;
+            toolStripMenuItemHelp.ForeColor = SystemColors.Desktop;
             toolStripMenuItemHelp.Name = "toolStripMenuItemHelp";
             toolStripMenuItemHelp.Padding = new Padding(0, 2, 0, 2);
             toolStripMenuItemHelp.ShortcutKeys = Keys.Alt | Keys.H;
-            toolStripMenuItemHelp.Size = new Size(166, 24);
+            toolStripMenuItemHelp.Size = new Size(180, 24);
             toolStripMenuItemHelp.Text = "Help";
             // 
             // toolStripMenuItemInfo
             // 
             toolStripMenuItemInfo.BackColor = Color.Transparent;
-            toolStripMenuItemInfo.BackgroundImage = Properties.Resources.MenuImageInfo;
             toolStripMenuItemInfo.BackgroundImageLayout = ImageLayout.None;
-            toolStripMenuItemInfo.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripMenuItemInfo.ForeColor = SystemColors.Control;
-            toolStripMenuItemInfo.Image = Properties.Resources.MenuImageInfo;
+            toolStripMenuItemInfo.ForeColor = SystemColors.Desktop;
             toolStripMenuItemInfo.ImageTransparentColor = Color.Transparent;
             toolStripMenuItemInfo.Name = "toolStripMenuItemInfo";
             toolStripMenuItemInfo.ShortcutKeys = Keys.Alt | Keys.I;
-            toolStripMenuItemInfo.Size = new Size(166, 22);
+            toolStripMenuItemInfo.Size = new Size(180, 22);
             toolStripMenuItemInfo.Text = "Info";
             toolStripMenuItemInfo.TextImageRelation = TextImageRelation.TextAboveImage;
             toolStripMenuItemInfo.Click += toolStripMenuItemInfo_Click;

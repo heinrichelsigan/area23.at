@@ -13,6 +13,7 @@
     <AssemblyVersion>2.24.901</AssemblyVersion>
     <FileVersion>2.24.901</FileVersion>
     <Description>area23.at Heinrich Elsigan</Description>
+    <StartupObject>Area23.At.WinForm.TWinFormCore.Program</StartupObject>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
