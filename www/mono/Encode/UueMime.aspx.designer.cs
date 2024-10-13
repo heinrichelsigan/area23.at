@@ -51,6 +51,24 @@ namespace Area23.At.Mono.Encode
         protected global::System.Web.UI.WebControls.DropDownList DropDownList_EncodeType;
 
         /// <summary>
+        /// oFile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputFile oFile;
+
+        /// <summary>
+        /// Button_UploadFile_Encode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button_UploadFile_Encode;
+
+        /// <summary>
         /// LinkButton_Encode control.
         /// </summary>
         /// <remarks>

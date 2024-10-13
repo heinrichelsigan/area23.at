@@ -15,7 +15,7 @@
                      Width="98%" Height="320px" Style="table-layout: fixed;"></asp:TextBox>
             </div>
             <div class="jsonColumn" style="width:49%; float: left; display: inline-block;">
-                <pre id="preOut" class="jsonPreOut" runat="server" style="margin-top: -4px; height: 332px;max-height: 332px;overflow: auto;" />
+                <pre id="preOut" class="jsonPreOut" runat="server" style="margin-top: -4px; height: 332px;max-height: 332px;overflow: auto;word-break: break-all; word-wrap: break-word" />
                 <!-- pre id="Pre1"  /-->
                 <!-- asp:TextBox ID="TextBoxOut" TextMode="MultiLine" ToolTip="output of json operation" Width="100%" Height="320px" /-->
             </div>
@@ -33,9 +33,12 @@
                 </asp:DropDownList>
             </span>
             <span class="centerSpan">
-                <asp:LinkButton ID="LinkButton_Encode" runat="server"  ToolTip="Encode text" Text="Encode" OnClick="LinkButton_Encode_Click"></asp:LinkButton>
+                <INPUT id="oFile" type="file" runat="server" NAME="oFile" onselect="oFile_Submit"  />
+                <asp:Button ID="Button_UploadFile_Encode" runat="server" ToolTip="Encode uploaded file" Text="Encode file" OnClick="Button_UploadFile_Encode_Click" />
             </span>
             <span class="centerSpan">
+                <asp:LinkButton ID="LinkButton_Encode" runat="server"  ToolTip="Encode text" Text="Encode" OnClick="LinkButton_Encode_Click"></asp:LinkButton>
+                &nbsp;
                 <asp:LinkButton ID="LinkButton_Decode" runat="server" ToolTip="Decode text" Text="Decode" OnClick="LinkButton_Decode_Click" /> &nbsp;
             </span>
             <span class="rightSpan">

@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library.EnDeCoding;
+﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.EnDeCoding;
 using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using static System.Net.Mime.MediaTypeNames;
@@ -35,6 +37,36 @@ namespace Area23.At.Mono.Encode
                     case "url":     encodedStr = Server.UrlEncode(srcStr); break;
                     case "base64":
                     default:        encodedStr = Base64.ToBase64(bytes); break;
+                }
+
+                if (!string.IsNullOrEmpty(encodedStr))
+                {
+                    this.preOut.InnerText = encodedStr;
+                    this.preOut.Visible = true;
+                }
+            }
+        }
+
+        protected void oFile_Submit(object sender, EventArgs e)
+        {
+            Button_UploadFile_Encode_Click(sender, e);
+        }
+
+        protected void Button_UploadFile_Encode_Click(object sender, EventArgs e)
+        {
+            string encodedStr = string.Empty;
+            if (!String.IsNullOrEmpty(oFile.Value) && (oFile.PostedFile != null))
+            {
+                byte[] fileBytes = oFile.PostedFile.InputStream.ToByteArray();
+                switch (this.DropDownList_EncodeType.SelectedValue.ToLower())
+                {
+                    case "base32": encodedStr = Base32.ToBase32(fileBytes); break;
+                    case "hex16": encodedStr = Hex.ToHex(fileBytes); break;
+                    case "uu": encodedStr = Uu.ToUu(fileBytes); break;
+                    case "html": encodedStr = "Can't html encode a binary file!"; break;
+                    case "url": encodedStr = "Can't url encode a binary file!"; break;
+                    case "base64":
+                    default: encodedStr = Base64.ToBase64(fileBytes); break;
                 }
 
                 if (!string.IsNullOrEmpty(encodedStr))
