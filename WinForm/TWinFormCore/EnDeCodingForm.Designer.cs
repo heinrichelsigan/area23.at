@@ -44,150 +44,13 @@
             buttonClearPipeline = new Button();
             buttonSecretKey = new Button();
             buttonHashIv = new Button();
+            panelEnCodeCrypt = new Panel();
             ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
             splitContainer.Panel1.SuspendLayout();
             splitContainer.Panel2.SuspendLayout();
             splitContainer.SuspendLayout();
-            SuspendLayout();            
-            // 
-            // ComboBox_EnDeCoding
-            // 
-            ComboBox_EnDeCoding.BackColor = SystemColors.ControlLightLight;
-            ComboBox_EnDeCoding.FormattingEnabled = true;
-            ComboBox_EnDeCoding.Items.AddRange(new object[] { "hex16", "base16", "base32", "base64", "unix2unix", "html", "url" });
-            ComboBox_EnDeCoding.Location = new Point(12, 36);
-            ComboBox_EnDeCoding.Margin = new Padding(0);
-            ComboBox_EnDeCoding.Name = "ComboBox_EnDeCoding";
-            ComboBox_EnDeCoding.Size = new Size(144, 24);
-            ComboBox_EnDeCoding.TabIndex = 1;            
-            // 
-            // ComboBox_SymChiffer
-            // 
-            ComboBox_SymChiffer.BackColor = SystemColors.ControlLightLight;
-            ComboBox_SymChiffer.DropDownStyle = ComboBoxStyle.DropDownList;
-            ComboBox_SymChiffer.FormattingEnabled = true;
-            ComboBox_SymChiffer.Items.AddRange(new object[] { "3DES", "2FISH", "3FISH", "AES", "Cast5", "Cast6", "Camellia", "Ghost28147", "Idea", "Noekeon", "Rijndael", "RC2", "RC532", "RC6", "Seed", "Serpent", "Skipjack", "Tea", "Tnepres", "XTea", "ZenMatrix" });
-            ComboBox_SymChiffer.Location = new Point(170, 36);
-            ComboBox_SymChiffer.Margin = new Padding(0);
-            ComboBox_SymChiffer.Name = "ComboBox_SymChiffer";
-            ComboBox_SymChiffer.Size = new Size(144, 24);
-            ComboBox_SymChiffer.TabIndex = 2;            
-            // 
-            // buttonAddToPipeline
-            // 
-            buttonAddToPipeline.BackColor = SystemColors.ButtonFace;
-            buttonAddToPipeline.BackgroundImageLayout = ImageLayout.None;
-            buttonAddToPipeline.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
-            buttonAddToPipeline.Location = new Point(329, 36);
-            buttonAddToPipeline.Margin = new Padding(1);
-            buttonAddToPipeline.Name = "buttonAddToPipeline";
-            buttonAddToPipeline.Padding = new Padding(1);
-            buttonAddToPipeline.Size = new Size(48, 28);
-            buttonAddToPipeline.TabIndex = 3;
-            buttonAddToPipeline.Text = "⇒";
-            buttonAddToPipeline.TextImageRelation = TextImageRelation.TextAboveImage;
-            buttonAddToPipeline.UseVisualStyleBackColor = false;
-            buttonAddToPipeline.Click += Button_AddToPipeline_Click;
-            // 
-            // TextBox_CryptPipeline
-            // 
-            TextBox_CryptPipeline.BorderStyle = BorderStyle.None;
-            TextBox_CryptPipeline.Location = new Point(388, 36);
-            TextBox_CryptPipeline.Margin = new Padding(1);
-            TextBox_CryptPipeline.Padding = new Padding(1);
-            TextBox_CryptPipeline.Name = "TextBox_CryptPipeline";
-            TextBox_CryptPipeline.ReadOnly = true;
-            TextBox_CryptPipeline.Size = new Size(472, 28);
-            TextBox_CryptPipeline.TabIndex = 4;
-            // 
-            // buttonClearPipeline
-            // 
-            buttonClearPipeline.BackColor = SystemColors.ButtonHighlight;
-            buttonClearPipeline.Font = new Font("Lucida Sans Unicode", 10F);
-            buttonClearPipeline.Location = new Point(863, 36);
-            buttonClearPipeline.Margin = new Padding(1);
-            buttonClearPipeline.Name = "buttonClearPipeline";
-            buttonClearPipeline.Padding = new Padding(1);
-            buttonClearPipeline.Size = new Size(72, 28);
-            buttonClearPipeline.TabIndex = 5;
-            buttonClearPipeline.Text = "&Clear";
-            buttonClearPipeline.UseMnemonic = true;
-            buttonClearPipeline.UseVisualStyleBackColor = false;
-            buttonClearPipeline.Click += Button_ClearPipeline_Click;
-            // 
-            // buttonSecretKey
-            // 
-            buttonSecretKey.BackColor = SystemColors.ButtonFace;
-            buttonSecretKey.BackgroundImage = Properties.Resources.a_right_key;
-            buttonSecretKey.BackgroundImageLayout = ImageLayout.None;
-            buttonSecretKey.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
-            buttonSecretKey.Location = new Point(12, 78);
-            buttonSecretKey.Margin = new Padding(1);
-            buttonSecretKey.Name = "buttonSecretKey";
-            buttonSecretKey.Padding = new Padding(1);
-            buttonSecretKey.Size = new Size(48, 28);
-            buttonSecretKey.TabIndex = 11;
-            buttonSecretKey.UseVisualStyleBackColor = false;
-            buttonSecretKey.Click += Button_SecretKey_Click;
-            // 
-            // TextBox_Key
-            // 
-            TextBox_Key.BorderStyle = BorderStyle.None;
-            TextBox_Key.Location = new Point(67, 78);
-            TextBox_Key.Margin = new Padding(1);
-            TextBox_Key.Padding = new Padding(1);
-            TextBox_Key.Name = "TextBox_Key";
-            TextBox_Key.Size = new Size(310, 28);
-            TextBox_Key.TabIndex = 12;
-            TextBox_Key.TextChanged += TextBox_Key_TextChanged;
-            // 
-            // buttonHashIv
-            // 
-            buttonHashIv.BackColor = SystemColors.ButtonFace;
-            buttonHashIv.BackgroundImage = Properties.Resources.a_hash5;
-            buttonHashIv.BackgroundImageLayout = ImageLayout.None;
-            buttonHashIv.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
-            buttonHashIv.Location = new Point(388, 78);
-            buttonHashIv.Margin = new Padding(1);
-            buttonHashIv.Name = "buttonHashIv";
-            buttonHashIv.Padding = new Padding(1);
-            buttonHashIv.Size = new Size(48, 28);
-            buttonHashIv.TabIndex = 13;
-            buttonHashIv.UseVisualStyleBackColor = false;
-            // 
-            // TextBox_IV
-            // 
-            TextBox_IV.BorderStyle = BorderStyle.None;
-            TextBox_IV.Location = new Point(448, 78);
-            TextBox_IV.Margin = new Padding(1);
-            TextBox_IV.Padding = new Padding(1);
-            TextBox_IV.Name = "TextBox_IV";
-            TextBox_IV.Size = new Size(486, 28);
-            TextBox_IV.TabIndex = 14;            
-            // 
-            // TextBoxSource
-            // 
-            TextBoxSource.BackColor = SystemColors.ControlLightLight;
-            TextBoxSource.Dock = DockStyle.Fill;
-            TextBoxSource.Location = new Point(0, 0);
-            TextBoxSource.Margin = new Padding(1);
-            TextBoxSource.MaxLength = 65536;
-            TextBoxSource.Multiline = true;
-            TextBoxSource.Name = "TextBoxSource";
-            TextBoxSource.Size = new Size(466, 480);
-            TextBoxSource.TabIndex = 42;
-            // 
-            // TextBoxDestionation
-            // 
-            TextBoxDestionation.BackColor = SystemColors.Control;
-            TextBoxDestionation.Dock = DockStyle.Fill;
-            TextBoxDestionation.Location = new Point(0, 0);
-            TextBoxDestionation.Margin = new Padding(1);
-            TextBoxDestionation.MaxLength = 65536;
-            TextBoxDestionation.Multiline = true;
-            TextBoxDestionation.Name = "TextBoxDestionation";
-            TextBoxDestionation.Size = new Size(470, 480);
-            TextBoxDestionation.TabIndex = 43;
+            panelEnCodeCrypt.SuspendLayout();
+            SuspendLayout();
             // 
             // splitContainer
             // 
@@ -203,107 +66,252 @@
             // 
             splitContainer.Panel2.Controls.Add(TextBoxDestionation);
             splitContainer.Panel2MinSize = 40;
-            splitContainer.Size = new Size(940, 480);
-            splitContainer.SplitterDistance = 466;
+            splitContainer.Size = new Size(980, 496);
+            splitContainer.SplitterDistance = 490;
+            splitContainer.SplitterWidth = 3;
             splitContainer.TabIndex = 41;
+            splitContainer.TabStop = false;
+            // 
+            // TextBoxSource
+            // 
+            TextBoxSource.BackColor = SystemColors.ControlLightLight;
+            TextBoxSource.BorderStyle = BorderStyle.FixedSingle;
+            TextBoxSource.Dock = DockStyle.Fill;
+            TextBoxSource.Font = new Font("Consolas", 9F);
+            TextBoxSource.Location = new Point(0, 0);
+            TextBoxSource.Margin = new Padding(1);
+            TextBoxSource.MaxLength = 65536;
+            TextBoxSource.Multiline = true;
+            TextBoxSource.Name = "TextBoxSource";
+            TextBoxSource.ScrollBars = ScrollBars.Both;
+            TextBoxSource.Size = new Size(490, 496);
+            TextBoxSource.TabIndex = 42;
+            // 
+            // TextBoxDestionation
+            // 
+            TextBoxDestionation.BackColor = SystemColors.Control;
+            TextBoxDestionation.BorderStyle = BorderStyle.FixedSingle;
+            TextBoxDestionation.Dock = DockStyle.Fill;
+            TextBoxDestionation.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            TextBoxDestionation.Location = new Point(0, 0);
+            TextBoxDestionation.Margin = new Padding(1);
+            TextBoxDestionation.MaxLength = 65536;
+            TextBoxDestionation.Multiline = true;
+            TextBoxDestionation.Name = "TextBoxDestionation";
+            TextBoxDestionation.ScrollBars = ScrollBars.Both;
+            TextBoxDestionation.Size = new Size(487, 496);
+            TextBoxDestionation.TabIndex = 43;
+            // 
+            // ComboBox_EnDeCoding
+            // 
+            ComboBox_EnDeCoding.BackColor = SystemColors.ControlLightLight;
+            ComboBox_EnDeCoding.DropDownStyle = ComboBoxStyle.DropDownList;
+            ComboBox_EnDeCoding.FormattingEnabled = true;
+            ComboBox_EnDeCoding.Items.AddRange(new object[] { "hex16", "base16", "base32", "base64", "unix2unix", "html", "url" });
+            ComboBox_EnDeCoding.Location = new Point(8, 12);
+            ComboBox_EnDeCoding.Margin = new Padding(1);
+            ComboBox_EnDeCoding.Name = "ComboBox_EnDeCoding";
+            ComboBox_EnDeCoding.Size = new Size(165, 28);
+            ComboBox_EnDeCoding.TabIndex = 3;
             // 
             // buttonEncode
             // 
             buttonEncode.BackColor = SystemColors.ButtonHighlight;
-            buttonEncode.Location = new Point(12, 640);
+            buttonEncode.Location = new Point(9, 664);
             buttonEncode.Margin = new Padding(1);
             buttonEncode.Name = "buttonEncode";
             buttonEncode.Padding = new Padding(1);
             buttonEncode.Size = new Size(78, 28);
             buttonEncode.TabIndex = 51;
             buttonEncode.Text = "&Encode";
-            buttonEncode.UseMnemonic = true;
             buttonEncode.UseVisualStyleBackColor = false;
             buttonEncode.Click += Button_Encode_Click;
-            // 
-            // buttonLoad
-            // 
-            buttonLoad.BackColor = SystemColors.ButtonHighlight;
-            buttonLoad.Location = new Point(96, 640);
-            buttonLoad.Margin = new Padding(1);
-            buttonLoad.Name = "buttonLoad";
-            buttonLoad.Padding = new Padding(1);
-            buttonLoad.Size = new Size(78, 28);
-            buttonLoad.TabIndex = 52;
-            buttonLoad.Text = "&Load";
-            buttonLoad.UseMnemonic = true;
-            buttonLoad.UseVisualStyleBackColor = false;
-            buttonLoad.Click += Button_Load_Click;
-            // 
-            // buttonSave
-            // 
-            buttonSave.BackColor = SystemColors.ButtonHighlight;
-            buttonSave.Location = new Point(772, 640);
-            buttonSave.Margin = new Padding(1);
-            buttonSave.Name = "buttonSave";
-            buttonSave.Padding = new Padding(1);
-            buttonSave.Size = new Size(78, 28);
-            buttonSave.TabIndex = 53;
-            buttonSave.Text = "&Save";
-            buttonSave.UseMnemonic = true;
-            buttonSave.UseVisualStyleBackColor = false;
-            buttonSave.Click += Button_Save_Click;
             // 
             // buttonDecode
             // 
             buttonDecode.BackColor = SystemColors.ButtonHighlight;
-            buttonDecode.Location = new Point(856, 640);
+            buttonDecode.Location = new Point(895, 664);
             buttonDecode.Margin = new Padding(1);
             buttonDecode.Name = "buttonDecode";
             buttonDecode.Padding = new Padding(1);
             buttonDecode.Size = new Size(78, 28);
             buttonDecode.TabIndex = 54;
             buttonDecode.Text = "&Decode";
-            buttonDecode.UseMnemonic = true;
             buttonDecode.UseVisualStyleBackColor = false;
             buttonDecode.Click += Button_Decode_Click;
+            // 
+            // ComboBox_SymChiffer
+            // 
+            ComboBox_SymChiffer.BackColor = SystemColors.ControlLightLight;
+            ComboBox_SymChiffer.DropDownStyle = ComboBoxStyle.DropDownList;
+            ComboBox_SymChiffer.FormattingEnabled = true;
+            ComboBox_SymChiffer.Items.AddRange(new object[] { "3DES", "2FISH", "3FISH", "AES", "Cast5", "Cast6", "Camellia", "Ghost28147", "Idea", "Noekeon", "Rijndael", "RC2", "RC532", "RC6", "Seed", "Serpent", "Skipjack", "Tea", "Tnepres", "XTea", "ZenMatrix" });
+            ComboBox_SymChiffer.Location = new Point(180, 12);
+            ComboBox_SymChiffer.Margin = new Padding(1);
+            ComboBox_SymChiffer.Name = "ComboBox_SymChiffer";
+            ComboBox_SymChiffer.Size = new Size(144, 28);
+            ComboBox_SymChiffer.TabIndex = 4;
+            // 
+            // buttonSave
+            // 
+            buttonSave.BackColor = SystemColors.ButtonHighlight;
+            buttonSave.Location = new Point(809, 664);
+            buttonSave.Margin = new Padding(1);
+            buttonSave.Name = "buttonSave";
+            buttonSave.Padding = new Padding(1);
+            buttonSave.Size = new Size(78, 28);
+            buttonSave.TabIndex = 53;
+            buttonSave.Text = "&Save";
+            buttonSave.UseVisualStyleBackColor = false;
+            buttonSave.Click += Button_Save_Click;
+            // 
+            // buttonLoad
+            // 
+            buttonLoad.BackColor = SystemColors.ButtonHighlight;
+            buttonLoad.Location = new Point(96, 664);
+            buttonLoad.Margin = new Padding(1);
+            buttonLoad.Name = "buttonLoad";
+            buttonLoad.Padding = new Padding(1);
+            buttonLoad.Size = new Size(78, 28);
+            buttonLoad.TabIndex = 52;
+            buttonLoad.Text = "&Load";
+            buttonLoad.UseVisualStyleBackColor = false;
+            buttonLoad.Click += Button_Load_Click;
+            // 
+            // buttonAddToPipeline
+            // 
+            buttonAddToPipeline.BackColor = SystemColors.ButtonHighlight;
+            buttonAddToPipeline.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
+            buttonAddToPipeline.Location = new Point(325, 12);
+            buttonAddToPipeline.Margin = new Padding(1);
+            buttonAddToPipeline.Name = "buttonAddToPipeline";
+            buttonAddToPipeline.Padding = new Padding(1);
+            buttonAddToPipeline.Size = new Size(48, 28);
+            buttonAddToPipeline.TabIndex = 5;
+            buttonAddToPipeline.Text = "⇒";
+            buttonAddToPipeline.UseVisualStyleBackColor = false;
+            buttonAddToPipeline.Click += Button_AddToPipeline_Click;
+            // 
+            // TextBox_CryptPipeline
+            // 
+            TextBox_CryptPipeline.BorderStyle = BorderStyle.None;
+            TextBox_CryptPipeline.Location = new Point(384, 12);
+            TextBox_CryptPipeline.Margin = new Padding(1);
+            TextBox_CryptPipeline.Name = "TextBox_CryptPipeline";
+            TextBox_CryptPipeline.ReadOnly = true;
+            TextBox_CryptPipeline.Size = new Size(502, 28);
+            TextBox_CryptPipeline.TabIndex = 6;
+            TextBox_CryptPipeline.TabStop = false;
+            // 
+            // TextBox_Key
+            // 
+            TextBox_Key.BorderStyle = BorderStyle.None;
+            TextBox_Key.Location = new Point(64, 48);
+            TextBox_Key.Margin = new Padding(1);
+            TextBox_Key.Name = "TextBox_Key";
+            TextBox_Key.Size = new Size(310, 28);
+            TextBox_Key.TabIndex = 12;
+            TextBox_Key.TextChanged += TextBox_Key_TextChanged;
+            // 
+            // TextBox_IV
+            // 
+            TextBox_IV.BorderStyle = BorderStyle.None;
+            TextBox_IV.Location = new Point(444, 48);
+            TextBox_IV.Margin = new Padding(1);
+            TextBox_IV.Name = "TextBox_IV";
+            TextBox_IV.Size = new Size(528, 28);
+            TextBox_IV.TabIndex = 14;
+            // 
+            // buttonClearPipeline
+            // 
+            buttonClearPipeline.BackColor = SystemColors.ButtonHighlight;
+            buttonClearPipeline.Font = new Font("Lucida Sans Unicode", 10F);
+            buttonClearPipeline.Location = new Point(900, 12);
+            buttonClearPipeline.Margin = new Padding(1);
+            buttonClearPipeline.Name = "buttonClearPipeline";
+            buttonClearPipeline.Padding = new Padding(1);
+            buttonClearPipeline.Size = new Size(72, 28);
+            buttonClearPipeline.TabIndex = 7;
+            buttonClearPipeline.Text = "&Clear";
+            buttonClearPipeline.UseVisualStyleBackColor = false;
+            buttonClearPipeline.Click += Button_ClearPipeline_Click;
+            // 
+            // buttonSecretKey
+            // 
+            buttonSecretKey.BackColor = SystemColors.ButtonHighlight;
+            buttonSecretKey.BackgroundImage = Properties.Resources.a_right_key;
+            buttonSecretKey.BackgroundImageLayout = ImageLayout.None;
+            buttonSecretKey.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
+            buttonSecretKey.Location = new Point(8, 48);
+            buttonSecretKey.Margin = new Padding(1);
+            buttonSecretKey.Name = "buttonSecretKey";
+            buttonSecretKey.Padding = new Padding(1);
+            buttonSecretKey.Size = new Size(48, 28);
+            buttonSecretKey.TabIndex = 11;
+            buttonSecretKey.UseVisualStyleBackColor = false;
+            buttonSecretKey.Click += Button_SecretKey_Click;
+            // 
+            // buttonHashIv
+            // 
+            buttonHashIv.BackColor = SystemColors.ButtonHighlight;
+            buttonHashIv.BackgroundImage = Properties.Resources.a_hash5;
+            buttonHashIv.BackgroundImageLayout = ImageLayout.None;
+            buttonHashIv.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
+            buttonHashIv.Location = new Point(384, 48);
+            buttonHashIv.Margin = new Padding(1);
+            buttonHashIv.Name = "buttonHashIv";
+            buttonHashIv.Padding = new Padding(1);
+            buttonHashIv.Size = new Size(48, 28);
+            buttonHashIv.TabIndex = 13;
+            buttonHashIv.UseVisualStyleBackColor = false;
+            // 
+            // panelEnCodeCrypt
+            // 
+            panelEnCodeCrypt.BackColor = SystemColors.ControlLight;
+            panelEnCodeCrypt.Controls.Add(TextBox_CryptPipeline);
+            panelEnCodeCrypt.Controls.Add(buttonHashIv);
+            panelEnCodeCrypt.Controls.Add(ComboBox_EnDeCoding);
+            panelEnCodeCrypt.Controls.Add(buttonSecretKey);
+            panelEnCodeCrypt.Controls.Add(ComboBox_SymChiffer);
+            panelEnCodeCrypt.Controls.Add(buttonClearPipeline);
+            panelEnCodeCrypt.Controls.Add(buttonAddToPipeline);
+            panelEnCodeCrypt.Controls.Add(TextBox_IV);
+            panelEnCodeCrypt.Controls.Add(TextBox_Key);
+            panelEnCodeCrypt.Location = new Point(1, 28);
+            panelEnCodeCrypt.Margin = new Padding(0);
+            panelEnCodeCrypt.Name = "panelEnCodeCrypt";
+            panelEnCodeCrypt.Size = new Size(983, 96);
+            panelEnCodeCrypt.TabIndex = 2;
             // 
             // EnDeCodingForm
             // 
             AutoScaleDimensions = new SizeF(8F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(944, 681);
-            Controls.Add(buttonHashIv);
-            Controls.Add(buttonSecretKey);
-            Controls.Add(buttonClearPipeline);
-            Controls.Add(TextBox_IV);
-            Controls.Add(TextBox_Key);
-            Controls.Add(TextBox_CryptPipeline);
-            Controls.Add(buttonAddToPipeline);
+            ClientSize = new Size(984, 711);
             Controls.Add(buttonLoad);
-            Controls.Add(buttonSave);
-            Controls.Add(ComboBox_SymChiffer);
-            Controls.Add(buttonDecode);
             Controls.Add(buttonEncode);
-            Controls.Add(ComboBox_EnDeCoding);
+            Controls.Add(panelEnCodeCrypt);
+            Controls.Add(buttonDecode);
             Controls.Add(splitContainer);
+            Controls.Add(buttonSave);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "EnDeCodingForm";
             Text = "EnDeCodingForm";
-            Controls.SetChildIndex(splitContainer, 0);
-            Controls.SetChildIndex(ComboBox_EnDeCoding, 0);
-            Controls.SetChildIndex(buttonEncode, 0);
-            Controls.SetChildIndex(buttonDecode, 0);
-            Controls.SetChildIndex(ComboBox_SymChiffer, 0);
+            Load += EnDeCodingForm_Load;
             Controls.SetChildIndex(buttonSave, 0);
+            Controls.SetChildIndex(splitContainer, 0);
+            Controls.SetChildIndex(buttonDecode, 0);
+            Controls.SetChildIndex(panelEnCodeCrypt, 0);
+            Controls.SetChildIndex(buttonEncode, 0);
             Controls.SetChildIndex(buttonLoad, 0);
-            Controls.SetChildIndex(buttonAddToPipeline, 0);
-            Controls.SetChildIndex(TextBox_CryptPipeline, 0);
-            Controls.SetChildIndex(TextBox_Key, 0);
-            Controls.SetChildIndex(TextBox_IV, 0);
-            Controls.SetChildIndex(buttonClearPipeline, 0);
-            Controls.SetChildIndex(buttonSecretKey, 0);
-            Controls.SetChildIndex(buttonHashIv, 0);
             splitContainer.Panel1.ResumeLayout(false);
             splitContainer.Panel1.PerformLayout();
             splitContainer.Panel2.ResumeLayout(false);
             splitContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer).EndInit();
             splitContainer.ResumeLayout(false);
+            panelEnCodeCrypt.ResumeLayout(false);
+            panelEnCodeCrypt.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -326,5 +334,6 @@
         private Button buttonClearPipeline;
         private Button buttonSecretKey;
         private Button buttonHashIv;
+        private Panel panelEnCodeCrypt;
     }
 }

@@ -33,7 +33,7 @@ namespace Area23.At.WinForm.TWinFormCore
             {
                 this.ComboBox_SymChiffer.Enabled = false;
             }
-            else 
+            else
             {
                 string usrMailKey = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
                 Reset_TextBox_IV(usrMailKey);
@@ -146,7 +146,7 @@ namespace Area23.At.WinForm.TWinFormCore
 
                 decryptedText = DeEnCoder.GetStringFromBytesTrimNulls(decryptedBytes);
                 this.TextBoxDestionation.BackColor = SystemColors.ControlLightLight;
-                this.TextBoxDestionation.Text = HandleString_PrivateKey_Changed(decryptedText);                
+                this.TextBoxDestionation.Text = HandleString_PrivateKey_Changed(decryptedText);
             }
             else
             {
@@ -160,7 +160,7 @@ namespace Area23.At.WinForm.TWinFormCore
         }
 
         private void Button_Load_Click(object sender, EventArgs e)
-        {            
+        {
             byte[] inFileBytes = OpenCryptFileDialog(ref loadDir);
             if (inFileBytes != null && inFileBytes.Length > 0)
             {
@@ -182,12 +182,12 @@ namespace Area23.At.WinForm.TWinFormCore
                 }
                 switch (this.ComboBox_EnDeCoding.SelectedItem.ToString().ToLower())
                 {
-                    case "hex16":       encryptedText = Hex16.ToHex16(encryptBytes); break;
-                    case "base16":      encryptedText = Base16.ToBase16(encryptBytes); break;
-                    case "base32":      encryptedText = Base32.ToBase32(encryptBytes); break;
-                    case "unix2unix":   encryptedText = Uu.ToUu(encryptBytes); break;
+                    case "hex16": encryptedText = Hex16.ToHex16(encryptBytes); break;
+                    case "base16": encryptedText = Base16.ToBase16(encryptBytes); break;
+                    case "base32": encryptedText = Base32.ToBase32(encryptBytes); break;
+                    case "unix2unix": encryptedText = Uu.ToUu(encryptBytes); break;
                     case "base64":
-                    default:            encryptedText = Base64.ToBase64(encryptBytes); break;
+                    default: encryptedText = Base64.ToBase64(encryptBytes); break;
                 }
 
                 this.TextBoxDestionation.BackColor = SystemColors.ControlLightLight;
@@ -197,7 +197,7 @@ namespace Area23.At.WinForm.TWinFormCore
             {
                 this.TextBox_IV.Text = "In file source was empty!";
                 this.TextBox_IV.BackColor = Color.AliceBlue;
-                this.TextBox_IV.BorderStyle = BorderStyle.FixedSingle;                
+                this.TextBox_IV.BorderStyle = BorderStyle.FixedSingle;
             }
         }
 
@@ -218,12 +218,12 @@ namespace Area23.At.WinForm.TWinFormCore
                 byte[] cipherBytes = null, fileBytes = null, outBytes = null;
                 switch (this.ComboBox_EnDeCoding.SelectedText.ToLower())
                 {
-                    case "hex16":       cipherBytes = Hex16.FromHex16(cipherText); break;
-                    case "base16":      cipherBytes = Base16.FromBase16(cipherText); break;
-                    case "base32":      cipherBytes = Base32.FromBase32(cipherText); break;
-                    case "unix2unix":   cipherBytes = Uu.FromUu(cipherText); break;
+                    case "hex16": cipherBytes = Hex16.FromHex16(cipherText); break;
+                    case "base16": cipherBytes = Base16.FromBase16(cipherText); break;
+                    case "base32": cipherBytes = Base32.FromBase32(cipherText); break;
+                    case "unix2unix": cipherBytes = Uu.FromUu(cipherText); break;
                     case "base64":
-                    default:            cipherBytes = Base64.FromBase64(cipherText); break;
+                    default: cipherBytes = Base64.FromBase64(cipherText); break;
                 }
 
                 byte[] decryptedBytes = cipherBytes;
@@ -279,7 +279,7 @@ namespace Area23.At.WinForm.TWinFormCore
             string usrMailKey = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
             Reset_TextBox_IV(usrMailKey);
             this.TextBox_CryptPipeline.Text = string.Empty;
-            this.TextBoxDestionation.Text = string.Empty;            
+            this.TextBoxDestionation.Text = string.Empty;
         }
 
         private void Button_SecretKey_Click(object sender, EventArgs e)
@@ -402,7 +402,7 @@ namespace Area23.At.WinForm.TWinFormCore
             this.TextBox_IV.Text = DeEnCoder.KeyHexString(this.TextBox_Key.Text);
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BackColor = this.TextBox_Key.BackColor;
-            this.TextBox_IV.BorderStyle = BorderStyle.None;            
+            this.TextBox_IV.BorderStyle = BorderStyle.None;
 
             this.TextBoxSource.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBoxSource.BackColor = SystemColors.ControlLightLight;
@@ -508,6 +508,11 @@ namespace Area23.At.WinForm.TWinFormCore
         {
             string usrMailKey = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
             Reset_TextBox_IV(usrMailKey);
+        }
+
+        private void EnDeCodingForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
