@@ -54,7 +54,7 @@
             // 
             ComboBox_EnDeCoding.BackColor = SystemColors.ControlLightLight;
             ComboBox_EnDeCoding.FormattingEnabled = true;
-            ComboBox_EnDeCoding.Items.AddRange(new object[] { "hex16", "base32", "base64", "unix2unix", "html", "url" });
+            ComboBox_EnDeCoding.Items.AddRange(new object[] { "hex16", "base16", "base32", "base64", "unix2unix", "html", "url" });
             ComboBox_EnDeCoding.Location = new Point(12, 36);
             ComboBox_EnDeCoding.Margin = new Padding(0);
             ComboBox_EnDeCoding.Name = "ComboBox_EnDeCoding";

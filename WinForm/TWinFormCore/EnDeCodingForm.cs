@@ -40,7 +40,7 @@ namespace Area23.At.WinForm.TWinFormCore
                 ComboBox_SymChiffer.SelectedIndex = 0;
             }
 
-            ComboBox_EnDeCoding.SelectedIndex = 2;
+            ComboBox_EnDeCoding.SelectedIndex = 3;
         }
 
 
@@ -81,7 +81,8 @@ namespace Area23.At.WinForm.TWinFormCore
 
                 switch (this.ComboBox_EnDeCoding.SelectedItem.ToString().ToLower())
                 {
-                    case "hex16": encryptedText = Hex.ToHex(encryptBytes); break;
+                    case "hex16": encryptedText = Hex16.ToHex16(encryptBytes); break;
+                    case "base16": encryptedText = Base16.ToBase16(encryptBytes); break;
                     case "base32": encryptedText = Base32.ToBase32(encryptBytes); break;
                     case "unix2unix": encryptedText = Uu.ToUu(encryptBytes); break;
                     case "base64":
@@ -122,7 +123,8 @@ namespace Area23.At.WinForm.TWinFormCore
                 byte[] cipherBytes = null;
                 switch (this.ComboBox_EnDeCoding.SelectedItem.ToString().ToLower())
                 {
-                    case "hex16": cipherBytes = Hex.FromHex(cipherText); break;
+                    case "hex16": cipherBytes = Hex16.FromHex16(cipherText); break;
+                    case "base16": cipherBytes = Base16.FromBase16(cipherText); break;
                     case "base32": cipherBytes = Base32.FromBase32(cipherText); break;
                     case "unix2unix": cipherBytes = Uu.FromUu(cipherText); break;
                     case "base64":
@@ -180,11 +182,12 @@ namespace Area23.At.WinForm.TWinFormCore
                 }
                 switch (this.ComboBox_EnDeCoding.SelectedItem.ToString().ToLower())
                 {
-                    case "hex16": encryptedText = Hex.ToHex(encryptBytes); break;
-                    case "base32": encryptedText = Base32.ToBase32(encryptBytes); break;
-                    case "unix2unix": encryptedText = Uu.ToUu(encryptBytes); break;
+                    case "hex16":       encryptedText = Hex16.ToHex16(encryptBytes); break;
+                    case "base16":      encryptedText = Base16.ToBase16(encryptBytes); break;
+                    case "base32":      encryptedText = Base32.ToBase32(encryptBytes); break;
+                    case "unix2unix":   encryptedText = Uu.ToUu(encryptBytes); break;
                     case "base64":
-                    default: encryptedText = Base64.ToBase64(encryptBytes); break;
+                    default:            encryptedText = Base64.ToBase64(encryptBytes); break;
                 }
 
                 this.TextBoxDestionation.BackColor = SystemColors.ControlLightLight;
@@ -215,11 +218,12 @@ namespace Area23.At.WinForm.TWinFormCore
                 byte[] cipherBytes = null, fileBytes = null, outBytes = null;
                 switch (this.ComboBox_EnDeCoding.SelectedText.ToLower())
                 {
-                    case "hex16": cipherBytes = Hex.FromHex(cipherText); break;
-                    case "base32": cipherBytes = Base32.FromBase32(cipherText); break;
-                    case "unix2unix": cipherBytes = Uu.FromUu(cipherText); break;
+                    case "hex16":       cipherBytes = Hex16.FromHex16(cipherText); break;
+                    case "base16":      cipherBytes = Base16.FromBase16(cipherText); break;
+                    case "base32":      cipherBytes = Base32.FromBase32(cipherText); break;
+                    case "unix2unix":   cipherBytes = Uu.FromUu(cipherText); break;
                     case "base64":
-                    default: cipherBytes = Base64.FromBase64(cipherText); break;
+                    default:            cipherBytes = Base64.FromBase64(cipherText); break;
                 }
 
                 byte[] decryptedBytes = cipherBytes;

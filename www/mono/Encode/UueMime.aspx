@@ -15,7 +15,7 @@
                      Width="98%" Height="320px" Style="table-layout: fixed;"></asp:TextBox>
             </div>
             <div class="jsonColumn" style="width:49%; float: left; display: inline-block;">
-                <pre id="preOut" class="jsonPreOut" runat="server" style="margin-top: -4px; height: 332px;max-height: 332px;overflow: auto;word-break: break-all; word-wrap: break-word" />
+                <pre id="preOut" class="jsonPreOut" runat="server" style="margin-top: -4px; height: 332px;max-height: 332px; overflow:scroll; word-break: break-all; word-wrap: break-word; border: 0px hidden white;" />
                 <!-- pre id="Pre1"  /-->
                 <!-- asp:TextBox ID="TextBoxOut" TextMode="MultiLine" ToolTip="output of json operation" Width="100%" Height="320px" /-->
             </div>
@@ -24,9 +24,11 @@
         <div class="odDiv">
             <span class="leftSpan">
                 <asp:DropDownList ID="DropDownList_EncodeType" runat="server">
-                    <asp:ListItem Enabled="true" Value="base32" Selected="false">Base32</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="base64" Selected="true">Base64</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="hex16" Selected="false">Hex16</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="base16" Selected="false">Base16</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="base32" Selected="false">Base32</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="base32hex" Selected="false">Base32Hex</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="base64" Selected="true">Base64</asp:ListItem>                    
                     <asp:ListItem Enabled="true" Value="html"  Selected="false">Html</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="url"  Selected="false">Url</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="uu" Selected="false">Uu</asp:ListItem>

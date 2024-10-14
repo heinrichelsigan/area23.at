@@ -25,7 +25,7 @@ namespace Area23.At.Mono.Encode
             this.aAes.HRef = LibPaths.EncodeAppPath + "AesImprove.aspx";
             this.aImgCrypt.HRef = LibPaths.EncodeAppPath + "ImgPngCrypt.aspx";
             this.aCoolCrypt.HRef = LibPaths.EncodeAppPath + "CoolCrypt.aspx";
-            this.aUrlShort.HRef = LibPaths.EncodeAppPath + "S.aspx";
+            this.aUrlShort.HRef = "/s/";
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)

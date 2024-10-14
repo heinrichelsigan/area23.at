@@ -7,18 +7,21 @@ using System.Threading.Tasks;
 namespace Area23.At.Framework.Library.EnDeCoding
 {
     /// <summary>
-    /// Normal hexadecimal byte encoding / decoding
+    /// Base16 hexadecimal byte encoding / decoding
     /// </summary>
-    public static class Hex
+    public static class Base16
     {
 
+        private static readonly char[] _digits = "0123456789ABCDEF".ToCharArray();
+        private static List<char> ValidCharList = new List<char>(_digits);
+
         /// <summary>
-        /// ToHex converts a binary byte array to hex string
+        /// ToBase16 converts a binary byte array to hex string
         /// </summary>
         /// <param name="inBytes">byte array</param>
         /// <returns>hex string</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static string ToHex(byte[] inBytes)
+        public static string ToBase16(byte[] inBytes)
         {
             if (inBytes == null || inBytes.Length < 1)
                 throw new ArgumentNullException("inBytes", "public static string ToHex(byte[] inBytes == NULL)");
@@ -28,21 +31,18 @@ namespace Area23.At.Framework.Library.EnDeCoding
             {
                 hexString += string.Format("{0:x2}", inBytes[wc]);                
             }
-            
-            string strUtf8 = EnDeCoder.GetString8(inBytes);
-            // return strUtf8;
-            return hexString;
 
+            return hexString.ToUpper();            
         }
 
 
         /// <summary>
-        /// FromHex transforms a hex string to binary byte array
+        /// FromBase16 transforms a hex string to binary byte array
         /// </summary>
         /// <param name="hexStr">a hex string</param>
         /// <returns>binary byte array</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static byte[] FromHex(string hexStr)
+        public static byte[] FromBase16(string hexStr)
         {
             if (string.IsNullOrEmpty(hexStr))
                 throw new ArgumentNullException("hexStr", "public static byte[] FromHex(string hexStr), hexStr == NULL || hexStr == \"\"");            
@@ -66,6 +66,17 @@ namespace Area23.At.Framework.Library.EnDeCoding
             
         }
 
+        public static bool IsValidBase16(string inString)
+        {
+            foreach (char ch in inString)
+            {
+                if (!ValidCharList.Contains(ch))
+                    return false;
+            }
+            return true;
+        }
+
 
     }
+
 }

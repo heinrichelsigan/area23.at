@@ -30,8 +30,9 @@ namespace Area23.At.Mono.Encode
                 byte[] bytes = Encoding.UTF8.GetBytes(srcStr);
                 switch (this.DropDownList_EncodeType.SelectedValue.ToLower())
                 {
-                    case "base32":  encodedStr = Base32.ToBase32(bytes); break;
-                    case "hex16":   encodedStr = Hex.ToHex(bytes); break;
+                    case "hex16":   encodedStr = Hex16.ToHex16(bytes); break;
+                    case "base16":  encodedStr = Base16.ToBase16(bytes); break;
+                    case "base32":  encodedStr = Base32.ToBase32(bytes); break;                    ;
                     case "uu":      encodedStr = Uu.UuEncode(srcStr); break;
                     case "html":    encodedStr = HttpUtility.HtmlEncode(srcStr); break;
                     case "url":     encodedStr = Server.UrlEncode(srcStr); break;
@@ -42,6 +43,7 @@ namespace Area23.At.Mono.Encode
                 if (!string.IsNullOrEmpty(encodedStr))
                 {
                     this.preOut.InnerText = encodedStr;
+                    this.preOut.Style.Value = "margin-top: -4px; height: 332px;max-height: 332px; overflow:scroll; word-break: break-all; word-wrap: break-word; border: 0px hidden white;";
                     this.preOut.Visible = true;
                 }
             }
@@ -60,18 +62,21 @@ namespace Area23.At.Mono.Encode
                 byte[] fileBytes = oFile.PostedFile.InputStream.ToByteArray();
                 switch (this.DropDownList_EncodeType.SelectedValue.ToLower())
                 {
-                    case "base32": encodedStr = Base32.ToBase32(fileBytes); break;
-                    case "hex16": encodedStr = Hex.ToHex(fileBytes); break;
-                    case "uu": encodedStr = Uu.ToUu(fileBytes); break;
-                    case "html": encodedStr = "Can't html encode a binary file!"; break;
-                    case "url": encodedStr = "Can't url encode a binary file!"; break;
+                    case "hex16":       encodedStr = Hex16.ToHex16(fileBytes); break;
+                    case "base16":      encodedStr = Base16.ToBase16(fileBytes); break;
+                    case "base32":      encodedStr = Base32.ToBase32(fileBytes); break;
+                    case "base32hex":   encodedStr = Base32Hex.ToBase32Hex(fileBytes); break;
+                    case "uu":          encodedStr = Uu.ToUu(fileBytes, true); break;
+                    case "html":        encodedStr = "Can't html encode a binary file!"; break;
+                    case "url":         encodedStr = "Can't url encode a binary file!"; break;
                     case "base64":
-                    default: encodedStr = Base64.ToBase64(fileBytes); break;
+                    default:            encodedStr = Base64.ToBase64(fileBytes); break;
                 }
 
                 if (!string.IsNullOrEmpty(encodedStr))
                 {
                     this.preOut.InnerText = encodedStr;
+                    this.preOut.Style.Value = "margin-top: -4px; height: 332px;max-height: 332px; overflow:scroll; word-break: break-all; word-wrap: break-word; border: 0px hidden white;";
                     this.preOut.Visible = true;
                 }
             }
@@ -87,13 +92,69 @@ namespace Area23.At.Mono.Encode
             {                
                 switch (this.DropDownList_EncodeType.SelectedValue.ToLower())
                 {
-                    case "base32":  byteSrc = Base32.FromBase32(srcStr); break;
-                    case "hex16":   byteSrc = Hex.FromHex(srcStr); break;
-                    case "uu":      decodedStr = Uu.UuDecode(srcStr); break;
-                    case "html":    decodedStr = HttpUtility.HtmlDecode(srcStr); break;
-                    case "url":     decodedStr = Server.UrlDecode(srcStr); break;
+                    case "hex16":
+                        if (Hex16.IsValidHex16(this.TextBoxSource.Text))
+                            byteSrc = Hex16.FromHex16(srcStr);
+                        else
+                        {
+                            this.preOut.InnerText = "Input Text is not valid hex16 string!";
+                            this.preOut.Style.Value = "margin-top: -4px; height: 332px;max-height: 332px; overflow:scroll; word-break: break-all; word-wrap: break-word; border: 1px dashed red;";
+                            return;
+                        }
+                        break;
+                    case "base16":
+                        if (Base16.IsValidBase16(this.TextBoxSource.Text))
+                            byteSrc = Base16.FromBase16(srcStr);
+                        else
+                        {
+                            this.preOut.InnerText = "Input Text is not valid base16 string!";
+                            this.preOut.Style.Value = "margin-top: -4px; height: 332px;max-height: 332px; overflow:scroll; word-break: break-all; word-wrap: break-word; border: 1px dashed red;";
+                            return;
+                        }
+                        break;
+                    case "base32":
+                        if (Base32.IsValidBase32(this.TextBoxSource.Text))
+                            byteSrc = Base32.FromBase32(srcStr);
+                        else
+                        {
+                            this.preOut.InnerText = "Input Text is not valid base32 string!";
+                            this.preOut.Style.Value = "margin-top: -4px; height: 332px;max-height: 332px; overflow:scroll; word-break: break-all; word-wrap: break-word; border: 1px dashed red;";
+                            return;
+                        }
+                        break;
+                    case "base32hex":
+                        if (Base32Hex.IsValidBase32Hex(this.TextBoxSource.Text))
+                            byteSrc = Base32Hex.FromBase32Hex(srcStr);
+                        else
+                        {
+                            this.preOut.InnerText = "Input Text is not valid base32 hex string!";
+                            this.preOut.Style.Value = "margin-top: -4px; height: 332px;max-height: 332px; overflow:scroll; word-break: break-all; word-wrap: break-word; border: 1px dashed red;";
+                            return;
+                        }
+                        break;
+                    case "uu":
+                        if (Uu.IsValidUue(this.TextBoxSource.Text))
+                            decodedStr = Uu.UuDecode(srcStr);
+                        else
+                        {
+                            this.preOut.InnerText = "Input Text is not valid uuencoded string!";
+                            this.preOut.Style.Value = "margin-top: -4px; height: 332px;max-height: 332px; overflow:scroll; word-break: break-all; word-wrap: break-word; border: 1px dashed red;";
+                            return;
+                        }
+                        break;
+                    case "html": decodedStr = HttpUtility.HtmlDecode(srcStr); break;
+                    case "url": decodedStr = Server.UrlDecode(srcStr); break;
                     case "base64":
-                    default:        byteSrc = Base64.FromBase64(srcStr); break;
+                    default:
+                        if (Base64.IsValidBase64(this.TextBoxSource.Text))
+                            byteSrc = Base64.FromBase64(srcStr);
+                        else
+                        {
+                            this.preOut.InnerText = "Input Text is not valid base64 string!";
+                            this.preOut.Style.Value = "margin-top: -4px; height: 332px;max-height: 332px; overflow:scroll; word-break: break-all; word-wrap: break-word; border: 1px dashed red;";
+                            return;
+                        }
+                        break;
                 }
 
                 if (byteSrc != null && byteSrc.Length > 0)
@@ -102,6 +163,7 @@ namespace Area23.At.Mono.Encode
                 if (!string.IsNullOrEmpty(decodedStr))
                 {
                     this.preOut.InnerText = decodedStr;
+                    this.preOut.Style.Value = "margin-top: -4px; height: 332px;max-height: 332px; overflow:scroll; word-break: break-all; word-wrap: break-word; border: 0px hidden white;";
                     this.preOut.Visible = true;
                 }
             }

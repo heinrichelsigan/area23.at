@@ -9,8 +9,10 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
     /// <summary>
     /// Normal hexadecimal byte encoding / decoding
     /// </summary>
-    public static class Hex
+    public static class Hex16
     {
+        private static readonly char[] _digits = "0123456789abcdef".ToCharArray();
+        private static List<char> ValidCharList = new List<char>(_digits);
 
         /// <summary>
         /// ToHex converts a binary byte array to hex string
@@ -18,7 +20,7 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         /// <param name="inBytes">byte array</param>
         /// <returns>hex string</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static string ToHex(byte[] inBytes)
+        public static string ToHex16(byte[] inBytes)
         {
             if (inBytes == null || inBytes.Length < 1)
                 throw new ArgumentNullException("inBytes", "public static string ToHex(byte[] inBytes == NULL)");
@@ -28,11 +30,10 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
             {
                 hexString += string.Format("{0:x2}", inBytes[wc]);                
             }
-            
-            string strUtf8 = EnDeCoder.GetString8(inBytes);
-            // return strUtf8;
-            return hexString;
 
+            string strUtf8 = hexString.ToLower();
+            
+            return strUtf8;
         }
 
 
@@ -42,7 +43,7 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         /// <param name="hexStr">a hex string</param>
         /// <returns>binary byte array</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static byte[] FromHex(string hexStr)
+        public static byte[] FromHex16(string hexStr)
         {
             if (string.IsNullOrEmpty(hexStr))
                 throw new ArgumentNullException("hexStr", "public static byte[] FromHex(string hexStr), hexStr == NULL || hexStr == \"\"");            
@@ -66,6 +67,16 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
             
         }
 
+        public static bool IsValidHex16(string inString)
+        {
+            foreach (char ch in inString)
+            {
+                if (!ValidCharList.Contains(ch))
+                    return false;
+            }
+            return true;
+        }
 
     }
+
 }

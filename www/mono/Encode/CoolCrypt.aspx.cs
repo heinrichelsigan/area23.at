@@ -15,7 +15,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
-using System.Text;
 using System.Web;
 using System.Web.Caching;
 using System.Web.DynamicData;
@@ -30,7 +29,7 @@ namespace Area23.At.Mono.Encode
     /// SAES_En_Decrypt En-/De-cryption pipeline page 
     /// Feature to encrypt and decrypt simple plain text or files
     /// </summary>
-    public partial class AesImprove : Util.UIPage
+    public partial class CoolCrypt : Util.UIPage
     {
         internal Framework.Library.Cipher.Symmetric.CryptBounceCastle cryptBounceCastle;
 
@@ -97,12 +96,10 @@ namespace Area23.At.Mono.Encode
             {
                 string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;
                 string encryptedText = string.Empty;
+                byte[] inBytesText = DeEnCoder.GetBytesFromString(this.TextBoxSource.Text, 256, false);
+                byte[] inBytesHash = DeEnCoder.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);                
 
-                byte[] inBytesText = Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
-                // byte[] inBytesText = DeEnCoder.GetBytesFromString(this.TextBoxSource.Text, 256, false);
-                // byte[] inBytesHash = DeEnCoder.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
-
-                byte[] inBytes = inBytesText; // Extensions.TarBytes(inBytesText, inBytesHash);
+                byte[] inBytes = Extensions.TarBytes(inBytesText, inBytesHash);
 
                 // Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
 
@@ -123,11 +120,11 @@ namespace Area23.At.Mono.Encode
                     case "base16":      encryptedText = Base16.ToBase16(encryptBytes); break;
                     case "base32":      encryptedText = Base32.ToBase32(encryptBytes); break;
                     case "base32hex":   encryptedText = Base32Hex.ToBase32Hex(encryptBytes); break;
-                    case "uu":          encryptedText = (string.IsNullOrEmpty(this.TextBox_Encryption.Text)) ?
+                    case "uu":          encryptedText = (string.IsNullOrEmpty(this.TextBox_Encryption.Text)) ? 
                                             Uu.ToUu(encryptBytes, true) : Uu.ToUu(encryptBytes, false); break;
                     case "base64":
                     default:            encryptedText = Base64.ToBase64(encryptBytes); break;
-                }                
+                }
                 this.TextBoxDestionation.Text = encryptedText;
 
             }
@@ -206,9 +203,9 @@ namespace Area23.At.Mono.Encode
                         }
                         break;
                     case "uu":
-                        if (Uu.IsValidUue(this.TextBoxSource.Text))                        
-                            cipherBytes = (string.IsNullOrEmpty(this.TextBox_Encryption.Text)) ?
-                                Uu.FromUu(cipherText, true) : Uu.FromUu(cipherText, false);                        
+                        if (Uu.IsValidUue(this.TextBoxSource.Text))
+                            cipherBytes = (string.IsNullOrEmpty(this.TextBox_Encryption.Text)) ? 
+                                Uu.FromUu(cipherText, true) : Uu.FromUu(cipherText, false);
                         else
                         {
                             this.TextBox_IV.Text = "Input Text is not valid uuencoded string!";
@@ -245,7 +242,7 @@ namespace Area23.At.Mono.Encode
                 }
 
                 decryptedText = DeEnCoder.GetStringFromBytesTrimNulls(decryptedBytes);
-                this.TextBoxDestionation.Text = decryptedText; // HandleString_PrivateKey_Changed(decryptedText);
+                this.TextBoxDestionation.Text = HandleString_PrivateKey_Changed(decryptedText);
             }
             else
             {
@@ -299,7 +296,6 @@ namespace Area23.At.Mono.Encode
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Tea" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Tnepres" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "XTea" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "YenMatrix" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "ZenMatrix")
             {
                 addChiffre = DropDownList_SymChiffer.SelectedValue.ToString() + ";"; 
@@ -387,10 +383,10 @@ namespace Area23.At.Mono.Encode
                         int cryptCount = 0;
                         if (crypt)
                         {
-                            // byte[] inBytesSeperator = EnDeCoder.GetBytes8("\r\n");
-                            // byte[] inBytesKeyHash = EnDeCoder.GetBytes8(this.TextBox_IV.Text);                            
-                            // byte[] inBytes = Framework.Library.Extensions.TarBytes(fileBytes, inBytesSeperator, inBytesKeyHash);
-                            byte[] inBytes = fileBytes; //.TarBytes(inBytesSeperator, inBytesKeyHash);
+                            byte[] inBytesSeperator = EnDeCoder.GetBytes8("\r\n");
+                            byte[] inBytesKeyHash = EnDeCoder.GetBytes8(this.TextBox_IV.Text);                            
+                            byte[] inBytes = Framework.Library.Extensions.TarBytes(fileBytes, inBytesSeperator, inBytesKeyHash);
+                            // byte[] inBytes = fileBytes.TarBytes(inBytesSeperator, inBytesKeyHash);
 
                             imgOut.Src = LibPaths.ResAppPath + "img/encrypted.png";
 
@@ -423,12 +419,12 @@ namespace Area23.At.Mono.Encode
                             }
 
                             fileBytes = DeEnCoder.GetBytesTrimNulls(outBytes);
-                            outBytes = fileBytes;
-                            // outBytes = HandleBytes_PrivateKey_Changed(fileBytes, out bool success);
-                            // if (success)
+                            // outBytes = fileBytes;
+                            outBytes = HandleBytes_PrivateKey_Changed(fileBytes, out bool success);
+                            if (success)
                                 lblUploadResult.Text = "file has been decrypted to ";
-                            // else
-                            // lblUploadResult.Text = "decrypting file failed, byte trash saved  to ";                            
+                            else
+                                lblUploadResult.Text = "decrypting file failed, byte trash saved  to ";                            
                         }
                     }
                     string outMsg;
@@ -455,8 +451,8 @@ namespace Area23.At.Mono.Encode
         /// 
         protected byte[] EncryptBytes(byte[] inBytes, string algo)
         {
-            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
-            string keyIv = (!string.IsNullOrEmpty(this.TextBox_IV.Text)) ? this.TextBox_IV.Text : Constants.AUTHOR_IV;
+            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : string.Empty;
+            string keyIv = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : string.Empty;
 
             byte[] encryptBytes = Crypt.EncryptBytes(inBytes, algo, secretKey, keyIv);
             
@@ -471,8 +467,8 @@ namespace Area23.At.Mono.Encode
         /// <returns>decrypted byte Array</returns>
         protected byte[] DecryptBytes(byte[] cipherBytes, string algorithmName)
         {
-            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
-            string keyIv = (!string.IsNullOrEmpty(this.TextBox_IV.Text)) ? this.TextBox_IV.Text : Constants.AUTHOR_IV;
+            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : string.Empty;
+            string keyIv = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : string.Empty;
 
             byte[] decryptBytes = Crypt.DecryptBytes(cipherBytes, algorithmName, secretKey, keyIv);
 

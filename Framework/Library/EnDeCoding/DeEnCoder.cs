@@ -81,6 +81,12 @@ namespace Area23.At.Framework.Library.EnDeCoding
             else
                 decryptedText = Encoding.UTF8.GetString(decryptedBytes);
 
+            if (decryptedText.Contains('\0'))
+            {
+                int slashNullIdx = decryptedText.IndexOf('\0');
+                decryptedText = decryptedText.Substring(0, slashNullIdx);
+            }
+
             return decryptedText;
         }
 

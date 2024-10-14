@@ -1,56 +1,42 @@
-﻿/*
- * Derived from https://github.com/google/google-authenticator-android/blob/master/AuthenticatorApp/src/main/java/com/google/android/apps/authenticator/Base32String.java
- * 
- * Copyright (C) 2016 BravoTango86
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Area23.At.Framework.Library.EnDeCoding
+namespace Area23.At.Framework.Library.Core.EnDeCoding
 {
     /// <summary>
-    /// Base32 encoding is a mapping for double hex from A-Z0-7 (32 chiffers per digit)
-    /// <see href="https://gist.github.com/erdomke/9335c394c5cc65404c4cf9aceab04143"/>
+    /// Base32Hex encoding is a mapping for double hex from 0-9A-V (32 chiffers per digit), padding char is =
+    /// <see href="https://datatracker.ietf.org/doc/html/rfc4648#section-7" />
     /// </summary>
-    public static class Base32
+    public static class Base32Hex
     {
-        private static readonly char[] _digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=".ToCharArray();
+        private static readonly char[] _digits = "0123456789ABCDEFGHIJKLMNOPQRSTUV=".ToCharArray();
         private static List<char> ValidCharList = new List<char>(_digits);
         private const int _mask = 31;
         private const int _shift = 5;
 
         private static int CharToInt(char c)
         {
-            int bigA = (int)'A', litA = ((int)'a'), iChar = ((int)c);
-            
+            int iBigA = (int)'A', iLittleA = ((int)'a'), iZero = (int)'0', iChar = ((int)c);
+
             if (Char.IsUpper(c))
-                return (iChar - bigA);
+                return ((iChar - iBigA) + 10);
             else if (Char.IsLower(c))
-                return (iChar - litA);
-            else if (Char.IsDigit(c) || Char.IsNumber(c)) 
+                return ((iChar - iLittleA) + 10);
+            else if (Char.IsDigit(c) || Char.IsNumber(c))
                 switch (c)
-                {                
-                    case '2': return 26;
-                    case '3': return 27;
-                    case '4': return 28;
-                    case '5': return 29;
-                    case '6': return 30;
-                    case '7': return 31;
+                {
+                    case '0': return 0;
+                    case '1': return 1;
+                    case '2': return 2;
+                    case '3': return 3;
+                    case '4': return 4;
+                    case '5': return 5;
+                    case '6': return 6;
+                    case '7': return 7;
+                    case '8': return 8;
+                    case '9': return 9;
                     default: break;
                 }
 
@@ -58,13 +44,13 @@ namespace Area23.At.Framework.Library.EnDeCoding
         }
 
         /// <summary>
-        /// FromBase32 converts a base32 string to a binary byte array
+        /// FromBase32Hex converts a base32 string to a binary byte array
         /// </summary>
         /// <param name="encoded">base32 encoded string</param>
         /// <returns>byte array</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="FormatException"></exception>
-        public static byte[] FromBase32(string encoded)
+        public static byte[] FromBase32Hex(string encoded)
         {
             if (encoded == null)
                 throw new ArgumentNullException(nameof(encoded));
@@ -107,12 +93,12 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// <param name="data">binary data in byte array to convert</param>
         /// <param name="padOutput">block padding with =</param>
         /// <returns>Base32 encoded string</returns>
-        public static string ToBase32(byte[] data, bool padOutput = true)
+        public static string ToBase32Hex(byte[] data, bool padOutput = true)
         {
-            return ToBase32(data, 0, data.Length, padOutput);
+            return ToBase32Hex(data, 0, data.Length, padOutput);
         }
 
-        public static string ToBase32(byte[] data, int offset, int length, bool padOutput = true)
+        public static string ToBase32Hex(byte[] data, int offset, int length, bool padOutput = true)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
@@ -172,7 +158,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
             return result.ToString();
         }
 
-        public static bool IsValidBase32(string inString)
+        public static bool IsValidBase32Hex(string inString)
         {
             foreach (char ch in inString)
             {

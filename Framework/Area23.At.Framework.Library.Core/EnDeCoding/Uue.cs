@@ -12,14 +12,17 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
     public static class Uu
     {
 
+        public static readonly char[] ValidChars = "!\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_` \r\n".ToCharArray();
+        public static List<char> ValidCharList = new List<char>(ValidChars);
+
         /// <summary>
         /// ToUu
         /// </summary>
         /// <param name="inBytes">binary byte array</param>
         /// <returns>uuencoded string</returns>
-        public static string ToUu(byte[] inBytes)
-        {            
-            string bytStr = Hex.ToHex(inBytes);
+        public static string ToUu(byte[] inBytes, bool originalUue = true)
+        {
+            string bytStr = (originalUue) ? Encoding.ASCII.GetString(inBytes) : Hex16.ToHex16(inBytes);
             string uu = (new UUEncoder()).EncodeString(bytStr);
 
             //for (int i = 0; i <= inBytes.Length; i += 45)
@@ -39,10 +42,10 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         /// </summary>
         /// <param name="uuEncStr">uuencoded string</param>
         /// <returns>binary byte array</returns>
-        public static byte[] FromUu(string uuEncStr)
+        public static byte[] FromUu(string uuEncStr, bool originalUue = true)
         {
             string plainStr = (new UUEncoder()).DecodeString(uuEncStr);
-            byte[] plainBytes = Hex.FromHex(plainStr);
+            byte[] plainBytes = (originalUue) ? Encoding.ASCII.GetBytes(plainStr) : Hex16.FromHex16(plainStr);  // ;
             return plainBytes;
 
             //List<byte> bytes = new List<byte>();
@@ -81,6 +84,29 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
             return plainStr;
         }
 
+        public static bool IsValidUue(string uuEncodedStr)
+        {
+            if (uuEncodedStr.StartsWith("begin"))
+            {
+                int firstNewLineIds = uuEncodedStr.IndexOf('\n');
+                if (firstNewLineIds > -1)
+                    uuEncodedStr = uuEncodedStr.Substring(firstNewLineIds);
+            }
+            if (uuEncodedStr.EndsWith("\nend") || uuEncodedStr.EndsWith("\nend\n") || uuEncodedStr.EndsWith("\nend\r\n"))
+            {
+                uuEncodedStr = uuEncodedStr.Replace("\nend\r\n", "\n");
+                uuEncodedStr = uuEncodedStr.Replace("\nend\n", "\n");
+                uuEncodedStr = uuEncodedStr.Replace("\nend", "\n");
+            }
+
+            foreach (char ch in uuEncodedStr)
+            {
+                if (!ValidCharList.Contains(ch))
+                    return false;
+            }
+            return true;
+        }
+
         #region helper
         private static byte[] UuEncodeBytes(byte[] input, int len)
         {
@@ -103,4 +129,5 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         #endregion helper
 
     }
+
 }

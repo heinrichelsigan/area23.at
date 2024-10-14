@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Simple uu and base64 en-/decode tool (apache2 mod_mono)" Language="C#" MasterPageFile="~/Encode/EncodeMaster.master" AutoEventWireup="true" CodeBehind="AesImprove.aspx.cs" Inherits="Area23.At.Mono.Encode.AesImprove"  validateRequest="false" %>
+﻿<%@ Page Title="Simple uu and base64 en-/decode tool (apache2 mod_mono)" Language="C#" MasterPageFile="~/Encode/EncodeMaster.master" AutoEventWireup="true" CodeBehind="CoolCrypt.aspx.cs" Inherits="Area23.At.Mono.Encode.CoolCrypt"  validateRequest="false" %>
 <asp:Content ID="ContentEncodeHead" ContentPlaceHolderID="EncodeHead" runat="server">
         <title>Simple uu and base64 en-/decode tool (apache2 mod_mono)</title>
         <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
@@ -7,7 +7,7 @@
         <meta name="author" content="Heinrich Elsigan (he@area23.at)" />
 </asp:Content>
 <asp:Content ID="ContentEncodeBody" ContentPlaceHolderID="EncodeBody" runat="server" ClientIDMode="Static">
-    <form id="AesImproveForm" runat="server" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True">
+    <form id="CoolCryptForm" runat="server" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True">
         <h2>Enryption method</h2>
         <div class="odDiv">
             <span class="leftSpan">
@@ -61,7 +61,7 @@
             <span class="rightSpan">
                 <asp:DropDownList ID="DropDownList_Encoding" runat="server">
                     <asp:ListItem Enabled="true" Value="hex16" Selected="false">Hex16</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="base16" Selected="false">Base16</asp:ListItem>                
+                    <asp:ListItem Enabled="true" Value="base16" Selected="false">Base16</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="base32" Selected="false">Base32</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="base32hex" Selected="false">Base32Hex</asp:ListItem>
                     <asp:ListItem Enabled="true" Value="base64" Selected="true">Base64</asp:ListItem>                                
@@ -84,8 +84,6 @@
                 <asp:Button ID="Button_Reset_KeyIV" runat="server" Text="Reset Key/IV" ToolTip="Reset secret key / iv" OnClick="Button_Reset_KeyIV_Click" />
             </span>
         </div>
-        <hr />
-        <h3>To encrypt with valid private key / iv, see <a href="CoolCrypt.aspx" target="_blank">CoolCrypt.aspx</a>!</h3>
         <h2>En-/Decrypt file</h2>
         <INPUT id="oFile" type="file" runat="server" NAME="oFile" />
         <asp:Button ID="ButtonEncryptFile" runat="server" ToolTip="Encrypt file" OnClick="ButtonEncryptFile_Click" Text="Encrypt file" />

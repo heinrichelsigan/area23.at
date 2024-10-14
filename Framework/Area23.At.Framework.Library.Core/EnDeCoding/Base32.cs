@@ -29,21 +29,22 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
     /// </summary>
     public static class Base32
     {
-        private static readonly char[] _digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567".ToCharArray();
+        private static readonly char[] _digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=".ToCharArray();
+        private static List<char> ValidCharList = new List<char>(_digits);
         private const int _mask = 31;
         private const int _shift = 5;
 
         private static int CharToInt(char c)
         {
             int bigA = (int)'A', litA = ((int)'a'), iChar = ((int)c);
-            
+
             if (Char.IsUpper(c))
                 return (iChar - bigA);
             else if (Char.IsLower(c))
                 return (iChar - litA);
-            else if (Char.IsDigit(c) || Char.IsNumber(c)) 
+            else if (Char.IsDigit(c) || Char.IsNumber(c))
                 switch (c)
-                {                
+                {
                     case '2': return 26;
                     case '3': return 27;
                     case '4': return 28;
@@ -106,12 +107,12 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         /// <param name="data">binary data in byte array to convert</param>
         /// <param name="padOutput">block padding with =</param>
         /// <returns>Base32 encoded string</returns>
-        public static string ToBase32(byte[] data, bool padOutput = false)
+        public static string ToBase32(byte[] data, bool padOutput = true)
         {
             return ToBase32(data, 0, data.Length, padOutput);
         }
 
-        public static string ToBase32(byte[] data, int offset, int length, bool padOutput = false)
+        public static string ToBase32(byte[] data, int offset, int length, bool padOutput = true)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
@@ -170,5 +171,16 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
 
             return result.ToString();
         }
+
+        public static bool IsValidBase32(string inString)
+        {
+            foreach (char ch in inString)
+            {
+                if (!ValidCharList.Contains(ch))
+                    return false;
+            }
+            return true;
+        }
     }
+
 }
