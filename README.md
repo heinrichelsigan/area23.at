@@ -22,6 +22,7 @@ area23.at summarized repository containing tiny, small &amp; medium freaky proje
 - https://area23.at/net/Unix/HexDump.aspx
 
 ### 3DES AES encryption pipeline
+- https://area23.at/net/Encode/CoolCrypt.aspx
 - https://area23.at/net/SAES_En_Decrypt.aspx
   
 ### rpncalc
