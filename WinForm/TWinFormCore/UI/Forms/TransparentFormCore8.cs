@@ -1,4 +1,6 @@
 ﻿using Area23.At.Framework.Library.Core;
+using Area23.At.WinForm.TWinFormCore.UI.Forms;
+using Area23.At.WinForm.TWinFormCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,9 +12,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace Area23.At.WinForm.TWinFormCore
+namespace Area23.At.WinForm.TWinFormCore.UI.Forms
 {
-    public partial class TransparentFormCore8 : Form
+    public partial class TransparentFormCore8 : System.Windows.Forms.Form
     {
         TransparentBadge? badge;
 
@@ -96,12 +98,12 @@ namespace Area23.At.WinForm.TWinFormCore
             dialog.ShowDialog();
         }
 
-        private void toolStripMenuItemInfo_Click(object sender, EventArgs e)
+        protected internal void toolStripMenuItemInfo_Click(object sender, EventArgs e)
         {
             MessageBox.Show($"{Text} type {TFormType} Information MessageBox.", $"{Text} type {TFormType}", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void toolStripMenuItemClose_Click(object sender, EventArgs e)
+        protected internal void toolStripMenuItemClose_Click(object sender, EventArgs e)
         {
             Program.tFormsNew = Program.tFormsNew ?? new List<System.Windows.Forms.Form>();
             if (Program.tFormsNew.Count > 1)
@@ -124,10 +126,9 @@ namespace Area23.At.WinForm.TWinFormCore
                 return;
             }
 
-            toolStripMenuItemExit_Click(sender, e);
         }
 
-        private void toolStripMenuItemExit_Click(object sender, EventArgs e)
+        protected internal void toolStripMenuItemExit_Click(object sender, EventArgs e)
         {
             foreach (var t in Program.tFormsNew)
             {
@@ -163,7 +164,7 @@ namespace Area23.At.WinForm.TWinFormCore
             Environment.Exit(0);
         }
 
-        private void toolStripMenuItemEnDeCode_Click(object sender, EventArgs e)
+        protected internal void toolStripMenuItemEnDeCode_Click(object sender, EventArgs e)
         {
             int formsCount = Program.tFormsNew.Count;
             if (formsCount > 16)
@@ -178,7 +179,7 @@ namespace Area23.At.WinForm.TWinFormCore
             endecodeForm.Focus();
         }
 
-        private void toolStripMenuItemCrypt_Click(object sender, EventArgs e)
+        protected internal void toolStripMenuItemCrypt_Click(object sender, EventArgs e)
         {
             int formsCount = Program.tFormsNew.Count;
             if (formsCount > 16)
@@ -199,7 +200,7 @@ namespace Area23.At.WinForm.TWinFormCore
         }
 
         protected virtual byte[] OpenCryptFileDialog(ref string loadDir)
-        {            
+        {
             if (openFileDialog == null)
                 openFileDialog = new OpenFileDialog();
             byte[] fileBytes;
@@ -221,15 +222,13 @@ namespace Area23.At.WinForm.TWinFormCore
                 }
             }
 
-            
-
             fileBytes = new byte[0];
             return fileBytes;
         }
 
         protected virtual string SafeFileName(string? filePath = "", byte[]? content = null)
         {
-            string? saveDir = Environment.GetEnvironmentVariable("TEMP");            
+            string? saveDir = Environment.GetEnvironmentVariable("TEMP");
             string ext = ".hex";
             string fileName = DateTime.Now.Area23DateTimeWithSeconds() + ext;
             if (!string.IsNullOrEmpty(filePath))
@@ -238,7 +237,7 @@ namespace Area23.At.WinForm.TWinFormCore
                 saveDir = System.IO.Path.GetDirectoryName(filePath);
                 ext = System.IO.Path.GetExtension(filePath);
             }
-            
+
             if (saveDir != null)
             {
                 saveFileDialog.InitialDirectory = saveDir;
@@ -249,7 +248,7 @@ namespace Area23.At.WinForm.TWinFormCore
             DialogResult diaRes = saveFileDialog.ShowDialog();
             if (diaRes == DialogResult.OK || diaRes == DialogResult.Yes)
             {
-                if (content != null && content.Length > 0) 
+                if (content != null && content.Length > 0)
                     System.IO.File.WriteAllBytes(saveFileDialog.FileName, content);
 
                 badge = new TransparentBadge($"File {fileName} saved to directory {saveDir}.");
@@ -289,6 +288,36 @@ namespace Area23.At.WinForm.TWinFormCore
             }
 
             return (saveFileDialog != null && saveFileDialog.FileName != null && File.Exists(saveFileDialog.FileName)) ? saveFileDialog.FileName : null;
+        }
+
+        protected internal void fortnuneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int formsCount = Program.tFormsNew.Count;
+            if (formsCount > 16)
+            {
+                MessageBox.Show($"Already {formsCount} instances of {TFormType} currently running!", $"{Program.progName}: maximum reached!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            Fortune fortune = new Fortune();
+            Program.tFormsNew.Add(fortune);
+            fortune.Show();
+            fortune.BringToFront();
+            fortune.Focus();
+        }
+
+        private void myAddrToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int formsCount = Program.tFormsNew.Count;
+            if (formsCount > 16)
+            {
+                MessageBox.Show($"Already {formsCount} instances of {TFormType} currently running!", $"{Program.progName}: maximum reached!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            NetAddr netAddr = new NetAddr();
+            Program.tFormsNew.Add(netAddr);
+            netAddr.Show();
+            netAddr.BringToFront();
+            netAddr.Focus();
         }
     }
 }

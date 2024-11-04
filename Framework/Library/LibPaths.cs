@@ -75,7 +75,7 @@ namespace Area23.At.Framework.Library
                 {
                     string basApPath = HttpContext.Current.Request.Url.ToString().
                         Replace("/Unix/", "/").Replace("/Qr/", "/").
-                        Replace("/Calc/", "/").Replace("/Enc/", "/").
+                        Replace("/Calc/", "/").Replace("/Enc/", "/").Replace("/Encode/", "/").
                         Replace("/res/", "/").Replace("/audio/", "/").Replace("/bin/", "/").
                         Replace("/css/", "/").Replace("/img/", "/").Replace("/js/", "/").
                         Replace("/out/", "/").Replace("/text/", "/").Replace("/fortune.u8", "/").

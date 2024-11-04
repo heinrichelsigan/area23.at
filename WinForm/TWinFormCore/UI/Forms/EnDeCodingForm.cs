@@ -1,6 +1,8 @@
 ﻿using Area23.At.Framework.Library.Core;
 using Area23.At.Framework.Library.Core.EnDeCoding;
 using Area23.At.Framework.Library.Core.SymCipher;
+using Area23.At.WinForm.TWinFormCore.UI.Forms;
+using Area23.At.WinForm.TWinFormCore.UI;
 using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
@@ -14,7 +16,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
 
-namespace Area23.At.WinForm.TWinFormCore
+namespace Area23.At.WinForm.TWinFormCore.UI.Forms
 {
     public partial class EnDeCodingForm : TransparentFormCore8
     {
