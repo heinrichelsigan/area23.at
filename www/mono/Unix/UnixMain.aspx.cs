@@ -34,8 +34,7 @@ namespace Area23.At.Mono.Unix
                 int minutes = DateTime.Now.Minute;
                 string digiMinutes = (minutes < 10) ? "0" + minutes : minutes.ToString();
                 int hours = DateTime.Now.Minute;
-                string digiHours = (hours < 10) ? " " + hours : hours.ToString();
-
+                string digiHours = (hours < 10) ? "0" + hours : hours.ToString();
 
                 spanSecondsId.InnerText = digiSeconds;
                 spanMinutesId.InnerText = digiMinutes;

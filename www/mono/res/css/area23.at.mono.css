@@ -201,11 +201,18 @@ div {
 
     div.digitalclock {
         border-block: 2px solid #bab5b1;
-        background-color: #23cd43;
-        font-size: medium;
+        border-block-start-width: 2px;
+        border-block-start-style: ridge;
+        border-block-end-width: 2px;
+        border-block-end-style: ridge;
+        width: 78px;
+        max-width: 84px;
+        background-color: #9fefaf;
         vertical-align: middle;
         table-layout: fixed;
         inset-block-start: initial;
+        font-size: medium;
+        font-weight: bold;
         font-family: 'Courier New', Courier New, Courier, monospace, 'Lucida Console', Consolas, 'Lucida Sans Unicode';
     }
 
@@ -411,21 +418,60 @@ div {
             border-spacing: 1px 1px;
         }
 
-        span.digitalClockSpan,
-        span#spanHoursId,
-        span#spanMinutesId,
-        span#spanSecondsId {
-            border-block: 1px solid #43cd66;
+        span.digitalClockSpan {
+            border-block: 2px solid #bab5b1;
             color: black;
-            background-color: #43cd23;
-            font-size: medium;
-            font-style: oblique;
-            text-decoration: blink;
+            width: 78px;
+            max-width: 84px;
             vertical-align: middle;
             table-layout: fixed;
             inset-block-start: initial;
+            background-color: #9fefaf;
+            font-size: medium;
+            font-style: normal;
+            text-decoration: blink;
             font-family: 'Courier New', Courier New, Courier, monospace, 'Lucida Console', Consolas, 'Lucida Sans Unicode';
         }
+
+        span.spanHoursId {
+            border-block: 1px solid #bab5b1;
+            width: 32px;
+            max-width: 36px;
+            background-color: #9fefaf;
+            vertical-align: middle;
+            table-layout: fixed;
+            inset-block-start: initial;
+            font-size: medium;
+            font-weight: bold;
+            font-family: 'Courier New', Courier New, Courier, monospace, 'Lucida Console', Consolas, 'Lucida Sans Unicode';
+        }
+
+        span.spanMinutesId {
+            border-block: 1px solid #bab5b1;
+            width: 32px;
+            max-width: 36px;
+            background-color: #9fefaf;
+            vertical-align: middle;
+            table-layout: fixed;
+            inset-block-start: initial;
+            font-size: medium;
+            font-weight: bold;
+            font-family: 'Courier New', Courier New, Courier, monospace, 'Lucida Console', Consolas, 'Lucida Sans Unicode';
+        }
+
+        span.spanSecondsId {
+            border-block: 1px solid #bab5b1;
+            width: 32px;
+            max-width: 36px;
+            background-color: #9fefaf;
+            vertical-align: middle;
+            table-layout: fixed;
+            inset-block-start: initial;
+            font-size: medium;
+            font-weight: bold;
+            font-family: 'Courier New', Courier New, Courier, monospace, 'Lucida Console', Consolas, 'Lucida Sans Unicode';
+        }
+
 
         table.qrcTable {
             width: 100%;

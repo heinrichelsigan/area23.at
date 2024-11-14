@@ -1,10 +1,13 @@
 ﻿/*
-    2023-12-22 fortune.js © by Heinrich Elsigan
+    2024-11-15 area23.js merged with  digiclock.js © by Heinrich Elsigan
     https://darkstar.work/js/area23.js
     https://area23.at/js/area23.js
 */
 
+var hours, minutes, seconds;
+var digiYear, digiMonth, digiDay, digiTime, digiHours, digiMinutes, digiSeconds;
 var buttonQRCode, inputcolor, inputbackcolor, colorpicker, backcolorpicker;
+
 
 function loadScript(src, asyn, f) {
 
@@ -51,6 +54,46 @@ function highLightOnChange(highLightId) {
         }
     }
 
+}
+
+
+function ReloadUnixForm() { // var url = "https://darkstar.work/cgi/fortune.cgi";
+    var delay = 100;
+    setTimeout(function () { window.location.reload(); }, delay);
+    return;
+}
+
+function SetTimeDigital() {
+    initDigitalTime();
+    setTimeout(function () { setDigiTime() }, 900);
+}
+
+function InitTimeDigital() {
+    const now = new Date(Date.now());
+    seconds = now.getSeconds();
+    digiSeconds = (seconds < 10) ? "0" + seconds : seconds + "";
+    minutes = now.getMinutes();
+    digiMinutes = (minutes < 10) ? ("0" + minutes) : (minutes + "");
+    hours = now.getHours();
+    digiHours = (hours < 10) ? " " + hours : hours + "";
+
+    digiTime = digiHours + ":" + digiMinutes + ":" + digiSeconds;
+
+    document.getElementById("spanHoursId").innerText = digiHours;
+    document.getElementById("spanMinutesId").innerText = digiMinutes;
+    document.getElementById("spanSecondsId").innerText = digiSeconds;
+
+    if (seconds == 0) {
+        if (minutes == 0) {
+            ReloadForm();
+            return;
+        }
+        alert("Digital time: " + digiTime);
+    }
+
+    console.log(`Digital time: ${digiTime}`);
+
+    return digiTime;
 }
 
 
@@ -113,6 +156,7 @@ function setColorPicker() {
         backcolorpicker.value = inputbackcolor.value;
     }
 }
+
 
 // setColorPicker();
 // example for loading more javascript dynamically from main script by creating script elements in html head.
