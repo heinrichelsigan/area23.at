@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -28,6 +29,7 @@ namespace Area23.At.Mono
 
         protected void InitAHrefs()
         {
+            this.LiteralVersion.Text = " v" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ";
             this.aSlash.HRef = LibPaths.BaseAppPath;
             this.aUnix.HRef = LibPaths.UnixAppPath + "UnixMain.aspx";
             this.aQr.HRef = LibPaths.QrAppPath + "QRCodeGen.aspx";
