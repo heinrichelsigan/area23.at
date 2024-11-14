@@ -6,23 +6,40 @@
     <script async src="../res/js/area23.js"></script>
     <script>
 		window.onload = function () {
-            initDigitalTime();
+            try {
+                SetTimeDigital();
+            } catch (exDigiTime) {
+                console.log(`Exception on executing function SetTimeDigital() => now calling setDigiTime().`);
+                setDigiTime();
+            }  
+            try {
+                InitTimeDigital();
+            } catch (exDigiTime) {
+                console.log(`Exception on executing function InitTimeDigital() => now calling initDigiTime().`);
+                initDigiTime();
+            }  
             setTimeout(function () { setDigiTime() }, 900);
         }; 
 
         function setDigiTime() {
-            initDigitalTime();
+            try {
+                InitTimeDigital();
+            } catch (exDigiTime) {
+                console.log(`Exception on executing function InitTimeDigital() => now calling initDigiTime().`);
+                initDigiTime();
+            }  
+                        
             setTimeout(function () { setDigiTime() }, 900);
         }
 
-        function initDigitalTime() {
+        function initDigiTime() {
             const now = new Date(Date.now());
             seconds = now.getSeconds();
             digiSeconds = (seconds < 10) ? "0" + seconds : seconds + "";
             minutes = now.getMinutes();
             digiMinutes = (minutes < 10) ? ("0" + minutes) : (minutes + "");
             hours = now.getHours();
-            digiHours = (hours < 10) ? ("0" + hours) : hours + "";
+            digiHours = (hours < 10) ? ("0" + hours) : (hours + "");
 
             digiTime = digiHours + ":" + digiMinutes + ":" + digiSeconds;
 
@@ -31,9 +48,9 @@
             document.getElementById("spanSecondsId").innerText = digiSeconds;
 
             if (seconds == 0) {
-                if (minutes == 0) {
-                    alert("Alert each full hour: " + digiTime);
+                if (minutes == 0) {                    
                     ReloadForm();
+                    alert("Alert each full hour: " + digiTime);
                     return;
                 }                
             }

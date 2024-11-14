@@ -64,8 +64,8 @@ function ReloadUnixForm() { // var url = "https://darkstar.work/cgi/fortune.cgi"
 }
 
 function SetTimeDigital() {
-    initDigitalTime();
-    setTimeout(function () { setDigiTime() }, 900);
+    InitTimeDigital();
+    setTimeout(function () { SetTimeDigital() }, 900);
 }
 
 function InitTimeDigital() {
@@ -75,7 +75,7 @@ function InitTimeDigital() {
     minutes = now.getMinutes();
     digiMinutes = (minutes < 10) ? ("0" + minutes) : (minutes + "");
     hours = now.getHours();
-    digiHours = (hours < 10) ? " " + hours : hours + "";
+    digiHours = (hours < 10) ? ("0" + hours) : (hours + "");
 
     digiTime = digiHours + ":" + digiMinutes + ":" + digiSeconds;
 
@@ -85,10 +85,10 @@ function InitTimeDigital() {
 
     if (seconds == 0) {
         if (minutes == 0) {
+            alert("Digital time: " + digiTime);
             ReloadForm();
             return;
-        }
-        alert("Digital time: " + digiTime);
+        }        
     }
 
     console.log(`Digital time: ${digiTime}`);
