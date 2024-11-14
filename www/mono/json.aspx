@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Json Deserialize" Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true"  %>
+﻿<%@ Page Title="Json Deserialize" Language="C#" MasterPageFile="~/Area23.Master" ValidateRequest="false" AutoEventWireup="true" %>
 <%@ Import namespace="Area23.At.Framework.Library" %>
 <%@ Import namespace="Newtonsoft.Json" %>
 <%@ Import namespace="Newtonsoft.Json.Linq" %>
@@ -27,9 +27,30 @@
         if (!this.IsPostBack)
         {
             this.LiteralDateTime.Text = Constants.DateArea23 + " loading page json 2 xml & json deserialize tree paths sample...";
-            this.TextBoxJson.Text = Constants.JSON_SAMPLE;
+            if (Constants.RandomBool)
+                this.TextBoxJson.Text = Constants.JSON_SAMPLE;
+            else
+                this.TextBoxJson.Text = Constants.XML_SAMPLE;            
+
             this.LinkButtonEmpty.Text = "empty json form";
         }
+
+        if (this.TextBoxJson.Text.IsValidJson())
+        {
+            this.LiteralDateTime.Text = Constants.DateArea23 + "json 2 xml.";
+            this.LinkButtonJSON.Visible = true;
+            this.LinkButtonJSON.BackColor = System.Drawing.Color.Green;
+            this.LinkButtonJsonTreePaths.BackColor = System.Drawing.Color.IndianRed;
+            this.LinkButtonXML2Json.BackColor = System.Drawing.Color.IndianRed;
+        }
+        else if (this.TextBoxJson.Text.IsValidXml())
+        {
+            this.LiteralDateTime.Text = Constants.DateArea23 + "xml 2 json.";
+            this.LinkButtonJSON.BackColor = System.Drawing.Color.IndianRed;
+            this.LinkButtonJsonTreePaths.BackColor = System.Drawing.Color.Green;
+            this.LinkButtonXML2Json.BackColor = System.Drawing.Color.Green;
+        }
+
     }
 
     void JsonDeserialize_Click(Object sender, EventArgs e)
@@ -51,7 +72,7 @@
         {
             var xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(
                 Encoding.ASCII.GetBytes(js0), new XmlDictionaryReaderQuotas()));
-            outs0 += xml + "\r\n";        
+            outs0 += xml + "\r\n";
         }
         catch (Exception ex0)
         {
@@ -59,8 +80,29 @@
                 "Exception in JsonConvert.DeserializeObject(jsonString): \r\n\tMessage = {0} \r\n\tException: {1} \r\n",
                 ex0.Message, ex0);
         }
+
         this.jsonPreOut.InnerText += outs0;
-        // TextBoxOut.Text += outs0;
+    }
+
+    void Xml2Json_Click(Object sender, EventArgs e)
+    {
+        string outs0 = String.Empty;
+        string outi0 = String.Empty;
+        string xml = this.TextBoxJson.Text;
+
+        if (string.IsNullOrEmpty(xml) || xml.Length < 8)
+        {
+            this.jsonPreOut.InnerText = "XML string is null or shorter then 8 characters \r\n";
+            return;
+        }
+
+        this.LiteralDateTime.Text = Constants.DateArea23 + "xml 2 json.";
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(xml);
+        string json = JsonConvert.SerializeXmlNode(doc);
+
+        outs0 += json.Replace(",\"", ",\r\n\"") + "\r\n";
+        this.jsonPreOut.InnerText += outs0;
     }
 
     void LinkButtonJsonTreePaths_Click(Object sender, EventArgs e)
@@ -80,7 +122,7 @@
         this.LiteralDateTime.Text = Constants.DateArea23 + "json tree paths.";
 
         try
-        {            
+        {
             outs0 += String.Format("JSON length = {0} \r\n", js0.Length);
             JObject o0 = (JObject)JsonConvert.DeserializeObject(js0);
             JToken root = o0.Root;
@@ -118,12 +160,12 @@
             // TextBoxOut.Text = "";
             this.LinkButtonEmpty.Text = "use json default sample";
         }
-        else if (this.LinkButtonEmpty.Text == "use json default sample") 
+        else if (this.LinkButtonEmpty.Text == "use json default sample")
         {
             this.LiteralDateTime.Text = Constants.DateArea23 + "Prefilling json form with sample.";
             this.TextBoxJson.Text = Constants.JSON_SAMPLE;
             this.LinkButtonEmpty.Text = "empty json form";
-        }            
+        }
     }
 
     string GetJsonTreeObject(JToken o, string outp, int depth, bool html = false)
@@ -181,7 +223,7 @@
         <asp:Literal ID="LiteralDateTime" runat="server"></asp:Literal>
         <div class="jsonRow" style="display:block; width:100%;">
             <div class="jsonColumn" style="width:49%; float: left; display: inline-block;">
-                <asp:TextBox ID="TextBoxJson" runat="server" TextMode="MultiLine" ToolTip="Put your JSON string here" Width="98%" Height="320px" 
+                <asp:TextBox ID="TextBoxJson" runat="server" TextMode="MultiLine" ToolTip="Put your JSON string here" ValidateRequestMode="Disabled" CausesValidation="false" Width="98%" Height="320px" 
                     Style="table-layout: fixed;" />
             </div>
             <div class="jsonColumn" style="width:49%; float: left; display: inline-block;">
@@ -194,7 +236,8 @@
         <div align="left" class="jsonButtons" style="clear: both;">
             <asp:LinkButton ID="LinkButtonJSON" runat="server"  ToolTip="deserialize json and serialize it back to xml" Text="json2xml"  OnClick="JsonDeserialize_Click"></asp:LinkButton> &nbsp;
             <asp:LinkButton ID="LinkButtonJsonTreePaths" runat="server" ToolTip="deserialize only json tree paths" Text="json tree paths" OnClick="LinkButtonJsonTreePaths_Click" /> &nbsp; 
-            <asp:LinkButton ID="LinkButtonEmpty" runat="server" Text="empty json form" OnClick="LinkButtonEmpty_Click" /> &nbsp;           
+            <asp:LinkButton ID="LinkButtonXML2Json" runat="server" ToolTip="deserialize xml and serialize it back as json" Text="xml2json" OnClick="Xml2Json_Click"></asp:LinkButton>            
+            <asp:LinkButton ID="LinkButtonEmpty" runat="server" Text="empty json/xml source form" OnClick="LinkButtonEmpty_Click" /> &nbsp;           
         </div>
     </form>
 </asp:Content>

@@ -141,13 +141,13 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanRightCenter;
 
         /// <summary>
-        /// aFroga control.
+        /// aGames control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aFroga;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aGames;
 
         /// <summary>
         /// spanRight control.

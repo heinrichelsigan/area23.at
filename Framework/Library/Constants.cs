@@ -142,6 +142,74 @@ namespace Area23.At.Framework.Library
  	} 
  }";
 
+        public const string XML_SAMPLE = @"<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>
+<ns2:Invoice xmlns=""http://www.w3.org/2000/09/xmldsig#"" xmlns:ns2=""http://www.ebinterface.at/schema/4p1/"" xmlns:ns3=""http://www.ebinterface.at/schema/4p1/extensions/sv"" xmlns:ns4=""http://www.ebinterface.at/schema/4p1/extensions/ext"" ns2:GeneratingSystem=""AUSTRIAPRO.ebInterface.Formular"" ns2:DocumentType=""Invoice"" ns2:InvoiceCurrency=""EUR"" ns2:ManualProcessing=""false"" ns2:DocumentTitle=""20240808"" ns2:Language=""deu"">
+    <ns2:InvoiceNumber>20240808</ns2:InvoiceNumber><ns2:InvoiceDate>2024-08-08</ns2:InvoiceDate>
+    <ns2:Delivery><ns2:Date>2024-08-08</ns2:Date></ns2:Delivery>
+    <ns2:Biller>
+        <ns2:VATIdentificationNumber>ATU72804824</ns2:VATIdentificationNumber>
+        <ns2:Address>   
+                <ns2:AddressIdentifier ns2:AddressIdentifierType=""GLN"">9110005479907</ns2:AddressIdentifier>
+            <ns2:Name>Heinrich Georg Elsigan</ns2:Name>
+            <ns2:Street>Theresianumgasse 6/28</ns2:Street>
+            <ns2:Town>Wien</ns2:Town>
+            <ns2:ZIP>1040</ns2:ZIP>
+            <ns2:Country>AT</ns2:Country>
+            <ns2:Phone>+43 650 7527928</ns2:Phone>
+            <ns2:Email>office.area23@gmail.com</ns2:Email>
+            <ns2:Contact>Herr Heinrich Elsigan </ns2:Contact>
+        </ns2:Address>
+    </ns2:Biller>
+    <ns2:InvoiceRecipient>
+        <ns2:VATIdentificationNumber>ATU54760904</ns2:VATIdentificationNumber>
+        <ns2:OrderReference>
+            <ns2:OrderID>pooler_Office2PDF</ns2:OrderID>
+        </ns2:OrderReference>
+        <ns2:Address>
+            <ns2:AddressIdentifier ns2:AddressIdentifierType=""GLN"">9110016452449</ns2:AddressIdentifier>
+            <ns2:Name>Logic4BIZ Informationstechnologie Gmbh</ns2:Name>
+            <ns2:Street>Reisnerstraße 53, Hofhaus</ns2:Street>
+            <ns2:Town>Wien</ns2:Town>
+            <ns2:ZIP>1030</ns2:ZIP>
+            <ns2:Country>AT</ns2:Country>
+            <ns2:Phone>+43 1 877 18 81</ns2:Phone>
+            <ns2:Email>office@logic4biz.com</ns2:Email>
+            <ns2:Contact>Herr Peter Fasol </ns2:Contact>
+        </ns2:Address>
+    </ns2:InvoiceRecipient>
+    <ns2:Details>
+        <ns2:ItemList>
+            <ns2:HeaderDescription>
+                Der am 14.05.2024 beauftragte Office2PDF Spooler [ Quelle privates Github repository:
+                github.com/heinrichelsigan/Spooler_Office2PDF ] ist seit heute für den letzten
+                Integrationstest bereit.
+                Release: https://github.com/heinrichelsigan/Spooler_Office2PDF/releases/tag/2024-08-
+                08-final_PDF_Converter_Spooler
+                Ich stelle daher in Absprache mit Matthias Wohlmann den Betrag von 3.696€ inkl. USt. für
+                „Leistung Erstellung PDF Converter Spooler“ Rechnungsnummer 20240808 in Rechnung:
+            </ns2:HeaderDescription>
+        </ns2:ItemList>
+    </ns2:Details>
+    <ns2:Tax>
+        <ns2:VAT/>
+    </ns2:Tax>
+    <ns2:TotalGrossAmount>0</ns2:TotalGrossAmount>
+    <ns2:PayableAmount>0</ns2:PayableAmount>
+    <ns2:PaymentMethod>
+        <ns2:UniversalBankTransaction>
+            <ns2:BeneficiaryAccount>
+                <ns2:BIC>BKAUATWW</ns2:BIC>
+                <ns2:IBAN>AT88 1100 0104 7029 6400</ns2:IBAN>
+                <ns2:BankAccountOwner>Heinrich Elsigan</ns2:BankAccountOwner>
+            </ns2:BeneficiaryAccount>
+            <ns2:PaymentReference>20240808</ns2:PaymentReference>
+        </ns2:UniversalBankTransaction>
+    </ns2:PaymentMethod>
+    <ns2:PaymentConditions>
+        <ns2:DueDate>2033-01-13</ns2:DueDate>
+    </ns2:PaymentConditions>
+</ns2:Invoice>";
+
         #endregion public const
 
         #region properties
@@ -291,7 +359,15 @@ namespace Area23.At.Framework.Library
                 return (bool)HttpContext.Current.Session[FORTUNE_BOOL];
             }
         }
-
+        
+        public static bool RandomBool
+        {
+            get => ((DateTime.Now.Millisecond % 2) == 0);
+            //{
+            //    return ((DateTime.Now.Millisecond % 2) == 0) ? true : false;
+            //}
+        }
+        
         #endregion properties
     }
 

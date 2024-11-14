@@ -35,7 +35,7 @@ namespace Area23.At.Mono
             // this.aByteTransColor.HRef = LibPaths.BaseAppPath + "ByteTransColor.aspx";
             this.aAesCrypt.HRef = LibPaths.EncodeAppPath + "AesImprove.aspx";
             this.aRpnCalc.HRef = LibPaths.CalcAppPath + "RpnCalc.aspx";
-            this.aFroga.HRef = LibPaths.BaseAppPath + "froga.aspx";
+            this.aGames.HRef = LibPaths.GamesAppPath + "froga.aspx";
             this.aSchnapsNet.HRef = "/mono/SchnapsNet/";
         }
 

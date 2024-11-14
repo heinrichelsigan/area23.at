@@ -1,10 +1,13 @@
-﻿using Org.BouncyCastle.Crypto.Generators;
+﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Org.BouncyCastle.Crypto.Generators;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Area23.At.Framework.Library
 {
@@ -499,6 +502,53 @@ namespace Area23.At.Framework.Library
 
 
         #endregion genericsT_extensions
+
+        #region serializer_xml_json
+
+        public static bool IsValidXml(this string xml)
+        {
+            try
+            {
+                XDocument.Parse(xml);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool IsValidJson(this string strInput)
+        {
+            if (string.IsNullOrWhiteSpace(strInput)) { return false; }
+            strInput = strInput.Trim();
+            if ((strInput.StartsWith("{") && strInput.EndsWith("}")) || //For object
+                (strInput.StartsWith("[") && strInput.EndsWith("]"))) //For array
+            {
+                try
+                {
+                    var obj = JToken.Parse(strInput);
+                    return true;
+                }
+                catch (JsonReaderException jex)
+                {
+                    //Exception in parsing json
+                    Console.WriteLine(jex.Message);
+                    return false;
+                }
+                catch (Exception ex) //some other exception
+                {
+                    Console.WriteLine(ex.ToString());
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        #endregion serializer_xml_json
 
     }
 

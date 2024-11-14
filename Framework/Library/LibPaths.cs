@@ -17,6 +17,7 @@ namespace Area23.At.Framework.Library
         private static string resAppPath = null;
         private static string qrAppPath = null;
         private static string encodeAppPath = null;
+        private static string gamesAppPath = null;
         private static string unixAppPath = null;
         private static string calcAppPath = null;
         private static string appDirPath = null;
@@ -187,6 +188,21 @@ namespace Area23.At.Framework.Library
                         encodeAppPath += Constants.ENCODE_DIR + "/";
                 }
                 return encodeAppPath;
+            }
+        }
+
+
+        public static string GamesAppPath
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(gamesAppPath))
+                {
+                    gamesAppPath = BaseAppPath;
+                    if (!gamesAppPath.Contains("/" + Constants.ENCODE_DIR + "/"))
+                        gamesAppPath += Constants.ENCODE_DIR + "/";
+                }
+                return gamesAppPath;
             }
         }
 

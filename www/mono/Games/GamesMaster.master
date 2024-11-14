@@ -1,0 +1,24 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="GamesMaster.master.cs" Inherits="Area23.At.Mono.Games.GamesMaster" %>
+<asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
+    <asp:ContentPlaceHolder ID="EncodeHead" runat="server">
+        <title>Encode tools (apache2 mod_mono)</title>
+        <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
+        <meta name="keywords" content="encode decode uuencode uudecode mime base64 aes encrypt decrypt" />
+        <meta name="description" content="https://github.com/heinrichelsigan/area23.at/" />
+        <meta name="author" content="Heinrich Elsigan (he@area23.at)" />
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
+    <div id="rowqr" class="headercard" align="left">         
+        <span id="headerLeft" runat="server" class="headerLeft" align="center" valign="middle"><a id="aGameFrogger" runat="server" class="spanHeaderA" href="<%= Area23.At.Framework.Library.LibPaths.GamesAppPath %>Frogger.aspx">Frogger</a></span>
+        <span id="headerLeftCenter" runat="server" class="headerCenter" align="center" valign="middle"><a id="aGameFroga" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.GamesAppPath %>froga.aspx'>frogA</a></span>
+        <span id="headerCenter" runat="server" class="headerCenter" align="center" valign="middle">a simple <a id="aGameFrogB" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.GamesAppPath %>frogb.aspx'>frogB</a></span>
+        <span id="headerRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a id="aGameFrogC" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.GamesAppPath %>frogc.aspx'>frogC</a></span>
+        <span id="headerRight" runat="server" class="headerRight" align="center" valign="right"><a id="aGameFrogD" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.GamesAppPath %>frogd.aspx'>frogD</a></span>
+    </div>
+    <hr />    
+    <asp:ContentPlaceHolder ID="EncodeBody" runat="server">
+        <form id="EncodeMasterForm" runat="server">
+        </form> 
+    </asp:ContentPlaceHolder>
+</asp:Content>

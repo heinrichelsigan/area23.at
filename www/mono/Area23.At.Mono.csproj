@@ -130,6 +130,7 @@
     <Content Include="Encode\ImgPngCrypt.aspx" />
     <Content Include="Encode\S.aspx" />
     <Content Include="Encode\UueMime.aspx" />
+    <Content Include="Games\Frogger.aspx" />
     <Content Include="res\css\ccalcweb.css" />
     <Content Include="res\img\a_hash.png" />
     <Content Include="res\img\a_right_hover.gif" />
@@ -161,7 +162,7 @@
     <Content Include="res\img\transparent.png" />
     <Content Include="res\js\rpn.js" />
     <Content Include="Unix\HexDump.aspx" />
-    <Content Include="froga.aspx" />
+    <Content Include="Games\froga.aspx" />
     <Content Include="Qr\Qr.aspx" />
     <Content Include="Qr\QRGen.aspx" />
     <Content Include="res\audio\frogaGameOver.mp3" />
@@ -325,6 +326,13 @@
     <Compile Include="Calc\RpnCalc.aspx.designer.cs">
       <DependentUpon>RpnCalc.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Games\GamesMaster.master.cs">
+      <DependentUpon>GamesMaster.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Games\GamesMaster.master.designer.cs">
+      <DependentUpon>GamesMaster.master</DependentUpon>
+    </Compile>
     <Compile Include="SAES_En_Decrypt.aspx.cs">
       <DependentUpon>SAES_En_Decrypt.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -433,6 +441,7 @@
     <Content Include="Area23.Master" />
     <Content Include="log\2024-03-00_Area23.At.Mono.log" />
     <Content Include="Encode\EncodeMaster.master" />
+    <Content Include="Games\GamesMaster.master" />
     <None Include="packages.config" />
     <Content Include="res\text\fortune.u8" />
     <Content Include="Qr\QRMaster.master" />
