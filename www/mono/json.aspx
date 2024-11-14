@@ -35,21 +35,7 @@
             this.LinkButtonEmpty.Text = "empty json form";
         }
 
-        if (this.TextBoxJson.Text.IsValidJson())
-        {
-            this.LiteralDateTime.Text = Constants.DateArea23 + "json 2 xml.";
-            this.LinkButtonJSON.Visible = true;
-            this.LinkButtonJSON.BackColor = System.Drawing.Color.Green;
-            this.LinkButtonJsonTreePaths.BackColor = System.Drawing.Color.IndianRed;
-            this.LinkButtonXML2Json.BackColor = System.Drawing.Color.IndianRed;
-        }
-        else if (this.TextBoxJson.Text.IsValidXml())
-        {
-            this.LiteralDateTime.Text = Constants.DateArea23 + "xml 2 json.";
-            this.LinkButtonJSON.BackColor = System.Drawing.Color.IndianRed;
-            this.LinkButtonJsonTreePaths.BackColor = System.Drawing.Color.IndianRed;
-            this.LinkButtonXML2Json.BackColor = System.Drawing.Color.Green;
-        }
+        TextBoxJson_OnTextChanged(sender, e);
 
     }
 
@@ -104,6 +90,8 @@
         outs0 += json.Replace(",\"", ",\r\n\"") + "\r\n";
         this.jsonPreOut.InnerText += outs0;
     }
+
+
 
     void LinkButtonJsonTreePaths_Click(Object sender, EventArgs e)
     {
@@ -168,6 +156,25 @@
         }
     }
 
+    void TextBoxJson_OnTextChanged(object sender, EventArgs e)
+    {
+	    if (this.TextBoxJson.Text.IsValidJson())
+        {
+            this.LiteralDateTime.Text = Constants.DateArea23 + "json 2 xml.";
+            this.LinkButtonJSON.Visible = true;
+            this.LinkButtonJSON.BackColor = System.Drawing.Color.Green;
+            this.LinkButtonJsonTreePaths.BackColor = System.Drawing.Color.IndianRed;
+            this.LinkButtonXML2Json.BackColor = System.Drawing.Color.IndianRed;
+        }
+        else if (this.TextBoxJson.Text.IsValidXml())
+        {
+            this.LiteralDateTime.Text = Constants.DateArea23 + "xml 2 json.";
+            this.LinkButtonJSON.BackColor = System.Drawing.Color.IndianRed;
+            this.LinkButtonJsonTreePaths.BackColor = System.Drawing.Color.IndianRed;
+            this.LinkButtonXML2Json.BackColor = System.Drawing.Color.Green;
+        }	
+	}
+
     string GetJsonTreeObject(JToken o, string outp, int depth, bool html = false)
     {
         int jsninc = 1;
@@ -223,7 +230,7 @@
         <asp:Literal ID="LiteralDateTime" runat="server"></asp:Literal>
         <div class="jsonRow" style="display:block; width:100%;">
             <div class="jsonColumn" style="width:49%; float: left; display: inline-block;">
-                <asp:TextBox ID="TextBoxJson" runat="server" TextMode="MultiLine" ToolTip="Put your JSON string here" ValidateRequestMode="Disabled" CausesValidation="false" Width="98%" Height="320px" 
+                <asp:TextBox ID="TextBoxJson" runat="server" TextMode="MultiLine" ToolTip="Put your JSON string here" AutoPostBack="true"  OnTextChanged="TextBoxJson_OnTextChanged" ValidateRequestMode="Disabled" CausesValidation="false" Width="98%" Height="320px" 
                     Style="table-layout: fixed;" />
             </div>
             <div class="jsonColumn" style="width:49%; float: left; display: inline-block;">
