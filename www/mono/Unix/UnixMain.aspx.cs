@@ -33,7 +33,7 @@ namespace Area23.At.Mono.Unix
                 string digiSeconds = (seconds < 10) ? "0" + seconds : seconds.ToString();
                 int minutes = DateTime.Now.Minute;
                 string digiMinutes = (minutes < 10) ? "0" + minutes : minutes.ToString();
-                int hours = DateTime.Now.Minute;
+                int hours = DateTime.Now.Hour;
                 string digiHours = (hours < 10) ? "0" + hours : hours.ToString();
 
                 spanSecondsId.InnerText = digiSeconds;
