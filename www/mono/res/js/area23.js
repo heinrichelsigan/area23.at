@@ -81,9 +81,43 @@ function InitTimeDigital() {
 
     time_d = hours_d + ":" + minutes_d + ":" + seconds_d;
 
-    document.getElementById("spanHoursId").innerText = hours_d;
-    document.getElementById("spanMinutesId").innerText = minutes_d;
-    document.getElementById("spanSecondsId").innerText = seconds_d;
+
+    var hoursId = "spanHoursId";
+    if (document.getElementById(hoursId) != null) {
+        document.getElementById(hoursId).innerText = digiHours;
+    } else {
+        const hourNames = document.getElementsByName("spanHours");
+        hoursId = hourNames[0].id;
+        if (document.getElementById(hoursId) != null) {
+            document.getElementById(hoursId).innerText = digiHours;
+        }
+    }
+
+    var minutesId = "spanMinutesId";
+    if (document.getElementById(minutesId) != null) {
+        document.getElementById(minutesId).innerText = digiMinutes;
+    } else {
+        const minutesNames = document.getElementsByName("spanMinutes");
+        minutesId = minutesNames[0].id;
+        if (document.getElementById(minutesId) != null) {
+            document.getElementById(minutesId).innerText = digiMinutes;
+        }
+    }
+
+    var secondsId = "spanSecondsId";
+    if (document.getElementById(secondsId) != null) {
+        document.getElementById(secondsId).innerText = digiSeconds;
+    } else {
+        const secondsNames = document.getElementsByName("spanSeconds");
+        secondsId = secondsNames[0].id;
+        if (document.getElementById(secondsId) != null) {
+            document.getElementById(secondsId).innerText = digiSeconds;
+        }
+    }
+
+    // document.getElementById("spanHoursId").innerText = hours_d;
+    // document.getElementById("spanMinutesId").innerText = minutes_d;
+    // document.getElementById("spanSecondsId").innerText = seconds_d;
 
     if (seconds == 0) {
         if (minutes == 0) {
