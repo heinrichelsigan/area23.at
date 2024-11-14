@@ -83,6 +83,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="MimeType.cs" />
     <Compile Include="LibPaths.cs" />
+    <Compile Include="Net\MyAddr.cs" />
     <Compile Include="ProcessCmd.cs" />
     <Compile Include="Properties\Resource.Designer.cs">
       <AutoGen>True</AutoGen>

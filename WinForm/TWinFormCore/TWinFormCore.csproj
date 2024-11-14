@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <TargetFramework>net8.0-windows8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -10,10 +10,11 @@
     <Copyright>Copyleft ©  2000 - 2032</Copyright>
     <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>
     <PackageProjectUrl>https://github.com/heinrichelsigan/area23.at</PackageProjectUrl>
-    <AssemblyVersion>2.24.1014</AssemblyVersion>
-    <FileVersion>2.24.1014</FileVersion>
+    <AssemblyVersion>2.24.1105</AssemblyVersion>
+    <FileVersion>2.24.1105</FileVersion>
     <Description>area23.at Heinrich Elsigan</Description>
     <StartupObject>Area23.At.WinForm.TWinFormCore.Program</StartupObject>
+    <Title>Transparent Form .NetCore</Title>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -38,7 +39,7 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>Resources.resx</DependentUpon>
         </Compile>
-        <Compile Update="TransparentBadge.cs" />
+        <Compile Update="UI\Forms\TransparentBadge.cs" />
         <Compile Update="TWinForm.cs">
             <SubType>TWinForm</SubType>
         </Compile>
@@ -49,6 +50,18 @@
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
+	</ItemGroup>
+    
+	<ItemGroup>
+	  <Folder Include="res\bin\" />
+	  <Folder Include="res\out\" />
+	  <Folder Include="UI\Control\" />
+	</ItemGroup>
+    
+	<ItemGroup>
+	  <None Update="res\text\fortune.u8">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>

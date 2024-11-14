@@ -1,4 +1,4 @@
-﻿namespace Area23.At.WinForm.TWinFormCore
+﻿namespace Area23.At.WinForm.TWinFormCore.UI.Forms
 {
     partial class TransparentBadge
     {

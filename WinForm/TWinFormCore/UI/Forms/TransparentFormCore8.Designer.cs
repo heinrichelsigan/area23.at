@@ -1,4 +1,4 @@
-﻿namespace Area23.At.WinForm.TWinFormCore
+﻿namespace Area23.At.WinForm.TWinFormCore.UI.Forms
 {
     partial class TransparentFormCore8
     {
@@ -39,6 +39,8 @@
             toolStripMenuItemLoad = new ToolStripMenuItem();
             toolStripMenuItemSave = new ToolStripMenuItem();
             toolStripMenuUnix = new ToolStripMenuItem();
+            myAddrToolStripMenuItem = new ToolStripMenuItem();
+            fortnuneToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuQr = new ToolStripMenuItem();
             cryptToolStripMenu = new ToolStripMenuItem();
             toolStripMenuItemEnDeCode = new ToolStripMenuItem();
@@ -89,7 +91,7 @@
             toolStripMenuItemNew.Name = "toolStripMenuItemNew";
             toolStripMenuItemNew.Padding = new Padding(0, 2, 0, 2);
             toolStripMenuItemNew.ShortcutKeys = Keys.Alt | Keys.N;
-            toolStripMenuItemNew.Size = new Size(180, 24);
+            toolStripMenuItemNew.Size = new Size(153, 24);
             toolStripMenuItemNew.Text = "New";
             toolStripMenuItemNew.Click += toolStripMenuItemNew_Click;
             // 
@@ -103,7 +105,7 @@
             toolStripMenuItemOld.Name = "toolStripMenuItemOld";
             toolStripMenuItemOld.Padding = new Padding(0, 2, 0, 2);
             toolStripMenuItemOld.ShortcutKeys = Keys.Alt | Keys.O;
-            toolStripMenuItemOld.Size = new Size(180, 24);
+            toolStripMenuItemOld.Size = new Size(153, 24);
             toolStripMenuItemOld.Text = "Old";
             toolStripMenuItemOld.TextImageRelation = TextImageRelation.ImageAboveText;
             toolStripMenuItemOld.Click += toolStripMenuItemOld_Click;
@@ -113,7 +115,7 @@
             toolStripSeparator1.BackColor = Color.Transparent;
             toolStripSeparator1.ForeColor = SystemColors.Desktop;
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(150, 6);
             // 
             // toolStripMenuItemClose
             // 
@@ -121,7 +123,7 @@
             toolStripMenuItemClose.ForeColor = SystemColors.Desktop;
             toolStripMenuItemClose.Name = "toolStripMenuItemClose";
             toolStripMenuItemClose.Padding = new Padding(0, 2, 0, 2);
-            toolStripMenuItemClose.Size = new Size(180, 24);
+            toolStripMenuItemClose.Size = new Size(153, 24);
             toolStripMenuItemClose.Text = "Close";
             toolStripMenuItemClose.Click += toolStripMenuItemClose_Click;
             // 
@@ -132,7 +134,7 @@
             toolStripMenuItemExit.Name = "toolStripMenuItemExit";
             toolStripMenuItemExit.Padding = new Padding(0, 2, 0, 2);
             toolStripMenuItemExit.ShortcutKeys = Keys.Alt | Keys.X;
-            toolStripMenuItemExit.Size = new Size(180, 24);
+            toolStripMenuItemExit.Size = new Size(153, 24);
             toolStripMenuItemExit.Text = "Exit";
             toolStripMenuItemExit.Click += toolStripMenuItemExit_Click;
             // 
@@ -157,7 +159,7 @@
             toolStripMenuItemLoad.ImageTransparentColor = SystemColors.Control;
             toolStripMenuItemLoad.Name = "toolStripMenuItemLoad";
             toolStripMenuItemLoad.Padding = new Padding(0, 2, 0, 2);
-            toolStripMenuItemLoad.Size = new Size(180, 24);
+            toolStripMenuItemLoad.Size = new Size(109, 24);
             toolStripMenuItemLoad.Text = "Load";
             toolStripMenuItemLoad.Click += toolStripMenuItemLoad_Click;
             // 
@@ -168,7 +170,7 @@
             toolStripMenuItemSave.ForeColor = SystemColors.Desktop;
             toolStripMenuItemSave.ImageScaling = ToolStripItemImageScaling.None;
             toolStripMenuItemSave.Name = "toolStripMenuItemSave";
-            toolStripMenuItemSave.Size = new Size(180, 22);
+            toolStripMenuItemSave.Size = new Size(109, 22);
             toolStripMenuItemSave.Text = "Save";
             toolStripMenuItemSave.Click += toolStripMenuItemSave_Click;
             // 
@@ -176,6 +178,7 @@
             // 
             toolStripMenuUnix.BackColor = SystemColors.ControlLight;
             toolStripMenuUnix.BackgroundImageLayout = ImageLayout.None;
+            toolStripMenuUnix.DropDownItems.AddRange(new ToolStripItem[] { myAddrToolStripMenuItem, fortnuneToolStripMenuItem });
             toolStripMenuUnix.ForeColor = SystemColors.Desktop;
             toolStripMenuUnix.ImageTransparentColor = Color.Transparent;
             toolStripMenuUnix.Name = "toolStripMenuUnix";
@@ -183,6 +186,20 @@
             toolStripMenuUnix.ShortcutKeys = Keys.Alt | Keys.U;
             toolStripMenuUnix.Size = new Size(50, 21);
             toolStripMenuUnix.Text = "Unix";
+            // 
+            // myAddrToolStripMenuItem
+            // 
+            myAddrToolStripMenuItem.Name = "myAddrToolStripMenuItem";
+            myAddrToolStripMenuItem.Size = new Size(180, 22);
+            myAddrToolStripMenuItem.Text = "MyAddr";
+            myAddrToolStripMenuItem.Click += myAddrToolStripMenuItem_Click;
+            // 
+            // fortnuneToolStripMenuItem
+            // 
+            fortnuneToolStripMenuItem.Name = "fortnuneToolStripMenuItem";
+            fortnuneToolStripMenuItem.Size = new Size(180, 22);
+            fortnuneToolStripMenuItem.Text = "Fortnune";
+            fortnuneToolStripMenuItem.Click += fortnuneToolStripMenuItem_Click;
             // 
             // toolStripMenuQr
             // 
@@ -252,7 +269,7 @@
             toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
             toolStripMenuItemAbout.Padding = new Padding(0, 2, 0, 2);
             toolStripMenuItemAbout.ShortcutKeys = Keys.Alt | Keys.A;
-            toolStripMenuItemAbout.Size = new Size(180, 24);
+            toolStripMenuItemAbout.Size = new Size(166, 24);
             toolStripMenuItemAbout.Text = "About";
             toolStripMenuItemAbout.TextImageRelation = TextImageRelation.TextAboveImage;
             toolStripMenuItemAbout.Click += toolStripMenuItemAbout_Click;
@@ -265,7 +282,7 @@
             toolStripMenuItemHelp.Name = "toolStripMenuItemHelp";
             toolStripMenuItemHelp.Padding = new Padding(0, 2, 0, 2);
             toolStripMenuItemHelp.ShortcutKeys = Keys.Alt | Keys.H;
-            toolStripMenuItemHelp.Size = new Size(180, 24);
+            toolStripMenuItemHelp.Size = new Size(166, 24);
             toolStripMenuItemHelp.Text = "Help";
             // 
             // toolStripMenuItemInfo
@@ -276,7 +293,7 @@
             toolStripMenuItemInfo.ImageTransparentColor = Color.Transparent;
             toolStripMenuItemInfo.Name = "toolStripMenuItemInfo";
             toolStripMenuItemInfo.ShortcutKeys = Keys.Alt | Keys.I;
-            toolStripMenuItemInfo.Size = new Size(180, 22);
+            toolStripMenuItemInfo.Size = new Size(166, 22);
             toolStripMenuItemInfo.Text = "Info";
             toolStripMenuItemInfo.TextImageRelation = TextImageRelation.TextAboveImage;
             toolStripMenuItemInfo.Click += toolStripMenuItemInfo_Click;
@@ -338,5 +355,7 @@
         private ToolStripMenuItem toolStripMenuItemEnDeCode;
         private ToolStripMenuItem toolStripMenuItemCrypt;
         private SaveFileDialog saveFileDialog;
+        private ToolStripMenuItem myAddrToolStripMenuItem;
+        private ToolStripMenuItem fortnuneToolStripMenuItem;
     }
 }

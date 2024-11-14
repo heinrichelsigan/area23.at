@@ -1,6 +1,7 @@
 using Area23.At.Framework.Library.Core;
 using Area23.At.Framework;
 using Area23.At.Framework.Library.Core.Win32Api;
+using Area23.At.WinForm.TWinFormCore.UI.Forms;
 using System.Reflection;
 using System.Linq;
 
@@ -49,8 +50,9 @@ namespace Area23.At.WinForm.TWinFormCore
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
 
             // MessageBox.Show("ScreenCapture", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            
-            Application.Run(new TransparentFormCore8());
+
+            TransparentFormCore8 transparentFormCore8 = new TransparentFormCore8();
+            Application.Run(transparentFormCore8);
 
             ReleaseCloseDisposeMutex();
         }
