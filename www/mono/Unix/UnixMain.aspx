@@ -56,7 +56,6 @@
             }
 
             console.log(`Digital time: ${digiTime}`);
-
             return digiTime;
         }
 

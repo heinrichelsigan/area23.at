@@ -1,7 +1,10 @@
 ﻿/*
-    2024-11-15 area23.js merged with  digiclock.js © by Heinrich Elsigan
-    https://darkstar.work/js/area23.js
+    2024-11-15 area23.js merged with digiclock.js © by Heinrich Elsigan
+    https://area23.at/net/res/js/area23.js
     https://area23.at/js/area23.js
+    
+    DigiClock.js https://area23.at/net/res/js/digiclock.js 
+        moved to => https://area23.at/net/res/js/area23.js
 */
 
 var hours, minutes, seconds;
@@ -92,7 +95,6 @@ function InitTimeDigital() {
     }
 
     console.log(`Digital time: ${digiTime}`);
-
     return digiTime;
 }
 
