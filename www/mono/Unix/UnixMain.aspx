@@ -22,6 +22,7 @@
         }; 
 
         function setDigiTime() {
+
             try {
                 InitTimeDigital();
             } catch (exDigiTime) {
@@ -33,6 +34,10 @@
         }
 
         function initDigiTime() {
+
+            var hours, minutes, seconds;
+            var digiYear, digiMonth, digiDay, digiTime, digiHours, digiMinutes, digiSeconds;
+
             const now = new Date(Date.now());
             seconds = now.getSeconds();
             digiSeconds = (seconds < 10) ? "0" + seconds : seconds + "";

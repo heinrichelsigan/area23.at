@@ -7,8 +7,7 @@
         moved to => https://area23.at/net/res/js/area23.js
 */
 
-var hours, minutes, seconds;
-var digiYear, digiMonth, digiDay, digiTime, digiHours, digiMinutes, digiSeconds;
+var hours_n, minutes_n, seconds_n, hours_d, minutes_d, seconds_d, time_d, year_d, month_d, day_d;
 var buttonQRCode, inputcolor, inputbackcolor, colorpicker, backcolorpicker;
 
 
@@ -73,29 +72,29 @@ function SetTimeDigital() {
 
 function InitTimeDigital() {
     const now = new Date(Date.now());
-    seconds = now.getSeconds();
-    digiSeconds = (seconds < 10) ? "0" + seconds : seconds + "";
-    minutes = now.getMinutes();
-    digiMinutes = (minutes < 10) ? ("0" + minutes) : (minutes + "");
-    hours = now.getHours();
-    digiHours = (hours < 10) ? ("0" + hours) : (hours + "");
+    seconds_n = now.getSeconds();
+    seconds_d = (seconds_n < 10) ? "0" + seconds_n : seconds_n + "";
+    minutes_n = now.getMinutes();
+    minutes_d = (minutes_n < 10) ? ("0" + minutes_n) : (minutes_n + "");
+    hours_n = now.getHours();
+    hours_d = (hours_n < 10) ? ("0" + hours_n) : (hours_n + "");
 
-    digiTime = digiHours + ":" + digiMinutes + ":" + digiSeconds;
+    time_d = hours_d + ":" + minutes_d + ":" + seconds_d;
 
-    document.getElementById("spanHoursId").innerText = digiHours;
-    document.getElementById("spanMinutesId").innerText = digiMinutes;
-    document.getElementById("spanSecondsId").innerText = digiSeconds;
+    document.getElementById("spanHoursId").innerText = hours_d;
+    document.getElementById("spanMinutesId").innerText = minutes_d;
+    document.getElementById("spanSecondsId").innerText = seconds_d;
 
     if (seconds == 0) {
         if (minutes == 0) {
-            alert("Digital time: " + digiTime);
+            alert("Digital time: " + time_d);
             ReloadForm();
             return;
         }        
     }
 
-    console.log(`Digital time: ${digiTime}`);
-    return digiTime;
+    console.log(`Digital time: ${time_d}`);
+    return time_d;
 }
 
 
