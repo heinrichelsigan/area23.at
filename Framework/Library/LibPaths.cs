@@ -199,8 +199,8 @@ namespace Area23.At.Framework.Library
                 if (String.IsNullOrEmpty(gamesAppPath))
                 {
                     gamesAppPath = BaseAppPath;
-                    if (!gamesAppPath.Contains("/" + Constants.ENCODE_DIR + "/"))
-                        gamesAppPath += Constants.ENCODE_DIR + "/";
+                    if (!gamesAppPath.Contains("/" + Constants.GAMES_DIR + "/"))
+                        gamesAppPath += Constants.GAMES_DIR + "/";
                 }
                 return gamesAppPath;
             }

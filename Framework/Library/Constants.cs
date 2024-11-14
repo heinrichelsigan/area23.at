@@ -45,6 +45,7 @@ namespace Area23.At.Framework.Library
         public const string BIN_DIR = "bin";
         public const string JS_DIR = "js";
         public const string CSS_DIR = "css";
+        public const string GAMES_DIR = "Games";
         public const string JSON_SAVE_FILE = "urlshort.json";
         public const string UTF8_JSON = "utf8symol.json";
 
