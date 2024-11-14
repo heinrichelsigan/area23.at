@@ -47,7 +47,7 @@
         {
             this.LiteralDateTime.Text = Constants.DateArea23 + "xml 2 json.";
             this.LinkButtonJSON.BackColor = System.Drawing.Color.IndianRed;
-            this.LinkButtonJsonTreePaths.BackColor = System.Drawing.Color.Green;
+            this.LinkButtonJsonTreePaths.BackColor = System.Drawing.Color.IndianRed;
             this.LinkButtonXML2Json.BackColor = System.Drawing.Color.Green;
         }
 
