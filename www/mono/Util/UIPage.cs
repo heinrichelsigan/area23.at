@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace Area23.At.Mono.Util
@@ -91,21 +92,9 @@ namespace Area23.At.Mono.Util
             {
                 fileName = Constants.DateFile + Guid.NewGuid().ToString();
             }
-            string ext = "hex";
-            string extension = "oct";
-            try
-            {
-                string mimeTypeExt = MimeType.GetMimeType(bytes, strPath + fileName);
-                extension = MimeType.GetFileExtForMimeTypeApache(mimeTypeExt);
-                // GetMimeTypeForImageBytes(bytes);
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogStatic(ex);
-                ext = "hex";
-            }
+            string ext = "hex";            
 
-            if (fileName.LastIndexOf(".") < (fileName.Length - 5))
+            if (fileName.LastIndexOf(".") < (fileName.Length - 8))
                 fileName += "." + ext;
 
             string newFileName = fileName;
@@ -138,11 +127,61 @@ namespace Area23.At.Mono.Util
                 if (fileName.EndsWith("tmp"))
                 {
                     string extR = MimeType.GetFileExtForMimeTypeApache(mimeType);
-                    newFileName = fileName.Replace("tmp", extR);
-                    System.IO.File.Move(strPath, LibPaths.OutDirPath + newFileName);
+                    if (extR.ToLowerInvariant().Equals("hex") || extR.ToLowerInvariant().Equals("oct"))
+                        newFileName = fileName;
+                    else
+                    {
+                        newFileName = fileName.Replace("tmp", extR);
+                        System.IO.File.Move(strPath, LibPaths.OutDirPath + newFileName);
+                    }
+                    
                     outMsg += newFileName;
+
                     return newFileName;
                 }
+                outMsg += fileName;
+                return fileName;
+            }
+            outMsg = null;
+            return null;
+        }
+
+        protected virtual string StringToFile(string encodedText, out string outMsg, string fileName = null)
+        {
+            string strPath = LibPaths.OutDirPath;
+            outMsg = String.Empty;
+            if (string.IsNullOrEmpty(fileName))
+            {
+                fileName = Constants.DateFile + Guid.NewGuid().ToString();
+            }
+            string ext = "hex";
+
+            if (fileName.LastIndexOf(".") < (fileName.Length - 8))
+                fileName += "." + ext;
+
+            string newFileName = fileName;
+
+            strPath = LibPaths.OutDirPath + fileName;
+            try
+            {
+                while (System.IO.File.Exists(strPath))
+                {
+                    newFileName = fileName.Contains(Constants.DateFile) ?
+                        Constants.DateFile + Guid.NewGuid().ToString() + "_" + fileName :
+                        Constants.DateFile + fileName;
+                    strPath = LibPaths.OutDirPath + newFileName;
+                    outMsg = String.Format("{0} already exists on server, saving it to ", fileName);
+                    fileName = newFileName;
+                }
+                File.WriteAllText(strPath, encodedText, Encoding.UTF8);
+            }
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);
+            }
+
+            if (System.IO.File.Exists(strPath))
+            {                
                 outMsg += fileName;
                 return fileName;
             }

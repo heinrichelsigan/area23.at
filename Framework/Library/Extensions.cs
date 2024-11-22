@@ -355,6 +355,17 @@ namespace Area23.At.Framework.Library
             return _color;
         }
 
+
+        public static string GetExtensionFromFileString(this string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName) || !fileName.Contains("."))
+                return null;
+            int lastIdx = fileName.LastIndexOf('.');
+            string ext = fileName.Substring(lastIdx);
+            
+            return ext;
+        }
+
         #endregion string_extensions
 
         #endregion stream_byteArray_string_extensions

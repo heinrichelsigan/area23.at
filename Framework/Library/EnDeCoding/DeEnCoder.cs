@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.EnDeCoding
 {
+    /// <summary>
+    /// DeEnCoder provides static members for formating
+    /// </summary>
     public static class DeEnCoder
     {
 
@@ -26,6 +29,95 @@ namespace Area23.At.Framework.Library.EnDeCoding
             string ivStr = keyBytes.ToHexString();
             return ivStr;
         }
+
+        /// <summary>
+        /// EncodeEncryptedBytes encodes encrypted byte[] by encodingMethod to an encoded text string
+        /// </summary>
+        /// <param name="encryptBytes">encryptedBytes to encdode</param>
+        /// <param name="encodingMethod">Encoding methods could be 
+        /// "null", "hex16", "base16", "base32", "base32hex", "uu", "base64".
+        /// "base64" is default.</param>
+        /// <param name="fromPlain">Only for uu: true, if <see cref="encryptBytes"/> represent a binary without encryption</param>
+        /// <returns>encoded encrypted string</returns>
+        public static string EncodeEncryptedBytes(byte[] encryptBytes, string encodingMethod = "base64", bool fromPlain = false)
+        {
+            string encryptedText = string.Empty;
+            switch (encodingMethod.ToLowerInvariant())
+            {
+                case "null":        encryptedText = Encoding.UTF8.GetString(encryptBytes); break;
+                case "hex16":       encryptedText = Hex16.ToHex16(encryptBytes); break;
+                case "base16":      encryptedText = Base16.ToBase16(encryptBytes); break;
+                case "base32":      encryptedText = Base32.ToBase32(encryptBytes); break;
+                case "base32hex":   encryptedText = Base32Hex.ToBase32Hex(encryptBytes); break;
+                case "uu":          encryptedText = Uu.ToUu(encryptBytes, fromPlain); break;
+                case "base64":
+                default:            encryptedText = Base64.ToBase64(encryptBytes); break;
+            }
+
+            return encryptedText;
+        }
+
+        /// <summary>
+        /// EncodedTextToBytes transforms an encoded text string into a <see cref="byte[]">býte array</see>
+        /// </summary>
+        /// <param name="cipherText">encoded (encrypted) text string</param>
+        /// <param name="errMsg">out parameter to set an error message</param>
+        /// <param name="encodingMethod">Encoding methods could be 
+        /// "null", "hex16", "base16", "base32", "base32hex", "uu", "base64".
+        /// "base64" is default.</param>
+        /// <param name="fromPlain">Only for uu: true, if <see cref="encryptBytes"/> represent a binary without encryption</param>
+        /// <returns>binary byte array</returns>
+        public static byte[] EncodedTextToBytes(string cipherText, out string errMsg, string encodingMethod = "base64", bool fromPlain = false)
+        {
+            byte[] cipherBytes = null;
+            errMsg = string.Empty;
+            switch (encodingMethod.ToLowerInvariant())
+            {
+                case "null":
+                    cipherBytes = Encoding.UTF8.GetBytes(cipherText);
+                    break;
+                case "hex16":
+                    if (Hex16.IsValidHex16(cipherText))
+                        cipherBytes = Hex16.FromHex16(cipherText);
+                    else
+                        errMsg = "Input Text is not a valid hex16 string!";
+                    break;
+                case "base16":
+                    if (Base16.IsValidBase16(cipherText))
+                        cipherBytes = Base16.FromBase16(cipherText);
+                    else
+                        errMsg = "Input Text is not a valid base16 string!";
+                    break;
+                case "base32":
+                    if (Base32.IsValidBase32(cipherText))
+                        cipherBytes = Base32.FromBase32(cipherText);
+                    else
+                        errMsg = "Input Text isn't a valid base32 string!";
+                    break;
+                case "base32hex":
+                    if (Base32Hex.IsValidBase32Hex(cipherText))
+                        cipherBytes = Base32Hex.FromBase32Hex(cipherText);
+                    else
+                        errMsg = "Input Text isn't a valid base32 hex string!";
+                    break;
+                case "uu":
+                    if (Uu.IsValidUue(cipherText))
+                        cipherBytes = Uu.FromUu(cipherText, fromPlain);
+                    else
+                        errMsg = "Input Text isn't a valid uuencoded string!";
+                    break;
+                case "base64":
+                default:
+                    if (Base64.IsValidBase64(cipherText))
+                        cipherBytes = Base64.FromBase64(cipherText);
+                    else
+                        errMsg = "Input Text isn't a valid base64 string!";
+                    break;
+            }
+
+            return cipherBytes;
+        }
+
 
         /// <summary>
         /// GetBytesFromString gets byte[] array representing binary transformation of a string

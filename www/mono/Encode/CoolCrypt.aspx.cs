@@ -368,7 +368,7 @@ namespace Area23.At.Mono.Encode
                     lblUploadResult.Text = strFileName + " has been successfully uploaded.";
 
                 byte[] fileBytes = pfile.InputStream.ToByteArray();
-                byte[] outBytes = null;
+                byte[] outBytes = new byte[fileBytes.Length];
 
                 if (!string.IsNullOrEmpty(strFileName))
                 {
@@ -381,12 +381,16 @@ namespace Area23.At.Mono.Encode
                     else
                     {
                         int cryptCount = 0;
+                        outBytes = fileBytes;
+                        Array.Copy(fileBytes, 0, outBytes, 0, fileBytes.Length);
+
                         if (crypt)
                         {
-                            byte[] inBytesSeperator = EnDeCoder.GetBytes8("\r\n");
-                            byte[] inBytesKeyHash = EnDeCoder.GetBytes8(this.TextBox_IV.Text);                            
+                            byte[] inBytesSeperator = EnCoderHelper.GetBytes8("\r\n");
+                            byte[] inBytesKeyHash = EnCoderHelper.GetBytes8(this.TextBox_IV.Text);                            
                             byte[] inBytes = Framework.Library.Extensions.TarBytes(fileBytes, inBytesSeperator, inBytesKeyHash);
-                            // byte[] inBytes = fileBytes.TarBytes(inBytesSeperator, inBytesKeyHash);
+                            outBytes = new byte[inBytes.Length];
+                            Array.Copy(inBytes, 0, outBytes, 0, inBytes.Length);
 
                             imgOut.Src = LibPaths.ResAppPath + "img/encrypted.png";
 
@@ -560,7 +564,7 @@ namespace Area23.At.Mono.Encode
         {
             success = false;
             byte[] outBytesSameKey = null;
-            byte[] ivBytesHash = EnDeCoder.GetBytes8("\r\n" + this.TextBox_IV.Text);
+            byte[] ivBytesHash = EnCoderHelper.GetBytes8("\r\n" + this.TextBox_IV.Text);
             // Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
             if (decryptedBytes != null && decryptedBytes.Length > ivBytesHash.Length)
             {

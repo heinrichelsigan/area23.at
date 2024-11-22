@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.EnDeCoding
 {
-    public static class EnDeCoder
+    /// <summary>
+    /// static class EnCoderHelper provides serveral static methods for ASCII, UTF7, UTF8 encoding.
+    /// </summary>
+    public static class EnCoderHelper
     {
 
-        static EnDeCoder()
+        static EnCoderHelper()
         {                
-
         }
 
 

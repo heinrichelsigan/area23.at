@@ -95,8 +95,7 @@ namespace Area23.At.Mono.Encode
 
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
-                string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;
-                string encryptedText = string.Empty;
+                string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;                
 
                 byte[] inBytesText = Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
                 // byte[] inBytesText = DeEnCoder.GetBytesFromString(this.TextBoxSource.Text, 256, false);
@@ -117,17 +116,19 @@ namespace Area23.At.Mono.Encode
                     }
                 }
 
-                switch (this.DropDownList_Encoding.SelectedValue.ToLower())
-                {
-                    case "hex16":       encryptedText = Hex16.ToHex16(encryptBytes); break;
-                    case "base16":      encryptedText = Base16.ToBase16(encryptBytes); break;
-                    case "base32":      encryptedText = Base32.ToBase32(encryptBytes); break;
-                    case "base32hex":   encryptedText = Base32Hex.ToBase32Hex(encryptBytes); break;
-                    case "uu":          encryptedText = (string.IsNullOrEmpty(this.TextBox_Encryption.Text)) ?
-                                            Uu.ToUu(encryptBytes, true) : Uu.ToUu(encryptBytes, false); break;
-                    case "base64":
-                    default:            encryptedText = Base64.ToBase64(encryptBytes); break;
-                }                
+                bool fromPlain = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
+                string encodingMethod = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
+                string encryptedText = DeEnCoder.EncodeEncryptedBytes(encryptBytes, encodingMethod, fromPlain);
+                //switch (encodingMethod)
+                //{
+                //    case "hex16":       encryptedText = Hex16.ToHex16(encryptBytes); break;
+                //    case "base16":      encryptedText = Base16.ToBase16(encryptBytes); break;
+                //    case "base32":      encryptedText = Base32.ToBase32(encryptBytes); break;
+                //    case "base32hex":   encryptedText = Base32Hex.ToBase32Hex(encryptBytes); break;
+                //    case "uu":          encryptedText = Uu.ToUu(encryptBytes, fromPlain); break;
+                //    case "base64":
+                //    default:            encryptedText = Base64.ToBase64(encryptBytes); break;
+                //}                
                 this.TextBoxDestionation.Text = encryptedText;
 
             }
@@ -157,79 +158,87 @@ namespace Area23.At.Mono.Encode
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
                 string cipherText = this.TextBoxSource.Text;
+                bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
                 string decryptedText = string.Empty;
-                byte[] cipherBytes = null;
-                switch (this.DropDownList_Encoding.SelectedValue.ToLower())
+                string encodingMethod = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
+                byte[] cipherBytes  = DeEnCoder.EncodedTextToBytes(cipherText, out string errMsg, encodingMethod, plainUu);
+                if (cipherBytes == null && !string.IsNullOrEmpty(errMsg))
                 {
-                    case "hex16":
-                        if (Hex16.IsValidHex16(this.TextBoxSource.Text))
-                            cipherBytes = Hex16.FromHex16(cipherText);
-                        else
-                        {
-                            this.TextBox_IV.Text = "Input Text is not valid hex16 string!";
-                            this.TextBox_IV.ForeColor = Color.BlueViolet;
-                            this.TextBox_IV.BorderColor = Color.Blue;
-                            return;
-                        }
-                        break;
-                    case "base16":
-                        if (Base16.IsValidBase16(this.TextBoxSource.Text))
-                            cipherBytes = Base16.FromBase16(cipherText);
-                        else
-                        {
-                            this.TextBox_IV.Text = "Input Text is not valid base16 string!";
-                            this.TextBox_IV.ForeColor = Color.BlueViolet;
-                            this.TextBox_IV.BorderColor = Color.Blue;
-                            return;
-                        }
-                        break;
-                    case "base32":
-                        if (Base32.IsValidBase32(this.TextBoxSource.Text))
-                            cipherBytes = Base32.FromBase32(cipherText);
-                        else
-                        {
-                            this.TextBox_IV.Text = "Input Text is not valid base32 string!";
-                            this.TextBox_IV.ForeColor = Color.BlueViolet;
-                            this.TextBox_IV.BorderColor = Color.Blue;
-                            return;
-                        }
-                        break;
-                    case "base32hex":
-                        if (Base32Hex.IsValidBase32Hex(this.TextBoxSource.Text))
-                            cipherBytes = Base32Hex.FromBase32Hex(cipherText);
-                        else
-                        {
-                            this.TextBox_IV.Text = "Input Text is not valid base32 hex string!";
-                            this.TextBox_IV.ForeColor = Color.BlueViolet;
-                            this.TextBox_IV.BorderColor = Color.Blue;
-                            return;
-                        }
-                        break;
-                    case "uu":
-                        if (Uu.IsValidUue(this.TextBoxSource.Text))                        
-                            cipherBytes = (string.IsNullOrEmpty(this.TextBox_Encryption.Text)) ?
-                                Uu.FromUu(cipherText, true) : Uu.FromUu(cipherText, false);                        
-                        else
-                        {
-                            this.TextBox_IV.Text = "Input Text is not valid uuencoded string!";
-                            this.TextBox_IV.ForeColor = Color.BlueViolet;
-                            this.TextBox_IV.BorderColor = Color.Blue;
-                            return;
-                        }
-                        break;
-                    case "base64":
-                    default:
-                        if (Base64.IsValidBase64(this.TextBoxSource.Text))
-                            cipherBytes = Base64.FromBase64(cipherText);
-                        else
-                        {
-                            this.TextBox_IV.Text = "Input Text is not valid base64 string!";
-                            this.TextBox_IV.ForeColor = Color.BlueViolet;
-                            this.TextBox_IV.BorderColor = Color.Blue;
-                            return;
-                        }
-                        break;
+                    this.TextBox_IV.Text = errMsg;
+                    this.TextBox_IV.ForeColor = Color.BlueViolet;
+                    this.TextBox_IV.BorderColor = Color.Blue;
+                    return;
                 }
+                //switch (encodingMethod)
+                //{
+                //    case "hex16":
+                //        if (Hex16.IsValidHex16(cipherText))
+                //            cipherBytes = Hex16.FromHex16(cipherText);
+                //        else
+                //        {
+                //            this.TextBox_IV.Text = "Input Text is not valid hex16 string!";
+                //            this.TextBox_IV.ForeColor = Color.BlueViolet;
+                //            this.TextBox_IV.BorderColor = Color.Blue;
+                //            return;
+                //        }
+                //        break;
+                //    case "base16":
+                //        if (Base16.IsValidBase16(cipherText))
+                //            cipherBytes = Base16.FromBase16(cipherText);
+                //        else
+                //        {
+                //            this.TextBox_IV.Text = "Input Text is not valid base16 string!";
+                //            this.TextBox_IV.ForeColor = Color.BlueViolet;
+                //            this.TextBox_IV.BorderColor = Color.Blue;
+                //            return;
+                //        }
+                //        break;
+                //    case "base32":
+                //        if (Base32.IsValidBase32(cipherText))
+                //            cipherBytes = Base32.FromBase32(cipherText);
+                //        else
+                //        {
+                //            this.TextBox_IV.Text = "Input Text is not valid base32 string!";
+                //            this.TextBox_IV.ForeColor = Color.BlueViolet;
+                //            this.TextBox_IV.BorderColor = Color.Blue;
+                //            return;
+                //        }
+                //        break;
+                //    case "base32hex":
+                //        if (Base32Hex.IsValidBase32Hex(cipherText))
+                //            cipherBytes = Base32Hex.FromBase32Hex(cipherText);
+                //        else
+                //        {
+                //            this.TextBox_IV.Text = "Input Text is not valid base32 hex string!";
+                //            this.TextBox_IV.ForeColor = Color.BlueViolet;
+                //            this.TextBox_IV.BorderColor = Color.Blue;
+                //            return;
+                //        }
+                //        break;
+                //    case "uu":
+                //        if (Uu.IsValidUue(cipherText))                        
+                //            cipherBytes = Uu.FromUu(cipherText, plainUu);                        
+                //        else
+                //        {
+                //            this.TextBox_IV.Text = "Input Text is not valid uuencoded string!";
+                //            this.TextBox_IV.ForeColor = Color.BlueViolet;
+                //            this.TextBox_IV.BorderColor = Color.Blue;
+                //            return;
+                //        }
+                //        break;
+                //    case "base64":
+                //    default:
+                //        if (Base64.IsValidBase64(cipherText))
+                //            cipherBytes = Base64.FromBase64(cipherText);
+                //        else
+                //        {
+                //            this.TextBox_IV.Text = "Input Text is not valid base64 string!";
+                //            this.TextBox_IV.ForeColor = Color.BlueViolet;
+                //            this.TextBox_IV.BorderColor = Color.Blue;
+                //            return;
+                //        }
+                //        break;
+                //}
 
                 byte[] decryptedBytes = cipherBytes;
                 int ig = 0;
@@ -299,7 +308,6 @@ namespace Area23.At.Mono.Encode
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Tea" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Tnepres" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "XTea" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "YenMatrix" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "ZenMatrix")
             {
                 addChiffre = DropDownList_SymChiffer.SelectedValue.ToString() + ";"; 
@@ -350,7 +358,11 @@ namespace Area23.At.Mono.Encode
             // Get the name of the file that is posted.
             string strFileName = pfile.FileName;
             strFileName = Path.GetFileName(strFileName);
-            // string strFilePath;
+            string savedTransFile = string.Empty;
+            string outMsg = string.Empty;
+            string encodingMethod = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
+            bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
+
             lblUploadResult.Text = "";
 
             if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
@@ -370,69 +382,127 @@ namespace Area23.At.Mono.Encode
                 // pfile.SaveAs(strFilePath);
                 if (string.IsNullOrEmpty(lblUploadResult.Text))
                     lblUploadResult.Text = strFileName + " has been successfully uploaded.";
-
+                
                 byte[] fileBytes = pfile.InputStream.ToByteArray();
-                byte[] outBytes = null;
+                byte[] outBytes = new byte[fileBytes.Length];
 
                 if (!string.IsNullOrEmpty(strFileName))
                 {
                     string[] algos = this.TextBox_Encryption.Text.Split("+;,→⇛".ToCharArray());
-                    if (algos.Length <= 1 || String.IsNullOrEmpty(algos[0]))
+                    string baseEncoding = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
+
+                    //if (algos.Length <= 1 || String.IsNullOrEmpty(algos[0]))
+                    //{
+                    //    imgOut.Src = LibPaths.ResAppPath + "img/file.png";
+                    //    lblUploadResult.Text = "file keept unmodified and uploaded to ";
+                    //}
+                    //else
+                    //{
+                    int cryptCount = 0;
+                    outBytes = fileBytes;
+                    Array.Copy(fileBytes, 0, outBytes, 0, fileBytes.Length);
+
+                    if (crypt)
                     {
-                        imgOut.Src = LibPaths.ResAppPath + "img/file.png";
-                        lblUploadResult.Text = "file keept unmodified and uploaded to ";
+                        byte[] inBytes = fileBytes; //.TarBytes(inBytesSeperator, inBytesKeyHash);                            
+
+                        imgOut.Src = LibPaths.ResAppPath + "img/encrypted.png";
+
+                        foreach (string algo in algos)
+                        {
+                            if (!string.IsNullOrEmpty(algo))
+                            {
+                                outBytes = EncryptBytes(inBytes, algo);
+                                inBytes = outBytes;
+                                cryptCount++;
+                                strFileName += "." + algo.ToLower();
+                            }
+                        }
+
+
+                        savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName);
+                        if (!string.IsNullOrEmpty(savedTransFile) && !string.IsNullOrEmpty(outMsg))
+                        {
+                            lblUploadResult.Text = string.Format("file {0}x encrypted to {1}", cryptCount, outMsg);
+
+                            string encryptedText = DeEnCoder.EncodeEncryptedBytes(outBytes, encodingMethod, plainUu);
+                            strFileName += "." + encodingMethod;
+                            string savedTransFileEnc = this.StringToFile(encryptedText, out outMsg, strFileName);
+
+                            lblUploadResult.Text += string.Format(" and to encoded {0}.", savedTransFileEnc);
+                        }
+                        else
+                            lblUploadResult.Text = "file failed to encrypt and save!";
                     }
                     else
                     {
-                        int cryptCount = 0;
-                        if (crypt)
+
+                        string decryptedText = string.Empty;
+                        byte[] cipherBytes = fileBytes;
+                        Array.Copy(fileBytes, 0, cipherBytes, 0, fileBytes.Length);
+
+                        string ext = strFileName.GetExtensionFromFileString();
+                        switch (ext.ToLowerInvariant())
                         {
-                            // byte[] inBytesSeperator = EnDeCoder.GetBytes8("\r\n");
-                            // byte[] inBytesKeyHash = EnDeCoder.GetBytes8(this.TextBox_IV.Text);                            
-                            // byte[] inBytes = Framework.Library.Extensions.TarBytes(fileBytes, inBytesSeperator, inBytesKeyHash);
-                            byte[] inBytes = fileBytes; //.TarBytes(inBytesSeperator, inBytesKeyHash);
-
-                            imgOut.Src = LibPaths.ResAppPath + "img/encrypted.png";
-
-                            foreach (string algo in algos)
-                            {
-                                if (!string.IsNullOrEmpty(algo))
+                            case "null":
+                            case ".null":
+                            case "hex16":
+                            case ".hex16":
+                            case "base16":
+                            case ".base16":
+                            case "base32":
+                            case ".base32":
+                            case "base32hex":
+                            case ".base32hex":
+                            case "uu":
+                            case ".uu":
+                            case "uue":
+                            case ".uue":
+                            case "base64":
+                            case ".base64":
+                            case "mime":
+                            case ".mime":
+                                encodingMethod = (ext.StartsWith(".")) ? ext.ToLowerInvariant().Substring(1) : ext.ToLowerInvariant();
+                                string cipherText = EnCoderHelper.GetString8(fileBytes);
+                                string tmpFile = ByteArrayToFile(fileBytes, out outMsg, strFileName + ".tmp");
+                                // tmpFile = tmpFile.Replace(".hex", ".tmp");
+                                if (System.IO.File.Exists(LibPaths.OutDirPath + tmpFile))
                                 {
-                                    outBytes = EncryptBytes(inBytes, algo);
-                                    inBytes = outBytes;
-                                    cryptCount++;
-                                    strFileName += "." + algo.ToLower();
+                                    cipherText = System.IO.File.ReadAllText(LibPaths.OutDirPath + tmpFile, Encoding.UTF8);
                                 }
-                            }
-                            lblUploadResult.Text = string.Format("file {0} x encrypted to ", cryptCount);
+                                
+                                cipherBytes = DeEnCoder.EncodedTextToBytes(cipherText, out string errMsg, encodingMethod, plainUu);
+                                strFileName = strFileName.EndsWith("." + encodingMethod) ? strFileName.Replace("." + encodingMethod, "") : strFileName;
+                                break;
+                            default: // assert here
+                                break;
                         }
-                        else
+
+                        strFileName = strFileName.EndsWith(".hex") ? strFileName.Replace(".hex", "") : strFileName;
+                        strFileName = strFileName.EndsWith(".oct") ? strFileName.Replace(".oct", "") : strFileName;
+                        imgOut.Src = LibPaths.ResAppPath + "img/decrypted.png";
+
+                        for (int ig = (algos.Length - 1); ig >= 0; ig--)
                         {
-                            strFileName = strFileName.EndsWith(".hex") ? strFileName.Replace(".hex", "") : strFileName;
-                            strFileName = strFileName.EndsWith(".oct") ? strFileName.Replace(".oct", "") : strFileName;
-                            imgOut.Src = LibPaths.ResAppPath + "img/decrypted.png";
-                            for (int ig = (algos.Length - 1); ig >= 0; ig--)
+                            if (!string.IsNullOrEmpty(algos[ig]))
                             {
-                                if (!string.IsNullOrEmpty(algos[ig]))
-                                {
-                                    outBytes = DecryptBytes(fileBytes, algos[ig]);
-                                    fileBytes = outBytes;
-                                    cryptCount++;
-                                    strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;
-                                }
+                                outBytes = DecryptBytes(cipherBytes, algos[ig]);
+                                cipherBytes = outBytes;
+                                cryptCount++;
+                                strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;
                             }
-
-                            fileBytes = DeEnCoder.GetBytesTrimNulls(outBytes);
-                            outBytes = fileBytes;
-                            // outBytes = HandleBytes_PrivateKey_Changed(fileBytes, out bool success);
-                            // if (success)
-                                lblUploadResult.Text = "file has been decrypted to ";
-                            // else
-                            // lblUploadResult.Text = "decrypting file failed, byte trash saved  to ";                            
                         }
+
+                        cipherBytes = DeEnCoder.GetBytesTrimNulls(outBytes);
+                        outBytes = cipherBytes;
+
+                        savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName);
+                        // if (success)
+                        lblUploadResult.Text = string.Format("file has been decrypted to {0}!", outMsg);
+                        // else
+                        // lblUploadResult.Text = "decrypting file failed, byte trash saved  to ";                            
                     }
-                    string outMsg;
-                    string savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName);
+
                     aTransFormed.HRef = LibPaths.OutAppPath + savedTransFile;
                     lblUploadResult.Text += outMsg;
                 }
@@ -564,7 +634,7 @@ namespace Area23.At.Mono.Encode
         {
             success = false;
             byte[] outBytesSameKey = null;
-            byte[] ivBytesHash = EnDeCoder.GetBytes8("\r\n" + this.TextBox_IV.Text);
+            byte[] ivBytesHash = EnCoderHelper.GetBytes8("\r\n" + this.TextBox_IV.Text);
             // Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
             if (decryptedBytes != null && decryptedBytes.Length > ivBytesHash.Length)
             {

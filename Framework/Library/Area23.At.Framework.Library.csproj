@@ -78,7 +78,7 @@
     <Compile Include="EnDeCoding\Base64.cs" />
     <Compile Include="EnDeCoding\Base32.cs" />
     <Compile Include="EnDeCoding\DeEnCoder.cs" />
-    <Compile Include="EnDeCoding\EnDeCoder.cs" />
+    <Compile Include="EnDeCoding\EnCoderHelper.cs" />
     <Compile Include="EnDeCoding\Base16.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="MimeType.cs" />
