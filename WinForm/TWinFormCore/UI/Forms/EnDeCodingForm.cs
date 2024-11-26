@@ -18,7 +18,7 @@ using System.Windows.Forms;
 
 namespace Area23.At.WinForm.TWinFormCore.UI.Forms
 {
-    public partial class EnDeCodingForm : TransparentFormCore8
+    public partial class EnDeCodingForm : TransparentFormCore
     {
         protected string savedFile = string.Empty;
         protected string loadDir = string.Empty;

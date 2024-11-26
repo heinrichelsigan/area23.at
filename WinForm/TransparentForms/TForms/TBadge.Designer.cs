@@ -1,6 +1,9 @@
-﻿namespace Area23.At.WinForm.TWinFormCore.UI.Forms
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace Area23.At.WinForm.TransparentForms.TForms
 {
-    partial class TransparentBadge
+    partial class TBadge
     {
         /// <summary>
         /// Required designer variable.
@@ -40,28 +43,28 @@
             labelBadge.Size = new Size(480, 144);
             labelBadge.TabIndex = 0;
             labelBadge.Text = "enter badge text here";
-            labelBadge.TextAlign = ContentAlignment.MiddleCenter;
+            labelBadge.TextAlign = ContentAlignment.MiddleCenter;            
             // 
-            // TransparentBadge
+            // TBadge
             // 
-            AutoScaleDimensions = new SizeF(96F, 96F);
-            AutoScaleMode = AutoScaleMode.Dpi;
-            BackColor = SystemColors.Control;
-            BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(480, 144);
-            Controls.Add(labelBadge);
-            Font = new Font("Lucida Sans Unicode", 10F);
-            FormBorderStyle = FormBorderStyle.None;
-            Name = "TransparentBadge";
-            Text = "TransparentFormCore8";
-            TransparencyKey = SystemColors.Control;
-            ResumeLayout(false);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.BackgroundImageLayout = ImageLayout.None;
+            this.ClientSize = new System.Drawing.Size(480, 144);
+            this.Controls.Add(labelBadge);
+            this.Font = new System.Drawing.Font("Lucida Console", 10F);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.TransparencyKey = SystemColors.ControlLight;
+            this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.Name = "TBadge";
+            this.Text = "TBadge";
+            this.ResumeLayout(false);
+            this.SuspendLayout();
         }
 
         #endregion
 
-        private ToolStripSeparator toolStripSeparator3;
-        private ToolStripMenuItem toolStripMenuItemOpen;
         private Label labelBadge;
     }
 }

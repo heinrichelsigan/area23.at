@@ -69,5 +69,25 @@ namespace Area23.At.WinForm.TransparentForms.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap WinFormAboutDialog {
+            get {
+                object obj = ResourceManager.GetObject("WinFormAboutDialog", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap WinFormAboutDialogError {
+            get {
+                object obj = ResourceManager.GetObject("WinFormAboutDialogError", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

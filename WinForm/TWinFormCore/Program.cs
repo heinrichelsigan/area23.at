@@ -51,7 +51,7 @@ namespace Area23.At.WinForm.TWinFormCore
 
             // MessageBox.Show("ScreenCapture", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            TransparentFormCore8 transparentFormCore8 = new TransparentFormCore8();
+            TransparentFormCore transparentFormCore8 = new TransparentFormCore();
             Application.Run(transparentFormCore8);
 
             ReleaseCloseDisposeMutex();
@@ -118,5 +118,6 @@ namespace Area23.At.WinForm.TWinFormCore
                     throw ex;
             }
         }
+    
     }
 }

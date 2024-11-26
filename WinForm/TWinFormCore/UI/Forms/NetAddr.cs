@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Area23.At.WinForm.TWinFormCore.UI.Forms
 {
-    public partial class NetAddr : TransparentFormCore8
+    public partial class NetAddr : TransparentFormCore
     {
         public NetAddr()
         {

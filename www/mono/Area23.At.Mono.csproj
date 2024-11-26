@@ -141,6 +141,7 @@
     <Content Include="res\img\file.png" />
     <Content Include="res\img\folder1.gif" />
     <Content Include="res\img\folder1.png" />
+    <Content Include="res\img\headerb.png" />
     <Content Include="res\img\qrsample.gif" />
     <Content Include="res\out\Rational_ObjectOrientedAnalysis-UML.jpg" />
     <Content Include="res\out\Rational_Rose_Certificate.jpg" />

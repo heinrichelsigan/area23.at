@@ -1,6 +1,6 @@
 ﻿namespace Area23.At.WinForm.TWinFormCore.UI.Forms
 {
-    partial class TransparentFormCore8
+    partial class TransparentFormCore
     {
         /// <summary>
         /// Required designer variable.

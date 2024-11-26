@@ -14,7 +14,7 @@ using System.Xml;
 
 namespace Area23.At.WinForm.TWinFormCore.UI.Forms
 {
-    public partial class TransparentFormCore8 : System.Windows.Forms.Form
+    public partial class TransparentFormCore : System.Windows.Forms.Form
     {
         TransparentBadge? badge;
 
@@ -23,12 +23,12 @@ namespace Area23.At.WinForm.TWinFormCore.UI.Forms
             get => this.GetType().ToString();
         }
 
-        public TransparentFormCore8()
+        public TransparentFormCore()
         {
             InitializeComponent();
         }
 
-        public TransparentFormCore8(string name) : this()
+        public TransparentFormCore(string name) : this()
         {
             if (Program.tFormUniqueNames.Contains(name))
                 name += "_" + DateTime.Now.Area23DateTimeWithMillis();
@@ -61,7 +61,7 @@ namespace Area23.At.WinForm.TWinFormCore.UI.Forms
                 MessageBox.Show($"Already {formsCount} instances of {TFormType} currently running!", $"{Program.progName}: maximum reached!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            TransparentFormCore8 tCoreFormNew = new TransparentFormCore8($"TCoreForm{formsCount + 1}");
+            TransparentFormCore tCoreFormNew = new TransparentFormCore($"TCoreForm{formsCount + 1}");
             Program.tFormsNew.Add(tCoreFormNew);
             tCoreFormNew.Show();
             tCoreFormNew.BringToFront();

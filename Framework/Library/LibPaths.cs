@@ -226,7 +226,7 @@ namespace Area23.At.Framework.Library
                 if (!Directory.Exists(logPath))
                 {
                     string dirNotFoundMsg = String.Format("{0} directory {1} doesn't exist, creating it!", Constants.LOG_DIR, logPath);
-                    Area23Log.LogStatic(dirNotFoundMsg);
+                    // Area23Log.LogStatic(dirNotFoundMsg);
                     Directory.CreateDirectory(logPath);
                 }
                 return logPath;

@@ -43,7 +43,7 @@
             line-height: normal;
             vertical-align: middle;
             color: white;
-            background-color: black;
+            background-color: darkmagenta;
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             border-style: none;
@@ -73,7 +73,7 @@
                 line-height: normal;
                 border-color: white;
                 color: white;
-                background-color: black;
+                background-color: darkmagenta;
                 background-repeat: no-repeat;
             }
 
@@ -193,7 +193,7 @@
             min-height: 36pt;
             text-align: center;
             font-size: medium;
-            background-color: black;
+            background-color: darkmagenta;
             align-content: center;
             table-layout: fixed;
             inset-block-start: initial;
@@ -371,7 +371,7 @@
 
             var headerImg = document.getElementById("headerImg");
             if (headerImg != null) {
-                document.getElementById("headerImg").src = "../res/img/header.png";
+                document.getElementById("headerImg").src = "../res/img/headerb.png";
                 document.getElementById("headerImg").focus();
                 document.getElementById("headerImg").blur();
             }
@@ -1316,7 +1316,7 @@
                 <img class="frogsInImg" src="../res/img/frogsInHoleCount.png" /><span id="frogsInHole" alt="frogs in hole">0</span>
             </span>
 		    <span id="headerCenter" align="center" valign="middle">
-			    <img class="headerImage" src="../res/img/header.png" id="headerImg" border="0" onclick="restart()" />
+			    <img class="headerImage" src="../res/img/headerb.png" id="headerImg" border="0" onclick="restart()" />
 		    </span>
 		    <span id="headerRight" align="left" valign="middle">
 			    &nbsp;<span id="frogsLevel" alt="frogs left">Level</span>
