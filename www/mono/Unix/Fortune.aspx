@@ -19,9 +19,9 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <noscript>
-        <meta http-equiv="refresh" content="16; url=https://darkstar.work/mono/fortune/" />
+        <meta http-equiv="refresh" content="16; url=/net/Unix/Fortune.aspx" />
     </noscript>
-    <link rel="stylesheet" href="https://area23.at/css/fortune.css" />
+    <link rel="stylesheet" href="/css/fortune.css" />
     <title>Fortune Mono WebApi</title>
     <script async src="../res/js/area23.js"></script>
 </head>

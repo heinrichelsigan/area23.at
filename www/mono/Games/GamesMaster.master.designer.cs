@@ -33,24 +33,6 @@ namespace Area23.At.Mono.Games
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeft;
 
         /// <summary>
-        /// aGameFrogger control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aGameFrogger;
-
-        /// <summary>
-        /// headerLeftCenter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeftCenter;
-
-        /// <summary>
         /// aGameFroga control.
         /// </summary>
         /// <remarks>
@@ -69,31 +51,13 @@ namespace Area23.At.Mono.Games
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerCenter;
 
         /// <summary>
-        /// aGameFrogB control.
+        /// aGameFrogb control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aGameFrogB;
-
-        /// <summary>
-        /// headerRightCenter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRightCenter;
-
-        /// <summary>
-        /// aGameFrogC control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aGameFrogC;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aGameFrogb;
 
         /// <summary>
         /// headerRight control.
@@ -105,13 +69,13 @@ namespace Area23.At.Mono.Games
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRight;
 
         /// <summary>
-        /// aGameFrogD control.
+        /// aGameSchnapsen control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aGameFrogD;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aGameSchnapsen;
 
         /// <summary>
         /// EncodeBody control.

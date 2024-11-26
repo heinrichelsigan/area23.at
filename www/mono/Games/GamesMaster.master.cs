@@ -22,46 +22,32 @@ namespace Area23.At.Mono.Games
 
         protected void InitAHrefs()
         {
-            this.aGameFrogger.HRef = LibPaths.GamesAppPath + "Frogger.aspx";
             this.aGameFroga.HRef = LibPaths.GamesAppPath + "froga.aspx";
-            this.aGameFrogB.HRef = LibPaths.GamesAppPath + "frogB.aspx";
-            this.aGameFrogC.HRef = LibPaths.GamesAppPath + "frogC.aspx";
-            this.aGameFrogD.HRef = LibPaths.GamesAppPath + "frogD.aspx";
+            this.aGameFrogb.HRef = LibPaths.GamesAppPath + "frogb.aspx";
+            this.aGameSchnapsen.HRef = "/mono/SchnapNet/";
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)
         {
             headerLeft.Attributes["class"] = "headerLeft";
-            headerLeftCenter.Attributes["class"] = "headerLeftCenter";
             headerCenter.Attributes["class"] = "headerCenter";
-            headerRightCenter.Attributes["class"] = "headerRightCenter";
             headerRight.Style["class"] = "headerRight";
 
             try
             {
                 if (this.Request != null && this.Request.RawUrl != null)
                 {
-                    if (this.Request.RawUrl.Contains("UueMime.aspx"))
+                    if (this.Request.RawUrl.Contains("froga.aspx"))
                     {
                         headerLeft.Attributes["class"] = "headerLeftSelect";
                         return;
-                    }
-                    if (this.Request.RawUrl.Contains("AesImprove.aspx"))
-                    {
-                        headerLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
-                        return;
-                    }
-                    if (this.Request.RawUrl.Contains("ImgPngCrypt.aspx"))
+                    }                    
+                    if (this.Request.RawUrl.Contains("frogb.aspx"))
                     {
                         headerCenter.Attributes["class"] = "headerCenterSelect";
                         return;
-                    }
-                    if (this.Request.RawUrl.Contains("CoolCrypt.aspx"))
-                    {
-                        headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
-                        return;
-                    }
-                    if (this.Request.RawUrl.Contains("S.aspx"))
+                    }                    
+                    if (this.Request.RawUrl.ToLower().Contains("schnaps"))
                     {
                         headerRight.Attributes["background-color"] = "headerRightSelect";
                         return;

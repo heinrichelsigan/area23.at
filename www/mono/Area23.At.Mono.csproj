@@ -130,7 +130,8 @@
     <Content Include="Encode\ImgPngCrypt.aspx" />
     <Content Include="Encode\S.aspx" />
     <Content Include="Encode\UueMime.aspx" />
-    <Content Include="Games\Frogger.aspx" />
+    <Content Include="Games\frogb.aspx" />
+    <Content Include="Games\froga.aspx" />
     <Content Include="res\css\ccalcweb.css" />
     <Content Include="res\img\a_hash.png" />
     <Content Include="res\img\a_right_hover.gif" />
@@ -162,7 +163,6 @@
     <Content Include="res\img\transparent.png" />
     <Content Include="res\js\rpn.js" />
     <Content Include="Unix\HexDump.aspx" />
-    <Content Include="Games\froga.aspx" />
     <Content Include="Qr\Qr.aspx" />
     <Content Include="Qr\QRGen.aspx" />
     <Content Include="res\audio\frogaGameOver.mp3" />
@@ -451,6 +451,7 @@
     <Content Include="Calc\CalcMaster.master" />
     <Content Include="res\bin\bccmd.bat" />
     <None Include="Properties\PublishProfiles\app.publish.pubxml" />
+    <None Include="Properties\PublishProfiles\area23.at_release_publish.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="froga" Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="false"  %>
+﻿<%@ Page Title="froga" Language="C#" MasterPageFile="~/Games/GamesMaster.master" AutoEventWireup="false"  %>
 <%@ Import namespace="Area23.At.Framework.Library" %>
 <%@ Import namespace="System" %>
 <%@ Import namespace="System.Collections.Generic" %>
@@ -19,7 +19,7 @@
 
 </script>
 
-<asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server" ClientIDMode="Static">
+<asp:Content ID="ContentEncodeHead" ContentPlaceHolderID="EncodeHead" runat="server">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>froga</title>
     <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
@@ -1305,7 +1305,7 @@
 
     </script>
 </asp:Content>
-<asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server" ClientIDMode="Static">            
+<asp:Content ID="ContentEncodeBody" ContentPlaceHolderID="EncodeBody" runat="server" ClientIDMode="Static">     
     <noscript>Your browser does not support JavaScript!</noscript>
     <div class="froga" align="center">
 	    <div class="frogaHeader">

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Frogger" Language="C#" MasterPageFile="~/Games/GamesMaster.master" AutoEventWireup="false"  %>
+﻿<%@ Page Title="frogb" Language="C#" MasterPageFile="~/Games/GamesMaster.master" AutoEventWireup="false"  %>
 <%@ Import namespace="Area23.At.Framework.Library" %>
 <%@ Import namespace="System" %>
 <%@ Import namespace="System.Collections.Generic" %>
@@ -21,12 +21,12 @@
 
 <asp:Content ID="ContentEncodeHead" ContentPlaceHolderID="EncodeHead" runat="server">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Frogger</title>
+	<title>frogb</title>
     <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
 	<style>
         body.frogbody {
             color: white;
-            background-color: black;
+            background-color: darkmagenta;
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             border-style: none;

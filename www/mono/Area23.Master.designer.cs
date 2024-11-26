@@ -96,13 +96,13 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlAnchor aJson;
 
         /// <summary>
-        /// spanCenter3 control.
+        /// spanCenter2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCenter3;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCenter2;
 
         /// <summary>
         /// aAesCrypt control.
@@ -114,13 +114,13 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlAnchor aAesCrypt;
 
         /// <summary>
-        /// spanCenter4 control.
+        /// spanRightCenter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCenter4;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanRightCenter;
 
         /// <summary>
         /// aRpnCalc control.
@@ -132,24 +132,6 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlAnchor aRpnCalc;
 
         /// <summary>
-        /// spanRightCenter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanRightCenter;
-
-        /// <summary>
-        /// aGames control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aGames;
-
-        /// <summary>
         /// spanRight control.
         /// </summary>
         /// <remarks>
@@ -159,13 +141,13 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanRight;
 
         /// <summary>
-        /// aSchnapsNet control.
+        /// aGames control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aSchnapsNet;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aGames;
 
         /// <summary>
         /// BodyContentPlaceHolder control.

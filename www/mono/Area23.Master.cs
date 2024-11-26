@@ -38,7 +38,6 @@ namespace Area23.At.Mono
             this.aAesCrypt.HRef = LibPaths.EncodeAppPath + "AesImprove.aspx";
             this.aRpnCalc.HRef = LibPaths.CalcAppPath + "RpnCalc.aspx";
             this.aGames.HRef = LibPaths.GamesAppPath + "froga.aspx";
-            this.aSchnapsNet.HRef = "/mono/SchnapsNet/";
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)
@@ -47,9 +46,7 @@ namespace Area23.At.Mono
             spanLeftCenter.Attributes["class"] = "headerLeftCenter";
             spanCenter0.Attributes["class"] = "headerCenter";
             spanCenter1.Attributes["class"] = "headerCenter";
-            // spanCenter2.Attributes["class"] = "headerCenter";
-            spanCenter3.Attributes["class"] = "headerCenter";
-            spanCenter4.Attributes["class"] = "headerCenter";
+            spanCenter2.Attributes["class"] = "headerCenter";            
             spanRightCenter.Attributes["class"] = "headerRightCenter";
             spanRight.Attributes["class"] = "headerRightCenter";
 
@@ -72,24 +69,19 @@ namespace Area23.At.Mono
                         spanCenter1.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
-                    //if (Request.RawUrl.ToLower().Contains("trans"))
-                    //{
-                    //    spanCenter2.Attributes["class"] = "headerCenterSelect";
-                    //    return;
-                    //}
                     if (Request.RawUrl.ToLower().Contains("encode"))
                     {
-                        spanCenter3.Attributes["class"] = "headerCenterSelect";
+                        spanCenter2.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
                     if (Request.RawUrl.ToLower().Contains("rpn") || Request.RawUrl.ToLower().Contains("calc"))
                     {
-                        spanCenter4.Attributes["class"] = "headerCenterSelect";
+                        spanRightCenter.Attributes["class"] = "headerRightCenterSelect";
                         return;
                     }
-                    if (Request.RawUrl.ToLower().Contains("frog"))
+                    if (Request.RawUrl.ToLower().Contains("game") || Request.RawUrl.ToLower().Contains("rog"))
                     {
-                        spanRightCenter.Attributes["class"] = "headerRightCenterSelect";
+                        spanRight.Attributes["class"] = "headerRightSelect";
                         return;
                     }
                     if (Request.RawUrl.ToLower().Contains("/"))
