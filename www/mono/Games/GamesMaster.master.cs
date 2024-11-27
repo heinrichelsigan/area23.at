@@ -24,12 +24,14 @@ namespace Area23.At.Mono.Games
         {
             this.aGameFroga.HRef = LibPaths.GamesAppPath + "froga.aspx";
             this.aGameFrogb.HRef = LibPaths.GamesAppPath + "frogb.aspx";
+            this.aTicTacToe.HRef = LibPaths.GamesAppPath + "TicTacToe.aspx";
             this.aGameSchnapsen.HRef = "/mono/SchnapNet/";
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)
         {
             headerLeft.Attributes["class"] = "headerLeft";
+            headerLeftCenter.Attributes["class"] = "headerLeftCenter";
             headerCenter.Attributes["class"] = "headerCenter";
             headerRight.Style["class"] = "headerRight";
 
@@ -44,9 +46,14 @@ namespace Area23.At.Mono.Games
                     }                    
                     if (this.Request.RawUrl.Contains("frogb.aspx"))
                     {
+                        headerLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
+                        return;
+                    }
+                    if (this.Request.RawUrl.ToLower().Contains("tictactoe.aspx"))
+                    {
                         headerCenter.Attributes["class"] = "headerCenterSelect";
                         return;
-                    }                    
+                    }
                     if (this.Request.RawUrl.ToLower().Contains("schnaps"))
                     {
                         headerRight.Attributes["background-color"] = "headerRightSelect";

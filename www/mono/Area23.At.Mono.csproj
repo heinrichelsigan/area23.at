@@ -130,6 +130,7 @@
     <Content Include="Encode\ImgPngCrypt.aspx" />
     <Content Include="Encode\S.aspx" />
     <Content Include="Encode\UueMime.aspx" />
+    <Content Include="Games\TicTacToe.aspx" />
     <Content Include="Games\frogb.aspx" />
     <Content Include="Games\froga.aspx" />
     <Content Include="res\css\ccalcweb.css" />
