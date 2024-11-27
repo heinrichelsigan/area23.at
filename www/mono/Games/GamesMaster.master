@@ -15,7 +15,7 @@
         <span id="headerCenter" runat="server" class="headerCenter" align="center" valign="middle"><a id="aTicTacToe" runat="server" class="spanHeaderA" href="<%= Area23.At.Framework.Library.LibPaths.GamesAppPath %>TicTacToe.aspx">TicTacToe</a></span>
         <span id="headerRight" runat="server" class="headerRight" align="center" valign="right"><a id="aGameSchnapsen" runat="server" class="spanHeaderA" href='/mono/SchnapsNet/'>schnapsen 66</a></span>
     </div>
-    <hr />    
+    <!-- hr /-->    
     <asp:ContentPlaceHolder ID="EncodeBody" runat="server">
         <form id="EncodeMasterForm" runat="server">
         </form> 

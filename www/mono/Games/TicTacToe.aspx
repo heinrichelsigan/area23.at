@@ -221,24 +221,26 @@
 
         table.ticTacToeTable {
             width: 60%;
-            min-width: 360pt;
-            height: 60%;
-            min-height: 270pt;
+            min-width: 360px;
+            height: 72%;
+            min-height: 360px;
             align-content: center;
             padding: 0 0 0 0;
             margin: 0 0 0 0;
-            border-style: none;
-            border-spacing: 0pt;
-            border-width: 0pt;
-            border-color: transparent;
+            border-style: outset;
+            border-spacing: 1px;
+            border-width: 1px;
+            border-color: blueviolet;
+            background-color: #1f1f1f;
+            /* border-color: transparent; */
             background-repeat: no-repeat;
         }
 
         tr.ticTacToeTr {
             width: 60%;
             min-width: 360px;
-            height: 20%;
-            min-height: 27px;
+            height: 24%;
+            min-height: 120px;
             background-repeat: no-repeat;
             /* background-size: 100% 100%; */
         }
@@ -246,17 +248,17 @@
         tr.ticTacToeTrUpStreet {
             width: 60%;
             min-width: 360px;
-            height: 6%;
-            min-height: 27px;            
+            height: 24%;
+            min-height: 120px;            
             background-repeat: no-repeat;
             /* background-size: 100% 100%; */
         }
 
         td.ticTacToeTd {
             width: 20%;
-            /* min-width: 36pt; */
-            height: 20%;
-            min-height: 27pt;           
+            min-width: 120px; 
+            height: 24%;
+            min-height: 120px;           
             /* background-repeat: no-repeat; */
             background-size: 100% 100%;
         }
@@ -264,9 +266,9 @@
         img.ticTacToeImage,
         img.ticTacToeWood {
             width: 100%;
-            min-width: 36pt;
+            min-width: 120px;
             height: 100%;
-            min-height: 27pt;
+            min-height: 120px;
             background-repeat: no-repeat;
             /* background-size: 100% 100%; */
         }
@@ -276,9 +278,9 @@
             img.ticTacToeImage#ticTacToe2,
             img.ticTacToeImage#ticTacToe3 {
                 width: 100%;
-                min-width: 36pt;
+                min-width: 120px;
                 height: 100%;
-                min-height: 27pt;
+                min-height: 120px;
                 background-repeat: no-repeat;
                 /* background-size: 100% 100%; */
             }
@@ -288,10 +290,10 @@
         img#aDown,
         img#aLeft,
         img#aRight {
-            width: 32pt;
-            min-width: 32pt;
-            height: 27pt;
-            min-height: 27pt;
+            width: 120px;
+            min-width: 120px;
+            height: 120px;
+            min-height: 120px;
             background-repeat: no-repeat;
             background-size: 100% 100%;
         }
@@ -303,8 +305,8 @@
             loopTicks = 0,
             soundDuration = 1625;
         var level = 0,
-            frogsDied = 0,
-            frogsInHole = 0,
+            androidCount = 5,
+            skullCount = 5,
             frogHoleMax = 3,
             gameOver = 0;
         var fX, fY;
@@ -317,14 +319,8 @@
         // windows cursor key press hanlder
         function windowCursorKeysHandler() {
             window.onkeydown = function (e) { // TODO: pressing two arrow keys at same time
-                if (e.which == 37)
-                    moveFrog("left");
-                if (e.which == 39)
-                    moveFrog("right");
-                if (e.which == 38)
-                    moveFrog("up");
-                if (e.which == 40)
-                    moveFrog("down");
+                if (e.which > 13)
+                    alert("e.which = " + e.which);
             };
         }
 
@@ -348,8 +344,8 @@
         // ticTacToe loader
         function ticTacToeLoad() {
             loopTicks = 0;
-            frogsDied = 0;
-            frogsInHole = 0;
+            androidCount = 5;
+            skullCount = 5;
             gameOver = 0;
 
             switch (level) {
@@ -361,8 +357,8 @@
                 default: loopDelay = 1000; break;
             }
             setLevel(level);
-            setFrogsInHole(frogsInHole);
-            setFrogsDied(frogsDied);
+            setSkullCounter(skullCount);
+            setAndroidCounter(androidCount);
 
             fX = 'd';
             fY = 0;
@@ -371,7 +367,7 @@
 
             var headerImg = document.getElementById("headerImg");
             if (headerImg != null) {
-                document.getElementById("headerImg").src = "../res/img/header.png";
+                document.getElementById("headerImg").src = "../res/img/headerTicTacToe.png";
                 document.getElementById("headerImg").focus();
                 document.getElementById("headerImg").blur();
             }
@@ -683,6 +679,22 @@
         }
 
 
+        function setSkullCounter(skullCnt) {
+            var spanSkullCounter = document.getElementById("skullCounter");
+            if (spanSkullCounter != null)
+                spanSkullCounter.innerText = skullCnt;
+        }
+
+        function setFrogsLeft(frogsLeft) {
+            document.getElementById("frogsLeft").innerHTML = frogsLeft;
+        }
+
+        function setAndroidCounter(androidCnt) {
+            var elemAndroidCounter = document.getElementById("androidCounter");
+            if (elemAndroidCounter != null)
+                elemAndroidCounter.innerHTML = androidCnt;
+        }
+
         // get active current frog
         function getActivePlayer() {
 
@@ -832,45 +844,55 @@
 	    <div class="ticTacToeHeader">
             <span id="headerLeft" align="right" valign="middle">
                 <span id="leftNotes"></span>
-                <img class="frogsInImg" src="../res/img/frogsLeftCount.png" /><span id="frogsLeft" alt="frogs left">4</span>
-                <img class="frogsInImg" src="../res/img/frogsDiedCount.png" /><span id="frogsDied" alt="frogs died">0</span>
-                <img class="frogsInImg" src="../res/img/frogsInHoleCount.png" /><span id="frogsInHole" alt="frogs in hole">0</span>
+                <img class="frogsInImg" src="../res/img/frogsDiedCount.png" /><span id="skullCounter" alt="worker counter">0</span>
+                &nbsp;
             </span>
 		    <span id="headerCenter" align="center" valign="middle">
-			    <img class="headerImage" src="../res/img/header.png" id="headerImg" border="0" onclick="restart()" />
+			    <img class="headerImage" src="../res/img/headerTicTacToe.png" id="headerImg" border="0" onclick="restart()" />
 		    </span>
 		    <span id="headerRight" align="left" valign="middle">
-			    &nbsp;<span id="frogsLevel" alt="frogs left">Level</span>
-			    <span id="frogaLevel" alt="froga level">0</span>
+			    &nbsp;<img class="frogsInImg" src="../res/img/androidTicTacToe.png" /><span id="androidCounter" alt="android counter">0</span>
 			    <span id="rightNotes"></span>
 		    </span>
 	    </div>
-	    <table class="ticTacToeTable" border="2" cellpadding="2" cellpadding="2">
+	    <table class="ticTacToeTable" border="1" cellpadding="1" cellpadding="1">
 		    <tr id="tr2" class="ticTacToeTr">
-			    <td id="td2a" class="ticTacToeTd" width="20%" height="20%" style="background-color: #efefef; border-color: black; border-top-width: 2px; border-top-style: outset"></td>
-			    <td id="td2b" class="ticTacToeTd" width="20%" height="20%" style="background-color: #efefef; border-color: black; border-top-width: 2px; border-top-style: outset"></td>
-			    <td id="td2c" class="ticTacToeTd" width="20%" height="20%" style="background-color: #efefef; border-color: black; border-top-width: 2px; border-top-style: outset"></td>
+			    <td id="td2a" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
+                    <img  class="ticTacToeImage" src="../res/img/emptyCellBlueTikTakToe.png" />
+			    </td>
+			    <td id="td2b" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
+                    <img  class="ticTacToeImage" src="../res/img/emptyCellRedTikTakToe.png" />
+
+			    </td>
+			    <td id="td2c" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
+                    <img  class="ticTacToeImage" src="../res/img/emptyCellBlueTikTakToe.png" />
+			    </td>
 		    </tr>
 		    <tr id="tr1" class="ticTacToeTr">
-			    <td id="td1a" class="ticTacToeTd" width="20%" height="20%" style="background-color: #efefef; border-color: black; border-top-width: 2px; border-top-style: outset"></td>
-			    <td id="td1b" class="ticTacToeTd" width="20%" height="20%" style="background-color: #efefef; border-color: black; border-top-width: 2px; border-top-style: outset"></td>
-			    <td id="td1c" class="ticTacToeTd" width="20%" height="20%" style="background-color: #efefef; border-color: black; border-top-width: 2px; border-top-style: outset"></td>
+			    <td id="td1a" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
+                    <img  class="ticTacToeImage" src="../res/img/emptyCellRedTikTakToe.png" />
+			    </td>
+			    <td id="td1b" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
+                    <img  class="ticTacToeImage" src="../res/img/emptyCellBlueTikTakToe.png" />
+			    </td>
+			    <td id="td1c" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
+                    <img  class="ticTacToeImage" src="../res/img/emptyCellRedTikTakToe.png" />
+			    </td>
 		    </tr>
             <tr id="tr0" class="ticTacToeTr">
-                <td id="td0a" class="ticTacToeTd" width="20%" height="20%" style="background-color: #efefef; border-color: black; border-top-width: 2px; border-top-style: outset"></td>
-                <td id="td0b" class="ticTacToeTd" width="20%" height="20%" style="background-color: #efefef; border-color: black; border-top-width: 2px; border-top-style: outset"></td>
-                <td id="td0c" class="ticTacToeTd" width="20%" height="20%" style="background-color: #efefef; border-color: black; border-top-width: 2px; border-top-style: outset"></td>
+                <td id="td0a" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
+                    <img  class="ticTacToeImage" src="../res/img/emptyCellBlueTikTakToe.png" />
+                </td>
+                <td id="td0b" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
+                    <img  class="ticTacToeImage" src="../res/img/emptyCellRedTikTakToe.png" />
+                </td>
+                <td id="td0c" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
+                    <img  class="ticTacToeImage" src="../res/img/emptyCellBlueTikTakToe.png" />
+                </td>
             </tr>
 	    </table>
 	    <div class="ticTacToeFooter">
-            <span id="spanLeft" align="left" valign="middle">
-                <img id="aLeft" class="ticTacToeImage" src="../res/img/a_left.gif" border="0" onclick="moveFrog('left')" />
-            </span>
-		    <img id="aUp" class="ticTacToeImage" src="../res/img/a_up.gif" border="0" onclick="moveFrog('up')" />
-            <img id="aDown" class="ticTacToeImage" src="../res/img/a_down.gif" border="0" onclick="moveFrog('down')" />
-            <span id="spanRight" align="right" valign="middle">
-                <img class="ticTacToeImage" id="aRight" src="../res/img/a_right.gif" border="0" onclick="moveFrog('right')" />
-            </span>
+            &nbsp;
 	    </div>	    
     </div>
 </asp:Content>
