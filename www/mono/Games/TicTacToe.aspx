@@ -773,6 +773,7 @@
 		    <span id="headerRight" align="left" valign="middle">
 			    &nbsp;<img class="frogsInImg" src="../res/img/androidTicTacToe.gif" /><span id="androidCounter" alt="android counter">5</span>
 		    </span>
+            <span id="rightNotes"></span>
 	    </div>
 	    <table class="ticTacToeTable" border="1" cellpadding="1" cellpadding="1">
 		    <tr id="t2" class="ticTacToeTr">
