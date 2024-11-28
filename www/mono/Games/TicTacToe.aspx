@@ -468,36 +468,40 @@
             var setCellTd = document.getElementById(tdCellId);
             if (setCellTd != null) {
 
-                if (setCellTd.alt != null && setCellTd.alt != "")
-                    cellAlt = setCellTd.alt;
-                else
-                    cellAlt = setCellTd.getAttribute("alt");
-
-                cellTicTacToe = setCellTd.getAttribute("ticTacToe");
-                if (cellTicTacToe != null && cellAlt != null && cellTicTacToe.charAt(0) != '\0' && cellAlt.charAt(0) != '\0') {
-
-                    imgPlayer = getNewImage(1, tdCellId);
-                    imgSkull = copyImg(imgPlayer);
-                    setCellTd.appendChild(imgSkull);
-                    setCellTd.setAttribute("ticTacToe", imgPlayer.id);
-                    setCellTd.alt = imgPlayer.id;
-
-                    if (playersCount > 0) {
-                        playersCount--;
-                        setPlayersCounter(playersCount);
-                        imgPlayer = getNewImage(1, "");
-                    }
-
-                    ticTacToeIsFinished(loopTicks, 1);
-                    whoNext = 0;
-
-                    ticTacToeComputerSets(loopTicks);
+                try {
+                    if (setCellTd.title != null && setCellTd.title.charAt(0) != '\0')
+                        cellAlt = setCellTd.title;
+                } catch (exGetTitle) {
+                    cellAlt = null;
                 }
-                else {
-                    alert("Can't set players skull here!");
+                try {
+                    if (cellAlt == null)
+                        cellAlt = setCellTd.getAttribute("title");
+                } catch (exGetAlt) {
+                    cellAlt = null;
+                }
+            }
+
+            cellTicTacToe = setCellTd.getAttribute("ticTacToe");
+            if (cellTicTacToe != null && cellAlt != null && cellTicTacToe.charAt(0) != '\0' && cellAlt.charAt(0) != '\0') {
+                alert("Can't set players skull here!");
+            } else {
+                imgPlayer = getNewImage(1, tdCellId);
+                imgSkull = copyImg(imgPlayer);
+                setCellTd.appendChild(imgSkull);
+                setCellTd.setAttribute("ticTacToe", imgPlayer.id);
+                setCellTd.alt = imgPlayer.id;
+
+                if (playersCount > 0) {
+                    playersCount--;
+                    setPlayersCounter(playersCount);
+                    imgPlayer = getNewImage(1, "");
                 }
 
+                ticTacToeIsFinished(loopTicks, 1);
+                whoNext = 0;
 
+                ticTacToeComputerSets(loopTicks);
             }
         }
 
@@ -772,27 +776,27 @@
 	    </div>
 	    <table class="ticTacToeTable" border="1" cellpadding="1" cellpadding="1">
 		    <tr id="t2" class="ticTacToeTr">
-			    <td id="a2" onmouseover="ticTacToeMouseOver('a2'); return false;" onclick="ticTacToePlayerSets('a2'); return false;" class="ticTacToeTd" width="20%" height="24%">
+			    <td id="a2" onmouseover="ticTacToeMouseOver('a2'); return false;" onclick="ticTacToePlayerSets('a2'); return false;" class="ticTacToeTd" width="20%" height="24%" title="">
 			    </td>
-			    <td id="b2" onmouseover="ticTacToeMouseOver('b2'); return false;" onclick="ticTacToePlayerSets('b2'); return false;" class="ticTacToeTd" width="20%" height="24%">
+			    <td id="b2" onmouseover="ticTacToeMouseOver('b2'); return false;" onclick="ticTacToePlayerSets('b2'); return false;" class="ticTacToeTd" width="20%" height="24%" title="">
 			    </td>
-			    <td id="c2" onmouseover="ticTacToeMouseOver('c2'); return false;" onclick="ticTacToePlayerSets('c2'); return false;" class="ticTacToeTd" width="20%" height="24%">
+			    <td id="c2" onmouseover="ticTacToeMouseOver('c2'); return false;" onclick="ticTacToePlayerSets('c2'); return false;" class="ticTacToeTd" width="20%" height="24%" title="">
 			    </td>
 		    </tr>
 		    <tr id="tr1" class="ticTacToeTr">
-			    <td id="a1" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('a1'); return false;"  onclick="ticTacToePlayerSets('a1'); return false;" width="20%" height="24%">
+			    <td id="a1" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('a1'); return false;"  onclick="ticTacToePlayerSets('a1'); return false;" width="20%" height="24%" title="">
 			    </td>
-			    <td id="b1" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('b1'); return false;"  onclick="ticTacToePlayerSets('b1'); return false;" width="20%" height="24%">
+			    <td id="b1" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('b1'); return false;"  onclick="ticTacToePlayerSets('b1'); return false;" width="20%" height="24%" title="">
 			    </td>
-			    <td id="c1" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('c1'); return false;"  onclick="ticTacToePlayerSets('c1'); return false;" width="20%" height="24%">
+			    <td id="c1" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('c1'); return false;"  onclick="ticTacToePlayerSets('c1'); return false;" width="20%" height="24%" title="">
 			    </td>
 		    </tr>
             <tr id="tr0" class="ticTacToeTr">
-                <td id="a0" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('a0'); return false;" onclick="ticTacToePlayerSets('a0'); return false;" width="20%" height="24%">
+                <td id="a0" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('a0'); return false;" onclick="ticTacToePlayerSets('a0'); return false;" width="20%" height="24%" title="">
                 </td>
-                <td id="b0" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('b0'); return false;" onclick="ticTacToePlayerSets('b0'); return false;" width="20%" height="24%">
+                <td id="b0" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('b0'); return false;" onclick="ticTacToePlayerSets('b0'); return false;" width="20%" height="24%" title="">
                 </td>
-                <td id="c0" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('c0'); return false;" onclick="ticTacToePlayerSets('c0'); return false;" width="20%" height="24%">
+                <td id="c0" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('c0'); return false;" onclick="ticTacToePlayerSets('c0'); return false;" width="20%" height="24%" title="">
                 </td>
             </tr>
 	    </table> 
