@@ -386,7 +386,6 @@
             // setTimeout(function () { frogaLooper(loopTicks, loopDelay) }, loopDelay); // will call function after loopDelay milli seconds.
         }
         
-
         // main js looper => keeping game in movement
         function ticTacToeIsFinished(ticks, whoPlayed) {
             
@@ -434,96 +433,36 @@
         }
 
 
-        //// sound and image 
-        //function ticTacToeSound(soundName) {
+        // marks on mouse over the blured cell on tic tac toe board
+        function ticTacToeMouseOver(tdCellId) {
 
-        //    var dursec = 1625;
-        //    dursec = parseInt(soundDuration);
-        //    if (dursec < parseInt(loopDelay))
-        //        dursec = parseInt(loopDelay);
+            var cellTicTacToeOver = null;
+            var ticTacToeTd = null;
+            let ticTacToeCellId = "";
+            ticTacToeBoard.forEach(function (ticTacToeCellId) {
 
-        //    let sound = new Audio(soundName);
+                ticTacToeTd = document.getElementById(ticTacToeCellId);
 
-        //    sound.autoplay = true;
-        //    sound.loop = false;
+                if (ticTacToeTd != null) {
+                    ticTacToeTd.style.backgroundColor = "#1f1f1f";
+                    ticTacToeTd.style.borderWidth = 1;
+                    ticTacToeTd.style.borderStyle = "outset";
+                }
+            });
 
-        //    let leftNotes = document.getElementById("leftNotes");
-        //    let rightNotes = document.getElementById("rightNotes");
-        //    leftNotes.innerHTML = "";
-        //    rightNotes.innerHTML = "";
+            cellTicTacToeOver = document.getElementById(tdCellId);
 
-        //    setTimeout(function () {
-        //        sound.play();
-        //        leftNotes.innerHTML = "♪ ";
-        //        rightNotes.innerHTML = " ♫";
-        //    }, 100);
+            if (cellTicTacToeOver != null) {
 
-        //    setTimeout(function () {
-        //        leftNotes.innerHTML = " ♪";
-        //        rightNotes.innerHTML = "♫ ";
-        //    }, 800);
-
-        //    setTimeout(function () {
-        //        leftNotes.innerHTML = "  ";
-        //        rightNotes.innerHTML = "  ";
-
-        //        sound.loop = false;
-        //        sound.pause();
-        //        sound.autoplay = false;
-        //        sound.currentTime = 0;
-
-        //        try {
-        //            sound.src = "";
-        //            sound = null;
-        //        } catch (exSnd) {
-        //        }
-        //        soundDuration = parseInt(loopDelay);
-        //    }, dursec);
-
-            
-        //}
-
-
-
-        //function reCreateTicTacToe() {
-        //    // first clear all bottom and top table cells, so that there rest neither frogs nor holes there
-        //    var tableCell = null;
-        //    var childFromTableCell = null;
-        //    var tCellTdId = null;
-        //    var tdsToClear = [
-        //        "a2", "b2", "c2", "a1", "b1", "c1", "a0", "b0", "c0"];
-
-        //    tdsToClear.forEach(function (tCellTdId) {
-
-        //        tableCell = document.getElementById(tCellTdId);
-
-        //        if (tableCell != null && tableCell.children != null && tableCell.children.length > 0) {
-
-        //            for (tdCellIt = 0; tdCellIt < tableCell.children.length; tdCellIt++) {
-
-        //                childFromTableCell = tableCell.children[tdCellIt];
-        //                if (childFromTableCell != null)
-        //                    tableCell.removeChild(childFromTableCell);
-        //            }
-        //        }
-        //    });
-        //}
-        
-
-        function setLevel(tacToeLevel) {
-
-            var levelPlaceHolder = document.getElementById("ticTacToeLevel");
-
-            if (levelPlaceHolder != null) {
-                levelPlaceHolder.innerHTML = tacToeLevel;
+                cellTicTacToeOver.style.backgroundColor = "#3f3f3f";
+                cellTicTacToeOver.style.borderWidth = 2;
+                cellTicTacToeOver.style.borderStyle = "solid";
             }
-
         }
-
-
 
         // ticTacToe player sets skull on board
         function ticTacToePlayerSets(tdCellId) {
+
             var cellTicTacToe = null;
             var cellAlt = null;
             var setCellTd = document.getElementById(tdCellId);
@@ -562,7 +501,6 @@
             }
         }
 
-
         // ticTacToe computer sets android on board
         function ticTacToeComputerSets(ticks) {
 
@@ -591,8 +529,34 @@
             whoNext = 1;
         }
 
+        // set players remaining skull discs to set
+        function setPlayersCounter(playersCnt) {
+            var spanplayersCounter = document.getElementById("playersCounter");
+            if (spanplayersCounter != null)
+                spanplayersCounter.innerText = playersCnt;
+        }
 
-        function getNewImage(forWho, assignedCellId) {
+        // set computer remaining android stickers to set
+        function setAndroidCounter(androidCnt) {
+            var elemAndroidCounter = document.getElementById("androidCounter");
+            if (elemAndroidCounter != null)
+                elemAndroidCounter.innerHTML = androidCnt;
+        }
+
+        // sets level number inside span id=ticTacToeLevel
+        function setLevel(tacToeLevel) {
+
+            var levelSpan = document.getElementById("ticTacToeLevel");
+
+            if (levelSpan != null) {
+                levelSpan.innerHTML = tacToeLevel;
+            }
+
+        }
+
+
+        // get a new image to set at next move
+        function getNewImage(forWho, aCellId) {
 
             var ticImg = new Image(32, 27);
             var ticNum = (forWho == 0) ? androidCount : playersCount;
@@ -601,24 +565,24 @@
             var ticImgSrc = (forWho == 0) ? "../res/img/androidSetTicTacToe.gif" : "../res/img/skullSetTicTacToe.gif";
             var cellIdSet = "";
 
-            if (assignedCellId != null && assignedCellId != "") {
-                if (((assignedCellId.charAt(0) != '\0' && (assignedCellId.charAt(0) == 'a' || assignedCellId.charAt(0) == 'b' || assignedCellId.charAt(0) == 'c')) &&
-                    ((assignedCellId.charAt(1) != '\0' && (assignedCellId.charAt(1) == '0' || assignedCellId.charAt(1) == '1' || assignedCellId.charAt(1) == '2'))) {
-                        cellIdSet = assignedCellId;
-                }                
-            }            
-            
-            if (forWho == 0) {                
+            if (aCellId != null && aCellId.charAt(0) != '\0' && aCellId.length > 1) {
+
+                if ((aCellId.charAt(0) == 'a' || aCellId.charAt(0) == 'b' || aCellId.charAt(0) == 'c') &&
+                    (aCellId.charAt(1) == '0' || aCellId.charAt(1) == '1' || aCellId.charAt(1) == '2'))
+                    cellIdSet = aCellId;
+            }
+
+            if (forWho == 0) {
                 ticImgSrc = "../res/img/androidSetTicTacToe.gif";
                 ticNum = androidCount;
                 ticId = "a" + ticNum;
-                ticTitle = "android" + ticNum;                
+                ticTitle = "android" + ticNum;
             }
             else {
                 ticImgSrc = "../res/img/skullSetTicTacToe.gif";
-                ticNum = playersCount;                                
+                ticNum = playersCount;
                 ticId = "p" + ticNum;
-                ticTitle = "players" + ticNum;                
+                ticTitle = "players" + ticNum;
             }
 
             ticImg.Id = ticId;
@@ -632,6 +596,93 @@
 
             return ticImg;
         }
+
+        //// sound and image 
+        function ticTacToeSound(soundName) {
+
+            var dursec = 1625;
+            dursec = parseInt(soundDuration);
+            if (dursec < parseInt(loopDelay))
+                dursec = parseInt(loopDelay);
+
+            let sound = new Audio(soundName);
+
+            sound.autoplay = true;
+            sound.loop = false;
+
+            let leftNotes = document.getElementById("leftNotes");
+            let rightNotes = document.getElementById("rightNotes");
+            leftNotes.innerHTML = "";
+            rightNotes.innerHTML = "";
+
+            setTimeout(function () {
+                sound.play();
+                leftNotes.innerHTML = "♪ ";
+                rightNotes.innerHTML = " ♫";
+            }, 100);
+
+            setTimeout(function () {
+                leftNotes.innerHTML = " ♪";
+                rightNotes.innerHTML = "♫ ";
+            }, 800);
+
+            setTimeout(function () {
+                leftNotes.innerHTML = "  ";
+                rightNotes.innerHTML = "  ";
+
+                sound.loop = false;
+                sound.pause();
+                sound.autoplay = false;
+                sound.currentTime = 0;
+
+                try {
+                    sound.src = "";
+                    sound = null;
+                } catch (exSnd) {
+                }
+                soundDuration = parseInt(loopDelay);
+            }, dursec);
+
+            
+        }
+
+        // exchange image & play sound
+        function changeImagePlaySound(imageToChange, newImageUrl, soundToPlay) {
+
+            if (imageToChange != null)
+                imageToChange.src = newImageUrl;
+
+            if (soundToPlay != null && soundToPlay.length > 1)
+                setTimeout(function () { frogSound(soundToPlay); }, 100);
+
+        }
+
+
+        // clears are finished tic tac toe board
+        function reCreateTicTacToe() {
+            // first clear all bottom and top table cells, so that there rest neither frogs nor holes there
+            var tableCell = null;
+            var childFromTableCell = null;
+            var tCellTdId = null;
+            var tdsToClear = [
+                "a2", "b2", "c2", "a1", "b1", "c1", "a0", "b0", "c0"];
+
+            tdsToClear.forEach(function (tCellTdId) {
+
+                tableCell = document.getElementById(tCellTdId);
+
+                if (tableCell != null && tableCell.children != null && tableCell.children.length > 0) {
+
+                    for (tdCellIt = 0; tdCellIt < tableCell.children.length; tdCellIt++) {
+
+                        childFromTableCell = tableCell.children[tdCellIt];
+                        if (childFromTableCell != null)
+                            tableCell.removeChild(childFromTableCell);
+                    }
+                }
+            });
+        }
+
 
         function cloneObj(obj) {
             var copy;
@@ -699,47 +750,6 @@
                 }
             }
         }
-
-
-        function setPlayersCounter(playersCnt) {
-            var spanplayersCounter = document.getElementById("playersCounter");
-            if (spanplayersCounter != null)
-                spanplayersCounter.innerText = playersCnt;
-        }
-
-        function setAndroidCounter(androidCnt) {
-            var elemAndroidCounter = document.getElementById("androidCounter");
-            if (elemAndroidCounter != null)
-                elemAndroidCounter.innerHTML = androidCnt;
-        }
-
-
-        function ticTacToeMouseOver(tdCellId) {
-
-            var cellTicTacToeOver = null;
-            var ticTacToeTd = null;
-            let ticTacToeCellId = "";
-            ticTacToeBoard.forEach(function (ticTacToeCellId) {
-
-                ticTacToeTd = document.getElementById(ticTacToeCellId);
-
-                if (ticTacToeTd != null) {
-                    ticTacToeTd.style.backgroundColor = "#1f1f1f";
-                    ticTacToeTd.style.borderWidth = 1;
-                    ticTacToeTd.style.borderStyle = "outset";
-                }
-            });
-
-            cellTicTacToeOver = document.getElementById(tdCellId);
-
-            if (cellTicTacToeOver != null) {
-
-                cellTicTacToeOver.style.backgroundColor = "#3f3f3f";
-                cellTicTacToeOver.style.borderWidth = 2;
-                cellTicTacToeOver.style.borderStyle = "solid";
-            }
-        }
-
 
     </script>
 </asp:Content>
