@@ -122,29 +122,17 @@
         }
 
 
-        img.frogsInImg {
-            width: 32pt;
-            height: 27pt;
-            padding: 0 0 0 0;
-            margin: 0 0 0 0;
-            border-style: none;
-            border-spacing: 0pt;
-            border-width: 0pt;
-            border-color: transparent;
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
-        }
 
         span#leftNotes {
             color: whitesmoke;
             width: 5.33%;
-            max-width: 24pt;
+            max-width: 27px;
             font-size: large;
         }
 
         span#frogsInHole {
             color: greenyellow;
-            width: 32pt;
+            width: 32px;
             margin-left: -18pt;
             padding-right: 6pt;
             font-weight: bold;
@@ -152,7 +140,7 @@
 
         span#frogsLeft {
             color: aqua;
-            width: 32pt;
+            width: 32px;
             margin-left: -18pt;
             padding-right: 2pt;
             font-size: large;
@@ -161,7 +149,7 @@
 
         span#frogsDied {
             color: gainsboro;
-            width: 32pt;
+            width: 32px;
             font-size: medium;
             font-weight: bold;
             margin-left: -18pt;
@@ -182,110 +170,116 @@
         span#rightNotes {
             color: whitesmoke;
             width: 5.33%;
-            max-width: 24pt;
+            max-width: 27px;
             font-size: large;
         }
 
-        div.ticTacToe.ticTacToeFooter {
-            width: 81%;
-            min-width: 360pt;
-            height: 8%;
-            min-height: 36pt;
-            text-align: center;
-            font-size: medium;
-            background-color: black;
-            align-content: center;
-            table-layout: fixed;
-            inset-block-start: initial;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+        div.ticTacToe.ticTacToeFooter#spanLeft {
+            min-width: 32px;
+            width: 40px;
+            min-height: 27px;    
+            height: 36px;
+
+            vertical-align: middle;
+            text-align: left;
         }
 
-            div.ticTacToe.ticTacToeFooter#spanLeft {
-                height: 36pt;
-                min-height: 36pt;
-                width: 40pt;
-                min-width: 40pt;
-                vertical-align: middle;
-                text-align: left;
-            }
-
-            div.ticTacToe.ticTacToeFooter#spanRight {
-                height: 36pt;
-                min-height: 36pt;
-                width: 40pt;
-                min-width: 40pt;
-                vertical-align: middle;
-                text-align: right
-            }
+        div.ticTacToe.ticTacToeFooter#spanRight {
+            min-width: 32px;
+            width: 40px;
+            min-height: 27px;    
+            height: 36px;
+            
+            vertical-align: middle;
+            text-align: right
+        }
 
 
         table.ticTacToeTable {
-            width: 60%;
-            min-width: 360px;
-            height: 72%;
-            min-height: 360px;
-            align-content: center;
+            width: 69%;
+            min-width: 345px;
+            height: 69%;
+            min-height: 345px;  
             padding: 0 0 0 0;
             margin: 0 0 0 0;
+            align-content: center;
+
+            background-color: #1f1f1f;
+            background-repeat: no-repeat;
+
             border-style: outset;
             border-spacing: 1px;
             border-width: 1px;
-            border-color: blueviolet;
-            background-color: #1f1f1f;
-            /* border-color: transparent; */
-            background-repeat: no-repeat;
+            border-color: blueviolet;            
         }
 
         tr.ticTacToeTr {
-            width: 60%;
+            width: 69%;
             min-width: 360px;
             height: 24%;
             min-height: 120px;
-            background-repeat: no-repeat;
-            /* background-size: 100% 100%; */
-        }
 
-        tr.ticTacToeTrUpStreet {
-            width: 60%;
-            min-width: 360px;
-            height: 24%;
-            min-height: 120px;            
+            background-color: #1f1f1f;
             background-repeat: no-repeat;
             /* background-size: 100% 100%; */
+
+            border-color: blueviolet; 
+            border-top-width: 1px; 
+            border-top-style: outset;
+
         }
 
         td.ticTacToeTd {
             width: 20%;
             min-width: 120px; 
             height: 24%;
-            min-height: 120px;           
+            min-height: 120px;         
+            
+            background-color: #1f1f1f;
+            background-image: url('../res/img/emptyCellBlueTikTakToe.png');
             /* background-repeat: no-repeat; */
+            background-size: 100% 100%;
+
+            border-color: blueviolet; 
+            border-top-width: 1px; 
+            border-top-style: outset;             
+        }
+
+        img.frogsInImg {
+            min-width: 32px;
+            width: 64px;
+            min-height: 27px;            
+            height: 54px;         
+    
+            padding: 0 0 0 0;
+            margin: 0 0 0 0;
+    
+            border-style: none;
+            border-spacing: 0pt;
+            border-width: 0pt;
+            border-color: transparent;
+
+            background-repeat: no-repeat;
             background-size: 100% 100%;
         }
 
+
         img.ticTacToeImage,
-        img.ticTacToeWood {
+        img.ticTacToeImage#ticTacToe0,
+        img.ticTacToeImage#ticTacToe1,
+        img.ticTacToeImage#ticTacToe2,
+        img.ticTacToeImage#ticTacToe3 {
             width: 100%;
             min-width: 120px;
             height: 100%;
             min-height: 120px;
+
             background-repeat: no-repeat;
             /* background-size: 100% 100%; */
         }
 
-            img.ticTacToeImage#ticTacToe0,
-            img.ticTacToeImage#ticTacToe1,
-            img.ticTacToeImage#ticTacToe2,
-            img.ticTacToeImage#ticTacToe3 {
-                width: 100%;
-                min-width: 120px;
-                height: 100%;
-                min-height: 120px;
-                background-repeat: no-repeat;
-                /* background-size: 100% 100%; */
-            }
-
-
+        
+        
         img#aUp,
         img#aDown,
         img#aLeft,
@@ -303,15 +297,18 @@
 
         var loopDelay = 1625,
             loopTicks = 0,
-            soundDuration = 1625;
+            soundDuration = 1625,
+            seconds = -1;
         var level = 0,
             androidCount = 5,
-            skullCount = 5,
-            frogHoleMax = 3,
+            playersCount = 5,
+            whoStarts = -1,
+            whoNext = -1,
+            whoWins = -1,
             gameOver = 0;
-        var fX, fY;
-        var currentFrog, currentFrogId;
-        var imgSavedWoodB, imgSavedWoodT;
+        var ticTacToeBoard = ["a2", "b2", "c2", "a1", "b1", "c1", "a0", "b0", "c0"];        
+        var imgPlayer, imgSkull, imgComputer, imgAndroid;
+
         window.onload = function () {
             ticTacToeInit();
         }; 
@@ -327,7 +324,7 @@
         // ticTacToeInitInit will be called on 1st time loading
         function ticTacToeInit() {
             windowCursorKeysHandler();
-            ticTacToeInitLoad();
+            ticTacToeLoad();
         }
 
         // ticTacToeInitReStart(repeatLevel) => repeatLevel = true
@@ -343,10 +340,19 @@
 
         // ticTacToe loader
         function ticTacToeLoad() {
+
+            const now = new Date(Date.now());
+            seconds = now.getSeconds();
             loopTicks = 0;
             androidCount = 5;
-            skullCount = 5;
+            playersCount = 5;
+            whoStarts = (seconds % 2);
+            whoNext = whoStarts,
+                whoWins = -1;
             gameOver = 0;
+            ticTacToeBoard = ["a2", "b2", "c2", "a1", "b1", "c1", "a0", "b0", "c0"];
+            imgPlayer = getNewImage(1, "");
+            imgComputer = getNewImage(0, "");
 
             switch (level) {
                 case 0: loopDelay = 1625; break;
@@ -357,13 +363,8 @@
                 default: loopDelay = 1000; break;
             }
             setLevel(level);
-            setSkullCounter(skullCount);
+            setPlayersCounter(playersCount);
             setAndroidCounter(androidCount);
-
-            fX = 'd';
-            fY = 0;
-            imgSavedWoodB = null;
-            imgSavedWoodT = null;
 
             var headerImg = document.getElementById("headerImg");
             if (headerImg != null) {
@@ -371,16 +372,24 @@
                 document.getElementById("headerImg").focus();
                 document.getElementById("headerImg").blur();
             }
-            var frogZero = document.getElementById("frog0");
-            if (frogZero != null)
-                frogZero.focus();
 
-            setTimeout(function () { frogaLooper(loopTicks, loopDelay) }, loopDelay); // will call function after loopDelay milli seconds.
+            if (whoStarts == 1) // Player starts
+            {
+                alert("Player starts new Tic Tac Toe game, click on board or key pad 1-9.");
+            }
+            else if (whoStarts == 0) // Computer starts
+            {
+                alert("Computer starts new Tic Tac Toe game,\nafter computers first android set\nclick on board or key pad 1-9 to set your skull.");
+                ticTacToeComputerSets(loopTicks);                
+            }
+
+            // setTimeout(function () { frogaLooper(loopTicks, loopDelay) }, loopDelay); // will call function after loopDelay milli seconds.
         }
+        
 
         // main js looper => keeping game in movement
-        function ticTacToeInitLooper(ticks, delay) {
-
+        function ticTacToeIsFinished(ticks, whoPlayed) {
+            
             let leftNotes = document.getElementById("leftNotes");
             let rightNotes = document.getElementById("rightNotes");
             if (leftNotes.innerHTML.length > 1)
@@ -388,31 +397,36 @@
             if (rightNotes.innerHTML.length > 1)
                 rightNotes.innerHTML = "";
 
-            currentFrog = getActiveFrog();
+            var ticTacToeTd = null;
+            var ticTacToeCellId = null;
+            ticTacToeBoard.forEach(function (ticTacToeCellId) {
+                alert("Iterated through board, got value: " + ticTacToeCellId);
+
+                // ticTacToeTd = document.getElementById(ticTacToeCellId);
+
+            });
+            // currentFrog = getActiveFrog();
 
             // level completed
-            if (ticTacToeCompleted)
-            {
-                headerImg.src = "../res/img/levelcompleted.gif"                
+            if (whoWins == 1) {
+                headerImg.src = "../res/img/levelcompleted.gif"
                 headerImg.height = 36;
                 level++;
                 soundDuration = 3600;
-                setTimeout(function () { ticTacToeSound("../res/audio/levelCompleted.mp3") }, 100);
+                // setTimeout(function () { ticTacToeSound("../res/audio/levelCompleted.mp3") }, 100);
                 setTimeout(function () { ticTacToeReStart(false); }, 4000); // will call the function after 8 secs.
                 return;
             }
-            // game over
-            if (currentFrog == null || frogsDied > 3) {
+            else if (whoWins == 0)
+            {
                 headerImg.src = "../res/img/gameover.png";
                 headerImg.height = 36;
                 gameOver = 1;
                 soundDuration = 4800;
-                setTimeout(function () { ticTacToeSound("../res/audio/frogaGameOver.mp3") }, 100);
+                // setTimeout(function () { ticTacToeSound("../res/audio/frogaGameOver.mp3") }, 100);
                 setTimeout(function () { ticTacToeReStart(true); }, 5000); // will call the function after 8 secs.
                 return;
             }
-
-            
 
             loopTicks = ticks + 1;
 
@@ -420,353 +434,204 @@
         }
 
 
-        // move frog => frog jumping handler
-        function moveFrog(jumpDirection) {
+        //// sound and image 
+        //function ticTacToeSound(soundName) {
 
-            currentFrog = getActiveFrog();
-            currentFrogId = getCurrentFrogId(currentFrog);
-            var frogNr = parseInt(currentFrogId.charAt(4));	// TODO		better implementation of frog number
+        //    var dursec = 1625;
+        //    dursec = parseInt(soundDuration);
+        //    if (dursec < parseInt(loopDelay))
+        //        dursec = parseInt(loopDelay);
 
-            var imgDisApear = null;
-            var imgReApear = null;
+        //    let sound = new Audio(soundName);
 
-            var frogDied = -1;
-            var frogCrashed = -1;
-            var frogDoubleHole = 0;
+        //    sound.autoplay = true;
+        //    sound.loop = false;
 
-            var frX = columnByTag(currentFrog);
-            var frY = parseInt(rowByTag(currentFrog));
-            var oldTd = "td" + frY + frX;
+        //    let leftNotes = document.getElementById("leftNotes");
+        //    let rightNotes = document.getElementById("rightNotes");
+        //    leftNotes.innerHTML = "";
+        //    rightNotes.innerHTML = "";
 
-            var nrX = fX;
-            var nrY = parseInt(fY);
+        //    setTimeout(function () {
+        //        sound.play();
+        //        leftNotes.innerHTML = "♪ ";
+        //        rightNotes.innerHTML = " ♫";
+        //    }, 100);
 
-            if (jumpDirection == null || jumpDirection.length < 2)
-                return;
+        //    setTimeout(function () {
+        //        leftNotes.innerHTML = " ♪";
+        //        rightNotes.innerHTML = "♫ ";
+        //    }, 800);
 
-            if (jumpDirection.charAt(0) == 'u') {
-                nrY = upper(frY);												// up 	
-                document.getElementById("aUp").src = "../res/img/a_up.gif";
+        //    setTimeout(function () {
+        //        leftNotes.innerHTML = "  ";
+        //        rightNotes.innerHTML = "  ";
+
+        //        sound.loop = false;
+        //        sound.pause();
+        //        sound.autoplay = false;
+        //        sound.currentTime = 0;
+
+        //        try {
+        //            sound.src = "";
+        //            sound = null;
+        //        } catch (exSnd) {
+        //        }
+        //        soundDuration = parseInt(loopDelay);
+        //    }, dursec);
+
+            
+        //}
+
+
+
+        //function reCreateTicTacToe() {
+        //    // first clear all bottom and top table cells, so that there rest neither frogs nor holes there
+        //    var tableCell = null;
+        //    var childFromTableCell = null;
+        //    var tCellTdId = null;
+        //    var tdsToClear = [
+        //        "a2", "b2", "c2", "a1", "b1", "c1", "a0", "b0", "c0"];
+
+        //    tdsToClear.forEach(function (tCellTdId) {
+
+        //        tableCell = document.getElementById(tCellTdId);
+
+        //        if (tableCell != null && tableCell.children != null && tableCell.children.length > 0) {
+
+        //            for (tdCellIt = 0; tdCellIt < tableCell.children.length; tdCellIt++) {
+
+        //                childFromTableCell = tableCell.children[tdCellIt];
+        //                if (childFromTableCell != null)
+        //                    tableCell.removeChild(childFromTableCell);
+        //            }
+        //        }
+        //    });
+        //}
+        
+
+        function setLevel(tacToeLevel) {
+
+            var levelPlaceHolder = document.getElementById("ticTacToeLevel");
+
+            if (levelPlaceHolder != null) {
+                levelPlaceHolder.innerHTML = tacToeLevel;
             }
-            else if (jumpDirection.charAt(0) == 'd') { 							// TODO should we let frog drive back to start meadow
-                nrY = below(frY);												// down 				
-                document.getElementById("aDown").src = "../res/img/a_down.gif";
-            }
 
-            if (jumpDirection.charAt(0) == 'r' || jumpDirection.charAt(1) == 'r') {
-                nrX = righter(frX);												// right
-                document.getElementById("aRight").src = "../res/img/a_right.gif";
-            } else if (jumpDirection.charAt(0) == 'l' || jumpDirection.charAt(1) == 'l') {
-                nrX = lefter(frX);												// left
-                document.getElementById("aLeft").src = "../res/img/a_left.gif";
-            }
+        }
 
-            // TODO: better use newTd = getNewTdPositionByMoving(car, 'rr');
-            var newTd = "td" + nrY + nrX;
-            var newFrog = document.getElementById(currentFrogId);
 
-            newFrog.id = currentFrogId;
-            newFrog.title = "ActiveFrog";
-            newFrog.border = "0";
-            newFrog.src = "data:image/gif;base64,R0lGODlhJAAbAMZhAGBmAF5lJ3d5AHyBAGuvAG2xAG+xAG6yAG+yAHCyAHKyAHCzAHKzAHG0AHK0AHC0CHezAHK1AHO1AHO2AHS2AHW2AHO3AHW3AnyvR3W3BXa2DnS4AHO5AHO6AHe5AHS6AHe5AXi5AY2zAHS7AHW7AHW8AHe9AHe+AHi+AHy8C3y8Dni/AH28FH69C36+AHnAAKi0Aa+yAH3CAKm1AILAEoLAF37CFoPAHoDEAITBF37DF4TBGYS9TaizRIPEBITDEoTECYbCH4TEEoTEG4bEGojDIYjDI4jDJIfEHobFH4nELovAWa7BAI3HNY7HN5DJPJLJQK7IAJTLQZTNRpbNRpfNRpnJbpvQTJvRSLbOE5zSSZ3SSr3OEqfXWsrWAKraX6zcYv///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////yH+IkNyZWF0ZWQgIGJ5IGhlQGFyZWEyMy5hdCB3aXRoIEdJTVAAIfkECRIAfwAsAAABACQAGgAAB9SAf4KDhIWGh4iJiouMikpgf2BKjZSEV12XV5WbT00VTU+blDNeC6ZeM6KMAKWnAKqFWn+ygjEKpgsKMYOytI1bfy9/QoMMDbgNDIPEwsCMKH84LwSDuNaDBC/C0IzZ2oTWuITa05Tk5CPhpiPn35QE7OjqCyMl6NSwfwTz+PmF++r6+cPGb+C/gvmMKDQiCGA4fAsZMooY8c+8PxQXLsqoEMg8IBwlKgo5IdyEkJQ4ugjnguOmjD7C+cioKiMFXBRowqK40lTLiv4WurBo6s9PkYgCAQAh+QQJEgB/ACwAAAAAJAAbAAAH2oB/goOEhYaHiImHSmB/YEqKkYpXXZRXkpiGT00VTU+ZoH8zXgulXjOhmACkpgCphlp/sYIxCqULCjGDsbOYW38vf0KDDA23DQyDw8G/kih/OC8Eg7fVgwQvwc+S2NmE1beE2dKZ4+Mj4KUj5t6ZBOvn6QsjJefTr4IE8vf4hvrp/PoR+gcuoMB8+w4WIljNYCgjEI1QSzcookRJFi3+kfcnY8RIHiECkQck5EVFJieAm2AyU0gX4FyEfJjRBzgfHl95pHCLQk58GWGWkqlRYEQXG0v9IXpSocBAACH5BAkSAH8ALAAAAAAkABsAAAemgH+Cg4SFfzxWf1Y8ho2Oj39LVpJLkJaQPDwYmZedhT09GKKgnqUBoaMBpZ6oohg9q4aVlYKutqKDs52VGH+9tbeug729tI/EuMDBv764zI62hMvJys/Q09i3ndnc1LHYsZDg4dfL5OXB543j4Znu1dqH7oyY8/PY9vOO+ffT/O+G/mXCJ3CfwGUC6Rnkh/DfpX8N83mCaMvhqny3JJ5zh4wYwEeBAAA7";
-            // newFrog.src = "../res/img/frogActive.gif";
-            newFrog.setAttribute("idwood", "");
 
-            var shouldReturn = false;
-            if (nrY == 1) {
-                var startObjects = ["meadow0b0", "frog0", "frog1", "frog2", "frog3", "meadow0b1"];
-                let _startObj_Id = "";
-                var startObj = null;
-                startObjects.forEach(function (_startObj_Id) {
-                    startObj = document.getElementById(newTd).children[_startObj_Id];
-                    if (startObj != null) {
+        // ticTacToe player sets skull on board
+        function ticTacToePlayerSets(tdCellId) {
+            var cellTicTacToe = null;
+            var cellAlt = null;
+            var setCellTd = document.getElementById(tdCellId);
+            if (setCellTd != null) {
 
-                        shouldReturn = true;
+                if (setCellTd.alt != null && setCellTd.alt != "")
+                    cellAlt = setCellTd.alt;
+                else
+                    cellAlt = setCellTd.getAttribute("alt");
+
+                cellTicTacToe = setCellTd.getAttribute("ticTacToe");
+                if (cellTicTacToe != null && cellAlt != null && cellTicTacToe.charAt(0) != '\0' && cellAlt.charAt(0) != '\0') {
+
+                    imgPlayer = getNewImage(1, tdCellId);
+                    imgSkull = copyImg(imgPlayer);
+                    setCellTd.appendChild(imgSkull);
+                    setCellTd.setAttribute("ticTacToe", imgPlayer.id);
+                    setCellTd.alt = imgPlayer.id;
+
+                    if (playersCount > 0) {
+                        playersCount--;
+                        setPlayersCounter(playersCount);
+                        imgPlayer = getNewImage(1, "");
                     }
-                });
-            }
 
-            if (shouldReturn)
-                return;
+                    ticTacToeIsFinished(loopTicks, 1);
+                    whoNext = 0;
 
-            frogCrashed = crashFrog(newTd);
-
-            // saved bottom wood image will be restored
-            let woodIt = 0;
-            if (frY == 5 && (nrY == 4 || nrY == 5 || nrY == 6)) {
-                if (imgSavedWoodB != null)
-                    imgReApear = imgSavedWoodB;
-            }
-
-            // saved top wood image will be restored
-            if (frY == 6 && (nrY == 5 || nrY == 6 || nrY == 7)) {
-                if (imgSavedWoodT != null)
-                    imgReApear = imgSavedWoodT;
-            }
-
-            // set frog on bottom wood
-            if (nrY == 5 && (frY == 4 || frY == 5 || frY == 6)) {
-                woodIt = 0;
-                imgDisApear = null;
-                while (imgDisApear == null && woodIt < 4) {
-                    var woodId = "woodB" + woodIt;
-                    imgDisApear = document.getElementById(newTd).children[woodId];
-                    if (imgDisApear != null) {
-                        if (frY == 5)
-                            imgReApear = imgSavedWoodB;
-                        imgSavedWoodB = copyImg(imgDisApear);
-                        newFrog.src = "../res/img/frogOnWoodB.gif#" + woodIt;
-                        newFrog.setAttribute("idwood", woodId);
-                        woodIt = 4;
-                        break;
-                    }
-                    woodIt++;
-                }
-                // frog dies in river
-                if (imgDisApear == null) {
-                    frogDied = frogInRiverOrSwampOrHole(newFrog, "../res/img/frogDiesInWaterB.gif", "../res/audio/frogUnderWater.ogg", "died", "Frog died!");
-                }
-            }
-
-            // set frog on top wood
-            if (nrY == 6 & (frY == 5 || frY == 6 || frY == 7)) {
-                woodIt = 0;
-                imgDisApear = null;
-                while (imgDisApear == null && woodIt < 4) {
-                    var woodId = "woodT" + woodIt;
-                    imgDisApear = document.getElementById(newTd).children[woodId];
-                    if (imgDisApear != null) {
-                        if (frY == 6)
-                            imgReApear = imgSavedWoodT;
-                        imgSavedWoodT = copyImg(imgDisApear);
-                        newFrog.src = "../res/img/frogOnWoodT.gif#" + woodIt;
-                        newFrog.setAttribute("idwood", woodId);
-                        woodIt = 4;
-                        break;
-                    }
-                    woodIt++;
-                }
-                // frog dies in river
-                if (imgDisApear == null) {
-                    frogDied = frogInRiverOrSwampOrHole(newFrog, "../res/img/frogDiesInWaterT.gif", "../res/audio/frogUnderWater.ogg", "died", "Frog died!");
-                }
-            }
-
-            if (nrY == 7) {
-                woodIt = 0;
-                imgDisApear = null;
-                while (imgDisApear == null && woodIt < frogHoleMax) {
-                    imgDisApear = document.getElementById(newTd).children["hole" + woodIt];
-                    if (imgDisApear == null)
-                        imgDisApear = document.getElementById(newTd).children["save" + woodIt];
-                    if (imgDisApear != null && imgDisApear.src != null) {
-                        let idaLen = imgDisApear.src.length;
-                        if ((imgDisApear.src.substr(idaLen - 27) == "../res/img/frogTwiceInHole.gif") ||
-                            (imgDisApear.src.substr(idaLen - 22) == "../res/img/frogInHole.gif")) {
-                            frogDoubleHole++;
-                            woodIt = 4; break;
-                        }
-                        if (imgDisApear.src.substr(idaLen - 20) == "../res/img/frogHole.png") {
-                            woodIt = 4;
-                            break;
-                        }
-                    }
-                    woodIt++;
-                }
-
-                if (imgDisApear == null) {
-                    frogDied = frogInRiverOrSwampOrHole(newFrog, "../res/img/frogDiesInSwamp.gif", "../res/audio/frogInSwamp.ogg", "died", "Frog died!");
-                }
-                else if (imgDisApear != null) {
-                    if (frogDoubleHole >= 1) {
-                        newTd = "td" + nrY + lefter(nrX);
-                        frogDied = frogInRiverOrSwampOrHole(newFrog, "../res/img/frogDiesInSwamp.gif", "../res/audio/frogInSwamp.ogg", "died", "frog" + frogNr + "@graveyard");
-                        imgDisApear = null;
-                    }
-                    else if (frogDoubleHole < 1) {
-                        frogsInHole++;
-                        setFrogsInHole(frogsInHole);
-                        frogInRiverOrSwampOrHole(newFrog, "../res/img/frogInHole.gif", "../res/audio/frogInHole.ogg", "save", "frog" + frogNr + "@home");
-                    }
-                }
-            }
-
-            newFrog.setAttribute("cellid", newTd);
-
-            // if (imgDisApear != null) 
-            //    document.getElementById(newTd).removeChild(imgDisApear);
-
-            if (frogsInHole >= 3 || (frogCrashed) < 0) {
-                if (imgDisApear != null) {
-                    replaceImg(imgDisApear, newFrog);
-                    // document.getElementById(newFrog.id).parentElement.removeChild(newFrog);
+                    ticTacToeComputerSets(loopTicks);
                 }
                 else {
-                    document.getElementById(newTd).appendChild(newFrog);
+                    alert("Can't set players skull here!");
                 }
-            } else {
-                frogDied = frogCrashed;
-                if (imgDisApear != null)
-                    document.getElementById(newTd).removeChild(imgDisApear);
+
+
             }
-
-            if (frogDied > -1)
-                setFrogsDied(++frogsDied);
-
-            if (imgReApear != null) {
-                document.getElementById(oldTd).appendChild(imgReApear);
-            }
-
-            if (frY == 6 && (nrY <= 4 || nrY >= 7))
-                imgSavedWoodB = null;
-            if (frY == 7 && (nrY <= 5 || nrY >= 7))
-                imgSavedWoodT = null;
         }
 
 
-        // sound and image 
-        function ticTacToeSound(soundName) {
-            var dursec = 1625;
-            dursec = parseInt(soundDuration);
-            if (dursec < parseInt(loopDelay))
-                dursec = parseInt(loopDelay);
+        // ticTacToe computer sets android on board
+        function ticTacToeComputerSets(ticks) {
 
-            let sound = new Audio(soundName);
+            var ticTacToeTd = null;
+            var toeCellId = null;
+            loopTicks = ticks + 1;
+            imgComputer = getNewImage(0, "");
 
-            sound.autoplay = true;
-            sound.loop = false;
+            ticTacToeBoard.forEach(function (toeCellId) {
 
-            let leftNotes = document.getElementById("leftNotes");
-            let rightNotes = document.getElementById("rightNotes");
-            leftNotes.innerHTML = "";
-            rightNotes.innerHTML = "";
+                ticTacToeTd = document.getElementById(toeCellId);
 
-            setTimeout(function () {
-                sound.play();
-                leftNotes.innerHTML = "♪ ";
-                rightNotes.innerHTML = " ♫";
-            }, 100);
+                if (ticTacToeTd != null) {
 
-            setTimeout(function () {
-                leftNotes.innerHTML = " ♪";
-                rightNotes.innerHTML = "♫ ";
-            }, 800);
+                    var ticAlt = ticTacToeTd.alt;
+                    var ticTacToeValue = ticTacToeTd.getAttribute("ticTacToe");
+                    if (ticAlt != null && ticAlt.charAt(0) != '\0' && toeCellId != null && ticTacToeValue.charAt(0) != '\0') {
 
-            setTimeout(function () {
-                leftNotes.innerHTML = "  ";
-                rightNotes.innerHTML = "  ";
-                sound.loop = false;
-                sound.pause();
-                sound.autoplay = false;
-                sound.currentTime = 0;
-                try {
-                    sound.src = "";
-                    sound = null;
-                } catch (exSnd) {
-                }
-                soundDuration = parseInt(loopDelay);
-            }, dursec);
-        }
-
-
-        // exchange image & play sound
-        function changeImagePlaySound(imageToChange, newImageUrl, soundToPlay) {
-            if (imageToChange != null)
-                imageToChange.src = newImageUrl;
-
-            if (soundToPlay != null && soundToPlay.length > 1)
-                setTimeout(function () { frogSound(soundToPlay) }, 100);
-        }
-
-
-        function setSkullCounter(skullCnt) {
-            var spanSkullCounter = document.getElementById("skullCounter");
-            if (spanSkullCounter != null)
-                spanSkullCounter.innerText = skullCnt;
-        }
-
-        function setFrogsLeft(frogsLeft) {
-            document.getElementById("frogsLeft").innerHTML = frogsLeft;
-        }
-
-        function setAndroidCounter(androidCnt) {
-            var elemAndroidCounter = document.getElementById("androidCounter");
-            if (elemAndroidCounter != null)
-                elemAndroidCounter.innerHTML = androidCnt;
-        }
-
-        // get active current frog
-        function getActivePlayer() {
-
-            let aFrogIt = 0;
-            var aFrogId = "frog0";
-            currentFrog = null;
-
-            for (aFrogIt = 0; aFrogIt < 4; aFrogIt++) {
-
-                aFrogId = "frog" + aFrogIt;							// TODO: define frog prefix "frog" as constant
-                currentFrog = document.getElementById(aFrogId);
-
-                if (currentFrog != null) {
-                    if (currentFrog.title != "ActiveFrog")
-                        currentFrog.title = "ActiveFrog";
-                    // currentFrog.src = "../res/img/frogActive.gif";
-                    fY = rowByTag(currentFrog);
-                    fX = columnByTag(currentFrog)
-                    return currentFrog;
-                }
-            }
-
-            return currentFrog;
-        }
-
-
-
-        function reCreateTicTacToe() {
-            // first clear all bottom and top table cells, so that there rest neither frogs nor holes there
-            var tdsToClear = [
-                "td2a", "td2b", "td2c", "td1a", "td1b", "td1c", "td0a", "td0b", "td0c"];
-            tdsToClear.forEach(function (tdId) {
-                tableCell = document.getElementById(tdId);
-                if (tableCell != null && tableCell.children != null && tableCell.children.length > 0) {
-                    for (tdCellIt = 0; tdCellIt < tableCell.children.length; tdCellIt++) {
-                        childFromTableCell = tableCell.children[tdCellIt];
-                        if (childFromTableCell != null)
-                            tableCell.removeChild(childFromTableCell);
+                        alert("Iterated through board by cell \'" + ticTacToeCellId + "\' alt=\'" + ticAlt + "\' ticTacToe=\'" + ticTacToeValue + "\' ...");
                     }
                 }
             });
-            var frogsToClear = ["frog0", "frog1", "frog2", "frog3"];
-            frogsToClear.forEach(function (frogId) {
-                var frogMatch = document.getElementById(frogId);
-                if (frogMatch != null && frogMatch.parentElement != null)
-                    frogMatch.parentElement.removeChild(frogMatch);
-            });
-                       
-        }
 
-        function setLevel(ticTacToeLevel) {
-            document.getElementById("ticTacToeLevelLevel").innerHTML = ticTacToeLevel;
+            ticTacToeIsFinished(loopTicks, 0);
+
+            whoNext = 1;
         }
 
 
-        function rowByTag(aVehicle) {
-            var cellidTag = aVehicle.getAttribute("cellid");
-            if (cellidTag != null) //  && cellidTag.length >= 2) 
-                return parseInt(cellidTag.charAt(2));
-            // fY = 0;
-            return -1;
+        function getNewImage(forWho, assignedCellId) {
+
+            var ticImg = new Image(32, 27);
+            var ticNum = (forWho == 0) ? androidCount : playersCount;
+            var ticId = (forWho == 0) ? "a" + ticNum : "p" + ticNum;
+            var ticTitle = "";
+            var ticImgSrc = (forWho == 0) ? "../res/img/androidSetTicTacToe.gif" : "../res/img/skullSetTicTacToe.gif";
+            var cellIdSet = "";
+
+            if (assignedCellId != null && assignedCellId != "") {
+                if (((assignedCellId.charAt(0) != '\0' && (assignedCellId.charAt(0) == 'a' || assignedCellId.charAt(0) == 'b' || assignedCellId.charAt(0) == 'c')) &&
+                    ((assignedCellId.charAt(1) != '\0' && (assignedCellId.charAt(1) == '0' || assignedCellId.charAt(1) == '1' || assignedCellId.charAt(1) == '2'))) {
+                        cellIdSet = assignedCellId;
+                }                
+            }            
+            
+            if (forWho == 0) {                
+                ticImgSrc = "../res/img/androidSetTicTacToe.gif";
+                ticNum = androidCount;
+                ticId = "a" + ticNum;
+                ticTitle = "android" + ticNum;                
+            }
+            else {
+                ticImgSrc = "../res/img/skullSetTicTacToe.gif";
+                ticNum = playersCount;                                
+                ticId = "p" + ticNum;
+                ticTitle = "players" + ticNum;                
+            }
+
+            ticImg.Id = ticId;
+            ticImg.alt = ticId;
+            ticImg.src = ticImgSrc
+            ticImg.setAttribute("border", 0);
+            ticImg.setAttribute("title", ticTitle);
+            ticImg.setAttribute("class", "ticTacToeImage");
+            ticImg.setAttribute("className", "ticTacToeImage");
+            ticImg.setAttribute("cellid", cellIdSet);
+
+            return ticImg;
         }
-
-        function columnByTag(aVehicle) {
-            var cellidtag = aVehicle.getAttribute("cellid");
-            if (cellidtag != null) // && cellidtag.length >= 2)
-                return cellidtag.charAt(3);
-            // fX 
-            return 'd';
-        }
-
-
 
         function cloneObj(obj) {
             var copy;
@@ -802,7 +667,6 @@
             return imgD;
         }
 
-
         // replaces imgOrig with imgFrom, copies all attributes and removes imgFrom from document
         function replaceImg(imgOrig, imgFrom) {
             if (imgOrig != null && imgOrig.id != null && imgOrig.src != null &&
@@ -836,6 +700,47 @@
             }
         }
 
+
+        function setPlayersCounter(playersCnt) {
+            var spanplayersCounter = document.getElementById("playersCounter");
+            if (spanplayersCounter != null)
+                spanplayersCounter.innerText = playersCnt;
+        }
+
+        function setAndroidCounter(androidCnt) {
+            var elemAndroidCounter = document.getElementById("androidCounter");
+            if (elemAndroidCounter != null)
+                elemAndroidCounter.innerHTML = androidCnt;
+        }
+
+
+        function ticTacToeMouseOver(tdCellId) {
+
+            var cellTicTacToeOver = null;
+            var ticTacToeTd = null;
+            let ticTacToeCellId = "";
+            ticTacToeBoard.forEach(function (ticTacToeCellId) {
+
+                ticTacToeTd = document.getElementById(ticTacToeCellId);
+
+                if (ticTacToeTd != null) {
+                    ticTacToeTd.style.backgroundColor = "#1f1f1f";
+                    ticTacToeTd.style.borderWidth = 1;
+                    ticTacToeTd.style.borderStyle = "outset";
+                }
+            });
+
+            cellTicTacToeOver = document.getElementById(tdCellId);
+
+            if (cellTicTacToeOver != null) {
+
+                cellTicTacToeOver.style.backgroundColor = "#3f3f3f";
+                cellTicTacToeOver.style.borderWidth = 2;
+                cellTicTacToeOver.style.borderStyle = "solid";
+            }
+        }
+
+
     </script>
 </asp:Content>
 <asp:Content ID="ContentEncodeBody" ContentPlaceHolderID="EncodeBody" runat="server" ClientIDMode="Static">     
@@ -843,56 +748,43 @@
     <div class="ticTacToe" align="center">
 	    <div class="ticTacToeHeader">
             <span id="headerLeft" align="right" valign="middle">
+                <span id="ticTacToeLevel">0</span>
                 <span id="leftNotes"></span>
-                <img class="frogsInImg" src="../res/img/frogsDiedCount.png" /><span id="skullCounter" alt="worker counter">0</span>
+                <img class="frogsInImg" src="../res/img/skullTicTacToe.gif" /><span id="playersCounter" alt="players counter">5</span>
                 &nbsp;
             </span>
 		    <span id="headerCenter" align="center" valign="middle">
 			    <img class="headerImage" src="../res/img/headerTicTacToe.png" id="headerImg" border="0" onclick="restart()" />
 		    </span>
 		    <span id="headerRight" align="left" valign="middle">
-			    &nbsp;<img class="frogsInImg" src="../res/img/androidTicTacToe.png" /><span id="androidCounter" alt="android counter">0</span>
-			    <span id="rightNotes"></span>
+			    &nbsp;<img class="frogsInImg" src="../res/img/androidTicTacToe.gif" /><span id="androidCounter" alt="android counter">5</span>
 		    </span>
 	    </div>
 	    <table class="ticTacToeTable" border="1" cellpadding="1" cellpadding="1">
-		    <tr id="tr2" class="ticTacToeTr">
-			    <td id="td2a" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
-                    <img  class="ticTacToeImage" src="../res/img/emptyCellBlueTikTakToe.png" />
+		    <tr id="t2" class="ticTacToeTr">
+			    <td id="a2" onmouseover="ticTacToeMouseOver('a2'); return false;" onclick="ticTacToePlayerSets('a2'); return false;" class="ticTacToeTd" width="20%" height="24%">
 			    </td>
-			    <td id="td2b" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
-                    <img  class="ticTacToeImage" src="../res/img/emptyCellRedTikTakToe.png" />
-
+			    <td id="b2" onmouseover="ticTacToeMouseOver('b2'); return false;" onclick="ticTacToePlayerSets('b2'); return false;" class="ticTacToeTd" width="20%" height="24%">
 			    </td>
-			    <td id="td2c" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
-                    <img  class="ticTacToeImage" src="../res/img/emptyCellBlueTikTakToe.png" />
+			    <td id="c2" onmouseover="ticTacToeMouseOver('c2'); return false;" onclick="ticTacToePlayerSets('c2'); return false;" class="ticTacToeTd" width="20%" height="24%">
 			    </td>
 		    </tr>
 		    <tr id="tr1" class="ticTacToeTr">
-			    <td id="td1a" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
-                    <img  class="ticTacToeImage" src="../res/img/emptyCellRedTikTakToe.png" />
+			    <td id="a1" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('a1'); return false;"  onclick="ticTacToePlayerSets('a1'); return false;" width="20%" height="24%">
 			    </td>
-			    <td id="td1b" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
-                    <img  class="ticTacToeImage" src="../res/img/emptyCellBlueTikTakToe.png" />
+			    <td id="b1" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('b1'); return false;"  onclick="ticTacToePlayerSets('b1'); return false;" width="20%" height="24%">
 			    </td>
-			    <td id="td1c" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
-                    <img  class="ticTacToeImage" src="../res/img/emptyCellRedTikTakToe.png" />
+			    <td id="c1" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('c1'); return false;"  onclick="ticTacToePlayerSets('c1'); return false;" width="20%" height="24%">
 			    </td>
 		    </tr>
             <tr id="tr0" class="ticTacToeTr">
-                <td id="td0a" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
-                    <img  class="ticTacToeImage" src="../res/img/emptyCellBlueTikTakToe.png" />
+                <td id="a0" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('a0'); return false;" onclick="ticTacToePlayerSets('a0'); return false;" width="20%" height="24%">
                 </td>
-                <td id="td0b" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
-                    <img  class="ticTacToeImage" src="../res/img/emptyCellRedTikTakToe.png" />
+                <td id="b0" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('b0'); return false;" onclick="ticTacToePlayerSets('b0'); return false;" width="20%" height="24%">
                 </td>
-                <td id="td0c" class="ticTacToeTd" width="20%" height="24%" style="background-color: #1f1f1f; border-color: blueviolet; border-top-width: 1px; border-top-style: outset">
-                    <img  class="ticTacToeImage" src="../res/img/emptyCellBlueTikTakToe.png" />
+                <td id="c0" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('c0'); return false;" onclick="ticTacToePlayerSets('c0'); return false;" width="20%" height="24%">
                 </td>
             </tr>
-	    </table>
-	    <div class="ticTacToeFooter">
-            &nbsp;
-	    </div>	    
+	    </table> 
     </div>
 </asp:Content>
