@@ -316,8 +316,45 @@
         // windows cursor key press hanlder
         function windowCursorKeysHandler() {
             window.onkeydown = function (e) { // TODO: pressing two arrow keys at same time
-                if (e.which > 13)
-                    alert("e.which = " + e.which);
+                if (e.which > 13) {
+                    if (e.which == 97) {
+                        ticTacToeMouseOver('a0');
+                        ticTacToePlayerSets('a0');
+                    }
+                    else if (e.which == 98) {
+                        ticTacToeMouseOver('b0');
+                        ticTacToePlayerSets('b0');
+                    }
+                    else if (e.which == 99) {
+                        ticTacToeMouseOver('c0');
+                        ticTacToePlayerSets('c0');
+                    }
+                    else if (e.which == 100) {
+                        ticTacToeMouseOver('a1');
+                        ticTacToePlayerSets('a1');
+                    }
+                    else if (e.which == 101) {
+                        ticTacToeMouseOver('b1');
+                        ticTacToePlayerSets('b1');
+                    }
+                    else if (e.which == 102) {
+                        ticTacToeMouseOver('c1');
+                        ticTacToePlayerSets('c1');
+                    }
+                    else if (e.which == 103) {
+                        ticTacToeMouseOver('a2');
+                        ticTacToePlayerSets('a2');
+                    }
+                    else if (e.which == 104) {
+                        ticTacToeMouseOver('b2');
+                        ticTacToePlayerSets('b2');
+                    }
+                    else if (e.which == 105) {
+                        ticTacToeMouseOver('c2');
+                        ticTacToePlayerSets('c2');
+                    }
+                    // alert("e.which = " + e.which);
+                }
             };
         }
 
@@ -432,11 +469,8 @@
             // setTimeout(function () { frogaLooper(loopTicks, delay) }, delay); // will call the function after 16 secs.
         }
 
-
-        // marks on mouse over the blured cell on tic tac toe board
-        function ticTacToeMouseOver(tdCellId) {
-
-            var cellTicTacToeOver = null;
+        // clear marked cells 
+        function ticTacToeClearMarkedCells(tdCellId) {
             var ticTacToeTd = null;
             let ticTacToeCellId = "";
             ticTacToeBoard.forEach(function (ticTacToeCellId) {
@@ -450,6 +484,14 @@
                 }
             });
 
+        }
+
+
+        // marks on mouse over the blured cell on tic tac toe board
+        function ticTacToeMouseOver(tdCellId) {
+
+            var cellTicTacToeOver = null;
+            ticTacToeClearMarkedCells(tdCellId);
             cellTicTacToeOver = document.getElementById(tdCellId);
 
             if (cellTicTacToeOver != null) {
@@ -503,6 +545,8 @@
 
                 ticTacToeComputerSets(loopTicks);
             }
+
+            ticTacToeClearMarkedCells(tdCellId);
         }
 
         // ticTacToe computer sets android on board
