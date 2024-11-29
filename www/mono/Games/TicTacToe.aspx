@@ -306,7 +306,8 @@
             whoNext = -1,
             whoWins = -1,
             gameOver = 0;
-        var ticTacToeBoard = ["a2", "b2", "c2", "a1", "b1", "c1", "a0", "b0", "c0"],
+        var ticTacToeBoard = ["a0", "b0", "c0", "a1", "b1", "c1", "a2", "b2", "c2"],
+            ticTacToeGame = ["", "", "", "", "", "", "", "", ""],
             ticTacToeAndroid = ["", "", "", "", "", "", "", "", ""],
             ticTacToePlayers = ["", "", "", "", "", "", "", "", ""];
 
@@ -321,64 +322,64 @@
             window.onkeydown = function (e) { // TODO: pressing two arrow keys at same time
                 if (e.which > 13) {
                     if (e.which == 97) {
-                        ticTacToeMouseOver('a0');
-                        ticTacToePlayerSets('a0');
+                        ticMouseOver('a0');
+                        tacPlayerSets('a0');
                     }
                     else if (e.which == 98) {
-                        ticTacToeMouseOver('b0');
-                        ticTacToePlayerSets('b0');
+                        ticMouseOver('b0');
+                        tacPlayerSets('b0');
                     }
                     else if (e.which == 99) {
-                        ticTacToeMouseOver('c0');
-                        ticTacToePlayerSets('c0');
+                        ticMouseOver('c0');
+                        tacPlayerSets('c0');
                     }
                     else if (e.which == 100) {
-                        ticTacToeMouseOver('a1');
-                        ticTacToePlayerSets('a1');
+                        ticMouseOver('a1');
+                        tacPlayerSets('a1');
                     }
                     else if (e.which == 101) {
-                        ticTacToeMouseOver('b1');
-                        ticTacToePlayerSets('b1');
+                        ticMouseOver('b1');
+                        tacPlayerSets('b1');
                     }
                     else if (e.which == 102) {
-                        ticTacToeMouseOver('c1');
-                        ticTacToePlayerSets('c1');
+                        ticMouseOver('c1');
+                        tacPlayerSets('c1');
                     }
                     else if (e.which == 103) {
-                        ticTacToeMouseOver('a2');
-                        ticTacToePlayerSets('a2');
+                        ticMouseOver('a2');
+                        tacPlayerSets('a2');
                     }
                     else if (e.which == 104) {
-                        ticTacToeMouseOver('b2');
-                        ticTacToePlayerSets('b2');
+                        ticMouseOver('b2');
+                        tacPlayerSets('b2');
                     }
                     else if (e.which == 105) {
-                        ticTacToeMouseOver('c2');
-                        ticTacToePlayerSets('c2');
+                        ticMouseOver('c2');
+                        tacPlayerSets('c2');
                     }
                     // alert("e.which = " + e.which);
                 }
             };
         }
 
-        // ticTacToeInitInit will be called on 1st time loading
+        // ticTacToeInit will be called on 1st time loading
         function ticTacToeInit() {
             windowCursorKeysHandler();
             ticTacToeLoad();
         }
 
-        // ticTacToeInitReStart(repeatLevel) => repeatLevel = true
-        function ticTacToeInitReStart(repeatLevel) {
+        // ticTacToeReStart(repeatLevel) => repeatLevel = true
+        function ticTacToeReStart(repeatLevel) {
             if (repeatLevel) {
                 gameOver = 0;
                 window.location.reload();
             } else { // TODO: fix this
-                reCreateFrogs();
+                toeReCreate();
                 frogLoad();
             }
         }
 
-        // ticTacToe loader
+        // ticTacToeLoad game loader
         function ticTacToeLoad() {
 
             const now = new Date(Date.now());
@@ -390,7 +391,8 @@
             whoNext = whoStarts,
                 whoWins = -1;
             gameOver = 0;
-            ticTacToeBoard = ["a2", "b2", "c2", "a1", "b1", "c1", "a0", "b0", "c0"];
+            ticTacToeBoard = ["a0", "b0", "c0", "a1", "b1", "c1", "a2", "b2", "c2"];
+            ticTacToeGame = ["", "", "", "", "", "", "", "", ""];
             ticTacToePlayers = ["", "", "", "", "", "", "", "", ""];
             ticTacToeAndroid = ["", "", "", "", "", "", "", "", ""];
             imgPlayer = getNewImage(1, "");
@@ -422,14 +424,44 @@
             else if (whoStarts == 0) // Computer starts
             {
                 alert("Computer starts new Tic Tac Toe game,\nafter computers first android set\nclick on board or key pad 1-9 to set your skull.");
-                ticTacToeComputerSets(loopTicks);                
+                tacComputerSets(loopTicks);                
             }
 
             // setTimeout(function () { frogaLooper(loopTicks, loopDelay) }, loopDelay); // will call function after loopDelay milli seconds.
         }
-        
-        // main js looper => keeping game in movement
-        function ticTacToeIsFinished(ticks, whoPlayed) {
+
+        // tacCalculateGamblerArrays => gets computer & players status 
+        function tacCalculateGamblerArrays() {
+            let toeCnt = -1;
+            var ticTacToeTd = null;
+            var ticTacToeCellId = null;
+            ticTacToeBoard.forEach(function (ticTacToeCellId) {
+
+                toeCnt++;
+                ticTacToeTd = document.getElementById(ticTacToeCellId);
+                if (ticTacToeTd != null) {
+
+                    var ticAlt = ticTacToeTd.alt;
+                    var ticTacToeValue = ticTacToeTd.getAttribute("ticTacToe");
+                    if (ticAlt != null && ticAlt.charAt(0) != '\0' && ticTacToeValue != null && ticTacToeValue.charAt(0) != '\0') {
+
+                        if (ticAlt.charAt(0) == 'a') {
+                            ticTacToeGame[toeCnt] = 'a';
+                            ticTacToeAndroid[toeCnt] = ticTacToeCellId;
+                        }
+                        if (ticAlt.charAt(0) == 'p') {
+                            ticTacToeGame[toeCnt] = 'p';
+                            ticTacToePlayers[toeCnt] = ticTacToeCellId;
+                        }
+                    }
+                }
+            });
+        }
+
+        // toeFinished checks if computer or player already wins that game
+        // ticks        game ticks
+        // whoPlayed    0 for computer, 1 for player
+        function toeFinished(ticks, whoPlayed) {
             
             let leftNotes = document.getElementById("leftNotes");
             let rightNotes = document.getElementById("rightNotes");
@@ -438,22 +470,10 @@
             if (rightNotes.innerHTML.length > 1)
                 rightNotes.innerHTML = "";
 
-            var ticTacToeTd = null;
-            var ticTacToeCellId = null;
-            ticTacToeBoard.forEach(function (ticTacToeCellId) {
-                ticTacToeTd = document.getElementById(ticTacToeCellId);
 
-                if (ticTacToeTd != null) {
+            tacCalculateGamblerArrays();
 
-                    var ticAlt = ticTacToeTd.alt;
-                    var ticTacToeValue = ticTacToeTd.getAttribute("ticTacToe");
-                    if (ticAlt != null && ticAlt.charAt(0) != '\0' && toeCellId != null && ticTacToeValue.charAt(0) != '\0') {
-
-                        alert("Iterated through board by cell \'" + ticTacToeCellId + "\' alt=\'" + ticAlt + "\' ticTacToe=\'" + ticTacToeValue + "\' ...");
-                    }
-
-            });
-            // currentFrog = getActiveFrog();
+            whoWins = toeWhoWins(whoPlayed, (whoPlayed == 0) ? ticTacToeAndroid : ticTacToePlayers);
 
             // level completed
             if (whoWins == 1) {
@@ -461,7 +481,7 @@
                 headerImg.height = 36;
                 level++;
                 soundDuration = 3600;
-                // setTimeout(function () { ticTacToeSound("../res/audio/levelCompleted.mp3") }, 100);
+                setTimeout(function () { ticSound("../res/audio/levelCompleted.mp3") }, 100);
                 setTimeout(function () { ticTacToeReStart(false); }, 4000); // will call the function after 8 secs.
                 return;
             }
@@ -471,7 +491,7 @@
                 headerImg.height = 36;
                 gameOver = 1;
                 soundDuration = 4800;
-                // setTimeout(function () { ticTacToeSound("../res/audio/frogaGameOver.mp3") }, 100);
+                setTimeout(function () { ticSound("../res/audio/frogaGameOver.mp3") }, 100);
                 setTimeout(function () { ticTacToeReStart(true); }, 5000); // will call the function after 8 secs.
                 return;
             }
@@ -481,8 +501,52 @@
             // setTimeout(function () { frogaLooper(loopTicks, delay) }, delay); // will call the function after 16 secs.
         }
 
+        // checks if somebody already wins
+        // whoPlayed    0 for computer, 1 for player
+        // gameArray    ticTacToeAndroid for computer, ticTacToePlayers for player
+        // return       -1 if game not finished or nobody wins game, 0 if computer won, 1 if player wins game
+        function toeWhoWins(whoPlayed, gameArray) {
+
+            if (gameArray == null || gameArray.length != 9)
+                return -1;
+
+            let toeWin = -1;
+            let ga0 = -1, gb0 = -1, gc0 = -1, ga1 = -1, gb1 = -1, gc1 = -1, ga2 = -1, gb2 = -1, gc2 = -1;
+            if (gameArray[0] != null && gameArray[0].charAt(0) != '\0')
+                ga0 = 1;
+            if (gameArray[1] != null && gameArray[1].charAt(0) != '\0')
+                gb0 = 1;
+            if (gameArray[2] != null && gameArray[2].charAt(0) != '\0')
+                gc0 = 1;
+            if (gameArray[3] != null && gameArray[3].charAt(0) != '\0')
+                ga1 = 1;
+            if (gameArray[4] != null && gameArray[4].charAt(0) != '\0')
+                gb1 = 1;
+            if (gameArray[5] != null && gameArray[5].charAt(0) != '\0')
+                gc1 = 1;
+            if (gameArray[6] != null && gameArray[6].charAt(0) != '\0')
+                ga2 = 1;
+            if (gameArray[7] != null && gameArray[7].charAt(0) != '\0')
+                gb2 = 1;
+            if (gameArray[8] != null && gameArray[8].charAt(0) != '\0')
+                gc2 = 1;
+
+            if ((ga0 == 1 && gb0 == 1 && gc0 == 1) ||
+                (ga1 == 1 && gb1 == 1 && gc1 == 1) ||
+                (ga2 == 1 && gb2 == 1 && gc2 == 1) ||
+                (ga0 == 1 && ga1 == 1 && ga2 == 1) ||
+                (gb0 == 1 && gb1 == 1 && gb2 == 1) ||
+                (gc0 == 1 && gc1 == 1 && gc2 == 1) ||
+                (ga0 == 1 && gb1 == 1 && gc2 == 1) ||
+                (gc0 == 1 && gb1 == 1 && ga2 == 1))
+                toeWin = whoPlayed;
+
+            return toeWin;
+        }
+
+
         // clear marked cells 
-        function ticTacToeClearMarkedCells(tdCellId) {
+        function ticClearMarkedCells(tdCellId) {
             var ticTacToeTd = null;
             let ticTacToeCellId = "";
             ticTacToeBoard.forEach(function (ticTacToeCellId) {
@@ -499,11 +563,11 @@
         }
 
 
-        // marks on mouse over the blured cell on tic tac toe board
-        function ticTacToeMouseOver(tdCellId) {
+        // ticMouseOver marks on mouse over the blured cell on tic tac toe board
+        function ticMouseOver(tdCellId) {
 
             var cellTicTacToeOver = null;
-            ticTacToeClearMarkedCells(tdCellId);
+            ticClearMarkedCells(tdCellId);
             cellTicTacToeOver = document.getElementById(tdCellId);
 
             if (cellTicTacToeOver != null) {
@@ -515,7 +579,7 @@
         }
 
         // ticTacToe player sets skull on board
-        function ticTacToePlayerSets(tdCellId) {
+        function tacPlayerSets(tdCellId) {
 
             var cellTicTacToe = null;
             var cellAlt = null;
@@ -552,41 +616,64 @@
                     imgPlayer = getNewImage(1, "");
                 }
 
-                ticTacToeIsFinished(loopTicks, 1);
+                toeFinished(loopTicks, 1);
                 whoNext = 0;
 
-                ticTacToeComputerSets(loopTicks);
+                tacComputerSets(loopTicks);
             }
 
-            ticTacToeClearMarkedCells(tdCellId);
+            ticClearMarkedCells(tdCellId);
         }
 
         // ticTacToe computer sets android on board
-        function ticTacToeComputerSets(ticks) {
+        function tacComputerSets(ticks) {
 
             var ticTacToeTd = null;
+            let toeCnt = -1;
+            var tacCellId = null;
             var toeCellId = null;
-            loopTicks = ticks + 1;
             imgComputer = getNewImage(0, "");
+            tacCalculateGamblerArrays();
 
-            ticTacToeBoard.forEach(function (toeCellId) {
+            if (loopTicks < 4 && (ticTacToeGame[4] == null || ticTacToeGame[4].charAt(0) == '\0')) {
+                toeCellId = 'b2';
+            }
 
-                ticTacToeTd = document.getElementById(toeCellId);
-
-                if (ticTacToeTd != null) {
-
-                    var ticAlt = ticTacToeTd.alt;
-                    var ticTacToeValue = ticTacToeTd.getAttribute("ticTacToe");
-                    if (ticAlt != null && ticAlt.charAt(0) != '\0' && toeCellId != null && ticTacToeValue.charAt(0) != '\0') {
-
-                        alert("Iterated through board by cell \'" + ticTacToeCellId + "\' alt=\'" + ticAlt + "\' ticTacToe=\'" + ticTacToeValue + "\' ...");
+            if (toeCellId == null || toeCellId.charAt(0) == '\0') {
+                // stupid ai for computer to find free field
+                ticTacToeGame.forEach(function (tacCellId) {
+                    toeCnt++;
+                    ticTacToeTd = document.getElementById(tacCellId);
+                    if (toeCellId == null || toeCellId.charAt(0) == '\0') {
+                        if (ticTacToeTd != null && (ticTacToeGame[toeCnt] == null || ticTacToeGame[toeCnt] == "")) {
+                            toeCellId = ticTacToeBoard[toeCnt];
+                        }
                     }
+                });
+            }    
+
+            var setCellTd = document.getElementById(toeCellId);
+            if (setCellTd != null) {
+
+                imgComputer = getNewImage(0, toeCellId);
+
+                imgAndroid = copyImg(imgComputer);
+                setCellTd.appendChild(imgAndroid);
+                setCellTd.setAttribute("ticTacToe", imgAndroid.id);
+                setCellTd.alt = imgAndroid.id;
+
+                if (androidCount > 0) {
+                    androidCount--;
+                    setAndroidCounter(androidCount);
+                    imgComputer = getNewImage(0, "");
                 }
-            });
 
-            ticTacToeIsFinished(loopTicks, 0);
+                toeFinished(loopTicks, 0);
 
-            whoNext = 1;
+                whoNext = 1;
+            } else {  // what shell we do with the drunken sailor
+                alert("drunken sailor!");
+            }
         }
 
         // set players remaining skull discs to set
@@ -658,7 +745,7 @@
         }
 
         //// sound and image 
-        function ticTacToeSound(soundName) {
+        function ticSound(soundName) {
 
             var dursec = 1625;
             dursec = parseInt(soundDuration);
@@ -718,14 +805,13 @@
         }
 
 
-        // clears are finished tic tac toe board
-        function reCreateTicTacToe() {
-            // first clear all bottom and top table cells, so that there rest neither frogs nor holes there
+        // toeReCreate clears are finished tic tac toe board
+        function toeReCreate() {
+            
             var tableCell = null;
             var childFromTableCell = null;
             var tCellTdId = null;
-            var tdsToClear = [
-                "a2", "b2", "c2", "a1", "b1", "c1", "a0", "b0", "c0"];
+            var tdsToClear = ["a0", "b0", "c0", "a1", "b1", "c1", "a2", "b2", "c2"];
 
             tdsToClear.forEach(function (tCellTdId) {
 
@@ -755,6 +841,7 @@
             }
         }
 
+        // copies an image to another
         function copyImg(imgC) {
             var imgD = new Image();
             if (imgC != null && imgC.id != null) {
@@ -770,8 +857,8 @@
                 imgD.setAttribute("class", imgC.getAttribute("class"));
                 if (imgC.getAttribute("cellid") != null)
                     imgD.setAttribute("cellid", imgC.getAttribute("cellid"));
-                if (imgC.getAttribute("idwood") != null)
-                    imgD.setAttribute("idwood", imgC.getAttribute("idwood"));
+                if (imgC.getAttribute("ticTacToe") != null)
+                    imgD.setAttribute("ticTacToe", imgC.getAttribute("ticTacToe"));
                 imgD.setAttribute("border", 0);
 
             }
@@ -833,27 +920,27 @@
 	    </div>
 	    <table class="ticTacToeTable" border="1" cellpadding="1" cellpadding="1">
 		    <tr id="t2" class="ticTacToeTr">
-			    <td id="a2" onmouseover="ticTacToeMouseOver('a2'); return false;" onclick="ticTacToePlayerSets('a2'); return false;" class="ticTacToeTd" width="20%" height="24%" title="">
+			    <td id="a2" onmouseover="ticMouseOver('a2'); return false;" onclick="tacPlayerSets('a2'); return false;" class="ticTacToeTd" width="20%" height="24%" title="">
 			    </td>
-			    <td id="b2" onmouseover="ticTacToeMouseOver('b2'); return false;" onclick="ticTacToePlayerSets('b2'); return false;" class="ticTacToeTd" width="20%" height="24%" title="">
+			    <td id="b2" onmouseover="ticMouseOver('b2'); return false;" onclick="tacPlayerSets('b2'); return false;" class="ticTacToeTd" width="20%" height="24%" title="">
 			    </td>
-			    <td id="c2" onmouseover="ticTacToeMouseOver('c2'); return false;" onclick="ticTacToePlayerSets('c2'); return false;" class="ticTacToeTd" width="20%" height="24%" title="">
+			    <td id="c2" onmouseover="ticMouseOver('c2'); return false;" onclick="tacPlayerSets('c2'); return false;" class="ticTacToeTd" width="20%" height="24%" title="">
 			    </td>
 		    </tr>
 		    <tr id="tr1" class="ticTacToeTr">
-			    <td id="a1" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('a1'); return false;"  onclick="ticTacToePlayerSets('a1'); return false;" width="20%" height="24%" title="">
+			    <td id="a1" class="ticTacToeTd" onmouseover="ticMouseOver('a1'); return false;"  onclick="tacPlayerSets('a1'); return false;" width="20%" height="24%" title="">
 			    </td>
-			    <td id="b1" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('b1'); return false;"  onclick="ticTacToePlayerSets('b1'); return false;" width="20%" height="24%" title="">
+			    <td id="b1" class="ticTacToeTd" onmouseover="ticMouseOver('b1'); return false;"  onclick="tacPlayerSets('b1'); return false;" width="20%" height="24%" title="">
 			    </td>
-			    <td id="c1" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('c1'); return false;"  onclick="ticTacToePlayerSets('c1'); return false;" width="20%" height="24%" title="">
+			    <td id="c1" class="ticTacToeTd" onmouseover="ticMouseOver('c1'); return false;"  onclick="tacPlayerSets('c1'); return false;" width="20%" height="24%" title="">
 			    </td>
 		    </tr>
             <tr id="tr0" class="ticTacToeTr">
-                <td id="a0" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('a0'); return false;" onclick="ticTacToePlayerSets('a0'); return false;" width="20%" height="24%" title="">
+                <td id="a0" class="ticTacToeTd" onmouseover="ticMouseOver('a0'); return false;" onclick="tacPlayerSets('a0'); return false;" width="20%" height="24%" title="">
                 </td>
-                <td id="b0" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('b0'); return false;" onclick="ticTacToePlayerSets('b0'); return false;" width="20%" height="24%" title="">
+                <td id="b0" class="ticTacToeTd" onmouseover="ticMouseOver('b0'); return false;" onclick="tacPlayerSets('b0'); return false;" width="20%" height="24%" title="">
                 </td>
-                <td id="c0" class="ticTacToeTd" onmouseover="ticTacToeMouseOver('c0'); return false;" onclick="ticTacToePlayerSets('c0'); return false;" width="20%" height="24%" title="">
+                <td id="c0" class="ticTacToeTd" onmouseover="ticMouseOver('c0'); return false;" onclick="tacPlayerSets('c0'); return false;" width="20%" height="24%" title="">
                 </td>
             </tr>
 	    </table> 
