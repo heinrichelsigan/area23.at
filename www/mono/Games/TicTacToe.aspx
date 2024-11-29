@@ -365,7 +365,10 @@
         // ticTacToeInit will be called on 1st time loading
         function ticTacToeInit() {
             windowCursorKeysHandler();
-            ticTacToeLoad();
+            const now = new Date(Date.now());
+            seconds = now.getSeconds();
+            whoStarts = (seconds % 2) + 1;
+            ticTacToeLoad(whoStarts);
         }
 
         // ticTacToeReStart(repeatLevel) => repeatLevel = true
@@ -375,19 +378,22 @@
                 window.location.reload();
             } else { // TODO: fix this
                 toeReCreate();
-                ticTacToeLoad();
+
+                if (whoStarts == 1)
+                    whoStarts = 2;
+                else if (whoStarts == 2)
+                    whoStarts = 1;
+
+                ticTacToeLoad(whoStarts);
             }
         }
 
         // ticTacToeLoad game loader
-        function ticTacToeLoad() {
+        function ticTacToeLoad(starts) {
 
-            const now = new Date(Date.now());
-            seconds = now.getSeconds();
             loopTicks = 0;
             androidCount = 5;
-            playersCount = 5;
-            whoStarts = (seconds % 2) + 1;
+            playersCount = 5;            
             whoNext = whoStarts;
             whoWins = -1;
             gameOver = 0;
@@ -450,7 +456,7 @@
 
                         if (ticAlt.charAt(0) == 'a') {
                             ticTacToeGame[toeCnt] = "a";
-                            ticTacToeAndroid[toeCnt] = 2;
+                            ticTacToeAndroid[toeCnt] = 1;
                         }
                         if (ticAlt.charAt(0) == 'p') {
                             ticTacToeGame[toeCnt] = "p";
@@ -492,7 +498,7 @@
                 soundDuration = 3600;
                 setTimeout(function () { ticSound("../res/audio/levelCompleted.mp3") }, 100);
                 setTimeout(function () { ticTacToeReStart(false); }, 4000); // will call the function after 8 secs.
-                return;
+                return whoWins;
             }
             else if (whoWins == 1)
             {
@@ -502,12 +508,22 @@
                 soundDuration = 4800;
                 setTimeout(function () { ticSound("../res/audio/frogaGameOver.mp3") }, 100);
                 setTimeout(function () { ticTacToeReStart(true); }, 5000); // will call the function after 8 secs.
-                return;
+                return whoWins;
+            }
+            if (whoWins == 0) {
+                headerImg.src = "../res/img/ticTacToeDraw.gif"
+                headerImg.height = 36;
+                level++;
+                soundDuration = 5000;
+                setTimeout(function () { ticSound("../res/audio/aDraw.m4a") }, 100);
+                setTimeout(function () { ticTacToeReStart(false); }, 6000); // will call the function after 8 secs.
+                return whoWins;
             }
 
             loopTicks = ticks + 1;
 
             // setTimeout(function () { frogaLooper(loopTicks, delay) }, delay); // will call the function after 16 secs.
+            return whoWins;
         }
 
         // checks if somebody already wins
@@ -519,7 +535,9 @@
             if (gameArray == null || gameArray.length != 9)
                 return -1;
 
+            var tacTCellId = null;
             var toeTCellTd = null;
+            var tValue = null;
             var matchCh = '';
             if (whoPlayed == 1)
                 matchCh = 'a';
@@ -528,15 +546,39 @@
 
             let toeWin = -1;
             let toeCnt = -1;
-            let ga0 = -1, gb0 = -1, gc0 = -1, ga1 = -1, gb1 = -1, gc1 = -1, ga2 = -1, gb2 = -1, gc2 = -1;
-            var tacTCellId = null;
-            ticTacToeBoard.forEach(function (tacTCellId) {
-
-                toeCnt++;
+            let g0 = -1, gdraw = -1, ga0 = -1, gb0 = -1, gc0 = -1, ga1 = -1, gb1 = -1, gc1 = -1, ga2 = -1, gb2 = -1, gc2 = -1;
+            
+            for (toeCnt = 0; toeCnt < 9; toeCnt++) {
+                tacTCellId = ticTacToeBoard[toeCnt];
                 toeTCellTd = document.getElementById(tacTCellId);
-                var tValue = toeTCellTd.getAttribute("ticTacToe");
-                if (tValue != null && tValue.charAt(0) == matchCh) {
-                    alert(tacTCellId + ":\t" + tValue);
+                if (toeTCellTd != null) {
+                    tValue = toeTCellTd.getAttribute("ticTacToe");
+                    if (tValue != null && tValue.charAt(0) == matchCh) {
+                        alert(tacTCellId + ":\t" + tValue);
+                        if (toeCnt == 0)
+                            ga0 = 1;
+                        else if (toeCnt == 1)
+                            gb0 = 1;
+                        else if (toeCnt == 2)
+                            gc0 = 1;
+                        else if (toeCnt == 3)
+                            ga1 = 1;
+                        else if (toeCnt == 4)
+                            gb1 = 1;
+                        else if (toeCnt == 5)
+                            gc1 = 1;
+                        else if (toeCnt == 6)
+                            ga2 = 1;
+                        else if (toeCnt == 7)
+                            gb2 = 1;
+                        else if (toeCnt == 8)
+                            gc2 = 1;
+                    }
+                }
+            }
+
+            for (toeCnt = 0; toeCnt < 9; toeCnt++) {
+                if (ticTacToeGame[toeCnt].charAt(0) == matchCh) {
                     if (toeCnt == 0)
                         ga0 = 1;
                     else if (toeCnt == 1)
@@ -556,8 +598,68 @@
                     else if (toeCnt == 8)
                         gc2 = 1;
                 }
-            });
-                
+            }
+
+            for (toeCnt = 0; toeCnt < 9; toeCnt++) {
+                if (ticTacToeGame[toeCnt].charAt(0) != '0') {
+                    gdraw++;
+                }
+                else if (ticTacToeGame[toeCnt].charAt(0) == '0') {
+                    g0 = 0;
+                }
+            }
+
+            if (whoPlayed == 1) {
+                for (toeCnt = 0; toeCnt < 9; toeCnt++) {
+                    if (ticTacToeAndroid[toeCnt] > 0) {
+                        if (toeCnt == 0)
+                            ga0 = 1;
+                        else if (toeCnt == 1)
+                            gb0 = 1;
+                        else if (toeCnt == 2)
+                            gc0 = 1;
+                        else if (toeCnt == 3)
+                            ga1 = 1;
+                        else if (toeCnt == 4)
+                            gb1 = 1;
+                        else if (toeCnt == 5)
+                            gc1 = 1;
+                        else if (toeCnt == 6)
+                            ga2 = 1;
+                        else if (toeCnt == 7)
+                            gb2 = 1;
+                        else if (toeCnt == 8)
+                            gc2 = 1;
+                    }
+                }
+            }
+            if (whoPlayed == 2) {
+                for (toeCnt = 0; toeCnt < 9; toeCnt++) {
+                    if (ticTacToePlayers[toeCnt] > 0) {
+                        if (toeCnt == 0)
+                            ga0 = 1;
+                        else if (toeCnt == 1)
+                            gb0 = 1;
+                        else if (toeCnt == 2)
+                            gc0 = 1;
+                        else if (toeCnt == 3)
+                            ga1 = 1;
+                        else if (toeCnt == 4)
+                            gb1 = 1;
+                        else if (toeCnt == 5)
+                            gc1 = 1;
+                        else if (toeCnt == 6)
+                            ga2 = 1;
+                        else if (toeCnt == 7)
+                            gb2 = 1;
+                        else if (toeCnt == 8)
+                            gc2 = 1;
+                    }
+                }
+            }
+           
+            if (gdraw >= 8 && g0 < 0)
+                toeWin = 0;
             if ((ga0 == 1 && gb0 == 1 && gc0 == 1) ||
                 (ga1 == 1 && gb1 == 1 && gc1 == 1) ||
                 (ga2 == 1 && gb2 == 1 && gc2 == 1) ||
@@ -656,9 +758,13 @@
                     imgPlayer = getNewImage(2, "");
                 }
 
-                toeFinished(loopTicks, 2);
-                whoNext = 1;
 
+                if (toeFinished(loopTicks, 2) > 0) {
+                    ticClearMarkedCells(tdCellId); // TODO: mark winning cells
+                    return;
+                }
+
+                whoNext = 1;
                 tacComputerSets(loopTicks);
             }
 
@@ -680,35 +786,14 @@
                 toeCellId = "b1";
 
             if (toeCellId == null || toeCellId.charAt(0) != 'b') {
-
+                // stupid ai for computer to find free field
                 for (toeCnt = 0; toeCnt < 9; toeCnt++) {
                     if (toeCellId == null && ticTacToeGame[toeCnt] == "0" && ticTacToeGame[toeCnt].charAt(0) != 'a' && ticTacToeGame[toeCnt].charAt(0) != 'p') {
                         toeCellId = ticTacToeBoard[toeCnt];
                     }
                 }
-                // stupid ai for computer to find free field
-                //ticTacToeBoard.forEach(function (tacCellId) {
-
-                //    toeCnt++;
-                //    if (tacCellId != null) {
-
-                //        toeTCell = document.getElementById(tacCellId);
-                //        if (toeTCell == null) {
-
-                //            ticTacToeTd = toeTCell.getAttribute("ticTacToe");
-                //            if (ticTacToeTd != null && ticTacToeTd.length > 0) {
-                //                ;
-                //            }
-                //            else {
-                //                toeCellId = tacCellId;
-                //            }
-                //        }
-                //        else
-                //            alert("td for id: " + tacCellId + " is null :(");
-                //    }
-                //    else
-                //        alert("tacCellId is null ;( !");
-                //});
+                
+                
             }
 
             if (toeCellId != null) {
@@ -736,7 +821,9 @@
                         imgComputer = getNewImage(1, "");
                     }
 
-                    toeFinished(loopTicks, 1);
+                    if (toeFinished(loopTicks, 1) > 0) {
+                        return;
+                    }
 
                     whoNext = 2;
                 }
@@ -885,7 +972,7 @@
             tacImg.setAttribute("class", "ticTacToeImage");
             tacImg.setAttribute("className", "ticTacToeImage");            
 
-            return ticImg;
+            return tacImg;
         }
 
         //// sound and image 
@@ -971,25 +1058,32 @@
             var tableCell = null;
             var childFromTableCell = null;
             var tCellTdId = null;
+            var nCellTdId = null;
+            var nTableCell = null;
+            var nImg = null;
             var tdsToClear = ["a0", "b0", "c0", "a1", "b1", "c1", "a2", "b2", "c2"];
 
             tdsToClear.forEach(function (tCellTdId) {
 
                 tableCell = document.getElementById(tCellTdId);
+                tableCell.setAttribute("ticTacToe", "");
+                tableCell.alt = "";
                 cleanTableCell(tableCell);
             });
 
-            tdsToClear.forEach(function (nCellTdId) {
+            let tCnt = -1;
+            for (tCnt = 0; tCnt < 9; tCnt++) {
 
-                var nTableCell = document.getElementById(nCellTdId);
+                nCellTdId = ticTacToeBoard[tCnt];
+                nTableCell = document.getElementById(nCellTdId)
 
                 if (nTableCell != null) {
-                    var nImg = getEmptyImage(nCellTdId);
+                    nImg = getEmptyImage(nCellTdId);
                     nTableCell.appendChild(nImg);
                     nTableCell.setAttribute("ticTacToe", "");
                     nTableCell.alt = "";
                 }
-            });
+            }
             
         }
 

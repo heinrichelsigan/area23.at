@@ -133,6 +133,7 @@
     <Content Include="Games\TicTacToe.aspx" />
     <Content Include="Games\frogb.aspx" />
     <Content Include="Games\froga.aspx" />
+    <Content Include="res\audio\aDraw.m4a" />
     <Content Include="res\css\ccalcweb.css" />
     <Content Include="res\img\androidSetTicTacToe.gif" />
     <Content Include="res\img\androidSetTicTacToe.png" />
@@ -162,6 +163,7 @@
     <Content Include="res\img\skullSetTicTacToe.png" />
     <Content Include="res\img\skullTicTacToe.gif" />
     <Content Include="res\img\skullTicTacToe.png" />
+    <Content Include="res\img\ticTacToeDraw.gif" />
     <Content Include="res\img\workerTicTacToe.gif" />
     <Content Include="res\out\Rational_ObjectOrientedAnalysis-UML.jpg" />
     <Content Include="res\out\Rational_Rose_Certificate.jpg" />
