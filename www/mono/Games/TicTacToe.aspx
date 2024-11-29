@@ -680,25 +680,35 @@
                 toeCellId = "b1";
 
             if (toeCellId == null || toeCellId.charAt(0) != 'b') {
-                // stupid ai for computer to find free field
-                ticTacToeBoard.forEach(function (tacCellId) {
 
-                    toeCnt++;
-                    if (tacCellId != null) {
-
-                        toeTCell = document.getElementById(tacCellId);
-                        if (toeTCell == null) {
-
-                            ticTacToeTd = toeTCell.getAttribute("ticTacToe");
-                            if (ticTacToeTd != null && ticTacToeTd.length > 0) {
-                                ;
-                            }
-                            else {
-                                toeCellId = tacCellId;
-                            }
-                        }
+                for (toeCnt = 0; toeCnt < 9; toeCnt++) {
+                    if (toeCellId == null && ticTacToeGame[toeCnt] == "0" && ticTacToeGame[toeCnt].charAt(0) != 'a' && ticTacToeGame[toeCnt].charAt(0) != 'p') {
+                        toeCellId = ticTacToeBoard[toeCnt];
                     }
-                });
+                }
+                // stupid ai for computer to find free field
+                //ticTacToeBoard.forEach(function (tacCellId) {
+
+                //    toeCnt++;
+                //    if (tacCellId != null) {
+
+                //        toeTCell = document.getElementById(tacCellId);
+                //        if (toeTCell == null) {
+
+                //            ticTacToeTd = toeTCell.getAttribute("ticTacToe");
+                //            if (ticTacToeTd != null && ticTacToeTd.length > 0) {
+                //                ;
+                //            }
+                //            else {
+                //                toeCellId = tacCellId;
+                //            }
+                //        }
+                //        else
+                //            alert("td for id: " + tacCellId + " is null :(");
+                //    }
+                //    else
+                //        alert("tacCellId is null ;( !");
+                //});
             }
 
             if (toeCellId != null) {
@@ -815,7 +825,8 @@
             return ticImg;
         }
 
-
+        // mapCellTdToArrayIndex maps table cell identifier to array index
+        // anyCellTd    table cell identifier
         function mapCellTdToArrayIndex(anyCellTd) {
             var tacNum = -1;
             if (anyCellTd != null) {
@@ -833,6 +844,26 @@
 
             return tacNum;
         }
+
+        // mapArrayIndexToCellTd maps array index to table cell id (identifier)
+        // arrIdx   array index
+        function mapArrayIndexToCellTd(arrIdx) {
+            var retCellTd = null;
+            switch (arrIdx) {
+                case 0: retCellTd = "a0"; break;
+                case 1: retCellTd = "b0"; break;
+                case 2: retCellTd = "c0"; break;
+                case 3: retCellTd = "a1"; break;
+                case 4: retCellTd = "b1"; break;
+                case 5: retCellTd = "c1"; break;
+                case 6: retCellTd = "a2"; break;
+                case 7: retCellTd = "b2"; break;
+                case 8: retCellTd = "c2"; break;
+                default: retCellTd = null; break;
+            }
+            return retCellTd;
+        }
+
 
         // get a new image to set at next move
         function getEmptyImage(aCellId) {
@@ -1063,7 +1094,7 @@
 			        <img id="c20" src='../res/img/emptyCellBlueTikTakToe.png' border="0" />
                 </td>
 		    </tr>
-		    <tr id="tr1" class="ticTacToeTr">
+		    <tr id="t1" class="ticTacToeTr">
 			    <td id="a1" class="ticTacToeTd" onmouseover="ticMouseOver('a1'); return false;"  onclick="tacPlayerSets('a1'); return false;" width="20%" height="24%" title="">
 			        <img id="a10" src='../res/img/emptyCellBlueTikTakToe.png' border="0" />
                 </td>
@@ -1074,7 +1105,7 @@
 			        <img id="c10" src='../res/img/emptyCellBlueTikTakToe.png' border="0" />
                 </td>
 		    </tr>
-            <tr id="tr0" class="ticTacToeTr">
+            <tr id="t0" class="ticTacToeTr">
                 <td id="a0" class="ticTacToeTd" onmouseover="ticMouseOver('a0'); return false;" onclick="tacPlayerSets('a0'); return false;" width="20%" height="24%" title="">
                     <img id="a00" src='../res/img/emptyCellBlueTikTakToe.png' border="0" />
                 </td>
