@@ -36,10 +36,10 @@
         }
 
         div.ticTacToe {
-            width: 86%;
-            min-width: 387pt;
+            width: 96%;
+            min-width: 384px;
             height: 84%;
-            min-height: 378pt;
+            min-height: 336px;
             line-height: normal;
             vertical-align: middle;
             color: white;
@@ -54,9 +54,9 @@
 
             div.ticTacToe.img {
                 width: 20%;
-                min-width: 36pt;
+                min-width: 36px;
                 height: 20%;
-                min-height: 27pt;
+                min-height: 27px;
                 padding: 0 0 0 0;
                 margin: 0 0 0 0;
                 background-repeat: no-repeat;
@@ -65,9 +65,9 @@
 
             div.ticTacToe.ticTacToeHeader {
                 width: 90%;
-                min-width: 360pt;
+                min-width: 360px;
                 height: 10%;
-                min-height: 45pt;
+                min-height: 40px;
                 align-content: center;
                 font-size: medium;
                 line-height: normal;
@@ -79,9 +79,9 @@
 
         div.ticTacToeHeader#headerLeft {
             height: 10%;
-            min-height: 45pt;
+            min-height: 40px;
             width: 27%;
-            min-width: 90pt;
+            min-width: 90px;
             vertical-align: middle;
             font-size: larger;
             text-align: right;
@@ -99,9 +99,9 @@
 
         div.ticTacToeHeader.headerImage {
             width: 60%;
-            min-width: 270pt;
+            min-width: 240px;
             height: 10%;
-            min-height: 45pt;
+            min-height: 40px;
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             border-style: none;
@@ -113,9 +113,9 @@
 
         div.ticTacToeHeader#headerRight {
             height: 10%;
-            min-height: 45pt;
+            min-height: 40px;
             width: 19.11%;
-            min-width: 86pt;
+            min-width: 86px;
             vertical-align: middle;
             font-size: larger;
             text-align: left;
@@ -197,9 +197,9 @@
 
         table.ticTacToeTable {
             width: 69%;
-            min-width: 345px;
-            height: 69%;
-            min-height: 345px;  
+            min-width: 276px;
+            height: 60%;
+            min-height: 240px;
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             align-content: center;
@@ -215,9 +215,9 @@
 
         tr.ticTacToeTr {
             width: 69%;
-            min-width: 360px;
-            height: 24%;
-            min-height: 120px;
+            min-width: 276px;
+            height: 20%;
+            min-height: 80px;
 
             background-color: #1f1f1f;
             background-repeat: no-repeat;
@@ -230,13 +230,13 @@
         }
 
         td.ticTacToeTd {
-            width: 20%;
-            min-width: 120px; 
-            height: 24%;
-            min-height: 120px;         
+            width: 23%;
+            min-width: 92px; 
+            height: 20%;
+            min-height: 80px;         
             
             background-color: #1f1f1f;
-            background-image: url('../res/img/emptyCellBlueTikTakToe.png');
+            /* background-image: url('../res/img/emptyCellBlueTikTakToe.png'); */
             /* background-repeat: no-repeat; */
             background-size: 100% 100%;
 
@@ -246,10 +246,10 @@
         }
 
         img.frogsInImg {
-            min-width: 32px;
-            width: 64px;
-            min-height: 27px;            
-            height: 54px;         
+            min-width: 23px;
+            width: 46px;
+            min-height: 20px;            
+            height: 40px;         
     
             padding: 0 0 0 0;
             margin: 0 0 0 0;
@@ -263,16 +263,19 @@
             background-size: 100% 100%;
         }
 
-
+        td.ticTacToeTd.img.ticTacToeImage, 
+        td.ticTacToeTd.ticTacToeImage, 
         img.ticTacToeImage,
         img.ticTacToeImage#ticTacToe0,
         img.ticTacToeImage#ticTacToe1,
         img.ticTacToeImage#ticTacToe2,
         img.ticTacToeImage#ticTacToe3 {
-            width: 100%;
-            min-width: 120px;
+            width: 100%;            
+            min-width: 92px;
+            max-width: 276px;
             height: 100%;
-            min-height: 120px;
+            min-height: 80px;
+            max-height: 240px;
 
             background-repeat: no-repeat;
             /* background-size: 100% 100%; */
@@ -285,9 +288,9 @@
         img#aLeft,
         img#aRight {
             width: 120px;
-            min-width: 120px;
-            height: 120px;
-            min-height: 120px;
+            min-width: 92px;
+            height: 115px;
+            min-height: 80px;
             background-repeat: no-repeat;
             background-size: 100% 100%;
         }
@@ -371,7 +374,8 @@
             ticTacToeLoad(whoStarts);
         }
 
-        // ticTacToeReStart(repeatLevel) => repeatLevel = true
+        // ticTacToeReStart 
+        // repeatLevel  true ... restart at level 0, false ... continue at next level
         function ticTacToeReStart(repeatLevel) {
             if (repeatLevel) {
                 gameOver = 0;
@@ -388,7 +392,8 @@
             }
         }
 
-        // ticTacToeLoad game loader
+        // ticTacToeLoad    => ticTacToeLoad game loader
+        // starts   1 for computer, 2 for player
         function ticTacToeLoad(starts) {
 
             loopTicks = 0;
@@ -407,31 +412,30 @@
             imgComputer = getNewImage(1, "");
 
             switch (level) {
-                case 0: loopDelay = 1625; break;
-                case 1: loopDelay = 1500; break;
-                case 2: loopDelay = 1375; break;
-                case 3: loopDelay = 1250; break;
-                case 4: loopDelay = 1125; break;
-                default: loopDelay = 1000; break;
+                case 0:     loopDelay = 1625; break;
+                case 1:     loopDelay = 1500; break;                
+                default:    loopDelay = 1250; break;
             }
             setLevel(level);
             setPlayersCounter(playersCount);
             setAndroidCounter(androidCount);
 
             var headerImg = document.getElementById("headerImg");
-            if (headerImg != null) {
-                document.getElementById("headerImg").src = "../res/img/headerTicTacToe.png";
-                document.getElementById("headerImg").focus();
-                document.getElementById("headerImg").blur();
-            }
 
-            if (whoStarts == 2) // Player starts
-            {
-                alert("Player starts new Tic Tac Toe game, click on board or key pad 1-9.");
+            if (whoStarts == 2) { // Player starts
+                if (headerImg != null) {
+                    document.getElementById("headerImg").src = "../res/img/headerTicTacToePlayer.gif";
+                    document.getElementById("headerImg").focus();
+                    document.getElementById("headerImg").blur();
+                }
             }
-            else if (whoStarts == 1) // Computer starts
-            {
-                alert("Computer starts new Tic Tac Toe game,\nafter computers first android set\nclick on board or key pad 1-9 to set your skull.");
+            else if (whoStarts == 1) { // Computer starts           
+                if (headerImg != null) {
+                    document.getElementById("headerImg").src = "../res/img/headerTicTacToeComputer.gif";
+                    document.getElementById("headerImg").focus();
+                    document.getElementById("headerImg").blur();
+                }
+                // alert("Computer starts new Tic Tac Toe game,\nafter computers first android set\nclick on board or key pad 1-9 to set your skull.");
                 tacComputerSets(loopTicks);                
             }
 
@@ -660,6 +664,7 @@
            
             if (gdraw >= 8 && g0 < 0)
                 toeWin = 0;
+
             if ((ga0 == 1 && gb0 == 1 && gc0 == 1) ||
                 (ga1 == 1 && gb1 == 1 && gc1 == 1) ||
                 (ga2 == 1 && gb2 == 1 && gc2 == 1) ||
@@ -667,13 +672,37 @@
                 (gb0 == 1 && gb1 == 1 && gb2 == 1) ||
                 (gc0 == 1 && gc1 == 1 && gc2 == 1) ||
                 (ga0 == 1 && gb1 == 1 && gc2 == 1) ||
-                (gc0 == 1 && gb1 == 1 && ga2 == 1)) {
+                (ga2 == 1 && gb1 == 1 && gc0 == 1)) {
 
-                alert(ga2 + "\t" + gb2 + "\t" + gc2 + "\n" + ga1 + "\t" + gb1 + "\t" + gc1 + "\n" + ga0 + "\t" + gb0 + "\t" + gc0 + "\n\n" +
-                    ticTacToeGame[6] + "\t" + ticTacToeGame[7] + "\t" + ticTacToeGame[8] + "\n" +
-                    ticTacToeGame[3] + "\t" + ticTacToeGame[4] + "\t" + ticTacToeGame[5] + "\n" +
-                    ticTacToeGame[0] + "\t" + ticTacToeGame[1] + "\t" + ticTacToeGame[2] + "\n");
                 toeWin = whoPlayed;
+
+                var arrayToMark = null;
+                if (ga0 == 1 && gb0 == 1 && gc0 == 1)
+                    arrayToMark = ["a0", "b0", "c0"];
+                else if (ga1 == 1 && gb1 == 1 && gc1 == 1)
+                    arrayToMark = ["a1", "b1", "c1"];
+                else if (ga2 == 1 && gb2 == 1 && gc2 == 1) 
+                    arrayToMark = ["a2", "b2", "c2"];
+                else if (ga0 == 1 && ga1 == 1 && ga2 == 1)
+                    arrayToMark = ["a0", "a1", "a2"];
+                else if (gb0 == 1 && gb1 == 1 && gb2 == 1)
+                    arrayToMark = ["b0", "b1", "b2"];
+                else if (gc0 == 1 && gc1 == 1 && gc2 == 1)
+                    arrayToMark = ["c0", "c1", "c2"];
+                else if (ga0 == 1 && gb1 == 1 && gc2 == 1)
+                    arrayToMark = ["a0", "b1", "c2"];
+                else if (gc0 == 1 && gb1 == 1 && ga2 == 1)
+                    arrayToMark = ["a2", "b1", "c0"];
+
+                if (arrayToMark != null) {                    
+                    markCells(arrayToMark);
+                }
+
+                //alert(ga2 + "\t" + gb2 + "\t" + gc2 + "\n" + ga1 + "\t" + gb1 + "\t" + gc1 + "\n" + ga0 + "\t" + gb0 + "\t" + gc0 + "\n\n" +
+                //    ticTacToeGame[6] + "\t" + ticTacToeGame[7] + "\t" + ticTacToeGame[8] + "\n" +
+                //    ticTacToeGame[3] + "\t" + ticTacToeGame[4] + "\t" + ticTacToeGame[5] + "\n" +
+                //    ticTacToeGame[0] + "\t" + ticTacToeGame[1] + "\t" + ticTacToeGame[2] + "\n");
+                
             }
 
             return toeWin;
@@ -696,6 +725,34 @@
             });
         }
 
+        // mark cells 
+        // cellsToMark  array of cells to mark
+        function markCells(cellsToMark) {
+
+            var ticTacToeTd = null;
+            var ticTacToeCellId = "";
+            let cMarkCnt = 0;
+            if (cellsToMark != null) {
+
+                try {
+                    for (cMarkCnt = 0; cMarkCnt < 3; cMarkCnt++) {
+
+                        ticTacToeCellId = cellsToMark[cMarkCnt];
+                        ticTacToeTd = document.getElementById(ticTacToeCellId);
+
+                        if (ticTacToeTd != null) {
+                            // alert("making cell id " + ticTacToeCellId + "!");
+                            ticTacToeTd.style.backgroundColor = "#3f3f3f";
+                            ticTacToeTd.style.borderWidth = 2;
+                            ticTacToeTd.style.borderStyle = "solid";
+                        }
+                    }
+                } catch (cellsToMarkException) {
+                    alert("Exception on maring cells: " + cellsToMarkException);
+                }
+            }
+        }
+
 
         // ticMouseOver marks on mouse over the blured cell on tic tac toe board
         function ticMouseOver(tdCellId) {
@@ -712,7 +769,9 @@
             }
         }
 
-        // ticTacToe player sets skull on board
+        // tacPlayerSets
+        //          ticTacToe player sets skull on board
+        // tdCellId id of table cell td
         function tacPlayerSets(tdCellId) {
 
             var cellTicTacToe = null;
@@ -760,7 +819,7 @@
 
 
                 if (toeFinished(loopTicks, 2) > 0) {
-                    ticClearMarkedCells(tdCellId); // TODO: mark winning cells
+                    // TODO: mark winning cells
                     return;
                 }
 
@@ -771,7 +830,9 @@
             ticClearMarkedCells(tdCellId);
         }
 
-        // ticTacToe computer sets android on board
+        // tacComputerSets
+        //          ticTacToe computer sets android on board
+        // ticks    game ticks
         function tacComputerSets(ticks) {
 
             var ticTacToeTd = null;
@@ -834,14 +895,18 @@
                 alert("toeCellId is NULL!\nWhat shell we do with the drunken sailor?");
         }
 
-        // set players remaining skull discs to set
+        // setPlayersCounter
+        //          set players remaining skull discs to set
+        // playersCnt   remaining player stones to set
         function setPlayersCounter(playersCnt) {
             var spanplayersCounter = document.getElementById("playersCounter");
             if (spanplayersCounter != null)
                 spanplayersCounter.innerText = playersCnt;
         }
 
-        // set computer remaining android stickers to set
+        // setAndroidCounter
+        //          set computer remaining android stickers to set
+        // androidCnt   remaining android to set   
         function setAndroidCounter(androidCnt) {
             var elemAndroidCounter = document.getElementById("androidCounter");
             if (elemAndroidCounter != null)
@@ -860,10 +925,13 @@
         }
 
 
-        // get a new image to set at next move
+        // getNewImage  
+        //          gets a new image to set at next move
+        // forWho   1 ... computer, 2 ... player
+        // aCellId  table cell id (identifier)
         function getNewImage(forWho, aCellId) {
 
-            var ticImg = new Image(32, 27);
+            var ticImg = new Image(23, 20);
             var ticNum; 
             var ticId;
             var ticTitle = "";
@@ -912,7 +980,35 @@
             return ticImg;
         }
 
-        // mapCellTdToArrayIndex maps table cell identifier to array index
+        // getEmptyImage  
+        //          gets a new image to set at next move
+        // aCellId  table cell id (identifier)
+        function getEmptyImage(aCellId) {
+
+            var tacImg = new Image(23, 20);
+            var tacNum = -1;
+            var tacImgSrc = "../res/img/emptyCellTicTacToe.gif";
+            var tacId = "";
+
+            if (aCellId != null) {
+
+                tacNum = mapCellTdToArrayIndex(aCellId);
+                tacId = aCellId;
+            }
+
+            tacImg.Id = tacId;
+            tacImg.src = tacImgSrc;
+            tacImg.alt = "";
+            tacImg.setAttribute("border", 0);
+            tacImg.setAttribute("class", "ticTacToeImage");
+            tacImg.setAttribute("className", "ticTacToeImage");
+
+            return tacImg;
+        }
+
+
+        // mapCellTdToArrayIndex    
+        //              maps table cell identifier to array index
         // anyCellTd    table cell identifier
         function mapCellTdToArrayIndex(anyCellTd) {
             var tacNum = -1;
@@ -932,7 +1028,8 @@
             return tacNum;
         }
 
-        // mapArrayIndexToCellTd maps array index to table cell id (identifier)
+        // mapArrayIndexToCellTd 
+        //          maps array index to table cell id(identifier)
         // arrIdx   array index
         function mapArrayIndexToCellTd(arrIdx) {
             var retCellTd = null;
@@ -952,30 +1049,8 @@
         }
 
 
-        // get a new image to set at next move
-        function getEmptyImage(aCellId) {
-
-            var tacImg = new Image(32, 27);
-            var tacNum = -1;
-            var tacImgSrc = "../res/img/emptyCellBlueTikTakToe.png";
-            var tacId = "";
-
-            if (aCellId != null) {                
-
-                tacNum = mapCellTdToArrayIndex(aCellId);                
-                tacId = aCellId;
-            }
-                                               
-            tacImg.Id = tacId;            
-            tacImg.src = tacImgSrc
-            tacImg.setAttribute("border", 0);            
-            tacImg.setAttribute("class", "ticTacToeImage");
-            tacImg.setAttribute("className", "ticTacToeImage");            
-
-            return tacImg;
-        }
-
-        //// sound and image 
+        // ticSound     plays soundName
+        // soundName    sound name to play
         function ticSound(soundName) {
 
             var dursec = 1625;
@@ -1035,7 +1110,8 @@
 
         }
 
-        // cleanTableCell removes cilds from table cell td
+        // cleanTableCell 
+        //          removes cilds from table cell td
         // aTCell   specified table cell td
         function cleanTableCell(aTCell) {
 
@@ -1052,7 +1128,8 @@
         }
 
 
-        // toeReCreate clears are finished tic tac toe board
+        // toeReCreate 
+        //          clears are finished tic tac toe board
         function toeReCreate() {
             
             var tableCell = null;
@@ -1068,6 +1145,9 @@
                 tableCell = document.getElementById(tCellTdId);
                 tableCell.setAttribute("ticTacToe", "");
                 tableCell.alt = "";
+                tableCell.style.backgroundColor = "#1f1f1f";
+                tableCell.style.borderWidth = 1;
+                tableCell.style.borderStyle = "outset";
                 cleanTableCell(tableCell);
             });
 
@@ -1082,12 +1162,18 @@
                     nTableCell.appendChild(nImg);
                     nTableCell.setAttribute("ticTacToe", "");
                     nTableCell.alt = "";
+                    nTableCell.style.backgroundColor = "#1f1f1f";
+                    nTableCell.style.borderWidth = 1;
+                    nTableCell.style.borderStyle = "outset";
                 }
             }
             
         }
 
 
+        // clone    simple clones an object
+        // obj      object to clone
+        // returns  cloned object
         function cloneObj(obj) {
             var copy;
             if (obj instanceof Object) {
@@ -1099,31 +1185,49 @@
             }
         }
 
-        // copies an image to another
-        function copyImg(imgC) {
-            var imgD = new Image();
-            if (imgC != null && imgC.id != null) {
-                imgD.id = imgC.id;
-                imgD.src = imgC.src;
-                imgD.width = imgC.width;
-                imgD.height = imgC.height;
-                imgD.alt = imgC.alt;
-                if (imgC.getAttribute("title") != null)
-                    imgD.setAttribute("title", imgC.getAttribute("title"));
-                if (imgC.getAttribute("className") != null)
-                    imgD.setAttribute("className", imgC.getAttribute("className"));
-                imgD.setAttribute("class", imgC.getAttribute("class"));
-                if (imgC.getAttribute("cellid") != null)
-                    imgD.setAttribute("cellid", imgC.getAttribute("cellid"));
-                if (imgC.getAttribute("ticTacToe") != null)
-                    imgD.setAttribute("ticTacToe", imgC.getAttribute("ticTacToe"));
-                imgD.setAttribute("border", 0);
+        // copyImg
+        //          copies an image to another
+        // imgSource    source image
+        // returns      destination image copied from source image
+        function copyImg(imgSource) {
+
+            var imgDestination = new Image();
+
+            if (imgSource != null && imgSource.id != null) {
+
+                imgDestination.id = imgSource.id;
+                imgDestination.src = imgSource.src;
+                imgDestination.width = imgSource.width;
+                imgDestination.height = imgSource.height;
+
+                if (imgSource.alt != null)
+                    imgDestination.alt = imgSource.alt;
+
+                if (imgSource.getAttribute("title") != null)
+                    imgDestination.setAttribute("title", imgSource.getAttribute("title"));
+                if (imgSource.getAttribute("className") != null)
+                    imgDestination.setAttribute("className", imgSource.getAttribute("className"));
+                if (imgSource.getAttribute("class") != null)
+                    imgDestination.setAttribute("class", imgSource.getAttribute("class"));
+                if (imgSource.getAttribute("cellid") != null)
+                    imgDestination.setAttribute("cellid", imgSource.getAttribute("cellid"));
+                if (imgSource.getAttribute("ticTacToe") != null)
+                    imgDestination.setAttribute("ticTacToe", imgSource.getAttribute("ticTacToe"));
+
+                if (imgSource.getAttribute("border") != null)
+                    imgDestination.setAttribute("border", imgSource.getAttribute("border"));
+                else
+                    imgDestination.setAttribute("border", 0);
 
             }
-            return imgD;
+
+            return imgDestination;
         }
 
-        // replaces imgOrig with imgFrom, copies all attributes and removes imgFrom from document
+        // replaceImg
+        //      replaces imgOrig with imgFrom, copies all attributes and removes imgFrom from document
+        // imgOrig  original image
+        // imgForm  image that will replace origImage
         function replaceImg(imgOrig, imgFrom) {
             if (imgOrig != null && imgOrig.id != null && imgOrig.src != null &&
                 imgFrom != null && imgFrom.id != null && imgFrom.src != null) {
@@ -1142,8 +1246,8 @@
                 // we leave cellid from imgOrig unchanged
                 // if (imgFrom.getAttribute("cellid") != null)
                 //    imgOrig.setAttribute("cellid", imgFrom.getAttribute("cellid"));
-                if (imgFrom.getAttribute("idwood") != null)
-                    imgOrig.setAttribute("idwood", imgFrom.getAttribute("idwood"));
+                if (imgFrom.getAttribute("ticTacToe") != null)
+                    imgOrig.setAttribute("ticTacToe", imgFrom.getAttribute("ticTacToe"));
                 imgOrig.setAttribute("border", 0);
 
                 if (document.getElementById(imgFrom.id) != null && document.getElementById(imgFrom.id).parentElement != null) {
@@ -1178,36 +1282,36 @@
 	    </div>
 	    <table class="ticTacToeTable" border="1" cellpadding="1" cellpadding="1">
 		    <tr id="t2" class="ticTacToeTr">
-			    <td id="a2" onmouseover="ticMouseOver('a2'); return false;" onclick="tacPlayerSets('a2'); return false;" class="ticTacToeTd" width="20%" height="24%"  title="">
-			        <img id="a20" src='../res/img/emptyCellBlueTikTakToe.png' border="0" />
+			    <td id="a2" class="ticTacToeTd" onmouseover="ticMouseOver('a2'); return false;" onclick="tacPlayerSets('a2'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
+			        <img class="ticTacToeImage" id="a20" src='../res/img/emptyCellTicTacToe.gif' border="0" />
                 </td>
-			    <td id="b2" onmouseover="ticMouseOver('b2'); return false;" onclick="tacPlayerSets('b2'); return false;" class="ticTacToeTd" width="20%" height="24%" title="">
-			        <img id="b20" src='../res/img/emptyCellBlueTikTakToe.png' border="0" />
+			    <td id="b2" class="ticTacToeTd" onmouseover="ticMouseOver('b2'); return false;" onclick="tacPlayerSets('b2'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
+			        <img class="ticTacToeImage" id="b20" src='../res/img/emptyCellTicTacToe.gif' border="0" />
                 </td>
-			    <td id="c2" onmouseover="ticMouseOver('c2'); return false;" onclick="tacPlayerSets('c2'); return false;" class="ticTacToeTd" width="20%" height="24%" title="">
-			        <img id="c20" src='../res/img/emptyCellBlueTikTakToe.png' border="0" />
+			    <td id="c2" class="ticTacToeTd" onmouseover="ticMouseOver('c2'); return false;" onclick="tacPlayerSets('c2'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
+			        <img class="ticTacToeImage" id="c20" src='../res/img/emptyCellTicTacToe.gif' border="0" />
                 </td>
 		    </tr>
 		    <tr id="t1" class="ticTacToeTr">
-			    <td id="a1" class="ticTacToeTd" onmouseover="ticMouseOver('a1'); return false;"  onclick="tacPlayerSets('a1'); return false;" width="20%" height="24%" title="">
-			        <img id="a10" src='../res/img/emptyCellBlueTikTakToe.png' border="0" />
+			    <td id="a1" class="ticTacToeTd" onmouseover="ticMouseOver('a1'); return false;"  onclick="tacPlayerSets('a1'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
+			        <img class="ticTacToeImage" id="a10" src='../res/img/emptyCellTicTacToe.gif' border="0" />
                 </td>
-			    <td id="b1" class="ticTacToeTd" onmouseover="ticMouseOver('b1'); return false;"  onclick="tacPlayerSets('b1'); return false;" width="20%" height="24%" title="">
-			        <img id="b10" src='../res/img/emptyCellBlueTikTakToe.png' border="0" />
+			    <td id="b1" class="ticTacToeTd" onmouseover="ticMouseOver('b1'); return false;"  onclick="tacPlayerSets('b1'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
+			        <img class="ticTacToeImage" id="b10" src='../res/img/emptyCellTicTacToe.gif' border="0" />
                 </td>
-			    <td id="c1" class="ticTacToeTd" onmouseover="ticMouseOver('c1'); return false;"  onclick="tacPlayerSets('c1'); return false;" width="20%" height="24%" title="">
-			        <img id="c10" src='../res/img/emptyCellBlueTikTakToe.png' border="0" />
+			    <td id="c1" class="ticTacToeTd" onmouseover="ticMouseOver('c1'); return false;"  onclick="tacPlayerSets('c1'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
+			        <img class="ticTacToeImage" id="c10" src='../res/img/emptyCellTicTacToe.gif' border="0" />
                 </td>
 		    </tr>
             <tr id="t0" class="ticTacToeTr">
-                <td id="a0" class="ticTacToeTd" onmouseover="ticMouseOver('a0'); return false;" onclick="tacPlayerSets('a0'); return false;" width="20%" height="24%" title="">
-                    <img id="a00" src='../res/img/emptyCellBlueTikTakToe.png' border="0" />
+                <td id="a0" class="ticTacToeTd" onmouseover="ticMouseOver('a0'); return false;" onclick="tacPlayerSets('a0'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
+                    <img class="ticTacToeImage" id="a00" src='../res/img/emptyCellTicTacToe.gif' border="0" />
                 </td>
-                <td id="b0" class="ticTacToeTd" onmouseover="ticMouseOver('b0'); return false;" onclick="tacPlayerSets('b0'); return false;" width="20%" height="24%" title="">
-                    <img id="b00" src='../res/img/emptyCellBlueTikTakToe.png' border="0" />
+                <td id="b0" class="ticTacToeTd" onmouseover="ticMouseOver('b0'); return false;" onclick="tacPlayerSets('b0'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
+                    <img class="ticTacToeImage" id="b00" src='../res/img/emptyCellTicTacToe.gif' border="0" />
                 </td>
-                <td id="c0" class="ticTacToeTd" onmouseover="ticMouseOver('c0'); return false;" onclick="tacPlayerSets('c0'); return false;" width="20%" height="24%" title="">
-                    <img id="c00" src='../res/img/emptyCellBlueTikTakToe.png' border="0" />
+                <td id="c0" class="ticTacToeTd" onmouseover="ticMouseOver('c0'); return false;" onclick="tacPlayerSets('c0'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
+                    <img class="ticTacToeImage" id="c00" src='../res/img/emptyCellTicTacToe.gif' border="0" />
                 </td>
             </tr>
 	    </table> 
