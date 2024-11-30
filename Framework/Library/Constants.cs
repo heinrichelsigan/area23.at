@@ -28,7 +28,7 @@ namespace Area23.At.Framework.Library
         public const string LOG_DIR = "log";
         public const string LOG_EXT = ".log";
         public const string QR_DIR = "Qr";
-        public const string ENCODE_DIR = "Encode";
+        public const string ENCODE_DIR = "Crypt";
         public const string AUTHOR = "Heinrich Elsigan";
         public const string AUTHOR_EMAIL = "heinrich.elsigan@gmail.com";
         public const string AUTHOR_IV = "6865696E726963682E656C736967616E40676D61696C2E636F6D";
@@ -45,7 +45,7 @@ namespace Area23.At.Framework.Library
         public const string BIN_DIR = "bin";
         public const string JS_DIR = "js";
         public const string CSS_DIR = "css";
-        public const string GAMES_DIR = "Games";
+        public const string GAMES_DIR = "Gamez";
         public const string JSON_SAVE_FILE = "urlshort.json";
         public const string UTF8_JSON = "utf8symol.json";
 

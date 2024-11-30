@@ -140,6 +140,8 @@ div {
         inset-block-start: initial;
     }
 
+    div.headercard#headerCardId,
+    div#headerCardId,
     div.headercard {
         /* border-block: 1px thin;*/
         border-bottom: 0px none #bab5b1;
@@ -149,8 +151,7 @@ div {
         /* border-spacing: 1px 1px;        */
         margin: 1px 0px 0px 0px;
         text-align: left;
-        /* background-color: #fafafa; */
-        background-color: #dedede;
+        background-color: #fafafa;
         vertical-align: middle;
         font-size: medium;
         table-layout: fixed;

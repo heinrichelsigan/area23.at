@@ -31,7 +31,7 @@ namespace Area23.At.Mono.Qr
             this.aQrCodeGen.HRef = LibPaths.QrAppPath + "QRCodeGen.aspx";
             this.aQrc.HRef = LibPaths.QrAppPath + "Qrc.aspx";
             this.aQr.HRef = LibPaths.QrAppPath + "Qr.aspx";
-            this.aQrGen.HRef = LibPaths.QrAppPath + "QRGen.aspx";
+            // this.aQrGen.HRef = LibPaths.QrAppPath + "QRGen.aspx";
             this.aUrlShortner.HRef = Constants.AREA23_S;          
         }
 
@@ -40,7 +40,7 @@ namespace Area23.At.Mono.Qr
             headerLeft.Attributes["class"] = "headerLeft";
             headerLeftCenter.Attributes["class"] = "headerLeftCenter";
             headerCenter.Attributes["class"] = "headerCenter";
-            headerRightCenter.Attributes["class"] = "headerRightCenter";
+            // headerRightCenter.Attributes["class"] = "headerRightCenter";
             // headerRight.Style["class"] = "headerRight";
 
             try
@@ -62,16 +62,16 @@ namespace Area23.At.Mono.Qr
                         headerCenter.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("QRGen.aspx"))
-                    {
-                        headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
-                        return;
-                    }
-                    if (this.Request.RawUrl.Contains("trans"))
-                    {
-                        // headerRight.Attributes["background-color"] = "headerRightSelect";
-                        return;
-                    }
+                    // if (this.Request.RawUrl.Contains("QRGen.aspx"))
+                    // {
+                    // headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
+                    // return;
+                    // }
+                    // if (this.Request.RawUrl.Contains("trans"))
+                    // {
+                    // headerRight.Attributes["background-color"] = "headerRightSelect";
+                    // return;
+                    // }
                 }
             }
             catch (Exception ex)

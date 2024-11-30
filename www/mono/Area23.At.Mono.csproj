@@ -125,14 +125,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Calc\CCalc.aspx" />
-    <Content Include="Encode\CoolCrypt.aspx" />
-    <Content Include="Encode\AesImprove.aspx" />
-    <Content Include="Encode\ImgPngCrypt.aspx" />
-    <Content Include="Encode\S.aspx" />
-    <Content Include="Encode\UueMime.aspx" />
-    <Content Include="Games\TicTacToe.aspx" />
-    <Content Include="Games\frogb.aspx" />
-    <Content Include="Games\froga.aspx" />
+    <Content Include="Default.aspx" />
+    <Content Include="Crypt\CoolCrypt.aspx" />
+    <Content Include="Crypt\AesImprove.aspx" />
+    <Content Include="Crypt\ImgPngCrypt.aspx" />
+    <Content Include="Crypt\S.aspx" />
+    <Content Include="Crypt\UueMime.aspx" />
+    <Content Include="Gamez\TicTacToe.aspx" />
+    <Content Include="Gamez\frogb.aspx" />
+    <Content Include="Gamez\froga.aspx" />
+    <Content Include="R.aspx" />
     <Content Include="res\audio\aDraw.m4a" />
     <Content Include="res\css\ccalcweb.css" />
     <Content Include="res\img\androidSetTicTacToe.gif" />
@@ -266,8 +268,7 @@
     <Content Include="res\js\frga.js" />
     <Content Include="res\js\frog.js" />
     <Content Include="res\js\od.js" />
-    <Content Include="json.aspx" />
-    <Content Include="Default.aspx" />
+    <Content Include="Json.aspx" />
     <Content Include="Unix\Fortune.aspx" />
     <Content Include="Global.asax" />
     <Content Include="c\fortune.c" />
@@ -276,7 +277,6 @@
     <Content Include="c\od.html" />
     <Content Include="Qr\Qrc.aspx" />
     <Content Include="Qr\QRCodeGen.aspx" />
-    <Content Include="Unix\QRGen.aspx" />
     <Content Include="Web.config" />
     <Content Include="Unix\OctalDump.aspx" />
   </ItemGroup>
@@ -295,46 +295,53 @@
     <Compile Include="Calc\CCalc.aspx.designer.cs">
       <DependentUpon>CCalc.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Encode\CoolCrypt.aspx.cs">
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Crypt\CoolCrypt.aspx.cs">
       <DependentUpon>CoolCrypt.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Encode\CoolCrypt.aspx.designer.cs">
+    <Compile Include="Crypt\CoolCrypt.aspx.designer.cs">
       <DependentUpon>CoolCrypt.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Encode\ImgPngCrypt.aspx.cs">
+    <Compile Include="Crypt\ImgPngCrypt.aspx.cs">
       <DependentUpon>ImgPngCrypt.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Encode\ImgPngCrypt.aspx.designer.cs">
+    <Compile Include="Crypt\ImgPngCrypt.aspx.designer.cs">
       <DependentUpon>ImgPngCrypt.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Encode\EncodeMaster.master.cs">
+    <Compile Include="Crypt\EncodeMaster.master.cs">
       <DependentUpon>EncodeMaster.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Encode\EncodeMaster.master.designer.cs">
+    <Compile Include="Crypt\EncodeMaster.master.designer.cs">
       <DependentUpon>EncodeMaster.master</DependentUpon>
     </Compile>
-    <Compile Include="Encode\AesImprove.aspx.cs">
+    <Compile Include="Crypt\AesImprove.aspx.cs">
       <DependentUpon>AesImprove.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Encode\AesImprove.aspx.designer.cs">
+    <Compile Include="Crypt\AesImprove.aspx.designer.cs">
       <DependentUpon>AesImprove.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Encode\S.aspx.cs">
+    <Compile Include="Crypt\S.aspx.cs">
       <DependentUpon>S.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Encode\S.aspx.designer.cs">
+    <Compile Include="Crypt\S.aspx.designer.cs">
       <DependentUpon>S.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Encode\UueMime.aspx.cs">
+    <Compile Include="Crypt\UueMime.aspx.cs">
       <DependentUpon>UueMime.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Encode\UueMime.aspx.designer.cs">
+    <Compile Include="Crypt\UueMime.aspx.designer.cs">
       <DependentUpon>UueMime.aspx</DependentUpon>
     </Compile>
     <Compile Include="Calc\CalcMaster.master.cs">
@@ -353,11 +360,11 @@
     <Compile Include="Calc\RpnCalc.aspx.designer.cs">
       <DependentUpon>RpnCalc.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Games\GamesMaster.master.cs">
+    <Compile Include="Gamez\GamesMaster.master.cs">
       <DependentUpon>GamesMaster.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Games\GamesMaster.master.designer.cs">
+    <Compile Include="Gamez\GamesMaster.master.designer.cs">
       <DependentUpon>GamesMaster.master</DependentUpon>
     </Compile>
     <Compile Include="SAES_En_Decrypt.aspx.cs">
@@ -442,13 +449,6 @@
     <Compile Include="Qr\QRMaster.master.designer.cs">
       <DependentUpon>QRMaster.master</DependentUpon>
     </Compile>
-    <Compile Include="Unix\QRGen.aspx.cs">
-      <DependentUpon>QRGen.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Unix\QRGen.aspx.designer.cs">
-      <DependentUpon>QRGen.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Unix\UnixMaster.master.cs">
       <DependentUpon>UnixMaster.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -467,8 +467,8 @@
   <ItemGroup>
     <Content Include="Area23.Master" />
     <Content Include="log\2024-03-00_Area23.At.Mono.log" />
-    <Content Include="Encode\EncodeMaster.master" />
-    <Content Include="Games\GamesMaster.master" />
+    <Content Include="Crypt\EncodeMaster.master" />
+    <Content Include="Gamez\GamesMaster.master" />
     <None Include="packages.config" />
     <Content Include="res\text\fortune.u8" />
     <Content Include="Qr\QRMaster.master" />

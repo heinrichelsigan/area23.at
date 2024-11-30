@@ -2,7 +2,7 @@
 <asp:Content ID="UnixHeadContent" ContentPlaceHolderID="UnixHead" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="refresh" content="20; url=/net/Unix/FortunAsp.aspx" />    
-    <link rel="stylesheet" href="/css/fortune.css" />
+    <link rel="stylesheet" href="../res/css/fortune.css" />
     <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
     <title>fortune (apache2 mod_mono)</title>    
 </asp:Content>

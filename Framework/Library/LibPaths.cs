@@ -74,14 +74,26 @@ namespace Area23.At.Framework.Library
             {
                 if (String.IsNullOrEmpty(baseAppPath))
                 {
-                    string basApPath = HttpContext.Current.Request.Url.ToString().
-                        Replace("/Unix/", "/").Replace("/Qr/", "/").
-                        Replace("/Calc/", "/").Replace("/Enc/", "/").Replace("/Encode/", "/").
-                        Replace("/res/", "/").Replace("/audio/", "/").Replace("/bin/", "/").
-                        Replace("/css/", "/").Replace("/img/", "/").Replace("/js/", "/").
-                        Replace("/out/", "/").Replace("/text/", "/").Replace("/fortune.u8", "/").
-                        Replace("/log/", "/").Replace("/c/", "/");
-                    baseAppPath = basApPath.Substring(0, basApPath.LastIndexOf("/"));
+                    string basApPath = "";
+                    try
+                    {
+                        if (System.Configuration.ConfigurationManager.AppSettings["BaseAppPath"] != null)
+                            basApPath = System.Configuration.ConfigurationManager.AppSettings["BaseAppPath"];
+                    }
+                    catch (Exception baseAppPathEx)
+                    {
+                        Area23Log.LogStatic(baseAppPathEx);
+                        basApPath = HttpContext.Current.Request.RawUrl.ToString().
+                            Replace("/c/", "/").Replace("/Calc/", "/").Replace("/Crypt/", "/").
+                            Replace("/Gamez/", "/").Replace("/log/", "/").Replace("/Qr/", "/").
+                            Replace("/res/", "/").Replace("/audio/", "/").Replace("/bin/", "/").
+                            Replace("/css/", "/").Replace("/img/", "/").Replace("/js/", "/").
+                            Replace("/out/", "/").Replace("/text/", "/").Replace("/fortune.u8", "/").
+                            Replace("/Unix/", "/").Replace("/Util/", "/");
+                        basApPath = basApPath.Substring(0, basApPath.LastIndexOf("/"));
+                    }
+
+                    baseAppPath = basApPath;
                     if (!baseAppPath.EndsWith("/"))
                         baseAppPath += "/";
                 }
