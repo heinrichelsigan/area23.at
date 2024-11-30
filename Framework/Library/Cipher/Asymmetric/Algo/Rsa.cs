@@ -69,8 +69,8 @@ namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
             RsaKeyPairGenerator rsaKeyPairGen = new RsaKeyPairGenerator();
             IRandomGenerator randGen = new VmpcRandomGenerator();
 
-            SecureRandom rand = new SecureRandom(randGen, 16384);
-            KeyGenerationParameters rsaKeyParams = new KeyGenerationParameters(rand, 16384);
+            SecureRandom rand = new SecureRandom(randGen, 2048);
+            KeyGenerationParameters rsaKeyParams = new KeyGenerationParameters(rand, 2048);
             rsaKeyPairGen.Init(rsaKeyParams);
 
             rsaKeyPair = rsaKeyPairGen.GenerateKeyPair();

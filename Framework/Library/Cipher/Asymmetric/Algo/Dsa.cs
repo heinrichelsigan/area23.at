@@ -67,7 +67,7 @@ namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
             DsaParametersGenerator dsaParamsGenerator = new DsaParametersGenerator();
 
             IRandomGenerator randGen = new VmpcRandomGenerator();
-            SecureRandom rand = new SecureRandom(randGen, 16384);
+            SecureRandom rand = new SecureRandom(randGen, 2048);
 
             dsaParamsGenerator.Init(1024, 80, rand);
                                                        
