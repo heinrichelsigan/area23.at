@@ -68,7 +68,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Area23Log.cs" />
-    <Compile Include="Cipher\Symmetric\Crpyt.cs" />
+    <Compile Include="Cipher\Asymmetric\Algo\Dsa.cs" />
+    <Compile Include="Cipher\Asymmetric\Algo\DH.cs" />
+    <Compile Include="Cipher\Asymmetric\Algo\Rsa.cs" />
+    <Compile Include="Cipher\Crpyt.cs" />
     <Compile Include="Cipher\Symmetric\Algo\Rijndael.cs" />
     <Compile Include="ColorForm.cs" />
     <Compile Include="Constants.cs" />

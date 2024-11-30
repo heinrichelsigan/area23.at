@@ -301,6 +301,7 @@ namespace Area23.At.Mono.Crypt
                 DropDownList_SymChiffer.SelectedValue.ToString() == "RC532" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "RC564" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "RC6" ||
+                DropDownList_SymChiffer.SelectedValue.ToString() == "Rsa" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Rijndael" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Seed" ||
                 DropDownList_SymChiffer.SelectedValue.ToString() == "Serpent" ||
@@ -528,7 +529,7 @@ namespace Area23.At.Mono.Crypt
             string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
             string keyIv = (!string.IsNullOrEmpty(this.TextBox_IV.Text)) ? this.TextBox_IV.Text : Constants.AUTHOR_IV;
 
-            byte[] encryptBytes = Framework.Library.Cipher.Symmetric.Crypt.EncryptBytes(inBytes, algo, secretKey, keyIv);
+            byte[] encryptBytes = Framework.Library.Cipher.Crypt.EncryptBytes(inBytes, algo, secretKey, keyIv);
             
             return encryptBytes;
         }
@@ -544,7 +545,7 @@ namespace Area23.At.Mono.Crypt
             string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
             string keyIv = (!string.IsNullOrEmpty(this.TextBox_IV.Text)) ? this.TextBox_IV.Text : Constants.AUTHOR_IV;
 
-            byte[] decryptBytes = Framework.Library.Cipher.Symmetric.Crypt.DecryptBytes(cipherBytes, algorithmName, secretKey, keyIv);
+            byte[] decryptBytes = Framework.Library.Cipher.Crypt.DecryptBytes(cipherBytes, algorithmName, secretKey, keyIv);
 
             return decryptBytes;
         }
