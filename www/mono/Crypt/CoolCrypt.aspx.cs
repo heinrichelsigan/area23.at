@@ -458,7 +458,7 @@ namespace Area23.At.Mono.Crypt
             string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : string.Empty;
             string keyIv = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : string.Empty;
 
-            byte[] encryptBytes = Crypt.EncryptBytes(inBytes, algo, secretKey, keyIv);
+            byte[] encryptBytes = Framework.Library.Cipher.Symmetric.Crypt.EncryptBytes(inBytes, algo, secretKey, keyIv);
             
             return encryptBytes;
         }
@@ -474,7 +474,7 @@ namespace Area23.At.Mono.Crypt
             string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : string.Empty;
             string keyIv = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : string.Empty;
 
-            byte[] decryptBytes = Crypt.DecryptBytes(cipherBytes, algorithmName, secretKey, keyIv);
+            byte[] decryptBytes = Framework.Library.Cipher.Symmetric.Crypt.DecryptBytes(cipherBytes, algorithmName, secretKey, keyIv);
 
             return decryptBytes;
         }
