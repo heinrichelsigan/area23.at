@@ -367,6 +367,13 @@
     <Compile Include="Gamez\GamesMaster.master.designer.cs">
       <DependentUpon>GamesMaster.master</DependentUpon>
     </Compile>
+    <Compile Include="R.aspx.cs">
+      <DependentUpon>R.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="R.aspx.designer.cs">
+      <DependentUpon>R.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SAES_En_Decrypt.aspx.cs">
       <DependentUpon>SAES_En_Decrypt.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

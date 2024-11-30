@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="GamesMaster.master.cs" Inherits="Area23.At.Mono.Games.GamesMaster" %>
+﻿<%@ Master Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="GamesMaster.master.cs" Inherits="Area23.At.Mono.Gamez.GamesMaster" %>
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
     <asp:ContentPlaceHolder ID="EncodeHead" runat="server">
         <title>Encode tools (apache2 mod_mono)</title>

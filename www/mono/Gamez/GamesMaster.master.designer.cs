@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Area23.At.Mono.Games
+namespace Area23.At.Mono.Gamez
 {
 
 

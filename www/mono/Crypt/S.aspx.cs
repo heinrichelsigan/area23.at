@@ -18,7 +18,7 @@ using System.IO;
 using System.Drawing.Imaging;
 using System.Net;
 
-namespace Area23.At.Mono.Encode
+namespace Area23.At.Mono.Crypt
 {
     public partial class S : QrBase
     {

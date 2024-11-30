@@ -1,4 +1,4 @@
-﻿<%@ Page Title="image png crypt (apache2 mod_mono)" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="ImgPngCrypt.aspx.cs" Inherits="Area23.At.Mono.Encode.ImgPngCrypt" %>
+﻿<%@ Page Title="image png crypt (apache2 mod_mono)" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="ImgPngCrypt.aspx.cs" Inherits="Area23.At.Mono.Crypt.ImgPngCrypt" %>
 <asp:Content ID="ContentEncodeHead" ContentPlaceHolderID="EncodeHead" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="https://area23.at/css/od.css" />

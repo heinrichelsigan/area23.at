@@ -12,7 +12,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace Area23.At.Mono.Encode
+namespace Area23.At.Mono.Crypt
 {
     public partial class UueMime : System.Web.UI.Page
     {

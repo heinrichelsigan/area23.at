@@ -11,7 +11,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using static System.Net.WebRequestMethods;
 
-namespace Area23.At.Mono.Encode
+namespace Area23.At.Mono.Crypt
 {
     public partial class ImgPngCrypt : Util.UIPage
     {

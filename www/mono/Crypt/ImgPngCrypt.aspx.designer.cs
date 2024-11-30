@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Area23.At.Mono.Encode
+namespace Area23.At.Mono.Crypt
 {
 
 

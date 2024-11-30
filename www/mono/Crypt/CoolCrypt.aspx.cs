@@ -23,7 +23,7 @@ using System.Web.UI.WebControls;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Net.WebRequestMethods;
 
-namespace Area23.At.Mono.Encode
+namespace Area23.At.Mono.Crypt
 {
     /// <summary>
     /// SAES_En_Decrypt En-/De-cryption pipeline page 
