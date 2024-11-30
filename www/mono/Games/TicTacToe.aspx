@@ -848,6 +848,103 @@
 
             if (toeCellId == null || toeCellId.charAt(0) != 'b') {
                 // stupid ai for computer to find free field
+                if (ticTacToeGame[0].charAt(0) == 'a' && ticTacToeGame[4].charAt(0) == 'a' && ticTacToeGame[8].charAt(0) == '0')
+                    toeCellId = ticTacToeBoard[8];
+                else if (ticTacToeGame[0].charAt(0) == '0' && ticTacToeGame[4].charAt(0) == 'a' && ticTacToeGame[8].charAt(0) == 'a')
+                    toeCellId = ticTacToeBoard[0];
+                else if (ticTacToeGame[0].charAt(0) == 'a' && ticTacToeGame[4].charAt(0) == '0' && ticTacToeGame[8].charAt(0) == 'a')
+                    toeCellId = ticTacToeBoard[4];
+                else if (ticTacToeGame[3].charAt(0) == 'a' && ticTacToeGame[4].charAt(0) == 'a' && ticTacToeGame[6].charAt(0) == '0')
+                    toeCellId = ticTacToeBoard[6];
+                else if (ticTacToeGame[3].charAt(0) == '0' && ticTacToeGame[4].charAt(0) == 'a' && ticTacToeGame[6].charAt(0) == 'a')
+                    toeCellId = ticTacToeBoard[3];
+                else if (ticTacToeGame[3].charAt(0) == 'a' && ticTacToeGame[4].charAt(0) == '0' && ticTacToeGame[6].charAt(0) == 'a')                    
+                    toeCellId = ticTacToeBoard[4];
+                else if (ticTacToeGame[0].charAt(0) == 'a' && ticTacToeGame[1].charAt(0) == 'a' && ticTacToeGame[2].charAt(0) == '0')
+                    toeCellId = ticTacToeBoard[2];
+                else if (ticTacToeGame[0].charAt(0) == '0' && ticTacToeGame[1].charAt(0) == 'a' && ticTacToeGame[2].charAt(0) == 'a')
+                    toeCellId = ticTacToeBoard[0];
+                else if (ticTacToeGame[0].charAt(0) == 'a' && ticTacToeGame[1].charAt(0) == '0' && ticTacToeGame[2].charAt(0) == 'a')
+                    toeCellId = ticTacToeBoard[1];
+                else if (ticTacToeGame[3].charAt(0) == 'a' && ticTacToeGame[4].charAt(0) == 'a' && ticTacToeGame[5].charAt(0) == '0')
+                    toeCellId = ticTacToeBoard[5];
+                else if (ticTacToeGame[3].charAt(0) == '0' && ticTacToeGame[4].charAt(0) == 'a' && ticTacToeGame[5].charAt(0) == 'a')
+                    toeCellId = ticTacToeBoard[3];
+                else if (ticTacToeGame[6].charAt(0) == 'a' && ticTacToeGame[7].charAt(0) == 'a' && ticTacToeGame[8].charAt(0) == '0')
+                    toeCellId = ticTacToeBoard[8];
+                else if (ticTacToeGame[6].charAt(0) == 'a' && ticTacToeGame[7].charAt(0) == '0' && ticTacToeGame[8].charAt(0) == 'a')
+                    toeCellId = ticTacToeBoard[7];
+                else if (ticTacToeGame[6].charAt(0) == '0' && ticTacToeGame[7].charAt(0) == 'a' && ticTacToeGame[8].charAt(0) == 'a')
+                    toeCellId = ticTacToeBoard[6];
+                else if (ticTacToeGame[0].charAt(0) == 'a' && ticTacToeGame[3].charAt(0) == 'a' && ticTacToeGame[6].charAt(0) == '0')
+                    toeCellId = ticTacToeBoard[6];
+                else if (ticTacToeGame[0].charAt(0) == 'a' && ticTacToeGame[3].charAt(0) == '0' && ticTacToeGame[6].charAt(0) == 'a')
+                    toeCellId = ticTacToeBoard[3];
+                else if (ticTacToeGame[0].charAt(0) == '0' && ticTacToeGame[3].charAt(0) == 'a' && ticTacToeGame[6].charAt(0) == 'a')
+                    toeCellId = ticTacToeBoard[0];
+                else if (ticTacToeGame[1].charAt(0) == 'a' && ticTacToeGame[4].charAt(0) == 'a' && ticTacToeGame[7].charAt(0) == '0')
+                    toeCellId = ticTacToeBoard[7];
+                else if (ticTacToeGame[1].charAt(0) == '0' && ticTacToeGame[4].charAt(0) == 'a' && ticTacToeGame[7].charAt(0) == 'a')
+                    toeCellId = ticTacToeBoard[1];
+                else if (ticTacToeGame[1].charAt(0) == 'a' && ticTacToeGame[4].charAt(0) == '0' && ticTacToeGame[7].charAt(0) == 'a')
+                    toeCellId = ticTacToeBoard[4];
+                else if (ticTacToeGame[2].charAt(0) == 'a' && ticTacToeGame[5].charAt(0) == 'a' && ticTacToeGame[8].charAt(0) == '0')
+                    toeCellId = ticTacToeBoard[8];
+                else if (ticTacToeGame[2].charAt(0) == '0' && ticTacToeGame[5].charAt(0) == 'a' && ticTacToeGame[8].charAt(0) == 'a')
+                    toeCellId = ticTacToeBoard[8];
+                else if (ticTacToeGame[2].charAt(0) == 'a' && ticTacToeGame[5].charAt(0) == '0' && ticTacToeGame[8].charAt(0) == 'a')
+                    toeCellId = ticTacToeBoard[5];
+
+                if (toeCellId == null || (toeCellId.charAt(0) != 'a' && toeCellId.charAt(0) != 'b' && toeCellId.charAt(0) != 'c')) {
+
+                    if (ticTacToeGame[0].charAt(0) == 'p' && ticTacToeGame[4].charAt(0) == 'p' && ticTacToeGame[8].charAt(0) == '0')
+                        toeCellId = ticTacToeBoard[8];
+                    else if (ticTacToeGame[0].charAt(0) == '0' && ticTacToeGame[4].charAt(0) == 'p' && ticTacToeGame[8].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[0];
+                    else if (ticTacToeGame[0].charAt(0) == 'p' && ticTacToeGame[4].charAt(0) == '0' && ticTacToeGame[8].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[4];
+                    else if (ticTacToeGame[3].charAt(0) == 'p' && ticTacToeGame[4].charAt(0) == 'p' && ticTacToeGame[6].charAt(0) == '0')
+                        toeCellId = ticTacToeBoard[6];
+                    else if (ticTacToeGame[3].charAt(0) == '0' && ticTacToeGame[4].charAt(0) == 'p' && ticTacToeGame[6].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[3];
+                    else if (ticTacToeGame[3].charAt(0) == 'p' && ticTacToeGame[4].charAt(0) == '0' && ticTacToeGame[6].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[4];
+                    else if (ticTacToeGame[0].charAt(0) == 'p' && ticTacToeGame[1].charAt(0) == 'p' && ticTacToeGame[2].charAt(0) == '0')
+                        toeCellId = ticTacToeBoard[2];
+                    else if (ticTacToeGame[0].charAt(0) == '0' && ticTacToeGame[1].charAt(0) == 'p' && ticTacToeGame[2].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[0];
+                    else if (ticTacToeGame[0].charAt(0) == 'p' && ticTacToeGame[1].charAt(0) == '0' && ticTacToeGame[2].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[1];
+                    else if (ticTacToeGame[3].charAt(0) == 'p' && ticTacToeGame[4].charAt(0) == 'p' && ticTacToeGame[5].charAt(0) == '0')
+                        toeCellId = ticTacToeBoard[5];
+                    else if (ticTacToeGame[3].charAt(0) == '0' && ticTacToeGame[4].charAt(0) == 'p' && ticTacToeGame[5].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[3];
+                    else if (ticTacToeGame[6].charAt(0) == 'p' && ticTacToeGame[7].charAt(0) == 'p' && ticTacToeGame[8].charAt(0) == '0')
+                        toeCellId = ticTacToeBoard[8];
+                    else if (ticTacToeGame[6].charAt(0) == 'p' && ticTacToeGame[7].charAt(0) == '0' && ticTacToeGame[8].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[7];
+                    else if (ticTacToeGame[6].charAt(0) == '0' && ticTacToeGame[7].charAt(0) == 'p' && ticTacToeGame[8].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[6];
+                    else if (ticTacToeGame[0].charAt(0) == 'p' && ticTacToeGame[3].charAt(0) == 'p' && ticTacToeGame[6].charAt(0) == '0')
+                        toeCellId = ticTacToeBoard[6];
+                    else if (ticTacToeGame[0].charAt(0) == 'p' && ticTacToeGame[3].charAt(0) == '0' && ticTacToeGame[6].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[3];
+                    else if (ticTacToeGame[0].charAt(0) == '0' && ticTacToeGame[3].charAt(0) == 'p' && ticTacToeGame[6].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[0];
+                    else if (ticTacToeGame[1].charAt(0) == 'p' && ticTacToeGame[4].charAt(0) == 'p' && ticTacToeGame[7].charAt(0) == '0')
+                        toeCellId = ticTacToeBoard[7];
+                    else if (ticTacToeGame[1].charAt(0) == '0' && ticTacToeGame[4].charAt(0) == 'p' && ticTacToeGame[7].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[1];
+                    else if (ticTacToeGame[1].charAt(0) == 'p' && ticTacToeGame[4].charAt(0) == '0' && ticTacToeGame[7].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[4];
+                    else if (ticTacToeGame[2].charAt(0) == 'p' && ticTacToeGame[5].charAt(0) == 'p' && ticTacToeGame[8].charAt(0) == '0')
+                        toeCellId = ticTacToeBoard[8];
+                    else if (ticTacToeGame[2].charAt(0) == '0' && ticTacToeGame[5].charAt(0) == 'p' && ticTacToeGame[8].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[8];
+                    else if (ticTacToeGame[2].charAt(0) == 'p' && ticTacToeGame[5].charAt(0) == '0' && ticTacToeGame[8].charAt(0) == 'p')
+                        toeCellId = ticTacToeBoard[5];
+                }
+
                 for (toeCnt = 0; toeCnt < 9; toeCnt++) {
                     if (toeCellId == null && ticTacToeGame[toeCnt] == "0" && ticTacToeGame[toeCnt].charAt(0) != 'a' && ticTacToeGame[toeCnt].charAt(0) != 'p') {
                         toeCellId = ticTacToeBoard[toeCnt];
