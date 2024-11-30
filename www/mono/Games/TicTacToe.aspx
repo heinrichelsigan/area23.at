@@ -818,7 +818,7 @@
                 }
 
 
-                if (toeFinished(loopTicks, 2) > 0) {
+                if (toeFinished(loopTicks, 2) > -1) {
                     // TODO: mark winning cells
                     return;
                 }
