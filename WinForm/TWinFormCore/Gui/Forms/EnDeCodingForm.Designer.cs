@@ -1,4 +1,4 @@
-﻿namespace Area23.At.WinForm.TWinFormCore.UI.Forms
+﻿namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
     partial class EnDeCodingForm
     {
@@ -45,11 +45,13 @@
             buttonSecretKey = new Button();
             buttonHashIv = new Button();
             panelEnCodeCrypt = new Panel();
+            panelButtons = new Panel();
             ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
             splitContainer.Panel1.SuspendLayout();
             splitContainer.Panel2.SuspendLayout();
             splitContainer.SuspendLayout();
             panelEnCodeCrypt.SuspendLayout();
+            panelButtons.SuspendLayout();
             SuspendLayout();
             // 
             // splitContainer
@@ -106,18 +108,19 @@
             // 
             ComboBox_EnDeCoding.BackColor = SystemColors.ControlLightLight;
             ComboBox_EnDeCoding.DropDownStyle = ComboBoxStyle.DropDownList;
+            ComboBox_EnDeCoding.ForeColor = SystemColors.ControlText;
             ComboBox_EnDeCoding.FormattingEnabled = true;
             ComboBox_EnDeCoding.Items.AddRange(new object[] { "hex16", "base16", "base32", "base64", "unix2unix", "html", "url" });
             ComboBox_EnDeCoding.Location = new Point(8, 12);
             ComboBox_EnDeCoding.Margin = new Padding(1);
             ComboBox_EnDeCoding.Name = "ComboBox_EnDeCoding";
-            ComboBox_EnDeCoding.Size = new Size(165, 28);
+            ComboBox_EnDeCoding.Size = new Size(165, 24);
             ComboBox_EnDeCoding.TabIndex = 3;
             // 
             // buttonEncode
             // 
             buttonEncode.BackColor = SystemColors.ButtonHighlight;
-            buttonEncode.Location = new Point(9, 664);
+            buttonEncode.Location = new Point(9, 5);
             buttonEncode.Margin = new Padding(1);
             buttonEncode.Name = "buttonEncode";
             buttonEncode.Padding = new Padding(1);
@@ -130,7 +133,7 @@
             // buttonDecode
             // 
             buttonDecode.BackColor = SystemColors.ButtonHighlight;
-            buttonDecode.Location = new Point(895, 664);
+            buttonDecode.Location = new Point(895, 5);
             buttonDecode.Margin = new Padding(1);
             buttonDecode.Name = "buttonDecode";
             buttonDecode.Padding = new Padding(1);
@@ -144,18 +147,19 @@
             // 
             ComboBox_SymChiffer.BackColor = SystemColors.ControlLightLight;
             ComboBox_SymChiffer.DropDownStyle = ComboBoxStyle.DropDownList;
+            ComboBox_SymChiffer.ForeColor = SystemColors.ControlText;
             ComboBox_SymChiffer.FormattingEnabled = true;
             ComboBox_SymChiffer.Items.AddRange(new object[] { "3DES", "2FISH", "3FISH", "AES", "Cast5", "Cast6", "Camellia", "Ghost28147", "Idea", "Noekeon", "Rijndael", "RC2", "RC532", "RC6", "Seed", "Serpent", "Skipjack", "Tea", "Tnepres", "XTea", "ZenMatrix" });
             ComboBox_SymChiffer.Location = new Point(180, 12);
             ComboBox_SymChiffer.Margin = new Padding(1);
             ComboBox_SymChiffer.Name = "ComboBox_SymChiffer";
-            ComboBox_SymChiffer.Size = new Size(144, 28);
+            ComboBox_SymChiffer.Size = new Size(144, 24);
             ComboBox_SymChiffer.TabIndex = 4;
             // 
             // buttonSave
             // 
             buttonSave.BackColor = SystemColors.ButtonHighlight;
-            buttonSave.Location = new Point(809, 664);
+            buttonSave.Location = new Point(809, 5);
             buttonSave.Margin = new Padding(1);
             buttonSave.Name = "buttonSave";
             buttonSave.Padding = new Padding(1);
@@ -168,7 +172,8 @@
             // buttonLoad
             // 
             buttonLoad.BackColor = SystemColors.ButtonHighlight;
-            buttonLoad.Location = new Point(96, 664);
+            buttonLoad.ForeColor = SystemColors.ActiveCaptionText;
+            buttonLoad.Location = new Point(96, 5);
             buttonLoad.Margin = new Padding(1);
             buttonLoad.Name = "buttonLoad";
             buttonLoad.Padding = new Padding(1);
@@ -182,6 +187,7 @@
             // 
             buttonAddToPipeline.BackColor = SystemColors.ButtonHighlight;
             buttonAddToPipeline.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
+            buttonAddToPipeline.ForeColor = SystemColors.ActiveCaptionText;
             buttonAddToPipeline.Location = new Point(325, 12);
             buttonAddToPipeline.Margin = new Padding(1);
             buttonAddToPipeline.Name = "buttonAddToPipeline";
@@ -195,37 +201,42 @@
             // TextBox_CryptPipeline
             // 
             TextBox_CryptPipeline.BorderStyle = BorderStyle.None;
+            TextBox_CryptPipeline.ForeColor = SystemColors.ControlText;
             TextBox_CryptPipeline.Location = new Point(384, 12);
             TextBox_CryptPipeline.Margin = new Padding(1);
             TextBox_CryptPipeline.Name = "TextBox_CryptPipeline";
             TextBox_CryptPipeline.ReadOnly = true;
-            TextBox_CryptPipeline.Size = new Size(502, 28);
+            TextBox_CryptPipeline.Size = new Size(502, 21);
             TextBox_CryptPipeline.TabIndex = 6;
             TextBox_CryptPipeline.TabStop = false;
             // 
             // TextBox_Key
             // 
+            TextBox_Key.BackColor = SystemColors.ControlLightLight;
             TextBox_Key.BorderStyle = BorderStyle.None;
+            TextBox_Key.ForeColor = SystemColors.ControlText;
             TextBox_Key.Location = new Point(64, 48);
             TextBox_Key.Margin = new Padding(1);
             TextBox_Key.Name = "TextBox_Key";
-            TextBox_Key.Size = new Size(310, 28);
+            TextBox_Key.Size = new Size(310, 21);
             TextBox_Key.TabIndex = 12;
             TextBox_Key.TextChanged += TextBox_Key_TextChanged;
             // 
             // TextBox_IV
             // 
             TextBox_IV.BorderStyle = BorderStyle.None;
+            TextBox_IV.ForeColor = SystemColors.ControlText;
             TextBox_IV.Location = new Point(444, 48);
             TextBox_IV.Margin = new Padding(1);
             TextBox_IV.Name = "TextBox_IV";
-            TextBox_IV.Size = new Size(528, 28);
+            TextBox_IV.Size = new Size(528, 21);
             TextBox_IV.TabIndex = 14;
             // 
             // buttonClearPipeline
             // 
             buttonClearPipeline.BackColor = SystemColors.ButtonHighlight;
             buttonClearPipeline.Font = new Font("Lucida Sans Unicode", 10F);
+            buttonClearPipeline.ForeColor = SystemColors.ActiveCaptionText;
             buttonClearPipeline.Location = new Point(900, 12);
             buttonClearPipeline.Margin = new Padding(1);
             buttonClearPipeline.Name = "buttonClearPipeline";
@@ -242,6 +253,7 @@
             buttonSecretKey.BackgroundImage = Properties.Resources.a_right_key;
             buttonSecretKey.BackgroundImageLayout = ImageLayout.None;
             buttonSecretKey.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
+            buttonSecretKey.ForeColor = SystemColors.ActiveCaptionText;
             buttonSecretKey.Location = new Point(8, 48);
             buttonSecretKey.Margin = new Padding(1);
             buttonSecretKey.Name = "buttonSecretKey";
@@ -257,6 +269,7 @@
             buttonHashIv.BackgroundImage = Properties.Resources.a_hash5;
             buttonHashIv.BackgroundImageLayout = ImageLayout.None;
             buttonHashIv.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
+            buttonHashIv.ForeColor = SystemColors.ActiveCaptionText;
             buttonHashIv.Location = new Point(384, 48);
             buttonHashIv.Margin = new Padding(1);
             buttonHashIv.Name = "buttonHashIv";
@@ -267,7 +280,7 @@
             // 
             // panelEnCodeCrypt
             // 
-            panelEnCodeCrypt.BackColor = SystemColors.ControlLight;
+            panelEnCodeCrypt.BackColor = SystemColors.ActiveCaption;
             panelEnCodeCrypt.Controls.Add(TextBox_CryptPipeline);
             panelEnCodeCrypt.Controls.Add(buttonHashIv);
             panelEnCodeCrypt.Controls.Add(ComboBox_EnDeCoding);
@@ -277,33 +290,43 @@
             panelEnCodeCrypt.Controls.Add(buttonAddToPipeline);
             panelEnCodeCrypt.Controls.Add(TextBox_IV);
             panelEnCodeCrypt.Controls.Add(TextBox_Key);
+            panelEnCodeCrypt.ForeColor = SystemColors.WindowText;
             panelEnCodeCrypt.Location = new Point(1, 28);
             panelEnCodeCrypt.Margin = new Padding(0);
             panelEnCodeCrypt.Name = "panelEnCodeCrypt";
             panelEnCodeCrypt.Size = new Size(983, 96);
             panelEnCodeCrypt.TabIndex = 2;
             // 
+            // panelButtons
+            // 
+            panelButtons.BackColor = SystemColors.ActiveCaption;
+            panelButtons.Controls.Add(buttonDecode);
+            panelButtons.Controls.Add(buttonSave);
+            panelButtons.Controls.Add(buttonLoad);
+            panelButtons.Controls.Add(buttonEncode);
+            panelButtons.ForeColor = SystemColors.ActiveCaptionText;
+            panelButtons.Location = new Point(1, 656);
+            panelButtons.Margin = new Padding(1);
+            panelButtons.Name = "panelButtons";
+            panelButtons.Size = new Size(986, 36);
+            panelButtons.TabIndex = 55;
+            // 
             // EnDeCodingForm
             // 
             AutoScaleDimensions = new SizeF(8F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(984, 711);
-            Controls.Add(buttonLoad);
-            Controls.Add(buttonEncode);
+            BackColor = SystemColors.Window;
+            ClientSize = new Size(984, 721);
+            Controls.Add(panelButtons);
             Controls.Add(panelEnCodeCrypt);
-            Controls.Add(buttonDecode);
             Controls.Add(splitContainer);
-            Controls.Add(buttonSave);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "EnDeCodingForm";
             Text = "EnDeCodingForm";
             Load += EnDeCodingForm_Load;
-            Controls.SetChildIndex(buttonSave, 0);
             Controls.SetChildIndex(splitContainer, 0);
-            Controls.SetChildIndex(buttonDecode, 0);
             Controls.SetChildIndex(panelEnCodeCrypt, 0);
-            Controls.SetChildIndex(buttonEncode, 0);
-            Controls.SetChildIndex(buttonLoad, 0);
+            Controls.SetChildIndex(panelButtons, 0);
             splitContainer.Panel1.ResumeLayout(false);
             splitContainer.Panel1.PerformLayout();
             splitContainer.Panel2.ResumeLayout(false);
@@ -312,6 +335,7 @@
             splitContainer.ResumeLayout(false);
             panelEnCodeCrypt.ResumeLayout(false);
             panelEnCodeCrypt.PerformLayout();
+            panelButtons.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -335,5 +359,6 @@
         private Button buttonSecretKey;
         private Button buttonHashIv;
         private Panel panelEnCodeCrypt;
+        private Panel panelButtons;
     }
 }

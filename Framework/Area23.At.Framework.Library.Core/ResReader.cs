@@ -21,8 +21,10 @@ namespace Area23.At.Framework.Library.Core
         /// <returns>string in local language fetched from resource file</returns>
         public static string GetValue(string key, string langCode = "")
         {
-            string retVal = Properties.Resource.ResourceManager.GetString(key);
-
+            string retVal = key;
+            if (Properties.Resource.ResourceManager != null)
+                retVal = Properties.Resource.ResourceManager.GetString(key);
+                
             return (!string.IsNullOrEmpty(retVal)) ? retVal : key;
         }
 

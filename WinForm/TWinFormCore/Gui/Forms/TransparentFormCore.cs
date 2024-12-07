@@ -1,5 +1,5 @@
 ﻿using Area23.At.Framework.Library.Core;
-using Area23.At.WinForm.TWinFormCore.UI.Forms;
+using Area23.At.WinForm.TWinFormCore.Gui.Forms;
 using Area23.At.WinForm.TWinFormCore;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace Area23.At.WinForm.TWinFormCore.UI.Forms
+namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
     public partial class TransparentFormCore : System.Windows.Forms.Form
     {
@@ -164,7 +164,7 @@ namespace Area23.At.WinForm.TWinFormCore.UI.Forms
             Environment.Exit(0);
         }
 
-        protected internal void toolStripMenuItemEnDeCode_Click(object sender, EventArgs e)
+        protected internal void menuViewMenuCrypItemEnDeCode_Click(object sender, EventArgs e)
         {
             int formsCount = Program.tFormsNew.Count;
             if (formsCount > 16)
@@ -179,7 +179,7 @@ namespace Area23.At.WinForm.TWinFormCore.UI.Forms
             endecodeForm.Focus();
         }
 
-        protected internal void toolStripMenuItemCrypt_Click(object sender, EventArgs e)
+        protected internal void menuViewMenuCryptItemCrypt_Click(object sender, EventArgs e)
         {
             int formsCount = Program.tFormsNew.Count;
             if (formsCount > 16)
@@ -290,7 +290,7 @@ namespace Area23.At.WinForm.TWinFormCore.UI.Forms
             return (saveFileDialog != null && saveFileDialog.FileName != null && File.Exists(saveFileDialog.FileName)) ? saveFileDialog.FileName : null;
         }
 
-        protected internal void fortnuneToolStripMenuItem_Click(object sender, EventArgs e)
+        protected internal void menuViewMenuUnixItemFortnune_Click(object sender, EventArgs e)
         {
             int formsCount = Program.tFormsNew.Count;
             if (formsCount > 16)
@@ -305,7 +305,7 @@ namespace Area23.At.WinForm.TWinFormCore.UI.Forms
             fortune.Focus();
         }
 
-        private void myAddrToolStripMenuItem_Click(object sender, EventArgs e)
+        private void menuViewMenuUnixItemNetAddr_Click(object sender, EventArgs e)
         {
             int formsCount = Program.tFormsNew.Count;
             if (formsCount > 16)
@@ -318,6 +318,28 @@ namespace Area23.At.WinForm.TWinFormCore.UI.Forms
             netAddr.Show();
             netAddr.BringToFront();
             netAddr.Focus();
+        }
+
+        private void menuViewMenuICrypttemEnDeCode_Click(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        private void menuViewMenuUnixItemScp_Click(object sender, EventArgs e)
+        {
+            int formsCount = Program.tFormsNew.Count;
+            if (formsCount > 10)
+            {
+                MessageBox.Show($"Already {formsCount} instances of {TFormType} currently running!", $"{Program.progName}: maximum reached!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            TScp tscp = new TScp();
+            Program.tFormsNew.Add(tscp);
+            tscp.Show();
+            tscp.BringToFront();
+            tscp.Focus();
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Area23.At.WinForm.TransparentForms.TForms
+namespace Area23.At.WinForm.TransparentForms.Gui.TForms
 {
     partial class TAbout : Form
     {

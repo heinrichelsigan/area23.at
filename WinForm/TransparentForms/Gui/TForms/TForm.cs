@@ -1,6 +1,7 @@
 ﻿using Area23.At.Framework.Library;
 using Area23.At.Framework.Library.Win32Api;
 using Area23.At.WinForm.TransparentForms.Helper;
+using Area23.At.WinForm.TransparentForms.Gui;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-namespace Area23.At.WinForm.TransparentForms.TForms
+namespace Area23.At.WinForm.TransparentForms.Gui.TForms
 {
     public partial class TForm : Form
     {

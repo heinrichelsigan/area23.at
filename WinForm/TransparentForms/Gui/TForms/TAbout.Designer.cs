@@ -1,4 +1,4 @@
-﻿namespace Area23.At.WinForm.TransparentForms.TForms
+﻿namespace Area23.At.WinForm.TransparentForms.Gui.TForms
 {
     partial class TAbout
     {

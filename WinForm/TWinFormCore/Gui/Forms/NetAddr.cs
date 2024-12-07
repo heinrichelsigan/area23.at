@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Area23.At.WinForm.TWinFormCore.UI.Forms
+namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
     public partial class NetAddr : TransparentFormCore
     {

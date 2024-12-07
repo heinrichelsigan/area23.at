@@ -1,4 +1,4 @@
-﻿using Area23.At.WinForm.TWinFormCore.UI.Forms;
+﻿using Area23.At.WinForm.TWinFormCore.Gui.Forms;
 using Area23.At.WinForm.TWinFormCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Area23.At.WinForm.TWinFormCore.UI.Forms
+namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
     partial class TransparentDialog : System.Windows.Forms.Form
     {

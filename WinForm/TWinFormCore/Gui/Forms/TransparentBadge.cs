@@ -1,5 +1,5 @@
 ﻿using Area23.At.Framework.Library.Core;
-using Area23.At.WinForm.TWinFormCore.UI.Forms;
+using Area23.At.WinForm.TWinFormCore.Gui.Forms;
 using Area23.At.WinForm.TWinFormCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Area23.At.WinForm.TWinFormCore.UI.Forms
+namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
     public partial class TransparentBadge : System.Windows.Forms.Form
     {

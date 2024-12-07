@@ -1,16 +1,24 @@
-﻿using Area23.At.Framework.Library;
+﻿using Area23.At.Framework.Library.Core;
+using Area23.At.Framework.Library.Core.EnDeCoding;
+using Area23.At.Framework.Library.Core.SymCipher;
+using Area23.At.WinForm.TWinFormCore.Gui.Forms;
+using Area23.At.WinForm.TWinFormCore.Gui;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 
-namespace Area23.At.WinForm.TransparentForms.TForms
+namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
-    public partial class TFortune : Area23.At.WinForm.TransparentForms.TForms.TForm
+    public partial class Fortune : TransparentFormCore
     {
         static object fortuneLock = new object();
         static bool useExec = true;
@@ -19,8 +27,7 @@ namespace Area23.At.WinForm.TransparentForms.TForms
 
         public string[] Fortunes { get => fortunes.ToArray(); }
 
-
-        public TFortune()
+        public Fortune()
         {
             InitializeComponent();
             SetFortune();
@@ -93,8 +100,7 @@ namespace Area23.At.WinForm.TransparentForms.TForms
 
         private void buttonClose_Click(object sender, EventArgs e)
         {
-            menuItemExit_Click(sender, e);
+            toolStripMenuItemExit_Click(sender, e);
         }
-
     }
 }

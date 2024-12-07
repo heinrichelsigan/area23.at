@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace Area23.At.WinForm.TransparentForms.TForms
+namespace Area23.At.WinForm.TransparentForms.Gui.TForms
 {
     partial class TFortune
     {

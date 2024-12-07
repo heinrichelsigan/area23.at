@@ -1,4 +1,4 @@
-﻿namespace Area23.At.WinForm.TWinFormCore.UI.Forms
+﻿namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
     partial class TransparentDialog
     {
