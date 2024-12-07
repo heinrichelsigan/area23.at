@@ -26,7 +26,10 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
         {
             if (this.comboBoxHosts != null && this.comboBoxHosts.Items != null && this.comboBoxHosts.Items.Count == 0)
             {
+                // comboBoxHosts.Items.AddRange(new object[] { "area23.at", "virginia.area23.at", "paris.area23.at", "parisienne.area23.at" });
                 this.comboBoxHosts.Items.AddRange(GetItemsComboBoxHosts());
+                if (this.comboBoxHosts.Items != null && this.comboBoxHosts.Items.Count > 0)
+                    this.comboBoxHosts.SelectedIndex = 0;
             }
             base.OnCreateControl();
         }
@@ -48,14 +51,17 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             if (keyExists.HasValue && keyExists.Value)
             {
                 string dirName = ConfigurationManager.AppSettings["SshKeyDirectory"].ToString();
-
+                string newHostStr = string.Empty;
 
                 foreach (string hostStr in GetAllHostsNameByPuttyPrivateKey(dirName))
                 {
-                    if (!entries.Contains(hostStr))
+                    if (hostStr.Contains('\\'))
+                        newHostStr = hostStr.Substring(hostStr.LastIndexOf('\\') + 1).Replace(".ppk", "");
+
+                    if (!entries.Contains(newHostStr))
                     {
-                        entries.Add(hostStr);
-                        entries.AddRange(MyAddr.GetDnsHostNamesByHostName(hostStr));
+                        entries.Add(newHostStr);
+                        entries.AddRange(MyAddr.GetDnsHostNamesByHostName(newHostStr));
                     }
                 }
             }

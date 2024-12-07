@@ -83,7 +83,6 @@
             comboBoxHosts.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxHosts.FlatStyle = FlatStyle.Flat;
             comboBoxHosts.FormattingEnabled = true;
-            comboBoxHosts.Items.AddRange(new object[] { "area23.at", "virginia.area23.at", "paris.area23.at", "parisienne.area23.at" });
             comboBoxHosts.Location = new Point(200, 6);
             comboBoxHosts.Margin = new Padding(1);
             comboBoxHosts.Name = "comboBoxHosts";
