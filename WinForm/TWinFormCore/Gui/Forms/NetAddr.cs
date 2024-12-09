@@ -27,7 +27,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
         private void buttonMacs_Click(object sender, EventArgs e)
         {
-            IEnumerable<PhysicalAddress> list = MyAddr.GetMacAddress();
+            IEnumerable<PhysicalAddress> list = Area23.At.Framework.Library.Core.Net.NetworkAddresses.GetMacAddress();
             listBoxAddrs.Items.Clear();
             foreach (PhysicalAddress addr in list)
             {
@@ -37,7 +37,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
         private void buttonIpAddr_Click(object sender, EventArgs e)
         {
-            IEnumerable<IPAddress> list = MyAddr.GetIpAddresses();
+            IEnumerable<IPAddress> list = NetworkAddresses.GetIpAddresses();
             listBoxAddrs.Items.Clear();
             foreach (IPAddress addr in list)
             {
@@ -47,7 +47,17 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
         private void buttonIpHostAddr_Click(object sender, EventArgs e)
         {
-            IEnumerable<IPAddress> list = MyAddr.GetIpAddrsByHostName();
+            IEnumerable<IPAddress> list = NetworkAddresses.GetIpAddrsByHostName();
+            listBoxAddrs.Items.Clear();
+            foreach (IPAddress addr in list)
+            {
+                listBoxAddrs.Items.Add(addr);
+            }
+        }
+
+        private void buttonConnectedIPAddrs_Click(object sender, EventArgs e)
+        {
+            List<IPAddress> list = NetworkAddresses.GetConnectedIpAddresses();
             listBoxAddrs.Items.Clear();
             foreach (IPAddress addr in list)
             {

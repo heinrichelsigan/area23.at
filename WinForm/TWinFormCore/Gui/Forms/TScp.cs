@@ -61,7 +61,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                     if (!entries.Contains(newHostStr))
                     {
                         entries.Add(newHostStr);
-                        entries.AddRange(MyAddr.GetDnsHostNamesByHostName(newHostStr));
+                        entries.AddRange(NetworkAddresses.GetDnsHostNamesByHostName(newHostStr));
                     }
                 }
             }

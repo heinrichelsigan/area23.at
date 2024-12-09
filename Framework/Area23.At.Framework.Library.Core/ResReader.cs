@@ -24,7 +24,7 @@ namespace Area23.At.Framework.Library.Core
             string retVal = key;
             if (Properties.Resource.ResourceManager != null)
                 retVal = Properties.Resource.ResourceManager.GetString(key);
-                
+
             return (!string.IsNullOrEmpty(retVal)) ? retVal : key;
         }
 
@@ -75,7 +75,7 @@ namespace Area23.At.Framework.Library.Core
             string fortuneString = Encoding.UTF8.GetString(Properties.Resource.fortune_u8);
             return fortuneString;
         }
-    
+
     }
 
 

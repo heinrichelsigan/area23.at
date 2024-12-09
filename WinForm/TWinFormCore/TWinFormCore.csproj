@@ -28,10 +28,6 @@
   <ItemGroup>
     <None Remove="Program.cs.txt" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Area23.At.Framework.Library.Core\Area23.At.Framework.Library.Core.csproj" />
-  </ItemGroup>
     
 	<ItemGroup>
         <Compile Update="Gui\Forms\TScp.cs">
@@ -61,6 +57,13 @@
 	</ItemGroup>
     
 	<ItemGroup>
+	  <ProjectReference Include="..\..\Framework\Area23.At.Framework.Library.Core\Area23.At.Framework.Library.Core.csproj" />
+	</ItemGroup>
+    
+	<ItemGroup>
+	  <None Update="log\XMLFile1.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="res\text\fortune.u8">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>

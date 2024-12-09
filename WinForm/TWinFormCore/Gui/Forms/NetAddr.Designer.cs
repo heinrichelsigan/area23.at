@@ -33,6 +33,7 @@
             buttonClose = new Button();
             buttonIpHostAddr = new Button();
             panelButtons = new Panel();
+            buttonConnectedIPAddrs = new Button();
             buttonMacs = new Button();
             panelButtons.SuspendLayout();
             SuspendLayout();
@@ -48,7 +49,7 @@
             listBoxAddrs.Location = new Point(12, 42);
             listBoxAddrs.Margin = new Padding(1);
             listBoxAddrs.Name = "listBoxAddrs";
-            listBoxAddrs.Size = new Size(352, 340);
+            listBoxAddrs.Size = new Size(518, 327);
             listBoxAddrs.TabIndex = 1;
             // 
             // buttonIpAddr
@@ -56,7 +57,7 @@
             buttonIpAddr.BackColor = SystemColors.ButtonHighlight;
             buttonIpAddr.Font = new Font("Lucida Console", 10F);
             buttonIpAddr.ForeColor = SystemColors.ActiveCaptionText;
-            buttonIpAddr.Location = new Point(137, 4);
+            buttonIpAddr.Location = new Point(116, 4);
             buttonIpAddr.Margin = new Padding(1);
             buttonIpAddr.Name = "buttonIpAddr";
             buttonIpAddr.Size = new Size(102, 26);
@@ -71,7 +72,7 @@
             buttonClose.BackgroundImageLayout = ImageLayout.None;
             buttonClose.Font = new Font("Lucida Console", 10F);
             buttonClose.ForeColor = SystemColors.ActiveCaptionText;
-            buttonClose.Location = new Point(689, 4);
+            buttonClose.Location = new Point(428, 4);
             buttonClose.Margin = new Padding(1);
             buttonClose.Name = "buttonClose";
             buttonClose.Size = new Size(102, 26);
@@ -85,7 +86,7 @@
             buttonIpHostAddr.BackColor = SystemColors.ButtonHighlight;
             buttonIpHostAddr.Font = new Font("Lucida Console", 10F);
             buttonIpHostAddr.ForeColor = SystemColors.ActiveCaptionText;
-            buttonIpHostAddr.Location = new Point(263, 4);
+            buttonIpHostAddr.Location = new Point(324, 4);
             buttonIpHostAddr.Margin = new Padding(1);
             buttonIpHostAddr.Name = "buttonIpHostAddr";
             buttonIpHostAddr.Size = new Size(102, 26);
@@ -97,6 +98,7 @@
             // panelButtons
             // 
             panelButtons.BackColor = SystemColors.ActiveCaption;
+            panelButtons.Controls.Add(buttonConnectedIPAddrs);
             panelButtons.Controls.Add(buttonClose);
             panelButtons.Controls.Add(buttonMacs);
             panelButtons.Controls.Add(buttonIpHostAddr);
@@ -105,8 +107,22 @@
             panelButtons.Location = new Point(0, 389);
             panelButtons.Margin = new Padding(0);
             panelButtons.Name = "panelButtons";
-            panelButtons.Size = new Size(800, 36);
+            panelButtons.Size = new Size(546, 36);
             panelButtons.TabIndex = 10;
+            // 
+            // buttonConnectedIPAddrs
+            // 
+            buttonConnectedIPAddrs.BackColor = SystemColors.ButtonHighlight;
+            buttonConnectedIPAddrs.Font = new Font("Lucida Console", 10F);
+            buttonConnectedIPAddrs.ForeColor = SystemColors.ActiveCaptionText;
+            buttonConnectedIPAddrs.Location = new Point(220, 4);
+            buttonConnectedIPAddrs.Margin = new Padding(1);
+            buttonConnectedIPAddrs.Name = "buttonConnectedIPAddrs";
+            buttonConnectedIPAddrs.Size = new Size(102, 26);
+            buttonConnectedIPAddrs.TabIndex = 15;
+            buttonConnectedIPAddrs.Text = "Connected IPAddr";
+            buttonConnectedIPAddrs.UseVisualStyleBackColor = false;
+            buttonConnectedIPAddrs.Click += buttonConnectedIPAddrs_Click;
             // 
             // buttonMacs
             // 
@@ -126,7 +142,8 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            BackColor = SystemColors.ControlLight;
+            ClientSize = new Size(546, 453);
             Controls.Add(panelButtons);
             Controls.Add(listBoxAddrs);
             Name = "NetAddr";
@@ -146,5 +163,6 @@
         private Button buttonIpHostAddr;
         private Panel panelButtons;
         private Button buttonMacs;
+        private Button buttonConnectedIPAddrs;
     }
 }
