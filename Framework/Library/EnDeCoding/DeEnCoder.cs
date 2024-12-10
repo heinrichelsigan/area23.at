@@ -38,8 +38,9 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// "null", "hex16", "base16", "base32", "base32hex", "uu", "base64".
         /// "base64" is default.</param>
         /// <param name="fromPlain">Only for uu: true, if <see cref="encryptBytes"/> represent a binary without encryption</param>
+        /// <param name="fromFile">Only for uu: true, if file and not textbox will be encrypted, default (false)</param>
         /// <returns>encoded encrypted string</returns>
-        public static string EncodeEncryptedBytes(byte[] encryptBytes, string encodingMethod = "base64", bool fromPlain = false)
+        public static string EncodeEncryptedBytes(byte[] encryptBytes, string encodingMethod = "base64", bool fromPlain = false, bool fromFile = false)
         {
             string encryptedText = string.Empty;
             switch (encodingMethod.ToLowerInvariant())
@@ -49,7 +50,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
                 case "base16":      encryptedText = Base16.ToBase16(encryptBytes); break;
                 case "base32":      encryptedText = Base32.ToBase32(encryptBytes); break;
                 case "base32hex":   encryptedText = Base32Hex.ToBase32Hex(encryptBytes); break;
-                case "uu":          encryptedText = Uu.ToUu(encryptBytes, fromPlain); break;
+                case "uu":          encryptedText = Uu.ToUu(encryptBytes, fromPlain, fromFile); break;
                 case "base64":
                 default:            encryptedText = Base64.ToBase64(encryptBytes); break;
             }
@@ -66,8 +67,9 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// "null", "hex16", "base16", "base32", "base32hex", "uu", "base64".
         /// "base64" is default.</param>
         /// <param name="fromPlain">Only for uu: true, if <see cref="encryptBytes"/> represent a binary without encryption</param>
+        /// <param name="fromFile">Only for uu: true, if file and not textbox will be encrypted, default (false)</param>
         /// <returns>binary byte array</returns>
-        public static byte[] EncodedTextToBytes(string cipherText, out string errMsg, string encodingMethod = "base64", bool fromPlain = false)
+        public static byte[] EncodedTextToBytes(string cipherText, out string errMsg, string encodingMethod = "base64", bool fromPlain = false, bool fromFile = false) 
         {
             byte[] cipherBytes = null;
             errMsg = string.Empty;
@@ -102,7 +104,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
                     break;
                 case "uu":
                     if (Uu.IsValidUue(cipherText))
-                        cipherBytes = Uu.FromUu(cipherText, fromPlain);
+                        cipherBytes = Uu.FromUu(cipherText, fromPlain, fromFile);
                     else
                         errMsg = "Input Text isn't a valid uuencoded string!";
                     break;

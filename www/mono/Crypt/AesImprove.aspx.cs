@@ -118,7 +118,7 @@ namespace Area23.At.Mono.Crypt
 
                 bool fromPlain = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
                 string encodingMethod = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
-                string encryptedText = DeEnCoder.EncodeEncryptedBytes(encryptBytes, encodingMethod, fromPlain);
+                string encryptedText = DeEnCoder.EncodeEncryptedBytes(encryptBytes, encodingMethod, fromPlain, false);
                 //switch (encodingMethod)
                 //{
                 //    case "hex16":       encryptedText = Hex16.ToHex16(encryptBytes); break;
@@ -161,7 +161,7 @@ namespace Area23.At.Mono.Crypt
                 bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
                 string decryptedText = string.Empty;
                 string encodingMethod = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
-                byte[] cipherBytes  = DeEnCoder.EncodedTextToBytes(cipherText, out string errMsg, encodingMethod, plainUu);
+                byte[] cipherBytes = DeEnCoder.EncodedTextToBytes(cipherText, out string errMsg, encodingMethod, plainUu, false);
                 if (cipherBytes == null && !string.IsNullOrEmpty(errMsg))
                 {
                     this.TextBox_IV.Text = errMsg;
@@ -368,18 +368,6 @@ namespace Area23.At.Mono.Crypt
 
             if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
             {
-                //// Save the uploaded file to the server.
-                // strFilePath = LibPaths.OutDirPath + strFileName;
-                //while (System.IO.File.Exists(strFilePath))
-                //{
-                //    string newFileName = strFilePath.Contains(Constants.DateFile) ?
-                //        Constants.DateFile + Guid.NewGuid().ToString() + "_" + strFileName :
-                //        Constants.DateFile + strFileName;
-                //    strFilePath = Paths.OutDirPath + newFileName;
-                //    lblUploadResult.Text = String.Format("{0} already exists on server, saving it to {1}.",
-                //        strFileName, newFileName);
-                //}
-
                 // pfile.SaveAs(strFilePath);
                 if (string.IsNullOrEmpty(lblUploadResult.Text))
                     lblUploadResult.Text = strFileName + " has been successfully uploaded.";
@@ -426,7 +414,7 @@ namespace Area23.At.Mono.Crypt
                         {
                             lblUploadResult.Text = string.Format("file {0}x encrypted to {1}", cryptCount, outMsg);
 
-                            string encryptedText = DeEnCoder.EncodeEncryptedBytes(outBytes, encodingMethod, plainUu);
+                            string encryptedText = DeEnCoder.EncodeEncryptedBytes(outBytes, encodingMethod, plainUu, true);
                             strFileName += "." + encodingMethod;
                             string savedTransFileEnc = this.StringToFile(encryptedText, out outMsg, strFileName);
 
@@ -471,8 +459,8 @@ namespace Area23.At.Mono.Crypt
                                 {
                                     cipherText = System.IO.File.ReadAllText(LibPaths.OutDirPath + tmpFile, Encoding.UTF8);
                                 }
-                                
-                                cipherBytes = DeEnCoder.EncodedTextToBytes(cipherText, out string errMsg, encodingMethod, plainUu);
+
+                                cipherBytes = DeEnCoder.EncodedTextToBytes(cipherText, out string errMsg, encodingMethod, plainUu, true);
                                 strFileName = strFileName.EndsWith("." + encodingMethod) ? strFileName.Replace("." + encodingMethod, "") : strFileName;
                                 break;
                             default: // assert here

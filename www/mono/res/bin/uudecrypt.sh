@@ -11,11 +11,15 @@ fi
 UUD_CMD=/usr/bin/uudecode
 FILE_UU_IN=$1
 FILE_OUT=$2
+if [ $# -gt 2 ] ; then
+    FILE_OUT=$3
+fi
 
 echo "$0: executing $UUD_CMD $FILE_UU_IN -o $FILE_OUT " >> /tmp/mono.txt 2>&1
 echo "$0: executing $UUD_CMD $FILE_UU_IN -o $FILE_OUT "
 if [ -f $FILE_UU_IN ] ; then
-        ${UUD_CMD} $FILE_UU_IN -o $FILE_OUT 
+        
+        cat $FILE_UU_IN  | ${UUD_CMD} -o $FILE_OUT 
 
         if [ -f $$FILE_OUT ] ; then
                 echo "$0 Success writing to $FILE_OUT " >> /tmp/mono.txt 2>&1
