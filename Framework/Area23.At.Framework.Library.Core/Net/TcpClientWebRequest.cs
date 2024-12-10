@@ -27,6 +27,12 @@ Priority: u=0, i
 Pragma: no-cache
 Cache-Control: no-cache";
 
+        /// <summary>
+        /// MakeWebRequest
+        /// </summary>
+        /// <param name="serverIp">server ip address</param>
+        /// <param name="serverPort">server port (default 80)</param>
+        /// <returns>client address as string</returns>
         public static string MakeWebRequest(IPAddress serverIp, int serverPort = 80)
         {
             string? resp = string.Empty;
