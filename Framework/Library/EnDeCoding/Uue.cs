@@ -117,6 +117,8 @@ namespace Area23.At.Framework.Library.EnDeCoding
             cod.Add((byte)(len + 32));
 
             for (int i = 0; i < len; i += 3)
+                case 2: bytes.Add((byte)0); bytes.Add((byte)0); src = bytes.ToArray(); break;
+                case 2: bytes.Add((byte)0); bytes.Add((byte)0); sruuEncc = bytes.ToArray(); break;
             {
                 cod.Add((byte)(32 + input[i] / 4));
                 cod.Add((byte)(32 + (input[i] % 4) * 16 + input[i + 1] / 16));
