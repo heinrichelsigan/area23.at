@@ -24,10 +24,10 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// <returns>uuencoded string</returns>
         public static string ToUu(byte[] inBytes, bool originalUue = true)
         {
-            string bytStr = string.Empty;
-            string uu = "";
+            string bytStr = Encoding.UTF8.GetString(inBytes);
+            string uu = (new UUEncoder()).EncodeString(bytStr);
 
-            
+
             if (originalUue)
             {
                 bytStr = Encoding.ASCII.GetString(inBytes);
@@ -35,14 +35,48 @@ namespace Area23.At.Framework.Library.EnDeCoding
             }
             else
             {
-                string hexOutFile = DateTime.Now.Area23DateTimeWithMillis() + ".hex";
+                string fileBase = DateTime.Now.Area23DateTimeWithSeconds();
+                string hexOutFile = fileBase + ".hex";
                 string hexOutPath = LibPaths.UuDirPath + hexOutFile;
-                string uuOutFile = DateTime.Now.Area23DateTimeWithMillis() + ".uue";
+                string uuOutFile = fileBase + ".uue";
                 string uuOutPath = LibPaths.UuDirPath + uuOutFile;
                 // inBytes.ToFile(uuOutPath);
-                System.IO.File.WriteAllBytes(hexOutPath, inBytes);
-                ProcessCmd.Execute("uuencode", $"{hexOutPath} {uuOutFile} > {uuOutPath}", false);
-                uu = System.IO.File.ReadAllText($"{uuOutPath}");
+                Area23Log.LogStatic("Wrting inBytes to " + hexOutPath);
+                try
+                {
+                    System.IO.File.WriteAllBytes(hexOutPath, inBytes);
+
+                    string exeCmd = "uuencode";
+                    if (System.IO.File.Exists("/usr/local/bin/uuencrypt.sh"))
+                        exeCmd = "/usr/local/bin/uuencrypt.sh";
+                    else if (System.IO.File.Exists(LibPaths.AdditionalBinDir + "uuencrypt.sh"))
+                        exeCmd = LibPaths.AdditionalBinDir + "uuencrypt.sh";
+
+                    try
+                    {
+                        ProcessCmd.Execute(exeCmd, " " + hexOutPath + " " + uuOutFile + " " + uuOutPath + " ", false);
+                    } 
+                    catch (Exception exExe1)
+                    {
+                        Area23Log.LogStatic(exExe1);
+                        try
+                        {
+                            ProcessCmd.Execute(exeCmd, " " + hexOutPath + " " + uuOutFile + " " + uuOutPath + " ", false);
+                        }
+                        catch (Exception exExe2)
+                        {
+                            Area23Log.LogStatic(exExe2);
+                        }
+                    }                   
+
+                    Area23Log.LogStatic("Read uuencoded text from " + uuOutPath);
+                    uu = System.IO.File.ReadAllText(uuOutPath);
+                } 
+                catch (Exception ex)
+                {
+                    Area23Log.LogStatic("string ToUu(byte[] inBytes, bool originalUue = true)");
+                    Area23Log.LogStatic(ex);
+                }
             }
 
             return uu;
@@ -57,7 +91,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
         public static byte[] FromUu(string uuEncStr, bool originalUue = true)
         {
             string plainStr = string.Empty;
-            byte[] plainBytes;
+            byte[] plainBytes = Encoding.UTF8.GetBytes(uuEncStr);
             if (originalUue)
             {
                 plainStr = (new UUEncoder()).DecodeString(uuEncStr);
@@ -65,14 +99,50 @@ namespace Area23.At.Framework.Library.EnDeCoding
             }
             else
             {
-                string uuOutFile = DateTime.Now.Area23DateTimeWithMillis() + ".uue";
+                string fileBase = DateTime.Now.Area23DateTimeWithSeconds();
+                string uuOutFile = fileBase + ".uue";
                 string uuOutPath = LibPaths.UuDirPath + uuOutFile;
-                string hexOutFile = DateTime.Now.Area23DateTimeWithMillis() + ".hex";
+                string hexOutFile = fileBase + ".hex";
                 string hexOutPath = LibPaths.UuDirPath + hexOutFile;
+                Area23Log.LogStatic("Wrting uuEncStr to " + uuOutPath);
 
-                System.IO.File.WriteAllText(uuOutPath, uuEncStr);
-                ProcessCmd.Execute("uudecode", $"{uuOutPath} -o {hexOutPath}", false);
-                plainBytes = System.IO.File.ReadAllBytes(hexOutPath);
+                string exeCmd = "uudecode";
+                if (System.IO.File.Exists("/usr/local/bin/uudecrypt.sh"))
+                    exeCmd = "/usr/local/bin/uudecrypt.sh";
+                else if (System.IO.File.Exists(LibPaths.AdditionalBinDir + "uudecrypt.sh"))
+                    exeCmd = LibPaths.AdditionalBinDir + "uudecrypt.sh";
+
+
+                try
+                {
+                    System.IO.File.WriteAllText(uuOutPath, uuEncStr);
+
+                    try
+                    {
+                        ProcessCmd.Execute("uudecode", " " + uuOutPath + " -o " + hexOutPath + " ", false);
+                    }
+                    catch (Exception exExe1)
+                    {
+                        Area23Log.LogStatic(exExe1);
+                        try
+                        {
+                            ProcessCmd.Execute("uudecode", " " + uuOutPath + " -o " + hexOutPath + " ", false);
+                        }
+                        catch (Exception exExe2)
+                        {
+                            Area23Log.LogStatic(exExe2);
+                        }
+                    }
+                  
+
+                    Area23Log.LogStatic("Reading bytes from: " + hexOutPath);
+                    plainBytes = System.IO.File.ReadAllBytes(hexOutPath);
+                }
+                catch (Exception ex)
+                {
+                    Area23Log.LogStatic("Exception in FromUu(string uuEncStr, bool originalUue = true)");
+                    Area23Log.LogStatic(ex);
+                }
             }
 
             return plainBytes;

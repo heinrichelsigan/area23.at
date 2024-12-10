@@ -486,6 +486,11 @@
     <Content Include="res\bin\bccmd.bat" />
     <None Include="Properties\PublishProfiles\app.publish.pubxml" />
     <None Include="Properties\PublishProfiles\area23.at_release_publish.pubxml" />
+    <Content Include="res\uu\derpark.txt.uze">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res\bin\uuencrypt.sh" />
+    <Content Include="res\bin\uudecrypt.sh" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -495,7 +500,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="res\uu\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resource.resx">
