@@ -106,16 +106,22 @@ namespace Area23.At.Framework.Library.EnDeCoding
         public static byte[] FromUu(string uuEncStr, bool originalUue = true, bool fromFile = false)
         {
             Area23Log.LogStatic($"FromUu(string uuEncStr[.Length={uuEncStr.Length}], bool originalUue = {originalUue}, bool fromFile = {fromFile}) ... STARTED.");
-            
-            string plainStr = (new UUEncoder()).DecodeString(uuEncStr);
+
+            string plainStr = string.Empty;
             byte[] plainBytes = new byte[uuEncStr.Length];
 
             if (originalUue)
+            {
+                plainStr = (new UUEncoder()).DecodeString(uuEncStr);
                 plainBytes = Encoding.ASCII.GetBytes(plainStr);
+            }
             else
             {
                 if (fromFile)
+                {
+                    plainStr = (new UUEncoder()).DecodeString(uuEncStr);
                     plainBytes = Hex16.FromHex16(plainStr);  // ;
+                }
                 else
                 {
                     string fileBase = DateTime.Now.Area23DateTimeWithMillis();
