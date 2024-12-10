@@ -16,7 +16,7 @@ namespace Area23.At.Framework.Library.Core
         public const int BACKLOG = 8;
         public const int CHAT_PORT = 7777;
 
-        public const string APP_NAME = "Area23.At.Mono";
+        public const string APP_NAME = "Area23.At";
         public const string APP_DIR = "mono";
         public const string VERSION = "v2.24.830";
         public const string AREA23_URL = "https://area23.at";
