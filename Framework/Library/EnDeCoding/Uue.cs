@@ -1,4 +1,5 @@
-﻿using DBTek.Crypto;
+﻿using Area23.At.Framework.Library;
+using DBTek.Crypto;
 using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
     /// </summary>
     public static class Uu
     {
-        
+
         public static readonly char[] ValidChars = "!\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_` \r\n".ToCharArray();
         public static List<char> ValidCharList = new List<char>(ValidChars);
 
@@ -23,16 +24,26 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// <returns>uuencoded string</returns>
         public static string ToUu(byte[] inBytes, bool originalUue = true)
         {
-            string bytStr = (originalUue) ? Encoding.ASCII.GetString(inBytes) : Hex16.ToHex16(inBytes);
-            string uu = (new UUEncoder()).EncodeString(bytStr);
+            string bytStr = string.Empty;
+            string uu = "";
 
-            //for (int i = 0; i <= inBytes.Length; i += 45)
-            //{
-            //    int l = ((inBytes.Length - i) > 45) ? 45 : inBytes.Length - i;
-            //    byte[] linea = new byte[(l % 3 == 0) ? l : l + 3 - l % 3];
-            //    Array.ConstrainedCopy(inBytes, i, linea, 0, l);
-            //    uu += Array.ConvertAll<byte, char>(UuEncodeBytes(linea, l), Convert.ToChar).ToString() + "\n";
-            //}
+            
+            if (originalUue)
+            {
+                bytStr = Encoding.ASCII.GetString(inBytes);
+                uu = (new UUEncoder()).EncodeString(bytStr);
+            }
+            else
+            {
+                string hexOutFile = DateTime.Now.Area23DateTimeWithMillis() + ".hex";
+                string hexOutPath = LibPaths.UuDirPath + hexOutFile;
+                string uuOutFile = DateTime.Now.Area23DateTimeWithMillis() + ".uue";
+                string uuOutPath = LibPaths.UuDirPath + uuOutFile;
+                // inBytes.ToFile(uuOutPath);
+                System.IO.File.WriteAllBytes(hexOutPath, inBytes);
+                ProcessCmd.Execute("uuencode", $"{hexOutPath} {uuOutFile} > {uuOutPath}", false);
+                uu = System.IO.File.ReadAllText($"{uuOutPath}");
+            }
 
             return uu;
         }
@@ -45,20 +56,27 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// <returns>binary byte array</returns>
         public static byte[] FromUu(string uuEncStr, bool originalUue = true)
         {
-            string plainStr = (new UUEncoder()).DecodeString(uuEncStr);
-            byte[] plainBytes = (originalUue) ? Encoding.ASCII.GetBytes(plainStr) : Hex16.FromHex16(plainStr);  // ;
+            string plainStr = string.Empty;
+            byte[] plainBytes;
+            if (originalUue)
+            {
+                plainStr = (new UUEncoder()).DecodeString(uuEncStr);
+                plainBytes = Encoding.ASCII.GetBytes(plainStr);
+            }
+            else
+            {
+                string uuOutFile = DateTime.Now.Area23DateTimeWithMillis() + ".uue";
+                string uuOutPath = LibPaths.UuDirPath + uuOutFile;
+                string hexOutFile = DateTime.Now.Area23DateTimeWithMillis() + ".hex";
+                string hexOutPath = LibPaths.UuDirPath + hexOutFile;
+
+                System.IO.File.WriteAllText(uuOutPath, uuEncStr);
+                ProcessCmd.Execute("uudecode", $"{uuOutPath} -o {hexOutPath}", false);
+                plainBytes = System.IO.File.ReadAllBytes(hexOutPath);
+            }
+
             return plainBytes;
 
-            //List<byte> bytes = new List<byte>();
-
-            //string[] input = uuEncStr.Split("\n".ToCharArray());
-            //foreach (string str in input)
-            //{
-            //    byte[] dec = Array.ConvertAll<char, byte>(uue.DecodeString(str).ToCharArray(), Convert.ToByte);
-            //    bytes.AddRange(dec);
-            //}
-
-            //return bytes.ToArray();
         }
 
 
@@ -109,21 +127,55 @@ namespace Area23.At.Framework.Library.EnDeCoding
         }
 
         #region helper
-        private static byte[] UuEncodeBytes(byte[] input, int len)
+        private static byte[] UuEncodeBytes(byte[] src, int len)
         {
             if (len == 0) return new byte[] { 96, 13, 10 };
 
-            List<byte> cod = new List<byte>();
-            cod.Add((byte)(len + 32));
-
-            for (int i = 0; i < len; i += 3)
-                case 2: bytes.Add((byte)0); bytes.Add((byte)0); src = bytes.ToArray(); break;
-                case 2: bytes.Add((byte)0); bytes.Add((byte)0); sruuEncc = bytes.ToArray(); break;
+            List<byte> bytes = new List<byte>(src);
+            switch ((src.Length % 3))
             {
-                cod.Add((byte)(32 + input[i] / 4));
-                cod.Add((byte)(32 + (input[i] % 4) * 16 + input[i + 1] / 16));
-                cod.Add((byte)(32 + (input[i + 1] % 16) * 4 + input[i + 2] / 64));
-                cod.Add((byte)(32 + input[i + 2] % 64));
+                case 1: bytes.Add((byte)0); bytes.Add((byte)0); src = bytes.ToArray(); break;
+                case 2: bytes.Add((byte)0); src = bytes.ToArray(); break;
+                case 0:
+                default: break;
+            }
+            List<byte> cod = new List<byte>();
+            // cod.Add((byte)(len + 32));
+
+            for (int i = 0; i < src.Length; i += 3)
+            {
+                cod.Add((byte)(32 + src[i] / 4));
+                cod.Add((byte)(32 + (src[i] % 4) * 16 + src[i + 1] / 16));
+                cod.Add((byte)(32 + (src[i + 1] % 16) * 4 + src[i + 2] / 64));
+                cod.Add((byte)(32 + src[i + 2] % 64));
+                // cod.Add((char)((src[i] >> 2) + 33));
+                // cod.Add((char)(((char)((src[i] & 0x3) << 4) | (char)(src[i + 1] >> 4)) + 33));
+                // cod.Add((char)(((char)((src[i + 1] & 0xf) << 2) | (char)(src[i + 2] >> 6)) + 33));
+                // cod.Add((char)((char)(src[i + 2] & 0x3f) + 33));
+            }
+
+            return cod.ToArray();
+        }
+
+        private static byte[] UuDecodeBytes(byte[] uuEnc, int len)
+        {
+            List<byte> bytes = new List<byte>(uuEnc);
+            switch ((uuEnc.Length % 4))
+            {
+                case 1: bytes.Add((byte)0); bytes.Add((byte)0); bytes.Add((byte)0); uuEnc = bytes.ToArray(); break;
+                case 2: bytes.Add((byte)0); bytes.Add((byte)0); uuEnc = bytes.ToArray(); break;
+                case 3: bytes.Add((byte)0); uuEnc = bytes.ToArray(); break;
+                case 0:
+                default: break;
+            }
+            
+            List<byte> cod = new List<byte>();
+            for (int i = 0; i < uuEnc.Length; i += 4)
+            {
+                cod.Add((byte)((byte)((uuEnc[i] - 33) << 2) | (byte)((uuEnc[i + 1] - 33) >> 4)));
+                cod.Add((byte)(((byte)((uuEnc[i] & 0x3) << 4) | (uuEnc[i + 1] >> 4)) + 33));
+                cod.Add((byte)(((byte)((uuEnc[i + 1] & 0xf) << 2) | (byte)(uuEnc[i + 2] >> 6)) + 33));
+                cod.Add((byte)(((byte)(uuEnc[i + 2] - 33) << 6) | (byte)(uuEnc[i + 3] - 33)));
             }
 
             return cod.ToArray();

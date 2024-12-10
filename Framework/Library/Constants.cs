@@ -41,6 +41,7 @@ namespace Area23.At.Framework.Library
         public const string CALC_DIR = "Calc";
         public const string RES_DIR = "res";
         public const string OUT_DIR = "out";
+        public const string UU_DIR = "uu";
         public const string TEXT_DIR = "text";
         public const string BIN_DIR = "bin";
         public const string JS_DIR = "js";

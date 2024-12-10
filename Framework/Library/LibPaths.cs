@@ -1,6 +1,7 @@
 ﻿using Area23.At.Framework.Library;
 using NLog;
 using System;
+using System.Configuration;
 using System.IO;
 using System.Web;
 
@@ -56,12 +57,19 @@ namespace Area23.At.Framework.Library
             {
                 if (String.IsNullOrEmpty(appDirPath))
                 {
-                    appDirPath = "." + SepChar;
-
-                    if (AppContext.BaseDirectory != null)
-                        appDirPath = AppContext.BaseDirectory + SepChar;
-                    else if (AppDomain.CurrentDomain != null)
-                        appDirPath = AppDomain.CurrentDomain.BaseDirectory + SepChar;
+                    if (ConfigurationManager.AppSettings["AppDirPath"] != null)
+                    {
+                        appDirPath = (string)ConfigurationManager.AppSettings["AppDirPath"];
+                    }
+                    else
+                    {
+                        if (AppContext.BaseDirectory != null)
+                            appDirPath = AppContext.BaseDirectory;
+                        else if (AppDomain.CurrentDomain != null)
+                            appDirPath = AppDomain.CurrentDomain.BaseDirectory;
+                    }
+                    if (!appDirPath.EndsWith(SepChar))
+                        appDirPath += SepChar;
                 }
 
                 return appDirPath;
@@ -248,6 +256,8 @@ namespace Area23.At.Framework.Library
         public static string LogPathFile { get => LogPathDir + Constants.AppLogFile; }
 
         public static string OutAppPath { get => ResAppPath + Constants.OUT_DIR + "/"; }
+
+        public static string UuDirPath { get => ResDirPath + Constants.UU_DIR + SepChar; }
 
         public static string OutDirPath
         {
