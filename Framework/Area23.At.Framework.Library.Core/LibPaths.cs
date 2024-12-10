@@ -56,12 +56,19 @@ namespace Area23.At.Framework.Library.Core
             {
                 if (String.IsNullOrEmpty(appDirPath))
                 {
-                    appDirPath = "." + SepChar;
+                    if (System.Configuration.ConfigurationManager.AppSettings["AppDirPath"] != null)
+                        appDirPath = (string)System.Configuration.ConfigurationManager.AppSettings["AppDirPath"];
 
-                    if (AppContext.BaseDirectory != null)
-                        appDirPath = AppContext.BaseDirectory + SepChar;
-                    else if (AppDomain.CurrentDomain != null)
-                        appDirPath = AppDomain.CurrentDomain.BaseDirectory + SepChar;
+                    if (!Directory.Exists(appDirPath))
+                    {
+                        if (AppContext.BaseDirectory != null)
+                            appDirPath = AppContext.BaseDirectory + SepChar;
+                        else if (AppDomain.CurrentDomain != null)
+                            appDirPath = AppDomain.CurrentDomain.BaseDirectory + SepChar;
+                    }
+
+                    if (!appDirPath.EndsWith(SepChar))
+                        appDirPath += SepChar;
                 }
 
                 return appDirPath;

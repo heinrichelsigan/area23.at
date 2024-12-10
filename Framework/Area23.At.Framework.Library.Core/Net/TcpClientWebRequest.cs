@@ -33,23 +33,31 @@ Cache-Control: no-cache";
             try
             {
                 IPEndPoint serverIep = new IPEndPoint(serverIp, serverPort);
-                TcpClient tcpClient = new TcpClient();                
+                TcpClient tcpClient = new TcpClient();
                 byte[] data = Encoding.ASCII.GetBytes(TEST_HTTP_REQUEST_HEADER);
                 tcpClient.Connect(serverIep);
                 // tcpClient.Client.Send(data);
                 NetworkStream netStream = tcpClient.GetStream();
                 StreamWriter sw = new StreamWriter(netStream);
-                StreamReader sr = new StreamReader(netStream);
+                // StreamReader sr = new StreamReader(netStream);
                 sw.Write(TEST_HTTP_REQUEST_HEADER);
                 sw.Flush();
-                byte[] outbuf = new byte[8192];
+                // byte[] outbuf = new byte[8192];
                 // int read = tcpClient.Client.Receive(outbuf);
-                sr.BaseStream.Read(outbuf, 0, 8192);                
+                // sr.BaseStream.Read(outbuf, 0, 8192);
                 resp = tcpClient.Client.LocalEndPoint?.ToString();
-                // if (resp.Contains("[::ffff:"))
-                //     resp = resp?.Replace("[::ffff:", "[");
+                if (resp != null && resp.Contains("::ffff:"))
+                {
+                    resp = resp?.Replace("::ffff:", "");
+                    if (resp != null && resp.Contains(':'))
+                    {
+                        int lastch = resp.LastIndexOf(":");
+                        resp = resp.Substring(0, lastch);
+                    }
+                    resp = resp?.Trim("[{()}]".ToCharArray());
+                }            
                 sw.Close();
-                sr.Close();
+                // sr.Close();
                 netStream.Close();
                 tcpClient.Close();                
             }

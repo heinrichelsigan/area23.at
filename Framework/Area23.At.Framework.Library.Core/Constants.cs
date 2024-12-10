@@ -12,6 +12,10 @@ namespace Area23.At.Framework.Library.Core
     public static class Constants
     {
         #region public const
+        
+        public const int BACKLOG = 8;
+        public const int CHAT_PORT = 7777;
+
         public const string APP_NAME = "Area23.At.Mono";
         public const string APP_DIR = "mono";
         public const string VERSION = "v2.24.830";
@@ -45,6 +49,7 @@ namespace Area23.At.Framework.Library.Core
         public const string BIN_DIR = "bin";
         public const string JS_DIR = "js";
         public const string CSS_DIR = "css";
+        public const string GAMES_DIR = "Gamez";
         public const string JSON_SAVE_FILE = "urlshort.json";
         public const string UTF8_JSON = "utf8symol.json";
 
