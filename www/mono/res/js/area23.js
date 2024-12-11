@@ -158,6 +158,25 @@ function newQrColor(color) {
     }   
 }
 
+function changeAesImproveBackgroundFile() {
+    var divAes = document.getElementById("DivAesImprove");
+    if (divAes != null) {
+        // divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('https://area23.at/net/res/img/AesImproveBGFile.gif'); background-repeat: no-repeat; background-color: transparent;");
+        divAes.style.backgroundImage = "url('https://area23.at/net/res/img/AesImproveBGFile.gif')";
+    }
+}
+
+function changeAesImproveBackgroundText() {
+    var divAes = document.getElementById("DivAesImprove");
+    if (divAes != null) {
+
+        divAes.style.backgroundImage = "url('https://area23.at/net/res/img/AesImproveBGText.gif')";
+        alert("divAes.style.backgroundImage=" + divAes.style.backgroundImage);
+        divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('https://area23.at/net/res/img/AesImproveBGText.gif'); background-repeat: no-repeat; background-color: transparent;");
+
+    }
+}
+
 function newBackgroundColor(bgcolor) {
     // document.bgColor = color;
     try {       

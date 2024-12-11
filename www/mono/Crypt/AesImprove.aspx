@@ -5,10 +5,38 @@
         <meta name="keywords" content="encode decode uuencode uudecode mime base64 aes encrypt decrypt" />
         <meta name="description" content="https://github.com/heinrichelsigan/area23.at/" />
         <meta name="author" content="Heinrich Elsigan (he@area23.at)" />
+        <script type="text/javascript">
+            function changeAesBackgroundText() {
+                var divAes = document.getElementById("DivAesImprove");
+                if (divAes != null) {
+
+                    divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBGText.png'); background-repeat: no-repeat; background-color: transparent;");
+                    divAes.style.backgroundImage = "url('../res/img/AesImproveBGText.png')";                    
+                    // alert("divAes.style.backgroundImage=" + divAes.style.backgroundImage);
+                    // var attrStyle = divAes.getAttribute("style");
+                    // alert("divAes.style = " + attrStyle);
+                }
+            }
+            
+            function changeAesBackgroundFile() {
+                var divAes = document.getElementById("DivAesImprove");
+                if (divAes != null) {
+
+                    divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGFile.gif'); background-repeat: no-repeat; background-color: transparent;");
+                    
+                    // var attrStyle = divAes.getAttribute("style")
+                    // alert("divAes.style = " + attrStyle);
+
+                    divAes.style.backgroundImage = "url('../res/img/AesBGFile.png')";
+                    // alert("divAes.style.backgroundImage=" + divAes.style.backgroundImage);
+                }
+            }
+
+        </script>
 </asp:Content>
 <asp:Content ID="ContentEncodeBody" ContentPlaceHolderID="EncodeBody" runat="server" ClientIDMode="Static">
     <h2>Enryption method</h2>
-    <div style="padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;">
+    <div id="DivAesImprove" runat="server" style="padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;">
         <form id="AesImproveForm" runat="server" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True" style="background-color: transparent;">
             <div class="odDiv">
                 <span class="leftSpan">
@@ -104,13 +132,13 @@
                         <INPUT id="oFile" type="file" runat="server" NAME="oFile" />
                     </span>
                     <span class="centerSpan" style="max-width: 72px; vertical-align: top;">
-                        <asp:Button ID="ButtonEncryptFile" runat="server" ToolTip="Encrypt file" OnClick="ButtonEncryptFile_Click" Text="Encrypt file" />
+                        <asp:Button ID="ButtonEncryptFile" runat="server" ToolTip="Encrypt file" OnClientClick="changeAesBackgroundFile();" OnClick="ButtonEncryptFile_Click" Text="Encrypt file" />
                     </span>
                     <span class="centerSpan" style="vertical-align: top;">     
                         <asp:CheckBox ID="CheckBoxEncode" runat="server" ToolTip="Encode file (e.g. hex16, base64, uu) after encryption" Text="encode file" />
                     </span>
                     <span class="centerSpan" style="vertical-align: top;">     
-                        <asp:Button ID="ButtonDecryptFile" runat="server" ToolTip="Decrypt file" OnClick="ButtonDecryptFile_Click" Text="Decrypt file" />  
+                        <asp:Button ID="ButtonDecryptFile" runat="server" ToolTip="Decrypt file" OnClientClick="changeAesBackgroundFile();" OnClick="ButtonDecryptFile_Click" Text="Decrypt file" />  
                     </span> 
                     <span id="SpanRightFile" runat="server" class="rightSpan" style="vertical-align: top;" visible="false">
                         <a id="aTransFormed" runat="server" alt="Transformed File" href="../res/fortune.u8">
@@ -133,8 +161,8 @@
                 <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="10" Columns="48" ValidateRequestMode="Disabled" ToolTip="Source Text" Text="[Enter text to en-/decrypt here]" Width="480px"></asp:TextBox>
                 <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="10" Columns="48" MaxLength="32768" ReadOnly="true" ToolTip="Destination Text" Width="468px"></asp:TextBox>
                 <br />
-                <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClick="ButtonEncrypt_Click" />
-                <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClick="ButtonDecrypt_Click" />   
+                <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClientClick="changeAesBackgroundText()" OnClick="ButtonEncrypt_Click" />
+                <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClientClick="changeAesBackgroundText();" OnClick="ButtonDecrypt_Click" />   
             </div>
             <hr />        
         </form>

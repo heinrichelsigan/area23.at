@@ -139,9 +139,15 @@
     <Content Include="res\css\ccalcweb.css" />
     <Content Include="res\img\AddAesArrow.gif" />
     <Content Include="res\img\AddAesArrowHover.gif" />
+    <Content Include="res\img\AesBGFile.gif" />
+    <Content Include="res\img\AesBGFile.png" />
+    <Content Include="res\img\AesBGText.gif" />
+    <Content Include="res\img\AesBGText.png" />
     <Content Include="res\img\AesImproveBG.gif" />
     <Content Include="res\img\AesImproveBG.png" />
     <Content Include="res\img\AesImproveBG2.gif" />
+    <Content Include="res\img\AesImproveBGFile.gif" />
+    <Content Include="res\img\AesImproveBGText.gif" />
     <Content Include="res\img\androidSetTicTacToe.gif" />
     <Content Include="res\img\androidSetTicTacToe.png" />
     <Content Include="res\img\androidTicTacToe.gif" />

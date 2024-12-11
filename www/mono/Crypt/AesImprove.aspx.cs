@@ -21,6 +21,7 @@ using System.Web.Caching;
 using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Controls;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Net.WebRequestMethods;
 
@@ -120,18 +121,12 @@ namespace Area23.At.Mono.Crypt
                 bool fromPlain = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
                 string encodingMethod = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
                 string encryptedText = DeEnCoder.EncodeEncryptedBytes(encryptBytes, encodingMethod, fromPlain, false);
-                //switch (encodingMethod)
-                //{
-                //    case "hex16":       encryptedText = Hex16.ToHex16(encryptBytes); break;
-                //    case "base16":      encryptedText = Base16.ToBase16(encryptBytes); break;
-                //    case "base32":      encryptedText = Base32.ToBase32(encryptBytes); break;
-                //    case "base32hex":   encryptedText = Base32Hex.ToBase32Hex(encryptBytes); break;
-                //    case "uu":          encryptedText = Uu.ToUu(encryptBytes, fromPlain); break;
-                //    case "base64":
-                //    default:            encryptedText = Base64.ToBase64(encryptBytes); break;
-                //}                
+                
                 this.TextBoxDestionation.Text = encryptedText;
 
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesBGText.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/AesBGText.gif')";
             }
             else
             {
@@ -142,6 +137,11 @@ namespace Area23.At.Mono.Crypt
                 this.TextBoxSource.BorderColor = Color.BlueViolet;
                 this.TextBoxSource.BorderStyle = BorderStyle.Dotted;
                 this.TextBoxSource.BorderWidth = 2;
+
+
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImprotveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImprotveBG.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/AesImprotveBG.gif')";
             }
         }
 
@@ -172,77 +172,7 @@ namespace Area23.At.Mono.Crypt
                     this.TextBox_IV.BorderColor = Color.Blue;
                     return;
                 }
-                //switch (encodingMethod)
-                //{
-                //    case "hex16":
-                //        if (Hex16.IsValidHex16(cipherText))
-                //            cipherBytes = Hex16.FromHex16(cipherText);
-                //        else
-                //        {
-                //            this.TextBox_IV.Text = "Input Text is not valid hex16 string!";
-                //            this.TextBox_IV.ForeColor = Color.BlueViolet;
-                //            this.TextBox_IV.BorderColor = Color.Blue;
-                //            return;
-                //        }
-                //        break;
-                //    case "base16":
-                //        if (Base16.IsValidBase16(cipherText))
-                //            cipherBytes = Base16.FromBase16(cipherText);
-                //        else
-                //        {
-                //            this.TextBox_IV.Text = "Input Text is not valid base16 string!";
-                //            this.TextBox_IV.ForeColor = Color.BlueViolet;
-                //            this.TextBox_IV.BorderColor = Color.Blue;
-                //            return;
-                //        }
-                //        break;
-                //    case "base32":
-                //        if (Base32.IsValidBase32(cipherText))
-                //            cipherBytes = Base32.FromBase32(cipherText);
-                //        else
-                //        {
-                //            this.TextBox_IV.Text = "Input Text is not valid base32 string!";
-                //            this.TextBox_IV.ForeColor = Color.BlueViolet;
-                //            this.TextBox_IV.BorderColor = Color.Blue;
-                //            return;
-                //        }
-                //        break;
-                //    case "base32hex":
-                //        if (Base32Hex.IsValidBase32Hex(cipherText))
-                //            cipherBytes = Base32Hex.FromBase32Hex(cipherText);
-                //        else
-                //        {
-                //            this.TextBox_IV.Text = "Input Text is not valid base32 hex string!";
-                //            this.TextBox_IV.ForeColor = Color.BlueViolet;
-                //            this.TextBox_IV.BorderColor = Color.Blue;
-                //            return;
-                //        }
-                //        break;
-                //    case "uu":
-                //        if (Uu.IsValidUue(cipherText))                        
-                //            cipherBytes = Uu.FromUu(cipherText, plainUu);                        
-                //        else
-                //        {
-                //            this.TextBox_IV.Text = "Input Text is not valid uuencoded string!";
-                //            this.TextBox_IV.ForeColor = Color.BlueViolet;
-                //            this.TextBox_IV.BorderColor = Color.Blue;
-                //            return;
-                //        }
-                //        break;
-                //    case "base64":
-                //    default:
-                //        if (Base64.IsValidBase64(cipherText))
-                //            cipherBytes = Base64.FromBase64(cipherText);
-                //        else
-                //        {
-                //            this.TextBox_IV.Text = "Input Text is not valid base64 string!";
-                //            this.TextBox_IV.ForeColor = Color.BlueViolet;
-                //            this.TextBox_IV.BorderColor = Color.Blue;
-                //            return;
-                //        }
-                //        break;
-                //}
-
+                
                 byte[] decryptedBytes = cipherBytes;
                 int ig = 0;
 
@@ -254,10 +184,14 @@ namespace Area23.At.Mono.Crypt
                         decryptedBytes = DecryptBytes(cipherBytes, algos[ig]);
                         cipherBytes = decryptedBytes;
                     }
-                }
+                }                                
 
                 decryptedText = DeEnCoder.GetStringFromBytesTrimNulls(decryptedBytes);
                 this.TextBoxDestionation.Text = decryptedText; // HandleString_PrivateKey_Changed(decryptedText);
+
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesBGText.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/AesBGText.gif')";
             }
             else
             {
@@ -268,6 +202,10 @@ namespace Area23.At.Mono.Crypt
                 this.TextBoxSource.BorderColor = Color.BlueViolet;
                 this.TextBoxSource.BorderStyle = BorderStyle.Dotted;
                 this.TextBoxSource.BorderWidth = 2;
+
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImprotveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImprotveBG.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/AesImprotveBG.gif')";
             }
         }
 
@@ -279,6 +217,10 @@ namespace Area23.At.Mono.Crypt
         protected void Button_Clear_Click(object sender, EventArgs e)
         {
             this.TextBox_Encryption.Text = "";
+
+            DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImprotveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+            DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImprotveBG.gif')";
+            DivAesImprove.Style["background-image"] = "url('../res/img/AesImprotveBG.gif')";
         }
 
         /// <summary>
@@ -317,6 +259,10 @@ namespace Area23.At.Mono.Crypt
                 addChiffre = DropDownList_SymChiffer.SelectedValue.ToString() + ";"; 
                 this.TextBox_Encryption.Text += addChiffre;
                 this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
+
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImprotveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImprotveBG.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/AesImprotveBG.gif')";
             }
         }
 
@@ -335,6 +281,11 @@ namespace Area23.At.Mono.Crypt
             this.TextBox_IV.BorderWidth = 1;
 
             this.TextBox_Encryption.BorderStyle = BorderStyle.Solid;
+
+
+            DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImprotveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+            DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImprotveBG.gif')";
+            DivAesImprove.Style["background-image"] = "url('../res/img/AesImprotveBG.gif')";
         }
 
         /// <summary>
@@ -416,7 +367,7 @@ namespace Area23.At.Mono.Crypt
                         }
                         
                         if (!string.IsNullOrEmpty(savedTransFile) && !string.IsNullOrEmpty(outMsg))
-                            lblUploadResult.Text = string.Format("{0}x crypt {1}.", cryptCount, outMsg);
+                            lblUploadResult.Text = string.Format("{0}x crypt {1}", cryptCount, outMsg);
                         else
                             lblUploadResult.Text = "file failed to encrypt and save!";
                     }
@@ -492,15 +443,26 @@ namespace Area23.At.Mono.Crypt
                     aTransFormed.HRef = LibPaths.OutAppPath + savedTransFile;
                     // lblUploadResult.Text += outMsg;
                 }
+
+                // Display the result of the upload.
+                SpanRightFile.Visible = true;
+                SpanRightLabel.Visible = true;
+
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGFile.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesBGFile.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/AesBGFile.gif')";
             }
             else
             {
+                SpanRightLabel.Visible = true;
+                SpanRightFile.Visible = false;
                 lblUploadResult.Text = "Click 'Browse' to select the file to upload.";
-            }
+                
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImproveBG.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/AesImproveBG.gif')";
+            }           
 
-            // Display the result of the upload.
-            SpanRightFile.Visible = true;
-            SpanRightLabel.Visible = true;
         }
 
         /// <summary>
@@ -538,6 +500,10 @@ namespace Area23.At.Mono.Crypt
 
         #endregion enryption_decryption_members 
 
+        /// <summary>
+        /// Resets TextBox Key_IV to standard value for <see cref="Constants.AUTHOR_EMAIL"/>
+        /// </summary>
+        /// <param name="userEmailKey">user email key to generate key bytes iv</param>
         protected void Reset_TextBox_IV(string userEmailKey = "")
         {
             if (!string.IsNullOrEmpty(userEmailKey))
@@ -565,91 +531,14 @@ namespace Area23.At.Mono.Crypt
             this.TextBox_Encryption.BorderStyle = BorderStyle.Solid;
             this.TextBox_Encryption.BorderColor = Color.LightGray;
             this.TextBox_Encryption.BorderWidth = 1;
+
+            SpanRightLabel.Visible = false;
+            SpanRightFile.Visible = false;
+
+            DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+            DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImproveBG.gif')";
+            DivAesImprove.Style["background-image"] = "url('../res/img/AesImproveBG.gif')";
         }
-        
-
-        /// <summary>
-        /// Handles string decryption, compares if private key & hex hash match in decrypted text
-        /// </summary>
-        /// <param name="decryptedText">decrypted plain text</param>
-        /// <returns>decrypted plain text without check hash or an error message, in case that check hash doesn't match.</returns>
-        protected string HandleString_PrivateKey_Changed(string decryptedText)
-        {
-            bool sameKey = false;
-            string shouldEndWithIv = "\r\n" + this.TextBox_IV.Text;
-            if (decryptedText != null && decryptedText.Length > this.TextBox_IV.Text.Length)
-            {
-                if ((sameKey = decryptedText.EndsWith(shouldEndWithIv, StringComparison.InvariantCultureIgnoreCase)))
-                    decryptedText = decryptedText.Substring(0, decryptedText.Length - shouldEndWithIv.Length);
-                else
-                {
-                    if ((sameKey = decryptedText.Contains(shouldEndWithIv)))
-                    {
-                        int idxEnd = decryptedText.IndexOf(shouldEndWithIv);
-                        decryptedText = decryptedText.Substring(0, idxEnd);
-                    }
-                    else if ((sameKey = decryptedText.Contains(shouldEndWithIv.Substring(0, shouldEndWithIv.Length -3))))
-                    {
-                        int idxEnd = decryptedText.IndexOf(shouldEndWithIv.Substring(0, shouldEndWithIv.Length - 3));
-                        decryptedText = decryptedText.Substring(0, idxEnd);
-                    }
-                }
-            }
-
-            if (!sameKey)
-            {
-                string errorMsg = $"Decryption failed!\r\nKey: {this.TextBox_Key.Text} with HexHash: {this.TextBox_Key.Text} doesn't match!";
-                this.TextBox_IV.Text = "Private Key changed!";
-                this.TextBox_IV.ToolTip = "Check Enforce decrypt (without key check).";
-                this.TextBox_IV.BorderColor = Color.Red;
-                this.TextBox_IV.BorderWidth = 2;
-
-                return errorMsg;
-            }
-
-            return decryptedText;
-        }
-
-        /// <summary>
-        /// Handles decrypted byte[] and checks hash of private key
-        /// TODO: not well implemented yet, need to rethink hash merged at end of files with huge byte stream
-        /// </summary>
-        /// <param name="decryptedBytes">huge file bytes[], that contains at the end the CR + LF + iv key hash</param>
-        /// <param name="success">out parameter, if finding and trimming the CR + LF + iv key hash was successfully</param>
-        /// <returns>an trimmed proper array of huge byte, representing the file, otherwise a huge (maybe wrong decrypted) byte trash</returns>
-        protected byte[] HandleBytes_PrivateKey_Changed(byte[] decryptedBytes, out bool success)
-        {
-            success = false;
-            byte[] outBytesSameKey = null;
-            byte[] ivBytesHash = EnCoderHelper.GetBytes8("\r\n" + this.TextBox_IV.Text);
-            // Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
-            if (decryptedBytes != null && decryptedBytes.Length > ivBytesHash.Length)
-            {
-                int needleFound = Framework.Library.Extensions.BytesBytes(decryptedBytes, ivBytesHash, ivBytesHash.Length - 1);
-                if (needleFound > 0)
-                {
-                    success = true;
-                    outBytesSameKey = new byte[needleFound];
-                    Array.Copy(decryptedBytes, outBytesSameKey, needleFound);
-                    return outBytesSameKey;
-                }
-            }
-
-            if (!success)
-            {
-                string errorMsg = $"Decryption failed!\r\nKey: {this.TextBox_Key.Text} with HexHash: {this.TextBox_Key.Text} doesn't match!"; 
-
-                this.TextBox_IV.Text = "Private Key changed!";
-                this.TextBox_IV.ToolTip = "Check Enforce decrypt (without key check).";
-                this.TextBox_IV.BorderColor = Color.Red;
-                this.TextBox_IV.BorderWidth = 2;
-
-                this.TextBoxDestionation.Text = errorMsg;
-
-            }
-
-            return decryptedBytes;
-        }
-
+       
     }
 }
