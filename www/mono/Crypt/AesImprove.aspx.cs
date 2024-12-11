@@ -379,14 +379,7 @@ namespace Area23.At.Mono.Crypt
                 {
                     string[] algos = this.TextBox_Encryption.Text.Split("+;,→⇛".ToCharArray());
                     string baseEncoding = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
-
-                    //if (algos.Length <= 1 || String.IsNullOrEmpty(algos[0]))
-                    //{
-                    //    imgOut.Src = LibPaths.ResAppPath + "img/file.png";
-                    //    lblUploadResult.Text = "file keept unmodified and uploaded to ";
-                    //}
-                    //else
-                    //{
+                    
                     int cryptCount = 0;
                     outBytes = fileBytes;
                     Array.Copy(fileBytes, 0, outBytes, 0, fileBytes.Length);
@@ -408,8 +401,15 @@ namespace Area23.At.Mono.Crypt
                             }
                         }
 
+                        if (CheckBoxEncode.Checked)
+                        {
+                            strFileName += "." + encodingMethod;
+                            string outString = DeEnCoder.EncodeEncryptedBytes(outBytes, encodingMethod, plainUu, true);
+                            savedTransFile = this.StringToFile(outString, out outMsg, strFileName);
+                        }
+                        else
+                            savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName);
 
-                        savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName);
                         if (!string.IsNullOrEmpty(savedTransFile) && !string.IsNullOrEmpty(outMsg))
                         {
                             lblUploadResult.Text = string.Format("file {0}x encrypted to {1}", cryptCount, outMsg);

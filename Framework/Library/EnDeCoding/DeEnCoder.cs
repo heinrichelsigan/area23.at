@@ -42,6 +42,9 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// <returns>encoded encrypted string</returns>
         public static string EncodeEncryptedBytes(byte[] encryptBytes, string encodingMethod = "base64", bool fromPlain = false, bool fromFile = false)
         {
+            Area23Log.LogStatic("EncodeEncryptedBytes(byte[] encryptBytes.[Length=" + encryptBytes.Length + "], string encodingMethod = " + encodingMethod +
+                ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
+
             string encryptedText = string.Empty;
             switch (encodingMethod.ToLowerInvariant())
             {
@@ -71,6 +74,9 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// <returns>binary byte array</returns>
         public static byte[] EncodedTextToBytes(string cipherText, out string errMsg, string encodingMethod = "base64", bool fromPlain = false, bool fromFile = false) 
         {
+            Area23Log.LogStatic("EncodedTextToBytes(string cipherText[.Length " + cipherText.Length + "], string encodingMethod = " +
+                encodingMethod + ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
+
             byte[] cipherBytes = null;
             errMsg = string.Empty;
             switch (encodingMethod.ToLowerInvariant())

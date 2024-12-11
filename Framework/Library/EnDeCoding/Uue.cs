@@ -28,10 +28,12 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// <returns>uuencoded string</returns>
         public static string ToUu(byte[] inBytes, bool originalUue = true, bool fromFile = false)
         {
+            string toUuFunCall = $"ToUu(byte[{inBytes.Length}] inBytes, bool originalUue = {originalUue}, bool fromFile = {fromFile})";
+            Area23Log.LogStatic($"{toUuFunCall} ... STARTED.");
+
             string bytStr = Encoding.UTF8.GetString(inBytes);
             string uu = (new UUEncoder()).EncodeString(bytStr);
-
-            Area23Log.LogStatic($"ToUu(byte[{inBytes.Length}] inBytes, bool originalUue = {originalUue}, bool fromFile = {fromFile}) ... STARTED.");
+            
 
             if (originalUue)
             {
@@ -51,16 +53,21 @@ namespace Area23.At.Framework.Library.EnDeCoding
                 string uuOutFile = fileBase + ".uue";
                 string uuOutPath = LibPaths.UuDirPath + uuOutFile;
                 // inBytes.ToFile(uuOutPath);
-                Area23Log.LogStatic("Wrting inBytes to " + hexOutPath);
+
+                Area23Log.LogStatic($"ToUu: hexOutFile = {hexOutFile}, uuOutFile={uuOutFile}.");
+                
                 try
                 {
                     System.IO.File.WriteAllBytes(hexOutPath, inBytes);
+                    Area23Log.LogStatic("ToUu: Wrote inBytes to " + hexOutPath);
 
                     string exeCmd = "/usr/bin/uuencode";
                     if (System.IO.File.Exists("/usr/local/bin/uuencrypt.sh"))
                         exeCmd = "/usr/local/bin/uuencrypt.sh";
                     else if (System.IO.File.Exists(LibPaths.AdditionalBinDir + "uuencrypt.sh"))
                         exeCmd = LibPaths.AdditionalBinDir + "uuencrypt.sh";
+
+                    Area23Log.LogStatic("ToUu: exeCmd = " + exeCmd);
 
                     try
                     {
@@ -79,12 +86,12 @@ namespace Area23.At.Framework.Library.EnDeCoding
                         }
                     }
 
-                    Area23Log.LogStatic("Read uuencoded text from " + uuOutPath);
+                    Area23Log.LogStatic("ToUu: Read uuencoded text from " + uuOutPath);
                     uu = System.IO.File.ReadAllText(uuOutPath);
                 }
                 catch (Exception ex)
                 {
-                    Area23Log.LogStatic("string ToUu(byte[] inBytes, bool originalUue = true)");
+                    Area23Log.LogStatic($"ToUu: Exception in {toUuFunCall} ...");
                     Area23Log.LogStatic(ex);
                 }
             }
@@ -105,7 +112,8 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// <returns>binary byte array</returns>
         public static byte[] FromUu(string uuEncStr, bool originalUue = true, bool fromFile = false)
         {
-            Area23Log.LogStatic($"FromUu(string uuEncStr[.Length={uuEncStr.Length}], bool originalUue = {originalUue}, bool fromFile = {fromFile}) ... STARTED.");
+            string fromUuFunCall = "FromUu(string uuEncStr[.Length=" + uuEncStr.Length + "], bool originalUue = " + originalUue + ", bool fromFile = " + fromFile + ")";
+            Area23Log.LogStatic(fromUuFunCall + "... STARTED.");
 
             string plainStr = string.Empty;
             byte[] plainBytes = new byte[uuEncStr.Length];
@@ -130,6 +138,8 @@ namespace Area23.At.Framework.Library.EnDeCoding
                     string hexOutFile = fileBase + ".hex";
                     string hexOutPath = LibPaths.UuDirPath + hexOutFile;
 
+                    Area23Log.LogStatic($"FromUu: uuOutFile = {uuOutFile}, hexOutFile = {hexOutFile}.");
+
 
                     string exeCmd = "/usr/bin/uudecode";
                     if (System.IO.File.Exists("/usr/local/bin/uudecrypt.sh"))
@@ -137,10 +147,13 @@ namespace Area23.At.Framework.Library.EnDeCoding
                     else if (System.IO.File.Exists(LibPaths.AdditionalBinDir + "uudecrypt.sh"))
                         exeCmd = LibPaths.AdditionalBinDir + "uudecrypt.sh";
 
+                    Area23Log.LogStatic($"FromUu: exeCmd = {exeCmd}.");                    
                     try
                     {
                         Area23Log.LogStatic("FromUu: wrting uuEncStr to " + uuOutPath);
                         System.IO.File.WriteAllText(uuOutPath, uuEncStr);
+
+                        Area23Log.LogStatic($"{fromUuFunCall} ... wrote uuEncstr to {uuOutPath}.");
 
                         try
                         {
@@ -158,8 +171,10 @@ namespace Area23.At.Framework.Library.EnDeCoding
                                 Area23Log.LogStatic(exExe2);
                             }
                         }
-                        Area23Log.LogStatic("FromUu: reading bytes from: " + hexOutPath);
+                        
+                        Area23Log.LogStatic("FromUu: reading bytes from " + hexOutPath);
                         plainBytes = System.IO.File.ReadAllBytes(hexOutPath);
+                        Area23Log.LogStatic("FromUu: read bytes from" + hexOutPath);
                     }
                     catch (Exception ex)
                     {
@@ -168,8 +183,8 @@ namespace Area23.At.Framework.Library.EnDeCoding
                     }
                 }
             }
-            Area23Log.LogStatic($"byte[{plainBytes.Length}] plainBytes = FromUu(string uuEncStr, bool originalUue = {originalUue}, fromFile = {fromFile}) ... FINISHED.");
 
+            Area23Log.LogStatic($"byte[{plainBytes.Length}] plainBytes = FromUu(string uuEncStr, bool originalUue = {originalUue}, fromFile = {fromFile}) ... FINISHED.");
             return plainBytes;
         }
 
@@ -200,11 +215,9 @@ namespace Area23.At.Framework.Library.EnDeCoding
 
         public static bool IsValidUue(string uuEncodedStr)
         {
-            if (uuEncodedStr.StartsWith("begin"))
+            if (uuEncodedStr.StartsWith("begin") && uuEncodedStr.Contains("end"))
             {
-                int firstNewLineIds = uuEncodedStr.IndexOf('\n');
-                if (firstNewLineIds > -1) 
-                    uuEncodedStr = uuEncodedStr.Substring(firstNewLineIds);
+                return true;
             }
             if (uuEncodedStr.EndsWith("\nend") || uuEncodedStr.EndsWith("\nend\n") || uuEncodedStr.EndsWith("\nend\r\n"))
             {

@@ -132,6 +132,15 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.Button ButtonEncryptFile;
 
         /// <summary>
+        /// CheckBoxEncode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CheckBoxEncode;
+
+        /// <summary>
         /// ButtonDecryptFile control.
         /// </summary>
         /// <remarks>
