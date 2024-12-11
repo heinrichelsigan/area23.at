@@ -86,7 +86,7 @@ namespace Area23.At.Www.S
         public void Help_Click(object sender, EventArgs e)
         {
             preOut.InnerHtml = "-------------------------------------------------------------------------\n";
-            preOut.InnerText += JavaResReader.GetValue("help_text", globalVariable.TwoLetterISOLanguageName) + "\n";
+            preOut.InnerText += ResReader.GetValue("help_text", globalVariable.TwoLetterISOLanguageName) + "\n";
             preOut.InnerHtml += "-------------------------------------------------------------------------\n";
         }
 

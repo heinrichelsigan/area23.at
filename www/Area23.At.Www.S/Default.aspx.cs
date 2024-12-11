@@ -43,7 +43,7 @@ namespace Area23.At.Www.S
 
             if (shortenMap == null)
             {
-                shortenMap = (Application[Constants.APP_NAME] != null) ? (Dictionary<string, Uri>)Application[Constants.APP_NAME] : JsonHelper.GetShortenMapFromJson();
+                shortenMap = (Application[Constants.APP_NAME] != null) ? (Dictionary<string, Uri>)Application[Constants.APP_NAME] : JsonHelper.ShortenMapJson;
             }
         }
 
@@ -343,7 +343,7 @@ namespace Area23.At.Www.S
             if (longUri != null)
             {
                 if (shortenMap == null || shortenMap.Count == 0)
-                    shortenMap = (Dictionary<string, Uri>)(Application[Constants.APP_NAME] ?? JsonHelper.GetShortenMapFromJson());
+                    shortenMap = (Dictionary<string, Uri>)(Application[Constants.APP_NAME] ?? JsonHelper.ShortenMapJson);
                 
                 // if already uri exists in Dictionary => return hash
                 if (shortenMap.ContainsValue(longUri))
@@ -362,9 +362,10 @@ namespace Area23.At.Www.S
                     rand.NextBytes(bytes);
                     shortHash += String.Format("{0:x2}{1:x2}", bytes[0], bytes[1]);                    
                 }
+                
 
                 shortenMap.Add(shortHash, longUri);
-                JsonHelper.SaveDictionaryToJson(shortenMap);                
+                JsonHelper.ShortenMapJson = shortenMap;                
             }
             
             return shortHash;

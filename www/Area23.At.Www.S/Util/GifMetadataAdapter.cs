@@ -16,15 +16,15 @@ namespace Area23.At.Www.S.Util
         public GifMetadataAdapter(string _path)
         {
             this.path = _path;
-            frame = getBitmapFrame(path);
+            frame = GetBitmapFrame(path);
             Metadata = (BitmapMetadata)frame.Metadata.Clone();            
         }
 
         public GifMetadataAdapter(Stream _stream)
         {
             this.stream = _stream;
-            frame = getBitmapFrame(stream);
-            Metadata = (BitmapMetadata)getBitmapMetadata(stream).Clone();
+            frame = GetBitmapFrame(stream);
+            Metadata = (BitmapMetadata)GetBitmapMetadata(stream).Clone();
         }
 
         public GifMetadataAdapter(string _path, Stream _stream) : this(_path)  { this.stream = _stream; }
@@ -43,7 +43,7 @@ namespace Area23.At.Www.S.Util
             }
         }
 
-        private BitmapFrame getBitmapFrame(string path)
+        private BitmapFrame GetBitmapFrame(string path)
         {
             GifBitmapDecoder decoder = null;
             using (Stream stream = File.Open(path, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
@@ -53,13 +53,13 @@ namespace Area23.At.Www.S.Util
             return decoder.Frames[0];
         }
 
-        private BitmapFrame getBitmapFrame(Stream stream)
+        private BitmapFrame GetBitmapFrame(Stream stream)
         {
             GifBitmapDecoder decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.None);
             return decoder.Frames.First();
         }
 
-        private BitmapMetadata getBitmapMetadata(Stream stream)
+        private BitmapMetadata GetBitmapMetadata(Stream stream)
         {
             GifBitmapDecoder decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.OnLoad);
             return decoder.Metadata;

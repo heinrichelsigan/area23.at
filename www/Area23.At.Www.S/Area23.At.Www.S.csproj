@@ -164,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Default.aspx" />
+    <Content Include="Error.aspx" />
     <Content Include="Global.asax" />
     <Content Include="MarriageRisk.aspx" />
     <Content Include="Qr\2024-03-24_19_18__894.png" />
@@ -197,6 +198,13 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -213,20 +221,14 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Util\GifEncoder.cs" />
-    <Compile Include="Util\GifMetadataAdapter.cs" />
     <Compile Include="Util\GlobalAppSettings.cs" />
-    <Compile Include="Util\JavaResReader.cs" />
-    <Compile Include="Util\JpegMetadataAdapter.cs" />
+    <Compile Include="Util\HostLogHelper.cs" />
     <Compile Include="Util\JsonHelper.cs" />
-    <Compile Include="Util\QRGenericString.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="log\20240324_Area23.At.Mono.log" />
     <None Include="packages.config" />
-    <Content Include="Qr\urlshort.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Qr\urlshort.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

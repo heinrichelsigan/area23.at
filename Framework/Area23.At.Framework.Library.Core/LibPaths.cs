@@ -1,7 +1,9 @@
 ﻿using Area23.At.Framework.Library.Core;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using NLog;
 using System;
+using System.Configuration;
 using System.IO;
 using System.Web;
 
@@ -13,16 +15,17 @@ namespace Area23.At.Framework.Library.Core
     /// </summary>
     public static class LibPaths
     {
-        private static string appPath = null;
-        private static string baseAppPath = null;
-        private static string resAppPath = null;
-        private static string qrAppPath = null;
-        private static string encodeAppPath = null;
-        private static string unixAppPath = null;
-        private static string calcAppPath = null;
-        private static string appDirPath = null;
-        private static string outDirPath = null;
-        private static string resDirPath = null;
+        private static string appPath = Constants.STRING_EMPTY;
+        private static string baseAppPath = Constants.STRING_EMPTY;
+        private static string resAppPath = Constants.STRING_EMPTY;
+        private static string qrAppPath = Constants.STRING_EMPTY;
+        private static string encodeAppPath = Constants.STRING_EMPTY;
+        private static string unixAppPath = Constants.STRING_EMPTY;
+        private static string calcAppPath = Constants.STRING_EMPTY;
+        private static string appDirPath = Constants.STRING_EMPTY;
+        private static string outDirPath = Constants.STRING_EMPTY;
+        private static string resDirPath = Constants.STRING_EMPTY;
+        private static string gamesAppPath = Constants.STRING_EMPTY;
 
 
         public static string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
@@ -35,8 +38,15 @@ namespace Area23.At.Framework.Library.Core
                 {
                     try
                     {
-                        if (System.Configuration.ConfigurationManager.AppSettings["AppDir"] != null)
-                            appPath = System.Configuration.ConfigurationManager.AppSettings["AppDir"];
+                        if (System.Configuration.ConfigurationManager.AppSettings != null)
+                        {
+                            if (ConfigurationManager.AppSettings["AppPath"] != null)
+                                appPath = ConfigurationManager.AppSettings["AppPath"].ToString();
+                            if (ConfigurationManager.AppSettings.AllKeys.Contains<string>("AppUrlPath"))
+                                appPath = ConfigurationManager.AppSettings.Get("AppUrlPath");
+                            if (ConfigurationManager.AppSettings["AppDir"] != null)
+                                appPath = ConfigurationManager.AppSettings["AppDir"].ToString();
+                        }
                     }
                     catch (Exception appFolderEx)
                     {
@@ -49,22 +59,27 @@ namespace Area23.At.Framework.Library.Core
             }
         }
 
-
         public static string AppDirPath
         {
             get
             {
                 if (String.IsNullOrEmpty(appDirPath))
                 {
-                    if (System.Configuration.ConfigurationManager.AppSettings["AppDirPath"] != null)
-                        appDirPath = (string)System.Configuration.ConfigurationManager.AppSettings["AppDirPath"];
+                    if ((Constants.SEP_CHAR == '/') && (ConfigurationManager.AppSettings["AppDirPathUnix"] != null))
+                        appDirPath = (string)ConfigurationManager.AppSettings["AppDirPathUnix"];
+                    else if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)
+                        appDirPath = (string)ConfigurationManager.AppSettings["AppDirPathWin"];
 
-                    if (!Directory.Exists(appDirPath))
+                    if (String.IsNullOrEmpty(appDirPath))
                     {
                         if (AppContext.BaseDirectory != null)
-                            appDirPath = AppContext.BaseDirectory + SepChar;
+                            appDirPath = AppContext.BaseDirectory;
                         else if (AppDomain.CurrentDomain != null)
-                            appDirPath = AppDomain.CurrentDomain.BaseDirectory + SepChar;
+                            appDirPath = AppDomain.CurrentDomain.BaseDirectory;
+
+                        appDirPath = appDirPath.
+                            Replace(LibPaths.SepChar + Constants.BIN_DIR, "").Replace(LibPaths.SepChar + Constants.OBJ_DIR, "").
+                            Replace(LibPaths.SepChar + Constants.RELEASE_DIR, "").Replace(LibPaths.SepChar + Constants.DEBUG_DIR, "");
                     }
 
                     if (!appDirPath.EndsWith(SepChar))
@@ -75,23 +90,34 @@ namespace Area23.At.Framework.Library.Core
             }
         }
 
+
         public static string BaseAppPath
         {
             get
             {
                 if (String.IsNullOrEmpty(baseAppPath))
                 {
-                    string basApPath = HttpContextWrapper.Current.Request.GetDisplayUrl().ToString().
-                        Replace("/Unix/", "/").Replace("/Qr/", "/").
-                        Replace("/Calc/", "/").Replace("/Enc/", "/").
-                        Replace("/res/", "/").Replace("/audio/", "/").Replace("/bin/", "/").
-                        Replace("/css/", "/").Replace("/img/", "/").Replace("/js/", "/").
-                        Replace("/out/", "/").Replace("/text/", "/").Replace("/fortune.u8", "/").
-                        Replace("/log/", "/").Replace("/c/", "/");
-                    baseAppPath = basApPath.Substring(0, basApPath.LastIndexOf("/"));
-                    if (!baseAppPath.EndsWith("/"))
-                        baseAppPath += "/";
+                    string basApPath = "";
+                    if ((Constants.SEP_CHAR == '/') && (ConfigurationManager.AppSettings["BaseAppPathUnix"] != null))
+                        basApPath = ConfigurationManager.AppSettings["BaseAppPathUnix"];
+                    else if (ConfigurationManager.AppSettings["BaseAppPathWin"] != null)
+                        basApPath = ConfigurationManager.AppSettings["BaseAppPathWin"];
+
+                    if (String.IsNullOrEmpty(basApPath))
+                    {
+                        basApPath = HttpContextWrapper.RequestUri.ToString().
+                            Replace("/c/", "/").Replace("/Calc/", "/").Replace("/Crypt/", "/").
+                            Replace("/Gamez/", "/").Replace("/log/", "/").Replace("/Qr/", "/").
+                            Replace("/res/", "/").Replace("/audio/", "/").Replace("/bin/", "/").
+                            Replace("/css/", "/").Replace("/img/", "/").Replace("/js/", "/").
+                            Replace("/out/", "/").Replace("/text/", "/").Replace("/fortune.u8", "/").
+                            Replace("/Unix/", "/").Replace("/Util/", "/");
+                        basApPath = basApPath.Substring(0, basApPath.LastIndexOf("/"));
+                    }
+
+                    baseAppPath = (!basApPath.EndsWith("/")) ? basApPath + "/" : basApPath;
                 }
+
                 return baseAppPath;
             }
         }
@@ -198,6 +224,19 @@ namespace Area23.At.Framework.Library.Core
             }
         }
 
+        public static string GamesAppPath
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(gamesAppPath))
+                {
+                    gamesAppPath = BaseAppPath;
+                    if (!gamesAppPath.Contains("/" + Constants.GAMES_DIR + "/"))
+                        gamesAppPath += Constants.GAMES_DIR + "/";
+                }
+                return gamesAppPath;
+            }
+        }
 
         public static string AdditionalBinDir { get => ResDirPath + Constants.BIN_DIR + SepChar; }
 
@@ -218,7 +257,7 @@ namespace Area23.At.Framework.Library.Core
                 if (!Directory.Exists(logPath))
                 {
                     string dirNotFoundMsg = String.Format("{0} directory {1} doesn't exist, creating it!", Constants.LOG_DIR, logPath);
-                    Area23Log.LogStatic(dirNotFoundMsg);
+                    // Area23Log.LogStatic(dirNotFoundMsg);
                     Directory.CreateDirectory(logPath);
                 }
                 return logPath;

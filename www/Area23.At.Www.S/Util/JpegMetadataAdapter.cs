@@ -17,14 +17,14 @@ namespace Area23.At.Www.S.Util
         public JpegMetadataAdapter(string path)
         {
             this.path = path;
-            frame = getBitmapFrame(path);
+            frame = GetBitmapFrame(path);
             Metadata = (BitmapMetadata)frame.Metadata.Clone();
         }
 
         public JpegMetadataAdapter(string path, Stream stream)
         {
             this.path = path;
-            frame = getBitmapFrame(stream);
+            frame = GetBitmapFrame(stream);
             Metadata = (BitmapMetadata)frame.Metadata.Clone();
         }
 
@@ -43,7 +43,7 @@ namespace Area23.At.Www.S.Util
             }
         }
 
-        private BitmapFrame getBitmapFrame(string path)
+        private BitmapFrame GetBitmapFrame(string path)
         {
             BitmapDecoder decoder = null;
             using (Stream stream = File.Open(path, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
@@ -53,7 +53,7 @@ namespace Area23.At.Www.S.Util
             return decoder.Frames[0];
         }
 
-        private BitmapFrame getBitmapFrame(Stream stream)
+        private BitmapFrame GetBitmapFrame(Stream stream)
         {
             BitmapDecoder decoder = null;
             decoder = new JpegBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);

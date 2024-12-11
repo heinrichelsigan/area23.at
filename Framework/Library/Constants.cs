@@ -10,14 +10,24 @@ namespace Area23.At.Framework.Library
     /// </summary>
     public static class Constants
     {
+
         #region public const
-        public const string APP_NAME = "Area23.At.Mono";
-        public const string APP_DIR = "mono";
-        public const string VERSION = "v2.24.830";
+
+        public const int BACKLOG = 8;
+        public const int CHAT_PORT = 7777;
+
+        public const char ANNOUNCE = ':';
+        public const char DATE_DELIM = '-';
+        public const char WHITE_SPACE = ' ';
+        public const char UNDER_SCORE = '_';
+
+        public const string APP_NAME = "Area23.At";
+        public const string APP_DIR = "net";
+        public const string VERSION = "v2.24.1212";
+
         public const string AREA23_URL = "https://area23.at";
         public const string APP_PATH = "https://area23.at/net/";
         public const string RPN_URL = "https://area23.at/net/RpnCalc.aspx";
-
         public const string GIT_URL = "https://github.com/heinrichelsigan/area23.at";
         public const string URL_PIC = "https://area23.at/net/res/img/";
         public const string URL_PREFIX = "https://area23.at/net/res/";
@@ -25,30 +35,34 @@ namespace Area23.At.Framework.Library
         public const string URL_SHORT = "https://area23.at/s/?";
         public const string AREA23_UTF8_URL = "https://area23.at/u/";
 
-        public const string LOG_DIR = "log";
-        public const string LOG_EXT = ".log";
-        public const string QR_DIR = "Qr";
-        public const string ENCODE_DIR = "Crypt";
         public const string AUTHOR = "Heinrich Elsigan";
         public const string AUTHOR_EMAIL = "heinrich.elsigan@gmail.com";
         public const string AUTHOR_IV = "6865696E726963682E656C736967616E40676D61696C2E636F6D";
         public const string AREA23_EMAIL = "zen@area23.at";
         public const string AUTHOR_SIGNATURE = "-- \nHeinrich G.Elsigan\nTheresianumgasse 6/28, A-1040 Vienna\n phone: +43 650 752 79 28 \nmobile: +43 670 406 89 83 \nemails: heinrich.elsigan @gmail.com\n        root@darkstar.work he@area23.at\n        heinrich.elsigan @live.at\n        sites: darkstar.work area23.at\nweblog: blog.darkstar.work\n   wko: https://firmen.wko.at/DetailsKontakt.aspx?FirmaID=19800fbd-84a2-456d-890e-eb1fa213100f";
 
-        public const string UTF8_DIR = "Utf8";
-        public const string UNIX_DIR = "Unix";
-        public const string RES_FOLDER = "res";
         public const string CALC_DIR = "Calc";
-        public const string RES_DIR = "res";
-        public const string OUT_DIR = "out";
-        public const string UU_DIR = "uu";
-        public const string TEXT_DIR = "text";
-        public const string BIN_DIR = "bin";
-        public const string JS_DIR = "js";
         public const string CSS_DIR = "css";
+        public const string ENCODE_DIR = "Encode";
         public const string GAMES_DIR = "Gamez";
+        public const string JS_DIR = "js";
         public const string JSON_SAVE_FILE = "urlshort.json";
+        public const string LOG_DIR = "log";
+        public const string LOG_EXT = ".log";
+        public const string OUT_DIR = "out";
+        public const string QR_DIR = "Qr";
+        public const string RES_DIR = "res";
+        public const string RES_FOLDER = "res";
+        public const string TEXT_DIR = "text";
+        public const string UNIX_DIR = "Unix";
+        public const string UTF8_DIR = "Utf8";
         public const string UTF8_JSON = "utf8symol.json";
+        public const string UU_DIR = "uu";
+
+        public const string BIN_DIR = "bin";
+        public const string OBJ_DIR = "obj";
+        public const string RELEASE_DIR = "Release";
+        public const string DEBUG_DIR = "Release";
 
         public const string ACCEPT_LANGUAGE = "Accept-Language";
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";
@@ -57,10 +71,6 @@ namespace Area23.At.Framework.Library
         public const string RPN_STACK = "rpnStack";
         public const string CHANGE_CLICK_EVENTCNT = "change_Click_EventCnt";
         public const string BC_START_MSG = "bc 1.07.1\r\nCopyright 1991-1994, 1997, 1998, 2000, 2004, 2006, 2008, 2012-2017 Free Software Foundation, Inc.\r\nThis is free software with ABSOLUTELY NO WARRANTY.\r\nFor details type `warranty'.\r\n";
-        public const char ANNOUNCE = ':';
-        public const char DATE_DELIM = '-';
-        public const char WHITE_SPACE = ' ';
-        public const char UNDER_SCORE = '_';
 
         public const string BACK_COLOR = "BackColor";
         public const string QR_COLOR = "QrColor";
@@ -86,24 +96,11 @@ namespace Area23.At.Framework.Library
         public const string EXE_WIN_LOGON = "winlogon";             // windows logon handler for current logon
         public const string EXE_DESKTOP_WINDOW_MANAGER = "dwm";     // window manager for current logon
 
+        public const string STRING_EMPTY = "";
+        public const string STRING_NULL = null;
         public const string SNULL = "(null)";
 
-        public static readonly string[] EXE_WIN_SYSTEM = { EXE_WIN_INIT, EXE_SERVICES,
-            EXE_SVC_HOST, EXE_TASK_HOST, EXE_DLL_HOST,
-            EXE_SCHEDULER, EXE_VM_COMPUTE, EXE_WIN_DEFENDER, EXE_LASS, EXE_CSRSS,
-            EXE_WIN_LOGON, EXE_DESKTOP_WINDOW_MANAGER
-        };
-
         public const string AES_ENVIROMENT_KEY = "APP_ENCRYPTION_SECRET_KEY";
-        public static readonly string AES_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("AesKey"));
-        public static readonly string AES_IV = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("AesIv4"));
-        public static readonly string DES3_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("DesKey"));
-        public static readonly string DES3_IV = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("3DesIv"));
-        // public static readonly string SERPENT_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("BOUNCE"));
-        // public static readonly string SERPENT_IV = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("CASTLE"));
-        public static readonly string BOUNCEK = Convert.ToBase64String(Encoding.UTF8.GetBytes("BOUNCE"));
-        public static readonly string BOUNCE4 = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("CASTLE"));
-
 
         public const string JSON_SAMPLE = @"{ 
  	""quiz"": { 
@@ -214,7 +211,29 @@ namespace Area23.At.Framework.Library
 
         #endregion public const
 
-        #region properties
+        #region public static readonly fields
+
+        public static readonly char SEP_CHAR = System.IO.Path.DirectorySeparatorChar;
+
+        public static readonly string AES_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("AesKey"));
+        public static readonly string AES_IV = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("AesIv4"));
+        public static readonly string DES3_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("DesKey"));
+        public static readonly string DES3_IV = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("3DesIv"));
+        // public static readonly string SERPENT_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("BOUNCE"));
+        // public static readonly string SERPENT_IV = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("CASTLE"));
+        public static readonly string BOUNCEK = Convert.ToBase64String(Encoding.UTF8.GetBytes("BOUNCE"));
+        public static readonly string BOUNCE4 = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("CASTLE"));
+
+
+        public static readonly string[] EXE_WIN_SYSTEM = { EXE_WIN_INIT, EXE_SERVICES,
+            EXE_SVC_HOST, EXE_TASK_HOST, EXE_DLL_HOST,
+            EXE_SCHEDULER, EXE_VM_COMPUTE, EXE_WIN_DEFENDER, EXE_LASS, EXE_CSRSS,
+            EXE_WIN_LOGON, EXE_DESKTOP_WINDOW_MANAGER
+        };
+
+        #endregion public static readonly fields
+
+        #region public static properties
 
         /// <summary>
         /// AppLogFile - logfile with <see cref="At.Framework.Library.Extensions.Area23Date(DateTime)"/> prefix
@@ -361,16 +380,12 @@ namespace Area23.At.Framework.Library
                 return (bool)HttpContext.Current.Session[FORTUNE_BOOL];
             }
         }
-        
-        public static bool RandomBool
-        {
-            get => ((DateTime.Now.Millisecond % 2) == 0);
-            //{
-            //    return ((DateTime.Now.Millisecond % 2) == 0) ? true : false;
-            //}
-        }
-        
-        #endregion properties
+
+        public static bool RandomBool { get => ((DateTime.Now.Millisecond % 2) == 0); }
+
+
+        #endregion public static properties
+
     }
 
 }
