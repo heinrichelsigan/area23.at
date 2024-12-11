@@ -88,7 +88,8 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void ButtonEncrypt_Click(object sender, EventArgs e)
         {
-            frmConfirmation.Visible = false;
+            SpanRightFile.Visible = false;
+            SpanRightLabel.Visible = false;           
 
             string usrMailKey = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
             Reset_TextBox_IV(usrMailKey);
@@ -151,7 +152,9 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void ButtonDecrypt_Click(object sender, EventArgs e)
         {
-            frmConfirmation.Visible = false;
+            SpanRightFile.Visible = false;
+            SpanRightLabel.Visible = false;
+
             string usrMailKey = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
             Reset_TextBox_IV(usrMailKey);
 
@@ -405,21 +408,15 @@ namespace Area23.At.Mono.Crypt
                         {
                             strFileName += "." + encodingMethod;
                             string outString = DeEnCoder.EncodeEncryptedBytes(outBytes, encodingMethod, plainUu, true);
-                            savedTransFile = this.StringToFile(outString, out outMsg, strFileName);
+                            savedTransFile = this.StringToFile(outString, out outMsg, strFileName);                            
                         }
                         else
+                        {                            
                             savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName);
-
-                        if (!string.IsNullOrEmpty(savedTransFile) && !string.IsNullOrEmpty(outMsg))
-                        {
-                            lblUploadResult.Text = string.Format("file {0}x encrypted to {1}", cryptCount, outMsg);
-
-                            string encryptedText = DeEnCoder.EncodeEncryptedBytes(outBytes, encodingMethod, plainUu, true);
-                            strFileName += "." + encodingMethod;
-                            string savedTransFileEnc = this.StringToFile(encryptedText, out outMsg, strFileName);
-
-                            lblUploadResult.Text += string.Format(" and to encoded {0}.", savedTransFileEnc);
                         }
+                        
+                        if (!string.IsNullOrEmpty(savedTransFile) && !string.IsNullOrEmpty(outMsg))
+                            lblUploadResult.Text = string.Format("{0}x crypt {1}.", cryptCount, outMsg);
                         else
                             lblUploadResult.Text = "file failed to encrypt and save!";
                     }
@@ -487,13 +484,13 @@ namespace Area23.At.Mono.Crypt
 
                         savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName);
                         // if (success)
-                        lblUploadResult.Text = string.Format("file has been decrypted to {0}!", outMsg);
+                        lblUploadResult.Text = string.Format("decrypt to {0}", outMsg);
                         // else
                         // lblUploadResult.Text = "decrypting file failed, byte trash saved  to ";                            
                     }
 
                     aTransFormed.HRef = LibPaths.OutAppPath + savedTransFile;
-                    lblUploadResult.Text += outMsg;
+                    // lblUploadResult.Text += outMsg;
                 }
             }
             else
@@ -502,7 +499,8 @@ namespace Area23.At.Mono.Crypt
             }
 
             // Display the result of the upload.
-            frmConfirmation.Visible = true;
+            SpanRightFile.Visible = true;
+            SpanRightLabel.Visible = true;
         }
 
         /// <summary>

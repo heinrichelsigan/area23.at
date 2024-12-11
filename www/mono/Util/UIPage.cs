@@ -134,13 +134,15 @@ namespace Area23.At.Mono.Util
                         newFileName = fileName.Replace("tmp", extR);
                         System.IO.File.Move(strPath, LibPaths.OutDirPath + newFileName);
                     }
-                    
-                    outMsg += newFileName;
 
+                    outMsg = newFileName;
                     return newFileName;
                 }
-                outMsg += fileName;
-                return fileName;
+                else
+                {
+                    outMsg = fileName;
+                    return fileName;
+                }
             }
             outMsg = null;
             return null;
@@ -156,7 +158,7 @@ namespace Area23.At.Mono.Util
             }
             string ext = "hex";
 
-            if (fileName.LastIndexOf(".") < (fileName.Length - 8))
+            if (fileName.LastIndexOf(".") < (fileName.Length - 12))
                 fileName += "." + ext;
 
             string newFileName = fileName;
@@ -182,7 +184,7 @@ namespace Area23.At.Mono.Util
 
             if (System.IO.File.Exists(strPath))
             {                
-                outMsg += fileName;
+                outMsg = fileName;
                 return fileName;
             }
             outMsg = null;

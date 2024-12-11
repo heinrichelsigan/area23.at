@@ -38,10 +38,10 @@
                     </asp:DropDownList>
                 </span>
                 <span class="centerSpan">
-                    <asp:ImageButton ID="ImageButton_Add" ClientIDMode="Static" runat="server" ImageUrl="../res/img/a_right.gif" 
+                    <asp:ImageButton ID="ImageButton_Add" ClientIDMode="Static" runat="server" ImageUrl="../res/img/AddAesArrow.gif" 
                         OnClick="ImageButton_Add_Click" AlternateText="Add symetric chiffer algorithm"
-                        onmouseover="document.getElementById('ImageButton_Add').src='../res/img/a_right_hover.gif'"                     
-                        onmouseout="document.getElementById('ImageButton_Add').src='../res/img/a_right.gif'" />
+                        onmouseover="document.getElementById('ImageButton_Add').src='../res/img/AddAesArrowHover.gif'"                     
+                        onmouseout="document.getElementById('ImageButton_Add').src='../res/img/AddAesArrow.gif'" />
                 </span>
                 <span class="centerSpan">
                     <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true"  TextMode="SingleLine" Text="" Width="416px" MaxLength="512" />
@@ -78,7 +78,7 @@
                    <asp:TextBox ID="TextBox_Key" runat="server" ToolTip="Enter your personal email address or secret key here" Text="heinrich.elsigan@area23.at" MaxLength="256" Width="416px" AutoPostBack="true" OnTextChanged="TextBox_Key_TextChanged" />
                 </span>
                 <span class="rightSpan">
-                    <asp:Button ID="Button_Clear" runat="server" Text="Clear CryptPipe" ToolTip="Clear SymChiffre Pipeline" OnClick="Button_Clear_Click" style="width: 112px;" />                    
+                    <asp:Button ID="Button_Clear" runat="server" Text="Clear CryptPipe" ToolTip="Clear SymChiffre Pipeline" OnClick="Button_Clear_Click" style="width: 156px;" />                    
                 </span>
             </div>
             <div class="odDiv">
@@ -93,30 +93,49 @@
                     &nbsp;<asp:TextBox ID="TextBox_IV" runat="server" ReadOnly="true" Text="0x000ade1e" MaxLength="192"  Width="416px" />
                 </span>
                 <span class="rightSpan">
-                    <asp:Button ID="Button_Reset_KeyIV" runat="server" Text="Reset Key/IV" ToolTip="Reset secret key / iv" OnClick="Button_Reset_KeyIV_Click" style="width: 112px;" />
+                    <asp:Button ID="Button_Reset_KeyIV" runat="server" Text="Reset Key/IV" ToolTip="Reset secret key / iv" OnClick="Button_Reset_KeyIV_Click" style="width: 156px;" />
                 </span>
             </div>
-            <hr />  
-            <div style="background-color: transparent;">
-                <h3>En-/Decrypt file</h3>            
-                <INPUT id="oFile" type="file" runat="server" NAME="oFile" />
-                <asp:Button ID="ButtonEncryptFile" runat="server" ToolTip="Encrypt file" OnClick="ButtonEncryptFile_Click" Text="Encrypt file" />
-                <asp:CheckBox ID="CheckBoxEncode" runat="server" ToolTip="Encode file (e.g. hex16, base64, uu) after encryption" Text="encode file" />
-                <asp:Button ID="ButtonDecryptFile" runat="server" ToolTip="Decrypt file" OnClick="ButtonDecryptFile_Click" Text="Decrypt file" />  
-        
-                <asp:Panel ID="frmConfirmation" Visible="False" Runat="server">
-                    <asp:Label id="lblUploadResult" Runat="server"></asp:Label>
-                    <br />
-                    <a id="aTransFormed" runat="server" alt="Transformed File" href="../res/fortune.u8">
-                        <img id="imgOut" runat="server" border="0" alt="File transformed" src="../res/img/file.png" /></a>
-                 </asp:Panel>
+            <hr />              
+            <div style="background-color: transparent; padding: 0 0 0 0; margin: 0 0 0 0;">
+                <h3>En-/Decrypt file</h3>
+                <div class="odDiv" style="vertical-align: top;">                       
+                    <span class="leftSpan" style="vertical-align: top;">
+                        <INPUT id="oFile" type="file" runat="server" NAME="oFile" />
+                    </span>
+                    <span class="centerSpan" style="max-width: 72px; vertical-align: top;">
+                        <asp:Button ID="ButtonEncryptFile" runat="server" ToolTip="Encrypt file" OnClick="ButtonEncryptFile_Click" Text="Encrypt file" />
+                    </span>
+                    <span class="centerSpan" style="vertical-align: top;">     
+                        <asp:CheckBox ID="CheckBoxEncode" runat="server" ToolTip="Encode file (e.g. hex16, base64, uu) after encryption" Text="encode file" />
+                    </span>
+                    <span class="centerSpan" style="vertical-align: top;">     
+                        <asp:Button ID="ButtonDecryptFile" runat="server" ToolTip="Decrypt file" OnClick="ButtonDecryptFile_Click" Text="Decrypt file" />  
+                    </span> 
+                    <span id="SpanRightFile" runat="server" class="rightSpan" style="vertical-align: top;" visible="false">
+                        <a id="aTransFormed" runat="server" alt="Transformed File" href="../res/fortune.u8">
+                            <img id="imgOut" runat="server" border="0" alt="File transformed" src="../res/img/file.png" />
+                        </a>
+                    </span>
+                </div>     
+                <div class="odDiv">                       
+                    <span class="leftSpan">&nbsp;</span>
+                    <span class="centerSpan" style="max-width: 72px">&nbsp;</span>
+                    <span class="centerSpan">&nbsp;</span>
+                    <span class="centerSpan">&nbsp;</span>
+                    <span class="rightSpan" id="SpanRightLabel" runat="server"  Visible="False">                
+                        <asp:Label id="lblUploadResult" Runat="server"></asp:Label>                    
+                    </span>
+                </div>
             </div>
-            <h3>En-/Decrypt text</h3>
-            <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="10" Columns="48" ValidateRequestMode="Disabled" ToolTip="Source Text" Text="[Enter text to en-/decrypt here]" Width="480px"></asp:TextBox>
-            <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="10" Columns="48" MaxLength="32768" ReadOnly="true" ToolTip="Destination Text" Width="468px"></asp:TextBox>
-            <br />
-            <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClick="ButtonEncrypt_Click" />
-            <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClick="ButtonDecrypt_Click" />   
+            <div style="background-color: transparent; padding: 0 0 0 0; margin: 0 0 0 0;">
+                <h3>En-/Decrypt text</h3>
+                <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="10" Columns="48" ValidateRequestMode="Disabled" ToolTip="Source Text" Text="[Enter text to en-/decrypt here]" Width="480px"></asp:TextBox>
+                <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="10" Columns="48" MaxLength="32768" ReadOnly="true" ToolTip="Destination Text" Width="468px"></asp:TextBox>
+                <br />
+                <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClick="ButtonEncrypt_Click" />
+                <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClick="ButtonDecrypt_Click" />   
+            </div>
             <hr />        
         </form>
     </div>

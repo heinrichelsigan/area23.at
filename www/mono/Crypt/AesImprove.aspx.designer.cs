@@ -159,22 +159,13 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.Button ButtonDecryptFile;
 
         /// <summary>
-        /// frmConfirmation control.
+        /// SpanRightFile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel frmConfirmation;
-
-        /// <summary>
-        /// lblUploadResult control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUploadResult;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanRightFile;
 
         /// <summary>
         /// aTransFormed control.
@@ -193,6 +184,24 @@ namespace Area23.At.Mono.Crypt
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlImage imgOut;
+
+        /// <summary>
+        /// SpanRightLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanRightLabel;
+
+        /// <summary>
+        /// lblUploadResult control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUploadResult;
 
         /// <summary>
         /// TextBoxSource control.

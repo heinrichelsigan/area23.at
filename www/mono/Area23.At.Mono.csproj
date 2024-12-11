@@ -137,8 +137,11 @@
     <Content Include="R.aspx" />
     <Content Include="res\audio\aDraw.m4a" />
     <Content Include="res\css\ccalcweb.css" />
+    <Content Include="res\img\AddAesArrow.gif" />
+    <Content Include="res\img\AddAesArrowHover.gif" />
     <Content Include="res\img\AesImproveBG.gif" />
     <Content Include="res\img\AesImproveBG.png" />
+    <Content Include="res\img\AesImproveBG2.gif" />
     <Content Include="res\img\androidSetTicTacToe.gif" />
     <Content Include="res\img\androidSetTicTacToe.png" />
     <Content Include="res\img\androidTicTacToe.gif" />
