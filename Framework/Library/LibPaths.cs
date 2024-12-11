@@ -57,17 +57,19 @@ namespace Area23.At.Framework.Library
             {
                 if (String.IsNullOrEmpty(appDirPath))
                 {
-                    if (ConfigurationManager.AppSettings["AppDirPath"] != null)
-                    {
-                        appDirPath = (string)ConfigurationManager.AppSettings["AppDirPath"];
-                    }
-                    else
+                    if ((Path.DirectorySeparatorChar == '/') && (ConfigurationManager.AppSettings["AppDirPathUnix"] != null))
+                        appDirPath = (string)ConfigurationManager.AppSettings["AppDirPathUnix"];
+                    else if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)                        
+                        appDirPath = (string)ConfigurationManager.AppSettings["AppDirPathWin"];                        
+                    
+                    if (String.IsNullOrEmpty(appDirPath))
                     {
                         if (AppContext.BaseDirectory != null)
                             appDirPath = AppContext.BaseDirectory;
                         else if (AppDomain.CurrentDomain != null)
                             appDirPath = AppDomain.CurrentDomain.BaseDirectory;
                     }
+
                     if (!appDirPath.EndsWith(SepChar))
                         appDirPath += SepChar;
                 }
@@ -83,14 +85,13 @@ namespace Area23.At.Framework.Library
                 if (String.IsNullOrEmpty(baseAppPath))
                 {
                     string basApPath = "";
-                    try
+                    if ((Path.DirectorySeparatorChar == '/') && (System.Configuration.ConfigurationManager.AppSettings["BaseAppPathUnix"] != null))
+                        basApPath = System.Configuration.ConfigurationManager.AppSettings["BaseAppPathUnix"];
+                    else if (System.Configuration.ConfigurationManager.AppSettings["BaseAppPathWin"] != null)
+                        basApPath = System.Configuration.ConfigurationManager.AppSettings["BaseAppPathWin"];
+
+                    if (String.IsNullOrEmpty(basApPath))
                     {
-                        if (System.Configuration.ConfigurationManager.AppSettings["BaseAppPath"] != null)
-                            basApPath = System.Configuration.ConfigurationManager.AppSettings["BaseAppPath"];
-                    }
-                    catch (Exception baseAppPathEx)
-                    {
-                        Area23Log.LogStatic(baseAppPathEx);
                         basApPath = HttpContext.Current.Request.RawUrl.ToString().
                             Replace("/c/", "/").Replace("/Calc/", "/").Replace("/Crypt/", "/").
                             Replace("/Gamez/", "/").Replace("/log/", "/").Replace("/Qr/", "/").
@@ -101,10 +102,9 @@ namespace Area23.At.Framework.Library
                         basApPath = basApPath.Substring(0, basApPath.LastIndexOf("/"));
                     }
 
-                    baseAppPath = basApPath;
-                    if (!baseAppPath.EndsWith("/"))
-                        baseAppPath += "/";
+                    baseAppPath = (!basApPath.EndsWith("/")) ? basApPath + "/" : basApPath;                    
                 }
+
                 return baseAppPath;
             }
         }

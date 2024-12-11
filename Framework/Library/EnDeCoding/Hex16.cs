@@ -50,12 +50,19 @@ namespace Area23.At.Framework.Library.EnDeCoding
 
             List<byte> bytes = new List<byte>();
 
-            if (hexStr.Length % 2 == 1)
-                hexStr += "0";
             for (int wb = 0; wb < hexStr.Length; wb += 2)
             {
-                char msb = (char)hexStr[wb];
-                char lsb = (char)hexStr[wb + 1];
+                char msb, lsb;
+                if (wb == hexStr.Length - 1)
+                {
+                    msb = '0';
+                    lsb = hexStr[wb];
+                }
+                else
+                {
+                    msb = (char)hexStr[wb];
+                    lsb = (char)hexStr[wb + 1];
+                }
                 string sb = msb.ToString() + lsb.ToString();
                 byte b = Convert.ToByte(sb, 16);
                 bytes.Add(b);

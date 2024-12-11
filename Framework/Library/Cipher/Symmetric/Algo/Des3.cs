@@ -143,7 +143,8 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
             tdes.IV = DesIv;
             tdes.Mode = CipherMode.ECB;
             tdes.Padding = PaddingMode.Zeros;
-            toDecryptArray = new byte[cipherBytes.Length * 2];
+            
+            toDecryptArray = new byte[(cipherBytes.Length * 3) + 1];
             ICryptoTransform cTransform = tdes.CreateDecryptor();
             byte[] decryptedBytes = cTransform.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);
             tdes.Clear();
