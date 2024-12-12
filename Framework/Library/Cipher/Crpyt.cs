@@ -47,8 +47,10 @@ namespace Area23.At.Framework.Library.Cipher
             }
             if (algo == "Rsa")
             {
-                string publicKeyRsa = Asymmetric.Algo.Rsa.InitGetPublicKey();
-                encryptBytes = Asymmetric.Algo.Rsa.Encrypt(inBytes);
+                var keyPair = Asymmetric.Algo.Rsa.RsaGenWithKey(secretKey, keyIv);
+                string pkey = keyPair.Public.ToString();
+                
+                encryptBytes = Asymmetric.Algo.Rsa.Encrypt(inBytes);                
             }
             if (algo == "Serpent")
             {
@@ -122,7 +124,8 @@ namespace Area23.At.Framework.Library.Cipher
             }
             if (algorithmName == "Rsa")
             {
-                string privateKeyRsa = Asymmetric.Algo.Rsa.GetRsaKeyPair().Private.ToString();
+                var keyPair = Asymmetric.Algo.Rsa.RsaGenWithKey(secretKey, keyIv);
+                string privKey = keyPair.Private.ToString();
                 decryptBytes = Asymmetric.Algo.Rsa.Decrypt(cipherBytes);
             }
             if (algorithmName == "Serpent")

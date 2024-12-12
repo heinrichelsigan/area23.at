@@ -322,7 +322,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
         private void menuViewMenuICrypttemEnDeCode_Click(object sender, EventArgs e)
         {
-            
+
 
         }
 
@@ -340,6 +340,22 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             tscp.Show();
             tscp.BringToFront();
             tscp.Focus();
+        }
+
+        private void menuViewMenuUnixItemSecureChat_Click(object sender, EventArgs e)
+        {
+            int formsCount = Program.tFormsNew.Count;
+            if (formsCount > 10)
+            {
+                MessageBox.Show($"Already {formsCount} instances of {TFormType} currently running!", $"{Program.progName}: maximum reached!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            SecureChat schat = new SecureChat();
+            Program.tFormsNew.Add(schat);
+            schat.Show();
+            schat.BringToFront();
+            schat.Focus();
         }
     }
 }

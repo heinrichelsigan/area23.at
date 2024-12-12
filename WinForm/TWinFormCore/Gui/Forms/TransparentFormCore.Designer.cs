@@ -43,6 +43,7 @@
             menuViewMenuCryptItemCrypt = new ToolStripMenuItem();
             menuViewMenuUnix = new ToolStripMenuItem();
             menuViewMenuUnixItemNetAddr = new ToolStripMenuItem();
+            menuViewMenuUnixItemScp = new ToolStripMenuItem();
             menuViewMenuUnixItemFortnune = new ToolStripMenuItem();
             menuViewMenuUnixItemHexDump = new ToolStripMenuItem();
             toolStripMenuQuestionMark = new ToolStripMenuItem();
@@ -57,7 +58,7 @@
             splitButtonMenuItemSave = new ToolStripMenuItem();
             toolStripProgressBar = new ToolStripProgressBar();
             toolStripStatusLabel = new ToolStripStatusLabel();
-            menuViewMenuUnixItemScp = new ToolStripMenuItem();
+            menuViewMenuUnixItemSecureChat = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             statusStrip.SuspendLayout();
             SuspendLayout();
@@ -223,7 +224,7 @@
             menuViewMenuUnix.AutoToolTip = true;
             menuViewMenuUnix.BackColor = SystemColors.Menu;
             menuViewMenuUnix.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            menuViewMenuUnix.DropDownItems.AddRange(new ToolStripItem[] { menuViewMenuUnixItemNetAddr, menuViewMenuUnixItemScp, menuViewMenuUnixItemFortnune, menuViewMenuUnixItemHexDump });
+            menuViewMenuUnix.DropDownItems.AddRange(new ToolStripItem[] { menuViewMenuUnixItemNetAddr, menuViewMenuUnixItemSecureChat, menuViewMenuUnixItemScp, menuViewMenuUnixItemFortnune, menuViewMenuUnixItemHexDump });
             menuViewMenuUnix.ForeColor = SystemColors.MenuText;
             menuViewMenuUnix.Margin = new Padding(1);
             menuViewMenuUnix.Name = "menuViewMenuUnix";
@@ -244,6 +245,19 @@
             menuViewMenuUnixItemNetAddr.Size = new Size(193, 22);
             menuViewMenuUnixItemNetAddr.Text = "Network Address";
             menuViewMenuUnixItemNetAddr.Click += menuViewMenuUnixItemNetAddr_Click;
+            // 
+            // menuViewMenuUnixItemScp
+            // 
+            menuViewMenuUnixItemScp.BackColor = SystemColors.Menu;
+            menuViewMenuUnixItemScp.BackgroundImageLayout = ImageLayout.None;
+            menuViewMenuUnixItemScp.Font = new Font("Lucida Sans Unicode", 10F);
+            menuViewMenuUnixItemScp.ForeColor = SystemColors.MenuText;
+            menuViewMenuUnixItemScp.ImageScaling = ToolStripItemImageScaling.None;
+            menuViewMenuUnixItemScp.Margin = new Padding(1);
+            menuViewMenuUnixItemScp.Name = "menuViewMenuUnixItemScp";
+            menuViewMenuUnixItemScp.Size = new Size(193, 22);
+            menuViewMenuUnixItemScp.Text = "Scp";
+            menuViewMenuUnixItemScp.Click += menuViewMenuUnixItemScp_Click;
             // 
             // menuViewMenuUnixItemFortnune
             // 
@@ -387,18 +401,18 @@
             toolStripStatusLabel.Spring = true;
             toolStripStatusLabel.Text = "Status";
             // 
-            // menuViewMenuUnixItemScp
+            // menuViewMenuUnixItemSecureChat
             // 
-            menuViewMenuUnixItemScp.BackColor = SystemColors.Menu;
-            menuViewMenuUnixItemScp.BackgroundImageLayout = ImageLayout.None;
-            menuViewMenuUnixItemScp.Font = new Font("Lucida Sans Unicode", 10F);
-            menuViewMenuUnixItemScp.ForeColor = SystemColors.MenuText;
-            menuViewMenuUnixItemScp.ImageScaling = ToolStripItemImageScaling.None;
-            menuViewMenuUnixItemScp.Margin = new Padding(1);
-            menuViewMenuUnixItemScp.Name = "menuViewMenuUnixItemScp";
-            menuViewMenuUnixItemScp.Size = new Size(193, 22);
-            menuViewMenuUnixItemScp.Text = "Scp";
-            menuViewMenuUnixItemScp.Click += menuViewMenuUnixItemScp_Click;
+            menuViewMenuUnixItemSecureChat.BackColor = SystemColors.Menu;
+            menuViewMenuUnixItemSecureChat.BackgroundImageLayout = ImageLayout.None;
+            menuViewMenuUnixItemSecureChat.Font = new Font("Lucida Sans Unicode", 10F);
+            menuViewMenuUnixItemSecureChat.ForeColor = SystemColors.MenuText;
+            menuViewMenuUnixItemSecureChat.ImageScaling = ToolStripItemImageScaling.None;
+            menuViewMenuUnixItemSecureChat.Margin = new Padding(1);
+            menuViewMenuUnixItemSecureChat.Name = "menuViewMenuUnixItemSecureChat";
+            menuViewMenuUnixItemSecureChat.Size = new Size(193, 22);
+            menuViewMenuUnixItemSecureChat.Text = "Secure Chat";
+            menuViewMenuUnixItemSecureChat.Click += menuViewMenuUnixItemSecureChat_Click;
             // 
             // TransparentFormCore
             // 
@@ -424,42 +438,43 @@
 
         #endregion
 
-        private MenuStrip menuStrip;
-        private ToolStripMenuItem toolStripMenuMain;
-        private ToolStripMenuItem toolStripMenuItemAbout;
-        private ToolStripMenuItem toolStripMenuItemOld;
+        protected internal MenuStrip menuStrip;
+        protected internal ToolStripMenuItem toolStripMenuMain;
+        protected internal ToolStripMenuItem toolStripMenuItemAbout;
+        protected internal ToolStripMenuItem toolStripMenuItemOld;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripSeparator toolStripSeparator3;
-        private ToolStripMenuItem toolStripMenuItemOpen;
-        private ToolStripMenuItem toolStripMenuItemClose;
-        private ToolStripMenuItem toolStripMenuItemInfo;
-        private ToolStripMenuItem toolStripMenuItemExit;
+        protected internal ToolStripMenuItem toolStripMenuItemOpen;
+        protected internal ToolStripMenuItem toolStripMenuItemClose;
+        protected internal ToolStripMenuItem toolStripMenuItemInfo;
+        protected internal ToolStripMenuItem toolStripMenuItemExit;
         protected internal OpenFileDialog openFileDialog;
-        private ToolStripMenuItem toolStripMenuView;
-        private ToolStripMenuItem toolStripMenuFile;
-        private ToolStripMenuItem menuFileItemOpen;
-        private ToolStripMenuItem menuFileItemSave;
-        private ToolStripMenuItem toolStripMenuTForms;
-        private ToolStripMenuItem toolStripMenuQuestionMark;
-        private ToolStripMenuItem toolStripMenuItemHelp;
+        protected internal ToolStripMenuItem toolStripMenuView;
+        protected internal ToolStripMenuItem toolStripMenuFile;
+        protected internal ToolStripMenuItem menuFileItemOpen;
+        protected internal ToolStripMenuItem menuFileItemSave;
+        protected internal ToolStripMenuItem toolStripMenuTForms;
+        protected internal ToolStripMenuItem toolStripMenuQuestionMark;
+        protected internal ToolStripMenuItem toolStripMenuItemHelp;
         protected internal SaveFileDialog saveFileDialog;
-        private StatusStrip statusStrip;
+        protected internal StatusStrip statusStrip;
         private ToolStripSplitButton toolStripSplitButton;
-        private ToolStripMenuItem splitButtonMenuItemLoad;
-        private ToolStripMenuItem splitButtonMenuItemSave;
-        private ToolStripProgressBar toolStripProgressBar;
-        private ToolStripStatusLabel toolStripStatusLabel;
-        private ToolStripMenuItem menuViewMenuUnix;
-        private ToolStripMenuItem menuViewMenuUnixItemNetAddr;
-        private ToolStripMenuItem menuViewMenuUnixItemFortnune;
-        private ToolStripMenuItem menuViewMenuUnixItemHexDump;
-        private ToolStripMenuItem menuViewMenuICrypt;
-        private ToolStripMenuItem menuViewMenuCryptItemEnDeCode;
-        private ToolStripMenuItem menuViewMenuCryptItemCrypt;
-        private ToolStripMenuItem menuFileItemNew;
-        private ToolStripMenuItem menuFileItemDiscard;
+        protected internal ToolStripMenuItem splitButtonMenuItemLoad;
+        protected internal ToolStripMenuItem splitButtonMenuItemSave;
+        protected internal ToolStripProgressBar toolStripProgressBar;
+        protected internal ToolStripStatusLabel toolStripStatusLabel;
+        protected internal ToolStripMenuItem menuViewMenuUnix;
+        protected internal ToolStripMenuItem menuViewMenuUnixItemNetAddr;
+        protected internal ToolStripMenuItem menuViewMenuUnixItemFortnune;
+        protected internal ToolStripMenuItem menuViewMenuUnixItemHexDump;
+        protected internal ToolStripMenuItem menuViewMenuICrypt;
+        protected internal ToolStripMenuItem menuViewMenuCryptItemEnDeCode;
+        protected internal ToolStripMenuItem menuViewMenuCryptItemCrypt;
+        protected internal ToolStripMenuItem menuFileItemNew;
+        protected internal ToolStripMenuItem menuFileItemDiscard;
         private ToolStripSeparator toolStripSeparator2;
-        private ToolStripMenuItem menuFileItemExit;
-        private ToolStripMenuItem menuViewMenuUnixItemScp;
+        protected internal ToolStripMenuItem menuFileItemExit;
+        protected internal ToolStripMenuItem menuViewMenuUnixItemScp;
+        protected internal ToolStripMenuItem menuViewMenuUnixItemSecureChat;
     }
 }

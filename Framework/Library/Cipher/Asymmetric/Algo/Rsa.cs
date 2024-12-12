@@ -12,6 +12,10 @@ using Org.BouncyCastle.Crypto.IO;
 using Org.BouncyCastle.Crypto.Encodings;
 using Org.BouncyCastle.Crypto.Engines;
 using Area23.At.Framework.Library.EnDeCoding;
+using Org.BouncyCastle.OpenSsl;
+using System.IO;
+using System.Security;
+using Area23.At.Framework.Library.Cipher.Symmetric;
 
 namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
 {
@@ -20,6 +24,7 @@ namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
         #region fields
 
         private static string privateKey = string.Empty;
+        private static string publicKey = string.Empty;
         private static string userHostIpAddress = string.Empty;
 
         private static AsymmetricCipherKeyPair rsaKeyPair;
@@ -30,7 +35,7 @@ namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
 
         internal static AsymmetricCipherKeyPair RsaKeyPair
         {
-            get => GetRsaKeyPair();
+            get => rsaKeyPair;
         }
 
         public static AsymmetricKeyParameter RsaPublicKey
@@ -52,17 +57,23 @@ namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
         static Rsa()
         {
             if (rsaKeyPair == null)
-                rsaKeyPair = GetRsaKeyPair();
+                rsaKeyPair = GenerateNewRsaKeyPair();
         }
 
-        public static string InitGetPublicKey()
+        public static AsymmetricCipherKeyPair RsaGenWithKey(string pub, string priv)
         {
-            return (RsaPrivateKey != null && RsaPrivateKey != null) ? RsaPublicKey.ToString() : null;
+            rsaKeyPair = GetRsaKeyPair(pub, priv);
+
+            return rsaKeyPair;
         }
 
         #endregion Ctor_Gen
 
-        internal static AsymmetricCipherKeyPair GetRsaKeyPair()
+        /// <summary>
+        /// GenerateNewRsaKeyPair - generates a new rsa key pair
+        /// </summary>
+        /// <returns><see cref="AsymmetricCipherKeyPairy"/></returns>
+        internal static AsymmetricCipherKeyPair GenerateNewRsaKeyPair()
         {
             if (rsaKeyPair != null)
                 return rsaKeyPair;
@@ -75,6 +86,39 @@ namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
             rsaKeyPairGen.Init(rsaKeyParams);
 
             rsaKeyPair = rsaKeyPairGen.GenerateKeyPair();
+            return rsaKeyPair;
+                
+        }
+
+        /// <summary>
+        /// Get Rsa Key Pair by private and public key
+        /// </summary>
+        /// <param name="publicKey"></param>
+        /// <param name="privateKey"></param>
+        /// <returns><see cref="AsymmetricCipherKeyPair"/></returns>
+        internal static AsymmetricCipherKeyPair GetRsaKeyPair(string pubKey, string privKey)
+        {            
+            privateKey = privKey;
+            publicKey = pubKey;
+            Pkcs1Encoding rsaCipher = new Pkcs1Encoding(new RsaEngine());
+            AsymmetricCipherKeyPair keyPair;
+            AsymmetricKeyParameter keyParameterPublic, keyParameterPrivate;
+            
+            using (StringReader stringReader = new StringReader(publicKey))
+            {
+                keyParameterPublic = (AsymmetricKeyParameter)new PemReader(stringReader).ReadObject();
+                // rsaCipher.Init(true, keyParameterPublic);
+            }
+
+            using (StringReader stringReader = new StringReader(CryptHelper.PrivateKeyWithUserHash(pubKey, privKey)))
+            {
+                keyPair = (AsymmetricCipherKeyPair)new PemReader(stringReader).ReadObject();
+                keyParameterPrivate = keyPair.Private;
+                // rsaCipher.Init(false, keyParameterPrivate);   
+            }
+
+            rsaKeyPair = new AsymmetricCipherKeyPair(keyParameterPublic, keyParameterPrivate);
+
             return rsaKeyPair;
         }
 
@@ -89,9 +133,17 @@ namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
         public static byte[] Encrypt(byte[] plainInBytes)
         {
             Pkcs1Encoding rsaCipher = new Pkcs1Encoding(new RsaEngine());
-            rsaCipher.Init(true, RsaPublicKey);
+
+            // using (StringReader stringReader = new StringReader(pubKey)) {
+            // var keyParameter = (AsymmetricKeyParameter)new PemReader(stringReader).ReadObject();
+
+            rsaCipher.Init(true, RsaKeyPair.Public);
+            // }            
+
             byte[] encryptedOutBytes = rsaCipher.ProcessBlock(plainInBytes, 0, plainInBytes.Length);
+
             return encryptedOutBytes;
+
         }
 
         /// <summary>
@@ -99,13 +151,22 @@ namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
         /// </summary>
         /// <param name="encryptedInBytes">encrypted input byte array</param>
         /// <returns>plain out byte[]</returns>
+
         public static byte[] Decrypt(byte[] encryptedInBytes)
         {
             Pkcs1Encoding rsaCipher = new Pkcs1Encoding(new RsaEngine());
-            rsaCipher.Init(false, RsaPrivateKey);
+
+            // using (StringReader stringReader = new StringReader(privKey)) {
+            // var keyPair = (AsymmetricCipherKeyPair)new PemReader(stringReader).ReadObject();
+
+            rsaCipher.Init(false, RsaKeyPair.Private);
+            // }
+            
             byte[] plainOutBytes = rsaCipher.ProcessBlock(encryptedInBytes, 0, encryptedInBytes.Length);
+            
             return plainOutBytes;
         }
+
 
         #endregion EncryptDecryptBytes
 
