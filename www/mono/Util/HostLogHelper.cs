@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Area23.At.Www.S.Util
+namespace Area23.At.Mono.Util
 {
     /// <summary>
     /// HostLogHelper
     /// </summary>
-    internal static class HostLogHelper
+    public static class HostLogHelper
     {
-        internal static string UserHost
+        public static string UserHost
         {
             get
             {
@@ -33,7 +33,7 @@ namespace Area23.At.Www.S.Util
         }
 
 
-        internal static void LogRequest(object sender, EventArgs e, string preMsg = "")
+        public static void LogRequest(object sender, EventArgs e, string preMsg = "")
         {
             object oNull = (object)(Constants.SNULL);
             string logMsg = String.Format("{0} {1} object sender={2}, EventArgs e={3}",
@@ -45,7 +45,7 @@ namespace Area23.At.Www.S.Util
             Area23Log.LogStatic(logMsg);
         }
 
-        internal static string LogRequest(object sender, EventArgs e)
+        public static string LogRequest(object sender, EventArgs e)
         {
             object oNull = (object)(Constants.SNULL);
             string logReq = String.Format("from {0} object sender={1}, EventArgs e={2}",

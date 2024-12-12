@@ -10,82 +10,76 @@ namespace Area23.At.Mono.Util
 {
     public static class JsonHelper
     {
-        internal static Dictionary<string, Uri> GetShortenMapFromJson()
+        internal static string JsonFileName
         {
-            Dictionary<string, Uri> tmpDict = null;
-            try
+            get
             {
                 string loadFileName = System.IO.Path.Combine(LibPaths.QrDirPath, Constants.JSON_SAVE_FILE);
-                string jsonText = File.ReadAllText(loadFileName);
-                tmpDict = JsonConvert.DeserializeObject<Dictionary<string, Uri>>(jsonText);
+                if (!File.Exists(loadFileName))
+                {
+                    loadFileName = AppContext.BaseDirectory.
+                        Replace(LibPaths.SepChar + Constants.BIN_DIR, "").Replace(LibPaths.SepChar + Constants.OBJ_DIR, "").
+                        Replace(LibPaths.SepChar + Constants.RELEASE_DIR, "").Replace(LibPaths.SepChar + Constants.DEBUG_DIR, "");
+                    loadFileName += (loadFileName.EndsWith(LibPaths.SepChar)) ? "" : LibPaths.SepChar;
+                    loadFileName += Constants.QR_DIR + LibPaths.SepChar + Constants.JSON_SAVE_FILE;
+                }
+                if (!File.Exists(loadFileName))
+                {
+                    loadFileName = AppDomain.CurrentDomain.BaseDirectory.
+                        Replace(LibPaths.SepChar + Constants.BIN_DIR, "").Replace(LibPaths.SepChar + Constants.OBJ_DIR, "").
+                        Replace(LibPaths.SepChar + Constants.RELEASE_DIR, "").Replace(LibPaths.SepChar + Constants.DEBUG_DIR, "");
+                    loadFileName += (loadFileName.EndsWith(LibPaths.SepChar)) ? "" : LibPaths.SepChar;
+                    loadFileName += Constants.QR_DIR + LibPaths.SepChar + Constants.JSON_SAVE_FILE;
+                }
+                return loadFileName;
             }
-            catch (Exception getMapEx)
-            {
-                Area23Log.LogStatic(getMapEx);
-                tmpDict = null;
-            }
+        }
 
-            if (tmpDict == null)
+        internal static Dictionary<string, Uri> ShortenMapJson
+        {
+            get
             {
-                tmpDict = new Dictionary<string, Uri>();
-            }
+                Dictionary<string, Uri> tmpDict = null;
+                try
+                {
 
-            HttpContext.Current.Application[Constants.APP_NAME] = tmpDict;
-            return tmpDict;
+
+                    string jsonText = File.ReadAllText(JsonFileName);
+                    tmpDict = JsonConvert.DeserializeObject<Dictionary<string, Uri>>(jsonText);
+                }
+                catch (Exception getMapEx)
+                {
+                    Area23Log.LogStatic(getMapEx);
+                    tmpDict = null;
+                }
+
+                if (tmpDict == null)
+                {
+                    tmpDict = new Dictionary<string, Uri>();
+                }
+
+                Area23Log.LogStatic("urlshorter dict count: " + tmpDict.Count);
+                HttpContext.Current.Application[Constants.APP_NAME] = tmpDict;
+                return tmpDict;
+            }
+            set
+            {
+                JsonSerializerSettings jsets = new JsonSerializerSettings();
+                jsets.Formatting = Formatting.Indented;
+                string jsonString = JsonConvert.SerializeObject(value, Formatting.Indented);
+                System.IO.File.WriteAllText(JsonFileName, jsonString);
+                HttpContext.Current.Application[Constants.APP_NAME] = value;
+            }
         }
 
 
         internal static void SaveDictionaryToJson(Dictionary<string, Uri> saveDict)
         {
-            string saveFileName = System.IO.Path.Combine(LibPaths.QrDirPath, Constants.JSON_SAVE_FILE);
-            JsonSerializerSettings jsets = new JsonSerializerSettings();
-            jsets.Formatting = Formatting.Indented;
-            string jsonString = JsonConvert.SerializeObject(saveDict, Formatting.Indented);
-            System.IO.File.WriteAllText(saveFileName, jsonString);
+            ShortenMapJson = saveDict;
 
-            HttpContext.Current.Application[Constants.APP_NAME] = saveDict;
         }
 
 
-        internal static string GetUserHost()
-        {
-            string userHost = Constants.UNKNOWN;
-            try
-            {
-                userHost = (!string.IsNullOrEmpty(HttpContext.Current.Request.UserHostName)) ?
-                    HttpContext.Current.Request.UserHostName :
-                    (HttpContext.Current.Request.UserHostAddress ?? "unknown");
-            }
-            catch (Exception ex)
-            {
-                userHost = "UNKNOWN";
-                Area23Log.LogStatic(ex);
-            }
-            return userHost;
-        }
-
-        internal static void LogRequest(object sender, EventArgs e, string preMsg = "")
-        {
-            object oNull = (object)(Constants.SNULL);
-            string logMsg = String.Format("{0} {1} object sender={2}, EventArgs e={3}",
-                GetUserHost(),
-                preMsg ?? "",
-                (sender ?? oNull).ToString(),
-                (e ?? oNull).ToString());
-
-            Area23Log.LogStatic(logMsg);
-        }
-
-        internal static string LogRequest(object sender, EventArgs e)
-        {
-            object oNull = (object)(Constants.SNULL);
-            string logReq = String.Format("from {0} object sender={1}, EventArgs e={2}",
-                GetUserHost(),
-                (sender ?? oNull).ToString(),
-                (e ?? oNull).ToString());
-
-            return logReq;
-        }
 
     }
 

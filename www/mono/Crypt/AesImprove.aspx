@@ -10,8 +10,8 @@
                 var divAes = document.getElementById("DivAesImprove");
                 if (divAes != null) {
 
-                    divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBGText.png'); background-repeat: no-repeat; background-color: transparent;");
-                    divAes.style.backgroundImage = "url('../res/img/AesImproveBGText.png')";                    
+                    divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;");
+                    divAes.style.backgroundImage = "url('../res/img/AesBGText.gif')";                    
                     // alert("divAes.style.backgroundImage=" + divAes.style.backgroundImage);
                     // var attrStyle = divAes.getAttribute("style");
                     // alert("divAes.style = " + attrStyle);
@@ -27,7 +27,7 @@
                     // var attrStyle = divAes.getAttribute("style")
                     // alert("divAes.style = " + attrStyle);
 
-                    divAes.style.backgroundImage = "url('../res/img/AesBGFile.png')";
+                    divAes.style.backgroundImage = "url('../res/img/AesBGFile.gif')";
                     // alert("divAes.style.backgroundImage=" + divAes.style.backgroundImage);
                 }
             }

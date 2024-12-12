@@ -144,10 +144,6 @@
     <Content Include="res\img\AesBGText.gif" />
     <Content Include="res\img\AesBGText.png" />
     <Content Include="res\img\AesImproveBG.gif" />
-    <Content Include="res\img\AesImproveBG.png" />
-    <Content Include="res\img\AesImproveBG2.gif" />
-    <Content Include="res\img\AesImproveBGFile.gif" />
-    <Content Include="res\img\AesImproveBGText.gif" />
     <Content Include="res\img\androidSetTicTacToe.gif" />
     <Content Include="res\img\androidSetTicTacToe.png" />
     <Content Include="res\img\androidTicTacToe.gif" />
@@ -475,6 +471,7 @@
       <DependentUpon>UnixMaster.master</DependentUpon>
     </Compile>
     <Compile Include="Util\GifMetadataAdapter.cs" />
+    <Compile Include="Util\HostLogHelper.cs" />
     <Compile Include="Util\JsonHelper.cs" />
     <Compile Include="Util\QRGenericString.cs" />
     <Compile Include="Calc\RPNType.cs" />
