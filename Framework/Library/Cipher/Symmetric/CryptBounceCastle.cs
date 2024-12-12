@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Area23.At.Framework.Library.EnDeCoding;
 
 namespace Area23.At.Framework.Library.Cipher.Symmetric
 {
@@ -285,15 +286,15 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             string keyByteHashString = privateKey;
             tmpKey = new byte[KeyLen];
 
-            if ((keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString)) < KeyLen)
+            if ((keyByteCnt = EnDeCoder.GetByteCount(keyByteHashString)) < KeyLen)
             {
                 keyByteHashString = PrivateUserKey;
-                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
+                keyByteCnt = EnDeCoder.GetByteCount(keyByteHashString);
             }
             if (keyByteCnt < KeyLen)
             {
                 keyByteHashString = PrivateUserHostKey;
-                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
+                keyByteCnt = EnDeCoder.GetByteCount(keyByteHashString);
             }
             if (keyByteCnt < KeyLen) 
             {
@@ -301,7 +302,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
                 randomNumGen.GetBytes(tmpKey, 0, KeyLen);
 
                 byte[] tinyKeyBytes = new byte[keyByteCnt];
-                tinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
+                tinyKeyBytes = EnDeCoder.GetBytes(keyByteHashString);
                 int tinyLength = tinyKeyBytes.Length;
 
                 for (int bytCnt = 0; bytCnt < KeyLen; bytCnt++)
@@ -312,7 +313,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             else
             {
                 byte[] ssSmallNotTinyKeyBytes = new byte[keyByteCnt];
-                ssSmallNotTinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
+                ssSmallNotTinyKeyBytes = EnDeCoder.GetBytes(keyByteHashString);
                 int ssSmallByteCnt = ssSmallNotTinyKeyBytes.Length;
 
                 for (int bytIdx = 0; bytIdx < KeyLen; bytIdx++)
@@ -487,7 +488,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         /// <returns>base64 encoded encrypted string</returns>
         public string EncryptString(string inString)
         {
-            byte[] plainTextData = Encoding.UTF8.GetBytes(inString);
+            byte[] plainTextData = EnDeCoder.GetBytes(inString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
 
@@ -503,7 +504,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
             byte[] plainData = Decrypt(cryptData);
-            string plainTextString = Encoding.ASCII.GetString(plainData).TrimEnd('\0');
+            string plainTextString = EnDeCoder.GetString(plainData).TrimEnd('\0');
 
             return plainTextString;
         }

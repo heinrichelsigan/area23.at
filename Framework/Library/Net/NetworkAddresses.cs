@@ -110,7 +110,7 @@ namespace Area23.At.Framework.Library.Net
                     throw new ProtocolViolationException(
                         $"System.Net.Sockets.AddressFamily {addrFamily} value {Convert.ToUInt32((int)addressFamily)} is not supported! " +
                         $"Only AddressFamily Unix Internetwork InterNetworkV6 are supported.");
-                    break;
+                    // break;
             }
 
             IEnumerable<IPAddress> ipAddrs = from address in

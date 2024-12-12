@@ -22,7 +22,7 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         /// <returns>hex string of bytes</returns>
         public static string KeyHexString(string key)
         {
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            byte[] keyBytes = EnDeCoder.GetBytes8(key);
             string ivStr = keyBytes.ToHexString();
             return ivStr;
         }
@@ -37,7 +37,7 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         public static byte[] GetBytesFromString(string inString, int blockSize = 256, bool upStretchToCorrectBlockSize = false)
         {
             string sourceString = (string.IsNullOrEmpty(inString)) ? string.Empty : inString;
-            byte[] sourceBytes = Encoding.UTF8.GetBytes(sourceString);
+            byte[] sourceBytes = EnDeCoder.GetBytes8(sourceString);
             int inBytesLen = sourceBytes.Length;
             if (blockSize == 0)
                 blockSize = 256;
@@ -76,10 +76,10 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
             {
                 byte[] decryptedNonNullBytes = new byte[ig + 1];
                 Array.Copy(decryptedBytes, decryptedNonNullBytes, ig + 1);
-                decryptedText = Encoding.UTF8.GetString(decryptedNonNullBytes);
+                decryptedText = EnDeCoder.GetString8(decryptedNonNullBytes);
             }
             else
-                decryptedText = Encoding.UTF8.GetString(decryptedBytes);
+                decryptedText = EnDeCoder.GetString8(decryptedBytes);
 
             return decryptedText;
         }

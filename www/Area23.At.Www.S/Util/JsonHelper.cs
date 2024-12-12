@@ -9,6 +9,9 @@ using System.Web;
 
 namespace Area23.At.Www.S.Util
 {
+    /// <summary>
+    /// JsonHelper class for reading and writing json serialized store file.
+    /// </summary>
     public static class JsonHelper
     {
         internal static string JsonFileName
@@ -73,15 +76,12 @@ namespace Area23.At.Www.S.Util
             }
         }
 
- 
-
 
         internal static void SaveDictionaryToJson(Dictionary<string, Uri> saveDict)
         {
             ShortenMapJson = saveDict;
 
         }
-
 
         
     }

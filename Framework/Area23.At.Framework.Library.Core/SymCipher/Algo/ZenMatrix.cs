@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Area23.At.Framework.Library.Core.EnDeCoding;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -284,10 +285,10 @@ namespace Area23.At.Framework.Library.Core.SymCipher.Algo
         /// <returns>Base64 encoded encrypted byte[]</returns>
         public static string EncryptString(string inPlainString)
         {
-            byte[] plainTextData = Encoding.UTF8.GetBytes(inPlainString);
+            byte[] plainTextData = EnDeCoder.GetBytes(inPlainString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
-            // Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
+            // EnDeCoder.GetString(encryptedData).TrimEnd('\0');
             return encryptedString;
         }
 
@@ -299,9 +300,9 @@ namespace Area23.At.Framework.Library.Core.SymCipher.Algo
         public static string DecryptString(string inCryptString)
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
-            //  Encoding.UTF8.GetBytes(inCryptString);
+            //  EnDeCoder.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = EnDeCoder.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;
         }
@@ -391,7 +392,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher.Algo
             InitMatrixSymChiffer();
 
             PermKeyHash = new HashSet<sbyte>();
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            byte[] keyBytes = EnDeCoder.GetBytes(key);
             foreach (byte b in keyBytes)
             {
                 sbyte sb = (sbyte)(((int)b) % 16);

@@ -67,7 +67,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
                 bytes.Add(b);
             }
 
-            byte[] bytesUtf8 = EnCoderHelper.GetBytes8(hexStr);
+            byte[] bytesUtf8 = EnDeCoder.GetBytes(hexStr);
             // return bytesUtf8;
             return bytes.ToArray();
             

@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Crypto;
+﻿using Area23.At.Framework.Library.Core.EnDeCoding;
+using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -194,15 +195,15 @@ namespace Area23.At.Framework.Library.Core.SymCipher
             string keyByteHashString = secretKey;
             byte[] tmpKey = new byte[keyLen];
 
-            if ((keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString)) < keyLen)
+            if ((keyByteCnt = EnDeCoder.GetByteCount(keyByteHashString)) < keyLen)
             {
                 keyByteHashString = PrivateUserKey(secretKey);
-                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
+                keyByteCnt = EnDeCoder.GetByteCount(keyByteHashString);
             }
             if (keyByteCnt < keyLen)
             {
                 keyByteHashString = PrivateKeyWithUserHash(secretKey, usrHash);
-                keyByteCnt = Encoding.UTF8.GetByteCount(keyByteHashString);
+                keyByteCnt = EnDeCoder.GetByteCount(keyByteHashString);
             }
             if (keyByteCnt < keyLen)
             {
@@ -210,7 +211,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher
                 randomNumGen.GetBytes(tmpKey, 0, keyLen);
 
                 byte[] tinyKeyBytes = new byte[keyByteCnt];
-                tinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
+                tinyKeyBytes = EnDeCoder.GetBytes(keyByteHashString);
                 int tinyLength = tinyKeyBytes.Length;
 
                 for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
@@ -221,7 +222,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher
             else
             {
                 byte[] ssSmallNotTinyKeyBytes = new byte[keyByteCnt];
-                ssSmallNotTinyKeyBytes = Encoding.UTF8.GetBytes(keyByteHashString);
+                ssSmallNotTinyKeyBytes = EnDeCoder.GetBytes(keyByteHashString);
                 int ssSmallByteCnt = ssSmallNotTinyKeyBytes.Length;
 
                 for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)

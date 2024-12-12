@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Area23.At.Framework.Library.Core.EnDeCoding;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -72,7 +73,7 @@ namespace Area23.At.Framework.Library.Core
 
         public static string GetAllFortunes()
         {
-            string fortuneString = Encoding.UTF8.GetString(Properties.Resource.fortune_u8);
+            string fortuneString = EnDeCoder.GetString(Properties.Resource.fortune_u8);
             return fortuneString;
         }
 

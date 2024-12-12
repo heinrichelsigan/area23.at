@@ -25,7 +25,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// <returns>hex string of bytes</returns>
         public static string KeyHexString(string key)
         {
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            byte[] keyBytes = EnDeCoder.GetBytes(key);
             string ivStr = keyBytes.ToHexString();
             return ivStr;
         }
@@ -48,7 +48,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
             string encryptedText = string.Empty;
             switch (encodingMethod.ToLowerInvariant())
             {
-                case "null":        encryptedText = Encoding.UTF8.GetString(encryptBytes); break;
+                case "null":        encryptedText = EnDeCoder.GetString(encryptBytes); break;
                 case "hex16":       encryptedText = Hex16.ToHex16(encryptBytes); break;
                 case "base16":      encryptedText = Base16.ToBase16(encryptBytes); break;
                 case "base32":      encryptedText = Base32.ToBase32(encryptBytes); break;
@@ -82,7 +82,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
             switch (encodingMethod.ToLowerInvariant())
             {
                 case "null":
-                    cipherBytes = Encoding.UTF8.GetBytes(cipherText);
+                    cipherBytes = EnDeCoder.GetBytes(cipherText);
                     break;
                 case "hex16":
                     if (Hex16.IsValidHex16(cipherText))
@@ -137,7 +137,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
         public static byte[] GetBytesFromString(string inString, int blockSize = 256, bool upStretchToCorrectBlockSize = false)
         {
             string sourceString = (string.IsNullOrEmpty(inString)) ? string.Empty : inString;
-            byte[] sourceBytes = Encoding.UTF8.GetBytes(sourceString);
+            byte[] sourceBytes = EnDeCoder.GetBytes(sourceString);
             int inBytesLen = sourceBytes.Length;
             if (blockSize == 0)
                 blockSize = 256;
@@ -176,10 +176,10 @@ namespace Area23.At.Framework.Library.EnDeCoding
             {
                 byte[] decryptedNonNullBytes = new byte[ig + 1];
                 Array.Copy(decryptedBytes, decryptedNonNullBytes, ig + 1);
-                decryptedText = Encoding.UTF8.GetString(decryptedNonNullBytes);
+                decryptedText = EnDeCoder.GetString(decryptedNonNullBytes);
             }
             else
-                decryptedText = Encoding.UTF8.GetString(decryptedBytes);
+                decryptedText = EnDeCoder.GetString(decryptedBytes);
 
             if (decryptedText.Contains('\0'))
             {

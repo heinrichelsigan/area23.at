@@ -9,26 +9,16 @@
             function changeAesBackgroundText() {
                 var divAes = document.getElementById("DivAesImprove");
                 if (divAes != null) {
-
                     divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;");
                     divAes.style.backgroundImage = "url('../res/img/AesBGText.gif')";                    
-                    // alert("divAes.style.backgroundImage=" + divAes.style.backgroundImage);
-                    // var attrStyle = divAes.getAttribute("style");
-                    // alert("divAes.style = " + attrStyle);
                 }
             }
             
             function changeAesBackgroundFile() {
                 var divAes = document.getElementById("DivAesImprove");
                 if (divAes != null) {
-
-                    divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGFile.gif'); background-repeat: no-repeat; background-color: transparent;");
-                    
-                    // var attrStyle = divAes.getAttribute("style")
-                    // alert("divAes.style = " + attrStyle);
-
+                    divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGFile.gif'); background-repeat: no-repeat; background-color: transparent;");                    
                     divAes.style.backgroundImage = "url('../res/img/AesBGFile.gif')";
-                    // alert("divAes.style.backgroundImage=" + divAes.style.backgroundImage);
                 }
             }
 

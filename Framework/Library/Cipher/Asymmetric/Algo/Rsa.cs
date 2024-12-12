@@ -11,6 +11,7 @@ using Org.BouncyCastle.Crypto.Prng;
 using Org.BouncyCastle.Crypto.IO;
 using Org.BouncyCastle.Crypto.Encodings;
 using Org.BouncyCastle.Crypto.Engines;
+using Area23.At.Framework.Library.EnDeCoding;
 
 namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
 {
@@ -117,7 +118,7 @@ namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
         /// <returns>Base64 encoded encrypted byte[]</returns>
         public static string EncryptString(string inPlainString)
         {
-            byte[] plainTextData = Encoding.UTF8.GetBytes(inPlainString);
+            byte[] plainTextData = EnDeCoder.GetBytes(inPlainString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
 
@@ -132,9 +133,9 @@ namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
         public static string DecryptString(string inCryptString)
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
-            //  Encoding.UTF8.GetBytes(inCryptString);
+            //  EnDeCoder.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = EnDeCoder.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;
         }

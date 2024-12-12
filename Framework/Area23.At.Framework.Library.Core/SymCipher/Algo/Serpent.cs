@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Area23.At.Framework.Library.Core.EnDeCoding;
 
 namespace Area23.At.Framework.Library.Core.SymCipher.Algo
 {
@@ -215,7 +216,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher.Algo
         /// <returns>base64 encoded encrypted string</returns>
         public static string EncryptString(string inPlainString)
         {
-            byte[] plainTextData = Encoding.UTF8.GetBytes(inPlainString);
+            byte[] plainTextData = EnDeCoder.GetBytes(inPlainString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
 
@@ -231,7 +232,7 @@ namespace Area23.At.Framework.Library.Core.SymCipher.Algo
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = EnDeCoder.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;
         }

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Core.EnDeCoding
+namespace Area23.At.Framework.Library.EnDeCoding
 {
     /// <summary>
     /// static class EnDeCoder provides serveral static methods for ASCII, UTF7, UTF8, Unicode, UTF32 encoding.
@@ -35,7 +35,6 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         {
             return EnCodIng.GetByteCount(str);
         }
-
 
 
         #region GetString 
@@ -74,7 +73,6 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
 
         #region GetBytes
 
-
         public static byte[] GetBytesDefault(string str2encode)
         {
             return Encoding.Default.GetBytes(str2encode);
@@ -82,7 +80,7 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
 
         public static byte[] GetBytesASCII(string str2encode)
         {
-            return Encoding.ASCII.GetBytes(str2encode);        
+            return Encoding.ASCII.GetBytes(str2encode);
         }
 
         public static byte[] GetBytes7(string str2encode)

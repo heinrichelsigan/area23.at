@@ -47,6 +47,7 @@ namespace Area23.At.Framework.Library
         public const string GAMES_DIR = "Gamez";
         public const string JS_DIR = "js";
         public const string JSON_SAVE_FILE = "urlshort.json";
+        public const string UPSAVED_FILE = "SavedFile";
         public const string LOG_DIR = "log";
         public const string LOG_EXT = ".log";
         public const string OUT_DIR = "out";

@@ -31,7 +31,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
             string toUuFunCall = $"ToUu(byte[{inBytes.Length}] inBytes, bool originalUue = {originalUue}, bool fromFile = {fromFile})";
             Area23Log.LogStatic($"{toUuFunCall} ... STARTED.");
 
-            string bytStr = Encoding.UTF8.GetString(inBytes);
+            string bytStr = EnDeCoder.GetString(inBytes);
             string uu = (new UUEncoder()).EncodeString(bytStr);
             
 

@@ -68,7 +68,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
                 byte[] inBytes = Extensions.TarBytes(inBytesText, inBytesHash);
 
-                // Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
+                // EnDeCoder.GetBytes(this.TextBoxSource.Text);
 
                 string[] algos = this.TextBox_CryptPipeline.Text.Split("+;,→⇛".ToCharArray());
                 byte[] encryptBytes = inBytes;

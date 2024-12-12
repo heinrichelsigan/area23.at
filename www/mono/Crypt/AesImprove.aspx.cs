@@ -1,6 +1,5 @@
 ﻿using Area23.At;
 using Area23.At.Framework.Library;
-using Area23.At.Framework.Library;
 using Area23.At.Framework.Library.EnDeCoding;
 using Area23.At.Mono.Properties;
 using Org.BouncyCastle.Crypto;
@@ -67,7 +66,6 @@ namespace Area23.At.Mono.Crypt
             if (Request.Files != null && Request.Files.Count > 0)
                 EnDeCryptUploadFile(Request.Files[0], true);
         }
-
 
         /// <summary>
         /// ButtonDecryptFile_Click
@@ -271,7 +269,6 @@ namespace Area23.At.Mono.Crypt
         /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
-
         protected void TextBox_Key_TextChanged(object sender, EventArgs e)
         {
             this.TextBox_IV.Text = DeEnCoder.KeyHexString(this.TextBox_Key.Text);
@@ -297,7 +294,6 @@ namespace Area23.At.Mono.Crypt
         {
             Reset_TextBox_IV(Constants.AUTHOR_EMAIL);
         }
-
 
         #endregion page_events
 
@@ -400,7 +396,7 @@ namespace Area23.At.Mono.Crypt
                             case "mime":
                             case ".mime":
                                 encodingMethod = (ext.StartsWith(".")) ? ext.ToLowerInvariant().Substring(1) : ext.ToLowerInvariant();
-                                string cipherText = EnCoderHelper.GetString8(fileBytes);
+                                string cipherText = EnDeCoder.GetString(fileBytes);
                                 string tmpFile = ByteArrayToFile(fileBytes, out outMsg, strFileName + ".tmp");
                                 // tmpFile = tmpFile.Replace(".hex", ".tmp");
                                 if (System.IO.File.Exists(LibPaths.OutDirPath + tmpFile))
@@ -499,6 +495,7 @@ namespace Area23.At.Mono.Crypt
         }
 
         #endregion enryption_decryption_members 
+
 
         /// <summary>
         /// Resets TextBox Key_IV to standard value for <see cref="Constants.AUTHOR_EMAIL"/>
