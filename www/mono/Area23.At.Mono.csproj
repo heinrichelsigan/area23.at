@@ -178,7 +178,6 @@
     <Content Include="res\img\skullTicTacToe.png" />
     <Content Include="res\img\ticTacToeDraw.gif" />
     <Content Include="res\img\workerTicTacToe.gif" />
-    <Content Include="res\out\Rational_ObjectOrientedAnalysis-UML.jpg" />
     <Content Include="res\out\Rational_Rose_Certificate.jpg" />
     <Content Include="res\out\Seretide_Forte.jpg" />
     <Content Include="Calc\RpnCalc.aspx" />
