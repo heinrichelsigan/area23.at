@@ -18,11 +18,15 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
 
         static WebClientRequest() {
 
-            headers.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br, zstd");
-            headers.Add(HttpRequestHeader.Connection, "keep-alive");
+            // headers.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br, zstd");
+            
             headers.Add(HttpRequestHeader.Accept, "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
             // TODO:
-            headers.Add(HttpRequestHeader.ContentMd5, "");
+            // headers.Add(HttpRequestHeader.ContentMd5, "");
+            // headers.Add(HttpRequestHeader.From, "true");
+            // removed because make trouble in that very .Net1.1 version of WebClient abstraction
+            // headers.Add(HttpRequestHeader.KeepAlive, "true");
+            // headers.Add(HttpRequestHeader.Connection, "keep-alive");
             headers.Add(HttpRequestHeader.AcceptLanguage, "en-US");
             headers.Add(HttpRequestHeader.Host, "area23.at");
             headers.Add(HttpRequestHeader.UserAgent, "cqrxs.eu");
@@ -30,13 +34,21 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             // wclient.BaseAddress = "https://area23.at/";
             // TODO: always forms credentials
             // webclient.Credentials
-            wclient = new WebClient()
-            {
-                Encoding = Encoding.UTF8,
-                Headers = headers
-            };
+            
 
         }
+
+        public static WebClient GetWebClient(string baseAddr, System.Text.Encoding? encoding = null)
+        {
+            encoding = encoding ?? Encoding.UTF8;
+            wclient = new WebClient();
+            wclient.Encoding = encoding;
+            wclient.Headers = headers;
+            wclient.BaseAddress = baseAddr; ;
+
+            return wclient;
+        }
+
 
     }
 

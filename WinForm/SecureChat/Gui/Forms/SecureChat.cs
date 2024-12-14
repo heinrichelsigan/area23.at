@@ -107,16 +107,11 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             string richText = this.richTextBoxChat.Text;
 
+            WebClient webclient = WebClientRequest.GetWebClient("https://area23.at/");
+            string wabiwabi = webclient.DownloadString("https://area23.at/");
 
 
-
-            WebClient webclient = WebClientRequest.WClient;
-            webclient.BaseAddress = "https://area23.at/";
-            // webclient.Site = new IComponentEditorPageSite(webclient);
-            // TODO: always forms credentials
-            // webclient.Credentials
-            string wabwabi = webclient.DownloadString("https://area23.at/cgi/rsakey.cgi");
-
+            this.TextBoxDestionation.Text += wabiwabi + "\n";
 
 
         }
