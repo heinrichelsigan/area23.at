@@ -479,6 +479,11 @@ namespace Area23.At.Framework.Library.Core
 
         #endregion System.Drawing.Color extensions
 
+        #region Mutex extensions
+
+
+        #endregion
+
         #region genericsT_extensions
 
         /// <summary>

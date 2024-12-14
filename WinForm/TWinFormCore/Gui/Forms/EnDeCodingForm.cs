@@ -1,6 +1,5 @@
 ﻿using Area23.At.Framework.Library.Core;
 using Area23.At.Framework.Library.Core.EnDeCoding;
-using Area23.At.Framework.Library.Core.SymCipher;
 using Area23.At.WinForm.TWinFormCore.Gui.Forms;
 using Area23.At.WinForm.TWinFormCore.Gui;
 using Org.BouncyCastle.Utilities;
@@ -15,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
+using Area23.At.Framework.Library.Core.Cipher.Symm;
 
 namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {

@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Crypto;
+﻿using Org.BouncyCastle.Bcpg;
+using Org.BouncyCastle.Crypto;
 
 namespace Area23.At.Framework.Library.Cipher
 {
@@ -47,7 +48,7 @@ namespace Area23.At.Framework.Library.Cipher
             }
             if (algo == "Rsa")
             {
-                var keyPair = Asymmetric.Algo.Rsa.RsaGenWithKey(secretKey, keyIv);
+                var keyPair = Asymmetric.Algo.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
                 string pkey = keyPair.Public.ToString();
                 
                 encryptBytes = Asymmetric.Algo.Rsa.Encrypt(inBytes);                
@@ -124,7 +125,7 @@ namespace Area23.At.Framework.Library.Cipher
             }
             if (algorithmName == "Rsa")
             {
-                var keyPair = Asymmetric.Algo.Rsa.RsaGenWithKey(secretKey, keyIv);
+                var keyPair = Asymmetric.Algo.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
                 string privKey = keyPair.Private.ToString();
                 decryptBytes = Asymmetric.Algo.Rsa.Decrypt(cipherBytes);
             }

@@ -1,6 +1,6 @@
 ﻿using Area23.At.Framework.Library.Core;
 using Area23.At.Framework.Library.Core.EnDeCoding;
-using Area23.At.Framework.Library.Core.SymCipher;
+using Area23.At.Framework.Library.Core.Cipher.Symm;
 using Area23.At.WinForm.TWinFormCore.Gui.Forms;
 using Area23.At.WinForm.TWinFormCore.Gui;
 using Org.BouncyCastle.Utilities;
@@ -39,7 +39,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             }
             else
             {
-                string usrMailKey = (!string.IsNullOrEmpty(this.textBoxEnter.Text)) ? this.textBoxEnter.Text : Constants.AUTHOR_EMAIL;
+                string usrMailKey = (!string.IsNullOrEmpty(this.richTextBoxChat.Text)) ? this.richTextBoxChat.Text : Constants.AUTHOR_EMAIL;
                 Reset_TextBox_IV(usrMailKey);
                 ComboBox_RemoteEndPoint.SelectedIndex = 0;
             }
@@ -76,7 +76,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
         {
             // frmConfirmation.Visible = false;
 
-            string usrMailKey = (!string.IsNullOrEmpty(this.textBoxEnter.Text)) ? this.textBoxEnter.Text : Constants.AUTHOR_EMAIL;
+            string usrMailKey = (!string.IsNullOrEmpty(this.richTextBoxChat.Text)) ? this.richTextBoxChat.Text : Constants.AUTHOR_EMAIL;
             Reset_TextBox_IV(usrMailKey);
             
         }
@@ -123,7 +123,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
         /// <param name="e">EventArgs e</param>
         private void Button_ClearPipeline_Click(object sender, EventArgs e)
         {
-            string usrMailKey = (!string.IsNullOrEmpty(this.textBoxEnter.Text)) ? this.textBoxEnter.Text : Constants.AUTHOR_EMAIL;
+            string usrMailKey = (!string.IsNullOrEmpty(this.richTextBoxChat.Text)) ? this.richTextBoxChat.Text : Constants.AUTHOR_EMAIL;
             Reset_TextBox_IV(usrMailKey);
             this.TextBoxSource.Text = string.Empty;
             this.TextBoxDestionation.Text = string.Empty;

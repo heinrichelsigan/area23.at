@@ -15,6 +15,10 @@ using Org.BouncyCastle.Crypto.Parameters;
 
 namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
 {
+
+    /// <summary>
+    /// Diffie Hellman key exchange
+    /// </summary>
     public static class DH
     {
         #region fields
@@ -116,7 +120,6 @@ namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
         }
 
     }
-
 
 
 }

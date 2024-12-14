@@ -31,35 +31,44 @@
             splitContainer = new SplitContainer();
             TextBoxSource = new TextBox();
             TextBoxDestionation = new TextBox();
-            buttonEncode = new Button();
-            buttonSave = new Button();
-            buttonLoad = new Button();
-            panelButtons = new Panel();
-            buttonAddToPipeline = new Button();
-            buttonClear = new Button();
-            ComboBox_RemoteEndPoint = new ComboBox();
+            buttonDelete = new Button();
+            buttonSend = new Button();
+            panelSource = new Panel();
             buttonSecretKey = new Button();
+            pictureBoxYou = new PictureBox();
+            pictureBoxSource = new PictureBox();
+            buttonAddToPipeline = new Button();
+            ComboBox_RemoteEndPoint = new ComboBox();
             ComboBox_LocalEndPoint = new ComboBox();
             buttonHashIv = new Button();
             panelEnCodeCrypt = new Panel();
-            textBoxEnter = new TextBox();
-            pictureBox1 = new PictureBox();
+            pictureBoxDestination = new PictureBox();
+            richTextBoxChat = new RichTextBox();
+            pictureBoxPartner = new PictureBox();
+            panelDestination = new Panel();
+            buttonExit = new Button();
+            buttonReload = new Button();
             ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
             splitContainer.Panel1.SuspendLayout();
             splitContainer.Panel2.SuspendLayout();
             splitContainer.SuspendLayout();
-            panelButtons.SuspendLayout();
+            panelSource.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxYou).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxSource).BeginInit();
             panelEnCodeCrypt.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxDestination).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxPartner).BeginInit();
+            panelDestination.SuspendLayout();
             SuspendLayout();
             // 
             // splitContainer
             // 
             splitContainer.BackColor = SystemColors.ControlLight;
             splitContainer.IsSplitterFixed = true;
-            splitContainer.Location = new Point(108, 108);
+            splitContainer.Location = new Point(148, 72);
             splitContainer.Margin = new Padding(0);
-            splitContainer.MaximumSize = new Size(720, 400);
+            splitContainer.MaximumSize = new Size(800, 600);
+            splitContainer.MinimumSize = new Size(320, 200);
             splitContainer.Name = "splitContainer";
             // 
             // splitContainer.Panel1
@@ -67,133 +76,140 @@
             splitContainer.Panel1.AllowDrop = true;
             splitContainer.Panel1.BackgroundImageLayout = ImageLayout.None;
             splitContainer.Panel1.Controls.Add(TextBoxSource);
-            splitContainer.Panel1MinSize = 340;
+            splitContainer.Panel1MinSize = 300;
             // 
             // splitContainer.Panel2
             // 
             splitContainer.Panel2.BackgroundImageLayout = ImageLayout.None;
             splitContainer.Panel2.Controls.Add(TextBoxDestionation);
-            splitContainer.Panel2MinSize = 340;
-            splitContainer.Size = new Size(720, 400);
-            splitContainer.SplitterDistance = 351;
-            splitContainer.SplitterIncrement = 4;
-            splitContainer.TabIndex = 41;
+            splitContainer.Panel2MinSize = 300;
+            splitContainer.Size = new Size(680, 472);
+            splitContainer.SplitterDistance = 336;
+            splitContainer.SplitterIncrement = 8;
+            splitContainer.SplitterWidth = 8;
+            splitContainer.TabIndex = 20;
             splitContainer.TabStop = false;
             // 
             // TextBoxSource
             // 
-            TextBoxSource.BackColor = SystemColors.GradientInactiveCaption;
+            TextBoxSource.BackColor = SystemColors.GradientActiveCaption;
             TextBoxSource.BorderStyle = BorderStyle.FixedSingle;
             TextBoxSource.Dock = DockStyle.Fill;
-            TextBoxSource.Font = new Font("Consolas", 9F);
+            TextBoxSource.Font = new Font("Lucida Sans Unicode", 10F);
             TextBoxSource.Location = new Point(0, 0);
             TextBoxSource.Margin = new Padding(1);
             TextBoxSource.MaxLength = 65536;
             TextBoxSource.Multiline = true;
             TextBoxSource.Name = "TextBoxSource";
             TextBoxSource.ScrollBars = ScrollBars.Both;
-            TextBoxSource.Size = new Size(351, 400);
-            TextBoxSource.TabIndex = 42;
+            TextBoxSource.Size = new Size(336, 472);
+            TextBoxSource.TabIndex = 23;
             // 
             // TextBoxDestionation
             // 
-            TextBoxDestionation.BackColor = SystemColors.GradientActiveCaption;
+            TextBoxDestionation.BackColor = SystemColors.GradientInactiveCaption;
             TextBoxDestionation.BorderStyle = BorderStyle.FixedSingle;
             TextBoxDestionation.Dock = DockStyle.Fill;
-            TextBoxDestionation.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            TextBoxDestionation.Font = new Font("Lucida Sans Unicode", 10F);
             TextBoxDestionation.Location = new Point(0, 0);
             TextBoxDestionation.Margin = new Padding(1);
             TextBoxDestionation.MaxLength = 65536;
             TextBoxDestionation.Multiline = true;
             TextBoxDestionation.Name = "TextBoxDestionation";
             TextBoxDestionation.ScrollBars = ScrollBars.Both;
-            TextBoxDestionation.Size = new Size(365, 400);
+            TextBoxDestionation.Size = new Size(336, 472);
             TextBoxDestionation.TabIndex = 43;
             // 
-            // buttonEncode
+            // buttonDelete
             // 
-            buttonEncode.BackColor = SystemColors.ButtonHighlight;
-            buttonEncode.Location = new Point(8, 100);
-            buttonEncode.Margin = new Padding(1);
-            buttonEncode.Name = "buttonEncode";
-            buttonEncode.Padding = new Padding(1);
-            buttonEncode.Size = new Size(78, 28);
-            buttonEncode.TabIndex = 51;
-            buttonEncode.Text = "&Encode";
-            buttonEncode.UseVisualStyleBackColor = false;
-            buttonEncode.Click += Button_Encode_Click;
+            buttonDelete.BackColor = SystemColors.ButtonHighlight;
+            buttonDelete.Location = new Point(12, 576);
+            buttonDelete.Margin = new Padding(1);
+            buttonDelete.Name = "buttonDelete";
+            buttonDelete.Padding = new Padding(1);
+            buttonDelete.Size = new Size(120, 28);
+            buttonDelete.TabIndex = 48;
+            buttonDelete.Text = "&Delete";
+            buttonDelete.UseVisualStyleBackColor = false;
+            buttonDelete.Click += Button_Encode_Click;
             // 
-            // buttonSave
+            // buttonSend
             // 
-            buttonSave.BackColor = SystemColors.ButtonHighlight;
-            buttonSave.Location = new Point(8, 56);
-            buttonSave.Margin = new Padding(1);
-            buttonSave.Name = "buttonSave";
-            buttonSave.Padding = new Padding(1);
-            buttonSave.Size = new Size(78, 28);
-            buttonSave.TabIndex = 53;
-            buttonSave.Text = "&Save";
-            buttonSave.UseVisualStyleBackColor = false;
-            buttonSave.Click += Button_Save_Click;
+            buttonSend.BackColor = SystemColors.ButtonHighlight;
+            buttonSend.Location = new Point(12, 536);
+            buttonSend.Margin = new Padding(1);
+            buttonSend.Name = "buttonSend";
+            buttonSend.Padding = new Padding(1);
+            buttonSend.Size = new Size(120, 28);
+            buttonSend.TabIndex = 47;
+            buttonSend.Text = "&Send";
+            buttonSend.UseVisualStyleBackColor = false;
+            buttonSend.Click += Button_Save_Click;
             // 
-            // buttonLoad
+            // panelSource
             // 
-            buttonLoad.BackColor = SystemColors.ButtonHighlight;
-            buttonLoad.ForeColor = SystemColors.ActiveCaptionText;
-            buttonLoad.Location = new Point(8, 16);
-            buttonLoad.Margin = new Padding(1);
-            buttonLoad.Name = "buttonLoad";
-            buttonLoad.Padding = new Padding(1);
-            buttonLoad.Size = new Size(78, 28);
-            buttonLoad.TabIndex = 52;
-            buttonLoad.Text = "&Load";
-            buttonLoad.UseVisualStyleBackColor = false;
-            buttonLoad.Click += Button_Load_Click;
+            panelSource.BackColor = SystemColors.Control;
+            panelSource.Controls.Add(buttonDelete);
+            panelSource.Controls.Add(pictureBoxYou);
+            panelSource.Controls.Add(buttonSend);
+            panelSource.Controls.Add(pictureBoxSource);
+            panelSource.ForeColor = SystemColors.ActiveCaptionText;
+            panelSource.Location = new Point(0, 72);
+            panelSource.Margin = new Padding(0);
+            panelSource.Name = "panelSource";
+            panelSource.Size = new Size(148, 610);
+            panelSource.TabIndex = 40;
             // 
-            // panelButtons
+            // buttonSecretKey
             // 
-            panelButtons.BackColor = SystemColors.ActiveCaption;
-            panelButtons.Controls.Add(pictureBox1);
-            panelButtons.Controls.Add(textBoxEnter);
-            panelButtons.Controls.Add(buttonEncode);
-            panelButtons.Controls.Add(buttonSave);
-            panelButtons.Controls.Add(buttonLoad);
-            panelButtons.ForeColor = SystemColors.ActiveCaptionText;
-            panelButtons.Location = new Point(1, 535);
-            panelButtons.Margin = new Padding(1);
-            panelButtons.Name = "panelButtons";
-            panelButtons.Size = new Size(986, 137);
-            panelButtons.TabIndex = 55;
+            buttonSecretKey.BackColor = SystemColors.ButtonHighlight;
+            buttonSecretKey.BackgroundImage = Properties.Resources.a_right_key;
+            buttonSecretKey.BackgroundImageLayout = ImageLayout.Center;
+            buttonSecretKey.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
+            buttonSecretKey.ForeColor = SystemColors.ActiveCaptionText;
+            buttonSecretKey.Location = new Point(87, 1);
+            buttonSecretKey.Margin = new Padding(1);
+            buttonSecretKey.Name = "buttonSecretKey";
+            buttonSecretKey.Padding = new Padding(1);
+            buttonSecretKey.Size = new Size(48, 28);
+            buttonSecretKey.TabIndex = 12;
+            buttonSecretKey.UseVisualStyleBackColor = false;
+            buttonSecretKey.Click += Button_SecretKey_Click;
+            // 
+            // pictureBoxYou
+            // 
+            pictureBoxYou.Location = new Point(10, 2);
+            pictureBoxYou.Margin = new Padding(1);
+            pictureBoxYou.Name = "pictureBoxYou";
+            pictureBoxYou.Padding = new Padding(1);
+            pictureBoxYou.Size = new Size(128, 128);
+            pictureBoxYou.TabIndex = 58;
+            pictureBoxYou.TabStop = false;
+            // 
+            // pictureBoxSource
+            // 
+            pictureBoxSource.BackColor = SystemColors.Control;
+            pictureBoxSource.Location = new Point(8, 396);
+            pictureBoxSource.Margin = new Padding(1);
+            pictureBoxSource.Name = "pictureBoxSource";
+            pictureBoxSource.Padding = new Padding(1);
+            pictureBoxSource.Size = new Size(128, 128);
+            pictureBoxSource.TabIndex = 55;
+            pictureBoxSource.TabStop = false;
             // 
             // buttonAddToPipeline
             // 
             buttonAddToPipeline.BackColor = SystemColors.ButtonHighlight;
             buttonAddToPipeline.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
             buttonAddToPipeline.ForeColor = SystemColors.ActiveCaptionText;
-            buttonAddToPipeline.Location = new Point(450, 10);
-            buttonAddToPipeline.Margin = new Padding(1);
+            buttonAddToPipeline.Location = new Point(462, 2);
+            buttonAddToPipeline.Margin = new Padding(0);
             buttonAddToPipeline.Name = "buttonAddToPipeline";
-            buttonAddToPipeline.Padding = new Padding(1);
-            buttonAddToPipeline.Size = new Size(48, 28);
-            buttonAddToPipeline.TabIndex = 5;
+            buttonAddToPipeline.Size = new Size(28, 28);
+            buttonAddToPipeline.TabIndex = 15;
             buttonAddToPipeline.Text = "⇒";
             buttonAddToPipeline.UseVisualStyleBackColor = false;
             buttonAddToPipeline.Click += Button_AddToPipeline_Click;
-            // 
-            // buttonClear
-            // 
-            buttonClear.BackColor = SystemColors.ButtonHighlight;
-            buttonClear.Font = new Font("Lucida Sans Unicode", 10F);
-            buttonClear.ForeColor = SystemColors.ActiveCaptionText;
-            buttonClear.Location = new Point(901, 9);
-            buttonClear.Margin = new Padding(1);
-            buttonClear.Name = "buttonClear";
-            buttonClear.Padding = new Padding(1);
-            buttonClear.Size = new Size(72, 28);
-            buttonClear.TabIndex = 7;
-            buttonClear.Text = "&Clear";
-            buttonClear.UseVisualStyleBackColor = false;
-            buttonClear.Click += Button_ClearPipeline_Click;
             // 
             // ComboBox_RemoteEndPoint
             // 
@@ -202,27 +218,11 @@
             ComboBox_RemoteEndPoint.ForeColor = SystemColors.ControlText;
             ComboBox_RemoteEndPoint.FormattingEnabled = true;
             ComboBox_RemoteEndPoint.Items.AddRange(new object[] { "3DES", "2FISH", "3FISH", "AES", "Cast5", "Cast6", "Camellia", "Ghost28147", "Idea", "Noekeon", "Rijndael", "RC2", "RC532", "RC6", "Seed", "Serpent", "Skipjack", "Tea", "Tnepres", "XTea", "ZenMatrix" });
-            ComboBox_RemoteEndPoint.Location = new Point(503, 12);
+            ComboBox_RemoteEndPoint.Location = new Point(492, 4);
             ComboBox_RemoteEndPoint.Margin = new Padding(1);
             ComboBox_RemoteEndPoint.Name = "ComboBox_RemoteEndPoint";
-            ComboBox_RemoteEndPoint.Size = new Size(324, 24);
-            ComboBox_RemoteEndPoint.TabIndex = 4;
-            // 
-            // buttonSecretKey
-            // 
-            buttonSecretKey.BackColor = SystemColors.ButtonHighlight;
-            buttonSecretKey.BackgroundImage = Properties.Resources.a_right_key;
-            buttonSecretKey.BackgroundImageLayout = ImageLayout.None;
-            buttonSecretKey.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
-            buttonSecretKey.ForeColor = SystemColors.ActiveCaptionText;
-            buttonSecretKey.Location = new Point(8, 10);
-            buttonSecretKey.Margin = new Padding(1);
-            buttonSecretKey.Name = "buttonSecretKey";
-            buttonSecretKey.Padding = new Padding(1);
-            buttonSecretKey.Size = new Size(48, 28);
-            buttonSecretKey.TabIndex = 11;
-            buttonSecretKey.UseVisualStyleBackColor = false;
-            buttonSecretKey.Click += Button_SecretKey_Click;
+            ComboBox_RemoteEndPoint.Size = new Size(312, 24);
+            ComboBox_RemoteEndPoint.TabIndex = 16;
             // 
             // ComboBox_LocalEndPoint
             // 
@@ -231,87 +231,147 @@
             ComboBox_LocalEndPoint.ForeColor = SystemColors.ControlText;
             ComboBox_LocalEndPoint.FormattingEnabled = true;
             ComboBox_LocalEndPoint.Items.AddRange(new object[] { "hex16", "base16", "base32", "base64", "unix2unix", "html", "url" });
-            ComboBox_LocalEndPoint.Location = new Point(120, 12);
+            ComboBox_LocalEndPoint.Location = new Point(148, 4);
             ComboBox_LocalEndPoint.Margin = new Padding(1);
             ComboBox_LocalEndPoint.Name = "ComboBox_LocalEndPoint";
-            ComboBox_LocalEndPoint.Size = new Size(324, 24);
-            ComboBox_LocalEndPoint.TabIndex = 3;
+            ComboBox_LocalEndPoint.Size = new Size(312, 24);
+            ComboBox_LocalEndPoint.TabIndex = 14;
             // 
             // buttonHashIv
             // 
             buttonHashIv.BackColor = SystemColors.ButtonHighlight;
             buttonHashIv.BackgroundImage = Properties.Resources.a_hash5;
-            buttonHashIv.BackgroundImageLayout = ImageLayout.None;
+            buttonHashIv.BackgroundImageLayout = ImageLayout.Center;
             buttonHashIv.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
             buttonHashIv.ForeColor = SystemColors.ActiveCaptionText;
-            buttonHashIv.Location = new Point(64, 10);
+            buttonHashIv.Location = new Point(840, 4);
             buttonHashIv.Margin = new Padding(1);
             buttonHashIv.Name = "buttonHashIv";
             buttonHashIv.Padding = new Padding(1);
             buttonHashIv.Size = new Size(48, 28);
-            buttonHashIv.TabIndex = 13;
+            buttonHashIv.TabIndex = 18;
             buttonHashIv.UseVisualStyleBackColor = false;
             // 
             // panelEnCodeCrypt
             // 
             panelEnCodeCrypt.BackColor = SystemColors.ActiveCaption;
+            panelEnCodeCrypt.Controls.Add(buttonSecretKey);
             panelEnCodeCrypt.Controls.Add(buttonHashIv);
             panelEnCodeCrypt.Controls.Add(ComboBox_LocalEndPoint);
-            panelEnCodeCrypt.Controls.Add(buttonSecretKey);
             panelEnCodeCrypt.Controls.Add(ComboBox_RemoteEndPoint);
-            panelEnCodeCrypt.Controls.Add(buttonClear);
             panelEnCodeCrypt.Controls.Add(buttonAddToPipeline);
             panelEnCodeCrypt.ForeColor = SystemColors.WindowText;
-            panelEnCodeCrypt.Location = new Point(1, 28);
+            panelEnCodeCrypt.Location = new Point(0, 28);
             panelEnCodeCrypt.Margin = new Padding(0);
             panelEnCodeCrypt.Name = "panelEnCodeCrypt";
-            panelEnCodeCrypt.Size = new Size(983, 51);
-            panelEnCodeCrypt.TabIndex = 2;
+            panelEnCodeCrypt.Size = new Size(976, 36);
+            panelEnCodeCrypt.TabIndex = 10;
             // 
-            // textBoxEnter
+            // pictureBoxDestination
             // 
-            textBoxEnter.Location = new Point(107, 16);
-            textBoxEnter.Margin = new Padding(2);
-            textBoxEnter.Multiline = true;
-            textBoxEnter.Name = "textBoxEnter";
-            textBoxEnter.Size = new Size(720, 112);
-            textBoxEnter.TabIndex = 54;
+            pictureBoxDestination.Location = new Point(10, 396);
+            pictureBoxDestination.Margin = new Padding(1);
+            pictureBoxDestination.Name = "pictureBoxDestination";
+            pictureBoxDestination.Padding = new Padding(1);
+            pictureBoxDestination.Size = new Size(128, 128);
+            pictureBoxDestination.TabIndex = 56;
+            pictureBoxDestination.TabStop = false;
             // 
-            // pictureBox1
+            // richTextBoxChat
             // 
-            pictureBox1.Location = new Point(847, 16);
-            pictureBox1.Margin = new Padding(2);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(124, 112);
-            pictureBox1.TabIndex = 55;
-            pictureBox1.TabStop = false;
+            richTextBoxChat.BorderStyle = BorderStyle.FixedSingle;
+            richTextBoxChat.Cursor = Cursors.No;
+            richTextBoxChat.ForeColor = SystemColors.WindowText;
+            richTextBoxChat.Location = new Point(148, 564);
+            richTextBoxChat.Margin = new Padding(2);
+            richTextBoxChat.Name = "richTextBoxChat";
+            richTextBoxChat.Size = new Size(678, 116);
+            richTextBoxChat.TabIndex = 57;
+            richTextBoxChat.Text = "";
+            // 
+            // pictureBoxPartner
+            // 
+            pictureBoxPartner.Location = new Point(10, 2);
+            pictureBoxPartner.Margin = new Padding(1);
+            pictureBoxPartner.Name = "pictureBoxPartner";
+            pictureBoxPartner.Padding = new Padding(1);
+            pictureBoxPartner.Size = new Size(128, 128);
+            pictureBoxPartner.TabIndex = 59;
+            pictureBoxPartner.TabStop = false;
+            // 
+            // panelDestination
+            // 
+            panelDestination.BackColor = SystemColors.Control;
+            panelDestination.Controls.Add(buttonExit);
+            panelDestination.Controls.Add(pictureBoxPartner);
+            panelDestination.Controls.Add(pictureBoxDestination);
+            panelDestination.Controls.Add(buttonReload);
+            panelDestination.ForeColor = SystemColors.ActiveCaptionText;
+            panelDestination.Location = new Point(828, 72);
+            panelDestination.Margin = new Padding(0);
+            panelDestination.Name = "panelDestination";
+            panelDestination.Size = new Size(148, 610);
+            panelDestination.TabIndex = 80;
+            // 
+            // buttonExit
+            // 
+            buttonExit.BackColor = SystemColors.ButtonHighlight;
+            buttonExit.Location = new Point(12, 576);
+            buttonExit.Margin = new Padding(1);
+            buttonExit.Name = "buttonExit";
+            buttonExit.Padding = new Padding(1);
+            buttonExit.Size = new Size(120, 28);
+            buttonExit.TabIndex = 88;
+            buttonExit.Text = "E&xit";
+            buttonExit.UseVisualStyleBackColor = false;
+            // 
+            // buttonReload
+            // 
+            buttonReload.BackColor = SystemColors.ButtonHighlight;
+            buttonReload.ForeColor = SystemColors.ActiveCaptionText;
+            buttonReload.Location = new Point(12, 536);
+            buttonReload.Margin = new Padding(1);
+            buttonReload.Name = "buttonReload";
+            buttonReload.Padding = new Padding(1);
+            buttonReload.Size = new Size(120, 28);
+            buttonReload.TabIndex = 84;
+            buttonReload.Text = "&Reload";
+            buttonReload.UseVisualStyleBackColor = false;
             // 
             // SecureChat
             // 
             AutoScaleDimensions = new SizeF(8F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Window;
-            ClientSize = new Size(984, 721);
-            Controls.Add(panelButtons);
+            BackColor = SystemColors.Control;
+            ClientSize = new Size(976, 711);
+            Controls.Add(panelDestination);
+            Controls.Add(richTextBoxChat);
+            Controls.Add(panelSource);
             Controls.Add(panelEnCodeCrypt);
             Controls.Add(splitContainer);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "SecureChat";
+            SizeGripStyle = SizeGripStyle.Show;
             Text = "SecureChat";
             Load += SecureChat_Load;
             Controls.SetChildIndex(splitContainer, 0);
             Controls.SetChildIndex(panelEnCodeCrypt, 0);
-            Controls.SetChildIndex(panelButtons, 0);
+            Controls.SetChildIndex(panelSource, 0);
+            Controls.SetChildIndex(richTextBoxChat, 0);
+            Controls.SetChildIndex(panelDestination, 0);
             splitContainer.Panel1.ResumeLayout(false);
             splitContainer.Panel1.PerformLayout();
             splitContainer.Panel2.ResumeLayout(false);
             splitContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer).EndInit();
             splitContainer.ResumeLayout(false);
-            panelButtons.ResumeLayout(false);
-            panelButtons.PerformLayout();
+            panelSource.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBoxYou).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxSource).EndInit();
             panelEnCodeCrypt.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxDestination).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxPartner).EndInit();
+            panelDestination.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -321,18 +381,22 @@
         private SplitContainer splitContainer;
         private TextBox TextBoxSource;
         private TextBox TextBoxDestionation;
-        private Button buttonEncode;
-        private Button buttonSave;
-        private Button buttonLoad;
-        private Panel panelButtons;
+        private Button buttonDelete;
+        private Button buttonSend;
+        private Panel panelSource;
         private Button buttonAddToPipeline;
-        private Button buttonClear;
         private ComboBox ComboBox_RemoteEndPoint;
         private Button buttonSecretKey;
         private ComboBox ComboBox_LocalEndPoint;
         private Button buttonHashIv;
         private Panel panelEnCodeCrypt;
-        private TextBox textBoxEnter;
-        private PictureBox pictureBox1;
+        private PictureBox pictureBoxSource;
+        private PictureBox pictureBoxDestination;
+        private RichTextBox richTextBoxChat;
+        private PictureBox pictureBoxYou;
+        private PictureBox pictureBoxPartner;
+        private Panel panelDestination;
+        private Button buttonExit;
+        private Button buttonReload;
     }
 }

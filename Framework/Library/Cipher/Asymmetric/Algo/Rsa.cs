@@ -185,7 +185,7 @@ namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
 
             return encryptedString;
         }
-
+            
         /// <summary>
         /// Decrypts a string, that is truely a base64 encoded encrypted byte[]
         /// </summary>
@@ -203,8 +203,7 @@ namespace Area23.At.Framework.Library.Cipher.Asymmetric.Algo
 
         #endregion EnDecryptString
 
+
     }
-
-
 
 }

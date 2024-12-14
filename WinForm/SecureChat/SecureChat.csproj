@@ -1,0 +1,85 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <StartupObject>Area23.At.WinForm.SecureChat.Program</StartupObject>
+    <RootNamespace>Area23.At.WinForm.SecureChat</RootNamespace>
+    <AssemblyVersion>2.24.1214</AssemblyVersion>
+    <FileVersion>2.24.1214</FileVersion>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <ErrorReport>send</ErrorReport>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Area23.At.Framework.Library.Core\Area23.At.Framework.Library.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Gui\Controls\" />
+    <Folder Include="Properties\en\" />
+    <Folder Include="Properties\fr\" />
+    <Folder Include="Properties\it\" />
+    <Folder Include="Properties\pl\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Gui\Forms\EnDeCodingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Gui\Forms\Fortune.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Gui\Forms\NetAddr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Gui\Forms\SecureChat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Gui\Forms\TransparentBadge.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Gui\Forms\TransparentDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Gui\Forms\TransparentFormCore.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Gui\Forms\TScp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Properties\de\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\de\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
