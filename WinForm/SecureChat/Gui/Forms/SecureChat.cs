@@ -17,10 +17,11 @@ using System.Web;
 using System.Windows.Forms;
 using Area23.At.Framework.Library.Core.Net;
 using System.Net;
+using Area23.At.Framework.Library.Core.Net.WebHttp;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
-    public partial class SecureChat : TransparentFormCore
+    public partial class SecureChat : Form
     {
         protected string savedFile = string.Empty;
         protected string loadDir = string.Empty;
@@ -39,7 +40,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
             else
             {
-                string usrMailKey = (!string.IsNullOrEmpty(this.richTextBoxChat.Text)) ? this.richTextBoxChat.Text : Constants.AUTHOR_EMAIL;                
+                string usrMailKey = (!string.IsNullOrEmpty(this.richTextBoxChat.Text)) ? this.richTextBoxChat.Text : Constants.AUTHOR_EMAIL;
                 ComboBox_RemoteEndPoint.SelectedIndex = 0;
             }
 
@@ -49,11 +50,11 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private void SecureChat_Load(object sender, EventArgs e)
         {
             List<IPAddress> list = NetworkAddresses.GetConnectedIpAddresses();
-            
+
             int mchecked = 0;
             foreach (IPAddress addr in list)
             {
-                if (addr != null) 
+                if (addr != null)
                 {
                     ToolStripMenuItem item = new ToolStripMenuItem(addr.AddressFamily + " " + addr.ToString(), null, null, addr.ToString());
                     if (mchecked++ == 0)
@@ -76,7 +77,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // frmConfirmation.Visible = false;
 
             string usrMailKey = (!string.IsNullOrEmpty(this.richTextBoxChat.Text)) ? this.richTextBoxChat.Text : Constants.AUTHOR_EMAIL;
-            
+
         }
 
 
@@ -89,7 +90,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             // frmConfirmation.Visible = false;
             string usrMailKey = Constants.AUTHOR_EMAIL;
-            
+
         }
 
         private void toolStripMenuItemOld_Click(object sender, EventArgs e)
@@ -99,7 +100,37 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         private void toolStripMenuItemNew_Click(object sender, EventArgs e)
         {
+            Button_Save_Click(sender, e);
         }
+
+        private void Button_Save_Click(object sender, EventArgs e)
+        {
+            string richText = this.richTextBoxChat.Text;
+
+
+
+
+            WebClient webclient = WebClientRequest.WClient;
+            webclient.BaseAddress = "https://area23.at/";
+            // webclient.Site = new IComponentEditorPageSite(webclient);
+            // TODO: always forms credentials
+            // webclient.Credentials
+            string wabwabi = webclient.DownloadString("https://area23.at/cgi/rsakey.cgi");
+
+
+
+        }
+
+        private void Button_SecretKey_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Button_AddToPipeline_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
 
 
         private void toolStripMenuItemOpen_Click(object sender, EventArgs e)
@@ -109,7 +140,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                MessageBox.Show($"FileName: {openFileDialog.FileName} init directory: {openFileDialog.InitialDirectory}", $"{Text} type {TFormType}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"FileName: {openFileDialog.FileName} init directory: {openFileDialog.InitialDirectory}", $"{Text} type {openFileDialog.GetType()}", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -121,7 +152,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             DialogResult res = openFileDialog.ShowDialog();
             if (res == DialogResult.OK)
             {
-                MessageBox.Show($"FileName: {openFileDialog.FileName} init directory: {openFileDialog.InitialDirectory}", $"{Text} type {TFormType}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"FileName: {openFileDialog.FileName} init directory: {openFileDialog.InitialDirectory}", $"{Text} type {openFileDialog.GetType()}", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -133,7 +164,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         protected internal void toolStripMenuItemInfo_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"{Text} type {TFormType} Information MessageBox.", $"{Text} type {TFormType}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"{Text} type {this.GetType()} Information MessageBox.", $"{Text} type {this.GetType()}", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         protected internal void toolStripMenuItemClose_Click(object sender, EventArgs e)
@@ -242,7 +273,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
                 // TODO: outsource in Badge;
                 Point pt = badge.DesktopLocation;
-                
+
                 System.Timers.Timer timer = new System.Timers.Timer { Interval = 1000 };
                 System.Timers.Timer timerDispose = new System.Timers.Timer { Interval = 3000 };
                 timer.Elapsed += (s, en) =>
@@ -364,9 +395,17 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private void Button_HashIv_Click(object sender, EventArgs e)
         {
             string usrMailKey = Constants.AUTHOR_EMAIL;
-            
+
         }
 
-        
+        private void menuFileItemNew_Click(object sender, EventArgs e)
+        {
+            Button_Save_Click(sender, e);
+        }
+
+        private void menuFileItemExit_Click(object sender, EventArgs e)
+        {
+            AppCloseAllFormsExit();
+        }
     }
 }

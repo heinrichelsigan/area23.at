@@ -1,4 +1,7 @@
 ﻿
+using Area23.At.Framework.Library.Core.Net.WebHttp;
+using System.Net;
+
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
     partial class SecureChat
@@ -29,7 +32,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SecureChat));
             menuStrip = new MenuStrip();
             toolStripMenuFile = new ToolStripMenuItem();
             menuFileItemNew = new ToolStripMenuItem();
@@ -44,6 +46,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuViewMenuCryptItemCrypt = new ToolStripMenuItem();
             menuViewMenuUnix = new ToolStripMenuItem();
             menuViewMenuUnixItemNetAddr = new ToolStripMenuItem();
+            menuViewMenuUnixItemSecureChat = new ToolStripMenuItem();
             menuViewMenuUnixItemScp = new ToolStripMenuItem();
             menuViewMenuUnixItemFortnune = new ToolStripMenuItem();
             menuViewMenuUnixItemHexDump = new ToolStripMenuItem();
@@ -59,16 +62,15 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             splitButtonMenuItemSave = new ToolStripMenuItem();
             toolStripProgressBar = new ToolStripProgressBar();
             toolStripStatusLabel = new ToolStripStatusLabel();
-            menuViewMenuUnixItemSecureChat = new ToolStripMenuItem();            
             splitContainer = new SplitContainer();
             TextBoxSource = new TextBox();
             TextBoxDestionation = new TextBox();
             buttonDelete = new Button();
             buttonSend = new Button();
             panelSource = new Panel();
-            buttonSecretKey = new Button();
             pictureBoxYou = new PictureBox();
             pictureBoxSource = new PictureBox();
+            buttonSecretKey = new Button();
             buttonAddToPipeline = new Button();
             ComboBox_RemoteEndPoint = new ComboBox();
             ComboBox_LocalEndPoint = new ComboBox();
@@ -80,6 +82,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             panelDestination = new Panel();
             buttonExit = new Button();
             buttonReload = new Button();
+            menuStrip.SuspendLayout();
+            statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
             splitContainer.Panel1.SuspendLayout();
             splitContainer.Panel2.SuspendLayout();
@@ -91,8 +95,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             ((System.ComponentModel.ISupportInitialize)pictureBoxDestination).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPartner).BeginInit();
             panelDestination.SuspendLayout();
-            menuStrip.SuspendLayout();
-            statusStrip.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip
@@ -102,7 +104,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuStrip.Items.AddRange(new ToolStripItem[] { toolStripMenuFile, toolStripMenuView, toolStripMenuQuestionMark });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
-            menuStrip.Size = new Size(784, 25);
+            menuStrip.Size = new Size(976, 25);
             menuStrip.TabIndex = 0;
             menuStrip.Text = "menuStrip";
             // 
@@ -130,6 +132,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuFileItemNew.Text = "New";
             menuFileItemNew.TextImageRelation = TextImageRelation.TextAboveImage;
             menuFileItemNew.ToolTipText = "New file";
+            menuFileItemNew.Click += menuFileItemNew_Click;
             // 
             // menuFileItemOpen
             // 
@@ -192,6 +195,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuFileItemExit.ShortcutKeys = Keys.Alt | Keys.X;
             menuFileItemExit.Size = new Size(181, 22);
             menuFileItemExit.Text = "Exit";
+            menuFileItemExit.Click += menuFileItemExit_Click;
             // 
             // toolStripMenuView
             // 
@@ -278,6 +282,19 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuViewMenuUnixItemNetAddr.Text = "Network Address";
             menuViewMenuUnixItemNetAddr.Click += menuViewMenuUnixItemNetAddr_Click;
             // 
+            // menuViewMenuUnixItemSecureChat
+            // 
+            menuViewMenuUnixItemSecureChat.BackColor = SystemColors.Menu;
+            menuViewMenuUnixItemSecureChat.BackgroundImageLayout = ImageLayout.None;
+            menuViewMenuUnixItemSecureChat.Font = new Font("Lucida Sans Unicode", 10F);
+            menuViewMenuUnixItemSecureChat.ForeColor = SystemColors.MenuText;
+            menuViewMenuUnixItemSecureChat.ImageScaling = ToolStripItemImageScaling.None;
+            menuViewMenuUnixItemSecureChat.Margin = new Padding(1);
+            menuViewMenuUnixItemSecureChat.Name = "menuViewMenuUnixItemSecureChat";
+            menuViewMenuUnixItemSecureChat.Size = new Size(193, 22);
+            menuViewMenuUnixItemSecureChat.Text = "Secure Chat";
+            menuViewMenuUnixItemSecureChat.Click += menuViewMenuUnixItemSecureChat_Click;
+            // 
             // menuViewMenuUnixItemScp
             // 
             menuViewMenuUnixItemScp.BackColor = SystemColors.Menu;
@@ -337,7 +354,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
             toolStripMenuItemAbout.Padding = new Padding(0, 2, 0, 2);
             toolStripMenuItemAbout.ShortcutKeys = Keys.Alt | Keys.A;
-            toolStripMenuItemAbout.Size = new Size(166, 24);
+            toolStripMenuItemAbout.Size = new Size(180, 24);
             toolStripMenuItemAbout.Text = "About";
             toolStripMenuItemAbout.TextImageRelation = TextImageRelation.TextAboveImage;
             toolStripMenuItemAbout.Click += toolStripMenuItemAbout_Click;
@@ -350,7 +367,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             toolStripMenuItemHelp.Name = "toolStripMenuItemHelp";
             toolStripMenuItemHelp.Padding = new Padding(0, 2, 0, 2);
             toolStripMenuItemHelp.ShortcutKeys = Keys.Alt | Keys.H;
-            toolStripMenuItemHelp.Size = new Size(166, 24);
+            toolStripMenuItemHelp.Size = new Size(180, 24);
             toolStripMenuItemHelp.Text = "Help";
             // 
             // toolStripMenuItemInfo
@@ -360,7 +377,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             toolStripMenuItemInfo.ForeColor = SystemColors.MenuText;
             toolStripMenuItemInfo.Name = "toolStripMenuItemInfo";
             toolStripMenuItemInfo.ShortcutKeys = Keys.Alt | Keys.I;
-            toolStripMenuItemInfo.Size = new Size(166, 22);
+            toolStripMenuItemInfo.Size = new Size(180, 22);
             toolStripMenuItemInfo.Text = "Info";
             toolStripMenuItemInfo.TextImageRelation = TextImageRelation.TextAboveImage;
             toolStripMenuItemInfo.Click += toolStripMenuItemInfo_Click;
@@ -382,9 +399,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             statusStrip.GripMargin = new Padding(1);
             statusStrip.Items.AddRange(new ToolStripItem[] { toolStripSplitButton, toolStripProgressBar, toolStripStatusLabel });
-            statusStrip.Location = new Point(0, 539);
+            statusStrip.Location = new Point(0, 689);
             statusStrip.Name = "statusStrip";
-            statusStrip.Size = new Size(784, 22);
+            statusStrip.Size = new Size(976, 22);
             statusStrip.TabIndex = 1;
             statusStrip.Text = "statusStrip";
             // 
@@ -395,11 +412,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             toolStripSplitButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
             toolStripSplitButton.DropDownItems.AddRange(new ToolStripItem[] { splitButtonMenuItemLoad, splitButtonMenuItemSave });
             toolStripSplitButton.Font = new Font("Lucida Sans", 10F);
-            toolStripSplitButton.Image = (Image)resources.GetObject("toolStripSplitButton.Image");
             toolStripSplitButton.ImageTransparentColor = Color.Magenta;
             toolStripSplitButton.Margin = new Padding(0, 1, 0, 0);
             toolStripSplitButton.Name = "toolStripSplitButton";
-            toolStripSplitButton.Size = new Size(32, 21);
+            toolStripSplitButton.Size = new Size(16, 21);
             toolStripSplitButton.Text = "toolStripSplitButton";
             toolStripSplitButton.TextImageRelation = TextImageRelation.ImageAboveText;
             toolStripSplitButton.ToolTipText = "toolStripSplitButton";
@@ -427,22 +443,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             toolStripStatusLabel.Margin = new Padding(0, 2, 0, 1);
             toolStripStatusLabel.Name = "toolStripStatusLabel";
-            toolStripStatusLabel.Size = new Size(435, 19);
+            toolStripStatusLabel.Size = new Size(643, 19);
             toolStripStatusLabel.Spring = true;
             toolStripStatusLabel.Text = "Status";
-            // 
-            // menuViewMenuUnixItemSecureChat
-            // 
-            menuViewMenuUnixItemSecureChat.BackColor = SystemColors.Menu;
-            menuViewMenuUnixItemSecureChat.BackgroundImageLayout = ImageLayout.None;
-            menuViewMenuUnixItemSecureChat.Font = new Font("Lucida Sans Unicode", 10F);
-            menuViewMenuUnixItemSecureChat.ForeColor = SystemColors.MenuText;
-            menuViewMenuUnixItemSecureChat.ImageScaling = ToolStripItemImageScaling.None;
-            menuViewMenuUnixItemSecureChat.Margin = new Padding(1);
-            menuViewMenuUnixItemSecureChat.Name = "menuViewMenuUnixItemSecureChat";
-            menuViewMenuUnixItemSecureChat.Size = new Size(193, 22);
-            menuViewMenuUnixItemSecureChat.Text = "Secure Chat";
-            menuViewMenuUnixItemSecureChat.Click += menuViewMenuUnixItemSecureChat_Click;
             // 
             // splitContainer
             // 
@@ -543,21 +546,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             panelSource.Size = new Size(148, 610);
             panelSource.TabIndex = 40;
             // 
-            // buttonSecretKey
-            // 
-            buttonSecretKey.BackColor = SystemColors.ButtonHighlight;
-            buttonSecretKey.BackgroundImageLayout = ImageLayout.Center;
-            buttonSecretKey.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
-            buttonSecretKey.ForeColor = SystemColors.ActiveCaptionText;
-            buttonSecretKey.Location = new Point(87, 1);
-            buttonSecretKey.Margin = new Padding(1);
-            buttonSecretKey.Name = "buttonSecretKey";
-            buttonSecretKey.Padding = new Padding(1);
-            buttonSecretKey.Size = new Size(48, 28);
-            buttonSecretKey.TabIndex = 12;
-            buttonSecretKey.UseVisualStyleBackColor = false;
-            buttonSecretKey.Click += Button_SecretKey_Click;
-            // 
             // pictureBoxYou
             // 
             pictureBoxYou.Location = new Point(10, 2);
@@ -578,6 +566,21 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             pictureBoxSource.Size = new Size(128, 128);
             pictureBoxSource.TabIndex = 55;
             pictureBoxSource.TabStop = false;
+            // 
+            // buttonSecretKey
+            // 
+            buttonSecretKey.BackColor = SystemColors.ButtonHighlight;
+            buttonSecretKey.BackgroundImageLayout = ImageLayout.Center;
+            buttonSecretKey.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
+            buttonSecretKey.ForeColor = SystemColors.ActiveCaptionText;
+            buttonSecretKey.Location = new Point(87, 1);
+            buttonSecretKey.Margin = new Padding(1);
+            buttonSecretKey.Name = "buttonSecretKey";
+            buttonSecretKey.Padding = new Padding(1);
+            buttonSecretKey.Size = new Size(48, 28);
+            buttonSecretKey.TabIndex = 12;
+            buttonSecretKey.UseVisualStyleBackColor = false;
+            buttonSecretKey.Click += Button_SecretKey_Click;
             // 
             // buttonAddToPipeline
             // 
@@ -725,28 +728,26 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             BackgroundImageLayout = ImageLayout.None;
-            BackColor = SystemColors.Control;
-            Font = new Font("Lucida Sans Unicode", 10F);
             ClientSize = new Size(976, 711);
-            Controls.Add(statusStrip);
-            Controls.Add(menuStrip);            
-            MainMenuStrip = menuStrip;
             Controls.Add(panelDestination);
             Controls.Add(richTextBoxChat);
             Controls.Add(panelSource);
             Controls.Add(panelEnCodeCrypt);
             Controls.Add(splitContainer);
+            Controls.Add(statusStrip);
+            Controls.Add(menuStrip);
+            Font = new Font("Lucida Sans Unicode", 10F);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            MainMenuStrip = menuStrip;
             Name = "SecureChat";
-            SizeGripStyle = SizeGripStyle.Show;            
+            SizeGripStyle = SizeGripStyle.Show;
             Text = "SecureChat";
-            Load += SecureChat_Load;
             TransparencyKey = SystemColors.Control;
-            Controls.SetChildIndex(splitContainer, 0);
-            Controls.SetChildIndex(panelEnCodeCrypt, 0);
-            Controls.SetChildIndex(panelSource, 0);
-            Controls.SetChildIndex(richTextBoxChat, 0);
-            Controls.SetChildIndex(panelDestination, 0);
+            Load += SecureChat_Load;
+            menuStrip.ResumeLayout(false);
+            menuStrip.PerformLayout();
+            statusStrip.ResumeLayout(false);
+            statusStrip.PerformLayout();
             splitContainer.Panel1.ResumeLayout(false);
             splitContainer.Panel1.PerformLayout();
             splitContainer.Panel2.ResumeLayout(false);
@@ -760,29 +761,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             ((System.ComponentModel.ISupportInitialize)pictureBoxDestination).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPartner).EndInit();
             panelDestination.ResumeLayout(false);
-            menuStrip.ResumeLayout(false);
-            menuStrip.PerformLayout();
-            statusStrip.ResumeLayout(false);
-            statusStrip.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
-
-        private void Button_Save_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Button_SecretKey_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Button_AddToPipeline_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
 
         private SplitContainer splitContainer;
