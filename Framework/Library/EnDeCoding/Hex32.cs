@@ -6,15 +6,49 @@ using System.Text.RegularExpressions;
 namespace Area23.At.Framework.Library.EnDeCoding
 {
     /// <summary>
-    /// Base32Hex encoding is a mapping for double hex from 0-9A-V (32 chiffers per digit), padding char is =
+    /// Hex32 encoding is a mapping for double hex from 0-9A-V (32 chiffers per digit), padding char is =
     /// <see href="https://datatracker.ietf.org/doc/html/rfc4648#section-7" />
     /// </summary>
-    public static class Base32Hex
+    public static class Hex32
     {
         private static readonly char[] _digits = "0123456789ABCDEFGHIJKLMNOPQRSTUV=".ToCharArray();
         private static List<char> ValidCharList = new List<char>(_digits);
         private const int _mask = 31;
         private const int _shift = 5;
+
+        #region common interface, interfaces for static members appear in C# 7.3 or later
+
+        /// <summary>
+        /// Encodes byte[] to valid encode formatted string
+        /// </summary>
+        /// <param name="inBytes">byte array to encode</param>
+        /// <returns>encoded string</returns>
+        public static string Encode(byte[] inBytes)
+        {
+            return ToHex32(inBytes);
+        }
+
+        /// <summary>
+        /// Decodes an encoded string to byte[]
+        /// </summary>
+        /// <param name="encodedString">encoded string</param>
+        /// <returns>byte array</returns>
+        public static byte[] Decode(string encodedString)
+        {
+            return FromHex32(encodedString);
+        }
+
+        /// <summary>
+        /// Checks if a string is a valid encoded string
+        /// </summary>
+        /// <param name="encodedString">encoded string</param>
+        /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
+        public static bool IsValid(string encodedString)
+        {
+            return IsValidHex32(encodedString);
+        }
+
+        #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
         private static int CharToInt(char c)
         {
@@ -44,13 +78,13 @@ namespace Area23.At.Framework.Library.EnDeCoding
         }
 
         /// <summary>
-        /// FromBase32Hex converts a base32 string to a binary byte array
+        /// FromHex32 converts a base32 string to a binary byte array
         /// </summary>
         /// <param name="encoded">base32 encoded string</param>
         /// <returns>byte array</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="FormatException"></exception>
-        public static byte[] FromBase32Hex(string encoded)
+        public static byte[] FromHex32(string encoded)
         {
             if (encoded == null)
                 throw new ArgumentNullException(nameof(encoded));
@@ -88,17 +122,17 @@ namespace Area23.At.Framework.Library.EnDeCoding
         }
 
         /// <summary>
-        /// ToBase32
+        /// ToHex32
         /// </summary>
         /// <param name="data">binary data in byte array to convert</param>
         /// <param name="padOutput">block padding with =</param>
         /// <returns>Base32 encoded string</returns>
-        public static string ToBase32Hex(byte[] data, bool padOutput = true)
+        public static string ToHex32(byte[] data, bool padOutput = true)
         {
-            return ToBase32Hex(data, 0, data.Length, padOutput);
+            return ToHex32(data, 0, data.Length, padOutput);
         }
 
-        public static string ToBase32Hex(byte[] data, int offset, int length, bool padOutput = true)
+        public static string ToHex32(byte[] data, int offset, int length, bool padOutput = true)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
@@ -158,7 +192,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
             return result.ToString();
         }
 
-        public static bool IsValidBase32Hex(string inString)
+        public static bool IsValidHex32(string inString)
         {
             foreach (char ch in inString)
             {

@@ -24,14 +24,14 @@
         <div class="odDiv">
             <span class="leftSpan">
                 <asp:DropDownList ID="DropDownList_EncodeType" runat="server">
-                    <asp:ListItem Enabled="true" Value="hex16" Selected="false">Hex16</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="base16" Selected="false">Base16</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="base32" Selected="false">Base32</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="base32hex" Selected="false">Base32Hex</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="base64" Selected="true">Base64</asp:ListItem>                    
-                    <asp:ListItem Enabled="true" Value="html"  Selected="false">Html</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="url"  Selected="false">Url</asp:ListItem>
-                    <asp:ListItem Enabled="true" Value="uu" Selected="false">Uu</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="Hex16" Selected="false">Hex16</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="Base16" Selected="false">Base16</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="Base32" Selected="false">Base32</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="Hex32" Selected="false">Hex32</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="Base64" Selected="true">Base64</asp:ListItem>                    
+                    <asp:ListItem Enabled="true" Value="Html"  Selected="false">Html</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="Url"  Selected="false">Url</asp:ListItem>
+                    <asp:ListItem Enabled="true" Value="Uu" Selected="false">Uu</asp:ListItem>
                 </asp:DropDownList>
             </span>
             <span class="centerSpan">
@@ -46,7 +46,6 @@
             <span class="rightSpan">
                 <asp:Button ID="Button_Clear" runat="server" Text="Clear" ToolTip="Clear Form" OnClick="Button_Clear_Click" />
             </span>
-        </div>
-         
+        </div>         
     </form>
 </asp:Content>

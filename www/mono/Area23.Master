@@ -16,7 +16,7 @@
         <span id="spanLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a id="aUnix" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.UnixAppPath %>UnixMain.aspx'>unix tools</a></span>
         <span id="spanCenter0" runat="server" class="headerCenter" align="center" valign="middle"><a id="aQr" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.QrAppPath %>QRCodeGen.aspx'>qrcode tool</a></span>
         <span id="spanCenter1" runat="server" class="headerCenter" align="center" valign="middle"><a id="aJson" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.AppPath %>Json.aspx'>json/xml ser</a></span>
-        <span id="spanCenter2" runat="server" class="headerCenter" align="center" valign="middle"><a id="aAesCrypt" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.EncodeAppPath %>AesImprove.aspx'>stronger aes</a></span>
+        <span id="spanCenter2" runat="server" class="headerCenter" align="center" valign="middle"><a id="aAesCrypt" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.EncodeAppPath %>CoolCrypt.aspx'>cool crypt</a></span>
         <span id="spanRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a id="aRpnCalc" runat="server" class="spanHeaderA" href='Calc/RpnCalc.aspx'>rpn calc</a></span>
         <span id="spanRight" runat="server" class="headerRight" align="center" valign="middle"><a id="aGames" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.GamesAppPath %>/froga.aspx'>games</a></span>
     </div>

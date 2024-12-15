@@ -19,6 +19,43 @@ namespace Area23.At.Framework.Library.EnDeCoding
         public static readonly char[] ValidChars = "!\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_` \r\n".ToCharArray();
         public static List<char> ValidCharList = new List<char>(ValidChars);
 
+
+        #region common interface, interfaces for static members appear in C# 7.3 or later
+
+        /// <summary>
+        /// Encodes byte[] to valid encode formatted string
+        /// </summary>
+        /// <param name="inBytes">byte array to encode</param>
+        /// <returns>encoded string</returns>
+        public static string Encode(byte[] inBytes)
+        {
+            return ToUu(inBytes);
+        }
+
+        /// <summary>
+        /// Decodes an encoded string to byte[]
+        /// </summary>
+        /// <param name="encodedString">encoded string</param>
+        /// <returns>byte array</returns>
+        public static byte[] Decode(string encodedString)
+        {
+            return FromUu(encodedString);
+        }
+
+        /// <summary>
+        /// Checks if a string is a valid encoded string
+        /// </summary>
+        /// <param name="encodedString">encoded string</param>
+        /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
+        public static bool IsValid(string encodedString)
+        {
+            return IsValidUu(encodedString);
+        }
+
+        #endregion common interface, interfaces for static members appear in C# 7.3 or later
+
+
+
         /// <summary>
         /// ToUu
         /// </summary>
@@ -101,7 +138,6 @@ namespace Area23.At.Framework.Library.EnDeCoding
 
             return uu;
         }
-
 
         /// <summary>
         /// FromUu
@@ -188,8 +224,6 @@ namespace Area23.At.Framework.Library.EnDeCoding
             return plainBytes;
         }
 
-       
-
         /// <summary>
         /// UuEncode unix 2 unix encodes a string
         /// </summary>
@@ -200,7 +234,6 @@ namespace Area23.At.Framework.Library.EnDeCoding
             string uue = (new UUEncoder()).EncodeString(plainText);
             return uue;
         }
-
 
         /// <summary>
         /// UuDecode unix 2 unix decodes a string
@@ -213,7 +246,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
             return plainStr;
         }
 
-        public static bool IsValidUue(string uuEncodedStr)
+        public static bool IsValidUu(string uuEncodedStr)
         {
             if (uuEncodedStr.StartsWith("begin") && uuEncodedStr.Contains("end"))
             {

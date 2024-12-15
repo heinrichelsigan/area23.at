@@ -1,4 +1,5 @@
 ﻿using DBTek.Crypto;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +20,51 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
 
         static EnDeCoder() { }
 
+        public static string Encode(byte[] inBytes, EncodingType encodingType = EncodingType.Base64)
+        {
+            switch (encodingType)
+            {
+                case EncodingType.Null:         return System.Text.Encoding.UTF8.GetString(inBytes);
+                case EncodingType.Hex16:        return Hex16.Encode(inBytes);
+                case EncodingType.Base16:       return Base16.Encode(inBytes);
+                case EncodingType.Hex32:        return Hex32.Encode(inBytes);
+                case EncodingType.Base32:       return Base32.Encode(inBytes);
+                case EncodingType.Uu:           return Uu.Encode(inBytes);
+                case EncodingType.Base64:
+                default:                        return Base64.Encode(inBytes);
+            }
+        }
+
+        public static byte[] Decode(string encodedString, EncodingType encodingType = EncodingType.Base64)
+        {
+            switch (encodingType)
+            {
+                case EncodingType.Null:         return System.Text.Encoding.UTF8.GetBytes(encodedString);
+                case EncodingType.Hex16:        return Hex16.Decode(encodedString);
+                case EncodingType.Base16:       return Base16.Decode(encodedString);
+                case EncodingType.Hex32:        return Hex32.Decode(encodedString);
+                case EncodingType.Base32:       return Base32.Decode(encodedString);
+                case EncodingType.Uu:           return Uu.Decode(encodedString);
+                case EncodingType.Base64:
+                default:                        return Base64.Decode(encodedString);
+            }
+        }
+
+        public static bool IsValid(string encodedString, EncodingType encodingType = EncodingType.Base64)
+        {
+            switch (encodingType)
+            {
+                case EncodingType.Null:         return true;
+                case EncodingType.Hex16:        return Hex16.IsValid(encodedString);
+                case EncodingType.Base16:       return Base16.IsValid(encodedString);
+                case EncodingType.Hex32:        return Hex32.IsValid(encodedString);
+                case EncodingType.Base32:       return Base32.IsValid(encodedString);
+                case EncodingType.Uu:           return Uu.IsValid(encodedString);
+                case EncodingType.Base64:
+                default:                        return Base64.IsValid(encodedString);
+            }
+        }
+
 
         public static string GetString(byte[] data)
         {
@@ -35,7 +81,6 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         {
             return EnCodIng.GetByteCount(str);
         }
-
 
 
         #region GetString 
@@ -74,7 +119,6 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
 
         #region GetBytes
 
-
         public static byte[] GetBytesDefault(string str2encode)
         {
             return Encoding.Default.GetBytes(str2encode);
@@ -82,7 +126,7 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
 
         public static byte[] GetBytesASCII(string str2encode)
         {
-            return Encoding.ASCII.GetBytes(str2encode);        
+            return Encoding.ASCII.GetBytes(str2encode);
         }
 
         public static byte[] GetBytes7(string str2encode)

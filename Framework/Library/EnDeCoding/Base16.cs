@@ -15,6 +15,38 @@ namespace Area23.At.Framework.Library.EnDeCoding
         private static readonly char[] _digits = "0123456789ABCDEF".ToCharArray();
         private static List<char> ValidCharList = new List<char>(_digits);
 
+
+        /// <summary>
+        /// Encodes a byte[] 
+        /// </summary>
+        /// <param name="inBytes">byte array to encode</param>
+        /// <returns>hex16 encoded string</returns>
+        public static string Encode(byte[] inBytes)
+        {
+            return ToBase16(inBytes);
+        }
+
+        /// <summary>
+        /// Decodes a hex string to byte[]
+        /// </summary>
+        /// <param name="hexString">hex16 encoded string</param>
+        /// <returns></returns>
+        public static byte[] Decode(string encodedString)
+        {
+            return FromBase16(encodedString);
+        }
+
+        /// <summary>
+        /// Checks if a string is a valid encoded string
+        /// </summary>
+        /// <param name="encString">encoded string</param>
+        /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
+        public static bool IsValid(string encodedString)
+        {
+            return IsValidBase16(encodedString);
+        }
+
+
         /// <summary>
         /// ToBase16 converts a binary byte array to hex string
         /// </summary>

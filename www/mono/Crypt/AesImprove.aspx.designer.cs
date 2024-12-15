@@ -33,13 +33,13 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.HtmlControls.HtmlForm AesImproveForm;
 
         /// <summary>
-        /// DropDownList_SymChiffer control.
+        /// DropDownList_Cipher control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList_SymChiffer;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList_Cipher;
 
         /// <summary>
         /// ImageButton_Add control.

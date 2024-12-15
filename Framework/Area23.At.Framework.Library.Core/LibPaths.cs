@@ -298,6 +298,8 @@ namespace Area23.At.Framework.Library.Core
             }
         }
 
+        public static string UuDirPath { get => ResDirPath + Constants.UU_DIR + SepChar; }
+
         public static string BinDir { get => OutDirPath + "bin" + SepChar; }
 
         public static string QrDirPath { get => AppDirPath + Constants.QR_DIR + SepChar; }

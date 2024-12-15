@@ -110,7 +110,7 @@
             ComboBox_EnDeCoding.DropDownStyle = ComboBoxStyle.DropDownList;
             ComboBox_EnDeCoding.ForeColor = SystemColors.ControlText;
             ComboBox_EnDeCoding.FormattingEnabled = true;
-            ComboBox_EnDeCoding.Items.AddRange(new object[] { "hex16", "base16", "base32", "base64", "unix2unix", "html", "url" });
+            ComboBox_EnDeCoding.Items.AddRange(new object[] { "Hex16", "Base16", "Base32", "Hex32", "Base64", "Uu", "Html", "Url" });
             ComboBox_EnDeCoding.Location = new Point(8, 12);
             ComboBox_EnDeCoding.Margin = new Padding(1);
             ComboBox_EnDeCoding.Name = "ComboBox_EnDeCoding";

@@ -81,19 +81,11 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                     }
                 }
 
-                switch (this.ComboBox_EnDeCoding.SelectedItem.ToString().ToLower())
-                {
-                    case "hex16": encryptedText = Hex16.ToHex16(encryptBytes); break;
-                    case "base16": encryptedText = Base16.ToBase16(encryptBytes); break;
-                    case "base32": encryptedText = Base32.ToBase32(encryptBytes); break;
-                    case "unix2unix": encryptedText = Uu.ToUu(encryptBytes); break;
-                    case "base64":
-                    default: encryptedText = Base64.ToBase64(encryptBytes); break;
-                }
+                EncodingType encodeType = (EncodingType)Enum.Parse<EncodingType>(this.ComboBox_EnDeCoding.SelectedItem.ToString());
+                encryptedText = IEnDeCoder.Encode(encryptBytes, encodeType);
 
                 this.TextBoxDestionation.BackColor = SystemColors.ControlLightLight;
                 this.TextBoxDestionation.Text = encryptedText;
-
             }
             else
             {

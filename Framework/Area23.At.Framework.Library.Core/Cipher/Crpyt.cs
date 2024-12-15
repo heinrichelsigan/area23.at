@@ -1,8 +1,8 @@
-﻿using Area23.At.Framework.Library.Cipher.Symmetric;
+﻿using Area23.At.Framework.Library.Core.Cipher.Symm;
 using Org.BouncyCastle.Bcpg;
 using Org.BouncyCastle.Crypto;
 
-namespace Area23.At.Framework.Library.Cipher
+namespace Area23.At.Framework.Library.Core.Cipher
 {
     public static class Crypt
     {
@@ -15,7 +15,7 @@ namespace Area23.At.Framework.Library.Cipher
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>encrypted byte Array</returns>
-        public static byte[] EncryptBytes(byte[] inBytes, CipherEnum cipherAlgo = CipherEnum.ZenMatrix, string secretKey = "postmaster@kernel.org", string keyIv = "")
+        public static byte[] EncryptBytes(byte[] inBytes, ChipherEnum cipherAlgo = ChipherEnum.ZenMatrix, string secretKey = "postmaster@kernel.org", string keyIv = "")
         {
             byte[] encryptBytes = inBytes;
             // byte[] outBytes = null;
@@ -25,44 +25,44 @@ namespace Area23.At.Framework.Library.Cipher
             string algo = cipherAlgo.ToString();
             if (algo == "2FISH")
             {
-                Symmetric.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, true);
-                encryptBytes = Symmetric.Algo.Fish2.Encrypt(inBytes);
+                Symm.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, true);
+                encryptBytes = Symm.Algo.Fish2.Encrypt(inBytes);
             }
             if (algo == "3FISH")
             {
-                Symmetric.Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
-                encryptBytes = Symmetric.Algo.Fish3.Encrypt(inBytes);
+                Symm.Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
+                encryptBytes = Symm.Algo.Fish3.Encrypt(inBytes);
             }
             if (algo == "3DES")
             {
-                Symmetric.Algo.Des3.Des3FromKey(secretKey, keyIv, true);
-                encryptBytes = Symmetric.Algo.Des3.Encrypt(inBytes);
+                Symm.Algo.Des3.Des3FromKey(secretKey, keyIv, true);
+                encryptBytes = Symm.Algo.Des3.Encrypt(inBytes);
             }
             if (algo == "AES")
             {
-                Symmetric.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, true);
-                encryptBytes = Symmetric.Algo.Aes.Encrypt(inBytes);
+                Symm.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, true);
+                encryptBytes = Symm.Algo.Aes.Encrypt(inBytes);
             }
             if (algo == "Rijndael")
             {
-                Symmetric.Algo.Rijndael.RijndaelGenWithKey(secretKey, keyIv, true);
-                encryptBytes = Symmetric.Algo.Rijndael.Encrypt(inBytes);
+                Symm.Algo.Rijndael.RijndaelGenWithKey(secretKey, keyIv, true);
+                encryptBytes = Symm.Algo.Rijndael.Encrypt(inBytes);
             }
             if (algo == "Rsa")
             {
-                var keyPair = Asymmetric.Algo.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                var keyPair = Asym.Algo.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
                 string privKey = keyPair.Private.ToString();
-                encryptBytes = Asymmetric.Algo.Rsa.Encrypt(inBytes);
+                encryptBytes = Asym.Algo.Rsa.Encrypt(inBytes);
             }
             if (algo == "Serpent")
             {
-                Symmetric.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, true);
-                encryptBytes = Symmetric.Algo.Serpent.Encrypt(inBytes);
+                Symm.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, true);
+                encryptBytes = Symm.Algo.Serpent.Encrypt(inBytes);
             }
             if (algo == "ZenMatrix")
             {
-                Symmetric.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, true);
-                encryptBytes = Symmetric.Algo.ZenMatrix.Encrypt(inBytes);
+                Symm.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, true);
+                encryptBytes = Symm.Algo.ZenMatrix.Encrypt(inBytes);
             }
             if (algo == "Camellia" || algo == "Cast5" || algo == "Cast6" ||
                 algo == "Gost28147" || algo == "Idea" || algo == "Noekeon" ||
@@ -71,9 +71,9 @@ namespace Area23.At.Framework.Library.Cipher
                 algo == "Seed" || algo == "Skipjack" || // algo == "Serpent" ||
                 algo == "Tea" || algo == "Tnepres" || algo == "XTea")
             {
-                IBlockCipher blockCipher = Symmetric.CryptHelper.GetBlockCipher(algo, ref mode, ref blockSize, ref keyLen);
+                IBlockCipher blockCipher = Symm.CryptHelper.GetBlockCipher(algo, ref mode, ref blockSize, ref keyLen);
 
-                Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
+                Symm.CryptBounceCastle cryptBounceCastle = new Symm.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
                 encryptBytes = cryptBounceCastle.Encrypt(inBytes);
 
             }
@@ -90,7 +90,7 @@ namespace Area23.At.Framework.Library.Cipher
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>decrypted byte Array</returns>
-        public static byte[] DecryptBytes(byte[] cipherBytes, CipherEnum cipherAlgo = CipherEnum.ZenMatrix, string secretKey = "postmaster@kernel.org", string keyIv = "")
+        public static byte[] DecryptBytes(byte[] cipherBytes, ChipherEnum cipherAlgo = ChipherEnum.ZenMatrix, string secretKey = "postmaster@kernel.org", string keyIv = "")
         {
             bool sameKey = true;
             string algorithmName = cipherAlgo.ToString();
@@ -101,44 +101,44 @@ namespace Area23.At.Framework.Library.Cipher
 
             if (algorithmName == "2FISH")
             {
-                sameKey = Symmetric.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, false);
-                decryptBytes = Symmetric.Algo.Fish2.Decrypt(cipherBytes);
+                sameKey = Symm.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, false);
+                decryptBytes = Symm.Algo.Fish2.Decrypt(cipherBytes);
             }
             if (algorithmName == "3FISH")
             {
-                sameKey = Symmetric.Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
-                decryptBytes = Symmetric.Algo.Fish3.Decrypt(cipherBytes);
+                sameKey = Symm.Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
+                decryptBytes = Symm.Algo.Fish3.Decrypt(cipherBytes);
             }
             if (algorithmName == "3DES")
             {
-                sameKey = Symmetric.Algo.Des3.Des3FromKey(secretKey, keyIv, true);
-                decryptBytes = Symmetric.Algo.Des3.Decrypt(cipherBytes);
+                sameKey = Symm.Algo.Des3.Des3FromKey(secretKey, keyIv, true);
+                decryptBytes = Symm.Algo.Des3.Decrypt(cipherBytes);
             }
             if (algorithmName == "AES")
             {
-                sameKey = Symmetric.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, false);
-                decryptBytes = Symmetric.Algo.Aes.Decrypt(cipherBytes);
+                sameKey = Symm.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, false);
+                decryptBytes = Symm.Algo.Aes.Decrypt(cipherBytes);
             }
             if (algorithmName == "Rijndael")
             {
-                Symmetric.Algo.Rijndael.RijndaelGenWithKey(secretKey, keyIv, false);
-                decryptBytes = Symmetric.Algo.Rijndael.Decrypt(cipherBytes);
+                Symm.Algo.Rijndael.RijndaelGenWithKey(secretKey, keyIv, false);
+                decryptBytes = Symm.Algo.Rijndael.Decrypt(cipherBytes);
             }
             if (algorithmName == "Rsa")
             {
-                var keyPair = Asymmetric.Algo.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                var keyPair = Asym.Algo.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
                 string privKey = keyPair.Private.ToString();
-                decryptBytes = Asymmetric.Algo.Rsa.Decrypt(cipherBytes);
+                decryptBytes = Asym.Algo.Rsa.Decrypt(cipherBytes);
             }
             if (algorithmName == "Serpent")
             {
-                sameKey = Symmetric.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, false);
-                decryptBytes = Symmetric.Algo.Serpent.Decrypt(cipherBytes);
+                sameKey = Symm.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, false);
+                decryptBytes = Symm.Algo.Serpent.Decrypt(cipherBytes);
             }
             if (algorithmName == "ZenMatrix")
             {
-                sameKey = Symmetric.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, false);
-                decryptBytes = Symmetric.Algo.ZenMatrix.Decrypt(cipherBytes);
+                sameKey = Symm.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, false);
+                decryptBytes = Symm.Algo.ZenMatrix.Decrypt(cipherBytes);
             }
             if (algorithmName == "Camellia" || algorithmName == "Cast5" || algorithmName == "Cast6" ||
                 algorithmName == "Gost28147" || algorithmName == "Idea" || algorithmName == "Noekeon" ||
@@ -147,9 +147,9 @@ namespace Area23.At.Framework.Library.Cipher
                 algorithmName == "Seed" || algorithmName == "Skipjack" || // algorithmName == "Serpent" || 
                 algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea")
             {
-                IBlockCipher blockCipher = Symmetric.CryptHelper.GetBlockCipher(algorithmName, ref mode, ref blockSize, ref keyLen);
+                IBlockCipher blockCipher = Symm.CryptHelper.GetBlockCipher(algorithmName, ref mode, ref blockSize, ref keyLen);
 
-                Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
+                Symm.CryptBounceCastle cryptBounceCastle = new Symm.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
                 decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
             }
 

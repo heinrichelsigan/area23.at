@@ -34,6 +34,40 @@ namespace Area23.At.Framework.Library.EnDeCoding
         private const int _mask = 31;
         private const int _shift = 5;
 
+        #region common interface, interfaces for static members appear in C# 7.3 or later
+
+        /// <summary>
+        /// Encodes byte[] to valid encode formatted string
+        /// </summary>
+        /// <param name="inBytes">byte array to encode</param>
+        /// <returns>encoded string</returns>
+        public static string Encode(byte[] inBytes)
+        {
+            return ToBase32(inBytes);
+        }
+
+        /// <summary>
+        /// Decodes an encoded string to byte[]
+        /// </summary>
+        /// <param name="encodedString">encoded string</param>
+        /// <returns>byte array</returns>
+        public static byte[] Decode(string encodedString)
+        {
+            return FromBase32(encodedString);
+        }
+
+        /// <summary>
+        /// Checks if a string is a valid encoded string
+        /// </summary>
+        /// <param name="encodedString">encoded string</param>
+        /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
+        public static bool IsValid(string encodedString)
+        {
+            return IsValidBase32(encodedString);
+        }
+
+        #endregion common interface, interfaces for static members appear in C# 7.3 or later
+
         private static int CharToInt(char c)
         {
             int bigA = (int)'A', litA = ((int)'a'), iChar = ((int)c);

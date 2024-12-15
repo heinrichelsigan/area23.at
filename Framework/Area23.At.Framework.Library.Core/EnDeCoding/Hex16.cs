@@ -14,8 +14,44 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         private static readonly char[] _digits = "0123456789abcdef".ToCharArray();
         private static List<char> ValidCharList = new List<char>(_digits);
 
+
+        #region common interface, interfaces for static members appear in C# 7.3 or later
+
         /// <summary>
-        /// ToHex converts a binary byte array to hex string
+        /// Encodes byte[] to valid encode formatted string
+        /// </summary>
+        /// <param name="inBytes">byte array to encode</param>
+        /// <returns>encoded string</returns>
+        public static string Encode(byte[] inBytes)
+        {
+            return ToHex16(inBytes);
+        }
+
+        /// <summary>
+        /// Decodes an encoded string to byte[]
+        /// </summary>
+        /// <param name="encodedString">encoded string</param>
+        /// <returns>byte array</returns>
+        public static byte[] Decode(string encodedString)
+        {
+            return FromHex16(encodedString);
+        }
+
+        /// <summary>
+        /// Checks if a string is a valid encoded string
+        /// </summary>
+        /// <param name="encodedString">encoded string</param>
+        /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
+        public static bool IsValid(string encodedString)
+        {
+            return IsValidHex16(encodedString);
+        }
+
+        #endregion common interface, interfaces for static members appear in C# 7.3 or later
+
+
+        /// <summary>
+        /// Encode ToHex converts a binary byte array to hex string
         /// </summary>
         /// <param name="inBytes">byte array</param>
         /// <returns>hex string</returns>
@@ -25,20 +61,19 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
             if (inBytes == null || inBytes.Length < 1)
                 throw new ArgumentNullException("inBytes", "public static string ToHex(byte[] inBytes == NULL)");
 
-            string hexString = string.Empty;            
+            string hexString = string.Empty;
             for (int wc = 0; wc < inBytes.Length; wc++)
             {
-                hexString += string.Format("{0:x2}", inBytes[wc]);                
+                hexString += string.Format("{0:x2}", inBytes[wc]);
             }
 
             string strUtf8 = hexString.ToLower();
-            
+
             return strUtf8;
         }
 
-
         /// <summary>
-        /// FromHex transforms a hex string to binary byte array
+        /// Decode FromHex transforms a hex string to binary byte array
         /// </summary>
         /// <param name="hexStr">a hex string</param>
         /// <returns>binary byte array</returns>
@@ -46,25 +81,32 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         public static byte[] FromHex16(string hexStr)
         {
             if (string.IsNullOrEmpty(hexStr))
-                throw new ArgumentNullException("hexStr", "public static byte[] FromHex(string hexStr), hexStr == NULL || hexStr == \"\"");            
+                throw new ArgumentNullException("hexStr", "public static byte[] FromHex(string hexStr), hexStr == NULL || hexStr == \"\"");
 
             List<byte> bytes = new List<byte>();
 
-            if (hexStr.Length % 2 == 1)
-                hexStr += "0";
-            for (int wb = 0; wb < hexStr.Length; wb+=2)
+            for (int wb = 0; wb < hexStr.Length; wb += 2)
             {
-                char msb = (char)hexStr[wb];
-                char lsb = (char)hexStr[wb+1];
+                char msb, lsb;
+                if (wb == hexStr.Length - 1)
+                {
+                    msb = '0';
+                    lsb = hexStr[wb];
+                }
+                else
+                {
+                    msb = (char)hexStr[wb];
+                    lsb = (char)hexStr[wb + 1];
+                }
                 string sb = msb.ToString() + lsb.ToString();
                 byte b = Convert.ToByte(sb, 16);
-                bytes.Add(b);                
+                bytes.Add(b);
             }
 
-            byte[] bytesUtf8 = EnDeCoder.GetBytes8(hexStr);
-            // return bytesUtf8;
+            byte[] bytesUtf8 = EnDeCoder.GetBytes(hexStr);
+            // return bytesUtf8
             return bytes.ToArray();
-            
+
         }
 
         public static bool IsValidHex16(string inString)

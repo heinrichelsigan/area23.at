@@ -66,21 +66,21 @@
             <div class="odDiv">
                 <span class="leftSpan">                  
                     <asp:DropDownList ID="DropDownList_Zip" runat="server" style="width: 72px;">
-                        <asp:ListItem Enabled="true" Value="none" Selected="true">None</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="7z" Selected="false">7Zip</asp:ListItem>                
-                        <asp:ListItem Enabled="true" Value="bz" Selected="false">BZip2</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="gz" Selected="false">GZip</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="xz" Selected="false">XZip</asp:ListItem>      
-                        <asp:ListItem Enabled="true" Value="zip" Selected="false">Zip</asp:ListItem>      
+                        <asp:ListItem Enabled="true" Value="None" Selected="true">None</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Z7" Selected="false">7Zip</asp:ListItem>                
+                        <asp:ListItem Enabled="true" Value="BZip2" Selected="false">BZip2</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="GZip" Selected="false">GZip</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Zip" Selected="false">Zip</asp:ListItem>         
                     </asp:DropDownList>
                     &rArr;
                 </span>
                 <span class="centerSpan">                    
-                    <asp:DropDownList ID="DropDownList_SymChiffer" runat="server" style="width: 84px;">
+                    <asp:DropDownList ID="DropDownList_Cipher" runat="server" style="width: 84px;">
+                        <asp:ListItem Enabled="true" Value="None" Selected="true">None</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="3DES" Selected="false">3DES</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="2FISH" Selected="false">2FISH</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="3FISH" Selected="false">3FISH</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="AES" Selected="true">AES</asp:ListItem>              
+                        <asp:ListItem Enabled="true" Value="AES" Selected="false">AES</asp:ListItem>              
                         <asp:ListItem Enabled="true" Value="Cast5" Selected="False">Cast5</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Cast6" Selected="False">Cast6</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Camellia" Selected="False">Camellia</asp:ListItem>
@@ -114,13 +114,13 @@
                 <span class="rightSpan">
                      <asp:DropDownList ID="DropDownList_Encoding" runat="server" AutoPostBack="true" 
                          OnSelectedIndexChanged="DropDownList_Encoding_SelectedIndexChanged" style="width: 84px;">
-                        <asp:ListItem Enabled="true" Value="none" Selected="false">None</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="hex16" Selected="false">Hex16</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="base16" Selected="false">Base16</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="base32" Selected="false">Base32</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="base32hex" Selected="false">Base32Hex</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="base64" Selected="true">Base64</asp:ListItem>                                
-                        <asp:ListItem Enabled="true" Value="uu" Selected="False">Uu</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="None" Selected="false">None</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Base16" Selected="false">Base16</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Base32" Selected="false">Base32</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Hex32" Selected="false">Hex32</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Base64" Selected="true">Base64</asp:ListItem>                                
+                        <asp:ListItem Enabled="true" Value="Uu" Selected="False">Uu</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Hex16" Selected="false">Hex16</asp:ListItem>
                     </asp:DropDownList>
                 </span>
             </div>

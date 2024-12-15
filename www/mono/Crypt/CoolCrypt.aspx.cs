@@ -1,7 +1,9 @@
 ﻿using Area23.At;
 using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Cipher;
 using Area23.At.Framework.Library.Cipher.Symmetric;
 using Area23.At.Framework.Library.EnDeCoding;
+using Area23.At.Framework.Library.Zfx;
 using Area23.At.Mono.Properties;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
@@ -31,9 +33,7 @@ namespace Area23.At.Mono.Crypt
     /// Feature to encrypt and decrypt simple plain text or files
     /// </summary>
     public partial class CoolCrypt : Util.UIPage
-    {
-
-        internal Framework.Library.Cipher.Symmetric.CryptBounceCastle cryptBounceCastle;
+    {        
 
         /// <summary>
         /// Page_Load
@@ -55,7 +55,7 @@ namespace Area23.At.Mono.Crypt
 
             if ((Request.Files != null && Request.Files.Count > 0) || (!String.IsNullOrEmpty(oFile.Value)))
             {
-                UploadFile(oFile.PostedFile);                
+                UploadFile(oFile.PostedFile); 
             }
         }
 
@@ -112,55 +112,66 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void ButtonEncrypt_Click(object sender, EventArgs e)
         {
-            SpanRightFile.Visible = false;
-            SpanLeftFile.Visible = false;
-            SpanLabel.Visible = false;
-            ClearPostedFileSession();
-            if (this.DropDownList_Encoding.SelectedValue.ToLowerInvariant() == "none")
-            {
-                for (int it = 0; it < DropDownList_Encoding.Items.Count; it++)
-                {
-                    if (DropDownList_Encoding.Items[it].Value.ToLowerInvariant() == "base64")
-                    {
-                        DropDownList_Encoding.Items[it].Selected = true;
-                    }
-                    else DropDownList_Encoding.Items[it].Selected = false;
-                }
-
-                this.CheckBoxEncode.Checked = true;
-                this.CheckBoxEncode.Enabled = true; ;
-            }
-
-
+            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
+            string keyIv = (!string.IsNullOrEmpty(this.TextBox_IV.Text)) ? this.TextBox_IV.Text : Constants.AUTHOR_IV;
+            EncodingType encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
             string usrMailKey = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
-            Reset_TextBox_IV(usrMailKey);
 
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
-                string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;
+                ClearPostedFileSession(false);
 
-                byte[] inBytesText = Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
-                // byte[] inBytesText = DeEnCoder.GetBytesFromString(this.TextBoxSource.Text, 256, false);
-                // byte[] inBytesHash = DeEnCoder.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
+                if (encodeType == EncodingType.None || encodeType == EncodingType.Null)
+                {
+                    for (int it = 0; it < DropDownList_Encoding.Items.Count; it++)
+                    {
+                        if (DropDownList_Encoding.Items[it].Value == EncodingType.Base64.ToString())
+                            DropDownList_Encoding.Items[it].Selected = true;
+                        else DropDownList_Encoding.Items[it].Selected = false;
+                    }
+                    encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
+                    this.CheckBoxEncode.Checked = true;
+                    this.CheckBoxEncode.Enabled = true;
+                }
 
-                byte[] inBytes = inBytesText; // Extensions.TarBytes(inBytesText, inBytesHash);
+                Reset_TextBox_IV(usrMailKey);
+                byte[] inBytes = Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
+                // string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;
+                byte[] encryptBytes = inBytes; 
 
-                // Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
+                ZipType ztype = ZipType.None;
+                if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
+                {
+                    switch (ztype)
+                    {
+                        
+                        case ZipType.GZip: inBytes = GZ.GZip(encryptBytes); break;
+                        case ZipType.BZip2: inBytes = BZip2.BZip(encryptBytes); break;
+                        // case ZipType.Zip: inBytes = Zip
+                        case ZipType.None: 
+                        default: break;
+                    }
+                }
+               
 
                 string[] algos = this.TextBox_Encryption.Text.Split("+;,→⇛".ToCharArray());
-                byte[] encryptBytes = inBytes;
                 foreach (string algo in algos)
                 {
                     if (!string.IsNullOrEmpty(algo))
                     {
-                        encryptBytes = EncryptBytes(inBytes, algo);
-                        inBytes = encryptBytes;
+                        CipherEnum cipherAlgo = CipherEnum.None;
+                        if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
+                        {
+                            encryptBytes = Framework.Library.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);
+                            inBytes = encryptBytes;                            
+                        }
                     }
                 }
 
                 bool fromPlain = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
-                string encodingMethod = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
-                string encryptedText = DeEnCoder.EncodeEncryptedBytes(encryptBytes, encodingMethod, fromPlain, false);
+                // string encodingMethod = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
+                encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
+                string encryptedText = DeEnCoder.EncodeBytes(encryptBytes, encodeType, fromPlain, false);
 
                 this.TextBoxDestionation.Text = encryptedText;
 
@@ -192,36 +203,36 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void ButtonDecrypt_Click(object sender, EventArgs e)
         {
-            SpanRightFile.Visible = false;
-            SpanLeftFile.Visible = false;
-            SpanLabel.Visible = false;
-            ClearPostedFileSession();
-
-            if (this.DropDownList_Encoding.SelectedValue.ToLowerInvariant() == "none")
-            {
-                for (int it = 0; it < DropDownList_Encoding.Items.Count; it++)
-                {
-                    if (DropDownList_Encoding.Items[it].Value.ToLowerInvariant() == "base64")
-                    {
-                        DropDownList_Encoding.Items[it].Selected = true;
-                    }
-                    else DropDownList_Encoding.Items[it].Selected = false;
-                }
-
-                this.CheckBoxEncode.Checked = true;
-                this.CheckBoxEncode.Enabled = true; ;
-            }
-
-            string usrMailKey = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
-            Reset_TextBox_IV(usrMailKey);
+            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
+            string keyIv = (!string.IsNullOrEmpty(this.TextBox_IV.Text)) ? this.TextBox_IV.Text : Constants.AUTHOR_IV;
+            EncodingType encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);            
+            string usrMailKey = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;            
 
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
+                ClearPostedFileSession(false);
+
+                if (encodeType == EncodingType.None || encodeType == EncodingType.Null)
+                {
+                    for (int it = 0; it < DropDownList_Encoding.Items.Count; it++)
+                    {
+                        if (DropDownList_Encoding.Items[it].Value == EncodingType.Base64.ToString())
+                            DropDownList_Encoding.Items[it].Selected = true;
+                        else DropDownList_Encoding.Items[it].Selected = false;
+                    }
+                    encodeType = EncodingType.Base64;
+                    this.CheckBoxEncode.Checked = true;
+                    this.CheckBoxEncode.Enabled = true;
+                }
+                
+                Reset_TextBox_IV(usrMailKey);
+
                 string cipherText = this.TextBoxSource.Text;
                 bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
                 string decryptedText = string.Empty;
-                string encodingMethod = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
-                byte[] cipherBytes = DeEnCoder.EncodedTextToBytes(cipherText, out string errMsg, encodingMethod, plainUu, false);
+                // encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
+                string encodingMethod = encodeType.ToString().ToLowerInvariant();
+                byte[] cipherBytes = DeEnCoder.DecodeText(cipherText, out string errMsg, encodeType, plainUu, false);
                 if (cipherBytes == null && !string.IsNullOrEmpty(errMsg))
                 {
                     this.TextBox_IV.Text = errMsg;
@@ -238,12 +249,31 @@ namespace Area23.At.Mono.Crypt
                 {
                     if (!string.IsNullOrEmpty(algos[ig]))
                     {
-                        decryptedBytes = DecryptBytes(cipherBytes, algos[ig]);
-                        cipherBytes = decryptedBytes;
+                        CipherEnum cipherAlgo = CipherEnum.None;
+                        if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
+                        {                            
+                            decryptedBytes = Framework.Library.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
+                            cipherBytes = decryptedBytes;
+                        }
                     }
                 }
 
-                decryptedText = DeEnCoder.GetStringFromBytesTrimNulls(decryptedBytes);
+                cipherBytes = DeEnCoder.GetBytesTrimNulls(decryptedBytes);
+                ZipType ztype = ZipType.None;
+                if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
+                {
+                    switch (ztype)
+                    {
+
+                        case ZipType.GZip: decryptedBytes = GZ.GUnZip(cipherBytes); break;
+                        case ZipType.BZip2: decryptedBytes = BZip2.BUnZip(cipherBytes); break;
+                        // case ZipType.Zip: inBytes = Zip
+                        case ZipType.None:
+                        default: decryptedBytes = cipherBytes; break;
+                    }
+                }
+
+                decryptedText = EnDeCoder.GetString(decryptedBytes);
                 this.TextBoxDestionation.Text = decryptedText; // HandleString_PrivateKey_Changed(decryptedText);
 
                 DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;";
@@ -273,11 +303,8 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void Button_Clear_Click(object sender, EventArgs e)
         {
-            this.TextBox_Encryption.Text = "";
-            SpanRightFile.Visible = false;
-            SpanLeftFile.Visible = false;
-            SpanLabel.Visible = false;
-            ClearPostedFileSession();
+            this.TextBox_Encryption.Text = "";            
+            ClearPostedFileSession(false);
 
             DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImprotveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
             DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImprotveBG.gif')";
@@ -291,39 +318,19 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void ImageButton_Add_Click(object sender, EventArgs e)
         {
-            string addChiffre = "";
-            if (DropDownList_SymChiffer.SelectedValue.ToString() == "3DES" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "2FISH" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "3FISH" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "AES" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Camellia" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Cast5" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Cast6" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "DesEde" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Gost28147" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Idea" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Noekeon" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "RC2" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "RC532" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "RC564" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "RC6" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Rsa" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Rijndael" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Seed" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Serpent" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Skipjack" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Tea" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "Tnepres" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "XTea" ||
-                DropDownList_SymChiffer.SelectedValue.ToString() == "ZenMatrix")
+            foreach (string cryptName in Enum.GetNames(typeof(CipherEnum)))
             {
-                addChiffre = DropDownList_SymChiffer.SelectedValue.ToString() + ";";
-                this.TextBox_Encryption.Text += addChiffre;
-                this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
+                if (DropDownList_Cipher.SelectedValue.ToString() == cryptName)
+                {
+                    string addChiffre = DropDownList_Cipher.SelectedValue.ToString() + ";";
+                    this.TextBox_Encryption.Text += addChiffre;
+                    this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
 
-                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
-                DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImproveBG.gif')";
-                DivAesImprove.Style["background-image"] = "url('../res/img/AesImproveBG.gif')";
+                    DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+                    DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImproveBG.gif')";
+                    DivAesImprove.Style["background-image"] = "url('../res/img/AesImproveBG.gif')";
+                    break;
+                }
             }
         }
 
@@ -397,8 +404,12 @@ namespace Area23.At.Mono.Crypt
 
         #endregion page_events
 
-        #region enryption_decryption_members 
+        #region file_handling_members 
 
+        /// <summary>
+        /// Uploads a http posted file
+        /// </summary>
+        /// <param name="pfile"><see cref="HttpPostedFile"/></param>
         protected void UploadFile(HttpPostedFile pfile)
         {
             
@@ -436,8 +447,12 @@ namespace Area23.At.Mono.Crypt
             strFileName = Path.GetFileName(strFileName);
 
             string savedTransFile = string.Empty;
-            string outMsg = string.Empty;
-            string encodingMethod = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
+            string outMsg = string.Empty;            
+            EncodingType encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
+            EncodingType extEncType = encodeType;
+            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
+            string keyIv = (!string.IsNullOrEmpty(this.TextBox_IV.Text)) ? this.TextBox_IV.Text : Constants.AUTHOR_IV;
+            string encodingMethod = encodeType.ToString().ToLowerInvariant();
             bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
 
             if ((pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ||
@@ -449,9 +464,6 @@ namespace Area23.At.Mono.Crypt
                             pfile.InputStream.ToByteArray() : new byte[65536]);
 
                 lblUploadResult.Text = "";
-
-                // if (string.IsNullOrEmpty(lblUploadResult.Text))
-                //     lblUploadResult.Text = strFileName + " has been successfully uploaded.";
 
                 byte[] outBytes = new byte[fileBytes.Length];
 
@@ -470,21 +482,40 @@ namespace Area23.At.Mono.Crypt
 
                         imgOut.Src = LibPaths.ResAppPath + "img/encrypted.png";
 
+                        ZipType ztype = ZipType.None;
+                        if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
+                        {
+                            switch (ztype)
+                            {
+
+                                case ZipType.GZip: inBytes = GZ.GZip(fileBytes); break;
+                                case ZipType.BZip2: inBytes = BZip2.BZip(fileBytes); break;
+                                // case ZipType.Zip: inBytes = Zip
+                                case ZipType.None:
+                                default: break;
+                            }
+                        }
+
+
                         foreach (string algo in algos)
                         {
                             if (!string.IsNullOrEmpty(algo))
                             {
-                                outBytes = EncryptBytes(inBytes, algo);
-                                inBytes = outBytes;
-                                cryptCount++;
-                                strFileName += "." + algo.ToLower();
+                                CipherEnum cipherAlgo = CipherEnum.None;
+                                if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
+                                {
+                                    outBytes = Framework.Library.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);                                   
+                                    inBytes = outBytes;
+                                    cryptCount++;
+                                    strFileName += "." + algo.ToLower();
+                                }
                             }
                         }
 
                         if (CheckBoxEncode.Checked)
                         {
-                            strFileName += "." + encodingMethod;
-                            string outString = DeEnCoder.EncodeEncryptedBytes(outBytes, encodingMethod, plainUu, true);
+                            strFileName += "." + encodeType.ToString().ToLowerInvariant();
+                            string outString = DeEnCoder.EncodeBytes(outBytes, encodeType, plainUu, true);
                             savedTransFile = this.StringToFile(outString, out outMsg, strFileName);
                         }
                         else
@@ -504,41 +535,34 @@ namespace Area23.At.Mono.Crypt
                         byte[] cipherBytes = fileBytes;
                         Array.Copy(fileBytes, 0, cipherBytes, 0, fileBytes.Length);
 
+                        bool decode = false;
                         string ext = strFileName.GetExtensionFromFileString();
-                        switch (ext.ToLowerInvariant())
+                        foreach (var encType in EncodingTypesExtensions.GetEncodingTypes())
                         {
-                            case "null":
-                            case ".null":
-                            case "hex16":
-                            case ".hex16":
-                            case "base16":
-                            case ".base16":
-                            case "base32":
-                            case ".base32":
-                            case "base32hex":
-                            case ".base32hex":
-                            case "uu":
-                            case ".uu":
-                            case "uue":
-                            case ".uue":
-                            case "base64":
-                            case ".base64":
-                            case "mime":
-                            case ".mime":
-                                encodingMethod = (ext.StartsWith(".")) ? ext.ToLowerInvariant().Substring(1) : ext.ToLowerInvariant();
-                                string cipherText = EnDeCoder.GetString(fileBytes);
-                                string tmpFile = ByteArrayToFile(fileBytes, out outMsg, strFileName + ".tmp");
-                                // tmpFile = tmpFile.Replace(".hex", ".tmp");
-                                if (System.IO.File.Exists(LibPaths.OutDirPath + tmpFile))
-                                {
-                                    cipherText = System.IO.File.ReadAllText(LibPaths.OutDirPath + tmpFile, Encoding.UTF8);
-                                }
+                            if (ext.Equals(encType.ToString(), StringComparison.OrdinalIgnoreCase) ||
+                                ext.Equals(encType.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+                                ext.ToLowerInvariant() == encType.ToString().ToLowerInvariant() ||
+                                ext.Equals("." + encType.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+                                ext.ToLowerInvariant() == "." + encType.ToString().ToLowerInvariant())
+                            {
+                                decode = true;
+                                extEncType = encType;
+                                break;
+                            }
+                        }
+                        if (decode)
+                        {
+                            encodingMethod = (ext.StartsWith(".")) ? ext.ToLowerInvariant().Substring(1) : ext.ToLowerInvariant();
+                            string cipherText = EnDeCoder.GetString(fileBytes);
+                            string tmpFile = ByteArrayToFile(fileBytes, out outMsg, strFileName + ".tmp");
+                            // tmpFile = tmpFile.Replace(".hex", ".tmp");
+                            if (System.IO.File.Exists(LibPaths.OutDirPath + tmpFile))
+                            {
+                                cipherText = System.IO.File.ReadAllText(LibPaths.OutDirPath + tmpFile, Encoding.UTF8);
+                            }
 
-                                cipherBytes = DeEnCoder.EncodedTextToBytes(cipherText, out string errMsg, encodingMethod, plainUu, true);
-                                strFileName = strFileName.EndsWith("." + encodingMethod) ? strFileName.Replace("." + encodingMethod, "") : strFileName;
-                                break;
-                            default: // assert here
-                                break;
+                            cipherBytes = DeEnCoder.DecodeText(cipherText, out string errMsg, extEncType, plainUu, true);
+                            strFileName = strFileName.EndsWith("." + encodingMethod) ? strFileName.Replace("." + encodingMethod, "") : strFileName;
                         }
 
                         strFileName = strFileName.EndsWith(".hex") ? strFileName.Replace(".hex", "") : strFileName;
@@ -549,15 +573,32 @@ namespace Area23.At.Mono.Crypt
                         {
                             if (!string.IsNullOrEmpty(algos[ig]))
                             {
-                                outBytes = DecryptBytes(cipherBytes, algos[ig]);
-                                cipherBytes = outBytes;
-                                cryptCount++;
-                                strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;
+                                CipherEnum cipherAlgo = CipherEnum.None;
+                                if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
+                                {
+                                    outBytes = Framework.Library.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
+                                    cipherBytes = outBytes;
+                                    cryptCount++;
+                                    strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;
+                                }
                             }
                         }
 
                         cipherBytes = DeEnCoder.GetBytesTrimNulls(outBytes);
                         outBytes = cipherBytes;
+
+                        ZipType ztype = ZipType.None;
+                        if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
+                        {
+                            switch (ztype)
+                            {
+                                case ZipType.GZip: outBytes = GZ.GUnZip(cipherBytes); break;
+                                case ZipType.BZip2: outBytes = BZip2.BUnZip(cipherBytes); break;
+                                // case ZipType.Zip: inBytes = Zip
+                                case ZipType.None:
+                                default: outBytes = cipherBytes; break;
+                            }
+                        }
 
                         savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName);
                         // if (success)
@@ -571,10 +612,7 @@ namespace Area23.At.Mono.Crypt
                 }
 
                 // Display the result of the upload.
-                SpanRightFile.Visible = true;
-                SpanLeftFile.Visible = true;
-                SpanLabel.Visible = true;
-                ClearPostedFileSession();
+                ClearPostedFileSession(true);
 
                 DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGFile.gif'); background-repeat: no-repeat; background-color: transparent;";
                 DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesBGFile.gif')";
@@ -582,11 +620,9 @@ namespace Area23.At.Mono.Crypt
             }
             else
             {
-                SpanLabel.Visible = true;
-                SpanLeftFile.Visible = false;
-                SpanRightFile.Visible = false;
                 lblUploadResult.Text = "Click 'Browse' to select the file to upload.";
-                ClearPostedFileSession();
+                ClearPostedFileSession(false);
+                SpanLabel.Visible = true;
 
                 DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
                 DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImproveBG.gif')";
@@ -597,40 +633,7 @@ namespace Area23.At.Mono.Crypt
                 
         }
 
-        /// <summary>
-        /// Generic encrypt bytes to bytes
-        /// </summary>
-        /// <param name="inBytes">Array of byte</param>
-        /// <param name="algo">Symetric chiffre algorithm</param>
-        /// <returns>encrypted byte Array</returns>
-        /// 
-        protected byte[] EncryptBytes(byte[] inBytes, string algo)
-        {
-            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
-            string keyIv = (!string.IsNullOrEmpty(this.TextBox_IV.Text)) ? this.TextBox_IV.Text : Constants.AUTHOR_IV;
-
-            byte[] encryptBytes = Framework.Library.Cipher.Crypt.EncryptBytes(inBytes, algo, secretKey, keyIv);
-
-            return encryptBytes;
-        }
-
-        /// <summary>
-        /// Generic decrypt bytes to bytes
-        /// </summary>
-        /// <param name="cipherBytes">Encrypted array of byte</param>
-        /// <param name="algorithmName">Symetric chiffre algorithm</param>
-        /// <returns>decrypted byte Array</returns>
-        protected byte[] DecryptBytes(byte[] cipherBytes, string algorithmName)
-        {
-            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
-            string keyIv = (!string.IsNullOrEmpty(this.TextBox_IV.Text)) ? this.TextBox_IV.Text : Constants.AUTHOR_IV;
-
-            byte[] decryptBytes = Framework.Library.Cipher.Crypt.DecryptBytes(cipherBytes, algorithmName, secretKey, keyIv);
-
-            return decryptBytes;
-        }
-
-        #endregion enryption_decryption_members 
+        #endregion file_handling_members 
 
 
         /// <summary>
@@ -672,9 +675,7 @@ namespace Area23.At.Mono.Crypt
             }
             else
             {
-                SpanLabel.Visible = false;
-                SpanLeftFile.Visible = false;
-                ClearPostedFileSession();
+                ClearPostedFileSession(false);
             }
             SpanRightFile.Visible = false;
 
@@ -684,15 +685,25 @@ namespace Area23.At.Mono.Crypt
 
         }
 
-        protected void ClearPostedFileSession()
+
+        /// <summary>
+        /// removes posted file from session and file location
+        /// </summary>
+        protected void ClearPostedFileSession(bool spansVisible = false)
         {
-            if ((Session[Constants.UPSAVED_FILE] != null) && (System.IO.File.Exists((string)Session[Constants.UPSAVED_FILE])))
+            if ((Session[Constants.UPSAVED_FILE] != null))
             {
-                System.IO.File.Delete((string)Session[Constants.UPSAVED_FILE]);
+                if (System.IO.File.Exists((string)Session[Constants.UPSAVED_FILE]))
+                    System.IO.File.Delete((string)Session[Constants.UPSAVED_FILE]);
+                
                 Session.Remove(Constants.UPSAVED_FILE);
             }
             img1.Alt = "";
             aUploaded.HRef = "#";
+
+            SpanRightFile.Visible = spansVisible;
+            SpanLeftFile.Visible = spansVisible;
+            SpanLabel.Visible = spansVisible;
         }
 
         #region ObsoleteDeprecated

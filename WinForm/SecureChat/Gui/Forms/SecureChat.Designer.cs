@@ -615,7 +615,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             ComboBox_LocalEndPoint.DropDownStyle = ComboBoxStyle.DropDownList;
             ComboBox_LocalEndPoint.ForeColor = SystemColors.ControlText;
             ComboBox_LocalEndPoint.FormattingEnabled = true;
-            ComboBox_LocalEndPoint.Items.AddRange(new object[] { "hex16", "base16", "base32", "base64", "unix2unix", "html", "url" });
+            ComboBox_LocalEndPoint.Items.AddRange(new object[] { "Hex16", "Base16", "Base32", "Hex32", "Base64", "Uu", "Html", "Url" });
             ComboBox_LocalEndPoint.Location = new Point(148, 4);
             ComboBox_LocalEndPoint.Margin = new Padding(1);
             ComboBox_LocalEndPoint.Name = "ComboBox_LocalEndPoint";

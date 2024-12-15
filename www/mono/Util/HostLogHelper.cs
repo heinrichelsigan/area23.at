@@ -20,7 +20,7 @@ namespace Area23.At.Mono.Util
                 {
                     userHost = (!string.IsNullOrEmpty(HttpContext.Current.Request.UserHostName)) ?
                         HttpContext.Current.Request.UserHostName :
-                        (HttpContext.Current.Request.UserHostAddress ?? "unknown");
+                        (HttpContext.Current.Request.UserHostAddress ?? Constants.UNKNOWN);
                 }
                 catch (Exception ex)
                 {

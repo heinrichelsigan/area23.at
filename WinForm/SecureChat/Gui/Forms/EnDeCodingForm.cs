@@ -81,15 +81,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     }
                 }
 
-                switch (this.ComboBox_EnDeCoding.SelectedItem.ToString().ToLower())
-                {
-                    case "hex16": encryptedText = Hex16.ToHex16(encryptBytes); break;
-                    case "base16": encryptedText = Base16.ToBase16(encryptBytes); break;
-                    case "base32": encryptedText = Base32.ToBase32(encryptBytes); break;
-                    case "unix2unix": encryptedText = Uu.ToUu(encryptBytes); break;
-                    case "base64":
-                    default: encryptedText = Base64.ToBase64(encryptBytes); break;
-                }
+                EncodingType encodingType = (EncodingType)Enum.Parse<EncodingType>(this.ComboBox_EnDeCoding.SelectedItem.ToString());
+                encryptedText = IEnDeCoder.Encode(encryptBytes, encodingType);
 
                 this.TextBoxDestionation.BackColor = SystemColors.ControlLightLight;
                 this.TextBoxDestionation.Text = encryptedText;
@@ -123,15 +116,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 string cipherText = this.TextBoxSource.Text;
                 string decryptedText = string.Empty;
                 byte[] cipherBytes = null;
-                switch (this.ComboBox_EnDeCoding.SelectedItem.ToString().ToLower())
-                {
-                    case "hex16": cipherBytes = Hex16.FromHex16(cipherText); break;
-                    case "base16": cipherBytes = Base16.FromBase16(cipherText); break;
-                    case "base32": cipherBytes = Base32.FromBase32(cipherText); break;
-                    case "unix2unix": cipherBytes = Uu.FromUu(cipherText); break;
-                    case "base64":
-                    default: cipherBytes = Base64.FromBase64(cipherText); break;
-                }
+                EncodingType encodingType = (EncodingType)Enum.Parse<EncodingType>(this.ComboBox_EnDeCoding.SelectedItem.ToString());
+                cipherBytes = IEnDeCoder.Decode(cipherText, encodingType);                
 
                 byte[] decryptedBytes = cipherBytes;
                 int ig = 0;

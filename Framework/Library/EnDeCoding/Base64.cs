@@ -13,6 +13,42 @@ namespace Area23.At.Framework.Library.EnDeCoding
         public static readonly char[] ValidChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/=".ToCharArray();
         public static List<char> ValidCharList = new List<char>(ValidChars);
 
+
+        #region common interface, interfaces for static members appear in C# 7.3 or later
+
+        /// <summary>
+        /// Encodes byte[] to valid encode formatted string
+        /// </summary>
+        /// <param name="inBytes">byte array to encode</param>
+        /// <returns>encoded string</returns>
+        public static string Encode(byte[] inBytes)
+        {
+            return ToBase64(inBytes);
+        }
+
+        /// <summary>
+        /// Decodes an encoded string to byte[]
+        /// </summary>
+        /// <param name="encodedString">encoded string</param>
+        /// <returns>byte array</returns>
+        public static byte[] Decode(string encodedString)
+        {
+            return FromBase64(encodedString);
+        }
+
+        /// <summary>
+        /// Checks if a string is a valid encoded string
+        /// </summary>
+        /// <param name="encodedString">encoded string</param>
+        /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
+        public static bool IsValid(string encodedString)
+        {
+            return IsValidBase64(encodedString);
+        }
+
+        #endregion common interface, interfaces for static members appear in C# 7.3 or later
+
+
         public static string ToBase64(byte[] inBytes)
         {
             string os = Convert.ToBase64String(inBytes, 0, inBytes.Length, Base64FormattingOptions.None);

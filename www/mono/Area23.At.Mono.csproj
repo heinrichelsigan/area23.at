@@ -498,6 +498,7 @@
     </Content>
     <Content Include="res\bin\uuencrypt.sh" />
     <Content Include="res\bin\uudecrypt.sh" />
+    <Content Include="res\bin\GNUWin32.README" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

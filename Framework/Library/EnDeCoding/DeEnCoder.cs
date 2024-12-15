@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DBTek.Crypto;
+using Org.BouncyCastle.Utilities.Encoders;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,33 +33,22 @@ namespace Area23.At.Framework.Library.EnDeCoding
         }
 
         /// <summary>
-        /// EncodeEncryptedBytes encodes encrypted byte[] by encodingMethod to an encoded text string
+        /// EncodeBytes encodes encrypted byte[] by encodingMethod to an encoded text string
         /// </summary>
         /// <param name="encryptBytes">encryptedBytes to encdode</param>
-        /// <param name="encodingMethod">Encoding methods could be 
-        /// "null", "hex16", "base16", "base32", "base32hex", "uu", "base64".
-        /// "base64" is default.</param>
+        /// <param name="encodingType">EncodingTypes are "None", "Hex16", "Base16", "Base32", "Hex32", "Uu", "Base64".
+        /// "Base64" is default.</param>
         /// <param name="fromPlain">Only for uu: true, if <see cref="encryptBytes"/> represent a binary without encryption</param>
         /// <param name="fromFile">Only for uu: true, if file and not textbox will be encrypted, default (false)</param>
         /// <returns>encoded encrypted string</returns>
-        public static string EncodeEncryptedBytes(byte[] encryptBytes, string encodingMethod = "base64", bool fromPlain = false, bool fromFile = false)
+        public static string EncodeBytes(byte[] encryptBytes, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
         {
-            Area23Log.LogStatic("EncodeEncryptedBytes(byte[] encryptBytes.[Length=" + encryptBytes.Length + "], string encodingMethod = " + encodingMethod +
-                ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
+            Area23Log.LogStatic(
+                "EncodeEncryptedBytes(byte[] encryptBytes.[Length=" + encryptBytes.Length + "], EncodingType encodingType =  " 
+                + encodingType.ToString() + ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
 
-            string encryptedText = string.Empty;
-            switch (encodingMethod.ToLowerInvariant())
-            {
-                case "null":        encryptedText = EnDeCoder.GetString(encryptBytes); break;
-                case "hex16":       encryptedText = Hex16.ToHex16(encryptBytes); break;
-                case "base16":      encryptedText = Base16.ToBase16(encryptBytes); break;
-                case "base32":      encryptedText = Base32.ToBase32(encryptBytes); break;
-                case "base32hex":   encryptedText = Base32Hex.ToBase32Hex(encryptBytes); break;
-                case "uu":          encryptedText = Uu.ToUu(encryptBytes, fromPlain, fromFile); break;
-                case "base64":
-                default:            encryptedText = Base64.ToBase64(encryptBytes); break;
-            }
-
+            string encryptedText = EnDeCoder.Encode(encryptBytes, encodingType);
+            
             return encryptedText;
         }
 
@@ -66,62 +57,24 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// </summary>
         /// <param name="cipherText">encoded (encrypted) text string</param>
         /// <param name="errMsg">out parameter to set an error message</param>
-        /// <param name="encodingMethod">Encoding methods could be 
-        /// "null", "hex16", "base16", "base32", "base32hex", "uu", "base64".
-        /// "base64" is default.</param>
+        /// <param name="encodingType"><see cref="EncodingType"/> could be 
+        /// "None", "Hex16", "Base16", "Base32", "Hex32", "Uu", "Base64". "Base64" is default.</param>
         /// <param name="fromPlain">Only for uu: true, if <see cref="encryptBytes"/> represent a binary without encryption</param>
         /// <param name="fromFile">Only for uu: true, if file and not textbox will be encrypted, default (false)</param>
         /// <returns>binary byte array</returns>
-        public static byte[] EncodedTextToBytes(string cipherText, out string errMsg, string encodingMethod = "base64", bool fromPlain = false, bool fromFile = false) 
+        public static byte[] DecodeText(string cipherText, out string errMsg, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false) 
         {
-            Area23Log.LogStatic("EncodedTextToBytes(string cipherText[.Length " + cipherText.Length + "], string encodingMethod = " +
-                encodingMethod + ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
+            Area23Log.LogStatic("EncodedTextToBytes(string cipherText[.Length " + cipherText.Length + "], EncodingType encodingType  = " +
+                encodingType.ToString() + ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
 
-            byte[] cipherBytes = null;
             errMsg = string.Empty;
-            switch (encodingMethod.ToLowerInvariant())
+            if (!EnDeCoder.IsValid(cipherText, encodingType))
             {
-                case "null":
-                    cipherBytes = EnDeCoder.GetBytes(cipherText);
-                    break;
-                case "hex16":
-                    if (Hex16.IsValidHex16(cipherText))
-                        cipherBytes = Hex16.FromHex16(cipherText);
-                    else
-                        errMsg = "Input Text is not a valid hex16 string!";
-                    break;
-                case "base16":
-                    if (Base16.IsValidBase16(cipherText))
-                        cipherBytes = Base16.FromBase16(cipherText);
-                    else
-                        errMsg = "Input Text is not a valid base16 string!";
-                    break;
-                case "base32":
-                    if (Base32.IsValidBase32(cipherText))
-                        cipherBytes = Base32.FromBase32(cipherText);
-                    else
-                        errMsg = "Input Text isn't a valid base32 string!";
-                    break;
-                case "base32hex":
-                    if (Base32Hex.IsValidBase32Hex(cipherText))
-                        cipherBytes = Base32Hex.FromBase32Hex(cipherText);
-                    else
-                        errMsg = "Input Text isn't a valid base32 hex string!";
-                    break;
-                case "uu":
-                    if (Uu.IsValidUue(cipherText))
-                        cipherBytes = Uu.FromUu(cipherText, fromPlain, fromFile);
-                    else
-                        errMsg = "Input Text isn't a valid uuencoded string!";
-                    break;
-                case "base64":
-                default:
-                    if (Base64.IsValidBase64(cipherText))
-                        cipherBytes = Base64.FromBase64(cipherText);
-                    else
-                        errMsg = "Input Text isn't a valid base64 string!";
-                    break;
+                errMsg = $"Input Text is not a valid {encodingType.ToString()} string!";
+                return null;
             }
+
+            byte[] cipherBytes = cipherBytes = EnDeCoder.Decode(cipherText, encodingType);
 
             return cipherBytes;
         }

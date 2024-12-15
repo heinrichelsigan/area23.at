@@ -65,7 +65,7 @@ namespace Area23.At.Mono.Crypt
                     case "hex16":       encodedStr = Hex16.ToHex16(fileBytes); break;
                     case "base16":      encodedStr = Base16.ToBase16(fileBytes); break;
                     case "base32":      encodedStr = Base32.ToBase32(fileBytes); break;
-                    case "base32hex":   encodedStr = Base32Hex.ToBase32Hex(fileBytes); break;
+                    case "hex32":   encodedStr = Hex32.ToHex32(fileBytes); break;
                     case "uu":          encodedStr = Uu.ToUu(fileBytes, true); break;
                     case "html":        encodedStr = "Can't html encode a binary file!"; break;
                     case "url":         encodedStr = "Can't url encode a binary file!"; break;
@@ -93,8 +93,8 @@ namespace Area23.At.Mono.Crypt
                 switch (this.DropDownList_EncodeType.SelectedValue.ToLower())
                 {
                     case "hex16":
-                        if (Hex16.IsValidHex16(this.TextBoxSource.Text))
-                            byteSrc = Hex16.FromHex16(srcStr);
+                        if (Hex16.IsValid(this.TextBoxSource.Text))
+                            byteSrc = Hex16.Decode(srcStr);
                         else
                         {
                             this.preOut.InnerText = "Input Text is not valid hex16 string!";
@@ -103,8 +103,8 @@ namespace Area23.At.Mono.Crypt
                         }
                         break;
                     case "base16":
-                        if (Base16.IsValidBase16(this.TextBoxSource.Text))
-                            byteSrc = Base16.FromBase16(srcStr);
+                        if (Base16.IsValid(this.TextBoxSource.Text))
+                            byteSrc = Base16.Decode(srcStr);
                         else
                         {
                             this.preOut.InnerText = "Input Text is not valid base16 string!";
@@ -113,8 +113,8 @@ namespace Area23.At.Mono.Crypt
                         }
                         break;
                     case "base32":
-                        if (Base32.IsValidBase32(this.TextBoxSource.Text))
-                            byteSrc = Base32.FromBase32(srcStr);
+                        if (Base32.IsValid(this.TextBoxSource.Text))
+                            byteSrc = Base32.Decode(srcStr);
                         else
                         {
                             this.preOut.InnerText = "Input Text is not valid base32 string!";
@@ -122,9 +122,9 @@ namespace Area23.At.Mono.Crypt
                             return;
                         }
                         break;
-                    case "base32hex":
-                        if (Base32Hex.IsValidBase32Hex(this.TextBoxSource.Text))
-                            byteSrc = Base32Hex.FromBase32Hex(srcStr);
+                    case "hex32":
+                        if (Hex32.IsValid(this.TextBoxSource.Text))
+                            byteSrc = Hex32.Decode(srcStr);
                         else
                         {
                             this.preOut.InnerText = "Input Text is not valid base32 hex string!";
@@ -133,7 +133,7 @@ namespace Area23.At.Mono.Crypt
                         }
                         break;
                     case "uu":
-                        if (Uu.IsValidUue(this.TextBoxSource.Text))
+                        if (Uu.IsValid(this.TextBoxSource.Text))
                             decodedStr = Uu.UuDecode(srcStr);
                         else
                         {

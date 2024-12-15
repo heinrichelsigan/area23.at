@@ -14,8 +14,44 @@ namespace Area23.At.Framework.Library.EnDeCoding
         private static readonly char[] _digits = "0123456789abcdef".ToCharArray();
         private static List<char> ValidCharList = new List<char>(_digits);
 
+
+        #region common interface, interfaces for static members appear in C# 7.3 or later
+
         /// <summary>
-        /// ToHex converts a binary byte array to hex string
+        /// Encodes byte[] to valid encode formatted string
+        /// </summary>
+        /// <param name="inBytes">byte array to encode</param>
+        /// <returns>encoded string</returns>
+        public static string Encode(byte[] inBytes)
+        {
+            return ToHex16(inBytes);
+        }
+
+        /// <summary>
+        /// Decodes an encoded string to byte[]
+        /// </summary>
+        /// <param name="encodedString">encoded string</param>
+        /// <returns>byte array</returns>
+        public static byte[] Decode(string encodedString)
+        {
+            return FromHex16(encodedString);
+        }
+
+        /// <summary>
+        /// Checks if a string is a valid encoded string
+        /// </summary>
+        /// <param name="encodedString">encoded string</param>
+        /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
+        public static bool IsValid(string encodedString)
+        {
+            return IsValidHex16(encodedString);
+        }
+
+        #endregion common interface, interfaces for static members appear in C# 7.3 or later
+
+
+        /// <summary>
+        /// Encode ToHex converts a binary byte array to hex string
         /// </summary>
         /// <param name="inBytes">byte array</param>
         /// <returns>hex string</returns>
@@ -36,9 +72,8 @@ namespace Area23.At.Framework.Library.EnDeCoding
             return strUtf8;
         }
 
-
         /// <summary>
-        /// FromHex transforms a hex string to binary byte array
+        /// Decode FromHex transforms a hex string to binary byte array
         /// </summary>
         /// <param name="hexStr">a hex string</param>
         /// <returns>binary byte array</returns>
