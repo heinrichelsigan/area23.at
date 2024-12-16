@@ -1,4 +1,5 @@
-﻿namespace Area23.At.WinForm.SecureChat.Gui.Forms
+﻿
+namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
     partial class TransparentBadge
     {
@@ -45,19 +46,21 @@
             // TransparentBadge
             // 
             AutoScaleDimensions = new SizeF(96F, 96F);
+            ShowInTaskbar = false;
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = SystemColors.Control;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(480, 144);
             Controls.Add(labelBadge);
+            Load += TransparentBadge_Load;
+            Shown += TransparentBadge_Shown;
             Font = new Font("Lucida Sans Unicode", 10F);
             FormBorderStyle = FormBorderStyle.None;
             Name = "TransparentBadge";
-            Text = "TransparentFormCore8";
+            Text = "TransparentBadge";
             TransparencyKey = SystemColors.Control;
             ResumeLayout(false);
         }
-
         #endregion
 
         private ToolStripSeparator toolStripSeparator3;

@@ -78,8 +78,9 @@ namespace Area23.At.Framework.Library.Core
                             appDirPath = AppDomain.CurrentDomain.BaseDirectory;
 
                         appDirPath = appDirPath.
-                            Replace(LibPaths.SepChar + Constants.BIN_DIR, "").Replace(LibPaths.SepChar + Constants.OBJ_DIR, "").
-                            Replace(LibPaths.SepChar + Constants.RELEASE_DIR, "").Replace(LibPaths.SepChar + Constants.DEBUG_DIR, "");
+                            Replace(LibPaths.SepChar + "\\net8.0-windows8.0\\", "").Replace(LibPaths.SepChar + "\\net8.0-windows7.0\\", "").
+                            Replace(LibPaths.SepChar + Constants.RELEASE_DIR, "").Replace(LibPaths.SepChar + Constants.DEBUG_DIR, "").
+                            Replace(LibPaths.SepChar + Constants.BIN_DIR, "").Replace(LibPaths.SepChar + Constants.OBJ_DIR, "");                            
                     }
 
                     if (!appDirPath.EndsWith(SepChar))

@@ -31,24 +31,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             InitializeComponent();
         }
 
-        public SecureChat(bool encodeOnly = false, bool dragNDrop = false)
-        {
-            InitializeComponent();
-            if (encodeOnly)
-            {
-                this.ComboBox_RemoteEndPoint.Enabled = false;
-            }
-            else
-            {
-                string usrMailKey = (!string.IsNullOrEmpty(this.richTextBoxChat.Text)) ? this.richTextBoxChat.Text : Constants.AUTHOR_EMAIL;
-                ComboBox_RemoteEndPoint.SelectedIndex = 0;
-            }
-
-            ComboBox_LocalEndPoint.SelectedIndex = 3;
-        }
 
         private void SecureChat_Load(object sender, EventArgs e)
         {
+
             List<IPAddress> list = NetworkAddresses.GetConnectedIpAddresses();
 
             int mchecked = 0;
@@ -61,9 +47,20 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                         item.Checked = true;
                     else item.Checked = false;
 
-                    this.toolStripMenuView.DropDownItems.Add(item);
+                    this.menuIItemMyIps.DropDownItems.Add(item);
                 }
             }
+
+            if (Entities.Settings.Load() == null)
+            {
+                var badge = new TransparentBadge($"Error reading Settings from {LibPaths.AppDirPath + Constants.JSON_SETTINGS_FILE}.");
+                badge.Show();
+            }
+            if (Entities.Settings.Instance == null || Entities.Settings.Instance.MyContact == null)
+            {
+                menuItemMyContact_Click(sender, e);
+            }
+
         }
 
 
@@ -91,16 +88,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // frmConfirmation.Visible = false;
             string usrMailKey = Constants.AUTHOR_EMAIL;
 
-        }
-
-        private void toolStripMenuItemOld_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripMenuItemNew_Click(object sender, EventArgs e)
-        {
-            Button_Save_Click(sender, e);
         }
 
         private void Button_Save_Click(object sender, EventArgs e)
@@ -263,77 +250,26 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 if (content != null && content.Length > 0)
                     System.IO.File.WriteAllBytes(saveFileDialog.FileName, content);
 
-                var badge = new TransparentBadge($"File {fileName} saved to directory {saveDir}.");
-                badge.Show();
-
-                // TODO: outsource in Badge;
-                Point pt = badge.DesktopLocation;
-
-                System.Timers.Timer timer = new System.Timers.Timer { Interval = 1000 };
-                System.Timers.Timer timerDispose = new System.Timers.Timer { Interval = 3000 };
-                timer.Elapsed += (s, en) =>
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        for (int i = 0; i < 10; i++)
-                        {
-                            badge.SetDesktopLocation(pt.X, pt.Y - (i * 2));
-                            Thread.Sleep(200);
-                        }
-                    }));
-                    timer.Stop(); // Stop the timer(otherwise keeps on calling)
-                };
-
-                timerDispose.Elapsed += (s, en) =>
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        if (badge != null)
-                        {
-                            badge.Close();
-                            badge.Dispose();
-                        }
-                    }));
-                    timerDispose.Stop(); // Stop the timer(otherwise keeps on calling)
-                };
-
-                timer.Start(); // Starts the show autosave timer after 2,5 sec
-                timerDispose.Start(); // Starts the DisposePictureMessage timer after 4sec
+                // var badge = new TransparentBadge($"File {fileName} saved to directory {saveDir}.");
+                // badge.Show();
             }
 
             return (saveFileDialog != null && saveFileDialog.FileName != null && File.Exists(saveFileDialog.FileName)) ? saveFileDialog.FileName : null;
         }
 
-        protected internal void menuViewMenuUnixItemFortnune_Click(object sender, EventArgs e)
+
+        private void menuFileItemExit_Click(object sender, EventArgs e)
         {
-
+            AppCloseAllFormsExit();
         }
-
-        private void menuViewMenuUnixItemNetAddr_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void menuViewMenuICrypttemEnDeCode_Click(object sender, EventArgs e)
-        {
-
-
-        }
-
-        private void menuViewMenuUnixItemScp_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void menuViewMenuUnixItemSecureChat_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
 
         public virtual void AppCloseAllFormsExit()
         {
+            if (!Entities.Settings.Save(Entities.Settings.Instance))
+            {
+                throw new ApplicationException("Cannot persist settings for SecureChat!");
+            }
+
             for (int frmidx = 0; frmidx < System.Windows.Forms.Application.OpenForms.Count; frmidx++)
             {
                 try
@@ -393,14 +329,39 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         }
 
-        private void menuFileItemNew_Click(object sender, EventArgs e)
+
+        private void menuItemMyContact_Click(object sender, EventArgs e)
         {
-            Button_Save_Click(sender, e);
+            ContactSettings contactSettings = new ContactSettings("My Contact Info", 0);
+            contactSettings.ShowInTaskbar = true;
+            contactSettings.ShowDialog();
+
+            if (Entities.Settings.Instance.MyContact != null)
+            {
+                string base64image = Entities.Settings.Instance.MyContact.ImageBase64 ?? string.Empty;
+                if (!string.IsNullOrEmpty(base64image))
+                    this.pictureBoxYou.Image = base64image.Base64ToImage();
+
+                // var badge = new TransparentBadge("My contact added!");
+                // badge.ShowDialog();
+
+            }
+
         }
 
-        private void menuFileItemExit_Click(object sender, EventArgs e)
+        private void menuItemAddContact_Click(object sender, EventArgs e)
         {
-            AppCloseAllFormsExit();
+            ContactSettings contactSettings = new ContactSettings("Add Contact Info", 1);
+            contactSettings.ShowInTaskbar = true;
+            contactSettings.ShowDialog();
+
+            // var badge = new TransparentBadge("My contact added!");
+            // badge.ShowDialog();
+        }
+
+        private void menuItemSend_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

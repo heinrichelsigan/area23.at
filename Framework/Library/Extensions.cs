@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.Drawing;
 
 namespace Area23.At.Framework.Library
 {
@@ -340,6 +341,38 @@ namespace Area23.At.Framework.Library
         }
 
         /// <summary>
+        /// <see cref="string"/>.Base64ToStream() extension method: converts base64 string to stream
+        /// </summary>
+        /// <param name="base64">base64 encoded string</param>
+        /// <returns>MemoryStream</returns>
+        public static MemoryStream Base64ToStream(this string base64)
+        {
+            byte[] bytes = EnDeCoding.Base64.Decode(base64);
+            MemoryStream ms = new MemoryStream(bytes.Length);
+            ms.Write(bytes, 0, bytes.Length);
+            ms.Flush();
+            return ms;
+        }
+
+        /// <summary>
+        /// <see cref="string"/>.Base64ToImage() extension method: converts base64 string to an image
+        /// </summary>
+        /// <param name="base64">base64 encoded string</param>
+        /// <returns>Image?</returns>
+        public static Image Base64ToImage(this string base64)
+        {
+            Bitmap bitmap = null;
+            byte[] bytes = EnDeCoding.Base64.Decode(base64);
+            using (MemoryStream ms = new MemoryStream(bytes.Length))
+            {
+                ms.Write(bytes, 0, bytes.Length);
+                ms.Flush();
+                bitmap = new Bitmap(ms);
+            }
+            return (Image)bitmap;
+        }
+
+        /// <summary>
         /// <see cref="string"/>.FromHtmlToColor() extension methods: transforms hex #rrggbb string into <see cref="System.Drawing.Color"/>
         /// </summary>
         /// <param name="htmlRGBString"><see cref="string"/> to transform</param>
@@ -492,6 +525,53 @@ namespace Area23.At.Framework.Library
         }
 
         #endregion System.Drawing.Color extensions
+
+        #region System.Drawing.Image extensions
+
+        /// <summary>
+        /// <see cref="System.Drawing.Image"/>.ToBase64() extension method: converts <see cref="System.Drawing.Image"/> to base64 string
+        /// </summary>
+        /// <param name="img">this <see cref="System.Drawing.Image"/></param>
+        /// <returns>base64 encoded <see cref="string"/></returns>
+        public static string ToBase64(this System.Drawing.Image img)
+        {
+            string base64 = null;
+            using (var ms = new MemoryStream())
+            {
+                img.Save(ms, img.RawFormat);
+                ms.Flush();
+                byte[] bytes = ms.ToArray();
+                base64 = EnDeCoding.Base64.Encode(bytes);
+            }
+
+            return base64;
+        }
+
+        /// <summary>
+        /// <see cref="System.Drawing.Image"/>.ToByteArray() extension method: converts <see cref="System.Drawing.Image"/> to byte array
+        /// </summary>
+        /// <param name="img">this <see cref="System.Drawing.Image"/></param>
+        /// <returns><see cref="byte[]"/> array</returns>
+        public static byte[] ToByteArray(this System.Drawing.Image img)
+        {
+            try
+            {
+                using (var ms = new MemoryStream())
+                {
+                    img.Save(ms, img.RawFormat);
+                    // ms.Flush();
+                    byte[] bytes = ms.ToArray();
+                    return bytes;
+                }
+            }
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);
+            }
+            return (byte[])null;
+        }
+
+        #endregion System.Drawing.Image extensions
 
         #region genericsT_extensions
 

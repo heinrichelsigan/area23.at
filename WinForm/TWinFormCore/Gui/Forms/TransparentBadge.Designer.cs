@@ -47,13 +47,16 @@
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = SystemColors.Control;
+            ShowInTaskbar = false;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(480, 144);
             Controls.Add(labelBadge);
+            Load += TransparentBadge_Load;
+            Shown += TransparentBadge_Shown;
             Font = new Font("Lucida Sans Unicode", 10F);
             FormBorderStyle = FormBorderStyle.None;
             Name = "TransparentBadge";
-            Text = "TransparentFormCore8";
+            Text = "TransparentBadge";
             TransparencyKey = SystemColors.Control;
             ResumeLayout(false);
         }

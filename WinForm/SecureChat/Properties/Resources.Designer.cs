@@ -59,5 +59,94 @@ namespace Area23.At.WinForm.SecureChat.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] a_hash {
+            get {
+                object obj = ResourceManager.GetObject("a_hash", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ClickToUpload {
+            get {
+                object obj = ResourceManager.GetObject("ClickToUpload", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] frogInHole {
+            get {
+                object obj = ResourceManager.GetObject("frogInHole", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] frogInSwamp {
+            get {
+                object obj = ResourceManager.GetObject("frogInSwamp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] frogJump {
+            get {
+                object obj = ResourceManager.GetObject("frogJump", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] frogUnderWater {
+            get {
+                object obj = ResourceManager.GetObject("frogUnderWater", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 52.3.250.146;13.38.136.165;2600:1f18:7a3f:a700::6291;2a05:d012:209:ee00:a8ba:d6c4:bd60:bab5.
+        /// </summary>
+        internal static string Proxies {
+            get {
+                return ResourceManager.GetString("Proxies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon TransparentFormsIcon {
+            get {
+                object obj = ResourceManager.GetObject("TransparentFormsIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap WinFormAboutDialog {
+            get {
+                object obj = ResourceManager.GetObject("WinFormAboutDialog", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

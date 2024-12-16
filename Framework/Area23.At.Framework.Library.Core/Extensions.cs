@@ -1,4 +1,5 @@
 ﻿using Org.BouncyCastle.Crypto.Generators;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
@@ -121,7 +122,7 @@ namespace Area23.At.Framework.Library.Core
                 }
             }
         }
-
+        
         #endregion stream_extensions
 
         #region byteArray_extensions
@@ -337,6 +338,38 @@ namespace Area23.At.Framework.Library.Core
         }
 
         /// <summary>
+        /// <see cref="string"/>.Base64ToStream() extension method: converts base64 string to stream
+        /// </summary>
+        /// <param name="base64">base64 encoded string</param>
+        /// <returns>MemoryStream</returns>
+        public static MemoryStream Base64ToStream(this string base64)
+        {
+            byte[] bytes = EnDeCoding.Base64.Decode(base64);
+            MemoryStream ms = new MemoryStream(bytes.Length);
+            ms.Write(bytes, 0, bytes.Length);
+            ms.Flush();
+            return ms;
+        }
+
+        /// <summary>
+        /// <see cref="string"/>.Base64ToImage() extension method: converts base64 string to an image
+        /// </summary>
+        /// <param name="base64">base64 encoded string</param>
+        /// <returns>Image?</returns>
+        public static Image? Base64ToImage(this string base64)
+        {
+            Bitmap? bitmap = null;
+            byte[] bytes = EnDeCoding.Base64.Decode(base64);
+            using (MemoryStream ms = new MemoryStream(bytes.Length))
+            {
+                ms.Write(bytes, 0, bytes.Length);
+                ms.Flush();
+                bitmap = new Bitmap(ms);
+            }
+            return (Image)bitmap;
+        }
+
+        /// <summary>
         /// <see cref="string"/>.FromHtmlToColor() extension methods: transforms hex #rrggbb string into <see cref="System.Drawing.Color"/>
         /// </summary>
         /// <param name="htmlRGBString"><see cref="string"/> to transform</param>
@@ -351,6 +384,18 @@ namespace Area23.At.Framework.Library.Core
             System.Drawing.Color _color = System.Drawing.ColorTranslator.FromHtml(htmlRGBString);
             return _color;
         }
+
+
+        public static string GetExtensionFromFileString(this string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName) || !fileName.Contains("."))
+                return null;
+            int lastIdx = fileName.LastIndexOf('.');
+            string ext = fileName.Substring(lastIdx);
+
+            return ext;
+        }
+
 
         #endregion string_extensions
 
@@ -478,6 +523,75 @@ namespace Area23.At.Framework.Library.Core
         }
 
         #endregion System.Drawing.Color extensions
+
+        #region System.Drawing.Image extensions
+
+        /// <summary>
+        /// <see cref="System.Drawing.Image"/>.ToBase64() extension method: converts <see cref="System.Drawing.Image"/> to base64 string
+        /// </summary>
+        /// <param name="img">this <see cref="System.Drawing.Image"/></param>
+        /// <returns>base64 encoded <see cref="string?"/></returns>
+        public static string? ToBase64(this System.Drawing.Image img)
+        {
+            string? base64 = null;
+            var ms = new MemoryStream();
+            try
+            {
+                img.Save(ms, ImageFormat.Png);
+            } 
+            catch (Exception exPng)
+            {
+                Area23Log.LogStatic(exPng);
+            }
+            try
+            {
+                img.Save(ms, ImageFormat.Gif);
+            }
+            catch (Exception exGif)
+            {
+                Area23Log.LogStatic(exGif);
+            }
+            try
+            {
+                img.Save(ms, ImageFormat.Jpeg);
+            }
+            catch (Exception exJpg)
+            {
+                Area23Log.LogStatic(exJpg);
+            }
+            // ms.Flush();
+            byte[] bytes = ms.ToArray();
+            base64 = EnDeCoding.Base64.Encode(bytes);
+            ms.Close();
+
+            return base64;
+        }
+
+        /// <summary>
+        /// <see cref="System.Drawing.Bitmap"/>.ToByteArray() extension method: converts <see cref="System.Drawing.Bitmap"/> to byte array
+        /// </summary>
+        /// <param name="img">this <see cref="System.Drawing.Image"/></param>
+        /// <returns><see cref="byte[]?"/> array</returns>
+        public static byte[]? ToByteArray(this System.Drawing.Bitmap bmp)
+        {
+            try
+            {
+                using (var ms = new MemoryStream())
+                {
+                    bmp.Save(ms, ImageFormat.Jpeg);
+                    // ms.Flush();
+                    byte[] bytes = ms.ToArray();
+                    return bytes;
+                }
+            }
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);
+            }
+            return (byte[])null;
+        }
+
+        #endregion System.Drawing.Image extensions
 
         #region Mutex extensions
 

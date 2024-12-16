@@ -32,28 +32,43 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SecureChat));
             menuStrip = new MenuStrip();
             toolStripMenuFile = new ToolStripMenuItem();
-            menuFileItemNew = new ToolStripMenuItem();
             menuFileItemOpen = new ToolStripMenuItem();
-            menuFileItemDiscard = new ToolStripMenuItem();
             menuFileItemSave = new ToolStripMenuItem();
-            toolStripSeparator2 = new ToolStripSeparator();
+            menuFileSeparator = new ToolStripSeparator();
             menuFileItemExit = new ToolStripMenuItem();
-            toolStripMenuView = new ToolStripMenuItem();
-            menuViewMenuICrypt = new ToolStripMenuItem();
-            menuViewMenuCryptItemEnDeCode = new ToolStripMenuItem();
-            menuViewMenuCryptItemCrypt = new ToolStripMenuItem();
-            menuViewMenuUnix = new ToolStripMenuItem();
-            menuViewMenuUnixItemNetAddr = new ToolStripMenuItem();
-            menuViewMenuUnixItemSecureChat = new ToolStripMenuItem();
-            menuViewMenuUnixItemScp = new ToolStripMenuItem();
-            menuViewMenuUnixItemFortnune = new ToolStripMenuItem();
-            menuViewMenuUnixItemHexDump = new ToolStripMenuItem();
-            toolStripMenuQuestionMark = new ToolStripMenuItem();
-            toolStripMenuItemAbout = new ToolStripMenuItem();
-            toolStripMenuItemHelp = new ToolStripMenuItem();
-            toolStripMenuItemInfo = new ToolStripMenuItem();
+            menuEdit = new ToolStripMenuItem();
+            menuEditItemCut = new ToolStripMenuItem();
+            menuEditItemCopy = new ToolStripMenuItem();
+            menuIEdittemPaste = new ToolStripMenuItem();
+            menuEditItemSelectAll = new ToolStripMenuItem();
+            menuView = new ToolStripMenuItem();
+            menuViewItemLeftRíght = new ToolStripMenuItem();
+            menuViewItemTopBottom = new ToolStripMenuItem();
+            menuIViewtem1View = new ToolStripMenuItem();
+            menuIPs = new ToolStripMenuItem();
+            menuIItemMyIps = new ToolStripMenuItem();
+            menuItemFriendIp = new ToolStripMenuItem();
+            menuItempComboBoxFriendIp = new ToolStripComboBox();
+            menuIPsSeparator = new ToolStripSeparator();
+            menuItemProxyServers = new ToolStripMenuItem();
+            menuItemComboBoxProxies = new ToolStripComboBox();
+            menuItemIPv6Secure = new ToolStripMenuItem();
+            menuCommands = new ToolStripMenuItem();
+            menuItemSend = new ToolStripMenuItem();
+            menuItemRefresh = new ToolStripMenuItem();
+            menuItemClear = new ToolStripMenuItem();
+            menuOptions = new ToolStripMenuItem();
+            menuItemMyContact = new ToolStripMenuItem();
+            menuItemAddContact = new ToolStripMenuItem();
+            menuItemImportContacts = new ToolStripMenuItem();
+            menuItemViewContacts = new ToolStripMenuItem();
+            menuQuestionMark = new ToolStripMenuItem();
+            menuItemAbout = new ToolStripMenuItem();
+            menuItemHelp = new ToolStripMenuItem();
+            menuItemInfo = new ToolStripMenuItem();
             openFileDialog = new OpenFileDialog();
             saveFileDialog = new SaveFileDialog();
             statusStrip = new StatusStrip();
@@ -62,11 +77,12 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             splitButtonMenuItemSave = new ToolStripMenuItem();
             toolStripProgressBar = new ToolStripProgressBar();
             toolStripStatusLabel = new ToolStripStatusLabel();
+            toolStripDropDownButton1 = new ToolStripDropDownButton();
+            toolStripMenuItem1 = new ToolStripMenuItem();
+            toolStripComboBox1 = new ToolStripComboBox();
             splitContainer = new SplitContainer();
             TextBoxSource = new TextBox();
             TextBoxDestionation = new TextBox();
-            buttonDelete = new Button();
-            buttonSend = new Button();
             panelSource = new Panel();
             pictureBoxYou = new PictureBox();
             pictureBoxSource = new PictureBox();
@@ -81,7 +97,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             pictureBoxPartner = new PictureBox();
             panelDestination = new Panel();
             buttonExit = new Button();
-            buttonReload = new Button();
             menuStrip.SuspendLayout();
             statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
@@ -101,7 +116,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             menuStrip.BackColor = Color.Transparent;
             menuStrip.Font = new Font("Lucida Sans Unicode", 10F);
-            menuStrip.Items.AddRange(new ToolStripItem[] { toolStripMenuFile, toolStripMenuView, toolStripMenuQuestionMark });
+            menuStrip.Items.AddRange(new ToolStripItem[] { toolStripMenuFile, menuEdit, menuView, menuIPs, menuCommands, menuOptions, menuQuestionMark });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
             menuStrip.Size = new Size(976, 25);
@@ -111,28 +126,13 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // toolStripMenuFile
             // 
             toolStripMenuFile.BackColor = SystemColors.MenuBar;
-            toolStripMenuFile.DropDownItems.AddRange(new ToolStripItem[] { menuFileItemNew, menuFileItemOpen, menuFileItemDiscard, menuFileItemSave, toolStripSeparator2, menuFileItemExit });
+            toolStripMenuFile.DropDownItems.AddRange(new ToolStripItem[] { menuFileItemOpen, menuFileItemSave, menuFileSeparator, menuFileItemExit });
             toolStripMenuFile.ForeColor = SystemColors.MenuText;
             toolStripMenuFile.Name = "toolStripMenuFile";
             toolStripMenuFile.Padding = new Padding(3, 0, 3, 0);
             toolStripMenuFile.ShortcutKeys = Keys.Alt | Keys.F;
             toolStripMenuFile.Size = new Size(42, 21);
             toolStripMenuFile.Text = "File";
-            // 
-            // menuFileItemNew
-            // 
-            menuFileItemNew.AutoToolTip = true;
-            menuFileItemNew.BackColor = SystemColors.Menu;
-            menuFileItemNew.BackgroundImageLayout = ImageLayout.Center;
-            menuFileItemNew.ForeColor = SystemColors.MenuText;
-            menuFileItemNew.Margin = new Padding(1);
-            menuFileItemNew.Name = "menuFileItemNew";
-            menuFileItemNew.ShortcutKeys = Keys.Control | Keys.N;
-            menuFileItemNew.Size = new Size(181, 22);
-            menuFileItemNew.Text = "New";
-            menuFileItemNew.TextImageRelation = TextImageRelation.TextAboveImage;
-            menuFileItemNew.ToolTipText = "New file";
-            menuFileItemNew.Click += menuFileItemNew_Click;
             // 
             // menuFileItemOpen
             // 
@@ -143,25 +143,11 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuFileItemOpen.Margin = new Padding(1);
             menuFileItemOpen.Name = "menuFileItemOpen";
             menuFileItemOpen.ShortcutKeys = Keys.Control | Keys.O;
-            menuFileItemOpen.Size = new Size(181, 22);
+            menuFileItemOpen.Size = new Size(168, 22);
             menuFileItemOpen.Text = "Open";
             menuFileItemOpen.TextImageRelation = TextImageRelation.TextAboveImage;
             menuFileItemOpen.ToolTipText = "Open file";
             menuFileItemOpen.Click += toolStripMenuItemLoad_Click;
-            // 
-            // menuFileItemDiscard
-            // 
-            menuFileItemDiscard.AutoToolTip = true;
-            menuFileItemDiscard.BackColor = SystemColors.Menu;
-            menuFileItemDiscard.BackgroundImageLayout = ImageLayout.Center;
-            menuFileItemDiscard.ForeColor = SystemColors.MenuText;
-            menuFileItemDiscard.Margin = new Padding(1);
-            menuFileItemDiscard.Name = "menuFileItemDiscard";
-            menuFileItemDiscard.ShortcutKeys = Keys.Control | Keys.D;
-            menuFileItemDiscard.Size = new Size(181, 22);
-            menuFileItemDiscard.Text = "Discard";
-            menuFileItemDiscard.TextImageRelation = TextImageRelation.TextAboveImage;
-            menuFileItemDiscard.ToolTipText = "Discard";
             // 
             // menuFileItemSave
             // 
@@ -172,19 +158,19 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuFileItemSave.Margin = new Padding(1);
             menuFileItemSave.Name = "menuFileItemSave";
             menuFileItemSave.ShortcutKeys = Keys.Control | Keys.S;
-            menuFileItemSave.Size = new Size(181, 22);
+            menuFileItemSave.Size = new Size(168, 22);
             menuFileItemSave.Text = "Save";
             menuFileItemSave.TextImageRelation = TextImageRelation.TextAboveImage;
             menuFileItemSave.ToolTipText = "Save file";
             menuFileItemSave.Click += toolStripMenuItemSave_Click;
             // 
-            // toolStripSeparator2
+            // menuFileSeparator
             // 
-            toolStripSeparator2.BackColor = SystemColors.Menu;
-            toolStripSeparator2.ForeColor = SystemColors.MenuText;
-            toolStripSeparator2.Margin = new Padding(1);
-            toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(178, 6);
+            menuFileSeparator.BackColor = SystemColors.Menu;
+            menuFileSeparator.ForeColor = SystemColors.MenuText;
+            menuFileSeparator.Margin = new Padding(1);
+            menuFileSeparator.Name = "menuFileSeparator";
+            menuFileSeparator.Size = new Size(165, 6);
             // 
             // menuFileItemExit
             // 
@@ -193,194 +179,266 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuFileItemExit.ForeColor = SystemColors.MenuText;
             menuFileItemExit.Name = "menuFileItemExit";
             menuFileItemExit.ShortcutKeys = Keys.Alt | Keys.X;
-            menuFileItemExit.Size = new Size(181, 22);
+            menuFileItemExit.Size = new Size(168, 22);
             menuFileItemExit.Text = "Exit";
             menuFileItemExit.Click += menuFileItemExit_Click;
             // 
-            // toolStripMenuView
+            // menuEdit
             // 
-            toolStripMenuView.BackColor = SystemColors.MenuBar;
-            toolStripMenuView.BackgroundImageLayout = ImageLayout.None;
-            toolStripMenuView.DropDownItems.AddRange(new ToolStripItem[] { menuViewMenuICrypt, menuViewMenuUnix });
-            toolStripMenuView.ForeColor = SystemColors.MenuText;
-            toolStripMenuView.ImageScaling = ToolStripItemImageScaling.None;
-            toolStripMenuView.Name = "toolStripMenuView";
-            toolStripMenuView.Padding = new Padding(3, 0, 3, 0);
-            toolStripMenuView.ShortcutKeys = Keys.Alt | Keys.V;
-            toolStripMenuView.Size = new Size(50, 21);
-            toolStripMenuView.Text = "View";
+            menuEdit.BackColor = SystemColors.MenuBar;
+            menuEdit.DropDownItems.AddRange(new ToolStripItem[] { menuEditItemCut, menuEditItemCopy, menuIEdittemPaste, menuEditItemSelectAll });
+            menuEdit.Enabled = false;
+            menuEdit.Name = "menuEdit";
+            menuEdit.Size = new Size(46, 21);
+            menuEdit.Text = "Edit";
             // 
-            // menuViewMenuICrypt
+            // menuEditItemCut
             // 
-            menuViewMenuICrypt.AutoToolTip = true;
-            menuViewMenuICrypt.BackColor = SystemColors.Menu;
-            menuViewMenuICrypt.BackgroundImageLayout = ImageLayout.Zoom;
-            menuViewMenuICrypt.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            menuViewMenuICrypt.DropDownItems.AddRange(new ToolStripItem[] { menuViewMenuCryptItemEnDeCode, menuViewMenuCryptItemCrypt });
-            menuViewMenuICrypt.ForeColor = SystemColors.MenuText;
-            menuViewMenuICrypt.Margin = new Padding(1);
-            menuViewMenuICrypt.Name = "menuViewMenuICrypt";
-            menuViewMenuICrypt.ShortcutKeys = Keys.Alt | Keys.C;
-            menuViewMenuICrypt.Size = new Size(180, 22);
-            menuViewMenuICrypt.Text = "Crypt";
-            menuViewMenuICrypt.ToolTipText = "Crypt Forms Submenu";
+            menuEditItemCut.BackColor = SystemColors.Menu;
+            menuEditItemCut.Enabled = false;
+            menuEditItemCut.Name = "menuEditItemCut";
+            menuEditItemCut.ShortcutKeys = Keys.Control | Keys.X;
+            menuEditItemCut.Size = new Size(192, 22);
+            menuEditItemCut.Text = "Cat ✂";
             // 
-            // menuViewMenuCryptItemEnDeCode
+            // menuEditItemCopy
             // 
-            menuViewMenuCryptItemEnDeCode.AutoToolTip = true;
-            menuViewMenuCryptItemEnDeCode.BackColor = SystemColors.Menu;
-            menuViewMenuCryptItemEnDeCode.BackgroundImageLayout = ImageLayout.None;
-            menuViewMenuCryptItemEnDeCode.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            menuViewMenuCryptItemEnDeCode.Font = new Font("Lucida Sans Unicode", 10F);
-            menuViewMenuCryptItemEnDeCode.ForeColor = SystemColors.MenuText;
-            menuViewMenuCryptItemEnDeCode.Margin = new Padding(1);
-            menuViewMenuCryptItemEnDeCode.Name = "menuViewMenuCryptItemEnDeCode";
-            menuViewMenuCryptItemEnDeCode.Size = new Size(163, 22);
-            menuViewMenuCryptItemEnDeCode.Text = "En-/Decode";
-            menuViewMenuCryptItemEnDeCode.ToolTipText = "Encode & Decode Form";
-            menuViewMenuCryptItemEnDeCode.Click += menuViewMenuCrypItemEnDeCode_Click;
+            menuEditItemCopy.BackColor = SystemColors.Menu;
+            menuEditItemCopy.Enabled = false;
+            menuEditItemCopy.Name = "menuEditItemCopy";
+            menuEditItemCopy.ShortcutKeys = Keys.Control | Keys.C;
+            menuEditItemCopy.Size = new Size(192, 22);
+            menuEditItemCopy.Text = "Copy";
             // 
-            // menuViewMenuCryptItemCrypt
+            // menuIEdittemPaste
             // 
-            menuViewMenuCryptItemCrypt.AutoToolTip = true;
-            menuViewMenuCryptItemCrypt.BackColor = SystemColors.Menu;
-            menuViewMenuCryptItemCrypt.BackgroundImageLayout = ImageLayout.None;
-            menuViewMenuCryptItemCrypt.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            menuViewMenuCryptItemCrypt.Font = new Font("Lucida Sans Unicode", 10F);
-            menuViewMenuCryptItemCrypt.ForeColor = SystemColors.MenuText;
-            menuViewMenuCryptItemCrypt.Margin = new Padding(1);
-            menuViewMenuCryptItemCrypt.Name = "menuViewMenuCryptItemCrypt";
-            menuViewMenuCryptItemCrypt.Size = new Size(163, 22);
-            menuViewMenuCryptItemCrypt.Text = "En-/DeCrypt";
-            menuViewMenuCryptItemCrypt.ToolTipText = "Encrypt Decrypt Pipeline";
-            menuViewMenuCryptItemCrypt.Click += menuViewMenuCryptItemCrypt_Click;
+            menuIEdittemPaste.BackColor = SystemColors.Menu;
+            menuIEdittemPaste.Enabled = false;
+            menuIEdittemPaste.Name = "menuIEdittemPaste";
+            menuIEdittemPaste.ShortcutKeys = Keys.Control | Keys.V;
+            menuIEdittemPaste.Size = new Size(192, 22);
+            menuIEdittemPaste.Text = "Paste";
             // 
-            // menuViewMenuUnix
+            // menuEditItemSelectAll
             // 
-            menuViewMenuUnix.AutoToolTip = true;
-            menuViewMenuUnix.BackColor = SystemColors.Menu;
-            menuViewMenuUnix.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            menuViewMenuUnix.DropDownItems.AddRange(new ToolStripItem[] { menuViewMenuUnixItemNetAddr, menuViewMenuUnixItemSecureChat, menuViewMenuUnixItemScp, menuViewMenuUnixItemFortnune, menuViewMenuUnixItemHexDump });
-            menuViewMenuUnix.ForeColor = SystemColors.MenuText;
-            menuViewMenuUnix.Margin = new Padding(1);
-            menuViewMenuUnix.Name = "menuViewMenuUnix";
-            menuViewMenuUnix.ShortcutKeys = Keys.Alt | Keys.U;
-            menuViewMenuUnix.Size = new Size(180, 22);
-            menuViewMenuUnix.Text = "Unix";
-            menuViewMenuUnix.ToolTipText = "Unix Tools Submenu";
+            menuEditItemSelectAll.BackColor = SystemColors.Menu;
+            menuEditItemSelectAll.Enabled = false;
+            menuEditItemSelectAll.Name = "menuEditItemSelectAll";
+            menuEditItemSelectAll.ShortcutKeys = Keys.Control | Keys.A;
+            menuEditItemSelectAll.Size = new Size(192, 22);
+            menuEditItemSelectAll.Text = "Select All";
             // 
-            // menuViewMenuUnixItemNetAddr
+            // menuView
             // 
-            menuViewMenuUnixItemNetAddr.BackColor = SystemColors.Menu;
-            menuViewMenuUnixItemNetAddr.BackgroundImageLayout = ImageLayout.None;
-            menuViewMenuUnixItemNetAddr.Font = new Font("Lucida Sans Unicode", 10F);
-            menuViewMenuUnixItemNetAddr.ForeColor = SystemColors.MenuText;
-            menuViewMenuUnixItemNetAddr.ImageScaling = ToolStripItemImageScaling.None;
-            menuViewMenuUnixItemNetAddr.Margin = new Padding(1);
-            menuViewMenuUnixItemNetAddr.Name = "menuViewMenuUnixItemNetAddr";
-            menuViewMenuUnixItemNetAddr.Size = new Size(193, 22);
-            menuViewMenuUnixItemNetAddr.Text = "Network Address";
-            menuViewMenuUnixItemNetAddr.Click += menuViewMenuUnixItemNetAddr_Click;
+            menuView.BackColor = SystemColors.MenuBar;
+            menuView.BackgroundImageLayout = ImageLayout.None;
+            menuView.DropDownItems.AddRange(new ToolStripItem[] { menuViewItemLeftRíght, menuViewItemTopBottom, menuIViewtem1View });
+            menuView.ForeColor = SystemColors.MenuText;
+            menuView.ImageScaling = ToolStripItemImageScaling.None;
+            menuView.Name = "menuView";
+            menuView.Padding = new Padding(3, 0, 3, 0);
+            menuView.ShortcutKeys = Keys.Alt | Keys.V;
+            menuView.Size = new Size(50, 21);
+            menuView.Text = "View";
             // 
-            // menuViewMenuUnixItemSecureChat
+            // menuViewItemLeftRíght
             // 
-            menuViewMenuUnixItemSecureChat.BackColor = SystemColors.Menu;
-            menuViewMenuUnixItemSecureChat.BackgroundImageLayout = ImageLayout.None;
-            menuViewMenuUnixItemSecureChat.Font = new Font("Lucida Sans Unicode", 10F);
-            menuViewMenuUnixItemSecureChat.ForeColor = SystemColors.MenuText;
-            menuViewMenuUnixItemSecureChat.ImageScaling = ToolStripItemImageScaling.None;
-            menuViewMenuUnixItemSecureChat.Margin = new Padding(1);
-            menuViewMenuUnixItemSecureChat.Name = "menuViewMenuUnixItemSecureChat";
-            menuViewMenuUnixItemSecureChat.Size = new Size(193, 22);
-            menuViewMenuUnixItemSecureChat.Text = "Secure Chat";
-            menuViewMenuUnixItemSecureChat.Click += menuViewMenuUnixItemSecureChat_Click;
+            menuViewItemLeftRíght.Name = "menuViewItemLeftRíght";
+            menuViewItemLeftRíght.Size = new Size(160, 22);
+            menuViewItemLeftRíght.Text = "Left-Ríght";
             // 
-            // menuViewMenuUnixItemScp
+            // menuViewItemTopBottom
             // 
-            menuViewMenuUnixItemScp.BackColor = SystemColors.Menu;
-            menuViewMenuUnixItemScp.BackgroundImageLayout = ImageLayout.None;
-            menuViewMenuUnixItemScp.Font = new Font("Lucida Sans Unicode", 10F);
-            menuViewMenuUnixItemScp.ForeColor = SystemColors.MenuText;
-            menuViewMenuUnixItemScp.ImageScaling = ToolStripItemImageScaling.None;
-            menuViewMenuUnixItemScp.Margin = new Padding(1);
-            menuViewMenuUnixItemScp.Name = "menuViewMenuUnixItemScp";
-            menuViewMenuUnixItemScp.Size = new Size(193, 22);
-            menuViewMenuUnixItemScp.Text = "Scp";
-            menuViewMenuUnixItemScp.Click += menuViewMenuUnixItemScp_Click;
+            menuViewItemTopBottom.Name = "menuViewItemTopBottom";
+            menuViewItemTopBottom.Size = new Size(160, 22);
+            menuViewItemTopBottom.Text = "Top-Bottom";
             // 
-            // menuViewMenuUnixItemFortnune
+            // menuIViewtem1View
             // 
-            menuViewMenuUnixItemFortnune.BackColor = SystemColors.Menu;
-            menuViewMenuUnixItemFortnune.BackgroundImageLayout = ImageLayout.None;
-            menuViewMenuUnixItemFortnune.Font = new Font("Lucida Sans Unicode", 10F);
-            menuViewMenuUnixItemFortnune.ForeColor = SystemColors.MenuText;
-            menuViewMenuUnixItemFortnune.ImageScaling = ToolStripItemImageScaling.None;
-            menuViewMenuUnixItemFortnune.Margin = new Padding(1);
-            menuViewMenuUnixItemFortnune.Name = "menuViewMenuUnixItemFortnune";
-            menuViewMenuUnixItemFortnune.Size = new Size(193, 22);
-            menuViewMenuUnixItemFortnune.Text = "Fortnune";
-            menuViewMenuUnixItemFortnune.Click += menuViewMenuUnixItemFortnune_Click;
+            menuIViewtem1View.Name = "menuIViewtem1View";
+            menuIViewtem1View.Size = new Size(160, 22);
+            menuIViewtem1View.Text = "1-View";
             // 
-            // menuViewMenuUnixItemHexDump
+            // menuIPs
             // 
-            menuViewMenuUnixItemHexDump.BackColor = SystemColors.Menu;
-            menuViewMenuUnixItemHexDump.BackgroundImageLayout = ImageLayout.None;
-            menuViewMenuUnixItemHexDump.Font = new Font("Lucida Sans Unicode", 10F);
-            menuViewMenuUnixItemHexDump.ForeColor = SystemColors.MenuText;
-            menuViewMenuUnixItemHexDump.ImageScaling = ToolStripItemImageScaling.None;
-            menuViewMenuUnixItemHexDump.Name = "menuViewMenuUnixItemHexDump";
-            menuViewMenuUnixItemHexDump.Size = new Size(193, 22);
-            menuViewMenuUnixItemHexDump.Text = "HexDump";
+            menuIPs.BackColor = SystemColors.MenuBar;
+            menuIPs.DropDownItems.AddRange(new ToolStripItem[] { menuIItemMyIps, menuItemFriendIp, menuIPsSeparator, menuItemProxyServers, menuItemIPv6Secure });
+            menuIPs.Name = "menuIPs";
+            menuIPs.ShortcutKeys = Keys.Alt | Keys.I;
+            menuIPs.Size = new Size(107, 21);
+            menuIPs.Text = "IP Addresses";
             // 
-            // toolStripMenuQuestionMark
+            // menuIItemMyIps
             // 
-            toolStripMenuQuestionMark.BackColor = SystemColors.MenuBar;
-            toolStripMenuQuestionMark.BackgroundImageLayout = ImageLayout.None;
-            toolStripMenuQuestionMark.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripMenuQuestionMark.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItemAbout, toolStripMenuItemHelp, toolStripMenuItemInfo });
-            toolStripMenuQuestionMark.ForeColor = SystemColors.MenuText;
-            toolStripMenuQuestionMark.ImageScaling = ToolStripItemImageScaling.None;
-            toolStripMenuQuestionMark.Name = "toolStripMenuQuestionMark";
-            toolStripMenuQuestionMark.Padding = new Padding(3, 0, 3, 0);
-            toolStripMenuQuestionMark.ShortcutKeys = Keys.Alt | Keys.F7;
-            toolStripMenuQuestionMark.Size = new Size(24, 21);
-            toolStripMenuQuestionMark.Text = "?";
+            menuIItemMyIps.BackColor = SystemColors.Menu;
+            menuIItemMyIps.Name = "menuIItemMyIps";
+            menuIItemMyIps.ShortcutKeys = Keys.Alt | Keys.M;
+            menuIItemMyIps.Size = new Size(215, 22);
+            menuIItemMyIps.Text = "My Ip's";
             // 
-            // toolStripMenuItemAbout
+            // menuItemFriendIp
             // 
-            toolStripMenuItemAbout.BackColor = SystemColors.Menu;
-            toolStripMenuItemAbout.BackgroundImageLayout = ImageLayout.None;
-            toolStripMenuItemAbout.ForeColor = SystemColors.MenuText;
-            toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
-            toolStripMenuItemAbout.Padding = new Padding(0, 2, 0, 2);
-            toolStripMenuItemAbout.ShortcutKeys = Keys.Alt | Keys.A;
-            toolStripMenuItemAbout.Size = new Size(180, 24);
-            toolStripMenuItemAbout.Text = "About";
-            toolStripMenuItemAbout.TextImageRelation = TextImageRelation.TextAboveImage;
-            toolStripMenuItemAbout.Click += toolStripMenuItemAbout_Click;
+            menuItemFriendIp.BackColor = SystemColors.Menu;
+            menuItemFriendIp.DropDownItems.AddRange(new ToolStripItem[] { menuItempComboBoxFriendIp });
+            menuItemFriendIp.Name = "menuItemFriendIp";
+            menuItemFriendIp.ShortcutKeys = Keys.Alt | Keys.F;
+            menuItemFriendIp.Size = new Size(215, 22);
+            menuItemFriendIp.Text = "Friend Ip";
             // 
-            // toolStripMenuItemHelp
+            // menuItempComboBoxFriendIp
             // 
-            toolStripMenuItemHelp.BackColor = SystemColors.Menu;
-            toolStripMenuItemHelp.BackgroundImageLayout = ImageLayout.None;
-            toolStripMenuItemHelp.ForeColor = SystemColors.MenuText;
-            toolStripMenuItemHelp.Name = "toolStripMenuItemHelp";
-            toolStripMenuItemHelp.Padding = new Padding(0, 2, 0, 2);
-            toolStripMenuItemHelp.ShortcutKeys = Keys.Alt | Keys.H;
-            toolStripMenuItemHelp.Size = new Size(180, 24);
-            toolStripMenuItemHelp.Text = "Help";
+            menuItempComboBoxFriendIp.BackColor = SystemColors.ControlLightLight;
+            menuItempComboBoxFriendIp.Name = "menuItempComboBoxFriendIp";
+            menuItempComboBoxFriendIp.Size = new Size(121, 23);
             // 
-            // toolStripMenuItemInfo
+            // menuIPsSeparator
             // 
-            toolStripMenuItemInfo.BackColor = SystemColors.Menu;
-            toolStripMenuItemInfo.BackgroundImageLayout = ImageLayout.None;
-            toolStripMenuItemInfo.ForeColor = SystemColors.MenuText;
-            toolStripMenuItemInfo.Name = "toolStripMenuItemInfo";
-            toolStripMenuItemInfo.ShortcutKeys = Keys.Alt | Keys.I;
-            toolStripMenuItemInfo.Size = new Size(180, 22);
-            toolStripMenuItemInfo.Text = "Info";
-            toolStripMenuItemInfo.TextImageRelation = TextImageRelation.TextAboveImage;
-            toolStripMenuItemInfo.Click += toolStripMenuItemInfo_Click;
+            menuIPsSeparator.BackColor = SystemColors.Menu;
+            menuIPsSeparator.ForeColor = SystemColors.ActiveBorder;
+            menuIPsSeparator.Name = "menuIPsSeparator";
+            menuIPsSeparator.Size = new Size(212, 6);
+            // 
+            // menuItemProxyServers
+            // 
+            menuItemProxyServers.BackColor = SystemColors.Menu;
+            menuItemProxyServers.DropDownItems.AddRange(new ToolStripItem[] { menuItemComboBoxProxies });
+            menuItemProxyServers.Name = "menuItemProxyServers";
+            menuItemProxyServers.ShortcutKeys = Keys.Alt | Keys.P;
+            menuItemProxyServers.Size = new Size(215, 22);
+            menuItemProxyServers.Text = "Proxy Servers";
+            // 
+            // menuItemComboBoxProxies
+            // 
+            menuItemComboBoxProxies.BackColor = SystemColors.ControlLightLight;
+            menuItemComboBoxProxies.Name = "menuItemComboBoxProxies";
+            menuItemComboBoxProxies.Size = new Size(121, 23);
+            // 
+            // menuItemIPv6Secure
+            // 
+            menuItemIPv6Secure.BackColor = SystemColors.Menu;
+            menuItemIPv6Secure.Name = "menuItemIPv6Secure";
+            menuItemIPv6Secure.Size = new Size(215, 22);
+            menuItemIPv6Secure.Text = "IPv6 Secure";
+            // 
+            // menuCommands
+            // 
+            menuCommands.BackColor = SystemColors.MenuBar;
+            menuCommands.DropDownItems.AddRange(new ToolStripItem[] { menuItemSend, menuItemRefresh, menuItemClear });
+            menuCommands.Name = "menuCommands";
+            menuCommands.Size = new Size(134, 21);
+            menuCommands.Text = "Chat Commands";
+            // 
+            // menuItemSend
+            // 
+            menuItemSend.BackColor = SystemColors.Menu;
+            menuItemSend.Name = "menuItemSend";
+            menuItemSend.ShortcutKeys = Keys.Alt | Keys.S;
+            menuItemSend.Size = new Size(180, 22);
+            menuItemSend.Text = "Send";
+            menuItemSend.Click += menuItemSend_Click;
+            // 
+            // menuItemRefresh
+            // 
+            menuItemRefresh.BackColor = SystemColors.Menu;
+            menuItemRefresh.Name = "menuItemRefresh";
+            menuItemRefresh.ShortcutKeys = Keys.Alt | Keys.R;
+            menuItemRefresh.Size = new Size(175, 22);
+            menuItemRefresh.Text = "Refresh";
+            // 
+            // menuItemClear
+            // 
+            menuItemClear.BackColor = SystemColors.Menu;
+            menuItemClear.Name = "menuItemClear";
+            menuItemClear.ShortcutKeys = Keys.Alt | Keys.C;
+            menuItemClear.Size = new Size(175, 22);
+            menuItemClear.Text = "Clear";
+            // 
+            // menuOptions
+            // 
+            menuOptions.BackColor = SystemColors.MenuBar;
+            menuOptions.DropDownItems.AddRange(new ToolStripItem[] { menuItemMyContact, menuItemAddContact, menuItemImportContacts, menuItemViewContacts });
+            menuOptions.Name = "menuOptions";
+            menuOptions.Size = new Size(74, 21);
+            menuOptions.Text = "Options";
+            // 
+            // menuItemMyContact
+            // 
+            menuItemMyContact.Name = "menuItemMyContact";
+            menuItemMyContact.Size = new Size(186, 22);
+            menuItemMyContact.Text = "My Contact";
+            menuItemMyContact.Click += menuItemMyContact_Click;
+            // 
+            // menuItemAddContact
+            // 
+            menuItemAddContact.BackColor = SystemColors.Menu;
+            menuItemAddContact.Name = "menuItemAddContact";
+            menuItemAddContact.Size = new Size(186, 22);
+            menuItemAddContact.Text = "Add Contact";
+            menuItemAddContact.Click += menuItemAddContact_Click;
+            // 
+            // menuItemImportContacts
+            // 
+            menuItemImportContacts.BackColor = SystemColors.Menu;
+            menuItemImportContacts.Name = "menuItemImportContacts";
+            menuItemImportContacts.Size = new Size(186, 22);
+            menuItemImportContacts.Text = "Import Contacts";
+            // 
+            // menuItemViewContacts
+            // 
+            menuItemViewContacts.BackColor = SystemColors.Menu;
+            menuItemViewContacts.Name = "menuItemViewContacts";
+            menuItemViewContacts.Size = new Size(186, 22);
+            menuItemViewContacts.Text = "View Contacts";
+            // 
+            // menuQuestionMark
+            // 
+            menuQuestionMark.BackColor = SystemColors.MenuBar;
+            menuQuestionMark.BackgroundImageLayout = ImageLayout.None;
+            menuQuestionMark.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            menuQuestionMark.DropDownItems.AddRange(new ToolStripItem[] { menuItemAbout, menuItemHelp, menuItemInfo });
+            menuQuestionMark.ForeColor = SystemColors.MenuText;
+            menuQuestionMark.ImageScaling = ToolStripItemImageScaling.None;
+            menuQuestionMark.Name = "menuQuestionMark";
+            menuQuestionMark.Padding = new Padding(3, 0, 3, 0);
+            menuQuestionMark.ShortcutKeys = Keys.Alt | Keys.F7;
+            menuQuestionMark.Size = new Size(24, 21);
+            menuQuestionMark.Text = "?";
+            // 
+            // menuItemAbout
+            // 
+            menuItemAbout.BackColor = SystemColors.Menu;
+            menuItemAbout.BackgroundImageLayout = ImageLayout.None;
+            menuItemAbout.ForeColor = SystemColors.MenuText;
+            menuItemAbout.Name = "menuItemAbout";
+            menuItemAbout.Padding = new Padding(0, 2, 0, 2);
+            menuItemAbout.ShortcutKeys = Keys.Alt | Keys.A;
+            menuItemAbout.Size = new Size(166, 24);
+            menuItemAbout.Text = "About";
+            menuItemAbout.TextImageRelation = TextImageRelation.TextAboveImage;
+            menuItemAbout.Click += toolStripMenuItemAbout_Click;
+            // 
+            // menuItemHelp
+            // 
+            menuItemHelp.BackColor = SystemColors.Menu;
+            menuItemHelp.BackgroundImageLayout = ImageLayout.None;
+            menuItemHelp.ForeColor = SystemColors.MenuText;
+            menuItemHelp.Name = "menuItemHelp";
+            menuItemHelp.Padding = new Padding(0, 2, 0, 2);
+            menuItemHelp.ShortcutKeys = Keys.Alt | Keys.H;
+            menuItemHelp.Size = new Size(166, 24);
+            menuItemHelp.Text = "Help";
+            // 
+            // menuItemInfo
+            // 
+            menuItemInfo.BackColor = SystemColors.Menu;
+            menuItemInfo.BackgroundImageLayout = ImageLayout.None;
+            menuItemInfo.ForeColor = SystemColors.MenuText;
+            menuItemInfo.Name = "menuItemInfo";
+            menuItemInfo.ShortcutKeys = Keys.Alt | Keys.I;
+            menuItemInfo.Size = new Size(166, 22);
+            menuItemInfo.Text = "Info";
+            menuItemInfo.TextImageRelation = TextImageRelation.TextAboveImage;
+            menuItemInfo.Click += toolStripMenuItemInfo_Click;
             // 
             // openFileDialog
             // 
@@ -398,7 +456,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // statusStrip
             // 
             statusStrip.GripMargin = new Padding(1);
-            statusStrip.Items.AddRange(new ToolStripItem[] { toolStripSplitButton, toolStripProgressBar, toolStripStatusLabel });
+            statusStrip.Items.AddRange(new ToolStripItem[] { toolStripSplitButton, toolStripProgressBar, toolStripStatusLabel, toolStripDropDownButton1 });
             statusStrip.Location = new Point(0, 689);
             statusStrip.Name = "statusStrip";
             statusStrip.Size = new Size(976, 22);
@@ -443,9 +501,30 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             toolStripStatusLabel.Margin = new Padding(0, 2, 0, 1);
             toolStripStatusLabel.Name = "toolStripStatusLabel";
-            toolStripStatusLabel.Size = new Size(643, 19);
+            toolStripStatusLabel.Size = new Size(614, 19);
             toolStripStatusLabel.Spring = true;
             toolStripStatusLabel.Text = "Status";
+            // 
+            // toolStripDropDownButton1
+            // 
+            toolStripDropDownButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem1, toolStripComboBox1 });
+            toolStripDropDownButton1.Image = (Image)resources.GetObject("toolStripDropDownButton1.Image");
+            toolStripDropDownButton1.ImageTransparentColor = Color.Magenta;
+            toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            toolStripDropDownButton1.Size = new Size(29, 20);
+            toolStripDropDownButton1.Text = "toolStripDropDownButton1";
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(181, 22);
+            toolStripMenuItem1.Text = "toolStripMenuItem1";
+            // 
+            // toolStripComboBox1
+            // 
+            toolStripComboBox1.Name = "toolStripComboBox1";
+            toolStripComboBox1.Size = new Size(121, 23);
             // 
             // splitContainer
             // 
@@ -469,7 +548,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             splitContainer.Panel2.BackgroundImageLayout = ImageLayout.None;
             splitContainer.Panel2.Controls.Add(TextBoxDestionation);
             splitContainer.Panel2MinSize = 300;
-            splitContainer.Size = new Size(680, 472);
+            splitContainer.Size = new Size(680, 460);
             splitContainer.SplitterDistance = 336;
             splitContainer.SplitterIncrement = 8;
             splitContainer.SplitterWidth = 8;
@@ -488,7 +567,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             TextBoxSource.Multiline = true;
             TextBoxSource.Name = "TextBoxSource";
             TextBoxSource.ScrollBars = ScrollBars.Both;
-            TextBoxSource.Size = new Size(336, 472);
+            TextBoxSource.Size = new Size(336, 460);
             TextBoxSource.TabIndex = 23;
             // 
             // TextBoxDestionation
@@ -503,51 +582,24 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             TextBoxDestionation.Multiline = true;
             TextBoxDestionation.Name = "TextBoxDestionation";
             TextBoxDestionation.ScrollBars = ScrollBars.Both;
-            TextBoxDestionation.Size = new Size(336, 472);
+            TextBoxDestionation.Size = new Size(336, 460);
             TextBoxDestionation.TabIndex = 43;
-            // 
-            // buttonDelete
-            // 
-            buttonDelete.BackColor = SystemColors.ButtonHighlight;
-            buttonDelete.Location = new Point(12, 576);
-            buttonDelete.Margin = new Padding(1);
-            buttonDelete.Name = "buttonDelete";
-            buttonDelete.Padding = new Padding(1);
-            buttonDelete.Size = new Size(120, 28);
-            buttonDelete.TabIndex = 48;
-            buttonDelete.Text = "&Delete";
-            buttonDelete.UseVisualStyleBackColor = false;
-            buttonDelete.Click += Button_Encode_Click;
-            // 
-            // buttonSend
-            // 
-            buttonSend.BackColor = SystemColors.ButtonHighlight;
-            buttonSend.Location = new Point(12, 536);
-            buttonSend.Margin = new Padding(1);
-            buttonSend.Name = "buttonSend";
-            buttonSend.Padding = new Padding(1);
-            buttonSend.Size = new Size(120, 28);
-            buttonSend.TabIndex = 47;
-            buttonSend.Text = "&Send";
-            buttonSend.UseVisualStyleBackColor = false;
-            buttonSend.Click += Button_Save_Click;
             // 
             // panelSource
             // 
             panelSource.BackColor = SystemColors.Control;
-            panelSource.Controls.Add(buttonDelete);
             panelSource.Controls.Add(pictureBoxYou);
-            panelSource.Controls.Add(buttonSend);
             panelSource.Controls.Add(pictureBoxSource);
             panelSource.ForeColor = SystemColors.ActiveCaptionText;
             panelSource.Location = new Point(0, 72);
             panelSource.Margin = new Padding(0);
             panelSource.Name = "panelSource";
-            panelSource.Size = new Size(148, 610);
+            panelSource.Size = new Size(148, 477);
             panelSource.TabIndex = 40;
             // 
             // pictureBoxYou
             // 
+            pictureBoxYou.BackgroundImageLayout = ImageLayout.Stretch;
             pictureBoxYou.Location = new Point(10, 2);
             pictureBoxYou.Margin = new Padding(1);
             pictureBoxYou.Name = "pictureBoxYou";
@@ -559,7 +611,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // pictureBoxSource
             // 
             pictureBoxSource.BackColor = SystemColors.Control;
-            pictureBoxSource.Location = new Point(8, 396);
+            pictureBoxSource.Location = new Point(10, 332);
             pictureBoxSource.Margin = new Padding(1);
             pictureBoxSource.Name = "pictureBoxSource";
             pictureBoxSource.Padding = new Padding(1);
@@ -653,7 +705,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // pictureBoxDestination
             // 
-            pictureBoxDestination.Location = new Point(10, 396);
+            pictureBoxDestination.Location = new Point(10, 332);
             pictureBoxDestination.Margin = new Padding(1);
             pictureBoxDestination.Name = "pictureBoxDestination";
             pictureBoxDestination.Padding = new Padding(1);
@@ -666,10 +718,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             richTextBoxChat.BorderStyle = BorderStyle.FixedSingle;
             richTextBoxChat.Cursor = Cursors.No;
             richTextBoxChat.ForeColor = SystemColors.WindowText;
-            richTextBoxChat.Location = new Point(148, 564);
+            richTextBoxChat.Location = new Point(10, 551);
             richTextBoxChat.Margin = new Padding(2);
             richTextBoxChat.Name = "richTextBoxChat";
-            richTextBoxChat.Size = new Size(678, 116);
+            richTextBoxChat.Size = new Size(956, 136);
             richTextBoxChat.TabIndex = 57;
             richTextBoxChat.Text = "";
             // 
@@ -689,38 +741,24 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             panelDestination.Controls.Add(buttonExit);
             panelDestination.Controls.Add(pictureBoxPartner);
             panelDestination.Controls.Add(pictureBoxDestination);
-            panelDestination.Controls.Add(buttonReload);
             panelDestination.ForeColor = SystemColors.ActiveCaptionText;
             panelDestination.Location = new Point(828, 72);
             panelDestination.Margin = new Padding(0);
             panelDestination.Name = "panelDestination";
-            panelDestination.Size = new Size(148, 610);
+            panelDestination.Size = new Size(148, 477);
             panelDestination.TabIndex = 80;
             // 
             // buttonExit
             // 
             buttonExit.BackColor = SystemColors.ButtonHighlight;
-            buttonExit.Location = new Point(12, 576);
+            buttonExit.Location = new Point(10, 263);
             buttonExit.Margin = new Padding(1);
             buttonExit.Name = "buttonExit";
             buttonExit.Padding = new Padding(1);
-            buttonExit.Size = new Size(120, 28);
+            buttonExit.Size = new Size(128, 28);
             buttonExit.TabIndex = 88;
             buttonExit.Text = "E&xit";
             buttonExit.UseVisualStyleBackColor = false;
-            // 
-            // buttonReload
-            // 
-            buttonReload.BackColor = SystemColors.ButtonHighlight;
-            buttonReload.ForeColor = SystemColors.ActiveCaptionText;
-            buttonReload.Location = new Point(12, 536);
-            buttonReload.Margin = new Padding(1);
-            buttonReload.Name = "buttonReload";
-            buttonReload.Padding = new Padding(1);
-            buttonReload.Size = new Size(120, 28);
-            buttonReload.TabIndex = 84;
-            buttonReload.Text = "&Reload";
-            buttonReload.UseVisualStyleBackColor = false;
             // 
             // SecureChat
             // 
@@ -769,8 +807,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private SplitContainer splitContainer;
         private TextBox TextBoxSource;
         private TextBox TextBoxDestionation;
-        private Button buttonDelete;
-        private Button buttonSend;
         private Panel panelSource;
         private Button buttonAddToPipeline;
         private ComboBox ComboBox_RemoteEndPoint;
@@ -785,44 +821,59 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private PictureBox pictureBoxPartner;
         private Panel panelDestination;
         private Button buttonExit;
-        private Button buttonReload;
         private MenuStrip menuStrip;
         private ToolStripMenuItem toolStripMenuMain;
-        private ToolStripMenuItem toolStripMenuItemAbout;
+        private ToolStripMenuItem menuItemAbout;
         private ToolStripMenuItem toolStripMenuItemOld;
-        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripSeparator menuIPsSeparator;
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripMenuItem toolStripMenuItemOpen;
         private ToolStripMenuItem toolStripMenuItemClose;
-        private ToolStripMenuItem toolStripMenuItemInfo;
+        private ToolStripMenuItem menuItemInfo;
         private ToolStripMenuItem toolStripMenuItemExit;
         private OpenFileDialog openFileDialog;
-        private ToolStripMenuItem toolStripMenuView;
+        private ToolStripMenuItem menuView;
         private ToolStripMenuItem toolStripMenuFile;
         private ToolStripMenuItem menuFileItemOpen;
         private ToolStripMenuItem menuFileItemSave;
+        private ToolStripMenuItem menuFileItemExit;
         private ToolStripMenuItem toolStripMenuTForms;
-        private ToolStripMenuItem toolStripMenuQuestionMark;
-        private ToolStripMenuItem toolStripMenuItemHelp;
+        private ToolStripMenuItem menuQuestionMark;
+        private ToolStripMenuItem menuItemHelp;
         private SaveFileDialog saveFileDialog;
         private StatusStrip statusStrip;
         private ToolStripSplitButton toolStripSplitButton;
         private ToolStripMenuItem splitButtonMenuItemLoad;
         private ToolStripMenuItem splitButtonMenuItemSave;
         private ToolStripProgressBar toolStripProgressBar;
-        private ToolStripStatusLabel toolStripStatusLabel;
-        private ToolStripMenuItem menuViewMenuUnix;
-        private ToolStripMenuItem menuViewMenuUnixItemNetAddr;
-        private ToolStripMenuItem menuViewMenuUnixItemFortnune;
-        private ToolStripMenuItem menuViewMenuUnixItemHexDump;
-        private ToolStripMenuItem menuViewMenuICrypt;
-        private ToolStripMenuItem menuViewMenuCryptItemEnDeCode;
-        private ToolStripMenuItem menuViewMenuCryptItemCrypt;
-        private ToolStripMenuItem menuFileItemNew;
-        private ToolStripMenuItem menuFileItemDiscard;
-        private ToolStripSeparator toolStripSeparator2;
-        private ToolStripMenuItem menuFileItemExit;
-        private ToolStripMenuItem menuViewMenuUnixItemScp;
-        private ToolStripMenuItem menuViewMenuUnixItemSecureChat;
+        private ToolStripStatusLabel toolStripStatusLabel;      
+        private ToolStripSeparator menuFileSeparator;        
+        private ToolStripMenuItem menuIPs;
+        private ToolStripMenuItem menuIItemMyIps;
+        private ToolStripMenuItem menuItemFriendIp;
+        private ToolStripMenuItem menuItemProxyServers;
+        private ToolStripComboBox menuItemComboBoxProxies;
+        private ToolStripComboBox menuItempComboBoxFriendIp;
+        private ToolStripMenuItem menuItemIPv6Secure;
+        private ToolStripMenuItem menuCommands;
+        private ToolStripMenuItem menuItemSend;
+        private ToolStripMenuItem menuEdit;
+        private ToolStripMenuItem menuItemRefresh;
+        private ToolStripMenuItem menuItemClear;
+        private ToolStripMenuItem menuEditItemCut;
+        private ToolStripMenuItem menuEditItemCopy;
+        private ToolStripMenuItem menuIEdittemPaste;
+        private ToolStripMenuItem menuEditItemSelectAll;
+        private ToolStripMenuItem menuViewItemLeftRíght;
+        private ToolStripMenuItem menuViewItemTopBottom;
+        private ToolStripMenuItem menuIViewtem1View;
+        private ToolStripMenuItem menuOptions;
+        private ToolStripMenuItem menuItemImportContacts;
+        private ToolStripMenuItem menuItemAddContact;
+        private ToolStripMenuItem menuItemViewContacts;
+        private ToolStripMenuItem menuItemMyContact;
+        private ToolStripDropDownButton toolStripDropDownButton1;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripComboBox toolStripComboBox1;
     }
 }
