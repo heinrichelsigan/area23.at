@@ -142,11 +142,21 @@ namespace Area23.At.Mono.Crypt
                 ZipType ztype = ZipType.None;
                 if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
                 {
+                    string outp = string.Empty;
+                    string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
+                    string zPath = encryptBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt");
                     switch (ztype)
                     {
-                        
-                        case ZipType.GZip: inBytes = GZ.GZip(encryptBytes); break;
-                        case ZipType.BZip2: inBytes = BZip2.BZip(encryptBytes); break;
+                        case ZipType.GZip:
+                            outp = ProcessCmd.Execute(LibPaths.BinDir + "gzip.bat", zfile, false);
+                            if (System.IO.File.Exists(zPath + ".gz"))
+                                inBytes = System.IO.File.ReadAllBytes(zPath + ".gz");
+                            break;
+                        case ZipType.BZip2:
+                            outp = ProcessCmd.Execute(LibPaths.BinDir + "bzip.bat", zfile, false);
+                            if (System.IO.File.Exists(zPath + ".bz2"))
+                                inBytes = System.IO.File.ReadAllBytes(zPath + ".bz2");
+                            break;
                         // case ZipType.Zip: inBytes = Zip
                         case ZipType.None: 
                         default: break;
@@ -262,11 +272,32 @@ namespace Area23.At.Mono.Crypt
                 ZipType ztype = ZipType.None;
                 if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
                 {
+                    string outp = string.Empty;
+                    string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
+                    string zPath;
+
                     switch (ztype)
                     {
-
-                        case ZipType.GZip: decryptedBytes = GZ.GUnZip(cipherBytes); break;
-                        case ZipType.BZip2: decryptedBytes = BZip2.BUnZip(cipherBytes); break;
+                        case ZipType.GZip:
+                            zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.gz");
+                            if (System.IO.File.Exists(zPath))
+                            {
+                                outp = ProcessCmd.Execute(LibPaths.BinDir + "gunzip.bat", zPath, false);
+                                string uzPath = zPath.Replace(".gz", "");
+                                if (System.IO.File.Exists(uzPath))
+                                    decryptedBytes = System.IO.File.ReadAllBytes(uzPath);
+                            }
+                            break;
+                        case ZipType.BZip2:
+                            zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.bz2");
+                            if (System.IO.File.Exists(zPath))
+                            {
+                                outp = ProcessCmd.Execute(LibPaths.BinDir + "bunzip.bat", zPath, false);
+                                string uzPath = zPath.Replace(".bz2", "");
+                                if (System.IO.File.Exists(uzPath))
+                                    decryptedBytes = System.IO.File.ReadAllBytes(uzPath);
+                            }
+                            break;
                         // case ZipType.Zip: inBytes = Zip
                         case ZipType.None:
                         default: decryptedBytes = cipherBytes; break;

@@ -1,4 +1,6 @@
-﻿using Ionic.Zlib;
+﻿using DBTek.Crypto;
+using ICSharpCode.SharpZipLib.BZip2;
+using ICSharpCode.SharpZipLib.GZip;
 using Org.BouncyCastle.Utilities.Zlib;
 using System;
 using System.Collections.Generic;
@@ -11,32 +13,62 @@ namespace Area23.At.Framework.Library.Zfx
 {
     public static class GZ
     {
-        public static byte[] GZip(byte[] inByte)
-        {            
-            byte[] outByte = new byte[inByte.Length * 2];
-            MemoryStream msin = new MemoryStream(inByte);
-            MemoryStream msout = new MemoryStream(outByte);
-            ICSharpCode.SharpZipLib.GZip.GZipInputStream gzIn = new ICSharpCode.SharpZipLib.GZip.GZipInputStream(msin, 1024);
-            ICSharpCode.SharpZipLib.GZip.GZipOutputStream gzOut = new ICSharpCode.SharpZipLib.GZip.GZipOutputStream(msout, 1024);
-            ICSharpCode.SharpZipLib.GZip.GZip.Compress(gzIn, gzOut, true, 6);
+        public static byte[] GZip(byte[] inBytes)
+        {
+            MemoryStream msIn = new MemoryStream();
+            msIn.Write(inBytes, 0, inBytes.Length);
+            msIn.Seek(0, SeekOrigin.Begin);
+            MemoryStream msOut = new MemoryStream();            
 
-            byte[] zipBytes = msout.ToByteArray();
+            ICSharpCode.SharpZipLib.GZip.GZip.Compress(msIn, msOut, false, 1024, 6);
 
-            return zipBytes;
+            byte[] zipBytes = msOut.ToByteArray();
+            byte[] outBytes = new byte[msOut.Length];
+            int pos = 0, read = (int)msOut.Length;
+            ;
+            while (read > 0)
+            {
+                read = msOut.Read(zipBytes, pos, count: outBytes.Length);
+                pos += read;
+            }
+
+            msIn.Close();
+            msIn.Dispose();
+            msOut.Close();
+            msOut.Dispose();
+
+            return outBytes;
         }
 
-        public static byte[] GUnZip(byte[] inByte)
+        public static byte[] GUnZip(byte[] inBytes)
         {
-            byte[] outByte = new byte[inByte.Length * 2];
-            MemoryStream msin = new MemoryStream(inByte);
-            MemoryStream msout = new MemoryStream(outByte);
-            ICSharpCode.SharpZipLib.GZip.GZipInputStream gzIn = new ICSharpCode.SharpZipLib.GZip.GZipInputStream(msin, 1024);
-            ICSharpCode.SharpZipLib.GZip.GZipOutputStream gzOut = new ICSharpCode.SharpZipLib.GZip.GZipOutputStream(msout, 1024);
-            ICSharpCode.SharpZipLib.BZip2.BZip2.Decompress(gzIn, gzOut, true);
+            MemoryStream msIn = new MemoryStream();
+            msIn.Write(inBytes, 0, inBytes.Length);
+            msIn.Seek(0, SeekOrigin.Begin);
+            GZipInputStream gin = new GZipInputStream(msIn);
 
-            byte[] unzipBytes = msout.ToByteArray();
 
-            return unzipBytes;
+            MemoryStream msOut = new MemoryStream();
+
+
+            ICSharpCode.SharpZipLib.GZip.GZip.Decompress(gin, msOut, false);
+
+
+            byte[] outBytes = msOut.ToByteArray();
+            byte[] unzipBytes = msOut.ToByteArray();
+            int pos = 0, read = (int)msOut.Length;
+            ;
+            while (read > 0)
+            {
+                read = msOut.Read(outBytes, pos, count: 1024);
+                pos += read;
+            }
+            
+            msIn.Close();
+            msIn.Dispose();
+            msOut.Close();
+
+            return outBytes;
         }
     }
 }

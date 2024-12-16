@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DBTek.Crypto;
+using ICSharpCode.SharpZipLib.BZip2;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,32 +11,55 @@ namespace Area23.At.Framework.Library.Zfx
 {
     public static class BZip2
     {
-        public static byte[] BZip(byte[] inByte)
-        {
-            byte[] outByte = new byte[inByte.Length * 2];
-            MemoryStream msin = new MemoryStream(inByte);
-            MemoryStream msout = new MemoryStream(outByte);
-            ICSharpCode.SharpZipLib.BZip2.BZip2InputStream bzIn = new ICSharpCode.SharpZipLib.BZip2.BZip2InputStream(msin);
-            ICSharpCode.SharpZipLib.BZip2.BZip2OutputStream bzOut = new ICSharpCode.SharpZipLib.BZip2.BZip2OutputStream(msout);
-            ICSharpCode.SharpZipLib.BZip2.BZip2.Compress(bzIn, bzOut, true, 6);
+        public static byte[] BZip(byte[] inBytes)
+        {           
+            MemoryStream msIn = new MemoryStream(inBytes);
+            MemoryStream msOut = new MemoryStream();
 
-            byte[] zipBytes = msout.ToByteArray();
+            ICSharpCode.SharpZipLib.BZip2.BZip2.Compress(msIn, msOut, false, 6);
 
-            return zipBytes;
+
+            byte[] outBytes = new byte[msOut.Length];
+            byte[] zipBytes = msOut.ToByteArray();
+            int pos = 0, read = (int)msOut.Length;
+            ;
+            while (read > 0)
+            {
+                read = msOut.Read(outBytes, pos, count: outBytes.Length);                
+                pos += read;
+            }
+
+            msOut.Close();
+            msOut.Dispose();
+            msIn.Close();            
+
+            return outBytes;
         }
 
-        public static byte[] BUnZip(byte[] inByte)
+        public static byte[] BUnZip(byte[] inBytes)
         {
-            byte[] outByte = new byte[inByte.Length * 2];
-            MemoryStream msin = new MemoryStream(inByte);
-            MemoryStream msout = new MemoryStream(outByte);
-            ICSharpCode.SharpZipLib.BZip2.BZip2InputStream bzIn = new ICSharpCode.SharpZipLib.BZip2.BZip2InputStream(msin);
-            ICSharpCode.SharpZipLib.BZip2.BZip2OutputStream bzOut = new ICSharpCode.SharpZipLib.BZip2.BZip2OutputStream(msout);
-            ICSharpCode.SharpZipLib.BZip2.BZip2.Decompress(bzIn, bzOut, true);
+            MemoryStream msIn = new MemoryStream();
+            msIn.Write(inBytes, 0, inBytes.Length);
+            msIn.Seek(0, SeekOrigin.Begin);            
 
-            byte[] unzipBytes = msout.ToByteArray();
+            MemoryStream msOut = new MemoryStream();
 
-            return unzipBytes;
+            ICSharpCode.SharpZipLib.BZip2.BZip2.Decompress(msIn, msOut, false);
+
+            byte[] outBytes = new byte[msOut.Length];
+            byte[] unzipBytes = msOut.ToByteArray();
+            int pos = 0, read = (int)msOut.Length;
+            ;
+            while (read > 0)
+            {
+                read = msOut.Read(outBytes, pos, count: outBytes.Length);
+                pos += read;
+            }
+            
+            msIn.Close();
+            msOut.Close();
+
+            return outBytes;
         }
     }
 }

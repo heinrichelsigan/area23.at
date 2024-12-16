@@ -299,7 +299,7 @@ namespace Area23.At.Framework.Library
             }
         }
 
-        public static string BinDir { get => OutDirPath + "bin" + SepChar; }
+        public static string BinDir { get => AppDirPath + Constants.RES_DIR + SepChar + "bin" + SepChar; }
 
         public static string QrDirPath { get => AppDirPath + Constants.QR_DIR + SepChar; }
 

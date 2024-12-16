@@ -499,6 +499,10 @@
     <Content Include="res\bin\uuencrypt.sh" />
     <Content Include="res\bin\uudecrypt.sh" />
     <Content Include="res\bin\GNUWin32.README" />
+    <Content Include="res\bin\bzip.bat" />
+    <Content Include="res\bin\bunzip.bat" />
+    <Content Include="res\bin\gzip.bat" />
+    <Content Include="res\bin\gunzip.bat" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

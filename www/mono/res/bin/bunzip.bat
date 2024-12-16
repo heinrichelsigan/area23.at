@@ -1,3 +1,3 @@
 @echo off
 
-echo %* | bzip2.exe -c -d > bunzip.txt
+bzip2 -d %1
