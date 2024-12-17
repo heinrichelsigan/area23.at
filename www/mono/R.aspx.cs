@@ -14,8 +14,8 @@ namespace Area23.At.Mono
             string userHostAddr = Request.UserHostAddress;
             string userHostName = Request.UserHostName;
 
+            header.InnerHtml = "<title>{userHostName}</title>";
             literalUserHost.Text = userHostAddr;
-            titler.Text = userHostName;
         }
     }
 }
