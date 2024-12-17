@@ -9,8 +9,8 @@
     <Copyright>Copyleft © 2000-2040</Copyright>
     <PackageProjectUrl>https://github.com/heinrichelsigan/area23.at/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/heinrichelsigan/area23.at/</RepositoryUrl>
-    <AssemblyVersion>2.24.1105</AssemblyVersion>
-    <FileVersion>2.24.1105</FileVersion>
+    <AssemblyVersion>2.24.1226</AssemblyVersion>
+    <FileVersion>2.24.1226</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

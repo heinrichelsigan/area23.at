@@ -12,6 +12,10 @@
     <FileVersion>2.24.1214</FileVersion>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <ErrorReport>send</ErrorReport>
+    <Title>SecureChat</Title>
+    <Version>2.24.1226</Version>
+    <PackageProjectUrl>https://github.com/heinrichelsigan/area23.at</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
