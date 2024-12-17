@@ -4,7 +4,7 @@ using System.Net;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
-    partial class SecureChat
+    partial class RichTextChat
     {
         /// <summary>
         /// Required designer variable.
@@ -32,7 +32,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SecureChat));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RichTextChat));
             menuStrip = new MenuStrip();
             toolStripMenuFile = new ToolStripMenuItem();
             menuFileItemOpen = new ToolStripMenuItem();
@@ -80,9 +80,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             toolStripDropDownButton1 = new ToolStripDropDownButton();
             toolStripMenuItem1 = new ToolStripMenuItem();
             toolStripComboBox1 = new ToolStripComboBox();
-            splitContainer = new SplitContainer();
-            TextBoxSource = new TextBox();
-            TextBoxDestionation = new TextBox();
             panelSource = new Panel();
             pictureBoxYou = new PictureBox();
             pictureBoxSource = new PictureBox();
@@ -101,10 +98,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             richTextBoxOneView = new RichTextBox();
             menuStrip.SuspendLayout();
             statusStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
-            splitContainer.Panel1.SuspendLayout();
-            splitContainer.Panel2.SuspendLayout();
-            splitContainer.SuspendLayout();
             panelSource.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxYou).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxSource).BeginInit();
@@ -247,22 +240,21 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // menuViewItemLeftRíght
             // 
             menuViewItemLeftRíght.Name = "menuViewItemLeftRíght";
-            menuViewItemLeftRíght.Size = new Size(180, 22);
+            menuViewItemLeftRíght.Size = new Size(160, 22);
             menuViewItemLeftRíght.Text = "Left-Ríght";
             menuViewItemLeftRíght.Click += menuViewItemLeftRíght_Click;
-            menuViewItemLeftRíght.Checked = true;
             // 
             // menuViewItemTopBottom
             // 
             menuViewItemTopBottom.Name = "menuViewItemTopBottom";
-            menuViewItemTopBottom.Size = new Size(180, 22);
+            menuViewItemTopBottom.Size = new Size(160, 22);
             menuViewItemTopBottom.Text = "Top-Bottom";
             menuViewItemTopBottom.Click += menuViewItemTopBottom_Click;
             // 
             // menuIViewItem1View
             // 
             menuIViewItem1View.Name = "menuIViewItem1View";
-            menuIViewItem1View.Size = new Size(180, 22);
+            menuIViewItem1View.Size = new Size(160, 22);
             menuIViewItem1View.Text = "1-View";
             menuIViewItem1View.Click += menuIViewItem1View_Click;
             // 
@@ -533,65 +525,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             toolStripComboBox1.Name = "toolStripComboBox1";
             toolStripComboBox1.Size = new Size(121, 23);
             // 
-            // splitContainer
-            // 
-            splitContainer.BackColor = SystemColors.ControlLight;
-            splitContainer.IsSplitterFixed = true;
-            splitContainer.Location = new Point(148, 72);
-            splitContainer.Margin = new Padding(0);
-            splitContainer.MaximumSize = new Size(800, 600);
-            splitContainer.MinimumSize = new Size(600, 400);
-            splitContainer.Name = "splitContainer";
-            // 
-            // splitContainer.Panel1
-            // 
-            splitContainer.Panel1.AllowDrop = true;
-            splitContainer.Panel1.BackgroundImageLayout = ImageLayout.None;
-            splitContainer.Panel1.Controls.Add(TextBoxSource);
-            splitContainer.Panel1MinSize = 300;
-            // 
-            // splitContainer.Panel2
-            // 
-            splitContainer.Panel2.BackgroundImageLayout = ImageLayout.None;
-            splitContainer.Panel2.Controls.Add(TextBoxDestionation);
-            splitContainer.Panel2MinSize = 300;
-            splitContainer.Size = new Size(680, 460);
-            splitContainer.SplitterDistance = 336;
-            splitContainer.SplitterIncrement = 8;
-            splitContainer.SplitterWidth = 8;
-            splitContainer.TabIndex = 20;
-            splitContainer.TabStop = false;
-            // 
-            // TextBoxSource
-            // 
-            TextBoxSource.BackColor = SystemColors.GradientActiveCaption;
-            TextBoxSource.BorderStyle = BorderStyle.FixedSingle;
-            TextBoxSource.Dock = DockStyle.Fill;
-            TextBoxSource.Font = new Font("Lucida Sans Unicode", 10F);
-            TextBoxSource.Location = new Point(0, 0);
-            TextBoxSource.Margin = new Padding(1);
-            TextBoxSource.MaxLength = 65536;
-            TextBoxSource.Multiline = true;
-            TextBoxSource.Name = "TextBoxSource";
-            TextBoxSource.ScrollBars = ScrollBars.Both;
-            TextBoxSource.Size = new Size(336, 460);
-            TextBoxSource.TabIndex = 23;
-            // 
-            // TextBoxDestionation
-            // 
-            TextBoxDestionation.BackColor = SystemColors.GradientInactiveCaption;
-            TextBoxDestionation.BorderStyle = BorderStyle.FixedSingle;
-            TextBoxDestionation.Dock = DockStyle.Fill;
-            TextBoxDestionation.Font = new Font("Lucida Sans Unicode", 10F);
-            TextBoxDestionation.Location = new Point(0, 0);
-            TextBoxDestionation.Margin = new Padding(1);
-            TextBoxDestionation.MaxLength = 65536;
-            TextBoxDestionation.Multiline = true;
-            TextBoxDestionation.Name = "TextBoxDestionation";
-            TextBoxDestionation.ScrollBars = ScrollBars.Both;
-            TextBoxDestionation.Size = new Size(336, 460);
-            TextBoxDestionation.TabIndex = 43;
-            // 
             // panelSource
             // 
             panelSource.BackColor = SystemColors.Control;
@@ -775,7 +708,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             panelCenter.Name = "panelCenter";
             panelCenter.Size = new Size(680, 460);
             panelCenter.TabIndex = 81;
-            panelCenter.Visible = false;
             // 
             // richTextBoxOneView
             // 
@@ -787,7 +719,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             richTextBoxOneView.TabIndex = 0;
             richTextBoxOneView.Text = "";
             // 
-            // SecureChat
+            // RichTextChat
             // 
             AutoScaleDimensions = new SizeF(8F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -799,27 +731,20 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             Controls.Add(richTextBoxChat);
             Controls.Add(panelSource);
             Controls.Add(panelEnCodeCrypt);
-            Controls.Add(splitContainer);
             Controls.Add(statusStrip);
             Controls.Add(menuStrip);
             Font = new Font("Lucida Sans Unicode", 10F);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip;
-            Name = "SecureChat";
+            Name = "RichTextChat";
             SizeGripStyle = SizeGripStyle.Show;
-            Text = "SecureChat";
+            Text = "RichTextChat";
             TransparencyKey = SystemColors.Control;
-            Load += SecureChat_Load;
+            Load += RichTextChat_Load;
             menuStrip.ResumeLayout(false);
             menuStrip.PerformLayout();
             statusStrip.ResumeLayout(false);
             statusStrip.PerformLayout();
-            splitContainer.Panel1.ResumeLayout(false);
-            splitContainer.Panel1.PerformLayout();
-            splitContainer.Panel2.ResumeLayout(false);
-            splitContainer.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer).EndInit();
-            splitContainer.ResumeLayout(false);
             panelSource.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBoxYou).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxSource).EndInit();
@@ -827,14 +752,12 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             ((System.ComponentModel.ISupportInitialize)pictureBoxDestination).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPartner).EndInit();
             panelDestination.ResumeLayout(false);
+            panelCenter.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
-        #endregion
 
-        private SplitContainer splitContainer;
-        private TextBox TextBoxSource;
-        private TextBox TextBoxDestionation;
+        #endregion
         private Panel panelSource;
         private Button buttonAddToPipeline;
         private ComboBox ComboBox_RemoteEndPoint;

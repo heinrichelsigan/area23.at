@@ -25,12 +25,12 @@ using System.IO;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
-    public partial class SecureChat : Form
+    public partial class RichTextChat : Form
     {
         protected string savedFile = string.Empty;
         protected string loadDir = string.Empty;
 
-        public SecureChat()
+        public RichTextChat()
         {
             InitializeComponent();
             MemoryStream ms = new MemoryStream(Properties.Resources.a_hash);
@@ -40,7 +40,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         }
 
 
-        private void SecureChat_Load(object sender, EventArgs e)
+        private void RichTextChat_Load(object sender, EventArgs e)
         {
             if (Entities.Settings.Load() == null)
             {
@@ -119,6 +119,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
 
 
+
+
         }
 
 
@@ -160,9 +162,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             string wabiwabi = webclient.DownloadString(url);
 
 
-            this.TextBoxDestionation.Text += wabiwabi + "\n";
             this.richTextBoxOneView.Text += wabiwabi + "\n";
-
 
         }
 
@@ -364,16 +364,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuViewItemTopBottom.Checked = true;
             menuIViewItem1View.Checked = false;
 
-            splitContainer.Visible = true;
-            panelCenter.Visible = false;
-
-            splitContainer.Orientation = Orientation.Horizontal;
-            splitContainer.Panel1MinSize = 200;
-            splitContainer.Panel2MinSize = 200;
-            splitContainer.SplitterDistance = 226;
-            splitContainer.SplitterIncrement = 8;
-            splitContainer.SplitterWidth = 8;
-            splitContainer.MinimumSize = new System.Drawing.Size(600, 400);
+            
 
         }
 
@@ -383,16 +374,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuViewItemTopBottom.Checked = false;
             menuIViewItem1View.Checked = false;
 
-            splitContainer.Visible = true;
-            panelCenter.Visible = false;
-
-            splitContainer.Orientation = Orientation.Vertical;
-            splitContainer.Panel1MinSize = 300;
-            splitContainer.Panel2MinSize = 300;
-            splitContainer.SplitterDistance = 336;
-            splitContainer.SplitterIncrement = 8;
-            splitContainer.SplitterWidth = 8;
-            splitContainer.MinimumSize = new System.Drawing.Size(600, 400);
         }
 
         private void menuIViewItem1View_Click(object sender, EventArgs e)
@@ -400,10 +381,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuViewItemLeftRíght.Checked = false;
             menuViewItemTopBottom.Checked = false;
             menuIViewItem1View.Checked = true;
-
-            splitContainer.Visible = false;
-            panelCenter.Visible = true;
-            richTextBoxOneView.Visible = true;
         }
 
 
