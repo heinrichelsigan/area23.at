@@ -17,7 +17,23 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
     public static class CryptHelper
     {
 
-    
+        /// <summary>
+        /// Interface BlockCipher
+        /// <see cref="IBlockCipher" /> All Known Implementing Classes:
+        /// AESEngine, AESFastEngine, AESLightEngine, BlowfishEngine, CamelliaEngine, 
+        /// CAST5Engine, CAST6Engine, CBCBlockCipher, CFBBlockCipher, DESedeEngine, DESEngine, 
+        /// GOFBBlockCipher, GOST28147Engine, IDEAEngine, NoekeonEngine, NullEngine, 
+        /// OFBBlockCipher, OpenPGPCFBBlockCipher, PGPCFBBlockCipher, 
+        /// RC2Engine, RC532Engine, RC564Engine, RC6Engine, RijndaelEngine, 
+        /// SEEDEngine, SerpentEngine, SICBlockCipher, SkipjackEngine, 
+        /// TEAEngine, TwofishEngine, XTEAEngine
+        /// </summary>
+        /// <param name="requestedAlgorithm"></param>
+        /// <param name="mode"></param>
+        /// <param name="blockSize"></param>
+        /// <param name="keyLen"></param>
+        /// <returns></returns>
+
         public static IBlockCipher GetBlockCipher(string requestedAlgorithm, ref string mode, ref int blockSize, ref int keyLen)
         {
             IBlockCipher blockCipher = null;

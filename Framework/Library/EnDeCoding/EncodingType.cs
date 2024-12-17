@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.EnDeCoding
 {
+
     [DefaultValue(EncodingType.Base64)]
     public enum EncodingType
     {
@@ -34,4 +35,6 @@ namespace Area23.At.Framework.Library.EnDeCoding
             return list.ToArray();
         }
     }
+
+
 }

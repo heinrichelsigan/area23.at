@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Core.EnDeCoding
 {
+
     /// <summary>
     /// DeEnCoder provides static members for formating
     /// </summary>
@@ -27,7 +28,7 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         public static string KeyHexString(string key)
         {
             byte[] keyBytes = EnDeCoder.GetBytes(key);
-            string ivStr = keyBytes.ToHexString();
+            string ivStr = Hex16.Encode(keyBytes);
             return ivStr;
         }
 
@@ -35,19 +36,18 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         /// EncodeBytes encodes encrypted byte[] by encodingMethod to an encoded text string
         /// </summary>
         /// <param name="encryptBytes">encryptedBytes to encdode</param>
-        /// <param name="encodingType">Encoding methods could be 
-        /// "null", "hex16", "base16", "base32", "base32hex", "uu", "base64".
-        /// "base64" is default.</param>
+        /// <param name="encodingType">EncodingTypes are "None", "Hex16", "Base16", "Base32", "Hex32", "Uu", "Base64".
+        /// "Base64" is default.</param>
         /// <param name="fromPlain">Only for uu: true, if <see cref="encryptBytes"/> represent a binary without encryption</param>
         /// <param name="fromFile">Only for uu: true, if file and not textbox will be encrypted, default (false)</param>
         /// <returns>encoded encrypted string</returns>
         public static string EncodeBytes(byte[] encryptBytes, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
         {
             Area23Log.LogStatic(
-                "EncodeEncryptedBytes(byte[] encryptBytes.[Length=" + encryptBytes.Length + "], EncodingType encodingType = " + encodingType.ToString() +
-                ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
+                "EncodeEncryptedBytes(byte[] encryptBytes.[Length=" + encryptBytes.Length + "], EncodingType encodingType =  "
+                + encodingType.ToString() + ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
 
-            string encryptedText = IEnDeCoder.Encode(encryptBytes, encodingType);
+            string encryptedText = EnDeCoder.Encode(encryptBytes, encodingType, fromPlain, fromFile);
 
             return encryptedText;
         }
@@ -62,20 +62,19 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         /// <param name="fromPlain">Only for uu: true, if <see cref="encryptBytes"/> represent a binary without encryption</param>
         /// <param name="fromFile">Only for uu: true, if file and not textbox will be encrypted, default (false)</param>
         /// <returns>binary byte array</returns>
-        public static byte[]? EncodedTextToBytes(string cipherText, out string errMsg, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false) 
+        public static byte[] DecodeText(string cipherText, out string errMsg, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
         {
-            Area23Log.LogStatic($"EncodedTextToBytes(string cipherText[.Length={cipherText.Length}], " +
-                $"string encodingMethod = {encodingType.ToString()}, bool fromPlain = {fromPlain}, " +
-                $"bool fromFile = {fromFile})");
+            Area23Log.LogStatic("EncodedTextToBytes(string cipherText[.Length " + cipherText.Length + "], EncodingType encodingType  = " +
+                encodingType.ToString() + ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
 
             errMsg = string.Empty;
-            if (!IEnDeCoder.IsValid(cipherText, encodingType))
+            if (!EnDeCoder.IsValid(cipherText, encodingType))
             {
                 errMsg = $"Input Text is not a valid {encodingType.ToString()} string!";
                 return null;
             }
 
-            byte[] cipherBytes = cipherBytes = IEnDeCoder.Decode(cipherText, encodingType);         
+            byte[] cipherBytes = cipherBytes = EnDeCoder.Decode(cipherText, encodingType, fromPlain, fromFile);
 
             return cipherBytes;
         }
@@ -195,6 +194,6 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
             return decryptedText;
         }
 
-
     }
+
 }

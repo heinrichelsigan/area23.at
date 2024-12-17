@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.EnDeCoding
 {
+
     /// <summary>
     /// DeEnCoder provides static members for formating
     /// </summary>
@@ -28,7 +29,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
         public static string KeyHexString(string key)
         {
             byte[] keyBytes = EnDeCoder.GetBytes(key);
-            string ivStr = keyBytes.ToHexString();
+            string ivStr = Hex16.Encode(keyBytes);            
             return ivStr;
         }
 
@@ -47,8 +48,8 @@ namespace Area23.At.Framework.Library.EnDeCoding
                 "EncodeEncryptedBytes(byte[] encryptBytes.[Length=" + encryptBytes.Length + "], EncodingType encodingType =  " 
                 + encodingType.ToString() + ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
 
-            string encryptedText = EnDeCoder.Encode(encryptBytes, encodingType);
-            
+            string encryptedText = EnDeCoder.Encode(encryptBytes, encodingType, fromPlain, fromFile);
+
             return encryptedText;
         }
 
@@ -74,7 +75,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
                 return null;
             }
 
-            byte[] cipherBytes = cipherBytes = EnDeCoder.Decode(cipherText, encodingType);
+            byte[] cipherBytes = cipherBytes = EnDeCoder.Decode(cipherText, encodingType, fromPlain, fromFile);
 
             return cipherBytes;
         }
@@ -196,4 +197,5 @@ namespace Area23.At.Framework.Library.EnDeCoding
 
 
     }
+
 }

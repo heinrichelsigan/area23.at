@@ -1,5 +1,4 @@
-﻿using Area23.At.Framework.Library.Core.Cipher.Symm;
-using Org.BouncyCastle.Asn1.Crmf;
+﻿using Area23.At.Framework.Library.Cipher.Symmetric;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Core.Net.WebHttp
+namespace Area23.At.Framework.Library.Net.WebHttp
 {
     public static class WebClientRequest
     {
@@ -17,10 +16,11 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
         private static readonly WebHeaderCollection headers = new WebHeaderCollection();
         public static WebHeaderCollection Headers { get => headers; }
 
-        static WebClientRequest() {
+        static WebClientRequest()
+        {
 
             // headers.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br, zstd");
-            
+
             headers.Add(HttpRequestHeader.Accept, "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
             // TODO:
             // headers.Add(HttpRequestHeader.ContentMd5, "");
@@ -30,26 +30,22 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             // headers.Add(HttpRequestHeader.Connection, "keep-alive");
             headers.Add(HttpRequestHeader.AcceptLanguage, "en-US");
             headers.Add(HttpRequestHeader.Host, "area23.at");
-            headers.Add(HttpRequestHeader.UserAgent, "cqrxs.eu");            
+            headers.Add(HttpRequestHeader.UserAgent, "cqrxs.eu");
             // wclient.BaseAddress = "https://area23.at/";
             // TODO: always forms credentials
             // webclient.Credentials
-            
+
 
         }
 
-        public static WebClient GetWebClient(string baseAddr, string secretKey, string keyIv = "", System.Text.Encoding? encoding = null)        
+        public static WebClient GetWebClient(string baseAddr, System.Text.Encoding encoding = null, string secretKey = "", string keyIv = "")
         {
             encoding = encoding ?? Encoding.UTF8;
             wclient = new WebClient();
             wclient.Encoding = encoding;
-            if (!string.IsNullOrEmpty(secretKey))
+            if (!string.IsNullOrEmpty(secretKey) && !string.IsNullOrEmpty(keyIv))
             {
-                string hexString = EnDeCoding.DeEnCoder.KeyHexString(CryptHelper.PrivateUserKey(secretKey));
-                if (!string.IsNullOrEmpty(keyIv))
-                {
-                    hexString = EnDeCoding.DeEnCoder.KeyHexString(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
-                }
+                string hexString = EnDeCoding.DeEnCoder.KeyHexString(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
                 headers.Add(HttpRequestHeader.Authorization, "Basic " + hexString);
             }
             wclient.Headers = headers;
@@ -59,7 +55,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
         }
 
 
-        public static WebClient GetWebClient(string baseAddr, System.Text.Encoding? encoding = null)
+        public static WebClient GetWebClient(string baseAddr, System.Text.Encoding encoding = null)
         {
             encoding = encoding ?? Encoding.UTF8;
             wclient = new WebClient();
@@ -70,8 +66,6 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             return wclient;
         }
 
-
     }
-
 
 }

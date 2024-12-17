@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
 using Area23.At.Framework.Library.Core.Cipher.Symm;
+using Area23.At.Framework.Library.Core.Cipher;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -304,7 +305,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 ComboBox_SymChiffer.SelectedItem.ToString() == "Rijndael" ||
                 ComboBox_SymChiffer.SelectedItem.ToString() == "Seed" ||
                 ComboBox_SymChiffer.SelectedItem.ToString() == "Serpent" ||
-                ComboBox_SymChiffer.SelectedItem.ToString() == "Skipjack" ||
+                ComboBox_SymChiffer.SelectedItem.ToString() == "SkipJack" ||
                 ComboBox_SymChiffer.SelectedItem.ToString() == "Tea" ||
                 ComboBox_SymChiffer.SelectedItem.ToString() == "Tnepres" ||
                 ComboBox_SymChiffer.SelectedItem.ToString() == "XTea" ||
@@ -354,8 +355,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : string.Empty;
             string keyIv = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : string.Empty;
+            CipherEnum cipherAlgo = Enum.Parse<CipherEnum>(algo);
 
-            byte[] encryptBytes = Crypt.EncryptBytes(inBytes, algo, secretKey, keyIv);
+            byte[] encryptBytes = Area23.At.Framework.Library.Core.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);
 
             return encryptBytes;
         }
@@ -371,7 +373,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : string.Empty;
             string keyIv = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : string.Empty;
 
-            byte[] decryptBytes = Crypt.DecryptBytes(cipherBytes, algorithmName, secretKey, keyIv);
+            CipherEnum cipherAlgo = Enum.Parse<CipherEnum>(algorithmName);
+            byte[] decryptBytes = Area23.At.Framework.Library.Core.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
 
             return decryptBytes;
         }

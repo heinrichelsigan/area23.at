@@ -77,9 +77,9 @@
                 <span class="centerSpan">                    
                     <asp:DropDownList ID="DropDownList_Cipher" runat="server" style="width: 84px;">
                         <asp:ListItem Enabled="true" Value="None" Selected="true">None</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="3DES" Selected="false">3DES</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="2FISH" Selected="false">2FISH</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="3FISH" Selected="false">3FISH</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="DES3" Selected="false">3DES</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="FISH2" Selected="false">2FISH</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="FISH3" Selected="false">3FISH</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="AES" Selected="false">AES</asp:ListItem>              
                         <asp:ListItem Enabled="true" Value="Cast5" Selected="False">Cast5</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Cast6" Selected="False">Cast6</asp:ListItem>
@@ -93,7 +93,7 @@
                         <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Seed" Selected="false">Seed</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Skipjack" Selected="false">Skipjack</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="SkipJack" Selected="false">SkipJack</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Tea" Selected="false">Tea</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Tnepres" Selected="false">Tnepres</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="XTea" Selected="false">XTea</asp:ListItem>

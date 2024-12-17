@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.EnDeCoding
 {
+
     /// <summary>
     /// static class EnDeCoder provides serveral static methods for ASCII, UTF7, UTF8, Unicode, UTF32 encoding.
     /// </summary>
@@ -20,7 +21,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
 
         static EnDeCoder() { }
 
-        public static string Encode(byte[] inBytes, EncodingType encodingType = EncodingType.Base64)
+        public static string Encode(byte[] inBytes, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
         {
             switch (encodingType)
             {
@@ -29,13 +30,13 @@ namespace Area23.At.Framework.Library.EnDeCoding
                 case EncodingType.Base16:       return Base16.Encode(inBytes);
                 case EncodingType.Hex32:        return Hex32.Encode(inBytes);
                 case EncodingType.Base32:       return Base32.Encode(inBytes);
-                case EncodingType.Uu:           return Uu.Encode(inBytes);
+                case EncodingType.Uu:           return Uu.Encode(inBytes, fromPlain, fromFile);
                 case EncodingType.Base64:
                 default:                        return Base64.Encode(inBytes);
             }
         }
 
-        public static byte[] Decode(string encodedString, EncodingType encodingType = EncodingType.Base64)
+        public static byte[] Decode(string encodedString, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
         {
             switch (encodingType)
             {
@@ -44,7 +45,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
                 case EncodingType.Base16:       return Base16.Decode(encodedString);
                 case EncodingType.Hex32:        return Hex32.Decode(encodedString);
                 case EncodingType.Base32:       return Base32.Decode(encodedString);
-                case EncodingType.Uu:           return Uu.Decode(encodedString);
+                case EncodingType.Uu:           return Uu.Decode(encodedString, fromPlain, fromFile);
                 case EncodingType.Base64:
                 default:                        return Base64.Decode(encodedString);
             }
@@ -187,4 +188,5 @@ namespace Area23.At.Framework.Library.EnDeCoding
         #endregion GetByteCount
 
     }
+
 }

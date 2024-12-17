@@ -98,7 +98,7 @@
     <Compile Include="EnDeCoding\Hex32.cs" />
     <Compile Include="EnDeCoding\EncodingType.cs" />
     <Compile Include="EnDeCoding\Hex16.cs" />
-    <Compile Include="EnDeCoding\Uue.cs" />
+    <Compile Include="EnDeCoding\Uu.cs" />
     <Compile Include="EnDeCoding\Base64.cs" />
     <Compile Include="EnDeCoding\Base32.cs" />
     <Compile Include="EnDeCoding\DeEnCoder.cs" />
@@ -109,6 +109,7 @@
     <Compile Include="LibPaths.cs" />
     <Compile Include="Net\NetworkAddresses.cs" />
     <Compile Include="Net\TcpClientWebRequest.cs" />
+    <Compile Include="Net\WebHttp\WebClientRequest.cs" />
     <Compile Include="ProcessCmd.cs" />
     <Compile Include="Properties\Resource.Designer.cs">
       <AutoGen>True</AutoGen>

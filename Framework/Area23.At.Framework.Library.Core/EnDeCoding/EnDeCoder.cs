@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Core.EnDeCoding
 {
+
     /// <summary>
     /// static class EnDeCoder provides serveral static methods for ASCII, UTF7, UTF8, Unicode, UTF32 encoding.
     /// </summary>
@@ -20,33 +21,33 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
 
         static EnDeCoder() { }
 
-        public static string Encode(byte[] inBytes, EncodingType encodingType = EncodingType.Base64)
+        public static string Encode(byte[] inBytes, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
         {
             switch (encodingType)
             {
-                case EncodingType.Null:         return System.Text.Encoding.UTF8.GetString(inBytes);
-                case EncodingType.Hex16:        return Hex16.Encode(inBytes);
-                case EncodingType.Base16:       return Base16.Encode(inBytes);
-                case EncodingType.Hex32:        return Hex32.Encode(inBytes);
-                case EncodingType.Base32:       return Base32.Encode(inBytes);
-                case EncodingType.Uu:           return Uu.Encode(inBytes);
+                case EncodingType.Null: return System.Text.Encoding.UTF8.GetString(inBytes);
+                case EncodingType.Hex16: return Hex16.Encode(inBytes);
+                case EncodingType.Base16: return Base16.Encode(inBytes);
+                case EncodingType.Hex32: return Hex32.Encode(inBytes);
+                case EncodingType.Base32: return Base32.Encode(inBytes);
+                case EncodingType.Uu: return Uu.Encode(inBytes, fromPlain, fromFile);
                 case EncodingType.Base64:
-                default:                        return Base64.Encode(inBytes);
+                default: return Base64.Encode(inBytes);
             }
         }
 
-        public static byte[] Decode(string encodedString, EncodingType encodingType = EncodingType.Base64)
+        public static byte[] Decode(string encodedString, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
         {
             switch (encodingType)
             {
-                case EncodingType.Null:         return System.Text.Encoding.UTF8.GetBytes(encodedString);
-                case EncodingType.Hex16:        return Hex16.Decode(encodedString);
-                case EncodingType.Base16:       return Base16.Decode(encodedString);
-                case EncodingType.Hex32:        return Hex32.Decode(encodedString);
-                case EncodingType.Base32:       return Base32.Decode(encodedString);
-                case EncodingType.Uu:           return Uu.Decode(encodedString);
+                case EncodingType.Null: return System.Text.Encoding.UTF8.GetBytes(encodedString);
+                case EncodingType.Hex16: return Hex16.Decode(encodedString);
+                case EncodingType.Base16: return Base16.Decode(encodedString);
+                case EncodingType.Hex32: return Hex32.Decode(encodedString);
+                case EncodingType.Base32: return Base32.Decode(encodedString);
+                case EncodingType.Uu: return Uu.Decode(encodedString, fromPlain, fromFile);
                 case EncodingType.Base64:
-                default:                        return Base64.Decode(encodedString);
+                default: return Base64.Decode(encodedString);
             }
         }
 
@@ -54,14 +55,15 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         {
             switch (encodingType)
             {
-                case EncodingType.Null:         return true;
-                case EncodingType.Hex16:        return Hex16.IsValid(encodedString);
-                case EncodingType.Base16:       return Base16.IsValid(encodedString);
-                case EncodingType.Hex32:        return Hex32.IsValid(encodedString);
-                case EncodingType.Base32:       return Base32.IsValid(encodedString);
-                case EncodingType.Uu:           return Uu.IsValid(encodedString);
+                case EncodingType.None:
+                case EncodingType.Null: return true;
+                case EncodingType.Hex16: return Hex16.IsValid(encodedString);
+                case EncodingType.Base16: return Base16.IsValid(encodedString);
+                case EncodingType.Hex32: return Hex32.IsValid(encodedString);
+                case EncodingType.Base32: return Base32.IsValid(encodedString);
+                case EncodingType.Uu: return Uu.IsValid(encodedString);
                 case EncodingType.Base64:
-                default:                        return Base64.IsValid(encodedString);
+                default: return Base64.IsValid(encodedString);
             }
         }
 
@@ -186,4 +188,5 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
         #endregion GetByteCount
 
     }
+
 }

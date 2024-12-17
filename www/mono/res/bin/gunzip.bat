@@ -1,3 +1,3 @@
 @echo off
 
-gzip -d %1
+gzip -c -d %1 > %2

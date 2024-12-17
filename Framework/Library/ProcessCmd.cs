@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,10 +33,13 @@ namespace Area23.At.Framework.Library
         public static string Execute(string filepath = "SystemInfo", string arguments = "", bool useShellExecute = false)
         {
             string consoleError = "", consoleOutput = "", args = (!string.IsNullOrEmpty(arguments)) ? arguments : "";
+            string workingDir = "";
             Area23Log.LogStatic(String.Format("ProcessCmd.Execute(filepath = ${0}, args = {1}, useShellExecute = {2}) called ...",
                 filepath, args, useShellExecute));
             try
             {
+                workingDir = (filepath.Contains(LibPaths.SepCh)) ? filepath.Substring(0, filepath.LastIndexOf(LibPaths.SepCh)) : ""; // System.IO.Directory.GetCurrentDirectory();
+
                 using (Process compiler = new Process())
                 {
                     compiler.StartInfo.FileName = filepath;
@@ -44,6 +48,8 @@ namespace Area23.At.Framework.Library
                     compiler.StartInfo.UseShellExecute = useShellExecute;
                     compiler.StartInfo.RedirectStandardError = true;
                     compiler.StartInfo.RedirectStandardOutput = true;
+                    if (!string.IsNullOrEmpty(workingDir) && Directory.Exists(workingDir))
+                        compiler.StartInfo.WorkingDirectory = workingDir;
                     compiler.Start();
 
                     consoleOutput = compiler.StandardOutput.ReadToEnd();

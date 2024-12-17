@@ -1,3 +1,4 @@
 @echo off
 
-gzip -c %1 > %2
+gzip.exe -c %1  > %2
+

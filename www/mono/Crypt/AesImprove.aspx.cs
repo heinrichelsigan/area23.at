@@ -233,19 +233,21 @@ namespace Area23.At.Mono.Crypt
             string addChiffre = "";
             foreach (string cryptName in Enum.GetNames(typeof(CipherEnum)))
             {
-                if (DropDownList_Cipher.SelectedValue.ToString() == cryptName)
+                if (cryptName != "None")
                 {
-                    addChiffre = DropDownList_Cipher.SelectedValue.ToString() + ";";
-                    this.TextBox_Encryption.Text += addChiffre;
-                    this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
+                    if (DropDownList_Cipher.SelectedValue.ToString() == cryptName)
+                    {
+                        addChiffre = DropDownList_Cipher.SelectedValue.ToString() + ";";
+                        this.TextBox_Encryption.Text += addChiffre;
+                        this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
 
-                    DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
-                    DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImproveBG.gif')";
-                    DivAesImprove.Style["background-image"] = "url('../res/img/AesImproveBG.gif')";
-                    break;
+                        DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+                        DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImproveBG.gif')";
+                        DivAesImprove.Style["background-image"] = "url('../res/img/AesImproveBG.gif')";
+                        break;
+                    }
                 }
-            }
-            
+            }            
         }
 
         /// <summary>

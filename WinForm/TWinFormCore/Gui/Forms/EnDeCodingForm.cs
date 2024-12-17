@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
 using Area23.At.Framework.Library.Core.Cipher.Symm;
+using Area23.At.Framework.Library.Core.Cipher;
 
 namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
@@ -361,7 +362,9 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : string.Empty;
             string keyIv = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : string.Empty;
 
-            byte[] encryptBytes = Crypt.EncryptBytes(inBytes, algo, secretKey, keyIv);
+            CipherEnum cipherAlgo = Enum.Parse<CipherEnum>(algo);
+
+            byte[] encryptBytes = Area23.At.Framework.Library.Core.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);
 
             return encryptBytes;
         }
@@ -377,7 +380,9 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : string.Empty;
             string keyIv = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : string.Empty;
 
-            byte[] decryptBytes = Crypt.DecryptBytes(cipherBytes, algorithmName, secretKey, keyIv);
+            CipherEnum cipherAlgo = Enum.Parse<CipherEnum>(algorithmName);
+
+            byte[] decryptBytes = Framework.Library.Core.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
 
             return decryptBytes;
         }

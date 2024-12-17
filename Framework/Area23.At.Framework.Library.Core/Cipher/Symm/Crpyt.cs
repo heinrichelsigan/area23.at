@@ -2,6 +2,10 @@
 
 namespace Area23.At.Framework.Library.Core.Cipher.Symm
 {
+
+    /// <summary>
+    /// Basic class for symm and asym cipher encryption
+    /// </summary>
     public static class Crypt
     {
 
@@ -9,62 +13,69 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
         /// Generic encrypt bytes to bytes
         /// </summary>
         /// <param name="inBytes">Array of byte</param>
-        /// <param name="algo">Symetric chiffre algorithm</param>        
+        /// <param name="cipherAlgo"><see cref="CipherEnum"/> both symmetric and asymetric cipher algorithms</param>
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>encrypted byte Array</returns>
-        public static byte[] EncryptBytes(byte[] inBytes, string algo = "ZenMatrix", string secretKey = "postmaster@kernel.org", string keyIv = "")
+        public static byte[] EncryptBytes(byte[] inBytes, CipherEnum cipherAlgo = CipherEnum.ZenMatrix, string secretKey = "postmaster@kernel.org", string keyIv = "")
         {
             byte[] encryptBytes = inBytes;
             // byte[] outBytes = null;
             string mode = "ECB";
             int keyLen = 32, blockSize = 256;
 
-            if (algo == "2FISH")
+            string algo = cipherAlgo.ToString();
+            if (cipherAlgo == CipherEnum.FISH2 || algo == "2FISH" || algo == "FISH2")
             {
-                Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, true);
-                encryptBytes = Algo.Fish2.Encrypt(inBytes);
+                Symm.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, true);
+                encryptBytes = Symm.Algo.Fish2.Encrypt(inBytes);
             }
-            if (algo == "3FISH")
+            if (cipherAlgo == CipherEnum.FISH3 || algo == "3FISH" || algo == "3FISH")
             {
-                Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
-                encryptBytes = Algo.Fish3.Encrypt(inBytes);
+                Symm.Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
+                encryptBytes = Symm.Algo.Fish3.Encrypt(inBytes);
             }
-            if (algo == "3DES")
+            if (cipherAlgo == CipherEnum.DES3 || algo == "3DES" || algo == "DES3")
             {
-                Algo.Des3.Des3FromKey(secretKey, keyIv, true);
-                encryptBytes = Algo.Des3.Encrypt(inBytes);
+                Symm.Algo.Des3.Des3FromKey(secretKey, keyIv, true);
+                encryptBytes = Symm.Algo.Des3.Encrypt(inBytes);
             }
-            if (algo == "AES")
+            if (cipherAlgo == CipherEnum.AES || algo == "AES")
             {
-                Algo.Aes.AesGenWithNewKey(secretKey, keyIv, true);
-                encryptBytes = Algo.Aes.Encrypt(inBytes);
+                Symm.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, true);
+                encryptBytes = Symm.Algo.Aes.Encrypt(inBytes);
             }
-            if (algo == "Rijndael")
+            if (cipherAlgo == CipherEnum.Rijndael || algo == "Rijndael")
             {
-                Algo.Rijndael.RijndaelGenWithKey(secretKey, keyIv, true);
-                encryptBytes = Algo.Rijndael.Encrypt(inBytes);
+                Symm.Algo.Rijndael.RijndaelGenWithKey(secretKey, keyIv, true);
+                encryptBytes = Symm.Algo.Rijndael.Encrypt(inBytes);
             }
-            if (algo == "Serpent")
+            if (cipherAlgo == CipherEnum.Rsa || algo == "Rsa")
             {
-                Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, true);
-                encryptBytes = Algo.Serpent.Encrypt(inBytes);
+                var keyPair = Asym.Algo.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                string privKey = keyPair.Private.ToString();
+                encryptBytes = Asym.Algo.Rsa.Encrypt(inBytes);
             }
-            if (algo == "ZenMatrix")
+            if (cipherAlgo == CipherEnum.Serpent || algo == "Serpent")
             {
-                Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, true);
-                encryptBytes = Algo.ZenMatrix.Encrypt(inBytes);
+                Symm.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, true);
+                encryptBytes = Symm.Algo.Serpent.Encrypt(inBytes);
+            }
+            if (cipherAlgo == CipherEnum.ZenMatrix || algo == "ZenMatrix")
+            {
+                Symm.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, true);
+                encryptBytes = Symm.Algo.ZenMatrix.Encrypt(inBytes);
             }
             if (algo == "Camellia" || algo == "Cast5" || algo == "Cast6" ||
                 algo == "Gost28147" || algo == "Idea" || algo == "Noekeon" ||
                 algo == "RC2" || algo == "RC532" || algo == "RC6" || // || algo == "RC564"
                                                                      // algo == "Rijndael" ||
-                algo == "Seed" || algo == "Skipjack" || // algo == "Serpent" ||
+                algo == "Seed" || algo == "SkipJack" || // algo == "Serpent" ||
                 algo == "Tea" || algo == "Tnepres" || algo == "XTea")
             {
-                IBlockCipher blockCipher = CryptHelper.GetBlockCipher(algo, ref mode, ref blockSize, ref keyLen);
+                IBlockCipher blockCipher = Symm.CryptHelper.GetBlockCipher(algo, ref mode, ref blockSize, ref keyLen);
 
-                CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
+                Symm.CryptBounceCastle cryptBounceCastle = new Symm.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
                 encryptBytes = cryptBounceCastle.Encrypt(inBytes);
 
             }
@@ -77,64 +88,70 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
         /// Generic decrypt bytes to bytes
         /// </summary>
         /// <param name="cipherBytes">Encrypted array of byte</param>
-        /// <param name="algorithmName">Symetric chiffre algorithm</param>
+        /// <param name="cipherAlgo">both symmetric and asymetric cipher algorithms</param>
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>decrypted byte Array</returns>
-        public static byte[] DecryptBytes(byte[] cipherBytes, string algorithmName = "ZenMatrix", string secretKey = "postmaster@kernel.org", string keyIv = "")
+        public static byte[] DecryptBytes(byte[] cipherBytes, CipherEnum cipherAlgo = CipherEnum.ZenMatrix, string secretKey = "postmaster@kernel.org", string keyIv = "")
         {
             bool sameKey = true;
-
+            string algorithmName = cipherAlgo.ToString();
             byte[] decryptBytes = cipherBytes;
             // byte[] plainBytes = null;
             string mode = "ECB";
             int keyLen = 32, blockSize = 256;
 
-            if (algorithmName == "2FISH")
+            if (cipherAlgo == CipherEnum.FISH2 || algorithmName == "2FISH" || algorithmName == "FISH2")
             {
-                sameKey = Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, false);
-                decryptBytes = Algo.Fish2.Decrypt(cipherBytes);
+                sameKey = Symm.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, false);
+                decryptBytes = Symm.Algo.Fish2.Decrypt(cipherBytes);
             }
-            if (algorithmName == "3FISH")
+            if (cipherAlgo == CipherEnum.FISH3 || algorithmName == "3FISH" || algorithmName == "FISH3")
             {
-                sameKey = Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
-                decryptBytes = Algo.Fish3.Decrypt(cipherBytes);
+                sameKey = Symm.Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
+                decryptBytes = Symm.Algo.Fish3.Decrypt(cipherBytes);
             }
-            if (algorithmName == "3DES")
+            if (cipherAlgo == CipherEnum.DES3 || algorithmName == "3DES" || algorithmName == "DES3")
             {
-                sameKey = Algo.Des3.Des3FromKey(secretKey, keyIv, true);
-                decryptBytes = Algo.Des3.Decrypt(cipherBytes);
+                sameKey = Symm.Algo.Des3.Des3FromKey(secretKey, keyIv, true);
+                decryptBytes = Symm.Algo.Des3.Decrypt(cipherBytes);
             }
-            if (algorithmName == "AES")
+            if (cipherAlgo == CipherEnum.AES || algorithmName == "AES")
             {
-                sameKey = Algo.Aes.AesGenWithNewKey(secretKey, keyIv, false);
-                decryptBytes = Algo.Aes.Decrypt(cipherBytes);
+                sameKey = Symm.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, false);
+                decryptBytes = Symm.Algo.Aes.Decrypt(cipherBytes);
             }
-            if (algorithmName == "Rijndael")
+            if (cipherAlgo == CipherEnum.Rijndael || algorithmName == "Rijndael")
             {
-                Algo.Rijndael.RijndaelGenWithKey(secretKey, keyIv, false);
-                decryptBytes = Algo.Rijndael.Decrypt(cipherBytes);
+                Symm.Algo.Rijndael.RijndaelGenWithKey(secretKey, keyIv, false);
+                decryptBytes = Symm.Algo.Rijndael.Decrypt(cipherBytes);
             }
-            if (algorithmName == "Serpent")
+            if (cipherAlgo == CipherEnum.Rsa || algorithmName == "Rsa")
             {
-                sameKey = Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, false);
-                decryptBytes = Algo.Serpent.Decrypt(cipherBytes);
+                var keyPair = Asym.Algo.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                string privKey = keyPair.Private.ToString();
+                decryptBytes = Asym.Algo.Rsa.Decrypt(cipherBytes);
             }
-            if (algorithmName == "ZenMatrix")
+            if (cipherAlgo == CipherEnum.Serpent || algorithmName == "Serpent")
             {
-                sameKey = Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, false);
-                decryptBytes = Algo.ZenMatrix.Decrypt(cipherBytes);
+                sameKey = Symm.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, false);
+                decryptBytes = Symm.Algo.Serpent.Decrypt(cipherBytes);
+            }
+            if (cipherAlgo == CipherEnum.ZenMatrix || algorithmName == "ZenMatrix")
+            {
+                sameKey = Symm.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, false);
+                decryptBytes = Symm.Algo.ZenMatrix.Decrypt(cipherBytes);
             }
             if (algorithmName == "Camellia" || algorithmName == "Cast5" || algorithmName == "Cast6" ||
                 algorithmName == "Gost28147" || algorithmName == "Idea" || algorithmName == "Noekeon" ||
                 algorithmName == "RC2" || algorithmName == "RC532" || algorithmName == "RC6" || // || algorithmName == "RC564" 
                                                                                                 // algorithmName == "Rijndael" ||
-                algorithmName == "Seed" || algorithmName == "Skipjack" || // algorithmName == "Serpent" || 
+                algorithmName == "Seed" || algorithmName == "SkipJack" || // algorithmName == "Serpent" || 
                 algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea")
             {
-                IBlockCipher blockCipher = CryptHelper.GetBlockCipher(algorithmName, ref mode, ref blockSize, ref keyLen);
+                IBlockCipher blockCipher = Symm.CryptHelper.GetBlockCipher(algorithmName, ref mode, ref blockSize, ref keyLen);
 
-                CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
+                Symm.CryptBounceCastle cryptBounceCastle = new Symm.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
                 decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
             }
 
@@ -142,4 +159,5 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
         }
 
     }
+
 }

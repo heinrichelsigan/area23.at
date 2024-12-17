@@ -148,7 +148,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             string richText = this.richTextBoxChat.Text;
 
-            WebClient webclient = WebClientRequest.GetWebClient("https://area23.at/");
+            string? secretKey = Entities.Settings.Instance?.MyContact?.Email;
+            WebClient webclient = WebClientRequest.GetWebClient("https://area23.at/", secretKey ?? "wabiwabi");
             string wabiwabi = webclient.DownloadString("https://area23.at/");
 
 

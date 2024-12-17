@@ -15,7 +15,7 @@ namespace Area23.At.Framework.Library.Core.Cipher
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>encrypted byte Array</returns>
-        public static byte[] EncryptBytes(byte[] inBytes, ChipherEnum cipherAlgo = ChipherEnum.ZenMatrix, string secretKey = "postmaster@kernel.org", string keyIv = "")
+        public static byte[] EncryptBytes(byte[] inBytes, CipherEnum cipherAlgo = CipherEnum.ZenMatrix, string secretKey = "postmaster@kernel.org", string keyIv = "")
         {
             byte[] encryptBytes = inBytes;
             // byte[] outBytes = null;
@@ -90,7 +90,7 @@ namespace Area23.At.Framework.Library.Core.Cipher
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>decrypted byte Array</returns>
-        public static byte[] DecryptBytes(byte[] cipherBytes, ChipherEnum cipherAlgo = ChipherEnum.ZenMatrix, string secretKey = "postmaster@kernel.org", string keyIv = "")
+        public static byte[] DecryptBytes(byte[] cipherBytes, CipherEnum cipherAlgo = CipherEnum.ZenMatrix, string secretKey = "postmaster@kernel.org", string keyIv = "")
         {
             bool sameKey = true;
             string algorithmName = cipherAlgo.ToString();
