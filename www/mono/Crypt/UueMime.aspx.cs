@@ -147,7 +147,7 @@ namespace Area23.At.Mono.Crypt
                     case "base64":
                     default:
                         if (Base64.IsValidBase64(this.TextBoxSource.Text))
-                            byteSrc = Base64.FromBase64(srcStr);
+                            byteSrc = EnDeCoder.Decode(srcStr, EncodingType.Base64);
                         else
                         {
                             this.preOut.InnerText = "Input Text is not valid base64 string!";
