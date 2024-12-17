@@ -16,35 +16,40 @@ namespace Area23.At.Framework.Library.Core.Net
     public static class NetworkAddresses
     {
 
+
         /// <summary>
         /// GetConnectedIpAddresses gets connected IPAddress list.
         /// </summary>
+        /// <param name="serverIps"><see cref="List{IPAddress}"/></param>
         /// <returns><see cref="List{IPAddress}"/></returns>
-        public static List<IPAddress> GetConnectedIpAddresses()
+        public static List<IPAddress> GetConnectedIpAddresses(List<IPAddress>? serverIps = null)
         {
             List<IPAddress> validAddrs = new List<IPAddress>();
-            List<IPAddress> serverIps = new List<IPAddress>();
-            foreach (IPAddress serverIp in GetIpAddrsByHostName("area23.at"))
-                serverIps.Add(serverIp);            
-            foreach (IPAddress serverIp in GetIpAddrsByHostName("paris.area23.at"))
-                serverIps.Add(serverIp);
-            try
+            if (serverIps == null || serverIps.Count == 0)
             {
-                foreach (IPAddress serverIp in GetIpAddrsByHostName("virginia.area23.at"))
+                serverIps = new List<IPAddress>();
+                foreach (IPAddress serverIp in GetIpAddrsByHostName("area23.at"))
                     serverIps.Add(serverIp);
-            }
-            catch (Exception exVirginia)
-            {
-                Area23Log.LogStatic(exVirginia);
-            }
-            try 
-            { 
-            foreach (IPAddress serverIp in GetIpAddrsByHostName("parisienne.area23.at"))
-                serverIps.Add(serverIp);
-            }
-            catch (Exception exParisienne)
-            {
-                Area23Log.LogStatic(exParisienne);
+                foreach (IPAddress serverIp in GetIpAddrsByHostName("paris.area23.at"))
+                    serverIps.Add(serverIp);
+                try
+                {
+                    foreach (IPAddress serverIp in GetIpAddrsByHostName("virginia.area23.at"))
+                        serverIps.Add(serverIp);
+                }
+                catch (Exception exVirginia)
+                {
+                    Area23Log.LogStatic(exVirginia);
+                }
+                try
+                {
+                    foreach (IPAddress serverIp in GetIpAddrsByHostName("parisienne.area23.at"))
+                        serverIps.Add(serverIp);
+                }
+                catch (Exception exParisienne)
+                {
+                    Area23Log.LogStatic(exParisienne);
+                }
             }
 
             foreach (IPAddress serverIp in serverIps)

@@ -18,6 +18,8 @@ using System.Windows.Forms;
 using Area23.At.Framework.Library.Core.Net;
 using System.Net;
 using Area23.At.Framework.Library.Core.Net.WebHttp;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Area23.At.WinForm.SecureChat.Properties;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -34,23 +36,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         private void SecureChat_Load(object sender, EventArgs e)
         {
-
-            List<IPAddress> list = NetworkAddresses.GetConnectedIpAddresses();
-
-            int mchecked = 0;
-            foreach (IPAddress addr in list)
-            {
-                if (addr != null)
-                {
-                    ToolStripMenuItem item = new ToolStripMenuItem(addr.AddressFamily + " " + addr.ToString(), null, null, addr.ToString());
-                    if (mchecked++ == 0)
-                        item.Checked = true;
-                    else item.Checked = false;
-
-                    this.menuIItemMyIps.DropDownItems.Add(item);
-                }
-            }
-
             if (Entities.Settings.Load() == null)
             {
                 var badge = new TransparentBadge($"Error reading Settings from {LibPaths.AppDirPath + Constants.JSON_SETTINGS_FILE}.");
@@ -60,6 +45,75 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             {
                 menuItemMyContact_Click(sender, e);
             }
+
+            if (Entities.Settings.Instance != null && Entities.Settings.Instance.MyContact != null && !string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.ImageBase64))
+            {
+                this.pictureBoxYou.Image = Entities.Settings.Instance.MyContact.ImageBase64.Base64ToImage();
+
+            }
+
+            List<IPAddress> addresses = new List<IPAddress>();
+            string[] proxieStrs = Resources.Proxies.Split(";,".ToCharArray());
+            List<string> proxyList = new List<string>();
+            foreach (string str in proxieStrs)
+            {
+                try
+                {
+                    IPAddress ip = IPAddress.Parse(str);
+                    addresses.Add(ip);
+                    proxyList.Add(ip.ToString());
+                } 
+                catch (Exception ex)
+                {
+                    Area23Log.LogStatic(ex);
+                }
+            }
+            
+            List<IPAddress> list = NetworkAddresses.GetConnectedIpAddresses(addresses);
+
+            List<string> myIpStrList = new List<string>();
+            int mchecked = 0;
+            this.menuItemIPv6Secure.Checked = false;
+            foreach (IPAddress addr in list)
+            {
+                if (addr != null)
+                {
+                    ToolStripMenuItem item = new ToolStripMenuItem(addr.AddressFamily + " " + addr.ToString(), null, null, addr.ToString());                    
+                    if (addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+                    {
+                        this.menuItemIPv6Secure.Checked = true;
+                    }
+                    myIpStrList.Add(addr.ToString());
+                    if (mchecked++ == 0)
+                        item.Checked = true;
+                    else item.Checked = false;
+
+                    this.menuIItemMyIps.DropDownItems.Add(item);
+                }
+            }
+
+            foreach (IPAddress addrProxy in addresses)
+            {
+                if (addrProxy != null)
+                {
+                    if (addrProxy.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork ||
+                        (addrProxy.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6 && this.menuItemIPv6Secure.Checked))
+                    {
+                        ToolStripMenuItem item = new ToolStripMenuItem(addrProxy.AddressFamily + " " + addrProxy.ToString(), null, null, addrProxy.ToString());
+                        this.menuItemProxyServers.DropDownItems.Add(item);
+                    }
+                }
+            }
+
+            if (Entities.Settings.Instance != null)
+            {
+                Entities.Settings.Instance.Proxies = proxyList;
+                Entities.Settings.Instance.MyIPs = myIpStrList;
+                Entities.Settings.Save(Entities.Settings.Instance);
+            }
+
+
+
 
         }
 

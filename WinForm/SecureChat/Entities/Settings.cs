@@ -21,18 +21,18 @@ namespace Area23.At.WinForm.SecureChat.Entities
 
         public List<Contact> Contacts { get; set; }
 
-        public List<IPAddress> FriendIPs { get; set; }
+        public List<string> FriendIPs { get; set; }
+        
+        public List<string> MyIPs { get; set; }
 
-        public List<IPAddress> MyIPs { get; set; }
-
-        public List<IPAddress> Proxies {  get; set; }
+        public List<string> Proxies {  get; set; }
 
         public Settings() 
         {            
             Contacts = new List<Contact>();
-            FriendIPs = new List<IPAddress>();
-            MyIPs = new List<IPAddress>();
-            Proxies = new List<IPAddress>();
+            FriendIPs = new List<string>();
+            MyIPs = new List<string>();
+            Proxies = new List<string>();
         }
 
         public static bool Save(Settings? settings)
