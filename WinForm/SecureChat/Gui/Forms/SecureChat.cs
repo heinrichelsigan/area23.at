@@ -20,6 +20,8 @@ using System.Net;
 using Area23.At.Framework.Library.Core.Net.WebHttp;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Area23.At.WinForm.SecureChat.Properties;
+using System.Runtime.CompilerServices;
+using System.IO;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -31,6 +33,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         public SecureChat()
         {
             InitializeComponent();
+            MemoryStream ms = new MemoryStream(Properties.Resources.a_hash);
+            buttonSecretKey.Image = new System.Drawing.Bitmap(ms);
+            buttonHashIv.Image = new System.Drawing.Bitmap(ms);
+            ms.Close();
         }
 
 
@@ -144,28 +150,39 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         }
 
-        private void Button_Save_Click(object sender, EventArgs e)
+
+        private void Button_SecretKey_Click(object sender, EventArgs e)
         {
             string richText = this.richTextBoxChat.Text;
 
             string? secretKey = Entities.Settings.Instance?.MyContact?.Email;
-            WebClient webclient = WebClientRequest.GetWebClient("https://area23.at/", secretKey ?? "wabiwabi");
-            string wabiwabi = webclient.DownloadString("https://area23.at/");
+
+            string url = "https://area23.at/net/R.aspx";
+            WebClient webclient = WebClientRequest.GetWebClient(url, secretKey ?? "wabiwabi");
+            string wabiwabi = webclient.DownloadString(url);
 
 
             this.TextBoxDestionation.Text += wabiwabi + "\n";
 
-
-        }
-
-        private void Button_SecretKey_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         private void Button_AddToPipeline_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            string? secretKey = Entities.Settings.Instance?.MyContact?.Email;
+            string url = "https://area23.at/net/R.aspx";
+            Uri uri = new Uri(url);
+            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, secretKey ?? "wabiwabi");
+            ConfiguredTaskAwaitable<HttpResponseMessage> respTask =
+                httpClientR.GetAsync(uri).ConfigureAwait(false);
+        }
+
+        private void Button_HashIv_Click(object sender, EventArgs e)
+        {
+            string url = "https://area23.at/net/R.aspx";
+            Uri uri = new Uri(url);
+            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, Encoding.UTF8); 
+            Task<HttpResponseMessage> respTask = httpClientR.GetAsync(uri);
+
         }
 
 
@@ -238,15 +255,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             return;
         }
 
-        protected internal void menuViewMenuCrypItemEnDeCode_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        protected internal void menuViewMenuCryptItemCrypt_Click(object sender, EventArgs e)
-        {
-
-        }
 
         protected internal virtual void toolStripMenuItemSave_Click(object sender, EventArgs e)
         {
@@ -378,11 +387,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         }
 
 
-        private void Button_HashIv_Click(object sender, EventArgs e)
-        {
-            string usrMailKey = Constants.AUTHOR_EMAIL;
-
-        }
 
 
         private void menuItemMyContact_Click(object sender, EventArgs e)
