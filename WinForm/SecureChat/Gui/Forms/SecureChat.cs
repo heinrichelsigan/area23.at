@@ -68,13 +68,13 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     IPAddress ip = IPAddress.Parse(str);
                     addresses.Add(ip);
                     proxyList.Add(ip.ToString());
-                } 
+                }
                 catch (Exception ex)
                 {
                     Area23Log.LogStatic(ex);
                 }
             }
-            
+
             List<IPAddress> list = NetworkAddresses.GetConnectedIpAddresses(addresses);
 
             List<string> myIpStrList = new List<string>();
@@ -84,7 +84,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             {
                 if (addr != null)
                 {
-                    ToolStripMenuItem item = new ToolStripMenuItem(addr.AddressFamily + " " + addr.ToString(), null, null, addr.ToString());                    
+                    ToolStripMenuItem item = new ToolStripMenuItem(addr.AddressFamily + " " + addr.ToString(), null, null, addr.ToString());
                     if (addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
                     {
                         this.menuItemIPv6Secure.Checked = true;
@@ -180,7 +180,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             string url = "https://area23.at/net/R.aspx";
             Uri uri = new Uri(url);
-            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, Encoding.UTF8); 
+            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, Encoding.UTF8);
             Task<HttpResponseMessage> respTask = httpClientR.GetAsync(uri);
 
         }
@@ -322,11 +322,91 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         }
 
 
+
+
+        private void menuItemMyContact_Click(object sender, EventArgs e)
+        {
+            ContactSettings contactSettings = new ContactSettings("My Contact Info", 0);
+            contactSettings.ShowInTaskbar = true;
+            contactSettings.ShowDialog();
+
+            if (Entities.Settings.Instance.MyContact != null)
+            {
+                string base64image = Entities.Settings.Instance.MyContact.ImageBase64 ?? string.Empty;
+                if (!string.IsNullOrEmpty(base64image))
+                    this.pictureBoxYou.Image = base64image.Base64ToImage();
+
+                // var badge = new TransparentBadge("My contact added!");
+                // badge.ShowDialog();
+
+            }
+
+        }
+
+        private void menuItemAddContact_Click(object sender, EventArgs e)
+        {
+            ContactSettings contactSettings = new ContactSettings("Add Contact Info", 1);
+            contactSettings.ShowInTaskbar = true;
+            contactSettings.ShowDialog();
+
+            // var badge = new TransparentBadge("My contact added!");
+            // badge.ShowDialog();
+        }
+
+        private void menuItemSend_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuViewItemTopBottom_Click(object sender, EventArgs e)
+        {
+            menuViewItemLeftRíght.Checked = false;
+            menuViewItemTopBottom.Checked = true;
+            menuIViewItem1View.Checked = false;
+
+            splitContainer.Orientation = Orientation.Horizontal;
+            splitContainer.Panel1MinSize = 200;
+            splitContainer.Panel2MinSize = 200;
+            splitContainer.SplitterDistance = 226;
+            splitContainer.SplitterIncrement = 8;
+            splitContainer.SplitterWidth = 8;
+            splitContainer.MinimumSize = new System.Drawing.Size(600, 400);
+
+        }
+
+        private void menuViewItemLeftRíght_Click(object sender, EventArgs e)
+        {
+            menuViewItemLeftRíght.Checked = true;
+            menuViewItemTopBottom.Checked = false;
+            menuIViewItem1View.Checked = false;
+
+            splitContainer.Orientation = Orientation.Vertical;
+            splitContainer.Panel1MinSize = 300;
+            splitContainer.Panel2MinSize = 300;
+            splitContainer.SplitterDistance = 336;
+            splitContainer.SplitterIncrement = 8;
+            splitContainer.SplitterWidth = 8;
+            splitContainer.MinimumSize = new System.Drawing.Size(600, 400);
+        }
+
+        private void menuIViewItem1View_Click(object sender, EventArgs e)
+        {
+            menuViewItemLeftRíght.Checked = false;
+            menuViewItemTopBottom.Checked = false;
+            menuIViewItem1View.Checked = true;
+        }
+
+
+
         private void menuFileItemExit_Click(object sender, EventArgs e)
         {
             AppCloseAllFormsExit();
         }
 
+        /// <summary>
+        /// AppCloseAllFormsExit closes all open forms and exit
+        /// </summary>
+        /// <exception cref="ApplicationException"></exception>
         public virtual void AppCloseAllFormsExit()
         {
             if (!Entities.Settings.Save(Entities.Settings.Instance))
@@ -386,41 +466,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         }
 
-
-
-
-        private void menuItemMyContact_Click(object sender, EventArgs e)
-        {
-            ContactSettings contactSettings = new ContactSettings("My Contact Info", 0);
-            contactSettings.ShowInTaskbar = true;
-            contactSettings.ShowDialog();
-
-            if (Entities.Settings.Instance.MyContact != null)
-            {
-                string base64image = Entities.Settings.Instance.MyContact.ImageBase64 ?? string.Empty;
-                if (!string.IsNullOrEmpty(base64image))
-                    this.pictureBoxYou.Image = base64image.Base64ToImage();
-
-                // var badge = new TransparentBadge("My contact added!");
-                // badge.ShowDialog();
-
-            }
-
-        }
-
-        private void menuItemAddContact_Click(object sender, EventArgs e)
-        {
-            ContactSettings contactSettings = new ContactSettings("Add Contact Info", 1);
-            contactSettings.ShowInTaskbar = true;
-            contactSettings.ShowDialog();
-
-            // var badge = new TransparentBadge("My contact added!");
-            // badge.ShowDialog();
-        }
-
-        private void menuItemSend_Click(object sender, EventArgs e)
-        {
-
-        }
     }
+
 }

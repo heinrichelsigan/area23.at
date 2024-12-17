@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -64,7 +66,17 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     byte[] bitmapBytes = System.IO.File.ReadAllBytes(openFileDialog.FileName);
                     base64image = Framework.Library.Core.EnDeCoding.Base64.Encode(bitmapBytes);
                     Bitmap bmp = new Bitmap(openFileDialog.FileName);
-                    this.pictureBoxImage.Image = bmp;
+                    int h = bmp.Size.Height;
+                    int w = bmp.Size.Width;
+                    if (h > 150)
+                    {
+                        float fh = (h / 150);
+                        float fw = (w / fh);
+                        Bitmap bitmap = ResizeImage(bmp, (int)fw, (int)150);
+                        this.pictureBoxImage.Image = bitmap;
+                    }
+                    else 
+                        this.pictureBoxImage.Image = bmp;
                     this.pictureBoxImage.Tag = openFileDialog.FileName;
                 }
             }
@@ -99,9 +111,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                             new Entities.Contact()
                             {
                                 ContactId = _id,
-                                Name = this.comboBoxName.Text,
-                                Email = this.textBoxEmail.Text,
-                                Mobile = this.textBoxMobile.Text,
+                                Name = this.comboBoxName.Text ?? string.Empty,
+                                Email = this.textBoxEmail.Text ?? string.Empty,
+                                Mobile = this.textBoxMobile.Text ?? string.Empty,
+                                Address = this.textBoxAddress.Text ?? string.Empty,
                                 ImageBase64 = (pictureBoxImage.Tag != null && pictureBoxImage.Tag.ToString() == "Upload image") ?
                                     null : this.pictureBoxImage.Image.ToBase64()
                             }); 
@@ -122,9 +135,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 Entities.Settings.Instance.MyContact = new Entities.Contact()
                 {
                     ContactId = 0,
-                    Name = this.comboBoxName.Text,
-                    Email = this.textBoxEmail.Text,
-                    Mobile = this.textBoxMobile.Text,
+                    Name = this.comboBoxName.Text ?? string.Empty,
+                    Email = this.textBoxEmail.Text ?? string.Empty,
+                    Mobile = this.textBoxMobile.Text ?? string.Empty,
+                    Address = this.textBoxAddress.Text ?? string.Empty,
                     ImageBase64 = (pictureBoxImage.Tag != null && pictureBoxImage.Tag.ToString() == "Upload image") ? 
                         null : Framework.Library.Core.EnDeCoding.Base64.Encode(bytes)
                 };
@@ -145,7 +159,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                         this.textBoxMobile.Text = contact.Mobile ?? string.Empty;
                         base64image = contact.ImageBase64 ?? string.Empty;
                         if (!string.IsNullOrEmpty(base64image))
-                            this.pictureBoxImage.Image = base64image.Base64ToImage();
+                        {
+                            this.pictureBoxImage.Image = base64image.Base64ToImage();                            
+                        }
                         else
                         {
                             pictureBoxImage.Tag = "Upload image";
@@ -182,6 +198,38 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 }
 
             }
+        }
+
+        // <summary>
+        /// Resize the image to the specified width and height.
+        /// </summary>
+        /// <param name="image">The image to resize.</param>
+        /// <param name="width">The width to resize to.</param>
+        /// <param name="height">The height to resize to.</param>
+        /// <returns>The resized image.</returns>
+        public static Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
         }
     }
 }

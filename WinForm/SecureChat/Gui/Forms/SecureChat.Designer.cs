@@ -47,7 +47,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuView = new ToolStripMenuItem();
             menuViewItemLeftRíght = new ToolStripMenuItem();
             menuViewItemTopBottom = new ToolStripMenuItem();
-            menuIViewtem1View = new ToolStripMenuItem();
+            menuIViewItem1View = new ToolStripMenuItem();
             menuIPs = new ToolStripMenuItem();
             menuIItemMyIps = new ToolStripMenuItem();
             menuItemFriendIp = new ToolStripMenuItem();
@@ -232,7 +232,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             menuView.BackColor = SystemColors.MenuBar;
             menuView.BackgroundImageLayout = ImageLayout.None;
-            menuView.DropDownItems.AddRange(new ToolStripItem[] { menuViewItemLeftRíght, menuViewItemTopBottom, menuIViewtem1View });
+            menuView.DropDownItems.AddRange(new ToolStripItem[] { menuViewItemLeftRíght, menuViewItemTopBottom, menuIViewItem1View });
             menuView.ForeColor = SystemColors.MenuText;
             menuView.ImageScaling = ToolStripItemImageScaling.None;
             menuView.Name = "menuView";
@@ -244,20 +244,23 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // menuViewItemLeftRíght
             // 
             menuViewItemLeftRíght.Name = "menuViewItemLeftRíght";
-            menuViewItemLeftRíght.Size = new Size(160, 22);
+            menuViewItemLeftRíght.Size = new Size(180, 22);
             menuViewItemLeftRíght.Text = "Left-Ríght";
+            menuViewItemLeftRíght.Click += menuViewItemLeftRíght_Click;
             // 
             // menuViewItemTopBottom
             // 
             menuViewItemTopBottom.Name = "menuViewItemTopBottom";
-            menuViewItemTopBottom.Size = new Size(160, 22);
+            menuViewItemTopBottom.Size = new Size(180, 22);
             menuViewItemTopBottom.Text = "Top-Bottom";
+            menuViewItemTopBottom.Click += menuViewItemTopBottom_Click;
             // 
-            // menuIViewtem1View
+            // menuIViewItem1View
             // 
-            menuIViewtem1View.Name = "menuIViewtem1View";
-            menuIViewtem1View.Size = new Size(160, 22);
-            menuIViewtem1View.Text = "1-View";
+            menuIViewItem1View.Name = "menuIViewItem1View";
+            menuIViewItem1View.Size = new Size(180, 22);
+            menuIViewItem1View.Text = "1-View";
+            menuIViewItem1View.Click += menuIViewItem1View_Click;
             // 
             // menuIPs
             // 
@@ -333,7 +336,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemSend.BackColor = SystemColors.Menu;
             menuItemSend.Name = "menuItemSend";
             menuItemSend.ShortcutKeys = Keys.Alt | Keys.S;
-            menuItemSend.Size = new Size(180, 22);
+            menuItemSend.Size = new Size(175, 22);
             menuItemSend.Text = "Send";
             menuItemSend.Click += menuItemSend_Click;
             // 
@@ -533,7 +536,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             splitContainer.Location = new Point(148, 72);
             splitContainer.Margin = new Padding(0);
             splitContainer.MaximumSize = new Size(800, 600);
-            splitContainer.MinimumSize = new Size(320, 200);
+            splitContainer.MinimumSize = new Size(600, 400);
             splitContainer.Name = "splitContainer";
             // 
             // splitContainer.Panel1
@@ -594,28 +597,28 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             panelSource.Location = new Point(0, 72);
             panelSource.Margin = new Padding(0);
             panelSource.Name = "panelSource";
-            panelSource.Size = new Size(148, 477);
+            panelSource.Size = new Size(148, 472);
             panelSource.TabIndex = 40;
             // 
             // pictureBoxYou
             // 
             pictureBoxYou.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBoxYou.Location = new Point(10, 2);
+            pictureBoxYou.Location = new Point(3, 2);
             pictureBoxYou.Margin = new Padding(1);
             pictureBoxYou.Name = "pictureBoxYou";
             pictureBoxYou.Padding = new Padding(1);
-            pictureBoxYou.Size = new Size(128, 128);
+            pictureBoxYou.Size = new Size(142, 142);
             pictureBoxYou.TabIndex = 58;
             pictureBoxYou.TabStop = false;
             // 
             // pictureBoxSource
             // 
             pictureBoxSource.BackColor = SystemColors.Control;
-            pictureBoxSource.Location = new Point(10, 332);
+            pictureBoxSource.Location = new Point(3, 317);
             pictureBoxSource.Margin = new Padding(1);
             pictureBoxSource.Name = "pictureBoxSource";
             pictureBoxSource.Padding = new Padding(1);
-            pictureBoxSource.Size = new Size(128, 128);
+            pictureBoxSource.Size = new Size(142, 142);
             pictureBoxSource.TabIndex = 55;
             pictureBoxSource.TabStop = false;
             // 
@@ -705,11 +708,11 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // pictureBoxDestination
             // 
-            pictureBoxDestination.Location = new Point(10, 332);
+            pictureBoxDestination.Location = new Point(3, 317);
             pictureBoxDestination.Margin = new Padding(1);
             pictureBoxDestination.Name = "pictureBoxDestination";
             pictureBoxDestination.Padding = new Padding(1);
-            pictureBoxDestination.Size = new Size(128, 128);
+            pictureBoxDestination.Size = new Size(142, 142);
             pictureBoxDestination.TabIndex = 56;
             pictureBoxDestination.TabStop = false;
             // 
@@ -718,20 +721,20 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             richTextBoxChat.BorderStyle = BorderStyle.FixedSingle;
             richTextBoxChat.Cursor = Cursors.No;
             richTextBoxChat.ForeColor = SystemColors.WindowText;
-            richTextBoxChat.Location = new Point(10, 551);
+            richTextBoxChat.Location = new Point(3, 549);
             richTextBoxChat.Margin = new Padding(2);
             richTextBoxChat.Name = "richTextBoxChat";
-            richTextBoxChat.Size = new Size(956, 136);
+            richTextBoxChat.Size = new Size(970, 136);
             richTextBoxChat.TabIndex = 57;
             richTextBoxChat.Text = "";
             // 
             // pictureBoxPartner
             // 
-            pictureBoxPartner.Location = new Point(10, 2);
+            pictureBoxPartner.Location = new Point(3, 2);
             pictureBoxPartner.Margin = new Padding(1);
             pictureBoxPartner.Name = "pictureBoxPartner";
             pictureBoxPartner.Padding = new Padding(1);
-            pictureBoxPartner.Size = new Size(128, 128);
+            pictureBoxPartner.Size = new Size(142, 142);
             pictureBoxPartner.TabIndex = 59;
             pictureBoxPartner.TabStop = false;
             // 
@@ -745,13 +748,13 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             panelDestination.Location = new Point(828, 72);
             panelDestination.Margin = new Padding(0);
             panelDestination.Name = "panelDestination";
-            panelDestination.Size = new Size(148, 477);
+            panelDestination.Size = new Size(148, 472);
             panelDestination.TabIndex = 80;
             // 
             // buttonExit
             // 
             buttonExit.BackColor = SystemColors.ButtonHighlight;
-            buttonExit.Location = new Point(10, 263);
+            buttonExit.Location = new Point(10, 168);
             buttonExit.Margin = new Padding(1);
             buttonExit.Name = "buttonExit";
             buttonExit.Padding = new Padding(1);
@@ -866,7 +869,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripMenuItem menuEditItemSelectAll;
         private ToolStripMenuItem menuViewItemLeftRíght;
         private ToolStripMenuItem menuViewItemTopBottom;
-        private ToolStripMenuItem menuIViewtem1View;
+        private ToolStripMenuItem menuIViewItem1View;
         private ToolStripMenuItem menuOptions;
         private ToolStripMenuItem menuItemImportContacts;
         private ToolStripMenuItem menuItemAddContact;

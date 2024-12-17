@@ -193,15 +193,16 @@
             // 
             // pictureBoxImage
             // 
-            pictureBoxImage.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBoxImage.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pictureBoxImage.BackgroundImageLayout = ImageLayout.Center;
             pictureBoxImage.BorderStyle = BorderStyle.FixedSingle;
-            pictureBoxImage.Dock = DockStyle.Fill;
             pictureBoxImage.Image = Properties.Resources.ClickToUpload;
             pictureBoxImage.InitialImage = Properties.Resources.ClickToUpload;
             pictureBoxImage.Location = new Point(254, 122);
             pictureBoxImage.Margin = new Padding(2);
             pictureBoxImage.Name = "pictureBoxImage";
             pictureBoxImage.Size = new Size(250, 150);
+            pictureBoxImage.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBoxImage.TabIndex = 30;
             pictureBoxImage.TabStop = false;
             pictureBoxImage.Click += Image_Clicked;
