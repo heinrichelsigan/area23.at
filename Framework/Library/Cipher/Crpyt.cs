@@ -313,24 +313,23 @@ namespace Area23.At.Framework.Library.Cipher
                 symDict.Add(hex[0], symmC);
             }
 
-            HashSet<byte> hashBytes = new HashSet<byte>();
+            string hexString = string.Empty;
+            HashSet<char> hashBytes = new HashSet<char>();
             foreach (byte bb in keyBytes)
             {
-                if (!hashBytes.Contains(bb))
-                    hashBytes.Add(bb);
+                hexString = string.Format("{0:x2}", bb);
+                if (hexString.Length > 0 && !hashBytes.Contains(hexString[0]))
+                    hashBytes.Add(hexString[0]);
+                if (hexString.Length > 0 && !hashBytes.Contains(hexString[1]))
+                    hashBytes.Add(hexString[1]);
             }
 
-            string hexString = string.Empty;
+            hexString = string.Empty;
             for (int kcnt = 0; kcnt < hashBytes.Count && symmMatrixPipe.Count < MAXPIPE; kcnt++)
             {
-                hexString = string.Format("{0:x2}", hashBytes.ElementAt(kcnt));
-                if (hexString != null && hexString.Length > 1)
-                {
-                    SymmCipherEnum sym0 = symDict[hexString[0]];
-                    symmMatrixPipe.Add(sym0);
-                    SymmCipherEnum sym1 = symDict[hexString[1]];
-                    symmMatrixPipe.Add(sym1);
-                }
+                hexString += hashBytes.ElementAt(kcnt).ToString();
+                SymmCipherEnum sym0 = symDict[hashBytes.ElementAt(kcnt)];
+                symmMatrixPipe.Add(sym0);
             }
 
             return symmMatrixPipe.ToArray();
