@@ -124,7 +124,7 @@
     <Compile Include="Cipher\Symmetric\Algo\Fish2.cs" />
     <Compile Include="Cipher\Symmetric\Algo\Fish3.cs" />
     <Compile Include="Cipher\Symmetric\Algo\Serpent.cs" />
-    <Compile Include="Cipher\Symmetric\SymmetricChipherEnum.cs" />
+    <Compile Include="Cipher\Symmetric\SymmCipherEnum.cs" />
     <Compile Include="Cipher\Symmetric\Algo\ZenMatrix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cipher\Symmetric\Algo\Des3.cs" />

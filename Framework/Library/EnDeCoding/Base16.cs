@@ -64,7 +64,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
                 hexString += string.Format("{0:x2}", inBytes[wc]);                
             }
 
-            return hexString.ToUpper();            
+            return hexString; // to slow for very large files .ToUpper();     
         }
 
 

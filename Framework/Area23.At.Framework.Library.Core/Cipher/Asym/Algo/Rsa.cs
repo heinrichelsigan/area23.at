@@ -13,7 +13,7 @@ using Org.BouncyCastle.OpenSsl;
 using Area23.At.Framework.Library.Core.Cipher.Symm;
 using Area23.At.Framework.Library.Core.EnDeCoding;
 
-namespace Area23.At.Framework.Library.Core.Cipher.Asym.Algo
+namespace Area23.At.Framework.Library.Core.Cipher.ASym.Algo
 {
     public static class Rsa
     {

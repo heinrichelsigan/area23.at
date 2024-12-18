@@ -419,11 +419,36 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e"></param>
         protected void ImageButton_Key_Click(object sender, ImageClickEventArgs e)
         {
-            if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 7 &&
-                !this.TextBox_Key.Text.Equals(Constants.AUTHOR_EMAIL))
+            if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 7)
             {
                 Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
                 Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
+
+                byte[] kb = CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
+                SymmCipherEnum[] cses = Framework.Library.Cipher.Crypt.KeyBytesToSymmCipherPipeline(kb);
+                this.TextBox_Encryption.Text = string.Empty;
+                foreach (SymmCipherEnum c in cses)
+                {
+                    switch (c)
+                    {
+                        case SymmCipherEnum.ThreeFish:
+                            this.TextBox_Encryption.Text += "FISH3" + ";";
+                            break;
+                        case SymmCipherEnum.TwoFish:
+                            this.TextBox_Encryption.Text += "FISH2" + ";";
+                            break;
+                        case SymmCipherEnum.TripleDes:
+                            this.TextBox_Encryption.Text += "DES3" + ";";
+                            break;
+                        case SymmCipherEnum.Aes:
+                            this.TextBox_Encryption.Text += "AES" + ";";
+                            break;
+                        default:
+                            this.TextBox_Encryption.Text += c.ToString() + ";";
+                            break;
+                    }
+                }
+                
             }
         }
 

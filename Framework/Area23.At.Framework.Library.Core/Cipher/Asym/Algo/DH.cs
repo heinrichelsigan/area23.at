@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Core.Cipher.Asym.Algo
+namespace Area23.At.Framework.Library.Core.Cipher.ASym.Algo
 {
     /// <summary>
     /// Diffie Hellman key exchange

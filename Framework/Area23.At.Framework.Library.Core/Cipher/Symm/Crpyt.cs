@@ -52,9 +52,9 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
             }
             if (cipherAlgo == CipherEnum.Rsa || algo == "Rsa")
             {
-                var keyPair = Asym.Algo.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                var keyPair = ASym.Algo.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
                 string privKey = keyPair.Private.ToString();
-                encryptBytes = Asym.Algo.Rsa.Encrypt(inBytes);
+                encryptBytes = ASym.Algo.Rsa.Encrypt(inBytes);
             }
             if (cipherAlgo == CipherEnum.Serpent || algo == "Serpent")
             {
@@ -128,9 +128,9 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
             }
             if (cipherAlgo == CipherEnum.Rsa || algorithmName == "Rsa")
             {
-                var keyPair = Asym.Algo.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                var keyPair = ASym.Algo.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
                 string privKey = keyPair.Private.ToString();
-                decryptBytes = Asym.Algo.Rsa.Decrypt(cipherBytes);
+                decryptBytes = ASym.Algo.Rsa.Decrypt(cipherBytes);
             }
             if (cipherAlgo == CipherEnum.Serpent || algorithmName == "Serpent")
             {
