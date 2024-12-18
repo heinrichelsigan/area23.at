@@ -5,8 +5,9 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Win32;
 
-namespace Area23.At.Framework.Library.Core.Net
+namespace Area23.At.Framework.Library.Core.Net.WebHttp
 {
     public static class TcpClientWebRequest
     {
@@ -61,11 +62,11 @@ Cache-Control: no-cache";
                         resp = resp.Substring(0, lastch);
                     }
                     resp = resp?.Trim("[{()}]".ToCharArray());
-                }            
+                }
                 sw.Close();
                 // sr.Close();
                 netStream.Close();
-                tcpClient.Close();                
+                tcpClient.Close();
             }
             catch (Exception ex)
             {
@@ -75,6 +76,27 @@ Cache-Control: no-cache";
 
             return resp ?? string.Empty;
         }
+
+
+        /// <summary>
+        /// MakeWebRequestAsync
+        /// </summary>
+        /// <param name="serverIp">server ip address</param>
+        /// <param name="serverPort">server port (default 80)</param>
+        /// <returns><see cref="Task{object}"/></returns>
+        public static async Task<object> MakeWebRequestAsync(IPAddress serverIp, int serverPort = 80)
+        {
+            Task<object> makeTcpRequestTask = (Task<object>)await Task<object>.Run<object>(() =>
+            {
+                string clientIpStr = MakeWebRequest(serverIp, serverPort);
+                return clientIpStr;
+            });
+
+            return makeTcpRequestTask;
+        }
+
+
+
     }
-    
+
 }

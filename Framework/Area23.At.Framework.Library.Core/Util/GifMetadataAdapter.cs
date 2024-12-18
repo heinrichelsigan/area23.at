@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace Area23.At.ChatQ.Util
+namespace Area23.At.Framework.Library.Core.Util
 {
-    public class GifMetadataAdapter 
+
+    public class GifMetadataAdapter
     {
         private readonly string path;
         private readonly Stream stream;
@@ -16,20 +18,20 @@ namespace Area23.At.ChatQ.Util
         public GifMetadataAdapter(string _path)
         {
             this.path = _path;
-            frame = GetBitmapFrame(path);
-            Metadata = (BitmapMetadata)frame.Metadata.Clone();            
+            frame = getBitmapFrame(path);
+            Metadata = (BitmapMetadata)frame.Metadata.Clone();
         }
 
         public GifMetadataAdapter(Stream _stream)
         {
             this.stream = _stream;
-            frame = GetBitmapFrame(stream);
-            Metadata = (BitmapMetadata)GetBitmapMetadata(stream).Clone();
+            frame = getBitmapFrame(stream);
+            Metadata = (BitmapMetadata)getBitmapMetadata(stream).Clone();
         }
 
-        public GifMetadataAdapter(string _path, Stream _stream) : this(_path)  { this.stream = _stream; }
+        public GifMetadataAdapter(string _path, Stream _stream) : this(_path) { this.stream = _stream; }
 
-        public GifMetadataAdapter(Stream _stream, string _path) : this(_stream) { this.path= _path; }
+        public GifMetadataAdapter(Stream _stream, string _path) : this(_stream) { this.path = _path; }
 
         public void Save() { SaveAs(path); }
 
@@ -39,11 +41,11 @@ namespace Area23.At.ChatQ.Util
             encoder.Frames.Add(BitmapFrame.Create(frame, frame.Thumbnail, Metadata, frame.ColorContexts));
             using (Stream stream = File.Open(path, FileMode.Create, FileAccess.ReadWrite))
             {
-                encoder.Save(stream);
+                encoder?.Save(stream);
             }
         }
 
-        private BitmapFrame GetBitmapFrame(string path)
+        private BitmapFrame getBitmapFrame(string path)
         {
             GifBitmapDecoder decoder = null;
             using (Stream stream = File.Open(path, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
@@ -53,17 +55,18 @@ namespace Area23.At.ChatQ.Util
             return decoder.Frames[0];
         }
 
-        private BitmapFrame GetBitmapFrame(Stream stream)
+        private BitmapFrame getBitmapFrame(Stream stream)
         {
             GifBitmapDecoder decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.None);
             return decoder.Frames.First();
         }
 
-        private BitmapMetadata GetBitmapMetadata(Stream stream)
+        private BitmapMetadata getBitmapMetadata(Stream stream)
         {
             GifBitmapDecoder decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.OnLoad);
             return decoder.Metadata;
         }
 
     }
+
 }

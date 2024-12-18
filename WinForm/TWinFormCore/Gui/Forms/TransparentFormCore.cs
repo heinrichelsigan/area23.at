@@ -1,5 +1,4 @@
-﻿using Area23.At.Framework.Library.Core;
-using Area23.At.WinForm.TWinFormCore.Gui.Forms;
+﻿using Area23.At.WinForm.TWinFormCore.Gui.Forms;
 using Area23.At.WinForm.TWinFormCore;
 using System;
 using System.Collections.Generic;
@@ -11,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using Area23.At.Framework.Library.Core.Util;
 
 namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {

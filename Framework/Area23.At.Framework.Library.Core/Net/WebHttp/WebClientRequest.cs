@@ -1,44 +1,49 @@
 ﻿using Area23.At.Framework.Library.Core.Cipher.Symm;
+using Microsoft.AspNetCore.Http;
 using Org.BouncyCastle.Asn1.Crmf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Core.Net.WebHttp
 {
-    public static class HttpClientRequest
+    public static class WebClientRequest
     {
-        private static HttpClient httpClientR;
-        public static HttpClient HttpClientR { get => httpClientR; }
+        private static WebClient wclient;
+        public static WebClient WClient { get => wclient; }
 
+        private static readonly WebHeaderCollection headers = new WebHeaderCollection();
+        public static WebHeaderCollection Headers { get => headers; }
 
-        static HttpClientRequest() {
+        static WebClientRequest() {
 
             // headers.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br, zstd");
-            // httpClientR = new HttpClient();
+            
+            headers.Add(HttpRequestHeader.Accept, "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
             // TODO:
-            // httpClientR.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-            // httpClientR.DefaultRequestHeaders.Add("AcceptLanguage", "en-US");
-            // httpClientR.DefaultRequestHeaders.Add("Host", "area23.at");
-            // httpClientR.DefaultRequestHeaders.Add("UserAgent", "cqrxs.eu");
+            // headers.Add(HttpRequestHeader.ContentMd5, "");
+            // headers.Add(HttpRequestHeader.From, "true");
+            // removed because make trouble in that very .Net1.1 version of WebClient abstraction
+            // headers.Add(HttpRequestHeader.KeepAlive, "true");
+            // headers.Add(HttpRequestHeader.Connection, "keep-alive");
+            headers.Add(HttpRequestHeader.AcceptLanguage, "en-US");
+            headers.Add(HttpRequestHeader.Host, "area23.at");
+            headers.Add(HttpRequestHeader.UserAgent, "cqrxs.eu");            
             // wclient.BaseAddress = "https://area23.at/";
+            // TODO: always forms credentials
+            // webclient.Credentials
+            
+
         }
 
-        public static HttpClient GetHttpClient(string baseAddr, string secretKey, string keyIv = "", System.Text.Encoding? encoding = null)        
-        {            
+        public static WebClient GetWebClient(string baseAddr, string secretKey, string keyIv = "", System.Text.Encoding? encoding = null)        
+        {
             encoding = encoding ?? Encoding.UTF8;
-
-            httpClientR = new HttpClient();           
-            httpClientR.BaseAddress = new Uri(baseAddr);
-            httpClientR.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-            httpClientR.DefaultRequestHeaders.Add("AcceptLanguage", "en-US");
-            httpClientR.DefaultRequestHeaders.Add("Host", "area23.at");
-            httpClientR.DefaultRequestHeaders.Add("UserAgent", "cqrxs.eu");
-
+            wclient = new WebClient();
+            wclient.Encoding = encoding;
             if (!string.IsNullOrEmpty(secretKey))
             {
                 string hexString = EnDeCoding.DeEnCoder.KeyHexString(CryptHelper.PrivateUserKey(secretKey));
@@ -46,37 +51,24 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
                 {
                     hexString = EnDeCoding.DeEnCoder.KeyHexString(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
                 }
-                httpClientR.DefaultRequestHeaders.Add("Authorization", $"Basic {hexString}");
+                headers.Add(HttpRequestHeader.Authorization, "Basic " + hexString);
             }
+            wclient.Headers = headers;
+            wclient.BaseAddress = baseAddr; ;
 
-            return httpClientR;
+            return wclient;
         }
 
 
-        public static HttpClient GetHttpClient(string baseAddr, System.Text.Encoding? encoding = null)
+        public static WebClient GetWebClient(string baseAddr, System.Text.Encoding? encoding = null)
         {
             encoding = encoding ?? Encoding.UTF8;
+            wclient = new WebClient();
+            wclient.Encoding = encoding;
+            wclient.Headers = headers;
+            wclient.BaseAddress = baseAddr; ;
 
-            httpClientR = new HttpClient();
-            httpClientR.BaseAddress = new Uri(baseAddr);
-            httpClientR.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-            httpClientR.DefaultRequestHeaders.Add("AcceptLanguage", "en-US");
-            httpClientR.DefaultRequestHeaders.Add("Host", "area23.at");
-            httpClientR.DefaultRequestHeaders.Add("UserAgent", "cqrxs.eu");
-
-            return httpClientR;
-        }
-
-        public static IDictionary<string, string> GetContent()
-        {
-            IDictionary<string, string> dict = new Dictionary<string, string>();
-            dict.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-            dict.Add("AcceptLanguage", "en-US");
-            dict.Add("Host", "area23.at");
-            dict.Add("UserAgent", "cqrxs.eu"); 
-
-
-            return dict;
+            return wclient;
         }
 
 

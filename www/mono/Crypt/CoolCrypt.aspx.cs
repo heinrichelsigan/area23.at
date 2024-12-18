@@ -3,6 +3,7 @@ using Area23.At.Framework.Library;
 using Area23.At.Framework.Library.Cipher;
 using Area23.At.Framework.Library.Cipher.Symmetric;
 using Area23.At.Framework.Library.EnDeCoding;
+using Area23.At.Framework.Library.Util;
 using Area23.At.Framework.Library.Zfx;
 using Area23.At.Mono.Properties;
 using Org.BouncyCastle.Crypto;
@@ -823,7 +824,7 @@ namespace Area23.At.Mono.Crypt
             // Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
             if (decryptedBytes != null && decryptedBytes.Length > ivBytesHash.Length)
             {
-                int needleFound = Framework.Library.Extensions.BytesBytes(decryptedBytes, ivBytesHash, ivBytesHash.Length - 1);
+                int needleFound = Framework.Library.Util.Extensions.BytesBytes(decryptedBytes, ivBytesHash, ivBytesHash.Length - 1);
                 if (needleFound > 0)
                 {
                     success = true;

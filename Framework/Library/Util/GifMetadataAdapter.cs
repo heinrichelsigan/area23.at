@@ -3,8 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
 
-namespace Area23.At.Framework.Util
+namespace Area23.At.Framework.Library.Util
 {
+
     public class GifMetadataAdapter
     {
         private readonly string path;
@@ -65,4 +66,5 @@ namespace Area23.At.Framework.Util
         }
 
     }
+
 }

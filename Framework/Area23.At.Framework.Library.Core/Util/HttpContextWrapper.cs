@@ -7,16 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Core
+namespace Area23.At.Framework.Library.Core.Util
 {
     /// <summary>
-    /// HttpContextWrapper a asp.net <see cref="HttpContextWrapper.Current">HttpContext.Current wrapper</see>
+    /// HttpContextWrapper a asp.net <see cref="Current">HttpContext.Current wrapper</see>
     /// <see cref="Microsoft.AspNetCore.Http"/> and <seealso cref="Microsoft.AspNetCore.Http.Extensions"/>
     /// </summary>
     public static class HttpContextWrapper
     {
         public const string ACCEPT_LANGUAGE = "Accept-Language";
-        private static Microsoft.AspNetCore.Http.IHttpContextAccessor m_httpContextAccessor;
+        private static IHttpContextAccessor m_httpContextAccessor;
         public static IServiceProvider ServiceProvider;
         private static System.Globalization.CultureInfo locale;
         private static string defaultLang = "en";
@@ -24,9 +24,9 @@ namespace Area23.At.Framework.Library.Core
         /// <summary>
         /// Current is main accessor in HttpContextWrapper
         /// </summary>
-        public static Microsoft.AspNetCore.Http.HttpContext Current { get => m_httpContextAccessor.HttpContext; }
-        
-        public static Uri RequestUri { get => (new Uri(HttpContextWrapper.Current.Request.GetDisplayUrl())); }
+        public static HttpContext Current { get => m_httpContextAccessor.HttpContext; }
+
+        public static Uri RequestUri { get => new Uri(Current.Request.GetDisplayUrl()); }
 
         /// <summary>
         /// Culture Info from HttpContext.Current.Request.Headers[ACCEPT_LANGUAGE]
@@ -44,9 +44,9 @@ namespace Area23.At.Framework.Library.Core
                         {
                             string? firstLang = null;
                             Microsoft.Extensions.Primitives.StringValues strValues;
-                            if (Current.Request.Headers.TryGetValue(ACCEPT_LANGUAGE, out strValues)) 
+                            if (Current.Request.Headers.TryGetValue(ACCEPT_LANGUAGE, out strValues))
                                 firstLang = strValues.FirstOrDefault();
-                                
+
                             defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
                         }
 
@@ -71,7 +71,7 @@ namespace Area23.At.Framework.Library.Core
         /// </summary>
         static HttpContextWrapper() { }
 
-        public static void Configure(Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor)
+        public static void Configure(IHttpContextAccessor httpContextAccessor)
         {
             m_httpContextAccessor = httpContextAccessor;
         }
@@ -84,7 +84,7 @@ namespace Area23.At.Framework.Library.Core
         /// <param name="key">session state access key</param>
         /// <returns>typesafe nullable type</returns>
         public static T? GetJSession<T>(string key)
-        {            
+        {
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException("key", "HttpContextWrapper: GetSession(string key), key must be neither null nor string.empty!");
             if (Current.Session == null || Current.Session.Keys == null || Current.Session.Keys.Count() < 1)
@@ -93,8 +93,8 @@ namespace Area23.At.Framework.Library.Core
                 throw new InvalidOperationException($"HttpContextWrapper.Current.Session.Keys doesn't contain a key with name {key}.");
 
             string? jSerSez = Current.Session.GetString(key);
-            T? typeSafeSession = (!string.IsNullOrEmpty(jSerSez)) ? JsonConvert.DeserializeObject<T>(jSerSez) : default(T);
-            
+            T? typeSafeSession = !string.IsNullOrEmpty(jSerSez) ? JsonConvert.DeserializeObject<T>(jSerSez) : default;
+
             return typeSafeSession;
         }
 

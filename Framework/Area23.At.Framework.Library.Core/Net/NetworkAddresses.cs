@@ -6,6 +6,9 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
+using Area23.At.Framework.Library.Core.Net.WebHttp;
+using Microsoft.Win32;
+using System.Collections.ObjectModel;
 
 namespace Area23.At.Framework.Library.Core.Net
 {
@@ -72,6 +75,29 @@ namespace Area23.At.Framework.Library.Core.Net
 
             return validAddrs;
         }
+
+
+
+        /// <summary>
+        /// GetConnectedIpAddresses gets connected IPAddress list.
+        /// </summary>
+        /// <param name="serverIps"><see cref="List{IPAddress}"/></param>
+        /// <returns><see cref="List{IPAddress}"/></returns>
+        public static async Task<IPAddress[]> GetConnectedIpAddressesAsync(List<IPAddress>? serverIps = null)
+        {
+            return await Task<IPAddress[]>.Run<IPAddress[]>(() => (GetConnectedIpAddresses(serverIps).ToArray()));
+        }
+
+        public static async Task<object> ConnectedIpAddressesAsync(List<IPAddress>? serverIps = null)
+        {
+            Task<object> valueTask = (Task<object>)await Task<object>.Run<object>(() =>
+            {
+                return (object)(GetConnectedIpAddresses(serverIps).ToArray());
+            });
+
+            return valueTask;
+        }
+
 
         /// <summary>
         /// GetIpAddresses gets all IPAddresses except loopback adapter

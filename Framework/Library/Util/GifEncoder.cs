@@ -10,7 +10,7 @@ using System.Windows.Documents;
 
 // https://github.com/DataDink/Bumpkit/blob/master/BumpKit/BumpKit/GifEncoder.cs
 
-namespace Area23.At.ChatQ.Util
+namespace Area23.At.Framework.Library.Util
 {
 
     /// <summary>   

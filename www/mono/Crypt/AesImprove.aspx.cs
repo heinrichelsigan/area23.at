@@ -2,6 +2,7 @@
 using Area23.At.Framework.Library;
 using Area23.At.Framework.Library.Cipher;
 using Area23.At.Framework.Library.EnDeCoding;
+using Area23.At.Framework.Library.Util;
 using Area23.At.Mono.Properties;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;

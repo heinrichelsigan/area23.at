@@ -17,6 +17,7 @@ using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Net;
+using Area23.At.Framework.Library.Util;
 
 namespace Area23.At.Mono.Crypt
 {
@@ -43,7 +44,8 @@ namespace Area23.At.Mono.Crypt
 
             if (shortenMap == null)
             {
-                shortenMap = (Application[Constants.APP_NAME] != null) ? (Dictionary<string, Uri>)Application[Constants.APP_NAME] : JsonHelper.ShortenMapJson;
+                shortenMap = (Application[Constants.APP_NAME] != null) ? (Dictionary<string, Uri>)Application[Constants.APP_NAME] : 
+                    Util.JsonHelper.ShortenMapJson;
             }
         }
 
@@ -343,7 +345,7 @@ namespace Area23.At.Mono.Crypt
             if (longUri != null)
             {
                 if (shortenMap == null || shortenMap.Count == 0)
-                    shortenMap = (Dictionary<string, Uri>)(Application[Constants.APP_NAME] ?? JsonHelper.ShortenMapJson);
+                    shortenMap = (Dictionary<string, Uri>)(Application[Constants.APP_NAME] ?? Util.JsonHelper.ShortenMapJson);
 
                 // if already uri exists in Dictionary => return hash
                 if (shortenMap.ContainsValue(longUri))
@@ -364,7 +366,7 @@ namespace Area23.At.Mono.Crypt
                 }
 
                 shortenMap.Add(shortHash, longUri);
-                JsonHelper.ShortenMapJson = shortenMap;
+                Mono.Util.JsonHelper.ShortenMapJson = shortenMap;
             }
 
             return shortHash;

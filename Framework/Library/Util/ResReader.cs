@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Library.Core.EnDeCoding;
+﻿using Area23.At.Framework.Library.EnDeCoding;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Core
+namespace Area23.At.Framework.Library.Util
 {
 
     /// <summary>
@@ -22,9 +22,7 @@ namespace Area23.At.Framework.Library.Core
         /// <returns>string in local language fetched from resource file</returns>
         public static string GetValue(string key, string langCode = "")
         {
-            string retVal = key;
-            if (Properties.Resource.ResourceManager != null)
-                retVal = Properties.Resource.ResourceManager.GetString(key);
+            string retVal = Properties.Resource.ResourceManager.GetString(key);
 
             return (!string.IsNullOrEmpty(retVal)) ? retVal : key;
         }
@@ -76,7 +74,7 @@ namespace Area23.At.Framework.Library.Core
             string fortuneString = EnDeCoder.GetString(Properties.Resource.fortune_u8);
             return fortuneString;
         }
-
+    
     }
 
 

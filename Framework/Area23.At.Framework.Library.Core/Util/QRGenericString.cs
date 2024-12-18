@@ -1,10 +1,13 @@
-﻿using QRCoder;
+﻿using Area23.At.Framework.Library.Core;
+using Area23.At.Framework.Library.Core.Util;
+using QRCoder;
+using QRCoder.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Area23.At.ChatQ.Util
+namespace Area23.At.Framework.Core.Util
 {
     public class QRGenericString : PayloadGenerator.Payload
     {

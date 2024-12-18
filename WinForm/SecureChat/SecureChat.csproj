@@ -2,20 +2,22 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
+    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>	
+	<UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <StartupObject>Area23.At.WinForm.SecureChat.Program</StartupObject>
     <RootNamespace>Area23.At.WinForm.SecureChat</RootNamespace>
-    <AssemblyVersion>2.24.1214</AssemblyVersion>
-    <FileVersion>2.24.1214</FileVersion>
-    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <AssemblyVersion>2.24.1226</AssemblyVersion>
+    <FileVersion>2.24.1226</FileVersion>
     <ErrorReport>send</ErrorReport>
     <Title>SecureChat</Title>
     <Version>2.24.1226</Version>
-    <PackageProjectUrl>https://github.com/heinrichelsigan/area23.at</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>
+	<PackageProjectUrl>https://github.com/heinrichelsigan/area23.at</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>	
+	<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+	<IncludeSymbols>true</IncludeSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,12 +28,18 @@
     <WarningLevel>7</WarningLevel>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup>    
     <ProjectReference Include="..\..\Framework\Area23.At.Framework.Library.Core\Area23.At.Framework.Library.Core.csproj" />
   </ItemGroup>
 
+	<!-- These normally come from $(UseWindowsForms) when $(ImplicitUsings) is enabled -->
+    <ItemGroup>
+		<Using Include="System.Drawing" />
+    </ItemGroup>
+	
   <ItemGroup>
     <Folder Include="Gui\Controls\" />
+    <Folder Include="Util\" />
     <Folder Include="Properties\en\" />
     <Folder Include="Properties\fr\" />
     <Folder Include="Properties\it\" />
@@ -92,5 +100,20 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
+
+	<!-- feature switches for trimming-->
+	<ItemGroup>
+		<RuntimeHostConfigurationOption Include="System.ComponentModel.Design.IDesignerHost.IsSupported" Value="false" Trim="true" />
+		<RuntimeHostConfigurationOption Include="System.Windows.Forms.Binding.IsSupported" Value="false" Trim="true" />
+		<RuntimeHostConfigurationOption Include="System.ComponentModel.DefaultValueAttribute.IsSupported" Value="false" Trim="true" />
+		<RuntimeHostConfigurationOption Include="System.Drawing.Design.UITypeEditor.IsSupported" Value="false" Trim="true" />
+		<RuntimeHostConfigurationOption Include="System.Windows.Forms.ActiveXImpl.IsSupported" Value="false" Trim="true" />
+		<RuntimeHostConfigurationOption Include="System.Windows.Forms.Control.AreDesignTimeFeaturesSupported" Value="false" Trim="true" />
+		<RuntimeHostConfigurationOption Include="System.Windows.Forms.MdiWindowDialog.IsSupported" Value="false" Trim="true" />
+		<RuntimeHostConfigurationOption Include="System.Windows.Forms.ImageIndexConverter.IsSupported" Value="false" Trim="true" />
+		<RuntimeHostConfigurationOption Include="System.Windows.Forms.Primitives.TypeConverterHelper.UseComponentModelRegisteredTypes" Value="true" Trim="true" />
+		<RuntimeHostConfigurationOption Include="System.Windows.Forms.Control.UseComponentModelRegisteredTypes" Value="true" Trim="true" />
+	</ItemGroup>
 
 </Project>

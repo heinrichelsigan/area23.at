@@ -17,6 +17,7 @@ using System.Web.DynamicData;
 using System.Windows.Shapes;
 using System.Runtime.Serialization.Formatters;
 using System.Security.Policy;
+using Area23.At.Framework.Library.Util;
 
 namespace Area23.At.Www.S
 {
@@ -43,7 +44,8 @@ namespace Area23.At.Www.S
 
             if (shortenMap == null)
             {
-                shortenMap = (Application[Constants.APP_NAME] != null) ? (Dictionary<string, Uri>)Application[Constants.APP_NAME] : JsonHelper.ShortenMapJson;
+                shortenMap = (Application[Constants.APP_NAME] != null) ? (Dictionary<string, Uri>)Application[Constants.APP_NAME] : 
+                    Util.JsonHelper.ShortenMapJson;
             }
         }
 
@@ -343,7 +345,8 @@ namespace Area23.At.Www.S
             if (longUri != null)
             {
                 if (shortenMap == null || shortenMap.Count == 0)
-                    shortenMap = (Dictionary<string, Uri>)(Application[Constants.APP_NAME] ?? JsonHelper.ShortenMapJson);
+                    shortenMap = (Dictionary<string, Uri>)(Application[Constants.APP_NAME] ??
+                        Util.JsonHelper.ShortenMapJson);
                 
                 // if already uri exists in Dictionary => return hash
                 if (shortenMap.ContainsValue(longUri))
@@ -365,7 +368,7 @@ namespace Area23.At.Www.S
                 
 
                 shortenMap.Add(shortHash, longUri);
-                JsonHelper.ShortenMapJson = shortenMap;                
+                Util.JsonHelper.ShortenMapJson = shortenMap;                
             }
             
             return shortHash;

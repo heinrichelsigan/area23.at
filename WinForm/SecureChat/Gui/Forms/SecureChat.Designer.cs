@@ -1,4 +1,4 @@
-﻿
+﻿    
 using Area23.At.Framework.Library.Core.Net.WebHttp;
 using System.Net;
 
@@ -72,12 +72,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             openFileDialog = new OpenFileDialog();
             saveFileDialog = new SaveFileDialog();
             statusStrip = new StatusStrip();
-            toolStripSplitButton = new ToolStripSplitButton();
             splitButtonMenuItemLoad = new ToolStripMenuItem();
             splitButtonMenuItemSave = new ToolStripMenuItem();
             toolStripProgressBar = new ToolStripProgressBar();
             toolStripStatusLabel = new ToolStripStatusLabel();
-            toolStripDropDownButton1 = new ToolStripDropDownButton();
             toolStripMenuItem1 = new ToolStripMenuItem();
             toolStripComboBox1 = new ToolStripComboBox();
             splitContainer = new SplitContainer();
@@ -463,27 +461,12 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // statusStrip
             // 
             statusStrip.GripMargin = new Padding(1);
-            statusStrip.Items.AddRange(new ToolStripItem[] { toolStripSplitButton, toolStripProgressBar, toolStripStatusLabel, toolStripDropDownButton1 });
+            statusStrip.Items.AddRange(new ToolStripItem[] { toolStripProgressBar, toolStripStatusLabel });
             statusStrip.Location = new Point(0, 689);
             statusStrip.Name = "statusStrip";
             statusStrip.Size = new Size(976, 22);
             statusStrip.TabIndex = 1;
             statusStrip.Text = "statusStrip";
-            // 
-            // toolStripSplitButton
-            // 
-            toolStripSplitButton.BackColor = SystemColors.ControlLight;
-            toolStripSplitButton.BackgroundImageLayout = ImageLayout.None;
-            toolStripSplitButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripSplitButton.DropDownItems.AddRange(new ToolStripItem[] { splitButtonMenuItemLoad, splitButtonMenuItemSave });
-            toolStripSplitButton.Font = new Font("Lucida Sans", 10F);
-            toolStripSplitButton.ImageTransparentColor = Color.Magenta;
-            toolStripSplitButton.Margin = new Padding(0, 1, 0, 0);
-            toolStripSplitButton.Name = "toolStripSplitButton";
-            toolStripSplitButton.Size = new Size(16, 21);
-            toolStripSplitButton.Text = "toolStripSplitButton";
-            toolStripSplitButton.TextImageRelation = TextImageRelation.ImageAboveText;
-            toolStripSplitButton.ToolTipText = "toolStripSplitButton";
             // 
             // splitButtonMenuItemLoad
             // 
@@ -510,17 +493,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             toolStripStatusLabel.Name = "toolStripStatusLabel";
             toolStripStatusLabel.Size = new Size(614, 19);
             toolStripStatusLabel.Spring = true;
-            toolStripStatusLabel.Text = "Status";
-            // 
-            // toolStripDropDownButton1
-            // 
-            toolStripDropDownButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem1, toolStripComboBox1 });
-            toolStripDropDownButton1.Image = (Image)resources.GetObject("toolStripDropDownButton1.Image");
-            toolStripDropDownButton1.ImageTransparentColor = Color.Magenta;
-            toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            toolStripDropDownButton1.Size = new Size(29, 20);
-            toolStripDropDownButton1.Text = "toolStripDropDownButton1";
+            toolStripStatusLabel.Text = "Status";            
             // 
             // toolStripMenuItem1
             // 
@@ -870,7 +843,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripMenuItem menuItemHelp;
         private SaveFileDialog saveFileDialog;
         private StatusStrip statusStrip;
-        private ToolStripSplitButton toolStripSplitButton;
         private ToolStripMenuItem splitButtonMenuItemLoad;
         private ToolStripMenuItem splitButtonMenuItemSave;
         private ToolStripProgressBar toolStripProgressBar;
@@ -900,7 +872,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripMenuItem menuItemAddContact;
         private ToolStripMenuItem menuItemViewContacts;
         private ToolStripMenuItem menuItemMyContact;
-        private ToolStripDropDownButton toolStripDropDownButton1;
         private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripComboBox toolStripComboBox1;
         private Panel panelCenter;

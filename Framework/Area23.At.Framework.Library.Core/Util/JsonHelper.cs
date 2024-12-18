@@ -1,5 +1,5 @@
-﻿using Area23.At.Framework.Library;
-using Area23.At.Framework.Library.Util;
+﻿using Area23.At.Framework.Library.Core;
+using Area23.At.Framework.Library.Core.Util;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 
-namespace Area23.At.Framework.Library.Util
+namespace Area23.At.Framework.Library.Core.Util
 {
 
     /// <summary>
@@ -45,7 +45,7 @@ namespace Area23.At.Framework.Library.Util
         {
             get
             {
-                Dictionary<string, Uri> tmpDict = null;
+                Dictionary<string, Uri>? tmpDict = null;
                 try
                 {
 
@@ -65,16 +65,16 @@ namespace Area23.At.Framework.Library.Util
                 }
 
                 Area23Log.LogStatic("urlshorter dict count: " + tmpDict.Count);
-                HttpContext.Current.Application[Constants.APP_NAME] = tmpDict;
+                System.AppDomain.CurrentDomain.SetData(Constants.UTF8_JSON, (Dictionary<string, Uri>)tmpDict);
                 return tmpDict;
             }
             set
-            {
+            {                
                 JsonSerializerSettings jsets = new JsonSerializerSettings();
                 jsets.Formatting = Formatting.Indented;
                 string jsonString = JsonConvert.SerializeObject(value, Formatting.Indented);
                 System.IO.File.WriteAllText(JsonFileName, jsonString);
-                HttpContext.Current.Application[Constants.APP_NAME] = value;
+                System.AppDomain.CurrentDomain.SetData(Constants.UTF8_JSON, (Dictionary<string, Uri>)value);                
             }
         }
 

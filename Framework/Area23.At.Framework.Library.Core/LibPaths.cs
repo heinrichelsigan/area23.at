@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Library.Core;
+﻿using Area23.At.Framework.Library.Core.Util;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using NLog;

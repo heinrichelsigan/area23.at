@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Utilities.Encoders;
+﻿using Area23.At.Framework.Library.Core.Util;
+using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections;
 using System.Collections.Generic;

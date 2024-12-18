@@ -475,10 +475,8 @@
     <Compile Include="Unix\UnixMaster.master.designer.cs">
       <DependentUpon>UnixMaster.master</DependentUpon>
     </Compile>
-    <Compile Include="Util\GifMetadataAdapter.cs" />
     <Compile Include="Util\HostLogHelper.cs" />
     <Compile Include="Util\JsonHelper.cs" />
-    <Compile Include="Util\QRGenericString.cs" />
     <Compile Include="Calc\RPNType.cs" />
     <Compile Include="Util\UIPage.cs">
       <SubType>ASPXCodeBehind</SubType>

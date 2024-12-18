@@ -22,6 +22,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Area23.At.WinForm.SecureChat.Properties;
 using System.Runtime.CompilerServices;
 using System.IO;
+using Area23.At.Framework.Library.Core.Util;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {

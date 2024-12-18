@@ -32,7 +32,8 @@ namespace Area23.At.WinForm.SecureChat
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Gui.Forms.SecureChat());
+            Form newF = (Form)(new Gui.Forms.SecureChat());
+            Application.Run(newF);
             
             Exception[] exceptions;
             ReleaseCloseDisposeMutex(mutex, out exceptions);

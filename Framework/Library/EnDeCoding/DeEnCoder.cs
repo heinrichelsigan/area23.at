@@ -1,4 +1,5 @@
-﻿using DBTek.Crypto;
+﻿using Area23.At.Framework.Library.Util;
+using DBTek.Crypto;
 using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections;

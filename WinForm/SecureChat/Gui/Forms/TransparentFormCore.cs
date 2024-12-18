@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using Area23.At.Framework.Library.Core.Util;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {

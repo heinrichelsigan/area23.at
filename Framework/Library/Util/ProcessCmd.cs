@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Caching;
 
-namespace Area23.At.Framework.Library.Core
+namespace Area23.At.Framework.Library.Util
 {
 
     /// <summary>
@@ -31,10 +33,13 @@ namespace Area23.At.Framework.Library.Core
         public static string Execute(string filepath = "SystemInfo", string arguments = "", bool useShellExecute = false)
         {
             string consoleError = "", consoleOutput = "", args = (!string.IsNullOrEmpty(arguments)) ? arguments : "";
+            string workingDir = "";
             Area23Log.LogStatic(String.Format("ProcessCmd.Execute(filepath = ${0}, args = {1}, useShellExecute = {2}) called ...",
                 filepath, args, useShellExecute));
             try
             {
+                workingDir = (filepath.Contains(LibPaths.SepCh)) ? filepath.Substring(0, filepath.LastIndexOf(LibPaths.SepCh)) : ""; // System.IO.Directory.GetCurrentDirectory();
+
                 using (Process compiler = new Process())
                 {
                     compiler.StartInfo.FileName = filepath;
@@ -43,6 +48,8 @@ namespace Area23.At.Framework.Library.Core
                     compiler.StartInfo.UseShellExecute = useShellExecute;
                     compiler.StartInfo.RedirectStandardError = true;
                     compiler.StartInfo.RedirectStandardOutput = true;
+                    if (!string.IsNullOrEmpty(workingDir) && Directory.Exists(workingDir))
+                        compiler.StartInfo.WorkingDirectory = workingDir;
                     compiler.Start();
 
                     consoleOutput = compiler.StandardOutput.ReadToEnd();
@@ -62,7 +69,7 @@ namespace Area23.At.Framework.Library.Core
             Area23Log.LogStatic(String.Format("ProcessCmd.Execute(filepath = ${0}, args = {1}, useShellExecute = {2}) finished successfull, output length: {3}",
                 filepath, args, useShellExecute, consoleOutput.Length));
             if (!string.IsNullOrEmpty(consoleError))
-                Area23Log.LogStatic("ProcessCmd.Execute consoleError: " + consoleError);
+                Area23Log.LogStatic("ProcessCmd.Execute consoleError: " + consoleError);            
 
             return consoleOutput;
         }
@@ -81,8 +88,8 @@ namespace Area23.At.Framework.Library.Core
             string consoleError = string.Empty, consoleOutput = string.Empty, argStr = string.Empty;
             if (arguments != null && arguments.Length > 0)
             {
-                for (int ac = 0; ac < arguments.Length; ac++)
-                {
+                for (int ac = 0; ac < arguments.Length; ac++) 
+                { 
                     if (string.IsNullOrEmpty(arguments[ac]))
                     {
                         if (ac != 0)
@@ -133,4 +140,5 @@ namespace Area23.At.Framework.Library.Core
         }
 
     }
+
 }

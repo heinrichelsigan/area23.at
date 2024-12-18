@@ -57,9 +57,14 @@ namespace Area23.At.WinForm.SecureChat.Entities
         {
             string settingsJsonString = string.Empty;
             Settings? settings = null;
+            string fileName = LibPaths.AppDirPath + Constants.JSON_SETTINGS_FILE;
+            if (!File.Exists(fileName) && Directory.Exists(LibPaths.AppPath))
+            {
+                File.CreateText(fileName);
+            }
             try
             {
-                settingsJsonString = File.ReadAllText(LibPaths.AppDirPath + Constants.JSON_SETTINGS_FILE);
+                settingsJsonString = File.ReadAllText(fileName);
                 settings = JsonConvert.DeserializeObject<Settings>(settingsJsonString);
             }
             catch (Exception ex)

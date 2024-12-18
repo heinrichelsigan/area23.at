@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Core.Cipher.Symm;
 using Area23.At.Framework.Library.Core.EnDeCoding;
+using Area23.At.Framework.Library.Core.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;

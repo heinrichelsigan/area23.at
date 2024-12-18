@@ -22,6 +22,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Area23.At.WinForm.SecureChat.Properties;
 using System.Runtime.CompilerServices;
 using System.IO;
+using Area23.At.Framework.Library.Core.Util;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -33,14 +34,15 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         public SecureChat()
         {
             InitializeComponent();
-            MemoryStream ms = new MemoryStream(Properties.Resources.a_hash);
-            buttonSecretKey.Image = new System.Drawing.Bitmap(ms);
-            buttonHashIv.Image = new System.Drawing.Bitmap(ms);
-            ms.Close();
+            // object o = ResReader.GetObject("ImageHash");
+            // MemoryStream ms = new MemoryStream(Properties.Resources.a_hash);
+            // buttonSecretKey.Image = new System.Drawing.Bitmap(ms);
+            // buttonHashIv.Image = new System.Drawing.Bitmap(ms);
+            // ms.Close();
         }
 
 
-        private void SecureChat_Load(object sender, EventArgs e)
+        private async void SecureChat_Load(object sender, EventArgs e)
         {
             if (Entities.Settings.Load() == null)
             {
@@ -58,65 +60,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
             }
 
-            List<IPAddress> addresses = new List<IPAddress>();
-            string[] proxieStrs = Resources.Proxies.Split(";,".ToCharArray());
-            List<string> proxyList = new List<string>();
-            foreach (string str in proxieStrs)
-            {
-                try
-                {
-                    IPAddress ip = IPAddress.Parse(str);
-                    addresses.Add(ip);
-                    proxyList.Add(ip.ToString());
-                }
-                catch (Exception ex)
-                {
-                    Area23Log.LogStatic(ex);
-                }
-            }
-
-            List<IPAddress> list = NetworkAddresses.GetConnectedIpAddresses(addresses);
-
-            List<string> myIpStrList = new List<string>();
-            int mchecked = 0;
-            this.menuItemIPv6Secure.Checked = false;
-            foreach (IPAddress addr in list)
-            {
-                if (addr != null)
-                {
-                    ToolStripMenuItem item = new ToolStripMenuItem(addr.AddressFamily + " " + addr.ToString(), null, null, addr.ToString());
-                    if (addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
-                    {
-                        this.menuItemIPv6Secure.Checked = true;
-                    }
-                    myIpStrList.Add(addr.ToString());
-                    if (mchecked++ == 0)
-                        item.Checked = true;
-                    else item.Checked = false;
-
-                    this.menuIItemMyIps.DropDownItems.Add(item);
-                }
-            }
-
-            foreach (IPAddress addrProxy in addresses)
-            {
-                if (addrProxy != null)
-                {
-                    if (addrProxy.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork ||
-                        (addrProxy.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6 && this.menuItemIPv6Secure.Checked))
-                    {
-                        ToolStripMenuItem item = new ToolStripMenuItem(addrProxy.AddressFamily + " " + addrProxy.ToString(), null, null, addrProxy.ToString());
-                        this.menuItemProxyServers.DropDownItems.Add(item);
-                    }
-                }
-            }
-
-            if (Entities.Settings.Instance != null)
-            {
-                Entities.Settings.Instance.Proxies = proxyList;
-                Entities.Settings.Instance.MyIPs = myIpStrList;
-                Entities.Settings.Save(Entities.Settings.Instance);
-            }
+            await SetupNetwork();
 
 
         }
@@ -169,11 +113,11 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private void Button_AddToPipeline_Click(object sender, EventArgs e)
         {
             string? secretKey = Entities.Settings.Instance?.MyContact?.Email;
-            string url = "https://area23.at/net/R.aspx";
-            Uri uri = new Uri(url);
-            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, secretKey ?? "wabiwabi");
-            ConfiguredTaskAwaitable<HttpResponseMessage> respTask =
-                httpClientR.GetAsync(uri).ConfigureAwait(false);
+            IPAddress? myClientIp = HttpClientRequest.GetClientIP();
+
+            string wabiwabi = (myClientIp != null) ? myClientIp.ToString() : string.Empty;
+            this.TextBoxDestionation.Text += wabiwabi + "\n";
+            this.richTextBoxOneView.Text += wabiwabi + "\n";
         }
 
         private void Button_HashIv_Click(object sender, EventArgs e)
@@ -473,6 +417,77 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             Dispose();
             Application.Exit();
             Environment.Exit(0);
+
+        }
+
+
+        internal async 
+
+        Task
+SetupNetwork()
+        {
+
+            List<IPAddress> addresses = new List<IPAddress>();
+            string[] proxieStrs = Resources.Proxies.Split(";,".ToCharArray());
+            List<string> proxyList = new List<string>();
+            foreach (string str in proxieStrs)
+            {
+                try
+                {
+                    IPAddress ip = IPAddress.Parse(str);
+                    addresses.Add(ip);
+
+                }
+                catch (Exception ex)
+                {
+                    Area23Log.LogStatic(ex);
+                }
+            }
+
+            var ips  = await NetworkAddresses.GetConnectedIpAddressesAsync(addresses);
+            List<IPAddress> list = new List<IPAddress>(ips);
+
+            List<string> myIpStrList = new List<string>();
+            int mchecked = 0;
+            this.menuItemIPv6Secure.Checked = false;
+            foreach (IPAddress addr in list)
+            {
+                if (addr != null)
+                {
+                    ToolStripMenuItem item = new ToolStripMenuItem(addr.AddressFamily + " " + addr.ToString(), null, null, addr.ToString());
+                    if (addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+                    {
+                        this.menuItemIPv6Secure.Checked = true;
+                    }
+                    myIpStrList.Add(addr.ToString());
+                    if (mchecked++ == 0)
+                        item.Checked = true;
+                    else item.Checked = false;
+
+                    this.menuIItemMyIps.DropDownItems.Add(item);
+                }
+            }
+
+            foreach (IPAddress addrProxy in addresses)
+            {
+                if (addrProxy != null)
+                {
+                    proxyList.Add(addrProxy.ToString());
+                    if (addrProxy.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork ||
+                        (addrProxy.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6 && this.menuItemIPv6Secure.Checked))
+                    {
+                        ToolStripMenuItem item = new ToolStripMenuItem(addrProxy.AddressFamily + " " + addrProxy.ToString(), null, null, addrProxy.ToString());
+                        this.menuItemProxyServers.DropDownItems.Add(item);
+                    }
+                }
+            }
+
+            if (Entities.Settings.Instance != null)
+            {
+                Entities.Settings.Instance.Proxies = proxyList;
+                Entities.Settings.Instance.MyIPs = myIpStrList;
+                Entities.Settings.Save(Entities.Settings.Instance);
+            }
 
         }
 

@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Library.EnDeCoding;
+﻿using Area23.At.Framework.Library.Core.EnDeCoding;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library
+namespace Area23.At.Framework.Library.Core.Util
 {
 
     /// <summary>
@@ -14,6 +14,25 @@ namespace Area23.At.Framework.Library
     /// </summary>
     public static class ResReader
     {
+
+        public static object? GetObject(string key, string langCode = "")
+        {
+            object? retVal = key;
+            if (Properties.Resource.ResourceManager != null)
+            {
+                try
+                {
+                    retVal = Properties.Resource.ResourceManager.GetObject(key);
+                }
+                catch (Exception ex)
+                {
+                    retVal = key;
+                }
+            }
+
+            return retVal;
+        }
+
         /// <summary>
         /// GetValue gets string resource form language specific resource file 
         /// </summary>
@@ -22,9 +41,20 @@ namespace Area23.At.Framework.Library
         /// <returns>string in local language fetched from resource file</returns>
         public static string GetValue(string key, string langCode = "")
         {
-            string retVal = Properties.Resource.ResourceManager.GetString(key);
+            string? retVal = key;
+            if (Properties.Resource.ResourceManager != null)
+            {
+                try
+                {
+                    retVal = Properties.Resource.ResourceManager.GetString(key);
+                }
+                catch (Exception ex)
+                {
+                    retVal = key;
+                }
+            }
 
-            return (!string.IsNullOrEmpty(retVal)) ? retVal : key;
+            return !string.IsNullOrEmpty(retVal) ? retVal : key;
         }
 
 
@@ -36,10 +66,10 @@ namespace Area23.At.Framework.Library
         /// <returns>string in local language fetched from resource file</returns>
         public static string GetRes(string key, CultureInfo ci)
         {
-            string lang2IsoToLower = (ci != null) ? ci.TwoLetterISOLanguageName.ToLower() : string.Empty;
-            string retVal = Properties.Resource.ResourceManager.GetString(key);
+            string lang2IsoToLower = ci != null ? ci.TwoLetterISOLanguageName.ToLower() : string.Empty;
+            string? retVal = Properties.Resource.ResourceManager?.GetString(key);
 
-            return (!string.IsNullOrEmpty(retVal)) ? retVal : key.Replace("_", " ");
+            return !string.IsNullOrEmpty(retVal) ? retVal : key.Replace("_", " ");
         }
 
         /// <summary>
@@ -47,11 +77,11 @@ namespace Area23.At.Framework.Library
         /// </summary>
         /// <param name="key">unique key (culture independent) to address resource string</param>
         /// <param name="ci">CultureInfo for currently used language</param>
-        /// <param name="args">object[] arguments needed for <see cref="String.Format(string, object[])"/></param>
+        /// <param name="args">object[] arguments needed for <see cref="string.Format(string, object[])"/></param>
         /// <returns>string in local language fetched from resource file</returns>
         public static string GetStringFormated(string key, CultureInfo ci, params object[] args)
         {
-            string lang2IsoToLower = (ci != null) ? ci.TwoLetterISOLanguageName.ToLower() : string.Empty;
+            string lang2IsoToLower = ci != null ? ci.TwoLetterISOLanguageName.ToLower() : string.Empty;
             string retVal = Properties.Resource.ResourceManager.GetString(key);
             string retValLang = retVal;
 
@@ -61,7 +91,7 @@ namespace Area23.At.Framework.Library
                     retValLang.Contains("{") && retValLang.Contains("}") &&
                     (retValLang.Contains("{0}") || retValLang.Contains("{1}") || retValLang.Contains("{2}")))
                 {
-                    retVal = String.Format(retValLang, args);
+                    retVal = string.Format(retValLang, args);
                 }
                 return retVal;
             }
@@ -74,7 +104,7 @@ namespace Area23.At.Framework.Library
             string fortuneString = EnDeCoder.GetString(Properties.Resource.fortune_u8);
             return fortuneString;
         }
-    
+
     }
 
 

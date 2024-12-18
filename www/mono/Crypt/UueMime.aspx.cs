@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library;
 using Area23.At.Framework.Library.EnDeCoding;
+using Area23.At.Framework.Library.Util;
 using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
@@ -65,7 +66,7 @@ namespace Area23.At.Mono.Crypt
                     case "hex16":       encodedStr = Hex16.ToHex16(fileBytes); break;
                     case "base16":      encodedStr = Base16.ToBase16(fileBytes); break;
                     case "base32":      encodedStr = Base32.ToBase32(fileBytes); break;
-                    case "hex32":   encodedStr = Hex32.ToHex32(fileBytes); break;
+                    case "hex32":       encodedStr = Hex32.ToHex32(fileBytes); break;
                     case "uu":          encodedStr = Uu.ToUu(fileBytes, true); break;
                     case "html":        encodedStr = "Can't html encode a binary file!"; break;
                     case "url":         encodedStr = "Can't url encode a binary file!"; break;

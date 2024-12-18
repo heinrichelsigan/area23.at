@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Area23.At.Framework.Library.Core.Util;
+using Microsoft.AspNetCore.Http;
 using System;
+using System.Configuration;
 using System.Text;
 using System.Web;
 
@@ -81,6 +83,7 @@ namespace Area23.At.Framework.Library.Core
         public const string QR_COLOR_STRING = "QrColorString";
 
         public const string ROACH_DESKTOP_WINDOW = "Roach.Desktop.Window";
+        public const string MUTEX_REGOPS = "Mutex.Registry.Operations";
 
         public const string EXE_COMMAND_CMD = "cmd";
         public const string EXE_POWER_SHELL = "powershell";
@@ -426,6 +429,27 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
         }
 
         #endregion public static properties
+
+        /// <summary>
+        /// AppSettingsValueByKey 
+        /// </summary>
+        /// <param name="key">key to lookup up in appsettings key value collection</param>
+        /// <returns><see cref="string"/> AppSettingsValue</returns>
+        public static string? AppSettingsValueByKey(string key)
+        {
+            if (string.IsNullOrEmpty(key))
+                return null;
+            try
+            {
+                if (ConfigurationManager.AppSettings[key] != null)
+                {
+                    return (string)ConfigurationManager.AppSettings[key].ToString();
+                }
+            }
+            catch { }
+
+            return null;
+        }
 
     }
 

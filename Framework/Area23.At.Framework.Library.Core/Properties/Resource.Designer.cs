@@ -70,6 +70,16 @@ namespace Area23.At.Framework.Library.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BitmapAbout {
+            get {
+                object obj = ResourceManager.GetObject("BitmapAbout", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to VisualStudio 2022 C# 4.8.
         /// </summary>
         internal static string build_with {
@@ -109,6 +119,106 @@ namespace Area23.At.Framework.Library.Core.Properties {
         internal static string help_text {
             get {
                 return ResourceManager.GetString("help_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageAesArrow {
+            get {
+                object obj = ResourceManager.GetObject("ImageAesArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageAesArrowHover {
+            get {
+                object obj = ResourceManager.GetObject("ImageAesArrowHover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageCar {
+            get {
+                object obj = ResourceManager.GetObject("ImageCar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageClickToUpload {
+            get {
+                object obj = ResourceManager.GetObject("ImageClickToUpload", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageDeCrypt {
+            get {
+                object obj = ResourceManager.GetObject("ImageDeCrypt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageEnCrypt {
+            get {
+                object obj = ResourceManager.GetObject("ImageEnCrypt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageFile {
+            get {
+                object obj = ResourceManager.GetObject("ImageFile", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageHash {
+            get {
+                object obj = ResourceManager.GetObject("ImageHash", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageKey {
+            get {
+                object obj = ResourceManager.GetObject("ImageKey", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ImageSkull {
+            get {
+                object obj = ResourceManager.GetObject("ImageSkull", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

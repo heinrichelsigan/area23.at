@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Area23.At.Framework.Library.Core.EnDeCoding;
+using Area23.At.Framework.Library.Core.Util;
 
 namespace Area23.At.Framework.Library.Core.Cipher.Symm
 {

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Web;
 using System.Windows.Media.Imaging;
 
-namespace Area23.At.ChatQ.Util
+namespace Area23.At.Framework.Library.Core.Util
 {
     public class JpegMetadataAdapter
     {

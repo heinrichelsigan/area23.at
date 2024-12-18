@@ -20,7 +20,7 @@ using System.Security.Policy;
 
 namespace Area23.At.ChatQ
 {
-    public partial class Default : Area23BasePage
+    public partial class Default : ChatQBasePage
     {
         internal Dictionary<string, Uri> shortenMap = null;
         internal Uri redirectUri = null;

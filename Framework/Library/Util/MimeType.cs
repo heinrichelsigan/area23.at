@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Web;
 
-namespace Area23.At.Framework.Library.Core
+namespace Area23.At.Framework.Library.Util
 {
 
     /// <summary>

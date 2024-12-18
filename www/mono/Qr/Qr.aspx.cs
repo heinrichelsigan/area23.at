@@ -18,6 +18,7 @@ using System.Web.UI.WebControls;
 using static QRCoder.PayloadGenerator;
 using System.Security.Policy;
 using Area23.At.Mono.Qr;
+using Area23.At.Framework.Library.Util;
 
 namespace Area23.At.Mono.Qr
 {
@@ -74,7 +75,7 @@ namespace Area23.At.Mono.Qr
         protected void LinkButton_QrString_Click(object sender, EventArgs e)
         {
             ResetFormElements();
-            QRGenericString qrString = new QRGenericString(this.TextBox_QrString.Text);
+            QRGenericString qrString = new Framework.Library.Util.QRGenericString(this.TextBox_QrString.Text);
             GenerateQRImage(qrString.ToString());
         }
 

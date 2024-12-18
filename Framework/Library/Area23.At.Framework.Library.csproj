@@ -93,7 +93,6 @@
     <Compile Include="Cipher\Crpyt.cs" />
     <Compile Include="Cipher\CipherEnum.cs" />
     <Compile Include="Cipher\Symmetric\Algo\Rijndael.cs" />
-    <Compile Include="ColorForm.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="EnDeCoding\Hex32.cs" />
     <Compile Include="EnDeCoding\EncodingType.cs" />
@@ -104,19 +103,21 @@
     <Compile Include="EnDeCoding\DeEnCoder.cs" />
     <Compile Include="EnDeCoding\EnDeCoder.cs" />
     <Compile Include="EnDeCoding\Base16.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="MimeType.cs" />
+    <Compile Include="Util\Extensions.cs" />
+    <Compile Include="Util\GifEncoder.cs" />
+    <Compile Include="Util\JpegMetadataAdapter.cs" />
+    <Compile Include="Util\MimeType.cs" />
     <Compile Include="LibPaths.cs" />
     <Compile Include="Net\NetworkAddresses.cs" />
     <Compile Include="Net\TcpClientWebRequest.cs" />
     <Compile Include="Net\WebHttp\WebClientRequest.cs" />
-    <Compile Include="ProcessCmd.cs" />
+    <Compile Include="Util\ProcessCmd.cs" />
     <Compile Include="Properties\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="ResReader.cs" />
+    <Compile Include="Util\ResReader.cs" />
     <Compile Include="Cipher\Symmetric\CryptBounceCastle.cs" />
     <Compile Include="Cipher\Symmetric\CryptHelper.cs" />
     <Compile Include="Cipher\Symmetric\CryptParams.cs" />

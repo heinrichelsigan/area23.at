@@ -16,6 +16,7 @@ using System.Text;
 // using System.Xml.Linq;
 using System.Data.SqlTypes;
 using System.Windows.Media.Imaging;
+using Area23.At.Framework.Library.Util;
 
 namespace Area23.At.Mono.Qr
 {

@@ -16,6 +16,7 @@ using System.Web;
 using System.Windows.Forms;
 using Area23.At.Framework.Library.Core.Cipher.Symm;
 using Area23.At.Framework.Library.Core.Cipher;
+using Area23.At.Framework.Library.Core.Util;
 
 namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
@@ -162,7 +163,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                 string encryptedText = string.Empty;
                 byte[] inBytesSeperator = EnDeCoder.GetBytes8("\r\n");
                 byte[] inBytesKeyHash = EnDeCoder.GetBytes8(this.TextBox_IV.Text);
-                byte[] inBytes = Framework.Library.Core.Extensions.TarBytes(inFileBytes, inBytesSeperator, inBytesKeyHash);
+                byte[] inBytes = Extensions.TarBytes(inFileBytes, inBytesSeperator, inBytesKeyHash);
                 byte[] encryptBytes = inBytes;
 
                 string[] algos = this.TextBox_CryptPipeline.Text.Split("+;,→⇛".ToCharArray());
@@ -477,7 +478,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             // Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
             if (decryptedBytes != null && decryptedBytes.Length > ivBytesHash.Length)
             {
-                int needleFound = Framework.Library.Core.Extensions.BytesBytes(decryptedBytes, ivBytesHash, ivBytesHash.Length - 1);
+                int needleFound = Extensions.BytesBytes(decryptedBytes, ivBytesHash, ivBytesHash.Length - 1);
                 if (needleFound > 0)
                 {
                     success = true;

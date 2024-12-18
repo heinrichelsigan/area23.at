@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Library.Core;
+﻿using Area23.At.Framework.Library.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
 using Org.BouncyCastle.Utilities;
 using System;
@@ -157,6 +157,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     {
                         this.textBoxEmail.Text = contact.Email ?? string.Empty;
                         this.textBoxMobile.Text = contact.Mobile ?? string.Empty;
+                        this.textBoxAddress.Text = contact.Address ?? string.Empty;
                         base64image = contact.ImageBase64 ?? string.Empty;
                         if (!string.IsNullOrEmpty(base64image))
                         {

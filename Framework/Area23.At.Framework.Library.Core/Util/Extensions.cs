@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Area23.At.Framework.Library.Core
+namespace Area23.At.Framework.Library.Core.Util
 {
 
     /// <summary>
@@ -25,11 +25,11 @@ namespace Area23.At.Framework.Library.Core
         /// <returns>true, if it's integer number</returns>
         public static bool IsRoundNumber(this double d)
         {
-            return (Math.Truncate(d) == d || Math.Round(d) == d);
+            return Math.Truncate(d) == d || Math.Round(d) == d;
         }
 
         /// <summary>
-        /// <see cref="double"/>.ToLong() extension methods: converts a double to a long <see cref="Int64"/>
+        /// <see cref="double"/>.ToLong() extension methods: converts a double to a long <see cref="long"/>
         /// </summary>
         /// <param name="d"></param>
         /// <returns></returns>
@@ -93,7 +93,7 @@ namespace Area23.At.Framework.Library.Core
         /// <returns>formatted date time <see cref="string"/> </returns>
         public static string Area23DateTimeWithMillis(this DateTime dateTime)
         {
-            string formatted = String.Format("{0:yyyyMMdd_HHmmss}_{1}", dateTime, dateTime.Millisecond);
+            string formatted = string.Format("{0:yyyyMMdd_HHmmss}_{1}", dateTime, dateTime.Millisecond);
             // return formatted;
             return dateTime.ToString("yyyyMMdd_HHmmss_") + dateTime.Millisecond;
         }
@@ -105,9 +105,9 @@ namespace Area23.At.Framework.Library.Core
         #region stream_extensions
 
         /// <summary>
-        /// <see cref="System.IO.Stream"/>.ToByteArray() extension method: converts <see cref="System.IO.Stream"/> to <see cref="byte[]"/> array
+        /// <see cref="Stream"/>.ToByteArray() extension method: converts <see cref="Stream"/> to <see cref="byte[]"/> array
         /// </summary>
-        /// <param name="stream"><see cref="System.IO.Stream"/> which static methods are now extended</param>
+        /// <param name="stream"><see cref="Stream"/> which static methods are now extended</param>
         /// <returns>binary <see cref="byte[]">byte[] array</see></returns>
         public static byte[] ToByteArray(this Stream stream)
         {
@@ -122,7 +122,7 @@ namespace Area23.At.Framework.Library.Core
                 }
             }
         }
-        
+
         #endregion stream_extensions
 
         #region byteArray_extensions
@@ -137,7 +137,7 @@ namespace Area23.At.Framework.Library.Core
         {
             using (MemoryStream ms = new MemoryStream(bytes))
             {
-                using (System.Drawing.Image img = System.Drawing.Image.FromStream(ms))
+                using (Image img = Image.FromStream(ms))
                 {
                     return ImageCodecInfo.GetImageEncoders().First(codec => codec.FormatID == img.RawFormat.Guid).MimeType;
                 }
@@ -157,7 +157,7 @@ namespace Area23.At.Framework.Library.Core
                 if (bytes[bCnt] != value)
                 {
                     return bCnt;
-                }                
+                }
             }
             return -1;
         }
@@ -203,7 +203,7 @@ namespace Area23.At.Framework.Library.Core
                 Area23Log.LogStatic(ex);
             }
 
-            if (System.IO.File.Exists(fullFileName))
+            if (File.Exists(fullFileName))
             {
                 return fullFileName;
             }
@@ -273,7 +273,7 @@ namespace Area23.At.Framework.Library.Core
                         if (matchBytes > 0 && needleIt == matchBytes)
                             return fFwdIt;
 
-                        if (needleIt >= (needle.Length - 1))
+                        if (needleIt >= needle.Length - 1)
                             return fFwdIt;
                     }
                 }
@@ -366,22 +366,22 @@ namespace Area23.At.Framework.Library.Core
                 ms.Flush();
                 bitmap = new Bitmap(ms);
             }
-            return (Image)bitmap;
+            return bitmap;
         }
 
         /// <summary>
-        /// <see cref="string"/>.FromHtmlToColor() extension methods: transforms hex #rrggbb string into <see cref="System.Drawing.Color"/>
+        /// <see cref="string"/>.FromHtmlToColor() extension methods: transforms hex #rrggbb string into <see cref="Color"/>
         /// </summary>
         /// <param name="htmlRGBString"><see cref="string"/> to transform</param>
-        /// <returns><see cref="System.Drawing.Color"/></returns>
+        /// <returns><see cref="Color"/></returns>
         /// <exception cref="ArgumentException">invalid argument exception, in case of malformatted string</exception>
-        public static System.Drawing.Color FromHtmlToColor(this string htmlRGBString)
+        public static Color FromHtmlToColor(this string htmlRGBString)
         {
-            if (String.IsNullOrWhiteSpace(htmlRGBString) || htmlRGBString.Length != 7 || !htmlRGBString.StartsWith("#"))
+            if (string.IsNullOrWhiteSpace(htmlRGBString) || htmlRGBString.Length != 7 || !htmlRGBString.StartsWith("#"))
                 throw new ArgumentException(
-                    String.Format("System.Drawing.Color.FromHtml(string htmlRGBString = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", htmlRGBString));
+                    string.Format("System.Drawing.Color.FromHtml(string htmlRGBString = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", htmlRGBString));
 
-            System.Drawing.Color _color = System.Drawing.ColorTranslator.FromHtml(htmlRGBString);
+            Color _color = ColorTranslator.FromHtml(htmlRGBString);
             return _color;
         }
 
@@ -422,50 +422,50 @@ namespace Area23.At.Framework.Library.Core
         #region System.Drawing.Color extensions
 
         /// <summary>
-        /// <see cref="System.Drawing.Color"/>.FromHtml(string hex) extension method: gets color from hexadecimal rgb string html standard
+        /// <see cref="Color"/>.FromHtml(string hex) extension method: gets color from hexadecimal rgb string html standard
         /// </summary>
         /// <param name="color">System.Drawing.Color.FromHtml(string hex) extension method</param>
         /// <param name="hex">hexadecimal rgb string with starting #</param>
         /// <returns>Color, that was defined by hexadecimal html standarized #rrggbb string</returns>
-        public static System.Drawing.Color FromHtml(this System.Drawing.Color color, string hex)
+        public static Color FromHtml(this Color color, string hex)
         {
-            if (String.IsNullOrWhiteSpace(hex) || hex.Length != 7 || !hex.StartsWith("#"))
+            if (string.IsNullOrWhiteSpace(hex) || hex.Length != 7 || !hex.StartsWith("#"))
                 throw new ArgumentException(
-                    String.Format("System.Drawing.Color.FromHtml(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
+                    string.Format("System.Drawing.Color.FromHtml(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
 
-            System.Drawing.Color _color = System.Drawing.ColorTranslator.FromHtml(hex);
+            Color _color = ColorTranslator.FromHtml(hex);
             return _color;
         }
 
         /// <summary>
-        /// <see cref="System.Drawing.Color"/>.FromXrgb(string hex) extension method: gets color from hexadecimal rgb string
+        /// <see cref="Color"/>.FromXrgb(string hex) extension method: gets color from hexadecimal rgb string
         /// </summary>
         /// <param name="color">System.Drawing.Color.FromXrgb(string hex) extension method</param>
         /// <param name="hex">hexadecimal rgb string with starting #</param>
         /// <returns>Color, that was defined by hexadecimal rgb string</returns>
-        public static System.Drawing.Color FromXrgb(this System.Drawing.Color color, string hex)
+        public static Color FromXrgb(this Color color, string hex)
         {
-            if (String.IsNullOrWhiteSpace(hex) || hex.Length < 6 || hex.Length > 9)
+            if (string.IsNullOrWhiteSpace(hex) || hex.Length < 6 || hex.Length > 9)
                 throw new ArgumentException(
-                    String.Format("System.Drawing.Color.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" or \"rrggbb\"", hex));
+                    string.Format("System.Drawing.Color.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" or \"rrggbb\"", hex));
 
             string rgbWork = hex.TrimStart("#".ToCharArray());
 
             string colSeg = rgbWork.Substring(0, 2);
-            colSeg = (colSeg.Contains("00")) ? "0" : colSeg.TrimStart("0".ToCharArray());
+            colSeg = colSeg.Contains("00") ? "0" : colSeg.TrimStart("0".ToCharArray());
             int r = Convert.ToUInt16(colSeg, 16);
             colSeg = rgbWork.Substring(2, 2);
-            colSeg = (colSeg.Contains("00")) ? "0" : colSeg.TrimStart("0".ToCharArray());
+            colSeg = colSeg.Contains("00") ? "0" : colSeg.TrimStart("0".ToCharArray());
             int g = Convert.ToUInt16(colSeg, 16);
             colSeg = rgbWork.Substring(4, 2);
-            colSeg = (colSeg.Contains("00")) ? "0" : colSeg.TrimStart("0".ToCharArray());
+            colSeg = colSeg.Contains("00") ? "0" : colSeg.TrimStart("0".ToCharArray());
             int b = Convert.ToUInt16(colSeg, 16);
 
-            return System.Drawing.Color.FromArgb(r, g, b);
+            return Color.FromArgb(r, g, b);
         }
 
         /// <summary>
-        /// <see cref="System.Drawing.Color"/>.FromRGB(byte r, byte g, byte b) extension method: gets color from R G B
+        /// <see cref="Color"/>.FromRGB(byte r, byte g, byte b) extension method: gets color from R G B
         /// </summary>
         /// <param name="color">System.Drawing.Color.FromXrgb(string hex) extension method</param>
         /// <param name="r">red byte</param>
@@ -473,37 +473,37 @@ namespace Area23.At.Framework.Library.Core
         /// <param name="b">blue byte</param>
         /// <returns>Color, that was defined by hexadecimal rgb string</returns>
         /// <exception cref="ArgumentException"></exception>
-        public static System.Drawing.Color FromRGB(this System.Drawing.Color color, byte r, byte g, byte b)
+        public static Color FromRGB(this Color color, byte r, byte g, byte b)
         {
-            return System.Drawing.Color.FromArgb((int)r, (int)g, (int)b);
+            return Color.FromArgb(r, g, b);
         }
 
         /// <summary>
-        /// <see cref="System.Drawing.Color"/>.ToXrgb() extension method: converts current color to hex string 
+        /// <see cref="Color"/>.ToXrgb() extension method: converts current color to hex string 
         /// </summary>
         /// <param name="color">current color</param>
         /// <returns>hexadecimal #rrGGbb string with leading # character</returns>
-        public static string ToXrgb(this System.Drawing.Color color)
+        public static string ToXrgb(this Color color)
         {
             string rx = color.R.ToString("X");
-            rx = (rx.Length > 1) ? rx : "0" + rx;
+            rx = rx.Length > 1 ? rx : "0" + rx;
             string gx = color.G.ToString("X");
-            gx = (gx.Length > 1) ? gx : "0" + gx;
+            gx = gx.Length > 1 ? gx : "0" + gx;
             string bx = color.B.ToString("X");
-            bx = (bx.Length > 1) ? bx : "0" + bx;
+            bx = bx.Length > 1 ? bx : "0" + bx;
 
-            string hex = String.Format("#{0}{1}{2}", rx, gx, bx);
+            string hex = string.Format("#{0}{1}{2}", rx, gx, bx);
             return hex.ToLower();
         }
 
         /// <summary>
-        /// <see cref="System.Drawing.Color"/>.IsInLevenSteinDistance(Color colorCompare) extension method: finds out, if colorSrc and colorCompare are inside Levenstein distance
+        /// <see cref="Color"/>.IsInLevenSteinDistance(Color colorCompare) extension method: finds out, if colorSrc and colorCompare are inside Levenstein distance
         /// </summary>
-        /// <param name="colorSrc">source <see cref="System.Drawing.Color"/></param>
-        /// <param name="colorCompare"><see cref="System.Drawing.Color"/> to compare with</param>
+        /// <param name="colorSrc">source <see cref="Color"/></param>
+        /// <param name="colorCompare"><see cref="Color"/> to compare with</param>
         /// <param name="levenSteinDelta">the absolute distance between to colors to tolerate</param>
         /// <returns>true, if both colors are inside Levenstein distance</returns>
-        public static bool IsInLevenSteinDistance(this System.Drawing.Color colorSrc, System.Drawing.Color colorCompare, int levenSteinDelta = 6)
+        public static bool IsInLevenSteinDistance(this Color colorSrc, Color colorCompare, int levenSteinDelta = 6)
         {
             byte sRed = colorSrc.R;
             byte sGreen = colorSrc.G;
@@ -513,13 +513,13 @@ namespace Area23.At.Framework.Library.Core
             byte cGreen = colorCompare.G;
             byte cBlue = colorCompare.B;
 
-            int deltaRed = Math.Abs((int)((int)cRed - (int)sRed));
-            int deltaGreen = Math.Abs((int)((int)cGreen - (int)sGreen));
-            int deltaBlue = Math.Abs((int)((int)cBlue - (int)sBlue));
+            int deltaRed = Math.Abs(cRed - sRed);
+            int deltaGreen = Math.Abs(cGreen - sGreen);
+            int deltaBlue = Math.Abs(cBlue - sBlue);
 
             int distanceRGB = deltaRed + deltaGreen + deltaBlue;
 
-            return (distanceRGB <= levenSteinDelta);
+            return distanceRGB <= levenSteinDelta;
         }
 
         #endregion System.Drawing.Color extensions
@@ -527,18 +527,18 @@ namespace Area23.At.Framework.Library.Core
         #region System.Drawing.Image extensions
 
         /// <summary>
-        /// <see cref="System.Drawing.Image"/>.ToBase64() extension method: converts <see cref="System.Drawing.Image"/> to base64 string
+        /// <see cref="Image"/>.ToBase64() extension method: converts <see cref="Image"/> to base64 string
         /// </summary>
-        /// <param name="img">this <see cref="System.Drawing.Image"/></param>
+        /// <param name="img">this <see cref="Image"/></param>
         /// <returns>base64 encoded <see cref="string?"/></returns>
-        public static string? ToBase64(this System.Drawing.Image img)
+        public static string? ToBase64(this Image img)
         {
             string? base64 = null;
             var ms = new MemoryStream();
             try
             {
                 img.Save(ms, ImageFormat.Png);
-            } 
+            }
             catch (Exception exPng)
             {
                 Area23Log.LogStatic(exPng);
@@ -568,11 +568,11 @@ namespace Area23.At.Framework.Library.Core
         }
 
         /// <summary>
-        /// <see cref="System.Drawing.Bitmap"/>.ToByteArray() extension method: converts <see cref="System.Drawing.Bitmap"/> to byte array
+        /// <see cref="Bitmap"/>.ToByteArray() extension method: converts <see cref="Bitmap"/> to byte array
         /// </summary>
-        /// <param name="img">this <see cref="System.Drawing.Image"/></param>
+        /// <param name="img">this <see cref="Image"/></param>
         /// <returns><see cref="byte[]?"/> array</returns>
-        public static byte[]? ToByteArray(this System.Drawing.Bitmap bmp)
+        public static byte[]? ToByteArray(this Bitmap bmp)
         {
             try
             {
@@ -588,7 +588,7 @@ namespace Area23.At.Framework.Library.Core
             {
                 Area23Log.LogStatic(ex);
             }
-            return (byte[])null;
+            return null;
         }
 
         #endregion System.Drawing.Image extensions
@@ -619,6 +619,62 @@ namespace Area23.At.Framework.Library.Core
 
         #endregion genericsT_extensions
 
+    }
+
+
+    /// <summary>
+    /// Static class alternative for System.Drawing.Color Extension Methods
+    /// </summary>
+    public static class ColorFrom
+    {
+        #region Extensions.ColorFrom static methods
+
+        /// <summary>
+        /// FromHtml gets color from hexadecimal rgb string html standard
+        /// static method Supu.Framework.Extensions.ColorFrom.FromHtml(string hex) 
+        /// is an alternative to System.Drawing.Color.FromHtml(string hex) extension method
+        /// </summary>
+        /// <param name="hex">hexadecimal rgb string with starting #</param>
+        /// <returns>Color, that was defined by hexadecimal html standarized #rrggbb string</returns>
+        public static Color FromHtml(string hex)
+        {
+
+            if (string.IsNullOrWhiteSpace(hex) || hex.Length != 7 || !hex.StartsWith("#"))
+                throw new ArgumentException(
+                    string.Format("Area23.At.Framework.Library.ColorForm.FromHtml(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
+
+            Color _color = ColorTranslator.FromHtml(hex);
+            return _color;
+        }
+
+        /// <summary>
+        /// FromXrgb gets color from hexadecimal rgb string
+        /// static method Supu.Framework.Extensions.ColorFrom.FromXrgb(string hex) 
+        /// is an alternative to System.Drawing.Color.FromXrgb(string hex) extension method
+        /// </summary>
+        /// <param name="hex">hexadecimal rgb string with starting #</param>
+        /// <returns>Color, that was defined by hexadecimal rgb string</returns>
+        public static Color FromXrgb(string hex)
+        {
+            if (string.IsNullOrWhiteSpace(hex) || hex.Length != 7 || !hex.StartsWith("#"))
+                throw new ArgumentException(
+                    string.Format("Area23.At.Framework.Library.ColorForm.FromXrgb(string hex = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", hex));
+
+            string rgbWork = hex.TrimStart("#".ToCharArray());
+            string colSeg = rgbWork.Substring(0, 2);
+            colSeg = colSeg.Contains("00") ? "0" : colSeg.TrimStart("0".ToCharArray());
+            int r = Convert.ToUInt16(colSeg, 16);
+            colSeg = rgbWork.Substring(2, 2);
+            colSeg = colSeg.Contains("00") ? "0" : colSeg.TrimStart("0".ToCharArray());
+            int g = Convert.ToUInt16(colSeg, 16);
+            colSeg = rgbWork.Substring(4, 2);
+            colSeg = colSeg.Contains("00") ? "0" : colSeg.TrimStart("0".ToCharArray());
+            int b = Convert.ToUInt16(colSeg, 16);
+
+            return Color.FromArgb(r, g, b);
+        }
+
+        #endregion Extensions.ColorFrom static methods
     }
 
 }
