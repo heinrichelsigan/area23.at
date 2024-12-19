@@ -5,34 +5,40 @@ using System.Web;
 
 namespace Area23.At.Mono.Calc
 {
-    public class CalcElem
+    public abstract class CalcElem
     {
         protected internal string _elem = string.Empty;
-        protected internal static string[] validElems = { "" };
-
-        public string Elem { get => _elem; }
+        
 
         public CalcElem(string elem)
         {
             if (string.IsNullOrEmpty(elem))
                 throw new InvalidOperationException("null or empty math operators are not allowed");
             _elem = elem;
-            if (!Validate())
-                throw new InvalidOperationException(String.Format("{0} is not a valid element.", elem));
+            if (_elem == null || _elem.Length < 1)
+                throw new InvalidOperationException(String.Format("{0} is a null or empty string element.", elem));
+        }       
+    }
+
+    public abstract class MathElement : CalcElem
+    {
+        protected internal static string[] validElems = { "" };
+
+        public virtual string Elem { get => _elem; }
+
+        public MathElement(string elem) : base(elem) 
+        {
+            if (!validElems.Contains(_elem))
+                throw new InvalidOperationException(String.Format("{0} is not a valid prooved element.", elem));
         }
 
         internal virtual bool Validate()
         {
-            return (_elem != null && _elem.Length > 0 && validElems.Contains(_elem));             
+            return (_elem != null && _elem.Length > 0 && validElems.Contains(_elem));
         }
     }
 
-    public class MathOp : CalcElem
-    {
-        public MathOp(string elem) : base(elem) { }
-    }
-
-    public class MathOpUnary : MathOp
+    public class MathOpUnary : MathElement
     {        
         protected internal static new string[] validElems = { 
             "±", "x²", "²", "x³", "³", "2ⁿ", "10ⁿ", "!",
@@ -48,7 +54,7 @@ namespace Area23.At.Mono.Calc
         }
     }
 
-    public class MathOpBinary : MathOp
+    public class MathOpBinary : MathElement
     {
         protected internal static new string[] validElems = { "+", "-", "*", "×", "/", "÷", 
             "^", "xⁿ", "mod", "ⁱ√", "sqrti", "logₕ𝒂", "log&#x2095;a", "bloga" };
@@ -62,7 +68,7 @@ namespace Area23.At.Mono.Calc
     }
 
 
-    public class MathNumber : MathOp
+    public class MathNumber : MathElement
     {
         internal static string validChars = "0123456789ABCDEF.,";
         protected internal static new string[] validElems = { "ℇ", "π" };

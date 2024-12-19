@@ -52,7 +52,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
 
         private static int CharToInt(char c)
         {
-            int iBigA = (int)'A', iLittleA = ((int)'a'), iZero = (int)'0', iChar = ((int)c);
+            int iBigA = (int)'A', iLittleA = ((int)'a'), iChar = ((int)c);
 
             if (Char.IsUpper(c))
                 return ((iChar - iBigA) + 10);

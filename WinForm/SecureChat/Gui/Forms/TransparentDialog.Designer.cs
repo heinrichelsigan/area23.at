@@ -70,8 +70,6 @@
             // 
             logoPictureBox.BackColor = SystemColors.Control;
             logoPictureBox.Dock = DockStyle.Fill;
-            logoPictureBox.Image = Properties.Resources.WinFormAboutDialog;
-            logoPictureBox.InitialImage = Properties.Resources.WinFormAboutDialog;
             logoPictureBox.Location = new Point(5, 4);
             logoPictureBox.Margin = new Padding(5, 4, 5, 4);
             logoPictureBox.Name = "logoPictureBox";

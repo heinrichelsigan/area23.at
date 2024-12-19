@@ -23,6 +23,7 @@ using Area23.At.WinForm.SecureChat.Properties;
 using System.Runtime.CompilerServices;
 using System.IO;
 using Area23.At.Framework.Library.Core.Util;
+using Area23.At.WinForm.SecureChat.Entities;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -53,9 +54,16 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 menuItemMyContact_Click(sender, e);
             }
 
-            if (Entities.Settings.Instance != null && Entities.Settings.Instance.MyContact != null && !string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.ImageBase64))
+            if (Settings.Instance != null && Settings.Instance.MyContact != null && !string.IsNullOrEmpty(Settings.Instance.MyContact.ImageBase64))
             {
-                this.pictureBoxYou.Image = Entities.Settings.Instance.MyContact.ImageBase64.Base64ToImage();
+                Bitmap? bmp;
+                byte[] bytes = Framework.Library.Core.EnDeCoding.Base64.Decode(Settings.Instance.MyContact.ImageBase64);
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    bmp = new Bitmap(ms);
+                }
+                if (bmp != null)
+                    this.pictureBoxYou.Image = bmp;
 
             }
 

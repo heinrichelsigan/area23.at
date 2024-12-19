@@ -71,52 +71,31 @@ namespace Area23.At.WinForm.SecureChat.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static System.Drawing.Bitmap ClickToUpload {
+        internal static byte[] a_right_key {
+            get {
+                object obj = ResourceManager.GetObject("a_right_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ClickToUpload {
             get {
                 object obj = ResourceManager.GetObject("ClickToUpload", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] frogInHole {
-            get {
-                object obj = ResourceManager.GetObject("frogInHole", resourceCulture);
                 return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to https://github.com/heinrichelsigan/area23.at/.
         /// </summary>
-        internal static byte[] frogInSwamp {
+        internal static string github_uri {
             get {
-                object obj = ResourceManager.GetObject("frogInSwamp", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] frogJump {
-            get {
-                object obj = ResourceManager.GetObject("frogJump", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] frogUnderWater {
-            get {
-                object obj = ResourceManager.GetObject("frogUnderWater", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("github_uri", resourceCulture);
             }
         }
         
@@ -130,22 +109,12 @@ namespace Area23.At.WinForm.SecureChat.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static System.Drawing.Icon TransparentFormsIcon {
-            get {
-                object obj = ResourceManager.GetObject("TransparentFormsIcon", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap WinFormAboutDialog {
+        internal static byte[] WinFormAboutDialog {
             get {
                 object obj = ResourceManager.GetObject("WinFormAboutDialog", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ((byte[])(obj));
             }
         }
     }

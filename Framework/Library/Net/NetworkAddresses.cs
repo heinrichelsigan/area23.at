@@ -182,6 +182,7 @@ namespace Area23.At.Framework.Library.Net
                 }
                 catch (Exception ex)
                 {
+                    Area23Log.LogStatic(ex);
                 }
 
                 if (!string.IsNullOrEmpty(lastAdded) && !hostnames.Contains(lastAdded))

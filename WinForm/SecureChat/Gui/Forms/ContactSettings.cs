@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
+using Area23.At.WinForm.SecureChat.Properties;
 using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
@@ -23,20 +24,31 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         public ContactSettings()
         {
             InitializeComponent();
+            using (MemoryStream memoryStream = new MemoryStream(Resources.ClickToUpload))
+            {
+                pictureBoxImage.Image = new Bitmap(memoryStream);
+            }
+            using (MemoryStream ms = new MemoryStream(Resources.WinFormAboutDialog))
+            {
+                this.logoPictureBox.Image = new Bitmap(ms);
+            }
             pictureBoxImage.SizeMode = PictureBoxSizeMode.AutoSize;
+
         }
 
         public ContactSettings(string name, int id = 1) : this()
         {
             this.Text = name;
             _id = id;
-            if (Entities.Settings.Instance != null)
+            if (Settings.Instance != null)
             {
-                if (_id == 0 && Entities.Settings.Instance.MyContact != null)
+                if (_id == 0 && Settings.Instance.MyContact != null)
                 {
-                    this.comboBoxName.Text = Entities.Settings.Instance.MyContact.Name;
-                    this.textBoxEmail.Text = Entities.Settings.Instance.MyContact.Email;
-                    this.textBoxMobile.Text = Entities.Settings.Instance.MyContact.Mobile;
+                    this.Text = Settings.Instance.MyContact.ContactId + " " + Settings.Instance.MyContact.Name;
+                    this.comboBoxName.Text = Settings.Instance.MyContact.Name;
+                    this.textBoxEmail.Text = Settings.Instance.MyContact.Email;
+                    this.textBoxMobile.Text = Settings.Instance.MyContact.Mobile;
+                    this.textBoxAddress.Text = Settings.Instance.MyContact.Address;
                     base64image = Entities.Settings.Instance.MyContact.ImageBase64 ?? string.Empty;
                     if (!string.IsNullOrEmpty(base64image))
                         this.pictureBoxImage.Image = base64image.Base64ToImage();
@@ -52,6 +64,179 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
         }
 
+
+
+        /// <summary>
+        /// Get contact id from title of dialog
+        /// </summary>
+        /// <param name="title">string title of dialog</param>
+        /// <returns>ContactId</returns>
+        internal int GetIdFromTitle(string? title)
+        {
+            int id = -1;
+            string? idStr = title ?? string.Empty;
+            if (idStr.Contains(" "))
+                idStr = idStr.Substring(0, idStr.IndexOf(" ")).TrimEnd();
+
+            if (!Int32.TryParse(idStr, out id))
+                id = -1;
+
+            return id;
+        }
+
+        private void Form_Closed(object sender, FormClosedEventArgs e)
+        {
+            bool foundContact = false;
+            int currentId = GetIdFromTitle(this.Text);
+
+            if (_id > 0)
+            {
+                string? currentSelectedName = (comboBoxName.Text != null) ? comboBoxName.Text :
+                    (comboBoxName.SelectedItem != null) ? comboBoxName.SelectedItem.ToString() : null;
+                               
+                if (!string.IsNullOrEmpty(currentSelectedName))
+                {
+                    foreach (Contact contact in Entities.Settings.Instance.Contacts)
+                    {
+                        if (contact != null && contact.ContactId == currentId && currentId > 0)
+                        {
+                            contact.Name = this.comboBoxName.Text ?? string.Empty; // 
+                            contact.Email = this.textBoxEmail.Text ?? string.Empty; //
+                            contact.Mobile = this.textBoxMobile.Text ?? string.Empty; //
+                            contact.Address = this.textBoxAddress.Text ?? string.Empty;                           
+                            contact.ImageBase64 = (pictureBoxImage.Tag != null && pictureBoxImage.Tag.ToString() == "Upload image") ? 
+                                null : this.pictureBoxImage.Image.ToBase64();
+
+                            foundContact = true;
+                            break;
+                        }
+                    }
+                    if (!foundContact)
+                    {
+                        currentId = Entities.Settings.Instance.Contacts.Count + 1;
+                        Entities.Settings.Instance.Contacts.Add(
+                            new Entities.Contact()
+                            {
+                                ContactId = currentId,
+                                Name = this.comboBoxName.Text ?? string.Empty,
+                                Email = this.textBoxEmail.Text ?? string.Empty,
+                                Mobile = this.textBoxMobile.Text ?? string.Empty,
+                                Address = this.textBoxAddress.Text ?? string.Empty,
+                                ImageBase64 = (pictureBoxImage.Tag != null && pictureBoxImage.Tag.ToString() == "Upload image") ?
+                                    null : this.pictureBoxImage.Image.ToBase64()
+                            }); 
+                    }
+                }
+                Entities.Settings.Save(Entities.Settings.Instance);
+                return;
+            }
+        }
+
+
+        /// <summary>
+        /// Form_Closing update owner
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form_Closing(object sender, FormClosingEventArgs e)
+        {
+            if (_id == 0 && !string.IsNullOrEmpty(this.comboBoxName.Text))
+            {
+                Settings.Instance.MyContact = new Contact()
+                {
+                    ContactId = 0,
+                    Name = this.comboBoxName.Text ?? string.Empty,
+                    Email = this.textBoxEmail.Text ?? string.Empty,
+                    Mobile = this.textBoxMobile.Text ?? string.Empty,
+                    Address = this.textBoxAddress.Text ?? string.Empty,
+                    ImageBase64 = (pictureBoxImage.Tag != null && pictureBoxImage.Tag.ToString() == "Upload image") ?
+                        null : this.pictureBoxImage.Image.ToBase64()
+                };                 
+                Settings.Save(Entities.Settings.Instance);
+            }
+        }
+
+
+        /// <summary>
+        /// select combobox Name and display entry to the name
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void comboBoxName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string? currentSelectedName = (comboBoxName.SelectedItem != null) ? comboBoxName.SelectedItem.ToString() : null;
+            if (!string.IsNullOrEmpty(currentSelectedName))
+            {
+                foreach (Contact contact in Entities.Settings.Instance.Contacts)
+                {
+                    if (contact != null && !string.IsNullOrEmpty(contact.Name) && contact.Name.Equals(currentSelectedName))
+                    {
+                        this.Text = contact.ContactId + " " + contact.Name;
+                        this.textBoxEmail.Text = contact.Email ?? string.Empty;
+                        this.textBoxMobile.Text = contact.Mobile ?? string.Empty;
+                        this.textBoxAddress.Text = contact.Address ?? string.Empty;
+                        base64image = contact.ImageBase64 ?? string.Empty;
+                        if (!string.IsNullOrEmpty(base64image))
+                        {
+                            pictureBoxImage.Tag = $"Contact image";
+                            this.pictureBoxImage.Image = base64image.Base64ToImage();
+                        }
+                        else
+                        {
+                            pictureBoxImage.Tag = "Upload {contact.ContactId} image";
+                            using (MemoryStream memoryStream = new MemoryStream(Resources.ClickToUpload))
+                            {
+                                pictureBoxImage.Image = new Bitmap(memoryStream);
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private void comboBoxName_TextUpdate(object sender, EventArgs e)
+        {
+            string? currentSelectedName = (comboBoxName.Text != null) ? comboBoxName.Text.ToString() : null;
+            if (!string.IsNullOrEmpty(currentSelectedName))
+            {
+                foreach (Contact contact in Entities.Settings.Instance.Contacts)
+                {
+                    if (contact != null && !string.IsNullOrEmpty(contact.Name) && contact.Name.Equals(currentSelectedName, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        this.Text = contact.ContactId + " " + contact.Name;
+                        this.comboBoxName.Text = contact.Name;                        
+                        this.textBoxEmail.Text = contact.Email ?? string.Empty;
+                        this.textBoxMobile.Text = contact.Mobile ?? string.Empty;
+                        this.textBoxAddress.Text = contact.Address ?? string.Empty;
+                        base64image = contact.ImageBase64 ?? string.Empty;
+                        if (!string.IsNullOrEmpty(base64image))
+                        {
+                            pictureBoxImage.Tag = "Contact image";
+                            this.pictureBoxImage.Image = base64image.Base64ToImage();
+                        }
+                        else
+                        {
+                            pictureBoxImage.Tag = "Upload image";
+                            using (MemoryStream memoryStream = new MemoryStream(Resources.ClickToUpload))
+                            {
+                                pictureBoxImage.Image = new Bitmap(memoryStream);
+                            }
+                        }
+                            
+                        break;
+                    }
+                }
+
+            }
+        }
+
+
+        /// <summary>
+        /// Upload new Image
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Image_Clicked(object sender, EventArgs e)
         {
             openFileDialog.RestoreDirectory = true;
@@ -75,129 +260,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                         Bitmap bitmap = ResizeImage(bmp, (int)fw, (int)150);
                         this.pictureBoxImage.Image = bitmap;
                     }
-                    else 
+                    else
                         this.pictureBoxImage.Image = bmp;
-                    this.pictureBoxImage.Tag = openFileDialog.FileName;
+                    this.pictureBoxImage.Tag = "Contact " + _id;
                 }
-            }
-        }
-
-        private void Form_Closed(object sender, FormClosedEventArgs e)
-        {
-            bool foundContact = false;
-            if (_id > 0)
-            {
-                string? currentSelectedName = (comboBoxName.SelectedItem != null) ? comboBoxName.SelectedItem.ToString() : null;
-                if (!string.IsNullOrEmpty(currentSelectedName))
-                {
-                    foreach (Contact contact in Entities.Settings.Instance.Contacts)
-                    {
-                        if (contact != null && !string.IsNullOrEmpty(contact.Name) && contact.Name.Equals(currentSelectedName))
-                        {
-                            contact.Email = this.textBoxEmail.Text;
-                            contact.Mobile = this.textBoxMobile.Text;
-                            contact.Address = this.textBoxAddress.Text;                            
-                            contact.ImageBase64 = (pictureBoxImage.Tag != null && pictureBoxImage.Tag.ToString() == "Upload image") ? 
-                                null : this.pictureBoxImage.Image.ToBase64();
-
-                            foundContact = true;
-                            break;
-                        }
-                    }
-                    if (!foundContact)
-                    {
-                        _id = Entities.Settings.Instance.Contacts.Count + 1;
-                        Entities.Settings.Instance.Contacts.Add(
-                            new Entities.Contact()
-                            {
-                                ContactId = _id,
-                                Name = this.comboBoxName.Text ?? string.Empty,
-                                Email = this.textBoxEmail.Text ?? string.Empty,
-                                Mobile = this.textBoxMobile.Text ?? string.Empty,
-                                Address = this.textBoxAddress.Text ?? string.Empty,
-                                ImageBase64 = (pictureBoxImage.Tag != null && pictureBoxImage.Tag.ToString() == "Upload image") ?
-                                    null : this.pictureBoxImage.Image.ToBase64()
-                            }); 
-                    }
-                }
-                Entities.Settings.Save(Entities.Settings.Instance);
-                return;
-            }
-        }
-
-        private void Form_Closing(object sender, FormClosingEventArgs e)
-        {
-            if (_id == 0)
-            {
-                Bitmap bitmap = new Bitmap(pictureBoxImage.Image);
-                
-                byte[] bytes = bitmap.ToByteArray();
-                Entities.Settings.Instance.MyContact = new Entities.Contact()
-                {
-                    ContactId = 0,
-                    Name = this.comboBoxName.Text ?? string.Empty,
-                    Email = this.textBoxEmail.Text ?? string.Empty,
-                    Mobile = this.textBoxMobile.Text ?? string.Empty,
-                    Address = this.textBoxAddress.Text ?? string.Empty,
-                    ImageBase64 = (pictureBoxImage.Tag != null && pictureBoxImage.Tag.ToString() == "Upload image") ? 
-                        null : Framework.Library.Core.EnDeCoding.Base64.Encode(bytes)
-                };
-                Entities.Settings.Save(Entities.Settings.Instance);
-            }
-        }
-
-        private void comboBoxName_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string? currentSelectedName = (comboBoxName.SelectedItem != null) ? comboBoxName.SelectedItem.ToString() : null;
-            if (!string.IsNullOrEmpty(currentSelectedName))
-            {
-                foreach (Contact contact in Entities.Settings.Instance.Contacts)
-                {
-                    if (contact != null && !string.IsNullOrEmpty(contact.Name) && contact.Name.Equals(currentSelectedName))
-                    {
-                        this.textBoxEmail.Text = contact.Email ?? string.Empty;
-                        this.textBoxMobile.Text = contact.Mobile ?? string.Empty;
-                        this.textBoxAddress.Text = contact.Address ?? string.Empty;
-                        base64image = contact.ImageBase64 ?? string.Empty;
-                        if (!string.IsNullOrEmpty(base64image))
-                        {
-                            this.pictureBoxImage.Image = base64image.Base64ToImage();                            
-                        }
-                        else
-                        {
-                            pictureBoxImage.Tag = "Upload image";
-                            logoPictureBox.Image = (Image)res.GetObject("logoPictureBox.Image");
-                        }
-                    }
-                }
-
-            }
-        }
-
-        private void comboBoxName_TextUpdate(object sender, EventArgs e)
-        {
-            string? currentSelectedName = (comboBoxName.Text != null) ? comboBoxName.Text.ToString() : null;
-            if (!string.IsNullOrEmpty(currentSelectedName))
-            {
-                foreach (Contact contact in Entities.Settings.Instance.Contacts)
-                {
-                    if (contact != null && !string.IsNullOrEmpty(contact.Name) && contact.Name.Equals(currentSelectedName))
-                    {
-                        this.textBoxEmail.Text = contact.Email ?? string.Empty;
-                        this.textBoxMobile.Text = contact.Mobile ?? string.Empty;
-                        base64image = contact.ImageBase64 ?? string.Empty;
-                        if (!string.IsNullOrEmpty(base64image))
-                            this.pictureBoxImage.Image = base64image.Base64ToImage();
-                        else
-                        {
-                            pictureBoxImage.Tag = "Upload image";
-                            logoPictureBox.Image = (Image)res.GetObject("logoPictureBox.Image");
-                        }
-                            
-                        break;
-                    }
-                }
-
             }
         }
 
@@ -232,5 +298,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
             return destImage;
         }
+    
     }
 }

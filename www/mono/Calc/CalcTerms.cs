@@ -13,13 +13,13 @@ using System.Windows.Documents;
 
 namespace Area23.At.Mono.Calc
 {
-    public class CalcTerm : CalcElem
+    public class CalcTerm : MathElement
     {
-        internal List<CalcElem> terms = new List<CalcElem>();
-        internal List<CalcElem> sterms = new List<CalcElem>();
+        internal List<MathElement> terms = new List<MathElement>();
+        internal List<MathElement> sterms = new List<MathElement>();
 
-        public CalcElem[] Terms { get => terms.ToArray(); }
-        public CalcElem[] STerms { get => sterms.ToArray(); }
+        public MathElement[] Terms { get => terms.ToArray(); }
+        public MathElement[] STerms { get => sterms.ToArray(); }
 
         public CalcTerm(string elem) : base(elem)
         {
@@ -92,10 +92,10 @@ namespace Area23.At.Mono.Calc
                 }
             }
         
-            if (!Validate())
+            if (!this.Validate())
                 throw new InvalidOperationException(String.Format("{0} is not a valid element.", _elem));
 
-            sterms = new List<CalcElem>(terms);
+            sterms = new List<MathElement>(terms);
         }
 
         internal override bool Validate()
@@ -211,7 +211,7 @@ namespace Area23.At.Mono.Calc
             return false;
         }
 
-        public virtual List<CalcElem> BuildSubTerms()
+        public virtual List<MathElement> BuildSubTerms()
         {
             int ti = 0, tj = 0, th = 0;
             string subTermStr;
@@ -322,7 +322,7 @@ namespace Area23.At.Mono.Calc
             return sterms;
         }
 
-        public virtual List<CalcElem> EvaluateTerms(RPNRad rad = RPNRad.DEG)
+        public virtual List<MathElement> EvaluateTerms(RPNRad rad = RPNRad.DEG)
         {
             int ti = 0, tj = 0, th = 0;
             long lresult = 1, lnum0 = 0, lnum1 = 0;

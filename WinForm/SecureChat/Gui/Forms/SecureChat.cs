@@ -23,6 +23,7 @@ using Area23.At.WinForm.SecureChat.Properties;
 using System.Runtime.CompilerServices;
 using System.IO;
 using Area23.At.Framework.Library.Core.Util;
+using Area23.At.WinForm.SecureChat.Entities;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -34,7 +35,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         public SecureChat()
         {
             InitializeComponent();
-            // object o = ResReader.GetObject("ImageHash");
+            // Resources.
             // MemoryStream ms = new MemoryStream(Properties.Resources.a_hash);
             // buttonSecretKey.Image = new System.Drawing.Bitmap(ms);
             // buttonHashIv.Image = new System.Drawing.Bitmap(ms);
@@ -56,7 +57,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
             if (Entities.Settings.Instance != null && Entities.Settings.Instance.MyContact != null && !string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.ImageBase64))
             {
-                this.pictureBoxYou.Image = Entities.Settings.Instance.MyContact.ImageBase64.Base64ToImage();
+                Bitmap? bmp = (Bitmap?)Entities.Settings.Instance.MyContact.ImageBase64.Base64ToImage();
+                if (bmp != null)
+                    this.pictureBoxYou.Image = bmp;
 
             }
 
@@ -274,11 +277,19 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             contactSettings.ShowInTaskbar = true;
             contactSettings.ShowDialog();
 
-            if (Entities.Settings.Instance.MyContact != null)
+            if (Settings.Instance.MyContact != null)
             {
-                string base64image = Entities.Settings.Instance.MyContact.ImageBase64 ?? string.Empty;
-                if (!string.IsNullOrEmpty(base64image))
-                    this.pictureBoxYou.Image = base64image.Base64ToImage();
+                string base64image = Settings.Instance.MyContact.ImageBase64 ?? string.Empty;
+
+                Bitmap? bmp;
+                byte[] bytes = Framework.Library.Core.EnDeCoding.Base64.Decode(base64image);
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    bmp = new Bitmap(ms);
+                }
+                if (bmp != null)
+                    this.pictureBoxYou.Image = bmp;
+                
 
                 // var badge = new TransparentBadge("My contact added!");
                 // badge.ShowDialog();
@@ -421,10 +432,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         }
 
 
-        internal async 
-
-        Task
-SetupNetwork()
+        internal async Task SetupNetwork()
         {
 
             List<IPAddress> addresses = new List<IPAddress>();

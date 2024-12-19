@@ -359,13 +359,19 @@ namespace Area23.At.Framework.Library.Core.Util
         public static Image? Base64ToImage(this string base64)
         {
             Bitmap? bitmap = null;
-            byte[] bytes = EnDeCoding.Base64.Decode(base64);
-            using (MemoryStream ms = new MemoryStream(bytes.Length))
+            try
             {
-                ms.Write(bytes, 0, bytes.Length);
-                ms.Flush();
-                bitmap = new Bitmap(ms);
+                byte[] bytes = EnDeCoding.Base64.Decode(base64);
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    bitmap = new Bitmap(ms);
+                }
             }
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);
+                bitmap = null;
+            } 
             return bitmap;
         }
 
@@ -534,35 +540,46 @@ namespace Area23.At.Framework.Library.Core.Util
         public static string? ToBase64(this Image img)
         {
             string? base64 = null;
-            var ms = new MemoryStream();
+            MemoryStream ms = new MemoryStream();
+            short saved = 0;            
+            for (short saveTry = 0; (saved < 1 && saveTry < 7); saveTry++)
+            {            
+                try
+                {
+                    switch (saveTry)
+                    {
+                        case 0: img.Save(ms, img.RawFormat); saved = saveTry; break;
+                        case 1: img.Save(ms, ImageFormat.Png); saved = saveTry;  break;
+                        case 2: img.Save(ms, ImageFormat.Jpeg); saved = saveTry; break;
+                        case 3: img.Save(ms, ImageFormat.Gif); saved = saveTry; break;
+                        case 4: img.Save(ms, ImageFormat.Bmp); saved = saveTry; break;
+                        case 5: img.Save(ms, ImageFormat.Exif); saved = saveTry; break;
+                        case 6: img.Save(ms, ImageFormat.Wmf); saved = saveTry; break;
+                        default: saved = 0; break;
+                    }
+                }
+                catch (Exception exPng)
+                {
+                    saved = -1;
+                    Area23Log.LogStatic(exPng);
+                }
+            }
+
+            if (saved > 0)
+            {
+                ms.Position = 0;
+                byte[] bytes = ms.ToArray();
+                base64 = EnDeCoding.Base64.Encode(bytes);                
+            }
+
             try
             {
-                img.Save(ms, ImageFormat.Png);
+                ms.Close();
             }
-            catch (Exception exPng)
+            catch (Exception ex)
             {
-                Area23Log.LogStatic(exPng);
+                Area23Log.LogStatic(ex);
             }
-            try
-            {
-                img.Save(ms, ImageFormat.Gif);
-            }
-            catch (Exception exGif)
-            {
-                Area23Log.LogStatic(exGif);
-            }
-            try
-            {
-                img.Save(ms, ImageFormat.Jpeg);
-            }
-            catch (Exception exJpg)
-            {
-                Area23Log.LogStatic(exJpg);
-            }
-            // ms.Flush();
-            byte[] bytes = ms.ToArray();
-            base64 = EnDeCoding.Base64.Encode(bytes);
-            ms.Close();
 
             return base64;
         }
@@ -572,23 +589,53 @@ namespace Area23.At.Framework.Library.Core.Util
         /// </summary>
         /// <param name="img">this <see cref="Image"/></param>
         /// <returns><see cref="byte[]?"/> array</returns>
-        public static byte[]? ToByteArray(this Bitmap bmp)
+        public static byte[] ToByteArray(this Bitmap img)
         {
+            byte[] bytes;
+            MemoryStream ms = new MemoryStream();
+            short saved = 0;
+            for (short saveTry = 0; (saved < 1 && saveTry < 7); saveTry++)
+            {
+                try
+                {
+                    switch (saveTry)
+                    {
+                        case 0: img.Save(ms, img.RawFormat); saved = saveTry; break;
+                        case 1: img.Save(ms, ImageFormat.Png); saved = saveTry; break;
+                        case 2: img.Save(ms, ImageFormat.Jpeg); saved = saveTry; break;
+                        case 3: img.Save(ms, ImageFormat.Gif); saved = saveTry; break;
+                        case 4: img.Save(ms, ImageFormat.Bmp); saved = saveTry; break;
+                        case 5: img.Save(ms, ImageFormat.Exif); saved = saveTry; break;
+                        case 6: img.Save(ms, ImageFormat.Wmf); saved = saveTry; break;
+                        default: saved = 0; break;
+                    }
+                }
+                catch (Exception exImgFormat)
+                {
+                    saved = -1;
+                    Area23Log.LogStatic(exImgFormat);
+                }
+            }
+
+            if (saved > 0)
+            {
+                ms.Position = 0;
+                bytes = ms.ToArray();
+            }
+            else 
+                bytes = new byte[0];
+
             try
             {
-                using (var ms = new MemoryStream())
-                {
-                    bmp.Save(ms, ImageFormat.Jpeg);
-                    // ms.Flush();
-                    byte[] bytes = ms.ToArray();
-                    return bytes;
-                }
+                ms.Close();
             }
             catch (Exception ex)
             {
                 Area23Log.LogStatic(ex);
             }
-            return null;
+            
+            return bytes;
+             
         }
 
         #endregion System.Drawing.Image extensions

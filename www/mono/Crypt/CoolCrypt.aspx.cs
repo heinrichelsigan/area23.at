@@ -140,7 +140,7 @@ namespace Area23.At.Mono.Crypt
                 // string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;
                 byte[] encryptBytes = inBytes;
 
-                ZipType ztype = ZipType.None;
+                // ZipType ztype = ZipType.None;
                 //if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
                 //{
                 //    string outp = string.Empty;
@@ -533,7 +533,7 @@ namespace Area23.At.Mono.Crypt
 
                         imgOut.Src = LibPaths.ResAppPath + "img/encrypted.png";
 
-                        ZipType ztype = ZipType.None;
+                        // ZipType ztype = ZipType.None;
                         //if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
                         //{
                         //    string outp = string.Empty;
@@ -647,7 +647,7 @@ namespace Area23.At.Mono.Crypt
                         cipherBytes = DeEnCoder.GetBytesTrimNulls(outBytes);
                         outBytes = cipherBytes;
 
-                        ZipType ztype = ZipType.None;
+                        // ZipType ztype = ZipType.None;
                         //if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
                         //{
                         //    string outp = string.Empty;

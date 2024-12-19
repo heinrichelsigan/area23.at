@@ -121,29 +121,20 @@
     <value>52.3.250.146;13.38.136.165;2600:1f18:7a3f:a700::6291;2a05:d012:209:ee00:a8ba:d6c4:bd60:bab5</value>
     <comment>area23.at;paris.area23.at;virginia.area23.at;parisienne.area23.at</comment>
   </data>
+  <data name="github_uri" xml:space="preserve">
+    <value>https://github.com/heinrichelsigan/area23.at/</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="frogJump" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\frogJump.mp3;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="frogInSwamp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\frogInSwamp.mp3;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="frogInHole" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\frogInHole.mp3;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="WinFormAboutDialog" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>img\WinFormAboutDialog.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TransparentFormsIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TransparentFormsIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ClickToUpload" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ClickToUpload.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="a_hash" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\a_hash.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="frogUnderWater" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\frogUnderWater.mp3;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="a_right_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\a_right_key.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ClickToUpload" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>img\ClickToUpload.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="WinFormAboutDialog" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WinFormAboutDialog.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

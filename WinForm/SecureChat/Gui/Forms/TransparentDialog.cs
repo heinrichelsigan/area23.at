@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Area23.At.WinForm.SecureChat.Properties;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -22,6 +23,11 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             this.labelCopyright.Text = AssemblyCopyright;
             this.labelCompanyName.Text = AssemblyCompany;
             this.textBoxDescription.Text = AssemblyDescription;
+            using (MemoryStream ms = new MemoryStream(Resources.WinFormAboutDialog))
+            {
+                this.logoPictureBox.Image = new Bitmap(ms);
+            }
+                
         }
 
         #region Assembly Attribute Accessors

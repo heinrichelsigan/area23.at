@@ -196,8 +196,6 @@
             pictureBoxImage.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pictureBoxImage.BackgroundImageLayout = ImageLayout.Center;
             pictureBoxImage.BorderStyle = BorderStyle.FixedSingle;
-            pictureBoxImage.Image = Properties.Resources.ClickToUpload;
-            pictureBoxImage.InitialImage = Properties.Resources.ClickToUpload;
             pictureBoxImage.Location = new Point(254, 122);
             pictureBoxImage.Margin = new Padding(2);
             pictureBoxImage.Name = "pictureBoxImage";
