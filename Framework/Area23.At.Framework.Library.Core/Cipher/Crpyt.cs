@@ -293,10 +293,13 @@ namespace Area23.At.Framework.Library.Core.Cipher
         /// Gets a encrypted matrix pipeline for a byte arry
         /// </summary>
         /// <param name="keyBytes">private key or hased private key with iv</param>
-        /// <param name="MAXPIPE">maximal numbers of encryption cycles</param>
+        /// <param name="maxpipe">maximal numbers of encryption cycles</param>
         /// <returns>Array of <see cref="SymmCipherEnum"/>, that is used to perform <see cref="MerryGoRoundEncrpyt(byte[], string, string)"/> encryption cycles</returns>
-        public static SymmCipherEnum[] KeyBytesToSymmCipherPipeline(byte[] keyBytes, int MAXPIPE = 8)
+        public static SymmCipherEnum[] KeyBytesToSymmCipherPipeline(byte[] keyBytes, int maxpipe = 8)
         {
+            // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
+            maxpipe = (maxpipe > 8) ? 4 : maxpipe; // if somebody wants more, he/she/it gets less
+            
             Dictionary<char, SymmCipherEnum> symDict = new Dictionary<char, SymmCipherEnum>();
             List<SymmCipherEnum> symmMatrixPipe = new List<SymmCipherEnum>();
 
@@ -320,7 +323,7 @@ namespace Area23.At.Framework.Library.Core.Cipher
             }
 
             hexString = string.Empty;
-            for (int kcnt = 0; kcnt < hashBytes.Count && symmMatrixPipe.Count < MAXPIPE; kcnt++)
+            for (int kcnt = 0; kcnt < hashBytes.Count && symmMatrixPipe.Count < maxpipe; kcnt++)
             {
                 hexString += hashBytes.ElementAt(kcnt).ToString();
                 SymmCipherEnum sym0 = symDict[hashBytes.ElementAt(kcnt)];

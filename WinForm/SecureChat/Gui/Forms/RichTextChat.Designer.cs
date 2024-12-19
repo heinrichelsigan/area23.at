@@ -1,6 +1,7 @@
 ﻿
 using Area23.At.Framework.Library.Core.Net.WebHttp;
 using System.Net;
+using System.Windows.Forms;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -54,7 +55,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItempComboBoxFriendIp = new ToolStripComboBox();
             menuIPsSeparator = new ToolStripSeparator();
             menuItemProxyServers = new ToolStripMenuItem();
-            menuItemComboBoxProxies = new ToolStripComboBox();
             menuItemIPv6Secure = new ToolStripMenuItem();
             menuCommands = new ToolStripMenuItem();
             menuItemSend = new ToolStripMenuItem();
@@ -77,9 +77,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             splitButtonMenuItemSave = new ToolStripMenuItem();
             toolStripProgressBar = new ToolStripProgressBar();
             toolStripStatusLabel = new ToolStripStatusLabel();
-            toolStripDropDownButton1 = new ToolStripDropDownButton();
-            toolStripMenuItem1 = new ToolStripMenuItem();
-            toolStripComboBox1 = new ToolStripComboBox();
             panelSource = new Panel();
             pictureBoxYou = new PictureBox();
             pictureBoxSource = new PictureBox();
@@ -300,17 +297,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // menuItemProxyServers
             // 
             menuItemProxyServers.BackColor = SystemColors.Menu;
-            menuItemProxyServers.DropDownItems.AddRange(new ToolStripItem[] { menuItemComboBoxProxies });
             menuItemProxyServers.Name = "menuItemProxyServers";
             menuItemProxyServers.ShortcutKeys = Keys.Alt | Keys.P;
             menuItemProxyServers.Size = new Size(215, 22);
             menuItemProxyServers.Text = "Proxy Servers";
-            // 
-            // menuItemComboBoxProxies
-            // 
-            menuItemComboBoxProxies.BackColor = SystemColors.ControlLightLight;
-            menuItemComboBoxProxies.Name = "menuItemComboBoxProxies";
-            menuItemComboBoxProxies.Size = new Size(121, 23);
             // 
             // menuItemIPv6Secure
             // 
@@ -455,7 +445,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // statusStrip
             // 
             statusStrip.GripMargin = new Padding(1);
-            statusStrip.Items.AddRange(new ToolStripItem[] { toolStripSplitButton, toolStripProgressBar, toolStripStatusLabel, toolStripDropDownButton1 });
+            statusStrip.Items.AddRange(new ToolStripItem[] { toolStripSplitButton, toolStripProgressBar, toolStripStatusLabel });
             statusStrip.Location = new Point(0, 689);
             statusStrip.Name = "statusStrip";
             statusStrip.Size = new Size(976, 22);
@@ -503,27 +493,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             toolStripStatusLabel.Size = new Size(614, 19);
             toolStripStatusLabel.Spring = true;
             toolStripStatusLabel.Text = "Status";
-            // 
-            // toolStripDropDownButton1
-            // 
-            toolStripDropDownButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem1, toolStripComboBox1 });
-            toolStripDropDownButton1.Image = (Image)resources.GetObject("toolStripDropDownButton1.Image");
-            toolStripDropDownButton1.ImageTransparentColor = Color.Magenta;
-            toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            toolStripDropDownButton1.Size = new Size(29, 20);
-            toolStripDropDownButton1.Text = "toolStripDropDownButton1";
-            // 
-            // toolStripMenuItem1
-            // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(181, 22);
-            toolStripMenuItem1.Text = "toolStripMenuItem1";
-            // 
-            // toolStripComboBox1
-            // 
-            toolStripComboBox1.Name = "toolStripComboBox1";
-            toolStripComboBox1.Size = new Size(121, 23);
             // 
             // panelSource
             // 
@@ -803,7 +772,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripMenuItem menuIItemMyIps;
         private ToolStripMenuItem menuItemFriendIp;
         private ToolStripMenuItem menuItemProxyServers;
-        private ToolStripComboBox menuItemComboBoxProxies;
         private ToolStripComboBox menuItempComboBoxFriendIp;
         private ToolStripMenuItem menuItemIPv6Secure;
         private ToolStripMenuItem menuCommands;
@@ -823,9 +791,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripMenuItem menuItemAddContact;
         private ToolStripMenuItem menuItemViewContacts;
         private ToolStripMenuItem menuItemMyContact;
-        private ToolStripDropDownButton toolStripDropDownButton1;
-        private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripComboBox toolStripComboBox1;
         private Panel panelCenter;
         private RichTextBox richTextBoxOneView;
     }

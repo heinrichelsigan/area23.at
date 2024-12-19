@@ -241,11 +241,19 @@ namespace Area23.At.Mono.Crypt
                 bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
                 string decryptedText = string.Empty;
                 // encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
+                byte[] cipherBytes;
                 string encodingMethod = encodeType.ToString().ToLowerInvariant();
-                byte[] cipherBytes = DeEnCoder.DecodeText(cipherText, out string errMsg, encodeType, plainUu, false);
-                if (cipherBytes == null && !string.IsNullOrEmpty(errMsg))
+                try
                 {
-                    this.TextBox_IV.Text = errMsg;
+                    cipherBytes = DeEnCoder.DecodeText(cipherText /*, out string errMsg */, encodeType, plainUu, false);
+                } 
+                catch (Exception exCode)
+                {
+                    cipherBytes = new byte[0];
+                    this.TextBox_IV.Text = "0 bytes decoded, there might be an encode or crypt error!";
+                }
+                if (cipherBytes == null || cipherBytes.Length < 1)
+                {                    
                     this.TextBox_IV.ForeColor = Color.BlueViolet;
                     this.TextBox_IV.BorderColor = Color.Blue;
                     return;
@@ -386,7 +394,7 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void TextBox_Key_TextChanged(object sender, EventArgs e)
         {
-            this.TextBox_IV.Text = DeEnCoder.KeyHexString(this.TextBox_Key.Text);
+            this.TextBox_IV.Text = DeEnCoder.KeyToHex(this.TextBox_Key.Text);
             this.TextBox_IV.BorderColor = Color.GreenYellow;
             this.TextBox_IV.ForeColor = Color.DarkOliveGreen;
             this.TextBox_IV.BorderStyle = BorderStyle.Dotted;
@@ -621,7 +629,7 @@ namespace Area23.At.Mono.Crypt
                                 cipherText = System.IO.File.ReadAllText(LibPaths.OutDirPath + tmpFile, Encoding.UTF8);
                             }
 
-                            cipherBytes = DeEnCoder.DecodeText(cipherText, out string errMsg, extEncType, plainUu, true);
+                            cipherBytes = DeEnCoder.DecodeText(cipherText /*, out string errMsg */, extEncType, plainUu, true);
                             strFileName = strFileName.EndsWith("." + encodingMethod) ? strFileName.Replace("." + encodingMethod, "") : strFileName;
                         }
 
@@ -720,7 +728,7 @@ namespace Area23.At.Mono.Crypt
             else if (string.IsNullOrEmpty(this.TextBox_Key.Text))
                 this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
 
-            this.TextBox_IV.Text = DeEnCoder.KeyHexString(this.TextBox_Key.Text);
+            this.TextBox_IV.Text = DeEnCoder.KeyToHex(this.TextBox_Key.Text);
 
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BorderColor = Color.LightGray;

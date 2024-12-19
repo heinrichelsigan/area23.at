@@ -27,11 +27,18 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// </summary>
         /// <param name="key">private secret key</param>
         /// <returns>hex string of bytes</returns>
-        public static string KeyHexString(string key)
+        public static string KeyToHex(string key)
         {
             byte[] keyBytes = EnDeCoder.GetBytes(key);
             string ivStr = Hex16.Encode(keyBytes);            
             return ivStr;
+        }
+
+        public static string HexToKey(string hexString)
+        {
+            byte[] keyBytes = Hex16.Decode(hexString);
+            string key = EnDeCoder.GetString(keyBytes);
+            return key;
         }
 
         /// <summary>
@@ -58,22 +65,21 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// EncodedTextToBytes transforms an encoded text string into a <see cref="byte[]">býte array</see>
         /// </summary>
         /// <param name="cipherText">encoded (encrypted) text string</param>
-        /// <param name="errMsg">out parameter to set an error message</param>
         /// <param name="encodingType"><see cref="EncodingType"/> could be 
         /// "None", "Hex16", "Base16", "Base32", "Hex32", "Uu", "Base64". "Base64" is default.</param>
         /// <param name="fromPlain">Only for uu: true, if <see cref="encryptBytes"/> represent a binary without encryption</param>
         /// <param name="fromFile">Only for uu: true, if file and not textbox will be encrypted, default (false)</param>
         /// <returns>binary byte array</returns>
-        public static byte[] DecodeText(string cipherText, out string errMsg, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false) 
+        public static byte[] DecodeText(string cipherText, /* out string errMsg, */ EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false) 
         {
             Area23Log.LogStatic("EncodedTextToBytes(string cipherText[.Length " + cipherText.Length + "], EncodingType encodingType  = " +
                 encodingType.ToString() + ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
 
-            errMsg = string.Empty;
+            // errMsg = string.Empty;
             if (!EnDeCoder.IsValid(cipherText, encodingType))
             {
-                errMsg = $"Input Text is not a valid {encodingType.ToString()} string!";
-                return null;
+                // errMsg = $"Input Text is not a valid {encodingType.ToString()} string!";
+                throw new FormatException($"Input Text is not a valid {encodingType.ToString()} string!");
             }
 
             byte[] cipherBytes = cipherBytes = EnDeCoder.Decode(cipherText, encodingType, fromPlain, fromFile);

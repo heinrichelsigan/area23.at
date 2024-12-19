@@ -192,9 +192,8 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         internal static string PrivateKeyWithUserHash(string secretKey, string userHash)
         {
             string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
-            string usrHash = string.IsNullOrEmpty(userHash) ? Constants.AREA23_EMAIL : userHash;
 
-            return string.Concat(secKey, usrHash);
+            return (!string.IsNullOrEmpty(userHash)) ? string.Concat(secKey, userHash) : secKey;
         }
 
 

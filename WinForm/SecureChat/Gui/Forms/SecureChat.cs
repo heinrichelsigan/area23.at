@@ -24,6 +24,7 @@ using System.Runtime.CompilerServices;
 using System.IO;
 using Area23.At.Framework.Library.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
+using Area23.At.Framework.Library.Core.Net.CqrJd;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -31,6 +32,18 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
     {
         protected string savedFile = string.Empty;
         protected string loadDir = string.Empty;
+
+
+        private IPAddress ExternalIpAddress
+        {
+            get
+            {
+                string? secretKey = Settings.Instance?.MyContact?.Email;
+                string hexs = Framework.Library.Core.EnDeCoding.DeEnCoder.KeyToHex(secretKey);
+                IPAddress? myExternalIp = WebClientRequest.ClientIpFromArea23("https://area23.at/net/R.aspx", hexs);
+                return myExternalIp;
+            }
+        }
 
         public SecureChat()
         {
@@ -54,6 +67,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             {
                 menuItemMyContact_Click(sender, e);
             }
+            
+            await SetupNetwork();
 
             if (Entities.Settings.Instance != null && Entities.Settings.Instance.MyContact != null && !string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.ImageBase64))
             {
@@ -63,53 +78,34 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
             }
 
-            await SetupNetwork();
-
-
         }
 
 
-        /// <summary>
-        /// buttonEncode_Click fired when ButtonEncrypt for text encryption receives event Click
-        /// </summary>
-        /// <param name="sender">object sender</param>
-        /// <param name="e">EventArgs e</param>
-        private void Button_Encode_Click(object sender, EventArgs e)
+
+        private void menuItemSend_Click(object sender, EventArgs e)
         {
-            // frmConfirmation.Visible = false;
+            string myServerKey = ExternalIpAddress.ToString();
 
-            string usrMailKey = (!string.IsNullOrEmpty(this.richTextBoxChat.Text)) ? this.richTextBoxChat.Text : Constants.AUTHOR_EMAIL;
-
+            // TODO: test case later
+            CqrSrvrMes serverMessage = new CqrSrvrMes(myServerKey);
+            string encrypted = serverMessage.CqrMessage(this.richTextBoxChat.Text);
+            this.TextBoxSource.Text = encrypted + "\n";
+            string decrypted = serverMessage.NCqrMessage(encrypted);
+            this.TextBoxDestionation.Text = decrypted + "\n";
         }
-
-
-        /// <summary>
-        /// Button_Decode_Click fired when Button_Decode for text encryption receives event Click
-        /// </summary>
-        /// <param name="sender">object sender</param>
-        /// <param name="e">EventArgs e</param>
-        private void Button_Decode_Click(object sender, EventArgs e)
-        {
-            // frmConfirmation.Visible = false;
-            string usrMailKey = Constants.AUTHOR_EMAIL;
-
-        }
-
 
         private void Button_SecretKey_Click(object sender, EventArgs e)
         {
             string richText = this.richTextBoxChat.Text;
 
-            string? secretKey = Entities.Settings.Instance?.MyContact?.Email;
+            string wabiwabi = string.Empty;
+            if (ExternalIpAddress != null)
+            {
+                wabiwabi = ExternalIpAddress.ToString() + "\n";
+            }
 
-            string url = "https://area23.at/net/R.aspx";
-            WebClient webclient = WebClientRequest.GetWebClient(url, secretKey ?? "wabiwabi");
-            string wabiwabi = webclient.DownloadString(url);
-
-
-            this.TextBoxDestionation.Text += wabiwabi + "\n";
-            this.richTextBoxOneView.Text += wabiwabi + "\n";
-
+            this.TextBoxDestionation.Text += wabiwabi;
+            this.richTextBoxOneView.Text += wabiwabi;
 
         }
 
@@ -133,6 +129,171 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         }
 
 
+        #region Contacts
+
+        private void menuItemMyContact_Click(object sender, EventArgs e)
+        {
+            ContactSettings contactSettings = new ContactSettings("My Contact Info", 0);
+            contactSettings.ShowInTaskbar = true;
+            contactSettings.ShowDialog();
+
+            if (Settings.Instance.MyContact != null)
+            {
+                string base64image = Settings.Instance.MyContact.ImageBase64 ?? string.Empty;
+
+                Bitmap? bmp;
+                byte[] bytes = Framework.Library.Core.EnDeCoding.Base64.Decode(base64image);
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    bmp = new Bitmap(ms);
+                }
+                if (bmp != null)
+                    this.pictureBoxYou.Image = bmp;
+                
+
+                // var badge = new TransparentBadge("My contact added!");
+                // badge.ShowDialog();
+
+            }
+
+        }
+
+        private void menuItemAddContact_Click(object sender, EventArgs e)
+        {
+            ContactSettings contactSettings = new ContactSettings("Add Contact Info", 1);
+            contactSettings.ShowInTaskbar = true;
+            contactSettings.ShowDialog();
+
+            // var badge = new TransparentBadge("My contact added!");
+            // badge.ShowDialog();
+        }
+
+        #endregion Contacts
+
+
+        #region SplitChatWindowLayout
+
+        private void MenuView_ItemTopBottom_Click(object sender, EventArgs e)
+        {
+            menuViewItemLeftRíght.Checked = false;
+            menuViewItemTopBottom.Checked = true;
+            menuViewItem1View.Checked = false;
+
+            splitContainer.Visible = true;
+            panelCenter.Visible = false;
+
+            splitContainer.Orientation = Orientation.Horizontal;
+            splitContainer.Panel1MinSize = 200;
+            splitContainer.Panel2MinSize = 200;
+            splitContainer.SplitterDistance = 226;
+            splitContainer.SplitterIncrement = 8;
+            splitContainer.SplitterWidth = 8;
+            splitContainer.MinimumSize = new System.Drawing.Size(600, 400);
+
+        }
+
+        private void MenuView_ItemLeftRíght_Click(object sender, EventArgs e)
+        {
+            menuViewItemLeftRíght.Checked = true;
+            menuViewItemTopBottom.Checked = false;
+            menuViewItem1View.Checked = false;
+
+            splitContainer.Visible = true;
+            panelCenter.Visible = false;
+
+            splitContainer.Orientation = Orientation.Vertical;
+            splitContainer.Panel1MinSize = 300;
+            splitContainer.Panel2MinSize = 300;
+            splitContainer.SplitterDistance = 336;
+            splitContainer.SplitterIncrement = 8;
+            splitContainer.SplitterWidth = 8;
+            splitContainer.MinimumSize = new System.Drawing.Size(600, 400);
+        }
+
+        private void MenuView_Item1View_Click(object sender, EventArgs e)
+        {
+            menuViewItemLeftRíght.Checked = false;
+            menuViewItemTopBottom.Checked = false;
+            menuViewItem1View.Checked = true;
+
+            splitContainer.Visible = false;
+            panelCenter.Visible = true;
+            richTextBoxOneView.Visible = true;
+        }
+
+        #endregion SplitChatWindowLayout
+
+
+        internal async Task SetupNetwork()
+        {
+
+            List<IPAddress> addresses = new List<IPAddress>();
+            string[] proxieStrs = Resources.Proxies.Split(";,".ToCharArray());
+            List<string> proxyList = new List<string>();
+            foreach (string str in proxieStrs)
+            {
+                try
+                {
+                    IPAddress ip = IPAddress.Parse(str);
+                    addresses.Add(ip);
+
+                }
+                catch (Exception ex)
+                {
+                    Area23Log.LogStatic(ex);
+                }
+            }
+
+            var ips = await NetworkAddresses.GetConnectedIpAddressesAsync(addresses);
+            List<IPAddress> list = new List<IPAddress>(ips);
+
+            List<string> myIpStrList = new List<string>();
+            int mchecked = 0;
+            this.menuItemIPv6Secure.Checked = false;
+            foreach (IPAddress addr in list)
+            {
+                if (addr != null)
+                {
+                    ToolStripMenuItem item = new ToolStripMenuItem(addr.AddressFamily + " " + addr.ToString(), null, null, addr.ToString());
+                    if (addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+                    {
+                        this.menuItemIPv6Secure.Checked = true;
+                    }
+                    myIpStrList.Add(addr.ToString());
+                    if (mchecked++ == 0)
+                        item.Checked = true;
+                    else item.Checked = false;
+
+                    this.menuIItemMyIps.DropDownItems.Add(item);
+                }
+            }
+
+            foreach (IPAddress addrProxy in addresses)
+            {
+                if (addrProxy != null)
+                {
+                    proxyList.Add(addrProxy.ToString());
+                    if (addrProxy.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork ||
+                        (addrProxy.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6 && this.menuItemIPv6Secure.Checked))
+                    {
+                        ToolStripMenuItem item = new ToolStripMenuItem(addrProxy.AddressFamily + " " + addrProxy.ToString(), null, null, addrProxy.ToString());
+                        this.menuItemProxyServers.DropDownItems.Add(item);
+                    }
+                }
+            }
+
+            if (Entities.Settings.Instance != null)
+            {
+                Entities.Settings.Instance.Proxies = proxyList;
+                Entities.Settings.Instance.MyIPs = myIpStrList;
+                Entities.Settings.Save(Entities.Settings.Instance);
+            }
+
+        }
+
+
+
+        #region LoadSaveChatContent
 
         private void toolStripMenuItemOpen_Click(object sender, EventArgs e)
         {
@@ -156,52 +317,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 MessageBox.Show($"FileName: {openFileDialog.FileName} init directory: {openFileDialog.InitialDirectory}", $"{Text} type {openFileDialog.GetType()}", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
-        private void toolStripMenuItemAbout_Click(object sender, EventArgs e)
-        {
-            TransparentDialog dialog = new TransparentDialog();
-            dialog.ShowDialog();
-        }
-
-        protected internal void toolStripMenuItemInfo_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show($"{Text} type {this.GetType()} Information MessageBox.", $"{Text} type {this.GetType()}", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        protected internal void toolStripMenuItemClose_Click(object sender, EventArgs e)
-        {
-            if (System.Windows.Forms.Application.OpenForms.Count < 2)
-            {
-                AppCloseAllFormsExit();
-                return;
-            }
-            try
-            {
-                this.Close();
-            }
-            catch (Exception exFormClose)
-            {
-                Area23Log.LogStatic(exFormClose);
-            }
-            try
-            {
-                this.Dispose(true);
-            }
-            catch (Exception exFormDispose)
-            {
-                Area23Log.LogStatic(exFormDispose);
-            }
-
-            return;
-
-        }
-
-        protected internal void toolStripMenuItemExit_Click(object sender, EventArgs e)
-        {
-            AppCloseAllFormsExit();
-            return;
-        }
-
 
 
         protected internal virtual void toolStripMenuItemSave_Click(object sender, EventArgs e)
@@ -268,99 +383,59 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             return (saveFileDialog != null && saveFileDialog.FileName != null && File.Exists(saveFileDialog.FileName)) ? saveFileDialog.FileName : null;
         }
 
+        #endregion LoadSaveChatContent
 
 
+        #region HelpAboutInfo
 
-        private void menuItemMyContact_Click(object sender, EventArgs e)
+        private void MenuItemHelp_Click(object sender, EventArgs e)
         {
-            ContactSettings contactSettings = new ContactSettings("My Contact Info", 0);
-            contactSettings.ShowInTaskbar = true;
-            contactSettings.ShowDialog();
+            // TODO: implement it
+        }
 
-            if (Settings.Instance.MyContact != null)
+        private void MenuItemAbout_Click(object sender, EventArgs e)
+        {
+            TransparentDialog dialog = new TransparentDialog();
+            dialog.ShowDialog();
+        }
+
+        protected internal void MenuItemInfo_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show($"{Text} type {this.GetType()} Information MessageBox.", $"{Text} type {this.GetType()}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        #endregion HelpAboutInfo
+
+
+        #region closeForm
+
+        protected internal void toolStripMenuItemClose_Click(object sender, EventArgs e)
+        {
+            if (System.Windows.Forms.Application.OpenForms.Count < 2)
             {
-                string base64image = Settings.Instance.MyContact.ImageBase64 ?? string.Empty;
-
-                Bitmap? bmp;
-                byte[] bytes = Framework.Library.Core.EnDeCoding.Base64.Decode(base64image);
-                using (MemoryStream ms = new MemoryStream(bytes))
-                {
-                    bmp = new Bitmap(ms);
-                }
-                if (bmp != null)
-                    this.pictureBoxYou.Image = bmp;
-                
-
-                // var badge = new TransparentBadge("My contact added!");
-                // badge.ShowDialog();
-
+                AppCloseAllFormsExit();
+                return;
+            }
+            try
+            {
+                this.Close();
+            }
+            catch (Exception exFormClose)
+            {
+                Area23Log.LogStatic(exFormClose);
+            }
+            try
+            {
+                this.Dispose(true);
+            }
+            catch (Exception exFormDispose)
+            {
+                Area23Log.LogStatic(exFormDispose);
             }
 
-        }
-
-        private void menuItemAddContact_Click(object sender, EventArgs e)
-        {
-            ContactSettings contactSettings = new ContactSettings("Add Contact Info", 1);
-            contactSettings.ShowInTaskbar = true;
-            contactSettings.ShowDialog();
-
-            // var badge = new TransparentBadge("My contact added!");
-            // badge.ShowDialog();
-        }
-
-        private void menuItemSend_Click(object sender, EventArgs e)
-        {
+            return;
 
         }
-
-        private void menuViewItemTopBottom_Click(object sender, EventArgs e)
-        {
-            menuViewItemLeftRíght.Checked = false;
-            menuViewItemTopBottom.Checked = true;
-            menuIViewItem1View.Checked = false;
-
-            splitContainer.Visible = true;
-            panelCenter.Visible = false;
-
-            splitContainer.Orientation = Orientation.Horizontal;
-            splitContainer.Panel1MinSize = 200;
-            splitContainer.Panel2MinSize = 200;
-            splitContainer.SplitterDistance = 226;
-            splitContainer.SplitterIncrement = 8;
-            splitContainer.SplitterWidth = 8;
-            splitContainer.MinimumSize = new System.Drawing.Size(600, 400);
-
-        }
-
-        private void menuViewItemLeftRíght_Click(object sender, EventArgs e)
-        {
-            menuViewItemLeftRíght.Checked = true;
-            menuViewItemTopBottom.Checked = false;
-            menuIViewItem1View.Checked = false;
-
-            splitContainer.Visible = true;
-            panelCenter.Visible = false;
-
-            splitContainer.Orientation = Orientation.Vertical;
-            splitContainer.Panel1MinSize = 300;
-            splitContainer.Panel2MinSize = 300;
-            splitContainer.SplitterDistance = 336;
-            splitContainer.SplitterIncrement = 8;
-            splitContainer.SplitterWidth = 8;
-            splitContainer.MinimumSize = new System.Drawing.Size(600, 400);
-        }
-
-        private void menuIViewItem1View_Click(object sender, EventArgs e)
-        {
-            menuViewItemLeftRíght.Checked = false;
-            menuViewItemTopBottom.Checked = false;
-            menuIViewItem1View.Checked = true;
-
-            splitContainer.Visible = false;
-            panelCenter.Visible = true;
-            richTextBoxOneView.Visible = true;
-        }
-
 
 
         private void menuFileItemExit_Click(object sender, EventArgs e)
@@ -431,73 +506,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         }
 
-
-        internal async Task SetupNetwork()
-        {
-
-            List<IPAddress> addresses = new List<IPAddress>();
-            string[] proxieStrs = Resources.Proxies.Split(";,".ToCharArray());
-            List<string> proxyList = new List<string>();
-            foreach (string str in proxieStrs)
-            {
-                try
-                {
-                    IPAddress ip = IPAddress.Parse(str);
-                    addresses.Add(ip);
-
-                }
-                catch (Exception ex)
-                {
-                    Area23Log.LogStatic(ex);
-                }
-            }
-
-            var ips  = await NetworkAddresses.GetConnectedIpAddressesAsync(addresses);
-            List<IPAddress> list = new List<IPAddress>(ips);
-
-            List<string> myIpStrList = new List<string>();
-            int mchecked = 0;
-            this.menuItemIPv6Secure.Checked = false;
-            foreach (IPAddress addr in list)
-            {
-                if (addr != null)
-                {
-                    ToolStripMenuItem item = new ToolStripMenuItem(addr.AddressFamily + " " + addr.ToString(), null, null, addr.ToString());
-                    if (addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
-                    {
-                        this.menuItemIPv6Secure.Checked = true;
-                    }
-                    myIpStrList.Add(addr.ToString());
-                    if (mchecked++ == 0)
-                        item.Checked = true;
-                    else item.Checked = false;
-
-                    this.menuIItemMyIps.DropDownItems.Add(item);
-                }
-            }
-
-            foreach (IPAddress addrProxy in addresses)
-            {
-                if (addrProxy != null)
-                {
-                    proxyList.Add(addrProxy.ToString());
-                    if (addrProxy.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork ||
-                        (addrProxy.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6 && this.menuItemIPv6Secure.Checked))
-                    {
-                        ToolStripMenuItem item = new ToolStripMenuItem(addrProxy.AddressFamily + " " + addrProxy.ToString(), null, null, addrProxy.ToString());
-                        this.menuItemProxyServers.DropDownItems.Add(item);
-                    }
-                }
-            }
-
-            if (Entities.Settings.Instance != null)
-            {
-                Entities.Settings.Instance.Proxies = proxyList;
-                Entities.Settings.Instance.MyIPs = myIpStrList;
-                Entities.Settings.Save(Entities.Settings.Instance);
-            }
-
-        }
+        #endregion closeForm
 
     }
 

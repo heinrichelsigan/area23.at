@@ -46,10 +46,10 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             wclient.Encoding = encoding;
             if (!string.IsNullOrEmpty(secretKey))
             {
-                string hexString = EnDeCoding.DeEnCoder.KeyHexString(CryptHelper.PrivateUserKey(secretKey));
+                string hexString = EnDeCoding.DeEnCoder.KeyToHex(CryptHelper.PrivateUserKey(secretKey));
                 if (!string.IsNullOrEmpty(keyIv))
                 {
-                    hexString = EnDeCoding.DeEnCoder.KeyHexString(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
+                    hexString = EnDeCoding.DeEnCoder.KeyToHex(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
                 }
                 headers.Add(HttpRequestHeader.Authorization, "Basic " + hexString);
             }
@@ -59,6 +59,27 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             return wclient;
         }
 
+
+        public static string DownloadString(string url, string secretKey, string keyIv = "", System.Text.Encoding? encoding = null)
+        {
+            WebClient wc = GetWebClient(url, secretKey, keyIv, encoding);
+            Uri uri = new Uri(url);
+            return wc.DownloadString(uri);
+        }
+
+        public static IPAddress? ClientIpFromArea23(string url, string secretKey, string keyIv = "", System.Text.Encoding? encoding = null)
+        {
+            WebClient wc = GetWebClient(url, secretKey, keyIv, encoding);
+            Uri uri = new Uri(url);            
+            string myIp = wc.DownloadString(uri);
+            if (myIp.Contains("<body>"))
+            {
+                myIp = myIp.Substring(myIp.IndexOf("<body>"));
+                if (myIp.Contains("</body>"))
+                    myIp = myIp.Substring(0, myIp.IndexOf("</body>")).Replace("<body>", "").Replace("</body>", "");
+            }
+            return IPAddress.Parse(myIp);
+        }
 
         public static WebClient GetWebClient(string baseAddr, System.Text.Encoding? encoding = null)
         {

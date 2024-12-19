@@ -1,4 +1,7 @@
-﻿using Area23.At.Framework.Library.Cipher.Symmetric;
+﻿using Area23.At.Framework.Library.Cipher;
+using Area23.At.Framework.Library.Cipher.Symmetric;
+using Area23.At.Framework.Library.EnDeCoding;
+using Org.BouncyCastle.Asn1.Crmf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,14 +41,18 @@ namespace Area23.At.Framework.Library.Net.WebHttp
 
         }
 
-        public static WebClient GetWebClient(string baseAddr, System.Text.Encoding encoding = null, string secretKey = "", string keyIv = "")
+        public static WebClient GetWebClient(string baseAddr, string secretKey, string keyIv = "", System.Text.Encoding encoding = null)
         {
             encoding = encoding ?? Encoding.UTF8;
             wclient = new WebClient();
             wclient.Encoding = encoding;
-            if (!string.IsNullOrEmpty(secretKey) && !string.IsNullOrEmpty(keyIv))
+            if (!string.IsNullOrEmpty(secretKey))
             {
-                string hexString = EnDeCoding.DeEnCoder.KeyHexString(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
+                string hexString = EnDeCoding.DeEnCoder.KeyToHex(CryptHelper.PrivateUserKey(secretKey));
+                if (!string.IsNullOrEmpty(keyIv))
+                {
+                    hexString = EnDeCoding.DeEnCoder.KeyToHex(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
+                }
                 headers.Add(HttpRequestHeader.Authorization, "Basic " + hexString);
             }
             wclient.Headers = headers;
@@ -54,6 +61,27 @@ namespace Area23.At.Framework.Library.Net.WebHttp
             return wclient;
         }
 
+
+        public static string DownloadString(string url, string secretKey, string keyIv = "", System.Text.Encoding encoding = null)
+        {
+            WebClient wc = GetWebClient(url, secretKey, keyIv, encoding);
+            Uri uri = new Uri(url);
+            return wc.DownloadString(uri);
+        }
+
+        public static IPAddress ClientIpFromArea23(string url, string secretKey, string keyIv = "", System.Text.Encoding encoding = null)
+        {
+            WebClient wc = GetWebClient(url, secretKey, keyIv, encoding);
+            Uri uri = new Uri(url);
+            string myIp = wc.DownloadString(uri);
+            if (myIp.Contains("<body>"))
+            {
+                myIp = myIp.Substring(myIp.IndexOf("<body>"));
+                if (myIp.Contains("</body>"))
+                    myIp = myIp.Substring(0, myIp.IndexOf("</body>")).Replace("<body>", "").Replace("</body>", "");
+            }
+            return IPAddress.Parse(myIp);
+        }
 
         public static WebClient GetWebClient(string baseAddr, System.Text.Encoding encoding = null)
         {
@@ -66,6 +94,8 @@ namespace Area23.At.Framework.Library.Net.WebHttp
             return wclient;
         }
 
+
     }
+
 
 }

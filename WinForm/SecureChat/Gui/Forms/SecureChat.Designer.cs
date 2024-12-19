@@ -47,14 +47,13 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuView = new ToolStripMenuItem();
             menuViewItemLeftRíght = new ToolStripMenuItem();
             menuViewItemTopBottom = new ToolStripMenuItem();
-            menuIViewItem1View = new ToolStripMenuItem();
+            menuViewItem1View = new ToolStripMenuItem();
             menuIPs = new ToolStripMenuItem();
             menuIItemMyIps = new ToolStripMenuItem();
             menuItemFriendIp = new ToolStripMenuItem();
             menuItempComboBoxFriendIp = new ToolStripComboBox();
             menuIPsSeparator = new ToolStripSeparator();
             menuItemProxyServers = new ToolStripMenuItem();
-            menuItemComboBoxProxies = new ToolStripComboBox();
             menuItemIPv6Secure = new ToolStripMenuItem();
             menuCommands = new ToolStripMenuItem();
             menuItemSend = new ToolStripMenuItem();
@@ -76,8 +75,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             splitButtonMenuItemSave = new ToolStripMenuItem();
             toolStripProgressBar = new ToolStripProgressBar();
             toolStripStatusLabel = new ToolStripStatusLabel();
-            toolStripMenuItem1 = new ToolStripMenuItem();
-            toolStripComboBox1 = new ToolStripComboBox();
             splitContainer = new SplitContainer();
             TextBoxSource = new TextBox();
             TextBoxDestionation = new TextBox();
@@ -233,7 +230,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             menuView.BackColor = SystemColors.MenuBar;
             menuView.BackgroundImageLayout = ImageLayout.None;
-            menuView.DropDownItems.AddRange(new ToolStripItem[] { menuViewItemLeftRíght, menuViewItemTopBottom, menuIViewItem1View });
+            menuView.DropDownItems.AddRange(new ToolStripItem[] { menuViewItemLeftRíght, menuViewItemTopBottom });
             menuView.ForeColor = SystemColors.MenuText;
             menuView.ImageScaling = ToolStripItemImageScaling.None;
             menuView.Name = "menuView";
@@ -247,7 +244,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuViewItemLeftRíght.Name = "menuViewItemLeftRíght";
             menuViewItemLeftRíght.Size = new Size(180, 22);
             menuViewItemLeftRíght.Text = "Left-Ríght";
-            menuViewItemLeftRíght.Click += menuViewItemLeftRíght_Click;
+            menuViewItemLeftRíght.Click += MenuView_ItemLeftRíght_Click;
             menuViewItemLeftRíght.Checked = true;
             // 
             // menuViewItemTopBottom
@@ -255,14 +252,14 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuViewItemTopBottom.Name = "menuViewItemTopBottom";
             menuViewItemTopBottom.Size = new Size(180, 22);
             menuViewItemTopBottom.Text = "Top-Bottom";
-            menuViewItemTopBottom.Click += menuViewItemTopBottom_Click;
+            menuViewItemTopBottom.Click += MenuView_ItemTopBottom_Click;
             // 
-            // menuIViewItem1View
+            // menuViewItem1View
             // 
-            menuIViewItem1View.Name = "menuIViewItem1View";
-            menuIViewItem1View.Size = new Size(180, 22);
-            menuIViewItem1View.Text = "1-View";
-            menuIViewItem1View.Click += menuIViewItem1View_Click;
+            menuViewItem1View.Name = "menuViewItem1View";
+            menuViewItem1View.Size = new Size(180, 22);
+            menuViewItem1View.Text = "1-View";
+            menuViewItem1View.Click += MenuView_Item1View_Click;
             // 
             // menuIPs
             // 
@@ -306,17 +303,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // menuItemProxyServers
             // 
             menuItemProxyServers.BackColor = SystemColors.Menu;
-            menuItemProxyServers.DropDownItems.AddRange(new ToolStripItem[] { menuItemComboBoxProxies });
             menuItemProxyServers.Name = "menuItemProxyServers";
             menuItemProxyServers.ShortcutKeys = Keys.Alt | Keys.P;
             menuItemProxyServers.Size = new Size(215, 22);
             menuItemProxyServers.Text = "Proxy Servers";
-            // 
-            // menuItemComboBoxProxies
-            // 
-            menuItemComboBoxProxies.BackColor = SystemColors.ControlLightLight;
-            menuItemComboBoxProxies.Name = "menuItemComboBoxProxies";
-            menuItemComboBoxProxies.Size = new Size(121, 23);
             // 
             // menuItemIPv6Secure
             // 
@@ -420,7 +410,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemAbout.Size = new Size(166, 24);
             menuItemAbout.Text = "About";
             menuItemAbout.TextImageRelation = TextImageRelation.TextAboveImage;
-            menuItemAbout.Click += toolStripMenuItemAbout_Click;
+            menuItemAbout.Click += MenuItemAbout_Click;
             // 
             // menuItemHelp
             // 
@@ -443,7 +433,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemInfo.Size = new Size(166, 22);
             menuItemInfo.Text = "Info";
             menuItemInfo.TextImageRelation = TextImageRelation.TextAboveImage;
-            menuItemInfo.Click += toolStripMenuItemInfo_Click;
+            menuItemInfo.Click += MenuItemInfo_Click;
             // 
             // openFileDialog
             // 
@@ -493,18 +483,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             toolStripStatusLabel.Name = "toolStripStatusLabel";
             toolStripStatusLabel.Size = new Size(614, 19);
             toolStripStatusLabel.Spring = true;
-            toolStripStatusLabel.Text = "Status";            
-            // 
-            // toolStripMenuItem1
-            // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(181, 22);
-            toolStripMenuItem1.Text = "toolStripMenuItem1";
-            // 
-            // toolStripComboBox1
-            // 
-            toolStripComboBox1.Name = "toolStripComboBox1";
-            toolStripComboBox1.Size = new Size(121, 23);
+            toolStripStatusLabel.Text = "Status";                       
             // 
             // splitContainer
             // 
@@ -852,7 +831,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripMenuItem menuIItemMyIps;
         private ToolStripMenuItem menuItemFriendIp;
         private ToolStripMenuItem menuItemProxyServers;
-        private ToolStripComboBox menuItemComboBoxProxies;
         private ToolStripComboBox menuItempComboBoxFriendIp;
         private ToolStripMenuItem menuItemIPv6Secure;
         private ToolStripMenuItem menuCommands;
@@ -866,14 +844,12 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripMenuItem menuEditItemSelectAll;
         private ToolStripMenuItem menuViewItemLeftRíght;
         private ToolStripMenuItem menuViewItemTopBottom;
-        private ToolStripMenuItem menuIViewItem1View;
+        private ToolStripMenuItem menuViewItem1View;
         private ToolStripMenuItem menuOptions;
         private ToolStripMenuItem menuItemImportContacts;
         private ToolStripMenuItem menuItemAddContact;
         private ToolStripMenuItem menuItemViewContacts;
-        private ToolStripMenuItem menuItemMyContact;
-        private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripComboBox toolStripComboBox1;
+        private ToolStripMenuItem menuItemMyContact;        
         private Panel panelCenter;
         private RichTextBox richTextBoxOneView;
     }

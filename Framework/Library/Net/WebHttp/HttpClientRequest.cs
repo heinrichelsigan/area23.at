@@ -1,15 +1,13 @@
-﻿using Area23.At.Framework.Library.Core.Cipher.Symm;
-using Microsoft.AspNetCore.Http;
-using Org.BouncyCastle.Asn1.Crmf;
+﻿using Area23.At.Framework.Library.Cipher.Symmetric;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Sockets;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Core.Net.WebHttp
+namespace Area23.At.Framework.Library.Net.WebHttp
 {
 
     public static class HttpClientRequest
@@ -19,7 +17,8 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
         public static HttpClient HttpClientR { get => httpClientR; }
 
 
-        static HttpClientRequest() {
+        static HttpClientRequest()
+        {
 
             // headers.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br, zstd");
             // httpClientR = new HttpClient();
@@ -31,11 +30,11 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             // wclient.BaseAddress = "https://area23.at/";
         }
 
-        public static HttpClient GetHttpClient(string baseAddr, string secretKey, string keyIv = "", System.Text.Encoding? encoding = null)        
-        {            
+        public static HttpClient GetHttpClient(string baseAddr, string secretKey, string keyIv = "", System.Text.Encoding encoding = null)
+        {
             encoding = encoding ?? Encoding.UTF8;
 
-            httpClientR = new HttpClient();           
+            httpClientR = new HttpClient();
             httpClientR.BaseAddress = new Uri(baseAddr);
             httpClientR.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
             httpClientR.DefaultRequestHeaders.Add("AcceptLanguage", "en-US");
@@ -56,7 +55,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
         }
 
 
-        public static HttpClient GetHttpClient(string baseAddr, System.Text.Encoding? encoding = null)
+        public static HttpClient GetHttpClient(string baseAddr, System.Text.Encoding encoding = null)
         {
             encoding = encoding ?? Encoding.UTF8;
 
@@ -76,7 +75,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             dict.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
             dict.Add("AcceptLanguage", "en-US");
             dict.Add("Host", "area23.at");
-            dict.Add("UserAgent", "cqrxs.eu"); 
+            dict.Add("UserAgent", "cqrxs.eu");
 
 
             return dict;
@@ -93,11 +92,11 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
         public static async Task<HttpResponseMessage> GetClientIPFormArea23()
         {
             string url = "https://area23.at/net/R.aspx";
-            return await GetClientIp(url);            
+            return await GetClientIp(url);
         }
 
 
-        public static IPAddress? GetClientIP()
+        public static IPAddress GetClientIP()
         {
             string myIp = GetClientIPFormArea23().Result.ToString();
             if (myIp.Contains("<body>"))
@@ -108,8 +107,6 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             }
             return IPAddress.Parse(myIp);
         }
-        
-
 
     }
 

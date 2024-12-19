@@ -103,6 +103,9 @@
     <Compile Include="EnDeCoding\DeEnCoder.cs" />
     <Compile Include="EnDeCoding\EnDeCoder.cs" />
     <Compile Include="EnDeCoding\Base16.cs" />
+    <Compile Include="Net\CqrJd\CqrSrvrMes.cs" />
+    <Compile Include="Net\WebHttp\HttpClientRequest.cs" />
+    <Compile Include="Net\WebHttp\TcpClientWebRequest.cs" />
     <Compile Include="Util\Extensions.cs" />
     <Compile Include="Util\GifEncoder.cs" />
     <Compile Include="Util\JpegMetadataAdapter.cs" />

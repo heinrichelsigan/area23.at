@@ -50,12 +50,6 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
                 Symm.Algo.Rijndael.RijndaelGenWithKey(secretKey, keyIv, true);
                 encryptBytes = Symm.Algo.Rijndael.Encrypt(inBytes);
             }
-            if (cipherAlgo == CipherEnum.Rsa || algo == "Rsa")
-            {
-                var keyPair = ASym.Algo.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
-                string privKey = keyPair.Private.ToString();
-                encryptBytes = ASym.Algo.Rsa.Encrypt(inBytes);
-            }
             if (cipherAlgo == CipherEnum.Serpent || algo == "Serpent")
             {
                 Symm.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, true);
@@ -125,12 +119,6 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
             {
                 Symm.Algo.Rijndael.RijndaelGenWithKey(secretKey, keyIv, false);
                 decryptBytes = Symm.Algo.Rijndael.Decrypt(cipherBytes);
-            }
-            if (cipherAlgo == CipherEnum.Rsa || algorithmName == "Rsa")
-            {
-                var keyPair = ASym.Algo.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
-                string privKey = keyPair.Private.ToString();
-                decryptBytes = ASym.Algo.Rsa.Decrypt(cipherBytes);
             }
             if (cipherAlgo == CipherEnum.Serpent || algorithmName == "Serpent")
             {
