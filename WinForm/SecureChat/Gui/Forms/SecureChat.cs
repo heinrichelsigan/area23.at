@@ -268,6 +268,11 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 }
             }
 
+            ToolStripMenuItem extIpItem = new ToolStripMenuItem(this.ExternalIpAddress.AddressFamily + " " + this.ExternalIpAddress.ToString(), null, null, this.ExternalIpAddress.ToString());
+            extIpItem.Checked = true;
+            extIpItem.Enabled = false;
+            this.menuItemExternalIp.DropDownItems.Add(extIpItem);
+
             foreach (IPAddress addrProxy in addresses)
             {
                 if (addrProxy != null)
