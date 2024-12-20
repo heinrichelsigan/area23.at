@@ -1,6 +1,4 @@
 ﻿using Area23.At.Framework.Library.Core.Util;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 using NLog;
 using System;
 using System.Configuration;
@@ -102,19 +100,7 @@ namespace Area23.At.Framework.Library.Core
                     if ((Constants.SEP_CHAR == '/') && (ConfigurationManager.AppSettings["BaseAppPathUnix"] != null))
                         basApPath = ConfigurationManager.AppSettings["BaseAppPathUnix"];
                     else if (ConfigurationManager.AppSettings["BaseAppPathWin"] != null)
-                        basApPath = ConfigurationManager.AppSettings["BaseAppPathWin"];
-
-                    if (String.IsNullOrEmpty(basApPath))
-                    {
-                        basApPath = HttpContextWrapper.RequestUri.ToString().
-                            Replace("/c/", "/").Replace("/Calc/", "/").Replace("/Crypt/", "/").
-                            Replace("/Gamez/", "/").Replace("/log/", "/").Replace("/Qr/", "/").
-                            Replace("/res/", "/").Replace("/audio/", "/").Replace("/bin/", "/").
-                            Replace("/css/", "/").Replace("/img/", "/").Replace("/js/", "/").
-                            Replace("/out/", "/").Replace("/text/", "/").Replace("/fortune.u8", "/").
-                            Replace("/Unix/", "/").Replace("/Util/", "/");
-                        basApPath = basApPath.Substring(0, basApPath.LastIndexOf("/"));
-                    }
+                        basApPath = ConfigurationManager.AppSettings["BaseAppPathWin"];                    
 
                     baseAppPath = (!basApPath.EndsWith("/")) ? basApPath + "/" : basApPath;
                 }

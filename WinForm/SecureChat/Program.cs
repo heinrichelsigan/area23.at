@@ -8,7 +8,7 @@ namespace Area23.At.WinForm.SecureChat
     internal static class Program
     {
         internal static string progName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
-        private static Mutex mutex = new Mutex(false, progName);
+        private static Mutex mutex = new Mutex(true, progName);
 
         internal static Mutex PMutec
         {
@@ -31,6 +31,9 @@ namespace Area23.At.WinForm.SecureChat
             }
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetHighDpiMode(HighDpiMode.DpiUnawareGdiScaled);
             ApplicationConfiguration.Initialize();
             Form newF = (Form)(new Gui.Forms.SecureChat());
             Application.Run(newF);

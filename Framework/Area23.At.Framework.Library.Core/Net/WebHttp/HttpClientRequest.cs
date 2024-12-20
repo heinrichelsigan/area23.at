@@ -1,5 +1,4 @@
 ﻿using Area23.At.Framework.Library.Core.Cipher.Symm;
-using Microsoft.AspNetCore.Http;
 using Org.BouncyCastle.Asn1.Crmf;
 using System;
 using System.Collections.Generic;

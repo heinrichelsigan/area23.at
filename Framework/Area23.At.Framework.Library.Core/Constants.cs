@@ -1,5 +1,4 @@
 ﻿using Area23.At.Framework.Library.Core.Util;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Configuration;
 using System.Text;
@@ -322,41 +321,6 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
         private static String defaultLang = null;
 
         /// <summary>
-        /// Culture Info from HttpContext.Request.Headers[ACCEPT_LANGUAGE]
-        /// </summary>
-        public static System.Globalization.CultureInfo Locale
-        {
-            get
-            {
-                defaultLang = "en";                
-                if (locale == null)
-                {
-                    string? firstLang = defaultLang;
-                    Microsoft.Extensions.Primitives.StringValues acceptLanguage;
-                    try
-                    {
-                        if (HttpContextWrapper.Current.Request != null && HttpContextWrapper.Current.Request.Headers != null &&
-                            HttpContextWrapper.Current.Request.Headers.TryGetValue(ACCEPT_LANGUAGE, out acceptLanguage))
-                        {
-                            firstLang = acceptLanguage.FirstOrDefault();
-                            defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
-                        }
-
-                        locale = new System.Globalization.CultureInfo(defaultLang);
-                    }
-                    catch (Exception)
-                    {
-                        defaultLang = "en";
-                        locale = new System.Globalization.CultureInfo(defaultLang);
-                    }
-                }
-                return locale;
-            }
-        }
-
-        public static string ISO2Lang { get => Locale.TwoLetterISOLanguageName; }
-
-        /// <summary>
         /// UT DateTime @area23.at including seconds
         /// </summary>
         public static string DateArea23Seconds { get => DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"); }
@@ -378,27 +342,25 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
         /// </summary>
         public static string DateFile { get => DateArea23.Replace(WHITE_SPACE, UNDER_SCORE).Replace(ANNOUNCE, UNDER_SCORE); }
 
-        private static readonly string backColorString = "#ffffff";
+        private static string backColorString = "#ffffff";
         public static string BackColorString
         {
-            get => ((HttpContextWrapper.Current.Session != null && HttpContextWrapper.Current.Session.Keys.Contains(BACK_COLOR_STRING)) ?
-                    (string)HttpContextWrapper.Current.Session.GetString(BACK_COLOR_STRING) : backColorString);
-            set => HttpContextWrapper.Current.Session.SetString(BACK_COLOR_STRING, value);
+            get => backColorString;
+            set => backColorString = value;
         }
 
-        private static readonly string qrColorString = "#000000";
+        private static string qrColorString = "#000000";
         public static string QrColorString
         {
-            get => ((HttpContextWrapper.Current.Session != null && HttpContextWrapper.Current.Session.Keys.Contains(QR_COLOR_STRING)) ?
-                    (string)HttpContextWrapper.Current.Session.GetString(QR_COLOR_STRING) : qrColorString);
-            set => HttpContextWrapper.Current.Session.SetString(QR_COLOR_STRING, value);
+            get => qrColorString;
+            set => qrColorString = value;
         }
 
         public static System.Drawing.Color BackColor
         {
             get => ColorFrom.FromHtml(BackColorString);
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            set => HttpContextWrapper.Current.Session.SetString(BACK_COLOR_STRING, ((value != null) ? value.ToXrgb() : backColorString));
+            set => value.ToXrgb();
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
@@ -406,7 +368,7 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
         {
             get => ColorFrom.FromHtml(QrColorString);
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            set => HttpContextWrapper.Current.Session.SetString(QR_COLOR_STRING, ((value != null) ? value.ToXrgb() : qrColorString));
+            set => value.ToXrgb();
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'            
         }
 
@@ -414,17 +376,7 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
         {
             get
             {
-                if (!HttpContextWrapper.Current.Session.Keys.Contains(FORTUNE_BOOL))
-                    HttpContextWrapper.Current.Session.SetString(FORTUNE_BOOL, "false");
-                else
-                {
-                    if (HttpContextWrapper.Current.Session.GetString(FORTUNE_BOOL).Equals("false", StringComparison.InvariantCultureIgnoreCase))
-                        HttpContextWrapper.Current.Session.SetString(FORTUNE_BOOL, "true");
-                    else
-                        HttpContextWrapper.Current.Session.SetString(FORTUNE_BOOL, "false");
-                }
-
-                return (bool)(HttpContextWrapper.Current.Session.GetString(FORTUNE_BOOL).Equals("false", StringComparison.InvariantCultureIgnoreCase));
+                return (DateTime.Now.Second % 2 == 1);
             }
         }
 

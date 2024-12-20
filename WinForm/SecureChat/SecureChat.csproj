@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>	
+    <TargetFramework>net8.0-windows8.0</TargetFramework>	
 	<UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -13,29 +13,31 @@
     <FileVersion>2.24.1226</FileVersion>
     <ErrorReport>send</ErrorReport>
     <Title>SecureChat</Title>
-    <Version>2.24.1226</Version>
-	<PackageProjectUrl>https://github.com/heinrichelsigan/area23.at</PackageProjectUrl>
     <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>		
 	<IncludeSymbols>true</IncludeSymbols>
+	<IsTrimmable>true</IsTrimmable>
+	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+	<PlatformTarget>AnyCPU</PlatformTarget>
+	<SupportedOSPlatformVersion>8.0</SupportedOSPlatformVersion>	
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>7</WarningLevel>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <WarningLevel>7</WarningLevel>
-  </PropertyGroup>
-
-  <ItemGroup>    
-    <ProjectReference Include="..\..\Framework\Area23.At.Framework.Library.Core\Area23.At.Framework.Library.Core.csproj" />
+  <ItemGroup>
+    <None Remove="Settings.json" />
   </ItemGroup>
 
-	<!-- These normally come from $(UseWindowsForms) when $(ImplicitUsings) is enabled 
-    <ItemGroup>
-		<Using Include="System.Drawing" />
-    </ItemGroup>
+	<!--
+	<IsTrimmable>true</IsTrimmable>
+	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>	  	
+	<PublishTrimmed>True</PublishTrimmed>
 	-->
+	
+  <ItemGroup>    
+    <ProjectReference Include="..\..\Framework\Area23.At.Framework.Library.Core\Area23.At.Framework.Library.Core.csproj" />
+  </ItemGroup>	
 	
   <ItemGroup>
     <Folder Include="Gui\Controls\" />
@@ -49,6 +51,10 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Settings.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -103,7 +109,12 @@
   </ItemGroup>
 
 
-	<!-- feature switches for trimming
+	<!-- feature switches for trimming 
+	
+	<ItemGroup>
+		<Using Include="System.Drawing" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<RuntimeHostConfigurationOption Include="System.ComponentModel.Design.IDesignerHost.IsSupported" Value="false" Trim="true" />
 		<RuntimeHostConfigurationOption Include="System.Windows.Forms.Binding.IsSupported" Value="false" Trim="true" />
@@ -116,5 +127,6 @@
 		<RuntimeHostConfigurationOption Include="System.Windows.Forms.Primitives.TypeConverterHelper.UseComponentModelRegisteredTypes" Value="true" Trim="true" />
 		<RuntimeHostConfigurationOption Include="System.Windows.Forms.Control.UseComponentModelRegisteredTypes" Value="true" Trim="true" />
 	</ItemGroup>
+	
     -->
 </Project>
