@@ -34,7 +34,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SecureChat));
             menuStrip = new MenuStrip();
-            toolStripMenuFile = new ToolStripMenuItem();
+            menuFile = new ToolStripMenuItem();
             menuFileItemOpen = new ToolStripMenuItem();
             menuFileItemSave = new ToolStripMenuItem();
             menuFileSeparator = new ToolStripSeparator();
@@ -112,25 +112,25 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuStrip
             // 
-            menuStrip.BackColor = Color.Transparent;
+            menuStrip.BackColor = SystemColors.MenuBar;
             menuStrip.Font = new Font("Lucida Sans Unicode", 10F);
-            menuStrip.Items.AddRange(new ToolStripItem[] { toolStripMenuFile, menuEdit, menuView, menuIPs, menuCommands, menuOptions, menuQuestionMark });
+            menuStrip.Items.AddRange(new ToolStripItem[] { menuFile, menuView, menuIPs, menuCommands, menuOptions, menuQuestionMark });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
             menuStrip.Size = new Size(976, 25);
             menuStrip.TabIndex = 0;
             menuStrip.Text = "menuStrip";
             // 
-            // toolStripMenuFile
+            // menuFile
             // 
-            toolStripMenuFile.BackColor = SystemColors.MenuBar;
-            toolStripMenuFile.DropDownItems.AddRange(new ToolStripItem[] { menuFileItemOpen, menuFileItemSave, menuFileSeparator, menuFileItemExit });
-            toolStripMenuFile.ForeColor = SystemColors.MenuText;
-            toolStripMenuFile.Name = "toolStripMenuFile";
-            toolStripMenuFile.Padding = new Padding(3, 0, 3, 0);
-            toolStripMenuFile.ShortcutKeys = Keys.Alt | Keys.F;
-            toolStripMenuFile.Size = new Size(42, 21);
-            toolStripMenuFile.Text = "File";
+            menuFile.BackColor = SystemColors.MenuBar;
+            menuFile.DropDownItems.AddRange(new ToolStripItem[] { menuFileItemOpen, menuFileItemSave, menuFileSeparator, menuFileItemExit });
+            menuFile.ForeColor = SystemColors.MenuText;
+            menuFile.Name = "menuFile";
+            menuFile.Padding = new Padding(3, 0, 3, 0);
+            menuFile.ShortcutKeys = Keys.Alt | Keys.F;
+            menuFile.Size = new Size(42, 21);
+            menuFile.Text = "File";
             // 
             // menuFileItemOpen
             // 
@@ -176,7 +176,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuFileItemExit.BackgroundImageLayout = ImageLayout.Center;
             menuFileItemExit.ForeColor = SystemColors.MenuText;
             menuFileItemExit.Name = "menuFileItemExit";
-            menuFileItemExit.ShortcutKeys = Keys.Alt | Keys.X;
+            menuFileItemExit.ShortcutKeys = Keys.Alt | Keys.F4;
             menuFileItemExit.Size = new Size(168, 22);
             menuFileItemExit.Text = "Exit";
             menuFileItemExit.Click += menuFileItemExit_Click;
@@ -230,7 +230,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             menuView.BackColor = SystemColors.MenuBar;
             menuView.BackgroundImageLayout = ImageLayout.None;
-            menuView.DropDownItems.AddRange(new ToolStripItem[] { menuViewItemLeftRíght, menuViewItemTopBottom });
+            menuView.DropDownItems.AddRange(new ToolStripItem[] { menuViewItemLeftRíght, menuViewItemTopBottom, menuViewItem1View });
             menuView.ForeColor = SystemColors.MenuText;
             menuView.ImageScaling = ToolStripItemImageScaling.None;
             menuView.Name = "menuView";
@@ -241,23 +241,29 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuViewItemLeftRíght
             // 
+            menuViewItemLeftRíght.BackColor = SystemColors.Menu;
             menuViewItemLeftRíght.Name = "menuViewItemLeftRíght";
             menuViewItemLeftRíght.Size = new Size(180, 22);
             menuViewItemLeftRíght.Text = "Left-Ríght";
+            menuViewItemLeftRíght.ShortcutKeys = Keys.Control | Keys.L;
             menuViewItemLeftRíght.Click += MenuView_ItemLeftRíght_Click;
             menuViewItemLeftRíght.Checked = true;
             // 
             // menuViewItemTopBottom
             // 
+            menuViewItemTopBottom.BackColor = SystemColors.Menu;
             menuViewItemTopBottom.Name = "menuViewItemTopBottom";
             menuViewItemTopBottom.Size = new Size(180, 22);
+            menuViewItemTopBottom.ShortcutKeys = Keys.Control | Keys.T;
             menuViewItemTopBottom.Text = "Top-Bottom";
             menuViewItemTopBottom.Click += MenuView_ItemTopBottom_Click;
             // 
             // menuViewItem1View
             // 
+            menuViewItem1View.BackColor = SystemColors.Menu;
             menuViewItem1View.Name = "menuViewItem1View";
             menuViewItem1View.Size = new Size(180, 22);
+            menuViewItem1View.ShortcutKeys = Keys.Control | Keys.D1;
             menuViewItem1View.Text = "1-View";
             menuViewItem1View.Click += MenuView_Item1View_Click;
             // 
@@ -266,7 +272,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuIPs.BackColor = SystemColors.MenuBar;
             menuIPs.DropDownItems.AddRange(new ToolStripItem[] { menuIItemMyIps, menuItemFriendIp, menuIPsSeparator, menuItemProxyServers, menuItemIPv6Secure });
             menuIPs.Name = "menuIPs";
-            menuIPs.ShortcutKeys = Keys.Alt | Keys.I;
             menuIPs.Size = new Size(107, 21);
             menuIPs.Text = "IP Addresses";
             // 
@@ -289,6 +294,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuItempComboBoxFriendIp
             // 
+            menuItempComboBoxFriendIp.BackColor = SystemColors.Menu;
             menuItempComboBoxFriendIp.BackColor = SystemColors.ControlLightLight;
             menuItempComboBoxFriendIp.Name = "menuItempComboBoxFriendIp";
             menuItempComboBoxFriendIp.Size = new Size(121, 23);
@@ -360,13 +366,15 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             menuItemMyContact.Name = "menuItemMyContact";
             menuItemMyContact.Size = new Size(186, 22);
+            menuItemAddContact.ShortcutKeys = Keys.Control | Keys.M;
             menuItemMyContact.Text = "My Contact";
             menuItemMyContact.Click += menuItemMyContact_Click;
             // 
             // menuItemAddContact
             // 
-            menuItemAddContact.BackColor = SystemColors.Menu;
+            menuItemAddContact.BackColor = SystemColors.Menu;           
             menuItemAddContact.Name = "menuItemAddContact";
+            menuItemAddContact.ShortcutKeys = Keys.Control | Keys.A;
             menuItemAddContact.Size = new Size(186, 22);
             menuItemAddContact.Text = "Add Contact";
             menuItemAddContact.Click += menuItemAddContact_Click;
@@ -375,6 +383,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             menuItemImportContacts.BackColor = SystemColors.Menu;
             menuItemImportContacts.Name = "menuItemImportContacts";
+            menuItemImportContacts.ShortcutKeys = Keys.Control | Keys.I;
             menuItemImportContacts.Size = new Size(186, 22);
             menuItemImportContacts.Text = "Import Contacts";
             // 
@@ -382,6 +391,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             menuItemViewContacts.BackColor = SystemColors.Menu;
             menuItemViewContacts.Name = "menuItemViewContacts";
+            menuItemImportContacts.ShortcutKeys = Keys.Control | Keys.W;
             menuItemViewContacts.Size = new Size(186, 22);
             menuItemViewContacts.Text = "View Contacts";
             // 
@@ -813,7 +823,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripMenuItem toolStripMenuItemExit;
         private OpenFileDialog openFileDialog;
         private ToolStripMenuItem menuView;
-        private ToolStripMenuItem toolStripMenuFile;
+        private ToolStripMenuItem menuFile;
         private ToolStripMenuItem menuFileItemOpen;
         private ToolStripMenuItem menuFileItemSave;
         private ToolStripMenuItem menuFileItemExit;

@@ -11,8 +11,10 @@ namespace Area23.At.Framework.Library.EnDeCoding
     /// </summary>
     public static class Hex32
     {
-        private static readonly char[] _digits = "0123456789ABCDEFGHIJKLMNOPQRSTUV=".ToCharArray();
-        private static List<char> ValidCharList = new List<char>(_digits);
+
+        public const string VALID_CHARS =  "0123456789ABCDEFGHIJKLMNOPQRSTUV=";
+        private static readonly HashSet<char> ValidCharList = new HashSet<char>(VALID_CHARS.ToCharArray());
+        
         private const int _mask = 31;
         private const int _shift = 5;
 
@@ -180,7 +182,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
                 }
                 int index = _mask & (buffer >> (bitsLeft - _shift));
                 bitsLeft -= _shift;
-                result.Append(_digits[index]);
+                result.Append(VALID_CHARS[index]);
             }
 
             if (padOutput)

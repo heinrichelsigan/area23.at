@@ -11,8 +11,9 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
     /// </summary>
     public static class Hex16
     {
-        private static readonly char[] _digits = "0123456789abcdef".ToCharArray();
-        private static List<char> ValidCharList = new List<char>(_digits);
+
+        public const string VALID_CHARS = "0123456789abcdef";
+        private static readonly HashSet<char> ValidCharList = new HashSet<char>(VALID_CHARS.ToCharArray());
 
 
         #region common interface, interfaces for static members appear in C# 7.3 or later
@@ -96,7 +97,7 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
                 else
                 {
                     msb = (char)hexStr[wb];
-                    lsb = (char)hexStr[wb + 1];
+                    lsb = Char.ToLower((char)hexStr[wb + 1]);
                 }
                 string sb = msb.ToString() + lsb.ToString();
                 byte b = Convert.ToByte(sb, 16);

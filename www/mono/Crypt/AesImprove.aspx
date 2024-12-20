@@ -30,18 +30,18 @@
         <form id="AesImproveForm" runat="server" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True" style="background-color: transparent;">
             <div class="odDiv">
                 <span class="leftSpan">
-                    <asp:DropDownList ID="DropDownList_Cipher" runat="server">
-                        <asp:ListItem Enabled="true" Value="None" Selected="true">None</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="DES3" Selected="false">3DES</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="FISH2" Selected="false">2FISH</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="FISH3" Selected="false">3FISH</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="AES" Selected="false">AES</asp:ListItem>              
-                        <asp:ListItem Enabled="true" Value="Cast5" Selected="false">Cast5</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Cast6" Selected="false">Cast6</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Camellia" Selected="false">Camellia</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Gost28147" Selected="false">Gost28147</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Idea" Selected="false">Idea</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Noekeon" Selected="false">Noekeon</asp:ListItem>
+                    <asp:DropDownList ID="DropDownList_Cipher" runat="server" style="width: 84px;">
+                        <asp:ListItem Enabled="true" Value="Aes" Selected="true">Aes</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="BlowFish" Selected="false">BlowFish</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Fish2" Selected="false">2Fish</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Fish3" Selected="false">3Fish</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Camellia" Selected="false">Camellia</asp:ListItem>              
+                        <asp:ListItem Enabled="true" Value="Cast5" Selected="False">Cast5</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Cast6" Selected="False">Cast6</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Des3" Selected="False">3Des</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Gost28147" Selected="False">Gost28147</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Idea" Selected="false">Idea</asp:ListItem>                        
+                        <asp:ListItem Enabled="true" Value="Noekeon" Selected="false">Noekeon</asp:ListItem>                        
                         <asp:ListItem Enabled="true" Value="RC2" Selected="false">RC2</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="RC532" Selected="false">RC532</asp:ListItem>                
                         <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem>

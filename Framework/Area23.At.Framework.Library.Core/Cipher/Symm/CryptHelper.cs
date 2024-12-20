@@ -18,7 +18,7 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
     {
 
 
-        public static IBlockCipher GetBlockCipher(string requestedAlgorithm, ref string mode, ref int blockSize, ref int keyLen)
+        public static IBlockCipher GetBlockCipher(SymmCipherEnum cipherAlgo, ref string mode, ref int blockSize, ref int keyLen)
         {
             IBlockCipher blockCipher = null;
             if (string.IsNullOrEmpty(mode))
@@ -28,55 +28,56 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
             if (keyLen < 8)
                 keyLen = 32;
 
-            switch (requestedAlgorithm)
+            string requestedAlgorithm = cipherAlgo.ToString();
+            switch (cipherAlgo)
             {
-                case "Camellia":
+                case SymmCipherEnum.BlowFish:
+                    blockSize = 64;
+                    keyLen = 8;
+                    mode = "ECB";
+                    blockCipher = new Org.BouncyCastle.Crypto.Engines.BlowfishEngine();
+                    break;
+                case SymmCipherEnum.Fish2:
+                    blockSize = 128;
+                    keyLen = 16;
+                    mode = "ECB";
+                    blockCipher = new Org.BouncyCastle.Crypto.Engines.TwofishEngine();
+                    break;
+                case SymmCipherEnum.Fish3:
+                    blockSize = 256;
+                    keyLen = 32;
+                    mode = "ECB";
+                    blockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(blockSize);
+                    break;
+                case SymmCipherEnum.Camellia:
                     blockSize = 128;
                     keyLen = 16;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
                     break;
-                case "Cast5":
-                    blockSize = 128;
-                    keyLen = 16;
+                case SymmCipherEnum.RC532:
+                    blockSize = 256;
+                    keyLen = 32;
                     mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.Cast5Engine();
+                    blockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
                     break;
-                case "Cast6":
+                case SymmCipherEnum.Cast6:
                     blockSize = 256;
                     keyLen = 32;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
                     break;
-                case "Gost28147":
+                case SymmCipherEnum.Gost28147:
                     blockSize = 256;
                     keyLen = 32;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
                     break;
-                case "Idea":
+                case SymmCipherEnum.Idea:
                     blockSize = 256;
                     keyLen = 32;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
-                    break;
-                case "Noekeon":
-                    blockSize = 128;
-                    keyLen = 16;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
-                    break;
-                case "RC2":
-                    blockSize = 128;
-                    keyLen = 32;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
-                    break;
-                case "RC532":
-                    blockSize = 256;
-                    keyLen = 32;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
                     break;
                 //case "RC564":
                 //    blockSize = 256;
@@ -84,49 +85,37 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
                 //    mode = "ECB";
                 //    blockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
                 //    break;
-                case "RC6":
-                    blockSize = 256;
-                    keyLen = 32;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
-                    break;
-                case "Seed":
+                case SymmCipherEnum.Seed:
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
                     blockSize = 128;
                     keyLen = 16;
                     mode = "ECB";
                     break;
-                //case "Serpent":
-                //    blockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
-                //    blockSize = 256;
-                //    keyLen = 16;
-                //    mode = "ECB";
-                //    break;
-                case "Skipjack":
+                case SymmCipherEnum.Serpent:
+                    blockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
+                    blockSize = 128;
+                    keyLen = 16;
+                    mode = "ECB";
+                    break;
+                case SymmCipherEnum.SkipJack:
                     blockSize = 256;
                     keyLen = 32;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
                     break;
-                case "Tea":
+                case SymmCipherEnum.Tea:
                     blockSize = 128;
                     keyLen = 16;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
                     break;
-                case "Tnepres":
-                    blockSize = 128;
-                    keyLen = 16;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();
-                    break;
-                case "XTea":
+                case SymmCipherEnum.XTea:
                     blockSize = 256;
                     keyLen = 32;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
-                case "Rijndael":
+                case SymmCipherEnum.Aes:
                 default:
                     blockSize = 256;
                     keyLen = 32;

@@ -1,4 +1,10 @@
-@echo off
+#!/usr/bin/bash
 
-gzip.exe -c %1  > %2
+if [ $# -lt 2 ] ; then
+	OUT=$1.gz
+else
+	OUT=$2
+fi
+
+gzip -7 -c $1 > $OUT
 

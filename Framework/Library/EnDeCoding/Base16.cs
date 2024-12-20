@@ -11,10 +11,8 @@ namespace Area23.At.Framework.Library.EnDeCoding
     /// </summary>
     public static class Base16
     {
-
-        private static readonly char[] _digits = "0123456789ABCDEF".ToCharArray();
-        private static List<char> ValidCharList = new List<char>(_digits);
-
+        public const string VALID_CHARS = "0123456789ABCDEF";
+        private static readonly HashSet<char> ValidCharList = new HashSet<char>(VALID_CHARS.ToCharArray());
 
         /// <summary>
         /// Encodes a byte[] 
@@ -61,7 +59,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
             string hexString = string.Empty;            
             for (int wc = 0; wc < inBytes.Length; wc++)
             {
-                hexString += string.Format("{0:x2}", inBytes[wc]);                
+                hexString += string.Format("{0:X2}", inBytes[wc]);                
             }
 
             return hexString; // to slow for very large files .ToUpper();     
@@ -81,7 +79,7 @@ namespace Area23.At.Framework.Library.EnDeCoding
 
             List<byte> bytes = new List<byte>();
 
-            for (int wb = 0; wb < hexStr.Length; wb+=2)
+            for (int wb = 0; wb < hexStr.Length; wb += 2)
             {
                 char msb, lsb;
                 if (wb == hexStr.Length - 1)
@@ -91,8 +89,8 @@ namespace Area23.At.Framework.Library.EnDeCoding
                 }
                 else
                 {
-                    msb = (char)hexStr[wb];
-                    lsb = (char)hexStr[wb + 1];
+                    msb = Char.ToUpper((char)hexStr[wb]);
+                    lsb = Char.ToUpper((char)hexStr[wb + 1]);
                 }
                 string sb = msb.ToString() + lsb.ToString();
                 byte b = Convert.ToByte(sb, 16);

@@ -154,22 +154,18 @@ namespace Area23.At.Framework.Library.EnDeCoding
         /// <summary>
         /// GetBytesTrimNulls gets a byte[] from binary byte[] data and truncate all 0 byte at the end.
         /// </summary>
-        /// <param name="decryptedBytes">decrypted byte[]</param>
+        /// <param name="inBytes">decrypted byte[]</param>
         /// <returns>truncated byte[] without a lot of \0 (null) characters</returns>
-        public static byte[] GetBytesTrimNulls(byte[] decryptedBytes)
+        public static byte[] GetBytesTrimNulls(byte[] inBytes)
         {
             int ig = -1;
-            byte[] decryptedNonNullBytes = null;
+            if ((ig = inBytes.ArrayIndexOf((byte)0)) < 1)
+                return inBytes;
 
-            if ((ig = decryptedBytes.ArrayIndexOf((byte)0)) > 0)
-            {
-                decryptedNonNullBytes = new byte[ig];
-                Array.Copy(decryptedBytes, decryptedNonNullBytes, ig);
-            }
-            else
-                decryptedNonNullBytes = decryptedBytes;
-
-            return decryptedNonNullBytes;
+            byte[] nonNullBytes = new byte[ig+1];
+            Array.Copy(inBytes, 0, nonNullBytes, 0, ig + 1);            
+            
+            return nonNullBytes;
         }
 
         /// <summary>

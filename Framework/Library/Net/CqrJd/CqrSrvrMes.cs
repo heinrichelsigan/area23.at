@@ -32,7 +32,7 @@ namespace Area23.At.Framework.Library.Net.CqrJd
         {
             byte[] bts = EnDeCoder.GetBytes(srvKey);
             Array.Copy(bts, secKey, Math.Min(bts.Length, 16));
-            symCiphers = Cipher.Crypt.KeyBytesToSymmCipherPipeline(secKey, 8);
+            symCiphers = Cipher.Symmetric.Crypt.KeyBytesToSymmCipherPipeline(secKey, 8);
         }
 
 
@@ -44,7 +44,7 @@ namespace Area23.At.Framework.Library.Net.CqrJd
 
             byte[] tarBytes = msgBytes.TarBytes(EnDeCoder.GetBytes(HashSymms));
             // HashSymms 
-            byte[] cqrbytes = Cipher.Crypt.MerryGoRoundEncrpyt(tarBytes, EnDeCoder.GetString(secKey), DeEnCoder.KeyToHex(EnDeCoder.GetString(secKey)));
+            byte[] cqrbytes = Cipher.Symmetric.Crypt.MerryGoRoundEncrpyt(tarBytes, EnDeCoder.GetString(secKey), DeEnCoder.KeyToHex(EnDeCoder.GetString(secKey)));
 
             return EnDeCoding.DeEnCoder.EncodeBytes(cqrbytes.TarBytes(nullBytes), encType);
         }
@@ -54,7 +54,7 @@ namespace Area23.At.Framework.Library.Net.CqrJd
         {
             byte[] inBytes = EnDeCoding.DeEnCoder.DecodeText(cqrMessage, encType);
             byte[] cipherBytes = EnDeCoding.DeEnCoder.GetBytesTrimNulls(inBytes);
-            byte[] unroundedMerryBytes = Cipher.Crypt.DecrpytRoundGoMerry(cipherBytes, EnDeCoder.GetString(secKey), DeEnCoder.KeyToHex(EnDeCoder.GetString(secKey)));
+            byte[] unroundedMerryBytes = Cipher.Symmetric.Crypt.DecrpytRoundGoMerry(cipherBytes, EnDeCoder.GetString(secKey), DeEnCoder.KeyToHex(EnDeCoder.GetString(secKey)));
             byte[] hashSymBytes = new byte[8];
             Array.Copy(unroundedMerryBytes, unroundedMerryBytes.Length - 8, hashSymBytes, 0, 8);
             if (EnDeCoder.GetString(hashSymBytes).Equals(HashSymms, StringComparison.Ordinal))

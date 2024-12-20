@@ -1,3 +1,5 @@
-@echo off
+#!/usr/bin/bash
 
-gzip -c -d %1 > %2
+OUT=$2
+
+gzip -c -d $1 > $OUT

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
-namespace Area23.At.Framework.Library.Cipher.Symmetric
+namespace Area23.At.Framework.Library.Cipher
 {
 
     /// <summary>
@@ -17,66 +17,84 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
     public static class CryptHelper
     {
 
-        public static IBlockCipher GetBlockCipher(SymmCipherEnum cipherAlgo, ref string mode, ref int blockSize, ref int keyLen)
+        public static IBlockCipher GetBlockCipher(CipherEnum cipherAlgo, ref string mode, ref int blockSize, ref int keyLen)
         {
             IBlockCipher blockCipher = null;
             if (string.IsNullOrEmpty(mode))
                 mode = "ECB";
             if (blockSize < 64)
-                blockSize = 256;
+                blockSize = 64;
             if (keyLen < 8)
-                keyLen = 32;
+                keyLen = 8;
 
             string requestedAlgorithm = cipherAlgo.ToString();
             switch (cipherAlgo)
             {
-                case SymmCipherEnum.BlowFish:
+                case CipherEnum.BlowFish:
                     blockSize = 64;
                     keyLen = 8;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.BlowfishEngine();
                     break;
-                case SymmCipherEnum.Fish2:
+                case CipherEnum.Fish2:
                     blockSize = 128;
                     keyLen = 16;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.TwofishEngine();
                     break;
-                case SymmCipherEnum.Fish3:
+                case CipherEnum.Fish3:
                     blockSize = 256;
                     keyLen = 32;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(blockSize);
                     break;
-                case SymmCipherEnum.Camellia:
+                case CipherEnum.Camellia:
                     blockSize = 128;
                     keyLen = 16;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
                     break;
-                case SymmCipherEnum.RC532:
-                    blockSize = 256;
-                    keyLen = 32;
+                case CipherEnum.Cast5:
+                    blockSize = 128;
+                    keyLen = 16;
                     mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
+                    blockCipher = new Org.BouncyCastle.Crypto.Engines.Cast5Engine();
                     break;
-                case SymmCipherEnum.Cast6:
+                case CipherEnum.Cast6:
                     blockSize = 256;
                     keyLen = 32;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
                     break;
-                case SymmCipherEnum.Gost28147:
+                case CipherEnum.Gost28147:
                     blockSize = 256;
                     keyLen = 32;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
                     break;
-                case SymmCipherEnum.Idea:
+                case CipherEnum.Idea:
                     blockSize = 256;
                     keyLen = 32;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
+                    break;
+                case CipherEnum.Noekeon:
+                    blockSize = 128;
+                    keyLen = 16;
+                    mode = "ECB";
+                    blockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
+                    break;
+                case CipherEnum.RC2:
+                    blockSize = 128;
+                    keyLen = 32;
+                    mode = "ECB";
+                    blockCipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
+                    break;
+                case CipherEnum.RC532:
+                    blockSize = 256;
+                    keyLen = 32;
+                    mode = "ECB";
+                    blockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
                     break;
                 //case "RC564":
                 //    blockSize = 256;
@@ -84,37 +102,49 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
                 //    mode = "ECB";
                 //    blockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
                 //    break;
-                case SymmCipherEnum.Seed:
+                case CipherEnum.RC6:
+                    blockSize = 256;
+                    keyLen = 32;
+                    mode = "ECB";
+                    blockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
+                    break;
+                case CipherEnum.Seed:
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
                     blockSize = 128;
                     keyLen = 16;
                     mode = "ECB";
                     break;
-                case SymmCipherEnum.Serpent:
+                case CipherEnum.Serpent:
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
                     blockSize = 128;
                     keyLen = 16;
                     mode = "ECB";
                     break;
-                case SymmCipherEnum.SkipJack:
+                case CipherEnum.SkipJack:
                     blockSize = 256;
                     keyLen = 32;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
                     break;
-                case SymmCipherEnum.Tea:
+                case CipherEnum.Tea:
                     blockSize = 128;
                     keyLen = 16;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
                     break;
-                case SymmCipherEnum.XTea:
+                case CipherEnum.Tnepres:
+                    blockSize = 128;
+                    keyLen = 16;
+                    mode = "ECB";
+                    blockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();
+                    break;
+                case CipherEnum.XTea:
                     blockSize = 256;
                     keyLen = 32;
                     mode = "ECB";
                     blockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
-                case SymmCipherEnum.Aes:
+                case CipherEnum.Rijndael:
                 default:
                     blockSize = 256;
                     keyLen = 32;
@@ -130,14 +160,18 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
 
         public static CryptParams GetBlockCipher(string requestAlgorithm)
         {
-            CryptParams cryptParams = new CryptParams(requestAlgorithm);
+            CipherEnum cipher = CipherEnum.Aes;
+            if (!Enum.TryParse<CipherEnum>(requestAlgorithm, out cipher))
+                cipher = CipherEnum.Aes;
+            
+            CryptParams cryptParams = new CryptParams(cipher);
             return cryptParams;
         }
 
 
         public static IBlockCipher GetBlockCipher(CryptParams cryptParams)
         {
-            CryptParams cParams = new CryptParams(cryptParams.AlgorithmName);
+            CryptParams cParams = new CryptParams(cryptParams.Cipher);
             return cryptParams.BlockChipher;
         }
 
@@ -151,8 +185,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         /// <returns>doubled concatendated string of secretKey</returns>
         internal static string PrivateUserKey(string secretKey)
         {
-            string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
-            return string.Concat(secKey);
+            return Symmetric.CryptHelper.PrivateUserKey(secretKey);
         }
 
         /// <summary>
@@ -166,7 +199,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
             string usrHash = string.IsNullOrEmpty(userHash) ? Constants.AREA23_EMAIL : userHash;
 
-            return string.Concat(secKey, usrHash);
+            return Symmetric.CryptHelper.PrivateKeyWithUserHash(secKey, usrHash);
         }
 
 
@@ -178,55 +211,12 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         /// <returns>Array of byte with length KeyLen</returns>
         public static byte[] GetUserKeyBytes(string secretKey = "postmaster@kernel.org", string usrHash = "kernel.org", int keyLen = 32)
         {
-
-            int keyByteCnt = -1;
-            string keyByteHashString = secretKey;
-            byte[] tmpKey = new byte[keyLen];
-
-            if ((keyByteCnt = EnDeCoder.GetByteCount(keyByteHashString)) < keyLen)
-            {
-                keyByteHashString = PrivateUserKey(secretKey);
-                keyByteCnt = EnDeCoder.GetByteCount(keyByteHashString);
-            }
-            if (keyByteCnt < keyLen)
-            {
-                keyByteHashString = PrivateKeyWithUserHash(secretKey, usrHash);
-                keyByteCnt = EnDeCoder.GetByteCount(keyByteHashString);
-            }
-            if (keyByteCnt < keyLen)
-            {
-                RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                randomNumGen.GetBytes(tmpKey, 0, keyLen);
-
-                byte[] tinyKeyBytes = new byte[keyByteCnt];
-                tinyKeyBytes = EnDeCoder.GetBytes(keyByteHashString);
-                int tinyLength = tinyKeyBytes.Length;
-
-                for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
-                {
-                    tmpKey[bytCnt] = tinyKeyBytes[bytCnt % tinyLength];
-                }
-            }
-            else
-            {
-                byte[] ssSmallNotTinyKeyBytes = new byte[keyByteCnt];
-                ssSmallNotTinyKeyBytes = EnDeCoder.GetBytes(keyByteHashString);
-                int ssSmallByteCnt = ssSmallNotTinyKeyBytes.Length;
-
-                for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)
-                {
-                    tmpKey[bytIdx] = ssSmallNotTinyKeyBytes[bytIdx];
-                }
-            }
-
-            return tmpKey;
+            return Symmetric.CryptHelper.GetUserKeyBytes(secretKey, usrHash, keyLen); 
 
         }
 
         #endregion GetUserKeyBytes
 
-
     }
-
 
 }

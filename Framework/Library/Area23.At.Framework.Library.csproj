@@ -92,7 +92,10 @@
     <Compile Include="Cipher\Asymmetric\Algo\Rsa.cs" />
     <Compile Include="Cipher\Crpyt.cs" />
     <Compile Include="Cipher\CipherEnum.cs" />
+    <Compile Include="Cipher\CryptHelper.cs" />
+    <Compile Include="Cipher\CryptParams.cs" />
     <Compile Include="Cipher\Symmetric\Algo\Rijndael.cs" />
+    <Compile Include="Cipher\Symmetric\Crypt.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="EnDeCoding\Hex32.cs" />
     <Compile Include="EnDeCoding\EncodingType.cs" />

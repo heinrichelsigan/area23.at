@@ -48,10 +48,12 @@ namespace Area23.At.Framework.Library.Net.WebHttp
             wclient.Encoding = encoding;
             if (!string.IsNullOrEmpty(secretKey))
             {
-                string hexString = EnDeCoding.DeEnCoder.KeyToHex(CryptHelper.PrivateUserKey(secretKey));
+                string hexString = EnDeCoding.DeEnCoder.KeyToHex(
+                    Framework.Library.Cipher.Symmetric.CryptHelper.PrivateUserKey(secretKey));
                 if (!string.IsNullOrEmpty(keyIv))
                 {
-                    hexString = EnDeCoding.DeEnCoder.KeyToHex(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
+                    hexString = EnDeCoding.DeEnCoder.KeyToHex(
+                        Framework.Library.Cipher.Symmetric.CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
                 }
                 headers.Add(HttpRequestHeader.Authorization, "Basic " + hexString);
             }

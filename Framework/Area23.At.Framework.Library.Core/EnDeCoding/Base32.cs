@@ -29,8 +29,10 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
     /// </summary>
     public static class Base32
     {
-        private static readonly char[] _digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=".ToCharArray();
-        private static List<char> ValidCharList = new List<char>(_digits);
+
+        public const string VALID_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=";
+        private static readonly HashSet<char> ValidCharList = new HashSet<char>(VALID_CHARS.ToCharArray());
+
         private const int _mask = 31;
         private const int _shift = 5;
 
@@ -194,7 +196,7 @@ namespace Area23.At.Framework.Library.Core.EnDeCoding
                 }
                 int index = _mask & (buffer >> (bitsLeft - _shift));
                 bitsLeft -= _shift;
-                result.Append(_digits[index]);
+                result.Append(VALID_CHARS[index]);
             }
 
             if (padOutput)

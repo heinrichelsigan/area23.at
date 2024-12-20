@@ -305,6 +305,9 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
 
         #region public static properties
 
+        public static bool UNIX => (SEP_CHAR == '/');
+        public static bool WIN32 => (SEP_CHAR == '\\');
+
         /// <summary>
         /// AppLogFile - logfile with <see cref="At.Framework.Library.Extensions.Area23Date(DateTime)"/> prefix
         /// </summary>

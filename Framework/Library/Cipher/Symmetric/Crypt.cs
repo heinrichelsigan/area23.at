@@ -1,6 +1,11 @@
 ﻿using Org.BouncyCastle.Crypto;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.Core.Cipher.Symm
+namespace Area23.At.Framework.Library.Cipher.Symmetric
 {
 
     /// <summary>
@@ -27,49 +32,49 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
             string algo = cipherAlgo.ToString();
             if (cipherAlgo == SymmCipherEnum.Fish2 || algo == "2Fish" || algo == "Fish2")
             {
-                Symm.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, true);
-                encryptBytes = Symm.Algo.Fish2.Encrypt(inBytes);
+                Symmetric.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, true);
+                encryptBytes = Symmetric.Algo.Fish2.Encrypt(inBytes);
             }
             if (cipherAlgo == SymmCipherEnum.Fish3 || algo == "3Fish" || algo == "Fish3")
             {
-                Symm.Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
-                encryptBytes = Symm.Algo.Fish3.Encrypt(inBytes);
+                Symmetric.Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
+                encryptBytes = Symmetric.Algo.Fish3.Encrypt(inBytes);
             }
             if (cipherAlgo == SymmCipherEnum.Des3 || algo == "3Des" || algo == "Des3")
             {
-                Symm.Algo.Des3.Des3FromKey(secretKey, keyIv, true);
-                encryptBytes = Symm.Algo.Des3.Encrypt(inBytes);
+                Symmetric.Algo.Des3.Des3FromKey(secretKey, keyIv, true);
+                encryptBytes = Symmetric.Algo.Des3.Encrypt(inBytes);
             }
             if (cipherAlgo == SymmCipherEnum.Aes || algo == "Aes")
             {
-                Symm.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, true);
-                encryptBytes = Symm.Algo.Aes.Encrypt(inBytes);
+                Symmetric.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, true);
+                encryptBytes = Symmetric.Algo.Aes.Encrypt(inBytes);
             }
             if (cipherAlgo == SymmCipherEnum.Serpent || algo == "Serpent")
             {
-                Symm.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, true);
-                encryptBytes = Symm.Algo.Serpent.Encrypt(inBytes);
+                Symmetric.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, true);
+                encryptBytes = Symmetric.Algo.Serpent.Encrypt(inBytes);
             }
             if (cipherAlgo == SymmCipherEnum.ZenMatrix || algo == "ZenMatrix")
             {
-                Symm.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, true);
-                encryptBytes = Symm.Algo.ZenMatrix.Encrypt(inBytes);
+                Symmetric.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, true);
+                encryptBytes = Symmetric.Algo.ZenMatrix.Encrypt(inBytes);
             }
             if (algo == "BlowFish" || algo == "Camellia" ||
                 algo == "Gost28147" || algo == "Idea" ||
                 algo == "RC532" || algo == "Cast6" ||
-                algo == "Seed" || algo == "SkipJack" || 
+                algo == "Seed" || algo == "SkipJack" ||
                 algo == "Tea" || algo == "XTea" ||
 
                 cipherAlgo == SymmCipherEnum.BlowFish || cipherAlgo == SymmCipherEnum.Camellia ||
-                cipherAlgo == SymmCipherEnum.Gost28147 || cipherAlgo == SymmCipherEnum.Idea ||                      
+                cipherAlgo == SymmCipherEnum.Gost28147 || cipherAlgo == SymmCipherEnum.Idea ||
                 cipherAlgo == SymmCipherEnum.RC532 || cipherAlgo == SymmCipherEnum.Cast6 ||
                 cipherAlgo == SymmCipherEnum.Seed || cipherAlgo == SymmCipherEnum.SkipJack ||
                 cipherAlgo == SymmCipherEnum.Tea || cipherAlgo == SymmCipherEnum.XTea)
             {
-                IBlockCipher blockCipher = Symm.CryptHelper.GetBlockCipher(cipherAlgo, ref mode, ref blockSize, ref keyLen);
+                IBlockCipher blockCipher = Symmetric.CryptHelper.GetBlockCipher(cipherAlgo, ref mode, ref blockSize, ref keyLen);
 
-                Symm.CryptBounceCastle cryptBounceCastle = new Symm.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
+                Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
                 encryptBytes = cryptBounceCastle.Encrypt(inBytes);
 
             }
@@ -97,35 +102,35 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
 
             if (cipherAlgo == SymmCipherEnum.Fish2 || algorithmName == "2Fish" || algorithmName == "Fish2")
             {
-                sameKey = Symm.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, false);
-                decryptBytes = Symm.Algo.Fish2.Decrypt(cipherBytes);
+                sameKey = Symmetric.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, false);
+                decryptBytes = Symmetric.Algo.Fish2.Decrypt(cipherBytes);
             }
             if (cipherAlgo == SymmCipherEnum.Fish3 || algorithmName == "3Fish" || algorithmName == "Fish3")
             {
-                sameKey = Symm.Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
-                decryptBytes = Symm.Algo.Fish3.Decrypt(cipherBytes);
+                sameKey = Symmetric.Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
+                decryptBytes = Symmetric.Algo.Fish3.Decrypt(cipherBytes);
             }
             if (cipherAlgo == SymmCipherEnum.Des3 || algorithmName == "3Des" || algorithmName == "Des3")
             {
-                sameKey = Symm.Algo.Des3.Des3FromKey(secretKey, keyIv, true);
-                decryptBytes = Symm.Algo.Des3.Decrypt(cipherBytes);
+                sameKey = Symmetric.Algo.Des3.Des3FromKey(secretKey, keyIv, true);
+                decryptBytes = Symmetric.Algo.Des3.Decrypt(cipherBytes);
             }
             if (cipherAlgo == SymmCipherEnum.Aes || algorithmName == "Aes")
             {
-                sameKey = Symm.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, false);
-                decryptBytes = Symm.Algo.Aes.Decrypt(cipherBytes);
+                sameKey = Symmetric.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, false);
+                decryptBytes = Symmetric.Algo.Aes.Decrypt(cipherBytes);
             }
             if (cipherAlgo == SymmCipherEnum.Serpent || algorithmName == "Serpent")
             {
-                sameKey = Symm.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, false);
-                decryptBytes = Symm.Algo.Serpent.Decrypt(cipherBytes);
+                sameKey = Symmetric.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, false);
+                decryptBytes = Symmetric.Algo.Serpent.Decrypt(cipherBytes);
             }
             if (cipherAlgo == SymmCipherEnum.ZenMatrix || algorithmName == "ZenMatrix")
             {
-                sameKey = Symm.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, false);
-                decryptBytes = Symm.Algo.ZenMatrix.Decrypt(cipherBytes);
+                sameKey = Symmetric.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, false);
+                decryptBytes = Symmetric.Algo.ZenMatrix.Decrypt(cipherBytes);
             }
-            if (algorithmName == "Camellia" || algorithmName == "Cast5" || 
+            if (algorithmName == "Camellia" || algorithmName == "Cast5" ||
                 algorithmName == "Gost28147" || algorithmName == "Idea" ||
                 algorithmName == "RC532" || algorithmName == "Cast6" ||
                 algorithmName == "Seed" || algorithmName == "SkipJack" ||
@@ -137,9 +142,9 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
                 cipherAlgo == SymmCipherEnum.Seed || cipherAlgo == SymmCipherEnum.SkipJack ||
                 cipherAlgo == SymmCipherEnum.Tea || cipherAlgo == SymmCipherEnum.XTea)
             {
-                IBlockCipher blockCipher = Symm.CryptHelper.GetBlockCipher(cipherAlgo, ref mode, ref blockSize, ref keyLen);
+                IBlockCipher blockCipher = Symmetric.CryptHelper.GetBlockCipher(cipherAlgo, ref mode, ref blockSize, ref keyLen);
 
-                Symm.CryptBounceCastle cryptBounceCastle = new Symm.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
+                Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
                 decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
             }
 
@@ -169,24 +174,24 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
             switch (cipherAlgo)
             {
                 case SymmCipherEnum.Des3:
-                    Symm.Algo.Des3.Des3FromKey(secretKey, keyIv, true);
-                    encryptBytes = Symm.Algo.Des3.Encrypt(inBytes);
+                    Symmetric.Algo.Des3.Des3FromKey(secretKey, keyIv, true);
+                    encryptBytes = Symmetric.Algo.Des3.Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.Fish2:
-                    Symm.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, true);
-                    encryptBytes = Symm.Algo.Fish2.Encrypt(inBytes);
+                    Symmetric.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, true);
+                    encryptBytes = Symmetric.Algo.Fish2.Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.Fish3:
-                    Symm.Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
-                    encryptBytes = Symm.Algo.Fish3.Encrypt(inBytes);
+                    Symmetric.Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
+                    encryptBytes = Symmetric.Algo.Fish3.Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.Serpent:
-                    Symm.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, true);
-                    encryptBytes = Symm.Algo.Serpent.Encrypt(inBytes);
+                    Symmetric.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, true);
+                    encryptBytes = Symmetric.Algo.Serpent.Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.ZenMatrix:
-                    Symm.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, true);
-                    encryptBytes = Symm.Algo.ZenMatrix.Encrypt(inBytes);
+                    Symmetric.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, true);
+                    encryptBytes = Symmetric.Algo.ZenMatrix.Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.BlowFish:
                 case SymmCipherEnum.Camellia:
@@ -198,14 +203,14 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
                 case SymmCipherEnum.SkipJack:
                 case SymmCipherEnum.Tea:
                 case SymmCipherEnum.XTea:
-                    IBlockCipher blockCipher = Symm.CryptHelper.GetBlockCipher(cipherAlgo, ref mode, ref blockSize, ref keyLen);
-                    Symm.CryptBounceCastle cryptBounceCastle = new Symm.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
+                    IBlockCipher blockCipher = Symmetric.CryptHelper.GetBlockCipher(cipherAlgo, ref mode, ref blockSize, ref keyLen);
+                    Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
                     encryptBytes = cryptBounceCastle.Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.Aes:
                 default:
-                    Symm.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, true);
-                    encryptBytes = Symm.Algo.Aes.Encrypt(inBytes);
+                    Symmetric.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, true);
+                    encryptBytes = Symmetric.Algo.Aes.Encrypt(inBytes);
                     break;
             }
 
@@ -232,24 +237,24 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
             switch (cipherAlgo)
             {
                 case SymmCipherEnum.Fish2:
-                    sameKey = Symm.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, false);
-                    decryptBytes = Symm.Algo.Fish2.Decrypt(cipherBytes);
+                    sameKey = Symmetric.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, false);
+                    decryptBytes = Symmetric.Algo.Fish2.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.Fish3:
-                    sameKey = Symm.Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
-                    decryptBytes = Symm.Algo.Fish3.Decrypt(cipherBytes);
+                    sameKey = Symmetric.Algo.Fish3.Fish3GenWithKey(secretKey, keyIv, true);
+                    decryptBytes = Symmetric.Algo.Fish3.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.Des3:
-                    sameKey = Symm.Algo.Des3.Des3FromKey(secretKey, keyIv, true);
-                    decryptBytes = Symm.Algo.Des3.Decrypt(cipherBytes);
+                    sameKey = Symmetric.Algo.Des3.Des3FromKey(secretKey, keyIv, true);
+                    decryptBytes = Symmetric.Algo.Des3.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.Serpent:
-                    sameKey = Symm.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, false);
-                    decryptBytes = Symm.Algo.Serpent.Decrypt(cipherBytes);
+                    sameKey = Symmetric.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, false);
+                    decryptBytes = Symmetric.Algo.Serpent.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.ZenMatrix:
-                    sameKey = Symm.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, false);
-                    decryptBytes = Symm.Algo.ZenMatrix.Decrypt(cipherBytes);
+                    sameKey = Symmetric.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, false);
+                    decryptBytes = Symmetric.Algo.ZenMatrix.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.BlowFish:
                 case SymmCipherEnum.Camellia:
@@ -261,14 +266,14 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
                 case SymmCipherEnum.SkipJack:
                 case SymmCipherEnum.Tea:
                 case SymmCipherEnum.XTea:
-                    IBlockCipher blockCipher = Symm.CryptHelper.GetBlockCipher(cipherAlgo, ref mode, ref blockSize, ref keyLen);
-                    Symm.CryptBounceCastle cryptBounceCastle = new Symm.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
+                    IBlockCipher blockCipher = Symmetric.CryptHelper.GetBlockCipher(cipherAlgo, ref mode, ref blockSize, ref keyLen);
+                    Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(blockCipher, blockSize, keyLen, mode, keyIv, secretKey, true);
                     decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.Aes:
                 default:
-                    sameKey = Symm.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, false);
-                    decryptBytes = Symm.Algo.Aes.Decrypt(cipherBytes);
+                    sameKey = Symmetric.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, false);
+                    decryptBytes = Symmetric.Algo.Aes.Decrypt(cipherBytes);
                     break;
             }
 
@@ -370,7 +375,6 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
 
 
         #endregion merry_go_rount
-
 
     }
 

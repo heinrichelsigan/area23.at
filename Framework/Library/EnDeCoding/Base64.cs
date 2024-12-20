@@ -10,9 +10,9 @@ namespace Area23.At.Framework.Library.EnDeCoding
     /// </summary>
     public static class Base64
     {
-        public static readonly char[] ValidChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/=".ToCharArray();
-        public static List<char> ValidCharList = new List<char>(ValidChars);
 
+        public const string VALID_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/=";        
+        private static readonly HashSet<char> ValidCharList = new HashSet<char>(VALID_CHARS.ToCharArray());
 
         #region common interface, interfaces for static members appear in C# 7.3 or later
 

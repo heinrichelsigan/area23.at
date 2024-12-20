@@ -12,6 +12,7 @@ using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -49,9 +50,7 @@ namespace Area23.At.Mono.Crypt
                     (((string)Session[Constants.AES_ENVIROMENT_KEY]).Length > 7))
                 {
                     Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
-                }            
-                else
-                    Reset_TextBox_IV(Constants.AUTHOR_EMAIL);
+                }                            
             }
 
             if ((Request.Files != null && Request.Files.Count > 0) || (!String.IsNullOrEmpty(oFile.Value)))
@@ -140,28 +139,36 @@ namespace Area23.At.Mono.Crypt
                 // string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;
                 byte[] encryptBytes = inBytes;
 
-                // ZipType ztype = ZipType.None;
-                //if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
-                //{
-                //    string outp = string.Empty;
-                //    string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
-                //    string zPath = encryptBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt");
-                //    string zOutPath = zPath;
-                //    switch (ztype)
-                //    {
-                //        case ZipType.GZip:
-                //            //zOutPath += ".gz";
-                //            //outp = ProcessCmd.Execute(LibPaths.BinDir + "gz.bat ", " " + zPath + "  " + zOutPath, false);
-                //            //if (System.IO.File.Exists(zOutPath))
-                //            //    inBytes = System.IO.File.ReadAllBytes(zOutPath);
-                //            //break;
-                //        case ZipType.BZip2:                           
-                //        case ZipType.Z7:
-                //        // case ZipType.Zip: inBytes = Zip
-                //        case ZipType.None:
-                //        default: break;
-                //    }
-                //}
+                ZipType ztype = ZipType.None;
+                if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
+                {
+                    string outp = string.Empty;
+                    string suffix = (Constants.UNIX) ? ".sh" : (Constants.WIN32) ? ".bat" : "";
+                    string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
+                    string zPath = encryptBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt");
+                    string zOutPath = zPath;
+                    switch (ztype)
+                    {
+                        case ZipType.GZip:
+                            zOutPath += ".gz";
+                            outp = ProcessCmd.Execute(LibPaths.BinDir + "gz" + suffix, 
+                                " " + zPath + " " + zOutPath, false);
+                            if (System.IO.File.Exists(zOutPath))
+                                inBytes = System.IO.File.ReadAllBytes(zOutPath);
+                            break;
+                        case ZipType.BZip2:
+                            zOutPath += ".bz2";
+                            outp = ProcessCmd.Execute(LibPaths.BinDir + "bz" + suffix,
+                                " " + zPath + " " + zOutPath, false);
+                            if (System.IO.File.Exists(zOutPath))
+                                inBytes = System.IO.File.ReadAllBytes(zOutPath);
+                            break;
+                        case ZipType.Z7:
+                        case ZipType.Zip: 
+                        case ZipType.None:
+                        default: break;
+                    }
+                }
 
 
                 string[] algos = this.TextBox_Encryption.Text.Split("+;,→⇛".ToCharArray());
@@ -169,7 +176,7 @@ namespace Area23.At.Mono.Crypt
                 {
                     if (!string.IsNullOrEmpty(algo))
                     {
-                        CipherEnum cipherAlgo = CipherEnum.None;
+                        CipherEnum cipherAlgo = CipherEnum.Aes;
                         if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
                         {
                             encryptBytes = Framework.Library.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);
@@ -249,6 +256,7 @@ namespace Area23.At.Mono.Crypt
                 } 
                 catch (Exception exCode)
                 {
+                    Area23Log.LogStatic(exCode);
                     cipherBytes = new byte[0];
                     this.TextBox_IV.Text = "0 bytes decoded, there might be an encode or crypt error!";
                 }
@@ -262,12 +270,12 @@ namespace Area23.At.Mono.Crypt
                 byte[] decryptedBytes = cipherBytes;
                 int ig = 0;
 
-                string[] algos = this.TextBox_Encryption.Text.Split("+;,→⇛".ToCharArray());
+                string[] algos = this.TextBox_Encryption.Text.Split("+;,→   ".ToCharArray());
                 for (ig = (algos.Length - 1); ig >= 0; ig--)
                 {
                     if (!string.IsNullOrEmpty(algos[ig]))
                     {
-                        CipherEnum cipherAlgo = CipherEnum.None;
+                        CipherEnum cipherAlgo = CipherEnum.Aes;
                         if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
                         {                            
                             decryptedBytes = Framework.Library.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
@@ -278,31 +286,43 @@ namespace Area23.At.Mono.Crypt
 
                 cipherBytes = DeEnCoder.GetBytesTrimNulls(decryptedBytes);
                 ZipType ztype = ZipType.None;
-                //if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
-                //{
-                //    string outp = string.Empty;
-                //    string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
-                //    string zPath, zOutPath;
+                string suffix = (Constants.UNIX) ? ".sh" : (Constants.WIN32) ? ".bat" : "";
+                if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
+                {
+                    string outp = string.Empty;
+                    string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
+                    string zPath, zOutPath;
 
-                //    switch (ztype)
-                //    {
-                //        case ZipType.GZip:
-                //            //zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.gz");
-                //            //zOutPath = zPath.Replace(".txt.gz", ".asc.txt");
-                //            //if (System.IO.File.Exists(zPath))
-                //            //{
-                //            //    outp = ProcessCmd.Execute(LibPaths.BinDir + "gunzip.bat", zPath + " " + zOutPath, false);
-                //            //    if (System.IO.File.Exists(zOutPath))
-                //            //        decryptedBytes = System.IO.File.ReadAllBytes(zOutPath);
-                //            //}
-                //            //break;
-                //        case ZipType.BZip2:                            
-                //        case ZipType.Z7:                            
-                //        // case ZipType.Zip: inBytes = Zip
-                //        case ZipType.None:
-                //        default: decryptedBytes = cipherBytes; break;
-                //    }
-                //}
+                    switch (ztype)
+                    {
+                        case ZipType.GZip:
+                            zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.gz");
+                            zOutPath = zPath.Replace(".txt.gz", ".asc.txt");
+                            if (System.IO.File.Exists(zPath))
+                            {
+                                outp = ProcessCmd.Execute(LibPaths.BinDir + "gunzip" + suffix,
+                                    " " + zPath + " " + zOutPath, false);                                
+                                if (System.IO.File.Exists(zOutPath))
+                                    decryptedBytes = System.IO.File.ReadAllBytes(zOutPath);
+                            }
+                            break;
+                        case ZipType.BZip2:
+                            zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.bz2");
+                            zOutPath = zPath.Replace(".txt.bz2", ".txt").Replace(".bz2", ".asc").Replace(".bz", ".asc");
+                            if (System.IO.File.Exists(zPath))
+                            {
+                                outp = ProcessCmd.Execute(LibPaths.BinDir + "bunzip" + suffix,
+                                    " " + zPath + " " + zOutPath, false);
+                                if (System.IO.File.Exists(zOutPath))
+                                    decryptedBytes = System.IO.File.ReadAllBytes(zOutPath);
+                            }
+                            break;
+                        case ZipType.Z7:                            
+                        case ZipType.Zip: 
+                        case ZipType.None:
+                        default: decryptedBytes = cipherBytes; break;
+                    }
+                }
 
                 decryptedText = DeEnCoder.GetStringFromBytesTrimNulls(decryptedBytes);
                 this.TextBoxDestionation.Text = decryptedText; // HandleString_PrivateKey_Changed(decryptedText);
@@ -334,8 +354,9 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void Button_Clear_Click(object sender, EventArgs e)
         {
-            this.TextBox_Encryption.Text = "";            
-            ClearPostedFileSession(false);
+            this.TextBox_Encryption.Text = "";
+            this.TextBox_IV.Text = "";
+            ClearPostedFileSession(false);  
 
             DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImprotveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
             DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImprotveBG.gif')";
@@ -392,6 +413,7 @@ namespace Area23.At.Mono.Crypt
         /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
+        [Obsolete("TextBox_Key_TextChanged is fully deprectated, because no autopostback anymore", true)]
         protected void TextBox_Key_TextChanged(object sender, EventArgs e)
         {
             this.TextBox_IV.Text = DeEnCoder.KeyToHex(this.TextBox_Key.Text);
@@ -400,8 +422,9 @@ namespace Area23.At.Mono.Crypt
             this.TextBox_IV.BorderStyle = BorderStyle.Dotted;
             this.TextBox_IV.BorderWidth = 1;
 
-            this.TextBox_Encryption.BorderStyle = BorderStyle.Solid;
-
+            this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
+            this.TextBox_Encryption.BorderColor = Color.DarkOliveGreen;
+            this.TextBox_Encryption.BorderWidth = 2;
 
             DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
             DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImproveBG.gif')";
@@ -416,47 +439,71 @@ namespace Area23.At.Mono.Crypt
 
         protected void Button_Reset_KeyIV_Click(object sender, EventArgs e)
         {
+            this.TextBox_Encryption.Text = "";
+            this.TextBoxSource.Text = "";
+            this.TextBoxDestionation.Text = "";
+            ClearPostedFileSession(false);
+
+            DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImprotveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+            DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImprotveBG.gif')";
+            DivAesImprove.Style["background-image"] = "url('../res/img/AesImprotveBG.gif')";
             Reset_TextBox_IV(Constants.AUTHOR_EMAIL);
+
+            this.TextBox_IV.Text = "";
         }
 
 
         /// <summary>
         /// Saves current email address as crypt key inside that asp Session
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void ImageButton_Key_Click(object sender, ImageClickEventArgs e)
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        protected void Button_Key_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 7)
+            if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 3)
+            {
+                Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
+                Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
+            }
+        }
+
+        /// <summary>
+        /// Button_Hash_Click sets hash from key and fills pipeline
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        protected void Button_Hash_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 3)
             {
                 Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
                 Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
 
-                byte[] kb = CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
-                SymmCipherEnum[] cses = Framework.Library.Cipher.Crypt.KeyBytesToSymmCipherPipeline(kb);
+                byte[] kb = Framework.Library.Cipher.Symmetric.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
+                SymmCipherEnum[] cses = Framework.Library.Cipher.Symmetric.Crypt.KeyBytesToSymmCipherPipeline(kb);
                 this.TextBox_Encryption.Text = string.Empty;
                 foreach (SymmCipherEnum c in cses)
                 {
                     switch (c)
                     {
-                        case SymmCipherEnum.ThreeFish:
-                            this.TextBox_Encryption.Text += "FISH3" + ";";
+                        case SymmCipherEnum.Fish2:
+                            this.TextBox_Encryption.Text += "2Fish" + ";";
                             break;
-                        case SymmCipherEnum.TwoFish:
-                            this.TextBox_Encryption.Text += "FISH2" + ";";
+                        case SymmCipherEnum.Fish3:
+                            this.TextBox_Encryption.Text += "3Fish" + ";";
                             break;
-                        case SymmCipherEnum.TripleDes:
-                            this.TextBox_Encryption.Text += "DES3" + ";";
-                            break;
-                        case SymmCipherEnum.Aes:
-                            this.TextBox_Encryption.Text += "AES" + ";";
+                        case SymmCipherEnum.Des3:
+                            this.TextBox_Encryption.Text += "3Des" + ";";
                             break;
                         default:
                             this.TextBox_Encryption.Text += c.ToString() + ";";
                             break;
                     }
                 }
-                
+
+                this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
+                this.TextBox_Encryption.BorderColor = Color.DarkOliveGreen;
+                this.TextBox_Encryption.BorderWidth = 2;
             }
         }
 
@@ -541,35 +588,43 @@ namespace Area23.At.Mono.Crypt
 
                         imgOut.Src = LibPaths.ResAppPath + "img/encrypted.png";
 
-                        // ZipType ztype = ZipType.None;
-                        //if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
-                        //{
-                        //    string outp = string.Empty;
-                        //    string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
-                        //    string zPath = fileBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt");
-                        //    string zOutPath = zPath;
-                        //    switch (ztype)
-                        //    {
-                        //        case ZipType.GZip:
-                        //            //zOutPath += ".gz";
-                        //            //outp = ProcessCmd.Execute(LibPaths.BinDir + "gz.bat ", " " + zPath + "  " + zOutPath, false);
-                        //            //if (System.IO.File.Exists(zOutPath))
-                        //            //    inBytes = System.IO.File.ReadAllBytes(zOutPath);
-                        //            //break;
-                        //        case ZipType.BZip2:
-                        //        case ZipType.Z7:
-                        //        // case ZipType.Zip: inBytes = Zip
-                        //        case ZipType.None:
-                        //        default: break;
-                        //    }
-                        //}
+                        ZipType ztype = ZipType.None;
+                        string suffix = (Constants.UNIX) ? ".sh" : (Constants.WIN32) ? ".bat" : "";
+                        if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
+                        {
+                            string outp = string.Empty;
+                            string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
+                            string zPath = fileBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt");
+                            string zOutPath = zPath;
+                            switch (ztype)
+                            {
+                                case ZipType.GZip:
+                                    zOutPath += ".gz";
+                                    outp = ProcessCmd.Execute(LibPaths.BinDir + "gz" + suffix, 
+                                        " " + zPath + "  " + zOutPath, false);
+                                    if (System.IO.File.Exists(zOutPath))
+                                        inBytes = System.IO.File.ReadAllBytes(zOutPath);
+                                    break;
+                                case ZipType.BZip2:
+                                    zOutPath += ".bz2";
+                                    outp = ProcessCmd.Execute(LibPaths.BinDir + "bz" + suffix,
+                                        " " + zPath + "  " + zOutPath, false);
+                                    if (System.IO.File.Exists(zOutPath))
+                                        inBytes = System.IO.File.ReadAllBytes(zOutPath);
+                                    break;
+                                case ZipType.Z7:
+                                case ZipType.Zip: 
+                                case ZipType.None:
+                                    default: break;
+                            }
+                        }
 
 
                         foreach (string algo in algos)
                         {
                             if (!string.IsNullOrEmpty(algo))
                             {
-                                CipherEnum cipherAlgo = CipherEnum.None;
+                                CipherEnum cipherAlgo = CipherEnum.Aes;
                                 if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
                                 {
                                     outBytes = Framework.Library.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);                                   
@@ -641,7 +696,7 @@ namespace Area23.At.Mono.Crypt
                         {
                             if (!string.IsNullOrEmpty(algos[ig]))
                             {
-                                CipherEnum cipherAlgo = CipherEnum.None;
+                                CipherEnum cipherAlgo = CipherEnum.Aes;
                                 if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
                                 {
                                     outBytes = Framework.Library.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
@@ -655,32 +710,44 @@ namespace Area23.At.Mono.Crypt
                         cipherBytes = DeEnCoder.GetBytesTrimNulls(outBytes);
                         outBytes = cipherBytes;
 
-                        // ZipType ztype = ZipType.None;
-                        //if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
-                        //{
-                        //    string outp = string.Empty;
-                        //    string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
-                        //    string zPath, zOutPath;
+                        ZipType ztype = ZipType.None;
+                        string suffix = (Constants.UNIX) ? ".sh" : (Constants.WIN32) ? ".bat" : "";
+                        if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
+                        {
+                            string outp = string.Empty;                            
+                            string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
+                            string zPath, zOutPath;
 
-                        //    switch (ztype)
-                        //    {
-                        //        case ZipType.GZip:
-                        //            //zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.gz");
-                        //            //zOutPath = zPath.Replace(".txt.gz", ".asc.txt");
-                        //            //if (System.IO.File.Exists(zPath))
-                        //            //{
-                        //            //    outp = ProcessCmd.Execute(LibPaths.BinDir + "gunzip.bat", zPath + " " + zOutPath, false);
-                        //            //    if (System.IO.File.Exists(zOutPath))
-                        //            //        outBytes = System.IO.File.ReadAllBytes(zOutPath);
-                        //            //}
-                        //            //break;
-                        //        case ZipType.BZip2:
-                        //        case ZipType.Z7:
-                        //        // case ZipType.Zip: inBytes = Zip
-                        //        case ZipType.None:
-                        //        default: outBytes = cipherBytes; break;
-                        //    }
-                        //}
+                            switch (ztype)
+                            {
+                                case ZipType.GZip:
+                                    zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt");
+                                    zOutPath = zPath.Replace(".txt.gz", ".txt").Replace(".gz", ".asc");
+                                    if (System.IO.File.Exists(zPath))
+                                    {
+                                        outp = ProcessCmd.Execute(LibPaths.BinDir + "gunzip" + suffix,
+                                            " " + zPath + " " + zOutPath, false);
+                                        if (System.IO.File.Exists(zOutPath))
+                                            outBytes = System.IO.File.ReadAllBytes(zOutPath);
+                                    }
+                                    break;
+                                case ZipType.BZip2:
+                                    zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.bz2");
+                                    zOutPath = zPath.Replace(".txt.bz2", ".txt").Replace(".bz2", ".asc").Replace(".bz", ".asc");
+                                    if (System.IO.File.Exists(zPath))
+                                    {                                        
+                                        outp = ProcessCmd.Execute(LibPaths.BinDir + "bunzip" + suffix, 
+                                            " " + zPath + " " + zOutPath, false);                                        
+                                        if (System.IO.File.Exists(zOutPath))
+                                            outBytes = System.IO.File.ReadAllBytes(zOutPath);
+                                    }
+                                    break;
+                                case ZipType.Z7:
+                                case ZipType.Zip:
+                                case ZipType.None:
+                                default: outBytes = cipherBytes; break;
+                            }
+                        }
 
                         cipherBytes = DeEnCoder.GetBytesTrimNulls(outBytes);
                         savedTransFile = this.ByteArrayToFile(cipherBytes, out outMsg, strFileName);
@@ -715,6 +782,8 @@ namespace Area23.At.Mono.Crypt
         }
 
         #endregion file_handling_members 
+
+        
 
 
         /// <summary>

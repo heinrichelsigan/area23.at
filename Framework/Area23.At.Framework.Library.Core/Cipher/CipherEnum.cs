@@ -3,40 +3,40 @@
 namespace Area23.At.Framework.Library.Core.Cipher
 {
 
-    [DefaultValue("None")]
+    [DefaultValue("Aes")]
     public enum CipherEnum
     {
-        None = 0x00,
+        Aes         =   0x00,
+              
+        BlowFish    =   0x01,
+        Fish2       =   0x02,
+        Fish3       =   0x03,
+        Camellia    =   0x04,
 
-        DES3 = 0x01,
-        FISH2 = 0x02,
-        FISH3 = 0x03,
-        AES = 0x04,
+        RC532       =   0x5,
+        Cast6       =   0x6,
+        Gost28147   =   0x07,
+        Idea        =   0x08,
 
-        Cast5 = 0x05,
-        Cast6 = 0x06,
-        Camellia = 0x07,
+        Des3        =   0x09,
 
-        Gost28147 = 0x08,
-        Idea = 0x09,
-        Noekeon = 0x0a,
-        Rijndael = 0x0b,
+        Seed        =   0x0a,
+        SkipJack    =   0x0b,
+        Serpent     =   0x0c,
+        Tea         =   0x0d,
+        XTea        =   0x0e,
 
-        RC2 = 0x0c,
-        RC532 = 0x0d,
-        RC6 = 0x0e,
+        ZenMatrix   =   0x0f,
+        
 
-        Rsa = 0x0f,
-
-        Seed = 0x20,
-        Serpent = 0x21,
-        SkipJack = 0x22,
-
-        Tea = 0x23,
-        Tnepres = 0x24,
-
-        XTea = 0x25,
-        ZenMatrix = 0x26
+        Rijndael    =   0x10,
+        Noekeon     =   0x11,
+        RC2         =   0x12,
+        Rsa         =   0x13,
+        Tnepres     =   0x14,
+        Cast5       =   0x15,
+        RC6         =   0x16
+        
 
     }
 
