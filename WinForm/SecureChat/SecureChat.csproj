@@ -15,8 +15,7 @@
     <Title>SecureChat</Title>
     <Version>2.24.1226</Version>
 	<PackageProjectUrl>https://github.com/heinrichelsigan/area23.at</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>	
-	<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>		
 	<IncludeSymbols>true</IncludeSymbols>
   </PropertyGroup>
 
@@ -32,10 +31,11 @@
     <ProjectReference Include="..\..\Framework\Area23.At.Framework.Library.Core\Area23.At.Framework.Library.Core.csproj" />
   </ItemGroup>
 
-	<!-- These normally come from $(UseWindowsForms) when $(ImplicitUsings) is enabled -->
+	<!-- These normally come from $(UseWindowsForms) when $(ImplicitUsings) is enabled 
     <ItemGroup>
 		<Using Include="System.Drawing" />
     </ItemGroup>
+	-->
 	
   <ItemGroup>
     <Folder Include="Gui\Controls\" />
@@ -103,7 +103,7 @@
   </ItemGroup>
 
 
-	<!-- feature switches for trimming-->
+	<!-- feature switches for trimming
 	<ItemGroup>
 		<RuntimeHostConfigurationOption Include="System.ComponentModel.Design.IDesignerHost.IsSupported" Value="false" Trim="true" />
 		<RuntimeHostConfigurationOption Include="System.Windows.Forms.Binding.IsSupported" Value="false" Trim="true" />
@@ -116,5 +116,5 @@
 		<RuntimeHostConfigurationOption Include="System.Windows.Forms.Primitives.TypeConverterHelper.UseComponentModelRegisteredTypes" Value="true" Trim="true" />
 		<RuntimeHostConfigurationOption Include="System.Windows.Forms.Control.UseComponentModelRegisteredTypes" Value="true" Trim="true" />
 	</ItemGroup>
-
+    -->
 </Project>

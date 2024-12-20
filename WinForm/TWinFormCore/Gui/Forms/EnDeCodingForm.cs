@@ -332,7 +332,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
         protected void TextBox_Key_TextChanged(object sender, EventArgs e)
         {
-            this.TextBox_IV.Text = DeEnCoder.KeyHexString(this.TextBox_Key.Text);
+            this.TextBox_IV.Text = DeEnCoder.KeyToHex(this.TextBox_Key.Text);
             this.TextBox_IV.BackColor = Color.Red;
             this.TextBox_IV.BorderStyle = BorderStyle.FixedSingle;
 
@@ -399,7 +399,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             this.TextBox_Key.ForeColor = SystemColors.ControlText;
             this.TextBox_Key.BackColor = SystemColors.ControlLightLight;
 
-            this.TextBox_IV.Text = DeEnCoder.KeyHexString(this.TextBox_Key.Text);
+            this.TextBox_IV.Text = DeEnCoder.KeyToHex(this.TextBox_Key.Text);
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BackColor = this.TextBox_Key.BackColor;
             this.TextBox_IV.BorderStyle = BorderStyle.None;

@@ -31,7 +31,7 @@
         <div style="background-color: transparent; padding-left: 40px; margin-left: 2px;">
             <div class="odDiv">
                 <span class="leftSpan" style="width: 72px">
-                    <asp:Button ID="Button_Key" runat="server" Text="&#9875;" ClientIDMode="Static"
+                    <asp:Button ID="Button_Key" runat="server" Text="Key " ClientIDMode="Static"
                         OnClick="Button_Key_Click" ToolTip="save your user key in session" style="max-width: 72px" />
                 </span>
                 <span class="centerSpan" style="width: 72px">&nbsp&nbsp;Secret&nbsp;key:&nbsp;</span>
@@ -43,13 +43,13 @@
                         ToolTip="Enter your personal email address or secret key here" MaxLength="192" Width="480px" style="width: 480px;" />
                 </span>
                 <span class="rightSpan" style="width: 72px">
-                    <asp:Button ID="Button_Clear" runat="server" Text="♼" OnClick="Button_Clear_Click" 
+                    <asp:Button ID="Button_Clear" runat="server" Text="clear" OnClick="Button_Clear_Click" 
                         ToolTip="Clear SymChiffre Pipeline" style="max-width: 72px" />
                 </span>
             </div>    
             <div class="odDiv">
                 <span class="leftSpan" style="width: 72px">
-                    <asp:Button ID="Button_Hash" runat="server" Text="🧮" ClientIDMode="Static"
+                    <asp:Button ID="Button_Hash" runat="server" Text="hash" ClientIDMode="Static"
                         OnClick="Button_Hash_Click" ToolTip="save your user key in session" style="max-width: 72px" />      
                 </span>
                 <span class="centerSpan" style="width: 72px">Key&nbsp;hash/iv:&nbsp;</span>
@@ -60,7 +60,7 @@
                     ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="192"  Width="480px"  style="width: 480px;" />
                 </span>
                 <span class="rightSpan" style="width: 72px">
-                    <asp:Button ID="Button_Reset_KeyIV" runat="server" Text="♻" ClientIDMode="Static" 
+                    <asp:Button ID="Button_Reset_KeyIV" runat="server" Text="reset" ClientIDMode="Static" 
                         OnClick="Button_Reset_KeyIV_Click" ToolTip="Reset secret key / iv" style="max-width: 72px" />
                 </span>
             </div>
