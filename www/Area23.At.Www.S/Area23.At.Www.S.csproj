@@ -135,6 +135,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
@@ -168,12 +169,28 @@
     <Content Include="Global.asax" />
     <Content Include="MarriageRisk.aspx" />
     <Content Include="Qr\2024-03-24_19_18__894.png" />
+    <Content Include="R.aspx" />
     <Content Include="res\css\area23.at.mono.css" />
     <Content Include="res\css\fortune.css" />
     <Content Include="res\css\frga.css" />
     <Content Include="res\css\frog.css" />
     <Content Include="res\css\od.css" />
     <Content Include="res\css\rpncalcweb.css" />
+    <Content Include="res\img\1.png" />
+    <Content Include="res\img\2.png" />
+    <Content Include="res\img\3.png" />
+    <Content Include="res\img\4.png" />
+    <Content Include="res\img\5.png" />
+    <Content Include="res\img\6.png" />
+    <Content Include="res\img\7.png" />
+    <Content Include="res\img\8.png" />
+    <Content Include="res\img\9.png" />
+    <Content Include="res\img\a.png" />
+    <Content Include="res\img\b.png" />
+    <Content Include="res\img\c.png" />
+    <Content Include="res\img\d.png" />
+    <Content Include="res\img\e.png" />
+    <Content Include="res\img\f.png" />
     <Content Include="res\img\qrsample1.gif" />
     <Content Include="res\img\qrsample2.png" />
     <Content Include="res\js\area23.js" />
@@ -185,6 +202,7 @@
     <Content Include="res\js\gtag.js" />
     <Content Include="res\js\od.js" />
     <Content Include="res\js\rpn.js" />
+    <Content Include="W.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -221,9 +239,23 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="R.aspx.cs">
+      <DependentUpon>R.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="R.aspx.designer.cs">
+      <DependentUpon>R.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Util\GlobalAppSettings.cs" />
     <Compile Include="Util\HostLogHelper.cs" />
     <Compile Include="Util\JsonHelper.cs" />
+    <Compile Include="W.aspx.cs">
+      <DependentUpon>W.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="W.aspx.designer.cs">
+      <DependentUpon>W.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="log\20240324_Area23.At.Mono.log" />

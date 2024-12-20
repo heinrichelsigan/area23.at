@@ -18,19 +18,28 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm.Algo
 
         #region fields
 
-        private static string privateKey = string.Empty;
-        private static string userHash = string.Empty;
-
         private static readonly sbyte[] MatrixBasePerm = {
             0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
             0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f
         };
+
+        private static readonly int[] MagicOrder = {
+            0x8, 0x3, 0x9, 0xe,
+            0x1, 0xf, 0x5, 0xc,
+            0x4, 0xd, 0xa, 0x7,
+            0xb, 0x2, 0x0, 0x6
+        };
+
+        private static string privateKey = string.Empty;
+        private static string userHash = string.Empty;
+        private static byte[] privateBytes = new byte[16];
 
         #endregion fields
 
         #region Properties
 
         internal static sbyte[] MatrixPermKey { get; set; }
+
         private static sbyte[] MatrixReverse { get; set; }
 
         private static HashSet<sbyte> PermKeyHash { get; set; }
@@ -59,6 +68,7 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm.Algo
             MatrixPermKey = new sbyte[0x10];
             foreach (sbyte s in MatrixBasePerm)
             {
+                privateBytes[cntSby % 16] = (byte)0;
                 MatrixPermKey[cntSby++] = s;
             }
 
@@ -77,8 +87,6 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm.Algo
         /// <returns>true, if init was with same key successfull</returns>
         public static bool ZenMatrixGenWithKey(string secretKey = "he@area23.at", string usrHash = "elsigan@area23.at", bool init = true) // , byte[] textForEncryption = null)
         {
-            int aCnt = 0, bCnt = 0;
-
             if (!init)
             {
                 if (string.IsNullOrEmpty(privateKey) && !string.IsNullOrEmpty(secretKey) ||
@@ -90,18 +98,45 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm.Algo
             {
                 privateKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
                 userHash = string.IsNullOrEmpty(usrHash) ? Constants.AREA23_EMAIL : usrHash;
-
-                InitMatrixSymChiffer();
-
                 byte[] keyBytes = CryptHelper.GetUserKeyBytes(privateKey, userHash, 16);
+
+                return ZenMatrixGenWithBytes(keyBytes, init); 
+            }
+
+            return true;
+        }
+
+
+        /// <summary>
+        /// Generates ZenMatrix with key bytes
+        /// </summary>
+        /// <param name="keyBytes">must have at least 6 bytes</param>
+        /// <param name="init">init three fish first time with a new key</param>
+        /// <returns>true, if init was with same key successfull</returns>
+        public static bool ZenMatrixGenWithBytes(byte[] keyBytes, bool init = true) // , byte[] textForEncryption = null)
+        {            
+            if ((keyBytes == null || keyBytes.Length < 6))
+                return false;
+
+            if (init)
+            {
+                int aCnt = 0, bCnt = 0;
+                Array.Copy(keyBytes, 0, privateBytes, 0, Math.Min(keyBytes.Length, 16));
+                
+                InitMatrixSymChiffer();
+                PermKeyHash = new HashSet<sbyte>();
 
                 foreach (byte keyByte in keyBytes)
                 {
                     sbyte b = (sbyte)(keyByte % 16);
+                    //for (int i = 0; ((i < 16) && (PermKeyHash.Contains(b) || ((int)b) == bCnt)); i++) 
+                    //{
+                    //    b = ((sbyte)((Convert.ToInt32(keyByte) + MagicOrder[i]) % 16));
+                    //}                    
                     if (!PermKeyHash.Contains(b))
                     {
                         PermKeyHash.Add(b);
-                        aCnt = b;
+                        aCnt = (int)b;
                         if (aCnt != bCnt)
                         {
                             sbyte sba = MatrixPermKey[aCnt];
@@ -116,9 +151,9 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm.Algo
 
                 MatrixReverse = BuildReveseMatrix(MatrixPermKey);
             }
-
             return true;
         }
+
 
         /// <summary>
         /// BuildReveseMatrix, builds the determinant decryption matrix for byte{16] encryption matrix

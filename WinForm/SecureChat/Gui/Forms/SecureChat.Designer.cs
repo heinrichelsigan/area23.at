@@ -44,6 +44,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuViewItem1View = new ToolStripMenuItem();
             menuIPs = new ToolStripMenuItem();
             menuIItemMyIps = new ToolStripMenuItem();
+            menuItemExternalIp = new ToolStripMenuItem();
             menuItemFriendIp = new ToolStripMenuItem();
             menuItempComboBoxFriendIp = new ToolStripComboBox();
             menuIPsSeparator = new ToolStripSeparator();
@@ -59,9 +60,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemImportContacts = new ToolStripMenuItem();
             menuItemViewContacts = new ToolStripMenuItem();
             menuQuestionMark = new ToolStripMenuItem();
-            menuItemAbout = new ToolStripMenuItem();
             menuItemHelp = new ToolStripMenuItem();
             menuItemInfo = new ToolStripMenuItem();
+            menuItemAbout = new ToolStripMenuItem();
             menuEdit = new ToolStripMenuItem();
             menuEditItemCut = new ToolStripMenuItem();
             menuEditItemCopy = new ToolStripMenuItem();
@@ -93,7 +94,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             buttonExit = new Button();
             panelCenter = new Panel();
             richTextBoxOneView = new RichTextBox();
-            menuItemExternalIp = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
@@ -141,7 +141,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuFileItemOpen.Margin = new Padding(1);
             menuFileItemOpen.Name = "menuFileItemOpen";
             menuFileItemOpen.ShortcutKeys = Keys.Control | Keys.O;
-            menuFileItemOpen.Size = new Size(180, 22);
+            menuFileItemOpen.Size = new Size(168, 22);
             menuFileItemOpen.Text = "Open";
             menuFileItemOpen.TextImageRelation = TextImageRelation.TextAboveImage;
             menuFileItemOpen.ToolTipText = "Open file";
@@ -156,7 +156,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuFileItemSave.Margin = new Padding(1);
             menuFileItemSave.Name = "menuFileItemSave";
             menuFileItemSave.ShortcutKeys = Keys.Control | Keys.S;
-            menuFileItemSave.Size = new Size(180, 22);
+            menuFileItemSave.Size = new Size(168, 22);
             menuFileItemSave.Text = "Save";
             menuFileItemSave.TextImageRelation = TextImageRelation.TextAboveImage;
             menuFileItemSave.ToolTipText = "Save file";
@@ -168,7 +168,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuFileSeparator.ForeColor = SystemColors.MenuText;
             menuFileSeparator.Margin = new Padding(1);
             menuFileSeparator.Name = "menuFileSeparator";
-            menuFileSeparator.Size = new Size(177, 6);
+            menuFileSeparator.Size = new Size(165, 6);
             // 
             // menuFileItemExit
             // 
@@ -177,7 +177,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuFileItemExit.ForeColor = SystemColors.MenuText;
             menuFileItemExit.Name = "menuFileItemExit";
             menuFileItemExit.ShortcutKeys = Keys.Alt | Keys.F4;
-            menuFileItemExit.Size = new Size(180, 22);
+            menuFileItemExit.Size = new Size(168, 22);
             menuFileItemExit.Text = "Exit";
             menuFileItemExit.Click += menuFileItemExit_Click;
             // 
@@ -240,6 +240,14 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuIItemMyIps.Size = new Size(215, 22);
             menuIItemMyIps.Text = "My Ip's";
             // 
+            // menuItemExternalIp
+            // 
+            menuItemExternalIp.BackColor = SystemColors.Menu;
+            menuItemExternalIp.Name = "menuItemExternalIp";
+            menuItemExternalIp.ShortcutKeys = Keys.Alt | Keys.E;
+            menuItemExternalIp.Size = new Size(206, 22);
+            menuItemExternalIp.Text = "External Ip's";
+            // 
             // menuItemFriendIp
             // 
             menuItemFriendIp.BackColor = SystemColors.Menu;
@@ -301,6 +309,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemRefresh.ShortcutKeys = Keys.Alt | Keys.R;
             menuItemRefresh.Size = new Size(180, 22);
             menuItemRefresh.Text = "Refresh";
+            menuItemRefresh.Click += menuItemRefresh_Click;
             // 
             // menuItemClear
             // 
@@ -365,18 +374,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuQuestionMark.Size = new Size(24, 21);
             menuQuestionMark.Text = "?";
             // 
-            // menuItemAbout
-            // 
-            menuItemAbout.BackColor = SystemColors.Menu;
-            menuItemAbout.BackgroundImageLayout = ImageLayout.None;
-            menuItemAbout.ForeColor = SystemColors.MenuText;
-            menuItemAbout.Name = "menuItemAbout";
-            menuItemAbout.Padding = new Padding(0, 2, 0, 2);
-            menuItemAbout.Size = new Size(180, 24);
-            menuItemAbout.Text = "About";
-            menuItemAbout.TextImageRelation = TextImageRelation.TextAboveImage;
-            menuItemAbout.Click += MenuItemAbout_Click;
-            // 
             // menuItemHelp
             // 
             menuItemHelp.BackColor = SystemColors.Menu;
@@ -385,7 +382,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemHelp.Name = "menuItemHelp";
             menuItemHelp.Padding = new Padding(0, 2, 0, 2);
             menuItemHelp.ShortcutKeys = Keys.Control | Keys.F1;
-            menuItemHelp.Size = new Size(180, 24);
+            menuItemHelp.Size = new Size(168, 24);
             menuItemHelp.Text = "Help";
             // 
             // menuItemInfo
@@ -394,10 +391,22 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemInfo.BackgroundImageLayout = ImageLayout.None;
             menuItemInfo.ForeColor = SystemColors.MenuText;
             menuItemInfo.Name = "menuItemInfo";
-            menuItemInfo.Size = new Size(180, 22);
+            menuItemInfo.Size = new Size(168, 22);
             menuItemInfo.Text = "Info";
             menuItemInfo.TextImageRelation = TextImageRelation.TextAboveImage;
             menuItemInfo.Click += MenuItemInfo_Click;
+            // 
+            // menuItemAbout
+            // 
+            menuItemAbout.BackColor = SystemColors.Menu;
+            menuItemAbout.BackgroundImageLayout = ImageLayout.None;
+            menuItemAbout.ForeColor = SystemColors.MenuText;
+            menuItemAbout.Name = "menuItemAbout";
+            menuItemAbout.Padding = new Padding(0, 2, 0, 2);
+            menuItemAbout.Size = new Size(168, 24);
+            menuItemAbout.Text = "About";
+            menuItemAbout.TextImageRelation = TextImageRelation.TextAboveImage;
+            menuItemAbout.Click += MenuItemAbout_Click;
             // 
             // menuEdit
             // 
@@ -747,14 +756,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             richTextBoxOneView.Size = new Size(680, 460);
             richTextBoxOneView.TabIndex = 0;
             richTextBoxOneView.Text = "";
-            // 
-            // menuItemExternalIp
-            // 
-            menuItemExternalIp.BackColor = SystemColors.Menu;
-            menuItemExternalIp.Name = "menuItemExternalIp";
-            menuItemExternalIp.ShortcutKeys = Keys.Alt | Keys.E;
-            menuItemExternalIp.Size = new Size(206, 22);
-            menuItemExternalIp.Text = "External Ip's";
             // 
             // SecureChat
             // 

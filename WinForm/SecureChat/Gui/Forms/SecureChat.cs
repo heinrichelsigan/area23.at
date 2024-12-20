@@ -25,6 +25,9 @@ using System.IO;
 using Area23.At.Framework.Library.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
 using Area23.At.Framework.Library.Core.Net.CqrJd;
+using Area23.At.WinForm.SecureChat.Util;
+using System.Reflection;
+using Area23.At.Framework.Library.Core.Cipher.Symm.Algo;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -67,7 +70,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             {
                 menuItemMyContact_Click(sender, e);
             }
-            
+
             await SetupNetwork();
 
             if (Entities.Settings.Instance != null && Entities.Settings.Instance.MyContact != null && !string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.ImageBase64))
@@ -106,6 +109,18 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
             this.TextBoxDestionation.Text += wabiwabi;
             this.richTextBoxOneView.Text += wabiwabi;
+
+        }
+
+        private void menuItemRefresh_Click(object sender, EventArgs e)
+        {
+            byte[] b0 = ExternalIpAddress.ToExternalBytes();
+            byte[] b1 = Assembly.GetExecutingAssembly().GetName().Version.ToVersionBytes();
+            string exip = ExternalIpAddress.ToString();
+            string ver = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            
+            ZenMatrix.ZenMatrixGenWithKey(this.ComboBox_LocalEndPoint.Text, exip, true);
+            this.TextBoxDestionation.Text += ZenMatrix.EncryptString(this.richTextBoxChat.Text) + "\n";
 
         }
 
@@ -149,7 +164,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 }
                 if (bmp != null)
                     this.pictureBoxYou.Image = bmp;
-                
+
 
                 // var badge = new TransparentBadge("My contact added!");
                 // badge.ShowDialog();
@@ -512,6 +527,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         }
 
         #endregion closeForm
+
 
     }
 

@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.EnDeCoding;
+using Area23.At.Framework.Library.Util;
 using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
@@ -169,6 +170,40 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             return string.Concat(secKey, usrHash);
         }
 
+        /// <summary>
+        /// PrivateKeyWithUserHash, helper to double private secret key with hash
+        /// </summary>
+        /// <param name="secretKey">users private secret key</param>
+        /// <param name="userHash">users private secret key hash</param>
+        /// <returns>doubled concatendated string of (secretKey + hash)</returns>
+        internal static byte[] KeyUserHashBytes(string secretKey, string userHash, bool merge = true)
+        {
+            string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
+            string usrHash = string.IsNullOrEmpty(userHash) ? Constants.AREA23_EMAIL : userHash;
+            byte[] secBytes = EnDeCoder.GetBytes(secKey);
+            byte[] hashBytes = EnDeCoder.GetBytes(usrHash);
+
+            List<Byte> outBytes = new List<byte>();
+            if (!merge)
+                outBytes.AddRange(secBytes.TarBytes(hashBytes));
+            else
+            {
+                int hb = 0;
+                for (int sb = 0; (sb < secBytes.Length || hb < hashBytes.Length); sb++)
+                {
+                    if (sb < secBytes.Length)
+                        outBytes.Add(secBytes[sb]);
+                    if (hb < hashBytes.Length)
+                        outBytes.Add(hashBytes[hb]);
+                    hb++;
+
+                }
+            }
+
+            return outBytes.ToArray();
+        }
+
+
 
         /// <summary>
         /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
@@ -182,40 +217,36 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             int keyByteCnt = -1;
             string keyByteHashString = secretKey;
             byte[] tmpKey = new byte[keyLen];
+            
+            byte[] keyHashBytes = KeyUserHashBytes(secretKey, usrHash);
+            keyByteCnt = keyHashBytes.Length;
+            byte[] keyHashTarBytes = new byte[keyByteCnt * 2 + 1];
 
-            if ((keyByteCnt = EnDeCoder.GetByteCount(keyByteHashString)) < keyLen)
-            {
-                keyByteHashString = PrivateUserKey(secretKey);
-                keyByteCnt = EnDeCoder.GetByteCount(keyByteHashString);
-            }
             if (keyByteCnt < keyLen)
             {
-                keyByteHashString = PrivateKeyWithUserHash(secretKey, usrHash);
-                keyByteCnt = EnDeCoder.GetByteCount(keyByteHashString);
+                keyHashTarBytes = keyHashBytes.TarBytes(KeyUserHashBytes(usrHash, secretKey));
+                keyByteCnt = keyHashTarBytes.Length;
+
+                keyHashBytes = new byte[keyByteCnt];                
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);                
             }
             if (keyByteCnt < keyLen)
             {
                 RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
                 randomNumGen.GetBytes(tmpKey, 0, keyLen);
-
-                byte[] tinyKeyBytes = new byte[keyByteCnt];
-                tinyKeyBytes = EnDeCoder.GetBytes(keyByteHashString);
-                int tinyLength = tinyKeyBytes.Length;
+     
+                int tinyLength = keyHashBytes.Length;
 
                 for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
                 {
-                    tmpKey[bytCnt] = tinyKeyBytes[bytCnt % tinyLength];
+                    tmpKey[bytCnt] = keyHashBytes[bytCnt % tinyLength];
                 }
             }
             else
             {
-                byte[] ssSmallNotTinyKeyBytes = new byte[keyByteCnt];
-                ssSmallNotTinyKeyBytes = EnDeCoder.GetBytes(keyByteHashString);
-                int ssSmallByteCnt = ssSmallNotTinyKeyBytes.Length;
-
                 for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)
                 {
-                    tmpKey[bytIdx] = ssSmallNotTinyKeyBytes[bytIdx];
+                    tmpKey[bytIdx] = keyHashBytes[bytIdx];
                 }
             }
 

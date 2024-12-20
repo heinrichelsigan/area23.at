@@ -42,7 +42,6 @@
   <ItemGroup>
     <Folder Include="Gui\Controls\" />
     <Folder Include="Resources\" />
-    <Folder Include="Util\" />
     <Folder Include="Properties\en\" />
     <Folder Include="Properties\fr\" />
     <Folder Include="Properties\it\" />
