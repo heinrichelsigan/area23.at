@@ -152,7 +152,7 @@
                     </a>
                 </span>
                 <span id="SpanLabel" runat="server" class="centerSpan" visible="False">
-                    <asp:Label id="lblUploadResult" Runat="server"></asp:Label>
+                    <asp:Literal id="uploadResult" Runat="server"></asp:Literal>
                 </span>
                 <span class="centerSpan">&nbsp;</span>
                 <span id="SpanRightFile" runat="server" class="rightSpan" style="vertical-align: top;" visible="false">

@@ -528,7 +528,7 @@ namespace Area23.At.Mono.Crypt
 
                 if (System.IO.File.Exists(strFilePath))
                 {
-                    lblUploadResult.Text = strFileName + " has been successfully uploaded.";
+                    uploadResult.Text = strFileName + " has been successfully uploaded.";
                     Session[Constants.UPSAVED_FILE] = strFilePath;
 
                     SpanLabel.Visible = true;
@@ -569,7 +569,7 @@ namespace Area23.At.Mono.Crypt
                         (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ?
                             pfile.InputStream.ToByteArray() : new byte[65536]);
 
-                lblUploadResult.Text = "";
+                uploadResult.Text = "";
 
                 byte[] outBytes = new byte[fileBytes.Length];
 
@@ -648,13 +648,14 @@ namespace Area23.At.Mono.Crypt
 
                         if (!string.IsNullOrEmpty(savedTransFile) && !string.IsNullOrEmpty(outMsg))
                         {
-                            lblUploadResult.Text = string.Format("{0}x crypt {1}", cryptCount, outMsg);
+                            uploadResult.Text = string.Format("{0}x crypt {1}", cryptCount, outMsg);
                             if (cryptCount > 4)
-                                string.Format("{0}x crypt {1}", cryptCount, outMsg.Substring(outMsg.IndexOf(".")));
+                                uploadResult.Text = 
+                                    string.Format("{0}x crypt {1}", cryptCount, outMsg.Substring(outMsg.IndexOf(".")));
                         }
                             
                         else
-                            lblUploadResult.Text = "file failed to encrypt and save!";
+                            uploadResult.Text = "file failed to encrypt and save!";
                     }
                     else
                     {
@@ -757,7 +758,7 @@ namespace Area23.At.Mono.Crypt
                         cipherBytes = DeEnCoder.GetBytesTrimNulls(outBytes);
                         savedTransFile = this.ByteArrayToFile(cipherBytes, out outMsg, strFileName);
                         // if (success)
-                        lblUploadResult.Text = string.Format("decrypt to {0}", outMsg);
+                        uploadResult.Text = string.Format("decrypt to {0}", outMsg);
                         // else
                         // lblUploadResult.Text = "decrypting file failed, byte trash saved  to ";                            
                     }
@@ -775,7 +776,7 @@ namespace Area23.At.Mono.Crypt
             }
             else
             {
-                lblUploadResult.Text = "Click 'Browse' to select the file to upload.";
+                uploadResult.Text = "Click 'Browse' to select the file to upload.";
                 ClearPostedFileSession(false);
                 SpanLabel.Visible = true;
 
