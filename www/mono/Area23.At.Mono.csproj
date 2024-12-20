@@ -506,11 +506,11 @@
     <Content Include="res\bin\gz.bat" />
     <Content Include="res\bin\gunzip.bat" />
     <Content Include="res\bin\bunzip.bat" />
-    <None Include="res\bin\bunzip.sh" />
-    <None Include="res\bin\bz.sh" />
-    <None Include="res\bin\gunzip.sh" />
+    <AdditionalFiles Include="res\bin\bunzip.sh" />
+    <Content Include="res\bin\bz.sh" />
+    <Content Include="res\bin\gunzip.sh" />
     <Content Include="res\bin\bz.bat" />
-    <None Include="res\bin\gz.sh" />
+    <Content Include="res\bin\gz.sh" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

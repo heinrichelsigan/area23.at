@@ -57,7 +57,7 @@ Cache-Control: no-cache";
                 {
                     resp = resp?.Replace("::ffff:", "");
                     if (resp != null && resp.Contains(':'))
-                        {
+                    {
                         int lastch = resp.LastIndexOf(":");
                         resp = resp.Substring(0, lastch);
                     }

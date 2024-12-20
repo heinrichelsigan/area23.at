@@ -291,7 +291,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         public static SymmCipherEnum[] KeyBytesToSymmCipherPipeline(byte[] keyBytes, uint maxpipe = 8)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
-            maxpipe = (maxpipe <= 8) ? maxpipe : 4; // if somebody wants more, he/she/it gets less
+            maxpipe = (maxpipe > 16) ? 8 : maxpipe; // if somebody wants more, he/she/it gets less
 
             Dictionary<char, SymmCipherEnum> symDict = new Dictionary<char, SymmCipherEnum>();
             List<SymmCipherEnum> symmMatrixPipe = new List<SymmCipherEnum>();
