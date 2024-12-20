@@ -82,12 +82,12 @@
                     <asp:DropDownList ID="DropDownList_Cipher" runat="server" style="width: 72px;">
                         <asp:ListItem Enabled="true" Value="Aes" Selected="true">Aes</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="BlowFish" Selected="false">BlowFish</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Fish2" Selected="false">2Fish</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Fish3" Selected="false">3Fish</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Fish2" Selected="false">Fish2</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Fish3" Selected="false">Fish3</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Camellia" Selected="false">Camellia</asp:ListItem>              
                         <asp:ListItem Enabled="true" Value="Cast5" Selected="False">Cast5</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Cast6" Selected="False">Cast6</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Des3" Selected="False">3Des</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Des3" Selected="False">Des3</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Gost28147" Selected="False">Gost28147</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Idea" Selected="false">Idea</asp:ListItem>                        
                         <asp:ListItem Enabled="true" Value="Noekeon" Selected="false">Noekeon</asp:ListItem>                        

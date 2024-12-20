@@ -487,13 +487,13 @@ namespace Area23.At.Mono.Crypt
                     switch (c)
                     {
                         case SymmCipherEnum.Fish2:
-                            this.TextBox_Encryption.Text += "2Fish" + ";";
+                            this.TextBox_Encryption.Text += "Fish2" + ";";
                             break;
                         case SymmCipherEnum.Fish3:
-                            this.TextBox_Encryption.Text += "3Fish" + ";";
+                            this.TextBox_Encryption.Text += "Fish3" + ";";
                             break;
                         case SymmCipherEnum.Des3:
-                            this.TextBox_Encryption.Text += "3Des" + ";";
+                            this.TextBox_Encryption.Text += "Des3" + ";";
                             break;
                         default:
                             this.TextBox_Encryption.Text += c.ToString() + ";";
@@ -647,7 +647,12 @@ namespace Area23.At.Mono.Crypt
                         }
 
                         if (!string.IsNullOrEmpty(savedTransFile) && !string.IsNullOrEmpty(outMsg))
+                        {
                             lblUploadResult.Text = string.Format("{0}x crypt {1}", cryptCount, outMsg);
+                            if (cryptCount > 4)
+                                string.Format("{0}x crypt {1}", cryptCount, outMsg.Substring(outMsg.IndexOf(".")));
+                        }
+                            
                         else
                             lblUploadResult.Text = "file failed to encrypt and save!";
                     }
