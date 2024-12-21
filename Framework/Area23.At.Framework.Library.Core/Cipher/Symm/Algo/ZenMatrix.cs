@@ -129,10 +129,10 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm.Algo
                 foreach (byte keyByte in keyBytes)
                 {
                     sbyte b = (sbyte)(keyByte % 16);
-                    //for (int i = 0; ((i < 16) && (PermKeyHash.Contains(b) || ((int)b) == bCnt)); i++) 
-                    //{
-                    //    b = ((sbyte)((Convert.ToInt32(keyByte) + MagicOrder[i]) % 16));
-                    //}                    
+                    for (int i = 0; ((i < 16) && (PermKeyHash.Contains(b) || ((int)b) == bCnt)); i++)
+                    {
+                        b = ((sbyte)((Convert.ToInt32(keyByte) + MagicOrder[i]) % 16));
+                    }
                     if (!PermKeyHash.Contains(b))
                     {
                         PermKeyHash.Add(b);
