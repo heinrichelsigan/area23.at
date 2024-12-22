@@ -37,10 +37,12 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
 
         #region Properties
 
-        internal static sbyte[] MatrixPermKey { get; set; }
-        private static sbyte[] MatrixReverse { get; set; }
+        public static sbyte[] MatrixPermKey { get; set; }
+        public static sbyte[] MatrixReverse { get; set; }
 
-        private static HashSet<sbyte> PermKeyHash { get; set; }
+        public static HashSet<sbyte> PermKeyHash { get; set; }
+
+        
 
         #endregion Properties
 
