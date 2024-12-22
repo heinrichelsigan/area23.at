@@ -427,7 +427,7 @@ namespace Area23.At.Mono.Crypt
         {
             if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 0)
             {
-                Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
+                Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text; 
                 Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
 
                 byte[] kb = Framework.Library.Cipher.Symmetric.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
