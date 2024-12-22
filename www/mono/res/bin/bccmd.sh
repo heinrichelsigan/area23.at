@@ -7,7 +7,7 @@
 if [ $# -gt 0 ] ; then
         # echo "$0 args: $@"  >> /tmp/dotnet.tmp
         if [ -f /usr/bin/bc ] ; then
-                echo "$@" | /usr/bin/bc
+                /usr/bin/echo "$@" | /usr/bin/bc
                 # echo "$@" | /usr/bin/bc >> /tmp/dotnet.tmp
         fi
 fi
