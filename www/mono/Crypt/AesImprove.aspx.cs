@@ -309,8 +309,8 @@ namespace Area23.At.Mono.Crypt
                             zopt = "bunzip";
                             break;
                         case ZipType.Z7:
-                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.bz2");
-                            zOutPath = zPath.Replace(".txt.7z", ".txt").Replace(".7z", ".asc");
+                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.7z");
+                            zOutPath = zPath.Replace(".txt.7z", ".txt").Replace(".7z", ".asc").Replace(".z7", ".asc");
                             zopt = "7unzip";
                             break;
                         case ZipType.Zip:

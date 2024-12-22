@@ -193,7 +193,7 @@ namespace Area23.At.Mono.Util
                 Area23Log.LogStatic(ex);
             }
 
-            if (System.IO.File.Exists(strPath))
+            if (System.IO.File.Exists(strPath + fileName))
             {                
                 outMsg = fileName;
                 return fileName;

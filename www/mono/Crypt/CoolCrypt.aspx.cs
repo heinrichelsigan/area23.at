@@ -309,7 +309,7 @@ namespace Area23.At.Mono.Crypt
                             zopt = "bunzip";
                             break; 
                         case ZipType.Z7:
-                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.bz2");
+                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.7z");
                             zOutPath = zPath.Replace(".txt.7z", ".txt").Replace(".7z", ".asc");
                             zopt = "7unzip";
                             break;
@@ -592,8 +592,8 @@ namespace Area23.At.Mono.Crypt
                     string baseEncoding = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
 
                     int cryptCount = 0;
-                    // outBytes = inBytes;
-                    // Array.Copy(inBytes, 0, outBytes, 0, inBytes.Length);
+                    outBytes = inBytes;
+                    Array.Copy(inBytes, 0, outBytes, 0, inBytes.Length);
 
                     if (crypt)
                     {
@@ -623,7 +623,7 @@ namespace Area23.At.Mono.Crypt
                             if (!string.IsNullOrEmpty(zopt) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd))
                             {
                                 outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
-                                        zopt + " " + zPath + " " + zOutPath, false);
+                                        " " + zopt + " " + zPath + " " + zOutPath, false);
                                 Thread.Sleep(64);
                                 if (System.IO.File.Exists(zOutPath))
                                     inBytes = System.IO.File.ReadAllBytes(zOutPath);
@@ -652,7 +652,7 @@ namespace Area23.At.Mono.Crypt
                         {
                             strFileName += "." + encodeType.ToString().ToLowerInvariant();
                             string outString = DeEnCoder.EncodeBytes(outBytes, encodeType, plainUu, true);
-                            savedTransFile = this.StringToFile(outString, out outMsg, strFileName);
+                            savedTransFile = this.StringToFile(outString, out outMsg, strFileName, LibPaths.SystemDirOutPath);
                         }
                         else
                         {
@@ -665,8 +665,7 @@ namespace Area23.At.Mono.Crypt
                             if (cryptCount > 4)
                                 uploadResult.Text = 
                                     string.Format("{0}x crypt {1}", cryptCount, outMsg.Substring(outMsg.IndexOf(".")));
-                        }
-                            
+                        }                            
                         else
                             uploadResult.Text = "file failed to encrypt and save!";
                     }
