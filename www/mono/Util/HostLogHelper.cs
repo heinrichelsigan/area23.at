@@ -1,8 +1,11 @@
 ﻿using Area23.At.Framework.Library;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using System.Windows.Media.Animation;
 
 namespace Area23.At.Mono.Util
 {
@@ -11,11 +14,13 @@ namespace Area23.At.Mono.Util
     /// </summary>
     public static class HostLogHelper
     {
+        private static string userHost = "";
         public static string UserHost
         {
             get
-            {
-                string userHost = Constants.UNKNOWN;
+            {                
+                if (!string.IsNullOrEmpty(userHost)) 
+                    return userHost;
                 try
                 {
                     userHost = (!string.IsNullOrEmpty(HttpContext.Current.Request.UserHostName)) ?
@@ -54,6 +59,33 @@ namespace Area23.At.Mono.Util
                 (e ?? oNull).ToString());
 
             return logReq;
+        }
+
+        public static int DeleteFilesInTmpDirectory(string tmpDir = null)
+        {
+            int cnt = 0;
+            if (string.IsNullOrEmpty(tmpDir))
+                tmpDir = LibPaths.SystemDirTmpPath;
+
+            if (Directory.Exists(tmpDir))
+            {
+                foreach (string file in Directory.GetFiles(tmpDir))
+                {
+                    try
+                    {
+                        if (!file.Contains("temp.tmp"))
+                        {
+                            File.Delete(file);
+                            cnt++;
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+
+            return cnt;
         }
     }
 

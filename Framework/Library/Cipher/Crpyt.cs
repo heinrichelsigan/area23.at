@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 using Area23.At.Framework.Library.Cipher.Symmetric;
 using System.Linq;
+using Area23.At.Framework.Library.EnDeCoding;
 
 namespace Area23.At.Framework.Library.Cipher
 {
@@ -132,7 +133,7 @@ namespace Area23.At.Framework.Library.Cipher
             }
             if (cipherAlgo == CipherEnum.Aes || algorithmName == "Aes")
             {
-                sameKey = Symm.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, false);
+                sameKey = Symm.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, true);
                 decryptBytes = Symm.Algo.Aes.Decrypt(cipherBytes);
             }
             if (cipherAlgo == CipherEnum.Rijndael || algorithmName == "Rijndael")
@@ -178,7 +179,7 @@ namespace Area23.At.Framework.Library.Cipher
                 decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
             }
 
-            return decryptBytes;
+            return DeEnCoder.GetBytesTrimNulls(decryptBytes);
         }
 
     }

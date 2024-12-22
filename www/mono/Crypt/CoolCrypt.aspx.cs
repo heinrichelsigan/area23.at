@@ -694,9 +694,9 @@ namespace Area23.At.Mono.Crypt
                             string cipherText = EnDeCoder.GetString(inBytes);
                             string tmpFile = ByteArrayToFile(inBytes, out outMsg, strFileName + ".tmp", LibPaths.SystemDirTmpPath);
                             // tmpFile = tmpFile.Replace(".hex", ".tmp");
-                            if (System.IO.File.Exists(LibPaths.SystemDirOutPath + tmpFile))
+                            if (System.IO.File.Exists(LibPaths.SystemDirTmpPath + tmpFile))
                             {
-                                cipherText = System.IO.File.ReadAllText(LibPaths.SystemDirOutPath + tmpFile, Encoding.UTF8);
+                                cipherText = System.IO.File.ReadAllText(LibPaths.SystemDirTmpPath + tmpFile, Encoding.UTF8);
                             }
 
                             outBytes = DeEnCoder.DecodeText(cipherText /*, out string errMsg */, extEncType, plainUu, true);

@@ -2,6 +2,7 @@
 using Area23.At.Framework.Library.Core.Cipher.ASym;
 using Org.BouncyCastle.Bcpg;
 using Org.BouncyCastle.Crypto;
+using Area23.At.Framework.Library.Core.EnDeCoding;
 
 namespace Area23.At.Framework.Library.Core.Cipher
 {
@@ -114,7 +115,7 @@ namespace Area23.At.Framework.Library.Core.Cipher
 
             if (cipherAlgo == CipherEnum.Fish2 || algorithmName == "2Fish" || algorithmName == "Fish2")
             {
-                sameKey = Symm.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, false);
+                sameKey = Symm.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, true);
                 decryptBytes = Symm.Algo.Fish2.Decrypt(cipherBytes);
             }
             if (cipherAlgo == CipherEnum.Fish3 || algorithmName == "3Fish" || algorithmName == "Fish3")
@@ -129,12 +130,12 @@ namespace Area23.At.Framework.Library.Core.Cipher
             }
             if (cipherAlgo == CipherEnum.Aes || algorithmName == "Aes")
             {
-                sameKey = Symm.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, false);
+                sameKey = Symm.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, true);
                 decryptBytes = Symm.Algo.Aes.Decrypt(cipherBytes);
             }
             if (cipherAlgo == CipherEnum.Rijndael || algorithmName == "Rijndael")
             {
-                Symm.Algo.Rijndael.RijndaelGenWithKey(secretKey, keyIv, false);
+                Symm.Algo.Rijndael.RijndaelGenWithKey(secretKey, keyIv, true);
                 decryptBytes = Symm.Algo.Rijndael.Decrypt(cipherBytes);
             }
             if (cipherAlgo == CipherEnum.Rsa || algorithmName == "Rsa")
@@ -145,12 +146,12 @@ namespace Area23.At.Framework.Library.Core.Cipher
             }
             if (cipherAlgo == CipherEnum.Serpent || algorithmName == "Serpent")
             {
-                sameKey = Symm.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, false);
+                sameKey = Symm.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, true);
                 decryptBytes = Symm.Algo.Serpent.Decrypt(cipherBytes);
             }
             if (cipherAlgo == CipherEnum.ZenMatrix || algorithmName == "ZenMatrix")
             {
-                sameKey = Symm.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, false);
+                sameKey = Symm.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, true);
                 decryptBytes = Symm.Algo.ZenMatrix.Decrypt(cipherBytes);
             }
             if (algorithmName == "BlowFish" ||
@@ -175,7 +176,9 @@ namespace Area23.At.Framework.Library.Core.Cipher
                 decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
             }
 
-            return decryptBytes;
+            // return decryptBytes;
+            return DeEnCoder.GetBytesTrimNulls(decryptBytes);
+            
         }
 
 

@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Crypto;
+﻿using Area23.At.Framework.Library.EnDeCoding;
+using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -102,7 +103,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
 
             if (cipherAlgo == SymmCipherEnum.Fish2 || algorithmName == "2Fish" || algorithmName == "Fish2")
             {
-                sameKey = Symmetric.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, false);
+                sameKey = Symmetric.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, true);
                 decryptBytes = Symmetric.Algo.Fish2.Decrypt(cipherBytes);
             }
             if (cipherAlgo == SymmCipherEnum.Fish3 || algorithmName == "3Fish" || algorithmName == "Fish3")
@@ -117,17 +118,17 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             }
             if (cipherAlgo == SymmCipherEnum.Aes || algorithmName == "Aes")
             {
-                sameKey = Symmetric.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, false);
+                sameKey = Symmetric.Algo.Aes.AesGenWithNewKey(secretKey, keyIv, true);
                 decryptBytes = Symmetric.Algo.Aes.Decrypt(cipherBytes);
             }
             if (cipherAlgo == SymmCipherEnum.Serpent || algorithmName == "Serpent")
             {
-                sameKey = Symmetric.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, false);
+                sameKey = Symmetric.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, true);
                 decryptBytes = Symmetric.Algo.Serpent.Decrypt(cipherBytes);
             }
             if (cipherAlgo == SymmCipherEnum.ZenMatrix || algorithmName == "ZenMatrix")
             {
-                sameKey = Symmetric.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, false);
+                sameKey = Symmetric.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, true);
                 decryptBytes = Symmetric.Algo.ZenMatrix.Decrypt(cipherBytes);
             }
             if (algorithmName == "Camellia" || algorithmName == "Cast5" ||
@@ -148,7 +149,8 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
                 decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
             }
 
-            return decryptBytes;
+            return DeEnCoder.GetBytesTrimNulls(decryptBytes);
+            // return decryptBytes;
         }
 
 
@@ -237,7 +239,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             switch (cipherAlgo)
             {
                 case SymmCipherEnum.Fish2:
-                    sameKey = Symmetric.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, false);
+                    sameKey = Symmetric.Algo.Fish2.Fish2GenWithKey(secretKey, keyIv, true);
                     decryptBytes = Symmetric.Algo.Fish2.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.Fish3:
@@ -249,11 +251,11 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
                     decryptBytes = Symmetric.Algo.Des3.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.Serpent:
-                    sameKey = Symmetric.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, false);
+                    sameKey = Symmetric.Algo.Serpent.SerpentGenWithKey(secretKey, keyIv, true);
                     decryptBytes = Symmetric.Algo.Serpent.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.ZenMatrix:
-                    sameKey = Symmetric.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, false);
+                    sameKey = Symmetric.Algo.ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, true);
                     decryptBytes = Symmetric.Algo.ZenMatrix.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.BlowFish:
@@ -277,7 +279,8 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
                     break;
             }
 
-            return decryptBytes;
+            return DeEnCoder.GetBytesTrimNulls(decryptBytes);
+            // return decryptBytes;
         }
 
 

@@ -3,6 +3,7 @@ using Area23.At.Mono.Util;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -17,13 +18,14 @@ namespace Area23.At.Mono
         {
             string msg = String.Format("application init at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
             HostLogHelper.LogRequest(sender, e, msg);
+            HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
         }
 
         protected void Application_Start(object sender, EventArgs e)
-        {
+        {            
             string msg = String.Format("application started at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
             HostLogHelper.LogRequest(sender, e, msg);
-            Area23Log.Logger.Log("logging to logfile = " + Area23Log.LogFile);
+            Area23Log.Logger.Log("logging to logfile = " + Area23Log.LogFile);            
         }
 
         protected void Application_Disposed(object sender, EventArgs e) 
@@ -36,6 +38,7 @@ namespace Area23.At.Mono
         {
             string msg = String.Format("application ended at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
             HostLogHelper.LogRequest(sender, e, msg);
+            HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
         }
 
 
@@ -70,13 +73,15 @@ namespace Area23.At.Mono
         protected void Session_Start(object sender, EventArgs e)
         {
             string msg = String.Format("new session started at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
+            HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
             HostLogHelper.LogRequest(sender, e, msg);            
         }
 
 
         protected void Session_End(object sender, EventArgs e)
         {
-            string msg = String.Format("session ended at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
+            HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
+            string msg = String.Format("session ended at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));            
             HostLogHelper.LogRequest(sender, e, msg);
         }
 
