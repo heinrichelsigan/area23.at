@@ -380,3 +380,5 @@ FodyWeavers.xsd
 /www/mono/res/out/*.base32
 /www/mono/res/out/*.base32hex
 /www/mono/res/out/*.3fish
+/www/mono/res/out/*.fish2
+/www/mono/res/out/*.fish3
