@@ -25,10 +25,6 @@
     <WarningLevel>7</WarningLevel>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Settings.json" />
-  </ItemGroup>
-
 	<!--
 	<IsTrimmable>true</IsTrimmable>
 	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>	  	
@@ -53,7 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Settings.json" />
+    <Content Include="settings.json" />
   </ItemGroup>
 
   <ItemGroup>

@@ -83,7 +83,13 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         }
 
-
+        private void menuItemClear_Click(object sender, EventArgs e)
+        {
+            
+            this.TextBoxDestionation.Clear();
+            this.TextBoxSource.Clear();
+            this.richTextBoxChat.Clear();
+        }
 
         private void menuItemSend_Click(object sender, EventArgs e)
         {
@@ -118,7 +124,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             byte[] b1 = Assembly.GetExecutingAssembly().GetName().Version.ToVersionBytes();
             string exip = ExternalIpAddress.ToString();
             string ver = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            
+
             ZenMatrix.ZenMatrixGenWithKey(this.ComboBox_LocalEndPoint.Text, exip, true);
             this.TextBoxDestionation.Text += ZenMatrix.EncryptString(this.richTextBoxChat.Text) + "\n";
 
@@ -188,6 +194,12 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         #region SplitChatWindowLayout
 
+        /// <summary>
+        /// MenuView_ItemTopBottom_Click occures, when user clicks on Top-Bottom in chat app
+        /// shows top bottom view of chat líke ancient talk/talks
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         private void MenuView_ItemTopBottom_Click(object sender, EventArgs e)
         {
             menuViewItemLeftRíght.Checked = false;
@@ -207,6 +219,11 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         }
 
+        /// <summary>
+        /// MenuView_ItemLeftRíght_Click occurs, when user clicks on View->Left-Right in chat app
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         private void MenuView_ItemLeftRíght_Click(object sender, EventArgs e)
         {
             menuViewItemLeftRíght.Checked = true;
@@ -225,6 +242,12 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             splitContainer.MinimumSize = new System.Drawing.Size(600, 400);
         }
 
+        /// <summary>
+        /// MenuView_Item1View_Click, occurs, when user clicks on 1-View in chat app
+        /// shows only a single rich textbox instead of sender and receiver view
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         private void MenuView_Item1View_Click(object sender, EventArgs e)
         {
             menuViewItemLeftRíght.Checked = false;
@@ -429,9 +452,15 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         #region closeForm
 
-        protected internal void toolStripMenuItemClose_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Closes Form, if this is the last form of application, then executes <see cref="AppCloseAllFormsExit"/>
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">FormClosingEventArgs e</param>
+        private void formClose_Click(object sender, FormClosingEventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms.Count < 2)
+
+            if (System.Windows.Forms.Application.OpenForms.Count < 1)
             {
                 AppCloseAllFormsExit();
                 return;
@@ -457,29 +486,44 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         }
 
-
+        /// <summary>
+        /// menuFileItemExit_Click is fired, when selecting exit menu 
+        /// and will nevertheless close all forms and exits application
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         private void menuFileItemExit_Click(object sender, EventArgs e)
         {
             AppCloseAllFormsExit();
         }
 
         /// <summary>
-        /// AppCloseAllFormsExit closes all open forms and exit
+        /// AppCloseAllFormsExit closes all open forms and exit and finally unlocks Mutex
         /// </summary>
         /// <exception cref="ApplicationException"></exception>
         public virtual void AppCloseAllFormsExit()
         {
-            if (!Entities.Settings.Save(Entities.Settings.Instance))
+            string settingsNotSavedReason = string.Empty;
+            try
             {
-                throw new ApplicationException("Cannot persist settings for SecureChat!");
+                if (!Entities.Settings.Save(Entities.Settings.Instance))
+                    settingsNotSavedReason = "Unknown reason!";
             }
+            catch (Exception exSetSave)
+            {
+                Area23Log.LogStatic(exSetSave);
+                settingsNotSavedReason = exSetSave.Message;
+            }
+
+            if (!string.IsNullOrEmpty(settingsNotSavedReason))
+                MessageBox.Show(settingsNotSavedReason, "Couldn't save chat settings", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             for (int frmidx = 0; frmidx < System.Windows.Forms.Application.OpenForms.Count; frmidx++)
             {
                 try
                 {
                     Form? form = System.Windows.Forms.Application.OpenForms[frmidx];
-                    if (form != null && form.Name != this.Name)
+                    if (form != null)
                     {
                         form.Close();
                         form.Dispose();
@@ -489,22 +533,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 {
                     Area23Log.LogStatic(exForm);
                 }
-            }
-            try
-            {
-                this.Close();
-            }
-            catch (Exception exFormClose)
-            {
-                Area23Log.LogStatic(exFormClose);
-            }
-            try
-            {
-                this.Dispose(true);
-            }
-            catch (Exception exFormDispose)
-            {
-                Area23Log.LogStatic(exFormDispose);
             }
 
             Exception[] exceptions = new Exception[0];
