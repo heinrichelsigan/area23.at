@@ -300,22 +300,22 @@ namespace Area23.At.Mono.Crypt
                     {
                         case ZipType.GZip:
                             zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.gz");
-                            zOutPath = zPath.Replace(".txt.gz", ".asc.txt");
+                            zOutPath = zPath.Replace(".txt.gz", ".txt");
                             zopt = "gunzip";
                             break;
                         case ZipType.BZip2:
                             zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.bz2");
-                            zOutPath = zPath.Replace(".txt.bz2", ".txt").Replace(".bz2", ".asc").Replace(".bz", ".asc");
+                            zOutPath = zPath.Replace(".txt.bz2", ".txt").Replace(".bz2", "").Replace(".bz", "");
                             zopt = "bunzip";
                             break;
                         case ZipType.Z7:
                             zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.7z");
-                            zOutPath = zPath.Replace(".txt.7z", ".txt").Replace(".7z", ".asc").Replace(".z7", ".asc");
+                            zOutPath = zPath.Replace(".txt.7z", ".txt").Replace(".7z", "").Replace(".z7", "");
                             zopt = "7unzip";
                             break;
                         case ZipType.Zip:
                             zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.zip");
-                            zOutPath = zPath.Replace(".txt.zip", ".txt").Replace(".zip", ".asc");
+                            zOutPath = zPath.Replace(".txt.zip", ".txt").Replace(".zip", "");
                             zopt = "unzip";
                             break;
                         case ZipType.None:
@@ -743,22 +743,22 @@ namespace Area23.At.Mono.Crypt
                             {
                                 case ZipType.GZip:
                                     zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.gz");
-                                    zOutPath = zOutPath.Replace(".txt.gz", ".txt").Replace(".gz", ".asc");
+                                    zOutPath = zOutPath.Replace(".txt.gz", ".txt").Replace(".gz", "");
                                     zopt = "gunzip";
                                     break;
                                 case ZipType.BZip2:
                                     zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.bz2");
-                                    zOutPath = zOutPath.Replace(".txt.bz2", ".txt").Replace(".bz2", ".asc").Replace(".bz", ".asc");
+                                    zOutPath = zOutPath.Replace(".txt.bz2", ".txt").Replace(".bz2", "").Replace(".bz", ".asc");
                                     zopt = "bunzip";
                                     break;
                                 case ZipType.Z7:
                                     zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.7z");
-                                    zOutPath = zOutPath.Replace(".txt.7z", ".txt").Replace(".7z", ".asc").Replace(".z7", ".asc");
+                                    zOutPath = zOutPath.Replace(".txt.7z", ".txt").Replace(".7z", "").Replace(".z7", ".asc");
                                     zopt = "7unzip";
                                     break;
                                 case ZipType.Zip:
                                     zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.zip");
-                                    zOutPath = zOutPath.Replace(".txt.zip", ".txt").Replace(".zip", ".asc");
+                                    zOutPath = zOutPath.Replace(".txt.zip", ".txt").Replace(".zip", "");
                                     zopt = "7unzip";
                                     break;
                                 case ZipType.None:

@@ -129,6 +129,18 @@
                     </asp:DropDownList>
                 </span>
             </div>
+            <div class="odDiv">
+                <span class="leftSpan" style="width: 72px">
+                    Don't use zipping, when want to decrypt file or text view on another server.
+                </span>
+                <span class="centerSpan" style="width: 72px"></span>
+                <span class="centerSpan" style="width: 72px"></span>
+                <span class="centerSpan" style="width: 400px;">&nbsp;&nbsp;
+                </span>
+                <span class="rightSpan" style="width: 72px; max-width: 72px; min-width: 72px">
+                    &nbsp;&nbsp;
+                </span>
+            </div>      
             <hr />                
             <h3>En-/Decrypt file</h3>
             <div class="odDiv" style="vertical-align: top;">                       

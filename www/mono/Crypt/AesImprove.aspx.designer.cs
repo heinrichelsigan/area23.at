@@ -15,7 +15,7 @@ namespace Area23.At.Mono.Crypt
     {
 
         /// <summary>
-        /// CoolCryptForm control.
+        /// AesImproveForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
@@ -293,5 +293,4 @@ namespace Area23.At.Mono.Crypt
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonDecrypt;
     }
-
 }
