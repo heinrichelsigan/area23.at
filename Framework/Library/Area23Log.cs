@@ -17,7 +17,7 @@ namespace Area23.At.Framework.Library
         /// <summary>
         /// LogFile
         /// </summary>
-        public static string LogFile { get => LibPaths.LogPathFile; }
+        public static string LogFile { get => LibPaths.LogFileSystemPath; }
 
 
         /// <summary>

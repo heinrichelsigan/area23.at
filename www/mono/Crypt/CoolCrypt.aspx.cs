@@ -20,6 +20,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Web.Caching;
 using System.Web.DynamicData;
@@ -30,8 +31,10 @@ using static System.Net.WebRequestMethods;
 
 namespace Area23.At.Mono.Crypt
 {
+
     /// <summary>
-    /// SAES_En_Decrypt En-/De-cryption pipeline page 
+    /// CoolCrypt is En-/De-cryption pipeline page 
+    /// Former hash inside crypted bytestream is removed
     /// Feature to encrypt and decrypt simple plain text or files
     /// </summary>
     public partial class CoolCrypt : Util.UIPage
@@ -70,7 +73,7 @@ namespace Area23.At.Mono.Crypt
         {
             if (SpanLeftFile.Visible && aUploaded.HRef.Contains(Constants.OUT_DIR) && !string.IsNullOrEmpty(img1.Alt))
             {
-                string filePath = LibPaths.OutDirPath + img1.Alt;
+                string filePath = LibPaths.SystemDirOutPath + img1.Alt;
                 if (System.IO.File.Exists(filePath))
                 {
                     EnDeCryptUploadFile(null, true, filePath);
@@ -91,7 +94,7 @@ namespace Area23.At.Mono.Crypt
         {
             if (SpanLeftFile.Visible && aUploaded.HRef.Contains(Constants.OUT_DIR) && !string.IsNullOrEmpty(img1.Alt))
             {
-                string filePath = LibPaths.OutDirPath + img1.Alt;
+                string filePath = LibPaths.SystemDirOutPath + img1.Alt;
                 if (System.IO.File.Exists(filePath))
                 {
                     EnDeCryptUploadFile(null, false, filePath);
@@ -137,7 +140,7 @@ namespace Area23.At.Mono.Crypt
                 Reset_TextBox_IV(usrMailKey);
                 byte[] inBytes = Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
                 // string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;
-                byte[] encryptBytes = inBytes;
+                byte[] encryptBytes = inBytes;                
 
                 ZipType ztype = ZipType.None;
                 if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
@@ -145,40 +148,32 @@ namespace Area23.At.Mono.Crypt
                     string outp = string.Empty;
                     string zcmd = (Constants.UNIX) ? "zipunzip.sh" : (Constants.WIN32) ? "zipunzip.bat" : "";
                     string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
-                    string zPath = encryptBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt");
+                    string zPath = encryptBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt");
                     string zOutPath = zPath;
                     string zopt = "";
 
                     switch (ztype)
                     {
-                        case ZipType.GZip:
-                            zOutPath += ".gz";
-                            zopt = "gz";
-                            break;                            
-                        case ZipType.BZip2:
-                            zOutPath += ".bz2";
-                            zopt = "bz";
-                            break;                            
-                        case ZipType.Z7:
-                            zOutPath += ".7z";
-                            zopt = "7z";
-                            break;
-                        case ZipType.Zip: 
+                        case ZipType.GZip:  zOutPath = zPath + ".gz";   zopt = "gz";    break;                            
+                        case ZipType.BZip2: zOutPath = zPath + ".bz2";  zopt = "bz";    break;                            
+                        case ZipType.Z7:    zOutPath = zPath + ".7z";   zopt = "7z";    break;
+                        case ZipType.Zip:   zOutPath = zPath + ".zip";  zopt = "zip";   break;
                         case ZipType.None:
-                        default: zopt = ""; break;
+                        default:            zOutPath = ""; zPath = "";  zopt = "";      break;
                     }
 
-                    if (!string.IsNullOrEmpty(zopt) && System.IO.File.Exists(LibPaths.BinDir + zcmd))
+                    if (!string.IsNullOrEmpty(zopt) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd) &&
+                        System.IO.File.Exists(zPath))
                     {
-                        outp = ProcessCmd.Execute(LibPaths.BinDir + zcmd,
-                                zopt + " " + zPath + " " + zOutPath, false);
+                        outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
+                                zopt + " " + zPath + " " + zOutPath, false);                        
+                        Thread.Sleep(64);
                         if (System.IO.File.Exists(zOutPath))
-                            inBytes = System.IO.File.ReadAllBytes(zOutPath);
+                            encryptBytes = System.IO.File.ReadAllBytes(zOutPath);
                     }
                 }
 
-
-                string[] algos = this.TextBox_Encryption.Text.Split("+;,→⇛".ToCharArray());
+                string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
                 foreach (string algo in algos)
                 {
                     if (!string.IsNullOrEmpty(algo))
@@ -186,14 +181,14 @@ namespace Area23.At.Mono.Crypt
                         CipherEnum cipherAlgo = CipherEnum.Aes;
                         if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
                         {
-                            encryptBytes = Framework.Library.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);
-                            inBytes = encryptBytes;                            
+                            inBytes = Framework.Library.Cipher.Crypt.EncryptBytes(encryptBytes, cipherAlgo, secretKey, keyIv);
+                            encryptBytes = inBytes;
                         }
                     }
                 }
 
                 bool fromPlain = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
-                // string encodingMethod = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
+                
                 encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
                 string encryptedText = DeEnCoder.EncodeBytes(encryptBytes, encodeType, fromPlain, false);
 
@@ -253,8 +248,7 @@ namespace Area23.At.Mono.Crypt
 
                 string cipherText = this.TextBoxSource.Text;
                 bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
-                string decryptedText = string.Empty;
-                // encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
+                string decryptedText = string.Empty;                
                 byte[] cipherBytes;
                 string encodingMethod = encodeType.ToString().ToLowerInvariant();
                 try
@@ -277,7 +271,7 @@ namespace Area23.At.Mono.Crypt
                 byte[] decryptedBytes = cipherBytes;
                 int ig = 0;
 
-                string[] algos = this.TextBox_Encryption.Text.Split("+;,→   ".ToCharArray());
+                string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
                 for (ig = (algos.Length - 1); ig >= 0; ig--)
                 {
                     if (!string.IsNullOrEmpty(algos[ig]))
@@ -298,38 +292,43 @@ namespace Area23.At.Mono.Crypt
                 {
                     string outp = string.Empty;
                     string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
-                    string zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.z");
-                    string zOutPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt");
+                    string zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.z");
+                    string zOutPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt");
                     string zopt = "";
 
                     switch (ztype)
                     {
                         case ZipType.GZip:
-                            zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.gz");
+                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.gz");
                             zOutPath = zPath.Replace(".txt.gz", ".asc.txt");
                             zopt = "gunzip";
                             break;                            
                         case ZipType.BZip2:
-                            zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.bz2");
+                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.bz2");
                             zOutPath = zPath.Replace(".txt.bz2", ".txt").Replace(".bz2", ".asc").Replace(".bz", ".asc");
                             zopt = "bunzip";
                             break; 
                         case ZipType.Z7:
-                            zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.bz2");
-                            zOutPath = zPath.Replace(".txt.bz2", ".txt").Replace(".bz2", ".asc").Replace(".bz", ".asc");
+                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.bz2");
+                            zOutPath = zPath.Replace(".txt.7z", ".txt").Replace(".7z", ".asc");
                             zopt = "7unzip";
                             break;
-                        case ZipType.Zip: 
+                        case ZipType.Zip:
+                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.zip");
+                            zOutPath = zPath.Replace(".txt.zip", ".txt").Replace(".zip", ".asc");
+                            zopt = "unzip";
+                            break;
                         case ZipType.None:
-                        default: zopt = "";  decryptedBytes = cipherBytes; break;
+                        default: zopt = ""; zOutPath = ""; decryptedBytes = cipherBytes; break;
                     }
 
                     if (!string.IsNullOrEmpty(zopt) && !string.IsNullOrEmpty(zPath) && !string.IsNullOrEmpty(zOutPath))
                     {
-                        if (System.IO.File.Exists(zPath) && System.IO.File.Exists(LibPaths.BinDir + zcmd))
+                        if (System.IO.File.Exists(zPath) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd))
                         {
-                            outp = ProcessCmd.Execute(LibPaths.BinDir + zcmd,
+                            outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
                                 zopt + " " + zPath + " " + zOutPath, false);
+                            Thread.Sleep(64);
                             if (System.IO.File.Exists(zOutPath))
                                 decryptedBytes = System.IO.File.ReadAllBytes(zOutPath);
                         }
@@ -522,6 +521,7 @@ namespace Area23.At.Mono.Crypt
 
         #endregion page_events
 
+
         #region file_handling_members 
 
         /// <summary>
@@ -535,7 +535,7 @@ namespace Area23.At.Mono.Crypt
             {
                 string strFileName = pfile.FileName;
                 strFileName = Path.GetFileName(strFileName);
-                string strFilePath = LibPaths.OutDirPath + strFileName;
+                string strFilePath = LibPaths.SystemDirOutPath + strFileName;
                 pfile.SaveAs(strFilePath);
 
                 if (System.IO.File.Exists(strFilePath))
@@ -552,11 +552,12 @@ namespace Area23.At.Mono.Crypt
             }
         }
 
+
         /// <summary>
-            /// Encrypts or Decrypts uploaded file
-            /// </summary>
-            /// <param name="pfile">HttpPostedFile pfile</param>
-            /// <param name="crypt">true for encrypt, false for decrypt</param>
+        /// Encrypts or Decrypts uploaded file
+        /// </summary>
+        /// <param name="pfile">HttpPostedFile pfile</param>
+        /// <param name="crypt">true for encrypt, false for decrypt</param>
         protected void EnDeCryptUploadFile(HttpPostedFile pfile, bool crypt = true, string fileSavedName = "")
         {
             // Get the name of the file that is posted.
@@ -576,14 +577,14 @@ namespace Area23.At.Mono.Crypt
             if ((pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ||
                 (!string.IsNullOrEmpty(fileSavedName) && System.IO.File.Exists(fileSavedName)))
             {
-                byte[] fileBytes = (!string.IsNullOrEmpty(fileSavedName) && System.IO.File.Exists(fileSavedName)) ?
+                byte[] inBytes = (!string.IsNullOrEmpty(fileSavedName) && System.IO.File.Exists(fileSavedName)) ?
                      System.IO.File.ReadAllBytes(fileSavedName) : (
                         (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ?
                             pfile.InputStream.ToByteArray() : new byte[65536]);
 
                 uploadResult.Text = "";
 
-                byte[] outBytes = new byte[fileBytes.Length];
+                byte[] outBytes = new byte[inBytes.Length];
 
                 if (!string.IsNullOrEmpty(strFileName))
                 {
@@ -591,12 +592,12 @@ namespace Area23.At.Mono.Crypt
                     string baseEncoding = this.DropDownList_Encoding.SelectedValue.ToLowerInvariant();
 
                     int cryptCount = 0;
-                    outBytes = fileBytes;
-                    Array.Copy(fileBytes, 0, outBytes, 0, fileBytes.Length);
+                    // outBytes = inBytes;
+                    // Array.Copy(inBytes, 0, outBytes, 0, inBytes.Length);
 
                     if (crypt)
                     {
-                        byte[] inBytes = fileBytes; //.TarBytes(inBytesSeperator, inBytesKeyHash);                            
+                        // byte[] inBytes = fileBytes; //.TarBytes(inBytesSeperator, inBytesKeyHash);                            
 
                         imgOut.Src = LibPaths.ResAppPath + "img/encrypted.png";
 
@@ -607,24 +608,26 @@ namespace Area23.At.Mono.Crypt
                         {
                             string outp = string.Empty;
                             string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
-                            string zPath = fileBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt");
+                            string zPath = inBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt");
                             string zOutPath = zPath;
                             switch (ztype)
                             {
                                 case ZipType.GZip:  zOutPath += ".gz"; zopt = "gz"; break;
                                 case ZipType.BZip2: zOutPath += ".bz2"; zopt = "bz2"; break;
                                 case ZipType.Z7: zOutPath += ".7z"; zopt = "7z"; break;
-                                case ZipType.Zip: 
+                                case ZipType.Zip: zOutPath += ".zip"; zopt = "zip"; break;
                                 case ZipType.None:
                                 default: zopt = ""; break;
                             }
 
-                            if (!string.IsNullOrEmpty(zopt) && System.IO.File.Exists(LibPaths.BinDir + zcmd))
+                            if (!string.IsNullOrEmpty(zopt) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd))
                             {
-                                outp = ProcessCmd.Execute(LibPaths.BinDir + zcmd,
+                                outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
                                         zopt + " " + zPath + " " + zOutPath, false);
+                                Thread.Sleep(64);
                                 if (System.IO.File.Exists(zOutPath))
                                     inBytes = System.IO.File.ReadAllBytes(zOutPath);
+                                
                                 strFileName += "." + zopt;
                             }
                         }
@@ -653,7 +656,7 @@ namespace Area23.At.Mono.Crypt
                         }
                         else
                         {
-                            savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName);
+                            savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName, LibPaths.SystemDirOutPath);
                         }
 
                         if (!string.IsNullOrEmpty(savedTransFile) && !string.IsNullOrEmpty(outMsg))
@@ -670,10 +673,7 @@ namespace Area23.At.Mono.Crypt
                     else
                     {
 
-                        string decryptedText = string.Empty;
-                        byte[] cipherBytes = fileBytes;
-                        Array.Copy(fileBytes, 0, cipherBytes, 0, fileBytes.Length);
-
+                        string decryptedText = string.Empty;                        
                         bool decode = false;
                         string ext = strFileName.GetExtensionFromFileString();
                         foreach (var encType in EncodingTypesExtensions.GetEncodingTypes())
@@ -692,16 +692,20 @@ namespace Area23.At.Mono.Crypt
                         if (decode)
                         {
                             encodingMethod = (ext.StartsWith(".")) ? ext.ToLowerInvariant().Substring(1) : ext.ToLowerInvariant();
-                            string cipherText = EnDeCoder.GetString(fileBytes);
-                            string tmpFile = ByteArrayToFile(fileBytes, out outMsg, strFileName + ".tmp");
+                            string cipherText = EnDeCoder.GetString(inBytes);
+                            string tmpFile = ByteArrayToFile(inBytes, out outMsg, strFileName + ".tmp", LibPaths.SystemDirTmpPath);
                             // tmpFile = tmpFile.Replace(".hex", ".tmp");
-                            if (System.IO.File.Exists(LibPaths.OutDirPath + tmpFile))
+                            if (System.IO.File.Exists(LibPaths.SystemDirOutPath + tmpFile))
                             {
-                                cipherText = System.IO.File.ReadAllText(LibPaths.OutDirPath + tmpFile, Encoding.UTF8);
+                                cipherText = System.IO.File.ReadAllText(LibPaths.SystemDirOutPath + tmpFile, Encoding.UTF8);
                             }
 
-                            cipherBytes = DeEnCoder.DecodeText(cipherText /*, out string errMsg */, extEncType, plainUu, true);
+                            outBytes = DeEnCoder.DecodeText(cipherText /*, out string errMsg */, extEncType, plainUu, true);
                             strFileName = strFileName.EndsWith("." + encodingMethod) ? strFileName.Replace("." + encodingMethod, "") : strFileName;
+                        }
+                        else // if not decode, copy inBytes => outBytes
+                        {
+                            Array.Copy(inBytes, 0, outBytes, 0, inBytes.Length);
                         }
 
                         strFileName = strFileName.EndsWith(".hex") ? strFileName.Replace(".hex", "") : strFileName;
@@ -715,16 +719,15 @@ namespace Area23.At.Mono.Crypt
                                 CipherEnum cipherAlgo = CipherEnum.Aes;
                                 if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
                                 {
-                                    outBytes = Framework.Library.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
-                                    cipherBytes = outBytes;
+                                    inBytes = Framework.Library.Cipher.Crypt.DecryptBytes(outBytes, cipherAlgo, secretKey, keyIv);
+                                    outBytes = inBytes;
                                     cryptCount++;
                                     strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;
                                 }
                             }
                         }
 
-                        cipherBytes = DeEnCoder.GetBytesTrimNulls(outBytes);
-                        outBytes = cipherBytes;
+                        outBytes = DeEnCoder.GetBytesTrimNulls(inBytes);
 
                         ZipType ztype = ZipType.None;
                         string zcmd = (Constants.UNIX) ? "zipunzip.sh" : (Constants.WIN32) ? "zipunzip.bat" : "";                        
@@ -733,47 +736,64 @@ namespace Area23.At.Mono.Crypt
                             string zopt = "";
                             string outp = string.Empty;                            
                             string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
-                            string zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.z"); 
-                            string zOutPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt");
+                            string zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.z");
+                            string zOutPath = LibPaths.SystemDirOutPath + strFileName;
 
                             switch (ztype)
                             {
                                 case ZipType.GZip:
-                                    zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.gz");
-                                    zOutPath = zPath.Replace(".txt.gz", ".txt").Replace(".gz", ".asc");
+                                    zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.gz");
+                                    zOutPath = zOutPath.Replace(".txt.gz", ".txt").Replace(".gz", ".asc");
                                     zopt = "gunzip";                                    
                                     break;
                                 case ZipType.BZip2:
-                                    zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.bz2");
-                                    zOutPath = zPath.Replace(".txt.bz2", ".txt").Replace(".bz2", ".asc").Replace(".bz", ".asc");
+                                    zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.bz2");
+                                    zOutPath = zOutPath.Replace(".txt.bz2", ".txt").Replace(".bz2", ".asc").Replace(".bz", ".asc");
                                     zopt = "bunzip";
                                     break;                                    
                                 case ZipType.Z7:
-                                    zPath = cipherBytes.ToFile(LibPaths.OutDirPath, zfile, ".txt.7z");
-                                    zOutPath = zPath.Replace(".txt.7z", ".txt").Replace(".7z", ".asc").Replace(".z7", ".asc");
+                                    zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.7z");
+                                    zOutPath = zOutPath.Replace(".txt.7z", ".txt").Replace(".7z", ".asc").Replace(".z7", ".asc");
                                     zopt = "7unzip";
                                     break; 
                                 case ZipType.Zip:
+                                    zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.zip");
+                                    zOutPath = zOutPath.Replace(".txt.zip", ".txt").Replace(".zip", ".asc");
+                                    zopt = "7unzip";
+                                    break;
                                 case ZipType.None:
-                                default: zopt = ""; outBytes = cipherBytes; break;
+                                default: zopt = ""; zOutPath = string.Empty; outMsg = string.Empty;
+                                    break;
                             }
 
                             if (!string.IsNullOrEmpty(zopt) && !string.IsNullOrEmpty(zPath) && !string.IsNullOrEmpty(zOutPath))
                             {
-                                if (System.IO.File.Exists(zPath) && System.IO.File.Exists(LibPaths.BinDir + zcmd))
+                                if (System.IO.File.Exists(zPath) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd))
                                 {
-                                    outp = ProcessCmd.Execute(LibPaths.BinDir + zcmd,
+                                    outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
                                         zopt + " " + zPath + " " + zOutPath, false);
-                                    if (System.IO.File.Exists(zOutPath))
-                                        outBytes = System.IO.File.ReadAllBytes(zOutPath);
-
-                                    strFileName = strFileName.Replace(".gz", "").Replace(".bz", "").Replace(".bz2", "").Replace(".7z", "").Replace(".z7", "");
+                                    Thread.Sleep(64);
+                                    if (System.IO.File.Exists(zOutPath))                 
+                                        outMsg = Path.GetFileName(zOutPath);
+                                    try
+                                    {
+                                        System.IO.File.Delete(zPath);
+                                    }
+                                    catch (Exception exDel)
+                                    {
+                                        Area23Log.LogStatic(exDel); 
+                                    }
                                 }
                             }
                         }
 
-                        cipherBytes = DeEnCoder.GetBytesTrimNulls(outBytes);
-                        savedTransFile = this.ByteArrayToFile(cipherBytes, out outMsg, strFileName);
+                        if (string.IsNullOrEmpty(outMsg))
+                        {
+                            savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName, LibPaths.SystemDirOutPath);
+                        }
+                        else
+                            savedTransFile = outMsg;
+
                         // if (success)
                         uploadResult.Text = string.Format("decrypt to {0}", outMsg);
                         // else
@@ -807,8 +827,6 @@ namespace Area23.At.Mono.Crypt
         #endregion file_handling_members 
 
         
-
-
         /// <summary>
         /// Resets TextBox Key_IV to standard value for <see cref="Constants.AUTHOR_EMAIL"/>
         /// </summary>
@@ -857,7 +875,6 @@ namespace Area23.At.Mono.Crypt
             DivAesImprove.Style["background-image"] = "url('../res/img/AesImproveBG.gif')";
 
         }
-
 
         /// <summary>
         /// removes posted file from session and file location

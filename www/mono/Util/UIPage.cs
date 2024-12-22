@@ -40,7 +40,7 @@ namespace Area23.At.Mono.Util
 
         public string SepChar { get => LibPaths.SepChar.ToString(); }
 
-        public string LogFile { get => LibPaths.LogPathFile; }
+        public string LogFile { get => LibPaths.LogFileSystemPath; }
 
 
         protected override void OnInit(EventArgs e)
@@ -84,11 +84,17 @@ namespace Area23.At.Mono.Util
         /// <param name="bytes">byte[] of raw data</param>
         /// <param name="outMsg"></param>
         /// <param name="fileName">filename to save</param>
+        /// <param name="directoryName">directory where to save file</param>
         /// <returns>fileName under which it was saved really</returns>
-        protected virtual string ByteArrayToFile(byte[] bytes, out string outMsg, string fileName = null)
+        protected virtual string ByteArrayToFile(byte[] bytes, out string outMsg, string fileName = null, string directoryName = null)
         {
-            string strPath = LibPaths.OutDirPath;
             outMsg = String.Empty;
+            string strPath = LibPaths.SystemDirOutPath;
+            if (!string.IsNullOrEmpty(directoryName) && Directory.Exists(directoryName))
+            {
+                strPath = directoryName;
+            }
+            
             if (string.IsNullOrEmpty(fileName))
             {
                 fileName = Constants.DateFile + Guid.NewGuid().ToString();
@@ -99,20 +105,19 @@ namespace Area23.At.Mono.Util
                 fileName += "." + ext;
 
             string newFileName = fileName;
+           
             
-            strPath = LibPaths.OutDirPath + fileName;            
             try
             {
-                while (System.IO.File.Exists(strPath))
+                while (System.IO.File.Exists(strPath + fileName))
                 {
                     newFileName = fileName.Contains(Constants.DateFile) ?
                         Constants.DateFile + Guid.NewGuid().ToString() + "_" + fileName :
                         Constants.DateFile + fileName;
-                    strPath = LibPaths.OutDirPath + newFileName;
-                    outMsg = String.Format("{0} already exists on server, saving it to ", fileName);
+                    outMsg = String.Format("{0} already exists on server, saving it to {1}", fileName, newFileName);
                     fileName = newFileName;
                 }
-                using (var fs = new FileStream(strPath, FileMode.Create, FileAccess.Write))
+                using (var fs = new FileStream(strPath + fileName, FileMode.Create, FileAccess.Write))
                 {
                     fs.Write(bytes, 0, bytes.Length);
                 }
@@ -122,9 +127,9 @@ namespace Area23.At.Mono.Util
                 Area23Log.LogStatic(ex);
             }
 
-            if (System.IO.File.Exists(strPath))
+            if (System.IO.File.Exists(strPath + fileName))
             {
-                string mimeType = MimeType.GetMimeType(bytes, strPath);
+                string mimeType = MimeType.GetMimeType(bytes, strPath + fileName);
                 if (fileName.EndsWith("tmp"))
                 {
                     string extR = MimeType.GetFileExtForMimeTypeApache(mimeType);
@@ -133,7 +138,7 @@ namespace Area23.At.Mono.Util
                     else
                     {
                         newFileName = fileName.Replace("tmp", extR);
-                        System.IO.File.Move(strPath, LibPaths.OutDirPath + newFileName);
+                        System.IO.File.Move(strPath + fileName, LibPaths.SystemDirOutPath + newFileName);
                     }
 
                     outMsg = newFileName;
@@ -145,13 +150,18 @@ namespace Area23.At.Mono.Util
                     return fileName;
                 }
             }
+
             outMsg = null;
             return null;
         }
 
-        protected virtual string StringToFile(string encodedText, out string outMsg, string fileName = null)
+        protected virtual string StringToFile(string encodedText, out string outMsg, string fileName = null, string directoryName = null)
         {
-            string strPath = LibPaths.OutDirPath;
+            string strPath = LibPaths.SystemDirOutPath;
+            if (!String.IsNullOrEmpty(directoryName) && Directory.Exists(directoryName))
+            {
+                strPath = directoryName;
+            }
             outMsg = String.Empty;
             if (string.IsNullOrEmpty(fileName))
             {
@@ -164,19 +174,19 @@ namespace Area23.At.Mono.Util
 
             string newFileName = fileName;
 
-            strPath = LibPaths.OutDirPath + fileName;
+            // strPath = LibPaths.SystemDirOutPath + fileName;
             try
             {
-                while (System.IO.File.Exists(strPath))
+                while (System.IO.File.Exists(strPath + fileName))
                 {
                     newFileName = fileName.Contains(Constants.DateFile) ?
                         Constants.DateFile + Guid.NewGuid().ToString() + "_" + fileName :
                         Constants.DateFile + fileName;
-                    strPath = LibPaths.OutDirPath + newFileName;
-                    outMsg = String.Format("{0} already exists on server, saving it to ", fileName);
+                    // strPath = LibPaths.SystemDirOutPath + newFileName;
+                    outMsg = String.Format("{0} already exists on server, saving it to {1}", fileName, newFileName);
                     fileName = newFileName;
                 }
-                File.WriteAllText(strPath, encodedText, Encoding.UTF8);
+                File.WriteAllText(strPath + fileName, encodedText, Encoding.UTF8);
             }
             catch (Exception ex)
             {

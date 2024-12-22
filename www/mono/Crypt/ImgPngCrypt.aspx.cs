@@ -160,13 +160,13 @@ namespace Area23.At.Mono.Crypt
             if (pfile != null)
             {
                 // Save the uploaded file to the server.
-                strFilePath = LibPaths.OutDirPath + strFileName;
+                strFilePath = LibPaths.SystemDirOutPath + strFileName;
                 while (System.IO.File.Exists(strFilePath))
                 {
                     string newFileName = strFilePath.Contains(Constants.DateFile) ?
                         Constants.DateFile + Guid.NewGuid().ToString() + "_" + strFileName :
                         Constants.DateFile + strFileName;
-                    strFilePath = LibPaths.OutDirPath + newFileName;
+                    strFilePath = LibPaths.SystemDirOutPath + newFileName;
                     lblUploadResult.Text = String.Format("{0} already exists on server, saving it to {1}.",
                         strFileName, newFileName);
                 }

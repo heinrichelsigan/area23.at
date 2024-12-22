@@ -224,7 +224,7 @@ namespace Area23.At.Www.S
             {
                 int idxQr = invImgSrc.IndexOf("Qr/");
                 string qrInvPath = invImgSrc.Substring(idxQr);
-                string invPath = LibPaths.AppDirPath + qrInvPath.Replace("/", LibPaths.SepChar);
+                string invPath = LibPaths.SystemDirPath + qrInvPath.Replace("/", LibPaths.SepChar);
                 try
                 {
                     invPath = Server.MapPath(qrInvPath);
@@ -232,7 +232,7 @@ namespace Area23.At.Www.S
                 catch (Exception exQrMapPath)
                 {
                     Area23Log.LogStatic(exQrMapPath);
-                    invPath = LibPaths.AppDirPath;
+                    invPath = LibPaths.SystemDirQrPath;
                     if (!invPath.EndsWith(LibPaths.SepChar)) 
                         invPath += LibPaths.SepChar;
                     invPath += qrInvPath.Replace("/", LibPaths.SepChar);

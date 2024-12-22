@@ -20,7 +20,7 @@ namespace Area23.At.Framework.Library.Core.Util
         {
             get
             {
-                string loadFileName = System.IO.Path.Combine(LibPaths.QrDirPath, Constants.JSON_SAVE_FILE);
+                string loadFileName = System.IO.Path.Combine(LibPaths.SystemDirQrPath, Constants.JSON_SAVE_FILE);
                 if (!File.Exists(loadFileName))
                 {
                     loadFileName = AppContext.BaseDirectory.

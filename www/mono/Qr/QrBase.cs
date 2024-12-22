@@ -169,11 +169,11 @@ namespace Area23.At.Mono.Qr
             }
 
             string qrfn = DateTime.UtcNow.Area23DateTimeWithMillis();
-            string qrOutPath = LibPaths.OutDirPath + qrfn + ".gif";
+            string qrOutPath = LibPaths.SystemDirOutPath + qrfn + ".gif";
             QrImgPath = LibPaths.OutAppPath + qrfn + ".gif";
 
             // normal operation => save qrCodeImage to qrOutToPath
-            string qrOutToPath = LibPaths.OutDirPath + qrfn + "_11.gif";
+            string qrOutToPath = LibPaths.SystemDirOutPath + qrfn + "_11.gif";
             qrCodeImage.Save(qrOutToPath);
 
             MemoryStream gifStrm = new MemoryStream();
@@ -392,7 +392,7 @@ namespace Area23.At.Mono.Qr
 
             string qrfn = Constants.DateFile + DateTime.Now.Millisecond + ".png";
             QrImgPath = LibPaths.OutAppPath + qrfn;
-            qrCodeImage.Save(LibPaths.OutDirPath + qrfn);
+            qrCodeImage.Save(LibPaths.SystemDirOutPath + qrfn);
 
             return qrCodeImage;
         }

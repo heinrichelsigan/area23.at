@@ -44,27 +44,34 @@ namespace Area23.At.Framework.Library
 
         public const string CALC_DIR = "Calc";
         public const string CSS_DIR = "css";
+        public const string CRYPT_DIR = "Crypt";
         public const string ENCODE_DIR = "Crypt";
         public const string GAMES_DIR = "Gamez";
         public const string JS_DIR = "js";
-        public const string JSON_SAVE_FILE = "urlshort.json";
         public const string UPSAVED_FILE = "SavedFile";
         public const string LOG_DIR = "log";
         public const string LOG_EXT = ".log";
         public const string OUT_DIR = "out";
+        public const string TMP_DIR = "tmp";
         public const string QR_DIR = "Qr";
         public const string RES_DIR = "res";
         public const string RES_FOLDER = "res";
         public const string TEXT_DIR = "text";
         public const string UNIX_DIR = "Unix";
         public const string UTF8_DIR = "Utf8";
-        public const string UTF8_JSON = "utf8symol.json";
         public const string UU_DIR = "uu";
-
         public const string BIN_DIR = "bin";
         public const string OBJ_DIR = "obj";
         public const string RELEASE_DIR = "Release";
         public const string DEBUG_DIR = "Release";
+
+        public const string UTF8_JSON = "utf8symol.json";
+        public const string JSON_SAVE_FILE = "urlshort.json";
+        public const string JSON_SETTINGS_FILE = "settings.json";
+        public const string CQR_CHAT_FILE = "cqr{0}chat.json";
+        public const string LAST_EXCEPTION = "last_exception";
+        public const string COOL_CRYPT_SPLIT = "+-;,:→⇛\t ";
+
 
         public const string ACCEPT_LANGUAGE = "Accept-Language";
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";

@@ -24,6 +24,7 @@ using System.Runtime.CompilerServices;
 using System.IO;
 using Area23.At.Framework.Library.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
+using Org.BouncyCastle.Asn1.X509;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -46,7 +47,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             if (Entities.Settings.Load() == null)
             {
-                var badge = new TransparentBadge($"Error reading Settings from {LibPaths.AppDirPath + Constants.JSON_SETTINGS_FILE}.");
+                var badge = new TransparentBadge($"Error reading Settings from {LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE}.");
                 badge.Show();
             }
             if (Entities.Settings.Instance == null || Entities.Settings.Instance.MyContact == null)
@@ -79,7 +80,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     proxyList.Add(ip.ToString());
                 }
                 catch (Exception ex)
-                {
+                {                    
+                    CqrException.LastException = ex;
                     Area23Log.LogStatic(ex);
                 }
             }
@@ -243,7 +245,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
             catch (Exception exFormClose)
             {
-                Area23Log.LogStatic(exFormClose);
+                CqrException.LastException = exFormClose;
+                Area23Log.LogStatic(exFormClose);                
             }
             try
             {
@@ -251,6 +254,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
             catch (Exception exFormDispose)
             {
+                CqrException.LastException = exFormDispose;
                 Area23Log.LogStatic(exFormDispose);
             }
 
@@ -407,7 +411,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             if (!Entities.Settings.Save(Entities.Settings.Instance))
             {
-                throw new ApplicationException("Cannot persist settings for SecureChat!");
+                throw new CqrException("Cannot persist settings for SecureChat!");
             }
 
             for (int frmidx = 0; frmidx < System.Windows.Forms.Application.OpenForms.Count; frmidx++)
@@ -423,6 +427,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 }
                 catch (Exception exForm)
                 {
+                    CqrException.LastException = exForm;
                     Area23Log.LogStatic(exForm);
                 }
             }
@@ -432,6 +437,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
             catch (Exception exFormClose)
             {
+                CqrException.LastException = exFormClose;
                 Area23Log.LogStatic(exFormClose);
             }
             try
@@ -440,18 +446,17 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
             catch (Exception exFormDispose)
             {
+                CqrException.LastException = exFormDispose;
                 Area23Log.LogStatic(exFormDispose);
             }
 
-            Exception[] exceptions = new Exception[0];
             try
             {
-                Program.ReleaseCloseDisposeMutex(Program.PMutec, out exceptions);
+                Program.ReleaseCloseDisposeMutex(Program.PMutec);
             }
             catch (Exception ex)
             {
-                foreach (Exception exMutex in exceptions)
-                    Area23Log.LogStatic(exMutex);
+                CqrException.LastException = ex;
                 Area23Log.LogStatic(ex);
             }
 

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using Area23.At.Framework.Library.Core.Util;
+using Area23.At.WinForm.SecureChat.Entities;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -283,15 +284,13 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 Area23Log.LogStatic(exFormDispose);
             }
 
-            Exception[] exceptions = new Exception[0];
             try
             {
-                Program.ReleaseCloseDisposeMutex(Program.PMutec, out exceptions);
+                Program.ReleaseCloseDisposeMutex(Program.PMutec);
             }
             catch (Exception ex)
             {
-                foreach (Exception exMutex in exceptions)
-                    Area23Log.LogStatic(exMutex);
+                CqrException.LastException = ex;
                 Area23Log.LogStatic(ex);
             }
 

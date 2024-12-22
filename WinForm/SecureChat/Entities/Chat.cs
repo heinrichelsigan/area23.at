@@ -76,7 +76,7 @@ namespace Area23.At.WinForm.SecureChat.Entities
         {
             string chatString = string.Empty;
             Chat? cqrchat = null;
-            string fileName = LibPaths.AppDirPath + String.Format(Constants.CQR_CHAT_FILE, chatId);
+            string fileName = LibPaths.SystemDirPath + String.Format(Constants.CQR_CHAT_FILE, chatId);
             try
             {
                 if (!File.Exists(fileName) && Directory.Exists(LibPaths.AppPath))
@@ -112,12 +112,12 @@ namespace Area23.At.WinForm.SecureChat.Entities
             {
                 cqrChat.SaveStamp = DateTime.Now;
                 saveString = JsonConvert.SerializeObject(cqrChat);
-                string fileName = LibPaths.AppDirPath + String.Format(Constants.CQR_CHAT_FILE, cqrChat.ChatId);
+                string fileName = LibPaths.SystemDirPath + String.Format(Constants.CQR_CHAT_FILE, cqrChat.ChatId);
                 File.WriteAllText(fileName, saveString);
             }
             catch (Exception ex)
             {
-                Area23Log.LogStatic(ex);
+                CqrException.LastException = ex;
                 return false;
             }
             return true;
@@ -147,8 +147,8 @@ namespace Area23.At.WinForm.SecureChat.Entities
         {
             if (!Dispose(true))
             {                
-                string fileName = LibPaths.AppDirPath + String.Format(Constants.CQR_CHAT_FILE, ChatId);
-                throw new ApplicationException($"Couldn't save chat {ChatId} to {fileName}.");
+                string fileName = LibPaths.SystemDirPath + String.Format(Constants.CQR_CHAT_FILE, ChatId);
+                throw new CqrException($"~Chat(): couldn't save chat {ChatId} to {fileName}.", CqrException.LastException);
             }
                 
             _disposed = true;

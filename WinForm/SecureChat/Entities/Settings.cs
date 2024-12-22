@@ -14,7 +14,7 @@ namespace Area23.At.WinForm.SecureChat.Entities
     public class Settings : IDisposable
     {
         // TODO: replace it in C# 9.0 to private static readonly lock _lock
-        private static readonly bool _lock = true;               
+        private static readonly object _lock = true;               
 
         private static readonly Lazy<Settings> _instance =
             new Lazy<Settings>(() => new Settings());
@@ -75,7 +75,7 @@ namespace Area23.At.WinForm.SecureChat.Entities
         {
             string settingsJsonString = string.Empty;
             Settings? settings = null;
-            string fileName = LibPaths.AppDirPath + Constants.JSON_SETTINGS_FILE;
+            string fileName = LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE;
             try
             {
                 if (!File.Exists(fileName) && Directory.Exists(LibPaths.AppPath))
@@ -88,7 +88,7 @@ namespace Area23.At.WinForm.SecureChat.Entities
             }
             catch (Exception ex)
             {
-                Area23Log.LogStatic(ex);
+                CqrException.LastException = ex;
             }
 
             if (settings != null)
@@ -120,11 +120,11 @@ namespace Area23.At.WinForm.SecureChat.Entities
             {
                 settings.SaveStamp = DateTime.Now;
                 saveString = JsonConvert.SerializeObject(settings);
-                File.WriteAllText(LibPaths.AppDirPath + Constants.JSON_SETTINGS_FILE, saveString);
+                File.WriteAllText(LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE, saveString);
             }
             catch (Exception ex)
-            {
-                Area23Log.LogStatic(ex);
+            {                
+                CqrException.LastException = ex;
                 return false;
             }
             return true;
@@ -136,27 +136,36 @@ namespace Area23.At.WinForm.SecureChat.Entities
 
         public void Dispose()
         {
-            if (!_disposed)
-            {
-                Settings.Save(Instance);
-                _disposed = true;
-            }
+            this.Dispose(false);
         }
 
-        public void Dispose(bool disposing)
+        public bool Dispose(bool disposing)
         {
             if (!_disposed || disposing)
             {
-                Settings.Save(Instance);
-                _disposed = true;
-            }            
+                lock (_lock)
+                {
+                    _disposed = Settings.Save(Instance);
+                }
+            }
+
+            return _disposed;
         }
 
         ~Settings()
         {            
-            Instance.Dispose(true);
+            if (!Instance.Dispose(true))
+            {
+                string fileName = LibPaths.SystemDirPath + Constants.JSON_SAVE_FILE;                
+                throw new CqrException($"~Settings() couldn't save settings to to {fileName}.", CqrException.LastException);
+            }
             TimeStamp = DateTime.Now;
             _disposed = true;
+            SaveStamp = null;
+            this.Contacts.Clear();
+            this.FriendIPs.Clear();
+            this.Proxies.Clear();
+            this.MyIPs.Clear();
             // TODO: Only way to destruct a singelton is to set _instance Lazy<T> to null
             // think about the risk, that reflection could change a private static non readonly field
             // so I decided to let the GC handle this

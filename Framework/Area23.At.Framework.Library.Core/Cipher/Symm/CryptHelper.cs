@@ -177,8 +177,9 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
         /// <param name="secretKey">users private secret key</param>
         /// <param name="userHash">users private secret key hash</param>
         /// <returns>doubled concatendated string of (secretKey + hash)</returns>
-        internal static byte[] KeyUserHashBytes(string secretKey, string userHash, bool merge = true)
+        internal static byte[] KeyUserHashBytes(string secretKey, string userHash, bool merge = false)
         {
+            // TODO: throw Exception, when secret key is null or empty instead of using Constants.AUTHOR_EMAIL & Constants.AREA23_EMAIL
             string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
             string usrHash = string.IsNullOrEmpty(userHash) ? Constants.AREA23_EMAIL : userHash;
             byte[] secBytes = EnDeCoder.GetBytes(secKey);

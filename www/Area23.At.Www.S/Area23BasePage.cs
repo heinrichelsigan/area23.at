@@ -353,8 +353,8 @@ namespace Area23.At.Www.S
 
             QrImgPath = LibPaths.QrAppPath + gifFileName;
             // BytesToWithGifComment(LibPaths.QrDirPath + gifFileName, gifEncBytes, qrString);
-            SaveWithGifComment(LibPaths.QrDirPath + gifInverseFileName, qrCodeImageInverse, qrString);
-            SaveWithGifComment(LibPaths.QrDirPath + gifFileName, qrCodeImage, qrString);            
+            SaveWithGifComment(LibPaths.SystemDirQrPath + gifInverseFileName, qrCodeImageInverse, qrString);
+            SaveWithGifComment(LibPaths.SystemDirQrPath + gifFileName, qrCodeImage, qrString);            
 
             // GifMetadataAdapter gifAdapter = new GifMetadataAdapter(qrOutPath, gifStrm);
             // gifAdapter.Metadata.Comment = qrString;

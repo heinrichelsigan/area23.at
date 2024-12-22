@@ -87,9 +87,9 @@ namespace Area23.At.Framework.Library.EnDeCoding
             {
                 string fileBase = DateTime.Now.Area23DateTimeWithMillis();
                 string hexOutFile = fileBase + ".hex";
-                string hexOutPath = LibPaths.UuDirPath + hexOutFile;
+                string hexOutPath = LibPaths.SytemDirUuPath + hexOutFile;
                 string uuOutFile = fileBase + ".uue";
-                string uuOutPath = LibPaths.UuDirPath + uuOutFile;
+                string uuOutPath = LibPaths.SytemDirUuPath + uuOutFile;
                 // inBytes.ToFile(uuOutPath);
 
                 Area23Log.LogStatic($"ToUu: hexOutFile = {hexOutFile}, uuOutFile={uuOutFile}.");
@@ -171,9 +171,9 @@ namespace Area23.At.Framework.Library.EnDeCoding
                 //{
                 string fileBase = DateTime.Now.Area23DateTimeWithMillis();
                 string uuOutFile = fileBase + ".uue";
-                string uuOutPath = LibPaths.UuDirPath + uuOutFile;
+                string uuOutPath = LibPaths.SytemDirUuPath + uuOutFile;
                 string hexOutFile = fileBase + ".hex";
-                string hexOutPath = LibPaths.UuDirPath + hexOutFile;
+                string hexOutPath = LibPaths.SytemDirUuPath + hexOutFile;
 
                 Area23Log.LogStatic($"FromUu: uuOutFile = {uuOutFile}, hexOutFile = {hexOutFile}.");
 

@@ -224,7 +224,7 @@ namespace Area23.At.Mono.Crypt
             {
                 int idxQr = invImgSrc.IndexOf("Qr/");
                 string qrInvPath = invImgSrc.Substring(idxQr);
-                string invPath = LibPaths.AppDirPath + qrInvPath.Replace("/", LibPaths.SepChar);
+                string invPath = LibPaths.AppPath + qrInvPath.Replace("/", LibPaths.SepChar);
                 try
                 {
                     invPath = Server.MapPath(qrInvPath);
@@ -232,7 +232,7 @@ namespace Area23.At.Mono.Crypt
                 catch (Exception exQrMapPath)
                 {
                     Area23Log.LogStatic(exQrMapPath);
-                    invPath = LibPaths.AppDirPath;
+                    invPath = LibPaths.AppPath;
                     if (!invPath.EndsWith(LibPaths.SepChar))
                         invPath += LibPaths.SepChar;
                     invPath += qrInvPath.Replace("/", LibPaths.SepChar);

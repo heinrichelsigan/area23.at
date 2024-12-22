@@ -176,8 +176,9 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         /// <param name="secretKey">users private secret key</param>
         /// <param name="userHash">users private secret key hash</param>
         /// <returns>doubled concatendated string of (secretKey + hash)</returns>
-        internal static byte[] KeyUserHashBytes(string secretKey, string userHash, bool merge = true)
+        internal static byte[] KeyUserHashBytes(string secretKey, string userHash, bool merge = false)
         {
+            // TODO: throw Exception, when secret key is null or empty instead of using Constants.AUTHOR_EMAIL & Constants.AREA23_EMAIL
             string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
             string usrHash = string.IsNullOrEmpty(userHash) ? Constants.AREA23_EMAIL : userHash;
             byte[] secBytes = EnDeCoder.GetBytes(secKey);
@@ -217,7 +218,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             int keyByteCnt = -1;
             string keyByteHashString = secretKey;
             byte[] tmpKey = new byte[keyLen];
-            
+
             byte[] keyHashBytes = KeyUserHashBytes(secretKey, usrHash);
             keyByteCnt = keyHashBytes.Length;
             byte[] keyHashTarBytes = new byte[keyByteCnt * 2 + 1];

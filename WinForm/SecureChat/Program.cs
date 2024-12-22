@@ -1,7 +1,10 @@
+using Area23.At.Framework.Library.Core;
 using Area23.At.Framework.Library.Core.Win32Api;
+using Area23.At.WinForm.SecureChat.Entities;
 using System;
 using System.Reflection;
 using System.Threading;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 namespace Area23.At.WinForm.SecureChat
 {
@@ -35,22 +38,22 @@ namespace Area23.At.WinForm.SecureChat
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetHighDpiMode(HighDpiMode.DpiUnawareGdiScaled);
             ApplicationConfiguration.Initialize();
-            Form newF = (Form)(new Gui.Forms.SecureChat());
-            Application.Run(newF);
+            Form newChat = (Form)(new Gui.Forms.SecureChat());
+            Application.Run(newChat);
             
-            Exception[] exceptions;
-            ReleaseCloseDisposeMutex(mutex, out exceptions);
+            ReleaseCloseDisposeMutex(mutex);
 
         }
 
 
 
-
-        internal static void ReleaseCloseDisposeMutex(Mutex? mutex, out Exception[] exceptions)
+        /// <summary>
+        /// Release Mutax exclusion, that not 2 chat programs could be started at same machine
+        /// </summary>
+        /// <param name="mutex"></param>
+        internal static void ReleaseCloseDisposeMutex(Mutex? mutex)
         {
-            Exception? ex = null;
-            List<Exception> exceptionList = new List<Exception>();
-            exceptions = exceptionList.ToArray();
+            Exception? ex = null;            
             
             if (mutex != null)
             {
@@ -63,7 +66,8 @@ namespace Area23.At.WinForm.SecureChat
                     }
                     catch (Exception exRelease)
                     {
-                        exceptionList.Add(exRelease);
+                        Area23Log.LogStatic(exRelease);
+                        CqrException.LastException = exRelease;
                         ex = exRelease;
                     }
                     try
@@ -72,7 +76,8 @@ namespace Area23.At.WinForm.SecureChat
                     }
                     catch (Exception exClose)
                     {
-                        exceptionList.Add(exClose);
+                        Area23Log.LogStatic(exClose);
+                        CqrException.LastException = exClose;
                         ex = exClose;
                     }
                     try
@@ -81,7 +86,8 @@ namespace Area23.At.WinForm.SecureChat
                     }
                     catch (Exception exDispose)
                     {
-                        exceptionList.Add(exDispose);   
+                        Area23Log.LogStatic(exDispose);
+                        CqrException.LastException = exDispose;
                         ex = exDispose;
                     }
 
@@ -93,12 +99,12 @@ namespace Area23.At.WinForm.SecureChat
             }
             catch (Exception exNull)
             {
-                exceptionList.Add(exNull);
+                Area23Log.LogStatic(exNull);
+                CqrException.LastException = exNull;
                 ex = exNull;
             }
             finally
-            {
-                exceptions = exceptionList.ToArray();
+            {                
                 if (ex != null)
                 {                    
                     throw ex;

@@ -15,16 +15,7 @@ namespace Area23.At.Mono.Crypt
     {
 
         /// <summary>
-        /// DivAesImprove control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivAesImprove;
-
-        /// <summary>
-        /// AesImproveForm control.
+        /// CoolCryptForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
@@ -33,49 +24,13 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.HtmlControls.HtmlForm AesImproveForm;
 
         /// <summary>
-        /// DropDownList_Cipher control.
+        /// Button_Key control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList_Cipher;
-
-        /// <summary>
-        /// ImageButton_Add control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton_Add;
-
-        /// <summary>
-        /// TextBox_Encryption control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_Encryption;
-
-        /// <summary>
-        /// DropDownList_Zip control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList_Zip;
-
-        /// <summary>
-        /// DropDownList_Encoding control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList_Encoding;
+        protected global::System.Web.UI.WebControls.Button Button_Key;
 
         /// <summary>
         /// ImageButton_Key control.
@@ -105,6 +60,15 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.Button Button_Clear;
 
         /// <summary>
+        /// Button_Hash control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button_Hash;
+
+        /// <summary>
         /// ImageButton_Hash control.
         /// </summary>
         /// <remarks>
@@ -130,6 +94,60 @@ namespace Area23.At.Mono.Crypt
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Button_Reset_KeyIV;
+
+        /// <summary>
+        /// DivAesImprove control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivAesImprove;
+
+        /// <summary>
+        /// DropDownList_Zip control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList_Zip;
+
+        /// <summary>
+        /// DropDownList_Cipher control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList_Cipher;
+
+        /// <summary>
+        /// ImageButton_Add control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton_Add;
+
+        /// <summary>
+        /// TextBox_Encryption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Encryption;
+
+        /// <summary>
+        /// DropDownList_Encoding control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList_Encoding;
 
         /// <summary>
         /// oFile control.
@@ -168,6 +186,51 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.Button ButtonDecryptFile;
 
         /// <summary>
+        /// SpanLeftFile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanLeftFile;
+
+        /// <summary>
+        /// aUploaded control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aUploaded;
+
+        /// <summary>
+        /// img1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlImage img1;
+
+        /// <summary>
+        /// SpanLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanLabel;
+
+        /// <summary>
+        /// uploadResult control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal uploadResult;
+
+        /// <summary>
         /// SpanRightFile control.
         /// </summary>
         /// <remarks>
@@ -193,24 +256,6 @@ namespace Area23.At.Mono.Crypt
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlImage imgOut;
-
-        /// <summary>
-        /// SpanRightLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanRightLabel;
-
-        /// <summary>
-        /// lblUploadResult control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUploadResult;
 
         /// <summary>
         /// TextBoxSource control.
@@ -248,4 +293,5 @@ namespace Area23.At.Mono.Crypt
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonDecrypt;
     }
+
 }

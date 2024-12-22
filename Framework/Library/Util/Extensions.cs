@@ -176,7 +176,7 @@ namespace Area23.At.Framework.Library.Util
         public static string ToFile(this byte[] bytes, string filePath = null, string fileName = null, string fext = null)
         {
             if (string.IsNullOrEmpty(filePath) || !Directory.Exists(filePath))
-                filePath = LibPaths.AppDirPath;
+                filePath = LibPaths.SystemDirPath;
             if (!filePath.EndsWith(LibPaths.SepChar))
                 filePath += LibPaths.SepChar;
 
