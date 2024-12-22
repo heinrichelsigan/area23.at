@@ -207,6 +207,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
 
 
 
+
         /// <summary>
         /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
         /// </summary>
@@ -215,6 +216,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         /// <returns>Array of byte with length KeyLen</returns>
         public static byte[] GetUserKeyBytes(string secretKey = "postmaster@kernel.org", string usrHash = "kernel.org", int keyLen = 32)
         {
+
             int keyByteCnt = -1;
             string keyByteHashString = secretKey;
             byte[] tmpKey = new byte[keyLen];
@@ -225,7 +227,7 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
 
             if (keyByteCnt < keyLen)
             {
-                keyHashTarBytes = keyHashBytes.TarBytes(                    
+                keyHashTarBytes = keyHashBytes.TarBytes(
                     KeyUserHashBytes(usrHash, secretKey)
                 );
                 keyByteCnt = keyHashTarBytes.Length;
@@ -247,15 +249,14 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
             if (keyByteCnt < keyLen)
             {
                 keyHashTarBytes = keyHashBytes.TarBytes(
-                    Assembly.GetExecutingAssembly().GetName().Version.ToVersionBytes(),
-                    KeyUserHashBytes(Assembly.GetExecutingAssembly().GetName().Version.ToString(), usrHash, true),
-                    KeyUserHashBytes(secretKey, Assembly.GetExecutingAssembly().GetName().Version.ToString(), true)
+                    KeyUserHashBytes(usrHash + usrHash, secretKey + secretKey, false),
+                    KeyUserHashBytes(usrHash + secretKey + usrHash, secretKey + usrHash + secretKey, false),
+                    KeyUserHashBytes(usrHash + secretKey + usrHash, secretKey + usrHash + secretKey, true),
+                    KeyUserHashBytes(usrHash + secretKey + secretKey + usrHash, secretKey + usrHash + usrHash + secretKey, false),
+                    KeyUserHashBytes(usrHash + secretKey + secretKey + usrHash, secretKey + usrHash + usrHash + secretKey, true)
                 );
-                    
-                    
-                    
-                keyByteCnt = keyHashTarBytes.Length;
 
+                keyByteCnt = keyHashTarBytes.Length;
                 keyHashBytes = new byte[keyByteCnt];
                 Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
             }

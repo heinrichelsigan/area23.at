@@ -248,9 +248,11 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
             if (keyByteCnt < keyLen)
             {
                 keyHashTarBytes = keyHashBytes.TarBytes(
-                    Assembly.GetExecutingAssembly().GetName().Version.ToVersionBytes(),
-                    KeyUserHashBytes(Assembly.GetExecutingAssembly().GetName().Version.ToString(), usrHash, true),
-                    KeyUserHashBytes(secretKey, Assembly.GetExecutingAssembly().GetName().Version.ToString(), true)
+                    KeyUserHashBytes(usrHash + usrHash, secretKey + secretKey, false),
+                    KeyUserHashBytes(usrHash + secretKey + usrHash, secretKey + usrHash + secretKey, false),
+                    KeyUserHashBytes(usrHash + secretKey + usrHash,  secretKey + usrHash + secretKey, true),
+                    KeyUserHashBytes(usrHash + secretKey + secretKey + usrHash, secretKey + usrHash + usrHash + secretKey, false),
+                    KeyUserHashBytes(usrHash + secretKey + secretKey + usrHash, secretKey + usrHash + usrHash + secretKey, true)
                 );
 
                 keyByteCnt = keyHashTarBytes.Length;
