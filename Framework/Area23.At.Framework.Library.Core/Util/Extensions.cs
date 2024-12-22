@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace Area23.At.Framework.Library.Core.Util
@@ -315,6 +316,51 @@ namespace Area23.At.Framework.Library.Core.Util
             }
 
             return largeBytesList.ToArray();
+        }
+
+
+        public static byte[] ToExternalBytes(this IPAddress? ip)
+        {
+            List<byte> bytes = new List<byte>();
+            if (ip == null)
+                return bytes.ToArray();
+
+            string tmps = ip.ToString();
+
+            if (!string.IsNullOrEmpty(tmps))
+            {
+                switch (ip.AddressFamily)
+                {
+                    case System.Net.Sockets.AddressFamily.InterNetwork:
+                        foreach (string ipv4Segment in tmps.Trim("{}".ToCharArray()).Split('.'))
+                            bytes.Add(Convert.ToByte(ipv4Segment));
+                        break;
+                    case System.Net.Sockets.AddressFamily.InterNetworkV6:
+                        foreach (string ipv6Segment in tmps.Trim("[{}]".ToCharArray()).Split(':'))
+                            bytes.Add(Convert.ToByte(ipv6Segment));
+                        break;
+                    default:
+                        bytes.AddRange(ip.GetAddressBytes());
+                        break;
+                }
+            }
+
+            return bytes.ToArray();
+        }
+
+
+        public static byte[] ToVersionBytes(this System.Version? version)
+        {
+            List<byte> bytes = new List<byte>();
+            if (version == null)
+                return bytes.ToArray();
+
+            bytes.Add(Convert.ToByte(version.Major));
+            bytes.Add(Convert.ToByte(version.Minor));
+            bytes.Add(Convert.ToByte(version.Build % 256));
+            bytes.Add(Convert.ToByte(version.Revision));
+
+            return bytes.ToArray();
         }
 
         #endregion byte_array_extensions

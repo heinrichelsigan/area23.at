@@ -4,6 +4,7 @@ using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -214,7 +215,6 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
         /// <returns>Array of byte with length KeyLen</returns>
         public static byte[] GetUserKeyBytes(string secretKey = "postmaster@kernel.org", string usrHash = "kernel.org", int keyLen = 32)
         {
-
             int keyByteCnt = -1;
             string keyByteHashString = secretKey;
             byte[] tmpKey = new byte[keyLen];
@@ -225,17 +225,45 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric
 
             if (keyByteCnt < keyLen)
             {
-                keyHashTarBytes = keyHashBytes.TarBytes(KeyUserHashBytes(usrHash, secretKey));
+                keyHashTarBytes = keyHashBytes.TarBytes(                    
+                    KeyUserHashBytes(usrHash, secretKey)
+                );
                 keyByteCnt = keyHashTarBytes.Length;
 
-                keyHashBytes = new byte[keyByteCnt];                
-                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);                
+                keyHashBytes = new byte[keyByteCnt];
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
+            }
+            if (keyByteCnt < keyLen)
+            {
+                keyHashTarBytes = keyHashBytes.TarBytes(
+                    KeyUserHashBytes(usrHash, secretKey, true),
+                    KeyUserHashBytes(secretKey, usrHash, true)
+                );
+                keyByteCnt = keyHashTarBytes.Length;
+
+                keyHashBytes = new byte[keyByteCnt];
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
+            }
+            if (keyByteCnt < keyLen)
+            {
+                keyHashTarBytes = keyHashBytes.TarBytes(
+                    Assembly.GetExecutingAssembly().GetName().Version.ToVersionBytes(),
+                    KeyUserHashBytes(Assembly.GetExecutingAssembly().GetName().Version.ToString(), usrHash, true),
+                    KeyUserHashBytes(secretKey, Assembly.GetExecutingAssembly().GetName().Version.ToString(), true)
+                );
+                    
+                    
+                    
+                keyByteCnt = keyHashTarBytes.Length;
+
+                keyHashBytes = new byte[keyByteCnt];
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
             }
             if (keyByteCnt < keyLen)
             {
                 RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
                 randomNumGen.GetBytes(tmpKey, 0, keyLen);
-     
+
                 int tinyLength = keyHashBytes.Length;
 
                 for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)

@@ -127,8 +127,17 @@ namespace Area23.At.Framework.Library.Cipher.Symmetric.Algo
 
                 InitMatrixSymChiffer();
                 PermKeyHash = new HashSet<sbyte>();
+                List<sbyte> key2 = new List<sbyte>();
 
                 foreach (byte keyByte in keyBytes)
+                {
+                    sbyte sb = (sbyte)(keyByte % 16);
+                    key2.Add(sb);
+                    sbyte lb = (sbyte)((keyByte - (byte)sb) / 16);
+                    key2.Add(lb);                    
+                }
+                
+                foreach (byte keyByte in key2)
                 {
                     sbyte b = (sbyte)(keyByte % 16);
                     for (int i = 0; ((i < 16) && (PermKeyHash.Contains(b) || ((int)b) == bCnt)); i++)

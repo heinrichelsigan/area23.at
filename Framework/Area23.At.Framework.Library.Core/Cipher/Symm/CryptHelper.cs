@@ -4,6 +4,7 @@ using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -225,9 +226,34 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm
 
             if (keyByteCnt < keyLen)
             {
-                keyHashTarBytes = keyHashBytes.TarBytes(KeyUserHashBytes(usrHash, secretKey));
+                keyHashTarBytes = keyHashBytes.TarBytes(
+                    KeyUserHashBytes(usrHash, secretKey)
+                );
                 keyByteCnt = keyHashTarBytes.Length;
 
+                keyHashBytes = new byte[keyByteCnt];
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
+            }
+            if (keyByteCnt < keyLen)
+            {
+                keyHashTarBytes = keyHashBytes.TarBytes(
+                    KeyUserHashBytes(usrHash, secretKey, true),
+                    KeyUserHashBytes(secretKey, usrHash, true)
+                );
+                keyByteCnt = keyHashTarBytes.Length;
+
+                keyHashBytes = new byte[keyByteCnt];
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
+            }
+            if (keyByteCnt < keyLen)
+            {
+                keyHashTarBytes = keyHashBytes.TarBytes(
+                    Assembly.GetExecutingAssembly().GetName().Version.ToVersionBytes(),
+                    KeyUserHashBytes(Assembly.GetExecutingAssembly().GetName().Version.ToString(), usrHash, true),
+                    KeyUserHashBytes(secretKey, Assembly.GetExecutingAssembly().GetName().Version.ToString(), true)
+                );
+
+                keyByteCnt = keyHashTarBytes.Length;
                 keyHashBytes = new byte[keyByteCnt];
                 Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
             }

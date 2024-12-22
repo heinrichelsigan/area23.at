@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.Core;
+using Area23.At.Framework.Library.Core.Util;
 using Area23.At.Framework.Library.Core.EnDeCoding;
 using Area23.At.Framework.Library.Core.Cipher.Symm;
 using Area23.At.WinForm.SecureChat.Gui.Forms;
@@ -125,8 +126,20 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             string exip = ExternalIpAddress.ToString();
             string ver = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            ZenMatrix.ZenMatrixGenWithKey(this.ComboBox_LocalEndPoint.Text, exip, true);
-            this.TextBoxDestionation.Text += ZenMatrix.EncryptString(this.richTextBoxChat.Text) + "\n";
+            ZenMatrix.ZenMatrixGenWithKey(this.ComboBox_LocalEndPoint.Text, this.ComboBox_RemoteEndPoint.Text, true);
+            TextBoxDestionation.Text = "| 0 | => | ";
+            foreach (sbyte sb in ZenMatrix.PermKeyHash)
+            {
+                TextBoxDestionation.Text += sb.ToString("x1") + " ";
+            }
+            TextBoxDestionation.Text += "| \r\n";
+            for (int zeni = 1; zeni < ZenMatrix.PermKeyHash.Count; zeni++)
+            {
+                sbyte sb = (sbyte)ZenMatrix.PermKeyHash.ElementAt(zeni);
+                TextBoxDestionation.Text += "| " + zeni.ToString("x1") + " | => | " + sb.ToString("x1") + " | " + "\r\n";
+            }
+            // this.TextBoxDestionation.Text += ZenMatrix.EncryptString(this.richTextBoxChat.Text) + "\n";
+
 
         }
 

@@ -38,11 +38,11 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm.Algo
 
         #region Properties
 
-        internal static sbyte[] MatrixPermKey { get; set; }
+        private static sbyte[] MatrixPermKey { get; set; }
 
         private static sbyte[] MatrixReverse { get; set; }
 
-        private static HashSet<sbyte> PermKeyHash { get; set; }
+        public static HashSet<sbyte> PermKeyHash { get; set; }
 
         #endregion Properties
 
@@ -125,6 +125,15 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm.Algo
                 
                 InitMatrixSymChiffer();
                 PermKeyHash = new HashSet<sbyte>();
+
+                List<sbyte> key2 = new List<sbyte>();
+                foreach (byte keyByte in keyBytes)
+                {
+                    sbyte sb = (sbyte)(keyByte % 16);
+                    key2.Add(sb);
+                    sbyte lb = (sbyte)((keyByte - (byte)sb) / 16);
+                    key2.Add(lb);
+                }
 
                 foreach (byte keyByte in keyBytes)
                 {
