@@ -1,4 +1,7 @@
-﻿using Org.BouncyCastle.Utilities.Zlib;
+﻿using Area23.At.Framework.Library.Core.Util;
+using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.GZip;
+using Org.BouncyCastle.Utilities.Zlib;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,34 +13,101 @@ namespace Area23.At.Framework.Library.Core.Zfx
 {
     public static class GZ
     {
-        public static byte[] GZip(byte[] inByte)
-        {            
-            byte[] outByte = new byte[inByte.Length * 2];
-            /*
-            MemoryStream msin = new MemoryStream(inByte);
-            MemoryStream msout = new MemoryStream(outByte);
-            ICSharpCode.SharpZipLib.GZip.GZipInputStream gzIn = new ICSharpCode.SharpZipLib.GZip.GZipInputStream(msin);
-            ICSharpCode.SharpZipLib.GZip.GZipOutputStream gzOut = new ICSharpCode.SharpZipLib.GZip.GZipOutputStream(msout);
-            ICSharpCode.SharpZipLib.GZip.GZip.Compress(gzIn, gzOut, true, 6);
-
-            byte[] zipBytes = msout.ToByteArray();
-            */
-            return outByte;
-        }
-
-        public static byte[] GUnZip(byte[] inByte)
+        public static byte[] GZip(byte[] inBytes)
         {
-            byte[] outByte = new byte[inByte.Length * 2];
-            /*
-            MemoryStream msin = new MemoryStream(inByte);
-            MemoryStream msout = new MemoryStream(outByte);
-            ICSharpCode.SharpZipLib.GZip.GZipInputStream gzIn = new ICSharpCode.SharpZipLib.GZip.GZipInputStream(msin);
-            ICSharpCode.SharpZipLib.GZip.GZipOutputStream gzOut = new ICSharpCode.SharpZipLib.GZip.GZipOutputStream(msout);
-            ICSharpCode.SharpZipLib.BZip2.BZip2.Decompress(gzIn, gzOut, true);
+            MemoryStream msIn = new MemoryStream();
+            msIn.Write(inBytes, 0, inBytes.Length);
+            msIn.Flush();
+            msIn.Seek(0, SeekOrigin.Begin);
 
-            byte[] unzipBytes = msout.ToByteArray();
-            */
-            return outByte;
+            MemoryStream msOut = new MemoryStream();
+
+            ICSharpCode.SharpZipLib.GZip.GZip.Compress(msIn, msOut, false);
+
+            msOut.Flush();
+            byte[] zipBytes = msOut.ToByteArray();
+
+            msOut.Close();
+            msOut.Dispose();
+            msIn.Close();
+            msIn.Dispose();
+
+            return zipBytes;
         }
+
+        public static byte[] GZipViaStream(byte[] inBytes)
+        {
+            MemoryStream msIn = new MemoryStream();
+            msIn.Write(inBytes, 0, inBytes.Length);
+            msIn.Flush();
+            msIn.Seek(0, SeekOrigin.Begin);
+
+            MemoryStream msOut = new MemoryStream();
+            int buflen = Math.Max(inBytes.Length, 4096);
+
+            using (GZipOutputStream gzOut = new GZipOutputStream(msOut))
+            {
+                StreamUtils.Copy(msIn, gzOut, new byte[buflen]);
+            }
+
+            msOut.Flush();
+            byte[] zipBytes = msOut.ToByteArray();
+
+            msOut.Close();
+            msOut.Dispose();
+            msIn.Close();
+            msIn.Dispose();
+
+            return zipBytes;
+        }
+
+        public static byte[] GUnZip(byte[] inBytes)
+        {
+            MemoryStream msIn = new MemoryStream();
+            msIn.Write(inBytes, 0, inBytes.Length);
+            msIn.Flush();
+            msIn.Seek(0, SeekOrigin.Begin);
+
+            MemoryStream msOut = new MemoryStream();
+
+            ICSharpCode.SharpZipLib.GZip.GZip.Decompress(msIn, msOut, false);
+
+            msOut.Flush();
+            byte[] unZipBytes = msOut.ToByteArray();
+
+            msOut.Close();
+            msOut.Dispose();
+            msIn.Close();
+            msIn.Dispose();
+
+            return unZipBytes;
+        }
+
+        public static byte[] GUnZipViaStream(byte[] inBytes)
+        {
+            int buflen = Math.Max(inBytes.Length * 2, 4096);
+            MemoryStream msIn = new MemoryStream();
+            msIn.Write(inBytes, 0, inBytes.Length);
+            msIn.Flush();
+            msIn.Seek(0, SeekOrigin.Begin);
+
+            MemoryStream msOut = new MemoryStream();
+            using (GZipInputStream gzIn = new GZipInputStream(msIn))
+            {
+                StreamUtils.Copy(gzIn, msOut, new byte[buflen]);
+            }
+
+            msOut.Flush();
+            byte[] unZipBytes = msOut.ToByteArray();
+
+            msOut.Close();
+            msOut.Dispose();
+            msIn.Close();
+            msIn.Dispose();
+
+            return unZipBytes;
+        }
+
     }
+
 }

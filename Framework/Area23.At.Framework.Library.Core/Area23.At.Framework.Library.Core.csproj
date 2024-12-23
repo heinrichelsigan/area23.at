@@ -37,6 +37,7 @@
     <PackageReference Include="Newtonsoft.Json.Schema" Version="4.0.1" />
     <PackageReference Include="NLog" Version="5.3.4" />
     <PackageReference Include="QRCoder.Core" Version="1.0.3" />
+    <PackageReference Include="SharpZipLib" Version="1.4.2" />
   </ItemGroup>
 
   <ItemGroup>

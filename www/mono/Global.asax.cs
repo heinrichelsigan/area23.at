@@ -72,15 +72,13 @@ namespace Area23.At.Mono
 
         protected void Session_Start(object sender, EventArgs e)
         {
-            string msg = String.Format("new session started at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
-            HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
+            string msg = String.Format("new session started at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));            
             HostLogHelper.LogRequest(sender, e, msg);            
         }
 
 
         protected void Session_End(object sender, EventArgs e)
-        {
-            HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
+        {           
             string msg = String.Format("session ended at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));            
             HostLogHelper.LogRequest(sender, e, msg);
         }

@@ -1,15 +1,14 @@
-﻿using Org.BouncyCastle.Utilities;
-using System;
+﻿using Area23.At.Framework.Library.Core.Util;
+using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ICSharpCode.SharpZipLib.Core;
-using Area23.At.Framework.Library.Util;
 
-namespace Area23.At.Framework.Library.Zfx
+namespace Area23.At.Framework.Library.Core.Zfx
 {
     public static class WinZip
     {
@@ -54,7 +53,7 @@ namespace Area23.At.Framework.Library.Zfx
             msIn.Close();
             msIn.Dispose();
 
-            return unZipBytes;           
+            return unZipBytes;
         }
 
     }

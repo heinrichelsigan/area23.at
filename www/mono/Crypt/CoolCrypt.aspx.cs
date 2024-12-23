@@ -26,6 +26,7 @@ using System.Web.Caching;
 using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Net.WebRequestMethods;
 
@@ -145,32 +146,41 @@ namespace Area23.At.Mono.Crypt
                 ZipType ztype = ZipType.None;
                 if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
                 {
-                    string outp = string.Empty;
-                    string zcmd = (Constants.UNIX) ? "zipunzip.sh" : (Constants.WIN32) ? "zipunzip.bat" : "";
-                    string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
-                    string zPath = encryptBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt");
-                    string zOutPath = zPath;
-                    string zopt = "";
-
                     switch (ztype)
-                    {
-                        case ZipType.GZip:  zOutPath = zPath + ".gz";   zopt = "gz";    break;                            
-                        case ZipType.BZip2: zOutPath = zPath + ".bz2";  zopt = "bz";    break;                            
-                        case ZipType.Z7:    zOutPath = zPath + ".7z";   zopt = "7z";    break;
-                        case ZipType.Zip:   zOutPath = zPath + ".zip";  zopt = "zip";   break;
+                    {   
+                        case ZipType.GZip: encryptBytes = GZ.GZip(inBytes); break;
+                        case ZipType.BZip2: encryptBytes = BZip2.BZip(inBytes); break;
+                        case ZipType.Zip: encryptBytes = WinZip.Zip(inBytes); break;
                         case ZipType.None:
-                        default:            zOutPath = ""; zPath = "";  zopt = "";      break;
+                        default: break;
                     }
 
-                    if (!string.IsNullOrEmpty(zopt) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd) &&
-                        System.IO.File.Exists(zPath))
-                    {
-                        outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
-                                zopt + " " + zPath + " " + zOutPath, false);                        
-                        Thread.Sleep(64);
-                        if (System.IO.File.Exists(zOutPath))
-                            encryptBytes = System.IO.File.ReadAllBytes(zOutPath);
-                    }
+                    //string outp = string.Empty;
+                    //string zcmd = (Constants.UNIX) ? "zipunzip.sh" : (Constants.WIN32) ? "zipunzip.bat" : "";
+                    //string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
+                    //string zPath = encryptBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt");
+                    //string zOutPath = zPath;
+                    //string zopt = "";
+
+                    //switch (ztype)
+                    //{
+                    //    case ZipType.GZip:  zOutPath = zPath + ".gz";   zopt = "gz";    break;                            
+                    //    case ZipType.BZip2: zOutPath = zPath + ".bz2";  zopt = "bz";    break;                            
+                    //    case ZipType.Z7:    zOutPath = zPath + ".7z";   zopt = "7z";    break;
+                    //    case ZipType.Zip:   zOutPath = zPath + ".zip";  zopt = "zip";   break;
+                    //    case ZipType.None:
+                    //    default:            zOutPath = ""; zPath = "";  zopt = "";      break;
+                    //}
+
+                    //if (!string.IsNullOrEmpty(zopt) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd) &&
+                    //    System.IO.File.Exists(zPath))
+                    //{
+                    //    outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
+                    //            zopt + " " + zPath + " " + zOutPath, false);                        
+                    //    Thread.Sleep(64);
+                    //    if (System.IO.File.Exists(zOutPath))
+                    //        encryptBytes = System.IO.File.ReadAllBytes(zOutPath);
+                    //}
                 }
 
                 string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
@@ -285,54 +295,64 @@ namespace Area23.At.Mono.Crypt
                     }
                 }
 
-                cipherBytes = DeEnCoder.GetBytesTrimNulls(decryptedBytes);
+                cipherBytes = decryptedBytes; // DeEnCoder.GetBytesTrimNulls(decryptedBytes);
+                
                 ZipType ztype = ZipType.None;
                 string zcmd = (Constants.UNIX) ? "zipunzip.sh" : (Constants.WIN32) ? "zipunzip.bat" : "";
                 if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
                 {
-                    string outp = string.Empty;
-                    string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
-                    string zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.z");
-                    string zOutPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt");
-                    string zopt = "";
-
                     switch (ztype)
                     {
-                        case ZipType.GZip:
-                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.gz");
-                            zOutPath = zPath.Replace(".txt.gz", ".txt");
-                            zopt = "gunzip";
-                            break;                            
-                        case ZipType.BZip2:
-                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.bz2");
-                            zOutPath = zPath.Replace(".txt.bz2", ".txt").Replace(".bz2", "").Replace(".bz", "");
-                            zopt = "bunzip";
-                            break; 
-                        case ZipType.Z7:
-                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.7z");
-                            zOutPath = zPath.Replace(".txt.7z", ".txt").Replace(".7z", "");
-                            zopt = "7unzip";
-                            break;
-                        case ZipType.Zip:
-                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.zip");
-                            zOutPath = zPath.Replace(".txt.zip", ".txt").Replace(".zip", "");
-                            zopt = "unzip";
-                            break;
+                        case ZipType.GZip: decryptedBytes = GZ.GUnZip(cipherBytes); break;
+                        case ZipType.BZip2: decryptedBytes = BZip2.BUnZip(cipherBytes); break;
+                        case ZipType.Zip: decryptedBytes = WinZip.UnZip(cipherBytes); break;
                         case ZipType.None:
-                        default: zopt = ""; zOutPath = ""; decryptedBytes = cipherBytes; break;
+                        default: decryptedBytes = cipherBytes; break;
                     }
 
-                    if (!string.IsNullOrEmpty(zopt) && !string.IsNullOrEmpty(zPath) && !string.IsNullOrEmpty(zOutPath))
-                    {
-                        if (System.IO.File.Exists(zPath) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd))
-                        {
-                            outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
-                                zopt + " " + zPath + " " + zOutPath, false);
-                            Thread.Sleep(64);
-                            if (System.IO.File.Exists(zOutPath))
-                                decryptedBytes = System.IO.File.ReadAllBytes(zOutPath);
-                        }
-                    }
+                    //string outp = string.Empty;
+                    //string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
+                    //string zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.z");
+                    //string zOutPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt");
+                    //string zopt = "";
+
+                    //switch (ztype)
+                    //{
+                    //    case ZipType.GZip:
+                    //        zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.gz");
+                    //        zOutPath = zPath.Replace(".txt.gz", ".txt");
+                    //        zopt = "gunzip";
+                    //        break;                            
+                    //    case ZipType.BZip2:
+                    //        zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.bz2");
+                    //        zOutPath = zPath.Replace(".txt.bz2", ".txt").Replace(".bz2", "").Replace(".bz", "");
+                    //        zopt = "bunzip";
+                    //        break; 
+                    //    case ZipType.Z7:
+                    //        zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.7z");
+                    //        zOutPath = zPath.Replace(".txt.7z", ".txt").Replace(".7z", "");
+                    //        zopt = "7unzip";
+                    //        break;
+                    //    case ZipType.Zip:
+                    //        zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.zip");
+                    //        zOutPath = zPath.Replace(".txt.zip", ".txt").Replace(".zip", "");
+                    //        zopt = "unzip";
+                    //        break;
+                    //    case ZipType.None:
+                    //    default: zopt = ""; zOutPath = ""; decryptedBytes = cipherBytes; break;
+                    //}
+
+                    //if (!string.IsNullOrEmpty(zopt) && !string.IsNullOrEmpty(zPath) && !string.IsNullOrEmpty(zOutPath))
+                    //{
+                    //    if (System.IO.File.Exists(zPath) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd))
+                    //    {
+                    //        outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
+                    //            zopt + " " + zPath + " " + zOutPath, false);
+                    //        Thread.Sleep(64);
+                    //        if (System.IO.File.Exists(zOutPath))
+                    //            decryptedBytes = System.IO.File.ReadAllBytes(zOutPath);
+                    //    }
+                    //}
                 }
 
                 decryptedText = DeEnCoder.GetStringFromBytesTrimNulls(decryptedBytes);
@@ -534,7 +554,7 @@ namespace Area23.At.Mono.Crypt
             if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
             {
                 string strFileName = pfile.FileName;
-                strFileName = Path.GetFileName(strFileName);
+                strFileName = System.IO.Path.GetFileName(strFileName);
                 string strFilePath = LibPaths.SystemDirOutPath + strFileName;
                 pfile.SaveAs(strFilePath);
 
@@ -563,7 +583,7 @@ namespace Area23.At.Mono.Crypt
             // Get the name of the file that is posted.
             string strFileName = (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ? 
                 pfile.FileName : fileSavedName;
-            strFileName = Path.GetFileName(strFileName);
+            strFileName = System.IO.Path.GetFileName(strFileName);
 
             string savedTransFile = string.Empty;
             string outMsg = string.Empty;            
@@ -606,32 +626,40 @@ namespace Area23.At.Mono.Crypt
                         string zopt = " ";
                         if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
                         {
-                            string outp = string.Empty;
-                            string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
-                            string zPath = inBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt");
-                            string zOutPath = zPath;
                             switch (ztype)
                             {
-                                case ZipType.GZip:  zOutPath += ".gz"; zopt = "gz"; break;
-                                case ZipType.BZip2: zOutPath += ".bz2"; zopt = "bz2"; break;
-                                case ZipType.Z7: zOutPath += ".7z"; zopt = "7z"; break;
-                                case ZipType.Zip: zOutPath += ".zip"; zopt = "zip"; break;
+                                case ZipType.GZip: inBytes = GZ.GZip(outBytes); break;
+                                case ZipType.BZip2: inBytes = BZip2.BZip(outBytes); break;
+                                case ZipType.Zip: inBytes = WinZip.Zip(outBytes); break;
+                                case ZipType.Z7:
                                 case ZipType.None:
-                                default: zopt = ""; break;
+                                default: break;
                             }
+                            //string outp = string.Empty;
+                            //string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
+                            //string zPath = inBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt");
+                            //string zOutPath = zPath;
+                            //switch (ztype)
+                            //{
+                            //    case ZipType.GZip:  zOutPath += ".gz"; zopt = "gz"; break;
+                            //    case ZipType.BZip2: zOutPath += ".bz2"; zopt = "bz2"; break;
+                            //    case ZipType.Z7: zOutPath += ".7z"; zopt = "7z"; break;
+                            //    case ZipType.Zip: zOutPath += ".zip"; zopt = "zip"; break;
+                            //    case ZipType.None:
+                            //    default: zopt = ""; break;
+                            //}
 
-                            if (!string.IsNullOrEmpty(zopt) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd))
-                            {
-                                outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
-                                        " " + zopt + " " + zPath + " " + zOutPath, false);
-                                Thread.Sleep(64);
-                                if (System.IO.File.Exists(zOutPath))
-                                    inBytes = System.IO.File.ReadAllBytes(zOutPath);
-                                
-                                strFileName += "." + zopt;
-                            }
+                            //if (!string.IsNullOrEmpty(zopt) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd))
+                            //{
+                            //    outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
+                            //            " " + zopt + " " + zPath + " " + zOutPath, false);
+                            //    Thread.Sleep(64);
+                            //    if (System.IO.File.Exists(zOutPath))
+                            //        inBytes = System.IO.File.ReadAllBytes(zOutPath);
+
+                            //    strFileName += "." + zopt;
+                            //}
                         }
-
 
                         foreach (string algo in algos)
                         {
@@ -732,66 +760,84 @@ namespace Area23.At.Mono.Crypt
                         string zcmd = (Constants.UNIX) ? "zipunzip.sh" : (Constants.WIN32) ? "zipunzip.bat" : "";                        
                         if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
                         {
-                            string zopt = "";
-                            string outp = string.Empty;                            
-                            string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
-                            string zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.z");
-                            string zOutPath = LibPaths.SystemDirOutPath + strFileName;
-
                             switch (ztype)
                             {
-                                case ZipType.GZip:
-                                    zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.gz");
-                                    zOutPath = zOutPath.Replace(".txt.gz", ".txt").Replace(".gz", "");
-                                    zopt = "gunzip";                                    
+                                case ZipType.GZip: 
+                                    outBytes = GZ.GUnZipViaStream(inBytes);
                                     break;
                                 case ZipType.BZip2:
-                                    zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.bz2");
-                                    zOutPath = zOutPath.Replace(".txt.bz2", ".txt").Replace(".bz2", "").Replace(".bz", "");
-                                    zopt = "bunzip";
-                                    break;                                    
-                                case ZipType.Z7:
-                                    zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.7z");
-                                    zOutPath = zOutPath.Replace(".txt.7z", ".txt").Replace(".7z", "").Replace(".z7", "");
-                                    zopt = "7unzip";
-                                    break; 
+                                    outBytes = BZip2.BUnZip(inBytes);
+                                    break;                                
                                 case ZipType.Zip:
-                                    zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.zip");
-                                    zOutPath = zOutPath.Replace(".txt.zip", ".txt").Replace(".zip", "");
-                                    zopt = "7unzip";
+                                    outBytes = WinZip.UnZip(inBytes);
                                     break;
+                                case ZipType.Z7:
                                 case ZipType.None:
-                                default: zopt = ""; zOutPath = string.Empty; outMsg = string.Empty;
+                                default:
+                                    outMsg = string.Empty;
                                     break;
                             }
 
-                            if (!string.IsNullOrEmpty(zopt) && !string.IsNullOrEmpty(zPath) && !string.IsNullOrEmpty(zOutPath))
-                            {
-                                if (System.IO.File.Exists(zPath) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd))
-                                {
-                                    outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
-                                        zopt + " " + zPath + " " + zOutPath, false);
-                                    Thread.Sleep(64);
-                                    if (System.IO.File.Exists(zOutPath))                 
-                                        outMsg = Path.GetFileName(zOutPath);
-                                    try
-                                    {
-                                        System.IO.File.Delete(zPath);
-                                    }
-                                    catch (Exception exDel)
-                                    {
-                                        Area23Log.LogStatic(exDel); 
-                                    }
-                                }
-                            }
+                            //string zopt = "";
+                            //string outp = string.Empty;                            
+                            //string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
+                            //string zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.z");
+                            //string zOutPath = LibPaths.SystemDirOutPath + strFileName;
+
+                            //switch (ztype)
+                            //{
+                            //    case ZipType.GZip:
+                            //        zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.gz");
+                            //        zOutPath = zOutPath.Replace(".txt.gz", ".txt").Replace(".gz", "");
+                            //        zopt = "gunzip";                                    
+                            //        break;
+                            //    case ZipType.BZip2:
+                            //        zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.bz2");
+                            //        zOutPath = zOutPath.Replace(".txt.bz2", ".txt").Replace(".bz2", "").Replace(".bz", "");
+                            //        zopt = "bunzip";
+                            //        break;                                    
+                            //    case ZipType.Z7:
+                            //        zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.7z");
+                            //        zOutPath = zOutPath.Replace(".txt.7z", ".txt").Replace(".7z", "").Replace(".z7", "");
+                            //        zopt = "7unzip";
+                            //        break; 
+                            //    case ZipType.Zip:
+                            //        zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.zip");
+                            //        zOutPath = zOutPath.Replace(".txt.zip", ".txt").Replace(".zip", "");
+                            //        zopt = "7unzip";
+                            //        break;
+                            //    case ZipType.None:
+                            //    default: zopt = ""; zOutPath = string.Empty; outMsg = string.Empty;
+                            //        break;
+                            //}
+
+                            //if (!string.IsNullOrEmpty(zopt) && !string.IsNullOrEmpty(zPath) && !string.IsNullOrEmpty(zOutPath))
+                            //{
+                            //    if (System.IO.File.Exists(zPath) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd))
+                            //    {
+                            //        outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
+                            //            zopt + " " + zPath + " " + zOutPath, false);
+                            //        Thread.Sleep(64);
+                            //        if (System.IO.File.Exists(zOutPath))                 
+                            //            outMsg = Path.GetFileName(zOutPath);
+                            //        try
+                            //        {
+                            //            System.IO.File.Delete(zPath);
+                            //        }
+                            //        catch (Exception exDel)
+                            //        {
+                            //            Area23Log.LogStatic(exDel); 
+                            //        }
+                            //    }
+                            //}
                         }
 
-                        if (string.IsNullOrEmpty(outMsg))
-                        {
+                        //if (string.IsNullOrEmpty(outMsg))
+                        //{
                             savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName, LibPaths.SystemDirOutPath);
-                        }
-                        else
-                            savedTransFile = outMsg;
+                        //}
+                        //else
+                        //    savedTransFile = outMsg;
 
                         // if (success)
                         uploadResult.Text = string.Format("decrypt to {0}", outMsg);
