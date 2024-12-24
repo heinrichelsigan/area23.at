@@ -35,6 +35,8 @@ namespace Area23.At.Www.S
             
             // TODO: change this
             ImageIp4.ImageUrl = "data:image/png;base64," + bmp.ToBase64(new Guid("{b96b3caf-0728-11d3-9d7b-0000f81ef32e}"));
+            // ImageIp4.Width = 768;
+            ImageIp4.Height = 200;
         }
 
         protected System.Drawing.Image MergeImage(string hexstring)
@@ -44,35 +46,39 @@ namespace Area23.At.Www.S
                 phypath += Path.DirectorySeparatorChar;
             string bmpName = phypath;
             ImageList list = new ImageList();
-            Bitmap ximage = new Bitmap(720, 200);
+            Bitmap ximage = (hexstring.Length <= 16) ? new Bitmap(768, 200) : new Bitmap(2048, 200);
+            if (hexstring.Length > 68)
+                hexstring = hexstring.Substring(0, 67) + "...";
+
             hexstring = hexstring.ToLower();
 
             System.Drawing.Bitmap mergeimg = new System.Drawing.Bitmap(720, 200);
             using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
             {
-                int addInt = 0, j = 0;
+                int addInt = 0, w = 60, offset = 0;
                 for (int i = 0; (i < hexstring.Length); i++)
                 {
+                    w = 60;
                     char ch = hexstring[i];
-                    if ((((int)ch) >= ((int)'1')) && (((int)ch) <= ((int)'9')))
-                        addInt = (((int)ch) - ((int)'1') + 1);
-                    if (addInt > 0)
-                        bmpName = phypath + addInt.ToString() + ".png";
-                    else if (ch == '0' || ch == 'a' || ch == 'b' || ch == 'c' || ch == 'd' || ch == 'e' || ch == 'f')
-                        bmpName = phypath + ch.ToString() + ".png";
-                    else if (ch == '.')
-                    {
-                        bmpName = phypath + "Point.png";
-                        if (j > 0) j--;
-                    }
+                    
+                    if (ch == '0' || ch == '1' || ch == '2' || ch == '3'  || ch == '4' || 
+                        ch == '5' || ch == '6' || ch == '7' || ch == '8' || ch == '9' || 
+                        ch == 'a' || ch == 'b' || ch == 'c' || ch == 'd' || ch == 'e' || ch == 'f')
+                        bmpName = phypath + ch.ToString() + ".png";                    
                     else if (ch == ':')
                     {
-                        bmpName = phypath + "Colon.png";
+                        bmpName = phypath + "col.png";
+                        w = 12;
+                    }
+                    else 
+                    {
+                        bmpName = phypath + "p.png";
+                        w = 12;
                     }
 
                     ximage = new Bitmap(bmpName);
-                    g.DrawImage(ximage, new System.Drawing.Rectangle(j * 60, 0, 60, 200));
-                    j++;
+                    g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 0, w, 200));
+                    offset += w;
                 }
             }
 

@@ -182,11 +182,11 @@
     <Content Include="res\img\a.png" />
     <Content Include="res\img\b.png" />
     <Content Include="res\img\c.png" />
-    <Content Include="res\img\Colon.png" />
+    <Content Include="res\img\col.png" />
     <Content Include="res\img\d.png" />
     <Content Include="res\img\e.png" />
     <Content Include="res\img\f.png" />
-    <Content Include="res\img\Point.png" />
+    <Content Include="res\img\p.png" />
     <Content Include="res\img\qrsample1.gif" />
     <Content Include="res\img\qrsample2.png" />
     <Content Include="res\js\area23.js" />
