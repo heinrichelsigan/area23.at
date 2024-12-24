@@ -75,7 +75,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
             if (originalUue)
             {
-                bytStr = Encoding.UTF8.GetString(inBytes);
+                bytStr = Encoding.ASCII.GetString(inBytes);
                 uu = (new UUEncoder()).EncodeString(bytStr);
             }
             //else if (fromFile)
@@ -158,7 +158,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             if (originalUue)
             {
                 plainStr = (new UUEncoder()).DecodeString(uuEncStr);
-                plainBytes = Encoding.UTF8.GetBytes(plainStr);
+                plainBytes = Encoding.ASCII.GetBytes(plainStr);
             }
             else
             {
