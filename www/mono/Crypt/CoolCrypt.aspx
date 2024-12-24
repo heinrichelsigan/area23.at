@@ -131,7 +131,7 @@
             </div>
             <div class="odDiv">
                 <span class="leftSpan" style="width: 72px">
-                    <asp:Literal id="LiteralHashHint" ClientIDMode="Static" runat="server">Don't use zip compression, if you want to decrypt encrypted file or text view with same key on another server.<</asp:Literal>
+                    Don't use zip compression, if you want to decrypt encrypted file or text view with same key on another server.
                 </span>
                 <span class="centerSpan" style="width: 72px">&nbsp;</span>
                 <span class="centerSpan" style="width: 72px"></span>                

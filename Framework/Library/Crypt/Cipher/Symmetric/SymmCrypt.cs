@@ -24,7 +24,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>encrypted byte Array</returns>
-        public static new byte[] EncryptBytes(byte[] inBytes, SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes, 
+        public static byte[] EncryptSymmBytes(byte[] inBytes, SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes, 
             string secretKey = "postmaster@kernel.org", string hashIv = "")
         {
             byte[] encryptBytes = inBytes;
@@ -83,7 +83,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>decrypted byte Array</returns>
-        public static new byte[] DecryptBytes(byte[] cipherBytes, SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes, 
+        public static byte[] DecryptSymmBytes(byte[] cipherBytes, SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes, 
             string secretKey = "postmaster@kernel.org", string hashIv = "")
         {
             bool sameKey = true;
