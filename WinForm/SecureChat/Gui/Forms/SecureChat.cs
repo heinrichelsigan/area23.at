@@ -1,7 +1,8 @@
 ﻿using Area23.At.Framework.Library.Core;
 using Area23.At.Framework.Library.Core.Util;
-using Area23.At.Framework.Library.Core.EnDeCoding;
-using Area23.At.Framework.Library.Core.Cipher.Symm;
+using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Core.Crypt.Cipher;
+using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
 using Area23.At.WinForm.SecureChat.Gui.Forms;
 using Area23.At.WinForm.SecureChat.Gui;
 using Org.BouncyCastle.Utilities;
@@ -25,10 +26,13 @@ using System.Runtime.CompilerServices;
 using System.IO;
 using Area23.At.Framework.Library.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
-using Area23.At.Framework.Library.Core.Net.CqrJd;
 using Area23.At.WinForm.SecureChat.Util;
 using System.Reflection;
-using Area23.At.Framework.Library.Core.Cipher.Symm.Algo;
+using Area23.At.Framework.Library.Core.Crypt;
+using Area23.At.Framework.Library.Core.Crypt.Cipher;
+using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
+using NLog.Config;
+using Area23.At.Framework.Library.Core.Crypt.CqrJd;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -37,15 +41,44 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         protected string savedFile = string.Empty;
         protected string loadDir = string.Empty;
 
+        private static IPAddress? serverIpAddress;
 
-        private IPAddress ExternalIpAddress
+        internal static IPAddress? ServerIpAddress
         {
             get
             {
-                string? secretKey = Settings.Instance?.MyContact?.Email;
-                string hexs = Framework.Library.Core.EnDeCoding.DeEnCoder.KeyToHex(secretKey);
-                IPAddress? myExternalIp = WebClientRequest.ClientIpFromArea23("https://area23.at/net/R.aspx", hexs);
-                return myExternalIp;
+                if (serverIpAddress != null)
+                    return serverIpAddress;
+
+                // TODO: change it
+                IEnumerable<IPAddress> list = NetworkAddresses.GetIpAddrsByHostName("area23.at");
+                foreach (IPAddress ip in list)
+                {
+                    foreach (string sip in Settings.Instance.Proxies)
+                    {
+                        if (IPAddress.Parse(sip).Equals(ip))
+                        {
+                            serverIpAddress = ip;
+                            return serverIpAddress;
+                        }
+                    }
+                }
+                return null;                
+            }
+        }
+
+        private static IPAddress? externalIPAddress;
+
+        internal static IPAddress? ExternalIpAddress
+        {
+            get
+            {
+                if (externalIPAddress != null)
+                    return externalIPAddress;
+
+                string hexs = DeEnCoder.KeyToHex(Constants.BC_START_MSG);
+                externalIPAddress = WebClientRequest.ClientIpFromArea23("https://area23.at/net/R.aspx", hexs);
+                return externalIPAddress;
             }
         }
 
@@ -94,10 +127,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         private void menuItemSend_Click(object sender, EventArgs e)
         {
-            string myServerKey = ExternalIpAddress.ToString();
+            string myServerKey = ExternalIpAddress?.ToString() + ServerIpAddress?.ToString();
 
             // TODO: test case later
-            CqrSrvrMes serverMessage = new CqrSrvrMes(myServerKey);
+            CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
             string encrypted = serverMessage.CqrMessage(this.richTextBoxChat.Text);
             this.TextBoxSource.Text = encrypted + "\n";
             string decrypted = serverMessage.NCqrMessage(encrypted);
@@ -122,11 +155,13 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private void menuItemRefresh_Click(object sender, EventArgs e)
         {
             byte[] b0 = ExternalIpAddress.ToExternalBytes();
-            byte[] b1 = Assembly.GetExecutingAssembly().GetName().Version.ToVersionBytes();
-            string exip = ExternalIpAddress.ToString();
-            string ver = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Version? assVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            byte[] b1 = (assVersion != null) ? assVersion.ToVersionBytes() : new byte[2] { 0x02, 0x18 };
+            string privKey = ExternalIpAddress?.ToString() + ServerIpAddress?.ToString();
+            string iv = Constants.BC_START_MSG;
+            byte[] keyBytes = CryptHelper.GetUserKeyBytes(privKey, iv, 16);
 
-            ZenMatrix.ZenMatrixGenWithKey(this.ComboBox_LocalEndPoint.Text, this.ComboBox_RemoteEndPoint.Text, true);
+            ZenMatrix.ZenMatrixGenWithBytes(keyBytes, true);
             TextBoxDestionation.Text = "| 0 | => | ";
             foreach (sbyte sb in ZenMatrix.PermKeyHash)
             {
@@ -176,7 +211,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 string base64image = Settings.Instance.MyContact.ImageBase64 ?? string.Empty;
 
                 Bitmap? bmp;
-                byte[] bytes = Framework.Library.Core.EnDeCoding.Base64.Decode(base64image);
+                byte[] bytes = Base64.Decode(base64image);
                 using (MemoryStream ms = new MemoryStream(bytes))
                 {
                     bmp = new Bitmap(ms);
@@ -279,13 +314,12 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
 
             List<IPAddress> addresses = new List<IPAddress>();
-            string[] proxieStrs = Resources.Proxies.Split(";,".ToCharArray());
-            List<string> proxyList = new List<string>();
-            foreach (string str in proxieStrs)
+            string[] proxyStrs = Resources.Proxies.Split(";,".ToCharArray());
+            foreach (string proxyStr in proxyStrs)
             {
                 try
                 {
-                    IPAddress ip = IPAddress.Parse(str);
+                    IPAddress ip = IPAddress.Parse(proxyStr);
                     addresses.Add(ip);
 
                 }
@@ -295,7 +329,24 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     Area23Log.LogStatic(ex);
                 }
             }
+            string[] proxyNameStrs = Resources.ProxyNames.Split(";,".ToCharArray());
+            List<string> proxyList = new List<string>();
+            foreach (string proxyStr in proxyNameStrs)
+            {
+                try
+                {
+                    foreach (var netIp in NetworkAddresses.GetIpAddrsByHostName(proxyStr))
+                        if (!addresses.Contains(netIp))
+                            addresses.Add(netIp);
+                }
+                catch (Exception ex)
+                {
+                    CqrException.LastException = ex;
+                    Area23Log.LogStatic(ex);
+                }
+            }
 
+            
             var ips = await NetworkAddresses.GetConnectedIpAddressesAsync(addresses);
             List<IPAddress> list = new List<IPAddress>(ips);
 
@@ -320,7 +371,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 }
             }
 
-            ToolStripMenuItem extIpItem = new ToolStripMenuItem(this.ExternalIpAddress.AddressFamily + " " + this.ExternalIpAddress.ToString(), null, null, this.ExternalIpAddress.ToString());
+            ToolStripMenuItem extIpItem = new ToolStripMenuItem(ExternalIpAddress.AddressFamily + " " + ExternalIpAddress.ToString(), null, null, ExternalIpAddress.ToString());
             extIpItem.Checked = true;
             extIpItem.Enabled = false;
             this.menuItemExternalIp.DropDownItems.Add(extIpItem);
@@ -522,7 +573,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             string settingsNotSavedReason = string.Empty;
             try
             {
-                if (!Entities.Settings.Save(Entities.Settings.Instance))
+                if (!Entities.Settings.Save(null))
                     settingsNotSavedReason = "Unknown reason!";
             }
             catch (Exception exSetSave)
@@ -534,22 +585,40 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             if (!string.IsNullOrEmpty(settingsNotSavedReason))
                 MessageBox.Show(settingsNotSavedReason, "Couldn't save chat settings", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-            for (int frmidx = 0; frmidx < System.Windows.Forms.Application.OpenForms.Count; frmidx++)
+            int openForms = System.Windows.Forms.Application.OpenForms.Count;
+            if (openForms <= 1)
             {
                 try
                 {
-                    Form? form = System.Windows.Forms.Application.OpenForms[frmidx];
-                    if (form != null)
-                    {
-                        form.Close();
-                        form.Dispose();
-                    }
+                    this.Close();
+                    this.Dispose();
                 }
                 catch (Exception exForm)
                 {
                     CqrException.LastException = exForm;
                     Area23Log.LogStatic(exForm);
                 }
+            }
+            else
+            {
+                for (int frmidx = 0; frmidx < System.Windows.Forms.Application.OpenForms.Count; frmidx++)
+                {
+                    try
+                    {
+                        Form? form = System.Windows.Forms.Application.OpenForms[frmidx];
+                        if (form != null)
+                        {
+                            form.Close();
+                            form.Dispose();
+                        }
+                    }
+                    catch (Exception exForm)
+                    {
+                        CqrException.LastException = exForm;
+                        Area23Log.LogStatic(exForm);
+                    }
+                }
+
             }
 
             try

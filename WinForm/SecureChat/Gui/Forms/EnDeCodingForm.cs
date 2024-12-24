@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Core;
-using Area23.At.Framework.Library.Core.EnDeCoding;
+using Area23.At.Framework.Library.Core.Crypt;
+using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
 using Area23.At.WinForm.SecureChat.Gui.Forms;
 using Area23.At.WinForm.SecureChat.Gui;
 using Org.BouncyCastle.Utilities;
@@ -14,8 +15,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
-using Area23.At.Framework.Library.Core.Cipher.Symm;
-using Area23.At.Framework.Library.Core.Cipher;
+using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Library.Core.Crypt.Cipher;
 using Area23.At.Framework.Library.Core.Util;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
@@ -84,7 +85,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 }
 
                 EncodingType encodingType = (EncodingType)Enum.Parse<EncodingType>(this.ComboBox_EnDeCoding.SelectedItem.ToString());
-                encryptedText = IEnDeCoder.Encode(encryptBytes, encodingType);
+                encryptedText = EnDeCoder.Encode(encryptBytes, encodingType);
 
                 this.TextBoxDestionation.BackColor = SystemColors.ControlLightLight;
                 this.TextBoxDestionation.Text = encryptedText;
@@ -119,7 +120,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 string decryptedText = string.Empty;
                 byte[] cipherBytes = null;
                 EncodingType encodingType = (EncodingType)Enum.Parse<EncodingType>(this.ComboBox_EnDeCoding.SelectedItem.ToString());
-                cipherBytes = IEnDeCoder.Decode(cipherText, encodingType);                
+                cipherBytes = EnDeCoder.Decode(cipherText, encodingType);                
 
                 byte[] decryptedBytes = cipherBytes;
                 int ig = 0;
@@ -358,7 +359,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             string keyIv = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : string.Empty;
             CipherEnum cipherAlgo = Enum.Parse<CipherEnum>(algo);
 
-            byte[] encryptBytes = Area23.At.Framework.Library.Core.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);
+            byte[] encryptBytes = SymmCrypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);
 
             return encryptBytes;
         }
@@ -375,7 +376,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             string keyIv = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : string.Empty;
 
             CipherEnum cipherAlgo = Enum.Parse<CipherEnum>(algorithmName);
-            byte[] decryptBytes = Area23.At.Framework.Library.Core.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
+            byte[] decryptBytes = SymmCrypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
 
             return decryptBytes;
         }

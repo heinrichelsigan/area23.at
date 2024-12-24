@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Area23.At.Framework.Library.Util;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -14,59 +16,67 @@ namespace Area23.At.Www.S
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            string addr = string.Empty;
+            foreach (char c in Request.UserHostAddress.ToString())
+            {
+                foreach (char vc in "0123456789abcdef:.")
+                {
+                    if (c == vc)
+                    {
+                        addr += c;
+                        break;
+                    }                            
+                }
+            }
 
+            Bitmap bmp = (Bitmap)MergeImage(addr);
+            string phypath = Server.MapPath("~/res/img/");
+            string fName = DateTime.Now.Ticks + ".png";
+            
+            // TODO: change this
+            ImageIp4.ImageUrl = "data:image/png;base64," + bmp.ToBase64(new Guid("{b96b3caf-0728-11d3-9d7b-0000f81ef32e}"));
         }
 
-        protected System.Drawing.Image GetMergedImage(string hexstring)
+        protected System.Drawing.Image MergeImage(string hexstring)
         {
             string phypath = Server.MapPath("~/res/img/");
+            if (!phypath.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                phypath += Path.DirectorySeparatorChar;
+            string bmpName = phypath;
             ImageList list = new ImageList();
-            Bitmap x1Image = new Bitmap(720, 200);
-            /*
-            for (int i = 0; (i < bytes.Length && i < 12); i++)
-            {
-                
-                string bmpName = phypath + Path.PathSeparator;
-                int addInt = 0;
-                char ch = hexstring[i];
-                if ((((int)ch) >= ((int)'1')) && (((int)ch) <= ((int)'9')))
-                    addInt = (((int)ch) - ((int)'1') + 1);
-                if (addInt > 0)
-                    bmpName += addInt.ToString() + ".png";
-                else if (ch == '0' || ch == 'a' || ch == 'b' || ch == 'c' || ch == 'd' || ch == 'e' || ch == 'f')
-                    bmpName += ch.ToString() + ".png";
+            Bitmap ximage = new Bitmap(720, 200);
+            hexstring = hexstring.ToLower();
 
-                x1Image = new Bitmap(bmpName);
-
-            }
-  
-            list.Images.Add()
-            
-                .
-            System.Drawing.Image mergedImage = new System.Drawing.Bitmap(720, 200);
-            using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergedImage))
+            System.Drawing.Bitmap mergeimg = new System.Drawing.Bitmap(720, 200);
+            using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
             {
-                int offSetX = 0;
-                int offSetY = 0;
-                g.DrawImage(x1Image, new System.Drawing.Rectangle(offSetX, offSetY, x1Image.Width, x1Image.Height));
-                offSetX = 710;
-                offSetY = 59;
-                g.DrawImage(menuImg, new System.Drawing.Rectangle(offSetX, offSetY, menuImg.Width, menuImg.Height));
-                offSetX = 23;
-                offSetY = 17;
-                g.DrawImage(headerImg, new System.Drawing.Rectangle(offSetX, offSetY, headerImg.Width, headerImg.Height));
-                offSetX = 710;
-                offSetY = 630;
-                g.DrawImage(qsImg, new System.Drawing.Rectangle(offSetX, offSetY, qsImg.Width, qsImg.Height));
-                offSetX = 840;
-                offSetY = 443;
-                g.DrawImage(stnCntImg, new System.Drawing.Rectangle(offSetX, offSetY, stnCntImg.Width, stnCntImg.Height));
-                offSetX = 710;
-                offSetY = 528;
-                g.DrawImage(picMsgImg, new System.Drawing.Rectangle(offSetX, offSetY, picMsgImg.Width, picMsgImg.Height));
+                int addInt = 0, j = 0;
+                for (int i = 0; (i < hexstring.Length); i++)
+                {
+                    char ch = hexstring[i];
+                    if ((((int)ch) >= ((int)'1')) && (((int)ch) <= ((int)'9')))
+                        addInt = (((int)ch) - ((int)'1') + 1);
+                    if (addInt > 0)
+                        bmpName = phypath + addInt.ToString() + ".png";
+                    else if (ch == '0' || ch == 'a' || ch == 'b' || ch == 'c' || ch == 'd' || ch == 'e' || ch == 'f')
+                        bmpName = phypath + ch.ToString() + ".png";
+                    else if (ch == '.')
+                    {
+                        bmpName = phypath + "Point.png";
+                        if (j > 0) j--;
+                    }
+                    else if (ch == ':')
+                    {
+                        bmpName = phypath + "Colon.png";
+                    }
+
+                    ximage = new Bitmap(bmpName);
+                    g.DrawImage(ximage, new System.Drawing.Rectangle(j * 60, 0, 60, 200));
+                    j++;
+                }
             }
-            */
-            return (x1Image);
+
+            return (mergeimg);
         }
     
     

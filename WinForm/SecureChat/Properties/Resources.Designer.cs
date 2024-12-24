@@ -100,7 +100,7 @@ namespace Area23.At.WinForm.SecureChat.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 52.3.250.146;13.38.136.165;2600:1f18:7a3f:a700::6291;2a05:d012:209:ee00:a8ba:d6c4:bd60:bab5.
+        ///   Looks up a localized string similar to 52.87.215.119;13.38.136.165;2600:1f18:7a3f:a700::6291;2a05:d012:209:ee00:a8ba:d6c4:bd60:bab5.
         /// </summary>
         internal static string Proxies {
             get {
@@ -115,6 +115,14 @@ namespace Area23.At.WinForm.SecureChat.Properties {
             get {
                 object obj = ResourceManager.GetObject("WinFormAboutDialog", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+
+        internal static string ProxyNames
+        {
+            get
+            {
+                return ResourceManager.GetString("ProxyNames", resourceCulture);
             }
         }
     }

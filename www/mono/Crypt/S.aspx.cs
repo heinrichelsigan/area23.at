@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Library.EnDeCoding;
+﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Mono.Util;
 using Area23.At.Mono.Qr;
 using Org.BouncyCastle.Utilities;

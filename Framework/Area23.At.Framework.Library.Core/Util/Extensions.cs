@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Crypto.Generators;
+﻿using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
+using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
@@ -390,7 +391,7 @@ namespace Area23.At.Framework.Library.Core.Util
         /// <returns>MemoryStream</returns>
         public static MemoryStream Base64ToStream(this string base64)
         {
-            byte[] bytes = EnDeCoding.Base64.Decode(base64);
+            byte[] bytes = Base64.Decode(base64);
             MemoryStream ms = new MemoryStream(bytes.Length);
             ms.Write(bytes, 0, bytes.Length);
             ms.Flush();
@@ -407,7 +408,7 @@ namespace Area23.At.Framework.Library.Core.Util
             Bitmap? bitmap = null;
             try
             {
-                byte[] bytes = EnDeCoding.Base64.Decode(base64);
+                byte[] bytes = Base64.Decode(base64);
                 using (MemoryStream ms = new MemoryStream(bytes))
                 {
                     bitmap = new Bitmap(ms);
@@ -615,7 +616,7 @@ namespace Area23.At.Framework.Library.Core.Util
             {
                 ms.Position = 0;
                 byte[] bytes = ms.ToArray();
-                base64 = EnDeCoding.Base64.Encode(bytes);                
+                base64 = Base64.Encode(bytes);                
             }
 
             try

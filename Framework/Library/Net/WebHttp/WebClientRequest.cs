@@ -1,6 +1,6 @@
-﻿using Area23.At.Framework.Library.Cipher;
-using Area23.At.Framework.Library.Cipher.Symmetric;
-using Area23.At.Framework.Library.EnDeCoding;
+﻿using Area23.At.Framework.Library.Crypt.Cipher;
+using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Org.BouncyCastle.Asn1.Crmf;
 using System;
 using System.Collections.Generic;
@@ -48,12 +48,12 @@ namespace Area23.At.Framework.Library.Net.WebHttp
             wclient.Encoding = encoding;
             if (!string.IsNullOrEmpty(secretKey))
             {
-                string hexString = EnDeCoding.DeEnCoder.KeyToHex(
-                    Framework.Library.Cipher.Symmetric.CryptHelper.PrivateUserKey(secretKey));
+                string hexString = Crypt.EnDeCoding.DeEnCoder.KeyToHex(
+                    Framework.Library.Crypt.Cipher.CryptHelper.PrivateUserKey(secretKey));
                 if (!string.IsNullOrEmpty(keyIv))
                 {
-                    hexString = EnDeCoding.DeEnCoder.KeyToHex(
-                        Framework.Library.Cipher.Symmetric.CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
+                    hexString = Crypt.EnDeCoding.DeEnCoder.KeyToHex(
+                        Framework.Library.Crypt.Cipher.CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
                 }
                 headers.Add(HttpRequestHeader.Authorization, "Basic " + hexString);
             }

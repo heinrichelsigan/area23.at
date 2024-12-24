@@ -1,6 +1,8 @@
 ﻿using Area23.At.Framework.Library.Core;
-using Area23.At.Framework.Library.Core.EnDeCoding;
-using Area23.At.Framework.Library.Core.Cipher.Symm;
+using Area23.At.Framework.Library.Core.Crypt;
+using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Core.Crypt.Cipher;
+using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
 using Area23.At.WinForm.SecureChat.Gui.Forms;
 using Area23.At.WinForm.SecureChat.Gui;
 using Org.BouncyCastle.Utilities;

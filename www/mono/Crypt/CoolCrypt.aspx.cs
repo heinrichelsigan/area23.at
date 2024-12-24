@@ -1,8 +1,9 @@
 ﻿using Area23.At;
 using Area23.At.Framework.Library;
-using Area23.At.Framework.Library.Cipher;
-using Area23.At.Framework.Library.Cipher.Symmetric;
-using Area23.At.Framework.Library.EnDeCoding;
+using Area23.At.Framework.Library.Crypt.Cipher;
+using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Framework.Library.Zfx;
 using Area23.At.Mono.Properties;
@@ -61,6 +62,7 @@ namespace Area23.At.Mono.Crypt
             {
                 UploadFile(oFile.PostedFile); 
             }
+            
         }
 
         #region page_events
@@ -191,7 +193,7 @@ namespace Area23.At.Mono.Crypt
                         CipherEnum cipherAlgo = CipherEnum.Aes;
                         if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
                         {
-                            inBytes = Framework.Library.Cipher.Crypt.EncryptBytes(encryptBytes, cipherAlgo, secretKey, keyIv);
+                            inBytes = Framework.Library.Crypt.Cipher.Crypt.EncryptBytes(encryptBytes, cipherAlgo, secretKey, keyIv);
                             encryptBytes = inBytes;
                         }
                     }
@@ -289,7 +291,7 @@ namespace Area23.At.Mono.Crypt
                         CipherEnum cipherAlgo = CipherEnum.Aes;
                         if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
                         {                            
-                            decryptedBytes = Framework.Library.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
+                            decryptedBytes = Framework.Library.Crypt.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
                             cipherBytes = decryptedBytes;
                         }
                     }
@@ -510,8 +512,8 @@ namespace Area23.At.Mono.Crypt
                 Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
                 Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
 
-                byte[] kb = Framework.Library.Cipher.Symmetric.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
-                SymmCipherEnum[] cses = Framework.Library.Cipher.Symmetric.Crypt.KeyBytesToSymmCipherPipeline(kb);
+                byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
+                SymmCipherEnum[] cses = Framework.Library.Crypt.Cipher.Symmetric.SymmCrypt.KeyBytesToSymmCipherPipeline(kb);
                 this.TextBox_Encryption.Text = string.Empty;
                 foreach (SymmCipherEnum c in cses)
                 {
@@ -602,6 +604,12 @@ namespace Area23.At.Mono.Crypt
                         (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ?
                             pfile.InputStream.ToByteArray() : new byte[65536]);
 
+                // write source file hash
+                this.TextBoxSource.Text = 
+                    "File: " + strFileName + "\n" +
+                    "StreamLength: " + inBytes.Length + "\n" +
+                    "MD5Sum " + MD5Sum.Hash(inBytes, strFileName) + "\n" + 
+                    "Sha256 " + Sha256Sum.Hash(inBytes, strFileName) + "\n";
                 uploadResult.Text = "";
 
                 byte[] outBytes = new byte[inBytes.Length];
@@ -668,7 +676,7 @@ namespace Area23.At.Mono.Crypt
                                 CipherEnum cipherAlgo = CipherEnum.Aes;
                                 if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
                                 {
-                                    outBytes = Framework.Library.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);                                   
+                                    outBytes = Framework.Library.Crypt.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);                                   
                                     inBytes = outBytes;
                                     cryptCount++;
                                     strFileName += "." + algo.ToLower();
@@ -676,16 +684,26 @@ namespace Area23.At.Mono.Crypt
                             }
                         }
 
+                        int strLen = -1;
                         if (CheckBoxEncode.Checked)
                         {
                             strFileName += "." + encodeType.ToString().ToLowerInvariant();
                             string outString = DeEnCoder.EncodeBytes(outBytes, encodeType, plainUu, true);
+                            strLen = outString.Length;
                             savedTransFile = this.StringToFile(outString, out outMsg, strFileName, LibPaths.SystemDirOutPath);
                         }
                         else
                         {
                             savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName, LibPaths.SystemDirOutPath);
                         }
+
+                        // // write destination file hash
+                        this.TextBoxDestionation.Text =
+                            "File: " + savedTransFile + "\n" +
+                            "OutStringLen: " + strLen + "\n" +
+                            "StreamLength: " + outBytes.Length + "\n" +
+                            "MD5Sum " + MD5Sum.Hash(LibPaths.SystemDirOutPath + savedTransFile) + "\n" +
+                            "Sha256 " + Sha256Sum.Hash(LibPaths.SystemDirOutPath + savedTransFile) + "\n";                        
 
                         if (!string.IsNullOrEmpty(savedTransFile) && !string.IsNullOrEmpty(outMsg))
                         {
@@ -746,7 +764,7 @@ namespace Area23.At.Mono.Crypt
                                 CipherEnum cipherAlgo = CipherEnum.Aes;
                                 if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
                                 {
-                                    inBytes = Framework.Library.Cipher.Crypt.DecryptBytes(outBytes, cipherAlgo, secretKey, keyIv);
+                                    inBytes = Framework.Library.Crypt.Cipher.Crypt.DecryptBytes(outBytes, cipherAlgo, secretKey, keyIv);
                                     outBytes = inBytes;
                                     cryptCount++;
                                     strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;
@@ -839,6 +857,12 @@ namespace Area23.At.Mono.Crypt
                         //else
                         //    savedTransFile = outMsg;
 
+                        // write destination file hash
+                        this.TextBoxDestionation.Text =
+                            "File: " + savedTransFile + "\n" +
+                            "StreamLength: " + outBytes.Length + "\n" +
+                            "MD5Sum " + MD5Sum.Hash(LibPaths.SystemDirOutPath + savedTransFile) + "\n" +
+                            "Sha256 " + Sha256Sum.Hash(LibPaths.SystemDirOutPath + savedTransFile) + "\n";
                         // if (success)
                         uploadResult.Text = string.Format("decrypt to {0}", outMsg);
                         // else
@@ -1008,7 +1032,7 @@ namespace Area23.At.Mono.Crypt
             success = false;
             byte[] outBytesSameKey = null;
             byte[] ivBytesHash = EnDeCoder.GetBytes("\r\n" + this.TextBox_IV.Text);
-            // Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
+            // Framework.Library.Crypt.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
             if (decryptedBytes != null && decryptedBytes.Length > ivBytesHash.Length)
             {
                 int needleFound = Framework.Library.Util.Extensions.BytesBytes(decryptedBytes, ivBytesHash, ivBytesHash.Length - 1);

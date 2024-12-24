@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library.Cipher.Symmetric;
+﻿using Area23.At.Framework.Library.Crypt.Cipher;
+using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,10 +44,10 @@ namespace Area23.At.Framework.Library.Net.WebHttp
 
             if (!string.IsNullOrEmpty(secretKey))
             {
-                string hexString = EnDeCoding.DeEnCoder.KeyToHex(CryptHelper.PrivateUserKey(secretKey));
+                string hexString = Crypt.EnDeCoding.DeEnCoder.KeyToHex(CryptHelper.PrivateUserKey(secretKey));
                 if (!string.IsNullOrEmpty(keyIv))
                 {
-                    hexString = EnDeCoding.DeEnCoder.KeyToHex(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
+                    hexString = Crypt.EnDeCoding.DeEnCoder.KeyToHex(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
                 }
                 httpClientR.DefaultRequestHeaders.Add("Authorization", $"Basic {hexString}");
             }

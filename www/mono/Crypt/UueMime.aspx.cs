@@ -1,5 +1,5 @@
 ﻿using Area23.At.Framework.Library;
-using Area23.At.Framework.Library.EnDeCoding;
+using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Util;
 using Org.BouncyCastle.Utilities;
 using System;

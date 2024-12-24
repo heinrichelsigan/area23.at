@@ -9,6 +9,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
+            <asp:Image ID="ImageIp4" runat="server" BorderColor="White" BorderWidth="0" />
         </div>
     </form>
 </body>

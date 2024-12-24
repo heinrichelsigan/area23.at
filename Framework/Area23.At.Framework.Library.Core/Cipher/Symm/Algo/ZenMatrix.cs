@@ -44,6 +44,27 @@ namespace Area23.At.Framework.Library.Core.Cipher.Symm.Algo
 
         public static HashSet<sbyte> PermKeyHash { get; set; }
 
+        public static string ShowZenMatrixPermutation
+        {
+            get
+            {
+                string zmVisualize = " (0) \t=> | ";
+
+                foreach (sbyte sb in ZenMatrix.PermKeyHash)
+                {
+                    zmVisualize += sb.ToString("x1") + " ";
+                }
+                zmVisualize += "| \r\n";
+                for (int zeni = 1; zeni < ZenMatrix.PermKeyHash.Count; zeni++)
+                {
+                    sbyte sb = (sbyte)ZenMatrix.PermKeyHash.ElementAt(zeni);
+                    zmVisualize += " (" + zeni.ToString("x1") + ") \t=> | " + sb.ToString("x1") + " | " + "\r\n";
+                }
+
+                return zmVisualize;
+            }
+        }
+
         #endregion Properties
 
         #region ctor_init_gen_reverse

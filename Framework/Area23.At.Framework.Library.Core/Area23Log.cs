@@ -11,9 +11,12 @@ namespace Area23.At.Framework.Library.Core
     /// </summary>
     public class Area23Log
     {
+        private static readonly object _lock = new object();
         private static readonly Lazy<Area23Log> instance = new Lazy<Area23Log>(() => new Area23Log());
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
+        private static int checkedToday = DateTime.Today.Day;
+        
         /// <summary>
         /// LogFile
         /// </summary>
@@ -27,32 +30,60 @@ namespace Area23.At.Framework.Library.Core
 
 
         /// <summary>
+        /// Checked today if logfiles and other needed resources exist
+        /// </summary>
+        public static bool CheckedToday
+        {
+            get
+            {
+                if (DateTime.UtcNow.Day == checkedToday)
+                    return true;
+
+                checkedToday = DateTime.UtcNow.Day;
+                return false;
+            }
+        }
+
+
+        /// <summary>
         /// LogStatic - static logger without Area23Log.Logger singelton
         /// </summary>
         /// <param name="msg">message to log</param>
         public static void LogStatic(string msg)
         {
             string logMsg = string.Empty;
-            if (!File.Exists(LogFile))
+
+            if (!CheckedToday)
+            {
+                if (!File.Exists(LogFile))
+                {
+                    lock (_lock)
+                    {
+                        try
+                        {
+                            File.Create(LogFile);
+                        }
+                        catch (Exception exLogFiteCreate)
+                        {
+                            ; // throw
+                            Console.Error.WriteLine("Exception creating logfile: " + exLogFiteCreate.ToString());
+                        }
+                    }
+                }
+            }
+            lock (_lock)
             {
                 try
                 {
-                    File.Create(LogFile);
+                    logMsg = String.Format("{0} \t{1}\r\n",
+                            Constants.DateArea23Seconds,
+                            msg);
+                    File.AppendAllText(LogFile, logMsg);
                 }
-                catch (Exception ex)
+                catch (Exception exLogWrite) 
                 {
-                    Area23Log.LogStatic(ex);
+                    Console.Error.WriteLine(Constants.DateArea23Seconds + " Area23.At.Mono Exception writing to logfile: " + exLogWrite.ToString());
                 }
-            }
-            try
-            {
-                logMsg = String.Format("{0} \t{1}\r\n",
-                        Constants.DateArea23Seconds,
-                        msg);
-                File.AppendAllText(LogFile, logMsg);
-            }
-            catch (Exception)
-            {
             }
         }
 
@@ -68,28 +99,7 @@ namespace Area23.At.Framework.Library.Core
                 exLog.ToString().Replace("\r", "").Replace("\n", " "),
                 exLog.StackTrace.Replace("\r", "").Replace("\n", " "));
 
-            if (!File.Exists(LogFile))
-            {
-                try
-                {
-                    File.Create(LogFile);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Area23.At.Mono Exception: " + e.ToString());
-                }
-            }
-            try
-            {
-                string logMsg = String.Format("{0} \t{1}\r\n",
-                    Constants.DateArea23Seconds,
-                    excMsg);
-                File.AppendAllText(LogFile, logMsg);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Area23.At.Mono Exception: " + e.ToString());
-            }
+            LogStatic(excMsg);
         }
 
         /// <summary>

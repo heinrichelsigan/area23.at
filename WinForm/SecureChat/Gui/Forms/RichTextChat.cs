@@ -1,6 +1,6 @@
 ﻿using Area23.At.Framework.Library.Core;
-using Area23.At.Framework.Library.Core.EnDeCoding;
-using Area23.At.Framework.Library.Core.Cipher.Symm;
+using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
 using Area23.At.WinForm.SecureChat.Gui.Forms;
 using Area23.At.WinForm.SecureChat.Gui;
 using Org.BouncyCastle.Utilities;
@@ -58,7 +58,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             if (Settings.Instance != null && Settings.Instance.MyContact != null && !string.IsNullOrEmpty(Settings.Instance.MyContact.ImageBase64))
             {
                 Bitmap? bmp;
-                byte[] bytes = Framework.Library.Core.EnDeCoding.Base64.Decode(Settings.Instance.MyContact.ImageBase64);
+                byte[] bytes = Base64.Decode(Settings.Instance.MyContact.ImageBase64);
                 using (MemoryStream ms = new MemoryStream(bytes))
                 {
                     bmp = new Bitmap(ms);

@@ -27,6 +27,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Cipher\**" />
+    <Compile Remove="EnDeCoding\**" />
+    <EmbeddedResource Remove="Cipher\**" />
+    <EmbeddedResource Remove="EnDeCoding\**" />
+    <None Remove="Cipher\**" />
+    <None Remove="EnDeCoding\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Util\HttpContextWrapper.cs" />
   </ItemGroup>
 

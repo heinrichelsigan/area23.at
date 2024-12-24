@@ -118,8 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Proxies" xml:space="preserve">
-    <value>52.3.250.146;13.38.136.165;2600:1f18:7a3f:a700::6291;2a05:d012:209:ee00:a8ba:d6c4:bd60:bab5</value>
+    <value>52.87.215.119;13.38.136.165;2600:1f18:7a3f:a700::6291;2a05:d012:209:ee00:a8ba:d6c4:bd60:bab5</value>
     <comment>area23.at;paris.area23.at;virginia.area23.at;parisienne.area23.at</comment>
+  </data>
+  <data name="ProxyNames" xml:space="preserve">
+    <value>area23.at;paris.area23.at;virginia.area23.at;parisienne.area23.at</value>
   </data>
   <data name="github_uri" xml:space="preserve">
     <value>https://github.com/heinrichelsigan/area23.at/</value>

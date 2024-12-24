@@ -25,7 +25,7 @@ namespace Area23.At.Framework.Library.Core
 
         public const string APP_NAME = "Area23.At";
         public const string APP_DIR = "net";
-        public const string VERSION = "v2.24.1212";
+        public const string VERSION = "v2.24.1226";
 
         public const string AREA23_URL = "https://area23.at";
         public const string APP_PATH = "https://area23.at/net/";

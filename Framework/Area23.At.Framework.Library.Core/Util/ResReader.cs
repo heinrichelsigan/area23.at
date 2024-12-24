@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Library.Core.EnDeCoding;
+﻿using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

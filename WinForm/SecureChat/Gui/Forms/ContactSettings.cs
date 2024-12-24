@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.Core.Util;
+using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
 using Area23.At.WinForm.SecureChat.Entities;
 using Area23.At.WinForm.SecureChat.Properties;
 using Org.BouncyCastle.Utilities;
@@ -249,7 +250,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 if (File.Exists(openFileDialog.FileName))
                 {
                     byte[] bitmapBytes = System.IO.File.ReadAllBytes(openFileDialog.FileName);
-                    base64image = Framework.Library.Core.EnDeCoding.Base64.Encode(bitmapBytes);
+                    base64image = Base64.Encode(bitmapBytes);
                     Bitmap bmp = new Bitmap(openFileDialog.FileName);
                     int h = bmp.Size.Height;
                     int w = bmp.Size.Width;

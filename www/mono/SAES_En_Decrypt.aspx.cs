@@ -1,7 +1,7 @@
 ﻿using Area23.At;
 using Area23.At.Framework.Library;
-using Area23.At.Framework.Library.Cipher.Symmetric;
-using Area23.At.Framework.Library.EnDeCoding;
+using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Mono.Properties;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;

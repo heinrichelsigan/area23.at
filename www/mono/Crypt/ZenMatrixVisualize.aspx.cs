@@ -1,9 +1,8 @@
 ﻿using Area23.At;
 using Area23.At.Framework.Library;
-using Area23.At.Framework.Library.Cipher;
-using Area23.At.Framework.Library.Cipher.Symmetric;
-using Area23.At.Framework.Library.Cipher.Symmetric.Algo;
-using Area23.At.Framework.Library.EnDeCoding;
+using Area23.At.Framework.Library.Crypt.Cipher;
+using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Framework.Library.Zfx;
 using Area23.At.Mono.Properties;
@@ -133,7 +132,7 @@ namespace Area23.At.Mono.Crypt
                         CipherEnum cipherAlgo = CipherEnum.Aes;
                         if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
                         {
-                            inBytes = Framework.Library.Cipher.Crypt.EncryptBytes(encryptBytes, cipherAlgo, secretKey, keyIv);
+                            inBytes = Framework.Library.Crypt.Cipher.Crypt.EncryptBytes(encryptBytes, cipherAlgo, secretKey, keyIv);
                             encryptBytes = inBytes;
                         }
                     }
@@ -222,7 +221,7 @@ namespace Area23.At.Mono.Crypt
                         CipherEnum cipherAlgo = CipherEnum.Aes;
                         if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
                         {                            
-                            decryptedBytes = Framework.Library.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
+                            decryptedBytes = Framework.Library.Crypt.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
                             cipherBytes = decryptedBytes;
                         }
                     }
@@ -406,8 +405,8 @@ namespace Area23.At.Mono.Crypt
                 Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text; 
                 Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
 
-                byte[] kb = Framework.Library.Cipher.Symmetric.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
-                SymmCipherEnum[] cses = Framework.Library.Cipher.Symmetric.Crypt.KeyBytesToSymmCipherPipeline(kb);
+                byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
+                SymmCipherEnum[] cses = Framework.Library.Crypt.Cipher.Symmetric.SymmCrypt.KeyBytesToSymmCipherPipeline(kb);
                 this.TextBox_Encryption.Text = string.Empty;
                 foreach (SymmCipherEnum c in cses)
                 {
@@ -578,7 +577,7 @@ namespace Area23.At.Mono.Crypt
             success = false;
             byte[] outBytesSameKey = null;
             byte[] ivBytesHash = EnDeCoder.GetBytes("\r\n" + this.TextBox_IV.Text);
-            // Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
+            // Framework.Library.Crypt.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
             if (decryptedBytes != null && decryptedBytes.Length > ivBytesHash.Length)
             {
                 int needleFound = Framework.Library.Util.Extensions.BytesBytes(decryptedBytes, ivBytesHash, ivBytesHash.Length - 1);

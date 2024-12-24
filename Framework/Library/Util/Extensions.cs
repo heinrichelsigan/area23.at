@@ -347,7 +347,7 @@ namespace Area23.At.Framework.Library.Util
         /// <returns>MemoryStream</returns>
         public static MemoryStream Base64ToStream(this string base64)
         {
-            byte[] bytes = EnDeCoding.Base64.Decode(base64);
+            byte[] bytes = Crypt.EnDeCoding.Base64.Decode(base64);
             MemoryStream ms = new MemoryStream(bytes.Length);
             ms.Write(bytes, 0, bytes.Length);
             ms.Flush();
@@ -362,7 +362,7 @@ namespace Area23.At.Framework.Library.Util
         public static Image Base64ToImage(this string base64)
         {
             Bitmap bitmap = null;
-            byte[] bytes = EnDeCoding.Base64.Decode(base64);
+            byte[] bytes = Crypt.EnDeCoding.Base64.Decode(base64);
             using (MemoryStream ms = new MemoryStream(bytes.Length))
             {
                 ms.Write(bytes, 0, bytes.Length);
@@ -534,24 +534,44 @@ namespace Area23.At.Framework.Library.Util
         /// </summary>
         /// <param name="img">this <see cref="Image"/></param>
         /// <returns>base64 encoded <see cref="string?"/></returns>
-        public static string ToBase64(this Image img)
+        public static string ToBase64(this Image img, Nullable<Guid> g = null)
         {
             string base64 = null;
             MemoryStream ms = new MemoryStream();
             short saved = 0;
-            for (short saveTry = 0; (saved < 1 && saveTry < 7); saveTry++)
+            try
+            {
+                if (g == null || g.Value == Guid.Empty)
+                {
+                    img.Save(ms, img.RawFormat);
+                    saved = 1;
+                }
+                else
+                {
+                    ImageFormat imf = new ImageFormat(g.Value);
+                    img.Save(ms, imf);
+                    saved = 1;
+                }
+            }
+            catch (Exception e)
+            {
+                saved = 0;
+                Area23Log.LogStatic(e);
+            }
+
+            for (short saveTry = 1; (saved < 1 && saveTry < 8); saveTry++)
             {
                 try
                 {
                     switch (saveTry)
                     {
-                        case 0: img.Save(ms, img.RawFormat); saved = saveTry; break;
-                        case 1: img.Save(ms, ImageFormat.Png); saved = saveTry; break;
-                        case 2: img.Save(ms, ImageFormat.Jpeg); saved = saveTry; break;
-                        case 3: img.Save(ms, ImageFormat.Gif); saved = saveTry; break;
-                        case 4: img.Save(ms, ImageFormat.Bmp); saved = saveTry; break;
-                        case 5: img.Save(ms, ImageFormat.Exif); saved = saveTry; break;
-                        case 6: img.Save(ms, ImageFormat.Wmf); saved = saveTry; break;
+                        case 1: img.Save(ms, img.RawFormat); saved = saveTry; break;
+                        case 2: img.Save(ms, ImageFormat.Png); saved = saveTry; break;
+                        case 3: img.Save(ms, ImageFormat.Jpeg); saved = saveTry; break;
+                        case 4: img.Save(ms, ImageFormat.Gif); saved = saveTry; break;
+                        case 5: img.Save(ms, ImageFormat.Bmp); saved = saveTry; break;
+                        case 6: img.Save(ms, ImageFormat.Exif); saved = saveTry; break;
+                        case 7: img.Save(ms, ImageFormat.Wmf); saved = saveTry; break;
                         default: saved = 0; break;
                     }
                 }
@@ -566,7 +586,7 @@ namespace Area23.At.Framework.Library.Util
             {
                 ms.Position = 0;
                 byte[] bytes = ms.ToArray();
-                base64 = EnDeCoding.Base64.Encode(bytes);
+                base64 = Crypt.EnDeCoding.Base64.Encode(bytes);
             }
 
             try

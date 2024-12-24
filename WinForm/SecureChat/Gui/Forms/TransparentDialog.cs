@@ -45,7 +45,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                         return titleAttribute.Title;
                     }
                 }
-                return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
+                return Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().GetName().FullName);
             }
         }
 
@@ -83,7 +83,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
         }
 
-        public string AssemblyCopyright
+        public static string AssemblyCopyright
         {
             get
             {
@@ -96,7 +96,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
         }
 
-        public string AssemblyCompany
+        public static string AssemblyCompany
         {
             get
             {

@@ -1,4 +1,7 @@
-﻿using Area23.At.Framework.Library.Core.Cipher.Symm;
+﻿using Area23.At.Framework.Library.Core.Crypt.Cipher;
+using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Library.Core.Crypt;
+using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
 using Org.BouncyCastle.Asn1.Crmf;
 using System;
 using System.Collections.Generic;
@@ -45,10 +48,10 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             wclient.Encoding = encoding;
             if (!string.IsNullOrEmpty(secretKey))
             {
-                string hexString = EnDeCoding.DeEnCoder.KeyToHex(CryptHelper.PrivateUserKey(secretKey));
+                string hexString = DeEnCoder.KeyToHex(CryptHelper.PrivateUserKey(secretKey));
                 if (!string.IsNullOrEmpty(keyIv))
                 {
-                    hexString = EnDeCoding.DeEnCoder.KeyToHex(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
+                    hexString = DeEnCoder.KeyToHex(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
                 }
                 headers.Add(HttpRequestHeader.Authorization, "Basic " + hexString);
             }
@@ -69,7 +72,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
         public static IPAddress? ClientIpFromArea23(string url, string secretKey, string keyIv = "", System.Text.Encoding? encoding = null)
         {
             WebClient wc = GetWebClient(url, secretKey, keyIv, encoding);
-            Uri uri = new Uri(url);            
+            Uri uri = new Uri(url);    
             string myIp = wc.DownloadString(uri);
             if (myIp.Contains("<body>"))
             {
