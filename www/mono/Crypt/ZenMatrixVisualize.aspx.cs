@@ -49,11 +49,18 @@ namespace Area23.At.Mono.Crypt
         {
             if (!Page.IsPostBack)
             {
-                if ((Session[Constants.AES_ENVIROMENT_KEY] != null) && !string.IsNullOrEmpty((string)Session[Constants.AES_ENVIROMENT_KEY]) &&
-                    (((string)Session[Constants.AES_ENVIROMENT_KEY]).Length > 7))
+                try
                 {
-                    Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
-                }                            
+                    if ((Session[Constants.AES_ENVIROMENT_KEY] != null) && !string.IsNullOrEmpty((string)Session[Constants.AES_ENVIROMENT_KEY]) &&
+                        (((string)Session[Constants.AES_ENVIROMENT_KEY]).Length > 7))
+                    {
+                        Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Area23Log.LogStatic(ex);
+                }
             }
            
         }
@@ -70,8 +77,6 @@ namespace Area23.At.Mono.Crypt
         {
             this.TextBox_Encryption.Text = "";
             this.TextBox_IV.Text = "";
-            ClearPostedFileSession(false);  
-
         }
 
         /// <summary>
@@ -121,9 +126,6 @@ namespace Area23.At.Mono.Crypt
         protected void Button_Reset_KeyIV_Click(object sender, EventArgs e)
         {
             this.TextBox_Encryption.Text = "";
-            ClearPostedFileSession(false);
-
-
             this.TextBox_IV.Text = "";
         }
 
@@ -228,119 +230,8 @@ namespace Area23.At.Mono.Crypt
             this.TextBox_Encryption.BorderColor = Color.LightGray;
             this.TextBox_Encryption.BorderWidth = 1;
 
-            if ((Session[Constants.UPSAVED_FILE] != null) && System.IO.File.Exists((string)Session[Constants.UPSAVED_FILE]))
-            {
-                ;              
-            }
-            else
-            {
-                ClearPostedFileSession(false);
-            }            
-
-
-        }
-
-        /// <summary>
-        /// removes posted file from session and file location
-        /// </summary>
-        protected void ClearPostedFileSession(bool spansVisible = false)
-        {
-            if ((Session[Constants.UPSAVED_FILE] != null))
-            {
-                Session.Remove(Constants.UPSAVED_FILE);                
-            }
             
         }
-
-        #region ObsoleteDeprecated
-
-        /// <summary>
-        /// Handles string decryption, compares if private key & hex hash match in decrypted text
-        /// </summary>
-        /// <param name="decryptedText">decrypted plain text</param>
-        /// <returns>decrypted plain text without check hash or an error message, in case that check hash doesn't match.</returns>
-        [Obsolete("HandleString_PrivateKey_Changed is non standard bogus implementation, don't use it!", false)]
-        protected string HandleString_PrivateKey_Changed(string decryptedText)
-        {
-            bool sameKey = false;
-            string shouldEndWithIv = "\r\n" + this.TextBox_IV.Text;
-            if (decryptedText != null && decryptedText.Length > this.TextBox_IV.Text.Length)
-            {
-                if ((sameKey = decryptedText.EndsWith(shouldEndWithIv, StringComparison.InvariantCultureIgnoreCase)))
-                    decryptedText = decryptedText.Substring(0, decryptedText.Length - shouldEndWithIv.Length);
-                else
-                {
-                    if ((sameKey = decryptedText.Contains(shouldEndWithIv)))
-                    {
-                        int idxEnd = decryptedText.IndexOf(shouldEndWithIv);
-                        decryptedText = decryptedText.Substring(0, idxEnd);
-                    }
-                    else if ((sameKey = decryptedText.Contains(shouldEndWithIv.Substring(0, shouldEndWithIv.Length -3))))
-                    {
-                        int idxEnd = decryptedText.IndexOf(shouldEndWithIv.Substring(0, shouldEndWithIv.Length - 3));
-                        decryptedText = decryptedText.Substring(0, idxEnd);
-                    }
-                }
-            }
-
-            if (!sameKey)
-            {
-                string errorMsg = $"Decryption failed!\r\nKey: {this.TextBox_Key.Text} with HexHash: {this.TextBox_Key.Text} doesn't match!";
-                this.TextBox_IV.Text = "Private Key changed!";
-                this.TextBox_IV.ToolTip = "Check Enforce decrypt (without key check).";
-                this.TextBox_IV.BorderColor = Color.Red;
-                this.TextBox_IV.BorderWidth = 2;
-
-                return errorMsg;
-            }
-
-            return decryptedText;
-        }
-
-        /// <summary>
-        /// Handles decrypted byte[] and checks hash of private key
-        /// TODO: not well implemented yet, need to rethink hash merged at end of files with huge byte stream
-        /// </summary>
-        /// <param name="decryptedBytes">huge file bytes[], that contains at the end the CR + LF + iv key hash</param>
-        /// <param name="success">out parameter, if finding and trimming the CR + LF + iv key hash was successfully</param>
-        /// <returns>an trimmed proper array of huge byte, representing the file, otherwise a huge (maybe wrong decrypted) byte trash</returns>
-        [Obsolete("HandleBytes_PrivateKey_Changed is non standard bogus implementation, don't use it!", false)]
-        protected byte[] HandleBytes_PrivateKey_Changed(byte[] decryptedBytes, out bool success)
-        {
-            success = false;
-            byte[] outBytesSameKey = null;
-            byte[] ivBytesHash = EnDeCoder.GetBytes("\r\n" + this.TextBox_IV.Text);
-            // Framework.Library.Crypt.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
-            if (decryptedBytes != null && decryptedBytes.Length > ivBytesHash.Length)
-            {
-                int needleFound = Framework.Library.Util.Extensions.BytesBytes(decryptedBytes, ivBytesHash, ivBytesHash.Length - 1);
-                if (needleFound > 0)
-                {
-                    success = true;
-                    outBytesSameKey = new byte[needleFound];
-                    Array.Copy(decryptedBytes, outBytesSameKey, needleFound);
-                    return outBytesSameKey;
-                }
-            }
-
-            if (!success)
-            {
-                string errorMsg = $"Decryption failed!\r\nKey: {this.TextBox_Key.Text} with HexHash: {this.TextBox_Key.Text} doesn't match!"; 
-
-                this.TextBox_IV.Text = "Private Key changed!";
-                this.TextBox_IV.ToolTip = "Check Enforce decrypt (without key check).";
-                this.TextBox_IV.BorderColor = Color.Red;
-                this.TextBox_IV.BorderWidth = 2;
-
-                
-
-            }
-
-            return decryptedBytes;
-        }
-
-
-        #endregion ObsoleteDeprecated
 
         
     }

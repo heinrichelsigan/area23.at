@@ -120,8 +120,12 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
         {
             // TODO: throw Exception, when secret key is null or empty,
             // instead of using Constants.AUTHOR_EMAIL & Constants.AREA23_EMAIL
-            string usrKey = string.IsNullOrEmpty(key) ? Constants.AUTHOR_EMAIL : key;
-            string usrHash = string.IsNullOrEmpty(hash) ? Constants.AREA23_EMAIL : hash;
+            string usrKey = key;
+            if (string.IsNullOrEmpty(key))
+                usrKey = Constants.AUTHOR_EMAIL;
+            string usrHash = hash;
+            if (string.IsNullOrEmpty(hash))
+                usrHash = Constants.AREA23_EMAIL;
             byte[] keyBytes = EnDeCoder.GetBytes(usrKey);
             byte[] hashBytes = EnDeCoder.GetBytes(usrHash);
 
@@ -134,18 +138,17 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
                 for (int ob = 0; (ob < (keyBytes.Length + hashBytes.Length)); ob++)
                 {
                     if (kb < keyBytes.Length)
-                        outBytes.Add(keyBytes[keyBytes.Length - kb]);
-                    kb++;
+                        outBytes.Add(keyBytes[kb++]);
                     if (hb < hashBytes.Length)
                         outBytes.Add(hashBytes[hb++]);
-                    if (kb < keyBytes.Length)
-                        outBytes.Add(keyBytes[kb++]);
                     if (hb < hashBytes.Length)
                         outBytes.Add(hashBytes[hashBytes.Length - hb]);
                     hb++;
+                    if (kb < keyBytes.Length)
+                        outBytes.Add(keyBytes[keyBytes.Length - kb]);
+                    kb++;
 
                     ob = outBytes.Count;
-
                 }
             }
 

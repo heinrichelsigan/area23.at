@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Simple uu and base64 en-/decode tool (apache2 mod_mono)" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="ZenMatrixVisualize.aspx.cs" Inherits="Area23.At.Mono.Crypt.ZenMatrixVisualize"  validateRequest="false" %>
+﻿<%@ Page Title="ZenMatrixVisualize" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="ZenMatrixVisualize.aspx.cs" Inherits="Area23.At.Mono.Crypt.ZenMatrixVisualize"  validateRequest="false" %>
 <asp:Content ID="ContentEncodeHead" ContentPlaceHolderID="EncodeHead" runat="server">
         <title>Simple uu and base64 en-/decode tool (apache2 mod_mono)</title>
         <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
@@ -36,7 +36,7 @@
                 </span>
                 <span class="centerSpan" style="width: 72px">&nbsp&nbsp;Secret&nbsp;key:&nbsp;</span>
                 <span class="centerSpan" style="width: 72px"><asp:ImageButton ID="ImageButton_Key" runat="server"  
-                    OnClick="Button_Key_Click" ClientIDMode="Static" ImageUrl="../res/img/a_right_key.png" 
+                    ClientIDMode="Static" ImageUrl="../res/img/a_right_key.png" 
                     AlternateText="save your user key in session" /></span>
                 <span class="centerSpan" style="max-width: 400px;">                
                     <asp:TextBox ID="TextBox_Key" runat="server" Text="heinrich.elsigan@area23.at"                        
@@ -107,7 +107,7 @@
                 </span>
                 <span class="centerSpan" style="width: 72px;"> 
                     <asp:ImageButton ID="ImageButton_Add" ClientIDMode="Static" Enabled="false"  runat="server" ImageUrl="../res/img/AddAesArrow.gif" 
-                        OnClick="ImageButton_Add_Click" AlternateText="Add symetric chiffer algorithm" />
+                        AlternateText="Add symetric chiffer algorithm" />
                 </span>
                 <span class="centerSpan" style="max-width: 400px;">
                     <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true" TextMode="SingleLine" MaxLength="512" 
@@ -115,8 +115,7 @@
                         &rArr;
                 </span>
                 <span class="rightSpan">
-                     <asp:DropDownList ID="DropDownList_Encoding" runat="server" Enabled="false"
-                         OnSelectedIndexChanged="DropDownList_Encoding_SelectedIndexChanged" style="width: 84px;">
+                     <asp:DropDownList ID="DropDownList_Encoding" runat="server" Enabled="false" style="width: 84px;">
                         <asp:ListItem Enabled="true" Value="None" Selected="false">None</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Base16" Selected="false">Base16</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Hex16" Selected="false">Hex16</asp:ListItem>
