@@ -10,16 +10,17 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Crypt.Hash
 {
+
     public static class Sha512Sum
     {
-        public static string Hash(string filePath)
+        public static string Hash(string filePath, bool showFileName = true)
         {
             if (!System.IO.File.Exists(filePath))
                 return Hash(Encoding.Default.GetBytes(filePath));
             
             byte[] bytes = File.ReadAllBytes(filePath);
             string fileName = Path.GetFileName(filePath);
-            string hash = Hash(bytes, fileName);
+            string hash = (showFileName) ? Hash(bytes, fileName) : Hash(bytes);
             return hash;
         }
 
@@ -75,4 +76,5 @@ namespace Area23.At.Framework.Library.Crypt.Hash
         }
 
     }
+
 }

@@ -32,7 +32,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             // wclient.BaseAddress = "https://area23.at/";
         }
 
-        public static HttpClient GetHttpClient(string baseAddr, string secretKey, string keyIv = "", System.Text.Encoding? encoding = null)        
+        public static HttpClient GetHttpClient(string baseAddr, string secretKey, string hostName = "area23.at", System.Text.Encoding? encoding = null)        
         {            
             encoding = encoding ?? Encoding.UTF8;
 
@@ -40,16 +40,12 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             httpClientR.BaseAddress = new Uri(baseAddr);
             httpClientR.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
             httpClientR.DefaultRequestHeaders.Add("AcceptLanguage", "en-US");
-            httpClientR.DefaultRequestHeaders.Add("Host", "area23.at");
+            httpClientR.DefaultRequestHeaders.Add("Host", hostName);
             httpClientR.DefaultRequestHeaders.Add("UserAgent", "cqrxs.eu");
 
             if (!string.IsNullOrEmpty(secretKey))
             {
-                string hexString = DeEnCoder.KeyToHex(CryptHelper.PrivateUserKey(secretKey));
-                if (!string.IsNullOrEmpty(keyIv))
-                {
-                    hexString = DeEnCoder.KeyToHex(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
-                }
+                string hexString = DeEnCoder.KeyToHex(CryptHelper.PrivateUserKey(secretKey));              
                 httpClientR.DefaultRequestHeaders.Add("Authorization", $"Basic {hexString}");
             }
 
@@ -57,7 +53,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
         }
 
 
-        public static HttpClient GetHttpClient(string baseAddr, System.Text.Encoding? encoding = null)
+        public static HttpClient GetHttpClient(string baseAddr, string hostName = "area23.at", System.Text.Encoding? encoding = null)
         {
             encoding = encoding ?? Encoding.UTF8;
 
@@ -65,20 +61,19 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             httpClientR.BaseAddress = new Uri(baseAddr);
             httpClientR.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
             httpClientR.DefaultRequestHeaders.Add("AcceptLanguage", "en-US");
-            httpClientR.DefaultRequestHeaders.Add("Host", "area23.at");
+            httpClientR.DefaultRequestHeaders.Add("Host", hostName);
             httpClientR.DefaultRequestHeaders.Add("UserAgent", "cqrxs.eu");
 
             return httpClientR;
         }
 
-        public static IDictionary<string, string> GetContent()
+        public static IDictionary<string, string> GetHeaders(string hostName = "area23.at")
         {
             IDictionary<string, string> dict = new Dictionary<string, string>();
             dict.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
             dict.Add("AcceptLanguage", "en-US");
-            dict.Add("Host", "area23.at");
+            dict.Add("Host", hostName);
             dict.Add("UserAgent", "cqrxs.eu"); 
-
 
             return dict;
         }
@@ -87,8 +82,21 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
         public async static Task<HttpResponseMessage> GetClientIp(string url)
         {
             Uri uri = new Uri(url);
-            httpClientR = HttpClientRequest.GetHttpClient(url, Encoding.UTF8);
+            httpClientR = HttpClientRequest.GetHttpClient(url, "area23.at", Encoding.UTF8);
             return await httpClientR.GetAsync(uri);
+        }
+
+        public static bool PostCqrMsg(string url, string msg)
+        {
+            Uri uri = new Uri(url);
+            httpClientR = HttpClientRequest.GetHttpClient(url, "locahost", Encoding.UTF8);
+
+            HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, uri);
+            req.RequestUri = uri;
+            req.Content = new StringContent(msg);
+            
+            HttpResponseMessage res = httpClientR.Send(req);
+            return res.IsSuccessStatusCode;
         }
 
         public static async Task<HttpResponseMessage> GetClientIPFormArea23()

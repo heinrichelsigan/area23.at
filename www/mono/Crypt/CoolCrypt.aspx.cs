@@ -513,7 +513,7 @@ namespace Area23.At.Mono.Crypt
                 Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
 
                 byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
-                SymmCipherEnum[] cses = Framework.Library.Crypt.Cipher.Symmetric.SymmCrypt.KeyBytesToSymmCipherPipeline(kb);
+                SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb).InPipe;
                 this.TextBox_Encryption.Text = string.Empty;
                 foreach (SymmCipherEnum c in cses)
                 {

@@ -11,7 +11,7 @@ namespace Area23.At.ChatQ
 {
 
 
-    public partial class Default
+    public partial class Index
     {
 
         /// <summary>
@@ -33,6 +33,15 @@ namespace Area23.At.ChatQ
         protected global::System.Web.UI.WebControls.TextBox TextBoxSubmit;
 
         /// <summary>
+        /// TextBoxLastMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxLastMsg;
+
+        /// <summary>
         /// ButtonSubmit control.
         /// </summary>
         /// <remarks>
@@ -40,5 +49,14 @@ namespace Area23.At.ChatQ
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonSubmit;
+
+        /// <summary>
+        /// pre1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pre1;
     }
 }

@@ -20,6 +20,7 @@ namespace Area23.At.WinForm.SecureChat.Entities
             new Lazy<Settings>(() => new Settings());
         
         private static bool _disposed = false;
+        private static bool _destructed = false;
 
         #region properties
         public static Settings Instance { get => _instance.Value; }
@@ -124,7 +125,7 @@ namespace Area23.At.WinForm.SecureChat.Entities
             }
             catch (Exception ex)
             {                
-                CqrException.LastException = ex;
+                CqrException.LastException = ex;                
                 return false;
             }
             return true;
@@ -145,6 +146,7 @@ namespace Area23.At.WinForm.SecureChat.Entities
             {
                 lock (_lock)
                 {
+                    _destructed = true;
                     _disposed = Settings.Save(Instance);
                 }
             }
@@ -153,11 +155,14 @@ namespace Area23.At.WinForm.SecureChat.Entities
         }
 
         ~Settings()
-        {            
-            if (!Instance.Dispose(true))
+        {
+            if (!_destructed)
             {
-                string fileName = LibPaths.SystemDirPath + Constants.JSON_SAVE_FILE;                
-                throw new CqrException($"~Settings() couldn't save settings to to {fileName}.", CqrException.LastException);
+                if (!Instance.Dispose(true))
+                {
+                    string fileName = LibPaths.SystemDirPath + Constants.JSON_SAVE_FILE;
+                    throw new CqrException($"~Settings() couldn't save settings to to {fileName}.", CqrException.LastException);
+                }
             }
             TimeStamp = DateTime.Now;
             _disposed = true;

@@ -69,7 +69,7 @@
         
             <div class="odDiv">
                 <span class="leftSpan" style="width: 72px;">                      
-                    <asp:DropDownList ID="DropDownList_Zip" runat="server" style="width: 64px;">
+                    <asp:DropDownList ID="DropDownList_Zip" runat="server" Enabled="false" style="width: 64px;">
                         <asp:ListItem Enabled="true" Value="None" Selected="true">None</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Z7" Selected="false">7Zip</asp:ListItem>                
                         <asp:ListItem Enabled="true" Value="BZip2" Selected="false">BZip2</asp:ListItem>
@@ -106,10 +106,8 @@
                     </asp:DropDownList>
                 </span>
                 <span class="centerSpan" style="width: 72px;"> 
-                    <asp:ImageButton ID="ImageButton_Add" ClientIDMode="Static" runat="server" ImageUrl="../res/img/AddAesArrow.gif" 
-                        OnClick="ImageButton_Add_Click" AlternateText="Add symetric chiffer algorithm"
-                        onmouseover="document.getElementById('ImageButton_Add').src='../res/img/AddAesArrowHover.gif'"                     
-                        onmouseout="document.getElementById('ImageButton_Add').src='../res/img/AddAesArrow.gif'" />
+                    <asp:ImageButton ID="ImageButton_Add" ClientIDMode="Static" Enabled="false"  runat="server" ImageUrl="../res/img/AddAesArrow.gif" 
+                        OnClick="ImageButton_Add_Click" AlternateText="Add symetric chiffer algorithm" />
                 </span>
                 <span class="centerSpan" style="max-width: 400px;">
                     <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true" TextMode="SingleLine" MaxLength="512" 
@@ -117,7 +115,7 @@
                         &rArr;
                 </span>
                 <span class="rightSpan">
-                     <asp:DropDownList ID="DropDownList_Encoding" runat="server" AutoPostBack="true" 
+                     <asp:DropDownList ID="DropDownList_Encoding" runat="server" Enabled="false"
                          OnSelectedIndexChanged="DropDownList_Encoding_SelectedIndexChanged" style="width: 84px;">
                         <asp:ListItem Enabled="true" Value="None" Selected="false">None</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Base16" Selected="false">Base16</asp:ListItem>
@@ -131,7 +129,7 @@
             </div>
             <div class="odDiv">
                 <span class="leftSpan" style="width: 72px">
-                    Don't use zip compression, if you want to decrypt encrypted file or text view with same key on another server.
+                   ZenMatrix Visualize Testform
                 </span>
                 <span class="centerSpan" style="width: 72px">&nbsp;</span>
                 <span class="centerSpan" style="width: 72px"></span>                
@@ -141,7 +139,7 @@
                 </span>
             </div>
             <br />                
-            <div styöe="width: 320px; width: 420px; height: 260px; min-height: 224px">
+            <div style="width: 320px; width: 420px; height: 260px; min-height: 224px">
                 <pre id="zenmatrix" runat="server" style="width: 320px; width: 420px; height: 260px; min-height: 224px">
 | 0 |=> | 0 1 2 3 4 5 6 7 |<br />
 | 1 |=> | 1 |
@@ -153,15 +151,7 @@
 | 7 |=> | 5 |
                     </pre>             
             </div>
-            <br />
-            <h3>En-/Decrypt text</h3>
-            <div style="background-color: transparent; padding: 0 0 0 0; margin: 0 0 0 0;">                
-                <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="10" Columns="48" ValidateRequestMode="Disabled" ToolTip="Source Text" Text="[Enter text to en-/decrypt here]" Width="480px"></asp:TextBox>
-                <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="10" Columns="48" MaxLength="32768" ReadOnly="true" ToolTip="Destination Text" Width="468px"></asp:TextBox>
-                <br />
-                <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClientClick="changeCryptBackgroundText()" OnClick="ButtonEncrypt_Click" />
-                <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClientClick="changeCryptBackgroundText();" OnClick="ButtonDecrypt_Click" />   
-            </div>
+            <br />            
         </div>
         <hr />   
         <h3>Great thanks to <a href="https://www.bouncycastle.org/download/bouncy-castle-c/" target="_blank">bouncycastle.org</a>!</h3>

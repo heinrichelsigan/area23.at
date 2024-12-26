@@ -1,10 +1,4 @@
 ﻿using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Engines;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
@@ -79,12 +73,6 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
                     break;
-                //case "RC564":
-                //    BlockSize = 256;
-                //    KeyLen = 32;
-                //    Mode = "ECB";
-                //    BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
-                //    break;
                 case SymmCipherEnum.Seed:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
                     BlockSize = 128;

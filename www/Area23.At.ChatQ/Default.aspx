@@ -10,10 +10,10 @@
 	<meta name="description" content="https://github.com/heinrich.elsigan/" />
 </head>
 <body>
-    <form id="form1" runat="server">		
-		<a href="~/res/img/qrsample2.png" runat="server" id="HrefShort">
-			<asp:Image ID="ImageQr" runat="server" ImageUrl="~/res/img/qrsample2.png" Visible="false" BorderStyle="None" BackColor="Transparent" />
-		</a>
+    <form id="form1" runat="server" method="post" enctype="text/plain">
+		<asp:TextBox ID="TextBoxSubmit" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="10" Columns="48" ValidateRequestMode="Disabled" ToolTip="[Enter text to en-/decrypt here]" Text="" Width="480px"></asp:TextBox>
+		<br />
+		<asp:Button ID="ButtonSubmit" runat="server" Text="Submit" ToolTip="Submit" OnClick="ButtonSubmit_Click" />
 	</form> 
 </body>
 </html>

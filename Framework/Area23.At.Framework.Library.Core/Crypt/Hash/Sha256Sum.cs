@@ -10,59 +10,70 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Core.Crypt.Hash
 {
+
     public static class Sha256Sum
     {
-        internal static string Hash(string filePath)
+
+        public static string Hash(string filePath, bool showFileName = true)
         {
             if (!System.IO.File.Exists(filePath))
                 return Hash(Encoding.Default.GetBytes(filePath));
 
-            byte[] bytes = File.ReadAllBytes(filePath);
+            byte[] fileBytes = File.ReadAllBytes(filePath);
             string fileName = Path.GetFileName(filePath);
-            string hash = Hash(bytes) + "  " + fileName;
+            string hash = (showFileName) ? Hash(fileBytes, fileName) : Hash(fileBytes);
             return hash;
         }
 
 
-        internal static string Hash(byte[] bytes)
+        public static string Hash(byte[] bytes, string fileName = null)
         {
-            byte[] hashBytes = HashBytes(bytes);
-            string hash = hashBytes.ToHexString();
-            return hash;
+            byte[] hashed = HashBytes(bytes);
+            string hasha = Encoding.UTF8.GetString(hashed);
+            string hashb = hashed.ToHexString();
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                hasha += "  " + fileName;
+                hashb += "  " + fileName;
+            }
+            return hashb.ToLower();
         }
 
-        internal static string Hash(Stream s)
+        public static string Hash(Stream s, string fileName = null)
         {
-            byte[] bytes = HashBytes(s);
-            string a = BitConverter.ToString(bytes).Replace("-", string.Empty);
-            string hash = bytes.ToHexString();
-
-            return hash;
+            byte[] hashed = HashBytes(s);
+            string hasha = BitConverter.ToString(hashed).Replace("-", string.Empty);
+            string hashb = hashed.ToHexString();
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                hasha += "  " + fileName;
+                hashb += "  " + fileName;
+            }
+            return hashb.ToLower();
         }
 
-        internal static byte[] HashBytes(byte[] bytes)
+        public static byte[] HashBytes(byte[] bytes)
         {
             return SHA256.Create().ComputeHash(bytes);
         }
 
-        internal static byte[] HashBytes(Stream s)
+        public static byte[] HashBytes(Stream s)
         {
-            return SHA256.Create().ComputeHash(s);
+            return SHA512.Create().ComputeHash(s);
         }
 
 
-        internal static Stream HashStream(byte[] bytes)
+        public static Stream HashStream(byte[] bytes)
         {
-            byte[] hashBytes = SHA3_512.Create().ComputeHash(bytes);
-            return new MemoryStream(hashBytes);
-
+            byte[] hashed = SHA256.Create().ComputeHash(bytes);
+            return new MemoryStream(hashed);
         }
 
 
-        internal static Stream HashStream(Stream s)
+        public static Stream HashStream(Stream s)
         {
-            byte[] bytes = SHA256.Create().ComputeHash(s);
-            return new MemoryStream(bytes);
+            byte[] hashed = SHA256.Create().ComputeHash(s);
+            return new MemoryStream(hashed);
         }
 
     }

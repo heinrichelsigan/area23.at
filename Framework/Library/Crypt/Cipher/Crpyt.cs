@@ -1,12 +1,6 @@
-﻿using Symm = Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
-using Org.BouncyCastle.Bcpg;
-using Org.BouncyCastle.Crypto;
-using System.Collections.Generic;
-using System;
-using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
-using System.Linq;
+﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
-using System.Security.Cryptography;
+using Symm = Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher
 {
@@ -174,57 +168,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return DeEnCoder.GetBytesTrimNulls(decryptBytes);
         }
 
-
-
-
-        public static char GetCipherChar(CipherEnum cipher)
-        {
-            switch (cipher)
-            {
-                case CipherEnum.Aes: return 'A';
-
-                case CipherEnum.BlowFish: return 'b';
-                case CipherEnum.Camellia: return 'M';
-                case CipherEnum.Cast6: return 'C';
-                case CipherEnum.Des3: return 'D';
-                case CipherEnum.Fish2: return 'f';
-                case CipherEnum.Fish3: return 'F';
-                case CipherEnum.Gost28147: return 'g';
-
-                case CipherEnum.Idea: return 'I';
-                case CipherEnum.RC532: return '5';
-                case CipherEnum.Seed: return 's';
-                case CipherEnum.Serpent: return 'S';
-                case CipherEnum.SkipJack: return 'J';
-                case CipherEnum.Tea: return 't';
-                case CipherEnum.XTea: return 'X';
-
-                case CipherEnum.ZenMatrix: return 'z';
-
-                case CipherEnum.Cast5: return 'c';
-                case CipherEnum.Noekeon: return 'N';
-                case CipherEnum.RC2: return 'r';
-                case CipherEnum.RC6: return 'R';
-                case CipherEnum.Tnepres: return 'T';
-
-                case CipherEnum.Rsa: return 'Z';
-                default: break;
-            }
-
-            return 'A';
-        }
-
-        public static string SymmCipherPipeString(CipherEnum[] ciphers)
-        {
-            string hashSymms = string.Empty;
-
-            foreach (CipherEnum cipher in ciphers)
-            {
-                hashSymms += GetCipherChar(cipher);
-            }
-
-            return hashSymms;
-        }
+    
     }
 
 }

@@ -23,8 +23,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         };
 
         private static readonly int[] MagicOrder = {
-            0x8, 0x3, 0x9, 0xe,
-            0x1, 0xf, 0x5, 0xc,
+            0x8, 0x3, 0x1, 0xe,
+            0x9, 0xf, 0x5, 0xc,
             0x4, 0xd, 0xa, 0x7,
             0xb, 0x2, 0x0, 0x6
         };
@@ -125,16 +125,16 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
                 InitMatrixSymChiffer();
                 PermKeyHash = new HashSet<sbyte>();
-                List<sbyte> key2 = new List<sbyte>();
+                List<byte> key2 = new List<byte>(keyBytes);
 
-                foreach (byte keyByte in keyBytes)
-                {
-                    sbyte sb = (sbyte)(keyByte % 16);
-                    key2.Add(sb);
-                    sbyte lb = (sbyte)((keyByte - (byte)sb) / 16);
-                    key2.Add(lb);                    
-                }
-                
+                //foreach (byte keyByte in keyBytes)
+                //{
+                //    byte sb = (byte)(keyByte % 16);
+                //    key2.Add(sb);
+                //    byte lb = (byte)((keyByte - (byte)sb) / 16);
+                //    key2.Add(lb);                    
+                //}
+
                 foreach (byte keyByte in key2)
                 {
                     sbyte b = (sbyte)(keyByte % 16);

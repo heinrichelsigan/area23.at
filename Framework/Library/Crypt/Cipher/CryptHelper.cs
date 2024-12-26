@@ -4,11 +4,6 @@ using Area23.At.Framework.Library.Util;
 using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher
 {
@@ -60,131 +55,28 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         #region GetPreferedBlockCipher
 
         /// <summary>
-        /// Gets a prefered <see cref="IBlockCipher"/> symmetric only engine from <see cref="Org.BouncyCastle.Crypto.Engines"/> 
+        /// Gets a prefered <see cref="IBlockCipher"/> 
+        /// for a symmetric only engine from <see cref="Org.BouncyCastle.Crypto.Engines"/> 
         /// </summary>
-        /// <param name="cipherAlgo">alogorithm to chipher</param>
-        /// <param name="mode">mode</param>
-        /// <param name="blockSize">size of block to en-/decrypt</param>
-        /// <param name="keyLen">secret key/iv length</param>
+        /// <param name="symmCipherAlgo">symmetric prefered alogorithm to chipher</param>
         /// <returns><see cref="IBlockCipher"/></returns>
-        public static IBlockCipher GetPreferedBlockCipher(SymmCipherEnum cipherAlgo, ref string mode, ref int blockSize, ref int keyLen)
+        public static IBlockCipher GetPreferedBlockCipher(SymmCipherEnum symmCipherAlgo)
         {
-            IBlockCipher blockCipher = null;
-            if (string.IsNullOrEmpty(mode))
-                mode = "ECB";
-            blockSize = (blockSize < 64) ? 64 : (blockSize > 4096) ? 4096 : blockSize;
-            keyLen = (keyLen < 8) ? 8 : (keyLen > 256) ? 256 : keyLen;
-
-            string requestedAlgorithm = cipherAlgo.ToString();
-            switch (cipherAlgo)
-            {
-                case SymmCipherEnum.BlowFish:
-                    blockSize = 64;
-                    keyLen = 8;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.BlowfishEngine();
-                    break;
-                case SymmCipherEnum.Fish2:
-                    blockSize = 128;
-                    keyLen = 16;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.TwofishEngine();
-                    break;
-                case SymmCipherEnum.Fish3:
-                    blockSize = 256;
-                    keyLen = 32;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(blockSize);
-                    break;
-                case SymmCipherEnum.Camellia:
-                    blockSize = 128;
-                    keyLen = 16;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
-                    break;
-                case SymmCipherEnum.RC532:
-                    blockSize = 256;
-                    keyLen = 32;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
-                    break;
-                case SymmCipherEnum.Cast6:
-                    blockSize = 256;
-                    keyLen = 32;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
-                    break;
-                case SymmCipherEnum.Gost28147:
-                    blockSize = 256;
-                    keyLen = 32;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
-                    break;
-                case SymmCipherEnum.Idea:
-                    blockSize = 256;
-                    keyLen = 32;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
-                    break;
-                //case "RC564":
-                //    blockSize = 256;
-                //    keyLen = 32;
-                //    mode = "ECB";
-                //    blockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
-                //    break;
-                case SymmCipherEnum.Seed:
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
-                    blockSize = 128;
-                    keyLen = 16;
-                    mode = "ECB";
-                    break;
-                case SymmCipherEnum.Serpent:
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
-                    blockSize = 128;
-                    keyLen = 16;
-                    mode = "ECB";
-                    break;
-                case SymmCipherEnum.SkipJack:
-                    blockSize = 256;
-                    keyLen = 32;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
-                    break;
-                case SymmCipherEnum.Tea:
-                    blockSize = 128;
-                    keyLen = 16;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
-                    break;
-                case SymmCipherEnum.XTea:
-                    blockSize = 256;
-                    keyLen = 32;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
-                    break;
-                case SymmCipherEnum.Aes:
-                default:
-                    blockSize = 256;
-                    keyLen = 32;
-                    mode = "ECB";
-                    blockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
-                    break;
-            }
-
-
-            return blockCipher;
+            CryptParamsPrefered cryptParamsPrefered = new CryptParamsPrefered(symmCipherAlgo);
+            return cryptParamsPrefered.BlockCipher;
         }
 
         /// <summary>
-        /// Gets a prefered <see cref="IBlockCipher"/> symmetric only engine from <see cref="Org.BouncyCastle.Crypto.Engines"/> 
+        /// Gets <see cref="CryptParamsPrefered"/> with 
+        /// a symmetric only engine from <see cref="Org.BouncyCastle.Crypto.Engines"/> 
+        /// in <see cref="Org.BouncyCastle.Crypto.IBlockCipher"/> 
         /// </summary>
         /// <param name="symmCipherAlgo">alogorithm to chipher</param>
         /// <returns>CryptParamsPrefered</returns>
-        public static CryptParamsPrefered GetPreferedBlockCipher(SymmCipherEnum symmCipherAlgo)
+        public static CryptParamsPrefered GetPreferedCryptParams(SymmCipherEnum symmCipherAlgo)
         {
-            return new CryptParamsPrefered(symmCipherAlgo);         
+            return new CryptParamsPrefered(symmCipherAlgo);
         }
-
 
         #endregion GetPreferedBlockCipher
 
@@ -197,8 +89,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <returns>doubled concatendated string of secretKey</returns>
         internal static string PrivateUserKey(string secretKey)
         {
-            string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
-            return string.Concat(secKey);
+            return string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
         }
 
         /// <summary>
@@ -215,33 +106,40 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return string.Concat(secKey, usrHash);
         }
 
-        /// <summary>
-        /// PrivateKeyWithUserHash, helper to double private secret key with hash
+        /// PrivateKeyWithUserHash, helper to hash merge private user key with hash
         /// </summary>
-        /// <param name="secretKey">users private secret key</param>
-        /// <param name="userHash">users private secret key hash</param>
+        /// <param name="key">users private key</param>
+        /// <param name="hash">users private hash</param>
         /// <returns>doubled concatendated string of (secretKey + hash)</returns>
-        internal static byte[] KeyUserHashBytes(string secretKey, string userHash, bool merge = false)
+        internal static byte[] KeyUserHashBytes(string key, string hash, bool merge = true)
         {
-            // TODO: throw Exception, when secret key is null or empty instead of using Constants.AUTHOR_EMAIL & Constants.AREA23_EMAIL
-            string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
-            string usrHash = string.IsNullOrEmpty(userHash) ? Constants.AREA23_EMAIL : userHash;
-            byte[] secBytes = EnDeCoder.GetBytes(secKey);
+            // TODO: throw Exception, when secret key is null or empty,
+            // instead of using Constants.AUTHOR_EMAIL & Constants.AREA23_EMAIL
+            string usrKey = string.IsNullOrEmpty(key) ? Constants.AUTHOR_EMAIL : key;
+            string usrHash = string.IsNullOrEmpty(hash) ? Constants.AREA23_EMAIL : hash;
+            byte[] keyBytes = EnDeCoder.GetBytes(usrKey);
             byte[] hashBytes = EnDeCoder.GetBytes(usrHash);
 
             List<Byte> outBytes = new List<byte>();
             if (!merge)
-                outBytes.AddRange(secBytes.TarBytes(hashBytes));
+                outBytes.AddRange(keyBytes.TarBytes(hashBytes));
             else
             {
-                int hb = 0;
-                for (int sb = 0; (sb < secBytes.Length || hb < hashBytes.Length); sb++)
+                int kb = 0, hb = 0;
+                for (int ob = 0; (ob < (keyBytes.Length + hashBytes.Length)); ob++)
                 {
-                    if (sb < secBytes.Length)
-                        outBytes.Add(secBytes[sb]);
+                    if (kb < keyBytes.Length)
+                        outBytes.Add(keyBytes[keyBytes.Length - kb]);
+                    kb++;                    
                     if (hb < hashBytes.Length)
-                        outBytes.Add(hashBytes[hb]);
+                        outBytes.Add(hashBytes[hb++]);
+                    if (kb < keyBytes.Length)
+                        outBytes.Add(keyBytes[kb++]);
+                    if (hb < hashBytes.Length)
+                        outBytes.Add(hashBytes[hashBytes.Length - hb]);
                     hb++;
+
+                    ob = outBytes.Count;
 
                 }
             }
@@ -249,28 +147,37 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return outBytes.ToArray();
         }
 
-
         /// <summary>
         /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
         /// </summary>
-        /// <param name="secretKey">user secret key, default email address</param>
-        /// <param name="usrHash">user hash</param>
+        /// <param name="key">user key, default email address</param>
+        /// <param name="hash">user hash</param>        
+        /// <param name="keyLen">length of user key bytes, maximum length <see cref="Constants.MAX_KEY_LEN"/></param>
         /// <returns>Array of byte with length KeyLen</returns>
-        public static byte[] GetUserKeyBytes(string secretKey = "postmaster@kernel.org", string usrHash = "kernel.org", int keyLen = 32)
+        public static byte[] GetUserKeyBytes(string key = "postmaster@kernel.org", string hash = "kernel.org", int keyLen = 32)
         {
-
             int keyByteCnt = -1;
-            string keyByteHashString = secretKey;
+            keyLen = (keyLen > Constants.MAX_KEY_LEN) ? Constants.MAX_KEY_LEN : keyLen;
+            string keyByteHashString = key;
             byte[] tmpKey = new byte[keyLen];
 
-            byte[] keyHashBytes = KeyUserHashBytes(secretKey, usrHash);
+            byte[] keyHashBytes = KeyUserHashBytes(key, hash);
             keyByteCnt = keyHashBytes.Length;
             byte[] keyHashTarBytes = new byte[keyByteCnt * 2 + 1];
 
             if (keyByteCnt < keyLen)
             {
+                keyHashTarBytes = keyHashBytes.TarBytes(KeyUserHashBytes(hash, key));
+                keyByteCnt = keyHashTarBytes.Length;
+
+                keyHashBytes = new byte[keyByteCnt];
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
+            }
+            if (keyByteCnt < keyLen)
+            {
                 keyHashTarBytes = keyHashBytes.TarBytes(
-                    KeyUserHashBytes(usrHash, secretKey)
+                    KeyUserHashBytes(hash, key),
+                    KeyUserHashBytes(key, hash)
                 );
                 keyByteCnt = keyHashTarBytes.Length;
 
@@ -280,46 +187,40 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             if (keyByteCnt < keyLen)
             {
                 keyHashTarBytes = keyHashBytes.TarBytes(
-                    KeyUserHashBytes(usrHash, secretKey, true),
-                    KeyUserHashBytes(secretKey, usrHash, true)
-                );
-                keyByteCnt = keyHashTarBytes.Length;
-
-                keyHashBytes = new byte[keyByteCnt];
-                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
-            }
-            if (keyByteCnt < keyLen)
-            {
-                keyHashTarBytes = keyHashBytes.TarBytes(
-                    KeyUserHashBytes(usrHash + usrHash, secretKey + secretKey, false),
-                    KeyUserHashBytes(usrHash + secretKey + usrHash, secretKey + usrHash + secretKey, false),
-                    KeyUserHashBytes(usrHash + secretKey + usrHash, secretKey + usrHash + secretKey, true),
-                    KeyUserHashBytes(usrHash + secretKey + secretKey + usrHash, secretKey + usrHash + usrHash + secretKey, false),
-                    KeyUserHashBytes(usrHash + secretKey + secretKey + usrHash, secretKey + usrHash + usrHash + secretKey, true)
+                    KeyUserHashBytes(hash + hash, key + key, false),
+                    KeyUserHashBytes(hash + key + hash, key + hash + key, false),
+                    KeyUserHashBytes(hash + key + hash, key + hash + key, true),
+                    KeyUserHashBytes(hash + key + key + hash, key + hash + hash + key, false),
+                    KeyUserHashBytes(hash + key + key + hash, key + hash + hash + key, true)
                 );
 
                 keyByteCnt = keyHashTarBytes.Length;
                 keyHashBytes = new byte[keyByteCnt];
                 Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
             }
-            if (keyByteCnt < keyLen)
+
+            while (keyByteCnt < keyLen)
             {
-                RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                randomNumGen.GetBytes(tmpKey, 0, keyLen);
+                keyHashTarBytes = keyHashBytes.TarBytes(keyHashBytes);
+                keyByteCnt = keyHashTarBytes.Length;
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
 
-                int tinyLength = keyHashBytes.Length;
+                //RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
+                //randomNumGen.GetBytes(tmpKey, 0, keyLen);
 
-                for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
-                {
-                    tmpKey[bytCnt] = keyHashBytes[bytCnt % tinyLength];
-                }
+                //int tinyLength = keyHashBytes.Length;
+
+                //for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
+                //{
+                //    tmpKey[bytCnt] = keyHashBytes[bytCnt % tinyLength];
+                //}
             }
-            else
+
+            if (keyLen <= keyByteCnt)
             {
+                // Array.Copy(keyHashBytes, 0, tmpKey, 0, keyLen);
                 for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)
-                {
                     tmpKey[bytIdx] = keyHashBytes[bytIdx];
-                }
             }
 
             return tmpKey;
@@ -327,7 +228,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         }
 
         #endregion GetUserKeyBytes
-
 
     }
 

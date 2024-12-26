@@ -1,11 +1,4 @@
-﻿using DBTek.Crypto;
-using Org.BouncyCastle.Utilities;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace Area23.At.Framework.Library.Core.Crypt.EnDeCoding
 {

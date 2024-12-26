@@ -1,22 +1,4 @@
 ﻿using Area23.At.Framework.Library.Core;
-using Area23.At.Framework.Library.Core.Crypt;
-using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
-using Area23.At.Framework.Library.Core.Crypt.Cipher;
-using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
-using Area23.At.WinForm.SecureChat.Gui.Forms;
-using Area23.At.WinForm.SecureChat.Gui;
-using Org.BouncyCastle.Utilities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using System.Windows.Forms;
 using Area23.At.Framework.Library.Core.Util;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms

@@ -56,7 +56,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
                 headers.Add(HttpRequestHeader.Authorization, "Basic " + hexString);
             }
             wclient.Headers = headers;
-            wclient.BaseAddress = baseAddr; ;
+            wclient.BaseAddress = baseAddr;
 
             return wclient;
         }
@@ -89,12 +89,26 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             wclient = new WebClient();
             wclient.Encoding = encoding;
             wclient.Headers = headers;
-            wclient.BaseAddress = baseAddr; ;
+            wclient.BaseAddress = baseAddr;
 
             return wclient;
         }
 
+        public static string PostMessage(string msg, string url, string hostname = "area23.at", string serverIp = "52.87.215.119", System.Text.Encoding? encoding = null)
+        {
+            encoding = encoding ?? Encoding.UTF8;
+            wclient = new WebClient();
+            wclient.Encoding = encoding;
+            headers.Remove(HttpRequestHeader.Host);
+            headers.Add(HttpRequestHeader.Host, hostname);
+            headers.Remove(HttpRequestHeader.UserAgent);
+            headers.Add(HttpRequestHeader.UserAgent, serverIp);
+            wclient.Headers = headers;
+            wclient.BaseAddress = url;
+            string resp = wclient.UploadString(url, msg);
 
+            return resp;
+        }
     }
 
 

@@ -1,11 +1,7 @@
 ﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
-using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
@@ -24,12 +20,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>encrypted byte Array</returns>
-        public static byte[] EncryptSymmBytes(byte[] inBytes, SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes, 
+        public static new byte[] EncryptBytes(byte[] inBytes, SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes,
             string secretKey = "postmaster@kernel.org", string hashIv = "")
         {
             byte[] encryptBytes = inBytes;
 
-            string algo = cipherAlgo.ToString();            
+            string algo = cipherAlgo.ToString();
             if (cipherAlgo == SymmCipherEnum.Des3 || algo == "3Des" || algo == "Des3")
             {
                 Des3.Des3FromKey(secretKey, hashIv, true);
@@ -50,7 +46,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 ZenMatrix.ZenMatrixGenWithKey(secretKey, hashIv, true);
                 encryptBytes = ZenMatrix.Encrypt(inBytes);
             }
-            if (algo == "BlowFish" ||  algo == "2Fish" || algo == "Fish2" || algo == "3Fish" || algo == "Fish3" ||
+            if (algo == "BlowFish" || algo == "2Fish" || algo == "Fish2" || algo == "3Fish" || algo == "Fish3" ||
                 algo == "Camellia" ||
                 algo == "Gost28147" || algo == "Idea" ||
                 algo == "RC532" || algo == "Cast6" ||
@@ -63,7 +59,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 cipherAlgo == SymmCipherEnum.Seed || cipherAlgo == SymmCipherEnum.SkipJack ||
                 cipherAlgo == SymmCipherEnum.Tea || cipherAlgo == SymmCipherEnum.XTea)
             {
-                CryptParamsPrefered cpParams = CryptHelper.GetPreferedBlockCipher(cipherAlgo);
+                CryptParamsPrefered cpParams = CryptHelper.GetPreferedCryptParams(cipherAlgo);
                 cpParams.Key = secretKey;
                 cpParams.Hash = hashIv;
                 Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
@@ -83,14 +79,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>decrypted byte Array</returns>
-        public static byte[] DecryptSymmBytes(byte[] cipherBytes, SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes, 
+        public static new byte[] DecryptBytes(byte[] cipherBytes, SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes,
             string secretKey = "postmaster@kernel.org", string hashIv = "")
         {
             bool sameKey = true;
             string algorithmName = cipherAlgo.ToString();
             byte[] decryptBytes = cipherBytes;
 
- 
+
             if (cipherAlgo == SymmCipherEnum.Des3 || algorithmName == "3Des" || algorithmName == "Des3")
             {
                 sameKey = Des3.Des3FromKey(secretKey, hashIv, true);
@@ -112,16 +108,16 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 decryptBytes = ZenMatrix.Decrypt(cipherBytes);
             }
             if (algorithmName == "BlowFish" || algorithmName == "2Fish" || algorithmName == "Fish2" || algorithmName == "3Fish" || algorithmName == "Fish3" ||
-                algorithmName == "Camellia" || algorithmName == "Cast5" || algorithmName == "Gost28147" || 
-                algorithmName == "Idea" || algorithmName == "RC532" || algorithmName == "RC564" || algorithmName == "Cast6" || algorithmName == "Seed" || 
+                algorithmName == "Camellia" || algorithmName == "Cast5" || algorithmName == "Gost28147" ||
+                algorithmName == "Idea" || algorithmName == "RC532" || algorithmName == "Cast6" || algorithmName == "Seed" ||
                 algorithmName == "SkipJack" || algorithmName == "Tea" || algorithmName == "XTea" ||
 
-                cipherAlgo == SymmCipherEnum.BlowFish || cipherAlgo == SymmCipherEnum.Fish2 || cipherAlgo == SymmCipherEnum.Fish3 || 
+                cipherAlgo == SymmCipherEnum.BlowFish || cipherAlgo == SymmCipherEnum.Fish2 || cipherAlgo == SymmCipherEnum.Fish3 ||
                 cipherAlgo == SymmCipherEnum.Camellia || cipherAlgo == SymmCipherEnum.Gost28147 || cipherAlgo == SymmCipherEnum.Idea ||
-                cipherAlgo == SymmCipherEnum.RC532 || cipherAlgo == SymmCipherEnum.Cast6 || cipherAlgo == SymmCipherEnum.Seed || 
+                cipherAlgo == SymmCipherEnum.RC532 || cipherAlgo == SymmCipherEnum.Cast6 || cipherAlgo == SymmCipherEnum.Seed ||
                 cipherAlgo == SymmCipherEnum.SkipJack || cipherAlgo == SymmCipherEnum.Tea || cipherAlgo == SymmCipherEnum.XTea)
             {
-                CryptParamsPrefered cpParams = CryptHelper.GetPreferedBlockCipher(cipherAlgo);
+                CryptParamsPrefered cpParams = CryptHelper.GetPreferedCryptParams(cipherAlgo);
                 cpParams.Key = secretKey;
                 cpParams.Hash = hashIv;
                 Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
@@ -143,7 +139,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>encrypted byte Array</returns>
-        public static byte[] EncryptBytesFast(byte[] inBytes, SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes, 
+        public static byte[] EncryptBytesFast(byte[] inBytes, SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes,
             string secretKey = "postmaster@kernel.org", string hashIv = "")
         {
             byte[] encryptBytes = inBytes;
@@ -155,7 +151,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.Des3:
                     Des3.Des3FromKey(secretKey, hashIv, true);
                     encryptBytes = Des3.Encrypt(inBytes);
-                    break;                
+                    break;
                 case SymmCipherEnum.Serpent:
                     Serpent.SerpentGenWithKey(secretKey, hashIv, true);
                     encryptBytes = Serpent.Encrypt(inBytes);
@@ -176,10 +172,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.SkipJack:
                 case SymmCipherEnum.Tea:
                 case SymmCipherEnum.XTea:
-                    CryptParamsPrefered cpParams = CryptHelper.GetPreferedBlockCipher(cipherAlgo);
+                    CryptParamsPrefered cpParams = CryptHelper.GetPreferedCryptParams(cipherAlgo);
                     cpParams.Key = secretKey;
                     cpParams.Hash = hashIv;
-                    Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);                    
+                    Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
                     encryptBytes = cryptBounceCastle.Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.Aes:
@@ -200,7 +196,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>decrypted byte Array</returns>
-        public static byte[] DecryptBytesFast(byte[] cipherBytes, SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes, 
+        public static byte[] DecryptBytesFast(byte[] cipherBytes, SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes,
             string secretKey = "postmaster@kernel.org", string hashIv = "")
         {
             bool sameKey = true;
@@ -226,7 +222,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.Fish2:
                 case SymmCipherEnum.Fish3:
                 case SymmCipherEnum.Camellia:
-                case SymmCipherEnum.RC532:                
+                case SymmCipherEnum.RC532:
                 case SymmCipherEnum.Cast6:
                 case SymmCipherEnum.Gost28147:
                 case SymmCipherEnum.Idea:
@@ -234,10 +230,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.SkipJack:
                 case SymmCipherEnum.Tea:
                 case SymmCipherEnum.XTea:
-                    CryptParamsPrefered cpParams = CryptHelper.GetPreferedBlockCipher(cipherAlgo);
+                    CryptParamsPrefered cpParams = CryptHelper.GetPreferedCryptParams(cipherAlgo);
                     cpParams.Key = secretKey;
                     cpParams.Hash = hashIv;
-                    Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);                    
+                    Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
                     decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.Aes:
@@ -252,91 +248,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         }
 
 
-        public static char GetSymmCipherChar(SymmCipherEnum symmCipher)
-        {
-            switch (symmCipher)            
-            {
-                case SymmCipherEnum.Aes: return 'A';
-
-                case SymmCipherEnum.BlowFish: return 'b';
-                case SymmCipherEnum.Camellia: return 'M';
-                case SymmCipherEnum.Cast6: return 'C';
-                case SymmCipherEnum.Des3: return 'D';
-                case SymmCipherEnum.Fish2: return 'f';
-                case SymmCipherEnum.Fish3: return 'F';
-                case SymmCipherEnum.Gost28147: return 'g';
-
-                case SymmCipherEnum.Idea: return 'I';
-                case SymmCipherEnum.RC532: return '5';                             
-                case SymmCipherEnum.Seed: return 's';
-                case SymmCipherEnum.Serpent: return 'S';
-                case SymmCipherEnum.SkipJack: return 'J';
-                case SymmCipherEnum.Tea: return 't';
-                case SymmCipherEnum.XTea: return 'X';
-
-                case SymmCipherEnum.ZenMatrix: return 'z';               
-            }
-
-            return ((char)('A'));
-        }
-
-        public static string SymmCipherPipeString(SymmCipherEnum[] symmCiphers)
-        {
-            string hashSymms = string.Empty;
-
-            foreach (SymmCipherEnum symmCipher in symmCiphers)
-            {
-                hashSymms += GetSymmCipherChar(symmCipher);
-            }
-
-            return hashSymms;
-        }
-
-        /// <summary>
-        /// Gets a encrypted matrix pipeline for a byte arry
-        /// </summary>
-        /// <param name="keyBytes">private key or hased private key with iv</param>
-        /// <param name="maxpipe">maximal numbers of encryption cycles</param>
-        /// <returns>Array of <see cref="SymmCipherEnum"/>, that is used to perform <see cref="MerryGoRoundEncrpyt(byte[], string, string)"/> encryption cycles</returns>
-        public static SymmCipherEnum[] KeyBytesToSymmCipherPipeline(byte[] keyBytes, uint maxpipe = 8)
-        {
-            // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
-            maxpipe = (maxpipe > 16) ? 8 : maxpipe; // if somebody wants more, he/she/it gets less
-
-            Dictionary<char, SymmCipherEnum> symDict = new Dictionary<char, SymmCipherEnum>();
-            List<SymmCipherEnum> symmMatrixPipe = new List<SymmCipherEnum>();
-
-            ushort scnt = 0;
-            foreach (SymmCipherEnum symmC in Enum.GetValues(typeof(SymmCipherEnum)))
-            {
-                string hex = $"{((ushort)symmC):x1}";
-                scnt++;
-                symDict.Add(hex[0], symmC);
-            }
-
-            string hexString = string.Empty;
-            HashSet<char> hashBytes = new HashSet<char>();
-            foreach (byte bb in keyBytes)
-            {
-                hexString = string.Format("{0:x2}", bb);
-                if (hexString.Length > 0 && !hashBytes.Contains(hexString[0]))
-                    hashBytes.Add(hexString[0]);
-                if (hexString.Length > 0 && !hashBytes.Contains(hexString[1]))
-                    hashBytes.Add(hexString[1]);
-            }
-
-            hexString = string.Empty;
-            for (int kcnt = 0; kcnt < hashBytes.Count && symmMatrixPipe.Count < maxpipe; kcnt++)
-            {
-                hexString += hashBytes.ElementAt(kcnt).ToString();
-                SymmCipherEnum sym0 = symDict[hashBytes.ElementAt(kcnt)];
-                symmMatrixPipe.Add(sym0);
-            }
-
-            return symmMatrixPipe.ToArray();
-        }
-
-
         /// <summary>
         /// MerryGoRoundEncrpyt starts merry to go arround from left to right in clock hour cycle
         /// </summary>
@@ -348,9 +259,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         {
             byte[] keyHashBytes = CryptHelper.GetUserKeyBytes(secretKey, keyIv, 16);
             byte[] encryptedBytes = new byte[inBytes.Length * 2];
-            // Array.Copy(inBytes, 0, encryptedBytes, 0, inBytes.Length);
 
-            foreach (var symmCipher in KeyBytesToSymmCipherPipeline(keyHashBytes))
+            SymmCipherPipe spipe = new SymmCipherPipe(keyHashBytes, 8);
+            foreach (var symmCipher in spipe.InPipe)
             {
                 encryptedBytes = EncryptBytesFast(inBytes, symmCipher, secretKey, keyIv);
                 inBytes = encryptedBytes;
@@ -371,18 +282,16 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         {
             byte[] keyHashBytes = CryptHelper.GetUserKeyBytes(secretKey, keyIv, 16);
             byte[] outBytes = new byte[cipherBytes.Length * 2];
-            // Array.Copy(inBytes, 0, encryptedBytes, 0, inBytes.Length);
 
-            SymmCipherEnum[] symCiphers = KeyBytesToSymmCipherPipeline(keyHashBytes);
-            for (int scnt = symCiphers.Length - 1; scnt >= 0; scnt--)
+            SymmCipherPipe dspipe = new SymmCipherPipe(keyHashBytes, 8);
+            foreach (var symmCipher in dspipe.OutPipe)
             {
-                outBytes = DecryptBytesFast(cipherBytes, symCiphers[scnt], secretKey, keyIv);
+                outBytes = DecryptBytesFast(cipherBytes, symmCipher, secretKey, keyIv);
                 cipherBytes = outBytes;
             }
 
             return outBytes;
         }
-
 
         #endregion merry_go_rount
 

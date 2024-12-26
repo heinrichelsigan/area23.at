@@ -1,69 +1,88 @@
 ﻿using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Library.Core.Crypt.Cipher;
 using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Core.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
 {
 
+    /// <summary>
+    /// Provides a secure encrypted message to send to the server or receive from server
+    /// </summary>
     public class CqrServerMsg
     {
-        byte[] secKey = new byte[16];
-        SymmCipherEnum[] symmCiphers = new SymmCipherEnum[8];
+        private readonly byte[] keyBytes = new byte[16];
+        private readonly SymmCipherPipe symmPipe;
 
-        private string hashSymms = string.Empty;
+        public string CqrMsg { get; protected internal set; }
 
-        private string HashSymms { get => SymmCrypt.SymmCipherPipeString(symmCiphers); }
 
-        public CqrServerMsg(string srvKey)
+        public CqrServerMsg(byte[] userKeyBytes)
         {
-            byte[] bts = EnDeCoder.GetBytes(srvKey);
-            Array.Copy(bts, secKey, Math.Min(bts.Length, 16));
-            symmCiphers = SymmCrypt.KeyBytesToSymmCipherPipeline(secKey, 8);
+            Array.Copy(userKeyBytes, keyBytes, Math.Min(userKeyBytes.Length, 16));
+            symmPipe = new SymmCipherPipe(keyBytes, 8);
         }
 
+        public CqrServerMsg(string srvKey = "") : this(EnDeCoder.GetBytes(srvKey)) { }
 
+
+        /// <summary>
+        /// CqrMessage encrypts a msg 
+        /// </summary>
+        /// <param name="msg">plain text string</param>
+        /// <param name="encType"><see cref="EncodingType"/></param>
+        /// <returns>encrypted msg via <see cref="SymmCipherPipe"/></returns>
         public string CqrMessage(string msg, EncodingType encType = EncodingType.Base64)
         {
             byte[] msgBytes = DeEnCoder.GetBytesFromString(msg.Replace("\n", " \r\n"), 64, true);
             byte[] nullBytes = new byte[8];
             for (ushort ib = 0; ib < 8; ib++) nullBytes[ib] = 0;
 
-            byte[] tarBytes = msgBytes.TarBytes(EnDeCoder.GetBytes(HashSymms));
+            byte[] tarBytes = msgBytes.TarBytes(EnDeCoder.GetBytes(symmPipe.PipeString));
             // HashSymms 
-            byte[] cqrbytes = SymmCrypt.MerryGoRoundEncrpyt(tarBytes, EnDeCoder.GetString(secKey), DeEnCoder.KeyToHex(EnDeCoder.GetString(secKey)));
+            byte[] cqrbytes = SymmCrypt.MerryGoRoundEncrpyt(tarBytes, EnDeCoder.GetString(keyBytes),
+                DeEnCoder.KeyToHex(EnDeCoder.GetString(keyBytes)));
 
             DeEnCoder.EncodeBytes(cqrbytes.TarBytes(nullBytes), encType);
-            return DeEnCoder.EncodeBytes(cqrbytes, encType);
+            CqrMsg = DeEnCoder.EncodeBytes(cqrbytes, encType);
+            return CqrMsg;
         }
 
 
+        /// <summary>
+        /// NCqrMessage decryptes an secure encrypted msg 
+        /// </summary>
+        /// <param name="cqrMessage">secure encrypted msg </param>
+        /// <param name="encType"><see cref="EncodingType"/></param>
+        /// <returns>plain text decrypted string</returns>
+        /// <exception cref="InvalidOperationException">will be thrown, 
+        /// if server and client or both side use a different secret key 4 encryption</exception>
         public string NCqrMessage(string cqrMessage, EncodingType encType = EncodingType.Base64)
         {
+            CqrMsg = cqrMessage;
             byte[] inBytes = DeEnCoder.DecodeText(cqrMessage, encType);
             byte[] cipherBytes = DeEnCoder.GetBytesTrimNulls(inBytes);
-            byte[] unroundedMerryBytes = SymmCrypt.DecrpytRoundGoMerry(cipherBytes, EnDeCoder.GetString(secKey), DeEnCoder.KeyToHex(EnDeCoder.GetString(secKey)));
+
+            byte[] unroundedMerryBytes = SymmCrypt.DecrpytRoundGoMerry(cipherBytes,
+                EnDeCoder.GetString(keyBytes),
+                DeEnCoder.KeyToHex(EnDeCoder.GetString(keyBytes)));
+
             byte[] hashSymBytes = new byte[8];
             Array.Copy(unroundedMerryBytes, unroundedMerryBytes.Length - 8, hashSymBytes, 0, 8);
             string hashVerification = EnDeCoder.GetString(hashSymBytes);
             int failureCnt = 0, ic = 0;
             for (ic = 0; ic < 8; ic++)
             {
-                if (hashVerification[ic] != HashSymms[ic])
+                if (hashVerification[ic] != symmPipe.PipeString[ic])
                     failureCnt += ic;
             }
 
             if (failureCnt > 0)
             {
-                string hashSymShow = HashSymms ?? "        ";
+                string hashSymShow = symmPipe.PipeString ?? "        ";
                 hashSymShow = hashSymShow.Substring(0, 2) + "...." + hashSymShow.Substring(6);
 
-                throw new InvalidOperationException($"SymmCiphers [{hashSymShow}] in crypt pipeline doesn't match serverside key !?$* byte length ={secKey.Length}");
+                throw new InvalidOperationException(
+                    $"SymmCiphers [{hashSymShow}] in crypt pipeline doesn't match serverside key !?$* byte length ={keyBytes.Length}");
             }
             byte[] outBytes = new byte[unroundedMerryBytes.Length - 8];
             Array.Copy(unroundedMerryBytes, 0, outBytes, 0, unroundedMerryBytes.Length - 8);

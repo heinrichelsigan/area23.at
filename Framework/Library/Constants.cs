@@ -16,6 +16,8 @@ namespace Area23.At.Framework.Library
 
         public const int BACKLOG = 8;
         public const int CHAT_PORT = 7777;
+        public const int MAX_KEY_LEN = 4096;
+        public const int MAX_PIPE_LEN = 8;
 
         public const char ANNOUNCE = ':';
         public const char DATE_DELIM = '-';

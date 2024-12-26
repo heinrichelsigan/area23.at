@@ -62,241 +62,6 @@ namespace Area23.At.Mono.Crypt
 
 
         /// <summary>
-        /// ButtonEncrypt_Click fired when ButtonEncrypt for text encryption receives event Click
-        /// </summary>
-        /// <param name="sender">object sender</param>
-        /// <param name="e">EventArgs e</param>
-        protected void ButtonEncrypt_Click(object sender, EventArgs e)
-        {
-            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
-            string keyIv = (!string.IsNullOrEmpty(this.TextBox_IV.Text)) ? this.TextBox_IV.Text : Constants.AUTHOR_IV;
-            EncodingType encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
-            string usrMailKey = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
-
-            if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
-            {
-                ClearPostedFileSession(false);
-
-                if (encodeType == EncodingType.None || encodeType == EncodingType.Null)
-                {
-                    for (int it = 0; it < DropDownList_Encoding.Items.Count; it++)
-                    {
-                        if (DropDownList_Encoding.Items[it].Value == EncodingType.Base64.ToString())
-                            DropDownList_Encoding.Items[it].Selected = true;
-                        else DropDownList_Encoding.Items[it].Selected = false;
-                    }
-                    encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
-                }
-
-                Reset_TextBox_IV(usrMailKey);
-                byte[] inBytes = Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
-                // string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;
-                byte[] encryptBytes = inBytes;                
-
-                ZipType ztype = ZipType.None;
-                if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
-                {
-                    string outp = string.Empty;
-                    string zcmd = (Constants.UNIX) ? "zipunzip.sh" : (Constants.WIN32) ? "zipunzip.bat" : "";
-                    string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
-                    string zPath = encryptBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt");
-                    string zOutPath = zPath;
-                    string zopt = "";
-
-                    switch (ztype)
-                    {
-                        case ZipType.GZip:  zOutPath = zPath + ".gz";   zopt = "gz";    break;                            
-                        case ZipType.BZip2: zOutPath = zPath + ".bz2";  zopt = "bz";    break;                            
-                        case ZipType.Z7:    zOutPath = zPath + ".7z";   zopt = "7z";    break;
-                        case ZipType.Zip:   zOutPath = zPath + ".zip";  zopt = "zip";   break;
-                        case ZipType.None:
-                        default:            zOutPath = ""; zPath = "";  zopt = "";      break;
-                    }
-
-                    if (!string.IsNullOrEmpty(zopt) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd) &&
-                        System.IO.File.Exists(zPath))
-                    {
-                        outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
-                                zopt + " " + zPath + " " + zOutPath, false);                        
-                        Thread.Sleep(64);
-                        if (System.IO.File.Exists(zOutPath))
-                            encryptBytes = System.IO.File.ReadAllBytes(zOutPath);
-                    }
-                }
-
-                string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
-                foreach (string algo in algos)
-                {
-                    if (!string.IsNullOrEmpty(algo))
-                    {
-                        CipherEnum cipherAlgo = CipherEnum.Aes;
-                        if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
-                        {
-                            inBytes = Framework.Library.Crypt.Cipher.Crypt.EncryptBytes(encryptBytes, cipherAlgo, secretKey, keyIv);
-                            encryptBytes = inBytes;
-                        }
-                    }
-                }
-
-                bool fromPlain = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
-                
-                encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
-                string encryptedText = DeEnCoder.EncodeBytes(encryptBytes, encodeType, fromPlain, false);
-
-                this.TextBoxDestionation.Text = encryptedText;
-                
-            }
-            else
-            {
-                this.TextBox_IV.Text = "TextBox source is empty!";
-                this.TextBox_IV.ForeColor = Color.BlueViolet;
-                this.TextBox_IV.BorderColor = Color.Blue;
-
-                this.TextBoxSource.BorderColor = Color.BlueViolet;
-                this.TextBoxSource.BorderStyle = BorderStyle.Dotted;
-                this.TextBoxSource.BorderWidth = 2;
-
-            }
-        }
-
-        /// <summary>
-        /// ButtonDecrypt_Click fired when ButtonDecrypt for text decryption receives event Click
-        /// </summary>
-        /// <param name="sender">object sender</param>
-        /// <param name="e">EventArgs e</param>
-        protected void ButtonDecrypt_Click(object sender, EventArgs e)
-        {
-            string secretKey = !string.IsNullOrEmpty(this.TextBox_Key.Text) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;
-            string keyIv = (!string.IsNullOrEmpty(this.TextBox_IV.Text)) ? this.TextBox_IV.Text : Constants.AUTHOR_IV;
-            EncodingType encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);            
-            string usrMailKey = (!string.IsNullOrEmpty(this.TextBox_Key.Text)) ? this.TextBox_Key.Text : Constants.AUTHOR_EMAIL;            
-
-            if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
-            {
-                ClearPostedFileSession(false);
-
-                if (encodeType == EncodingType.None || encodeType == EncodingType.Null)
-                {
-                    for (int it = 0; it < DropDownList_Encoding.Items.Count; it++)
-                    {
-                        if (DropDownList_Encoding.Items[it].Value == EncodingType.Base64.ToString())
-                            DropDownList_Encoding.Items[it].Selected = true;
-                        else DropDownList_Encoding.Items[it].Selected = false;
-                    }
-                    encodeType = EncodingType.Base64;
-                }
-                
-                Reset_TextBox_IV(usrMailKey);
-
-                string cipherText = this.TextBoxSource.Text;
-                bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
-                string decryptedText = string.Empty;                
-                byte[] cipherBytes;
-                string encodingMethod = encodeType.ToString().ToLowerInvariant();
-                try
-                {
-                    cipherBytes = DeEnCoder.DecodeText(cipherText /*, out string errMsg */, encodeType, plainUu, false);
-                } 
-                catch (Exception exCode)
-                {
-                    Area23Log.LogStatic(exCode);
-                    cipherBytes = new byte[0];
-                    this.TextBox_IV.Text = "0 bytes decoded, there might be an encode or crypt error!";
-                }
-                if (cipherBytes == null || cipherBytes.Length < 1)
-                {                    
-                    this.TextBox_IV.ForeColor = Color.BlueViolet;
-                    this.TextBox_IV.BorderColor = Color.Blue;
-                    return;
-                }
-
-                byte[] decryptedBytes = cipherBytes;
-                int ig = 0;
-
-                string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
-                for (ig = (algos.Length - 1); ig >= 0; ig--)
-                {
-                    if (!string.IsNullOrEmpty(algos[ig]))
-                    {
-                        CipherEnum cipherAlgo = CipherEnum.Aes;
-                        if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
-                        {                            
-                            decryptedBytes = Framework.Library.Crypt.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
-                            cipherBytes = decryptedBytes;
-                        }
-                    }
-                }
-
-                cipherBytes = DeEnCoder.GetBytesTrimNulls(decryptedBytes);
-                ZipType ztype = ZipType.None;
-                string zcmd = (Constants.UNIX) ? "zipunzip.sh" : (Constants.WIN32) ? "zipunzip.bat" : "";
-                if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
-                {
-                    string outp = string.Empty;
-                    string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
-                    string zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.z");
-                    string zOutPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt");
-                    string zopt = "";
-
-                    switch (ztype)
-                    {
-                        case ZipType.GZip:
-                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.gz");
-                            zOutPath = zPath.Replace(".txt.gz", ".txt");
-                            zopt = "gunzip";
-                            break;                            
-                        case ZipType.BZip2:
-                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.bz2");
-                            zOutPath = zPath.Replace(".txt.bz2", ".txt").Replace(".bz2", "").Replace(".bz", "");
-                            zopt = "bunzip";
-                            break; 
-                        case ZipType.Z7:
-                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.7z");
-                            zOutPath = zPath.Replace(".txt.7z", ".txt").Replace(".7z", "");
-                            zopt = "7unzip";
-                            break;
-                        case ZipType.Zip:
-                            zPath = cipherBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt.zip");
-                            zOutPath = zPath.Replace(".txt.zip", ".txt").Replace(".zip", "");
-                            zopt = "unzip";
-                            break;
-                        case ZipType.None:
-                        default: zopt = ""; zOutPath = ""; decryptedBytes = cipherBytes; break;
-                    }
-
-                    if (!string.IsNullOrEmpty(zopt) && !string.IsNullOrEmpty(zPath) && !string.IsNullOrEmpty(zOutPath))
-                    {
-                        if (System.IO.File.Exists(zPath) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd))
-                        {
-                            outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
-                                zopt + " " + zPath + " " + zOutPath, false);
-                            Thread.Sleep(64);
-                            if (System.IO.File.Exists(zOutPath))
-                                decryptedBytes = System.IO.File.ReadAllBytes(zOutPath);
-                        }
-                    }
-                }
-
-                decryptedText = DeEnCoder.GetStringFromBytesTrimNulls(decryptedBytes);
-                this.TextBoxDestionation.Text = decryptedText; // HandleString_PrivateKey_Changed(decryptedText);
-
-                
-            }
-            else
-            {
-                this.TextBox_IV.Text = "TextBox source is empty!";
-                this.TextBox_IV.ForeColor = Color.BlueViolet;
-                this.TextBox_IV.BorderColor = Color.Blue;
-
-                this.TextBoxSource.BorderColor = Color.BlueViolet;
-                this.TextBoxSource.BorderStyle = BorderStyle.Dotted;
-                this.TextBoxSource.BorderWidth = 2;
-
-                
-            }
-        }
-
-        /// <summary>
         /// Clear encryption pipeline
         /// </summary>
         /// <param name="sender">object sender</param>
@@ -315,21 +80,7 @@ namespace Area23.At.Mono.Crypt
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
         protected void ImageButton_Add_Click(object sender, EventArgs e)
-        {
-            foreach (string cryptName in Enum.GetNames(typeof(CipherEnum)))
-            {
-                if (cryptName != "None")
-                {
-                    if (DropDownList_Cipher.SelectedValue.ToString() == cryptName)
-                    {
-                        string addChiffre = DropDownList_Cipher.SelectedValue.ToString() + ";";
-                        this.TextBox_Encryption.Text += addChiffre;
-                        this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
-
-                        break;
-                    }
-                }
-            }
+        {            
         }
 
         /// <summary>
@@ -370,8 +121,6 @@ namespace Area23.At.Mono.Crypt
         protected void Button_Reset_KeyIV_Click(object sender, EventArgs e)
         {
             this.TextBox_Encryption.Text = "";
-            this.TextBoxSource.Text = "";
-            this.TextBoxDestionation.Text = "";
             ClearPostedFileSession(false);
 
 
@@ -406,7 +155,7 @@ namespace Area23.At.Mono.Crypt
                 Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
 
                 byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
-                SymmCipherEnum[] cses = Framework.Library.Crypt.Cipher.Symmetric.SymmCrypt.KeyBytesToSymmCipherPipeline(kb);
+                SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb).InPipe;
                 this.TextBox_Encryption.Text = string.Empty;
                 foreach (SymmCipherEnum c in cses)
                 {
@@ -428,13 +177,19 @@ namespace Area23.At.Mono.Crypt
                 }
 
                 ZenMatrix.ZenMatrixGenWithKey(this.TextBox_Key.Text, this.TextBox_IV.Text);
-                this.zenmatrix.InnerHtml = "| 0 |=>\t| ";
+                string zenMt = "|zen|=>\t| ";
                 foreach (sbyte sb in ZenMatrix.PermKeyHash)
                 {
-                    this.zenmatrix.InnerHtml += sb.ToString("x1") + " ";
+                    zenMt += sb.ToString("x1") + " ";
                 }
-                this.zenmatrix.InnerHtml += "| \n";
-                for (int zeni = 1; zeni < ZenMatrix.PermKeyHash.Count; zeni++) 
+                zenMt += "| \n";
+                if (Session["ZenMtrx"] != null)
+                    zenMt += (string)Session["ZenMtrx"];
+
+                this.zenmatrix.InnerHtml = zenMt;
+                Session["ZenMtrx"] = zenMt;                    
+                
+                for (int zeni = 0; zeni < ZenMatrix.PermKeyHash.Count; zeni++) 
                 {
                     sbyte sb = (sbyte)ZenMatrix.PermKeyHash.ElementAt(zeni);
                     this.zenmatrix.InnerHtml += "| " + zeni.ToString("x1") + " |=>\t| " + sb.ToString("x1") + " | \n";
@@ -469,16 +224,6 @@ namespace Area23.At.Mono.Crypt
             this.TextBox_IV.BorderStyle = BorderStyle.Solid;
             this.TextBox_IV.BorderWidth = 1;
 
-            this.TextBoxSource.ForeColor = this.TextBox_Key.ForeColor;
-            this.TextBoxSource.BorderStyle = BorderStyle.Solid;
-            this.TextBoxSource.BorderColor = Color.LightGray;
-            this.TextBoxSource.BorderWidth = 1;
-
-            this.TextBoxDestionation.ForeColor = this.TextBox_Key.ForeColor;
-            this.TextBoxDestionation.BorderStyle = BorderStyle.Solid;
-            this.TextBoxDestionation.BorderColor = Color.LightGray;
-            this.TextBoxDestionation.BorderWidth = 1;
-
             this.TextBox_Encryption.BorderStyle = BorderStyle.Solid;
             this.TextBox_Encryption.BorderColor = Color.LightGray;
             this.TextBox_Encryption.BorderWidth = 1;
@@ -502,19 +247,7 @@ namespace Area23.At.Mono.Crypt
         {
             if ((Session[Constants.UPSAVED_FILE] != null))
             {
-                if (System.IO.File.Exists((string)Session[Constants.UPSAVED_FILE]))
-                {
-                    try
-                    {
-                        System.IO.File.Delete((string)Session[Constants.UPSAVED_FILE]);
-                        Session.Remove(Constants.UPSAVED_FILE);
-                    }
-                    catch (Exception exi)
-                    {
-                        Area23Log.LogStatic(exi); 
-                    }
-                }
-                
+                Session.Remove(Constants.UPSAVED_FILE);                
             }
             
         }
@@ -599,7 +332,7 @@ namespace Area23.At.Mono.Crypt
                 this.TextBox_IV.BorderColor = Color.Red;
                 this.TextBox_IV.BorderWidth = 2;
 
-                this.TextBoxDestionation.Text = errorMsg;
+                
 
             }
 

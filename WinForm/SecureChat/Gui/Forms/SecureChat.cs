@@ -1,38 +1,17 @@
 ﻿using Area23.At.Framework.Library.Core;
-using Area23.At.Framework.Library.Core.Util;
-using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Core.Crypt.Cipher;
 using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
-using Area23.At.WinForm.SecureChat.Gui.Forms;
-using Area23.At.WinForm.SecureChat.Gui;
-using Org.BouncyCastle.Utilities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using System.Windows.Forms;
+using Area23.At.Framework.Library.Core.Crypt.CqrJd;
+using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Core.Net;
-using System.Net;
 using Area23.At.Framework.Library.Core.Net.WebHttp;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using Area23.At.WinForm.SecureChat.Properties;
-using System.Runtime.CompilerServices;
-using System.IO;
 using Area23.At.Framework.Library.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
-using Area23.At.WinForm.SecureChat.Util;
+using Area23.At.WinForm.SecureChat.Properties;
+using System.Configuration;
+using System.Net;
 using System.Reflection;
-using Area23.At.Framework.Library.Core.Crypt;
-using Area23.At.Framework.Library.Core.Crypt.Cipher;
-using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
-using NLog.Config;
-using Area23.At.Framework.Library.Core.Crypt.CqrJd;
+using System.Text;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -43,7 +22,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         private static IPAddress? serverIpAddress;
 
-        internal static IPAddress? ServerIpAddress
+        internal IPAddress? ServerIpAddress
         {
             get
             {
@@ -58,11 +37,33 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     {
                         if (IPAddress.Parse(sip).Equals(ip))
                         {
+                            if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6 &&
+                                menuItemIPv6Secure.Checked)
+                            {
+                                serverIpAddress = ip;
+                                return serverIpAddress;
+                            }
+                            if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork &&
+                                !menuItemIPv6Secure.Checked)
+                            {
+                                serverIpAddress = ip;
+                                return serverIpAddress;
+                            }
+                        }
+                    }
+                }
+                foreach (IPAddress ip in list)
+                {
+                    foreach (string sip in Settings.Instance.Proxies)
+                    {
+                        if (IPAddress.Parse(sip).Equals(ip) && ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                        {
                             serverIpAddress = ip;
                             return serverIpAddress;
                         }
                     }
                 }
+
                 return null;                
             }
         }
@@ -127,11 +128,16 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         private void menuItemSend_Click(object sender, EventArgs e)
         {
-            string myServerKey = ExternalIpAddress?.ToString() + ServerIpAddress?.ToString();
+            string myServerKey = ExternalIpAddress?.ToString() + Constants.BC_START_MSG;
 
             // TODO: test case later
             CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
             string encrypted = serverMessage.CqrMessage(this.richTextBoxChat.Text);
+
+            string posturl = ConfigurationManager.AppSettings["ServerUrlToPost"].ToString();
+            // HttpClientRequest.PostCqrMsg(posturl, encrypted);
+            string retmsg = WebClientRequest.PostMessage(encrypted, posturl, "localhost", ServerIpAddress?.ToString());
+
             this.TextBoxSource.Text = encrypted + "\n";
             string decrypted = serverMessage.NCqrMessage(encrypted);
             this.TextBoxDestionation.Text = decrypted + "\n";
@@ -192,7 +198,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             string url = "https://area23.at/net/R.aspx";
             Uri uri = new Uri(url);
-            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, Encoding.UTF8);
+            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, "area23.at", Encoding.UTF8);
             Task<HttpResponseMessage> respTask = httpClientR.GetAsync(uri);
 
         }

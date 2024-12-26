@@ -118,10 +118,11 @@ namespace Area23.At.WinForm.SecureChat.Properties {
             }
         }
 
-        internal static string ProxyNames
-        {
-            get
-            {
+        /// <summary>
+        ///   Looks up a localized string similar to area23.at;paris.area23.at;virginia.area23.at;parisienne.area23.at
+        /// </summary>
+        internal static string ProxyNames {
+            get {
                 return ResourceManager.GetString("ProxyNames", resourceCulture);
             }
         }

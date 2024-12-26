@@ -23,9 +23,9 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
             private set => Cipher = (CipherEnum)Enum.Parse(typeof(CipherEnum), value);            
         }
 
-        public string Key { get; set; }
+        public string? Key { get; set; }
 
-        public string Hash { get; set; }
+        public string? Hash { get; set; }
 
         public string Mode { get; set; }
 
@@ -124,12 +124,12 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
                     break;
-                //case "RC564":
-                //    BlockSize = 256;
-                //    KeyLen = 32;
-                //    Mode = "ECB";
-                //    BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
-                //    break;
+                case CipherEnum.RC564:
+                    BlockSize = 64;
+                    KeyLen = 16;
+                    Mode = "ECB";
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
+                    break;
                 case CipherEnum.RC6:
                     BlockSize = 256;
                     KeyLen = 32;
@@ -172,7 +172,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
-                case CipherEnum.Rijndael:
+                case CipherEnum.Aes:
                 default:
                     BlockSize = 256;
                     KeyLen = 32;

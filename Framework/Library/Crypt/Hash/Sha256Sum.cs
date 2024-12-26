@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.Util;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,17 +11,18 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Crypt.Hash
 {
+
     public static class Sha256Sum
     {
 
-        public static string Hash(string filePath)
+        public static string Hash(string filePath, bool showFileName = true)
         {
             if (!System.IO.File.Exists(filePath))
                 return Hash(Encoding.Default.GetBytes(filePath));
             
             byte[] fileBytes = File.ReadAllBytes(filePath);
             string fileName = Path.GetFileName(filePath);
-            string hash = Hash(fileBytes, fileName);
+            string hash = (showFileName) ? Hash(fileBytes, fileName) : Hash(fileBytes);
             return hash;
         }
 
@@ -76,4 +78,5 @@ namespace Area23.At.Framework.Library.Crypt.Hash
         }
 
     }
+
 }

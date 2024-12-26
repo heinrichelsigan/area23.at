@@ -67,7 +67,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
                 cipherAlgo == CipherEnum.BlowFish || cipherAlgo == CipherEnum.Fish2 || cipherAlgo == CipherEnum.Fish3 ||
                 cipherAlgo == CipherEnum.Camellia || cipherAlgo == CipherEnum.Cast5 || cipherAlgo == CipherEnum.Cast6 ||
                 cipherAlgo == CipherEnum.Gost28147 || cipherAlgo == CipherEnum.Idea || cipherAlgo == CipherEnum.Noekeon ||
-                cipherAlgo == CipherEnum.RC2 || cipherAlgo == CipherEnum.RC532 || cipherAlgo == CipherEnum.RC6 || cipherAlgo == CipherEnum.Rijndael ||
+                cipherAlgo == CipherEnum.RC2 || cipherAlgo == CipherEnum.RC532 || cipherAlgo == CipherEnum.RC6 || 
                 cipherAlgo == CipherEnum.Seed || cipherAlgo == CipherEnum.SkipJack ||
                 cipherAlgo == CipherEnum.Tea || cipherAlgo == CipherEnum.Tnepres || cipherAlgo == CipherEnum.XTea)
             {
@@ -136,7 +136,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
                 cipherAlgo == CipherEnum.Camellia || cipherAlgo == CipherEnum.Cast5 || cipherAlgo == CipherEnum.Cast6 ||
                 cipherAlgo == CipherEnum.Gost28147 || cipherAlgo == CipherEnum.Idea || cipherAlgo == CipherEnum.Noekeon ||
                 cipherAlgo == CipherEnum.RC2 || cipherAlgo == CipherEnum.RC532 || cipherAlgo == CipherEnum.RC6 ||
-                cipherAlgo == CipherEnum.Rijndael || cipherAlgo == CipherEnum.Seed || cipherAlgo == CipherEnum.SkipJack ||
+                cipherAlgo == CipherEnum.Seed || cipherAlgo == CipherEnum.SkipJack ||
                 cipherAlgo == CipherEnum.Tea || cipherAlgo == CipherEnum.Tnepres || cipherAlgo == CipherEnum.XTea)
             {
 

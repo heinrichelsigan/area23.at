@@ -1,7 +1,4 @@
-﻿using Area23.At.Framework.Library.Core;
-using NLog;
-using System;
-using System.IO;
+﻿using NLog;
 
 namespace Area23.At.Framework.Library.Core
 {

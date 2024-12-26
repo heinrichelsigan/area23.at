@@ -1,11 +1,4 @@
 ﻿using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
-using Org.BouncyCastle.Crypto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 {
@@ -63,7 +56,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                 cipherAlgo == SymmCipherEnum.Seed || cipherAlgo == SymmCipherEnum.SkipJack ||
                 cipherAlgo == SymmCipherEnum.Tea || cipherAlgo == SymmCipherEnum.XTea)
             {
-                CryptParamsPrefered cpParams = CryptHelper.GetPreferedBlockCipher(cipherAlgo);
+                CryptParamsPrefered cpParams = CryptHelper.GetPreferedCryptParams(cipherAlgo);
                 cpParams.Key = secretKey;
                 cpParams.Hash = hashIv;
                 Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
@@ -121,7 +114,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                 cipherAlgo == SymmCipherEnum.RC532 || cipherAlgo == SymmCipherEnum.Cast6 || cipherAlgo == SymmCipherEnum.Seed || 
                 cipherAlgo == SymmCipherEnum.SkipJack || cipherAlgo == SymmCipherEnum.Tea || cipherAlgo == SymmCipherEnum.XTea)
             {
-                CryptParamsPrefered cpParams = CryptHelper.GetPreferedBlockCipher(cipherAlgo);
+                CryptParamsPrefered cpParams = CryptHelper.GetPreferedCryptParams(cipherAlgo);
                 cpParams.Key = secretKey;
                 cpParams.Hash = hashIv;
                 Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
@@ -176,7 +169,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.SkipJack:
                 case SymmCipherEnum.Tea:
                 case SymmCipherEnum.XTea:
-                    CryptParamsPrefered cpParams = CryptHelper.GetPreferedBlockCipher(cipherAlgo);
+                    CryptParamsPrefered cpParams = CryptHelper.GetPreferedCryptParams(cipherAlgo);
                     cpParams.Key = secretKey;
                     cpParams.Hash = hashIv;
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);                    
@@ -234,7 +227,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.SkipJack:
                 case SymmCipherEnum.Tea:
                 case SymmCipherEnum.XTea:
-                    CryptParamsPrefered cpParams = CryptHelper.GetPreferedBlockCipher(cipherAlgo);
+                    CryptParamsPrefered cpParams = CryptHelper.GetPreferedCryptParams(cipherAlgo);
                     cpParams.Key = secretKey;
                     cpParams.Hash = hashIv;
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);                    
@@ -278,63 +271,6 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
             return ((char)('0'));
         }
 
-        public static string SymmCipherPipeString(SymmCipherEnum[] symmCiphers)
-        {
-            string hashSymms = string.Empty;
-
-            foreach (SymmCipherEnum symmCipher in symmCiphers)
-            {
-                hashSymms += GetSymmCipherChar(symmCipher);
-            }
-
-            return hashSymms;
-        }
-
-
-        /// <summary>
-        /// Gets a encrypted matrix pipeline for a byte arry
-        /// </summary>
-        /// <param name="keyBytes">private key or hased private key with iv</param>
-        /// <param name="maxpipe">maximal numbers of encryption cycles</param>
-        /// <returns>Array of <see cref="SymmCipherEnum"/>, that is used to perform <see cref="MerryGoRoundEncrpyt(byte[], string, string)"/> encryption cycles</returns>
-        public static SymmCipherEnum[] KeyBytesToSymmCipherPipeline(byte[] keyBytes, uint maxpipe = 8)
-        {
-            // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
-            maxpipe = (maxpipe > 16) ? 8 : maxpipe; // if somebody wants more, he/she/it gets less
-
-            Dictionary<char, SymmCipherEnum> symDict = new Dictionary<char, SymmCipherEnum>();
-            List<SymmCipherEnum> symmMatrixPipe = new List<SymmCipherEnum>();
-
-            ushort scnt = 0;
-            foreach (SymmCipherEnum symmC in Enum.GetValues(typeof(SymmCipherEnum)))
-            {
-                string hex = $"{((ushort)symmC):x1}";
-                scnt++;
-                symDict.Add(hex[0], symmC);
-            }
-
-            string hexString = string.Empty;
-            HashSet<char> hashBytes = new HashSet<char>();
-            foreach (byte bb in keyBytes)
-            {
-                hexString = string.Format("{0:x2}", bb);
-                if (hexString.Length > 0 && !hashBytes.Contains(hexString[0]))
-                    hashBytes.Add(hexString[0]);
-                if (hexString.Length > 0 && !hashBytes.Contains(hexString[1]))
-                    hashBytes.Add(hexString[1]);
-            }
-
-            hexString = string.Empty;
-            for (int kcnt = 0; kcnt < hashBytes.Count && symmMatrixPipe.Count < maxpipe; kcnt++)
-            {
-                hexString += hashBytes.ElementAt(kcnt).ToString();
-                SymmCipherEnum sym0 = symDict[hashBytes.ElementAt(kcnt)];
-                symmMatrixPipe.Add(sym0);
-            }
-
-            return symmMatrixPipe.ToArray();
-        }
-
 
         /// <summary>
         /// MerryGoRoundEncrpyt starts merry to go arround from left to right in clock hour cycle
@@ -347,9 +283,9 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         {
             byte[] keyHashBytes = CryptHelper.GetUserKeyBytes(secretKey, keyIv, 16);
             byte[] encryptedBytes = new byte[inBytes.Length * 2];
-            // Array.Copy(inBytes, 0, encryptedBytes, 0, inBytes.Length);
 
-            foreach (var symmCipher in KeyBytesToSymmCipherPipeline(keyHashBytes))
+            SymmCipherPipe spipe = new SymmCipherPipe(keyHashBytes, 8);
+            foreach (var symmCipher in spipe.InPipe)
             {
                 encryptedBytes = EncryptBytesFast(inBytes, symmCipher, secretKey, keyIv);
                 inBytes = encryptedBytes;
@@ -370,12 +306,11 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         {
             byte[] keyHashBytes = CryptHelper.GetUserKeyBytes(secretKey, keyIv, 16);
             byte[] outBytes = new byte[cipherBytes.Length * 2];
-            // Array.Copy(inBytes, 0, encryptedBytes, 0, inBytes.Length);
 
-            SymmCipherEnum[] symCiphers = KeyBytesToSymmCipherPipeline(keyHashBytes);
-            for (int scnt = symCiphers.Length - 1; scnt >= 0; scnt--)
+            SymmCipherPipe dspipe = new SymmCipherPipe(keyHashBytes, 8);
+            foreach (var symmCipher in dspipe.OutPipe)
             {
-                outBytes = DecryptBytesFast(cipherBytes, symCiphers[scnt], secretKey, keyIv);
+                outBytes = DecryptBytesFast(cipherBytes, symmCipher, secretKey, keyIv);
                 cipherBytes = outBytes;
             }
 

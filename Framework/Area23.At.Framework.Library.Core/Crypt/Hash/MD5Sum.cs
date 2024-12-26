@@ -13,58 +13,73 @@ namespace Area23.At.Framework.Library.Core.Crypt.Hash
 
     public static class MD5Sum
     {
-        internal static string Hash(string filePath)
+
+        public static string Hash(string filePath, bool showFileName = true)
         {
             if (!System.IO.File.Exists(filePath))
                 return Hash(Encoding.Default.GetBytes(filePath));
 
             byte[] bytes = File.ReadAllBytes(filePath);
             string fileName = Path.GetFileName(filePath);
-            string hash = Hash(bytes) + "  " + fileName;
+            string hash = (showFileName) ? Hash(bytes, fileName) : Hash(bytes);
+
             return hash;
         }
 
 
-        internal static string Hash(byte[] bytes)
+        public static string Hash(byte[] bytes, string fileName = null)
         {
-            byte[] hashBytes = HashBytes(bytes);
-            string hash = hashBytes.ToHexString();
-            return hash;
+            byte[] hashed = MD5.Create().ComputeHash(bytes);
+            string hasha = Encoding.UTF8.GetString(hashed);
+            string hashb = hashed.ToHexString();
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                hasha += "  " + fileName;
+                hashb += "  " + fileName;
+            }
+
+            return hashb.ToLower();
         }
 
-        internal static string Hash(Stream s)
+        public static string Hash(Stream s, string fileName = null)
         {
-            byte[] bytes = HashBytes(s);
-            string a = BitConverter.ToString(bytes).Replace("-", string.Empty);
-            string hash = bytes.ToHexString();
+            byte[] bytes = MD5.Create().ComputeHash(s);
+            string hasha = BitConverter.ToString(bytes).Replace("-", string.Empty);
+            string hashb = bytes.ToHexString();
 
-            return hash;
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                hasha += "  " + fileName;
+                hashb += "  " + fileName;
+            }
+
+            return hashb.ToLower();
         }
 
-        internal static byte[] HashBytes(byte[] bytes)
+        public static byte[] HashBytes(byte[] bytes)
         {
             return MD5.Create().ComputeHash(bytes);
         }
 
-        internal static byte[] HashBytes(Stream s)
+        public static byte[] HashBytes(Stream s)
         {
             return MD5.Create().ComputeHash(s);
         }
 
 
-        internal static Stream HashStream(byte[] bytes)
+        public static Stream HashStream(byte[] bytes)
         {
-            byte[] hashBytes = SHA3_512.Create().ComputeHash(bytes);
-            return new MemoryStream(hashBytes);
-
+            byte[] hashed = MD5.Create().ComputeHash(bytes);
+            return new MemoryStream(bytes);
         }
 
 
-        internal static Stream HashStream(Stream s)
+        public static Stream HashStream(Stream s)
         {
-            byte[] bytes = SHA256.Create().ComputeHash(s);
+            byte[] bytes = MD5.Create().ComputeHash(s);
             return new MemoryStream(bytes);
         }
 
     }
+
 }

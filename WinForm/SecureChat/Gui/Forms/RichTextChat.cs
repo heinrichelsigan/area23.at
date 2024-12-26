@@ -182,7 +182,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             string? secretKey = Entities.Settings.Instance?.MyContact?.Email;
             string url = "https://area23.at/net/R.aspx";
             Uri uri = new Uri(url);
-            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, secretKey ?? "wabiwabi");
+            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, secretKey ?? "wabiwabi", "area23.at", Encoding.UTF8);
             ConfiguredTaskAwaitable<HttpResponseMessage> respTask =
                 httpClientR.GetAsync(uri).ConfigureAwait(false);
         }
@@ -191,7 +191,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             string url = "https://area23.at/net/R.aspx";
             Uri uri = new Uri(url);
-            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, Encoding.UTF8);
+            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, "area23.at", Encoding.UTF8);
             Task<HttpResponseMessage> respTask = httpClientR.GetAsync(uri);
 
         }

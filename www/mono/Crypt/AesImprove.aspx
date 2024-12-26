@@ -94,7 +94,7 @@
                         <asp:ListItem Enabled="true" Value="RC2" Selected="false">RC2</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="RC532" Selected="false">RC532</asp:ListItem>                
                         <asp:ListItem Enabled="true" Value="RC564" Selected="false">RC564</asp:ListItem> 
-                        <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem>                       
                         <asp:ListItem Enabled="true" Value="Rsa" Selected="false">Rsa</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Seed" Selected="false">Seed</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>
@@ -131,16 +131,15 @@
             </div>
             <div class="odDiv">
                 <span class="leftSpan" style="width: 72px">
-                    Don't use zipping, when want to decrypt file or text view on another server.
+                    Don't use zip compression, if you want to decrypt encrypted file or text view with same key on another server.
                 </span>
-                <span class="centerSpan" style="width: 72px"></span>
-                <span class="centerSpan" style="width: 72px"></span>
-                <span class="centerSpan" style="width: 400px;">&nbsp;&nbsp;
+                <span class="centerSpan" style="width: 72px">&nbsp;</span>
+                <span class="centerSpan" style="width: 72px"></span>                
+                <span class="centerSpan" style="max-width: 400px;">
                 </span>
-                <span class="rightSpan" style="width: 72px; max-width: 72px; min-width: 72px">
-                    &nbsp;&nbsp;
+                <span class="rightSpan" style="width: 72px">
                 </span>
-            </div>      
+            </div>
             <hr />                
             <h3>En-/Decrypt file</h3>
             <div class="odDiv" style="vertical-align: top;">                       
@@ -176,8 +175,8 @@
             <br />
             <h3>En-/Decrypt text</h3>
             <div style="background-color: transparent; padding: 0 0 0 0; margin: 0 0 0 0;">                
-                <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="10" Columns="48" ValidateRequestMode="Disabled" ToolTip="Source Text" Text="[Enter text to en-/decrypt here]" Width="480px"></asp:TextBox>
-                <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="10" Columns="48" MaxLength="32768" ReadOnly="true" ToolTip="Destination Text" Width="468px"></asp:TextBox>
+                <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="65536" Rows="10" Columns="48" ValidateRequestMode="Disabled" ToolTip="[Enter text to en-/decrypt here]" Text="" Width="480px"></asp:TextBox>
+                <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="10" Columns="48" MaxLength="65536" ReadOnly="true" ToolTip="Destination Text" Width="468px"></asp:TextBox>
                 <br />
                 <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClientClick="changeCryptBackgroundText()" OnClick="ButtonEncrypt_Click" />
                 <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClientClick="changeCryptBackgroundText();" OnClick="ButtonDecrypt_Click" />   

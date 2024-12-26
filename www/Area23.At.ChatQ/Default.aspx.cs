@@ -51,6 +51,11 @@ namespace Area23.At.ChatQ
             }
         }
 
+        protected void ButtonSubmit_Click(object sender, EventArgs e)
+        {
+            ViewState["Submit"] = this.TextBoxSubmit.Text;
+        }
+
 
 
 

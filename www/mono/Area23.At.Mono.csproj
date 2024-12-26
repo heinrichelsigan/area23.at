@@ -128,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Calc\CCalc.aspx" />
+    <Content Include="CqrJD\Default.aspx" />
     <Content Include="Crypt\ZenMatrixVisualize.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Crypt\CoolCrypt.aspx" />
@@ -310,6 +311,13 @@
     </Compile>
     <Compile Include="Calc\CCalc.aspx.designer.cs">
       <DependentUpon>CCalc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CqrJD\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CqrJD\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Crypt\ZenMatrixVisualize.aspx.cs">
       <DependentUpon>ZenMatrixVisualize.aspx</DependentUpon>
