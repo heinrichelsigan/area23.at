@@ -131,6 +131,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             string myServerKey = ExternalIpAddress?.ToString() + Constants.BC_START_MSG;
 
             // TODO: test case later
+            this.ComboBox_LocalEndPoint.Text = myServerKey;
             CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
             string encrypted = serverMessage.CqrMessage(this.richTextBoxChat.Text);
 
