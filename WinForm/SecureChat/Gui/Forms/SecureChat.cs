@@ -136,7 +136,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
             string posturl = ConfigurationManager.AppSettings["ServerUrlToPost"].ToString();
             // HttpClientRequest.PostCqrMsg(posturl, encrypted);
-            string retmsg = WebClientRequest.PostMessage(encrypted, posturl, "localhost", ServerIpAddress?.ToString());
+            string retmsg = WebClientRequest.PostMessage(encrypted, posturl, "area23.at", ServerIpAddress?.ToString());
 
             this.TextBoxSource.Text = encrypted + "\n";
             string decrypted = serverMessage.NCqrMessage(encrypted);
