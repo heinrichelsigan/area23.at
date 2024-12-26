@@ -99,6 +99,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             ComboBox_LocalEndPoint = new ComboBox();
             buttonHashIv = new Button();
             panelEnCodeCrypt = new Panel();
+            TextBoxPipe = new TextBox();
             pictureBoxDestination = new PictureBox();
             richTextBoxChat = new RichTextBox();
             pictureBoxPartner = new PictureBox();
@@ -727,11 +728,12 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             buttonSecretKey.BackgroundImageLayout = ImageLayout.Center;
             buttonSecretKey.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
             buttonSecretKey.ForeColor = SystemColors.ActiveCaptionText;
-            buttonSecretKey.Location = new Point(87, 1);
+            buttonSecretKey.Image = Properties.Resources.a_right_key;
+            buttonSecretKey.Location = new Point(1, 4);
             buttonSecretKey.Margin = new Padding(1);
             buttonSecretKey.Name = "buttonSecretKey";
             buttonSecretKey.Padding = new Padding(1);
-            buttonSecretKey.Size = new Size(48, 28);
+            buttonSecretKey.Size = new Size(40, 27);
             buttonSecretKey.TabIndex = 12;
             buttonSecretKey.UseVisualStyleBackColor = false;
             buttonSecretKey.Click += Button_SecretKey_Click;
@@ -759,7 +761,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             ComboBox_RemoteEndPoint.Location = new Point(492, 4);
             ComboBox_RemoteEndPoint.Margin = new Padding(1);
             ComboBox_RemoteEndPoint.Name = "ComboBox_RemoteEndPoint";
-            ComboBox_RemoteEndPoint.Size = new Size(312, 24);
+            ComboBox_RemoteEndPoint.Size = new Size(336, 24);
             ComboBox_RemoteEndPoint.TabIndex = 16;
             // 
             // ComboBox_LocalEndPoint
@@ -780,6 +782,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             buttonHashIv.BackgroundImageLayout = ImageLayout.Center;
             buttonHashIv.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
             buttonHashIv.ForeColor = SystemColors.ActiveCaptionText;
+            buttonHashIv.Image = Properties.Resources.AddAesArrow;
             buttonHashIv.Location = new Point(840, 4);
             buttonHashIv.Margin = new Padding(1);
             buttonHashIv.Name = "buttonHashIv";
@@ -791,6 +794,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // panelEnCodeCrypt
             // 
             panelEnCodeCrypt.BackColor = SystemColors.ActiveCaption;
+            panelEnCodeCrypt.Controls.Add(TextBoxPipe);
             panelEnCodeCrypt.Controls.Add(buttonSecretKey);
             panelEnCodeCrypt.Controls.Add(buttonHashIv);
             panelEnCodeCrypt.Controls.Add(ComboBox_LocalEndPoint);
@@ -802,6 +806,17 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             panelEnCodeCrypt.Name = "panelEnCodeCrypt";
             panelEnCodeCrypt.Size = new Size(976, 36);
             panelEnCodeCrypt.TabIndex = 10;
+            // 
+            // TextBoxPipe
+            // 
+            TextBoxPipe.Font = new Font("Lucida Sans Unicode", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            TextBoxPipe.HideSelection = false;
+            TextBoxPipe.Location = new Point(44, 4);
+            TextBoxPipe.Margin = new Padding(1);
+            TextBoxPipe.Name = "TextBoxPipe";
+            TextBoxPipe.ReadOnly = true;
+            TextBoxPipe.Size = new Size(96, 26);
+            TextBoxPipe.TabIndex = 13;
             // 
             // pictureBoxDestination
             // 
@@ -905,6 +920,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             ((System.ComponentModel.ISupportInitialize)pictureBoxYou).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxSource).EndInit();
             panelEnCodeCrypt.ResumeLayout(false);
+            panelEnCodeCrypt.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxDestination).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPartner).EndInit();
             panelDestination.ResumeLayout(false);
@@ -997,5 +1013,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripComboBox menuConnectComboBoxIps;
         private ToolStripSeparator menuConnectSeparator;
         private ToolStripSeparator menuConnectSeparatorLast;
+        private TextBox TextBoxPipe;
     }
 }

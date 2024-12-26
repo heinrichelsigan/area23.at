@@ -18,13 +18,15 @@ namespace Area23.At.Mono.CqrJD
 
         string hashKey = string.Empty;
         string decrypted = string.Empty;
-
+        
         protected void Page_Load(object sender, EventArgs e)
         {
+            string myServerKey = string.Empty;
+
             if (ConfigurationManager.AppSettings["ServerIPv4"] != null)
                 this.LiteralServerIPv4.Text = (string)ConfigurationManager.AppSettings["ServerIPv4"];
             if (ConfigurationManager.AppSettings["ServerIPv6"] != null)
-                this.LiteralServerIPv6.Text = (string)ConfigurationManager.AppSettings["ServerIPv6"];
+                this.LiteralServerIPv6.Text = (string)ConfigurationManager.AppSettings["ServerIPv6"];                       
             this.LiteralClientIp.Text = Request.UserHostAddress;
 
             if (Request.Headers["User-Agent"] != null)
@@ -61,7 +63,12 @@ namespace Area23.At.Mono.CqrJD
                     TextBoxLastMsg.Text = (string)Application["lastmsg"].ToString();
                 }
 
-                string myServerKey = Request.UserHostAddress + Constants.BC_START_MSG;
+                if (ConfigurationManager.AppSettings["ExternalClientIP"] != null)
+                    myServerKey = (string)ConfigurationManager.AppSettings["ExternalClientIP"];
+                else
+                    myServerKey = Request.UserHostAddress;
+
+                myServerKey += Constants.APP_NAME;
                 CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
                 try
                 {

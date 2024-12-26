@@ -20,8 +20,8 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
         private static readonly WebHeaderCollection headers = new WebHeaderCollection();
         public static WebHeaderCollection Headers { get => headers; }
 
-        static WebClientRequest() {
-
+        static WebClientRequest() 
+        {
             // headers.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br, zstd");
             
             headers.Add(HttpRequestHeader.Accept, "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
@@ -37,8 +37,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             // wclient.BaseAddress = "https://area23.at/";
             // TODO: always forms credentials
             // webclient.Credentials
-            
-
+           
         }
 
         public static WebClient GetWebClient(string baseAddr, string secretKey, string keyIv = "", System.Text.Encoding? encoding = null)        

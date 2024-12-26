@@ -71,12 +71,22 @@ namespace Area23.At.WinForm.SecureChat.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static byte[] a_right_key {
+        internal static System.Drawing.Bitmap a_right_key {
             get {
                 object obj = ResourceManager.GetObject("a_right_key", resourceCulture);
-                return ((byte[])(obj));
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap AddAesArrow {
+            get {
+                object obj = ResourceManager.GetObject("AddAesArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -109,21 +119,21 @@ namespace Area23.At.WinForm.SecureChat.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to area23.at;paris.area23.at;virginia.area23.at;parisienne.area23.at.
+        /// </summary>
+        internal static string ProxyNames {
+            get {
+                return ResourceManager.GetString("ProxyNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] WinFormAboutDialog {
             get {
                 object obj = ResourceManager.GetObject("WinFormAboutDialog", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to area23.at;paris.area23.at;virginia.area23.at;parisienne.area23.at
-        /// </summary>
-        internal static string ProxyNames {
-            get {
-                return ResourceManager.GetString("ProxyNames", resourceCulture);
             }
         }
     }

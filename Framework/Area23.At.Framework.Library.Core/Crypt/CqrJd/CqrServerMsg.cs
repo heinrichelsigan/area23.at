@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
+﻿using Area23.At.Framework.Library.Core.Crypt.Cipher;
+using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Core.Util;
 
@@ -11,7 +12,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
     public class CqrServerMsg
     {
         private readonly byte[] keyBytes = new byte[16];
-        private readonly SymmCipherPipe symmPipe;
+        public readonly SymmCipherPipe symmPipe;
 
         public string CqrMsg { get; protected internal set; }
 
@@ -19,7 +20,10 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
         public CqrServerMsg(byte[] userKeyBytes)
         {
             Array.Copy(userKeyBytes, keyBytes, Math.Min(userKeyBytes.Length, 16));
-            symmPipe = new SymmCipherPipe(keyBytes, 8);
+            string userKey = System.Text.Encoding.UTF8.GetString(userKeyBytes);
+            string hash = DeEnCoder.KeyToHex(userKey);
+            byte[] keyHashBytes = CryptHelper.GetUserKeyBytes(userKey, hash, 16);
+            symmPipe = new SymmCipherPipe(keyHashBytes, 8);
         }
 
         public CqrServerMsg(string srvKey = "") : this(EnDeCoder.GetBytes(srvKey)) { }
@@ -39,7 +43,8 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
 
             byte[] tarBytes = msgBytes.TarBytes(EnDeCoder.GetBytes(symmPipe.PipeString));
             // HashSymms 
-            byte[] cqrbytes = SymmCrypt.MerryGoRoundEncrpyt(tarBytes, EnDeCoder.GetString(keyBytes),
+            byte[] cqrbytes = SymmCrypt.MerryGoRoundEncrpyt(tarBytes, symmPipe,
+                EnDeCoder.GetString(keyBytes),
                 DeEnCoder.KeyToHex(EnDeCoder.GetString(keyBytes)));
 
             DeEnCoder.EncodeBytes(cqrbytes.TarBytes(nullBytes), encType);
@@ -62,7 +67,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
             byte[] inBytes = DeEnCoder.DecodeText(cqrMessage, encType);
             byte[] cipherBytes = DeEnCoder.GetBytesTrimNulls(inBytes);
 
-            byte[] unroundedMerryBytes = SymmCrypt.DecrpytRoundGoMerry(cipherBytes,
+            byte[] unroundedMerryBytes = SymmCrypt.DecrpytRoundGoMerry(cipherBytes, symmPipe,
                 EnDeCoder.GetString(keyBytes),
                 DeEnCoder.KeyToHex(EnDeCoder.GetString(keyBytes)));
 

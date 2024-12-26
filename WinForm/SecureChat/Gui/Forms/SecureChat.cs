@@ -118,6 +118,43 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         }
 
+
+        private void Button_SecretKey_Click(object sender, EventArgs e)
+        {
+            string myServerKey = ExternalIpAddress?.ToString() + Constants.BC_START_MSG;
+
+            // TODO: test case later
+            if (!string.IsNullOrEmpty(this.ComboBox_LocalEndPoint.Text))
+                myServerKey = this.ComboBox_LocalEndPoint.Text;
+            else
+                this.ComboBox_LocalEndPoint.Text = myServerKey;
+            CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
+            this.TextBoxPipe.Text = serverMessage.symmPipe.PipeString;
+
+        }
+
+
+        private void Button_AddToPipeline_Click(object sender, EventArgs e)
+        {
+            Button_SecretKey_Click(sender, e);
+            CqrServerMsg serverMessage = new CqrServerMsg(this.ComboBox_LocalEndPoint.Text);            
+            this.ComboBox_RemoteEndPoint.Text = string.Empty;
+            foreach (var symm in serverMessage.symmPipe.InPipe)
+            {
+                this.ComboBox_RemoteEndPoint.Text += symm.ToString() + ";";
+            }
+
+        }
+
+        private void Button_HashIv_Click(object sender, EventArgs e)
+        {
+            string url = "https://area23.at/net/R.aspx";
+            Uri uri = new Uri(url);
+            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, "area23.at", Encoding.UTF8);
+            Task<HttpResponseMessage> respTask = httpClientR.GetAsync(uri);
+
+        }
+
         private void menuItemClear_Click(object sender, EventArgs e)
         {
             
@@ -126,38 +163,37 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             this.richTextBoxChat.Clear();
         }
 
+
         private void menuItemSend_Click(object sender, EventArgs e)
         {
-            string myServerKey = ExternalIpAddress?.ToString() + Constants.BC_START_MSG;
+            string myServerKey = ExternalIpAddress?.ToString() + Constants.APP_NAME;
 
             // TODO: test case later
-            this.ComboBox_LocalEndPoint.Text = myServerKey;
+            if (!string.IsNullOrEmpty(this.ComboBox_LocalEndPoint.Text))
+                myServerKey = this.ComboBox_LocalEndPoint.Text;
+            else
+                this.ComboBox_LocalEndPoint.Text = myServerKey;
             CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
+            this.TextBoxPipe.Text = serverMessage.symmPipe.PipeString;
+            
+             this.ComboBox_RemoteEndPoint.Text = string.Empty;
+            foreach (var symm in serverMessage.symmPipe.InPipe)
+            {
+                this.ComboBox_RemoteEndPoint.Text += symm.ToString() + ";";
+            }
+
             string encrypted = serverMessage.CqrMessage(this.richTextBoxChat.Text);
 
             string posturl = ConfigurationManager.AppSettings["ServerUrlToPost"].ToString();
+            string hostheader = ConfigurationManager.AppSettings["SendHostHeader"].ToString();
             // HttpClientRequest.PostCqrMsg(posturl, encrypted);
-            string retmsg = WebClientRequest.PostMessage(encrypted, posturl, "area23.at", ServerIpAddress?.ToString());
+            string retmsg = WebClientRequest.PostMessage(encrypted, posturl, hostheader, ServerIpAddress?.ToString());
 
             this.TextBoxSource.Text = encrypted + "\n";
             string decrypted = serverMessage.NCqrMessage(encrypted);
             this.TextBoxDestionation.Text = decrypted + "\n";
         }
 
-        private void Button_SecretKey_Click(object sender, EventArgs e)
-        {
-            string richText = this.richTextBoxChat.Text;
-
-            string wabiwabi = string.Empty;
-            if (ExternalIpAddress != null)
-            {
-                wabiwabi = ExternalIpAddress.ToString() + "\n";
-            }
-
-            this.TextBoxDestionation.Text += wabiwabi;
-            this.richTextBoxOneView.Text += wabiwabi;
-
-        }
 
         private void menuItemRefresh_Click(object sender, EventArgs e)
         {
@@ -185,24 +221,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         }
 
-        private void Button_AddToPipeline_Click(object sender, EventArgs e)
-        {
-            string? secretKey = Entities.Settings.Instance?.MyContact?.Email;
-            IPAddress? myClientIp = HttpClientRequest.GetClientIP();
-
-            string wabiwabi = (myClientIp != null) ? myClientIp.ToString() : string.Empty;
-            this.TextBoxDestionation.Text += wabiwabi + "\n";
-            this.richTextBoxOneView.Text += wabiwabi + "\n";
-        }
-
-        private void Button_HashIv_Click(object sender, EventArgs e)
-        {
-            string url = "https://area23.at/net/R.aspx";
-            Uri uri = new Uri(url);
-            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, "area23.at", Encoding.UTF8);
-            Task<HttpResponseMessage> respTask = httpClientR.GetAsync(uri);
-
-        }
 
 
         #region Contacts

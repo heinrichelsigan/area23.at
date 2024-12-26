@@ -255,12 +255,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="secretKey">user secret key to use for all symmetric cipher algorithms in the pipe</param>
         /// <param name="keyIv">hash key iv relational to secret key</param>
         /// <returns>encrypted byte[]</returns>
-        public static byte[] MerryGoRoundEncrpyt(byte[] inBytes, string secretKey = "postmaster@kernel.org", string keyIv = "")
+        public static byte[] MerryGoRoundEncrpyt(byte[] inBytes, SymmCipherPipe spipe, string secretKey = "postmaster@kernel.org", string keyIv = "")
         {
             byte[] keyHashBytes = CryptHelper.GetUserKeyBytes(secretKey, keyIv, 16);
             byte[] encryptedBytes = new byte[inBytes.Length * 2];
 
-            SymmCipherPipe spipe = new SymmCipherPipe(keyHashBytes, 8);
             foreach (var symmCipher in spipe.InPipe)
             {
                 encryptedBytes = EncryptBytesFast(inBytes, symmCipher, secretKey, keyIv);
@@ -278,12 +277,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="secretKey">user secret key, normally email address</param>
         /// <param name="keyIv">hash relational to secret kay</param>
         /// <returns><see cref="byte[]"/> plain bytes</returns>
-        public static byte[] DecrpytRoundGoMerry(byte[] cipherBytes, string secretKey = "postmaster@kernel.org", string keyIv = "")
+        public static byte[] DecrpytRoundGoMerry(byte[] cipherBytes, SymmCipherPipe dspipe, string secretKey = "postmaster@kernel.org", string keyIv = "")
         {
             byte[] keyHashBytes = CryptHelper.GetUserKeyBytes(secretKey, keyIv, 16);
             byte[] outBytes = new byte[cipherBytes.Length * 2];
 
-            SymmCipherPipe dspipe = new SymmCipherPipe(keyHashBytes, 8);
             foreach (var symmCipher in dspipe.OutPipe)
             {
                 outBytes = DecryptBytesFast(cipherBytes, symmCipher, secretKey, keyIv);
