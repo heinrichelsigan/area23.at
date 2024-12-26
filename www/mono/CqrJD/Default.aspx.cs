@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Web.UI;
@@ -21,6 +22,7 @@ namespace Area23.At.Mono.CqrJD
         
         protected void Page_Load(object sender, EventArgs e)
         {
+            string hexall = string.Empty;
             string myServerKey = string.Empty;
 
             if (ConfigurationManager.AppSettings["ServerIPv4"] != null)
@@ -53,16 +55,22 @@ namespace Area23.At.Mono.CqrJD
                 {
                     rq = rq.Substring(rq.IndexOf("TextBoxEncrypted="));
                     rq = rq.Substring("TextBoxEncrypted=".Length);
+                    if (rq.Contains("TextBoxDecrypted="))
+                        rq = rq.Substring(0, rq.IndexOf("TextBoxDecrypted="));
                 }
-                if (rq.Contains("TextBoxDecrypted="))
-                    rq = rq.Substring(0, rq.IndexOf("TextBoxDecrypted="));
+
                 
 
                 if (Application["lastmsg"] != null)
                 {
-                    TextBoxLastMsg.Text = (string)Application["lastmsg"].ToString();
+                    TextBoxLastMsg.Text = (string)Application["lastmsg"];
+                }
+                if (Application["hexall"] != null)
+                {
+                    this.preLast.InnerHtml = (string)Application["hexall"];
                 }
 
+                
                 if (ConfigurationManager.AppSettings["ExternalClientIP"] != null)
                     myServerKey = (string)ConfigurationManager.AppSettings["ExternalClientIP"];
                 else
@@ -70,16 +78,25 @@ namespace Area23.At.Mono.CqrJD
 
                 myServerKey += Constants.APP_NAME;
                 CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
+                
                 try
                 {
-                    decrypted = serverMessage.NCqrMessage(rq);
+                    if (!string.IsNullOrEmpty(rq) && rq.Length >= 8)
+                        decrypted = serverMessage.NCqrMessage(rq);
                 }
                 catch (Exception ex)
                 {
+                    hexall = serverMessage.symmPipe.HexStages;
+                    this.preOut.InnerText = hexall;
                     Area23Log.LogStatic(ex);
                     decrypted = ex.Message + ex.ToString();
                 }
 
+
+                if (!string.IsNullOrEmpty(hexall))
+                {
+                    Application["hexall"] = hexall;
+                }
                 Application["lastmsg"] = rq;
                 this.TextBoxEncrypted.Text = rq;
                 this.TextBoxDecrypted.Text = decrypted;

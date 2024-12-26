@@ -127,7 +127,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 
 
         #region merry_go_rount
-
+        /*
         /// <summary>
         /// Generic encrypt bytes to bytes
         /// </summary>
@@ -184,7 +184,9 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 
             return encryptBytes;
         }
+        */
 
+        /*
         /// <summary>
         /// Generic decrypt bytes to bytes
         /// </summary>
@@ -240,38 +242,12 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                     break;
             }
 
-            return DeEnCoder.GetBytesTrimNulls(decryptBytes);
-            // return decryptBytes;
+            // return DeEnCoder.GetBytesTrimNulls(decryptBytes);
+            return decryptBytes;
         }
+        */
 
-
-        public static char GetSymmCipherChar(SymmCipherEnum symmCipher)
-        {
-            switch (symmCipher)
-            {
-                case SymmCipherEnum.Fish2: return '2';
-                case SymmCipherEnum.Fish3: return '3';
-                case SymmCipherEnum.RC532: return '5';
-                case SymmCipherEnum.Cast6: return '6';
-                case SymmCipherEnum.Aes: return 'A';
-                case SymmCipherEnum.BlowFish: return 'b';
-                case SymmCipherEnum.Camellia: return 'C';
-                case SymmCipherEnum.Gost28147: return 'g';
-                case SymmCipherEnum.Idea: return 'I';
-                case SymmCipherEnum.Seed: return 's';
-                case SymmCipherEnum.Serpent: return 'S';
-                case SymmCipherEnum.SkipJack: return 'J';
-                case SymmCipherEnum.Tea: return 't';
-                case SymmCipherEnum.XTea: return 'X';
-                case SymmCipherEnum.ZenMatrix: return 'z';
-                case SymmCipherEnum.Des3: return 'T';
-
-
-            }
-            return ((char)('0'));
-        }
-
-
+        /*
         /// <summary>
         /// MerryGoRoundEncrpyt starts merry to go arround from left to right in clock hour cycle
         /// </summary>
@@ -292,7 +268,9 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 
             return encryptedBytes;
         }
+        */
 
+        /*
         /// <summary>
         /// DecrpytRoundGoMerry against clock turn -
         /// starts merry to turn arround from right to left against clock hour cycle 
@@ -315,7 +293,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
             return outBytes;
         }
 
-
+        */
         #endregion merry_go_rount
 
     }

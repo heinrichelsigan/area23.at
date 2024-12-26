@@ -96,12 +96,21 @@ namespace Area23.At.Mono.CqrJD
         protected global::System.Web.UI.WebControls.Button ButtonSubmit;
 
         /// <summary>
-        /// pre1 control.
+        /// preOut control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pre1;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl preOut;
+
+        /// <summary>
+        /// preLast control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl preLast;
     }
 }

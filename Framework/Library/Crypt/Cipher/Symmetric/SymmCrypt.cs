@@ -130,7 +130,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
 
         #region merry_go_rount
-
+        /*
         /// <summary>
         /// Generic encrypt bytes to bytes
         /// </summary>
@@ -291,6 +291,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             return outBytes;
         }
 
+        */
         #endregion merry_go_rount
 
     }
