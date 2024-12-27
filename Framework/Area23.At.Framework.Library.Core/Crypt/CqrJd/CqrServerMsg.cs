@@ -2,6 +2,7 @@
 using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Core.Util;
+using System.Security.Policy;
 
 namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
 {
@@ -50,10 +51,10 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
 
             // byte[] tarBytes = msgBytes.TarBytes(EnDeCoder.GetBytes(symmPipe.PipeString));
             // HashSymms 
-            byte[] cqrbytes = symmPipe.MerryGoRoundEncrpyt(msgBytes,
-                key,
-                hash);
-            
+            ZenMatrix.ZenMatrixGenWithKey(key, hash, true);
+            byte[] cqrbytes = ZenMatrix.Encrypt(msgBytes);
+            // byte[] cqrbytes = symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash);
+
             CqrMsg = DeEnCoder.EncodeBytes(cqrbytes, encType);
             return CqrMsg;
         }
@@ -71,11 +72,11 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
         {
             CqrMsg = cqrMessage;
             byte[] cipherBytes = DeEnCoder.DecodeText(cqrMessage, encType);
-                    
-            byte[] unroundedMerryBytes = symmPipe.DecrpytRoundGoMerry(cipherBytes,
-                key,
-                hash);
-            string decrypted = EnDeCoder.GetString(unroundedMerryBytes);
+
+            ZenMatrix.ZenMatrixGenWithKey(key, hash, true);
+            byte[] unroundedMerryBytes = ZenMatrix.Decrypt(cipherBytes);
+            // byte[] unroundedMerryBytes = symmPipe.DecrpytRoundGoMerry(cipherBytes, key, hash);
+                string decrypted = DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);
 
             string hashVerification = decrypted.Substring(decrypted.Length - 8);
 

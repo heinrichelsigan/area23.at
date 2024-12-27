@@ -46,14 +46,10 @@ namespace Area23.At.Framework.Library.Net.CqrJd
         {
             msg = msg + "\n" + symmPipe.PipeString;
             byte[] msgBytes = DeEnCoder.GetBytesFromString(msg);
-            // byte[] nullBytes = new byte[8];
-            // for (ushort ib = 0; ib < 8; ib++) nullBytes[ib] = 0;
 
-            // byte[] tarBytes = msgBytes.TarBytes(EnDeCoder.GetBytes(symmPipe.PipeString));
-            // HashSymms 
-            byte[] cqrbytes = symmPipe.MerryGoRoundEncrpyt(msgBytes,
-                key,
-                hash);
+            ZenMatrix.ZenMatrixGenWithKey(key, hash, true);
+            byte[] cqrbytes = ZenMatrix.Encrypt(msgBytes);
+            // byte[] cqrbytes = symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash);
 
             CqrMsg = DeEnCoder.EncodeBytes(cqrbytes, encType);
             return CqrMsg;
@@ -73,10 +69,10 @@ namespace Area23.At.Framework.Library.Net.CqrJd
             CqrMsg = cqrMessage;
             byte[] cipherBytes = DeEnCoder.DecodeText(cqrMessage, encType);
 
-            byte[] unroundedMerryBytes = symmPipe.DecrpytRoundGoMerry(cipherBytes,
-                key,
-                hash);
-            string decrypted = EnDeCoder.GetString(unroundedMerryBytes);
+            ZenMatrix.ZenMatrixGenWithKey(key, hash, true);
+            byte[] unroundedMerryBytes = ZenMatrix.Decrypt(cipherBytes);
+            // byte[] unroundedMerryBytes = symmPipe.DecrpytRoundGoMerry(cipherBytes, key, hash);
+            string decrypted = DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);
 
             string hashVerification = decrypted.Substring(decrypted.Length - 8);
 

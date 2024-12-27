@@ -57,6 +57,7 @@ namespace Area23.At.Mono.CqrJD
                     rq = rq.Substring("TextBoxEncrypted=".Length);
                     if (rq.Contains("TextBoxDecrypted="))
                         rq = rq.Substring(0, rq.IndexOf("TextBoxDecrypted="));
+                    rq = rq.TrimEnd("\r\n".ToArray());
                 }
 
                 
@@ -65,9 +66,9 @@ namespace Area23.At.Mono.CqrJD
                 {
                     TextBoxLastMsg.Text = (string)Application["lastmsg"];
                 }
-                if (Application["hexall"] != null)
+                if (Application["decrypted"] != null)
                 {
-                    this.preLast.InnerHtml = (string)Application["hexall"];
+                    this.preLast.InnerHtml = (string)Application["decrypted"];
                 }
 
                 
@@ -86,16 +87,16 @@ namespace Area23.At.Mono.CqrJD
                 }
                 catch (Exception ex)
                 {
-                    hexall = serverMessage.symmPipe.HexStages;
-                    this.preOut.InnerText = hexall;
+                    // hexall = serverMessage.symmPipe.HexStages;
+                    // this.preOut.InnerText = hexall;
                     Area23Log.LogStatic(ex);
                     decrypted = ex.Message + ex.ToString();
                 }
 
 
-                if (!string.IsNullOrEmpty(hexall))
+                if (!string.IsNullOrEmpty(decrypted))
                 {
-                    Application["hexall"] = hexall;
+                    Application["decrypted"] = decrypted;
                 }
                 Application["lastmsg"] = rq;
                 this.TextBoxEncrypted.Text = rq;

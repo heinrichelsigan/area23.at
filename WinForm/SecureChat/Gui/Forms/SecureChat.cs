@@ -189,9 +189,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // HttpClientRequest.PostCqrMsg(posturl, encrypted);
             string retmsg = WebClientRequest.PostMessage(encrypted, posturl, hostheader, ServerIpAddress?.ToString());
 
-            this.TextBoxSource.Text = encrypted + "\n" + "\n\r\n" + serverMessage.symmPipe.HexStages;
+            this.TextBoxSource.Text = encrypted + "\n" + "\n"; // + "\r\n" + serverMessage.symmPipe.HexStages;
             string decrypted = serverMessage.NCqrMessage(encrypted);
-            this.TextBoxDestionation.Text = decrypted + "\n\r\n" + serverMessage.symmPipe.HexStages;
+            this.TextBoxDestionation.Text = decrypted + "\n"; //  + "\r\n" + serverMessage.symmPipe.HexStages;
 
         }
 
