@@ -257,16 +257,26 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
             if (plainData == null || plainData.Length <= 0)
                 throw new ArgumentNullException("ZenMatrix byte[] Encrypt(byte[] plainData): ArgumentNullException plainData = null or Lenght 0.");
 
-            int bCnt = 0;
+            int bCnt = 0, cCnt = 0;
             long oSize = plainData.Length + (16 - (plainData.Length % 16));
             long outputSize = ((long)(oSize / 16)) * 16;
             byte[] inBytesPadding = new byte[outputSize];
+            
+            byte[] randBuffer = new byte[outputSize - plainData.Length];
+            Random rand = new Random(plainData.Length);
+            rand.Shuffle(randBuffer);
+            rand.NextBytes(randBuffer);
+
             for (bCnt = 0; bCnt < inBytesPadding.Length; bCnt++)
             {
                 if (bCnt < plainData.Length)
                     inBytesPadding[bCnt] = plainData[bCnt];
-                else
+                else if (bCnt == plainData.Length)
                     inBytesPadding[bCnt] = (byte)0x0;
+                else if (bCnt == plainData.Length - 1)
+                    inBytesPadding[bCnt] = (byte)0x0;
+                else // random hash padding                    
+                    inBytesPadding[bCnt] = randBuffer[cCnt++];
             }
 
             List<byte> outBytes = new List<byte>();
@@ -295,7 +305,8 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                 throw new ArgumentNullException("ZenMatrix byte[] Encrypt(byte[] cipherData): ArgumentNullException cipherData = null or Lenght 0.");
 
             int bCnt = 0;
-            long oSize = cipherData.Length + (16 - (cipherData.Length % 16));
+            long oSize = (cipherData.Length % 16 == 0) ? (long)cipherData.Length : 
+                (long)(cipherData.Length + (16 - (cipherData.Length % 16)));
             long outputSize = ((long)(oSize / 16)) * 16;
             byte[] inBytesEncrypted = new byte[outputSize];
             for (bCnt = 0; bCnt < inBytesEncrypted.Length; bCnt++)

@@ -2,6 +2,7 @@
 using Area23.At.Framework.Library.Util;
 using System;
 using System.Security.Cryptography;
+using System.Security.Permissions;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
@@ -111,7 +112,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <returns>byte[] encrypted bytes</returns>
         public static byte[] Encrypt(byte[] inBytes)
         {
-            TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
+            TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();            
             tdes.Key = DesKey;
             tdes.IV = DesIv;
             tdes.Mode = CipherMode.ECB;

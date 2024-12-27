@@ -46,16 +46,16 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
         {
             msg = msg + "\n" + symmPipe.PipeString;
             byte[] msgBytes = DeEnCoder.GetBytesFromString(msg);
-            // byte[] nullBytes = new byte[8];
-            // for (ushort ib = 0; ib < 8; ib++) nullBytes[ib] = 0;
 
-            // byte[] tarBytes = msgBytes.TarBytes(EnDeCoder.GetBytes(symmPipe.PipeString));
-            // HashSymms 
-            ZenMatrix.ZenMatrixGenWithKey(key, hash, true);
-            byte[] cqrbytes = ZenMatrix.Encrypt(msgBytes);
             // byte[] cqrbytes = symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash);
+            ZenMatrix.ZenMatrixGenWithKey(key, hash, true);
+            Aes.AesGenWithNewKey(key, hash, true);
+            Des3.Des3FromKey(key, hash, true);
+            byte[] cqrbytes = ZenMatrix.Encrypt(msgBytes);
+            byte[] aesencoded = Aes.Encrypt(cqrbytes);
+            byte[] des3encoded = Des3.Encrypt(aesencoded);
 
-            CqrMsg = DeEnCoder.EncodeBytes(cqrbytes, encType);
+            CqrMsg = DeEnCoder.EncodeBytes(des3encoded, encType);
             return CqrMsg;
         }
 
@@ -73,10 +73,14 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
             CqrMsg = cqrMessage;
             byte[] cipherBytes = DeEnCoder.DecodeText(cqrMessage, encType);
 
-            ZenMatrix.ZenMatrixGenWithKey(key, hash, true);
-            byte[] unroundedMerryBytes = ZenMatrix.Decrypt(cipherBytes);
             // byte[] unroundedMerryBytes = symmPipe.DecrpytRoundGoMerry(cipherBytes, key, hash);
-                string decrypted = DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);
+            Des3.Des3FromKey(key, hash, true);
+            Aes.AesGenWithNewKey(key, hash, true);
+            ZenMatrix.ZenMatrixGenWithKey(key, hash, true);
+            byte[] des3decoded = Des3.Decrypt(cipherBytes);
+            byte[] aesdecoded = Aes.Decrypt(des3decoded);
+            byte[] unroundedMerryBytes = ZenMatrix.Decrypt(aesdecoded);
+            string decrypted = DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);
 
             string hashVerification = decrypted.Substring(decrypted.Length - 8);
 
@@ -92,10 +96,10 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
                 string hashSymShow = symmPipe.PipeString ?? "        ";
                 hashSymShow = hashSymShow.Substring(0, 2) + "...." + hashSymShow.Substring(6);
 
-                    throw new InvalidOperationException(
-                    $"SymmCiphers [{hashSymShow}] in crypt pipeline doesn't match serverside key !?$* byte length ={keyBytes.Length}");
+                throw new InvalidOperationException(
+                $"SymmCiphers [{hashSymShow}] in crypt pipeline doesn't match serverside key !?$* byte length ={keyBytes.Length}");
             }
-      
+
             string decryptedFinally = decrypted.Substring(0, decrypted.Length - 8);
             return decryptedFinally;
         }
