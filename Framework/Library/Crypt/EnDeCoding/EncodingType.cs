@@ -17,9 +17,9 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         Hex16   = 0x11,
         Base32  = 0x20,
         Hex32   = 0x21,        
-        Uu      = 0x33,        
-        Base64  = 0x40,
-        Hex64   = 0x41
+        Uu      = 0x33,
+        // Hex64   = 0x41,
+        Base64 = 0x40
     }
 
     public static class EncodingTypesExtensions

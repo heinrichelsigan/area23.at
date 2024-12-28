@@ -14,7 +14,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     /// <summary>
     /// <see cref="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aes?view=net-8.0" />
     /// </summary>
-    public static class Aes 
+    public static class Aes
     {
 
         #region fields
@@ -32,7 +32,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         internal static string PrivateUserKey { get => string.Concat(privateKey, privateKey); }
         internal static string PrivateUserHostKey { get => string.Concat(privateKey, userHostIpAddress, privateKey, userHostIpAddress); }
 
-        internal static RijndaelManaged AesAlgo { get; private set; }
+        internal static System.Security.Cryptography.Aes AesAlgo { get; private set; }
 
         #endregion Properties
 
@@ -46,7 +46,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
             byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
 
-            AesAlgo = new RijndaelManaged();
+            AesAlgo = new System.Security.Cryptography.AesCng();
             AesAlgo.Mode = CipherMode.ECB;
             AesAlgo.KeySize = 256;
             AesAlgo.Padding = PaddingMode.Zeros;
@@ -63,15 +63,15 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         }
 
         /// <summary>
-        /// AesGenWithNewKey generates a new static Aes RijndaelManaged symetric encryption 
+        /// AesGenWithKeyHash generates a new static System.Security.Cryptography.AesCng() symetric encryption 
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
         /// <param name="userHostAddr">user host address is here part of private key</param>
         /// <param name="init">init three fish first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool AesGenWithNewKey(string secretKey = "", string userHash = "", bool init = true)
+        public static bool AesGenWithKeyHash(string secretKey = "heinrich.elsigan@area23.at", string userHash = "6865696e726963682e656c736967616e406172656132332e6174", bool init = true)
         {
-            byte[] key = new byte[32]; 
+            byte[] key = new byte[32];
             byte[] iv = new byte[16]; // AES > IV > 128 bit
 
             if (!init)
@@ -102,6 +102,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 Array.Copy(key, AesKey, 32);
                 Array.Copy(iv, AesIv, 16);
             }
+
+            AesAlgo = new System.Security.Cryptography.AesCng();
+            AesAlgo.Mode = CipherMode.ECB;
+            AesAlgo.KeySize = 256;
+            AesAlgo.Padding = PaddingMode.Zeros;
 
             // AesAlgo.GenerateIV();
             // AesAlgo.GenerateKey();
@@ -163,12 +168,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="inPlainString">plain text string</param>
         /// <returns>Base64 encoded encrypted byte[]</returns>
-        public static string EncryptString(string inPlainString)
+        public static string EncryptString(string inPlainString, EncodingType encType = EncodingType.Base64)
         {
             byte[] plainTextData = EnDeCoder.GetBytes(inPlainString);
-            byte[] encryptedData = Encrypt(plainTextData);
-            string encryptedString = Convert.ToBase64String(encryptedData);
-            
+            byte[] encryptedBytes = Encrypt(plainTextData);
+            string encryptedString = DeEnCoder.EncodeBytes(encryptedBytes, encType);
+
             return encryptedString;
         }
 
@@ -177,12 +182,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="inCryptString">base64 encoded string from encrypted byte[]</param>
         /// <returns>plain text string (decrypted)</returns>
-        public static string DecryptString(string inCryptString)
+        public static string DecryptString(string inCryptString, EncodingType encType = EncodingType.Base64)
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
-            //  EnDeCoder.GetBytes(inCryptString);
-            byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = EnDeCoder.GetString(plainTextData).TrimEnd('\0');
+            byte[] decryptedBytes = Decrypt(cryptData);
+            string plainTextString = EnDeCoder.GetString(decryptedBytes).TrimEnd('\0');
 
             return plainTextString;
         }
@@ -259,7 +263,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         private static byte[] CreateAesKey(string inputString)
         {
             return EnDeCoder.GetByteCount(inputString) == 32 ?
-                EnDeCoder.GetBytes(inputString) : 
+                EnDeCoder.GetBytes(inputString) :
                 SHA256.Create().ComputeHash(EnDeCoder.GetBytes(inputString));
         }
 

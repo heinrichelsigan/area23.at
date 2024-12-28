@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
+
     /// <summary>
     /// Provides a simple crypt pipe for <see cref="SymmCipherEnum"/>
     /// </summary>
@@ -22,7 +23,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         public string PipeString { get => pipeString; }
 
 #if DEBUG
-        public Dictionary<SymmCipherEnum, byte[]> stageDictionary = new Dictionary<SymmCipherEnum, byte[]>();
+        public Dictionary<SymmCipherEnum, byte[]> stageDictionary;
 
         public string HexStages
         {
@@ -119,8 +120,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             switch (cipherAlgo)
             {
                 case SymmCipherEnum.Des3:
-                    Des3.Des3FromKey(secretKey, hashIv, true);
+                    Des3.Des3GenWithKeyHash(secretKey, hashIv, true);
                     encryptBytes = Des3.Encrypt(inBytes);
+                    break;
+                case SymmCipherEnum.Rijndael:
+                    Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
+                    encryptBytes = Rijndael.Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.Serpent:
                     Serpent.SerpentGenWithKey(secretKey, hashIv, true);
@@ -132,7 +137,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     break;
                 case SymmCipherEnum.BlowFish:
                 case SymmCipherEnum.Fish2:
-                case SymmCipherEnum.Fish3:
+                /// case SymmCipherEnum.Fish3:
                 case SymmCipherEnum.Camellia:
                 case SymmCipherEnum.RC532:
                 case SymmCipherEnum.Cast6:
@@ -150,7 +155,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     break;
                 case SymmCipherEnum.Aes:
                 default:
-                    Aes.AesGenWithNewKey(secretKey, hashIv, true);
+                    Aes.AesGenWithKeyHash(secretKey, hashIv, true);
                     encryptBytes = Aes.Encrypt(inBytes);
                     break;
             }
@@ -177,8 +182,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             {
 
                 case SymmCipherEnum.Des3:
-                    sameKey = Des3.Des3FromKey(secretKey, hashIv, true);
+                    sameKey = Des3.Des3GenWithKeyHash(secretKey, hashIv, true);
                     decryptBytes = Des3.Decrypt(cipherBytes);
+                    break;
+                case SymmCipherEnum.Rijndael:
+                    sameKey = Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
+                    decryptBytes = Rijndael.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.Serpent:
                     sameKey = Serpent.SerpentGenWithKey(secretKey, hashIv, true);
@@ -190,7 +199,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     break;
                 case SymmCipherEnum.BlowFish:
                 case SymmCipherEnum.Fish2:
-                case SymmCipherEnum.Fish3:
+                // case SymmCipherEnum.Fish3:
                 case SymmCipherEnum.Camellia:
                 case SymmCipherEnum.RC532:
                 case SymmCipherEnum.Cast6:
@@ -208,7 +217,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     break;
                 case SymmCipherEnum.Aes:
                 default:
-                    sameKey = Aes.AesGenWithNewKey(secretKey, hashIv, true);
+                    sameKey = Aes.AesGenWithKeyHash(secretKey, hashIv, true);
                     decryptBytes = Aes.Decrypt(cipherBytes);
                     break;
             }
@@ -218,6 +227,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         }
 
         #endregion static members EncryptBytesFast DecryptBytesFast
+
         /// <summary>
         /// MerryGoRoundEncrpyt starts merry to go arround from left to right in clock hour cycle
         /// </summary>
@@ -234,11 +244,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 #endif
             foreach (SymmCipherEnum symmCipher in InPipe)
             {
-                CipherEnum cipher = (CipherEnum)Enum.Parse(typeof(CipherEnum), symmCipher.ToString());
-                encryptedBytes = Framework.Library.Crypt.Cipher.Crypt.EncryptBytes(inBytes, cipher, secretKey, keyIv);
-                inBytes = encryptedBytes;
-                // encryptedBytes = EncryptBytesFast(inBytes, symmCipher, secretKey, keyIv);
+                // CipherEnum cipher = (CipherEnum)Enum.Parse<CipherEnum>(symmCipher.ToString());
+                // encryptedBytes = Framework.Library.Core.Crypt.Cipher.Crypt.EncryptBytes(inBytes, cipher, secretKey, keyIv);
                 // inBytes = encryptedBytes;
+                encryptedBytes = EncryptBytesFast(inBytes, symmCipher, secretKey, keyIv);
+                inBytes = encryptedBytes;
 #if DEBUG
                 stageDictionary.Add(symmCipher, encryptedBytes);
 #endif
@@ -246,7 +256,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             return encryptedBytes;
         }
-
 
         /// <summary>
         /// DecrpytRoundGoMerry against clock turn -
@@ -258,7 +267,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <returns><see cref="byte[]"/> plain bytes</returns>
         public byte[] DecrpytRoundGoMerry(byte[] cipherBytes, string secretKey = "postmaster@kernel.org", string keyIv = "")
         {
-            ;
+
             byte[] decryptedBytes = new byte[cipherBytes.Length * 2];
 #if DEBUG
             stageDictionary = new Dictionary<SymmCipherEnum, byte[]>();
@@ -266,11 +275,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 #endif 
             foreach (SymmCipherEnum symmCipher in OutPipe)
             {
-                CipherEnum cipher = (CipherEnum)Enum.Parse(typeof(CipherEnum), symmCipher.ToString());
-                decryptedBytes = Framework.Library.Crypt.Cipher.Crypt.DecryptBytes(cipherBytes, cipher, secretKey, keyIv);
+                // CipherEnum cipher = (CipherEnum)Enum.Parse<CipherEnum>(symmCipher.ToString());
+                // decryptedBytes = Framework.Library.Core.Crypt.Cipher.Crypt.DecryptBytes(cipherBytes, cipher, secretKey, keyIv);
+                // cipherBytes = decryptedBytes;
+                decryptedBytes = DecryptBytesFast(cipherBytes, symmCipher, secretKey, keyIv);
                 cipherBytes = decryptedBytes;
-                // outBytes = DecryptBytesFast(cipherBytes, symmCipher, secretKey, keyIv);
-                // cipherBytes = outBytes;
 #if DEBUG
                 stageDictionary.Add(symmCipher, cipherBytes);
 #endif

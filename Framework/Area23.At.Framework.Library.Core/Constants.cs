@@ -40,8 +40,8 @@ namespace Area23.At.Framework.Library.Core
         public const string AREA23_UTF8_URL = "https://area23.at/u/";
 
         public const string AUTHOR = "Heinrich Elsigan";
-        public const string AUTHOR_EMAIL = "heinrich.elsigan@gmail.com";
-        public const string AUTHOR_IV = "6865696E726963682E656C736967616E40676D61696C2E636F6D";
+        public const string AUTHOR_EMAIL = "heinrich.elsigan@area23.at";
+        public const string AUTHOR_IV = "6865696e726963682e656c736967616e406172656132332e6174";
         public const string AREA23_EMAIL = "zen@area23.at";
         public const string AUTHOR_SIGNATURE = "-- \nHeinrich G.Elsigan\nTheresianumgasse 6/28, A-1040 Vienna\n phone: +43 650 752 79 28 \nmobile: +43 670 406 89 83 \nemails: heinrich.elsigan @gmail.com\n        root@darkstar.work he@area23.at\n        heinrich.elsigan @live.at\n        sites: darkstar.work area23.at\nweblog: blog.darkstar.work\n   wko: https://firmen.wko.at/DetailsKontakt.aspx?FirmaID=19800fbd-84a2-456d-890e-eb1fa213100f";
 

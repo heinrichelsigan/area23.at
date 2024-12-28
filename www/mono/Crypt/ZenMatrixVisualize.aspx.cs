@@ -166,9 +166,9 @@ namespace Area23.At.Mono.Crypt
                         case SymmCipherEnum.Fish2:
                             this.TextBox_Encryption.Text += "Fish2" + ";";
                             break;
-                        case SymmCipherEnum.Fish3:
-                            this.TextBox_Encryption.Text += "Fish3" + ";";
-                            break;
+                        //case SymmCipherEnum.Fish3:
+                        //    this.TextBox_Encryption.Text += "Fish3" + ";";
+                        //    break;
                         case SymmCipherEnum.Des3:
                             this.TextBox_Encryption.Text += "Des3" + ";";
                             break;

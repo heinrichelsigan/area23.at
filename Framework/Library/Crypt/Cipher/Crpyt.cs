@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Org.BouncyCastle.Crypto;
 using Symm = Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher
@@ -24,62 +25,59 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             byte[] encryptBytes = inBytes;
 
             string algo = cipherAlgo.ToString();
-                    
+
             if (cipherAlgo == CipherEnum.Des3 || algo == "3Des" || algo == "Des3")
             {
-                Des3.Des3FromKey(secretKey, keyIv, true);
+                Des3.Des3GenWithKeyHash(secretKey, keyIv, true);
                 encryptBytes = Des3.Encrypt(inBytes);
-                return encryptBytes;
             }
             if (cipherAlgo == CipherEnum.Aes || algo == "Aes")
             {
-                Symmetric.Aes.AesGenWithNewKey(secretKey, keyIv, true);
-                encryptBytes = Symmetric.Aes.Encrypt(inBytes);
-                return encryptBytes;
-            }            
-            if (cipherAlgo == CipherEnum.Rsa || algo == "Rsa")
-            {
-                var keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
-                string privKey = keyPair.Private.ToString();
-                encryptBytes = Asymmetric.Rsa.Encrypt(inBytes);
-                return encryptBytes;
+                Aes.AesGenWithKeyHash(secretKey, keyIv, true);
+                encryptBytes = Aes.Encrypt(inBytes);
             }
             if (cipherAlgo == CipherEnum.RC564 || algo == "RC564")
             {
                 RC564.RC564GenWithKey(secretKey, keyIv, true);
                 encryptBytes = RC564.Encrypt(inBytes);
-                return encryptBytes;
+            }
+            if (cipherAlgo == CipherEnum.Rijndael || algo == "Rijndael")
+            {
+                Rijndael.RijndaelGenWithNewKey(secretKey, keyIv, true);
+                encryptBytes = Rijndael.Encrypt(inBytes);
+            }
+            if (cipherAlgo == CipherEnum.Rsa || algo == "Rsa")
+            {
+                var keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                string privKey = keyPair.Private.ToString();
+                encryptBytes = Asymmetric.Rsa.Encrypt(inBytes);
             }
             if (cipherAlgo == CipherEnum.Serpent || algo == "Serpent")
             {
                 Serpent.SerpentGenWithKey(secretKey, keyIv, true);
                 encryptBytes = Serpent.Encrypt(inBytes);
-                return encryptBytes;
             }
             if (cipherAlgo == CipherEnum.ZenMatrix || algo == "ZenMatrix")
             {
                 ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, true);
                 encryptBytes = ZenMatrix.Encrypt(inBytes);
-                return encryptBytes;
             }
-            if (algo == "Aes" || algo == "BlowFish" || 
-                algo == "2Fish" || algo == "Fish2" || algo == "3Fish" || algo == "Fish3" ||
+            if (algo == "BlowFish" || algo == "2Fish" || algo == "Fish2" || algo == "3Fish" || algo == "Fish3" ||
                 algo == "Camellia" || algo == "Cast5" || algo == "Cast6" ||
                 algo == "Gost28147" || algo == "Idea" || algo == "Noekeon" ||
-                algo == "RC2" || algo == "RC532" || algo == "RC564" || algo == "RC6" ||
-                algo == "Rijndael" ||  algo == "Serpent" ||
-                algo == "Rijndael" || algo == "Seed" || algo == "SkipJack" ||
+                algo == "RC2" || algo == "RC532" || algo == "RC6" ||
+                // algo == "RC564" || algo == "Rijndael" ||  algo == "Serpent" ||
+                algo == "Seed" || algo == "SkipJack" ||
                 algo == "Tea" || algo == "Tnepres" || algo == "XTea" ||
 
-                cipherAlgo == CipherEnum.Aes || cipherAlgo == CipherEnum.BlowFish || 
-                cipherAlgo == CipherEnum.Fish2 || cipherAlgo == CipherEnum.Fish3 ||
+                cipherAlgo == CipherEnum.BlowFish || cipherAlgo == CipherEnum.Fish2 || cipherAlgo == CipherEnum.Fish3 ||
                 cipherAlgo == CipherEnum.Camellia || cipherAlgo == CipherEnum.Cast5 || cipherAlgo == CipherEnum.Cast6 ||
                 cipherAlgo == CipherEnum.Gost28147 || cipherAlgo == CipherEnum.Idea || cipherAlgo == CipherEnum.Noekeon ||
-                cipherAlgo == CipherEnum.RC2 || cipherAlgo == CipherEnum.RC532 || cipherAlgo == CipherEnum.RC564 || cipherAlgo == CipherEnum.RC6 ||
+                cipherAlgo == CipherEnum.RC2 || cipherAlgo == CipherEnum.RC532 || cipherAlgo == CipherEnum.RC6 ||
                 cipherAlgo == CipherEnum.Seed || cipherAlgo == CipherEnum.SkipJack ||
                 cipherAlgo == CipherEnum.Tea || cipherAlgo == CipherEnum.Tnepres || cipherAlgo == CipherEnum.XTea)
             {
-                CryptParams cparams = new CryptParams(cipherAlgo);
+                CryptParams cparams = CryptHelper.GetCryptParams(cipherAlgo);
                 cparams.Key = secretKey;
                 cparams.Hash = keyIv;
 
@@ -108,33 +106,34 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
             if (cipherAlgo == CipherEnum.Des3 || algorithmName == "3Des" || algorithmName == "Des3")
             {
-                sameKey = Des3.Des3FromKey(secretKey, keyIv, true);
+                sameKey = Des3.Des3GenWithKeyHash(secretKey, keyIv, true);
                 decryptBytes = Des3.Decrypt(cipherBytes);
-                return decryptBytes;
             }
             if (cipherAlgo == CipherEnum.Aes || algorithmName == "Aes")
             {
-                sameKey = Symmetric.Aes.AesGenWithNewKey(secretKey, keyIv, true);
-                decryptBytes = Symmetric.Aes.Decrypt(cipherBytes);
+                sameKey = Aes.AesGenWithKeyHash(secretKey, keyIv, true);
+                decryptBytes = Aes.Decrypt(cipherBytes);
             }
             if (cipherAlgo == CipherEnum.RC564 || algorithmName == "RC564")
             {
-                var keyPair = Symmetric.RC564.RC564GenWithKey(secretKey, keyIv, false);
-                decryptBytes = Symmetric.RC564.Decrypt(cipherBytes);
-                return decryptBytes;
+                RC564.RC564GenWithKey(secretKey, keyIv, true);
+                decryptBytes = RC564.Decrypt(cipherBytes);
             }
+            if (cipherAlgo == CipherEnum.Rijndael || algorithmName == "Rijndael")
+            {
+                Rijndael.RijndaelGenWithNewKey(secretKey, keyIv, true);
+                decryptBytes = Rijndael.Decrypt(cipherBytes);
+            }            
             if (cipherAlgo == CipherEnum.Rsa || algorithmName == "Rsa")
             {
-                var keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
                 string privKey = keyPair.Private.ToString();
                 decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes);
-                return decryptBytes;
             }
             if (cipherAlgo == CipherEnum.Serpent || algorithmName == "Serpent")
             {
                 sameKey = Serpent.SerpentGenWithKey(secretKey, keyIv, false);
                 decryptBytes = Serpent.Decrypt(cipherBytes);
-                return decryptBytes;
             }
             if (cipherAlgo == CipherEnum.ZenMatrix || algorithmName == "ZenMatrix")
             {
@@ -144,7 +143,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             if (algorithmName == "BlowFish" || algorithmName == "2Fish" || algorithmName == "Fish2" || algorithmName == "3Fish" || algorithmName == "Fish3" ||
                 algorithmName == "Camellia" || algorithmName == "Cast5" || algorithmName == "Cast6" ||
                 algorithmName == "Gost28147" || algorithmName == "Idea" || algorithmName == "Noekeon" ||
-                algorithmName == "RC2" || algorithmName == "RC532" || algorithmName == "RC564" || algorithmName == "RC6" ||
+                // algorithmName == "Rijndael" || 
+                algorithmName == "RC2" || algorithmName == "RC532" || algorithmName == "RC6" ||
                 // || algorithmName == "RC564" || algorithmName == "Rijndael" || algorithmName == "Serpent" || 
                 algorithmName == "Seed" || algorithmName == "SkipJack" ||
                 algorithmName == "Tea" || algorithmName == "Tnepres" || algorithmName == "XTea" ||
@@ -152,7 +152,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 cipherAlgo == CipherEnum.BlowFish || cipherAlgo == CipherEnum.Fish2 || cipherAlgo == CipherEnum.Fish3 ||
                 cipherAlgo == CipherEnum.Camellia || cipherAlgo == CipherEnum.Cast5 || cipherAlgo == CipherEnum.Cast6 ||
                 cipherAlgo == CipherEnum.Gost28147 || cipherAlgo == CipherEnum.Idea || cipherAlgo == CipherEnum.Noekeon ||
-                cipherAlgo == CipherEnum.RC2 || cipherAlgo == CipherEnum.RC532 || cipherAlgo == CipherEnum.RC564  || cipherAlgo == CipherEnum.RC6 ||
+                cipherAlgo == CipherEnum.RC2 || cipherAlgo == CipherEnum.RC532 || cipherAlgo == CipherEnum.RC6 ||
                 cipherAlgo == CipherEnum.Seed || cipherAlgo == CipherEnum.SkipJack ||
                 cipherAlgo == CipherEnum.Tea || cipherAlgo == CipherEnum.Tnepres || cipherAlgo == CipherEnum.XTea)
             {
@@ -168,7 +168,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return DeEnCoder.GetBytesTrimNulls(decryptBytes);
         }
 
-    
     }
 
 }

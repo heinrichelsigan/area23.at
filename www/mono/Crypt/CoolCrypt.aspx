@@ -95,6 +95,7 @@
                         <asp:ListItem Enabled="true" Value="RC532" Selected="false">RC532</asp:ListItem>                
                         <asp:ListItem Enabled="true" Value="RC564" Selected="false">RC564</asp:ListItem> 
                         <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem>                       
+                        <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem> 
                         <asp:ListItem Enabled="true" Value="Rsa" Selected="false">Rsa</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Seed" Selected="false">Seed</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>

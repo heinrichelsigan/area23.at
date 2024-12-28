@@ -151,6 +151,19 @@ namespace Area23.At.Framework.Library.Core.Crypt.EnDeCoding
             return decryptedText;
         }
 
+        public static byte[] GetBytesFromBytes(byte[] inBytes, int blockSize = 64, bool upStretchToCorrectBlockSize = true)
+        {
+            if (!upStretchToCorrectBlockSize)
+                return inBytes;
+            int addByteLen = blockSize - (inBytes.Length % blockSize);
+            List<byte> outBytes = new List<byte>(inBytes);
+            while (outBytes.Count % blockSize != 0)
+            {
+                outBytes.Add((byte)0);
+            }
+            return outBytes.ToArray();
+        }
+
         /// <summary>
         /// GetBytesTrimNulls gets a byte[] from binary byte[] data and truncate all 0 byte at the end.
         /// </summary>

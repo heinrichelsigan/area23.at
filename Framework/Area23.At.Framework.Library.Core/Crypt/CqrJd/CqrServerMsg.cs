@@ -49,13 +49,15 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
 
             // byte[] cqrbytes = symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash);
             ZenMatrix.ZenMatrixGenWithKey(key, hash, true);
-            Aes.AesGenWithNewKey(key, hash, true);
-            Des3.Des3FromKey(key, hash, true);
+            Aes.AesGenWithKeyHash(key, hash, true);
+            Des3.Des3GenWithKeyHash(key, hash, true);
+            RC564.RC564GenWithKey(key, hash, true);
             byte[] cqrbytes = ZenMatrix.Encrypt(msgBytes);
             byte[] aesencoded = Aes.Encrypt(cqrbytes);
             byte[] des3encoded = Des3.Encrypt(aesencoded);
+            byte[] rc564encoded = RC564.Encrypt(des3encoded);
 
-            CqrMsg = DeEnCoder.EncodeBytes(des3encoded, encType);
+            CqrMsg = DeEnCoder.EncodeBytes(rc564encoded, encType);
             return CqrMsg;
         }
 
@@ -74,10 +76,12 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
             byte[] cipherBytes = DeEnCoder.DecodeText(cqrMessage, encType);
 
             // byte[] unroundedMerryBytes = symmPipe.DecrpytRoundGoMerry(cipherBytes, key, hash);
-            Des3.Des3FromKey(key, hash, true);
-            Aes.AesGenWithNewKey(key, hash, true);
+            Des3.Des3GenWithKeyHash(key, hash, true);
+            Aes.AesGenWithKeyHash(key, hash, true);
+            RC564.RC564GenWithKey(key, hash, true);
             ZenMatrix.ZenMatrixGenWithKey(key, hash, true);
-            byte[] des3decoded = Des3.Decrypt(cipherBytes);
+            byte[] rc564decoded = RC564.Decrypt(cipherBytes);
+            byte[] des3decoded = Des3.Decrypt(rc564decoded);
             byte[] aesdecoded = Aes.Decrypt(des3decoded);
             byte[] unroundedMerryBytes = ZenMatrix.Decrypt(aesdecoded);
             string decrypted = DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);

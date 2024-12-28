@@ -15,20 +15,20 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 
         #region fields
 
-        internal static string privateKey = string.Empty;
+        private static string key = string.Empty;
 
-        internal static string userHash = string.Empty;
+        private static string keyHash = string.Empty;
 
         #endregion fields
 
         #region Properties
 
-        public static byte[] DesKey { get; private set; }
-        internal static byte[] DesIv { get; private set; }
+        internal static byte[] KeyBytes { get; private set; }
+        internal static byte[] HashBytes { get; private set; }
 
         internal static int KeyLen { get; private set; } = 24;
 
-        internal static int IvLen { get; private set; } = 8;
+        internal static int HashLen { get; private set; } = 8;
 
         internal static byte[] toDecryptArray;
 
@@ -41,31 +41,31 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         /// </summary>
         static Des3()
         {
-            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
-            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
+            byte[] pKey = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
+            byte[] pHash = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
 
-            DesKey = new byte[KeyLen];
-            DesIv = new byte[IvLen];
-            Array.Copy(key, DesKey, KeyLen);
-            Array.Copy(iv, DesIv, IvLen);
+            KeyBytes = new byte[KeyLen];
+            HashBytes = new byte[HashLen];
+            Array.Copy(pKey, KeyBytes, KeyLen);
+            Array.Copy(pHash, HashBytes, HashLen);
         }
 
         /// <summary>
-        /// Generates Des3FromKey 
+        /// Des3GenWithKeyHash generates 3Des Enginge with key and hash
         /// </summary>
         /// <param name="secretKey">your plain text secret key</param>
-        /// <param name="usrHash">user key hash</param>
+        /// <param name="userHash">user key hash</param>
         /// <param name="init">init TripleDes first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool Des3FromKey(string secretKey = "postmaster@area23.at", string usrHash = "mail.area23.at", bool init = true)
+        public static bool Des3GenWithKeyHash(string secretKey = "postmaster@area23.at", string userHash = "mail.area23.at", bool init = true)
         {
-            byte[] key;
-            byte[] iv = new byte[IvLen];
+            byte[] pKey;
+            byte[] pHash = new byte[HashLen];
 
             if (!init)
             {
-                if ((string.IsNullOrEmpty(privateKey) && !string.IsNullOrEmpty(secretKey)) ||
-                    (!privateKey.Equals(secretKey, StringComparison.InvariantCultureIgnoreCase)))
+                if ((string.IsNullOrEmpty(key) && !string.IsNullOrEmpty(secretKey)) ||
+                    (!key.Equals(secretKey, StringComparison.InvariantCultureIgnoreCase)))
                     return false;
             }
 
@@ -73,27 +73,24 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
             {
                 if (string.IsNullOrEmpty(secretKey))
                 {
-                    privateKey = string.Empty;
-                    key = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
-                    iv = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
+                    key = string.Empty;
+                    pKey = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_KEY));
+                    pHash = Convert.FromBase64String(ResReader.GetValue(Constants.DES3_IV));
                 }
                 else
                 {
-                    privateKey = secretKey;
-                    userHash = usrHash;
+                    key = secretKey;
+                    keyHash = userHash;
                     // MD5 md5 = new MD5CryptoServiceProvider();
-                    // key = md5.ComputeHash(EnDeCoder.GetBytes(secretKey));
-                    key = CryptHelper.GetUserKeyBytes(secretKey, userHash, 24);
-                    iv = CryptHelper.GetUserKeyBytes(secretKey, userHash, 8);  
-                    // CryptHelper.GetUserKeyBytes(ResReader.GetValue(Constants.DES3_IV), secretKey, 8);
+                    // pKey = md5.ComputeHash(EnDeCoder.GetBytes(secretKey));
+                    pKey = CryptHelper.GetUserKeyBytes(key, keyHash, 24);
+                    pHash = CryptHelper.GetUserKeyBytes(key, keyHash, 8);
                 }
 
-                DesKey = new byte[KeyLen];
-                DesIv = new byte[IvLen];
-                Array.Copy(key, DesKey, KeyLen);
-                Array.Copy(iv, DesIv, IvLen);
-                // DesIv = iv;
-                // DesKey = key;
+                KeyBytes = new byte[KeyLen];
+                HashBytes = new byte[HashLen];
+                Array.Copy(pKey, KeyBytes, KeyLen);
+                Array.Copy(pHash, HashBytes, HashLen);
             }
 
             return true;
@@ -111,8 +108,8 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         public static byte[] Encrypt(byte[] inBytes)
         {
             TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
-            tdes.Key = DesKey;
-            tdes.IV = DesIv;
+            tdes.Key = KeyBytes;
+            tdes.IV = HashBytes;
             tdes.Mode = CipherMode.ECB;
             tdes.Padding = PaddingMode.Zeros;
             ICryptoTransform cTransform = tdes.CreateEncryptor();
@@ -135,11 +132,11 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                 throw new ArgumentNullException("cipherBytes");
 
             TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
-            tdes.Key = DesKey;
-            tdes.IV = DesIv;
+            tdes.Key = KeyBytes;
+            tdes.IV = HashBytes;
             tdes.Mode = CipherMode.ECB;
             tdes.Padding = PaddingMode.Zeros;
-            
+
             toDecryptArray = new byte[(cipherBytes.Length * 3) + 1];
             ICryptoTransform cTransform = tdes.CreateDecryptor();
             byte[] decryptedBytes = cTransform.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);
@@ -158,12 +155,11 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="inString">string in plain text</param>
         /// <returns>Base64 encoded encrypted byte array</returns>
-        public static string EncryptString(string inString)
+        public static string EncryptString(string inString, EncodingType encType = EncodingType.Base64)
         {
             byte[] inBytes = EnDeCoder.GetBytes(inString);
             byte[] encryptedBytes = Encrypt(inBytes);
-            string encryptedText = Convert.ToBase64String(encryptedBytes);
-            // EnDeCoder.GetString(encryptedBytes).TrimEnd('\0');
+            string encryptedText = DeEnCoder.EncodeBytes(encryptedBytes, encType);
             return encryptedText;
         }
 
@@ -172,9 +168,9 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="cipherText">Base64 encoded encrypted byte[]</param>
         /// <returns>plain text string</returns>
-        public static string DecryptString(string cipherText)
+        public static string DecryptString(string cipherText, EncodingType encType = EncodingType.Base64)
         {
-            byte[] cipherBytes = Convert.FromBase64String(cipherText);
+            byte[] cipherBytes = DeEnCoder.DecodeText(cipherText, encType);
             byte[] decryptedBytes = Decrypt(cipherBytes);
             string plaintext = EnDeCoder.GetString(decryptedBytes);
             return plaintext;

@@ -16,11 +16,11 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
         Cast6 = 0x3,
         Des3 = 0x4,
         Fish2 = 0x5,
-        Fish3 = 0x6,
-        Gost28147 = 0x7,
+        Gost28147 = 0x6,
+        Idea = 0x7,
 
-        Idea = 0x8,
-        RC532 = 0x9,
+        RC532 = 0x8,
+        Rijndael = 0x9,
         Seed = 0xa,
         SkipJack = 0xb,
         Serpent = 0xc,
@@ -31,11 +31,12 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
 
 
         Cast5 = 0x10,
-        Noekeon = 0x11,
-        RC2 = 0x12,
-        RC564 = 0x13,
-        RC6 = 0x14,
-        Tnepres = 0x15,
+        Fish3 = 0x11,
+        Noekeon = 0x12,
+        RC2 = 0x13,
+        RC564 = 0x15,
+        RC6 = 0x16,
+        Tnepres = 0x17,
 
         Rsa = 0x40
     }
@@ -63,11 +64,11 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
                 case CipherEnum.Cast6: return '6';
                 case CipherEnum.Des3: return 'D';
                 case CipherEnum.Fish2: return 'f';
-                case CipherEnum.Fish3: return 'F';
                 case CipherEnum.Gost28147: return 'g';
-
                 case CipherEnum.Idea: return 'I';
+
                 case CipherEnum.RC532: return '5';
+                case CipherEnum.Rijndael: return 'a';
                 case CipherEnum.Seed: return 's';
                 case CipherEnum.Serpent: return 'S';
                 case CipherEnum.SkipJack: return 'J';
@@ -77,6 +78,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
                 case CipherEnum.ZenMatrix: return 'z';
 
                 case CipherEnum.Cast5: return 'c';
+                case CipherEnum.Fish3: return 'F';
                 case CipherEnum.Noekeon: return 'N';
                 case CipherEnum.RC2: return '2';
                 case CipherEnum.RC564: return 'R';

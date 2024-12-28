@@ -25,13 +25,18 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
             string algo = cipherAlgo.ToString();            
             if (cipherAlgo == SymmCipherEnum.Des3 || algo == "3Des" || algo == "Des3")
             {
-                Des3.Des3FromKey(secretKey, hashIv, true);
+                Des3.Des3GenWithKeyHash(secretKey, hashIv, true);
                 encryptBytes = Des3.Encrypt(inBytes);
             }
             if (cipherAlgo == SymmCipherEnum.Aes || algo == "Aes")
             {
-                Aes.AesGenWithNewKey(secretKey, hashIv, true);
+                Aes.AesGenWithKeyHash(secretKey, hashIv, true);
                 encryptBytes = Aes.Encrypt(inBytes);
+            }
+            if (cipherAlgo == SymmCipherEnum.Rijndael || algo == "Rijndael")
+            {
+                Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
+                encryptBytes = Rijndael.Encrypt(inBytes);
             }
             if (cipherAlgo == SymmCipherEnum.Serpent || algo == "Serpent")
             {
@@ -49,7 +54,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                 algo == "RC532" || algo == "Cast6" ||
                 algo == "Seed" || algo == "SkipJack" ||
                 algo == "Tea" || algo == "XTea" ||
-                cipherAlgo == SymmCipherEnum.BlowFish || cipherAlgo == SymmCipherEnum.Fish2 || cipherAlgo == SymmCipherEnum.Fish3 ||
+                cipherAlgo == SymmCipherEnum.BlowFish || cipherAlgo == SymmCipherEnum.Fish2 || // cipherAlgo == SymmCipherEnum.Fish3 ||
                 cipherAlgo == SymmCipherEnum.Camellia ||
                 cipherAlgo == SymmCipherEnum.Gost28147 || cipherAlgo == SymmCipherEnum.Idea ||
                 cipherAlgo == SymmCipherEnum.RC532 || cipherAlgo == SymmCipherEnum.Cast6 ||
@@ -86,13 +91,18 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
  
             if (cipherAlgo == SymmCipherEnum.Des3 || algorithmName == "3Des" || algorithmName == "Des3")
             {
-                sameKey = Des3.Des3FromKey(secretKey, hashIv, true);
+                sameKey = Des3.Des3GenWithKeyHash(secretKey, hashIv, true);
                 decryptBytes = Des3.Decrypt(cipherBytes);
             }
             if (cipherAlgo == SymmCipherEnum.Aes || algorithmName == "Aes")
             {
-                sameKey = Aes.AesGenWithNewKey(secretKey, hashIv, true);
+                sameKey = Aes.AesGenWithKeyHash(secretKey, hashIv, true);
                 decryptBytes = Aes.Decrypt(cipherBytes);
+            }
+            if (cipherAlgo == SymmCipherEnum.Rijndael || algorithmName == "Rijndael")
+            {
+                sameKey = Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
+                decryptBytes = Rijndael.Decrypt(cipherBytes);
             }
             if (cipherAlgo == SymmCipherEnum.Serpent || algorithmName == "Serpent")
             {
@@ -109,7 +119,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                 algorithmName == "Idea" || algorithmName == "RC532" || algorithmName == "Cast6" || algorithmName == "Seed" || 
                 algorithmName == "SkipJack" || algorithmName == "Tea" || algorithmName == "XTea" ||
 
-                cipherAlgo == SymmCipherEnum.BlowFish || cipherAlgo == SymmCipherEnum.Fish2 || cipherAlgo == SymmCipherEnum.Fish3 || 
+                cipherAlgo == SymmCipherEnum.BlowFish || cipherAlgo == SymmCipherEnum.Fish2 || // cipherAlgo == SymmCipherEnum.Fish3 || 
                 cipherAlgo == SymmCipherEnum.Camellia || cipherAlgo == SymmCipherEnum.Gost28147 || cipherAlgo == SymmCipherEnum.Idea ||
                 cipherAlgo == SymmCipherEnum.RC532 || cipherAlgo == SymmCipherEnum.Cast6 || cipherAlgo == SymmCipherEnum.Seed || 
                 cipherAlgo == SymmCipherEnum.SkipJack || cipherAlgo == SymmCipherEnum.Tea || cipherAlgo == SymmCipherEnum.XTea)

@@ -16,12 +16,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         Camellia = 0x2,
         Cast6 = 0x3,
         Des3 = 0x4,
-        Fish2 = 0x5,
-        Fish3 = 0x6,
-        Gost28147 = 0x7,
+        Fish2 = 0x5, // Fish3 = 0x5,        
+        Gost28147 = 0x6,
+        Idea = 0x7,
 
-        Idea = 0x8,
-        RC532 = 0x9,
+
+        RC532 = 0x8,
+        Rijndael = 0x9,
         Seed = 0xa,
         SkipJack = 0xb,
         Serpent = 0xc,
@@ -31,7 +32,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         ZenMatrix = 0xf
 
     }
-
 
     /// <summary>
     /// SymmCipherEnumExtensions provides extension methods for <see cref="SymmCipherEnum"/>
@@ -56,11 +56,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.Cast6: return '6';
                 case SymmCipherEnum.Des3: return 'D';
                 case SymmCipherEnum.Fish2: return 'f';
-                case SymmCipherEnum.Fish3: return 'F';
                 case SymmCipherEnum.Gost28147: return 'g';
-
                 case SymmCipherEnum.Idea: return 'I';
+
                 case SymmCipherEnum.RC532: return '5';
+                case SymmCipherEnum.Rijndael: return 'a';
                 case SymmCipherEnum.Seed: return 's';
                 case SymmCipherEnum.Serpent: return 'S';
                 case SymmCipherEnum.SkipJack: return 'J';

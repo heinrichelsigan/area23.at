@@ -6,9 +6,10 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 {
 
     /// <summary>
+    /// <see cref="System.Security.Cryptography.RijndaelManaged"/> implementation of Aes
     /// <see cref="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aes?view=net-8.0" />
     /// </summary>
-    public static class Aes 
+    public static class Rijndael
     {
 
         #region fields
@@ -20,13 +21,10 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 
         #region Properties
 
-        internal static byte[] AesKey { get; private set; }
-        internal static byte[] AesIv { get; private set; }
+        internal static byte[] RijndaelKey { get; private set; }
+        internal static byte[] RijndaelIv { get; private set; }
 
-        internal static string PrivateUserKey { get => string.Concat(privateKey, privateKey); }
-        internal static string PrivateUserHostKey { get => string.Concat(privateKey, userHostIpAddress, privateKey, userHostIpAddress); }
-
-        internal static System.Security.Cryptography.Aes AesAlgo { get; private set; }
+        internal static System.Security.Cryptography.RijndaelManaged RijndaelAlgo { get; private set; }
 
         #endregion Properties
 
@@ -35,37 +33,37 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         /// <summary>
         /// static constructor
         /// </summary>
-        static Aes()
+        static Rijndael()
         {
-            byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
-            byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+            byte[] key = CryptHelper.GetUserKeyBytes(Constants.AUTHOR_EMAIL, Constants.AUTHOR_IV, 32);
+            byte[] iv = CryptHelper.GetUserKeyBytes(Constants.AUTHOR_IV, Constants.AUTHOR_EMAIL, 16);
 
-            AesAlgo = new System.Security.Cryptography.AesCng();
-            AesAlgo.Mode = CipherMode.ECB;
-            AesAlgo.KeySize = 256;
-            AesAlgo.Padding = PaddingMode.Zeros;
-
-
-            AesKey = new byte[32];
-            AesIv = new byte[16];
-            Array.Copy(key, AesKey, 32);
-            Array.Copy(iv, AesIv, 16);
-
-            AesAlgo.Key = AesKey;
-            AesAlgo.IV = AesIv;
+            RijndaelKey = new byte[32];
+            RijndaelIv = new byte[16];
+            Array.Copy(key, RijndaelKey, 32);
+            Array.Copy(iv, RijndaelIv, 16);
+            RijndaelAlgo = new RijndaelManaged()
+            {
+                // BlockSize = 256,
+                KeySize = 256,
+                Padding = PaddingMode.Zeros,
+                Mode = CipherMode.ECB
+            };
+            RijndaelAlgo.Key = RijndaelKey;
+            RijndaelAlgo.IV = RijndaelIv;
             // AesGenWithNewKey(string.Empty, true);
         }
 
         /// <summary>
-        /// AesGenWithKeyHash generates a new static Aes symetric encryption 
+        /// AesGenWithNewKey generates a new static Aes RijndaelManaged symetric encryption 
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
         /// <param name="userHostAddr">user host address is here part of private key</param>
         /// <param name="init">init three fish first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool AesGenWithKeyHash(string secretKey = "heinrich.elsigan@area23.at", string userHash = "6865696e726963682e656c736967616e406172656132332e6174", bool init = true)
+        public static bool RijndaelGenWithNewKey(string secretKey = "heinrich.elsigan@area23.at", string userHash = "6865696e726963682e656c736967616e406172656132332e6174", bool init = true)
         {
-            byte[] key = new byte[32]; 
+            byte[] key = new byte[32];
             byte[] iv = new byte[16]; // AES > IV > 128 bit
 
             if (!init)
@@ -87,20 +85,17 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                 {
                     privateKey = secretKey;
                     key = CryptHelper.GetUserKeyBytes(secretKey, userHash, 32);
-                    iv = CryptHelper.GetUserKeyBytes(secretKey, userHash, 16);
-                    // iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
+                    iv = CryptHelper.GetUserKeyBytes(userHash, secretKey, 16);
                 }
 
-                AesKey = new byte[32];
-                AesIv = new byte[16];
-                Array.Copy(key, AesKey, 32);
-                Array.Copy(iv, AesIv, 16);
+                RijndaelKey = new byte[32];
+                RijndaelIv = new byte[16];
+                Array.Copy(key, RijndaelKey, 32);
+                Array.Copy(iv, RijndaelIv, 16);
             }
 
-            // AesAlgo.GenerateIV();
-            // AesAlgo.GenerateKey();
-            AesAlgo.Key = AesKey;
-            AesAlgo.IV = AesIv;
+            RijndaelAlgo.Key = RijndaelKey;
+            RijndaelAlgo.IV = RijndaelIv;
 
             return true;
         }
@@ -120,10 +115,10 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         {
             // Check arguments.
             if (plainData == null || plainData.Length <= 0)
-                throw new ArgumentNullException("Aes byte[] Encrypt(byte[] plainData): ArgumentNullException plainData = null or Lenght 0.");
+                throw new ArgumentNullException("RijndaelAlgo byte[] Encrypt(byte[] plainData): ArgumentNullException plainData = null or Lenght 0.");
 
             // create a decryptor by AesAlgo.CreateEncrypto(AesAlgo.Key, AesAlgo.IV);
-            ICryptoTransform encryptor = AesAlgo.CreateEncryptor(AesAlgo.Key, AesAlgo.IV);
+            ICryptoTransform encryptor = RijndaelAlgo.CreateEncryptor(RijndaelAlgo.Key, RijndaelAlgo.IV);
             byte[] encryptedBytes = encryptor.TransformFinalBlock(plainData, 0, plainData.Length);
 
             // return the encrypted bytes
@@ -139,10 +134,10 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         public static byte[] Decrypt(byte[] encryptedBytes)
         {
             if (encryptedBytes == null || encryptedBytes.Length <= 0)
-                throw new ArgumentNullException("Aes byte[] Decrypt(byte[] encryptedBytes): ArgumentNullException encryptedBytes = null or Lenght 0.");
+                throw new ArgumentNullException("RijndaelAlgo byte[] Decrypt(byte[] encryptedBytes): ArgumentNullException encryptedBytes = null or Lenght 0.");
 
             // Create a decrytor to perform the stream transform.
-            ICryptoTransform decryptor = AesAlgo.CreateDecryptor(AesAlgo.Key, AesAlgo.IV);
+            ICryptoTransform decryptor = RijndaelAlgo.CreateDecryptor(RijndaelAlgo.Key, RijndaelAlgo.IV);
             byte[] decryptedBytes = decryptor.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
 
             return decryptedBytes;
@@ -157,26 +152,25 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="inPlainString">plain text string</param>
         /// <returns>Base64 encoded encrypted byte[]</returns>
-        public static string EncryptString(string inPlainString)
+        public static string EncryptString(string inPlainString, EncodingType encType = EncodingType.Base64)
         {
             byte[] plainTextData = EnDeCoder.GetBytes(inPlainString);
-            byte[] encryptedData = Encrypt(plainTextData);
-            string encryptedString = Convert.ToBase64String(encryptedData);
-            
+            byte[] encryptedBytes = Encrypt(plainTextData);
+            string encryptedString = DeEnCoder.EncodeBytes(encryptedBytes, encType);
+
             return encryptedString;
         }
 
         /// <summary>
         /// Decrypts a string, that is truely a base64 encoded encrypted byte[]
         /// </summary>
-        /// <param name="inCryptString">base64 encoded string from encrypted byte[]</param>
+        /// <param name="cipherText">base64 encoded string from encrypted byte[]</param>
         /// <returns>plain text string (decrypted)</returns>
-        public static string DecryptString(string inCryptString)
+        public static string DecryptString(string cipherText, EncodingType encType = EncodingType.Base64)
         {
-            byte[] cryptData = Convert.FromBase64String(inCryptString);
-            //  EnDeCoder.GetBytes(inCryptString);
-            byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = EnDeCoder.GetString(plainTextData).TrimEnd('\0');
+            byte[] cryptData = DeEnCoder.DecodeText(cipherText, encType);
+            byte[] decryptedBytes = Decrypt(cryptData);
+            string plainTextString = EnDeCoder.GetString(decryptedBytes).TrimEnd('\0');
 
             return plainTextString;
         }
@@ -195,7 +189,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
             byte[] encrypted;
 
             // Create a encryptor with an RijndaelManaged object with the specified Key and IV to perform the stream transform.
-            ICryptoTransform encryptor = AesAlgo.CreateEncryptor(AesAlgo.Key, AesAlgo.IV);
+            ICryptoTransform encryptor = RijndaelAlgo.CreateEncryptor(RijndaelAlgo.Key, RijndaelAlgo.IV);
 
             // Create the streams used for encryption. 
             using (MemoryStream msEncrypt = new MemoryStream())
@@ -220,7 +214,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 
             byte[] outBytes = null;
             // Create a decryptor with an RijndaelManaged object with the specified Key and IV to perform the stream transform.
-            ICryptoTransform decryptor = AesAlgo.CreateDecryptor(AesAlgo.Key, AesAlgo.IV);
+            ICryptoTransform decryptor = RijndaelAlgo.CreateDecryptor(RijndaelAlgo.Key, RijndaelAlgo.IV);
 
             using (MemoryStream msDecryptStr = new MemoryStream(cipherBytes))
             {
@@ -253,7 +247,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         private static byte[] CreateAesKey(string inputString)
         {
             return EnDeCoder.GetByteCount(inputString) == 32 ?
-                EnDeCoder.GetBytes(inputString) : 
+                EnDeCoder.GetBytes(inputString) :
                 SHA256.Create().ComputeHash(EnDeCoder.GetBytes(inputString));
         }
 
