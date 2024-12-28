@@ -60,7 +60,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         /// <param name="usrHash">user key hash</param>
         /// <param name="init">init <see cref="Serpent"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool SerpentGenWithKey(string secretKey = "heinrich.elsigan@live.at", string usrHash = "heinrich.elsigan@gmail.com", bool init = true)
+        public static bool SerpentGenWithKey(string secretKey = "", string usrHash = "", bool init = true)
         {
             byte[] iv = new byte[16]; // Serpent > IV <= 128 bit
             byte[] key = new byte[16];

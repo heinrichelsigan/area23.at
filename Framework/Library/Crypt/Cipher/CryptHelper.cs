@@ -101,7 +101,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         internal static string PrivateKeyWithUserHash(string secretKey, string userHash)
         {
             string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
-            string usrHash = string.IsNullOrEmpty(userHash) ? Constants.AREA23_EMAIL : userHash;
+            string usrHash = string.IsNullOrEmpty(userHash) ? Constants.AUTHOR_IV : userHash;
 
             return string.Concat(secKey, usrHash);
         }
@@ -114,15 +114,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         internal static byte[] KeyUserHashBytes(string key, string hash, bool merge = true)
         {
             // TODO: throw Exception, when secret key is null or empty,
-            // instead of using Constants.AUTHOR_EMAIL & Constants.AREA23_EMAIL
-            string usrKey =  key;
-            if (string.IsNullOrEmpty(key))
-                usrKey = Constants.AUTHOR_EMAIL;
-            string usrHash = hash;
-            if (string.IsNullOrEmpty(hash))
-                usrHash = Constants.AREA23_EMAIL;
-            byte[] keyBytes = EnDeCoder.GetBytes(usrKey);
-            byte[] hashBytes = EnDeCoder.GetBytes(usrHash);
+            // instead of using Constants.AUTHOR_EMAIL & Constants.AUTHOR_IV
+            key = (string.IsNullOrEmpty(key)) ? Constants.AUTHOR_EMAIL : key;
+            hash = (string.IsNullOrEmpty(hash)) ? Constants.AUTHOR_IV : hash;
+            
+            byte[] keyBytes = EnDeCoder.GetBytes(key);
+            byte[] hashBytes = EnDeCoder.GetBytes(hash);
 
             List<Byte> outBytes = new List<byte>();
             if (!merge)
@@ -157,8 +154,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <param name="hash">user hash</param>        
         /// <param name="keyLen">length of user key bytes, maximum length <see cref="Constants.MAX_KEY_LEN"/></param>
         /// <returns>Array of byte with length KeyLen</returns>
-        public static byte[] GetUserKeyBytes(string key = "postmaster@kernel.org", string hash = "kernel.org", int keyLen = 32)
-        {
+        public static byte[] GetUserKeyBytes(string key, string hash, int keyLen = 32)
+        {            
+            // TODO: throw Exception, when secret key is null or empty,
+            // instead of using Constants.AUTHOR_EMAIL & Constants.AUTHOR_IV
+            key = (string.IsNullOrEmpty(key)) ? Constants.AUTHOR_EMAIL : key;
+            hash = (string.IsNullOrEmpty(hash)) ? Constants.AUTHOR_IV : hash;
+
             int keyByteCnt = -1;
             keyLen = (keyLen > Constants.MAX_KEY_LEN) ? Constants.MAX_KEY_LEN : keyLen;
             string keyByteHashString = key;

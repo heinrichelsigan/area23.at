@@ -3,14 +3,18 @@ using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 {
+
+    /// <summary>
+    /// CryptParamsPrefered prefered params for symmetric block cipher
+    /// </summary>
     public class CryptParamsPrefered : CryptParams
-    {        
+    {
         public SymmCipherEnum SymmCipher { get; set; }
 
         /// <summary>
         /// standard ctor with <see cref="SymmCipherEnum.Aes"/> default
         /// </summary>
-        public CryptParamsPrefered() : base() 
+        public CryptParamsPrefered() : base()
         {
             SymmCipher = SymmCipherEnum.Aes;
         }
@@ -73,6 +77,12 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
                     break;
+                //case "RC564":
+                //    BlockSize = 256;
+                //    KeyLen = 32;
+                //    Mode = "ECB";
+                //    BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
+                //    break;
                 case SymmCipherEnum.Seed:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
                     BlockSize = 128;
@@ -126,7 +136,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         {
             SymmCipher = cipherAlgo;
             Key = key;
-            Hash = hash;            
+            Hash = hash;
         }
 
         /// <summary>
@@ -143,7 +153,6 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         {
             return new CryptParamsPrefered(cipherAlgo).BlockCipher;
         }
-
 
     }
 

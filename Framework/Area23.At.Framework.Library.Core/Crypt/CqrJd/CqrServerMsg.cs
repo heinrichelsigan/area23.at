@@ -22,7 +22,11 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
 #endif
         public string CqrMsg { get; protected internal set; }
 
-
+        /// <summary>
+        /// CqrServerMsg constructor with srvKey
+        /// </summary>
+        /// <param name="srvKey">server key (normally client ip + secret)</param>
+        /// <exception cref="ArgumentNullException">thrown, when srvKey is null or <see cref="string.Empty"/></exception>
         public CqrServerMsg(string srvKey = "")  
         {
             if (string.IsNullOrEmpty(srvKey))
@@ -51,11 +55,15 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
             ZenMatrix.ZenMatrixGenWithKey(key, hash, true);
             Aes.AesGenWithKeyHash(key, hash, true);
             Des3.Des3GenWithKeyHash(key, hash, true);
+            Fish2.Fish2GenWithKeyHash(key, hash, true);
+            Fish3.Fish3GenWithKeyHash(key, hash, true);
             RC564.RC564GenWithKey(key, hash, true);
             byte[] cqrbytes = ZenMatrix.Encrypt(msgBytes);
             byte[] aesencoded = Aes.Encrypt(cqrbytes);
             byte[] des3encoded = Des3.Encrypt(aesencoded);
-            byte[] rc564encoded = RC564.Encrypt(des3encoded);
+            byte[] fish2encoded = Fish2.Encrypt(des3encoded);
+            byte[] fish3encoded = Fish3.Encrypt(fish2encoded);
+            byte[] rc564encoded = RC564.Encrypt(fish3encoded);
 
             CqrMsg = DeEnCoder.EncodeBytes(rc564encoded, encType);
             return CqrMsg;
@@ -78,10 +86,14 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
             // byte[] unroundedMerryBytes = symmPipe.DecrpytRoundGoMerry(cipherBytes, key, hash);
             Des3.Des3GenWithKeyHash(key, hash, true);
             Aes.AesGenWithKeyHash(key, hash, true);
+            Fish2.Fish2GenWithKeyHash(key, hash, true);
+            Fish3.Fish3GenWithKeyHash(key, hash, true);
             RC564.RC564GenWithKey(key, hash, true);
             ZenMatrix.ZenMatrixGenWithKey(key, hash, true);
             byte[] rc564decoded = RC564.Decrypt(cipherBytes);
-            byte[] des3decoded = Des3.Decrypt(rc564decoded);
+            byte[] fish3decoded = Fish3.Decrypt(rc564decoded);
+            byte[] fish2decoded = Fish2.Decrypt(fish3decoded);            
+            byte[] des3decoded = Des3.Decrypt(fish2decoded);
             byte[] aesdecoded = Aes.Decrypt(des3decoded);
             byte[] unroundedMerryBytes = ZenMatrix.Decrypt(aesdecoded);
             string decrypted = DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);

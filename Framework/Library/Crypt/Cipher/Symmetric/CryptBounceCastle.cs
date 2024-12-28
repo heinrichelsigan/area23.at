@@ -112,7 +112,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="userHostAddr">user host address</param>
         /// <param name="secretKey">key param for encryption</param>
         /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
-        [Obsolete("this constructor is onbsolete, please use public CryptBounceCastle(CryptParams cparams, bool init = true) instead", true)]
+        [Obsolete("this constructor is obsolete, please use public CryptBounceCastle(CryptParams cparams, bool init = true) instead", true)]
         public CryptBounceCastle(IBlockCipher blockCipher, int size = 256, int keyLen = 32, string mode = "ECB",
             string secretKey = "", string privateHash = "", bool init = true)
         {
@@ -121,7 +121,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 CryptoBlockCipherPadding = new ISO7816d4Padding();
             else CryptoBlockCipherPadding = new ZeroBytePadding();            
             KeyLen = keyLen;
-            Size = Math.Min (size, CryptoBlockCipher.GetBlockSize());
+            Size = Math.Min(size, CryptoBlockCipher.GetBlockSize());
             Mode = mode;
 
             if (init)
@@ -173,7 +173,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 CryptoBlockCipherPadding = new ISO7816d4Padding();
             else CryptoBlockCipherPadding = new ZeroBytePadding();            
             KeyLen = cparams.KeyLen;
-            Size = Math.Max(cparams.BlockSize, CryptoBlockCipher.GetBlockSize());
+            Size = Math.Min(cparams.BlockSize, CryptoBlockCipher.GetBlockSize());
             Mode = cparams.Mode;
 
             if (init)
@@ -405,12 +405,16 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// Generic CryptBounceCastle Encrypt String method
         /// </summary>
         /// <param name="inString">plain string to encrypt</param>
-        /// <returns>base64 encoded encrypted string</returns>
-        public string EncryptString(string inString)
+        /// <param name="encodingType">
+        /// beware of using <see cref="EncodingType.Uu"/>; 
+        /// default <see cref="EncodingType.Base64"/>
+        /// </param>
+        /// <returns>encoded encrypted string, default base64 encoded</returns>
+        public string EncryptString(string inString, EncodingType encodingType = EncodingType.Base64)
         {
             byte[] plainTextData = EnDeCoder.GetBytes(inString);
-            byte[] encryptedData = Encrypt(plainTextData);
-            string encryptedString = Convert.ToBase64String(encryptedData);
+            byte[] encryptedBytes = Encrypt(plainTextData);
+            string encryptedString = DeEnCoder.EncodeBytes(encryptedBytes, encodingType);
 
             return encryptedString;
         }
@@ -418,12 +422,16 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <summary>
         /// Generic CryptBounceCastle Decrypt String method
         /// </summary>
-        /// <param name="inCryptString">base64 encrypted string</param>
+        /// <param name="inCryptString">encoded encrypted string, default base64 encoded</param>
+        /// <param name="encodingType">
+        /// beware of using <see cref="EncodingType.Uu"/>; 
+        /// default <see cref="EncodingType.Base64"/>
+        /// </param>
         /// <returns>plain text decrypted string</returns>
-        public string DecryptString(string inCryptString)
+        public string DecryptString(string inCryptString, EncodingType encodingType = EncodingType.Base64)
         {
-            byte[] cryptData = Convert.FromBase64String(inCryptString);
-            byte[] plainData = Decrypt(cryptData);
+            byte[] cipherBytes = DeEnCoder.DecodeText(inCryptString, encodingType);
+            byte[] plainData = Decrypt(cipherBytes);
             string plainTextString = EnDeCoder.GetString(plainData).TrimEnd('\0');
 
             return plainTextString;

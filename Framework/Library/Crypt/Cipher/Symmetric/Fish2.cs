@@ -29,12 +29,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         #region Properties
 
-        public static byte[] FishKey { get; private set; }
-        public static byte[] FishIv { get; private set; }
+        internal static byte[] FishKey { get; private set; }
+        internal static byte[] FishIv { get; private set; }
 
-        public static int Size { get; private set; }
-        public static string Mode { get; private set; }
-        public static IBlockCipherPadding BlockCipherPadding { get; private set; }
+        internal static int Size { get; private set; }
+        internal static string Mode { get; private set; }
+        internal static IBlockCipherPadding BlockCipherPadding { get; private set; }
 
         #endregion Properties
 
@@ -65,8 +65,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="usrHash">user key hash</param>
         /// <param name="init">init <see cref="Fish2"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        [Obsolete("Fish2GenWithKey is implemented via BouncyCastle", false)]
-        public static bool Fish2GenWithKey(string secretKey = "", string usrHash = "", bool init = true)
+        [Obsolete("Fish2GenWithKeyHash is implemented via BouncyCastle", false)]
+        public static bool Fish2GenWithKeyHash(string secretKey = "", string usrHash = "", bool init = true)
         {
             byte[] key;
             byte[] iv = new byte[16];
@@ -183,11 +183,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="inString">plain string to encrypt</param>
         /// <returns>base64 encoded encrypted string</returns>
-        public static string EncryptString(string inString)
+        public static string EncryptString(string inString, EncodingType encType = EncodingType.Base64)
         {
             byte[] plainTextData = EnDeCoder.GetBytes(inString);
-            byte[] encryptedData = Encrypt(plainTextData);
-            string encryptedString = Convert.ToBase64String(encryptedData);
+            byte[] encryptedBytes = Encrypt(plainTextData);
+            string encryptedString = DeEnCoder.EncodeBytes(encryptedBytes, encType);
 
             return encryptedString;
         }
@@ -198,10 +198,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="inCryptString">base64 encrypted string</param>
         /// <returns>plain text decrypted string</returns>
-        public static string DecryptString(string inCryptString)
+        public static string DecryptString(string inCryptString, EncodingType encType = EncodingType.Base64)
         {
-            byte[] cryptData = Convert.FromBase64String(inCryptString);
-            byte[] plainTextData = Decrypt(cryptData);
+            byte[] cipherBytes = DeEnCoder.DecodeText(inCryptString, encType);
+            byte[] plainTextData = Decrypt(cipherBytes);
             string plainTextString = EnDeCoder.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;

@@ -59,7 +59,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="userHash">user key hash</param>
         /// <param name="init">init TripleDes first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool Des3GenWithKeyHash(string secretKey = "postmaster@area23.at", string userHash = "mail.area23.at", bool init = true)
+        public static bool Des3GenWithKeyHash(string secretKey = "", string userHash = "", bool init = true)
         {
             byte[] pKey;
             byte[] pHash = new byte[HashLen];

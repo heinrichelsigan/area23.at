@@ -3,6 +3,10 @@ using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
+
+    /// <summary>
+    /// CryptParamsPrefered prefered params for symmetric block cipher
+    /// </summary>
     public class CryptParamsPrefered : CryptParams
     {        
         public SymmCipherEnum SymmCipher { get; set; }

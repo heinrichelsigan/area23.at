@@ -68,7 +68,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="userHostAddr">user host address is here part of private key</param>
         /// <param name="init">init three fish first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool RijndaelGenWithNewKey(string secretKey = "heinrich.elsigan@area23.at", string userHash = "6865696e726963682e656c736967616e406172656132332e6174", bool init = true)
+        public static bool RijndaelGenWithNewKey(string secretKey = "", string userHash = "", bool init = true)
         {
             byte[] key = new byte[32];
             byte[] iv = new byte[16]; // AES > IV > 128 bit

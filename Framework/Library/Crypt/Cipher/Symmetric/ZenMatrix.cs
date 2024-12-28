@@ -85,7 +85,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="usrHash">user key hash</param>
         /// <param name="init">init three fish first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        public static bool ZenMatrixGenWithKey(string secretKey = "he@area23.at", string usrHash = "elsigan@area23.at", bool init = true) // , byte[] textForEncryption = null)
+        public static bool ZenMatrixGenWithKey(string secretKey = "", string usrHash = "", bool init = true) // , byte[] textForEncryption = null)
         {
             if (!init)
             {

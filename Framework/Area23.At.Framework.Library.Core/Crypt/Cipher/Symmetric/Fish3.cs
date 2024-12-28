@@ -1,4 +1,6 @@
-﻿using Org.BouncyCastle.Crypto.Engines;
+﻿using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Core.Util;
+using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Paddings;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -6,13 +8,10 @@ using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Area23.At.Framework.Library.Crypt.EnDeCoding;
-using Area23.At.Framework.Library.Util;
 
-namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
+namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 {
 
     [Obsolete("Fish3 is implemented via BouncyCastle", false)]

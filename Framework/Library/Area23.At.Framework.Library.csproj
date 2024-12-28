@@ -123,6 +123,7 @@
     <Compile Include="Crypt\Cipher\CryptHelper.cs" />
     <Compile Include="Crypt\Cipher\CryptParams.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\Fish2.cs" />
+    <Compile Include="Crypt\Cipher\Symmetric\Fish3.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\RC564.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\Rijndael.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\SymmCipherPipe.cs" />

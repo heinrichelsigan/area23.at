@@ -106,14 +106,16 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         /// <param name="userHostAddr">user host address</param>
         /// <param name="secretKey">key param for encryption</param>
         /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
-        [Obsolete("this constructor is onbsolete, please use public CryptBounceCastle(CryptParams cparams, bool init = true) instead", true)]
+        [Obsolete("this constructor is obsolete, please use public CryptBounceCastle(CryptParams cparams, bool init = true) instead", true)]
         public CryptBounceCastle(IBlockCipher blockCipher, int size = 256, int keyLen = 32, string mode = "ECB",
             string secretKey = "", string privateHash = "", bool init = true)
         {
             CryptoBlockCipher = (blockCipher == null) ? new AesEngine() : blockCipher;
-            CryptoBlockCipherPadding = new ZeroBytePadding();
+            if ((CryptoBlockCipher.AlgorithmName == "RC564"))
+                CryptoBlockCipherPadding = new ISO7816d4Padding();
+            else CryptoBlockCipherPadding = new ZeroBytePadding();
             KeyLen = keyLen;
-            Size = size;
+            Size = Math.Min(size, CryptoBlockCipher.GetBlockSize());
             Mode = mode;
 
             if (init)
@@ -126,7 +128,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                 {
                     privateKey = string.Empty;
                     tmpKey = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCEK), privateHash);
-                    tmpIv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), privateHash);                    
+                    tmpIv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), privateHash);
                 }
                 else
                 {
@@ -161,9 +163,11 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         public CryptBounceCastle(CryptParams cparams, bool init = true)
         {
             CryptoBlockCipher = (cparams.BlockCipher == null) ? new AesEngine() : cparams.BlockCipher;
-            CryptoBlockCipherPadding = new ZeroBytePadding();
+            if ((CryptoBlockCipher.AlgorithmName == "RC564"))
+                CryptoBlockCipherPadding = new ISO7816d4Padding();
+            else CryptoBlockCipherPadding = new ZeroBytePadding();
             KeyLen = cparams.KeyLen;
-            Size = cparams.BlockSize;
+            Size = Math.Min(cparams.BlockSize, CryptoBlockCipher.GetBlockSize());
             Mode = cparams.Mode;
 
             if (init)
@@ -182,8 +186,8 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                 {
                     privateKey = cparams.Key;
                     privateHash = cparams.Hash;
-                    tmpKey = GetUserKeyBytes(privateHash, privateHash);
-                    tmpIv = GetUserKeyBytes(privateHash, privateHash);
+                    tmpKey = GetUserKeyBytes(privateKey, privateHash);
+                    tmpIv = GetUserKeyBytes(privateHash, privateKey);
                 }
 
                 Key = new byte[KeyLen];
@@ -219,6 +223,8 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
             string keyByteHashString = privateKey;
             tmpKey = new byte[KeyLen];
             tmpKey = CryptHelper.GetUserKeyBytes(privateKey, privateHash, KeyLen);
+            if (tmpKey.Length < KeyLen)
+                throw new ApplicationException($"key {tmpKey.ToHexString()} is shorten then KeyLen {KeyLen}");
 
             return tmpKey;
 
@@ -268,10 +274,20 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                     break;
             }
 
-            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
-            ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
+            if (CryptoBlockCipher.AlgorithmName == "RC564")
+            {
+                RC5Parameters rc5Params = new RC5Parameters(Key, 1);
+                Org.BouncyCastle.Crypto.Engines.RC564Engine rc564 = new RC564Engine();
+                cipherMode.Init(true, rc5Params);
+            }
+            else
+            {
 
-            cipherMode.Init(true, keyParam);
+                KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
+                ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
+
+                cipherMode.Init(true, keyParam);
+            }
             // if (Mode == "ECB")
             //     cipherMode.Init(true, keyParam);
             // else
@@ -347,7 +363,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
             // decryptedData = cipherMode.ProcessBytes(cipherData);
             if (cipherMode != null)
                 PadBufBChipger = cipherMode;
-            
+
             int outputSize = cipherMode.GetOutputSize(cipherData.Length);
             byte[] plainData = new byte[outputSize];
             byte[] decryptedData = new byte[outputSize];
@@ -383,12 +399,16 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         /// Generic CryptBounceCastle Encrypt String method
         /// </summary>
         /// <param name="inString">plain string to encrypt</param>
-        /// <returns>base64 encoded encrypted string</returns>
-        public string EncryptString(string inString)
+        /// <param name="encodingType">
+        /// beware of using <see cref="EncodingType.Uu"/>; 
+        /// default <see cref="EncodingType.Base64"/>
+        /// </param>
+        /// <returns>encoded encrypted string, default base64 encoded</returns>
+        public string EncryptString(string inString, EncodingType encodingType = EncodingType.Base64)
         {
             byte[] plainTextData = EnDeCoder.GetBytes(inString);
-            byte[] encryptedData = Encrypt(plainTextData);
-            string encryptedString = Convert.ToBase64String(encryptedData);
+            byte[] encryptedBytes = Encrypt(plainTextData);
+            string encryptedString = DeEnCoder.EncodeBytes(encryptedBytes, encodingType);
 
             return encryptedString;
         }
@@ -396,12 +416,16 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         /// <summary>
         /// Generic CryptBounceCastle Decrypt String method
         /// </summary>
-        /// <param name="inCryptString">base64 encrypted string</param>
+        /// <param name="inCryptString">encoded encrypted string, default base64 encoded</param>
+        /// <param name="encodingType">
+        /// beware of using <see cref="EncodingType.Uu"/>; 
+        /// default <see cref="EncodingType.Base64"/>
+        /// </param>
         /// <returns>plain text decrypted string</returns>
-        public string DecryptString(string inCryptString)
+        public string DecryptString(string inCryptString, EncodingType encodingType = EncodingType.Base64)
         {
-            byte[] cryptData = Convert.FromBase64String(inCryptString);
-            byte[] plainData = Decrypt(cryptData);
+            byte[] cipherBytes = DeEnCoder.DecodeText(inCryptString, encodingType);
+            byte[] plainData = Decrypt(cipherBytes);
             string plainTextString = EnDeCoder.GetString(plainData).TrimEnd('\0');
 
             return plainTextString;
