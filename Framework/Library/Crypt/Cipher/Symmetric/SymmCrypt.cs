@@ -20,11 +20,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="inBytes">Array of byte</param>
         /// <param name="cipherAlgo"><see cref="CipherEnum"/> both symmetric and asymetric cipher algorithms</param>
         /// <param name="secretKey">secret key to decrypt</param>
-        /// <param name="keyIv">key's iv</param>
+        /// <param name="hashIv">key hash iv</param>
         /// <returns>encrypted byte Array</returns>
-        public static new byte[] EncryptBytes(byte[] inBytes, 
+        public static new byte[] EncryptBytes(byte[] inBytes,
             SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes,
-            string secretKey = "heinrich.elsigan@area23.at", 
+            string secretKey = "heinrich.elsigan@area23.at",
             string hashIv = "6865696e726963682e656c736967616e406172656132332e6174")
         {
             byte[] encryptBytes = inBytes;
@@ -40,10 +40,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     Fish2.Fish2GenWithKeyHash(secretKey, hashIv, true);
                     encryptBytes = Fish2.Encrypt(inBytes);
                     break;
-                case SymmCipherEnum.Rijndael:
-                    Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
-                    encryptBytes = Rijndael.Encrypt(inBytes);
+                case SymmCipherEnum.Fish3:
+                    Fish3.Fish3GenWithKeyHash(secretKey, hashIv, true);
+                    encryptBytes = Fish3.Encrypt(inBytes);
                     break;
+                //case SymmCipherEnum.Rijndael:
+                //    Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
+                //    encryptBytes = Rijndael.Encrypt(inBytes);
+                //    break;
                 case SymmCipherEnum.Serpent:
                     Serpent.SerpentGenWithKey(secretKey, hashIv, true);
                     encryptBytes = Serpent.Encrypt(inBytes);
@@ -53,6 +57,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     encryptBytes = ZenMatrix.Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.BlowFish:
+                // case SymmCipherEnum.Fish2:
                 // case SymmCipherEnum.Fish3:
                 case SymmCipherEnum.Camellia:
                 case SymmCipherEnum.Cast6:
@@ -87,9 +92,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cipherBytes">Encrypted array of byte</param>
         /// <param name="cipherAlgo">both symmetric and asymetric cipher algorithms</param>
         /// <param name="secretKey">secret key to decrypt</param>
-        /// <param name="keyIv">key's iv</param>
+        /// <param name="hashIv">key hash iv</param>
         /// <returns>decrypted byte Array</returns>
-        public static new byte[] DecryptBytes(byte[] cipherBytes, 
+        public static new byte[] DecryptBytes(byte[] cipherBytes,
             SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes,
             string secretKey = "heinrich.elsigan@area23.at",
             string hashIv = "6865696e726963682e656c736967616e406172656132332e6174")
@@ -107,10 +112,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     sameKey = Fish2.Fish2GenWithKeyHash(secretKey, hashIv, true);
                     decryptBytes = Fish2.Decrypt(cipherBytes);
                     break;
-                case SymmCipherEnum.Rijndael:
-                    sameKey = Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
-                    decryptBytes = Rijndael.Decrypt(cipherBytes);
+                case SymmCipherEnum.Fish3:
+                    sameKey = Fish3.Fish3GenWithKeyHash(secretKey, hashIv, true);
+                    decryptBytes = Fish3.Decrypt(cipherBytes);
                     break;
+                //case SymmCipherEnum.Rijndael:
+                //    sameKey = Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
+                //    decryptBytes = Rijndael.Decrypt(cipherBytes);
+                //    break;
                 case SymmCipherEnum.Serpent:
                     sameKey = Serpent.SerpentGenWithKey(secretKey, hashIv, true);
                     decryptBytes = Serpent.Decrypt(cipherBytes);
@@ -120,6 +129,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     decryptBytes = ZenMatrix.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.BlowFish:
+                // case SymmCipherEnum.Fish2:
                 // case SymmCipherEnum.Fish3:
                 case SymmCipherEnum.Camellia:
                 case SymmCipherEnum.Cast6:

@@ -72,6 +72,7 @@ namespace Area23.At.Mono.CqrJD
                 }
 
                 
+                
                 if (ConfigurationManager.AppSettings["ExternalClientIP"] != null)
                     myServerKey = (string)ConfigurationManager.AppSettings["ExternalClientIP"];
                 else
