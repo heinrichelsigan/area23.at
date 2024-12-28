@@ -15,7 +15,6 @@ using Area23.At.Framework.Library.Util;
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
 
-    [Obsolete("Fish3 is implemented via BouncyCastle", false)]
     public static class Fish3
     {
 
@@ -67,7 +66,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="usrHash">user key hash</param>
         /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
         /// <returns>true, if init was with same key successfull</returns>
-        [Obsolete("Fish3GenWithKeyHash is implemented via BouncyCastle", false)]
         public static bool Fish3GenWithKeyHash(string secretKey = "", string usrHash = "", bool init = true)
         {
             byte[] key = new byte[32];

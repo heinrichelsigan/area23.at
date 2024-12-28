@@ -13,8 +13,7 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 {
-
-    [Obsolete("Fish3 is implemented via BouncyCastle", false)]
+    
     public static class Fish3
     {
 
@@ -65,8 +64,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         /// <param name="secretKey">key param for encryption</param>
         /// <param name="usrHash">user key hash</param>
         /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
-        /// <returns>true, if init was with same key successfull</returns>
-        [Obsolete("Fish3GenWithKeyHash is implemented via BouncyCastle", false)]
+        /// <returns>true, if init was with same key successfull</returns>        
         public static bool Fish3GenWithKeyHash(string secretKey = "", string usrHash = "", bool init = true)
         {
             byte[] key = new byte[32];
