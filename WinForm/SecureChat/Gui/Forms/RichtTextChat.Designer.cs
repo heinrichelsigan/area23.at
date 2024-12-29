@@ -4,7 +4,7 @@ using System.Net;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
-    partial class SecureChat
+    partial class RichtTextChat
     {
         /// <summary>
         /// Required designer variable.
@@ -274,7 +274,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuIItemMyIps.BackColor = SystemColors.Menu;
             menuIItemMyIps.DropDownItems.AddRange(new ToolStripItem[] { menuItemExternalIp });
             menuIItemMyIps.Name = "menuIItemMyIps";
-            menuIItemMyIps.Size = new Size(180, 22);
+            menuIItemMyIps.Size = new Size(177, 22);
             menuIItemMyIps.Text = "my ip's";
             // 
             // menuItemExternalIp
@@ -290,7 +290,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemFriendIp.BackColor = SystemColors.Menu;
             menuItemFriendIp.DropDownItems.AddRange(new ToolStripItem[] { menuItempComboBoxFriendIp });
             menuItemFriendIp.Name = "menuItemFriendIp";
-            menuItemFriendIp.Size = new Size(180, 22);
+            menuItemFriendIp.Size = new Size(177, 22);
             menuItemFriendIp.Text = "friend ip's";
             menuItemFriendIp.ToolTipText = "You can enter here directly friend ip's, if your connection is free of SNAT/DNAT";
             // 
@@ -304,7 +304,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             menuItemProxyServers.BackColor = SystemColors.Menu;
             menuItemProxyServers.Name = "menuItemProxyServers";
-            menuItemProxyServers.Size = new Size(180, 22);
+            menuItemProxyServers.Size = new Size(177, 22);
             menuItemProxyServers.Text = "proxies";
             menuItemProxyServers.ToolTipText = "proxies are needed mainly to connect to people, where no endpoint to endpoint ip connection is possible";
             // 
@@ -313,14 +313,14 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuIPsSeparator.BackColor = SystemColors.Menu;
             menuIPsSeparator.ForeColor = SystemColors.ActiveBorder;
             menuIPsSeparator.Name = "menuIPsSeparator";
-            menuIPsSeparator.Size = new Size(177, 6);
+            menuIPsSeparator.Size = new Size(174, 6);
             // 
             // menuItemIPv6Secure
             // 
             menuItemIPv6Secure.BackColor = SystemColors.Menu;
             menuItemIPv6Secure.Name = "menuItemIPv6Secure";
             menuItemIPv6Secure.ShortcutKeys = Keys.Control | Keys.D6;
-            menuItemIPv6Secure.Size = new Size(180, 22);
+            menuItemIPv6Secure.Size = new Size(177, 22);
             menuItemIPv6Secure.Text = "ip6 cqr";
             menuItemIPv6Secure.ToolTipText = "you can check it only, when you have an ipv6 address and you want to chat only to partners, where ip6 connect is possible";
             // 
@@ -350,7 +350,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // menuConnectComboBoxIps
             // 
             menuConnectComboBoxIps.Name = "menuConnectComboBoxIps";
-            menuConnectComboBoxIps.Size = new Size(144, 23);
+            menuConnectComboBoxIps.Size = new Size(121, 23);
             // 
             // menuConnectSeparatorLast
             // 
@@ -380,7 +380,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemSend.BackColor = SystemColors.Menu;
             menuItemSend.Name = "menuItemSend";
             menuItemSend.ShortcutKeys = Keys.Control | Keys.S;
-            menuItemSend.Size = new Size(180, 22);
+            menuItemSend.Size = new Size(178, 22);
             menuItemSend.Text = "send";
             menuItemSend.ToolTipText = "sends a message";
             menuItemSend.Click += menuItemSend_Click;
@@ -390,21 +390,21 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemAttach.BackColor = SystemColors.Menu;
             menuItemAttach.Name = "menuItemAttach";
             menuItemAttach.ShortcutKeys = Keys.Control | Keys.A;
-            menuItemAttach.Size = new Size(180, 22);
+            menuItemAttach.Size = new Size(178, 22);
             menuItemAttach.Text = "attach";
             menuItemAttach.ToolTipText = "attaches file to send; in prototype only  file extension image audio and video is supported";
             // 
             // menuCommandsSeperator
             // 
             menuCommandsSeperator.Name = "menuCommandsSeperator";
-            menuCommandsSeperator.Size = new Size(177, 6);
+            menuCommandsSeperator.Size = new Size(175, 6);
             // 
             // menuItemRefresh
             // 
             menuItemRefresh.BackColor = SystemColors.Menu;
             menuItemRefresh.Name = "menuItemRefresh";
             menuItemRefresh.ShortcutKeys = Keys.Control | Keys.R;
-            menuItemRefresh.Size = new Size(180, 22);
+            menuItemRefresh.Size = new Size(178, 22);
             menuItemRefresh.Text = "refresh";
             menuItemRefresh.ToolTipText = "refreshes, when the terminal is flushed";
             menuItemRefresh.Click += menuItemRefresh_Click;
@@ -414,7 +414,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemClear.BackColor = SystemColors.Menu;
             menuItemClear.Name = "menuItemClear";
             menuItemClear.ShortcutKeys = Keys.Control | Keys.Delete;
-            menuItemClear.Size = new Size(180, 22);
+            menuItemClear.Size = new Size(178, 22);
             menuItemClear.Text = "clear";
             menuItemClear.ToolTipText = "clears completey all chat windows";
             menuItemClear.Click += menuItemClear_Click;
