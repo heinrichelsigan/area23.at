@@ -150,6 +150,7 @@
     <Content Include="res\css\ccalcweb.css" />
     <Content Include="res\img\AddAesArrow.gif" />
     <Content Include="res\img\AddAesArrowHover.gif" />
+    <Content Include="res\img\AddAesDenied.gif" />
     <Content Include="res\img\AesBGFile.gif" />
     <Content Include="res\img\AesBGFile.png" />
     <Content Include="res\img\AesBGText.gif" />

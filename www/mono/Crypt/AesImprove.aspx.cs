@@ -56,6 +56,8 @@ namespace Area23.At.Mono.Crypt
                 {
                     Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
                 }
+                // else
+                //     Reset_TextBox_IV(Constants.AUTHOR_EMAIL);
             }
 
             if ((Request.Files != null && Request.Files.Count > 0) || (!String.IsNullOrEmpty(oFile.Value)))
@@ -184,20 +186,25 @@ namespace Area23.At.Mono.Crypt
                             encryptBytes = System.IO.File.ReadAllBytes(zOutPath);
                     }
                 }
+                
+                byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
+                SymmCipherPipe pipe = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb);
+                inBytes = pipe.MerryGoRoundEncrpyt(encryptBytes, this.TextBox_Key.Text, this.TextBox_IV.Text);
 
-                string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
-                foreach (string algo in algos)
-                {
-                    if (!string.IsNullOrEmpty(algo))
-                    {
-                        CipherEnum cipherAlgo = CipherEnum.Aes;
-                        if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
-                        {
-                            inBytes = Framework.Library.Crypt.Cipher.Crypt.EncryptBytes(encryptBytes, cipherAlgo, secretKey, keyIv);
-                            encryptBytes = inBytes;
-                        }
-                    }
-                }
+                //string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
+                //foreach (string algo in algos)
+                //{
+                //    if (!string.IsNullOrEmpty(algo))
+                //    {
+                //        CipherEnum cipherAlgo = CipherEnum.Aes;
+                //        if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
+                //        {
+                //            inBytes = Framework.Library.Crypt.Cipher.Crypt.EncryptBytes(encryptBytes, cipherAlgo, secretKey, keyIv);
+                //            encryptBytes = inBytes;
+                //        }
+                //    }
+                //}
+                encryptBytes = inBytes;
 
                 bool fromPlain = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
 
@@ -283,19 +290,23 @@ namespace Area23.At.Mono.Crypt
                 byte[] decryptedBytes = cipherBytes;
                 int ig = 0;
 
-                string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
-                for (ig = (algos.Length - 1); ig >= 0; ig--)
-                {
-                    if (!string.IsNullOrEmpty(algos[ig]))
-                    {
-                        CipherEnum cipherAlgo = CipherEnum.Aes;
-                        if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
-                        {
-                            decryptedBytes = Framework.Library.Crypt.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
-                            cipherBytes = decryptedBytes;
-                        }
-                    }
-                }
+                byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
+                SymmCipherPipe pipe = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb);
+                decryptedBytes = pipe.DecrpytRoundGoMerry(cipherBytes, this.TextBox_Key.Text, this.TextBox_IV.Text);
+
+                //string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
+                //for (ig = (algos.Length - 1); ig >= 0; ig--)
+                //{
+                //    if (!string.IsNullOrEmpty(algos[ig]))
+                //    {
+                //        CipherEnum cipherAlgo = CipherEnum.Aes;
+                //        if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
+                //        {
+                //            decryptedBytes = Framework.Library.Crypt.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
+                //            cipherBytes = decryptedBytes;
+                //        }
+                //    }
+                //}
 
                 cipherBytes = decryptedBytes; // DeEnCoder.GetBytesTrimNulls(decryptedBytes);
 
@@ -409,9 +420,9 @@ namespace Area23.At.Mono.Crypt
                 {
                     if (DropDownList_Cipher.SelectedValue.ToString() == cryptName)
                     {
-                        string addChiffre = DropDownList_Cipher.SelectedValue.ToString() + ";";
-                        this.TextBox_Encryption.Text += addChiffre;
-                        this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
+                        // string addChiffre = DropDownList_Cipher.SelectedValue.ToString() + ";";
+                        // this.TextBox_Encryption.Text += addChiffre;
+                        // this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
 
                         DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
                         DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImproveBG.gif')";
@@ -445,19 +456,10 @@ namespace Area23.At.Mono.Crypt
         /// TextBox_Key_TextChanged - fired on <see cref="TextBox_Key"/> TextChanged event
         /// </summary>
         /// <param name="sender">object sender</param>
-        /// <param name="e">EventArgs e</param>
-        [Obsolete("TextBox_Key_TextChanged is fully deprectated, because no autopostback anymore", true)]
+        /// <param name="e">EventArgs e</param>        
         protected void TextBox_Key_TextChanged(object sender, EventArgs e)
         {
-            this.TextBox_IV.Text = DeEnCoder.KeyToHex(this.TextBox_Key.Text);
-            this.TextBox_IV.BorderColor = Color.GreenYellow;
-            this.TextBox_IV.ForeColor = Color.DarkOliveGreen;
-            this.TextBox_IV.BorderStyle = BorderStyle.Dotted;
-            this.TextBox_IV.BorderWidth = 1;
-
-            this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
-            this.TextBox_Encryption.BorderColor = Color.DarkOliveGreen;
-            this.TextBox_Encryption.BorderWidth = 2;
+            Button_Hash_Click(sender, e);
 
             DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
             DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImproveBG.gif')";
@@ -521,9 +523,9 @@ namespace Area23.At.Mono.Crypt
                         case SymmCipherEnum.Fish2:
                             this.TextBox_Encryption.Text += "Fish2" + ";";
                             break;
-                        //case SymmCipherEnum.Fish3:
-                        //    this.TextBox_Encryption.Text += "Fish3" + ";";
-                        //    break;
+                        case SymmCipherEnum.Fish3:
+                            this.TextBox_Encryption.Text += "Fish3" + ";";
+                            break;
                         case SymmCipherEnum.Des3:
                             this.TextBox_Encryption.Text += "Des3" + ";";
                             break;
@@ -676,20 +678,26 @@ namespace Area23.At.Mono.Crypt
                             }
                         }
 
-                        foreach (string algo in algos)
-                        {
-                            if (!string.IsNullOrEmpty(algo))
-                            {
-                                CipherEnum cipherAlgo = CipherEnum.Aes;
-                                if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
-                                {
-                                    outBytes = Framework.Library.Crypt.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);
-                                    inBytes = outBytes;
-                                    cryptCount++;
-                                    strFileName += "." + algo.ToLower();
-                                }
-                            }
-                        }
+                        byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
+                        SymmCipherPipe pipe = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb);
+                        outBytes = pipe.MerryGoRoundEncrpyt(inBytes, this.TextBox_Key.Text, this.TextBox_IV.Text);
+                        inBytes = outBytes;
+                        cryptCount += 8;
+
+                        //foreach (string algo in algos)
+                        //{
+                        //    if (!string.IsNullOrEmpty(algo))
+                        //    {
+                        //        CipherEnum cipherAlgo = CipherEnum.Aes;
+                        //        if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
+                        //        {
+                        //            outBytes = Framework.Library.Crypt.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);
+                        //            inBytes = outBytes;
+                        //            cryptCount++;
+                        //            strFileName += "." + algo.ToLower();
+                        //        }
+                        //    }
+                        //}
 
                         long fileLen = -1;
                         if (CheckBoxEncode.Checked)
@@ -773,20 +781,26 @@ namespace Area23.At.Mono.Crypt
                         strFileName = strFileName.EndsWith(".oct") ? strFileName.Replace(".oct", "") : strFileName;
                         imgOut.Src = LibPaths.ResAppPath + "img/decrypted.png";
 
-                        for (int ig = (algos.Length - 1); ig >= 0; ig--)
-                        {
-                            if (!string.IsNullOrEmpty(algos[ig]))
-                            {
-                                CipherEnum cipherAlgo = CipherEnum.Aes;
-                                if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
-                                {
-                                    inBytes = Framework.Library.Crypt.Cipher.Crypt.DecryptBytes(outBytes, cipherAlgo, secretKey, keyIv);
-                                    outBytes = inBytes;
-                                    cryptCount++;
-                                    strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;
-                                }
-                            }
-                        }
+                        byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
+                        SymmCipherPipe pipe = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb);
+                        inBytes = pipe.DecrpytRoundGoMerry(outBytes, this.TextBox_Key.Text, this.TextBox_IV.Text);
+                        outBytes = inBytes;
+                        cryptCount += 8;
+
+                        //for (int ig = (algos.Length - 1); ig >= 0; ig--)
+                        //{
+                        //    if (!string.IsNullOrEmpty(algos[ig]))
+                        //    {
+                        //        CipherEnum cipherAlgo = CipherEnum.Aes;
+                        //        if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
+                        //        {
+                        //            inBytes = Framework.Library.Crypt.Cipher.Crypt.DecryptBytes(outBytes, cipherAlgo, secretKey, keyIv);
+                        //            outBytes = inBytes;
+                        //            cryptCount++;
+                        //            strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;
+                        //        }
+                        //    }
+                        //}
 
                         outBytes = DeEnCoder.GetBytesTrimNulls(inBytes);
 

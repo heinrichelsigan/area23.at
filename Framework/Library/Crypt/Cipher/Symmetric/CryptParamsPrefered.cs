@@ -41,12 +41,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TwofishEngine();
                     break;
-                //case SymmCipherEnum.Fish3:
-                //    BlockSize = 256;
-                //    KeyLen = 32;
-                //    Mode = "ECB";
-                //    BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(BlockSize);
-                //    break;
+                case SymmCipherEnum.Fish3:
+                    BlockSize = 256;
+                    KeyLen = 32;
+                    Mode = "ECB";
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(BlockSize);
+                    break;
                 case SymmCipherEnum.Camellia:
                     BlockSize = 128;
                     KeyLen = 16;

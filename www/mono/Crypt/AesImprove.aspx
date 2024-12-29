@@ -39,7 +39,7 @@
                     OnClick="Button_Key_Click" ClientIDMode="Static" ImageUrl="../res/img/a_right_key.png" 
                     AlternateText="save your user key in session" /></span>
                 <span class="centerSpan" style="max-width: 400px;">                
-                    <asp:TextBox ID="TextBox_Key" runat="server" Text="heinrich.elsigan@area23.at"                        
+                    <asp:TextBox ID="TextBox_Key" runat="server" Text="heinrich.elsigan@area23.at" OnTextChanged="TextBox_Key_TextChanged" AutoPostBack="true" 
                         ToolTip="Enter your personal email address or secret key here" MaxLength="192" Width="480px" style="width: 480px;" />
                 </span>
                 <span class="rightSpan" style="width: 72px">
@@ -109,7 +109,7 @@
                 <span class="centerSpan" style="width: 72px;"> 
                     <asp:ImageButton ID="ImageButton_Add" ClientIDMode="Static" runat="server" ImageUrl="../res/img/AddAesArrow.gif" 
                         OnClick="ImageButton_Add_Click" AlternateText="Add symetric chiffer algorithm"
-                        onmouseover="document.getElementById('ImageButton_Add').src='../res/img/AddAesArrowHover.gif'"                     
+                        onmouseover="document.getElementById('ImageButton_Add').src='../res/img/AddAesDenied.gif'"                     
                         onmouseout="document.getElementById('ImageButton_Add').src='../res/img/AddAesArrow.gif'" />
                 </span>
                 <span class="centerSpan" style="max-width: 400px;">
