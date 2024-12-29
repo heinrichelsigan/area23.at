@@ -90,9 +90,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             splitContainer = new SplitContainer();
             TextBoxSource = new TextBox();
             TextBoxDestionation = new TextBox();
-            panelSource = new Panel();
             pictureBoxYou = new PictureBox();
-            pictureBoxSource = new PictureBox();
             buttonSecretKey = new Button();
             buttonAddToPipeline = new Button();
             ComboBox_RemoteEndPoint = new ComboBox();
@@ -100,7 +98,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             buttonHashIv = new Button();
             panelEnCodeCrypt = new Panel();
             TextBoxPipe = new TextBox();
-            pictureBoxDestination = new PictureBox();
+            pictureBoxQr = new PictureBox();
             richTextBoxChat = new RichTextBox();
             pictureBoxPartner = new PictureBox();
             panelDestination = new Panel();
@@ -112,11 +110,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             splitContainer.Panel1.SuspendLayout();
             splitContainer.Panel2.SuspendLayout();
             splitContainer.SuspendLayout();
-            panelSource.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxYou).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxSource).BeginInit();
             panelEnCodeCrypt.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxDestination).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxQr).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPartner).BeginInit();
             panelDestination.SuspendLayout();
             panelCenter.SuspendLayout();
@@ -633,7 +629,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             splitContainer.BackColor = SystemColors.ControlLight;
             splitContainer.IsSplitterFixed = true;
-            splitContainer.Location = new Point(148, 72);
+            splitContainer.Location = new Point(28, 72);
             splitContainer.Margin = new Padding(0);
             splitContainer.MaximumSize = new Size(800, 600);
             splitContainer.MinimumSize = new Size(600, 400);
@@ -651,8 +647,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             splitContainer.Panel2.BackgroundImageLayout = ImageLayout.None;
             splitContainer.Panel2.Controls.Add(TextBoxDestionation);
             splitContainer.Panel2MinSize = 300;
-            splitContainer.Size = new Size(680, 460);
-            splitContainer.SplitterDistance = 336;
+            splitContainer.Size = new Size(800, 460);
+            splitContainer.SplitterDistance = 396;
             splitContainer.SplitterIncrement = 8;
             splitContainer.SplitterWidth = 8;
             splitContainer.TabIndex = 20;
@@ -670,7 +666,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             TextBoxSource.Multiline = true;
             TextBoxSource.Name = "TextBoxSource";
             TextBoxSource.ScrollBars = ScrollBars.Both;
-            TextBoxSource.Size = new Size(336, 460);
+            TextBoxSource.Size = new Size(396, 460);
             TextBoxSource.TabIndex = 23;
             // 
             // TextBoxDestionation
@@ -685,42 +681,19 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             TextBoxDestionation.Multiline = true;
             TextBoxDestionation.Name = "TextBoxDestionation";
             TextBoxDestionation.ScrollBars = ScrollBars.Both;
-            TextBoxDestionation.Size = new Size(336, 460);
+            TextBoxDestionation.Size = new Size(396, 460);
             TextBoxDestionation.TabIndex = 43;
-            // 
-            // panelSource
-            // 
-            panelSource.BackColor = SystemColors.Control;
-            panelSource.Controls.Add(pictureBoxYou);
-            panelSource.Controls.Add(pictureBoxSource);
-            panelSource.ForeColor = SystemColors.ActiveCaptionText;
-            panelSource.Location = new Point(0, 72);
-            panelSource.Margin = new Padding(0);
-            panelSource.Name = "panelSource";
-            panelSource.Size = new Size(148, 472);
-            panelSource.TabIndex = 40;
             // 
             // pictureBoxYou
             // 
             pictureBoxYou.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBoxYou.Location = new Point(3, 2);
+            pictureBoxYou.Location = new Point(3, 1);
             pictureBoxYou.Margin = new Padding(1);
             pictureBoxYou.Name = "pictureBoxYou";
             pictureBoxYou.Padding = new Padding(1);
             pictureBoxYou.Size = new Size(142, 142);
             pictureBoxYou.TabIndex = 58;
             pictureBoxYou.TabStop = false;
-            // 
-            // pictureBoxSource
-            // 
-            pictureBoxSource.BackColor = SystemColors.Control;
-            pictureBoxSource.Location = new Point(3, 317);
-            pictureBoxSource.Margin = new Padding(1);
-            pictureBoxSource.Name = "pictureBoxSource";
-            pictureBoxSource.Padding = new Padding(1);
-            pictureBoxSource.Size = new Size(142, 142);
-            pictureBoxSource.TabIndex = 55;
-            pictureBoxSource.TabStop = false;
             // 
             // buttonSecretKey
             // 
@@ -818,15 +791,15 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             TextBoxPipe.Size = new Size(96, 26);
             TextBoxPipe.TabIndex = 13;
             // 
-            // pictureBoxDestination
+            // pictureBoxQr
             // 
-            pictureBoxDestination.Location = new Point(3, 317);
-            pictureBoxDestination.Margin = new Padding(1);
-            pictureBoxDestination.Name = "pictureBoxDestination";
-            pictureBoxDestination.Padding = new Padding(1);
-            pictureBoxDestination.Size = new Size(142, 142);
-            pictureBoxDestination.TabIndex = 56;
-            pictureBoxDestination.TabStop = false;
+            pictureBoxQr.Location = new Point(3, 317);
+            pictureBoxQr.Margin = new Padding(1);
+            pictureBoxQr.Name = "pictureBoxQr";
+            pictureBoxQr.Padding = new Padding(1);
+            pictureBoxQr.Size = new Size(142, 142);
+            pictureBoxQr.TabIndex = 56;
+            pictureBoxQr.TabStop = false;
             // 
             // richTextBoxChat
             // 
@@ -842,7 +815,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // pictureBoxPartner
             // 
-            pictureBoxPartner.Location = new Point(3, 2);
+            pictureBoxPartner.Location = new Point(3, 160);
             pictureBoxPartner.Margin = new Padding(1);
             pictureBoxPartner.Name = "pictureBoxPartner";
             pictureBoxPartner.Padding = new Padding(1);
@@ -852,9 +825,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // panelDestination
             // 
-            panelDestination.BackColor = SystemColors.Control;
+            panelDestination.BackColor = Color.Transparent;
+            panelDestination.Controls.Add(pictureBoxYou);
             panelDestination.Controls.Add(pictureBoxPartner);
-            panelDestination.Controls.Add(pictureBoxDestination);
+            panelDestination.Controls.Add(pictureBoxQr);
             panelDestination.ForeColor = SystemColors.ActiveCaptionText;
             panelDestination.Location = new Point(828, 72);
             panelDestination.Margin = new Padding(0);
@@ -865,10 +839,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // panelCenter
             // 
             panelCenter.Controls.Add(richTextBoxOneView);
-            panelCenter.Location = new Point(148, 72);
+            panelCenter.Location = new Point(28, 72);
             panelCenter.Margin = new Padding(0);
             panelCenter.Name = "panelCenter";
-            panelCenter.Size = new Size(680, 460);
+            panelCenter.Size = new Size(800, 460);
             panelCenter.TabIndex = 81;
             panelCenter.Visible = false;
             // 
@@ -878,7 +852,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             richTextBoxOneView.Location = new Point(0, 0);
             richTextBoxOneView.Margin = new Padding(2);
             richTextBoxOneView.Name = "richTextBoxOneView";
-            richTextBoxOneView.Size = new Size(680, 460);
+            richTextBoxOneView.Size = new Size(800, 460);
             richTextBoxOneView.TabIndex = 0;
             richTextBoxOneView.Text = "";
             // 
@@ -892,7 +866,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             Controls.Add(panelCenter);
             Controls.Add(panelDestination);
             Controls.Add(richTextBoxChat);
-            Controls.Add(panelSource);
             Controls.Add(panelEnCodeCrypt);
             Controls.Add(splitContainer);
             Controls.Add(statusStrip);
@@ -903,7 +876,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             Name = "SecureChat";
             SizeGripStyle = SizeGripStyle.Show;
             Text = "SecureChat";
-            TransparencyKey = SystemColors.Control;
             FormClosing += formClose_Click;
             Load += SecureChat_Load;
             menuStrip.ResumeLayout(false);
@@ -916,12 +888,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             splitContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer).EndInit();
             splitContainer.ResumeLayout(false);
-            panelSource.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBoxYou).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxSource).EndInit();
             panelEnCodeCrypt.ResumeLayout(false);
             panelEnCodeCrypt.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxDestination).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxQr).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPartner).EndInit();
             panelDestination.ResumeLayout(false);
             panelCenter.ResumeLayout(false);
@@ -933,15 +903,13 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private SplitContainer splitContainer;
         private TextBox TextBoxSource;
         private TextBox TextBoxDestionation;
-        private Panel panelSource;
         private Button buttonAddToPipeline;
         private ComboBox ComboBox_RemoteEndPoint;
         private Button buttonSecretKey;
         private ComboBox ComboBox_LocalEndPoint;
         private Button buttonHashIv;
         private Panel panelEnCodeCrypt;
-        private PictureBox pictureBoxSource;
-        private PictureBox pictureBoxDestination;
+        private PictureBox pictureBoxQr;
         private RichTextBox richTextBoxChat;
         private PictureBox pictureBoxYou;
         private PictureBox pictureBoxPartner;

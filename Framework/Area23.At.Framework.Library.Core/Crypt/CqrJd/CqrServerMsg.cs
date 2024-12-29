@@ -1,7 +1,10 @@
 ﻿using Area23.At.Framework.Library.Core.Crypt.Cipher;
 using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Core.Net.WebHttp;
 using Area23.At.Framework.Library.Core.Util;
+using System.Configuration;
+using System.Net;
 using System.Security.Policy;
 
 namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
@@ -94,6 +97,20 @@ namespace Area23.At.Framework.Library.Core.Crypt.CqrJd
 
             string decryptedFinally = decrypted.Substring(0, decrypted.Length - 8);
             return decryptedFinally;
+        }
+
+
+        public string SendCqrSrvMsg(string msg, IPAddress srvIp, EncodingType encodingType = EncodingType.Base64)
+        {
+            string encrypted = String.Format("TextBoxEncrypted={0}\r\nTextBoxDecrypted=\r\nTextBoxLastMsg=\r\nButtonSubmit=Submit",
+                CqrMessage(msg));
+
+            string posturl = ConfigurationManager.AppSettings["ServerUrlToPost"].ToString();
+            string hostheader = ConfigurationManager.AppSettings["SendHostHeader"].ToString();
+
+            string response = WebClientRequest.PostMessage(encrypted, posturl, hostheader, srvIp.ToString());
+
+            return response;
         }
 
     }

@@ -684,6 +684,8 @@ namespace Area23.At.Mono.Crypt
                         inBytes = outBytes;
                         cryptCount += 8;
 
+                        strFileName += "." + pipe.PipeString;
+
                         //foreach (string algo in algos)
                         //{
                         //    if (!string.IsNullOrEmpty(algo))
@@ -787,6 +789,8 @@ namespace Area23.At.Mono.Crypt
                         outBytes = inBytes;
                         cryptCount += 8;
 
+                        strFileName = (strFileName.EndsWith("." + pipe.PipeString) && strFileName.Contains("." + pipe.PipeString)) ?
+                            strFileName.Replace("." + pipe.PipeString, "") : strFileName;
                         //for (int ig = (algos.Length - 1); ig >= 0; ig--)
                         //{
                         //    if (!string.IsNullOrEmpty(algos[ig]))

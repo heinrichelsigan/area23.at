@@ -40,7 +40,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
             byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
             byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
 
-            AesAlgo = new System.Security.Cryptography.AesCng();
+            AesAlgo = new AesManaged();
             AesAlgo.Mode = CipherMode.ECB;
             AesAlgo.KeySize = 256;
             AesAlgo.Padding = PaddingMode.Zeros;

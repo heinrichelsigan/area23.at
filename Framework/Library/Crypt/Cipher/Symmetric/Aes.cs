@@ -46,7 +46,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             byte[] key = Convert.FromBase64String(ResReader.GetValue(Constants.AES_KEY));
             byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
 
-            AesAlgo = new System.Security.Cryptography.AesCng();
+            AesAlgo = new System.Security.Cryptography.AesManaged();
             AesAlgo.Mode = CipherMode.ECB;
             AesAlgo.KeySize = 256;
             AesAlgo.Padding = PaddingMode.Zeros;
@@ -103,10 +103,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 Array.Copy(iv, AesIv, 16);
             }
 
-            AesAlgo = new System.Security.Cryptography.AesCng();
-            AesAlgo.Mode = CipherMode.ECB;
-            AesAlgo.KeySize = 256;
-            AesAlgo.Padding = PaddingMode.Zeros;
+            //AesAlgo = new System.Security.Cryptography.AesManaged();
+            //AesAlgo.Mode = CipherMode.ECB;
+            //AesAlgo.KeySize = 256;
+            //AesAlgo.Padding = PaddingMode.Zeros;
 
             // AesAlgo.GenerateIV();
             // AesAlgo.GenerateKey();

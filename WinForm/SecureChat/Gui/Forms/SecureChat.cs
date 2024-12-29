@@ -83,6 +83,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
         }
 
+        internal static int chatCnt = 0;
+        internal static Chat? chat;
+
+
         public SecureChat()
         {
             InitializeComponent();
@@ -118,6 +122,33 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         }
 
+        /// <summary>
+        /// Displays and formats lines in <see cref="richTextBoxOneView" />
+        /// </summary>
+        internal void Format_Lines_RichTextBox()
+        {            
+            if (chat != null)
+            {
+                richTextBoxOneView.Clear();
+                int lineIndex = 0;
+                foreach (var tuple in chat.CqrMsgs)
+                {
+                    string line = tuple.Value;                    
+      
+                    richTextBoxOneView.AppendText(line + Environment.NewLine);
+                    richTextBoxOneView.Select(richTextBoxOneView.GetFirstCharIndexFromLine(lineIndex++), line.Length + Environment.NewLine.Length);
+                    if (chat.MyMsgTStamps.Contains(tuple.Key))
+                    {
+                        richTextBoxOneView.SelectionAlignment = HorizontalAlignment.Right;
+                    }
+                    else if (chat.FriendMsgTStamps.Contains(tuple.Key))
+                    {
+                        richTextBoxOneView.SelectionAlignment = HorizontalAlignment.Left;
+                    }
+                }
+                
+            }
+        }
 
         private void Button_SecretKey_Click(object sender, EventArgs e)
         {
@@ -166,6 +197,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         private void menuItemSend_Click(object sender, EventArgs e)
         {
+            if (chat == null)
+                chat = new Chat(0);
+
             string myServerKey = ExternalIpAddress?.ToString() + Constants.APP_NAME;
 
             // TODO: test case later
@@ -173,26 +207,31 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 myServerKey = this.ComboBox_LocalEndPoint.Text;
             else
                 this.ComboBox_LocalEndPoint.Text = myServerKey;
+            
             CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
             this.TextBoxPipe.Text = serverMessage.symmPipe.PipeString;
             
-             this.ComboBox_RemoteEndPoint.Text = string.Empty;
+            this.ComboBox_RemoteEndPoint.Text = string.Empty;
             foreach (var symm in serverMessage.symmPipe.InPipe)
             {
                 this.ComboBox_RemoteEndPoint.Text += symm.ToString() + ";";
             }
 
             string encrypted = serverMessage.CqrMessage(this.richTextBoxChat.Text);
+            string response = serverMessage.SendCqrSrvMsg(this.richTextBoxChat.Text, ServerIpAddress);
 
-            string posturl = ConfigurationManager.AppSettings["ServerUrlToPost"].ToString();
-            string hostheader = ConfigurationManager.AppSettings["SendHostHeader"].ToString();
-            // HttpClientRequest.PostCqrMsg(posturl, encrypted);
-            string retmsg = WebClientRequest.PostMessage(encrypted, posturl, hostheader, ServerIpAddress?.ToString());
 
             this.TextBoxSource.Text = encrypted + "\n"; //  + "\r\n" + serverMessage.symmPipe.HexStages;
             string decrypted = serverMessage.NCqrMessage(encrypted);
-            this.TextBoxDestionation.Text = decrypted + "\n"; //  + "\r\n" + serverMessage.symmPipe.HexStages;
+            this.TextBoxDestionation.Text = decrypted + "\n" + response + "\r\n"; // + serverMessage.symmPipe.HexStages;
+            
+            if (chatCnt++ % 2 == 0)
+                chat.AddMyMessage(this.richTextBoxChat.Text);
+            else
+                chat.AddFriendMessage(this.richTextBoxChat.Text);
 
+            // this.richTextBoxOneView.Rtf = this.richTextBoxChat.Rtf;
+            Format_Lines_RichTextBox();
         }
 
 
@@ -280,16 +319,18 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuViewItemTopBottom.Checked = true;
             menuViewItem1View.Checked = false;
 
-            splitContainer.Visible = true;
             panelCenter.Visible = false;
 
             splitContainer.Orientation = Orientation.Horizontal;
-            splitContainer.Panel1MinSize = 200;
-            splitContainer.Panel2MinSize = 200;
+            splitContainer.Panel1MinSize = 220;
+            splitContainer.Panel2MinSize = 220;
             splitContainer.SplitterDistance = 226;
             splitContainer.SplitterIncrement = 8;
             splitContainer.SplitterWidth = 8;
-            splitContainer.MinimumSize = new System.Drawing.Size(600, 400);
+            splitContainer.MinimumSize = new System.Drawing.Size(800, 400);
+
+            splitContainer.Visible = true;
+            splitContainer.BringToFront();
 
         }
 
@@ -304,16 +345,18 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuViewItemTopBottom.Checked = false;
             menuViewItem1View.Checked = false;
 
-            splitContainer.Visible = true;
             panelCenter.Visible = false;
 
             splitContainer.Orientation = Orientation.Vertical;
-            splitContainer.Panel1MinSize = 300;
-            splitContainer.Panel2MinSize = 300;
-            splitContainer.SplitterDistance = 336;
+            splitContainer.Panel1MinSize = 380;
+            splitContainer.Panel2MinSize = 380;
+            splitContainer.SplitterDistance = 396;
             splitContainer.SplitterIncrement = 8;
             splitContainer.SplitterWidth = 8;
-            splitContainer.MinimumSize = new System.Drawing.Size(600, 400);
+            splitContainer.MinimumSize = new System.Drawing.Size(800, 400);
+
+            splitContainer.Visible = true;
+            splitContainer.BringToFront();
         }
 
         /// <summary>
@@ -327,9 +370,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuViewItemLeftRíght.Checked = false;
             menuViewItemTopBottom.Checked = false;
             menuViewItem1View.Checked = true;
-
-            splitContainer.Visible = false;
+            
             panelCenter.Visible = true;
+            panelCenter.BringToFront();
+            splitContainer.Visible = false;
             richTextBoxOneView.Visible = true;
         }
 
@@ -550,7 +594,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         /// <param name="e">FormClosingEventArgs e</param>
         private void formClose_Click(object sender, FormClosingEventArgs e)
         {
-
             if (System.Windows.Forms.Application.OpenForms.Count < 2)
             {
                 AppCloseAllFormsExit();
@@ -600,7 +643,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             try
             {
                 if (!Entities.Settings.Save(null))
-                    settingsNotSavedReason = "Unknown reason!";
+                    settingsNotSavedReason = (CqrException.LastException != null) ?
+                        CqrException.LastException.Message : "Unknown reason!"; 
             }
             catch (Exception exSetSave)
             {
@@ -611,28 +655,18 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             if (!string.IsNullOrEmpty(settingsNotSavedReason))
                 MessageBox.Show(settingsNotSavedReason, "Couldn't save chat settings", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-            int openForms = System.Windows.Forms.Application.OpenForms.Count;
-            if (openForms <= 1)
-            {
-                try
-                {
-                    this.Close();
-                    this.Dispose();
-                }
-                catch (Exception exForm)
-                {
-                    CqrException.LastException = exForm;
-                    Area23Log.LogStatic(exForm);
-                }
-            }
-            else
+            if (CqrException.LastException != null) // TODO: Remove this
+                MessageBox.Show(CqrException.LastException.ToString(), CqrException.LastException.Message, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            int openForms = System.Windows.Forms.Application.OpenForms.Count;            
+            if (openForms > 1)
             {
                 for (int frmidx = 0; frmidx < System.Windows.Forms.Application.OpenForms.Count; frmidx++)
                 {
                     try
                     {
                         Form? form = System.Windows.Forms.Application.OpenForms[frmidx];
-                        if (form != null)
+                        if (form != null && form.Name != this.Name)
                         {
                             form.Close();
                             form.Dispose();

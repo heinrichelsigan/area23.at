@@ -31,7 +31,7 @@ namespace Area23.At.WinForm.SecureChat.Entities
 
         internal HashSet<DateTime> FriendMsgTStamps { get; set; } 
 
-        internal ConcurrentDictionary<DateTime, string> CqrMsgs {  get; set; }
+        internal Dictionary<DateTime, string> CqrMsgs {  get; set; }
 
 
         public Chat()
@@ -41,7 +41,7 @@ namespace Area23.At.WinForm.SecureChat.Entities
             Friend = Entities.Settings.Instance.MyContact;
             MyMsgTStamps = new HashSet<DateTime>();
             FriendMsgTStamps = new HashSet<DateTime>();
-            CqrMsgs = new ConcurrentDictionary<DateTime, string>();
+            CqrMsgs = new Dictionary<DateTime, string>();
         }
 
         public Chat(Contact friend) : this()
@@ -96,6 +96,35 @@ namespace Area23.At.WinForm.SecureChat.Entities
             return cqrchat;
         }
 
+
+        public void AddMessage(string message, int chatId)
+        {
+            if (chatId == 0)
+                AddMyMessage(message);
+            else if (chatId > 0)
+                AddFriendMessage(message);
+        }
+
+        public void AddMyMessage(string message)
+        {
+            if (!string.IsNullOrEmpty(message))
+            {
+                DateTime myMsgTime = DateTime.Now;
+                MyMsgTStamps.Add(myMsgTime);
+                CqrMsgs.Add(myMsgTime, message);
+            }
+        }
+
+
+        public void AddFriendMessage(string message)
+        {
+            if (!string.IsNullOrEmpty(message))
+            {
+                DateTime myMsgTime = DateTime.Now;
+                FriendMsgTStamps.Add(myMsgTime);
+                CqrMsgs.Add(myMsgTime, message);
+            }
+        }
 
         /// <summary>
         /// json serializes current chat and saves it to AppDomain.BaseDirectory + cqr{ContactId}chat.json
