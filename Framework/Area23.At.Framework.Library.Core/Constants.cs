@@ -19,6 +19,8 @@ namespace Area23.At.Framework.Library.Core
         public const int CHAT_PORT = 7777;
         public const int MAX_KEY_LEN = 4096;
         public const int MAX_PIPE_LEN = 8;
+        public const int MAX_SERVER_SOCKET_ADDRESSES = 16;
+        public const int CLOSING_TIMEOUT = 6000;
 
         public const char ANNOUNCE = ':';
         public const char DATE_DELIM = '-';
