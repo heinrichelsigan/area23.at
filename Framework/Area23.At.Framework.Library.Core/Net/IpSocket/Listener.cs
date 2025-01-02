@@ -14,7 +14,7 @@ namespace Area23.At.Framework.Library.Core.Net.IpSocket
     /// </summary>
     public class Listener
     {
-
+         
         private static HashSet<IPSockListener> _listeners = new HashSet<IPSockListener>();
         // public static IPSockListener[] IpListeners { get => _listeners.ToArray(); }
 
