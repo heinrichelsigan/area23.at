@@ -43,7 +43,7 @@ namespace Area23.At.Framework.Library.Core.Net.IpSocket
             foreach (IPAddress addr in address)
             {
                 IPSockListener ipSockListener = new IPSockListener(addr);
-                // ipSockListener.AcceptClientConnection += new EventHandler(On)
+                ipSockListener.HandleClientRequest += new EventHandler(HandleClientRequest);
                 _listeners.Add(ipSockListener);
             }
         }
@@ -76,25 +76,27 @@ namespace Area23.At.Framework.Library.Core.Net.IpSocket
         /// <summary>
         /// HandleClientRequest - handles client request
         /// </summary>
-        //public void HandleClientRequest()
-        //{
-
-        //    if (clientSocket != null)
-        //    {
-        //        clientIEP = (IPEndPoint?)clientSocket.RemoteEndPoint;
-        //        byte[] receiveData = new byte[8192];
-        //        int rsize = clientSocket.Receive(receiveData, 0, 8192, 0);
-        //        Array.Copy(receiveData, data, rsize);
-        //        string rstring = Encoding.Default.GetString(data, 0, rsize);
-        //        Console.WriteLine(rstring);
-        //        string sstring = serverAddress?.ToString() + " => " + clientIEP?.Address.ToString() + " : " + rstring;
-        //        byte[] sendData = new byte[8192];
-        //        sendData = Encoding.Default.GetBytes(sstring);
-        //        clientSocket.Send(sendData);
-        //        clientSocket.Close();
-        //        Console.WriteLine("Closing socket.");
-        //    }
-        //}
+        public void HandleClientRequest(object sender, EventArgs e)
+        {
+            if (sender != null && sender is IPSockListener ipsl)
+            {
+                if (ipsl.ClientSocket != null)
+                {
+                    IPEndPoint clientIEP = (IPEndPoint?)ipsl.ClientSocket.RemoteEndPoint;
+                    byte[] receiveData = new byte[8192];
+                    int rsize = ipsl.ClientSocket.Receive(receiveData, 0, 8192, 0);
+                    Array.Copy(receiveData, data, rsize);
+                    string rstring = Encoding.Default.GetString(data, 0, rsize);
+                    Console.WriteLine(rstring);
+                    string sstring = ipsl.ServerAddress?.ToString() + " => " + clientIEP?.Address.ToString() + " : " + rstring;
+                    byte[] sendData = new byte[8192];
+                    sendData = Encoding.Default.GetBytes(sstring);
+                    ipsl.ClientSocket.Send(sendData);
+                    ipsl.ClientSocket.Close();
+                    Console.WriteLine("Closing socket.");
+                }
+            }
+        }
 
 
 

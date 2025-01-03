@@ -48,6 +48,9 @@ namespace Area23.At.Framework.Library.Core.Net.IpSocket
                 {
                     ClientSocket = ServerSocket.Accept();
                     // Console.WriteLine(;
+                    EventHandler handler = HandleClientRequest;
+                    EventArgs eventArgs = new EventArgs();
+                    handler?.Invoke(this, eventArgs);
                 }
             }            
         }
