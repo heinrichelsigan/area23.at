@@ -4,6 +4,7 @@ using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Core.Crypt.CqrJd;
 using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Core.Net;
+using Area23.At.Framework.Library.Core.Net.IpSocket;
 using Area23.At.Framework.Library.Core.Net.WebHttp;
 using Area23.At.Framework.Library.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
@@ -117,8 +118,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 Bitmap? bmp = (Bitmap?)Entities.Settings.Instance.MyContact.ImageBase64.Base64ToImage();
                 if (bmp != null)
                     this.pictureBoxYou.Image = bmp;
-
             }
+
+            EventHandler handleReceive = new EventHandler(Receive);
+            Listener listener = new Listener(handleReceive);
 
         }
 
@@ -194,6 +197,14 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             this.richTextBoxChat.Clear();
         }
 
+        internal void Receive(object sender, EventArgs e)
+        {
+            if (sender != null && sender is Listener listener)
+            {
+                this.TextBoxDestionation.Text = EnDeCoder.GetString(listener.receiveData);
+                this.richTextBoxOneView.Text = EnDeCoder.GetString(listener.receiveData);
+            }
+        }
 
         private void menuItemSend_Click(object sender, EventArgs e)
         {

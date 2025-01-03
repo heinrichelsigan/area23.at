@@ -27,7 +27,7 @@ namespace Area23.At.Framework.Library.Core.Net.IpSocket
         /// <exception cref="InvalidOperationException"></exception>
         public IPSockListener(IPAddress connectedIpIfAddr)
         {
-            if (connectedIpIfAddr.AddressFamily == AddressFamily.InterNetwork || connectedIpIfAddr.AddressFamily == AddressFamily.InterNetworkV6)
+            if (connectedIpIfAddr.AddressFamily != AddressFamily.InterNetwork && connectedIpIfAddr.AddressFamily != AddressFamily.InterNetworkV6)
                 throw new InvalidOperationException("We can only handle AddressFamily == AddressFamily.InterNetwork and AddressFamily.InterNetworkV6");
             
             ServerAddress = connectedIpIfAddr; 

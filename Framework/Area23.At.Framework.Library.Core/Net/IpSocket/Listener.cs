@@ -21,9 +21,20 @@ namespace Area23.At.Framework.Library.Core.Net.IpSocket
         private byte[] data = new byte[8192];
         Thread t;
 
+        internal EventHandler HandleReceive { get; set; }
+
+        public byte[] receiveData = new byte[65536];
+
         public Listener()
         {
             List<IPAddress> addrs = NetworkAddresses.GetConnectedIpAddresses();
+            InitServers(addrs.ToArray());
+        }
+
+        public Listener(EventHandler handler)
+        {
+            List<IPAddress> addrs = NetworkAddresses.GetConnectedIpAddresses();
+            HandleReceive = handler;
             InitServers(addrs.ToArray());
         }
 
@@ -83,17 +94,20 @@ namespace Area23.At.Framework.Library.Core.Net.IpSocket
                 if (ipsl.ClientSocket != null)
                 {
                     IPEndPoint clientIEP = (IPEndPoint?)ipsl.ClientSocket.RemoteEndPoint;
-                    byte[] receiveData = new byte[8192];
-                    int rsize = ipsl.ClientSocket.Receive(receiveData, 0, 8192, 0);
+                    receiveData = new byte[65536];
+                    int rsize = ipsl.ClientSocket.Receive(receiveData, 0, 65536, 0);
                     Array.Copy(receiveData, data, rsize);
                     string rstring = Encoding.Default.GetString(data, 0, rsize);
                     Console.WriteLine(rstring);
                     string sstring = ipsl.ServerAddress?.ToString() + " => " + clientIEP?.Address.ToString() + " : " + rstring;
-                    byte[] sendData = new byte[8192];
+                    byte[] sendData = new byte[65536];
                     sendData = Encoding.Default.GetBytes(sstring);
                     ipsl.ClientSocket.Send(sendData);
                     ipsl.ClientSocket.Close();
                     Console.WriteLine("Closing socket.");
+                    EventHandler handler = HandleReceive;
+                    EventArgs eventArgs = new EventArgs();
+                    handler?.Invoke(this, eventArgs);
                 }
             }
         }
