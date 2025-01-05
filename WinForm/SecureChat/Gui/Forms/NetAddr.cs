@@ -37,7 +37,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         private void buttonIpAddr_Click(object sender, EventArgs e)
         {
-            IEnumerable<IPAddress> list = NetworkAddresses.GetIpAddresses();
+            List<IPAddress> list = NetworkAddresses.GetIpAddresses();
             listBoxAddrs.Items.Clear();
             foreach (IPAddress addr in list)
             {

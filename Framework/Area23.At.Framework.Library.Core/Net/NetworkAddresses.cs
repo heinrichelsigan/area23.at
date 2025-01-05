@@ -79,13 +79,13 @@ namespace Area23.At.Framework.Library.Core.Net
 
 
         /// <summary>
-        /// GetConnectedIpAddresses gets connected IPAddress list.
+        /// GetConnectedIpAddressesAsync
         /// </summary>
-        /// <param name="serverIps"><see cref="List{IPAddress}"/></param>
-        /// <returns><see cref="List{IPAddress}"/></returns>
-        public static async Task<IPAddress[]> GetConnectedIpAddressesAsync(List<IPAddress>? serverIps = null)
+        /// <param name="serverIps">serverIPs List to connect and verify, if connection is possible through</param>
+        /// <returns><see cref="Task{List{IPAddress}}"/></returns>
+        public static async Task<List<IPAddress>> GetConnectedIpAddressesAsync(List<IPAddress>? serverIps = null)
         {
-            return await Task<IPAddress[]>.Run<IPAddress[]>(() => (GetConnectedIpAddresses(serverIps).ToArray()));
+            return await Task<List<IPAddress>>.Run<List<IPAddress>>(() => (GetConnectedIpAddresses(serverIps)));
         }
 
         public static async Task<object> ConnectedIpAddressesAsync(List<IPAddress>? serverIps = null)
@@ -103,19 +103,26 @@ namespace Area23.At.Framework.Library.Core.Net
         /// GetIpAddresses gets all IPAddresses except loopback adapter
         /// </summary>
         /// <returns><see cref="IEnumerable{IPAddressT}"/></returns>
-        public static IEnumerable<IPAddress> GetIpAddresses()
+        public static List<IPAddress> GetIpAddresses()
         {
             IEnumerable<IPAddress> ipAddrs =
                 from address in NetworkInterface.GetAllNetworkInterfaces().Select(
                     x => x.GetIPProperties()).SelectMany(x => x.UnicastAddresses).Select(x => x.Address)
-                where !IPAddress.IsLoopback(address) &&
+                where // !IPAddress.IsLoopback(address) &&
                         (address.AddressFamily == AddressFamily.InterNetwork ||
-                         address.AddressFamily == AddressFamily.InterNetworkV6 ||
-                         address.AddressFamily == AddressFamily.Unix)
+                         address.AddressFamily == AddressFamily.InterNetworkV6)
+                // || address.AddressFamily == AddressFamily.Unix
                 select address;
 
-            return ipAddrs;
+            return ipAddrs.ToList();
         }
+
+
+        public static async Task<List<IPAddress>> GetIpAddressesAsync()
+        {
+            return await Task<List<IPAddress>>.Run<List<IPAddress>>(() => (GetIpAddresses()));
+        }
+
 
         /// <summary>
         /// GetIpAddresses returns all IPAddresses for a certain <see cref="AddressFamily>AddressFamily</see>

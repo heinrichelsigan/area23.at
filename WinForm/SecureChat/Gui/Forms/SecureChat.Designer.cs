@@ -93,9 +93,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             pictureBoxYou = new PictureBox();
             buttonSecretKey = new Button();
             buttonAddToPipeline = new Button();
-            ComboBox_RemoteEndPoint = new ComboBox();
-            ComboBox_LocalEndPoint = new ComboBox();
-            buttonHashIv = new Button();
             panelEnCodeCrypt = new Panel();
             TextBoxPipe = new TextBox();
             pictureBoxQr = new PictureBox();
@@ -104,6 +101,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             panelDestination = new Panel();
             panelCenter = new Panel();
             richTextBoxOneView = new RichTextBox();
+            comboBoxIpContact = new ComboBox();
+            buttonHash = new Button();
+            textBoxSecretKey = new TextBox();
             menuStrip.SuspendLayout();
             statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
@@ -274,7 +274,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuIItemMyIps.BackColor = SystemColors.Menu;
             menuIItemMyIps.DropDownItems.AddRange(new ToolStripItem[] { menuItemExternalIp });
             menuIItemMyIps.Name = "menuIItemMyIps";
-            menuIItemMyIps.Size = new Size(180, 22);
+            menuIItemMyIps.Size = new Size(177, 22);
             menuIItemMyIps.Text = "my ip's";
             // 
             // menuItemExternalIp
@@ -290,7 +290,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemFriendIp.BackColor = SystemColors.Menu;
             menuItemFriendIp.DropDownItems.AddRange(new ToolStripItem[] { menuItempComboBoxFriendIp });
             menuItemFriendIp.Name = "menuItemFriendIp";
-            menuItemFriendIp.Size = new Size(180, 22);
+            menuItemFriendIp.Size = new Size(177, 22);
             menuItemFriendIp.Text = "friend ip's";
             menuItemFriendIp.ToolTipText = "You can enter here directly friend ip's, if your connection is free of SNAT/DNAT";
             // 
@@ -304,7 +304,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             menuItemProxyServers.BackColor = SystemColors.Menu;
             menuItemProxyServers.Name = "menuItemProxyServers";
-            menuItemProxyServers.Size = new Size(180, 22);
+            menuItemProxyServers.Size = new Size(177, 22);
             menuItemProxyServers.Text = "proxies";
             menuItemProxyServers.ToolTipText = "proxies are needed mainly to connect to people, where no endpoint to endpoint ip connection is possible";
             // 
@@ -313,14 +313,14 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuIPsSeparator.BackColor = SystemColors.Menu;
             menuIPsSeparator.ForeColor = SystemColors.ActiveBorder;
             menuIPsSeparator.Name = "menuIPsSeparator";
-            menuIPsSeparator.Size = new Size(177, 6);
+            menuIPsSeparator.Size = new Size(174, 6);
             // 
             // menuItemIPv6Secure
             // 
             menuItemIPv6Secure.BackColor = SystemColors.Menu;
             menuItemIPv6Secure.Name = "menuItemIPv6Secure";
             menuItemIPv6Secure.ShortcutKeys = Keys.Control | Keys.D6;
-            menuItemIPv6Secure.Size = new Size(180, 22);
+            menuItemIPv6Secure.Size = new Size(177, 22);
             menuItemIPv6Secure.Text = "ip6 cqr";
             menuItemIPv6Secure.ToolTipText = "you can check it only, when you have an ipv6 address and you want to chat only to partners, where ip6 connect is possible";
             // 
@@ -380,7 +380,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemSend.BackColor = SystemColors.Menu;
             menuItemSend.Name = "menuItemSend";
             menuItemSend.ShortcutKeys = Keys.Control | Keys.S;
-            menuItemSend.Size = new Size(180, 22);
+            menuItemSend.Size = new Size(178, 22);
             menuItemSend.Text = "send";
             menuItemSend.ToolTipText = "sends a message";
             menuItemSend.Click += menuItemSend_Click;
@@ -390,21 +390,21 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemAttach.BackColor = SystemColors.Menu;
             menuItemAttach.Name = "menuItemAttach";
             menuItemAttach.ShortcutKeys = Keys.Control | Keys.A;
-            menuItemAttach.Size = new Size(180, 22);
+            menuItemAttach.Size = new Size(178, 22);
             menuItemAttach.Text = "attach";
             menuItemAttach.ToolTipText = "attaches file to send; in prototype only  file extension image audio and video is supported";
             // 
             // menuCommandsSeperator
             // 
             menuCommandsSeperator.Name = "menuCommandsSeperator";
-            menuCommandsSeperator.Size = new Size(177, 6);
+            menuCommandsSeperator.Size = new Size(175, 6);
             // 
             // menuItemRefresh
             // 
             menuItemRefresh.BackColor = SystemColors.Menu;
             menuItemRefresh.Name = "menuItemRefresh";
             menuItemRefresh.ShortcutKeys = Keys.Control | Keys.R;
-            menuItemRefresh.Size = new Size(180, 22);
+            menuItemRefresh.Size = new Size(178, 22);
             menuItemRefresh.Text = "refresh";
             menuItemRefresh.ToolTipText = "refreshes, when the terminal is flushed";
             menuItemRefresh.Click += menuItemRefresh_Click;
@@ -414,7 +414,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemClear.BackColor = SystemColors.Menu;
             menuItemClear.Name = "menuItemClear";
             menuItemClear.ShortcutKeys = Keys.Control | Keys.Delete;
-            menuItemClear.Size = new Size(180, 22);
+            menuItemClear.Size = new Size(178, 22);
             menuItemClear.Text = "clear";
             menuItemClear.ToolTipText = "clears completey all chat windows";
             menuItemClear.Click += menuItemClear_Click;
@@ -702,7 +702,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             buttonSecretKey.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
             buttonSecretKey.ForeColor = SystemColors.ActiveCaptionText;
             buttonSecretKey.Image = Properties.Resources.a_right_key;
-            buttonSecretKey.Location = new Point(1, 4);
+            buttonSecretKey.Location = new Point(28, 4);
             buttonSecretKey.Margin = new Padding(1);
             buttonSecretKey.Name = "buttonSecretKey";
             buttonSecretKey.Padding = new Padding(1);
@@ -716,7 +716,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             buttonAddToPipeline.BackColor = SystemColors.ButtonHighlight;
             buttonAddToPipeline.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
             buttonAddToPipeline.ForeColor = SystemColors.ActiveCaptionText;
-            buttonAddToPipeline.Location = new Point(462, 2);
+            buttonAddToPipeline.Location = new Point(341, 3);
             buttonAddToPipeline.Margin = new Padding(0);
             buttonAddToPipeline.Name = "buttonAddToPipeline";
             buttonAddToPipeline.Size = new Size(28, 28);
@@ -725,53 +725,14 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             buttonAddToPipeline.UseVisualStyleBackColor = false;
             buttonAddToPipeline.Click += Button_AddToPipeline_Click;
             // 
-            // ComboBox_RemoteEndPoint
-            // 
-            ComboBox_RemoteEndPoint.BackColor = SystemColors.ControlLightLight;
-            ComboBox_RemoteEndPoint.ForeColor = SystemColors.ControlText;
-            ComboBox_RemoteEndPoint.FormattingEnabled = true;
-            ComboBox_RemoteEndPoint.Items.AddRange(new object[] { "3DES", "2FISH", "3FISH", "AES", "Cast5", "Cast6", "Camellia", "Ghost28147", "Idea", "Noekeon", "Rijndael", "RC2", "RC532", "RC6", "Seed", "Serpent", "Skipjack", "Tea", "Tnepres", "XTea", "ZenMatrix" });
-            ComboBox_RemoteEndPoint.Location = new Point(492, 4);
-            ComboBox_RemoteEndPoint.Margin = new Padding(1);
-            ComboBox_RemoteEndPoint.Name = "ComboBox_RemoteEndPoint";
-            ComboBox_RemoteEndPoint.Size = new Size(336, 24);
-            ComboBox_RemoteEndPoint.TabIndex = 16;
-            // 
-            // ComboBox_LocalEndPoint
-            // 
-            ComboBox_LocalEndPoint.BackColor = SystemColors.ControlLightLight;
-            ComboBox_LocalEndPoint.ForeColor = SystemColors.ControlText;
-            ComboBox_LocalEndPoint.FormattingEnabled = true;
-            ComboBox_LocalEndPoint.Items.AddRange(new object[] { "Hex16", "Base16", "Base32", "Hex32", "Base64", "Uu", "Html", "Url" });
-            ComboBox_LocalEndPoint.Location = new Point(148, 4);
-            ComboBox_LocalEndPoint.Margin = new Padding(1);
-            ComboBox_LocalEndPoint.Name = "ComboBox_LocalEndPoint";
-            ComboBox_LocalEndPoint.Size = new Size(312, 24);
-            ComboBox_LocalEndPoint.TabIndex = 14;
-            // 
-            // buttonHashIv
-            // 
-            buttonHashIv.BackColor = SystemColors.ButtonHighlight;
-            buttonHashIv.BackgroundImageLayout = ImageLayout.Center;
-            buttonHashIv.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
-            buttonHashIv.ForeColor = SystemColors.ActiveCaptionText;
-            buttonHashIv.Image = Properties.Resources.AddAesArrow;
-            buttonHashIv.Location = new Point(840, 4);
-            buttonHashIv.Margin = new Padding(1);
-            buttonHashIv.Name = "buttonHashIv";
-            buttonHashIv.Padding = new Padding(1);
-            buttonHashIv.Size = new Size(48, 28);
-            buttonHashIv.TabIndex = 18;
-            buttonHashIv.UseVisualStyleBackColor = false;
-            // 
             // panelEnCodeCrypt
             // 
             panelEnCodeCrypt.BackColor = SystemColors.ActiveCaption;
+            panelEnCodeCrypt.Controls.Add(textBoxSecretKey);
+            panelEnCodeCrypt.Controls.Add(buttonHash);
+            panelEnCodeCrypt.Controls.Add(comboBoxIpContact);
             panelEnCodeCrypt.Controls.Add(TextBoxPipe);
             panelEnCodeCrypt.Controls.Add(buttonSecretKey);
-            panelEnCodeCrypt.Controls.Add(buttonHashIv);
-            panelEnCodeCrypt.Controls.Add(ComboBox_LocalEndPoint);
-            panelEnCodeCrypt.Controls.Add(ComboBox_RemoteEndPoint);
             panelEnCodeCrypt.Controls.Add(buttonAddToPipeline);
             panelEnCodeCrypt.ForeColor = SystemColors.WindowText;
             panelEnCodeCrypt.Location = new Point(0, 28);
@@ -784,12 +745,12 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             TextBoxPipe.Font = new Font("Lucida Sans Unicode", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             TextBoxPipe.HideSelection = false;
-            TextBoxPipe.Location = new Point(44, 4);
+            TextBoxPipe.Location = new Point(831, 4);
             TextBoxPipe.Margin = new Padding(1);
             TextBoxPipe.Name = "TextBoxPipe";
             TextBoxPipe.ReadOnly = true;
-            TextBoxPipe.Size = new Size(96, 26);
-            TextBoxPipe.TabIndex = 13;
+            TextBoxPipe.Size = new Size(142, 26);
+            TextBoxPipe.TabIndex = 18;
             // 
             // pictureBoxQr
             // 
@@ -856,6 +817,43 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             richTextBoxOneView.TabIndex = 0;
             richTextBoxOneView.Text = "";
             // 
+            // comboBoxIpContact
+            // 
+            comboBoxIpContact.BackColor = SystemColors.ControlLightLight;
+            comboBoxIpContact.ForeColor = SystemColors.ControlText;
+            comboBoxIpContact.FormattingEnabled = true;
+            comboBoxIpContact.Items.AddRange(new object[] { "Hex16", "Base16", "Base32", "Hex32", "Base64", "Uu", "Html", "Url" });
+            comboBoxIpContact.Location = new Point(384, 6);
+            comboBoxIpContact.Margin = new Padding(1);
+            comboBoxIpContact.Name = "comboBoxIpContact";
+            comboBoxIpContact.Size = new Size(364, 24);
+            comboBoxIpContact.TabIndex = 16;
+            // 
+            // buttonHash
+            // 
+            buttonHash.BackColor = SystemColors.ButtonHighlight;
+            buttonHash.BackgroundImageLayout = ImageLayout.Center;
+            buttonHash.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
+            buttonHash.ForeColor = SystemColors.ActiveCaptionText;
+            buttonHash.Image = Properties.Resources.a_hash;
+            buttonHash.Location = new Point(788, 4);
+            buttonHash.Margin = new Padding(1);
+            buttonHash.Name = "buttonHash";
+            buttonHash.Padding = new Padding(1);
+            buttonHash.Size = new Size(40, 27);
+            buttonHash.TabIndex = 17;
+            buttonHash.UseVisualStyleBackColor = false;
+            // 
+            // textBoxSecretKey
+            // 
+            textBoxSecretKey.Font = new Font("Lucida Sans Unicode", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxSecretKey.HideSelection = false;
+            textBoxSecretKey.Location = new Point(78, 5);
+            textBoxSecretKey.Margin = new Padding(1);
+            textBoxSecretKey.Name = "textBoxSecretKey";
+            textBoxSecretKey.Size = new Size(250, 26);
+            textBoxSecretKey.TabIndex = 19;
+            // 
             // SecureChat
             // 
             AutoScaleDimensions = new SizeF(8F, 16F);
@@ -904,10 +902,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private TextBox TextBoxSource;
         private TextBox TextBoxDestionation;
         private Button buttonAddToPipeline;
-        private ComboBox ComboBox_RemoteEndPoint;
         private Button buttonSecretKey;
-        private ComboBox ComboBox_LocalEndPoint;
-        private Button buttonHashIv;
         private Panel panelEnCodeCrypt;
         private PictureBox pictureBoxQr;
         private RichTextBox richTextBoxChat;
@@ -982,5 +977,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripSeparator menuConnectSeparator;
         private ToolStripSeparator menuConnectSeparatorLast;
         private TextBox TextBoxPipe;
+        private Button buttonHash;
+        private ComboBox comboBoxIpContact;
+        private TextBox textBoxSecretKey;
     }
 }

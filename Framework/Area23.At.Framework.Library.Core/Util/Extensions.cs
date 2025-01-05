@@ -320,6 +320,49 @@ namespace Area23.At.Framework.Library.Core.Util
         }
 
 
+        public static long CompareBytes(this byte[] baseBytes, byte[] bytesToCompare)
+        {
+            long difference = 0;
+            if ((baseBytes == null && bytesToCompare == null) ||
+                (baseBytes.Length == 0 && bytesToCompare.Length == 0))
+                return difference;
+
+            if (baseBytes.Length != bytesToCompare.Length)
+                difference = Math.Abs((long)(baseBytes.Length - bytesToCompare.Length)) * 256;
+            else // if (baseBytes.Length == bytesToCompare.Length)
+            {
+                for (int ib = 0; ib < baseBytes.Length; ib++)
+                {
+                    if (baseBytes[ib] != bytesToCompare[ib])
+                        difference += Math.Abs((long)(baseBytes[ib] - bytesToCompare[ib]));
+                }
+            }
+
+            return difference;
+        }
+
+        public static long BytesCompare(byte[] baseBytes, byte[] bytesToCompare)
+        {
+            long difference = 0;
+            if ((baseBytes == null && bytesToCompare == null) ||
+                (baseBytes.Length == 0 && bytesToCompare.Length == 0))
+                return difference;
+
+            if (baseBytes.Length != bytesToCompare.Length)
+                difference = Math.Abs((long)(baseBytes.Length - bytesToCompare.Length)) * 256;
+            else // if (baseBytes.Length == bytesToCompare.Length)
+            {
+                for (int ib = 0; ib < baseBytes.Length; ib++)
+                {
+                    if (baseBytes[ib] != bytesToCompare[ib])
+                        difference += Math.Abs((long)(baseBytes[ib] - bytesToCompare[ib]));
+                }
+            }
+
+            return difference;
+        }
+
+
         public static byte[] ToExternalBytes(this IPAddress? ip)
         {
             List<byte> bytes = new List<byte>();

@@ -61,12 +61,12 @@ namespace Area23.At.WinForm.SecureChat.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static byte[] a_hash {
+        internal static System.Drawing.Bitmap a_hash {
             get {
                 object obj = ResourceManager.GetObject("a_hash", resourceCulture);
-                return ((byte[])(obj));
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
