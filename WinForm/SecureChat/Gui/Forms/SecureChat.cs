@@ -133,6 +133,11 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     this.pictureBoxYou.Image = bmp;
             }
 
+            foreach (Contact contact in Entities.Settings.Instance.Contacts)
+            {
+                this.comboBoxIpContact.Items.Add(contact.NameEmail);
+            }
+
 
 
         }
