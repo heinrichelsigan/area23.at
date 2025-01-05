@@ -19,7 +19,8 @@ namespace Area23.At.WinForm.SecureChat.Entities
 
         public string? SecretKey { get; set; }
 
-        public string? NameEmail { get => Name ?? ContactId + ((string.IsNullOrEmpty(Email)) ? string.Empty : ("<" + Email + ">")); }
+        public string? NameEmail { get => Name + ((string.IsNullOrEmpty(Email)) ? string.Empty : ("<" + Email + ">")); }
+               
 
         public string? ImageBase64 { get; set; }
     }

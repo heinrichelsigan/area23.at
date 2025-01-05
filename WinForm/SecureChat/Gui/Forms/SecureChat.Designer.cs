@@ -802,7 +802,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // richTextBoxChat
             // 
             richTextBoxChat.BorderStyle = BorderStyle.FixedSingle;
-            richTextBoxChat.Cursor = Cursors.No;
             richTextBoxChat.ForeColor = SystemColors.WindowText;
             richTextBoxChat.Location = new Point(3, 549);
             richTextBoxChat.Margin = new Padding(2);
