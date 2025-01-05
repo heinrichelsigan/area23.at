@@ -123,7 +123,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             {
                 menuItemMyContact_Click(sender, e);
             }
-
+            
             await SetupNetwork();
 
             if (Entities.Settings.Instance != null && Entities.Settings.Instance.MyContact != null && !string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.ImageBase64))
