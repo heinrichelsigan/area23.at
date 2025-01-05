@@ -89,18 +89,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         internal static int chatCnt = 0;
         internal static Chat? chat;
 
-        internal delegate void SetTextCallback(System.Windows.Forms.TextBox textBox, string text);
-
-        internal delegate void AppendTextCallback(System.Windows.Forms.TextBox textBox, string text);
-
-        internal delegate void AppendRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, string text);
-
-        internal delegate void SelectRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, int start, int length);
-
-        internal delegate void SelectionAlignmentRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, HorizontalAlignment leftRight);
-
-        internal delegate int GetFirstCharIndexFromLineRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, int lineNr);
-
+        
         public SecureChat()
         {
             InitializeComponent();
@@ -114,14 +103,26 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         private async void SecureChat_Load(object sender, EventArgs e)
         {
-            if (Entities.Settings.Load() == null)
+            bool send1stReg = false;
+            if (Entities.Settings.Load() == null || Entities.Settings.Instance == null || Entities.Settings.Instance.MyContact == null)
             {
-                var badge = new TransparentBadge($"Error reading Settings from {LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE}.");
-                badge.Show();
-            }
-            if (Entities.Settings.Instance == null || Entities.Settings.Instance.MyContact == null)
-            {
+                // var badge = new TransparentBadge($"Error reading Settings from {LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE}.");
+                // badge.Show();
                 menuItemMyContact_Click(sender, e);
+                while (string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.Email) || string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.Name))
+                {
+                    string notFullReason = string.Empty;
+                    if (string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.Name))
+                        notFullReason += "Name is missing!" + Environment.NewLine;
+                    if (string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.Email))
+                        notFullReason += "Email Address is missing!" + Environment.NewLine;
+                    // if (string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.Mobile))
+                    //     notFullReason += "Mobile phone is missing!" + Environment.NewLine;
+                    MessageBox.Show(notFullReason, "Please fill out your info fully", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    
+                    menuItemMyContact_Click(sender, e);
+                }
+                send1stReg = true;
             }
             
             await SetupNetwork();
@@ -133,14 +134,29 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     this.pictureBoxYou.Image = bmp;
             }
 
+            if (send1stReg)
+                menuItemSend_1stServerRegistration(sender, e);
+
             foreach (Contact contact in Entities.Settings.Instance.Contacts)
             {
                 this.comboBoxIpContact.Items.Add(contact.NameEmail);
             }
 
-
-
         }
+
+        #region thread save text and richtext box access
+
+        internal delegate void SetTextCallback(System.Windows.Forms.TextBox textBox, string text);
+
+        internal delegate void AppendTextCallback(System.Windows.Forms.TextBox textBox, string text);
+
+        internal delegate void AppendRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, string text);
+
+        internal delegate void SelectRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, int start, int length);
+
+        internal delegate void SelectionAlignmentRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, HorizontalAlignment leftRight);
+
+        internal delegate int GetFirstCharIndexFromLineRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, int lineNr);
 
         /// <summary>
         /// AppendText - appends text on a <see cref="System.Windows.Forms.TextBox"/>
@@ -331,6 +347,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
         }
 
+        #endregion thread save text and richtext box access
+
         private void Button_SecretKey_Click(object sender, EventArgs e)
         {
             string myServerKey = (string.IsNullOrEmpty(this.textBoxSecretKey.Text)) ?
@@ -387,7 +405,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
         }
 
-        private void menuItemSend_Click(object sender, EventArgs e)
+        private void menuItemSend_1stServerRegistration(object sender, EventArgs e)
         {
             if (chat == null)
                 chat = new Chat(0);
@@ -405,24 +423,33 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
             this.TextBoxPipe.Text = serverMessage.symmPipe.PipeString;
 
-
-            string encrypted = serverMessage.CqrMessage(this.richTextBoxChat.Text);
-            string response = serverMessage.SendCqrSrvMsg(this.richTextBoxChat.Text, ServerIpAddress);
-
+            Contact myContact = Entities.Settings.Instance.MyContact;
+            string plain = myContact.Name + Environment.NewLine + myContact.Email + Environment.NewLine +
+                myContact.Mobile + Environment.NewLine + myContact.Address + Environment.NewLine +
+                myContact.SecretKey + Environment.NewLine;
+            string encrypted = serverMessage.CqrMessage(plain);
+            string response = serverMessage.SendCqrSrvMsg(encrypted, ServerIpAddress);
 
             this.TextBoxSource.Text = encrypted + "\n"; //  + "\r\n" + serverMessage.symmPipe.HexStages;
             string decrypted = serverMessage.NCqrMessage(encrypted);
             this.TextBoxDestionation.Text = decrypted + "\n" + response + "\r\n"; // + serverMessage.symmPipe.HexStages;
 
-            if (chatCnt++ % 2 == 0)
-                chat.AddMyMessage(this.richTextBoxChat.Text);
-            else
-                chat.AddFriendMessage(this.richTextBoxChat.Text);
+            chat.AddMyMessage(plain);            
+            chat.AddFriendMessage(decrypted);
 
             // this.richTextBoxOneView.Rtf = this.richTextBoxChat.Rtf;
             Format_Lines_RichTextBox();
         }
 
+
+        private void menuItemSend_Click(object sender, EventArgs e)
+        {
+            // TODO: implement it via socket directly or to registered user
+            // if Ip is pingable and reachable and connectable
+            // send HELLO to IP
+            // otherwise send message to registered user via server
+            // Always encrypt via key
+        }
 
         private void menuItemRefresh_Click(object sender, EventArgs e)
         {
@@ -464,18 +491,28 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             {
                 string base64image = Settings.Instance.MyContact.ImageBase64 ?? string.Empty;
 
-                Bitmap? bmp;
-                byte[] bytes = Base64.Decode(base64image);
-                using (MemoryStream ms = new MemoryStream(bytes))
+                if (!string.IsNullOrEmpty(base64image))
                 {
-                    bmp = new Bitmap(ms);
+                    try
+                    {
+                        Bitmap? bmp;
+                        byte[] bytes = Base64.Decode(base64image);
+                        using (MemoryStream ms = new MemoryStream(bytes))
+                        {
+                            bmp = new Bitmap(ms);
+                        }
+                        if (bmp != null)
+                            this.pictureBoxYou.Image = bmp;
+
+                    }
+                    catch (Exception exBmp)
+                    {
+                        CqrException.LastException = exBmp;
+                    }
+
+                    // var badge = new TransparentBadge("My contact added!");
+                    // badge.ShowDialog();
                 }
-                if (bmp != null)
-                    this.pictureBoxYou.Image = bmp;
-
-
-                // var badge = new TransparentBadge("My contact added!");
-                // badge.ShowDialog();
 
             }
 
