@@ -743,13 +743,16 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // textBoxSecretKey
             // 
+            textBoxSecretKey.BorderStyle = BorderStyle.FixedSingle;
             textBoxSecretKey.Font = new Font("Lucida Sans Unicode", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxSecretKey.HideSelection = false;
             textBoxSecretKey.Location = new Point(78, 5);
             textBoxSecretKey.Margin = new Padding(1);
+            textBoxSecretKey.MaxLength = 8192;
             textBoxSecretKey.Name = "textBoxSecretKey";
             textBoxSecretKey.Size = new Size(250, 26);
             textBoxSecretKey.TabIndex = 19;
+            textBoxSecretKey.TextChanged += TextBoxSecretKey_TextChanged;
             // 
             // buttonHash
             // 

@@ -89,7 +89,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         internal static int chatCnt = 0;
         internal static Chat? chat;
 
-        
+
         public SecureChat()
         {
             InitializeComponent();
@@ -119,12 +119,12 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     // if (string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.Mobile))
                     //     notFullReason += "Mobile phone is missing!" + Environment.NewLine;
                     MessageBox.Show(notFullReason, "Please fill out your info fully", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    
+
                     menuItemMyContact_Click(sender, e);
                 }
                 send1stReg = true;
             }
-            
+
             await SetupNetwork();
 
             if (Entities.Settings.Instance != null && Entities.Settings.Instance.MyContact != null && !string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.ImageBase64))
@@ -365,7 +365,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         private void Button_AddToPipeline_Click(object sender, EventArgs e)
         {
-            Button_SecretKey_Click(sender, e);            
+            Button_SecretKey_Click(sender, e);
 
         }
 
@@ -434,7 +434,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             string decrypted = serverMessage.NCqrMessage(encrypted);
             this.TextBoxDestionation.Text = decrypted + "\n" + response + "\r\n"; // + serverMessage.symmPipe.HexStages;
 
-            chat.AddMyMessage(plain);            
+            chat.AddMyMessage(plain);
             chat.AddFriendMessage(decrypted);
 
             // this.richTextBoxOneView.Rtf = this.richTextBoxChat.Rtf;
@@ -447,12 +447,26 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // TODO: implement it via socket directly or to registered user
             // if Ip is pingable and reachable and connectable
             // send HELLO to IP
+            if (chat == null)
+                chat = new Chat(0);
 
+            if (string.IsNullOrEmpty(this.textBoxSecretKey.Text))
+            {
+                MessageBox.Show("You haven't entered a secret key!", "Please enter a secret key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.textBoxSecretKey.BorderStyle = BorderStyle.Fixed3D;
+                return;
+            }
+
+            string unencrypted = this.richTextBoxChat.Text;
             IPAddress partnerIp;
             try
             {
-                partnerIp = IPAddress.Parse(this.comboBoxIpContact.Text);
+                partnerIp = IPAddress.Parse(unencrypted);
                 IPSocketSender.Send(partnerIp, this.richTextBoxChat.Text, Constants.CHAT_PORT);
+                chat.AddMyMessage(unencrypted);
+                AppendText(TextBoxSource, unencrypted);
+                // this.richTextBoxOneView.Text = unencrypted;
+                // Format_Lines_RichTextBox();
             }
             catch (Exception ex)
             {
@@ -963,6 +977,17 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private void buttonHashIv_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void TextBoxSecretKey_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.textBoxSecretKey.Text))
+            {
+                MessageBox.Show("You haven't entered a secret key!", "Please enter a secret key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.textBoxSecretKey.BorderStyle = BorderStyle.Fixed3D;
+                return;
+            }
+            this.textBoxSecretKey.BorderStyle = BorderStyle.FixedSingle;
         }
     }
 
