@@ -61,7 +61,7 @@ namespace Area23.At.Framework.Library.Core.Net
                 string resp = string.Empty;
                 try
                 {
-                    resp = TcpClientWebRequest.MakeWebRequest(serverIp);
+                    resp = IPSocketSender.MakeWebRequest(serverIp);
 
                     clientIp = IPAddress.Parse(resp);
                     if (!validAddrs.Contains(clientIp))
