@@ -447,6 +447,16 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // TODO: implement it via socket directly or to registered user
             // if Ip is pingable and reachable and connectable
             // send HELLO to IP
+
+            IPAddress partnerIp;
+            try
+            {
+                partnerIp = IPAddress.Parse(this.comboBoxIpContact.Text);
+                IPSocketSender.Send(partnerIp, Constants.CHAT_PORT, this.richTextBoxChat.Text);
+            }
+            catch (Exception ex)
+            {
+            }
             // otherwise send message to registered user via server
             // Always encrypt via key
         }
