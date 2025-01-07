@@ -461,7 +461,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             IPAddress partnerIp;
             try
             {
-                partnerIp = IPAddress.Parse(unencrypted);
+                partnerIp = IPAddress.Parse(this.comboBoxIpContact.Text);
                 IPSocketSender.Send(partnerIp, this.richTextBoxChat.Text, Constants.CHAT_PORT);
                 chat.AddMyMessage(unencrypted);
                 AppendText(TextBoxSource, unencrypted);
