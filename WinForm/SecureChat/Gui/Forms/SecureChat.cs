@@ -452,7 +452,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             try
             {
                 partnerIp = IPAddress.Parse(this.comboBoxIpContact.Text);
-                IPSocketSender.Send(partnerIp, Constants.CHAT_PORT, this.richTextBoxChat.Text);
+                IPSocketSender.Send(partnerIp, this.richTextBoxChat.Text, Constants.CHAT_PORT);
             }
             catch (Exception ex)
             {

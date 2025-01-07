@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
-namespace Area23.At.Framework.Library.Core.Net.WebHttp
+namespace Area23.At.Framework.Library.Core.Net.IpSocket
 {
     public static class IPSocketSender
     {
@@ -29,12 +29,12 @@ Pragma: no-cache
 Cache-Control: no-cache";
 
         /// <summary>
-        /// MakeWebRequest
+        /// Send
         /// </summary>
         /// <param name="serverIp">server ip address</param>
-        /// <param name="serverPort">server port (default 80)</param>
+        /// <param name="serverPort">server port (default 7777)</param>
         /// <returns>client address as string</returns>
-        public static string MakeWebRequest(IPAddress serverIp, int serverPort = 80)
+        public static string Send(IPAddress serverIp, string msg, int serverPort = 7777)
         {
             string? resp = string.Empty;
             try
@@ -84,16 +84,16 @@ Cache-Control: no-cache";
         /// <param name="serverIp">server ip address</param>
         /// <param name="serverPort">server port (default 80)</param>
         /// <returns><see cref="Task{object}"/></returns>
-        public static async Task<object> MakeWebRequestAsync(IPAddress serverIp, int serverPort = 80)
-        {
-            Task<object> makeTcpRequestTask = (Task<object>)await Task<object>.Run<object>(() =>
-            {
-                string clientIpStr = MakeWebRequest(serverIp, serverPort);
-                return clientIpStr;
-            });
+        //public static async Task<object> MakeWebRequestAsync(IPAddress serverIp, int serverPort = 80)
+        //{
+        //    Task<object> makeTcpRequestTask = (Task<object>)await Task<object>.Run<object>(() =>
+        //    {
+        //        string clientIpStr = MakeWebRequest(serverIp, serverPort);
+        //        return clientIpStr;
+        //    });
 
-            return makeTcpRequestTask;
-        }
+        //    return makeTcpRequestTask;
+        //}
 
 
 
