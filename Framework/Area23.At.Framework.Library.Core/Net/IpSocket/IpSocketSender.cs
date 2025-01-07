@@ -10,12 +10,14 @@ using Microsoft.Win32;
 namespace Area23.At.Framework.Library.Core.Net.IpSocket
 {
     public static class IPSocketSender
-    {       
+    {
+
 
         /// <summary>
         /// Send
         /// </summary>
         /// <param name="serverIp">server ip address</param>
+        /// <param name="msg">msg to send</param>
         /// <param name="serverPort">server port (default 7777)</param>
         /// <returns>client address as string</returns>
         public static string Send(IPAddress serverIp, string msg, int serverPort = 7777)
