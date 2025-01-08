@@ -9,6 +9,7 @@ using Area23.At.Framework.Library.Core.Net.WebHttp;
 using Area23.At.Framework.Library.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
 using Area23.At.WinForm.SecureChat.Properties;
+using System;
 using System.Configuration;
 using System.Net;
 using System.Reflection;
@@ -86,6 +87,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private static IPAddress? clientIpAddress;
         private static IPSockListener? ipSockListener;
 
+        private string myServerKey;
         internal static int chatCnt = 0;
         internal static Chat? chat;
 
@@ -158,6 +160,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         internal delegate int GetFirstCharIndexFromLineRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, int lineNr);
 
+        internal delegate void ClearRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, bool clear = true);
+
         /// <summary>
         /// AppendText - appends text on a <see cref="System.Windows.Forms.TextBox"/>
         /// </summary>
@@ -224,7 +228,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     richTextBox.AppendText(textToAppend);
             }
         }
-
 
         internal void SelectRichText(System.Windows.Forms.RichTextBox richTextBox, int start, int length)
         {
@@ -315,6 +318,35 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             return -1;
         }
 
+        internal void ClearRichText(System.Windows.Forms.RichTextBox richTextBox, bool clear = true)
+        {
+            // InvokeRequired required compares the thread ID of the calling thread to the thread ID of the creating thread.
+            // If these threads are different, it returns true.
+            if (richTextBox.InvokeRequired)
+            {
+                ClearRichTextCallback clearRichTextCallback = 
+                    delegate (System.Windows.Forms.RichTextBox textArea, bool clr)
+                    {
+                        if (textArea != null)
+                            textArea.Clear();
+                        return;
+                    };
+                try
+                {
+                    richTextBox.Invoke(clearRichTextCallback, new object[] { richTextBox, clear });
+                    // textBox.Invoke((System.Reflection.MethodInvoker)delegate { textBox.AppendText(text); });
+                }
+                catch (System.Exception exDelegate)
+                {
+                    Area23Log.Logger.LogOriginMsgEx(this.Name, $"Exception in delegate ClearRichText: \"{exDelegate.Message}\".\n", exDelegate);
+                }
+            }
+            else
+            {
+                if (richTextBox != null)
+                    richTextBox.Clear();
+            }
+        }
 
         /// <summary>
         /// Displays and formats lines in <see cref="richTextBoxOneView" />
@@ -323,7 +355,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             if (chat != null)
             {
-                richTextBoxOneView.Clear();
+                ClearRichText(richTextBoxOneView);
                 int lineIndex = 0;
                 foreach (var tuple in chat.CqrMsgs)
                 {
@@ -351,7 +383,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         private void Button_SecretKey_Click(object sender, EventArgs e)
         {
-            string myServerKey = (string.IsNullOrEmpty(this.textBoxSecretKey.Text)) ?
+            myServerKey = (string.IsNullOrEmpty(this.textBoxSecretKey.Text)) ?
                 ExternalIpAddress?.ToString() + Constants.BC_START_MSG :
                 this.textBoxSecretKey.Text;
 
@@ -388,6 +420,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         internal void OnClientReceive(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(myServerKey))
+                myServerKey = this.textBoxSecretKey.Text;
+
+
             if (sender != null)
             {
                 if (ipSockListener?.BufferedData != null && ipSockListener.BufferedData.Length > 0)
@@ -395,7 +431,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     if (chat == null)
                         chat = new Chat(0);
 
-                    string unencrypted = EnDeCoder.GetString(ipSockListener.BufferedData);
+                    string encrypted = EnDeCoder.GetString(ipSockListener.BufferedData);
+                    CqrPeer2PeerMsg pmsg = new CqrPeer2PeerMsg(myServerKey);
+                    string unencrypted = pmsg.NCqrPeerMsg(encrypted);
+
                     chat.AddFriendMessage(unencrypted);
 
                     AppendText(TextBoxDestionation, unencrypted);
@@ -410,7 +449,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             if (chat == null)
                 chat = new Chat(0);
 
-            string myServerKey = (string.IsNullOrEmpty(this.textBoxSecretKey.Text)) ?
+            myServerKey = (string.IsNullOrEmpty(this.textBoxSecretKey.Text)) ?
                 ExternalIpAddress?.ToString() + Constants.APP_NAME :
                 this.textBoxSecretKey.Text;
 
@@ -457,19 +496,25 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 return;
             }
 
+            if (string.IsNullOrEmpty(myServerKey))
+                myServerKey = this.textBoxSecretKey.Text;
+
+
             string unencrypted = this.richTextBoxChat.Text;
             IPAddress partnerIp;
             try
             {
                 partnerIp = IPAddress.Parse(this.comboBoxIpContact.Text);
-                IPSocketSender.Send(partnerIp, this.richTextBoxChat.Text, Constants.CHAT_PORT);
+                CqrPeer2PeerMsg pmsg = new CqrPeer2PeerMsg(myServerKey);
+                pmsg.SendCqrPeerMsg(unencrypted, partnerIp, EncodingType.Base64, Constants.CHAT_PORT);
+                
                 chat.AddMyMessage(unencrypted);
                 AppendText(TextBoxSource, unencrypted);
-                // this.richTextBoxOneView.Text = unencrypted;
-                // Format_Lines_RichTextBox();
+                Format_Lines_RichTextBox();
             }
             catch (Exception ex)
             {
+                Area23Log.Logger.LogOriginMsgEx(this.Name, $"Exception in menuItemSend_Click: {ex.Message}.\n", ex);
             }
             // otherwise send message to registered user via server
             // Always encrypt via key

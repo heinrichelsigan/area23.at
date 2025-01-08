@@ -263,7 +263,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             byte[] encryptedBytes = new byte[inBytes.Length * 3 + 1];
 #if DEBUG
             stageDictionary = new Dictionary<SymmCipherEnum, byte[]>();
-            stageDictionary.Add(SymmCipherEnum.ZenMatrix, inBytes);
+            // stageDictionary.Add(SymmCipherEnum.ZenMatrix, inBytes);
 #endif
             foreach (SymmCipherEnum symmCipher in InPipe)
             {
@@ -293,7 +293,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             byte[] decryptedBytes = new byte[cipherBytes.Length * 3 + 1];
 #if DEBUG
             stageDictionary = new Dictionary<SymmCipherEnum, byte[]>();
-            stageDictionary.Add(SymmCipherEnum.ZenMatrix, cipherBytes);
+            // stageDictionary.Add(SymmCipherEnum.ZenMatrix, cipherBytes);
 #endif 
             foreach (SymmCipherEnum symmCipher in OutPipe)
             {
