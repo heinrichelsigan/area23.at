@@ -41,6 +41,31 @@ namespace Area23.At.Framework.Library.Util
             }
         }
 
+        public static string JsonContactsFile
+        {
+            get
+            {
+                string loadFileName = System.IO.Path.Combine(LibPaths.SystemDirQrPath, Constants.JSON_CONTACTS_FILE);
+                if (!File.Exists(loadFileName))
+                {
+                    loadFileName = AppContext.BaseDirectory.
+                        Replace(LibPaths.SepChar + Constants.BIN_DIR, "").Replace(LibPaths.SepChar + Constants.OBJ_DIR, "").
+                        Replace(LibPaths.SepChar + Constants.RELEASE_DIR, "").Replace(LibPaths.SepChar + Constants.DEBUG_DIR, "");
+                    loadFileName += (loadFileName.EndsWith(LibPaths.SepChar)) ? "" : LibPaths.SepChar;
+                    loadFileName += Constants.QR_DIR + LibPaths.SepChar + Constants.JSON_CONTACTS_FILE;
+                }
+                if (!File.Exists(loadFileName))
+                {
+                    loadFileName = AppDomain.CurrentDomain.BaseDirectory.
+                        Replace(LibPaths.SepChar + Constants.BIN_DIR, "").Replace(LibPaths.SepChar + Constants.OBJ_DIR, "").
+                        Replace(LibPaths.SepChar + Constants.RELEASE_DIR, "").Replace(LibPaths.SepChar + Constants.DEBUG_DIR, "");
+                    loadFileName += (loadFileName.EndsWith(LibPaths.SepChar)) ? "" : LibPaths.SepChar;
+                    loadFileName += Constants.QR_DIR + LibPaths.SepChar + Constants.JSON_CONTACTS_FILE;
+                }
+                return loadFileName;
+            }
+        }
+
         public static Dictionary<string, Uri> ShortenMapJson
         {
             get

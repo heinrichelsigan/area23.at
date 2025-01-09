@@ -58,7 +58,7 @@
     <Compile Update="Gui\Forms\NetAddr.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Gui\Forms\RichtTextChat.cs">
+    <Compile Update="Gui\Forms\RichTextChat.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Gui\Forms\SecureChat.cs">

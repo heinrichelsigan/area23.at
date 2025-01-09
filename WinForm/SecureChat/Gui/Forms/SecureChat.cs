@@ -139,11 +139,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             if (send1stReg)
                 menuItemSend_1stServerRegistration(sender, e);
 
-            foreach (Contact contact in Entities.Settings.Instance.Contacts)
-            {
-                this.comboBoxIpContact.Items.Add(contact.NameEmail);
-            }
-
+            AddContactsToIpContact();
         }
 
         #region thread save text and richtext box access
@@ -550,6 +546,18 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         #region Contacts
 
+        private void AddContactsToIpContact()
+        {
+            string ipContact = this.comboBoxIpContact.Text;
+            this.comboBoxIpContact.Items.Clear();
+            foreach (Contact ct in Entities.Settings.Instance.Contacts)
+            {
+                if (ct != null && !string.IsNullOrEmpty(ct.NameEmail))
+                    this.comboBoxIpContact.Items.Add(ct.NameEmail);
+            }
+            this.comboBoxIpContact.Text = ipContact;
+        }
+
         private void menuItemMyContact_Click(object sender, EventArgs e)
         {
             ContactSettings contactSettings = new ContactSettings("My Contact Info", 0);
@@ -592,9 +600,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             ContactSettings contactSettings = new ContactSettings("Add Contact Info", 1);
             contactSettings.ShowInTaskbar = true;
             contactSettings.ShowDialog();
-
-            // var badge = new TransparentBadge("My contact added!");
-            // badge.ShowDialog();
+            
+            AddContactsToIpContact();
         }
 
         #endregion Contacts

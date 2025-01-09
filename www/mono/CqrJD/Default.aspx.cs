@@ -1,6 +1,9 @@
 ﻿using Area23.At.Framework.Library;
 using Area23.At.Framework.Library.Net.CqrJd;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Mono.Util;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Collections.Generic;
@@ -11,6 +14,7 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using JsonHelper = Area23.At.Framework.Library.Util.JsonHelper;
 
 namespace Area23.At.Mono.CqrJD
 {
@@ -19,11 +23,18 @@ namespace Area23.At.Mono.CqrJD
 
         string hashKey = string.Empty;
         string decrypted = string.Empty;
-        
+
+        HashSet<Contact> _contacts;
+       
+
         protected void Page_Load(object sender, EventArgs e)
         {
             string hexall = string.Empty;
             string myServerKey = string.Empty;
+            if (Application[Constants.JSON_CONTACTS] != null)
+                _contacts = (HashSet<Contact>)(Application[Constants.JSON_CONTACTS]);
+            else
+                _contacts = LoadJsonContacts();
 
             if (ConfigurationManager.AppSettings["ServerIPv4"] != null)
                 this.LiteralServerIPv4.Text = (string)ConfigurationManager.AppSettings["ServerIPv4"];
@@ -80,7 +91,8 @@ namespace Area23.At.Mono.CqrJD
 
                 myServerKey += Constants.APP_NAME;
                 CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
-                
+                decrypted = string.Empty;
+
                 try
                 {
                     if (!string.IsNullOrEmpty(rq) && rq.Length >= 8)
@@ -97,6 +109,15 @@ namespace Area23.At.Mono.CqrJD
 
                 if (!string.IsNullOrEmpty(decrypted))
                 {
+                    string[] props = decrypted.Split(Environment.NewLine.ToCharArray());
+                    Contact c = new Contact();
+                    c.Name = props[0];
+                    c.Email = props[1];
+                    c.Mobile = props[2];
+                    c.Address = props[3];
+                    _contacts.Add(c);
+                    SaveJsonContacts();
+
                     Application["decrypted"] = decrypted;
                 }
                 Application["lastmsg"] = rq;
@@ -109,6 +130,27 @@ namespace Area23.At.Mono.CqrJD
         protected void ButtonSubmit_Click(object sender, EventArgs e)
         {
             this.Title = "CqrJd Testform " + DateTime.Now.Ticks;
+        }
+
+
+        protected HashSet<Contact> LoadJsonContacts()
+        {
+            if (!System.IO.File.Exists(JsonHelper.JsonContactsFile))
+                System.IO.File.Create(JsonHelper.JsonContactsFile);
+
+            string jsonText = System.IO.File.ReadAllText(JsonHelper.JsonContactsFile);
+            _contacts = JsonConvert.DeserializeObject<HashSet<Contact>>(jsonText);
+            Application[Constants.JSON_CONTACTS] = _contacts;
+            return _contacts;
+        }
+
+        protected void SaveJsonContacts()
+        {
+            JsonSerializerSettings jsets = new JsonSerializerSettings();
+            jsets.Formatting = Formatting.Indented;
+            string jsonString = JsonConvert.SerializeObject(_contacts, Formatting.Indented);
+            System.IO.File.WriteAllText(JsonHelper.JsonContactsFile, jsonString);
+            HttpContext.Current.Application[Constants.JSON_CONTACTS] = _contacts;
         }
 
     }
