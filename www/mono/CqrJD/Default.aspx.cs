@@ -89,7 +89,7 @@ namespace Area23.At.Mono.CqrJD
                     myServerKey = (string)ConfigurationManager.AppSettings["ExternalClientIP"];
                 else
                     myServerKey = Request.UserHostAddress;
-
+                
                 myServerKey += Constants.APP_NAME;
                 CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
                 decrypted = string.Empty;
@@ -114,8 +114,8 @@ namespace Area23.At.Mono.CqrJD
                     Contact c = new Contact();
                     c.Name = props[0];
                     c.Email = props[1];
-                    c.Mobile = props[2];
-                    c.Address = props[3];
+                    //c.Mobile = props[2];
+                    //c.Address = props[3];
                     _contacts.Add(c);
                     SaveJsonContacts();
 
@@ -146,6 +146,8 @@ namespace Area23.At.Mono.CqrJD
             {
                 string jsonText = System.IO.File.ReadAllText(JsonHelper.JsonContactsFile);
                 _contacts = JsonConvert.DeserializeObject<HashSet<Contact>>(jsonText);
+                if (_contacts == null || _contacts.Count == 0)
+                    _contacts = new HashSet<Contact>();
                 Application[Constants.JSON_CONTACTS] = _contacts;
             }
             return _contacts;

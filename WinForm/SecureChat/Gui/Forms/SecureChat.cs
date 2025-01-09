@@ -463,7 +463,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 myContact.Mobile + Environment.NewLine + myContact.Address + Environment.NewLine +
                 myContact.SecretKey + Environment.NewLine;
             string encrypted = serverMessage.CqrMessage(plain);
-            string response = serverMessage.SendCqrSrvMsg(encrypted, ServerIpAddress);
+            string response = serverMessage.SendCqrSrvMsg(plain, ServerIpAddress);
 
             this.TextBoxSource.Text = encrypted + "\n"; //  + "\r\n" + serverMessage.symmPipe.HexStages;
             string decrypted = serverMessage.NCqrMessage(encrypted);
