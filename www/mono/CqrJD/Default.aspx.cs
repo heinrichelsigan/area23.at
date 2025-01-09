@@ -15,6 +15,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using JsonHelper = Area23.At.Framework.Library.Util.JsonHelper;
+using System.Threading;
 
 namespace Area23.At.Mono.CqrJD
 {
@@ -23,7 +24,7 @@ namespace Area23.At.Mono.CqrJD
 
         string hashKey = string.Empty;
         string decrypted = string.Empty;
-
+        object _lock = new object();
         HashSet<Contact> _contacts;
        
 
@@ -135,12 +136,18 @@ namespace Area23.At.Mono.CqrJD
 
         protected HashSet<Contact> LoadJsonContacts()
         {
-            if (!System.IO.File.Exists(JsonHelper.JsonContactsFile))
-                System.IO.File.Create(JsonHelper.JsonContactsFile);
-
-            string jsonText = System.IO.File.ReadAllText(JsonHelper.JsonContactsFile);
-            _contacts = JsonConvert.DeserializeObject<HashSet<Contact>>(jsonText);
-            Application[Constants.JSON_CONTACTS] = _contacts;
+            lock (_lock)
+            {
+                if (!System.IO.File.Exists(JsonHelper.JsonContactsFile))
+                    System.IO.File.Create(JsonHelper.JsonContactsFile);
+            }
+            Thread.Sleep(100);
+            lock (_lock)
+            {
+                string jsonText = System.IO.File.ReadAllText(JsonHelper.JsonContactsFile);
+                _contacts = JsonConvert.DeserializeObject<HashSet<Contact>>(jsonText);
+                Application[Constants.JSON_CONTACTS] = _contacts;
+            }
             return _contacts;
         }
 
