@@ -780,6 +780,12 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         }
 
 
+        /// <summary>
+        /// IPAdressSelected Delegate is invoked, 
+        /// when a different IP Address in context menu is selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void IPAddressSelected(object sender, EventArgs e)
         {
             if (sender != null && sender is ToolStripMenuItem mi)

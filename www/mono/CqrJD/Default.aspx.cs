@@ -69,7 +69,7 @@ namespace Area23.At.Mono.CqrJD
                     rq = rq.Substring("TextBoxEncrypted=".Length);
                     if (rq.Contains("TextBoxDecrypted="))
                         rq = rq.Substring(0, rq.IndexOf("TextBoxDecrypted="));
-                    rq = rq.TrimEnd("\r\n".ToArray());
+                    // rq = rq.TrimEnd("\r\n".ToArray());
                 }
 
                 
@@ -117,7 +117,7 @@ namespace Area23.At.Mono.CqrJD
                     //c.Mobile = props[2];
                     //c.Address = props[3];
                     _contacts.Add(c);
-                    SaveJsonContacts();
+                    SaveJsonContacts(_contacts);
 
                     Application["decrypted"] = decrypted;
                 }
@@ -136,30 +136,12 @@ namespace Area23.At.Mono.CqrJD
 
         protected HashSet<Contact> LoadJsonContacts()
         {
-            lock (_lock)
-            {
-                if (!System.IO.File.Exists(JsonHelper.JsonContactsFile))
-                    System.IO.File.Create(JsonHelper.JsonContactsFile);
-            }
-            Thread.Sleep(100);
-            lock (_lock)
-            {
-                string jsonText = System.IO.File.ReadAllText(JsonHelper.JsonContactsFile);
-                _contacts = JsonConvert.DeserializeObject<HashSet<Contact>>(jsonText);
-                if (_contacts == null || _contacts.Count == 0)
-                    _contacts = new HashSet<Contact>();
-                Application[Constants.JSON_CONTACTS] = _contacts;
-            }
-            return _contacts;
+            return JsonContacts.LoadJsonContacts();
         }
 
-        protected void SaveJsonContacts()
+        protected void SaveJsonContacts(HashSet<Contact> contacts)
         {
-            JsonSerializerSettings jsets = new JsonSerializerSettings();
-            jsets.Formatting = Formatting.Indented;
-            string jsonString = JsonConvert.SerializeObject(_contacts, Formatting.Indented);
-            System.IO.File.WriteAllText(JsonHelper.JsonContactsFile, jsonString);
-            HttpContext.Current.Application[Constants.JSON_CONTACTS] = _contacts;
+            JsonContacts.SaveJsonContacts(contacts);
         }
 
     }

@@ -41,6 +41,9 @@ namespace Area23.At.Framework.Library.Core
         public const string URL_SHORT = "https://area23.at/s/?";
         public const string AREA23_UTF8_URL = "https://area23.at/u/";
 
+        public const string ACK = "Ack";
+        public const string NACK = "Nack";
+
         public const string AUTHOR = "Heinrich Elsigan";
         public const string AUTHOR_EMAIL = "heinrich.elsigan@area23.at";
         public const string AUTHOR_IV = "6865696e726963682e656c736967616e406172656132332e6174";

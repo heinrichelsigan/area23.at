@@ -128,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Calc\CCalc.aspx" />
+    <Content Include="CqrJD\CqrService.asmx" />
     <Content Include="CqrJD\Default.aspx" />
     <Content Include="Crypt\ZenMatrixVisualize.aspx" />
     <Content Include="Default.aspx" />
@@ -313,6 +314,10 @@
     <Compile Include="Calc\CCalc.aspx.designer.cs">
       <DependentUpon>CCalc.aspx</DependentUpon>
     </Compile>
+    <Compile Include="CqrJD\CqrService.asmx.cs">
+      <DependentUpon>CqrService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CqrJD\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -320,6 +325,7 @@
     <Compile Include="CqrJD\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="CqrJD\JsonContacts.cs" />
     <Compile Include="Crypt\ZenMatrixVisualize.aspx.cs">
       <DependentUpon>ZenMatrixVisualize.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

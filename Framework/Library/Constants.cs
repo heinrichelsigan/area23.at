@@ -78,6 +78,8 @@ namespace Area23.At.Framework.Library
         public const string LAST_EXCEPTION = "last_exception";
         public const string COOL_CRYPT_SPLIT = "+-;,:→⇛\t ";
 
+        public const string ACK = "Ack";
+        public const string NACK = "Nack";
 
         public const string ACCEPT_LANGUAGE = "Accept-Language";
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";
