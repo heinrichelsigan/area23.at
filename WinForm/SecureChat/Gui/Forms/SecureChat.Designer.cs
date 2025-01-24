@@ -120,11 +120,14 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuStrip
             // 
+            menuStrip.AllowItemReorder = true;
             menuStrip.BackColor = SystemColors.MenuBar;
             menuStrip.Font = new Font("Lucida Sans Unicode", 10F);
+            menuStrip.GripStyle = ToolStripGripStyle.Visible;
             menuStrip.Items.AddRange(new ToolStripItem[] { menuCQRChat, menuView, menuNetwork, toolMenuConnect, menuCommands, menuContacts, menuQuestionMark });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
+            menuStrip.RenderMode = ToolStripRenderMode.System;
             menuStrip.Size = new Size(976, 25);
             menuStrip.TabIndex = 0;
             menuStrip.Text = "menuStrip";
@@ -143,7 +146,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // menuFileItemOpen
             // 
             menuFileItemOpen.AutoToolTip = true;
-            menuFileItemOpen.BackColor = SystemColors.Menu;
+            menuFileItemOpen.BackColor = SystemColors.MenuBar;
             menuFileItemOpen.BackgroundImageLayout = ImageLayout.Center;
             menuFileItemOpen.ForeColor = SystemColors.MenuText;
             menuFileItemOpen.Margin = new Padding(1);
@@ -158,7 +161,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // menuFileItemSave
             // 
             menuFileItemSave.AutoToolTip = true;
-            menuFileItemSave.BackColor = SystemColors.Menu;
+            menuFileItemSave.BackColor = SystemColors.MenuBar;
             menuFileItemSave.BackgroundImageLayout = ImageLayout.Center;
             menuFileItemSave.ForeColor = SystemColors.MenuText;
             menuFileItemSave.Margin = new Padding(1);
@@ -172,7 +175,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuFileSeparator
             // 
-            menuFileSeparator.BackColor = SystemColors.Menu;
+            menuFileSeparator.BackColor = SystemColors.MenuBar;
             menuFileSeparator.ForeColor = SystemColors.MenuText;
             menuFileSeparator.Margin = new Padding(1);
             menuFileSeparator.Name = "menuFileSeparator";
@@ -181,7 +184,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // menuCqrChatItemPerist
             // 
             menuCqrChatItemPerist.AutoToolTip = true;
-            menuCqrChatItemPerist.BackColor = SystemColors.Menu;
+            menuCqrChatItemPerist.BackColor = SystemColors.MenuHighlight;
             menuCqrChatItemPerist.BackgroundImageLayout = ImageLayout.Center;
             menuCqrChatItemPerist.Checked = true;
             menuCqrChatItemPerist.CheckState = CheckState.Checked;
@@ -196,7 +199,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // meuFileToExitSperator
             // 
-            meuFileToExitSperator.BackColor = SystemColors.Menu;
+            meuFileToExitSperator.BackColor = SystemColors.MenuBar;
             meuFileToExitSperator.ForeColor = SystemColors.MenuText;
             meuFileToExitSperator.Margin = new Padding(1);
             meuFileToExitSperator.Name = "meuFileToExitSperator";
@@ -204,7 +207,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuFileItemExit
             // 
-            menuFileItemExit.BackColor = SystemColors.Menu;
+            menuFileItemExit.BackColor = SystemColors.MenuBar;
             menuFileItemExit.BackgroundImageLayout = ImageLayout.Center;
             menuFileItemExit.ForeColor = SystemColors.MenuText;
             menuFileItemExit.Name = "menuFileItemExit";
@@ -229,7 +232,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuViewItemLeftRíght
             // 
-            menuViewItemLeftRíght.BackColor = SystemColors.Menu;
+            menuViewItemLeftRíght.BackColor = SystemColors.MenuBar;
             menuViewItemLeftRíght.Checked = true;
             menuViewItemLeftRíght.CheckState = CheckState.Checked;
             menuViewItemLeftRíght.Name = "menuViewItemLeftRíght";
@@ -241,7 +244,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuViewItemTopBottom
             // 
-            menuViewItemTopBottom.BackColor = SystemColors.Menu;
+            menuViewItemTopBottom.BackColor = SystemColors.MenuBar;
             menuViewItemTopBottom.Name = "menuViewItemTopBottom";
             menuViewItemTopBottom.ShortcutKeys = Keys.Alt | Keys.T;
             menuViewItemTopBottom.Size = new Size(204, 22);
@@ -251,7 +254,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuViewItem1View
             // 
-            menuViewItem1View.BackColor = SystemColors.Menu;
+            menuViewItem1View.BackColor = SystemColors.MenuBar;
             menuViewItem1View.Name = "menuViewItem1View";
             menuViewItem1View.ShortcutKeys = Keys.Alt | Keys.D1;
             menuViewItem1View.Size = new Size(204, 22);
@@ -271,7 +274,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuIItemMyIps
             // 
-            menuIItemMyIps.BackColor = SystemColors.Menu;
+            menuIItemMyIps.BackColor = SystemColors.MenuBar;
             menuIItemMyIps.DropDownItems.AddRange(new ToolStripItem[] { menuItemExternalIp });
             menuIItemMyIps.Name = "menuIItemMyIps";
             menuIItemMyIps.Size = new Size(177, 22);
@@ -279,7 +282,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuItemExternalIp
             // 
-            menuItemExternalIp.BackColor = SystemColors.Menu;
+            menuItemExternalIp.BackColor = SystemColors.MenuBar;
             menuItemExternalIp.Name = "menuItemExternalIp";
             menuItemExternalIp.ShortcutKeys = Keys.Alt | Keys.E;
             menuItemExternalIp.Size = new Size(206, 22);
@@ -287,7 +290,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuItemFriendIp
             // 
-            menuItemFriendIp.BackColor = SystemColors.Menu;
+            menuItemFriendIp.BackColor = SystemColors.MenuBar;
             menuItemFriendIp.DropDownItems.AddRange(new ToolStripItem[] { menuItempComboBoxFriendIp });
             menuItemFriendIp.Name = "menuItemFriendIp";
             menuItemFriendIp.Size = new Size(177, 22);
@@ -302,7 +305,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuItemProxyServers
             // 
-            menuItemProxyServers.BackColor = SystemColors.Menu;
+            menuItemProxyServers.BackColor = SystemColors.MenuBar;
             menuItemProxyServers.Name = "menuItemProxyServers";
             menuItemProxyServers.Size = new Size(177, 22);
             menuItemProxyServers.Text = "proxies";
@@ -310,14 +313,14 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuIPsSeparator
             // 
-            menuIPsSeparator.BackColor = SystemColors.Menu;
+            menuIPsSeparator.BackColor = SystemColors.MenuBar;
             menuIPsSeparator.ForeColor = SystemColors.ActiveBorder;
             menuIPsSeparator.Name = "menuIPsSeparator";
             menuIPsSeparator.Size = new Size(174, 6);
             // 
             // menuItemIPv6Secure
             // 
-            menuItemIPv6Secure.BackColor = SystemColors.Menu;
+            menuItemIPv6Secure.BackColor = SystemColors.MenuBar;
             menuItemIPv6Secure.Name = "menuItemIPv6Secure";
             menuItemIPv6Secure.ShortcutKeys = Keys.Control | Keys.D6;
             menuItemIPv6Secure.Size = new Size(177, 22);
@@ -377,7 +380,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuItemSend
             // 
-            menuItemSend.BackColor = SystemColors.Menu;
+            menuItemSend.BackColor = SystemColors.MenuBar;
             menuItemSend.Name = "menuItemSend";
             menuItemSend.ShortcutKeys = Keys.Control | Keys.S;
             menuItemSend.Size = new Size(178, 22);
@@ -387,7 +390,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuItemAttach
             // 
-            menuItemAttach.BackColor = SystemColors.Menu;
+            menuItemAttach.BackColor = SystemColors.MenuBar;
             menuItemAttach.Name = "menuItemAttach";
             menuItemAttach.ShortcutKeys = Keys.Control | Keys.A;
             menuItemAttach.Size = new Size(178, 22);
@@ -396,12 +399,13 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuCommandsSeperator
             // 
+            menuCommandsSeperator.BackColor = SystemColors.MenuBar;
             menuCommandsSeperator.Name = "menuCommandsSeperator";
             menuCommandsSeperator.Size = new Size(175, 6);
             // 
             // menuItemRefresh
             // 
-            menuItemRefresh.BackColor = SystemColors.Menu;
+            menuItemRefresh.BackColor = SystemColors.MenuBar;
             menuItemRefresh.Name = "menuItemRefresh";
             menuItemRefresh.ShortcutKeys = Keys.Control | Keys.R;
             menuItemRefresh.Size = new Size(178, 22);
@@ -411,7 +415,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuItemClear
             // 
-            menuItemClear.BackColor = SystemColors.Menu;
+            menuItemClear.BackColor = SystemColors.MenuBar;
             menuItemClear.Name = "menuItemClear";
             menuItemClear.ShortcutKeys = Keys.Control | Keys.Delete;
             menuItemClear.Size = new Size(178, 22);
@@ -495,7 +499,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuItemHelp
             // 
-            menuItemHelp.BackColor = SystemColors.Menu;
+            menuItemHelp.BackColor = SystemColors.MenuBar;
             menuItemHelp.BackgroundImageLayout = ImageLayout.None;
             menuItemHelp.ForeColor = SystemColors.MenuText;
             menuItemHelp.Name = "menuItemHelp";
@@ -507,7 +511,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuItemInfo
             // 
-            menuItemInfo.BackColor = SystemColors.Menu;
+            menuItemInfo.BackColor = SystemColors.MenuBar;
             menuItemInfo.BackgroundImageLayout = ImageLayout.None;
             menuItemInfo.ForeColor = SystemColors.MenuText;
             menuItemInfo.Name = "menuItemInfo";
@@ -519,7 +523,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // menuItemAbout
             // 
-            menuItemAbout.BackColor = SystemColors.Menu;
+            menuItemAbout.BackColor = SystemColors.MenuBar;
             menuItemAbout.BackgroundImageLayout = ImageLayout.None;
             menuItemAbout.ForeColor = SystemColors.MenuText;
             menuItemAbout.Name = "menuItemAbout";
@@ -825,7 +829,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             // panelDestination
             // 
-            panelDestination.BackColor = Color.Transparent;
+            panelDestination.BackColor = SystemColors.ControlLightLight;
             panelDestination.Controls.Add(pictureBoxYou);
             panelDestination.Controls.Add(pictureBoxPartner);
             panelDestination.Controls.Add(pictureBoxQr);
@@ -911,7 +915,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private PictureBox pictureBoxYou;
         private PictureBox pictureBoxPartner;
         private Panel panelDestination;
-        private MenuStrip menuStrip;
         private ToolStripMenuItem toolStripMenuMain;
         private ToolStripMenuItem menuItemAbout;
         private ToolStripMenuItem toolStripMenuItemOld;
@@ -982,5 +985,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private Button buttonHash;
         private ComboBox comboBoxIpContact;
         private TextBox textBoxSecretKey;
+        internal MenuStrip menuStrip;
     }
 }
