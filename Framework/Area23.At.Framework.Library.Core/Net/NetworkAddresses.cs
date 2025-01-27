@@ -31,7 +31,7 @@ namespace Area23.At.Framework.Library.Core.Net
             if (serverIps == null || serverIps.Count == 0)
             {
                 serverIps = new List<IPAddress>();
-                foreach (IPAddress serverIp in GetIpAddrsByHostName("area23.at"))
+                foreach (IPAddress serverIp in GetIpAddrsByHostName("cqrxs.eu"))
                     serverIps.Add(serverIp);
                 foreach (IPAddress serverIp in GetIpAddrsByHostName("paris.area23.at"))
                     serverIps.Add(serverIp);

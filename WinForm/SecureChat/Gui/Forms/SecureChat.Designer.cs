@@ -92,10 +92,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             TextBoxDestionation = new TextBox();
             pictureBoxYou = new PictureBox();
             buttonSecretKey = new Button();
-            buttonAddToPipeline = new Button();
             panelEnCodeCrypt = new Panel();
             textBoxSecretKey = new TextBox();
-            buttonHash = new Button();
             comboBoxIpContact = new ComboBox();
             TextBoxPipe = new TextBox();
             pictureBoxQr = new PictureBox();
@@ -104,6 +102,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             panelDestination = new Panel();
             panelCenter = new Panel();
             richTextBoxOneView = new RichTextBox();
+            labelSecretKey = new Label();
             menuStrip.SuspendLayout();
             statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
@@ -706,7 +705,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             buttonSecretKey.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
             buttonSecretKey.ForeColor = SystemColors.ActiveCaptionText;
             buttonSecretKey.Image = Properties.Resources.a_right_key;
-            buttonSecretKey.Location = new Point(28, 4);
+            buttonSecretKey.Location = new Point(354, 4);
             buttonSecretKey.Margin = new Padding(1);
             buttonSecretKey.Name = "buttonSecretKey";
             buttonSecretKey.Padding = new Padding(1);
@@ -715,29 +714,14 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             buttonSecretKey.UseVisualStyleBackColor = false;
             buttonSecretKey.Click += Button_SecretKey_Click;
             // 
-            // buttonAddToPipeline
-            // 
-            buttonAddToPipeline.BackColor = SystemColors.ButtonHighlight;
-            buttonAddToPipeline.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
-            buttonAddToPipeline.ForeColor = SystemColors.ActiveCaptionText;
-            buttonAddToPipeline.Location = new Point(341, 3);
-            buttonAddToPipeline.Margin = new Padding(0);
-            buttonAddToPipeline.Name = "buttonAddToPipeline";
-            buttonAddToPipeline.Size = new Size(28, 28);
-            buttonAddToPipeline.TabIndex = 15;
-            buttonAddToPipeline.Text = "⇒";
-            buttonAddToPipeline.UseVisualStyleBackColor = false;
-            buttonAddToPipeline.Click += Button_AddToPipeline_Click;
-            // 
             // panelEnCodeCrypt
             // 
             panelEnCodeCrypt.BackColor = SystemColors.ActiveCaption;
+            panelEnCodeCrypt.Controls.Add(labelSecretKey);
             panelEnCodeCrypt.Controls.Add(textBoxSecretKey);
-            panelEnCodeCrypt.Controls.Add(buttonHash);
             panelEnCodeCrypt.Controls.Add(comboBoxIpContact);
             panelEnCodeCrypt.Controls.Add(TextBoxPipe);
             panelEnCodeCrypt.Controls.Add(buttonSecretKey);
-            panelEnCodeCrypt.Controls.Add(buttonAddToPipeline);
             panelEnCodeCrypt.ForeColor = SystemColors.WindowText;
             panelEnCodeCrypt.Location = new Point(0, 28);
             panelEnCodeCrypt.Margin = new Padding(0);
@@ -750,38 +734,23 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             textBoxSecretKey.BorderStyle = BorderStyle.FixedSingle;
             textBoxSecretKey.Font = new Font("Lucida Sans Unicode", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxSecretKey.HideSelection = false;
-            textBoxSecretKey.Location = new Point(78, 5);
+            textBoxSecretKey.Location = new Point(116, 5);
             textBoxSecretKey.Margin = new Padding(1);
             textBoxSecretKey.MaxLength = 8192;
             textBoxSecretKey.Name = "textBoxSecretKey";
-            textBoxSecretKey.Size = new Size(250, 26);
+            textBoxSecretKey.Size = new Size(235, 26);
             textBoxSecretKey.TabIndex = 19;
             textBoxSecretKey.TextChanged += TextBoxSecretKey_TextChanged;
-            // 
-            // buttonHash
-            // 
-            buttonHash.BackColor = SystemColors.ButtonHighlight;
-            buttonHash.BackgroundImageLayout = ImageLayout.Center;
-            buttonHash.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
-            buttonHash.ForeColor = SystemColors.ActiveCaptionText;
-            buttonHash.Image = Properties.Resources.a_hash;
-            buttonHash.Location = new Point(788, 4);
-            buttonHash.Margin = new Padding(1);
-            buttonHash.Name = "buttonHash";
-            buttonHash.Padding = new Padding(1);
-            buttonHash.Size = new Size(40, 27);
-            buttonHash.TabIndex = 17;
-            buttonHash.UseVisualStyleBackColor = false;
             // 
             // comboBoxIpContact
             // 
             comboBoxIpContact.BackColor = SystemColors.ControlLightLight;
             comboBoxIpContact.ForeColor = SystemColors.ControlText;
             comboBoxIpContact.FormattingEnabled = true;
-            comboBoxIpContact.Location = new Point(384, 6);
+            comboBoxIpContact.Location = new Point(501, 5);
             comboBoxIpContact.Margin = new Padding(1);
             comboBoxIpContact.Name = "comboBoxIpContact";
-            comboBoxIpContact.Size = new Size(364, 24);
+            comboBoxIpContact.Size = new Size(327, 24);
             comboBoxIpContact.TabIndex = 16;
             comboBoxIpContact.Text = " [Enter peer IP or reachable IPv6 for CqrJD direct]";
             // 
@@ -789,11 +758,11 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // 
             TextBoxPipe.Font = new Font("Lucida Sans Unicode", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             TextBoxPipe.HideSelection = false;
-            TextBoxPipe.Location = new Point(831, 4);
+            TextBoxPipe.Location = new Point(400, 5);
             TextBoxPipe.Margin = new Padding(1);
             TextBoxPipe.Name = "TextBoxPipe";
             TextBoxPipe.ReadOnly = true;
-            TextBoxPipe.Size = new Size(142, 26);
+            TextBoxPipe.Size = new Size(97, 26);
             TextBoxPipe.TabIndex = 18;
             // 
             // pictureBoxQr
@@ -860,6 +829,16 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             richTextBoxOneView.TabIndex = 0;
             richTextBoxOneView.Text = "";
             // 
+            // labelSecretKey
+            // 
+            labelSecretKey.AutoSize = true;
+            labelSecretKey.Location = new Point(31, 9);
+            labelSecretKey.Margin = new Padding(2, 0, 2, 0);
+            labelSecretKey.Name = "labelSecretKey";
+            labelSecretKey.Size = new Size(82, 17);
+            labelSecretKey.TabIndex = 20;
+            labelSecretKey.Text = "Secret Key:";
+            // 
             // SecureChat
             // 
             AutoScaleDimensions = new SizeF(8F, 16F);
@@ -907,7 +886,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private SplitContainer splitContainer;
         private TextBox TextBoxSource;
         private TextBox TextBoxDestionation;
-        private Button buttonAddToPipeline;
         private Button buttonSecretKey;
         private Panel panelEnCodeCrypt;
         private PictureBox pictureBoxQr;
@@ -982,9 +960,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripSeparator menuConnectSeparator;
         private ToolStripSeparator menuConnectSeparatorLast;
         private TextBox TextBoxPipe;
-        private Button buttonHash;
         private ComboBox comboBoxIpContact;
         private TextBox textBoxSecretKey;
         internal MenuStrip menuStrip;
+        private Label labelSecretKey;
     }
 }

@@ -32,7 +32,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     return serverIpAddress;
 
                 // TODO: change it
-                IEnumerable<IPAddress> list = NetworkAddresses.GetIpAddrsByHostName("area23.at");
+                IEnumerable<IPAddress> list = NetworkAddresses.GetIpAddrsByHostName("cqrxs.eu");
                 foreach (IPAddress ip in list)
                 {
                     foreach (string sip in Settings.Instance.Proxies)
@@ -79,7 +79,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     return externalIPAddress;
 
                 string hexs = DeEnCoder.KeyToHex(Constants.BC_START_MSG);
-                externalIPAddress = WebClientRequest.ClientIpFromArea23("https://area23.at/net/R.aspx", hexs);
+                externalIPAddress = WebClientRequest.ClientIpFromArea23("https://cqrxs.eu/net/R.aspx", hexs);
                 return externalIPAddress;
             }
         }
@@ -391,19 +391,25 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         }
 
 
-        private void Button_AddToPipeline_Click(object sender, EventArgs e)
+        private void Button_HashIv_Click(object sender, EventArgs e)
         {
-            Button_SecretKey_Click(sender, e);
+            string url = "https://cqrxs.eu/net/R.aspx";
+            Uri uri = new Uri(url);
+            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, "cqrxs.eu", Encoding.UTF8);
+            Task<HttpResponseMessage> respTask = httpClientR.GetAsync(uri);
 
         }
 
-        private void Button_HashIv_Click(object sender, EventArgs e)
+        private void TextBoxSecretKey_TextChanged(object sender, EventArgs e)
         {
-            string url = "https://area23.at/net/R.aspx";
-            Uri uri = new Uri(url);
-            HttpClient httpClientR = HttpClientRequest.GetHttpClient(url, "area23.at", Encoding.UTF8);
-            Task<HttpResponseMessage> respTask = httpClientR.GetAsync(uri);
-
+            if (string.IsNullOrEmpty(this.textBoxSecretKey.Text))
+            {
+                MessageBox.Show("You haven't entered a secret key!", "Please enter a secret key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.textBoxSecretKey.BorderStyle = BorderStyle.Fixed3D;
+                return;
+            }
+            this.textBoxSecretKey.BorderStyle = BorderStyle.FixedSingle;
+            Button_SecretKey_Click(sender, e);
         }
 
         private void menuItemClear_Click(object sender, EventArgs e)
@@ -1031,22 +1037,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         #endregion closeForm
 
-
-        private void buttonHashIv_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TextBoxSecretKey_TextChanged(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(this.textBoxSecretKey.Text))
-            {
-                MessageBox.Show("You haven't entered a secret key!", "Please enter a secret key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                this.textBoxSecretKey.BorderStyle = BorderStyle.Fixed3D;
-                return;
-            }
-            this.textBoxSecretKey.BorderStyle = BorderStyle.FixedSingle;
-        }
+        
     }
 
 }

@@ -110,7 +110,7 @@ namespace Area23.At.WinForm.SecureChat.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 35.168.3.151;13.38.136.165;2600:1f18:7a3f:a700::6291;2a05:d012:209:ee00:a8ba:d6c4:bd60:bab5.
+        ///   Looks up a localized string similar to 18.100.254.167;13.38.136.165;2a05:d011:cdf:3a00:726a:e8ec:f5ca:8caa;;2a05:d012:209:ee00:a8ba:d6c4:bd60:bab5.
         /// </summary>
         internal static string Proxies {
             get {
@@ -119,7 +119,7 @@ namespace Area23.At.WinForm.SecureChat.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to area23.at;paris.area23.at;virginia.area23.at;parisienne.area23.at.
+        ///   Looks up a localized string similar to cqrxs.eu;paris.area23.at;parisienne.area23.at.
         /// </summary>
         internal static string ProxyNames {
             get {

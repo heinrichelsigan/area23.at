@@ -27,12 +27,12 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             // TODO:
             // httpClientR.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
             // httpClientR.DefaultRequestHeaders.Add("AcceptLanguage", "en-US");
-            // httpClientR.DefaultRequestHeaders.Add("Host", "area23.at");
+            // httpClientR.DefaultRequestHeaders.Add("Host", "cqrxs.eu");
             // httpClientR.DefaultRequestHeaders.Add("UserAgent", "cqrxs.eu");
-            // wclient.BaseAddress = "https://area23.at/";
+            // wclient.BaseAddress = "https://cqrxs.eu/";
         }
 
-        public static HttpClient GetHttpClient(string baseAddr, string secretKey, string hostName = "area23.at", System.Text.Encoding? encoding = null)        
+        public static HttpClient GetHttpClient(string baseAddr, string secretKey, string hostName = "cqrxs.eu", System.Text.Encoding? encoding = null)        
         {            
             encoding = encoding ?? Encoding.UTF8;
 
@@ -53,7 +53,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
         }
 
 
-        public static HttpClient GetHttpClient(string baseAddr, string hostName = "area23.at", System.Text.Encoding? encoding = null)
+        public static HttpClient GetHttpClient(string baseAddr, string hostName = "cqrxs.eu", System.Text.Encoding? encoding = null)
         {
             encoding = encoding ?? Encoding.UTF8;
 
@@ -67,7 +67,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             return httpClientR;
         }
 
-        public static IDictionary<string, string> GetHeaders(string hostName = "area23.at")
+        public static IDictionary<string, string> GetHeaders(string hostName = "cqrxs.eu")
         {
             IDictionary<string, string> dict = new Dictionary<string, string>();
             dict.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
@@ -82,7 +82,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
         public async static Task<HttpResponseMessage> GetClientIp(string url)
         {
             Uri uri = new Uri(url);
-            httpClientR = HttpClientRequest.GetHttpClient(url, "area23.at", Encoding.UTF8);
+            httpClientR = HttpClientRequest.GetHttpClient(url, "cqrxs.eu", Encoding.UTF8);
             return await httpClientR.GetAsync(uri);
         }
 
@@ -101,7 +101,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
 
         public static async Task<HttpResponseMessage> GetClientIPFormArea23()
         {
-            string url = "https://area23.at/net/R.aspx";
+            string url = "https://cqrxs.eu/net/R.aspx";
             return await GetClientIp(url);            
         }
 
