@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows8.0</TargetFramework>
+    <TargetFramework>net9.0-windows7.0</TargetFramework>
 	<IsTrimmable>true</IsTrimmable>
 	<UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -10,12 +10,13 @@
     <Copyright>Copyleft © 2000-2040</Copyright>
     <PackageProjectUrl>https://github.com/heinrichelsigan/area23.at/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/heinrichelsigan/area23.at/</RepositoryUrl>
-    <AssemblyVersion>2.25.0108</AssemblyVersion>
-    <FileVersion>2.25.0108</FileVersion>
+    <AssemblyVersion>2.25.221</AssemblyVersion>
+    <FileVersion>2.25.221</FileVersion>
 	<IsTrimmable>true</IsTrimmable>
 	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
 	<PlatformTarget>AnyCPU</PlatformTarget>
     <IncludeSymbols>true</IncludeSymbols>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -36,6 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Net\IpSocket\IpSocketSender.cs" />
+    <Compile Remove="Net\IpSocket\IPSockListener.cs" />
     <Compile Remove="Util\HttpContextWrapper.cs" />
   </ItemGroup>
 

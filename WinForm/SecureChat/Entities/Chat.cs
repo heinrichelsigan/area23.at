@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Area23.At.WinForm.SecureChat.Entities
 {
+
     /// <summary>
     /// Chat persistency
     /// </summary>
@@ -18,8 +19,8 @@ namespace Area23.At.WinForm.SecureChat.Entities
 
         // TODO: replace it in C# 9.0 to private static readonly lock _lock
         private static readonly object _lock = true;
-        
-        internal int ChatId { get; set; }  
+
+        internal int ChatId { get; set; }
 
         internal Contact Friend { get; set; }
 
@@ -29,9 +30,9 @@ namespace Area23.At.WinForm.SecureChat.Entities
 
         internal HashSet<DateTime> MyMsgTStamps { get; set; }
 
-        internal HashSet<DateTime> FriendMsgTStamps { get; set; } 
+        internal HashSet<DateTime> FriendMsgTStamps { get; set; }
 
-        internal Dictionary<DateTime, string> CqrMsgs {  get; set; }
+        internal Dictionary<DateTime, string> CqrMsgs { get; set; }
 
 
         public Chat()
@@ -164,22 +165,22 @@ namespace Area23.At.WinForm.SecureChat.Entities
             if (!_disposed || disposing)
             {
                 lock (_lock)
-                {                    
+                {
                     _disposed = Chat.Save(this);
                 }
             }
-            
+
             return _disposed;
         }
 
         ~Chat()
         {
             if (!Dispose(true))
-            {                
+            {
                 string fileName = LibPaths.SystemDirPath + String.Format(Constants.CQR_CHAT_FILE, ChatId);
                 throw new CqrException($"~Chat(): couldn't save chat {ChatId} to {fileName}.", CqrException.LastException);
             }
-                
+
             _disposed = true;
             SaveStamp = null;
             CqrMsgs.Clear();
@@ -190,4 +191,5 @@ namespace Area23.At.WinForm.SecureChat.Entities
 
         #endregion Dispose() Dispose(bool disposing) ~Chat()
     }
+
 }

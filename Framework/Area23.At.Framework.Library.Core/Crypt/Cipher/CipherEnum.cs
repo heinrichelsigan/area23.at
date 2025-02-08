@@ -3,6 +3,7 @@
 namespace Area23.At.Framework.Library.Core.Crypt.Cipher
 {
 
+
     /// <summary>
     /// CipherEnum maps BlockCipher algorithms <see cref="Org.BouncyCastle.Crypto.IBlockCipher"/>
     /// </summary>
@@ -18,7 +19,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
         Fish2 = 0x5,
         Fish3 = 0x6,
         Gost28147 = 0x7,
-        
+
         Idea = 0x8,
         RC532 = 0x9,
         Seed = 0xa,
@@ -68,7 +69,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
                 case CipherEnum.Gost28147: return 'g';
 
                 case CipherEnum.Idea: return 'I';
-                case CipherEnum.RC532: return '5';                
+                case CipherEnum.RC532: return '5';
                 case CipherEnum.Seed: return 's';
                 case CipherEnum.Serpent: return 'S';
                 case CipherEnum.SkipJack: return 'J';
@@ -76,7 +77,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
                 case CipherEnum.XTea: return 'X';
 
                 case CipherEnum.ZenMatrix: return 'z';
-                                
+
                 case CipherEnum.Cast5: return 'c';
                 case CipherEnum.Rijndael: return 'a';
                 case CipherEnum.Noekeon: return 'N';

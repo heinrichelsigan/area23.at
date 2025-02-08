@@ -4,10 +4,12 @@ using System;
 using System.Configuration;
 using System.IO;
 using System.Net.Http;
+using System.Reflection;
 using System.Web;
 
 namespace Area23.At.Framework.Library.Core
 {
+
 
     /// <summary>
     /// LibPaths provides filesystem paths & directories for different needed locations, e.g. log & config files
@@ -19,11 +21,11 @@ namespace Area23.At.Framework.Library.Core
         private static string systemDirPath = null;
         private static string systemDirResPath = null;
 
-
-
         public static char SepCh { get => Path.DirectorySeparatorChar; }
 
         public static string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
+
+        #region Web App Paths
 
         public static string AppPath
         {
@@ -51,38 +53,6 @@ namespace Area23.At.Framework.Library.Core
             }
         }
 
-
-        public static string SystemDirPath
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(systemDirPath))
-                {
-                    if ((SepCh == '/') && (ConfigurationManager.AppSettings["AppDirPathUnix"] != null))
-                        systemDirPath = (string)ConfigurationManager.AppSettings["AppDirPathUnix"];
-                    else if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)
-                        systemDirPath = (string)ConfigurationManager.AppSettings["AppDirPathWin"];
-
-                    if (String.IsNullOrEmpty(systemDirPath))
-                    {
-                        if (AppContext.BaseDirectory != null)
-                            systemDirPath = AppContext.BaseDirectory;
-                        else if (AppDomain.CurrentDomain != null)
-                            systemDirPath = AppDomain.CurrentDomain.BaseDirectory;
-
-                        systemDirPath = systemDirPath.
-                            Replace(LibPaths.SepChar + Constants.BIN_DIR, "").Replace(LibPaths.SepChar + Constants.OBJ_DIR, "").
-                            Replace(LibPaths.SepChar + Constants.RELEASE_DIR, "").Replace(LibPaths.SepChar + Constants.DEBUG_DIR, "");
-                    }
-
-                    if (!systemDirPath.EndsWith(SepChar))
-                        systemDirPath += SepChar;
-                }
-
-                return systemDirPath;
-            }
-        }
-
         public static string BaseAppPath
         {
             get
@@ -90,9 +60,9 @@ namespace Area23.At.Framework.Library.Core
                 if (String.IsNullOrEmpty(baseAppPath))
                 {
                     string basApPath = "";
-                    if ((Constants.UNIX) && (System.Configuration.ConfigurationManager.AppSettings["BaseAppPathUnix"] != null))
+                    if ((SepCh == '/') && (System.Configuration.ConfigurationManager.AppSettings["BaseAppPathUnix"] != null))
                         basApPath = System.Configuration.ConfigurationManager.AppSettings["BaseAppPathUnix"];
-                    else if ((Constants.WIN32) && System.Configuration.ConfigurationManager.AppSettings["BaseAppPathWin"] != null)
+                    else if (System.Configuration.ConfigurationManager.AppSettings["BaseAppPathWin"] != null)
                         basApPath = System.Configuration.ConfigurationManager.AppSettings["BaseAppPathWin"];
 
                     baseAppPath = (!basApPath.EndsWith("/")) ? basApPath + "/" : basApPath;
@@ -124,7 +94,37 @@ namespace Area23.At.Framework.Library.Core
 
         public static string TextAppPath { get => ResAppPath + Constants.TEXT_DIR + "/"; }
 
+        #endregion Web App Paths
 
+        #region directory & file paths
+
+        public static string SystemDirPath
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(systemDirPath))
+                {
+                    if ((SepCh == '/') && (ConfigurationManager.AppSettings["AppDirPathUnix"] != null))
+                        systemDirPath = (string)ConfigurationManager.AppSettings["AppDirPathUnix"];
+                    else if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)
+                        systemDirPath = (string)ConfigurationManager.AppSettings["AppDirPathWin"];
+
+                    if (String.IsNullOrEmpty(systemDirPath))
+                    {
+                        if (AppContext.BaseDirectory != null)
+                            systemDirPath = Assembly.GetExecutingAssembly().Location;
+                        else if (AppDomain.CurrentDomain != null)
+                            systemDirPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+
+                    }
+
+                    if (!systemDirPath.EndsWith(SepChar))
+                        systemDirPath += SepChar;
+                }
+
+                return systemDirPath;
+            }
+        }
 
 
         public static string SystemDirResPath
@@ -155,16 +155,11 @@ namespace Area23.At.Framework.Library.Core
             }
         }
 
-
-
-
-
+        public static string SystemDirBinPath { get => SystemDirResPath + Constants.BIN_DIR + SepChar; }
 
         public static string AdditionalBinDir { get => SystemDirResPath + Constants.BIN_DIR + SepChar; }
 
         public static string TextDirPath { get => SystemDirResPath + Constants.TEXT_DIR + SepChar; }
-
-
 
         public static string SytemDirUuPath { get => SystemDirResPath + Constants.UU_DIR + SepChar; }
 
@@ -172,12 +167,13 @@ namespace Area23.At.Framework.Library.Core
 
         public static string SystemDirTmpPath { get => SystemDirResPath + Constants.TMP_DIR + SepChar; }
 
-
-        public static string SystemDirBinPath { get => SystemDirResPath + Constants.BIN_DIR + SepChar; }
-
-        public static string SystemDirQrPath { get => SystemDirResPath + Constants.QR_DIR + SepChar; }
-
         public static string SystemDirQUtf8Path { get => SystemDirResPath + Constants.UTF8_DIR + SepChar; }
+
+
+        public static string SystemDirQrPath { get => SystemDirPath + Constants.QR_DIR + SepChar; }
+
+
+        public static string AttachmentFilesDir { get => SystemDirPath + Constants.ATTACH_FILES_DIR + SepChar; }
 
 
         public static string SystemDirLogPath
@@ -200,6 +196,30 @@ namespace Area23.At.Framework.Library.Core
         }
 
         public static string LogFileSystemPath { get => SystemDirLogPath + Constants.AppLogFile; }
+
+        #endregion directory & file paths
+
+        #region other properties 
+
+        public static bool CqrEncrypt
+        {
+            get
+            {
+                bool _cqrEncrypt = Constants.CQR_ENCRYPT;
+                try
+                {
+                    if (System.Configuration.ConfigurationManager.AppSettings["CqrEncrypt"] != null)
+                        _cqrEncrypt = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["CqrEncrypt"].ToString());
+                }
+                catch
+                {
+                    _cqrEncrypt = true;
+                }
+                return _cqrEncrypt;
+            }
+        }
+
+        #endregion other properties 
 
     }
 

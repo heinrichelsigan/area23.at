@@ -1,6 +1,9 @@
 ﻿    
 using Area23.At.Framework.Library.Core.Net.WebHttp;
+using Org.BouncyCastle.Asn1.Crmf;
 using System.Net;
+using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -68,7 +71,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuContactsItemMe = new ToolStripMenuItem();
             menuContactsItemAdd = new ToolStripMenuItem();
             menuContactsItemView = new ToolStripMenuItem();
-            separetorContacts = new ToolStripSeparator();
+            menuContactsSeparetor = new ToolStripSeparator();
             menuContactstemImport = new ToolStripMenuItem();
             menuContactstemExport = new ToolStripMenuItem();
             menuQuestionMark = new ToolStripMenuItem();
@@ -85,50 +88,52 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             statusStrip = new StatusStrip();
             toolStripProgressBar = new ToolStripProgressBar();
             toolStripStatusLabel = new ToolStripStatusLabel();
-            splitButtonMenuItemLoad = new ToolStripMenuItem();
-            splitButtonMenuItemSave = new ToolStripMenuItem();
-            splitContainer = new SplitContainer();
+            SplitChatView = new SplitContainer();
             TextBoxSource = new TextBox();
             TextBoxDestionation = new TextBox();
-            pictureBoxYou = new PictureBox();
-            buttonSecretKey = new Button();
-            panelEnCodeCrypt = new Panel();
-            textBoxSecretKey = new TextBox();
-            comboBoxIpContact = new ComboBox();
+            PictureBoxYou = new PictureBox();
+            ButtonKey = new Button();
+            PanelEnCodeCrypt = new Panel();
+            ButtonCheck = new Button();
+            ComboBoxSecretKey = new ComboBox();
+            ComboBoxIpContact = new ComboBox();
             TextBoxPipe = new TextBox();
-            pictureBoxQr = new PictureBox();
-            richTextBoxChat = new RichTextBox();
-            pictureBoxPartner = new PictureBox();
-            panelDestination = new Panel();
-            panelCenter = new Panel();
-            richTextBoxOneView = new RichTextBox();
-            labelSecretKey = new Label();
+            RichTextBoxChat = new RichTextBox();
+            PictureBoxPartner = new PictureBox();
+            PanelDestination = new Panel();
+            GroupBoxLinks = new Controls.GroupBoxLinkLabels();
+            PanelCenter = new Panel();
+            RichTextBoxOneView = new RichTextBox();
+            PanelBottom = new Panel();
+            buttonAttach = new Button();
+            button1 = new Button();
+            buttonClear = new Button();
             menuStrip.SuspendLayout();
             statusStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
-            splitContainer.Panel1.SuspendLayout();
-            splitContainer.Panel2.SuspendLayout();
-            splitContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxYou).BeginInit();
-            panelEnCodeCrypt.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxQr).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxPartner).BeginInit();
-            panelDestination.SuspendLayout();
-            panelCenter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)SplitChatView).BeginInit();
+            SplitChatView.Panel1.SuspendLayout();
+            SplitChatView.Panel2.SuspendLayout();
+            SplitChatView.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxYou).BeginInit();
+            PanelEnCodeCrypt.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxPartner).BeginInit();
+            PanelDestination.SuspendLayout();
+            PanelCenter.SuspendLayout();
+            PanelBottom.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip
             // 
             menuStrip.AllowItemReorder = true;
             menuStrip.BackColor = SystemColors.MenuBar;
-            menuStrip.Font = new Font("Lucida Sans Unicode", 10F);
+            menuStrip.Font = new System.Drawing.Font("Lucida Sans Unicode", 10F);
             menuStrip.GripStyle = ToolStripGripStyle.Visible;
             menuStrip.Items.AddRange(new ToolStripItem[] { menuCQRChat, menuView, menuNetwork, toolMenuConnect, menuCommands, menuContacts, menuQuestionMark });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
             menuStrip.RenderMode = ToolStripRenderMode.System;
             menuStrip.Size = new Size(976, 25);
-            menuStrip.TabIndex = 0;
+            menuStrip.TabIndex = 1;
             menuStrip.Text = "menuStrip";
             // 
             // menuCQRChat
@@ -214,7 +219,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuFileItemExit.Size = new Size(214, 22);
             menuFileItemExit.Text = "exit";
             menuFileItemExit.ToolTipText = "exit chat application";
-            menuFileItemExit.Click += menuFileItemExit_Click;
+            menuFileItemExit.Click += MenuFileItemExit_Click;
             // 
             // menuView
             // 
@@ -385,7 +390,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemSend.Size = new Size(178, 22);
             menuItemSend.Text = "send";
             menuItemSend.ToolTipText = "sends a message";
-            menuItemSend.Click += menuItemSend_Click;
+            menuItemSend.Click += MenuItemSend_Click;
             // 
             // menuItemAttach
             // 
@@ -395,6 +400,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemAttach.Size = new Size(178, 22);
             menuItemAttach.Text = "attach";
             menuItemAttach.ToolTipText = "attaches file to send; in prototype only  file extension image audio and video is supported";
+            menuItemAttach.Click += MenuItemAttach_Click;
             // 
             // menuCommandsSeperator
             // 
@@ -410,7 +416,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemRefresh.Size = new Size(178, 22);
             menuItemRefresh.Text = "refresh";
             menuItemRefresh.ToolTipText = "refreshes, when the terminal is flushed";
-            menuItemRefresh.Click += menuItemRefresh_Click;
+            menuItemRefresh.Click += MenuItemRefresh_Click;
             // 
             // menuItemClear
             // 
@@ -420,12 +426,12 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemClear.Size = new Size(178, 22);
             menuItemClear.Text = "clear";
             menuItemClear.ToolTipText = "clears completey all chat windows";
-            menuItemClear.Click += menuItemClear_Click;
+            menuItemClear.Click += MenuItemClear_Click;
             // 
             // menuContacts
             // 
             menuContacts.BackColor = SystemColors.MenuBar;
-            menuContacts.DropDownItems.AddRange(new ToolStripItem[] { menuContactsItemMe, menuContactsItemAdd, menuContactsItemView, separetorContacts, menuContactstemImport, menuContactstemExport });
+            menuContacts.DropDownItems.AddRange(new ToolStripItem[] { menuContactsItemMe, menuContactsItemAdd, menuContactsItemView, menuContactsSeparetor, menuContactstemImport, menuContactstemExport });
             menuContacts.Name = "menuContacts";
             menuContacts.Size = new Size(77, 21);
             menuContacts.Text = "contacts";
@@ -438,7 +444,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuContactsItemMe.Size = new Size(233, 22);
             menuContactsItemMe.Text = "me myself mine";
             menuContactsItemMe.ToolTipText = "edits my contact";
-            menuContactsItemMe.Click += menuItemMyContact_Click;
+            menuContactsItemMe.Click += MenuItemMyContact_Click;
             // 
             // menuContactsItemAdd
             // 
@@ -448,7 +454,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuContactsItemAdd.Size = new Size(233, 22);
             menuContactsItemAdd.Text = "add contact";
             menuContactsItemAdd.ToolTipText = "adds a friend contact to cqr chat";
-            menuContactsItemAdd.Click += menuItemAddContact_Click;
+            menuContactsItemAdd.Click += MenuItemAddContact_Click;
             // 
             // menuContactsItemView
             // 
@@ -458,11 +464,12 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuContactsItemView.Size = new Size(233, 22);
             menuContactsItemView.Text = "view contacts";
             menuContactsItemView.ToolTipText = "view all added and imported contacts";
+            menuContactsItemView.Click += MenuContactsItemView_Click;
             // 
-            // separetorContacts
+            // menuContactsSeparetor
             // 
-            separetorContacts.Name = "separetorContacts";
-            separetorContacts.Size = new Size(230, 6);
+            menuContactsSeparetor.Name = "menuContactsSeparetor";
+            menuContactsSeparetor.Size = new Size(230, 6);
             // 
             // menuContactstemImport
             // 
@@ -472,6 +479,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuContactstemImport.Size = new Size(233, 22);
             menuContactstemImport.Text = "import contacts";
             menuContactstemImport.ToolTipText = "import contacts from address book";
+            menuContactstemImport.Click += MenuContactstemImport_Click;
             // 
             // menuContactstemExport
             // 
@@ -507,6 +515,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuItemHelp.Size = new Size(167, 24);
             menuItemHelp.Text = "help";
             menuItemHelp.ToolTipText = "displays help";
+            menuItemHelp.Click += MenuItemHelp_Click;
             // 
             // menuItemInfo
             // 
@@ -598,7 +607,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             statusStrip.Location = new Point(0, 689);
             statusStrip.Name = "statusStrip";
             statusStrip.Size = new Size(976, 22);
-            statusStrip.TabIndex = 1;
+            statusStrip.TabIndex = 2;
             statusStrip.Text = "statusStrip";
             // 
             // toolStripProgressBar
@@ -616,53 +625,41 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             toolStripStatusLabel.Spring = true;
             toolStripStatusLabel.Text = "Status";
             // 
-            // splitButtonMenuItemLoad
+            // SplitChatView
             // 
-            splitButtonMenuItemLoad.Name = "splitButtonMenuItemLoad";
-            splitButtonMenuItemLoad.Size = new Size(107, 22);
-            splitButtonMenuItemLoad.Text = "Load";
+            SplitChatView.BackColor = SystemColors.ControlLight;
+            SplitChatView.IsSplitterFixed = true;
+            SplitChatView.Location = new Point(0, 0);
+            SplitChatView.Margin = new Padding(0);
+            SplitChatView.MaximumSize = new Size(800, 600);
+            SplitChatView.MinimumSize = new Size(600, 400);
+            SplitChatView.Name = "SplitChatView";
             // 
-            // splitButtonMenuItemSave
+            // SplitChatView.Panel1
             // 
-            splitButtonMenuItemSave.Name = "splitButtonMenuItemSave";
-            splitButtonMenuItemSave.Size = new Size(107, 22);
-            splitButtonMenuItemSave.Text = "Save";
+            SplitChatView.Panel1.AllowDrop = true;
+            SplitChatView.Panel1.BackgroundImageLayout = ImageLayout.None;
+            SplitChatView.Panel1.Controls.Add(TextBoxSource);
+            SplitChatView.Panel1MinSize = 300;
             // 
-            // splitContainer
+            // SplitChatView.Panel2
             // 
-            splitContainer.BackColor = SystemColors.ControlLight;
-            splitContainer.IsSplitterFixed = true;
-            splitContainer.Location = new Point(28, 72);
-            splitContainer.Margin = new Padding(0);
-            splitContainer.MaximumSize = new Size(800, 600);
-            splitContainer.MinimumSize = new Size(600, 400);
-            splitContainer.Name = "splitContainer";
-            // 
-            // splitContainer.Panel1
-            // 
-            splitContainer.Panel1.AllowDrop = true;
-            splitContainer.Panel1.BackgroundImageLayout = ImageLayout.None;
-            splitContainer.Panel1.Controls.Add(TextBoxSource);
-            splitContainer.Panel1MinSize = 300;
-            // 
-            // splitContainer.Panel2
-            // 
-            splitContainer.Panel2.BackgroundImageLayout = ImageLayout.None;
-            splitContainer.Panel2.Controls.Add(TextBoxDestionation);
-            splitContainer.Panel2MinSize = 300;
-            splitContainer.Size = new Size(800, 460);
-            splitContainer.SplitterDistance = 396;
-            splitContainer.SplitterIncrement = 8;
-            splitContainer.SplitterWidth = 8;
-            splitContainer.TabIndex = 20;
-            splitContainer.TabStop = false;
+            SplitChatView.Panel2.BackgroundImageLayout = ImageLayout.None;
+            SplitChatView.Panel2.Controls.Add(TextBoxDestionation);
+            SplitChatView.Panel2MinSize = 300;
+            SplitChatView.Size = new Size(800, 460);
+            SplitChatView.SplitterDistance = 396;
+            SplitChatView.SplitterIncrement = 8;
+            SplitChatView.SplitterWidth = 8;
+            SplitChatView.TabIndex = 31;
+            SplitChatView.TabStop = false;
             // 
             // TextBoxSource
             // 
             TextBoxSource.BackColor = SystemColors.GradientActiveCaption;
             TextBoxSource.BorderStyle = BorderStyle.FixedSingle;
             TextBoxSource.Dock = DockStyle.Fill;
-            TextBoxSource.Font = new Font("Lucida Sans Unicode", 10F);
+            TextBoxSource.Font = new System.Drawing.Font("Lucida Sans Unicode", 10F);
             TextBoxSource.Location = new Point(0, 0);
             TextBoxSource.Margin = new Padding(1);
             TextBoxSource.MaxLength = 65536;
@@ -670,14 +667,14 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             TextBoxSource.Name = "TextBoxSource";
             TextBoxSource.ScrollBars = ScrollBars.Both;
             TextBoxSource.Size = new Size(396, 460);
-            TextBoxSource.TabIndex = 23;
+            TextBoxSource.TabIndex = 32;
             // 
             // TextBoxDestionation
             // 
             TextBoxDestionation.BackColor = SystemColors.GradientInactiveCaption;
             TextBoxDestionation.BorderStyle = BorderStyle.FixedSingle;
             TextBoxDestionation.Dock = DockStyle.Fill;
-            TextBoxDestionation.Font = new Font("Lucida Sans Unicode", 10F);
+            TextBoxDestionation.Font = new System.Drawing.Font("Lucida Sans Unicode", 10F);
             TextBoxDestionation.Location = new Point(0, 0);
             TextBoxDestionation.Margin = new Padding(1);
             TextBoxDestionation.MaxLength = 65536;
@@ -685,159 +682,221 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             TextBoxDestionation.Name = "TextBoxDestionation";
             TextBoxDestionation.ScrollBars = ScrollBars.Both;
             TextBoxDestionation.Size = new Size(396, 460);
-            TextBoxDestionation.TabIndex = 43;
+            TextBoxDestionation.TabIndex = 33;
             // 
-            // pictureBoxYou
+            // PictureBoxYou
             // 
-            pictureBoxYou.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBoxYou.Location = new Point(3, 1);
-            pictureBoxYou.Margin = new Padding(1);
-            pictureBoxYou.Name = "pictureBoxYou";
-            pictureBoxYou.Padding = new Padding(1);
-            pictureBoxYou.Size = new Size(142, 142);
-            pictureBoxYou.TabIndex = 58;
-            pictureBoxYou.TabStop = false;
+            PictureBoxYou.BackgroundImageLayout = ImageLayout.Stretch;
+            PictureBoxYou.Location = new Point(2, 1);
+            PictureBoxYou.Margin = new Padding(1);
+            PictureBoxYou.Name = "PictureBoxYou";
+            PictureBoxYou.Padding = new Padding(1);
+            PictureBoxYou.Size = new Size(148, 148);
+            PictureBoxYou.TabIndex = 71;
+            PictureBoxYou.TabStop = false;
             // 
-            // buttonSecretKey
+            // ButtonKey
             // 
-            buttonSecretKey.BackColor = SystemColors.ButtonHighlight;
-            buttonSecretKey.BackgroundImageLayout = ImageLayout.Center;
-            buttonSecretKey.Font = new Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
-            buttonSecretKey.ForeColor = SystemColors.ActiveCaptionText;
-            buttonSecretKey.Image = Properties.Resources.a_right_key;
-            buttonSecretKey.Location = new Point(354, 4);
-            buttonSecretKey.Margin = new Padding(1);
-            buttonSecretKey.Name = "buttonSecretKey";
-            buttonSecretKey.Padding = new Padding(1);
-            buttonSecretKey.Size = new Size(40, 27);
-            buttonSecretKey.TabIndex = 12;
-            buttonSecretKey.UseVisualStyleBackColor = false;
-            buttonSecretKey.Click += Button_SecretKey_Click;
+            ButtonKey.BackColor = SystemColors.ButtonHighlight;
+            ButtonKey.BackgroundImageLayout = ImageLayout.Center;
+            ButtonKey.Font = new System.Drawing.Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
+            ButtonKey.ForeColor = SystemColors.ActiveCaptionText;
+            ButtonKey.Image = Properties.Resources.a_right_key;
+            ButtonKey.Location = new Point(254, 4);
+            ButtonKey.Margin = new Padding(1);
+            ButtonKey.Name = "ButtonKey";
+            ButtonKey.Padding = new Padding(1);
+            ButtonKey.Size = new Size(40, 27);
+            ButtonKey.TabIndex = 12;
+            ButtonKey.UseVisualStyleBackColor = false;
+            ButtonKey.Click += ButtonKey_Click;
             // 
-            // panelEnCodeCrypt
+            // PanelEnCodeCrypt
             // 
-            panelEnCodeCrypt.BackColor = SystemColors.ActiveCaption;
-            panelEnCodeCrypt.Controls.Add(labelSecretKey);
-            panelEnCodeCrypt.Controls.Add(textBoxSecretKey);
-            panelEnCodeCrypt.Controls.Add(comboBoxIpContact);
-            panelEnCodeCrypt.Controls.Add(TextBoxPipe);
-            panelEnCodeCrypt.Controls.Add(buttonSecretKey);
-            panelEnCodeCrypt.ForeColor = SystemColors.WindowText;
-            panelEnCodeCrypt.Location = new Point(0, 28);
-            panelEnCodeCrypt.Margin = new Padding(0);
-            panelEnCodeCrypt.Name = "panelEnCodeCrypt";
-            panelEnCodeCrypt.Size = new Size(976, 36);
-            panelEnCodeCrypt.TabIndex = 10;
+            PanelEnCodeCrypt.BackColor = SystemColors.ActiveCaption;
+            PanelEnCodeCrypt.Controls.Add(ButtonCheck);
+            PanelEnCodeCrypt.Controls.Add(ComboBoxSecretKey);
+            PanelEnCodeCrypt.Controls.Add(ComboBoxIpContact);
+            PanelEnCodeCrypt.Controls.Add(TextBoxPipe);
+            PanelEnCodeCrypt.Controls.Add(ButtonKey);
+            PanelEnCodeCrypt.ForeColor = SystemColors.WindowText;
+            PanelEnCodeCrypt.Location = new Point(0, 28);
+            PanelEnCodeCrypt.Margin = new Padding(0);
+            PanelEnCodeCrypt.Name = "PanelEnCodeCrypt";
+            PanelEnCodeCrypt.Size = new Size(976, 36);
+            PanelEnCodeCrypt.TabIndex = 10;
             // 
-            // textBoxSecretKey
+            // ButtonCheck
             // 
-            textBoxSecretKey.BorderStyle = BorderStyle.FixedSingle;
-            textBoxSecretKey.Font = new Font("Lucida Sans Unicode", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxSecretKey.HideSelection = false;
-            textBoxSecretKey.Location = new Point(116, 5);
-            textBoxSecretKey.Margin = new Padding(1);
-            textBoxSecretKey.MaxLength = 8192;
-            textBoxSecretKey.Name = "textBoxSecretKey";
-            textBoxSecretKey.Size = new Size(235, 26);
-            textBoxSecretKey.TabIndex = 19;
-            textBoxSecretKey.TextChanged += TextBoxSecretKey_TextChanged;
+            ButtonCheck.BackColor = SystemColors.ButtonHighlight;
+            ButtonCheck.BackgroundImageLayout = ImageLayout.Center;
+            ButtonCheck.Font = new System.Drawing.Font("Lucida Sans Unicode", 10F, FontStyle.Bold);
+            ButtonCheck.ForeColor = SystemColors.ActiveCaptionText;
+            ButtonCheck.Image = Properties.Resources.a_right_key;
+            ButtonCheck.Location = new Point(768, 4);
+            ButtonCheck.Margin = new Padding(1);
+            ButtonCheck.Name = "ButtonCheck";
+            ButtonCheck.Padding = new Padding(1);
+            ButtonCheck.Size = new Size(40, 27);
+            ButtonCheck.TabIndex = 17;
+            ButtonCheck.UseVisualStyleBackColor = false;
             // 
-            // comboBoxIpContact
+            // ComboBoxSecretKey
             // 
-            comboBoxIpContact.BackColor = SystemColors.ControlLightLight;
-            comboBoxIpContact.ForeColor = SystemColors.ControlText;
-            comboBoxIpContact.FormattingEnabled = true;
-            comboBoxIpContact.Location = new Point(501, 5);
-            comboBoxIpContact.Margin = new Padding(1);
-            comboBoxIpContact.Name = "comboBoxIpContact";
-            comboBoxIpContact.Size = new Size(327, 24);
-            comboBoxIpContact.TabIndex = 16;
-            comboBoxIpContact.Text = " [Enter peer IP or reachable IPv6 for CqrJD direct]";
+            ComboBoxSecretKey.BackColor = SystemColors.ControlLightLight;
+            ComboBoxSecretKey.ForeColor = SystemColors.ControlText;
+            ComboBoxSecretKey.FormattingEnabled = true;
+            ComboBoxSecretKey.Location = new Point(10, 6);
+            ComboBoxSecretKey.Margin = new Padding(1);
+            ComboBoxSecretKey.Name = "ComboBoxSecretKey";
+            ComboBoxSecretKey.Size = new Size(237, 24);
+            ComboBoxSecretKey.TabIndex = 11;
+            ComboBoxSecretKey.Text = "[enter secret key here]";
+            ComboBoxSecretKey.SelectedIndexChanged += ComboBoxSecretKey_SelectedIndexChanged;
+            ComboBoxSecretKey.TextUpdate += ComboBoxSecretKey_TextUpdate;
+            ComboBoxSecretKey.Leave += ComboBoxSecretKey_FocusLeave;
+            // 
+            // ComboBoxIpContact
+            // 
+            ComboBoxIpContact.BackColor = SystemColors.ControlLightLight;
+            ComboBoxIpContact.Font = new System.Drawing.Font("Lucida Sans Unicode", 10F);
+            ComboBoxIpContact.ForeColor = SystemColors.ControlText;
+            ComboBoxIpContact.FormattingEnabled = true;
+            ComboBoxIpContact.Location = new Point(412, 6);
+            ComboBoxIpContact.Margin = new Padding(1);
+            ComboBoxIpContact.Name = "ComboBoxIpContact";
+            ComboBoxIpContact.Size = new Size(348, 24);
+            ComboBoxIpContact.TabIndex = 15;
+            ComboBoxIpContact.Text = "[enter peer IPv4 or IPv6 for directly connect]";
+            ComboBoxIpContact.SelectedIndexChanged += ComboBoxIpContact_SelectedIndexChanged;
+            ComboBoxIpContact.TextUpdate += ComboBoxIpContact_TextUpdate;
+            ComboBoxIpContact.Leave += ComboBoxIpContact_FocusLeave;
             // 
             // TextBoxPipe
             // 
-            TextBoxPipe.Font = new Font("Lucida Sans Unicode", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            TextBoxPipe.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             TextBoxPipe.HideSelection = false;
-            TextBoxPipe.Location = new Point(400, 5);
+            TextBoxPipe.Location = new Point(304, 5);
             TextBoxPipe.Margin = new Padding(1);
             TextBoxPipe.Name = "TextBoxPipe";
             TextBoxPipe.ReadOnly = true;
-            TextBoxPipe.Size = new Size(97, 26);
-            TextBoxPipe.TabIndex = 18;
+            TextBoxPipe.Size = new Size(100, 26);
+            TextBoxPipe.TabIndex = 13;
             // 
-            // pictureBoxQr
+            // RichTextBoxChat
             // 
-            pictureBoxQr.Location = new Point(3, 317);
-            pictureBoxQr.Margin = new Padding(1);
-            pictureBoxQr.Name = "pictureBoxQr";
-            pictureBoxQr.Padding = new Padding(1);
-            pictureBoxQr.Size = new Size(142, 142);
-            pictureBoxQr.TabIndex = 56;
-            pictureBoxQr.TabStop = false;
+            RichTextBoxChat.BorderStyle = BorderStyle.FixedSingle;
+            RichTextBoxChat.ForeColor = SystemColors.WindowText;
+            RichTextBoxChat.Location = new Point(0, 0);
+            RichTextBoxChat.Margin = new Padding(1);
+            RichTextBoxChat.Name = "RichTextBoxChat";
+            RichTextBoxChat.Size = new Size(824, 136);
+            RichTextBoxChat.TabIndex = 41;
+            RichTextBoxChat.Text = "";
             // 
-            // richTextBoxChat
+            // PictureBoxPartner
             // 
-            richTextBoxChat.BorderStyle = BorderStyle.FixedSingle;
-            richTextBoxChat.ForeColor = SystemColors.WindowText;
-            richTextBoxChat.Location = new Point(3, 549);
-            richTextBoxChat.Margin = new Padding(2);
-            richTextBoxChat.Name = "richTextBoxChat";
-            richTextBoxChat.Size = new Size(970, 136);
-            richTextBoxChat.TabIndex = 57;
-            richTextBoxChat.Text = "";
+            PictureBoxPartner.Location = new Point(2, 366);
+            PictureBoxPartner.Margin = new Padding(1);
+            PictureBoxPartner.Name = "PictureBoxPartner";
+            PictureBoxPartner.Padding = new Padding(1);
+            PictureBoxPartner.Size = new Size(148, 148);
+            PictureBoxPartner.TabIndex = 72;
+            PictureBoxPartner.TabStop = false;
             // 
-            // pictureBoxPartner
+            // PanelDestination
             // 
-            pictureBoxPartner.Location = new Point(3, 160);
-            pictureBoxPartner.Margin = new Padding(1);
-            pictureBoxPartner.Name = "pictureBoxPartner";
-            pictureBoxPartner.Padding = new Padding(1);
-            pictureBoxPartner.Size = new Size(142, 142);
-            pictureBoxPartner.TabIndex = 59;
-            pictureBoxPartner.TabStop = false;
+            PanelDestination.BackColor = SystemColors.ActiveCaption;
+            PanelDestination.Controls.Add(GroupBoxLinks);
+            PanelDestination.Controls.Add(PictureBoxYou);
+            PanelDestination.Controls.Add(PictureBoxPartner);
+            PanelDestination.ForeColor = SystemColors.ActiveCaptionText;
+            PanelDestination.Location = new Point(824, 32);
+            PanelDestination.Margin = new Padding(0);
+            PanelDestination.Name = "PanelDestination";
+            PanelDestination.Size = new Size(152, 515);
+            PanelDestination.TabIndex = 70;
             // 
-            // panelDestination
+            // GroupBoxLinks
             // 
-            panelDestination.BackColor = SystemColors.ControlLightLight;
-            panelDestination.Controls.Add(pictureBoxYou);
-            panelDestination.Controls.Add(pictureBoxPartner);
-            panelDestination.Controls.Add(pictureBoxQr);
-            panelDestination.ForeColor = SystemColors.ActiveCaptionText;
-            panelDestination.Location = new Point(828, 72);
-            panelDestination.Margin = new Padding(0);
-            panelDestination.Name = "panelDestination";
-            panelDestination.Size = new Size(148, 472);
-            panelDestination.TabIndex = 80;
+            GroupBoxLinks.BackColor = SystemColors.ControlLightLight;
+            GroupBoxLinks.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F);
+            GroupBoxLinks.Location = new Point(1, 151);
+            GroupBoxLinks.Margin = new Padding(1);
+            GroupBoxLinks.Name = "GroupBoxLinks";
+            GroupBoxLinks.Padding = new Padding(1);
+            GroupBoxLinks.Size = new Size(151, 213);
+            GroupBoxLinks.TabIndex = 80;
+            GroupBoxLinks.TabStop = false;
+            GroupBoxLinks.Text = "Attachments";
             // 
-            // panelCenter
+            // PanelCenter
             // 
-            panelCenter.Controls.Add(richTextBoxOneView);
-            panelCenter.Location = new Point(28, 72);
-            panelCenter.Margin = new Padding(0);
-            panelCenter.Name = "panelCenter";
-            panelCenter.Size = new Size(800, 460);
-            panelCenter.TabIndex = 81;
-            panelCenter.Visible = false;
+            PanelCenter.Controls.Add(SplitChatView);
+            PanelCenter.Controls.Add(RichTextBoxOneView);
+            PanelCenter.Location = new Point(8, 72);
+            PanelCenter.Margin = new Padding(0);
+            PanelCenter.Name = "PanelCenter";
+            PanelCenter.Size = new Size(800, 460);
+            PanelCenter.TabIndex = 30;
             // 
-            // richTextBoxOneView
+            // RichTextBoxOneView
             // 
-            richTextBoxOneView.Dock = DockStyle.Fill;
-            richTextBoxOneView.Location = new Point(0, 0);
-            richTextBoxOneView.Margin = new Padding(2);
-            richTextBoxOneView.Name = "richTextBoxOneView";
-            richTextBoxOneView.Size = new Size(800, 460);
-            richTextBoxOneView.TabIndex = 0;
-            richTextBoxOneView.Text = "";
+            RichTextBoxOneView.Dock = DockStyle.Fill;
+            RichTextBoxOneView.Location = new Point(0, 0);
+            RichTextBoxOneView.Margin = new Padding(2);
+            RichTextBoxOneView.Name = "RichTextBoxOneView";
+            RichTextBoxOneView.Size = new Size(800, 460);
+            RichTextBoxOneView.TabIndex = 36;
+            RichTextBoxOneView.Text = "";
+            RichTextBoxOneView.Visible = false;
             // 
-            // labelSecretKey
+            // PanelBottom
             // 
-            labelSecretKey.AutoSize = true;
-            labelSecretKey.Location = new Point(31, 9);
-            labelSecretKey.Margin = new Padding(2, 0, 2, 0);
-            labelSecretKey.Name = "labelSecretKey";
-            labelSecretKey.Size = new Size(82, 17);
-            labelSecretKey.TabIndex = 20;
-            labelSecretKey.Text = "Secret Key:";
+            PanelBottom.BackColor = SystemColors.ControlLight;
+            PanelBottom.Controls.Add(RichTextBoxChat);
+            PanelBottom.ForeColor = SystemColors.ActiveCaptionText;
+            PanelBottom.Location = new Point(0, 549);
+            PanelBottom.Margin = new Padding(1);
+            PanelBottom.Name = "PanelBottom";
+            PanelBottom.Size = new Size(824, 136);
+            PanelBottom.TabIndex = 40;
+            // 
+            // buttonAttach
+            // 
+            buttonAttach.Location = new Point(827, 552);
+            buttonAttach.Margin = new Padding(2);
+            buttonAttach.Name = "buttonAttach";
+            buttonAttach.Padding = new Padding(1);
+            buttonAttach.Size = new Size(144, 40);
+            buttonAttach.TabIndex = 82;
+            buttonAttach.Text = "Attach";
+            buttonAttach.UseVisualStyleBackColor = true;
+            buttonAttach.Click += buttonAttach_Click;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(827, 598);
+            button1.Margin = new Padding(2);
+            button1.Name = "button1";
+            button1.Padding = new Padding(1);
+            button1.Size = new Size(144, 40);
+            button1.TabIndex = 83;
+            button1.Text = "Send";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // buttonClear
+            // 
+            buttonClear.Location = new Point(827, 644);
+            buttonClear.Margin = new Padding(2);
+            buttonClear.Name = "buttonClear";
+            buttonClear.Padding = new Padding(1);
+            buttonClear.Size = new Size(144, 40);
+            buttonClear.TabIndex = 84;
+            buttonClear.Text = "Clear";
+            buttonClear.UseVisualStyleBackColor = true;
+            buttonClear.Click += buttonClear_Click;
             // 
             // SecureChat
             // 
@@ -846,53 +905,63 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             BackColor = SystemColors.Control;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(976, 711);
-            Controls.Add(panelCenter);
-            Controls.Add(panelDestination);
-            Controls.Add(richTextBoxChat);
-            Controls.Add(panelEnCodeCrypt);
-            Controls.Add(splitContainer);
+            Controls.Add(buttonClear);
+            Controls.Add(button1);
+            Controls.Add(buttonAttach);
+            Controls.Add(PanelCenter);
+            Controls.Add(PanelDestination);
+            Controls.Add(PanelBottom);
+            Controls.Add(PanelEnCodeCrypt);
             Controls.Add(statusStrip);
             Controls.Add(menuStrip);
-            Font = new Font("Lucida Sans Unicode", 10F);
+            Font = new System.Drawing.Font("Lucida Sans Unicode", 10F);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip;
             Name = "SecureChat";
             SizeGripStyle = SizeGripStyle.Show;
             Text = "SecureChat";
-            FormClosing += formClose_Click;
+            FormClosing += FormClose_Click;
             Load += SecureChat_Load;
             menuStrip.ResumeLayout(false);
             menuStrip.PerformLayout();
             statusStrip.ResumeLayout(false);
             statusStrip.PerformLayout();
-            splitContainer.Panel1.ResumeLayout(false);
-            splitContainer.Panel1.PerformLayout();
-            splitContainer.Panel2.ResumeLayout(false);
-            splitContainer.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer).EndInit();
-            splitContainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBoxYou).EndInit();
-            panelEnCodeCrypt.ResumeLayout(false);
-            panelEnCodeCrypt.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxQr).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxPartner).EndInit();
-            panelDestination.ResumeLayout(false);
-            panelCenter.ResumeLayout(false);
+            SplitChatView.Panel1.ResumeLayout(false);
+            SplitChatView.Panel1.PerformLayout();
+            SplitChatView.Panel2.ResumeLayout(false);
+            SplitChatView.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)SplitChatView).EndInit();
+            SplitChatView.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)PictureBoxYou).EndInit();
+            PanelEnCodeCrypt.ResumeLayout(false);
+            PanelEnCodeCrypt.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxPartner).EndInit();
+            PanelDestination.ResumeLayout(false);
+            PanelCenter.ResumeLayout(false);
+            PanelBottom.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
         #endregion
 
-        private SplitContainer splitContainer;
+        private Panel PanelEnCodeCrypt;
+        private Panel PanelDestination;
+        private Panel PanelCenter;
+        private Panel PanelBottom;
+        private TextBox TextBoxPipe;
+        private ComboBox ComboBoxIpContact;
+        private ComboBox ComboBoxSecretKey;
+        private SplitContainer SplitChatView;
         private TextBox TextBoxSource;
         private TextBox TextBoxDestionation;
-        private Button buttonSecretKey;
-        private Panel panelEnCodeCrypt;
-        private PictureBox pictureBoxQr;
-        private RichTextBox richTextBoxChat;
-        private PictureBox pictureBoxYou;
-        private PictureBox pictureBoxPartner;
-        private Panel panelDestination;
+        private Button ButtonKey;
+        private Button ButtonCheck;
+        private RichTextBox RichTextBoxChat;
+        private PictureBox PictureBoxYou;
+        private PictureBox PictureBoxPartner;
+
+        internal MenuStrip menuStrip;
+        private StatusStrip statusStrip;
         private ToolStripMenuItem toolStripMenuMain;
         private ToolStripMenuItem menuItemAbout;
         private ToolStripMenuItem toolStripMenuItemOld;
@@ -902,7 +971,6 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripMenuItem toolStripMenuItemClose;
         private ToolStripMenuItem menuItemInfo;
         private ToolStripMenuItem toolStripMenuItemExit;
-        private OpenFileDialog openFileDialog;
         private ToolStripMenuItem menuView;
         private ToolStripMenuItem menuCQRChat;
         private ToolStripMenuItem menuFileItemOpen;
@@ -911,13 +979,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripMenuItem toolStripMenuTForms;
         private ToolStripMenuItem menuQuestionMark;
         private ToolStripMenuItem menuItemHelp;
-        private SaveFileDialog saveFileDialog;
-        private StatusStrip statusStrip;
-        private ToolStripMenuItem splitButtonMenuItemLoad;
-        private ToolStripMenuItem splitButtonMenuItemSave;
         private ToolStripProgressBar toolStripProgressBar;
-        private ToolStripStatusLabel toolStripStatusLabel;      
-        private ToolStripSeparator menuFileSeparator;        
+        private ToolStripStatusLabel toolStripStatusLabel;
+        private ToolStripSeparator menuFileSeparator;
         private ToolStripMenuItem menuNetwork;
         private ToolStripMenuItem menuIItemMyIps;
         private ToolStripMenuItem menuItemFriendIp;
@@ -940,11 +1004,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripMenuItem menuContactstemImport;
         private ToolStripMenuItem menuContactsItemAdd;
         private ToolStripMenuItem menuContactsItemView;
-        private ToolStripMenuItem menuContactsItemMe;        
-        private Panel panelCenter;
-        private RichTextBox richTextBoxOneView;
+        private ToolStripMenuItem menuContactsItemMe;
+        private RichTextBox RichTextBoxOneView;
         private ToolStripMenuItem menuItemExternalIp;
-        private ToolStripSeparator separetorContacts;
+        private ToolStripSeparator menuContactsSeparetor;
         private ToolStripMenuItem menuContactstemExport;
         private ToolStripMenuItem menuCqrChatItemPerist;
         private ToolStripSeparator meuFileToExitSperator;
@@ -959,10 +1022,13 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripComboBox menuConnectComboBoxIps;
         private ToolStripSeparator menuConnectSeparator;
         private ToolStripSeparator menuConnectSeparatorLast;
-        private TextBox TextBoxPipe;
-        private ComboBox comboBoxIpContact;
-        private TextBox textBoxSecretKey;
-        internal MenuStrip menuStrip;
-        private Label labelSecretKey;
+
+        private OpenFileDialog openFileDialog;
+        private SaveFileDialog saveFileDialog;
+
+        private Button buttonAttach;
+        private Controls.GroupBoxLinkLabels GroupBoxLinks;
+        private Button button1;
+        private Button buttonClear;
     }
 }

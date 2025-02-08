@@ -19,5 +19,6 @@ namespace Area23.At.Mono.Util
 
         public string SecretKey { get; set; }
 
+        public string ImageBase64 { get; set; }
     }
 }

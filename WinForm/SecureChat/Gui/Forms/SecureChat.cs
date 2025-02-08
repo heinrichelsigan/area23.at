@@ -5,10 +5,12 @@ using Area23.At.Framework.Library.Core.Crypt.CqrJd;
 using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Core.Net;
 using Area23.At.Framework.Library.Core.Net.IpSocket;
+using Area23.At.Framework.Library.Core.Net.NameService;
 using Area23.At.Framework.Library.Core.Net.WebHttp;
 using Area23.At.Framework.Library.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
 using Area23.At.WinForm.SecureChat.Properties;
+using Area23.At.WinForm.SecureChat.Util;
 using System;
 using System.Configuration;
 using System.Net;
@@ -18,10 +20,26 @@ using System.Windows.Controls;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
-    public partial class SecureChat : Form
+
+    /// <summary>
+    /// SecureChat main form
+    /// </summary>
+    public partial class SecureChat : BaseChatForm
     {
-        protected string savedFile = string.Empty;
-        protected string loadDir = string.Empty;
+        #region fields        
+
+        private string myServerKey = string.Empty;
+        internal static int attachCnt = 0;
+        internal static int chatCnt = 0;
+        internal static Chat? chat;
+
+        private static IPAddress? clientIpAddress;
+        private static IPAddress? partnerIpAddress;
+        private static Listener? ipSockListener;
+
+        #endregion fields
+
+        #region Properties
 
         private static IPAddress? serverIpAddress;
         internal IPAddress? ServerIpAddress
@@ -32,7 +50,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     return serverIpAddress;
 
                 // TODO: change it
-                IEnumerable<IPAddress> list = NetworkAddresses.GetIpAddrsByHostName("cqrxs.eu");
+                IEnumerable<IPAddress> list = DnsHelper.GetIpAddrsByHostName(Constants.CQRXS_EU);
                 foreach (IPAddress ip in list)
                 {
                     foreach (string sip in Settings.Instance.Proxies)
@@ -70,36 +88,28 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
         }
 
-        private static IPAddress? externalIPAddress;
-        internal static IPAddress? ExternalIpAddress
-        {
-            get
-            {
-                if (externalIPAddress != null)
-                    return externalIPAddress;
+        #endregion Properties
 
-                string hexs = DeEnCoder.KeyToHex(Constants.BC_START_MSG);
-                externalIPAddress = WebClientRequest.ClientIpFromArea23("https://cqrxs.eu/net/R.aspx", hexs);
-                return externalIPAddress;
-            }
-        }
-
-        private static IPAddress? clientIpAddress;
-        private static IPSockListener? ipSockListener;
-
-        private string myServerKey;
-        internal static int chatCnt = 0;
-        internal static Chat? chat;
-
-
-        public SecureChat()
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        public SecureChat() : base()
         {
             InitializeComponent();
-            // Resources.
-            // MemoryStream ms = new MemoryStream(Properties.Resources.a_hash);
-            // buttonSecretKey.Image = new System.Drawing.Bitmap(ms);
-            // buttonHashIv.Image = new System.Drawing.Bitmap(ms);
-            // ms.Close();
+            TextBoxSource.MaxLength = Constants.SOCKET_BYTE_BUFFEER;
+            TextBoxDestionation.MaxLength = Constants.SOCKET_BYTE_BUFFEER;
+            ComboBoxIpContact.Text = Constants.ENTER_IP_CONTACT;
+            ComboBoxSecretKey.Text = Constants.ENTER_SECRET_KEY;
+            try
+            {
+                if (!Directory.Exists(LibPaths.AttachmentFilesDir))
+                    Directory.CreateDirectory(LibPaths.AttachmentFilesDir);
+            }
+            catch (Exception exBase64)
+            {
+                Area23Log.Logger.LogOriginMsgEx(this.Name, $"Exception in MenuItemAttach_Click: {exBase64.Message}.\n", exBase64);
+                toolStripStatusLabel.Text = "Attach FAILED: " + exBase64.Message;
+            }
         }
 
 
@@ -110,7 +120,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             {
                 // var badge = new TransparentBadge($"Error reading Settings from {LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE}.");
                 // badge.Show();
-                menuItemMyContact_Click(sender, e);
+                MenuItemMyContact_Click(sender, e);
                 while (string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.Email) || string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.Name))
                 {
                     string notFullReason = string.Empty;
@@ -122,253 +132,56 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     //     notFullReason += "Mobile phone is missing!" + Environment.NewLine;
                     MessageBox.Show(notFullReason, "Please fill out your info fully", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                    menuItemMyContact_Click(sender, e);
+                    MenuItemMyContact_Click(sender, e);
                 }
                 send1stReg = true;
             }
 
+            toolStripStatusLabel.Text = "Setup Network";
+            // PlaySoundFromResource("sound_perfect");
             await SetupNetwork();
 
             if (Entities.Settings.Instance != null && Entities.Settings.Instance.MyContact != null && !string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.ImageBase64))
             {
                 Bitmap? bmp = (Bitmap?)Entities.Settings.Instance.MyContact.ImageBase64.Base64ToImage();
                 if (bmp != null)
-                    this.pictureBoxYou.Image = bmp;
+                    this.PictureBoxYou.Image = bmp;
             }
 
             if (send1stReg)
-                menuItemSend_1stServerRegistration(sender, e);
+                Send_1st_Server_Registration(sender, e);
 
             AddContactsToIpContact();
+            toolStripStatusLabel.Text = "Secure Chat init done.";
         }
 
-        #region thread save text and richtext box access
-
-        internal delegate void SetTextCallback(System.Windows.Forms.TextBox textBox, string text);
-
-        internal delegate void AppendTextCallback(System.Windows.Forms.TextBox textBox, string text);
-
-        internal delegate void AppendRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, string text);
-
-        internal delegate void SelectRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, int start, int length);
-
-        internal delegate void SelectionAlignmentRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, HorizontalAlignment leftRight);
-
-        internal delegate int GetFirstCharIndexFromLineRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, int lineNr);
-
-        internal delegate void ClearRichTextCallback(System.Windows.Forms.RichTextBox richTextBox, bool clear = true);
+        #region thread save text and richtext box access       
 
         /// <summary>
-        /// AppendText - appends text on a <see cref="System.Windows.Forms.TextBox"/>
-        /// </summary>
-        /// <param name="textBox"><see cref="System.Windows.Forms.TextBox"/></param>
-        /// <param name="text"><see cref="string">string text</see> to set</param>
-        internal void AppendText(System.Windows.Forms.TextBox textBox, string text)
-        {
-            string textToAppend = (!string.IsNullOrEmpty(text)) ? text : string.Empty;
-
-            // InvokeRequired required compares the thread ID of the calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
-            if (textBox.InvokeRequired)
-            {
-                AppendTextCallback appendTextDelegate = // new AppendTextCallback(SetTextSpooler);
-                    delegate (System.Windows.Forms.TextBox textArea, string appendText)
-                    {
-                        if (textArea != null && textArea.Text != null && appendText != null)
-                            textArea.AppendText(appendText);
-                    };
-                try
-                {
-                    textBox.Invoke(appendTextDelegate, new object[] { textBox, textToAppend });
-                    // textBox.Invoke((System.Reflection.MethodInvoker)delegate { textBox.AppendText(text); });
-                }
-                catch (System.Exception exDelegate)
-                {
-                    Area23Log.Logger.LogOriginMsgEx(this.Name, $"Exception in delegate set text: \"{text}\".\n", exDelegate);
-                }
-            }
-            else
-            {
-                if (textBox != null && textBox.Text != null && textToAppend != null)
-                    textBox.AppendText(textToAppend);
-            }
-        }
-
-        internal void AppendRichText(System.Windows.Forms.RichTextBox richTextBox, string text)
-        {
-            string textToAppend = (!string.IsNullOrEmpty(text)) ? text : string.Empty;
-
-            // InvokeRequired required compares the thread ID of the calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
-            if (richTextBox.InvokeRequired)
-            {
-                AppendRichTextCallback appendRichTextDelegate = // new AppendTextCallback(SetTextSpooler);
-                    delegate (System.Windows.Forms.RichTextBox textArea, string appendText)
-                    {
-                        if (textArea != null && textArea.Text != null && appendText != null)
-                            textArea.AppendText(appendText);
-                    };
-                try
-                {
-                    richTextBox.Invoke(appendRichTextDelegate, new object[] { richTextBox, textToAppend });
-                    // textBox.Invoke((System.Reflection.MethodInvoker)delegate { textBox.AppendText(text); });
-                }
-                catch (System.Exception exDelegate)
-                {
-                    Area23Log.Logger.LogOriginMsgEx(this.Name, $"Exception in delegate set text: \"{text}\".\n", exDelegate);
-                }
-            }
-            else
-            {
-                if (richTextBox != null && richTextBox.Text != null && textToAppend != null)
-                    richTextBox.AppendText(textToAppend);
-            }
-        }
-
-        internal void SelectRichText(System.Windows.Forms.RichTextBox richTextBox, int start, int length)
-        {
-            // InvokeRequired required compares the thread ID of the calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
-            if (richTextBox.InvokeRequired)
-            {
-                SelectRichTextCallback selectRichTextCallback = // new AppendTextCallback(SetTextSpooler);
-                    delegate (System.Windows.Forms.RichTextBox textArea, int charStart, int charLength)
-                    {
-                        if (textArea != null && textArea.Text != null)
-                            textArea.Select(charStart, charLength);
-                    };
-                try
-                {
-                    richTextBox.Invoke(selectRichTextCallback, new object[] { richTextBox, start, length });
-                    // textBox.Invoke((System.Reflection.MethodInvoker)delegate { textBox.AppendText(text); });
-                }
-                catch (System.Exception exDelegate)
-                {
-                    Area23Log.Logger.LogOriginMsgEx(this.Name, $"Exception in delegate select rich text: \"{start},{length}\".\n", exDelegate);
-                }
-            }
-            else
-            {
-                if (richTextBox != null && richTextBox.Text != null)
-                    richTextBox.Select(start, length);
-            }
-        }
-
-        internal void SelectionAlignmentRichText(System.Windows.Forms.RichTextBox richTextBox, HorizontalAlignment leftRight)
-        {
-            // InvokeRequired required compares the thread ID of the calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
-            if (richTextBox.InvokeRequired)
-            {
-                SelectionAlignmentRichTextCallback selectionAlignmentRichTextCallback = // new AppendTextCallback(SetTextSpooler);
-                    delegate (System.Windows.Forms.RichTextBox textArea, HorizontalAlignment lr)
-                    {
-                        if (textArea != null && textArea.Text != null)
-                            textArea.SelectionAlignment = lr;
-                    };
-                try
-                {
-                    richTextBox.Invoke(selectionAlignmentRichTextCallback, new object[] { richTextBox, leftRight });
-                    // textBox.Invoke((System.Reflection.MethodInvoker)delegate { textBox.AppendText(text); });
-                }
-                catch (System.Exception exDelegate)
-                {
-                    Area23Log.Logger.LogOriginMsgEx(this.Name, $"Exception in delegate SelectionAlignmentRichText: \"{leftRight}\".\n", exDelegate);
-                }
-            }
-            else
-            {
-                if (richTextBox != null && richTextBox.Text != null)
-                    richTextBox.SelectionAlignment = leftRight;
-            }
-        }
-
-        internal int GetFirstCharIndexFromLineRichText(System.Windows.Forms.RichTextBox richTextBox, int lineNr)
-        {
-            // InvokeRequired required compares the thread ID of the calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
-            if (richTextBox.InvokeRequired)
-            {
-                GetFirstCharIndexFromLineRichTextCallback getFirstCharIndexFromLineRichTextCallback = // new AppendTextCallback(SetTextSpooler);
-                    delegate (System.Windows.Forms.RichTextBox textArea, int lnr)
-                    {
-                        if (textArea != null && textArea.Text != null)
-                            return textArea.GetFirstCharIndexFromLine(lnr);
-                        return -1;
-                    };
-                try
-                {
-                    richTextBox.Invoke(getFirstCharIndexFromLineRichTextCallback, new object[] { richTextBox, lineNr });
-                    // textBox.Invoke((System.Reflection.MethodInvoker)delegate { textBox.AppendText(text); });
-                }
-                catch (System.Exception exDelegate)
-                {
-                    Area23Log.Logger.LogOriginMsgEx(this.Name, $"Exception in delegate GetFirstCharIndexFromLineRichText({lineNr}).\n", exDelegate);
-                }
-            }
-            else
-            {
-                if (richTextBox != null && richTextBox.Text != null)
-                    return richTextBox.GetFirstCharIndexFromLine(lineNr);
-            }
-            return -1;
-        }
-
-        internal void ClearRichText(System.Windows.Forms.RichTextBox richTextBox, bool clear = true)
-        {
-            // InvokeRequired required compares the thread ID of the calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
-            if (richTextBox.InvokeRequired)
-            {
-                ClearRichTextCallback clearRichTextCallback = 
-                    delegate (System.Windows.Forms.RichTextBox textArea, bool clr)
-                    {
-                        if (textArea != null)
-                            textArea.Clear();
-                        return;
-                    };
-                try
-                {
-                    richTextBox.Invoke(clearRichTextCallback, new object[] { richTextBox, clear });
-                    // textBox.Invoke((System.Reflection.MethodInvoker)delegate { textBox.AppendText(text); });
-                }
-                catch (System.Exception exDelegate)
-                {
-                    Area23Log.Logger.LogOriginMsgEx(this.Name, $"Exception in delegate ClearRichText: \"{exDelegate.Message}\".\n", exDelegate);
-                }
-            }
-            else
-            {
-                if (richTextBox != null)
-                    richTextBox.Clear();
-            }
-        }
-
-        /// <summary>
-        /// Displays and formats lines in <see cref="richTextBoxOneView" />
+        /// Displays and formats lines in <see cref="RichTextBoxOneView" />
         /// </summary>
         internal void Format_Lines_RichTextBox()
         {
             if (chat != null)
             {
-                ClearRichText(richTextBoxOneView);
+                ClearRichText(RichTextBoxOneView);
                 int lineIndex = 0;
                 foreach (var tuple in chat.CqrMsgs)
                 {
                     string line = tuple.Value;
 
-                    AppendRichText(richTextBoxOneView, line + Environment.NewLine);
-                    // richTextBoxOneView.AppendText(line + Environment.NewLine);
+                    AppendRichText(RichTextBoxOneView, line + Environment.NewLine);
+                    // RichTextBoxOneView.AppendText(line + Environment.NewLine);
 
-                    int startPos = GetFirstCharIndexFromLineRichText(richTextBoxOneView, lineIndex++);
-                    SelectRichText(richTextBoxOneView, startPos, line.Length + Environment.NewLine.Length);
+                    int startPos = GetFirstCharIndexFromLineRichText(RichTextBoxOneView, lineIndex++);
+                    SelectRichText(RichTextBoxOneView, startPos, line.Length + Environment.NewLine.Length);
                     if (chat.MyMsgTStamps.Contains(tuple.Key))
                     {
-                        SelectionAlignmentRichText(richTextBoxOneView, HorizontalAlignment.Right);
+                        SelectionAlignmentRichText(RichTextBoxOneView, HorizontalAlignment.Right);
                     }
                     else if (chat.FriendMsgTStamps.Contains(tuple.Key))
                     {
-                        SelectionAlignmentRichText(richTextBoxOneView, HorizontalAlignment.Left);
+                        SelectionAlignmentRichText(RichTextBoxOneView, HorizontalAlignment.Left);
                     }
                 }
 
@@ -377,11 +190,21 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         #endregion thread save text and richtext box access
 
-        private void Button_SecretKey_Click(object sender, EventArgs e)
+        #region SecretKey & SymmCipherPipe.PipeString + ComboBoxSecretKey FocusLeave TextUpdate SelectedIndexChanged
+
+        /// <summary>
+        /// ButtonKey_Click Event
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        private void ButtonKey_Click(object sender, EventArgs e)
         {
-            myServerKey = (string.IsNullOrEmpty(this.textBoxSecretKey.Text)) ?
-                ExternalIpAddress?.ToString() + Constants.BC_START_MSG :
-                this.textBoxSecretKey.Text;
+            myServerKey = ExternalIpAddress?.ToString() + Constants.APP_NAME;
+            if (!string.IsNullOrEmpty(this.ComboBoxSecretKey.Text) &&
+                !this.ComboBoxSecretKey.Text.Equals(Constants.ENTER_SECRET_KEY, StringComparison.InvariantCultureIgnoreCase))
+            {
+                myServerKey = this.ComboBoxSecretKey.Text;
+            }
 
             // TODO: test case later
 
@@ -390,7 +213,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         }
 
-
+        [Obsolete("Button_HashIv_Click is obsolete", false)]
         private void Button_HashIv_Click(object sender, EventArgs e)
         {
             string url = "https://cqrxs.eu/net/R.aspx";
@@ -400,66 +223,161 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         }
 
-        private void TextBoxSecretKey_TextChanged(object sender, EventArgs e)
+        /// <summary>
+        /// ComboBoxSecretKey_FocusLeave event is fired, when we leave focus of ComboBoxSecretKe
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        private void ComboBoxSecretKey_FocusLeave(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(this.textBoxSecretKey.Text))
+            if (string.IsNullOrEmpty(this.ComboBoxSecretKey.Text) ||
+                this.ComboBoxSecretKey.Text.Equals(Constants.ENTER_SECRET_KEY, StringComparison.InvariantCultureIgnoreCase))
             {
                 MessageBox.Show("You haven't entered a secret key!", "Please enter a secret key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                this.textBoxSecretKey.BorderStyle = BorderStyle.Fixed3D;
+                this.ComboBoxSecretKey.BackColor = Color.OrangeRed;
+                PlaySoundFromResource("sound_interaction");
                 return;
             }
-            this.textBoxSecretKey.BorderStyle = BorderStyle.FixedSingle;
-            Button_SecretKey_Click(sender, e);
-        }
-
-        private void menuItemClear_Click(object sender, EventArgs e)
-        {
-
-            this.TextBoxDestionation.Clear();
-            this.TextBoxSource.Clear();
-            this.richTextBoxChat.Clear();
-        }
-
-        internal void OnClientReceive(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(myServerKey))
-                myServerKey = this.textBoxSecretKey.Text;
-
-
-            if (sender != null)
+            this.ComboBoxSecretKey.BackColor = Color.White;
+            ButtonKey_Click(sender, e);
+            if (Entities.Settings.Instance != null)
             {
-                if (ipSockListener?.BufferedData != null && ipSockListener.BufferedData.Length > 0)
-                {
-                    if (chat == null)
-                        chat = new Chat(0);
-
-                    string encrypted = EnDeCoder.GetString(ipSockListener.BufferedData);
-                    CqrPeer2PeerMsg pmsg = new CqrPeer2PeerMsg(myServerKey);
-                    string unencrypted = pmsg.NCqrPeerMsg(encrypted);
-
-                    chat.AddFriendMessage(unencrypted);
-
-                    AppendText(TextBoxDestionation, unencrypted);
-                    // this.richTextBoxOneView.Text = unencrypted;
-                    Format_Lines_RichTextBox();
-                }
+                if (!Entities.Settings.Instance.SecretKeys.Contains(this.ComboBoxSecretKey.Text))
+                    Entities.Settings.Instance.SecretKeys.Add(this.ComboBoxSecretKey.Text);
+                if (!this.ComboBoxSecretKey.Items.Contains(this.ComboBoxSecretKey.Text))
+                    this.ComboBoxSecretKey.Items.Add(this.ComboBoxSecretKey.Text);
             }
+            toolStripStatusLabel.Text = "Added new secret key => calculated new SecurePipe...";
         }
 
-        private void menuItemSend_1stServerRegistration(object sender, EventArgs e)
+        /// <summary>
+        /// ComboBoxSecretKey_TextUpdate is fired, when text entered in ComboBoxSecretKey changes.
+        /// Event is fired, when 1 char will be added or deleted at each change of <see cref="ComboBoxSecretKey.Text"/>
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        private void ComboBoxSecretKey_TextUpdate(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.ComboBoxSecretKey.Text))
+            {
+                return;
+            }
+            this.ComboBoxSecretKey.BackColor = Color.White;
+            ButtonKey_Click(sender, e);
+        }
+
+        /// <summary>
+        /// ComboBoxSecretKey_SelectedIndexChanged is fired, when we select a previous secret key in ComboBoxSecretKey
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        private void ComboBoxSecretKey_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.ComboBoxSecretKey.Text) ||
+                this.ComboBoxSecretKey.Text.Equals(Constants.ENTER_SECRET_KEY, StringComparison.InvariantCultureIgnoreCase))
+            {
+                MessageBox.Show("You haven't entered a secret key!", "Please enter a secret key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.ComboBoxSecretKey.BackColor = Color.OrangeRed;
+                PlaySoundFromResource("sound_interaction");
+                return;
+            }
+            this.ComboBoxSecretKey.BackColor = Color.White;
+            ButtonKey_Click(sender, e);
+            toolStripStatusLabel.Text = "Changed secret key => calculated new SecurePipe...";
+        }
+
+        #endregion SecretKey & SymmCipherPipe.PipeString + ComboBoxSecretKey FocusLeave TextUpdate SelectedIndexChanged
+
+        #region ComboBoxIpContact FocusLeave TextUpdate SelectedIndexChanged
+
+
+        private void ComboBoxIpContact_FocusLeave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.ComboBoxIpContact.Text) ||
+                this.ComboBoxIpContact.Text.Equals(Constants.ENTER_IP_CONTACT, StringComparison.InvariantCultureIgnoreCase))
+            {
+                MessageBox.Show("You haven't entered a new ip address!", "Please enter a valid connectable ip address", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.ComboBoxIpContact.BackColor = Color.PeachPuff;
+                PlaySoundFromResource("sound_interaction");
+                return;
+            }
+            try
+            {
+                partnerIpAddress = IPAddress.Parse(this.ComboBoxIpContact.Text);
+            }
+            catch (Exception exIpContact)
+            {
+                MessageBox.Show($"Cannot parse IpAddress from string \"{ComboBoxIpContact.Text}\": {exIpContact.Message}", "Please enter a valid connectable ipv4 or ipv6 address", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.ComboBoxIpContact.BackColor = Color.Violet;
+                PlaySoundFromResource("sound_interaction");
+                return;
+            }
+
+            this.ComboBoxIpContact.BackColor = Color.White;
+
+            if (Entities.Settings.Instance != null)
+            {
+                if (!Entities.Settings.Instance.FriendIPs.Contains(this.ComboBoxIpContact.Text))
+                    Entities.Settings.Instance.FriendIPs.Add(partnerIpAddress.ToString());
+                if (!this.ComboBoxIpContact.Items.Contains(this.ComboBoxIpContact.Text))
+                    this.ComboBoxIpContact.Items.Add(partnerIpAddress.ToString());
+            }
+            toolStripStatusLabel.Text = $"Added new partner ip address {partnerIpAddress.ToString()}.";
+        }
+
+        private void ComboBoxIpContact_TextUpdate(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ComboBoxIpContact_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.ComboBoxIpContact.Text) ||
+                this.ComboBoxIpContact.Text.Equals(Constants.ENTER_IP_CONTACT, StringComparison.InvariantCultureIgnoreCase))
+            {
+                MessageBox.Show("You haven't entered a new ip address!", "Please enter a valid connectable ip address", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.ComboBoxIpContact.BackColor = Color.PeachPuff;
+                PlaySoundFromResource("sound_interaction");
+                return;
+            }
+            try
+            {
+                partnerIpAddress = IPAddress.Parse(this.ComboBoxIpContact.Text);
+            }
+            catch (Exception exIpContact)
+            {
+                MessageBox.Show($"Cannot parse IpAddress from string \"{ComboBoxIpContact.Text}\": {exIpContact.Message}", "Please enter a valid connectable ipv4 or ipv6 address", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.ComboBoxIpContact.BackColor = Color.Violet;
+                PlaySoundFromResource("sound_interaction");
+                return;
+            }
+            this.ComboBoxIpContact.BackColor = Color.White;
+            toolStripStatusLabel.Text = $"Selected partner ip address {partnerIpAddress.ToString()}.";
+        }
+
+        #endregion ComboBoxIpContact FocusLeave TextUpdate SelectedIndexChanged
+
+
+        #region OnClientReceive MenuSend MenuAttach MenuRefresh MenuClear
+
+        /// <summary>
+        /// Send_1st_Server_Registration sends contact registration to cqrxs.eu server
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        private void Send_1st_Server_Registration(object sender, EventArgs e)
         {
             if (chat == null)
                 chat = new Chat(0);
 
-            myServerKey = (string.IsNullOrEmpty(this.textBoxSecretKey.Text)) ?
-                ExternalIpAddress?.ToString() + Constants.APP_NAME :
-                this.textBoxSecretKey.Text;
-
-            // TODO: test case later
-            if (!string.IsNullOrEmpty(this.textBoxSecretKey.Text))
-                myServerKey = this.textBoxSecretKey.Text;
+            myServerKey = ExternalIpAddress?.ToString() + Constants.APP_NAME;
+            if (!string.IsNullOrEmpty(this.ComboBoxSecretKey.Text) &&
+                !this.ComboBoxSecretKey.Text.Equals(Constants.ENTER_SECRET_KEY, StringComparison.InvariantCultureIgnoreCase))
+            {
+                myServerKey = this.ComboBoxSecretKey.Text;
+            }
             else
-                this.textBoxSecretKey.Text = myServerKey;
+                this.ComboBoxSecretKey.Text = myServerKey;
 
             CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
             this.TextBoxPipe.Text = serverMessage.symmPipe.PipeString;
@@ -468,22 +386,95 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             string plain = myContact.Name + Environment.NewLine + myContact.Email + Environment.NewLine +
                 myContact.Mobile + Environment.NewLine + myContact.Address + Environment.NewLine +
                 myContact.SecretKey + Environment.NewLine;
-            string encrypted = serverMessage.CqrMessage(plain);
+            string encrypted = serverMessage.CqrSrvMsg(plain);
             string response = serverMessage.SendCqrSrvMsg(plain, ServerIpAddress);
 
             this.TextBoxSource.Text = encrypted + "\n"; //  + "\r\n" + serverMessage.symmPipe.HexStages;
-            string decrypted = serverMessage.NCqrMessage(encrypted);
-            this.TextBoxDestionation.Text = decrypted + "\n" + response + "\r\n"; // + serverMessage.symmPipe.HexStages;
+            MsgContent msgContent = serverMessage.NCqrSrvMsg(encrypted);
+            this.TextBoxDestionation.Text = msgContent.Message + "\n" + response + "\r\n"; // + serverMessage.symmPipe.HexStages;
 
             chat.AddMyMessage(plain);
-            chat.AddFriendMessage(decrypted);
+            chat.AddFriendMessage(msgContent.Message);
 
-            // this.richTextBoxOneView.Rtf = this.richTextBoxChat.Rtf;
+            // this.RichTextBoxOneView.Rtf = this.RichTextBoxChat.Rtf;
             Format_Lines_RichTextBox();
+
+            toolStripStatusLabel.Text = "Finished 1st registration";
         }
 
+        /// <summary>
+        /// OnClientReceive event is fired, 
+        /// when another secure chat client connects directly peer 2 peer 
+        /// to server socket of our local chat app,
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        internal void OnClientReceive(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(myServerKey))
+            {
+                myServerKey = ExternalIpAddress?.ToString() + Constants.APP_NAME;
+                if (!string.IsNullOrEmpty(this.ComboBoxSecretKey.Text) &&
+                    !this.ComboBoxSecretKey.Text.Equals(Constants.ENTER_SECRET_KEY, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    myServerKey = this.ComboBoxSecretKey.Text;
+                }
+            }
 
-        private void menuItemSend_Click(object sender, EventArgs e)
+            if (sender != null)
+            {
+                if (ipSockListener?.BufferedData != null && ipSockListener.BufferedData.Length > 0)
+                {
+                    if (chat == null)
+                        chat = new Chat(0);
+                    string encrypted = EnDeCoder.GetString(ipSockListener.BufferedData);
+
+                    Area23EventArgs<ReceiveData>? area23EvArgs = null;
+                    if (e != null && e is Area23EventArgs<ReceiveData>)
+                    {
+                        area23EvArgs = ((Area23EventArgs<ReceiveData>)e);
+                        //TODO: Enable cross thread via delegate
+                        SetStatusText(toolStripStatusLabel, "Connection from " + area23EvArgs.GenericTData.ClientIPAddr + ":" + area23EvArgs.GenericTData.ClientIPPort);
+
+                        string comboText = GetComboBoxText(ComboBoxIpContact);
+                        if (!comboText.Equals(area23EvArgs.GenericTData.ClientIPAddr, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            PlaySoundFromResource("sound_completed");
+                            SetComboBoxText(ComboBoxIpContact, area23EvArgs.GenericTData.ClientIPAddr);
+
+                        }
+                        encrypted = EnDeCoder.GetString(area23EvArgs.GenericTData.BufferedData);
+                    }
+
+
+                    CqrPeer2PeerMsg pmsg = new CqrPeer2PeerMsg(myServerKey);
+                    MsgContent msgContent = pmsg.NCqrPeerMsg(encrypted);
+                    string friendMsg = string.Empty;
+                    if (msgContent.IsMimeAttachment())
+                    {
+                        MimeAttachment mimeAttachment = msgContent.ToMimeAttachment();
+                        SetAttachmentTextLink(mimeAttachment);
+                        friendMsg = mimeAttachment.GetFileNameContentLength();
+                    }
+                    else
+                    {
+                        friendMsg = msgContent.Message;
+                    }
+
+                    chat.AddFriendMessage(friendMsg);
+                    AppendText(TextBoxDestionation, friendMsg);
+                    // this.RichTextBoxOneView.Text = unencrypted;
+                    Format_Lines_RichTextBox();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sends a secure message
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        private void MenuItemSend_Click(object sender, EventArgs e)
         {
             // TODO: implement it via socket directly or to registered user
             // if Ip is pingable and reachable and connectable
@@ -491,38 +482,111 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             if (chat == null)
                 chat = new Chat(0);
 
-            if (string.IsNullOrEmpty(this.textBoxSecretKey.Text))
+            if (string.IsNullOrEmpty(this.ComboBoxSecretKey.Text) ||
+                this.ComboBoxSecretKey.Text.Equals(Constants.ENTER_SECRET_KEY, StringComparison.InvariantCultureIgnoreCase))
             {
                 MessageBox.Show("You haven't entered a secret key!", "Please enter a secret key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                this.textBoxSecretKey.BorderStyle = BorderStyle.Fixed3D;
+                this.ComboBoxSecretKey.BackColor = Color.OrangeRed;
                 return;
             }
 
-            if (string.IsNullOrEmpty(myServerKey))
-                myServerKey = this.textBoxSecretKey.Text;
+            myServerKey = this.ComboBoxSecretKey.Text;
 
+            string unencrypted = this.RichTextBoxChat.Text;
 
-            string unencrypted = this.richTextBoxChat.Text;
-            IPAddress partnerIp;
             try
             {
-                partnerIp = IPAddress.Parse(this.comboBoxIpContact.Text);
+                partnerIpAddress = IPAddress.Parse(this.ComboBoxIpContact.Text);
                 CqrPeer2PeerMsg pmsg = new CqrPeer2PeerMsg(myServerKey);
-                pmsg.SendCqrPeerMsg(unencrypted, partnerIp, EncodingType.Base64, Constants.CHAT_PORT);
-                
+                pmsg.SendCqrPeerMsg(unencrypted, partnerIpAddress, EncodingType.Base64, Constants.CHAT_PORT);
+
                 chat.AddMyMessage(unencrypted);
                 AppendText(TextBoxSource, unencrypted);
                 Format_Lines_RichTextBox();
+                this.RichTextBoxChat.Text = string.Empty;
+                toolStripStatusLabel.Text = "Send successfully";
             }
             catch (Exception ex)
             {
                 Area23Log.Logger.LogOriginMsgEx(this.Name, $"Exception in menuItemSend_Click: {ex.Message}.\n", ex);
+                toolStripStatusLabel.Text = "Send FAILED: " + ex.Message;
             }
             // otherwise send message to registered user via server
             // Always encrypt via key
         }
 
-        private void menuItemRefresh_Click(object sender, EventArgs e)
+
+        /// <summary>
+        /// Attaches a file to send
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        private void MenuItemAttach_Click(object sender, EventArgs e)
+        {
+            if (chat == null)
+                chat = new Chat(0);
+
+            if (string.IsNullOrEmpty(this.ComboBoxSecretKey.Text) ||
+                this.ComboBoxSecretKey.Text.Equals(Constants.ENTER_SECRET_KEY, StringComparison.InvariantCultureIgnoreCase))
+            {
+                MessageBox.Show("You haven't entered a secret key!", "Please enter a secret key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.ComboBoxSecretKey.BackColor = Color.OrangeRed;
+                return;
+            }
+
+            myServerKey = this.ComboBoxSecretKey.Text;
+
+            openFileDialog = openFileDialog ?? new OpenFileDialog();
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.AddExtension = false;
+            openFileDialog.CheckFileExists = true;
+            openFileDialog.CheckPathExists = true;
+            openFileDialog.Filter = "All files (*.*)|*.*|BMP (*.bmp)|*.bmp|PNG (*.png)|*.png|GIF (*.gif)|*.gif|JPG (*.jpg)|*.jpg|PDF (*.pdf)|*.pdf";
+            DialogResult result = openFileDialog.ShowDialog();
+            if (result == DialogResult.OK || result == DialogResult.Yes)
+            {
+                if (File.Exists(openFileDialog.FileName))
+                {
+                    string md5 = Area23.At.Framework.Library.Core.Crypt.Hash.MD5Sum.Hash(openFileDialog.FileName, true);
+                    string sha256 = Area23.At.Framework.Library.Core.Crypt.Hash.Sha256Sum.Hash(openFileDialog.FileName, true);
+
+                    byte[] fileBytes = System.IO.File.ReadAllBytes(openFileDialog.FileName);
+                    string fileNameOnly = Path.GetFileName(openFileDialog.FileName);
+                    string mimeType = Area23.At.Framework.Library.Core.Util.MimeType.GetMimeType(fileBytes, fileNameOnly);
+
+                    string base64Mime = Base64.Encode(fileBytes);
+
+                    CqrPeer2PeerMsg pmsg = new CqrPeer2PeerMsg(myServerKey);
+
+                    MimeAttachment mimeAttach;
+                    try
+                    {
+                        partnerIpAddress = IPAddress.Parse(this.ComboBoxIpContact.Text);
+
+                        // pmsg.SendCqrPeerMsg(mimeAttach.MimeMsg, partnerIpAddress, EncodingType.Base64, Constants.CHAT_PORT);
+                        pmsg.SendCqrPeerAttachment(fileNameOnly, mimeType, base64Mime, partnerIpAddress, out mimeAttach, EncodingType.Base64, Constants.CHAT_PORT, md5, sha256);
+
+                        string base64FilePath = Path.Combine(LibPaths.AttachmentFilesDir, mimeAttach.FileName + Constants.BASE64_EXT);
+                        System.IO.File.WriteAllText(base64FilePath, mimeAttach.MimeMsg);
+
+                        chat.AddMyMessage(mimeAttach.GetFileNameContentLength());
+                        AppendText(TextBoxSource, mimeAttach.GetFileNameContentLength());
+                        Format_Lines_RichTextBox();
+                        this.RichTextBoxChat.Text = string.Empty;
+                        toolStripStatusLabel.Text = $"File {fileNameOnly} send successfully!";
+                    }
+                    catch (Exception ex)
+                    {
+                        Area23Log.Logger.LogOriginMsgEx(this.Name, $"Exception in MenuItemAttach_Click: {ex.Message}.\n", ex);
+                        toolStripStatusLabel.Text = "Attach FAILED: " + ex.Message;
+                    }
+                }
+                // otherwise send message to registered user via server
+                // Always encrypt via key
+            }
+        }
+
+        private void MenuItemRefresh_Click(object sender, EventArgs e)
         {
             byte[] b0 = ExternalIpAddress.ToExternalBytes();
             Version? assVersion = Assembly.GetExecutingAssembly().GetName().Version;
@@ -543,28 +607,65 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 sbyte sb = (sbyte)ZenMatrix.PermKeyHash.ElementAt(zeni);
                 TextBoxDestionation.Text += "| " + zeni.ToString("x1") + " | => | " + sb.ToString("x1") + " | " + "\r\n";
             }
-            // this.TextBoxDestionation.Text += ZenMatrix.EncryptString(this.richTextBoxChat.Text) + "\n";
-
-
+            // this.TextBoxDestionation.Text += ZenMatrix.EncryptString(this.RichTextBoxChat.Text) + "\n";
         }
 
+        /// <summary>
+        /// MenuItemClear_Click clears all input & output chat windows
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemClear_Click(object sender, EventArgs e)
+        {
+            this.TextBoxDestionation.Clear();
+            this.TextBoxSource.Clear();
+            this.RichTextBoxChat.Clear();
+        }
+
+
+        protected internal void SetAttachmentTextLink(MimeAttachment mimeAttachment)
+        {
+            string fileName = mimeAttachment.FileName;
+            string mimeFilePath = Path.Combine(LibPaths.AttachmentFilesDir, mimeAttachment.FileName + Constants.MIME_EXT);
+            string filePath = Path.Combine(LibPaths.AttachmentFilesDir, mimeAttachment.FileName);
+
+            byte[] attachBytes = EnDeCoder.GetBytes(mimeAttachment.MimeMsg);
+            System.IO.File.WriteAllBytes(mimeFilePath, attachBytes);
+
+            string base64 = mimeAttachment.Base64Mime;
+            if (mimeAttachment.ContentLength < mimeAttachment.Base64Mime.Length)
+                base64 = mimeAttachment.Base64Mime.Substring(0, mimeAttachment.ContentLength);
+
+            byte[] fileBytes = Base64.Decode(base64);
+            System.IO.File.WriteAllBytes(filePath, fileBytes);
+
+            GroupBoxLinks.SetNameFilePath(fileName, filePath);
+        }
+
+
+        #endregion OnClientReceive MenuSend MenuAttach MenuRefresh MenuClear
 
 
         #region Contacts
 
         private void AddContactsToIpContact()
         {
-            string ipContact = this.comboBoxIpContact.Text;
-            this.comboBoxIpContact.Items.Clear();
+            string ipContact = this.ComboBoxIpContact.Text;
+            this.ComboBoxIpContact.Items.Clear();
             foreach (Contact ct in Entities.Settings.Instance.Contacts)
             {
                 if (ct != null && !string.IsNullOrEmpty(ct.NameEmail))
-                    this.comboBoxIpContact.Items.Add(ct.NameEmail);
+                    this.ComboBoxIpContact.Items.Add(ct.NameEmail);
             }
-            this.comboBoxIpContact.Text = ipContact;
+            this.ComboBoxIpContact.Text = ipContact;
         }
 
-        private void menuItemMyContact_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemMyContact_Click(object sender, EventArgs e)
         {
             ContactSettings contactSettings = new ContactSettings("My Contact Info", 0);
             contactSettings.ShowInTaskbar = true;
@@ -585,7 +686,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                             bmp = new Bitmap(ms);
                         }
                         if (bmp != null)
-                            this.pictureBoxYou.Image = bmp;
+                            this.PictureBoxYou.Image = bmp;
 
                     }
                     catch (Exception exBmp)
@@ -601,13 +702,203 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         }
 
-        private void menuItemAddContact_Click(object sender, EventArgs e)
+        private void MenuItemAddContact_Click(object sender, EventArgs e)
         {
             ContactSettings contactSettings = new ContactSettings("Add Contact Info", 1);
             contactSettings.ShowInTaskbar = true;
             contactSettings.ShowDialog();
-            
+
             AddContactsToIpContact();
+        }
+
+
+        private void MenuContactsItemView_Click(object sender, EventArgs e)
+        {
+            ContactsView cview = new ContactsView();
+            cview.ShowDialog();
+        }
+
+        private void MenuContactstemImport_Click(object sender, EventArgs e)
+        {
+            int contactId = Entities.Settings.Instance.Contacts.Count;
+            string cname = string.Empty, cemail = string.Empty, cmobile = string.Empty, cphone = string.Empty, caddress = string.Empty;
+            HashSet<string> names = new HashSet<string>();
+            foreach (Contact c in Entities.Settings.Instance.Contacts)
+            {
+                if (!string.IsNullOrEmpty(c.Name) && !names.Contains(c.Name))
+                    names.Add(c.Name);
+                contactId = Math.Max(contactId, c.ContactId);
+            }
+            contactId++;
+            openFileDialog = openFileDialog ?? new OpenFileDialog();
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.AddExtension = false;
+            openFileDialog.CheckFileExists = true;
+            openFileDialog.CheckPathExists = true;
+            openFileDialog.Filter = "CSV (*.csv)|*.csv|VCard (*.vcf)|*.vcf"; //|All files (*.*)|*.*";
+            DialogResult result = openFileDialog.ShowDialog();
+            if (result == DialogResult.OK || result == DialogResult.Yes)
+            {
+                if (File.Exists(openFileDialog.FileName))
+                {
+                    string extension = Path.GetExtension(openFileDialog.FileName).ToLower();
+                    string[] lines = System.IO.File.ReadAllLines(openFileDialog.FileName);
+
+                    switch (extension)
+                    {
+                        case "csv":
+                        case ".csv":
+                            int csvCnt = 0;
+                            List<int> mailfields = new List<int>();
+                            List<int> phonefields = new List<int>();
+                            List<int> mobilefields = new List<int>();
+
+                            string[] attributes = lines[0].Split(',');
+                            foreach (string attribute in attributes)
+                            {
+                                if (attribute.ToLower().Contains("e-mail") || attribute.ToLower().Contains("email") || attribute.ToLower().Contains("mail"))
+                                    mailfields.Add(csvCnt);
+                                if (attribute.ToLower().Contains("phone"))
+                                    phonefields.Add(csvCnt);
+                                if (attribute.ToLower().Contains("mobil"))
+                                    mobilefields.Add(csvCnt);
+                                csvCnt++;
+                            }
+
+                            for (int i = 1; i < lines.Length; i++)
+                            {
+                                csvCnt = 0;
+                                cname = string.Empty; cemail = string.Empty; cphone = string.Empty; cmobile = string.Empty;
+                                string[] fields = lines[i].Split(',');
+                                for (int j = 0; j < fields.Length; j++)
+                                {
+                                    if (j == 0 || j == 2)
+                                    {
+                                        cname += fields[j] + " ";
+                                    }
+                                    if (j == 3)
+                                        cname = cname.TrimEnd(' ');
+
+                                    if (mailfields.Contains(j) && !string.IsNullOrEmpty(fields[j]) && fields[j].IsEmail())
+                                    {
+                                        if (string.IsNullOrEmpty(cemail))
+                                            cemail = fields[j];
+                                    }
+
+                                    if (phonefields.Contains(j) && !string.IsNullOrEmpty(fields[j]) && fields[j].IsPhoneOrMobile())
+                                    {
+                                        if (string.IsNullOrEmpty(cphone))
+                                            cphone = fields[j];
+                                    }
+                                    if (mobilefields.Contains(j) && !string.IsNullOrEmpty(fields[j]) && fields[j].IsPhoneOrMobile())
+                                    {
+                                        if (string.IsNullOrEmpty(cmobile))
+                                            cmobile = fields[j];
+                                    }
+                                }
+                                cmobile = (string.IsNullOrEmpty(cmobile)) ? cphone : cmobile;
+                                if (!string.IsNullOrEmpty(cname) && !names.Contains(cname))
+                                {
+                                    if (!string.IsNullOrEmpty(cemail))
+                                    {
+                                        Contact contact = new Contact() { ContactId = contactId++, Name = cname, Email = cemail, Mobile = cmobile };
+                                        Entities.Settings.Instance.Contacts.Add(contact);
+                                    }
+                                }
+
+                            }
+
+                            Entities.Settings.Save(Entities.Settings.Instance);
+                            break;
+                        case "vcf":
+                        case ".vcf":
+
+                            int vcfCnt = 0;
+                            bool beginEndVcard = false;
+
+
+                            for (int i = 0; i < lines.Length; i++)
+                            {
+
+                                if (lines[i].ToUpper().StartsWith("BEGIN:VCARD"))
+                                {
+                                    beginEndVcard = true;
+                                    cname = string.Empty; cemail = string.Empty; cphone = string.Empty; cmobile = string.Empty; caddress = string.Empty;
+                                }
+
+
+                                if (beginEndVcard)
+                                {
+                                    string tmpString = string.Empty;
+                                    if (lines[i].ToUpper().StartsWith("FN:"))
+                                    {
+                                        tmpString = lines[i].Substring(3);
+                                        if (!string.IsNullOrEmpty(tmpString) && tmpString.Length > 3)
+                                            cname = tmpString;
+                                    }
+                                    if (lines[i].ToUpper().StartsWith("N:") && string.IsNullOrEmpty(cname))
+                                    {
+                                        tmpString = lines[i].Substring(2).Replace(";", " ").TrimEnd(' ');
+                                        if (!string.IsNullOrEmpty(tmpString) && tmpString.Length > 3)
+                                            cname = tmpString;
+                                    }
+                                    if (lines[i].ToUpper().Contains("EMAIL") && lines[i].Contains("@") && string.IsNullOrEmpty(cemail))
+                                    {
+                                        tmpString = lines[i].Substring(lines[i].LastIndexOf(':')).Trim(':');
+                                        if (!string.IsNullOrEmpty(tmpString) && tmpString.Length > 3 && tmpString.IsEmail())
+                                            cemail = tmpString;
+                                    }
+
+                                    if (lines[i].ToUpper().Contains("TEL") && lines[i].Contains("CELL") && string.IsNullOrEmpty(cmobile))
+                                    {
+                                        tmpString = lines[i].Substring(lines[i].LastIndexOf(':')).Trim(':');
+                                        if (!string.IsNullOrEmpty(tmpString) && tmpString.Length > 3 && tmpString.IsPhoneOrMobile())
+                                            cmobile = tmpString;
+                                    }
+                                    if (lines[i].ToUpper().Contains("TEL") && string.IsNullOrEmpty(cmobile))
+                                    {
+                                        tmpString = lines[i].Substring(lines[i].LastIndexOf(':')).Trim(':');
+                                        if (!string.IsNullOrEmpty(tmpString) && tmpString.Length > 3 && tmpString.IsPhoneOrMobile())
+                                            cmobile = tmpString;
+                                    }
+                                    if (lines[i].ToUpper().Contains("ADR") && string.IsNullOrEmpty(caddress))
+                                    {
+                                        tmpString = lines[i].Substring(lines[i].IndexOf(':')).Trim(':').Replace(";;;", " ").Replace(";;", " ").Replace(";", " ");
+                                        if (!string.IsNullOrEmpty(tmpString) && tmpString.Length > 3)
+                                            caddress = tmpString;
+                                    }
+
+                                    // TODO Photo add
+
+
+                                }
+
+
+                                if (lines[i].ToUpper().StartsWith("END:VCARD"))
+                                {
+                                    vcfCnt++;
+                                    beginEndVcard = false;
+                                    if (!string.IsNullOrEmpty(cname) && !names.Contains(cname))
+                                    {
+                                        if (!string.IsNullOrEmpty(cemail))
+                                        {
+                                            Contact contact = new Contact() { ContactId = contactId++, Name = cname, Email = cemail, Mobile = cmobile };
+                                            Entities.Settings.Instance.Contacts.Add(contact);
+                                        }
+                                    }
+                                }
+
+
+                            }
+
+                            Entities.Settings.Save(Entities.Settings.Instance);
+                            break;
+                        default:
+                            break;
+
+                    }
+                }
+            }
         }
 
         #endregion Contacts
@@ -627,18 +918,19 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuViewItemTopBottom.Checked = true;
             menuViewItem1View.Checked = false;
 
-            panelCenter.Visible = false;
+            PanelCenter.Visible = true;
+            RichTextBoxOneView.Visible = false;
 
-            splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            splitContainer.Panel1MinSize = 220;
-            splitContainer.Panel2MinSize = 220;
-            splitContainer.SplitterDistance = 226;
-            splitContainer.SplitterIncrement = 8;
-            splitContainer.SplitterWidth = 8;
-            splitContainer.MinimumSize = new System.Drawing.Size(800, 400);
+            SplitChatView.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            SplitChatView.Panel1MinSize = 220;
+            SplitChatView.Panel2MinSize = 220;
+            SplitChatView.SplitterDistance = 226;
+            SplitChatView.SplitterIncrement = 8;
+            SplitChatView.SplitterWidth = 8;
+            SplitChatView.MinimumSize = new System.Drawing.Size(800, 400);
 
-            splitContainer.Visible = true;
-            splitContainer.BringToFront();
+            SplitChatView.Visible = true;
+            SplitChatView.BringToFront();
 
         }
 
@@ -653,18 +945,19 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuViewItemTopBottom.Checked = false;
             menuViewItem1View.Checked = false;
 
-            panelCenter.Visible = false;
+            PanelCenter.Visible = true;
+            RichTextBoxOneView.Visible = false;
 
-            splitContainer.Orientation = System.Windows.Forms.Orientation.Vertical;
-            splitContainer.Panel1MinSize = 380;
-            splitContainer.Panel2MinSize = 380;
-            splitContainer.SplitterDistance = 396;
-            splitContainer.SplitterIncrement = 8;
-            splitContainer.SplitterWidth = 8;
-            splitContainer.MinimumSize = new System.Drawing.Size(800, 400);
+            SplitChatView.Orientation = System.Windows.Forms.Orientation.Vertical;
+            SplitChatView.Panel1MinSize = 380;
+            SplitChatView.Panel2MinSize = 380;
+            SplitChatView.SplitterDistance = 396;
+            SplitChatView.SplitterIncrement = 8;
+            SplitChatView.SplitterWidth = 8;
+            SplitChatView.MinimumSize = new System.Drawing.Size(800, 400);
 
-            splitContainer.Visible = true;
-            splitContainer.BringToFront();
+            SplitChatView.Visible = true;
+            SplitChatView.BringToFront();
         }
 
         /// <summary>
@@ -679,10 +972,10 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             menuViewItemTopBottom.Checked = false;
             menuViewItem1View.Checked = true;
 
-            panelCenter.Visible = true;
-            panelCenter.BringToFront();
-            splitContainer.Visible = false;
-            richTextBoxOneView.Visible = true;
+            PanelCenter.Visible = true;
+            SplitChatView.Visible = false;
+            RichTextBoxOneView.Visible = true;
+            RichTextBoxOneView.BringToFront();
         }
 
         #endregion SplitChatWindowLayout
@@ -713,7 +1006,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             {
                 try
                 {
-                    foreach (var netIp in NetworkAddresses.GetIpAddrsByHostName(proxyStr))
+                    foreach (var netIp in DnsHelper.GetIpAddrsByHostName(proxyStr))
                         if (!addresses.Contains(netIp))
                             addresses.Add(netIp);
                 }
@@ -748,7 +1041,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                             item.Checked = true;
                             if (addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
                                 this.menuItemIPv6Secure.Checked = true;
-                            ipSockListener = new Framework.Library.Core.Net.IpSocket.IPSockListener(clientIpAddress, OnClientReceive);
+                            ipSockListener = new Area23.At.Framework.Library.Core.Net.IpSocket.Listener(clientIpAddress, OnClientReceive);
                         }
                     }
 
@@ -803,7 +1096,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 clientIpAddress = IPAddress.Parse(mi.Name);
 
                 ipSockListener?.Dispose();
-                ipSockListener = new Framework.Library.Core.Net.IpSocket.IPSockListener(clientIpAddress, OnClientReceive);
+                ipSockListener = new Area23.At.Framework.Library.Core.Net.IpSocket.Listener(clientIpAddress, OnClientReceive);
+                toolStripStatusLabel.Text = "Listening on " + clientIpAddress.ToString() + ":" + Constants.CHAT_PORT;
             }
         }
 
@@ -901,143 +1195,21 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         #endregion LoadSaveChatContent
 
 
-        #region HelpAboutInfo
-
-        private void MenuItemHelp_Click(object sender, EventArgs e)
+        private void buttonAttach_Click(object sender, EventArgs e)
         {
-            // TODO: implement it
+            this.MenuItemAttach_Click(sender, e);
         }
 
-        private void MenuItemAbout_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            TransparentDialog dialog = new TransparentDialog();
-            dialog.ShowDialog();
+            this.MenuItemSend_Click(sender, e);
         }
 
-        protected internal void MenuItemInfo_Click(object sender, EventArgs e)
+        private void buttonClear_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"{Text} type {this.GetType()} Information MessageBox.", $"{Text} type {this.GetType()}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.MenuItemClear_Click(sender, e);
         }
 
-        #endregion HelpAboutInfo
-
-
-        #region closeForm
-
-        /// <summary>
-        /// Closes Form, if this is the last form of application, then executes <see cref="AppCloseAllFormsExit"/>
-        /// </summary>
-        /// <param name="sender">object sender</param>
-        /// <param name="e">FormClosingEventArgs e</param>
-        private void formClose_Click(object sender, FormClosingEventArgs e)
-        {
-            if (System.Windows.Forms.Application.OpenForms.Count < 2)
-            {
-                AppCloseAllFormsExit();
-                return;
-            }
-            try
-            {
-                this.Close();
-            }
-            catch (Exception exFormClose)
-            {
-                CqrException.LastException = exFormClose;
-                Area23Log.LogStatic(exFormClose);
-            }
-            try
-            {
-                this.Dispose(true);
-            }
-            catch (Exception exFormDispose)
-            {
-                CqrException.LastException = exFormDispose;
-                Area23Log.LogStatic(exFormDispose);
-            }
-
-            return;
-
-        }
-
-        /// <summary>
-        /// menuFileItemExit_Click is fired, when selecting exit menu 
-        /// and will nevertheless close all forms and exits application
-        /// </summary>
-        /// <param name="sender">object sender</param>
-        /// <param name="e">EventArgs e</param>
-        private void menuFileItemExit_Click(object sender, EventArgs e)
-        {
-            AppCloseAllFormsExit();
-        }
-
-        /// <summary>
-        /// AppCloseAllFormsExit closes all open forms and exit and finally unlocks Mutex
-        /// </summary>
-        /// <exception cref="ApplicationException"></exception>
-        public virtual void AppCloseAllFormsExit()
-        {
-            string settingsNotSavedReason = string.Empty;
-            try
-            {
-                if (!Entities.Settings.Save(null))
-                    settingsNotSavedReason = (CqrException.LastException != null) ?
-                        CqrException.LastException.Message : "Unknown reason!";
-            }
-            catch (Exception exSetSave)
-            {
-                Area23Log.LogStatic(exSetSave);
-                settingsNotSavedReason = exSetSave.Message;
-            }
-
-            if (!string.IsNullOrEmpty(settingsNotSavedReason))
-                MessageBox.Show(settingsNotSavedReason, "Couldn't save chat settings", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-            if (CqrException.LastException != null) // TODO: Remove this
-                MessageBox.Show(CqrException.LastException.ToString(), CqrException.LastException.Message, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-            int openForms = System.Windows.Forms.Application.OpenForms.Count;
-            if (openForms > 1)
-            {
-                for (int frmidx = 0; frmidx < System.Windows.Forms.Application.OpenForms.Count; frmidx++)
-                {
-                    try
-                    {
-                        Form? form = System.Windows.Forms.Application.OpenForms[frmidx];
-                        if (form != null && form.Name != this.Name)
-                        {
-                            form.Close();
-                            form.Dispose();
-                        }
-                    }
-                    catch (Exception exForm)
-                    {
-                        CqrException.LastException = exForm;
-                        Area23Log.LogStatic(exForm);
-                    }
-                }
-
-            }
-
-            try
-            {
-                Program.ReleaseCloseDisposeMutex(Program.PMutec);
-            }
-            catch (Exception ex)
-            {
-                CqrException.LastException = ex;
-                Area23Log.LogStatic(ex);
-            }
-
-            Application.ExitThread();
-            Dispose();
-            Application.Exit();
-            Environment.Exit(0);
-
-        }
-
-        #endregion closeForm
-
-        
     }
 
 }

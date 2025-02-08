@@ -113,7 +113,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>encrypted byte Array</returns>
-        public static byte[] EncryptBytesFast(byte[] inBytes, 
+        public static byte[] EncryptBytesFast(byte[] inBytes,
             SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes,
             string secretKey = "heinrich.elsigan@area23.at",
             string hashIv = "6865696e726963682e656c736967616e406172656132332e6174")
@@ -184,7 +184,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>decrypted byte Array</returns>
-        public static byte[] DecryptBytesFast(byte[] cipherBytes, 
+        public static byte[] DecryptBytesFast(byte[] cipherBytes,
             SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes,
             string secretKey = "heinrich.elsigan@area23.at",
             string hashIv = "6865696e726963682e656c736967616e406172656132332e6174")
@@ -296,7 +296,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 #if DEBUG
             stageDictionary = new Dictionary<SymmCipherEnum, byte[]>();
             /// stageDictionary.Add(SymmCipherEnum.ZenMatrix, cipherBytes);
-#endif 
+#endif
             foreach (SymmCipherEnum symmCipher in OutPipe)
             {
                 decryptedBytes = DecryptBytesFast(cipherBytes, symmCipher, secretKey, hashIv);

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows8.0</TargetFramework>
+    <TargetFramework>net9.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -10,8 +10,8 @@
     <Copyright>Copyleft ©  2000 - 2032</Copyright>
     <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>
     <PackageProjectUrl>https://github.com/heinrichelsigan/area23.at</PackageProjectUrl>
-    <AssemblyVersion>2.24.1226</AssemblyVersion>
-    <FileVersion>2.24.1226</FileVersion>
+    <AssemblyVersion>2.25.221</AssemblyVersion>
+    <FileVersion>2.25.221</FileVersion>
     <Description>area23.at Heinrich Elsigan</Description>
     <StartupObject>Area23.At.WinForm.TWinFormCore.Program</StartupObject>
     <Title>Transparent Form .NetCore</Title>

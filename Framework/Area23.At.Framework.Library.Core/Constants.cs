@@ -14,13 +14,17 @@ namespace Area23.At.Framework.Library.Core
     {
 
         #region public const
-        
+
         public const int BACKLOG = 8;
         public const int CHAT_PORT = 7777;
         public const int MAX_KEY_LEN = 4096;
         public const int MAX_PIPE_LEN = 8;
         public const int MAX_SERVER_SOCKET_ADDRESSES = 16;
         public const int CLOSING_TIMEOUT = 6000;
+        public const int MIN_SOCKET_BYTE_BUFFEER = 65536;   // 64 KB Buffer
+        public const int SOCKET_BYTE_BUFFEER = 1048576;     //  1 MB Buffer
+        public const int MAX_BYTE_BUFFEER = 4194240;        //  4 MB Buffer
+        public const bool CQR_ENCRYPT = true;
 
         public const char ANNOUNCE = ':';
         public const char DATE_DELIM = '-';
@@ -29,7 +33,7 @@ namespace Area23.At.Framework.Library.Core
 
         public const string APP_NAME = "Area23.At";
         public const string APP_DIR = "net";
-        public const string VERSION = "v2.24.1226";
+        public const string VERSION = "v2.25.221";
 
         public const string AREA23_URL = "https://area23.at";
         public const string APP_PATH = "https://area23.at/net/";
@@ -41,8 +45,30 @@ namespace Area23.At.Framework.Library.Core
         public const string URL_SHORT = "https://area23.at/s/?";
         public const string AREA23_UTF8_URL = "https://area23.at/u/";
 
+        public const string AREA23_AT = "area23.at";
+        public const string VIRGINA_AREA23_AT = "virginia.area23.at";
+        public const string PARIS_AREA23_AT = "paris.area23.at";
+        public const string PARISIENNE_AREA23_AT = "parisienne.area23.at";
+        public const string CQRXS_EU = "cqrxs.eu";
+        public const string IPV4_CQRXS_EU = "ipv4.cqrxs.eu";
+        public const string IPV6_CQRXS_EU = "ipv6.cqrxs.eu";
+        public const string SPAIN_CQRXS_EU = "spain.cqrxs.eu";
+        public const string MILAN_CQRXS_EU = "it.cqrxs.eu";
+        public const string PARIS_CQRXS_EU = "fr.cqrxs.eu";
+        public const string FRANKFURT_CQRXS_EU = "de.cqrxs.eu";
+        public const string STOCKHOLM_CQRXS_EU = "se.cqrxs.eu";
+        public const string IRELAND_CQRXS_EU = "ie.cqrxs.eu";
+        public const string LONDON_CQRXS_EU = "uk.cqrxs.eu";
+        public const string ZURICH_CQRXS_EU = "ch.cqrxs.eu";
+
+
+        public const string CQRXS_URL = "https://cqrxs.eu/";
+        public const string CQRXS_HELP_URL = "https://cqrxs.eu/help/";
+
         public const string ACK = "Ack";
         public const string NACK = "Nack";
+        public const string ENTER_SECRET_KEY = "[enter secret key here]";
+        public const string ENTER_IP_CONTACT = "[Enter peer IPv4 or reachable IPv6 for directly connect]";
 
         public const string AUTHOR = "Heinrich Elsigan";
         public const string AUTHOR_EMAIL = "heinrich.elsigan@area23.at";
@@ -65,19 +91,22 @@ namespace Area23.At.Framework.Library.Core
         public const string RES_FOLDER = "res";
         public const string TEXT_DIR = "text";
         public const string UNIX_DIR = "Unix";
-        public const string UTF8_DIR = "Utf8";        
+        public const string UTF8_DIR = "Utf8";
         public const string UU_DIR = "uu";
         public const string BIN_DIR = "bin";
         public const string OBJ_DIR = "obj";
         public const string RELEASE_DIR = "Release";
         public const string DEBUG_DIR = "Release";
+        public const string MIME_EXT = ".mime";
+        public const string BASE64_EXT = ".base64";
+        public const string ATTACH_FILES_DIR = "AttachFiles";
 
         public const string UTF8_JSON = "utf8symol.json";
         public const string JSON_SAVE_FILE = "urlshort.json";
         public const string JSON_SETTINGS_FILE = "settings.json";
         public const string CQR_CHAT_FILE = "cqr{0}chat.json";
         public const string LAST_EXCEPTION = "last_exception";
-        public const string COOL_CRYPT_SPLIT = "+-;,:→⇛\t ";                
+        public const string COOL_CRYPT_SPLIT = "+-;,:→⇛\t ";
 
         public const string ACCEPT_LANGUAGE = "Accept-Language";
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";
@@ -115,9 +144,9 @@ namespace Area23.At.Framework.Library.Core
         public const string STRING_EMPTY = "";
         public const string STRING_NULL = null;
         public const string SNULL = "(null)";
-        
+
         public const string AES_ENVIROMENT_KEY = "APP_ENCRYPTION_SECRET_KEY";
-        
+
         public const string JSON_SAMPLE = @"{ 
  	""quiz"": { 
  		""sport"": { 

@@ -129,7 +129,10 @@
     <Compile Include="Crypt\Cipher\Symmetric\SymmCipherPipe.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\SymmCrypt.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Crypt\CqrJd\CqrBaseMsg.cs" />
     <Compile Include="Crypt\CqrJd\CqrPeer2PeerMsg.cs" />
+    <Compile Include="Crypt\CqrJd\MimeAttachment.cs" />
+    <Compile Include="Crypt\CqrJd\MsgContent.cs" />
     <Compile Include="Crypt\EnDeCoding\Hex32.cs" />
     <Compile Include="Crypt\EnDeCoding\EncodingType.cs" />
     <Compile Include="Crypt\EnDeCoding\Hex16.cs" />
@@ -143,8 +146,10 @@
     <Compile Include="Crypt\Hash\Sha256Sum.cs" />
     <Compile Include="Crypt\Hash\MD5Sum.cs" />
     <Compile Include="Crypt\CqrJd\CqrServerMsg.cs" />
-    <Compile Include="Net\IpSocket\IpSocketSender.cs" />
-    <Compile Include="Net\IpSocket\IPSockListener.cs" />
+    <Compile Include="Net\IpSocket\Listener.cs" />
+    <Compile Include="Net\IpSocket\ReceiveData.cs" />
+    <Compile Include="Net\IpSocket\Sender.cs" />
+    <Compile Include="Net\NameService\DnsHelper.cs" />
     <Compile Include="Net\WebHttp\HttpClientRequest.cs" />
     <Compile Include="Net\WebHttp\TcpClientWebRequest.cs" />
     <Compile Include="Util\Area23EventArgs.cs" />
@@ -154,7 +159,6 @@
     <Compile Include="Util\MimeType.cs" />
     <Compile Include="LibPaths.cs" />
     <Compile Include="Net\NetworkAddresses.cs" />
-    <Compile Include="Net\TcpClientWebRequest.cs" />
     <Compile Include="Net\WebHttp\WebClientRequest.cs" />
     <Compile Include="Util\ProcessCmd.cs" />
     <Compile Include="Properties\Resource.Designer.cs">
@@ -181,6 +185,7 @@
     <Compile Include="Win32Api\InternalErrorException.cs" />
     <Compile Include="Win32Api\NativeWrapper.cs" />
     <Compile Include="Win32Api\Processes.cs" />
+    <Compile Include="Win32Api\RegistryAccessor.cs" />
     <Compile Include="Win32Api\ScreenCapture.cs" />
     <Compile Include="Zfx\WinZip.cs" />
     <Compile Include="Zfx\GZ.cs" />

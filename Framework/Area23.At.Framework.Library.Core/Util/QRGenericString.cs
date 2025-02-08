@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Area23.At.Framework.Core.Util
+namespace Area23.At.Framework.Library.Core.Util
 {
     public class QRGenericString : PayloadGenerator.Payload
     {

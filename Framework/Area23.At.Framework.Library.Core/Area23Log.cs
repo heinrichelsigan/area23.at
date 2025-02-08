@@ -3,6 +3,7 @@
 namespace Area23.At.Framework.Library.Core
 {
 
+
     /// <summary>
     /// simple singelton logger via NLog
     /// </summary>
@@ -13,7 +14,7 @@ namespace Area23.At.Framework.Library.Core
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private static int checkedToday = DateTime.Today.Day;
-        
+
         /// <summary>
         /// LogFile
         /// </summary>
@@ -77,7 +78,7 @@ namespace Area23.At.Framework.Library.Core
                             msg);
                     File.AppendAllText(LogFile, logMsg);
                 }
-                catch (Exception exLogWrite) 
+                catch (Exception exLogWrite)
                 {
                     Console.Error.WriteLine(Constants.DateArea23Seconds + " Area23.At.Mono Exception writing to logfile: " + exLogWrite.ToString());
                 }

@@ -9,6 +9,7 @@ using System.Web.Services;
 
 using Area23.At;
 using Area23.At.Framework.Library.Net.CqrJd;
+using Area23.At.Framework.Library.Crypt.CqrJd;
 namespace Area23.At.Mono.CqrJD
 {
     /// <summary>
@@ -49,20 +50,24 @@ namespace Area23.At.Mono.CqrJD
 
             CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
             _decrypted = string.Empty;
+            MsgContent msgContent;
 
             try
             {
                 if (!string.IsNullOrEmpty(cryptMsg) && cryptMsg.Length >= 8)
-                    _decrypted = serverMessage.NCqrMessage(cryptMsg);
+                {
+                    msgContent = serverMessage.NCqrSrvMsg(cryptMsg);
+                    _decrypted = msgContent.Message;
+                }
             }
             catch (Exception ex)
             {
                 // hexall = serverMessage.symmPipe.HexStages;
-                // this.preOut.InnerText = hexall;
+                // this.preOut.InnerText = ex.Message + ex.ToString();
                 Area23Log.LogStatic(ex);
-                _decrypted = ex.Message + ex.ToString();
+                // _decrypted =  
             }
-
+;
 
             if (!string.IsNullOrEmpty(_decrypted))
             {

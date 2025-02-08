@@ -9,6 +9,7 @@ using Org.BouncyCastle.Crypto.Parameters;
 namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 {
 
+
     /// <summary>
     /// Generic CryptBounceCastle Encryption / Decryption class
     /// supports <see cref="Org.BouncyCastle.Crypto.Engines.CamelliaEngine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.Gost28147Engine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.RC2Engine"/>,

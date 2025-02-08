@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("area23.at Heinrich Elsigan")]
 [assembly: AssemblyProduct("Area23.At.WinForm.TransparentForms")]
-[assembly: AssemblyCopyright("Copyleft ©  2000 - 2032")]
+[assembly: AssemblyCopyright("Copyleft ©  2000 - 2040")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // Sie können alle Werte angeben oder Standardwerte für die Build- und Revisionsnummern verwenden,
 // indem Sie "*" wie unten gezeigt eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.24.1226.0")]
-[assembly: AssemblyFileVersion("2.24.1226.0")]
+[assembly: AssemblyVersion("2.25.221.0")]
+[assembly: AssemblyFileVersion("2.25.221.0")]

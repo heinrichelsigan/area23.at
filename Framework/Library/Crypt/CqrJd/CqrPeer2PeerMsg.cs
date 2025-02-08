@@ -1,6 +1,7 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.Cipher;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Net.IpSocket;
 using Area23.At.Framework.Library.Net.WebHttp;
 using System;
 using System.Collections.Generic;
@@ -8,46 +9,24 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Area23.At.Framework.Library.Net.IpSocket;
 using System.Net;
-using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Library.Crypt.Cipher;
-using Area23.At.Framework.Library.Crypt.EnDeCoding;
 
 namespace Area23.At.Framework.Library.Crypt.CqrJd
 {
 
+
     /// <summary>
     /// Provides a secure encrypted message to send to the server or receive from server
     /// </summary>
-    public class CqrPeer2PeerMsg
+    public class CqrPeer2PeerMsg : CqrBaseMsg
     {
-        private readonly string key;
-        private readonly string hash;
-        private readonly byte[] keyBytes;
-#if DEBUG
-        public readonly SymmCipherPipe symmPipe;
-#else
-        private readonly SymmCipherPipe symmPipe;
-#endif
-        public string CqrMsg { get; protected internal set; }
 
         /// <summary>
         /// CqrServerMsg constructor with srvKey
         /// </summary>
         /// <param name="srvKey">server key (normally client ip + secret)</param>
         /// <exception cref="ArgumentNullException">thrown, when srvKey is null or <see cref="string.Empty"/></exception>
-        public CqrPeer2PeerMsg(string srvKey = "")
-        {
-            if (string.IsNullOrEmpty(srvKey))
-            {
-                throw new ArgumentNullException("public CqrPeer2PeerMsg(string srvKey = \"\")");
-            }
-            key = srvKey;
-            hash = DeEnCoder.KeyToHex(srvKey);
-            keyBytes = CryptHelper.GetUserKeyBytes(key, hash, 16);
-            symmPipe = new SymmCipherPipe(keyBytes, 8);
-        }
+        public CqrPeer2PeerMsg(string srvKey = "") : base(srvKey) { }
 
 
         /// <summary>
@@ -58,61 +37,78 @@ namespace Area23.At.Framework.Library.Crypt.CqrJd
         /// <returns>encrypted msg via <see cref="SymmCipherPipe"/></returns>
         public string CqrPeerMsg(string msg, EncodingType encType = EncodingType.Base64)
         {
-            msg = msg + "\n" + symmPipe.PipeString;
-            byte[] msgBytes = DeEnCoder.GetBytesFromString(msg);
-
-            byte[] cqrbytes = symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash);
-            CqrMsg = DeEnCoder.EncodeBytes(cqrbytes, encType);
-
-            return CqrMsg;
+            return CqrMsg(msg, encType);
         }
 
+        /// <summary>
+        /// CqrPeerAttachment encrypts a file attchment message
+        /// </summary>
+        /// <param name="fileName">file name of attached file</param>
+        /// <param name="mimeType"><see cref="Util.MimeType"/></param>
+        /// <param name="base64Mime">base64 encoded mime block</param>
+        /// <param name="encType"><see cref="EncodingType"/></param>
+        /// <returns>encrypted attachment msg via <see cref="SymmCipherPipe"/></returns>
+        public string CqrPeerAttachment(string fileName, string mimeType, string base64Mime, out MimeAttachment attachment,
+            EncodingType encType = EncodingType.Base64, string sMd5 = "", string sSha256 = "")
+        {
+            return CqrMsgAttachment(fileName, mimeType, base64Mime, out attachment, encType, sMd5, sSha256);
+        }
 
         /// <summary>
         /// NCqrPeerMsg decryptes an secure encrypted msg 
         /// </summary>
         /// <param name="cqrMessage">secure encrypted msg </param>
         /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns>plain text decrypted string</returns>
+        /// <returns><see cref="MsgContent"/> Message plain text decrypted string</returns>
         /// <exception cref="InvalidOperationException">will be thrown, 
         /// if server and client or both side use a different secret key 4 encryption</exception>
-        public string NCqrPeerMsg(string cqrMessage, EncodingType encType = EncodingType.Base64)
+        public MsgContent NCqrPeerMsg(string cqrMessage, EncodingType encType = EncodingType.Base64)
         {
-            CqrMsg = cqrMessage;
-            byte[] cipherBytes = DeEnCoder.DecodeText(cqrMessage, encType);
-
-            byte[] unroundedMerryBytes = symmPipe.DecrpytRoundGoMerry(cipherBytes, key, hash);
-            string decrypted = DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);
-
-            string hashVerification = decrypted.Substring(decrypted.Length - 8);
-
-            int failureCnt = 0, ic = 0;
-            for (ic = 0; ic < 8; ic++)
-            {
-                if (hashVerification[ic] != symmPipe.PipeString[ic])
-                    failureCnt += ic;
-            }
-
-            if (failureCnt > 0)
-            {
-                string hashSymShow = symmPipe.PipeString ?? "        ";
-                hashSymShow = hashSymShow.Substring(0, 2) + "...." + hashSymShow.Substring(6);
-
-                throw new InvalidOperationException(
-                $"SymmCiphers [{hashSymShow}] in crypt pipeline doesn't match serverside key !?$* byte length ={keyBytes.Length}");
-            }
-
-            string decryptedFinally = decrypted.Substring(0, decrypted.Length - 8);
-            return decryptedFinally;
+            MsgContent msgContent = NCqrMsg(cqrMessage, encType);
+            return msgContent;
         }
 
 
+        public MsgContent NCqrSrvMsg(string cqrMessage, EncodingType encType = EncodingType.Base64)
+        {
+            MsgContent msgContent = NCqrMsg(cqrMessage, encType);
+            return msgContent;
+
+        }
+
+        /// <summary>
+        /// SendCqrPeerMsg
+        /// </summary>
+        /// <param name="msg">message to send</param>
+        /// <param name="peerIp">peer partner ip address</param>
+        /// <param name="encodingType"><see cref="EncodingType"/></param>
+        /// <param name="serverPort">tcp server port</param>
+        /// <returns>response string</returns>
         public string SendCqrPeerMsg(string msg, IPAddress peerIp, EncodingType encodingType = EncodingType.Base64, int serverPort = 7777)
         {
             string encrypted = CqrPeerMsg(msg, encodingType);
-            string response = IPSocketSender.Send(peerIp, encrypted, Constants.CHAT_PORT);
+            string response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
             return response;
         }
+
+        /// <summary>
+        /// SendCqrPeerAttachment sends an attached base64 encoded file
+        /// </summary>
+        /// <param name="fileName">file name of attached file</param>
+        /// <param name="mimeType"><see cref="Util.MimeType"/></param>
+        /// <param name="base64Mime">base64 encoded mime block</param>
+        /// <param name="peerIp">peer partner ip address</param>
+        /// <param name="encodingType"><see cref="EncodingType"/></param>
+        /// <param name="serverPort">tcp server port</param>
+        /// <returns>response string</returns>
+        public string SendCqrPeerAttachment(string fileName, string mimeType, string base64Mime, IPAddress peerIp, out MimeAttachment attachment,
+            EncodingType encodingType = EncodingType.Base64, int serverPort = 7777, string sMd5 = "", string sSha256 = "")
+        {
+            string encrypted = CqrPeerAttachment(fileName, mimeType, base64Mime, out attachment, encodingType, sMd5, sSha256);
+            string response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
+            return response;
+        }
+
 
     }
 

@@ -9,6 +9,7 @@ using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace Area23.At.Framework.Library.Core.Crypt.Cipher
 {
+
     /// <summary>
     /// CryptParams parameters for encryption algorithm engine
     /// </summary>
@@ -20,7 +21,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
         {
             get => Cipher.ToString();
             // don't use the setter
-            private set => Cipher = (CipherEnum)Enum.Parse(typeof(CipherEnum), value);            
+            private set => Cipher = (CipherEnum)Enum.Parse(typeof(CipherEnum), value);
         }
 
         public string? Key { get; set; }
@@ -193,7 +194,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
         public CryptParams(CipherEnum cipherAlgo, string key, string hash) : this(cipherAlgo)
         {
             Key = key;
-            Hash = hash;         
+            Hash = hash;
         }
 
         /// <summary>
@@ -209,7 +210,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
         /// <returns><see cref="CryptParams"/></returns>
         public static CryptParams RequestAlgorithm(CipherEnum cipherAlgo)
         {
-            return new CryptParams(cipherAlgo);            
+            return new CryptParams(cipherAlgo);
         }
 
         public static CryptParams GetCryptParams(CryptParams cParams)

@@ -13,6 +13,7 @@ using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 namespace Area23.At.Framework.Library.Core.Crypt.Cipher
 {
 
+
     /// <summary>
     /// static class CryptHelper provides static helper methods for encryption / decryption
     /// </summary>

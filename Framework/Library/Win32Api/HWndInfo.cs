@@ -59,61 +59,46 @@ namespace Area23.At.Framework.Library.Win32Api
         #region getFindWindow        
 
         /// <summary>
-        /// FindOffice365LoginWindow
+        /// FindChildWindow
         /// </summary>
-        /// <param name="hWndBlock">window handle to find</param>
-        /// <param name="pWnd">parent window handle</param>
-        /// <returns>window handle to find</returns>
-        public static IntPtr FindOffice365LoginWindow(ref IntPtr hWndChild, IntPtr pWnd)
+        /// <param name="hWndChild">child window handle to find</param>
+        /// <param name="hWndParent">parent window handle</param>
+        /// <param name="className">Class Name</param>
+        /// <param name="windowTitle">Window Title</param>
+        /// <returns>child window handle to find</returns>
+        public static IntPtr FindChildWindow(ref IntPtr hWndChild, IntPtr hWndParent, string className = "", string windowTitle = "Internet Explorer")
         {
-            if (hWndChild != IntPtr.Zero)
-                return hWndChild;
-            if (hWndChild == IntPtr.Zero)
-                hWndChild = HWndInfo.FindWindowEx(pWnd, IntPtr.Zero, "BasicEmbeddedBrowser", null);
-            if (hWndChild == IntPtr.Zero)
-                hWndChild = HWndInfo.FindWindowEx(pWnd, IntPtr.Zero, "BasicEmbeddedBrowser", "");
-            if (hWndChild == IntPtr.Zero)
-                hWndChild = HWndInfo.FindWindowEx(pWnd, IntPtr.Zero, "Internet Explorer_Server", "");
-            if (hWndChild == IntPtr.Zero)
-                hWndChild = HWndInfo.FindWindowEx(pWnd, IntPtr.Zero, "Internet Explorer_Server", null);
-            if (hWndChild == IntPtr.Zero)
-                hWndChild = HWndInfo.FindWindowEx(pWnd, IntPtr.Zero, "Shell DocObject View", "");
-            if (hWndChild == IntPtr.Zero)
-                hWndChild = HWndInfo.FindWindowEx(pWnd, IntPtr.Zero, "Shell DocObject View", null);
+            IntPtr hWndReturn = (hWndChild != IntPtr.Zero) ? hWndChild : IntPtr.Zero;
 
-            if (hWndChild == IntPtr.Zero)
-                hWndChild = FindBlockWindowOffice365(ref hWndChild, pWnd, "Internet Explorer");
+            if (hWndReturn == IntPtr.Zero)
+                hWndReturn = HWndInfo.FindWindowEx(hWndParent, hWndChild, className, windowTitle);
+            if (hWndReturn == IntPtr.Zero)
+                hWndReturn = HWndInfo.FindWindowEx(hWndParent, hWndChild, "", windowTitle);
+            if (hWndReturn == IntPtr.Zero)
+                hWndReturn = HWndInfo.FindWindowEx(hWndParent, hWndChild, className, null);
+
 
             return hWndChild;
         }
 
-        /// <summary>
-        /// Find blocking Office365 live signin window
-        /// </summary>
-        /// <param name="hWndBlock">window handle to find</param>
-        /// <param name="pWnd">parent window handle</param>
-        /// <param name="windowTitle">window title of office365 live signin dialog</param>
-        /// <returns>window handle to find</returns>
-        public static IntPtr FindBlockWindowOffice365(ref IntPtr hWndBlock, IntPtr pWnd, string windowTitle = "Internet Explorer")
-        {
-            if (hWndBlock != IntPtr.Zero)
-                return hWndBlock;
-            if (hWndBlock == IntPtr.Zero)
-                hWndBlock = HWndInfo.FindWindowEx(pWnd, IntPtr.Zero, "Internet Explorer_Server", windowTitle);
-            if (hWndBlock == IntPtr.Zero)
-                hWndBlock = HWndInfo.FindWindowEx(pWnd, IntPtr.Zero, "BasicEmbeddedBrowser", windowTitle);
-            if (hWndBlock == IntPtr.Zero)
-                hWndBlock = HWndInfo.FindWindowEx(pWnd, IntPtr.Zero, "Shell DocObject View", windowTitle);
-            if (hWndBlock != IntPtr.Zero)
-                hWndBlock = HWndInfo.FindWindow("BasicEmbeddedBrowser", windowTitle);
-            if (hWndBlock != IntPtr.Zero)
-                hWndBlock = HWndInfo.FindWindow("Internet Explorer_Server", windowTitle);
-            if (hWndBlock != IntPtr.Zero)
-                hWndBlock = HWndInfo.FindWindow("Shell DocObject View", windowTitle);
-            if (hWndBlock != IntPtr.Zero)
-                hWndBlock = HWndInfo.FindWindow("", windowTitle);
 
-            return hWndBlock;
+        /// <summary>
+        /// <returns>window handle to find</returns>
+        /// </summary>
+        /// <param name="className">Class Name</param>
+        /// <param name="windowTitle">Window Title</param>
+        /// <returns><see cref="IntPtr"/> (<seealso cref="nint"/) window handle</returns>
+        public static IntPtr FindWindowHandle(string className = "", string windowTitle = "Internet Explorer")
+        {
+            IntPtr hWndRet = IntPtr.Zero;
+
+            hWndRet = HWndInfo.FindWindow(className, windowTitle);
+            if (hWndRet != IntPtr.Zero)
+                hWndRet = HWndInfo.FindWindow(className, null);
+            if (hWndRet != IntPtr.Zero)
+                hWndRet = HWndInfo.FindWindow("", windowTitle);
+
+            return hWndRet;
         }
 
         /// <summary>
@@ -212,6 +197,7 @@ namespace Area23.At.Framework.Library.Win32Api
         }
 
         #endregion Instance
+    
     }
 
 }

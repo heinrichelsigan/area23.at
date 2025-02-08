@@ -2,15 +2,15 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows8.0</TargetFramework>	
+    <TargetFramework>net9.0-windows7.0</TargetFramework>	
 	<UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <StartupObject>Area23.At.WinForm.SecureChat.Program</StartupObject>
     <RootNamespace>Area23.At.WinForm.SecureChat</RootNamespace>
-    <AssemblyVersion>2.25.0106</AssemblyVersion>
-    <FileVersion>2.25.0106</FileVersion>
+    <AssemblyVersion>2.25.221</AssemblyVersion>
+    <FileVersion>2.25.221</FileVersion>
     <ErrorReport>send</ErrorReport>
     <Title>SecureChat</Title>
     <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>		
@@ -18,7 +18,7 @@
 	<IsTrimmable>true</IsTrimmable>
 	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
 	<PlatformTarget>AnyCPU</PlatformTarget>
-	<SupportedOSPlatformVersion>8.0</SupportedOSPlatformVersion>	
+	<SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>	
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -36,7 +36,6 @@
   </ItemGroup>	
 	
   <ItemGroup>
-    <Folder Include="Gui\Controls\" />
     <Folder Include="Resources\" />
     <Folder Include="Properties\en\" />
     <Folder Include="Properties\fr\" />

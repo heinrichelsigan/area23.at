@@ -13,6 +13,10 @@ using System.Threading.Tasks;
 namespace Area23.At.Framework.Library.Core.Net.WebHttp
 {
 
+
+    /// <summary>
+    /// HttpClientRequest encapsulation
+    /// </summary>
     public static class HttpClientRequest
     {
 
@@ -20,7 +24,8 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
         public static HttpClient HttpClientR { get => httpClientR; }
 
 
-        static HttpClientRequest() {
+        static HttpClientRequest()
+        {
 
             // headers.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br, zstd");
             // httpClientR = new HttpClient();
@@ -32,11 +37,11 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             // wclient.BaseAddress = "https://cqrxs.eu/";
         }
 
-        public static HttpClient GetHttpClient(string baseAddr, string secretKey, string hostName = "cqrxs.eu", System.Text.Encoding? encoding = null)        
-        {            
+        public static HttpClient GetHttpClient(string baseAddr, string secretKey, string hostName = "cqrxs.eu", System.Text.Encoding? encoding = null)
+        {
             encoding = encoding ?? Encoding.UTF8;
 
-            httpClientR = new HttpClient();           
+            httpClientR = new HttpClient();
             httpClientR.BaseAddress = new Uri(baseAddr);
             httpClientR.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
             httpClientR.DefaultRequestHeaders.Add("AcceptLanguage", "en-US");
@@ -45,7 +50,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
 
             if (!string.IsNullOrEmpty(secretKey))
             {
-                string hexString = DeEnCoder.KeyToHex(CryptHelper.PrivateUserKey(secretKey));              
+                string hexString = DeEnCoder.KeyToHex(CryptHelper.PrivateUserKey(secretKey));
                 httpClientR.DefaultRequestHeaders.Add("Authorization", $"Basic {hexString}");
             }
 
@@ -73,7 +78,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             dict.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
             dict.Add("AcceptLanguage", "en-US");
             dict.Add("Host", hostName);
-            dict.Add("UserAgent", "cqrxs.eu"); 
+            dict.Add("UserAgent", "cqrxs.eu");
 
             return dict;
         }
@@ -94,7 +99,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, uri);
             req.RequestUri = uri;
             req.Content = new StringContent(msg);
-            
+
             HttpResponseMessage res = httpClientR.Send(req);
             return res.IsSuccessStatusCode;
         }
@@ -102,7 +107,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
         public static async Task<HttpResponseMessage> GetClientIPFormArea23()
         {
             string url = "https://cqrxs.eu/net/R.aspx";
-            return await GetClientIp(url);            
+            return await GetClientIp(url);
         }
 
 
@@ -117,7 +122,7 @@ namespace Area23.At.Framework.Library.Core.Net.WebHttp
             }
             return IPAddress.Parse(myIp);
         }
-        
+
 
 
     }

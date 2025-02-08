@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Win32Api
 {
+
     /// <summary>
     /// Processes - a windows process Library using Win32 Api
     /// Thanks to <see href="https://github.com/dotnet">github.com/dotnet</see>,
@@ -82,7 +83,7 @@ namespace Area23.At.Framework.Library.Win32Api
             catch (Exception exProc)
             {
                 process = null;
-                Library.Area23Log.Logger.LogOriginMsgEx($"bool Processes.ProcessRuns(int pid = {pid})",
+                Area23Log.Logger.LogOriginMsgEx($"bool Processes.ProcessRuns(int pid = {pid})",
                     $"Error on fetching process for pid {pid}.", exProc);
             }
 
@@ -104,7 +105,7 @@ namespace Area23.At.Framework.Library.Win32Api
             catch (Exception exProc)
             {
                 process = null;
-                Library.Area23Log.Logger.LogOriginMsgEx($"Processes.GetProcessById(int pid = {pid})",
+                Area23Log.Logger.LogOriginMsgEx($"Processes.GetProcessById(int pid = {pid})",
                     $"Error on fetching process for pid {pid}.", exProc);
             }
             return (process != null && !process.HasExited) ? process : null;
@@ -132,7 +133,7 @@ namespace Area23.At.Framework.Library.Win32Api
             }
             catch (Exception exProcHwnd)
             {
-                Library.Area23Log.Logger.LogOriginMsgEx($"Processes.GetProcessByHwnd(IntPtr hwnd = {hwnd})",
+                Area23Log.Logger.LogOriginMsgEx($"Processes.GetProcessByHwnd(IntPtr hwnd = {hwnd})",
                     $"Error on fetching process for window handle {hwnd}.", exProcHwnd);
             }
             return null;
@@ -155,7 +156,7 @@ namespace Area23.At.Framework.Library.Win32Api
                 }
                 catch (Exception exAddProcByName)
                 {
-                    Library.Area23Log.Logger.LogOriginMsgEx($"Processes.GetRunningProcessesByName(string processName = {processName}, string windowTitle = {p.MainWindowTitle})",
+                    Area23Log.Logger.LogOriginMsgEx($"Processes.GetRunningProcessesByName(string processName = {processName}, string windowTitle = {p.MainWindowTitle})",
                         $"Exception on adding processes by name = {processName} to process array.", exAddProcByName);
                 }
             }
@@ -181,7 +182,7 @@ namespace Area23.At.Framework.Library.Win32Api
                 }
                 catch (Exception exAddProcByName)
                 {
-                    Library.Area23Log.Logger.LogOriginMsgEx($"Processes.GetRunningProcessesByName(string processName = {processName}, string windowTitle = {windowTitle})",
+                    Area23Log.Logger.LogOriginMsgEx($"Processes.GetRunningProcessesByName(string processName = {processName}, string windowTitle = {windowTitle})",
                         $"Exception on adding processes by name = {processName} window title {windowTitle}", exAddProcByName);
                 }
             }
@@ -235,20 +236,20 @@ namespace Area23.At.Framework.Library.Win32Api
             }
             catch (Exception getProcEx)
             {
-                Library.Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in getting process with id [{pPid}].", getProcEx);
+                Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in getting process with id [{pPid}].", getProcEx);
                 return parentChildProcessDict;
             }
 
             if (parentProcess == null || parentProcess.HasExited)
             {
-                Library.Area23Log.Logger.LogOriginMsg(methodSignature, $"Process with id [{pPid}] is null or has already exited.");
+                Area23Log.Logger.LogOriginMsg(methodSignature, $"Process with id [{pPid}] is null or has already exited.");
                 return parentChildProcessDict;
             }
 
             if (addParent)
             {
                 parentChildProcessDict.Add(pPid, parentProcess.ProcessName);
-                Library.Area23Log.Logger.LogOriginMsg(methodSignature, $"Added parent process <[pPid = {pPid}], [ppName = {parentProcess.ProcessName}]> to  Dictionary<int, string>().");
+                Area23Log.Logger.LogOriginMsg(methodSignature, $"Added parent process <[pPid = {pPid}], [ppName = {parentProcess.ProcessName}]> to  Dictionary<int, string>().");
             }
 
             DateTime parentStartTime = parentProcess.StartTime;
@@ -264,12 +265,12 @@ namespace Area23.At.Framework.Library.Win32Api
                     if (childProcess != null && !childProcess.HasExited)
                     {
                         parentChildProcessDict.Add(elem.Key, childProcess.ProcessName);
-                        Library.Area23Log.Logger.LogOriginMsg(methodSignature, $"Added child process <[cPid = {elem.Key}], [cpName = {childProcess.ProcessName}]> to  Dictionary<int, string>().");
+                        Area23Log.Logger.LogOriginMsg(methodSignature, $"Added child process <[cPid = {elem.Key}], [cpName = {childProcess.ProcessName}]> to  Dictionary<int, string>().");
                     }
                 }
                 catch (Exception getChildProcEx)
                 {
-                    Library.Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in getting child process with id [{elem.Key}].", getChildProcEx);
+                    Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in getting child process with id [{elem.Key}].", getChildProcEx);
                 }
             }
 
@@ -294,20 +295,20 @@ namespace Area23.At.Framework.Library.Win32Api
             }
             catch (Exception getProcEx)
             {
-                Library.Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in getting process with id [{pPid}].", getProcEx);
+                Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in getting process with id [{pPid}].", getProcEx);
                 return parentChildProcessHash.ToArray();
             }
 
             if (parentProcess == null || parentProcess.HasExited)
             {
-                Library.Area23Log.Logger.LogOriginMsg(methodSignature, $"Process with id [{pPid}] is null or has already exited.");
+                Area23Log.Logger.LogOriginMsg(methodSignature, $"Process with id [{pPid}] is null or has already exited.");
                 return parentChildProcessHash.ToArray();
             }
 
             if (addParent) // add parent to HashSet  
             {
                 parentChildProcessHash.Add(parentProcess);
-                Library.Area23Log.Logger.LogOriginMsg(methodSignature, $"Added parent process \"{parentProcess.ProcessName}\" with id [{pPid}] to HashSet<int> parentChildProcessHash.");
+                Area23Log.Logger.LogOriginMsg(methodSignature, $"Added parent process \"{parentProcess.ProcessName}\" with id [{pPid}] to HashSet<int> parentChildProcessHash.");
             }
 
             DateTime parentStartTime = parentProcess.StartTime;
@@ -324,12 +325,12 @@ namespace Area23.At.Framework.Library.Win32Api
                     {
                         // Add child to HashSet
                         parentChildProcessHash.Add(childProcess);
-                        Library.Area23Log.Logger.LogOriginMsg(methodSignature, $"Added child process[Id = {elem.Key}, ProcesName = {childProcess.ProcessName}, ...] to HashSet<int> parentChildProcessHash[{parentChildProcessHash.Count}].");
+                        Area23Log.Logger.LogOriginMsg(methodSignature, $"Added child process[Id = {elem.Key}, ProcesName = {childProcess.ProcessName}, ...] to HashSet<int> parentChildProcessHash[{parentChildProcessHash.Count}].");
                     }
                 }
                 catch (Exception getChildProcEx)
                 {
-                    Library.Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in getting child process with id [{elem.Key}].", getChildProcEx);
+                    Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in getting child process with id [{elem.Key}].", getChildProcEx);
                 }
             }
 
@@ -402,24 +403,24 @@ namespace Area23.At.Framework.Library.Win32Api
             }
             catch (Exception exGetProcess)
             {
-                Library.Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in getting process with id [{pid}].", exGetProcess);
+                Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in getting process with id [{pid}].", exGetProcess);
                 return;
             }
 
             if (process == null || process.HasExited)
             {
-                Library.Area23Log.Logger.LogOriginMsg(methodSignature, $"Aborting tree recursion, because process with id [{pid}] is null or has already exited.");
+                Area23Log.Logger.LogOriginMsg(methodSignature, $"Aborting tree recursion, because process with id [{pid}] is null or has already exited.");
                 return;
             }
 
             if (ignoreWin32SystemProcesses && string.IsNullOrEmpty(process.ProcessName))
             {
-                foreach (string winSystemProcName in Library.Constants.EXE_WIN_SYSTEM)
+                foreach (string winSystemProcName in Constants.EXE_WIN_SYSTEM)
                 {
                     if (process.ProcessName.Equals(winSystemProcName, StringComparison.InvariantCultureIgnoreCase) ||
                         process.ProcessName.StartsWith(winSystemProcName, StringComparison.InvariantCultureIgnoreCase))
                     {
-                        Library.Area23Log.Logger.LogOriginMsg(methodSignature, $"Ignoring win32 system process \"{process.ProcessName}\" with id [{pid}]  window title '{process.MainWindowTitle}'.");
+                        Area23Log.Logger.LogOriginMsg(methodSignature, $"Ignoring win32 system process \"{process.ProcessName}\" with id [{pid}]  window title '{process.MainWindowTitle}'.");
                         return;
                     }
                 }
@@ -427,12 +428,12 @@ namespace Area23.At.Framework.Library.Win32Api
 
             try
             {
-                Library.Area23Log.Logger.LogOriginMsg(methodSignature, $"Trying to kill process \"{process.ProcessName}\" with id [{pid}].");
+                Area23Log.Logger.LogOriginMsg(methodSignature, $"Trying to kill process \"{process.ProcessName}\" with id [{pid}].");
                 process.Kill();
             }
             catch (Exception killProcEx)
             {
-                Library.Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in killing process \"{process.ProcessName}\" with id [{pid}].", killProcEx);
+                Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in killing process \"{process.ProcessName}\" with id [{pid}].", killProcEx);
             }
 
             if (process != null)
@@ -443,7 +444,7 @@ namespace Area23.At.Framework.Library.Win32Api
                 }
                 catch (Exception disposeProcEx)
                 {
-                    Library.Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in diposing process with id [{pid}].", disposeProcEx);
+                    Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in diposing process with id [{pid}].", disposeProcEx);
                 }
             }
         }
@@ -475,13 +476,13 @@ namespace Area23.At.Framework.Library.Win32Api
             }
             catch (Exception exGetProcess)
             {
-                Library.Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in getting process with id [{pid}].", exGetProcess);
+                Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in getting process with id [{pid}].", exGetProcess);
                 return psKilled;
             }
 
             if (process == null || process.HasExited)
             {
-                Library.Area23Log.Logger.LogOriginMsg(methodSignature, $"Aborting tree recursion, because process with id [{pid}] is null or has already exited.");
+                Area23Log.Logger.LogOriginMsg(methodSignature, $"Aborting tree recursion, because process with id [{pid}] is null or has already exited.");
                 return psKilled;
             }
 
@@ -489,12 +490,12 @@ namespace Area23.At.Framework.Library.Win32Api
 
             if (ignoreWin32SystemProcesses && string.IsNullOrEmpty(processName))
             {
-                foreach (string winSystemProcName in Library.Constants.EXE_WIN_SYSTEM)
+                foreach (string winSystemProcName in Constants.EXE_WIN_SYSTEM)
                 {
                     if (processName.Equals(winSystemProcName, StringComparison.InvariantCultureIgnoreCase) ||
                         processName.StartsWith(winSystemProcName, StringComparison.InvariantCultureIgnoreCase))
                     {
-                        Library.Area23Log.Logger.LogOriginMsg(methodSignature, $"Ignoring win32 system process \"{processName}\" with id [{pid}]  window title '{process.MainWindowTitle}'.");
+                        Area23Log.Logger.LogOriginMsg(methodSignature, $"Ignoring win32 system process \"{processName}\" with id [{pid}]  window title '{process.MainWindowTitle}'.");
                         return psKilled;
                     }
                 }
@@ -503,7 +504,7 @@ namespace Area23.At.Framework.Library.Win32Api
             var childs = ListChildProcesses(pid);
             if (childs != null && childs.Length > 0)
             {
-                Library.Area23Log.Logger.LogOriginMsg(methodSignature, $"Found {childs.Length} child processes for process \"{processName}\" with id [{pid}] window title '{process.MainWindowTitle}'.");
+                Area23Log.Logger.LogOriginMsg(methodSignature, $"Found {childs.Length} child processes for process \"{processName}\" with id [{pid}] window title '{process.MainWindowTitle}'.");
                 foreach (Process childProcess in childs)
                 {
                     // kill child process tree, if it's a system process it will be aborted in the next recursion loop
@@ -516,18 +517,18 @@ namespace Area23.At.Framework.Library.Win32Api
             {
                 try
                 {
-                    Library.Area23Log.Logger.LogOriginMsg(methodSignature, $"Trying to kill process \"{processName}\" with id [{pid}].");
+                    Area23Log.Logger.LogOriginMsg(methodSignature, $"Trying to kill process \"{processName}\" with id [{pid}].");
                     process.Kill();
                     psKilled++;
                 }
                 catch (Exception killProcEx)
                 {
-                    Library.Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in killing process \"{processName}\" with id [{pid}].", killProcEx);
+                    Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in killing process \"{processName}\" with id [{pid}].", killProcEx);
                 }
             }
             else
             {
-                Library.Area23Log.Logger.LogOriginMsg(methodSignature, $"Ignoring killing parent process \"{processName}\" with id [{pid}].");
+                Area23Log.Logger.LogOriginMsg(methodSignature, $"Ignoring killing parent process \"{processName}\" with id [{pid}].");
             }
 
             if (process != null)
@@ -538,7 +539,7 @@ namespace Area23.At.Framework.Library.Win32Api
                 }
                 catch (Exception disposeProcEx)
                 {
-                    Library.Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in diposing process with id [{pid}].", disposeProcEx);
+                    Area23Log.Logger.LogOriginMsgEx(methodSignature, $"Exception in diposing process with id [{pid}].", disposeProcEx);
                 }
             }
 

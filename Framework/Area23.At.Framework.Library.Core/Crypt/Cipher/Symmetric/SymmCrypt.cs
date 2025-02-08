@@ -3,6 +3,7 @@
 namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 {
 
+
     /// <summary>
     /// Basic class for symmetric cipher encryption
     /// </summary>

@@ -1,5 +1,5 @@
 ﻿using Area23.At.Framework.Library.Core;
-using Area23.At.Framework.Library.Core.EnDeCoding;
+using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
 using Area23.At.WinForm.TWinFormCore.Gui.Forms;
 using Area23.At.WinForm.TWinFormCore.Gui;
 using Org.BouncyCastle.Utilities;
@@ -14,8 +14,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
-using Area23.At.Framework.Library.Core.Cipher.Symm;
-using Area23.At.Framework.Library.Core.Cipher;
+using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Library.Core.Crypt.Cipher;
 using Area23.At.Framework.Library.Core.Util;
 
 namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
@@ -84,7 +84,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                 }
 
                 EncodingType encodeType = (EncodingType)Enum.Parse<EncodingType>(this.ComboBox_EnDeCoding.SelectedItem.ToString());
-                encryptedText = IEnDeCoder.Encode(encryptBytes, encodeType);
+                encryptedText = EnDeCoder.Encode(encryptBytes, encodeType);
 
                 this.TextBoxDestionation.BackColor = SystemColors.ControlLightLight;
                 this.TextBoxDestionation.Text = encryptedText;
@@ -365,7 +365,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
             CipherEnum cipherAlgo = Enum.Parse<CipherEnum>(algo);
 
-            byte[] encryptBytes = Area23.At.Framework.Library.Core.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);
+            byte[] encryptBytes = Area23.At.Framework.Library.Core.Crypt.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);
 
             return encryptBytes;
         }
@@ -383,7 +383,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
             CipherEnum cipherAlgo = Enum.Parse<CipherEnum>(algorithmName);
 
-            byte[] decryptBytes = Framework.Library.Core.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
+            byte[] decryptBytes = Area23.At.Framework.Library.Core.Crypt.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
 
             return decryptBytes;
         }

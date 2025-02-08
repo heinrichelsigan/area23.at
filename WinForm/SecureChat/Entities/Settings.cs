@@ -11,14 +11,15 @@ using System.Threading.Tasks;
 
 namespace Area23.At.WinForm.SecureChat.Entities
 {
+
     public class Settings : IDisposable
     {
         // TODO: replace it in C# 9.0 to private static readonly lock _lock
-        private static readonly object _lock = true;               
+        private static readonly object _lock = true;
 
         private static readonly Lazy<Settings> _instance =
             new Lazy<Settings>(() => new Settings());
-        
+
         private static bool _disposed = false;
         private static bool _destructed = false;
 
@@ -26,7 +27,7 @@ namespace Area23.At.WinForm.SecureChat.Entities
         public static Settings Instance { get => _instance.Value; }
 
         public DateTime TimeStamp { get; set; }
-        
+
         public DateTime? SaveStamp { get; set; }
 
         public Contact MyContact { get; set; }
@@ -34,10 +35,12 @@ namespace Area23.At.WinForm.SecureChat.Entities
         public List<Contact> Contacts { get; set; }
 
         public List<string> FriendIPs { get; set; }
-        
+
         public List<string> MyIPs { get; set; }
 
-        public List<string> Proxies {  get; set; }
+        public List<string> Proxies { get; set; }
+
+        public List<string> SecretKeys { get; set; }
 
         #endregion properties
 
@@ -53,7 +56,8 @@ namespace Area23.At.WinForm.SecureChat.Entities
             FriendIPs = new List<string>();
             MyIPs = new List<string>();
             Proxies = new List<string>();
-            MyContact = new Contact() { ContactId = 0 }; 
+            SecretKeys = new List<string>();
+            MyContact = new Contact() { ContactId = 0 };
         }
 
         public Settings(DateTime timeStamp) : this()
@@ -124,8 +128,8 @@ namespace Area23.At.WinForm.SecureChat.Entities
                 File.WriteAllText(LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE, saveString);
             }
             catch (Exception ex)
-            {                
-                CqrException.LastException = ex;                
+            {
+                CqrException.LastException = ex;
                 return false;
             }
             return true;
@@ -154,30 +158,31 @@ namespace Area23.At.WinForm.SecureChat.Entities
             return _disposed;
         }
 
-        ~Settings()
-        {
-            if (!_destructed)
-            {
-                if (!Instance.Dispose(true))
-                {
-                    string fileName = LibPaths.SystemDirPath + Constants.JSON_SAVE_FILE;
-                    throw new CqrException($"~Settings() couldn't save settings to to {fileName}.", CqrException.LastException);
-                }
-            }
-            TimeStamp = DateTime.Now;
-            _disposed = true;
-            SaveStamp = null;
-            this.Contacts.Clear();
-            this.FriendIPs.Clear();
-            this.Proxies.Clear();
-            this.MyIPs.Clear();
-            // TODO: Only way to destruct a singelton is to set _instance Lazy<T> to null
-            // think about the risk, that reflection could change a private static non readonly field
-            // so I decided to let the GC handle this
-            // _instance = null;            
-        }
+        //~Settings()
+        //{
+        //    if (!_destructed)
+        //    {
+        //        if (!Instance.Dispose(true))
+        //        {
+        //            string fileName = LibPaths.SystemDirPath + Constants.JSON_SAVE_FILE;
+        //            throw new CqrException($"~Settings() couldn't save settings to to {fileName}.", CqrException.LastException);
+        //        }
+        //    }
+        //    TimeStamp = DateTime.Now;
+        //    _disposed = true;
+        //    SaveStamp = null;
+        //    this.Contacts.Clear();
+        //    this.FriendIPs.Clear();
+        //    this.Proxies.Clear();
+        //    this.MyIPs.Clear();
+        //    // TODO: Only way to destruct a singelton is to set _instance Lazy<T> to null
+        //    // think about the risk, that reflection could change a private static non readonly field
+        //    // so I decided to let the GC handle this
+        //    // _instance = null;            
+        //}
 
         #endregion Dispose() Dispose(bool disposing) ~Settings()
 
     }
+
 }

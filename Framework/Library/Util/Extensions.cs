@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.Drawing;
+using System.Net;
 
 namespace Area23.At.Framework.Library.Util
 {
@@ -140,7 +141,7 @@ namespace Area23.At.Framework.Library.Util
         {
             using (MemoryStream ms = new MemoryStream(bytes))
             {
-                using (System.Drawing.Image img = System.Drawing.Image.FromStream(ms))
+                using (Image img = Image.FromStream(ms))
                 {
                     return ImageCodecInfo.GetImageEncoders().First(codec => codec.FormatID == img.RawFormat.Guid).MimeType;
                 }
@@ -160,7 +161,7 @@ namespace Area23.At.Framework.Library.Util
                 if (bytes[bCnt] != value)
                 {
                     return bCnt;
-                }                
+                }
             }
             return -1;
         }
@@ -206,7 +207,7 @@ namespace Area23.At.Framework.Library.Util
                 Area23Log.LogStatic(ex);
             }
 
-            if (System.IO.File.Exists(fullFileName))
+            if (File.Exists(fullFileName))
             {
                 return fullFileName;
             }
@@ -276,7 +277,7 @@ namespace Area23.At.Framework.Library.Util
                         if (matchBytes > 0 && needleIt == matchBytes)
                             return fFwdIt;
 
-                        if (needleIt >= (needle.Length - 1))
+                        if (needleIt >= needle.Length - 1)
                             return fFwdIt;
                     }
                 }
@@ -318,6 +319,94 @@ namespace Area23.At.Framework.Library.Util
             }
 
             return largeBytesList.ToArray();
+        }
+
+
+        public static long CompareBytes(this byte[] baseBytes, byte[] bytesToCompare)
+        {
+            long difference = 0;
+            if ((baseBytes == null && bytesToCompare == null) ||
+                (baseBytes.Length == 0 && bytesToCompare.Length == 0))
+                return difference;
+
+            if (baseBytes.Length != bytesToCompare.Length)
+                difference = Math.Abs((long)(baseBytes.Length - bytesToCompare.Length)) * 256;
+            else // if (baseBytes.Length == bytesToCompare.Length)
+            {
+                for (int ib = 0; ib < baseBytes.Length; ib++)
+                {
+                    if (baseBytes[ib] != bytesToCompare[ib])
+                        difference += Math.Abs((long)(baseBytes[ib] - bytesToCompare[ib]));
+                }
+            }
+
+            return difference;
+        }
+
+        public static long BytesCompare(byte[] baseBytes, byte[] bytesToCompare)
+        {
+            long difference = 0;
+            if ((baseBytes == null && bytesToCompare == null) ||
+                (baseBytes.Length == 0 && bytesToCompare.Length == 0))
+                return difference;
+
+            if (baseBytes.Length != bytesToCompare.Length)
+                difference = Math.Abs((long)(baseBytes.Length - bytesToCompare.Length)) * 256;
+            else // if (baseBytes.Length == bytesToCompare.Length)
+            {
+                for (int ib = 0; ib < baseBytes.Length; ib++)
+                {
+                    if (baseBytes[ib] != bytesToCompare[ib])
+                        difference += Math.Abs((long)(baseBytes[ib] - bytesToCompare[ib]));
+                }
+            }
+
+            return difference;
+        }
+
+
+        public static byte[] ToExternalBytes(this IPAddress ip)
+        {
+            List<byte> bytes = new List<byte>();
+            if (ip == null)
+                return bytes.ToArray();
+
+            string tmps = ip.ToString();
+
+            if (!string.IsNullOrEmpty(tmps))
+            {
+                switch (ip.AddressFamily)
+                {
+                    case System.Net.Sockets.AddressFamily.InterNetwork:
+                        foreach (string ipv4Segment in tmps.Trim("{}".ToCharArray()).Split('.'))
+                            bytes.Add(Convert.ToByte(ipv4Segment));
+                        break;
+                    case System.Net.Sockets.AddressFamily.InterNetworkV6:
+                        foreach (string ipv6Segment in tmps.Trim("[{}]".ToCharArray()).Split(':'))
+                            bytes.Add(Convert.ToByte(ipv6Segment));
+                        break;
+                    default:
+                        bytes.AddRange(ip.GetAddressBytes());
+                        break;
+                }
+            }
+
+            return bytes.ToArray();
+        }
+
+
+        public static byte[] ToVersionBytes(this System.Version version)
+        {
+            List<byte> bytes = new List<byte>();
+            if (version == null)
+                return bytes.ToArray();
+
+            bytes.Add(Convert.ToByte(version.Major));
+            bytes.Add(Convert.ToByte(version.Minor));
+            bytes.Add(Convert.ToByte(version.Build % 256));
+            bytes.Add(Convert.ToByte(version.Revision));
+
+            return bytes.ToArray();
         }
 
         #endregion byte_array_extensions
@@ -362,29 +451,35 @@ namespace Area23.At.Framework.Library.Util
         public static Image Base64ToImage(this string base64)
         {
             Bitmap bitmap = null;
-            byte[] bytes = Crypt.EnDeCoding.Base64.Decode(base64);
-            using (MemoryStream ms = new MemoryStream(bytes.Length))
+            try
             {
-                ms.Write(bytes, 0, bytes.Length);
-                ms.Flush();
-                bitmap = new Bitmap(ms);
+                byte[] bytes = Crypt.EnDeCoding.Base64.Decode(base64);
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    bitmap = new Bitmap(ms);
+                }
             }
-            return (Image)bitmap;
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);
+                bitmap = null;
+            }
+            return bitmap;
         }
 
         /// <summary>
-        /// <see cref="string"/>.FromHtmlToColor() extension methods: transforms hex #rrggbb string into <see cref="System.Drawing.Color"/>
+        /// <see cref="string"/>.FromHtmlToColor() extension methods: transforms hex #rrggbb string into <see cref="Color"/>
         /// </summary>
         /// <param name="htmlRGBString"><see cref="string"/> to transform</param>
-        /// <returns><see cref="System.Drawing.Color"/></returns>
+        /// <returns><see cref="Color"/></returns>
         /// <exception cref="ArgumentException">invalid argument exception, in case of malformatted string</exception>
-        public static System.Drawing.Color FromHtmlToColor(this string htmlRGBString)
+        public static Color FromHtmlToColor(this string htmlRGBString)
         {
-            if (String.IsNullOrWhiteSpace(htmlRGBString) || htmlRGBString.Length != 7 || !htmlRGBString.StartsWith("#"))
+            if (string.IsNullOrWhiteSpace(htmlRGBString) || htmlRGBString.Length != 7 || !htmlRGBString.StartsWith("#"))
                 throw new ArgumentException(
-                    String.Format("System.Drawing.Color.FromHtml(string htmlRGBString = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", htmlRGBString));
+                    string.Format("System.Drawing.Color.FromHtml(string htmlRGBString = {0}), hex must be an rgb string in format \"#rrggbb\" like \"#3f230e\"!", htmlRGBString));
 
-            System.Drawing.Color _color = System.Drawing.ColorTranslator.FromHtml(htmlRGBString);
+            Color _color = ColorTranslator.FromHtml(htmlRGBString);
             return _color;
         }
 
@@ -395,9 +490,10 @@ namespace Area23.At.Framework.Library.Util
                 return null;
             int lastIdx = fileName.LastIndexOf('.');
             string ext = fileName.Substring(lastIdx);
-            
+
             return ext;
         }
+
 
         #endregion string_extensions
 

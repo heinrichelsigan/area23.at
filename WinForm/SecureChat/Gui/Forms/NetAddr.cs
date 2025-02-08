@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.Core.Net;
+using Area23.At.Framework.Library.Core.Net.NameService;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,7 +48,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         private void buttonIpHostAddr_Click(object sender, EventArgs e)
         {
-            IEnumerable<IPAddress> list = NetworkAddresses.GetIpAddrsByHostName();
+            IEnumerable<IPAddress> list = DnsHelper.GetIpAddrsByHostName();
             listBoxAddrs.Items.Clear();
             foreach (IPAddress addr in list)
             {

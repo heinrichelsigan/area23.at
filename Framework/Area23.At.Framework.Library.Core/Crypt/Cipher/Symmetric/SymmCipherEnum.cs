@@ -3,6 +3,7 @@
 namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 {
 
+
     /// <summary>
     /// SymmCipherEnum maps prefered provided symmetric <see cref="Org.BouncyCastle.Crypto.IBlockCipher"/> algorthims
     /// Default algorithm is <see cref="SymmCipherEnum.Aes"/ ><seealso cref="Org.BouncyCastle.Crypto.Engines.AesEngine" />
@@ -16,7 +17,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
         Camellia = 0x2,
         Cast6 = 0x3,
         Des3 = 0x4,
-        Fish2 = 0x5, 
+        Fish2 = 0x5,
         Fish3 = 0x6,
         Gost28147 = 0x7,
         Idea = 0x8,

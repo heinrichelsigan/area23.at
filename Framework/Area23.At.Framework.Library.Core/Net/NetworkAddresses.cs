@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using Area23.At.Framework.Library.Core.Net.WebHttp;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
+using Area23.At.Framework.Library.Core.Net.NameService;
 
 namespace Area23.At.Framework.Library.Core.Net
 {
@@ -31,13 +32,16 @@ namespace Area23.At.Framework.Library.Core.Net
             if (serverIps == null || serverIps.Count == 0)
             {
                 serverIps = new List<IPAddress>();
-                foreach (IPAddress serverIp in GetIpAddrsByHostName("cqrxs.eu"))
+                foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.CQRXS_EU))
                     serverIps.Add(serverIp);
-                foreach (IPAddress serverIp in GetIpAddrsByHostName("paris.area23.at"))
+                foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.AREA23_AT))
                     serverIps.Add(serverIp);
+                foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.PARIS_AREA23_AT))
+                    serverIps.Add(serverIp);
+
                 try
                 {
-                    foreach (IPAddress serverIp in GetIpAddrsByHostName("virginia.area23.at"))
+                    foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.IPV6_CQRXS_EU))
                         serverIps.Add(serverIp);
                 }
                 catch (Exception exVirginia)
@@ -46,7 +50,16 @@ namespace Area23.At.Framework.Library.Core.Net
                 }
                 try
                 {
-                    foreach (IPAddress serverIp in GetIpAddrsByHostName("parisienne.area23.at"))
+                    foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.VIRGINA_AREA23_AT))
+                        serverIps.Add(serverIp);
+                }
+                catch (Exception exVirginia)
+                {
+                    Area23Log.LogStatic(exVirginia);
+                }
+                try
+                {
+                    foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.PARISIENNE_AREA23_AT))
                         serverIps.Add(serverIp);
                 }
                 catch (Exception exParisienne)
@@ -66,7 +79,7 @@ namespace Area23.At.Framework.Library.Core.Net
                     clientIp = IPAddress.Parse(resp);
                     if (!validAddrs.Contains(clientIp))
                         validAddrs.Add(clientIp);
-                } 
+                }
                 catch (Exception ex)
                 {
                     Area23Log.LogStatic(ex);
@@ -175,60 +188,6 @@ namespace Area23.At.Framework.Library.Core.Net
             return macAddrs;
         }
 
-        #region dns
-
-        /// <summary>
-        /// GetIpAddrsByHostName get all ip addresses except loopback for a dns hostname
-        /// </summary>
-        /// <param name="hostname">hostname</param>
-        /// <returns><see cref="IEnumerable{IPAddress}">IEnumerable{IPAddress}</see></returns>
-        public static IEnumerable<IPAddress> GetIpAddrsByHostName(string hostname = "")
-        {
-            var host = GetHostEntryByHostName(hostname);
-            IEnumerable<IPAddress> ipList = (from ip in host.AddressList where !IPAddress.IsLoopback(ip) select ip).ToList();
-            return ipList;
-        }
-
-        /// <summary>
-        /// GetHostEntryByHostName gets an IPHostEntry for a dns hostname
-        /// </summary>
-        /// <param name="hostname">hostname</param>
-        /// <returns><see cref="IPHostEntry"/></returns>
-        public static IPHostEntry GetHostEntryByHostName(string hostname = "")
-        {
-            hostname = string.IsNullOrEmpty(hostname) ? Dns.GetHostName() : hostname;
-            IPHostEntry host = Dns.GetHostEntry(hostname);
-
-            return host;
-        }
-
-        /// <summary>
-        /// GetDnsHostNamesByHostName gets official reverse lookup hostname for a hostname
-        /// </summary>
-        /// <param name="hostname"></param>
-        /// <returns><see cref="IList{string}"/></returns>
-        public static IList<string> GetDnsHostNamesByHostName(string hostname = "")
-        {
-            List<string> hostnames = new List<string>();
-            string lastAdded = string.Empty;
-            foreach (IPAddress ip in GetIpAddrsByHostName(hostname))
-            {
-                try
-                {
-                    lastAdded = Dns.GetHostEntry(ip).HostName;
-                }
-                catch (Exception ex)
-                {
-                }
-
-                if (!string.IsNullOrEmpty(lastAdded) && !hostnames.Contains(lastAdded))
-                    hostnames.Add(lastAdded);
-            }
-
-            return hostnames;
-        }
-
-        #endregion dns
 
     }
 

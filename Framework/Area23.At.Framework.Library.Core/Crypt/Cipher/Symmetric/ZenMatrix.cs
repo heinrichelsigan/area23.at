@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 {
 
+
     /// <summary>
     /// Simple Matrix symmetric cipher maybe already invented, but created by zen@area23.at (Heinrich Elsigan)
     /// </summary>
@@ -42,7 +43,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
 
         public static HashSet<sbyte> PermKeyHash { get; set; }
 
-        
+
 
         #endregion Properties
 
@@ -97,9 +98,9 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
             if (init)
             {
                 privateKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
-                userHash = string.IsNullOrEmpty(usrHash) ? Constants.AREA23_EMAIL : usrHash;                
+                userHash = string.IsNullOrEmpty(usrHash) ? Constants.AREA23_EMAIL : usrHash;
                 byte[] keyBytes = CryptHelper.GetUserKeyBytes(privateKey, userHash, 16);
-                
+
                 return ZenMatrixGenWithBytes(keyBytes, init);
             }
 
@@ -134,7 +135,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                 //    byte lb = (byte)((keyByte - (byte)sb) / 16);
                 //    key2.Add(lb);                    
                 //}
-                
+
                 foreach (byte keyByte in key2)
                 {
                     sbyte b = (sbyte)(keyByte % 16);
@@ -261,7 +262,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
             long oSize = plainData.Length + (16 - (plainData.Length % 16));
             long outputSize = ((long)(oSize / 16)) * 16;
             byte[] inBytesPadding = new byte[outputSize];
-            
+
             byte[] randBuffer = new byte[outputSize - plainData.Length];
             Random rand = new Random(plainData.Length);
             rand.Shuffle(randBuffer);
@@ -305,7 +306,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric
                 throw new ArgumentNullException("ZenMatrix byte[] Encrypt(byte[] cipherData): ArgumentNullException cipherData = null or Lenght 0.");
 
             int bCnt = 0;
-            long oSize = (cipherData.Length % 16 == 0) ? (long)cipherData.Length : 
+            long oSize = (cipherData.Length % 16 == 0) ? (long)cipherData.Length :
                 (long)(cipherData.Length + (16 - (cipherData.Length % 16)));
             long outputSize = ((long)(oSize / 16)) * 16;
             byte[] inBytesEncrypted = new byte[outputSize];

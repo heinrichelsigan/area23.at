@@ -16,6 +16,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using JsonHelper = Area23.At.Framework.Library.Util.JsonHelper;
 using System.Threading;
+using Area23.At.Framework.Library.Crypt.CqrJd;
 
 namespace Area23.At.Mono.CqrJD
 {
@@ -92,19 +93,22 @@ namespace Area23.At.Mono.CqrJD
                 
                 myServerKey += Constants.APP_NAME;
                 CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
+                MsgContent msgContent;
                 decrypted = string.Empty;
 
                 try
                 {
                     if (!string.IsNullOrEmpty(rq) && rq.Length >= 8)
-                        decrypted = serverMessage.NCqrMessage(rq);
+                    {
+                        msgContent = serverMessage.NCqrSrvMsg(rq);
+                        decrypted = msgContent.Message;
+                    }
                 }
                 catch (Exception ex)
                 {
                     // hexall = serverMessage.symmPipe.HexStages;
-                    // this.preOut.InnerText = hexall;
+                    this.preOut.InnerText = ex.Message + ex.ToString();
                     Area23Log.LogStatic(ex);
-                    decrypted = ex.Message + ex.ToString();
                 }
 
 

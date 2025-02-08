@@ -1,4 +1,6 @@
 ﻿using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Utilities;
 using System;
@@ -8,12 +10,14 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Area23.At.Framework.Library.Core.Util
 {
 
+
     /// <summary>
-    /// Extension methods for Area23.At.Mono
+    /// Extension methods EU.CqrXs.Framework.Core.Util
     /// </summary>
     public static class Extensions
     {
@@ -461,7 +465,7 @@ namespace Area23.At.Framework.Library.Core.Util
             {
                 Area23Log.LogStatic(ex);
                 bitmap = null;
-            } 
+            }
             return bitmap;
         }
 
@@ -631,15 +635,15 @@ namespace Area23.At.Framework.Library.Core.Util
         {
             string? base64 = null;
             MemoryStream ms = new MemoryStream();
-            short saved = 0;            
+            short saved = 0;
             for (short saveTry = 0; (saved < 1 && saveTry < 7); saveTry++)
-            {            
+            {
                 try
                 {
                     switch (saveTry)
                     {
                         case 0: img.Save(ms, img.RawFormat); saved = saveTry; break;
-                        case 1: img.Save(ms, ImageFormat.Png); saved = saveTry;  break;
+                        case 1: img.Save(ms, ImageFormat.Png); saved = saveTry; break;
                         case 2: img.Save(ms, ImageFormat.Jpeg); saved = saveTry; break;
                         case 3: img.Save(ms, ImageFormat.Gif); saved = saveTry; break;
                         case 4: img.Save(ms, ImageFormat.Bmp); saved = saveTry; break;
@@ -659,7 +663,7 @@ namespace Area23.At.Framework.Library.Core.Util
             {
                 ms.Position = 0;
                 byte[] bytes = ms.ToArray();
-                base64 = Base64.Encode(bytes);                
+                base64 = Base64.Encode(bytes);
             }
 
             try
@@ -712,7 +716,7 @@ namespace Area23.At.Framework.Library.Core.Util
                 ms.Position = 0;
                 bytes = ms.ToArray();
             }
-            else 
+            else
                 bytes = new byte[0];
 
             try
@@ -723,9 +727,9 @@ namespace Area23.At.Framework.Library.Core.Util
             {
                 Area23Log.LogStatic(ex);
             }
-            
+
             return bytes;
-             
+
         }
 
         #endregion System.Drawing.Image extensions
@@ -755,6 +759,53 @@ namespace Area23.At.Framework.Library.Core.Util
 
 
         #endregion genericsT_extensions
+
+        #region serializer_xml_json
+
+        public static bool IsValidXml(this string xml)
+        {
+            try
+            {
+                XDocument.Parse(xml);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool IsValidJson(this string strInput)
+        {
+            if (string.IsNullOrWhiteSpace(strInput)) { return false; }
+            strInput = strInput.Trim();
+            if ((strInput.StartsWith("{") && strInput.EndsWith("}")) || //For object
+                (strInput.StartsWith("[") && strInput.EndsWith("]"))) //For array
+            {
+                try
+                {
+                    var obj = JToken.Parse(strInput);
+                    return true;
+                }
+                catch (JsonReaderException jex)
+                {
+                    //Exception in parsing json
+                    Console.WriteLine(jex.Message);
+                    return false;
+                }
+                catch (Exception ex) //some other exception
+                {
+                    Console.WriteLine(ex.ToString());
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        #endregion serializer_xml_json
 
     }
 

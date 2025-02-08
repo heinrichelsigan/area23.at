@@ -1,99 +1,114 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher;
 using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Library.Crypt.CqrJd;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Net.WebHttp;
 using Area23.At.Framework.Library.Util;
 using System;
+using System.Configuration;
+using System.Net;
 
 namespace Area23.At.Framework.Library.Net.CqrJd
 {
 
+
     /// <summary>
     /// Provides a secure encrypted message to send to the server or receive from server
     /// </summary>
-    public class CqrServerMsg
+    public class CqrServerMsg : CqrBaseMsg
     {
-        private readonly string key;
-        private readonly string hash;
-        private readonly byte[] keyBytes;
-#if DEBUG
-        public readonly SymmCipherPipe symmPipe;
-#else
-        private readonly SymmCipherPipe symmPipe;
-#endif
-        public string CqrMsg { get; protected internal set; }
 
         /// <summary>
         /// CqrServerMsg constructor with srvKey
         /// </summary>
         /// <param name="srvKey">server key (normally client ip + secret)</param>
         /// <exception cref="ArgumentNullException">thrown, when srvKey is null or <see cref="string.Empty"/></exception>
-        public CqrServerMsg(string srvKey = "")
-        {
-            if (string.IsNullOrEmpty(srvKey))
-            {
-                throw new ArgumentNullException("public CqrServerMsg(string srvKey = \"\")");
-            }
-            key = srvKey;
-            hash = DeEnCoder.KeyToHex(srvKey);
-            keyBytes = CryptHelper.GetUserKeyBytes(key, hash, 16);
-            symmPipe = new SymmCipherPipe(keyBytes, 8);
-        }
+        public CqrServerMsg(string srvKey = "") : base(srvKey) { }
 
 
         /// <summary>
-        /// CqrMessage encrypts a msg 
+        /// CqrSrvMsg encrypts a msg 
         /// </summary>
         /// <param name="msg">plain text string</param>
         /// <param name="encType"><see cref="EncodingType"/></param>
         /// <returns>encrypted msg via <see cref="SymmCipherPipe"/></returns>
-        public string CqrMessage(string msg, EncodingType encType = EncodingType.Base64)
+        public string CqrSrvMsg(string msg, EncodingType encType = EncodingType.Base64)
         {
-            msg = msg + "\n" + symmPipe.PipeString;
-            byte[] msgBytes = DeEnCoder.GetBytesFromString(msg);
+            return CqrMsg(msg, encType);
+        }
 
-            byte[] cqrbytes = symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash);
-            CqrMsg = DeEnCoder.EncodeBytes(cqrbytes, encType);
+        /// <summary>
+        /// CqrServerAttachment encrypts a file attchment message
+        /// </summary>
+        /// <param name="fileName">file name of attached file</param>
+        /// <param name="mimeType"><see cref="Util.MimeType"/></param>
+        /// <param name="base64Mime">base64 encoded mime block</param>
+        /// <param name="encType"><see cref="EncodingType"/></param>
+        /// <returns>encrypted attachment msg via <see cref="SymmCipherPipe"/></returns>
+        public string CqrSrvAttachment(string fileName, string mimeType, string base64Mime, out MimeAttachment attachment,
+            EncodingType encType = EncodingType.Base64, string sMd5 = "", string sSha256 = "")
+        {
+            return CqrMsgAttachment(fileName, mimeType, base64Mime, out attachment, encType, sMd5, sSha256);
+        }
 
-            return CqrMsg;
+        /// <summary>
+        /// NCqrSrvMsg decryptes an secure encrypted msg 
+        /// </summary>
+        /// <param name="cqrMessage">secure encrypted msg </param>
+        /// <param name="encType"><see cref="EncodingType"/></param>
+        /// <returns><see cref="MsgContent"/> Message plain text decrypted string</returns>
+        /// <exception cref="InvalidOperationException">will be thrown, 
+        /// if server and client or both side use a different secret key 4 encryption</exception>
+        public MsgContent NCqrSrvMsg(string cqrMessage, EncodingType encType = EncodingType.Base64)
+        {
+            MsgContent msgContent = NCqrMsg(cqrMessage, encType);
+            return msgContent;
         }
 
 
         /// <summary>
-        /// NCqrMessage decryptes an secure encrypted msg 
+        /// SendCqrServerMsg sends registration msg to server
         /// </summary>
-        /// <param name="cqrMessage">secure encrypted msg </param>
-        /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns>plain text decrypted string</returns>
-        /// <exception cref="InvalidOperationException">will be thrown, 
-        /// if server and client or both side use a different secret key 4 encryption</exception>
-        public string NCqrMessage(string cqrMessage, EncodingType encType = EncodingType.Base64)
+        /// <param name="msg">string message</param>
+        /// <param name="srvIp">public availible server ip address</param>
+        /// <param name="encodingType"><see cref="EncodingType"/></param>
+        /// <returns></returns>
+        public string SendCqrSrvMsg(string msg, IPAddress srvIp, EncodingType encodingType = EncodingType.Base64)
         {
-            CqrMsg = cqrMessage;
-            byte[] cipherBytes = DeEnCoder.DecodeText(cqrMessage, encType);
+            string encrypted = String.Format("TextBoxEncrypted={0}\r\nTextBoxDecrypted=\r\nTextBoxLastMsg=\r\nButtonSubmit=Submit",
+                CqrSrvMsg(msg));
 
-            byte[] unroundedMerryBytes = symmPipe.DecrpytRoundGoMerry(cipherBytes, key, hash);           
-            string decrypted = DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);
+            string posturl = ConfigurationManager.AppSettings["ServerUrlToPost"].ToString();
+            string hostheader = ConfigurationManager.AppSettings["SendHostHeader"].ToString();
 
-            string hashVerification = decrypted.Substring(decrypted.Length - 8);
+            string response = WebClientRequest.PostMessage(encrypted, posturl, hostheader, srvIp.ToString());
 
-            int failureCnt = 0, ic = 0;
-            for (ic = 0; ic < 8; ic++)
-            {
-                if (hashVerification[ic] != symmPipe.PipeString[ic])
-                    failureCnt += ic;
-            }
+            return response;
+        }
 
-            if (failureCnt > 0)
-            {
-                string hashSymShow = symmPipe.PipeString ?? "        ";
-                hashSymShow = hashSymShow.Substring(0, 2) + "...." + hashSymShow.Substring(6);
+        /// <summary>
+        /// SendCqrPeerAttachment sends an attached base64 encoded file
+        /// </summary>
+        /// <param name="fileName">file name of attached file</param>
+        /// <param name="mimeType"><see cref="Util.MimeType"/></param>
+        /// <param name="base64Mime">base64 encoded mime block</param>
+        /// <param name="peerIp">peer partner ip address</param>
+        /// <param name="encodingType"><see cref="EncodingType"/></param>
+        /// <param name="serverPort">tcp server port</param>
+        /// <returns>response string</returns>
+        public string SendCqrServerAttachment(string fileName, string mimeType, string base64Mime, IPAddress srvIp, out MimeAttachment mimeAttachment,
+            EncodingType encodingType = EncodingType.Base64, int serverPort = 7777, string sMd5 = "", string sSha256 = "")
+        {
 
-                throw new InvalidOperationException(
-                $"SymmCiphers [{hashSymShow}] in crypt pipeline doesn't match serverside key !?$* byte length ={keyBytes.Length}");
-            }
+            string encrypted = String.Format("TextBoxEncrypted={0}\r\nTextBoxDecrypted=\r\nTextBoxLastMsg=\r\nButtonSubmit=Submit",
+                CqrSrvAttachment(fileName, mimeType, base64Mime, out mimeAttachment, encodingType, sMd5, sSha256));
 
-            string decryptedFinally = decrypted.Substring(0, decrypted.Length - 8);
-            return decryptedFinally;
+            string posturl = ConfigurationManager.AppSettings["ServerUrlToPost"].ToString();
+            string hostheader = ConfigurationManager.AppSettings["SendHostHeader"].ToString();
+
+            string response = WebClientRequest.PostMessage(encrypted, posturl, hostheader, srvIp.ToString());
+
+            return response;
         }
 
     }

@@ -11,8 +11,9 @@ using Org.BouncyCastle.Utilities;
 namespace Area23.At.Framework.Library.Core.Crypt.Cipher
 {
 
+
     /// <summary>
-    /// Basic functionality for Crypt, <see cref="Area23.At.Framework.Library.Core.Cipher.Symm.Crypt"/>
+    /// Basic functionality for Crypt, <see cref="EU.CqrXs.Framework.Core.Cipher.Symm.Crypt"/>
     /// </summary>
     public class Crypt
     {
@@ -30,7 +31,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
             byte[] encryptBytes = inBytes;
 
             string algo = cipherAlgo.ToString();
-                    
+
             if (cipherAlgo == CipherEnum.Des3 || algo == "3Des" || algo == "Des3")
             {
                 Des3.Des3GenWithKeyHash(secretKey, keyIv, true);
@@ -73,7 +74,7 @@ namespace Area23.At.Framework.Library.Core.Crypt.Cipher
                 cipherAlgo == CipherEnum.BlowFish || cipherAlgo == CipherEnum.Fish2 || cipherAlgo == CipherEnum.Fish3 ||
                 cipherAlgo == CipherEnum.Camellia || cipherAlgo == CipherEnum.Cast5 || cipherAlgo == CipherEnum.Cast6 ||
                 cipherAlgo == CipherEnum.Gost28147 || cipherAlgo == CipherEnum.Idea || cipherAlgo == CipherEnum.Noekeon ||
-                cipherAlgo == CipherEnum.RC2 || cipherAlgo == CipherEnum.RC532 || cipherAlgo == CipherEnum.RC6 || 
+                cipherAlgo == CipherEnum.RC2 || cipherAlgo == CipherEnum.RC532 || cipherAlgo == CipherEnum.RC6 ||
                 cipherAlgo == CipherEnum.Seed || cipherAlgo == CipherEnum.SkipJack ||
                 cipherAlgo == CipherEnum.Tea || cipherAlgo == CipherEnum.Tnepres || cipherAlgo == CipherEnum.XTea)
             {

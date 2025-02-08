@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace Area23.At.Framework.Library.Core.Win32Api
 {
 
+
     /// <summary>
     /// static windows registry accessor with synchronous and asynchronous members
     /// </summary>
@@ -23,7 +24,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
         private static DateTime _lastWrite = DateTime.MinValue;
 
         private static Mutex _regOpMutex;
-        private static int _threadCnt = 0;        
+        private static int _threadCnt = 0;
 
         #endregion private fields
 
@@ -66,7 +67,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
                 throw new InternalErrorException($"subkey {subKeyName} or regName {regName} is null or empty");
 
             try
-            {               
+            {
                 if ((_regOpMutex = new Mutex(true, Constants.MUTEX_REGOPS)) != null)
                 {
                     while (_regOpMutex != null && !_regOpMutex.GetSafeWaitHandle().IsClosed &&
@@ -89,7 +90,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
 
                 if (_subKey == null)
                     throw new InvalidOperationException($"Error reading registry from hive {regHive} subkey {subKeyName} name {regName}");
-                
+
                 o = _subKey.GetValue(regName);
 
             }
@@ -148,8 +149,8 @@ namespace Area23.At.Framework.Library.Core.Win32Api
                 _lastWrite = DateTime.Now;
                 _hiveKey = RegistryKey.OpenBaseKey(regHive, RegistryView.Registry32);
 
-                _subKey = (_hiveKey != null) ? 
-                    _hiveKey.OpenSubKey(subKeyName, RegistryKeyPermissionCheck.ReadWriteSubTree, RegistryRights.FullControl) : 
+                _subKey = (_hiveKey != null) ?
+                    _hiveKey.OpenSubKey(subKeyName, RegistryKeyPermissionCheck.ReadWriteSubTree, RegistryRights.FullControl) :
                     null;
 
                 if (_subKey != null)
@@ -185,7 +186,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
 
             if (string.IsNullOrEmpty(subTree))
                 throw new InternalErrorException($"subkey {subTree} is null or empty");
-            
+
             try
             {
                 Area23Log.LogStatic($"creating mutex {Constants.MUTEX_REGOPS} for delete operation in regHive {regHive} subTree {subTree}");
@@ -199,7 +200,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
                             throw new AccessViolationException($"GetRegistryValueByName(RegistryHive regHive = {regHive.ToString()}, string subTree = {subTree} is locked by Mutex {Constants.MUTEX_REGOPS}.");
                     }
                 }
-                
+
                 _lastWrite = DateTime.Now;
 
                 _hiveKey = RegistryKey.OpenBaseKey(regHive, RegistryView.Registry64);
@@ -249,7 +250,7 @@ namespace Area23.At.Framework.Library.Core.Win32Api
                 object as0 = GetRegistryEntry(regHive, subKeyName, regName);
                 return as0;
             });
-            
+
             return readRegValueTask;
         }
 
