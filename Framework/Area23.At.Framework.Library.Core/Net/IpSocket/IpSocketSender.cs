@@ -9,9 +9,12 @@ using Microsoft.Win32;
 
 namespace Area23.At.Framework.Library.Core.Net.IpSocket
 {
-    public static class IPSocketSender
-    {
 
+    /// <summary>
+    /// IPSocketSender, sends msg to tcp socket and port
+    /// </summary>
+    public static class IpSocketSender
+    {
 
         /// <summary>
         /// Send
@@ -65,22 +68,22 @@ namespace Area23.At.Framework.Library.Core.Net.IpSocket
 
 
         /// <summary>
-        /// MakeWebRequestAsync
+        /// SendAsync
         /// </summary>
         /// <param name="serverIp">server ip address</param>
-        /// <param name="serverPort">server port (default 80)</param>
+        /// <param name="msg">msg to send</param>
+        /// <param name="serverPort">server port (default 7777)</param>
         /// <returns><see cref="Task{object}"/></returns>
-        //public static async Task<object> MakeWebRequestAsync(IPAddress serverIp, int serverPort = 80)
-        //{
-        //    Task<object> makeTcpRequestTask = (Task<object>)await Task<object>.Run<object>(() =>
-        //    {
-        //        string clientIpStr = MakeWebRequest(serverIp, serverPort);
-        //        return clientIpStr;
-        //    });
+        public static async Task<object> SendAsync(IPAddress serverIp, string msg, int serverPort = 7777)
+        {
+            Task<object> sendTaskAsync = (Task<object>)await Task<object>.Run<object>(() =>
+            {
+                string response = Send(serverIp, msg, serverPort);
+                return response;
+            });
 
-        //    return makeTcpRequestTask;
-        //}
-
+            return sendTaskAsync;
+        }
 
 
     }
