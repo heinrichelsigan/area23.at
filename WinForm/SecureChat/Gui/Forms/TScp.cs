@@ -1,5 +1,5 @@
-﻿using Area23.At.Framework.Library.Core.Net;
-using Area23.At.Framework.Library.Core.Net.NameService;
+﻿using Area23.At.Framework.Core.Net;
+using Area23.At.Framework.Core.Net.NameService;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

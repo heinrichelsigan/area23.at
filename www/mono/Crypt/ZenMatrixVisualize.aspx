@@ -110,8 +110,8 @@
                         AlternateText="Add symetric chiffer algorithm" />
                 </span>
                 <span class="centerSpan" style="max-width: 400px;">
-                    <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true" TextMode="SingleLine" MaxLength="512" 
-                        Width="400px"  style="width: 400px;" />
+                    <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true" TextMode="SingleLine" MaxLength="512"
+                        Width="400px" Style="width: 400px;" />ZenMatrix;
                         &rArr;
                 </span>
                 <span class="rightSpan">

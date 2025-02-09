@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <TargetFramework>net9.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -78,7 +78,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Area23.At.Framework.Library.Core\Area23.At.Framework.Library.Core.csproj" />
+    <ProjectReference Include="..\..\Framework\Area23.At.Framework.Core\Area23.At.Framework.Core.csproj" />
   </ItemGroup>
     
 	<ItemGroup>

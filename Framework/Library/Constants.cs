@@ -25,6 +25,7 @@ namespace Area23.At.Framework.Library
         public const int SOCKET_BYTE_BUFFEER = 1048576;     //  1 MB Buffer
         public const int MAX_BYTE_BUFFEER = 4194240;        //  4 MB Buffer
         public const bool CQR_ENCRYPT = true;
+        public const bool ZEN_MATRIX_SYMMETRIC = false;
 
         public const char ANNOUNCE = ':';
         public const char DATE_DELIM = '-';

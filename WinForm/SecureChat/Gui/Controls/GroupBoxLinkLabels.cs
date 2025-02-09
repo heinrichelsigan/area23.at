@@ -1,12 +1,12 @@
-﻿using Area23.At.Framework.Library.Core;
-using Area23.At.Framework.Library.Core.Crypt.Cipher;
-using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Library.Core.Crypt.CqrJd;
-using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
-using Area23.At.Framework.Library.Core.Net;
-using Area23.At.Framework.Library.Core.Net.IpSocket;
-using Area23.At.Framework.Library.Core.Net.WebHttp;
-using Area23.At.Framework.Library.Core.Util;
+﻿using Area23.At.Framework.Core;
+using Area23.At.Framework.Core.Crypt.Cipher;
+using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Core.Crypt.CqrJd;
+using Area23.At.Framework.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Core.Net;
+using Area23.At.Framework.Core.Net.IpSocket;
+using Area23.At.Framework.Core.Net.WebHttp;
+using Area23.At.Framework.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
 using Area23.At.WinForm.SecureChat.Properties;
 using System;
@@ -105,7 +105,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Controls
         {
             string fileName = mimeAttachment.FileName;
             string filePath = Path.Combine(LibPaths.AttachmentFilesDir, mimeAttachment.FileName);
-            byte[] fileBytes = Area23.At.Framework.Library.Core.Crypt.EnDeCoding.Base64.Decode(mimeAttachment.Base64Mime);
+            byte[] fileBytes = Area23.At.Framework.Core.Crypt.EnDeCoding.Base64.Decode(mimeAttachment.Base64Mime);
             System.IO.File.WriteAllBytes(filePath, fileBytes);
 
             SetNameFilePath(fileName, filePath);

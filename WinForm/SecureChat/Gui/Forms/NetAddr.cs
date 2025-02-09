@@ -1,5 +1,5 @@
-﻿using Area23.At.Framework.Library.Core.Net;
-using Area23.At.Framework.Library.Core.Net.NameService;
+﻿using Area23.At.Framework.Core.Net;
+using Area23.At.Framework.Core.Net.NameService;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,7 +28,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         private void buttonMacs_Click(object sender, EventArgs e)
         {
-            IEnumerable<PhysicalAddress> list = Area23.At.Framework.Library.Core.Net.NetworkAddresses.GetMacAddress();
+            IEnumerable<PhysicalAddress> list = Area23.At.Framework.Core.Net.NetworkAddresses.GetMacAddress();
             listBoxAddrs.Items.Clear();
             foreach (PhysicalAddress addr in list)
             {

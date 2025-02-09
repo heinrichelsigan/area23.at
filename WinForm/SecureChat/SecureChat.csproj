@@ -29,11 +29,7 @@
 	<IsTrimmable>true</IsTrimmable>
 	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>	  	
 	<PublishTrimmed>True</PublishTrimmed>
-	-->
-	
-  <ItemGroup>    
-    <ProjectReference Include="..\..\Framework\Area23.At.Framework.Library.Core\Area23.At.Framework.Library.Core.csproj" />
-  </ItemGroup>	
+	-->	
 	
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -45,6 +41,10 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Area23.At.Framework.Core\Area23.At.Framework.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

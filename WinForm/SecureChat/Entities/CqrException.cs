@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Library.Core;
+﻿using Area23.At.Framework.Core;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

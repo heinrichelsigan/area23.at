@@ -1,5 +1,5 @@
 ﻿    
-using Area23.At.Framework.Library.Core.Net.WebHttp;
+using Area23.At.Framework.Core.Net.WebHttp;
 using Org.BouncyCastle.Asn1.Crmf;
 using System.Net;
 using static System.Net.Mime.MediaTypeNames;

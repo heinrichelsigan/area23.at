@@ -1,5 +1,5 @@
-﻿using Area23.At.Framework.Library.Core;
-using Area23.At.Framework.Library.Core.Util;
+﻿using Area23.At.Framework.Core;
+using Area23.At.Framework.Core.Util;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {

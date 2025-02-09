@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows7.0</TargetFramework>
+	<IsTrimmable>true</IsTrimmable>
+	<UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Copyright>Copyleft © 2000-2040</Copyright>
+    <PackageProjectUrl>https://cqrxs.eu/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/heinrichelsigan/chat-ipv6</RepositoryUrl>
+    <AssemblyVersion>2.25.221</AssemblyVersion>
+    <FileVersion>2.25.221</FileVersion>
+	<IsTrimmable>true</IsTrimmable>
+	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+	<PlatformTarget>AnyCPU</PlatformTarget>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Cipher\**" />
+    <Compile Remove="EnDeCoding\**" />
+    <EmbeddedResource Remove="Cipher\**" />
+    <EmbeddedResource Remove="EnDeCoding\**" />
+    <None Remove="Cipher\**" />
+    <None Remove="EnDeCoding\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Net\IpSocket\IpSocketSender.cs" />
+    <Compile Remove="Net\IpSocket\IPSockListener.cs" />  
+    <Compile Remove="Util\HttpContextWrapper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.0" />
+    <PackageReference Include="DBTek.Crypto" Version="2.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="4.0.1" />
+    <PackageReference Include="NLog" Version="5.3.4" />
+    <PackageReference Include="QRCoder.Core" Version="1.0.3" />
+    <PackageReference Include="SharpZipLib" Version="1.4.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

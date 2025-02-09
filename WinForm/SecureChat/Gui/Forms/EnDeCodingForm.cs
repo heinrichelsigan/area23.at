@@ -1,8 +1,8 @@
-﻿using Area23.At.Framework.Library.Core;
-using Area23.At.Framework.Library.Core.Crypt.Cipher;
-using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
-using Area23.At.Framework.Library.Core.Util;
+﻿using Area23.At.Framework.Core;
+using Area23.At.Framework.Core.Crypt.Cipher;
+using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Core.Util;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {

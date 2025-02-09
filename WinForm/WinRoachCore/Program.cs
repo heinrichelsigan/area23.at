@@ -1,4 +1,4 @@
-using Area23.At.Framework.Library.Core.Win32Api;
+using Area23.At.Framework.Core.Win32Api;
 using System.Reflection;
 
 namespace Area23.At.WinForm.WinRoachCore
@@ -27,7 +27,7 @@ namespace Area23.At.WinForm.WinRoachCore
             if (roachNum > 3 || !mutex.WaitOne(1200, false))
             {
                 NativeWrapper.Kernel32.AttachConsole(NativeWrapper.Kernel32.ATTACH_PARENT_PROCESS);
-                Area23.At.Framework.Library.Core.Area23Log.Logger.LogOriginMsg(roachName, $"Another instance of {roachName} is already running!");
+                Area23.At.Framework.Core.Area23Log.Logger.LogOriginMsg(roachName, $"Another instance of {roachName} is already running!");
                 Console.Out.WriteLine($"Another instance of {roachName} is already running!");
                 MessageBox.Show($"Another instance of {roachName} is already running!", $"{roachName} multiple startup", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;

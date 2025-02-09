@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
+﻿using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
-﻿using Area23.At.Framework.Library.Core;
-using Area23.At.Framework.Library.Core.Win32Api;
+﻿using Area23.At.Framework.Core;
+using Area23.At.Framework.Core.Win32Api;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

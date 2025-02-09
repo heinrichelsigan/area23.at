@@ -1,5 +1,5 @@
-﻿using Area23.At.Framework.Library.Core.Util;
-using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
+﻿using Area23.At.Framework.Core.Util;
+using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.WinForm.SecureChat.Entities;
 using Area23.At.WinForm.SecureChat.Properties;
 using Org.BouncyCastle.Utilities;
@@ -14,7 +14,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Area23.At.Framework.Library.Core.Crypt.Cipher;
+using Area23.At.Framework.Core.Crypt.Cipher;
 using static QRCoder.Core.PayloadGenerator.SwissQrCode;
 using Contact = Area23.At.WinForm.SecureChat.Entities.Contact;
 

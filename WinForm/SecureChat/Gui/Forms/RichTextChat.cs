@@ -1,13 +1,13 @@
-﻿using Area23.At.Framework.Library.Core;
-using Area23.At.Framework.Library.Core.Crypt.Cipher;
-using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Library.Core.Crypt.CqrJd;
-using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
-using Area23.At.Framework.Library.Core.Net;
-using Area23.At.Framework.Library.Core.Net.IpSocket;
-using Area23.At.Framework.Library.Core.Net.NameService;
-using Area23.At.Framework.Library.Core.Net.WebHttp;
-using Area23.At.Framework.Library.Core.Util;
+﻿using Area23.At.Framework.Core;
+using Area23.At.Framework.Core.Crypt.Cipher;
+using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Core.Crypt.CqrJd;
+using Area23.At.Framework.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Core.Net;
+using Area23.At.Framework.Core.Net.IpSocket;
+using Area23.At.Framework.Core.Net.NameService;
+using Area23.At.Framework.Core.Net.WebHttp;
+using Area23.At.Framework.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
 using Area23.At.WinForm.SecureChat.Properties;
 using Area23.At.WinForm.SecureChat.Util;
@@ -531,7 +531,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 {
                     byte[] fileBytes = System.IO.File.ReadAllBytes(openFileDialog.FileName);
                     string fileNameOnly = Path.GetFileName(openFileDialog.FileName);
-                    string mimeType = Area23.At.Framework.Library.Core.Util.MimeType.GetMimeType(fileBytes, fileNameOnly);
+                    string mimeType = Area23.At.Framework.Core.Util.MimeType.GetMimeType(fileBytes, fileNameOnly);
                     string base64Mime = Base64.Encode(fileBytes);
 
                     CqrPeer2PeerMsg pmsg = new CqrPeer2PeerMsg(myServerKey);
@@ -604,7 +604,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             string fileName = mimeAttachment.FileName;
             string filePath = Path.Combine(LibPaths.AttachmentFilesDir, mimeAttachment.FileName);
-            byte[] fileBytes = Area23.At.Framework.Library.Core.Crypt.EnDeCoding.Base64.Decode(mimeAttachment.Base64Mime);
+            byte[] fileBytes = Area23.At.Framework.Core.Crypt.EnDeCoding.Base64.Decode(mimeAttachment.Base64Mime);
             System.IO.File.WriteAllBytes(filePath, fileBytes);
 
             GroupBoxLinks.SetNameFilePath(fileName, filePath);
@@ -932,7 +932,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                             item.Checked = true;
                             if (addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
                                 this.menuItemIPv6Secure.Checked = true;
-                            ipSockListener = new Area23.At.Framework.Library.Core.Net.IpSocket.Listener(clientIpAddress, OnClientReceive);
+                            ipSockListener = new Area23.At.Framework.Core.Net.IpSocket.Listener(clientIpAddress, OnClientReceive);
                         }
                     }
 
@@ -987,7 +987,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 clientIpAddress = IPAddress.Parse(mi.Name);
 
                 ipSockListener?.Dispose();
-                ipSockListener = new Area23.At.Framework.Library.Core.Net.IpSocket.Listener(clientIpAddress, OnClientReceive);
+                ipSockListener = new Area23.At.Framework.Core.Net.IpSocket.Listener(clientIpAddress, OnClientReceive);
                 toolStripStatusLabel.Text = "Listening on " + clientIpAddress.ToString() + ":" + Constants.CHAT_PORT;
             }
         }

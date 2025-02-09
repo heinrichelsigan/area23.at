@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
@@ -38,11 +39,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         #region Properties
 
-        public static sbyte[] MatrixPermKey { get; set; }
-        public static sbyte[] MatrixReverse { get; set; }
+        public static sbyte[] MatrixPermKey { get; internal set; }
+        public static sbyte[] MatrixReverse { get; internal set; }
 
-        public static HashSet<sbyte> PermKeyHash { get; set; }
+        public static HashSet<sbyte> PermKeyHash { get; internal set; }
 
+        public static Dictionary<sbyte, sbyte> MatrixDict { get; internal set; }
 
 
         #endregion Properties
@@ -60,6 +62,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             // MatrixReverse = BuildReveseMatrix(MatrixPermKey);
         }
 
+
         /// <summary>
         /// InitMatrixSymChiffer - base initialization of variables, needed for matrix sym chiffer encryption
         /// </summary>
@@ -72,7 +75,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 privateBytes[cntSby % 16] = (byte)0;
                 MatrixPermKey[cntSby++] = s;
             }
-
             PermKeyHash = new HashSet<sbyte>(MatrixBasePerm);
             MatrixReverse = BuildReveseMatrix(MatrixPermKey);
         }
@@ -121,10 +123,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             if (init)
             {
-                int aCnt = 0, bCnt = 0;
+                int ba = 0, bb = 0;
                 Array.Copy(keyBytes, 0, privateBytes, 0, Math.Min(keyBytes.Length, 16));
 
                 InitMatrixSymChiffer();
+                MatrixDict = new Dictionary<sbyte, sbyte>();
                 PermKeyHash = new HashSet<sbyte>();
                 List<byte> key2 = new List<byte>(keyBytes);
 
@@ -139,25 +142,76 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 foreach (byte keyByte in key2)
                 {
                     sbyte b = (sbyte)(keyByte % 16);
-                    for (int i = 0; ((i < 16) && (PermKeyHash.Contains(b) || ((int)b) == bCnt)); i++)
+                    for (int i = 0; i < 32; i++)
                     {
-                        b = ((sbyte)((Convert.ToInt32(keyByte) + MagicOrder[i]) % 16));
-                    }
-                    if (!PermKeyHash.Contains(b))
-                    {
-                        PermKeyHash.Add(b);
-                        aCnt = (int)b;
-                        if (aCnt != bCnt)
+                        if (PermKeyHash.Contains(b) || ((int)b) == ba)
                         {
-                            MatrixPermKey = MatrixPermKey.SwapTPositions<sbyte>(aCnt, bCnt);
-                        }
-                        bCnt++;
+                            if (i < 16)
+                                b = ((sbyte)((Convert.ToInt32(keyByte) + MagicOrder[i]) % 16));
+                            if (i >= 16)
+                                b = ((sbyte)((Convert.ToInt32(keyByte) + i) % 16));
+                        }                            
+                        else break;
                     }
+                    
+                    if (!PermKeyHash.Contains(b))                    
+                    {
+                        bb = (int)b;
+                        if (ba != bb)
+                        {
+                            if (!MatrixDict.Keys.Contains(b) && !MatrixDict.Keys.Contains((sbyte)ba))
+                            {
+                                MatrixDict.Add((sbyte)ba, (sbyte)bb);
+                                MatrixDict.Add((sbyte)bb, (sbyte)ba);
+                            }
+
+                            PermKeyHash.Add(b);
+                            MatrixPermKey = MatrixPermKey.SwapTPositions<sbyte>(ba, bb);
+                            ba++;
+                        }
+                    }                
                 }
 
+                #region Constants.ZEN_MATRIX_SYMMETRIC only for full symmetric zen matrizes, where (key -> value => value -> key)
+                if (Constants.ZEN_MATRIX_SYMMETRIC)
+                {
+                    if (MatrixDict.Count < 15)
+                    {
+                        for (int k = 0; k < 16; k++)
+                            if (!MatrixDict.Keys.Contains((sbyte)k))
+                                for (int l = 15; l >= 0; l--)
+                                    if (!MatrixDict.Values.Contains((sbyte)l))
+                                    {
+                                        MatrixDict.Add((sbyte)k, (sbyte)l);
+                                        if (!MatrixDict.Keys.Contains((sbyte)l))
+                                            MatrixDict.Add((sbyte)l, (sbyte)k);
+                                        break;
+                                    }
+                    }
+                    if (MatrixDict.Count == 16)
+                    {
+                        sbyte bKey, bValue;
+                        PermKeyHash.Clear();
+                        for (int n = 0; n < 16; n++)
+                        {
+                            bKey = (sbyte)n;
+                            bValue = (sbyte)MatrixDict[bKey];
+                            PermKeyHash.Add(bValue);
+                            MatrixPermKey[(int)bKey] = bValue;
+                            MatrixPermKey[(int)bValue] = bKey;
+                        }
+                    }
+                }
+                #endregion Constants.ZEN_MATRIX_SYMMETRIC only for full symmetric zen matrizes, where (key -> value => value -> key)
+
+
                 MatrixReverse = BuildReveseMatrix(MatrixPermKey);
+
+
             }
+
             return true;
+
         }
 
 

@@ -60,7 +60,7 @@
 	</ItemGroup>
     
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Framework\Area23.At.Framework.Library.Core\Area23.At.Framework.Library.Core.csproj" />
+	  <ProjectReference Include="..\..\Framework\Area23.At.Framework.Core\Area23.At.Framework.Core.csproj" />
 	</ItemGroup>
     
 	<ItemGroup>

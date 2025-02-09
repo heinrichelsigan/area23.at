@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Library.Core;
+﻿using Area23.At.Framework.Core;
 using Area23.At.WinForm.SecureChat.Gui.Forms;
 using Area23.At.WinForm.SecureChat;
 using System;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
-using Area23.At.Framework.Library.Core.Util;
+using Area23.At.Framework.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms

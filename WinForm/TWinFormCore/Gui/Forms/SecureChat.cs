@@ -1,6 +1,6 @@
-﻿using Area23.At.Framework.Library.Core;
-using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
-using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
+﻿using Area23.At.Framework.Core;
+using Area23.At.Framework.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.WinForm.TWinFormCore.Gui.Forms;
 using Area23.At.WinForm.TWinFormCore.Gui;
 using Org.BouncyCastle.Utilities;
@@ -15,7 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
-using Area23.At.Framework.Library.Core.Net;
+using Area23.At.Framework.Core.Net;
 using System.Net;
 
 namespace Area23.At.WinForm.TWinFormCore.Gui.Forms

@@ -1,5 +1,5 @@
 ﻿
-using Area23.At.Framework.Library.Core.Net.WebHttp;
+using Area23.At.Framework.Core.Net.WebHttp;
 using System.Net;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms

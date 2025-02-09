@@ -1,5 +1,5 @@
-﻿using Area23.At.Framework.Library.Core;
-using Area23.At.Framework.Library.Core.Crypt.EnDeCoding;
+﻿using Area23.At.Framework.Core;
+using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.WinForm.TWinFormCore.Gui.Forms;
 using Area23.At.WinForm.TWinFormCore.Gui;
 using Org.BouncyCastle.Utilities;
@@ -14,9 +14,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
-using Area23.At.Framework.Library.Core.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Library.Core.Crypt.Cipher;
-using Area23.At.Framework.Library.Core.Util;
+using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Core.Crypt.Cipher;
+using Area23.At.Framework.Core.Util;
 
 namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
@@ -72,7 +72,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
                 // EnDeCoder.GetBytes(this.TextBoxSource.Text);
 
-                string[] algos = this.TextBox_CryptPipeline.Text.Split("+;,→⇛".ToCharArray());
+                string[] algos = this.TextBox_CryptPipeline.Text.Split("+;,→⇛⇒".ToCharArray());
                 byte[] encryptBytes = inBytes;
                 foreach (string algo in algos)
                 {
@@ -83,7 +83,20 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                     }
                 }
 
-                EncodingType encodeType = (EncodingType)Enum.Parse<EncodingType>(this.ComboBox_EnDeCoding.SelectedItem.ToString());
+                EncodingType encodeType = EncodingType.Base64;
+                switch (this.ComboBox_EnDeCoding.SelectedItem.ToString().ToLower())
+                {
+                    case "hex16": encodeType = EncodingType.Hex16; break;
+                    case "base16": encodeType = EncodingType.Base16; break;
+                    case "base32": encodeType = EncodingType.Base32; break;
+                    case "hex32": encodeType = EncodingType.Hex32; break;
+                    case "unix2unix":
+                    case "uu":
+                    case "uue": encodeType = EncodingType.Uu; break;
+                    case "base64":
+                    default: encodeType = EncodingType.Base64; break;
+                }
+                
                 encryptedText = EnDeCoder.Encode(encryptBytes, encodeType);
 
                 this.TextBoxDestionation.BackColor = SystemColors.ControlLightLight;
@@ -130,7 +143,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                 byte[] decryptedBytes = cipherBytes;
                 int ig = 0;
 
-                string[] algos = this.TextBox_CryptPipeline.Text.Split("+;,→⇛".ToCharArray());
+                string[] algos = this.TextBox_CryptPipeline.Text.Split("+;,→⇛⇒".ToCharArray());
                 for (ig = (algos.Length - 1); ig >= 0; ig--)
                 {
                     if (!string.IsNullOrEmpty(algos[ig]))
@@ -166,7 +179,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                 byte[] inBytes = Extensions.TarBytes(inFileBytes, inBytesSeperator, inBytesKeyHash);
                 byte[] encryptBytes = inBytes;
 
-                string[] algos = this.TextBox_CryptPipeline.Text.Split("+;,→⇛".ToCharArray());
+                string[] algos = this.TextBox_CryptPipeline.Text.Split("+;,→⇛⇒".ToCharArray());
 
                 foreach (string algo in algos)
                 {
@@ -225,7 +238,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                 byte[] decryptedBytes = cipherBytes;
                 int ig = 0;
 
-                string[] algos = this.TextBox_CryptPipeline.Text.Split("+;,→⇛".ToCharArray());
+                string[] algos = this.TextBox_CryptPipeline.Text.Split("+;,→⇛⇒".ToCharArray());
                 for (ig = (algos.Length - 1); ig >= 0; ig--)
                 {
                     if (!string.IsNullOrEmpty(algos[ig]))
@@ -365,7 +378,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
             CipherEnum cipherAlgo = Enum.Parse<CipherEnum>(algo);
 
-            byte[] encryptBytes = Area23.At.Framework.Library.Core.Crypt.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);
+            byte[] encryptBytes = Area23.At.Framework.Core.Crypt.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);
 
             return encryptBytes;
         }
@@ -383,7 +396,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
             CipherEnum cipherAlgo = Enum.Parse<CipherEnum>(algorithmName);
 
-            byte[] decryptBytes = Area23.At.Framework.Library.Core.Crypt.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
+            byte[] decryptBytes = Area23.At.Framework.Core.Crypt.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
 
             return decryptBytes;
         }
