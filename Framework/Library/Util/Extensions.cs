@@ -753,27 +753,6 @@ namespace Area23.At.Framework.Library.Util
 
         #endregion System.Drawing.Image extensions
 
-        #region genericsT_extensions
-
-        /// <summary>
-        /// <see cref="Stack{T}"/>.ReverseToString<typeparamref name="T"/> extension method: reverses a objects in a stack to a string
-        /// </summary>      
-        /// <typeparam name="T">type parameter for generic <see cref="Stack{T}"/></typeparam>
-        /// <param name="stack">a generic  <see cref="Stack{T}">Stack</see></param>  
-        /// <returns>a string concatenation of reversed (fifoed) stack</returns>
-        public static string ReverseToString<T>(this Stack<T> stack)
-        {
-            string reverse = string.Empty;
-            foreach (object s in stack.Reverse().ToArray())
-            {
-                reverse += s.ToString();
-            }
-            return reverse;
-        }
-
-
-        #endregion genericsT_extensions
-
         #region serializer_xml_json
 
         public static bool IsValidXml(this string xml)
@@ -821,7 +800,82 @@ namespace Area23.At.Framework.Library.Util
 
         #endregion serializer_xml_json
 
+
+        #region genericsT_extensions
+
+        /// <summary>
+        /// <see cref="Stack{T}"/>.ReverseToString<typeparamref name="T"/> extension method: reverses a objects in a stack to a string
+        /// </summary>      
+        /// <typeparam name="T">type parameter for generic <see cref="Stack{T}"/></typeparam>
+        /// <param name="stack">a generic  <see cref="Stack{T}">Stack</see></param>  
+        /// <returns>a string concatenation of reversed (fifoed) stack</returns>
+        public static string ReverseToString<T>(this Stack<T> stack)
+        {
+            string reverse = string.Empty;
+            foreach (object s in stack.Reverse().ToArray())
+            {
+                reverse += s.ToString();
+            }
+            return reverse;
+        }
+
+
+        /// <summary>
+        /// <see cref="T"/>.SwapTPositions&lt;<typeparamref name="T"/>&gt;(this <typeparamref name="T"/>[] tarray, .. extensions method
+        /// Swaps values of two positions inside a generic Array
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tarray">generic array</param>
+        /// <param name="posA">position A of array</param>
+        /// <param name="posB">position B of array</param>
+        /// <param name="exceptionOnNullable">if indices points to null value field, throw exception</param>
+        /// <returns>swapped T generic array</returns>
+        /// <exception cref="ArgumentException"></exception>
+        internal static T[] SwapTPositions<T>(this T[] tarray, int posA, int posB, bool exceptionOnNullable = false)
+        {
+            if (tarray == null || tarray.Length <= 1)
+                throw new ArgumentException($"T ... {tarray.GetType()} is null or an empty or single entry array");
+
+            if (posA < 0 || posB < 0)
+                throw new ArgumentException($"Either posA {posA} or posB {posB} is a negative / minus number and less than 0. Can't access array indices < 0");
+
+            if (posA >= tarray.Length || posB >= tarray.Length)
+                throw new ArgumentException($"Either posA {posA} or posB {posB} is outside of array size of {tarray.Length}. Can't access array indices greater then array size {tarray.Length}.");
+
+            if ((exceptionOnNullable) && (tarray[posA] == null || tarray[posB] == null))
+                throw new ArgumentException($"Either T[posA= {posA}] == null or T[posB = {posB}] contains a null value; exceptionOnNullable = {exceptionOnNullable}.");
+
+
+            // if (posA.Equals(posB))  // return tarray;
+
+            T t0 = tarray[posA];
+            T t1 = tarray[posB];
+            tarray[posA] = t1;
+            tarray[posB] = t0;
+
+            return tarray;
+        }
+
+        #endregion genericsT_extensions
+
+
     }
+
+    public static class Ext
+    {
+        public static T[] SwapT<T>(ref T t0, ref T t1)
+        {            
+            T[] tt = new T[2];
+            tt[0] = t0;
+            tt[1] = t1;
+            t0 = tt[1];
+            t1 = tt[0];
+
+            return tt;
+        }
+
+    }
+
 
     /// <summary>
     /// Static class alternative for System.Drawing.Color Extension Methods

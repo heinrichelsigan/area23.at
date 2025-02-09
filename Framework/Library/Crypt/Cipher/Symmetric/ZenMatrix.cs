@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -129,10 +130,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
                 //foreach (byte keyByte in keyBytes)
                 //{
-                //    byte sb = (byte)(keyByte % 16);
-                //    key2.Add(sb);
-                //    byte lb = (byte)((keyByte - (byte)sb) / 16);
-                //    key2.Add(lb);                    
+                //    byte lsb = (byte)(keyByte % 16);
+                //    byte msb = (byte)((keyByte - (byte)lsb) / 16);
+                //    key2.Add(msb);
+                //    key2.Add(lsb);
                 //}
 
                 foreach (byte keyByte in key2)
@@ -148,11 +149,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                         aCnt = (int)b;
                         if (aCnt != bCnt)
                         {
-                            sbyte sba = MatrixPermKey[aCnt];
-                            sbyte sbb = MatrixPermKey[bCnt];
-                            SwapSBytes(ref sba, ref sbb);
-                            MatrixPermKey[aCnt] = sba;
-                            MatrixPermKey[bCnt] = sbb;
+                            MatrixPermKey = MatrixPermKey.SwapTPositions<sbyte>(aCnt, bCnt);
                         }
                         bCnt++;
                     }
@@ -202,14 +199,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             if (offSet < inBytesPadding.Length && offSet + len <= inBytesPadding.Length)
             {
                 processedEncrypted = new byte[len];
-                aCnt = 0;
-                for (bCnt = offSet; bCnt < offSet + len; bCnt++)
+                for (aCnt = 0, bCnt = offSet; bCnt < offSet + len; aCnt++, bCnt++)
                 {
                     byte b = inBytesPadding[bCnt];
                     MapByteValue(ref b, out byte mapEncryptB, true);
                     sbyte sm = MatrixPermKey[aCnt];
                     processedEncrypted[(int)sm] = mapEncryptB;
-                    aCnt++;
                 }
             }
             return processedEncrypted;
@@ -229,14 +224,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             if (offSet < inBytesEncrypted.Length && offSet + len <= inBytesEncrypted.Length)
             {
                 processedDecrypted = new byte[len];
-                aCnt = 0;
-                for (bCnt = offSet; bCnt < offSet + len; bCnt++)
+                for (aCnt = 0, bCnt = offSet; bCnt < offSet + len; aCnt++, bCnt++)
                 {
                     byte b = inBytesEncrypted[bCnt];
                     MapByteValue(ref b, out byte mapDecryptB, false);
                     sbyte sm = MatrixReverse[aCnt];
                     processedDecrypted[(int)sm] = mapDecryptB;
-                    aCnt++;
                 }
             }
             return processedDecrypted;
@@ -402,12 +395,31 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             return outSBytes.ToArray();
         }
 
+        internal static T[] SwapT<T>(ref T t0, ref T t1)
+        {
+            T[] tt = new T[2];
+            tt[0] = t0;
+            tt[1] = t1;
+            t0 = tt[1];
+            t1 = tt[0];
+            
+            return tt;
+        }
+
+
+        
+        #endregion SwapHelpers
+
+
+        #region ObsoleteDeprecated
+
         /// <summary>
         /// SwapBytes swaps two bytes
         /// </summary>
         /// <param name="ba"></param>
         /// <param name="bb"></param>
         /// <returns></returns>
+        [Obsolete("SwapBytes(ref byte ba, ref byte bb) is deprecated obsolete. Use generic Method T[] Util.Ext.SwapT<T>(ref T t0, ref T t1).", true)]
         internal static byte[] SwapBytes(ref byte ba, ref byte bb)
         {
             byte[] tmp = new byte[2];
@@ -424,6 +436,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="sba">sbyte a0 to swap</param>
         /// <param name="sbb">sbyte b1 to swap</param>
         /// <returns>an array, where sbyte b1 is at position 0 and sbyte a0 is at position 1</returns>
+        [Obsolete("SwapSBytes(ref byte ba, ref byte bb) is deprecated obsolete. Use generic Method T[] Util.Ext.SwapT<T>(ref T t0, ref T t1).", true)]
         internal static sbyte[] SwapSBytes(ref sbyte a0, ref sbyte b1)
         {
             sbyte[] tmp = new sbyte[2];
@@ -434,10 +447,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             return tmp;
         }
 
-        #endregion SwapHelpers
-
-
-        #region ObsoleteDeprecated
 
         [Obsolete("GetMatrixPermutation is obsolete, use GenerateMatrixPermutationByKey(string key) instead!", false)]
         internal static sbyte[] GetMatrixPermutation(string key)
@@ -459,11 +468,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     aCnt = (int)sb;
                     if (aCnt != bCnt)
                     {
-                        sbyte sba = MatrixPermKey[aCnt];
-                        sbyte sbb = MatrixPermKey[bCnt];
-                        SwapSBytes(ref sba, ref sbb);
-                        MatrixPermKey[aCnt] = sba;
-                        MatrixPermKey[bCnt] = sbb;
+                        MatrixPermKey = MatrixPermKey.SwapTPositions<sbyte>(aCnt, bCnt);
+                        // sbyte sba = MatrixPermKey[aCnt];
+                        // sbyte sbb = MatrixPermKey[bCnt];
+                        // SwapT<sbyte>(ref sba, ref sbb);
+                        // MatrixPermKey[aCnt] = sba;
+                        // MatrixPermKey[bCnt] = sbb;
                     }
                     bCnt++;
                 }
