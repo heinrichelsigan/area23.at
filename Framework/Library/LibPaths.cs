@@ -3,6 +3,7 @@ using NLog;
 using System;
 using System.Configuration;
 using System.IO;
+using System.Reflection;
 using System.Web;
 
 namespace Area23.At.Framework.Library
@@ -13,10 +14,11 @@ namespace Area23.At.Framework.Library
     /// </summary>
     public static class LibPaths
     {
-        private static string appPath = null;
-        private static string baseAppPath = null;
-        private static string systemDirPath = null;
-        private static string systemDirResPath = null;
+        private static string appPath = "";
+        private static string baseAppPath = "";
+        private static string systemDirPath = "";
+        private static string systemDirResPath = "";
+        private static string logDirPath = "";
         
         public static char SepCh { get => Path.DirectorySeparatorChar; }
 
@@ -107,33 +109,63 @@ namespace Area23.At.Framework.Library
 
         #region directory & file paths
 
+
+        /// <summary>
+        /// SystemDirPath return system directory path, 
+        /// if defined in App.Config, 
+        /// otherwise applcation directory of base exe.
+        /// </summary>
         public static string SystemDirPath
         {
             get
             {
-                if (String.IsNullOrEmpty(systemDirPath))
+                if (string.IsNullOrEmpty(systemDirPath))
                 {
-                    if ((SepCh == '/') && (ConfigurationManager.AppSettings["AppDirPathUnix"] != null))
-                        systemDirPath = (string)ConfigurationManager.AppSettings["AppDirPathUnix"];
-                    else if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)
-                        systemDirPath = (string)ConfigurationManager.AppSettings["AppDirPathWin"];
-
-                    if (String.IsNullOrEmpty(systemDirPath))
+                    for (int sysDirTry = 0; sysDirTry < 6; sysDirTry++)
                     {
-                        if (AppContext.BaseDirectory != null)
-                            systemDirPath = AppContext.BaseDirectory;
-                        else if (AppDomain.CurrentDomain != null)
-                            systemDirPath = AppDomain.CurrentDomain.BaseDirectory;
+                        switch (sysDirTry)
+                        {
+                            case 0:
+                                if (SepChar == "/" && Path.DirectorySeparatorChar == '/' && SepCh == Path.DirectorySeparatorChar &&
+                                            ConfigurationManager.AppSettings["AppDirPathUnix"] != null &&
+                                            ConfigurationManager.AppSettings["AppDirPathUnix"] != "")
+                                    systemDirPath = (string)ConfigurationManager.AppSettings["AppDirPathUnix"]; break;
+                            case 1:
+                                if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)
+                                    systemDirPath = (string)ConfigurationManager.AppSettings["AppDirPathWin"]; break;
+                            case 2: if (AppContext.BaseDirectory != null) systemDirPath = AppContext.BaseDirectory; break;
+                            case 3: if (AppDomain.CurrentDomain != null) systemDirPath = AppDomain.CurrentDomain.BaseDirectory; break;
+                            case 4: systemDirPath = Path.GetFullPath(System.Reflection.Assembly.GetExecutingAssembly().Location); break;
+                            case 5:
+                            default: systemDirPath = Path.GetFullPath(Assembly.GetExecutingAssembly().Location); break;
+                        }
+
+                        if (!string.IsNullOrEmpty(systemDirPath) && Directory.Exists(systemDirPath))
+                            break;
                     }
 
                     if (!systemDirPath.EndsWith(SepChar))
                         systemDirPath += SepChar;
+
+                    string sysDir = systemDirPath;
+                    if (sysDir.EndsWith($"{SepChar}{Constants.WIN_X86}{SepChar}") || sysDir.EndsWith($"{SepChar}{Constants.WIN_X64}{SepChar}"))
+                        sysDir = sysDir.Replace($"{SepChar}{Constants.WIN_X86}{SepChar}", SepChar).Replace($"{SepChar}{Constants.WIN_X64}{SepChar}", SepChar);
+                    if (sysDir.EndsWith($"{SepChar}{Constants.NET9_WINDOWS7}{SepChar}") || sysDir.EndsWith($"{SepChar}{Constants.NET9_WINDOWS8}{SepChar}"))
+                        sysDir = sysDir.Replace($"{SepChar}{Constants.NET9_WINDOWS7}{SepChar}", SepChar).Replace($"{SepChar}{Constants.NET9_WINDOWS8}{SepChar}", SepChar);
+                    if (sysDir.EndsWith($"{SepChar}{Constants.RELEASE_DIR}{SepChar}") || sysDir.EndsWith($"{SepChar}{Constants.DEBUG_DIR}{SepChar}"))
+                        sysDir = sysDir.Replace($"{SepChar}{Constants.RELEASE_DIR}{SepChar}", SepChar).Replace($"{SepChar}{Constants.DEBUG_DIR}{SepChar}", SepChar);
+                    if (sysDir.EndsWith($"{SepChar}{Constants.BIN_DIR}{SepChar}") || sysDir.EndsWith($"{SepChar}{Constants.OBJ_DIR}{SepChar}"))
+                        sysDir = sysDir.Replace($"{SepChar}{Constants.BIN_DIR}{SepChar}", SepChar).Replace($"{SepChar}{Constants.OBJ_DIR}{SepChar}", SepChar);
+
+                    if (Directory.Exists(sysDir))
+                        systemDirPath = sysDir;
+
                 }
 
                 return systemDirPath;
             }
         }
-        
+
 
         public static string SystemDirResPath
         {
@@ -141,10 +173,7 @@ namespace Area23.At.Framework.Library
             {
                 if (String.IsNullOrEmpty(systemDirResPath))
                 {
-                    systemDirResPath = SystemDirPath;
-                    if (!systemDirResPath.Contains(Constants.RES_DIR))
-                        systemDirResPath += Constants.RES_DIR + SepChar;
-
+                    systemDirResPath = SystemDirPath + Constants.RES_DIR + SepChar;
                     if (!Directory.Exists(systemDirResPath))
                     {
                         try
@@ -188,18 +217,22 @@ namespace Area23.At.Framework.Library
         {
             get
             {
-                string logPath = SystemDirPath;
-
-                if (!logPath.Contains(Constants.LOG_DIR))
-                    logPath += Constants.LOG_DIR + SepChar;
-
-                if (!Directory.Exists(logPath))
+                if (string.IsNullOrEmpty(logDirPath))
                 {
-                    string dirNotFoundMsg = String.Format("{0} directory {1} doesn't exist, creating it!", Constants.LOG_DIR, logPath);
-                    // Area23Log.LogStatic(dirNotFoundMsg);
-                    Directory.CreateDirectory(logPath);
+                    logDirPath = SystemDirPath + Constants.LOG_DIR + SepChar;
+
+                    if (!Directory.Exists(logDirPath))
+                    {
+                        string dirNotFoundMsg = String.Format("{0} directory {1} doesn't exist, creating it!", Constants.LOG_DIR, logDirPath);
+                        // Area23Log.LogStatic(dirNotFoundMsg);
+                        try
+                        {
+                            Directory.CreateDirectory(logDirPath);
+                        }
+                        catch { }
+                    }
                 }
-                return logPath;
+                return logDirPath;
             }
         }
 

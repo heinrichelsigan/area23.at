@@ -98,9 +98,16 @@ namespace Area23.At.Framework.Library
         public const string OBJ_DIR = "obj";
         public const string RELEASE_DIR = "Release";
         public const string DEBUG_DIR = "Release";
-
-        public const string UPSAVED_FILE = "SavedFile";
+        public const string NET9_WINDOWS7 = "net9.0-windows7.0";
+        public const string NET9_WINDOWS8 = "net9.0-windows8.0";
+        public const string NET9_WINDOWS10 = "net9.0-windows10";
+        public const string NET9_WINDOWS11 = "net9.0-windows11";
+        public const string WIN_X86 = "win-x86";
+        public const string WIN_X64 = "win-x86";
+        public const string MIME_EXT = ".mime";
+        public const string BASE64_EXT = ".base64";
         public const string ATTACH_FILES_DIR = "AttachFiles";
+        public const string UPSAVED_FILE = "SavedFile";
 
         public const string UTF8_JSON = "utf8symol.json";
         public const string JSON_SAVE_FILE = "urlshort.json";
