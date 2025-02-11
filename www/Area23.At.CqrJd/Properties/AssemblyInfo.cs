@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Area23.At.CqrJd")]
 [assembly: AssemblyDescription("Area23.At.CqrJd Chat Queue")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("area23.at")]
+[assembly: AssemblyCompany("Heinrich Elsigan")]
 [assembly: AssemblyProduct("Area23.At.CqrJd another chat queue")]
 [assembly: AssemblyCopyright("Copyleft Heinrich Elsigan © 2000 - 2040")]
 [assembly: AssemblyTrademark("")]

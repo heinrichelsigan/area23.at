@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.Framework.Library", "..\Framework\Library\Area23.At.Framework.Library.csproj", "{4133904B-C57A-4F45-AD85-537AA97F765F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.CqrJd", "Area23.At.ChatQ\Area23.At.CqrJd.csproj", "{8D7B72DC-8C3B-4763-A870-917C9FBE55AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.CqrJd", "Area23.At.CqrJd\Area23.At.CqrJd.csproj", "{8D7B72DC-8C3B-4763-A870-917C9FBE55AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
