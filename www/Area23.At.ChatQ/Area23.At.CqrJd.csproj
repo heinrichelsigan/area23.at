@@ -173,6 +173,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CqrService.asmx" />
     <Content Include="Default.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="Global.asax" />
@@ -200,6 +201,11 @@
   <ItemGroup>
     <Compile Include="ChatQBasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CqrController.cs" />
+    <Compile Include="CqrService.asmx.cs">
+      <DependentUpon>CqrService.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -236,7 +242,6 @@
     <Compile Include="Util\HostLogHelper.cs" />
     <Compile Include="Util\JsonContacts.cs" />
     <Compile Include="Util\JsonHelper.cs" />
-    <Compile Include="ValuesController1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="log\20240324_Area23.At.Mono.log" />

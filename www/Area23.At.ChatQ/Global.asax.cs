@@ -1,5 +1,5 @@
 ﻿using Area23.At.Framework.Library;
-using Area23.At.ChatQ.Util;
+using Area23.At.CqrJd.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 
-namespace Area23.At.ChatQ
+namespace Area23.At.CqrJd
 {
     public class Global : System.Web.HttpApplication
     {

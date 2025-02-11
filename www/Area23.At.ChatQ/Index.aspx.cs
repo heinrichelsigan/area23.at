@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Area23.At.ChatQ
+namespace Area23.At.CqrJd
 {
     public partial class Index : System.Web.UI.Page
     {

@@ -14,10 +14,12 @@ namespace Area23.At.Framework.Library
         private static readonly Lazy<Area23Log> instance = new Lazy<Area23Log>(() => new Area23Log());
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
+        private static readonly string area23LogFile = LibPaths.LogFileSystemPath; 
+        
         /// <summary>
         /// LogFile
         /// </summary>
-        public static string LogFile { get => LibPaths.LogFileSystemPath; }
+        public static string LogFile { get; private set; }
 
 
         /// <summary>
@@ -30,8 +32,11 @@ namespace Area23.At.Framework.Library
         /// LogStatic - static logger without Area23Log.Logger singelton
         /// </summary>
         /// <param name="msg">message to log</param>
-        public static void LogStatic(string msg)
+        /// <param name="appName">application name</param>
+        public static void LogStatic(string msg, string appName = "")
         {
+            if (!string.IsNullOrEmpty(appName))
+                LogFile = LibPaths.GetLogFilePath(appName);
             string logMsg = string.Empty;
             if (!File.Exists(LogFile))
             {
@@ -39,10 +44,7 @@ namespace Area23.At.Framework.Library
                 {
                     File.Create(LogFile);
                 }
-                catch (Exception ex)
-                {
-                    Area23Log.LogStatic(ex);
-                }
+                catch { }                
             }
             try
             {
@@ -56,11 +58,14 @@ namespace Area23.At.Framework.Library
             }
         }
 
+
+
         /// <summary>
         /// LogStatic - static logger without Area23Log.Logger singelton
         /// </summary>
         /// <param name="exLog"><see cref="Exception"/> to log</param>
-        public static void LogStatic(Exception exLog)
+        /// <param name="appName">application name</param>
+        public static void LogStatic(Exception exLog, string appName = "")
         {
             string excMsg = String.Format("Exception {0} ⇒ {1}\t{2}\t{3}",
                 exLog.GetType(),
@@ -68,28 +73,7 @@ namespace Area23.At.Framework.Library
                 exLog.ToString().Replace("\r", "").Replace("\n", " "),
                 exLog.StackTrace.Replace("\r", "").Replace("\n", " "));
 
-            if (!File.Exists(LogFile))
-            {
-                try
-                {
-                    File.Create(LogFile);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Area23.At.Mono Exception: " + e.ToString());
-                }
-            }
-            try
-            {
-                string logMsg = String.Format("{0} \t{1}\r\n",
-                    Constants.DateArea23Seconds,
-                    excMsg);
-                File.AppendAllText(LogFile, logMsg);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Area23.At.Mono Exception: " + e.ToString());
-            }
+            LogStatic(excMsg);
         }
 
         /// <summary>
@@ -97,8 +81,29 @@ namespace Area23.At.Framework.Library
         /// </summary>
         private Area23Log()
         {
+            LogFile = area23LogFile;
             var config = new NLog.Config.LoggingConfiguration();
             // Targets where to log to: File and Console            
+            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = LogFile };
+            var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+            // Rules for mapping loggers to targets            
+            config.AddRule(LogLevel.Trace, LogLevel.Trace, logconsole);
+            config.AddRule(LogLevel.Debug, LogLevel.Debug, logfile);
+            config.AddRule(LogLevel.Info, LogLevel.Info, logfile);
+            config.AddRule(LogLevel.Warn, LogLevel.Warn, logfile);
+            config.AddRule(LogLevel.Error, LogLevel.Error, logfile);
+            config.AddRule(LogLevel.Fatal, LogLevel.Fatal, logfile);
+            NLog.LogManager.Configuration = config; // Apply config
+        }
+
+        /// <summary>
+        /// private Singelton constructor
+        /// </summary>
+        private Area23Log(string appName)
+        {
+            var config = new NLog.Config.LoggingConfiguration();
+            // Targets where to log to: File and Console            
+            LogFile = LibPaths.GetLogFilePath(appName);
             var logfile = new NLog.Targets.FileTarget("logfile") { FileName = LogFile };
             var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
             // Rules for mapping loggers to targets            

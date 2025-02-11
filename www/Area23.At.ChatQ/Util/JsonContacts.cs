@@ -1,15 +1,13 @@
-﻿using Area23.At;
-using Area23.At.Framework.Library;
-using Area23.At.Framework.Library.Util;
-using Area23.At.Mono.Util;
+﻿using Area23.At.Framework.Library;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web;
+using static QRCoder.PayloadGenerator.SwissQrCode;
 
-namespace Area23.At.Mono.CqrJD
+namespace Area23.At.CqrJd.Util
 {
     public static class JsonContacts
     {

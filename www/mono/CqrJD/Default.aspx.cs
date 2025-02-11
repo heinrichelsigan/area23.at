@@ -26,7 +26,7 @@ namespace Area23.At.Mono.CqrJD
         string hashKey = string.Empty;
         string decrypted = string.Empty;
         object _lock = new object();
-        HashSet<Contact> _contacts;
+        HashSet<CqrContact> _contacts;
        
 
         protected void Page_Load(object sender, EventArgs e)
@@ -34,7 +34,7 @@ namespace Area23.At.Mono.CqrJD
             string hexall = string.Empty;
             string myServerKey = string.Empty;
             if (Application[Constants.JSON_CONTACTS] != null)
-                _contacts = (HashSet<Contact>)(Application[Constants.JSON_CONTACTS]);
+                _contacts = (HashSet<CqrContact>)(Application[Constants.JSON_CONTACTS]);
             else
                 _contacts = LoadJsonContacts();
 
@@ -115,7 +115,7 @@ namespace Area23.At.Mono.CqrJD
                 if (!string.IsNullOrEmpty(decrypted))
                 {
                     string[] props = decrypted.Split(Environment.NewLine.ToCharArray());
-                    Contact c = new Contact();
+                    CqrContact c = new CqrContact();
                     c.Name = props[0];
                     c.Email = props[1];
                     //c.Mobile = props[2];
@@ -138,12 +138,12 @@ namespace Area23.At.Mono.CqrJD
         }
 
 
-        protected HashSet<Contact> LoadJsonContacts()
+        protected HashSet<CqrContact> LoadJsonContacts()
         {
             return JsonContacts.LoadJsonContacts();
         }
 
-        protected void SaveJsonContacts(HashSet<Contact> contacts)
+        protected void SaveJsonContacts(HashSet<CqrContact> contacts)
         {
             JsonContacts.SaveJsonContacts(contacts);
         }

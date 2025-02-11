@@ -1,6 +1,6 @@
 ﻿using Area23.At.Framework.Library;
 using Area23.At.Framework.Library.Win32Api;
-using Area23.At.ChatQ.Util;
+using Area23.At.CqrJd.Util;
 using QRCoder;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ using System.Data.SqlTypes;
 using Area23.At.Framework.Library.Util;
 using static QRCoder.QRCodeGenerator;
 
-namespace Area23.At.ChatQ
+namespace Area23.At.CqrJd
 {
     public abstract class ChatQBasePage : System.Web.UI.Page
     {
@@ -72,10 +72,8 @@ namespace Area23.At.ChatQ
         {
             get
             {
-                string logAppPath = MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
-                if (!logAppPath.Contains("MarriageRisk"))
-                    logAppPath += "MarriageRisk" + SepChar;
-                logAppPath += "log" + SepChar + DateTime.UtcNow.ToString("yyyyMMdd") + "_" + "marriage_risk.log";
+                string logAppPath = Area23.At.Framework.Library.LibPaths.SystemDirLogPath;                
+                logAppPath += "log" + SepChar + DateTime.UtcNow.ToString("yyyyMMdd") + "_" + "cqrjd.log";
                 return logAppPath;
             }
         }

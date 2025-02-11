@@ -10,7 +10,7 @@ using System.Web.Services;
 using Area23.At;
 using Area23.At.Framework.Library.Net.CqrJd;
 using Area23.At.Framework.Library.Crypt.CqrJd;
-namespace Area23.At.Mono.CqrJD
+namespace Area23.At.CqrJd
 {
     /// <summary>
     /// Summary description for CqrService

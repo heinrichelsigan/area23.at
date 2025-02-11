@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die
 // Assemblyinformationen zu ändern.
-[assembly: AssemblyTitle("Area23.At.ChatQ")]
-[assembly: AssemblyDescription("Area23.At.ChatQ Chat Queue")]
+[assembly: AssemblyTitle("Area23.At.CqrJd")]
+[assembly: AssemblyDescription("Area23.At.CqrJd Chat Queue")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("area23.at")]
-[assembly: AssemblyProduct("Area23.At.ChatQ another chat queue")]
+[assembly: AssemblyProduct("Area23.At.CqrJd another chat queue")]
 [assembly: AssemblyCopyright("Copyleft Heinrich Elsigan © 2000 - 2040")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // Sie können alle Werte angeben oder die standardmäßigen Revisions- und Buildnummern 
 // übernehmen, indem Sie "*" wie folgt verwenden:
-[assembly: AssemblyVersion("2.24.1212.0")]
-[assembly: AssemblyFileVersion("2.24.1212.0")]
+[assembly: AssemblyVersion("2.25.221.0")]
+[assembly: AssemblyFileVersion("2.25.221.0")]

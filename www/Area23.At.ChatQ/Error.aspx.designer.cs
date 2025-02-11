@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Area23.At.ChatQ
+namespace Area23.At.CqrJd
 {
 
 

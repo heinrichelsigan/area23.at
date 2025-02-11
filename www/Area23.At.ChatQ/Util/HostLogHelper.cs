@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Area23.At.ChatQ.Util
+namespace Area23.At.CqrJd.Util
 {
     /// <summary>
     /// HostLogHelper

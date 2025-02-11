@@ -1,5 +1,5 @@
 ﻿using Area23.At.Framework.Library;
-using Area23.At.ChatQ.Util;
+using Area23.At.CqrJd.Util;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 
-namespace Area23.At.ChatQ.Util
+namespace Area23.At.CqrJd.Util
 {
     /// <summary>
     /// JsonHelper class for reading and writing json serialized store file.

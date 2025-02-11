@@ -1,4 +1,5 @@
 ﻿    using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Util;
 using NLog;
 using System;
 using System.Configuration;
@@ -19,7 +20,9 @@ namespace Area23.At.Framework.Library
         private static string systemDirPath = "";
         private static string systemDirResPath = "";
         private static string logDirPath = "";
-        
+        private static string logFilePath = "";
+        private static int daysave = -1;
+
         public static char SepCh { get => Path.DirectorySeparatorChar; }
 
         public static string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
@@ -234,6 +237,30 @@ namespace Area23.At.Framework.Library
                 }
                 return logDirPath;
             }
+        }
+
+
+        public static string GetLogFilePath(string appName)
+        {
+            int day = System.DateTime.UtcNow.DayOfYear;
+            if (daysave != day)
+            {
+                daysave = day;
+                logFilePath = "";
+            }
+            if (string.IsNullOrEmpty(logFilePath))
+            {
+                logFilePath = SystemDirLogPath + DateTime.UtcNow.Area23Date() + Constants.UNDER_SCORE + appName + Constants.LOG_EXT;
+                if (!File.Exists(logFilePath))
+                {
+                    try
+                    {
+                        File.Create(logFilePath);
+                    }
+                    catch { }
+                }
+            }
+            return logFilePath;
         }
 
         public static string LogFileSystemPath { get => SystemDirLogPath + Constants.AppLogFile; }

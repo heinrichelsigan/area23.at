@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Area23.At.Mono.Util
+namespace Area23.At.CqrJd.Util
 {
-    public class Contact
+    public class CqrContact
     {
         public Guid ContactId { get; set; } = Guid.NewGuid();
 
@@ -21,4 +21,5 @@ namespace Area23.At.Mono.Util
 
         public string ImageBase64 { get; set; }
     }
+
 }
