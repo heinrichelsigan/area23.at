@@ -112,7 +112,6 @@ namespace Area23.At.Framework.Library
 
         #region directory & file paths
 
-
         /// <summary>
         /// SystemDirPath return system directory path, 
         /// if defined in App.Config, 
@@ -216,6 +215,11 @@ namespace Area23.At.Framework.Library
         public static string AttachmentFilesDir { get => SystemDirPath + Constants.ATTACH_FILES_DIR + SepChar; }
 
 
+        #region LogFiles and LogPaths
+
+        /// <summary>
+        /// SystemDirLogPath gets the default full path to logfile in file system
+        /// </summary>
         public static string SystemDirLogPath
         {
             get
@@ -226,8 +230,6 @@ namespace Area23.At.Framework.Library
 
                     if (!Directory.Exists(logDirPath))
                     {
-                        string dirNotFoundMsg = String.Format("{0} directory {1} doesn't exist, creating it!", Constants.LOG_DIR, logDirPath);
-                        // Area23Log.LogStatic(dirNotFoundMsg);
                         try
                         {
                             Directory.CreateDirectory(logDirPath);
@@ -239,7 +241,11 @@ namespace Area23.At.Framework.Library
             }
         }
 
-
+        /// <summary>
+        /// GetLogFilePath - gets individual named logfile with substring appName
+        /// </summary>
+        /// <param name="appName">application name to customize logfile name</param>
+        /// <returns>Full file path to log file in file system</returns>
         public static string GetLogFilePath(string appName)
         {
             int day = System.DateTime.UtcNow.DayOfYear;
@@ -265,8 +271,9 @@ namespace Area23.At.Framework.Library
 
         public static string LogFileSystemPath { get => SystemDirLogPath + Constants.AppLogFile; }
 
-        #endregion directory & file paths
+        #endregion LogFiles and LogPaths
 
+        #endregion directory & file paths
 
         #region other properties 
 
