@@ -237,7 +237,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Util\CqrContact.cs" />
     <Compile Include="Util\GlobalAppSettings.cs" />
     <Compile Include="Util\HostLogHelper.cs" />
     <Compile Include="Util\JsonContacts.cs" />

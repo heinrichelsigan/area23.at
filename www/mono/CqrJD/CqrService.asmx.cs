@@ -22,7 +22,7 @@ namespace Area23.At.Mono.CqrJD
     // [System.Web.Script.Services.ScriptService]
     public class CqrService : System.Web.Services.WebService
     {
-        static HashSet<Mono.Util.CqrContact> _contacts;
+        static HashSet<CqrContact> _contacts;
         string _literalServerIPv4, _literalServerIPv6, _literalClientIp;
         string _decrypted;
 
@@ -32,7 +32,7 @@ namespace Area23.At.Mono.CqrJD
             string hexall = string.Empty;
             string myServerKey = string.Empty;
             if (Application[Constants.JSON_CONTACTS] != null)
-                _contacts = (HashSet<Mono.Util.CqrContact>)(Application[Constants.JSON_CONTACTS]);
+                _contacts = (HashSet<CqrContact>)(Application[Constants.JSON_CONTACTS]);
             else
                 _contacts = JsonContacts.LoadJsonContacts();
 
@@ -72,7 +72,7 @@ namespace Area23.At.Mono.CqrJD
             if (!string.IsNullOrEmpty(_decrypted))
             {
                 string[] props = _decrypted.Split(Environment.NewLine.ToCharArray());
-                Mono.Util.CqrContact c = new Mono.Util.CqrContact();
+                CqrContact c = new CqrContact();
                 c.Name = props[0];
                 c.Email = props[1];
                 //c.Mobile = props[2];

@@ -130,6 +130,7 @@
     <Compile Include="Crypt\Cipher\Symmetric\SymmCrypt.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Crypt\CqrJd\CqrBaseMsg.cs" />
+    <Compile Include="Crypt\CqrJd\CqrContact.cs" />
     <Compile Include="Crypt\CqrJd\CqrPeer2PeerMsg.cs" />
     <Compile Include="Crypt\CqrJd\MimeAttachment.cs" />
     <Compile Include="Crypt\CqrJd\MsgContent.cs" />

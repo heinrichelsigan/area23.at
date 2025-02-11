@@ -501,7 +501,6 @@
     <Compile Include="Unix\UnixMaster.master.designer.cs">
       <DependentUpon>UnixMaster.master</DependentUpon>
     </Compile>
-    <Compile Include="Util\CqrContact.cs" />
     <Compile Include="Util\HostLogHelper.cs" />
     <Compile Include="Util\JsonHelper.cs" />
     <Compile Include="Calc\RPNType.cs" />

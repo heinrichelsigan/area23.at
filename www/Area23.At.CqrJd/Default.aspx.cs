@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Util;
 using Area23.At.CqrJd.Util;
 using Newtonsoft.Json;
 using QRCoder;
