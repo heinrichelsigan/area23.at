@@ -41,14 +41,20 @@ namespace Area23.At.Mono.CqrJD
             if (ConfigurationManager.AppSettings["ServerIPv4"] != null)
                 this.LiteralServerIPv4.Text = (string)ConfigurationManager.AppSettings["ServerIPv4"];
             if (ConfigurationManager.AppSettings["ServerIPv6"] != null)
-                this.LiteralServerIPv6.Text = (string)ConfigurationManager.AppSettings["ServerIPv6"];                       
-            this.LiteralClientIp.Text = Request.UserHostAddress;
+                this.LiteralServerIPv6.Text = (string)ConfigurationManager.AppSettings["ServerIPv6"];
+            if (ConfigurationManager.AppSettings["ExternalClientIP"] != null)
+                myServerKey = (string)ConfigurationManager.AppSettings["ExternalClientIP"];
+            if (string.IsNullOrEmpty(myServerKey))
+                myServerKey = Request.UserHostAddress;
+
+            this.LiteralClientIp.Text = myServerKey;
 
             if (Request.Headers["User-Agent"] != null)
                 this.LiteralFromClient.Text = (string)Request.Headers["User-Agent"];
             if (Request.Headers["User-Agent:"] != null)
                 this.LiteralFromClient.Text = (string)Request.Headers["User-Agent:"];
-
+            
+            myServerKey += Constants.APP_NAME;
 
             if (!Page.IsPostBack)
             {
@@ -74,24 +80,11 @@ namespace Area23.At.Mono.CqrJD
                 }
 
                 
-
-                if (Application["lastmsg"] != null)
-                {
+                if (Application["lastmsg"] != null)                
                     TextBoxLastMsg.Text = (string)Application["lastmsg"];
-                }
                 if (Application["decrypted"] != null)
-                {
                     this.preLast.InnerHtml = (string)Application["decrypted"];
-                }
-
-                
-                
-                if (ConfigurationManager.AppSettings["ExternalClientIP"] != null)
-                    myServerKey = (string)ConfigurationManager.AppSettings["ExternalClientIP"];
-                else
-                    myServerKey = Request.UserHostAddress;
-                
-                myServerKey += Constants.APP_NAME;
+                                               
                 CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
                 MsgContent msgContent;
                 decrypted = string.Empty;
@@ -114,15 +107,6 @@ namespace Area23.At.Mono.CqrJD
 
                 if (!string.IsNullOrEmpty(decrypted))
                 {
-                    string[] props = decrypted.Split(Environment.NewLine.ToCharArray());
-                    CqrContact c = new CqrContact();
-                    c.Name = props[0];
-                    c.Email = props[1];
-                    //c.Mobile = props[2];
-                    //c.Address = props[3];
-                    _contacts.Add(c);
-                    SaveJsonContacts(_contacts);
-
                     Application["decrypted"] = decrypted;
                 }
                 Application["lastmsg"] = rq;

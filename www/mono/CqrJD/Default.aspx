@@ -7,7 +7,7 @@
     <title>CqrJd Testform</title>
 </head>
 <body>
-    <form id="form1" runat="server" method="post" enctype="text/plain" submitdisabledcontrols="true" novalidate="novalidate" style="background-color: transparent;">
+    <form id="form1" runat="server" method="post" enctype="text/plain" submitdisabledcontrols="true" novalidate="novalidate" enableviewstate="false" style="background-color: transparent;">
         <div>
             <div>
                 <span style="display: block; border-style: outset; border-width: 1px; border-color: azure; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size: larger">

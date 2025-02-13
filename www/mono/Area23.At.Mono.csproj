@@ -550,7 +550,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Library\Area23.At.Framework.Library.csproj">
+    <ProjectReference Include="..\..\Framework\Area23.At.Framework.Library\Area23.At.Framework.Library.csproj">
       <Project>{4133904b-c57a-4f45-ad85-537aa97f765f}</Project>
       <Name>Area23.At.Framework.Library</Name>
     </ProjectReference>

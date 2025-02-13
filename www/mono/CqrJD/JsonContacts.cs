@@ -25,13 +25,15 @@ namespace Area23.At.Mono.CqrJD
 
         internal static HashSet<CqrContact> LoadJsonContacts()
         {
-            lock (_lock)
+            object locker = new object();
+            lock (locker)
             {
                 if (!System.IO.File.Exists(JsonContactsFileName))
                     System.IO.File.Create(JsonContactsFileName);
             }
+            object cyberfyber = new object();
             Thread.Sleep(100);
-            lock (_lock)
+            lock (cyberfyber)
             {
                 string jsonText = System.IO.File.ReadAllText(JsonContactsFileName);
                 _contacts = JsonConvert.DeserializeObject<HashSet<CqrContact>>(jsonText);
