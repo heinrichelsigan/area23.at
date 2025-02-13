@@ -55,7 +55,9 @@ namespace Area23.At.Framework.Core
         public const string IPV6_CQRXS_EU = "ipv6.cqrxs.eu";
         public const string SPAIN_CQRXS_EU = "spain.cqrxs.eu";
         public const string MILAN_CQRXS_EU = "it.cqrxs.eu";
-        public const string PARIS_CQRXS_EU = "fr.cqrxs.eu";
+        public const string FR_CQRXS_EU = "fr.cqrxs.eu";
+        public const string PARIS_CQRXS_EU = "paris.cqrxs.eu";
+        public const string PARISIENNE_CQRXS_EU = "parisienne.cqrxs.eu";
         public const string FRANKFURT_CQRXS_EU = "de.cqrxs.eu";
         public const string STOCKHOLM_CQRXS_EU = "se.cqrxs.eu";
         public const string IRELAND_CQRXS_EU = "ie.cqrxs.eu";
@@ -69,7 +71,9 @@ namespace Area23.At.Framework.Core
         public const string ACK = "Ack";
         public const string NACK = "Nack";
         public const string ENTER_SECRET_KEY = "[enter secret key here]";
-        public const string ENTER_IP_CONTACT = "[Enter peer IPv4 or reachable IPv6 for directly connect]";
+        public const string ENTER_IP_CONTACT = "[Enter IPv4/IPv6 or select Contact]";
+        public const string ENTER_IP = "[Enter peer IPv4/IPv6]";
+        public const string ENTER_CONTACT = "[Enter peer IPv4/IPv6]";
 
         public const string AUTHOR = "Heinrich Elsigan";
         public const string AUTHOR_EMAIL = "heinrich.elsigan@area23.at";
@@ -106,12 +110,14 @@ namespace Area23.At.Framework.Core
         public const string WIN_X64 = "win-x86";
         public const string MIME_EXT = ".mime";
         public const string BASE64_EXT = ".base64";
+        public const string HTML_EXT = ".html";
         public const string ATTACH_FILES_DIR = "AttachFiles";
 
         public const string UTF8_JSON = "utf8symol.json";
         public const string JSON_SAVE_FILE = "urlshort.json";
         public const string JSON_SETTINGS_FILE = "settings.json";
         public const string CQR_CHAT_FILE = "cqr{0}chat.json";
+        public const string PREVIOUS_EXCEPTION = "previous_exception";
         public const string LAST_EXCEPTION = "last_exception";
         public const string COOL_CRYPT_SPLIT = "+-;,:→⇛\t ";
 
@@ -367,8 +373,8 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
 
         public static string Json_Example { get => ResReader.GetValue("json_sample0"); }
 
-        private static System.Globalization.CultureInfo locale = null;
-        private static String defaultLang = null;
+        private static System.Globalization.CultureInfo? locale = null;
+        private static String? defaultLang = null;
 
         /// <summary>
         /// UT DateTime @area23.at including seconds

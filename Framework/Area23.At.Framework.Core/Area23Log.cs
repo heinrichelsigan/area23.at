@@ -1,25 +1,33 @@
 ﻿using NLog;
+using System;
+using System.IO;
 
 namespace Area23.At.Framework.Core
 {
-
 
     /// <summary>
     /// simple singelton logger via NLog
     /// </summary>
     public class Area23Log
     {
-        private static readonly object _lock = new object();
+        private static readonly Lock _atomicLock = new Lock(), _spinLock = new Lock();
         private static readonly Lazy<Area23Log> instance = new Lazy<Area23Log>(() => new Area23Log());
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private static int checkedToday = DateTime.Today.Day;
 
+        private static readonly string area23LogFile = LibPaths.LogFileSystemPath;
+
         /// <summary>
         /// LogFile
         /// </summary>
-        public static string LogFile { get => LibPaths.LogFileSystemPath; }
+        public static string LogFile { get; private set; }
 
+        public static void SetLogFileByAppName(string appName = "")
+        {
+            LogFile = (!string.IsNullOrEmpty(appName)) ? LibPaths.GetLogFilePath(appName) : area23LogFile;
+            instance.Value.InitNLog(appName);
+        }
 
         /// <summary>
         /// Get the Logger
@@ -42,20 +50,22 @@ namespace Area23.At.Framework.Core
             }
         }
 
-
         /// <summary>
         /// LogStatic - static logger without Area23Log.Logger singelton
         /// </summary>
         /// <param name="msg">message to log</param>
-        public static void LogStatic(string msg)
+        /// <param name="appName">application name</param>
+        public static void LogStatic(string msg, string appName = "")
         {
             string logMsg = string.Empty;
+            if (!string.IsNullOrEmpty(appName))
+                LogFile = LibPaths.GetLogFilePath(appName);
 
             if (!CheckedToday)
             {
                 if (!File.Exists(LogFile))
                 {
-                    lock (_lock)
+                    lock (_atomicLock)
                     {
                         try
                         {
@@ -69,7 +79,7 @@ namespace Area23.At.Framework.Core
                     }
                 }
             }
-            lock (_lock)
+            lock (_spinLock)
             {
                 try
                 {
@@ -85,28 +95,52 @@ namespace Area23.At.Framework.Core
             }
         }
 
+
+
         /// <summary>
         /// LogStatic - static logger without Area23Log.Logger singelton
         /// </summary>
         /// <param name="exLog"><see cref="Exception"/> to log</param>
-        public static void LogStatic(Exception exLog)
+        /// <param name="appName">application name</param>
+        public static void LogStatic(Exception exLog, string appName = "")
         {
             string excMsg = String.Format("Exception {0} ⇒ {1}\t{2}\t{3}",
                 exLog.GetType(),
                 exLog.Message,
                 exLog.ToString().Replace("\r", "").Replace("\n", " "),
-                exLog.StackTrace.Replace("\r", "").Replace("\n", " "));
+                exLog.StackTrace?.Replace("\r", "").Replace("\n", " "));
 
-            LogStatic(excMsg);
+            LogStatic(excMsg, appName);
         }
 
         /// <summary>
         /// private Singelton constructor
         /// </summary>
-        private Area23Log()
+        private Area23Log() : this("")
         {
+        }
+
+        /// <summary>
+        /// private Singelton constructor
+        /// </summary>
+        private Area23Log(string appName = "")
+        {
+            InitNLog(appName);
+        }
+
+        private void InitNLog(string appName = "")
+        {
+            if (string.IsNullOrEmpty(appName))
+            {
+                appName = Constants.APP_NAME;
+                LogFile = area23LogFile;
+            }
+            else
+                LogFile = LibPaths.GetLogFilePath(appName);
+
             var config = new NLog.Config.LoggingConfiguration();
             // Targets where to log to: File and Console            
+
             var logfile = new NLog.Targets.FileTarget("logfile") { FileName = LogFile };
             var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
             // Rules for mapping loggers to targets            
@@ -129,6 +163,7 @@ namespace Area23.At.Framework.Core
             NLog.LogLevel nlogLvl = NLog.LogLevel.FromOrdinal(logLevel);
             logger.Log(nlogLvl, msg);
         }
+
 
         #region LogLevelLogger members
 
@@ -198,7 +233,7 @@ namespace Area23.At.Framework.Core
             if (level < 2)
                 Log($"{logPrefix} \t{ex.GetType()} StackTrace: \t{ex.StackTrace}", level);
         }
-    }
 
+    }
 
 }

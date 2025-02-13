@@ -1,21 +1,29 @@
-﻿using System;
+﻿using Area23.At.Framework.Core.Util;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Core.Crypt.CqrJd
 {
 
-
     /// <summary>
     /// Represtents a MimeAttachment
     /// </summary>
+    [DataContract(Name = "MimeAttachment")]
+    [Description("cqrxs.eu mime base64 attachment")]
     public class MimeAttachment
     {
         internal const string MIME_BASE64_FINISH = "\n\r\n";
+
+        #region properties
+
         public string FileName { get; set; }
-        public string MimeType { get; set; }
+        public string Base64Type { get; set; }
         public string Base64Mime { get; set; }
         public int ContentLength { get; set; }
         public string Verification { get; set; }
@@ -23,59 +31,63 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         public string Md5Hash { get; set; }
         public string Sha256Hash { get; set; }
 
-        public string MimeMsg { get; set; }
+        public string MimeMsg { get => this.GetMimeMessage(); }
+
+        #endregion properties
+
+        #region ctors
 
         public MimeAttachment()
         {
             FileName = string.Empty;
-            MimeType = string.Empty;
+            Base64Type = string.Empty;
             Base64Mime = string.Empty;
             ContentLength = 0;
             Md5Hash = string.Empty;
             Sha256Hash = string.Empty;
             Verification = string.Empty;
-            MimeMsg = string.Empty;
         }
 
         public MimeAttachment(string fileName, string mimeType, string base64Mime, string verification)
         {
             FileName = fileName;
-            MimeType = mimeType;
+            Base64Type = mimeType;
             Base64Mime = base64Mime;
             ContentLength = base64Mime.Length;
             Verification = verification;
-            MimeMsg = GetMimeMessage();
         }
 
         public MimeAttachment(string fileName, string mimeType, string base64Mime, string verification, string sMd5 = "", string sSha256 = "")
         {
             FileName = fileName;
-            MimeType = mimeType;
+            Base64Type = mimeType;
             Base64Mime = base64Mime;
             ContentLength = base64Mime.Length;
             Verification = verification;
             Md5Hash = sMd5;
             Sha256Hash = sSha256;
-            MimeMsg = GetMimeMessage();
         }
 
 
         public MimeAttachment(string plainText)
         {
             MimeAttachment mimeAttachment = MimeAttachment.GetBase64Attachment(plainText);
-            MimeType = mimeAttachment.MimeType;
+            Base64Type = mimeAttachment.Base64Type;
             FileName = mimeAttachment.FileName;
             ContentLength = mimeAttachment.ContentLength;
             Verification = mimeAttachment.Verification;
             Md5Hash = mimeAttachment.Md5Hash;
             Sha256Hash = mimeAttachment.Sha256Hash;
             Base64Mime = mimeAttachment.Base64Mime;
-            MimeMsg = mimeAttachment.MimeMsg;
         }
+
+        #endregion ctors
+
+        #region members
 
         public string GetMimeMessage()
         {
-            string mimeMsg = $"Content-Type: {MimeType}; name=\"{FileName}\";\n";
+            string mimeMsg = $"Content-Type: {Base64Type}; name=\"{FileName}\";\n";
             mimeMsg += $"Content-Transfer-Encoding: base64;\n";
             mimeMsg += $"Content-Length: {Base64Mime.Length};\n";
             mimeMsg += $"Content-Verification: {Verification};";
@@ -88,18 +100,50 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             return mimeMsg;
         }
 
+        public string GetWebPage()
+        {
+            string html = $"<html>\n\t<head>\n\t\t<title>{FileName} {Base64Mime}</title>\n\t</head>";
+            html += $"\n\t<body>\n\t\t";
+            if (MimeType.IsMimeTypeImage(Base64Type))
+                html += $"\n\t\t<img src=\"data:{Base64Type};base64,{Base64Mime}\" alt=\"{Base64Type} {FileName}\" />";
+            if (MimeType.IsMimeTypeDocument(Base64Type))
+            {
+                html += $"\n\t\t<object data=\"data:{Base64Type};base64,{Base64Mime}\" type=\"{Base64Type}\" width=\"640px\" height=\"480px\" >";
+                html += $"\n\t\t\t<p>Unable to display {Base64Type} <b>{FileName}</b></p>";
+                html += $"\n\t\t</object>";
+            }
+            if (MimeType.IsMimeTypeAudio(Base64Type))
+            {
+                html += $"\n\t\t<audio controls>";
+                html += $"\n\t\t\t<source src=\"data:{Base64Type};base64,{Base64Mime}\" type=\"{Base64Type}\">";
+                html += $"\n\t\tYour browser does not support the audio element.";
+                html += $"\n\t\t</audio>";
+            }
+            if (MimeType.IsMimeTypeVideo(Base64Type))
+            {
+                html += $"\n\t\t<video width=\"320\" height=\"240\" controls>";
+                html += $"\n\t\t\t<source src=\"data:{Base64Type};base64,{Base64Mime}\" type=\"{Base64Type}\">";
+                html += $"\n\t\tYour browser does not support the video tag.";
+                html += $"\n\t\t</video>";
+            }
+            html += $"\n\t</body>\n\t\t";
+            html += $"\n</html>\n";
+
+
+            return html;
+        }
+
         public MimeAttachment GetMimeAttachment(string plainAttachment)
         {
             MimeAttachment mimeAttachment = MimeAttachment.GetBase64Attachment(plainAttachment);
 
-            MimeType = mimeAttachment.MimeType;
+            Base64Type = mimeAttachment.Base64Type;
             FileName = mimeAttachment.FileName;
             ContentLength = mimeAttachment.ContentLength;
             Verification = mimeAttachment.Verification;
             Md5Hash = mimeAttachment.Md5Hash;
             Sha256Hash = mimeAttachment.Sha256Hash;
             Base64Mime = mimeAttachment.Base64Mime;
-            MimeMsg = mimeAttachment.MimeMsg;
 
             return (MimeAttachment)this;
 
@@ -107,9 +151,13 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
 
         public string GetFileNameContentLength()
         {
-            string fileCLen = FileName + "[" + ContentLength + "]";
+            string fileCLen = FileName + " [" + ContentLength + "]";
             return fileCLen;
         }
+
+        #endregion members
+
+        #region static members
 
         public static MimeAttachment GetBase64Attachment(string plainAttachment)
         {
@@ -167,6 +215,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             MimeAttachment mimeAttach = new MimeAttachment(fileName, mimeType, mimeBase64, verification, md5, sha256);
             return mimeAttach;
         }
+
         public static string GetMimeMessage(string fileName, string mimeType, string base64Mime, string verification, string md5 = "", string sha256 = "")
         {
             string mimeMsg = $"Content-Type: {mimeType}; name=\"{fileName}\";\n";
@@ -182,6 +231,23 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             return mimeMsg;
         }
 
+
+        public static string ToJson(MimeAttachment mimeAttachment)
+        {
+            string jsonText = JsonConvert.SerializeObject(mimeAttachment);
+            return jsonText;
+        }
+
+        public static MimeAttachment FromJson(string jsonText)
+        {
+            MimeAttachment mimeAttach = JsonConvert.DeserializeObject<MimeAttachment>(jsonText);
+            return mimeAttach;
+        }
+
+        #endregion static members
+
+
     }
+
 
 }

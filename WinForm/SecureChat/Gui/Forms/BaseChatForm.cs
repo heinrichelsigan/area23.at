@@ -546,7 +546,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
             catch (Exception exFormClose)
             {
-                CqrException.LastException = exFormClose;
+                CqrException.SetLastException(exFormClose);
                 Area23Log.LogStatic(exFormClose);
             }
             try
@@ -555,7 +555,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
             catch (Exception exFormDispose)
             {
-                CqrException.LastException = exFormDispose;
+                CqrException.SetLastException(exFormDispose);
                 Area23Log.LogStatic(exFormDispose);
             }
 
@@ -615,7 +615,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     }
                     catch (Exception exForm)
                     {
-                        CqrException.LastException = exForm;
+                        CqrException.SetLastException(exForm);
                         Area23Log.LogStatic(exForm);
                     }
                 }
@@ -628,7 +628,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
             catch (Exception ex)
             {
-                CqrException.LastException = ex;
+                CqrException.SetLastException(ex);
                 Area23Log.LogStatic(ex);
             }
 

@@ -34,9 +34,7 @@ namespace Area23.At.Framework.Core.Net
                 serverIps = new List<IPAddress>();
                 foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.CQRXS_EU))
                     serverIps.Add(serverIp);
-                foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.AREA23_AT))
-                    serverIps.Add(serverIp);
-                foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.PARIS_AREA23_AT))
+                foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.PARIS_CQRXS_EU))
                     serverIps.Add(serverIp);
 
                 try
@@ -47,19 +45,10 @@ namespace Area23.At.Framework.Core.Net
                 catch (Exception exVirginia)
                 {
                     Area23Log.LogStatic(exVirginia);
-                }
+                }               
                 try
                 {
-                    foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.VIRGINA_AREA23_AT))
-                        serverIps.Add(serverIp);
-                }
-                catch (Exception exVirginia)
-                {
-                    Area23Log.LogStatic(exVirginia);
-                }
-                try
-                {
-                    foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.PARISIENNE_AREA23_AT))
+                    foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.PARISIENNE_CQRXS_EU))
                         serverIps.Add(serverIp);
                 }
                 catch (Exception exParisienne)

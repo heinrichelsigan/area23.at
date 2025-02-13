@@ -24,7 +24,7 @@ namespace Area23.At.Framework.Core.Crypt.Hash
         }
 
 
-        public static string Hash(byte[] bytes, string fileName = null)
+        public static string Hash(byte[] bytes, string fileName = "")
         {
             byte[] hashed = HashBytes(bytes);
             string hasha = Encoding.UTF8.GetString(hashed);
@@ -37,7 +37,7 @@ namespace Area23.At.Framework.Core.Crypt.Hash
             return hashb.ToLower();
         }
 
-        public static string Hash(Stream s, string fileName = null)
+        public static string Hash(Stream s, string fileName = "")
         {
             byte[] bytes = HashBytes(s);
             string hasha = BitConverter.ToString(bytes).Replace("-", string.Empty);

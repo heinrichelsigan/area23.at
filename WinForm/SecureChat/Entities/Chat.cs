@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Core;
+using Area23.At.Framework.Core.Crypt.CqrJd;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -147,7 +148,7 @@ namespace Area23.At.WinForm.SecureChat.Entities
             }
             catch (Exception ex)
             {
-                CqrException.LastException = ex;
+                CqrException.SetLastException(ex);
                 return false;
             }
             return true;

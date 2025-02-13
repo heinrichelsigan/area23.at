@@ -1,4 +1,5 @@
 using Area23.At.Framework.Core;
+using Area23.At.Framework.Core.Crypt.CqrJd;
 using Area23.At.Framework.Core.Win32Api;
 using Area23.At.WinForm.SecureChat.Entities;
 using System;
@@ -67,7 +68,7 @@ namespace Area23.At.WinForm.SecureChat
                     catch (Exception exRelease)
                     {
                         Area23Log.LogStatic(exRelease);
-                        CqrException.LastException = exRelease;
+                        CqrException.SetLastException(exRelease);
                         ex = exRelease;
                     }
                     try
@@ -77,7 +78,7 @@ namespace Area23.At.WinForm.SecureChat
                     catch (Exception exClose)
                     {
                         Area23Log.LogStatic(exClose);
-                        CqrException.LastException = exClose;
+                        CqrException.SetLastException(exClose);
                         ex = exClose;
                     }
                     try
@@ -87,7 +88,7 @@ namespace Area23.At.WinForm.SecureChat
                     catch (Exception exDispose)
                     {
                         Area23Log.LogStatic(exDispose);
-                        CqrException.LastException = exDispose;
+                        CqrException.SetLastException(exDispose);
                         ex = exDispose;
                     }
 
@@ -100,7 +101,7 @@ namespace Area23.At.WinForm.SecureChat
             catch (Exception exNull)
             {
                 Area23Log.LogStatic(exNull);
-                CqrException.LastException = exNull;
+                CqrException.SetLastException(exNull);
                 ex = exNull;
             }
             finally

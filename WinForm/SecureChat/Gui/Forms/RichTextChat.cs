@@ -196,7 +196,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             // TODO: test case later
 
             CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
-            this.TextBoxPipe.Text = serverMessage.symmPipe.PipeString;
+            this.TextBoxPipe.Text = serverMessage.PipeString;
 
         }
 
@@ -361,7 +361,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 this.ComboBoxSecretKey.Text = myServerKey;
 
             CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
-            this.TextBoxPipe.Text = serverMessage.symmPipe.PipeString;
+            this.TextBoxPipe.Text = serverMessage.PipeString;
 
             Contact myContact = Entities.Settings.Instance.MyContact;
             string plain = myContact.Name + Environment.NewLine + myContact.Email + Environment.NewLine +
@@ -535,7 +535,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     string base64Mime = Base64.Encode(fileBytes);
 
                     CqrPeer2PeerMsg pmsg = new CqrPeer2PeerMsg(myServerKey);
-                    string unencrypted = MimeAttachment.GetMimeMessage(fileNameOnly, mimeType, base64Mime, pmsg.symmPipe.PipeString);
+                    string unencrypted = MimeAttachment.GetMimeMessage(fileNameOnly, mimeType, base64Mime, pmsg.PipeString);
 
                     try
                     {
@@ -659,7 +659,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     }
                     catch (Exception exBmp)
                     {
-                        CqrException.LastException = exBmp;
+                        CqrException.SetLastException(exBmp);
                     }
 
                     // var badge = new TransparentBadge("My contact added!");
@@ -887,7 +887,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 }
                 catch (Exception ex)
                 {
-                    CqrException.LastException = ex;
+                    CqrException.SetLastException(ex);
                     Area23Log.LogStatic(ex);
                 }
             }
@@ -903,7 +903,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 }
                 catch (Exception ex)
                 {
-                    CqrException.LastException = ex;
+                    CqrException.SetLastException(ex);
                     Area23Log.LogStatic(ex);
                 }
             }

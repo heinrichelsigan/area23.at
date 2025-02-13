@@ -147,6 +147,7 @@ namespace Area23.At.Framework.Core.Util
             return mime;
         }
 
+
         /// <summary>
         /// GetFileExtForMimeTypeApache
         /// </summary>
@@ -295,6 +296,124 @@ namespace Area23.At.Framework.Core.Util
             }
 
             return "hex";
+        }
+
+
+        public static bool IsMimeTypeImage(string mimeString)
+        {
+            //Ensure that the mimeString isn't empty or null
+            if (string.IsNullOrWhiteSpace(mimeString))
+                mimeString = "application/octet-stream";
+
+            //Get the file extension
+            switch (mimeString.ToLower())
+            {
+                case "image/avif":
+                case "image/bmp":
+                case "image/gif":
+                case "image/ief":
+                case "image/jpg":
+                case "image/jpeg":
+                case "image/png":
+                case "image/vnd.adobe.photoshop":
+                case "image/svg":
+                case "image/svg+xml":
+                case "image/tiff":
+                case "image/vnd.xiff":
+                case "image/x-icon":
+                case "image/x-pcx":
+                case "image/x-pict":
+                case "image/x-rgb":
+                case "image/x-xbitmap":
+                case "image/x-xpixmap":
+                case "image/xcf": return true;
+                default: break;
+            }
+            return false;
+        }
+
+        public static bool IsMimeTypeAudio(string mimeString)
+        {
+            //Ensure that the mimeString isn't empty or null
+            if (string.IsNullOrWhiteSpace(mimeString))
+                mimeString = "application/octet-stream";
+
+            //Get the file extension
+            switch (mimeString.ToLower())
+            {
+                case "audio/3gpp":
+                case "audio/3gpp2":
+                case "audio/aac":
+                case "audio/aiff":
+                case "audio/basic":
+                case "audio/midi":
+                case "audio/mp4":
+                case "audio/mpeg":
+                case "audio/ogg":
+                case "audio/webm":
+                case "audio/x-aiff":
+                case "audio/x-mpegurl":
+                case "audio/x-wav":
+                case "audio/x-ms-wax":
+                case "audio/x-ms-wma": return true;
+                default: break;
+            }
+            return false;
+        }
+
+        public static bool IsMimeTypeVideo(string mimeString)
+        {
+            //Ensure that the mimeString isn't empty or null
+            if (string.IsNullOrWhiteSpace(mimeString))
+                mimeString = "application/octet-stream";
+
+            //Get the file extension
+            switch (mimeString.ToLower())
+            {
+                case "video/3gpp":
+                case "video/3gpp2":
+                case "video/mp4":
+                case "video/mpeg":
+                case "video/ogg":
+                case "video/quicktime":
+                case "video/vnd.mpegurl":
+                case "video/webm":
+                case "video/x-f4v":
+                case "video/x-flv":
+                case "video/x-m4v":
+
+                case "video/x-msvideo":
+                case "video/x-ms-wmv":
+                case "video/x-sgi-movie":
+                    return true;
+                default: break;
+            }
+            return false;
+        }
+
+        public static bool IsMimeTypeDocument(string mimeString)
+        {
+            //Ensure that the mimeString isn't empty or null
+            if (string.IsNullOrWhiteSpace(mimeString))
+                mimeString = "application/octet-stream";
+
+            //Get the file extension
+            switch (mimeString.ToLower())
+            {
+                case "application/msword":
+                case "application/pdf":
+                case "application/postscript":
+                case "application/rtf":
+                case "application/vnd.ms-excel":
+                case "application/vnd.ms-powerpoint":
+                case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+                case "application/vnd.oasis.opendocument.presentation":
+                case "application/vnd.oasis.opendocument.text":
+                case "application/vnd.visio":
+                    return true;
+                default: break;
+            }
+            return false;
         }
 
     }

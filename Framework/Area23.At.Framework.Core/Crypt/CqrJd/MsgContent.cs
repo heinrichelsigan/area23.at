@@ -70,7 +70,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             if (IsMimeAttachment())
             {
                 string verification = _message.Substring(_message.IndexOf("Content-Verification: ") + "Content-Verification: ".Length);
-                _hash = verification.Substring(0, verification.IndexOf(";\n"));
+                _hash = verification.Substring(0, verification.IndexOf(";"));
             }
 
             if (_hash.Length > 6 && _message.Substring(_message.Length - 8, 8).Equals(_hash, StringComparison.InvariantCulture))
@@ -99,6 +99,8 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         {
             return _message.ToString();
         }
+
+
     }
 
 }

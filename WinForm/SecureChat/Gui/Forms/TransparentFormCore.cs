@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Xml;
 using Area23.At.Framework.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
+using Area23.At.Framework.Core.Crypt.CqrJd;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -290,7 +291,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             }
             catch (Exception ex)
             {
-                CqrException.LastException = ex;
+                CqrException.SetLastException(ex);
                 Area23Log.LogStatic(ex);
             }
 

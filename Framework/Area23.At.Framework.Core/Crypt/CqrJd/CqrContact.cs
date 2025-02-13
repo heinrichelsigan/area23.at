@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 
-namespace Area23.At.Framework.Library.Crypt.CqrJd
+namespace Area23.At.Framework.Core.Crypt.CqrJd
 {
 
     /// <summary>
@@ -29,18 +29,16 @@ namespace Area23.At.Framework.Library.Crypt.CqrJd
 
         public string Email { get; set; }
 
-        public string Mobile { get; set; }
+        public string? Mobile { get; set; }
 
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
-        public string SecretKey { get; set; }
+        public string? SecretKey { get; set; }
 
+        
+        public CqrImage? ContactImage { get; set; }
 
-        public CqrImage ContactImage { get; set; }
-
-
-        public string NameEmail { get => string.IsNullOrEmpty(Email) ? Name : $"{Name} <{Email}>"; }
-
+        public string? NameEmail { get => string.IsNullOrEmpty(Email) ? Name : $"{Name} <{Email}>"; }
 
         #endregion properties
 
@@ -58,7 +56,7 @@ namespace Area23.At.Framework.Library.Crypt.CqrJd
             ContactImage = null;
         }
 
-        public CqrContact(int contactId, string name, string email, string mobile, string address)
+        public CqrContact(int contactId, string name, string email, string? mobile, string? address)
         {
             this.ContactId = contactId;
             this.Name = name;
@@ -67,7 +65,7 @@ namespace Area23.At.Framework.Library.Crypt.CqrJd
             this.Address = address;
         }
 
-        public CqrContact(Guid guid, string name, string email, string mobile, string address)
+        public CqrContact(Guid guid, string name, string email, string? mobile, string? address)
         {
             this.Cuid = guid;
             this.Name = name;
@@ -76,23 +74,23 @@ namespace Area23.At.Framework.Library.Crypt.CqrJd
             this.Address = address;
         }
 
-        public CqrContact(int contactId, string name, string email, string mobile, string address, CqrImage cqrImage) : this(contactId, name, email, mobile, address)
+        public CqrContact(int contactId, string name, string email, string? mobile, string? address, CqrImage? cqrImage) : this(contactId, name, email, mobile, address)
         {
             ContactImage = cqrImage;
         }
 
-        public CqrContact(int contactId, Guid cuid, string name, string email, string mobile, string address, CqrImage cqrImage) : this(contactId, name, email, mobile, address)
+        public CqrContact(int contactId, Guid cuid, string name, string email, string? mobile, string? address, CqrImage? cqrImage) : this(contactId, name, email, mobile, address)
         {
             Cuid = cuid;
             ContactImage = cqrImage;
         }
 
-        public CqrContact(int contactId, string name, string email, string mobile, string address, Image image) : this(contactId, name, email, mobile, address)
+        public CqrContact(int contactId, string name, string email, string? mobile, string? address, Image? image) : this(contactId, name, email, mobile, address)
         {
             ContactImage = CqrImage.FromDrawingImage(image);
         }
 
-        public CqrContact(int contactId, Guid cuid, string name, string email, string mobile, string address, Image image) : this(contactId, name, email, mobile, address)
+        public CqrContact(int contactId, Guid cuid, string name, string email, string? mobile, string? address, Image? image) : this(contactId, name, email, mobile, address)
         {
             Cuid = cuid;
             ContactImage = CqrImage.FromDrawingImage(image);
@@ -166,7 +164,7 @@ namespace Area23.At.Framework.Library.Crypt.CqrJd
         }
 
         #endregion members
-    
+
     }
 
 }

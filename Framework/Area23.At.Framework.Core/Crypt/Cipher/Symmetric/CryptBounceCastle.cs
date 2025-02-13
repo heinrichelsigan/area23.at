@@ -26,8 +26,8 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
         private string privateHash = string.Empty;
 
-        private byte[] tmpIv;
-        private byte[] tmpKey;
+        private byte[]? tmpIv;
+        private byte[]? tmpKey;
 
         #endregion fields
 

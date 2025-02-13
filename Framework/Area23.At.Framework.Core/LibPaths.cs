@@ -21,6 +21,8 @@ namespace Area23.At.Framework.Core
         private static string systemDirPath = "";
         private static string systemDirResPath = "";
         private static string logDirPath = "";
+        private static string logFilePath = "";
+        private static int daysave = -1;
 
         public static char SepCh { get => Path.DirectorySeparatorChar; }
 
@@ -61,7 +63,9 @@ namespace Area23.At.Framework.Core
                 if (String.IsNullOrEmpty(baseAppPath))
                 {
                     string basApPath = "";
-                    if ((SepCh == '/') && (System.Configuration.ConfigurationManager.AppSettings["BaseAppPathUnix"] != null))
+                    if (SepCh == '/' && 
+                        System.Configuration.ConfigurationManager.AppSettings["BaseAppPathUnix"] != null && 
+                        System.Configuration.ConfigurationManager.AppSettings["BaseAppPathUnix"] != "")
                         basApPath = System.Configuration.ConfigurationManager.AppSettings["BaseAppPathUnix"];
                     else if (System.Configuration.ConfigurationManager.AppSettings["BaseAppPathWin"] != null)
                         basApPath = System.Configuration.ConfigurationManager.AppSettings["BaseAppPathWin"];
@@ -97,6 +101,7 @@ namespace Area23.At.Framework.Core
 
         #endregion Web App Paths
 
+
         #region directory & file paths
 
         /// <summary>
@@ -124,7 +129,7 @@ namespace Area23.At.Framework.Core
                                     systemDirPath = (string)ConfigurationManager.AppSettings["AppDirPathWin"]; break;
                             case 2: systemDirPath = Path.GetFullPath(System.Reflection.Assembly.GetExecutingAssembly().Location); break;
                             case 3: if (AppContext.BaseDirectory != null) systemDirPath = AppContext.BaseDirectory; break;
-                            case 4: if (AppDomain.CurrentDomain != null) systemDirPath = AppDomain.CurrentDomain.BaseDirectory; break;
+                            case 4: if (AppDomain.CurrentDomain != null) systemDirPath = AppDomain.CurrentDomain.BaseDirectory; break;                            
                             case 5:
                             default: systemDirPath = Path.GetFullPath(Assembly.GetExecutingAssembly().Location); break;
                         }
@@ -185,6 +190,7 @@ namespace Area23.At.Framework.Core
             }
         }
 
+
         public static string SystemDirBinPath { get => SystemDirResPath + Constants.BIN_DIR + SepChar; }
 
         public static string AdditionalBinDir { get => SystemDirResPath + Constants.BIN_DIR + SepChar; }
@@ -205,6 +211,11 @@ namespace Area23.At.Framework.Core
 
         public static string AttachmentFilesDir { get => SystemDirPath + Constants.ATTACH_FILES_DIR + SepChar; }
 
+        #region LogFiles and LogPaths
+
+        /// <summary>
+        /// SystemDirLogPath gets the default full path to logfile in file system
+        /// </summary>
         public static string SystemDirLogPath
         {
             get
@@ -215,8 +226,6 @@ namespace Area23.At.Framework.Core
 
                     if (!Directory.Exists(logDirPath))
                     {
-                        string dirNotFoundMsg = String.Format("{0} directory {1} doesn't exist, creating it!", Constants.LOG_DIR, logDirPath);
-                        // Area23Log.LogStatic(dirNotFoundMsg);
                         try
                         {
                             Directory.CreateDirectory(logDirPath);
@@ -228,7 +237,37 @@ namespace Area23.At.Framework.Core
             }
         }
 
+        /// <summary>
+        /// GetLogFilePath - gets individual named logfile with substring appName
+        /// </summary>
+        /// <param name="appName">application name to customize logfile name</param>
+        /// <returns>Full file path to log file in file system</returns>
+        public static string GetLogFilePath(string appName)
+        {
+            int day = System.DateTime.UtcNow.DayOfYear;
+            if (daysave != day)
+            {
+                daysave = day;
+                logFilePath = "";
+            }
+            if (string.IsNullOrEmpty(logFilePath))
+            {
+                logFilePath = SystemDirLogPath + DateTime.UtcNow.Area23Date() + Constants.UNDER_SCORE + appName + Constants.LOG_EXT;
+                if (!File.Exists(logFilePath))
+                {
+                    try
+                    {
+                        File.Create(logFilePath);
+                    }
+                    catch { }
+                }
+            }
+            return logFilePath;
+        }
+
         public static string LogFileSystemPath { get => SystemDirLogPath + Constants.AppLogFile; }
+
+        #endregion LogFiles and LogPaths
 
         #endregion directory & file paths
 
