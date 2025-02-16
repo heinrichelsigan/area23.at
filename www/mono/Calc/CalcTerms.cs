@@ -688,7 +688,7 @@ namespace Area23.At.Mono.Calc
                         dnum1 = PIEulerParse(STerms[th + 2].Elem);                        
                         try
                         {
-                            lnum0 = PIEulerParseInt64(STerms[tf].Elem);
+                            lnum0 = PIEulerParseInt64(STerms[th].Elem);
                             lnum1 = PIEulerParseInt64(STerms[th + 2].Elem);
                         }
                         catch (Exception ex)
