@@ -8,15 +8,14 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Core.Crypt.CqrJd
+namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 {
 
     /// <summary>
     /// Represtents a MimeAttachment
     /// </summary>
     [DataContract(Name = "MimeAttachment")]
-    [Description("cqrxs.eu mime base64 attachment")]
-    public class MimeAttachment
+    public class MimeAttachment : MsgContent
     {
         internal const string MIME_BASE64_FINISH = "\n\r\n";
 
@@ -31,7 +30,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         public string Md5Hash { get; set; }
         public string Sha256Hash { get; set; }
 
-        public string MimeMsg { get => this.GetMimeMessage(); }
+        public string MimeMsg { get => GetMimeMessage(); }
 
         #endregion properties
 
@@ -71,7 +70,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
 
         public MimeAttachment(string plainText)
         {
-            MimeAttachment mimeAttachment = MimeAttachment.GetBase64Attachment(plainText);
+            MimeAttachment mimeAttachment = GetBase64Attachment(plainText);
             Base64Type = mimeAttachment.Base64Type;
             FileName = mimeAttachment.FileName;
             ContentLength = mimeAttachment.ContentLength;
@@ -135,7 +134,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
 
         public MimeAttachment GetMimeAttachment(string plainAttachment)
         {
-            MimeAttachment mimeAttachment = MimeAttachment.GetBase64Attachment(plainAttachment);
+            MimeAttachment mimeAttachment = GetBase64Attachment(plainAttachment);
 
             Base64Type = mimeAttachment.Base64Type;
             FileName = mimeAttachment.FileName;
@@ -145,7 +144,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             Sha256Hash = mimeAttachment.Sha256Hash;
             Base64Mime = mimeAttachment.Base64Mime;
 
-            return (MimeAttachment)this;
+            return this;
 
         }
 
@@ -154,6 +153,29 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             string fileCLen = FileName + " [" + ContentLength + "]";
             return fileCLen;
         }
+
+
+        public override MimeAttachment ToMimeAttachment()
+        {
+            if (!IsMimeAttachment())
+                throw new InvalidCastException($"MsgContent Message={_message} isn't a mime attachment!");
+
+            MimeAttachment mAttach = MimeAttachment.GetBase64Attachment(_message);
+            this.Base64Mime = mAttach.Base64Mime;
+            this.FileName = mAttach.FileName;
+            this.ContentLength = mAttach.ContentLength;
+            this.Verification = mAttach.Verification;
+            this.Base64Type = mAttach.Base64Type;
+            this.Md5Hash = mAttach.Md5Hash;
+            this.Sha256Hash = mAttach.Sha256Hash;
+            this._hash = mAttach._hash;
+            this._message = mAttach._message;
+            this._isMime = true;
+
+
+            return mAttach;
+        }
+
 
         #endregion members
 
@@ -175,10 +197,10 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             string contentLenString = string.Empty;
             foreach (char ch in contentLengthString.ToCharArray())
             {
-                if (Char.IsDigit(ch) || Char.IsNumber(ch) || ch == '.')
+                if (char.IsDigit(ch) || char.IsNumber(ch) || ch == '.')
                     contentLenString += ch.ToString();
             }
-            int contentLen = Int32.Parse(contentLenString);
+            int contentLen = int.Parse(contentLenString);
 
             restString = restString.Substring(restString.IndexOf("Content-Verification: ") + "Content-Verification: ".Length);
             string verification = restString.Substring(0, restString.IndexOf(";"));

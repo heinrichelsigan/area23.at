@@ -32,40 +32,42 @@ namespace Area23.At.Framework.Core.Net
             if (serverIps == null || serverIps.Count == 0)
             {
                 serverIps = new List<IPAddress>();
-                foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.CQRXS_EU))
-                    serverIps.Add(serverIp);
-                foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.PARIS_CQRXS_EU))
-                    serverIps.Add(serverIp);
-
-                try
-                {
-                    foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.IPV6_CQRXS_EU))
-                        serverIps.Add(serverIp);
-                }
-                catch (Exception exVirginia)
-                {
-                    Area23Log.LogStatic(exVirginia);
-                }               
-                try
-                {
-                    foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.PARISIENNE_CQRXS_EU))
-                        serverIps.Add(serverIp);
-                }
-                catch (Exception exParisienne)
-                {
-                    Area23Log.LogStatic(exParisienne);
-                }
             }
+
+            foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.CQRXS_EU))
+                if (!serverIps.Contains(serverIp))
+                    serverIps.Add(serverIp);
+            // foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.PARIS_CQRXS_EU))
+            //     serverIps.Add(serverIp);
+
+            try
+            {
+                foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.IPV6_CQRXS_EU))
+                    if (!serverIps.Contains(serverIp))
+                        serverIps.Add(serverIp);
+            }
+            catch (Exception exV6)
+            {
+                Area23Log.LogStatic(exV6);
+            }               
+            //try
+            //{
+            //    foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.PARISIENNE_CQRXS_EU))
+            //      serverIps.Add(serverIp);
+            //}
+            //catch (Exception exParisienne)
+            //{
+            //    Area23Log.LogStatic(exParisienne);
+            //}
 
             foreach (IPAddress serverIp in serverIps)
             {
-                IPAddress clientIp;
+                IPAddress clientIp, realClientIp;
                 string resp = string.Empty;
                 try
                 {
-                    resp = TcpClientWebRequest.MakeWebRequest(serverIp);
-
-                    clientIp = IPAddress.Parse(resp);
+                    resp = TcpClientWebRequest.MakeWebRequest(serverIp, out clientIp, out realClientIp);
+                    clientIp = clientIp ?? IPAddress.Parse(resp);
                     if (!validAddrs.Contains(clientIp))
                         validAddrs.Add(clientIp);
                 }

@@ -1,13 +1,15 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Core.Crypt.CqrJd
+namespace Area23.At.Framework.Library.Crypt.CqrJd
 {
-    public class CqrSettings 
+
+    public class CqrSettings
     {
         // TODO: replace it in C# 9.0 to private static readonly lock _lock
         protected static readonly object _lock = true;
@@ -15,14 +17,14 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         protected static readonly Lazy<CqrSettings> _instance =
             new Lazy<CqrSettings>(() => new CqrSettings());
 
-        
+
         #region properties
 
         public static CqrSettings Instance { get => _instance.Value; }
 
         public DateTime TimeStamp { get; set; }
 
-        public DateTime? SaveStamp { get; set; }
+        public DateTime SaveStamp { get; set; }
 
         public CqrContact MyContact { get; set; }
 
@@ -75,10 +77,10 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         /// and deserialize it to singleton instance <see cref="CqrSettings"/> of <seealso cref="Lazy{Settings}"/>
         /// </summary>
         /// <returns>singelton <see cref="CqrSettings.Instance"/></returns>
-        public static CqrSettings? Load()
+        public static CqrSettings Load()
         {
             string settingsJsonString = string.Empty;
-            CqrSettings? settings = null;
+            CqrSettings settings = null;
             string fileName = LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE;
             try
             {
@@ -115,7 +117,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         /// </summary>
         /// <param name="CqrSettings">settings to save</param>
         /// <returns>true on successfully save</returns>
-        public static bool Save(CqrSettings? settings)
+        public static bool Save(CqrSettings settings)
         {
             string saveString = string.Empty;
             if (settings == null)

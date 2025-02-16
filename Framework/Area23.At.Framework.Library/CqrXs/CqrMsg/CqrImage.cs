@@ -1,18 +1,17 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Area23.At.Framework.Library.Util;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.Drawing;
 using System.IO;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Area23.At.Framework.Core.Util;
-using System.Drawing.Imaging;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace Area23.At.Framework.Core.Crypt.CqrJd
+namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 {
 
     /// <summary>
@@ -23,7 +22,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
     public class CqrImage
     {
 
-        #region properties
+        #region properties 
 
         /// <summary>
         /// File Name with extension of Image
@@ -45,7 +44,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         /// </summary>
         public string ImageBase64 { get; set; }
 
-        #endregion properties
+        #endregion properties 
 
         #region constructors
 
@@ -94,9 +93,9 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         /// <param name="fileName">fileName for the image,
         /// if fileName is null or empty
         /// then a name <see cref="Util.Extensions.Area23DateTimeWithMillis(DateTime)"/></param> + "_image." + extension based mime type will be given
-        public CqrImage(Image image, string? fileName = "")
+        public CqrImage(Image image, string fileName = "")
         {
-            CqrImage? cqrImage = CqrImage.FromDrawingImage(image, fileName);
+            CqrImage cqrImage = CqrImage.FromDrawingImage(image, fileName);
             if (cqrImage != null)
             {
                 this.ImageFileName = cqrImage.ImageFileName;
@@ -117,9 +116,9 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             return jsonString;
         }
 
-        public virtual CqrImage? FromJson(string jsonText)
+        public virtual CqrImage FromJson(string jsonText)
         {
-            CqrImage? cqrJsonImage;
+            CqrImage cqrJsonImage;
             try
             {
                 cqrJsonImage = JsonConvert.DeserializeObject<CqrImage>(jsonText);
@@ -139,11 +138,10 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
 
             return null;
         }
-      
-        public virtual Bitmap? ToDrawingBitmap()
-        {
-            Bitmap? bmpImage;
 
+        public virtual Bitmap ToDrawingBitmap()
+        {
+            Bitmap bmpImage;
             using (MemoryStream ms = new MemoryStream(ImageData))
             {
                 bmpImage = new Bitmap(ms, true);
@@ -151,10 +149,6 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
 
             return bmpImage;
         }
-
-        #endregion members
-
-        #region static members
 
         public static void SaveCqrImage(CqrImage image, string directoryPath)
         {
@@ -167,38 +161,41 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             return;
         }
 
+        #endregion members
+
+        #region static members
 
         public static CqrImage LoadCqrImage(string imageFilePath)
         {
             if (!File.Exists(imageFilePath))
                 throw new FileNotFoundException($"File {imageFilePath} could not be found.");
 
-            
+
             string fileName = Path.GetFileName(imageFilePath);
             byte[] data = File.ReadAllBytes(imageFilePath);
             CqrImage image = new CqrImage(fileName, data);
             return image;
-           
+
         }
 
-        public static Image? ToDrawingImage(CqrImage cqrImage)
+        public static Image ToDrawingImage(CqrImage cqrImage)
         {
-            Bitmap? bmpImage;
+            Bitmap bmpImage;
 
             using (MemoryStream ms = new MemoryStream(cqrImage.ImageData))
             {
                 bmpImage = new Bitmap(ms, true);
             }
-            
-            return (Image?)bmpImage;
+
+            return (Image)bmpImage;
         }
 
-        public static CqrImage? FromDrawingImage(System.Drawing.Image? image, string? imgName = "")
+        public static CqrImage FromDrawingImage(System.Drawing.Image image, string imgName = "")
         {
             if (image == null)
                 return null;
 
-            CqrImage? cqrImage;
+            CqrImage cqrImage;
             // ImageFormat format = image.RawFormat;
             byte[] imageData;
             string fileName = (string.IsNullOrEmpty(imgName)) ? string.Empty : imgName;
@@ -244,7 +241,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
                         image.Save(ms, ImageFormat.Wmf);
                     }
                     else if (image.RawFormat == ImageFormat.Emf)
-                    {                        
+                    {
                         fileName += "emf";
                         image.Save(ms, ImageFormat.Emf);
                     }
@@ -301,13 +298,13 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
                         case "ico":
                         case ".ico":
                             image.Save(ms, ImageFormat.Icon);
-                            break;                        
+                            break;
                         default:
                             image.Save(ms, image.RawFormat);
                             break;
                     }
                 }
-            
+
 
                 imageData = ms.ToByteArray();
                 cqrImage = new CqrImage(fileName, imageData);
@@ -317,6 +314,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         }
 
         #endregion static members
+
     }
 
 }

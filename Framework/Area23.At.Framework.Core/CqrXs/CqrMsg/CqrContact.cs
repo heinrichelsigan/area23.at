@@ -8,14 +8,12 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace Area23.At.Framework.Core.Crypt.CqrJd
+namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 {
 
     /// <summary>
     /// CqrContact is a contact for CqrJd
-    /// </summary>
-    [DataContract(Name = "CqrContact")]
-    [Description("cqrxs.eu contact")]
+    /// </summary>EL
     public class CqrContact
     {
 
@@ -35,7 +33,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
 
         public string? SecretKey { get; set; }
 
-        
+
         public CqrImage? ContactImage { get; set; }
 
         public string? NameEmail { get => string.IsNullOrEmpty(Email) ? Name : $"{Name} <{Email}>"; }
@@ -58,20 +56,20 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
 
         public CqrContact(int contactId, string name, string email, string? mobile, string? address)
         {
-            this.ContactId = contactId;
-            this.Name = name;
-            this.Email = email;
-            this.Mobile = mobile;
-            this.Address = address;
+            ContactId = contactId;
+            Name = name;
+            Email = email;
+            Mobile = mobile;
+            Address = address;
         }
 
         public CqrContact(Guid guid, string name, string email, string? mobile, string? address)
         {
-            this.Cuid = guid;
-            this.Name = name;
-            this.Email = email;
-            this.Mobile = mobile;
-            this.Address = address;
+            Cuid = guid;
+            Name = name;
+            Email = email;
+            Mobile = mobile;
+            Address = address;
         }
 
         public CqrContact(int contactId, string name, string email, string? mobile, string? address, CqrImage? cqrImage) : this(contactId, name, email, mobile, address)
@@ -115,13 +113,13 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
                 cqrContactJson = JsonConvert.DeserializeObject<CqrContact>(jsonText);
                 if (cqrContactJson != null && cqrContactJson.ContactId > -1 && !string.IsNullOrEmpty(cqrContactJson?.Name))
                 {
-                    this.ContactId = cqrContactJson.ContactId;
-                    this.Cuid = cqrContactJson.Cuid;
-                    this.Name = cqrContactJson.Name;
-                    this.Email = cqrContactJson.Email;
-                    this.Mobile = cqrContactJson.Mobile;
-                    this.Address = cqrContactJson.Address;
-                    this.ContactImage = cqrContactJson.ContactImage;
+                    ContactId = cqrContactJson.ContactId;
+                    Cuid = cqrContactJson.Cuid;
+                    Name = cqrContactJson.Name;
+                    Email = cqrContactJson.Email;
+                    Mobile = cqrContactJson.Mobile;
+                    Address = cqrContactJson.Address;
+                    ContactImage = cqrContactJson.ContactImage;
                     return cqrContactJson;
                 }
             }
@@ -135,22 +133,22 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
 
         public override string ToString()
         {
-            return (
-                "NameEmail: " + this.NameEmail + ";" + Environment.NewLine +
-                "ContactId: " + this.ContactId + ";" + Environment.NewLine +
-                "Cuid: " + this.Cuid + ";" + Environment.NewLine +
-                "Name: " + this.Name + ";" + Environment.NewLine +
-                "Email: " + this.Email + ";" + Environment.NewLine +
-                "Mobile: " + this.Mobile + ";" + Environment.NewLine +
-                "Address: " + this.Address + ";" + Environment.NewLine +
-                "ImageFileName: " + this.ContactImage.ImageFileName + ";" + Environment.NewLine +
-                "ImageMimeType: " + this.ContactImage.ImageMimeType + ";" + Environment.NewLine +
-                "ImageBase64: " + this.ContactImage?.ImageBase64 + Environment.NewLine
-                );
+            return
+                "NameEmail: " + NameEmail + ";" + Environment.NewLine +
+                "ContactId: " + ContactId + ";" + Environment.NewLine +
+                "Cuid: " + Cuid + ";" + Environment.NewLine +
+                "Name: " + Name + ";" + Environment.NewLine +
+                "Email: " + Email + ";" + Environment.NewLine +
+                "Mobile: " + Mobile + ";" + Environment.NewLine +
+                "Address: " + Address + ";" + Environment.NewLine +
+                "ImageFileName: " + ContactImage.ImageFileName + ";" + Environment.NewLine +
+                "ImageMimeType: " + ContactImage.ImageMimeType + ";" + Environment.NewLine +
+                "ImageBase64: " + ContactImage?.ImageBase64 + Environment.NewLine
+                ;
         }
 
         /// <summary>
-        /// <see cref="object[]">RowParams</see> gets an object array of row parameters to show in <see cref="System.Windows.Forms.DataGridView"/>
+        /// <see cref="object[]">RowParams</see> gets an object array of row parameters to show in <see cref="DataGridView"/>
         /// </summary>
         public object[] GetRowParams()
         {

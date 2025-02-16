@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Core.Crypt.CqrJd
+namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 {
 
     /// <summary>
@@ -38,7 +38,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             MsgContent msgContent = new MsgContent(plainMsg);
             _message = msgContent.Message;
 
-            return (MsgContent)this;
+            return this;
         }
 
         public virtual bool IsMimeAttachment()
@@ -52,10 +52,10 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
                 string checkContentLength = _message.Substring(_message.IndexOf("Content-Length: ") + "Content-Length: ".Length);
                 checkContentLength = checkContentLength.Substring(0, checkContentLength.IndexOf(";\n"));
                 int contentLen = 0;
-                if (!Int32.TryParse(checkContentLength, out contentLen))
+                if (!int.TryParse(checkContentLength, out contentLen))
                     contentLen = -1;
 
-                _isMime = (contentLen > 0);
+                _isMime = contentLen > 0;
             }
 
             return _isMime.Value;
@@ -66,7 +66,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             if (!string.IsNullOrEmpty(_hash))
                 return _hash;
 
-            _hash = (_message.Length > 8) ? _message.Substring(_message.Length - 8) : _message;
+            _hash = _message.Length > 8 ? _message.Substring(_message.Length - 8) : _message;
             if (IsMimeAttachment())
             {
                 string verification = _message.Substring(_message.IndexOf("Content-Verification: ") + "Content-Verification: ".Length);
@@ -79,7 +79,8 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             return _hash;
         }
 
-        public MimeAttachment ToMimeAttachment()
+
+        public virtual MimeAttachment ToMimeAttachment()
         {
             if (!IsMimeAttachment())
                 throw new InvalidCastException($"MsgContent Message={_message} isn't a mime attachment!");
@@ -87,6 +88,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             MimeAttachment mimeAttachment = MimeAttachment.GetBase64Attachment(_message);
             return mimeAttachment;
         }
+
 
         public static MsgContent GetMessageContent(string plainMsg)
         {

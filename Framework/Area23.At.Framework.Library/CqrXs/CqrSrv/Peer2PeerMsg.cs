@@ -1,32 +1,33 @@
-﻿using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Core.Crypt.Cipher;
-using Area23.At.Framework.Core.Crypt.EnDeCoding;
-using Area23.At.Framework.Core.Net.WebHttp;
+﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Library.Crypt.Cipher;
+using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Net.IpSocket;
+using Area23.At.Framework.Library.Net.WebHttp;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Area23.At.Framework.Core.Net.IpSocket;
 using System.Net;
+using Area23.At.Framework.Library.CqrXs.CqrMsg;
 
-namespace Area23.At.Framework.Core.Crypt.CqrJd
+namespace Area23.At.Framework.Library.CqrXs.CqrSrv
 {
 
 
     /// <summary>
     /// Provides a secure encrypted message to send to the server or receive from server
     /// </summary>
-    public class CqrPeer2PeerMsg : CqrBaseMsg
+    public class Peer2PeerMsg : BaseMsg
     {
 
         /// <summary>
-        /// CqrServerMsg constructor with srvKey
+        /// Peer2PeerMsg constructor with srvKey
         /// </summary>
         /// <param name="srvKey">server key (normally client ip + secret)</param>
         /// <exception cref="ArgumentNullException">thrown, when srvKey is null or <see cref="string.Empty"/></exception>
-        public CqrPeer2PeerMsg(string srvKey = "") : base(srvKey) { }
+        public Peer2PeerMsg(string srvKey = "") : base(srvKey) { }
 
 
         /// <summary>
@@ -37,7 +38,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         /// <returns>encrypted msg via <see cref="SymmCipherPipe"/></returns>
         public string CqrPeerMsg(string msg, EncodingType encType = EncodingType.Base64)
         {
-            return CqrMsg(msg, encType);
+            return CqrBaseMsg(msg, encType);
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         public string CqrPeerAttachment(string fileName, string mimeType, string base64Mime, out MimeAttachment attachment,
             EncodingType encType = EncodingType.Base64, string sMd5 = "", string sSha256 = "")
         {
-            return CqrMsgAttachment(fileName, mimeType, base64Mime, out attachment, encType, sMd5, sSha256);
+            return CqrBaseAttachment(fileName, mimeType, base64Mime, out attachment, encType, sMd5, sSha256);
         }
 
         /// <summary>
@@ -64,17 +65,20 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         /// if server and client or both side use a different secret key 4 encryption</exception>
         public MsgContent NCqrPeerMsg(string cqrMessage, EncodingType encType = EncodingType.Base64)
         {
-            MsgContent msgContent = NCqrMsg(cqrMessage, encType);
+            MsgContent msgContent = base.NCqrBaseMsg(cqrMessage, encType);
             return msgContent;
         }
 
 
-        public MsgContent NCqrSrvMsg(string cqrMessage, EncodingType encType = EncodingType.Base64)
+
+
+        public MsgContent NCqrSrvMsg(MsgContent msgInContent, EncodingType encType = EncodingType.Base64)
         {
-            MsgContent msgContent = NCqrMsg(cqrMessage, encType);
-            return msgContent;
-
+            MsgContent msgOutContent = NCqrBaseMsg(msgInContent.Message, encType);
+            return msgOutContent;
         }
+
+
 
         /// <summary>
         /// SendCqrPeerMsg
@@ -84,7 +88,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         /// <param name="encodingType"><see cref="EncodingType"/></param>
         /// <param name="serverPort">tcp server port</param>
         /// <returns>response string</returns>
-        public string SendCqrPeerMsg(string msg, IPAddress peerIp, EncodingType encodingType = EncodingType.Base64, int serverPort = 7777)
+        public string Send_CqrPeerMsg(string msg, IPAddress peerIp, EncodingType encodingType = EncodingType.Base64, int serverPort = 7777)
         {
             string encrypted = CqrPeerMsg(msg, encodingType);
             string response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
@@ -101,7 +105,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         /// <param name="encodingType"><see cref="EncodingType"/></param>
         /// <param name="serverPort">tcp server port</param>
         /// <returns>response string</returns>
-        public string SendCqrPeerAttachment(string fileName, string mimeType, string base64Mime, IPAddress peerIp, out MimeAttachment attachment,
+        public string Send_CqrPeerAttachment(string fileName, string mimeType, string base64Mime, IPAddress peerIp, out MimeAttachment attachment,
             EncodingType encodingType = EncodingType.Base64, int serverPort = 7777, string sMd5 = "", string sSha256 = "")
         {
             string encrypted = CqrPeerAttachment(fileName, mimeType, base64Mime, out attachment, encodingType, sMd5, sSha256);

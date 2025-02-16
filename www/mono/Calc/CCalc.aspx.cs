@@ -20,6 +20,7 @@ namespace Area23.At.Mono.Calc
     public partial class CCalc : Util.UIPage
     {
         Stack<string> rpnStack = new Stack<string>();
+        object _lock = new object();
 
         private int _textCursor = 0;
         internal int TextCursor
@@ -430,12 +431,30 @@ namespace Area23.At.Mono.Calc
                             return;
                         }
 
-                        rpnStack.Push(CurrentTextBox.Text.ToString());
-                        TextCursor++;
-                        RpnStackToTextBox();
-                        SetMetaContent();
-                        CurrentTextBox.Text = string.Empty;
-                        this.Change_Click_EventDate = DateTime.UtcNow;
+                        if (rpnStack != null && rpnStack.Count > 0 && rpnStack.Peek().Equals(CurrentTextBox.Text.ToString()))
+                        {
+                            ; // work arround do nothing
+                            RpnStackToTextBox();
+                            SetMetaContent();
+                            CurrentTextBox.Text = string.Empty;
+                            this.Change_Click_EventDate = DateTime.UtcNow;
+                        }
+                        else
+                        {
+                            rpnStack.Push(CurrentTextBox.Text.ToString());
+                            TextCursor++;
+                            RpnStackToTextBox();
+                            SetMetaContent();
+                            //string rpnText = rpnStack.ReverseToString<string>();
+                            //lock (_lock)
+                            //{
+                            //    this.TextBox_Calc.ReadOnly = false;
+                            //    this.TextBox_Calc.Text = rpnText;
+                            //}
+                            //this.TextBox_Calc.ReadOnly = true;
+                            CurrentTextBox.Text = string.Empty;
+                            this.Change_Click_EventDate = DateTime.UtcNow;
+                        }
                     }                    
                 }
             }
@@ -625,7 +644,12 @@ namespace Area23.At.Mono.Calc
             this.TextBox_Calc.BorderWidth = 0;
             this.TextBox_Calc.BorderColor = Color.Black;
             string rpnText = rpnStack.ReverseToString<string>();
-            this.TextBox_Calc.Text = rpnText;
+            lock (_lock)
+            {
+                this.TextBox_Calc.ReadOnly = false;
+                this.TextBox_Calc.Text = rpnText;
+            }
+            this.TextBox_Calc.ReadOnly = true;
         }
 
         #endregion helper
@@ -634,8 +658,13 @@ namespace Area23.At.Mono.Calc
         {
             // this.textboxRpn.Text = string.Empty;
             string rpnText = rpnStack.ReverseToString<string>();
-            TextBox_Calc.Text = rpnText;
+            lock (_lock)
+            {
+                this.TextBox_Calc.ReadOnly = false;
+                this.TextBox_Calc.Text = rpnText;
+            }
             Session["rpnStack"] = rpnStack;
+            this.TextBox_Calc.ReadOnly = true;
             this.CurrentTextBox.Focus();
         }
 

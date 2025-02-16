@@ -5,31 +5,20 @@ using System.Web;
 
 namespace Area23.At.Mono.Calc
 {
-    public abstract class CalcElem
+    public class CalcElem
     {
         protected internal string _elem = string.Empty;
-        
+        protected internal static string[] validElems = { "" };
+
+        public string Elem { get => _elem; }
 
         public CalcElem(string elem)
         {
             if (string.IsNullOrEmpty(elem))
                 throw new InvalidOperationException("null or empty math operators are not allowed");
             _elem = elem;
-            if (_elem == null || _elem.Length < 1)
-                throw new InvalidOperationException(String.Format("{0} is a null or empty string element.", elem));
-        }       
-    }
-
-    public abstract class MathElement : CalcElem
-    {
-        protected internal static string[] validElems = { "" };
-
-        public virtual string Elem { get => _elem; }
-
-        public MathElement(string elem) : base(elem) 
-        {
-            if (!validElems.Contains(_elem))
-                throw new InvalidOperationException(String.Format("{0} is not a valid prooved element.", elem));
+            if (!Validate())
+                throw new InvalidOperationException(String.Format("{0} is not a valid element.", elem));
         }
 
         internal virtual bool Validate()
@@ -38,9 +27,14 @@ namespace Area23.At.Mono.Calc
         }
     }
 
-    public class MathOpUnary : MathElement
-    {        
-        protected internal static new string[] validElems = { 
+    public class MathOp : CalcElem
+    {
+        public MathOp(string elem) : base(elem) { }
+    }
+
+    public class MathOpUnary : MathOp
+    {
+        protected internal static new string[] validElems = {
             "±", "x²", "²", "x³", "³", "2ⁿ", "10ⁿ", "!",
             "ln", "log", "log10", "ld", "1/x",
             "√", "∛", "∜", "abs", "|x|", "%", "‰",
@@ -54,9 +48,9 @@ namespace Area23.At.Mono.Calc
         }
     }
 
-    public class MathOpBinary : MathElement
+    public class MathOpBinary : MathOp
     {
-        protected internal static new string[] validElems = { "+", "-", "*", "×", "/", "÷", 
+        protected internal static new string[] validElems = { "+", "-", "*", "×", "/", "÷",
             "^", "xⁿ", "mod", "ⁱ√", "sqrti", "logₕ𝒂", "log&#x2095;a", "bloga" };
 
         public MathOpBinary(string elem) : base(elem) { }
@@ -68,7 +62,7 @@ namespace Area23.At.Mono.Calc
     }
 
 
-    public class MathNumber : MathElement
+    public class MathNumber : MathOp
     {
         internal static string validChars = "0123456789ABCDEF.,";
         protected internal static new string[] validElems = { "ℇ", "π" };
@@ -83,7 +77,7 @@ namespace Area23.At.Mono.Calc
                 parseNumber = _elem.ToString();
                 if (_elem.StartsWith("-") && _elem.Length > 1 && (_elem[1] != '0' || _elem[2] == '.'))
                     parseNumber = _elem.TrimStart('-');
-                               
+
                 if (validElems.Contains(parseNumber))
                     return true;
 
@@ -100,7 +94,7 @@ namespace Area23.At.Mono.Calc
             int reaLen = 0;
 
             if (term != null && term.Length > 0)
-            {                                
+            {
                 parseNumber = term.ToString();
                 if (term.StartsWith("-") && term.Length > 1 && (term[1] != '0' || term[2] == '.'))
                 {
@@ -110,9 +104,9 @@ namespace Area23.At.Mono.Calc
 
                 if (parseNumber[0] == 'ℇ' || parseNumber[0] == 'π')
                     return ++reaLen;
-                
+
                 int len = parseNumber.Length;
-                
+
                 parseNumber = parseNumber.TrimStart(validChars.ToCharArray());
                 if (parseNumber.Length != len)
                 {

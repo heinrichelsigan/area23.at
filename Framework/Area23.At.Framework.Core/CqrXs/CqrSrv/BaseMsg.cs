@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Core.Crypt.Cipher;
+﻿using Area23.At.Framework.Core.CqrXs.CqrMsg;
+using Area23.At.Framework.Core.Crypt.Cipher;
 using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using System;
@@ -7,14 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Core.Crypt.CqrJd
+namespace Area23.At.Framework.Core.CqrXs.CqrSrv
 {
 
 
     /// <summary>
     /// Provides abstract base class for secure encrypted message to send to the server or receive from server
     /// </summary>
-    public abstract class CqrBaseMsg
+    public abstract class BaseMsg
     {
         protected internal readonly string key;
         protected internal readonly string hash;
@@ -34,11 +35,11 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         /// </summary>
         /// <param name="srvKey">server key (normally client ip + secret)</param>
         /// <exception cref="ArgumentNullException">thrown, when srvKey is null or <see cref="string.Empty"/></exception>
-        public CqrBaseMsg(string srvKey = "")
+        public BaseMsg(string srvKey = "")
         {
             if (string.IsNullOrEmpty(srvKey))
             {
-                throw new ArgumentNullException("public CqrBaseMsg(string srvKey = \"\")");
+                throw new ArgumentNullException("public BaseMsg(string srvKey = \"\")");
             }
             key = srvKey;
             hash = DeEnCoder.KeyToHex(srvKey);
@@ -54,26 +55,26 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         /// <param name="msg">plain text string</param>
         /// <param name="encType"><see cref="EncodingType"/></param>
         /// <returns>encrypted msg via <see cref="SymmCipherPipe"/></returns>
-        public virtual string CqrMsg(string msg, EncodingType encType = EncodingType.Base64)
+        public virtual string CqrBaseMsg(string msg, EncodingType encType = EncodingType.Base64)
         {
             msg = msg + "\n" + symmPipe.PipeString + "\0";
             byte[] msgBytes = DeEnCoder.GetBytesFromString(msg);
 
-            byte[] cqrbytes = (LibPaths.CqrEncrypt) ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
+            byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
             CqrMessage = DeEnCoder.EncodeBytes(cqrbytes, encType);
 
             return CqrMessage;
         }
 
         /// <summary>
-        /// CqrMsgAttachment encrypts a file attchment message
+        /// CqrBaseAttachment encrypts a file attchment message
         /// </summary>
         /// <param name="fileName">file name of attached file</param>
         /// <param name="mimeType"><see cref="Util.MimeType"/></param>
         /// <param name="base64Mime">base64 encoded mime block</param>
         /// <param name="encType"><see cref="EncodingType"/></param>
         /// <returns>encrypted attachment msg via <see cref="SymmCipherPipe"/></returns>
-        public virtual string CqrMsgAttachment(string fileName, string mimeType, string base64Mime, out MimeAttachment attachment,
+        public virtual string CqrBaseAttachment(string fileName, string mimeType, string base64Mime, out MimeAttachment attachment,
             EncodingType encType = EncodingType.Base64, string sMd5 = "", string sSha256 = "")
         {
             attachment = new MimeAttachment(fileName, mimeType, base64Mime, symmPipe.PipeString, sMd5, sSha256);
@@ -81,26 +82,26 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             mimeMsg += "\n" + symmPipe.PipeString + "\0";
             byte[] msgBytes = DeEnCoder.GetBytesFromString(mimeMsg);
 
-            byte[] cqrbytes = (LibPaths.CqrEncrypt) ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
+            byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
             CqrMessage = DeEnCoder.EncodeBytes(cqrbytes, encType);
 
             return CqrMessage;
         }
 
         /// <summary>
-        /// NCqrMsg decryptes an secure encrypted msg 
+        /// NCqrBaseMsg decryptes an secure encrypted msg 
         /// </summary>
         /// <param name="cqrMessage">secure encrypted msg </param>
         /// <param name="encType"><see cref="EncodingType"/></param>
         /// <returns>MsgContent Message plain text decrypted string</returns>
         /// <exception cref="InvalidOperationException">will be thrown, 
         /// if server and client or both side use a different secret key 4 encryption</exception>
-        public virtual MsgContent NCqrMsg(string cqrMessage, EncodingType encType = EncodingType.Base64)
+        public virtual MsgContent NCqrBaseMsg(string cqrMessage, EncodingType encType = EncodingType.Base64)
         {
             CqrMessage = cqrMessage.TrimEnd("\0".ToCharArray());
 
             byte[] cipherBytes = DeEnCoder.DecodeText(CqrMessage, encType);
-            byte[] unroundedMerryBytes = (LibPaths.CqrEncrypt) ? symmPipe.DecrpytRoundGoMerry(cipherBytes, key, hash) : cipherBytes;
+            byte[] unroundedMerryBytes = LibPaths.CqrEncrypt ? symmPipe.DecrpytRoundGoMerry(cipherBytes, key, hash) : cipherBytes;
             string decrypted = EnDeCoder.GetString(unroundedMerryBytes); //DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);
             while (decrypted[decrypted.Length - 1] == '\0')
                 decrypted = decrypted.Substring(0, decrypted.Length - 1);
@@ -166,7 +167,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
                     failureCnt += ic;
             }
 
-            return (failureCnt == 0);
+            return failureCnt == 0;
         }
 
     }

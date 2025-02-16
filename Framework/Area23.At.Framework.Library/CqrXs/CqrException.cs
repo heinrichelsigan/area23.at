@@ -4,11 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Core.Crypt.CqrJd
+namespace Area23.At.Framework.Library.CqrXs
 {
-    /// <summary>
-    /// CqrException is inherited from <see cref="ApplicationException"/>
-    /// </summary>
     public class CqrException : ApplicationException
     {
         public static CqrException LastException
@@ -17,9 +14,9 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             protected set => AppDomain.CurrentDomain.SetData(Constants.LAST_EXCEPTION, value);
         }
 
-        public CqrException? Previous { get; protected set; }
+        public CqrException Previous { get; protected set; }
 
-        public DateTime? TimeStampException { get; set; }
+        public DateTime TimeStampException { get; set; }
 
 
 
@@ -34,7 +31,7 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
         public CqrException(string message, Exception innerException) : base(message, innerException)
         {
             TimeStampException = DateTime.UtcNow;
-            CqrException? lastButNotLeast = (CqrException)LastException;
+            CqrException lastButNotLeast = (CqrException)LastException;
             Previous = (lastButNotLeast != null) ? lastButNotLeast : null;
             AppDomain.CurrentDomain.SetData(Constants.LAST_EXCEPTION, this);
         }
@@ -53,4 +50,5 @@ namespace Area23.At.Framework.Core.Crypt.CqrJd
             AppDomain.CurrentDomain.SetData(Constants.LAST_EXCEPTION, cqrLastEx);
         }
     }
+
 }

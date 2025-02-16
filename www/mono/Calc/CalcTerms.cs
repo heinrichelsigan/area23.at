@@ -13,13 +13,13 @@ using System.Windows.Documents;
 
 namespace Area23.At.Mono.Calc
 {
-    public class CalcTerm : MathElement
+    public class CalcTerm : CalcElem
     {
-        internal List<MathElement> terms = new List<MathElement>();
-        internal List<MathElement> sterms = new List<MathElement>();
+        internal List<CalcElem> terms = new List<CalcElem>();
+        internal List<CalcElem> sterms = new List<CalcElem>();
 
-        public MathElement[] Terms { get => terms.ToArray(); }
-        public MathElement[] STerms { get => sterms.ToArray(); }
+        public CalcElem[] Terms { get => terms.ToArray(); }
+        public CalcElem[] STerms { get => sterms.ToArray(); }
 
         public CalcTerm(string elem) : base(elem)
         {
@@ -61,7 +61,7 @@ namespace Area23.At.Mono.Calc
                 {
                     string numStr = tmpElem.Substring(0, numLen);
                     if (!firstDone || lastType == RPNType.MathOp1 || lastType == RPNType.MathOp2)
-                    {                        
+                    {
                         MathNumber mathNumber = new MathNumber(numStr);
                         terms.Add(mathNumber);
                         tmpElem = tmpElem.Substring(numLen);
@@ -88,14 +88,14 @@ namespace Area23.At.Mono.Calc
                             String.Format("Math binary operator {0} must follow math number: {1}", _mathOp2, _elem));
                         proceeded = true;
                         break;
-                    }                    
+                    }
                 }
             }
-        
-            if (!this.Validate())
+
+            if (!Validate())
                 throw new InvalidOperationException(String.Format("{0} is not a valid element.", _elem));
 
-            sterms = new List<MathElement>(terms);
+            sterms = new List<CalcElem>(terms);
         }
 
         internal override bool Validate()
@@ -151,7 +151,7 @@ namespace Area23.At.Mono.Calc
             {
                 if (firstDone && !proceeded)
                     return false;
-                if (proceeded)                     
+                if (proceeded)
                     proceeded = false;
 
                 foreach (string _mathOp1 in MathOpUnary.validElems)
@@ -201,7 +201,7 @@ namespace Area23.At.Mono.Calc
                             lastType = RPNType.MathOp2;
                         }
                         else throw new InvalidOperationException(
-                            String.Format("Math binary operator {0} must follow math number: {1}", _mathOp2, _elem));                        
+                            String.Format("Math binary operator {0} must follow math number: {1}", _mathOp2, _elem));
                         proceeded = true;
                         break;
                     }
@@ -211,7 +211,7 @@ namespace Area23.At.Mono.Calc
             return false;
         }
 
-        public virtual List<MathElement> BuildSubTerms()
+        public virtual List<CalcElem> BuildSubTerms()
         {
             int ti = 0, tj = 0, th = 0;
             string subTermStr;
@@ -322,7 +322,7 @@ namespace Area23.At.Mono.Calc
             return sterms;
         }
 
-        public virtual List<MathElement> EvaluateTerms(RPNRad rad = RPNRad.DEG)
+        public virtual List<CalcElem> EvaluateTerms(RPNRad rad = RPNRad.DEG)
         {
             int ti = 0, tj = 0, th = 0;
             long lresult = 1, lnum0 = 0, lnum1 = 0;
@@ -338,8 +338,8 @@ namespace Area23.At.Mono.Calc
                         STerms[ti].Elem == "ln" || STerms[ti].Elem == "log" || STerms[ti].Elem == "log10" || STerms[ti].Elem == "ld" ||
                         STerms[ti].Elem == "1/x" || STerms[ti].Elem == "√" || STerms[ti].Elem == "∛" || STerms[ti].Elem == "∜")
                     {
-                        lnum0 = Convert.ToInt64(STerms[ti + 1].Elem);
-                        dnum0 = Convert.ToDouble(STerms[ti + 1].Elem);
+                        lnum0 = PIEulerParseInt64(STerms[ti + 1].Elem);
+                        dnum0 = PIEulerParse(STerms[ti + 1].Elem);
                         dresult = 1;
                         lresult = 1;
 
@@ -442,12 +442,12 @@ namespace Area23.At.Mono.Calc
                         STerms[ti + 1].Elem == "ⁱ√" || STerms[ti + 1].Elem == "sqrti" ||
                         STerms[ti + 1].Elem == "logₕ𝒂" || STerms[ti + 1].Elem == "log&#x2095;a" || STerms[ti + 1].Elem == "bloga")
                     {
-                        dnum0 = Convert.ToDouble(STerms[ti].Elem);
-                        dnum1 = Convert.ToDouble(STerms[ti + 2].Elem);
+                        dnum0 = PIEulerParse(STerms[ti].Elem);
+                        dnum1 = PIEulerParse(STerms[ti + 2].Elem);
                         try
                         {
-                            lnum0 = Convert.ToInt64(STerms[th].Elem);
-                            lnum1 = Convert.ToInt64(STerms[th + 2].Elem);
+                            lnum0 = PIEulerParseInt64(STerms[th].Elem);
+                            lnum1 = PIEulerParseInt64(STerms[th + 2].Elem);
                         }
                         catch (Exception ex)
                         {
@@ -507,8 +507,8 @@ namespace Area23.At.Mono.Calc
                     if (STerms[tj].Elem == "sin" || STerms[tj].Elem == "cos" || STerms[tj].Elem == "tan" || STerms[tj].Elem == "cot" ||
                         STerms[tj].Elem == "asin" || STerms[tj].Elem == "acos" || STerms[tj].Elem == "atan" || STerms[tj].Elem == "acot")
                     {
-                        lnum0 = Convert.ToInt64(STerms[tj + 1].Elem);
-                        dnum0 = Convert.ToDouble(STerms[tj + 1].Elem);
+                        dnum0 = PIEulerParse(STerms[tj + 1].Elem);
+                        lnum0 = PIEulerParseInt64(STerms[tj + 1].Elem);
                         dresult = 1;
                         lresult = 1;
                         if (STerms[tj].Elem == "sin" || STerms[tj].Elem == "cos" || STerms[tj].Elem == "tan" || STerms[tj].Elem == "cot")
@@ -600,12 +600,12 @@ namespace Area23.At.Mono.Calc
                 {
                     if (STerms[tj + 1].Elem == "*" || STerms[tj + 1].Elem == "×" || STerms[tj + 1].Elem == "/" || STerms[tj + 1].Elem == "÷")
                     {
-                        dnum0 = Convert.ToDouble(STerms[tj].Elem);
-                        dnum1 = Convert.ToDouble(STerms[tj + 2].Elem);
+                        dnum0 = PIEulerParse(STerms[tj].Elem);
+                        dnum1 = PIEulerParse(STerms[tj + 2].Elem);                        
                         try
                         {
-                            lnum0 = Convert.ToInt64(STerms[th].Elem);
-                            lnum1 = Convert.ToInt64(STerms[th + 2].Elem);
+                            lnum0 = PIEulerParseInt64(STerms[th].Elem);
+                            lnum1 = PIEulerParseInt64(STerms[th + 2].Elem);
                         }
                         catch (Exception ex)
                         {
@@ -646,8 +646,10 @@ namespace Area23.At.Mono.Calc
                 {
                     if (STerms[th].Elem == "%" || STerms[th].Elem == "‰" || STerms[th].Elem == "abs" || STerms[th].Elem == "|x|")
                     {
-                        lnum0 = Convert.ToInt64(STerms[th + 1].Elem);
-                        dnum0 = Convert.ToDouble(STerms[th + 1].Elem);
+                        //lnum0 = Convert.ToInt64(STerms[th + 1].Elem);
+                        //dnum0 = Convert.ToDouble(STerms[th + 1].Elem);
+                        lnum0 = PIEulerParseInt64(STerms[tj + 1].Elem);
+                        dnum0 = PIEulerParse(STerms[tj + 1].Elem);                        
                         dresult = 1;
                         lresult = 1;
                         switch (STerms[th].Elem)
@@ -681,13 +683,13 @@ namespace Area23.At.Mono.Calc
                 if (STerms[th] is MathNumber && th < (STerms.Length - 2) && STerms[th + 1] is MathOpBinary && STerms[th + 2] is MathNumber)
                 {
                     if (STerms[th + 1].Elem == "+" || STerms[th + 1].Elem == "-")
-                    {                        
-                        dnum0 = Convert.ToDouble(STerms[th].Elem);
-                        dnum1 = Convert.ToDouble(STerms[th + 2].Elem);
+                    {
+                        dnum0 = PIEulerParse(STerms[th].Elem);
+                        dnum1 = PIEulerParse(STerms[th + 2].Elem);                        
                         try
                         {
-                            lnum0 = Convert.ToInt64(STerms[th].Elem);
-                            lnum1 = Convert.ToInt64(STerms[th + 2].Elem);
+                            lnum0 = PIEulerParseInt64(STerms[tf].Elem);
+                            lnum1 = PIEulerParseInt64(STerms[th + 2].Elem);
                         }
                         catch (Exception ex)
                         {
@@ -697,7 +699,7 @@ namespace Area23.At.Mono.Calc
                         }
                         dresult = 1;
                         lresult = 1;
-                    
+
                         switch (STerms[th + 1].Elem)
                         {
                             case "+":
@@ -708,7 +710,7 @@ namespace Area23.At.Mono.Calc
                                 sterms.RemoveAt(th);
                                 sterms.Insert(th, resultTermNumber);
                                 break;
-                            case "-":                           
+                            case "-":
                                 dresult = dnum0 - dnum1;
                                 resultTermNumber = new CalcTerm(dresult.ToString());
                                 sterms.RemoveAt(th + 1);
@@ -723,6 +725,35 @@ namespace Area23.At.Mono.Calc
             return sterms;
         }
 
+
+        public double PIEulerParse(string elem)
+        {
+            if (!string.IsNullOrEmpty(elem))
+            {
+                if (elem.Equals("π"))
+                    return Math.PI;
+                if (elem.Equals("ℇ"))
+                    return Math.E;
+                if (Double.TryParse(elem, out double result))
+                    return result;
+            }
+            throw new InvalidOperationException($"Error on PIEulerParse(string {elem})");
+        }
+
+        public long PIEulerParseInt64(string elem)
+        {
+            if (!string.IsNullOrEmpty(elem))
+            {
+                if (elem.Equals("π"))
+                    return Convert.ToInt64(Math.PI);
+                if (elem.Equals("ℇ"))
+                    return Convert.ToInt64(Math.E);
+                if (Int64.TryParse(elem, out long result))
+                    return result;
+            }
+            throw new InvalidOperationException($"Error on PIEulerParseInt64(string {elem})");
+        }
+
         public override string ToString()
         {
             string calcTermString = string.Empty;
@@ -735,4 +766,5 @@ namespace Area23.At.Mono.Calc
 
 
     }
+
 }

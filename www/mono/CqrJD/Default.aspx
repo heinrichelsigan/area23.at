@@ -37,14 +37,15 @@
                 <asp:Button ID="ButtonSubmit" runat="server" Text="Submit" ToolTip="Submit" OnClick="ButtonSubmit_Click" />
             </div>
             <hr />
-            <pre id="preOut" runat="server" style="width: 640px; height: 180px; max-height: 192px; border-block-color: palevioletred;">
+            <pre id="preOut" runat="server" style="font-size:small; width: 640px; height: 180px; max-height: 192px; border-block-color: palevioletred;">
 
             </pre>
             <hr />
-            <pre id="preLast" runat="server" style="width: 800px; height: 240px; max-height: 320px; border-block-color: blue;">
+            <pre id="preLast" runat="server" style="font-size:small; width: 800px; height: 240px; max-height: 320px; border-block-color: blue;">
 
             </pre>
         </div>
     </form>
 </body>
 </html>
+
