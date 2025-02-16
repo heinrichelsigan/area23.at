@@ -15,8 +15,18 @@ using System.IO.Compression;
 
 namespace Area23.At.Framework.Library.Zfx
 {
+
+    /// <summary>
+    /// abstraction of gnu zip gzip compression & decompression
+    /// </summary>
     public static class GZ
     {
+
+        /// <summary>
+        /// GZip directly, please use <see cref="GZipViaStream(byte[])"/>
+        /// </summary>
+        /// <param name="inBytes"><see cref="byte[]"/> inBytes</param>
+        /// <returns><see cref="byte[]"/> outbytes</returns>
         public static byte[] GZip(byte[] inBytes)
         {
             MemoryStream msIn = new MemoryStream();
@@ -39,6 +49,12 @@ namespace Area23.At.Framework.Library.Zfx
             return zipBytes;
         }
 
+
+        /// <summary>
+        /// GZipViaStream 
+        /// </summary>
+        /// <param name="inBytes"><see cref="byte[]"/> inBytes</param>
+        /// <returns><see cref="byte[]"/> outbytes</returns>
         public static byte[] GZipViaStream(byte[] inBytes)
         {
             MemoryStream msIn = new MemoryStream();
@@ -67,6 +83,11 @@ namespace Area23.At.Framework.Library.Zfx
             return zipBytes;
         }
 
+        /// <summary>
+        /// Please use <see cref="GUnZipViaStream(byte[])"/>
+        /// </summary>
+        /// <param name="inBytes"><see cref="byte[]"/> inBytes</param>
+        /// <returns><see cref="byte[]"/> outbytes</returns>
         public static byte[] GUnZip(byte[] inBytes)
         {
             MemoryStream msIn = new MemoryStream();
@@ -91,7 +112,13 @@ namespace Area23.At.Framework.Library.Zfx
 
             return unZipBytes;
         }
-        
+
+
+        /// <summary>
+        /// GUnZipViaStream
+        /// </summary>
+        /// <param name="inBytes"><see cref="byte[]"/> inBytes</param>
+        /// <returns><see cref="byte[]"/> outbytes</returns>
         public static byte[] GUnZipViaStream(byte[] inBytes)
         {
             int buflen = Math.Max(inBytes.Length * 2, 4096);
