@@ -445,13 +445,6 @@ namespace Area23.At.Mono.Calc
                             TextCursor++;
                             RpnStackToTextBox();
                             SetMetaContent();
-                            //string rpnText = rpnStack.ReverseToString<string>();
-                            //lock (_lock)
-                            //{
-                            //    this.TextBox_Calc.ReadOnly = false;
-                            //    this.TextBox_Calc.Text = rpnText;
-                            //}
-                            //this.TextBox_Calc.ReadOnly = true;
                             CurrentTextBox.Text = string.Empty;
                             this.Change_Click_EventDate = DateTime.UtcNow;
                         }
