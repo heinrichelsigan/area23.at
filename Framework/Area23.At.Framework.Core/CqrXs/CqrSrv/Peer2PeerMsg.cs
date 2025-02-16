@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 using Area23.At.Framework.Core.Net.IpSocket;
 using System.Net;
 using Area23.At.Framework.Core.CqrXs.CqrMsg;
+using System.Windows.Interop;
+using Newtonsoft.Json;
+using static QRCoder.Core.PayloadGenerator.SwissQrCode;
 
 namespace Area23.At.Framework.Core.CqrXs.CqrSrv
 {
@@ -41,6 +44,20 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             return CqrBaseMsg(msg, encType);
         }
 
+        public virtual string CqrPeerMsg(MsgContent msc, EncodingType encType = EncodingType.Base64)
+        {
+            return CqrBaseMsg(msc, encType);
+        }
+
+        public string CqrPeerMimeAttachment(MimeAttachment attachment, EncodingType encType = EncodingType.Base64)
+        {
+            attachment._hash = PipeString;
+            attachment.Verification = PipeString;
+            attachment._message = JsonConvert.SerializeObject(attachment);
+            attachment._rawMessage = attachment.Message + "\n" + PipeString + "\0";
+            return CqrBaseMsg(attachment, encType);
+        }
+
         /// <summary>
         /// CqrPeerAttachment encrypts a file attchment message
         /// </summary>
@@ -50,9 +67,29 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         /// <param name="encType"><see cref="EncodingType"/></param>
         /// <returns>encrypted attachment msg via <see cref="SymmCipherPipe"/></returns>
         public string CqrPeerAttachment(string fileName, string mimeType, string base64Mime, out MimeAttachment attachment,
-            EncodingType encType = EncodingType.Base64, string sMd5 = "", string sSha256 = "")
+            string sMd5 = "", string sSha256 = "", MsgEnum msgType = MsgEnum.None, EncodingType encType = EncodingType.Base64)
         {
-            return CqrBaseAttachment(fileName, mimeType, base64Mime, out attachment, encType, sMd5, sSha256);
+            attachment = new MimeAttachment(fileName, mimeType, base64Mime, symmPipe.PipeString, sMd5, sSha256);
+            attachment.MsgType = msgType;
+            string mimeMsg = string.Empty;
+            if (msgType == MsgEnum.None || msgType == MsgEnum.RawWithHashAtEnd)
+            {
+                mimeMsg = attachment.MimeMsg;
+                mimeMsg += "\n" + symmPipe.PipeString + "\0";                
+            }
+            else
+            {
+                attachment._hash = PipeString;
+                attachment.Verification = PipeString;
+                mimeMsg = JsonConvert.SerializeObject(attachment);
+            }
+            byte[] msgBytes = DeEnCoder.GetBytesFromString(mimeMsg);
+
+            byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
+
+            CqrMessage = DeEnCoder.EncodeBytes(cqrbytes, encType);
+
+            return CqrMessage;
         }
 
         /// <summary>
@@ -72,7 +109,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
 
         public MsgContent NCqrSrvMsg(MsgContent msgInContent, EncodingType encType = EncodingType.Base64)
         {
-            MsgContent msgOutContent = NCqrBaseMsg(msgInContent.Message, encType);
+            MsgContent msgOutContent = NCqrBaseMsg(msgInContent.RawMessage, encType);
             return msgOutContent;
         }
 
@@ -103,9 +140,10 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         /// <param name="serverPort">tcp server port</param>
         /// <returns>response string</returns>
         public string Send_CqrPeerAttachment(string fileName, string mimeType, string base64Mime, IPAddress peerIp, out MimeAttachment attachment,
-            EncodingType encodingType = EncodingType.Base64, int serverPort = 7777, string sMd5 = "", string sSha256 = "")
+            int serverPort = 7777, string sMd5 = "", string sSha256 = "", MsgEnum msgType = MsgEnum.None, EncodingType encodingType = EncodingType.Base64)
         {
-            string encrypted = CqrPeerAttachment(fileName, mimeType, base64Mime, out attachment, encodingType, sMd5, sSha256);
+            string encrypted = CqrPeerAttachment(fileName, mimeType, base64Mime, out attachment, sMd5, sSha256, msgType, encodingType);
+            attachment.MsgType = msgType;
             string response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
             return response;
         }

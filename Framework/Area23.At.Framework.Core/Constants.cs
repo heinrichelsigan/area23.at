@@ -20,10 +20,10 @@ namespace Area23.At.Framework.Core
         public const int MAX_KEY_LEN = 4096;
         public const int MAX_PIPE_LEN = 8;
         public const int MAX_SERVER_SOCKET_ADDRESSES = 16;
-        public const int CLOSING_TIMEOUT = 6000;
-        public const int MIN_SOCKET_BYTE_BUFFEER = 65536;   // 64 KB Buffer
-        public const int SOCKET_BYTE_BUFFEER = 1048576;     //  1 MB Buffer
-        public const int MAX_BYTE_BUFFEER = 4194240;        //  4 MB Buffer
+        public const int CLOSING_TIMEOUT = 1000;
+        public const int MIN_SOCKET_BYTE_BUFFEER = 65536;   //  64 KB Buffer  2^16
+        public const int SOCKET_BYTE_BUFFEER = 4194304;     //  4 MB Buffer   2^22
+        public const int MAX_BYTE_BUFFEER = 16777216;       //  16 MB Buffer  2^24  
         public const bool CQR_ENCRYPT = true;
         public const bool ZEN_MATRIX_SYMMETRIC = false;
 
@@ -67,13 +67,17 @@ namespace Area23.At.Framework.Core
 
         public const string CQRXS_URL = "https://cqrxs.eu/";
         public const string CQRXS_HELP_URL = "https://cqrxs.eu/help/";
+        public const string DECRYPTED_TEXT_AREA = "<textarea cols = \"48\" rows=\"10\" name=\"TextBoxDecrypted\" id=\"TextBoxDecrypted\" title=\"TextBox Current Message\" ValidateRequestMode=\"Disabled\" style=\"width:480px;\" >";
+        public const string DECRYPTED_TEXT_BOX = "TextBoxDecrypted";
+        public const string DECRYPTED_TEXT_AREA_END = "</textarea>";
 
         public const string ACK = "Ack";
         public const string NACK = "Nack";
         public const string ENTER_SECRET_KEY = "[enter secret key here]";
         public const string ENTER_IP_CONTACT = "[Enter IPv4/IPv6 or select Contact]";
         public const string ENTER_IP = "[Enter peer IPv4/IPv6]";
-        public const string ENTER_CONTACT = "[Enter peer IPv4/IPv6]";
+        public const string ENTER_CONTACT = "[Select Contact]";
+        public const string MY_CONTACT = "MyContact";
 
         public const string AUTHOR = "Heinrich Elsigan";
         public const string AUTHOR_EMAIL = "heinrich.elsigan@area23.at";

@@ -16,6 +16,7 @@ using System.Web.Services;
 
 namespace Area23.At.Mono.CqrJD
 {
+
     /// <summary>
     /// Summary description for CqrService
     /// </summary>
@@ -34,7 +35,7 @@ namespace Area23.At.Mono.CqrJD
         string responseMsg = string.Empty;
 
         [WebMethod]
-        public string Send1StSrvMsg(string cryptMsg)
+        public string Send1StSrvString(string cryptMsg)
         {
             myServerKey = string.Empty;
             _decrypted = string.Empty;
@@ -115,6 +116,99 @@ namespace Area23.At.Mono.CqrJD
 
         }
 
+        [WebMethod]
+        public string Send1StSrvMsg(SrvMsg1 srvMsg1)
+        {
+            myServerKey = string.Empty;
+            _decrypted = string.Empty;
+            responseMsg = string.Empty;
+            _contact = null;
+
+            if (Application[Constants.JSON_CONTACTS] != null)
+                _contacts = (HashSet<CqrContact>)(Application[Constants.JSON_CONTACTS]);
+            else
+                _contacts = JsonContacts.LoadJsonContacts();
+
+            Area23Log.LogStatic($"CqrService.asmx: Send1stSrvMsg(...) {_contacts.Count} Contacts loaded!");
+
+            _literalClientIp = HttpContext.Current.Request.UserHostAddress;
+
+            if (ConfigurationManager.AppSettings["ExternalClientIP"] != null)
+                myServerKey = (string)ConfigurationManager.AppSettings["ExternalClientIP"];
+            else
+                myServerKey = HttpContext.Current.Request.UserHostAddress;
+            myServerKey += Constants.APP_NAME;
+            Area23Log.LogStatic("myServerKey = " + myServerKey);
+
+            SrvMsg1 srv1stMsg = new SrvMsg1(myServerKey);
+            SrvMsg1 cqrSrvResponseMsg = new SrvMsg1(myServerKey);
+            SrvMsg responseSrvMsg = new SrvMsg(myServerKey);
+            HttpContext.Current.Application["lastmsg"] = srvMsg1.CqrMessage;
+
+            try
+            {
+                if (!string.IsNullOrEmpty(srvMsg1.ToString()) && srvMsg1.ToString().Length >= 8)
+                {
+                    _contact = srv1stMsg.NCqrSrvMsg1(srvMsg1.ToString());
+                    _decrypted = _contact.ToJson();
+                    Area23Log.LogStatic("Received & decrypted: " + _decrypted);
+                }
+            }
+            catch (Exception ex)
+            {
+                CqrException.SetLastException(ex);
+                Area23Log.LogStatic(ex);
+            }
+
+            responseMsg = responseSrvMsg.CqrSrvMsg("", EncodingType.Base64);
+
+            if (!string.IsNullOrEmpty(_decrypted) && _contact != null && !string.IsNullOrEmpty(_contact.NameEmail))
+            {
+                Application["lastdecrypted"] = _decrypted;
+
+                CqrContact foundCt = JsonContacts.FindContactByNameEmail(_contacts, _contact);
+                if (foundCt != null)
+                {
+                    Area23Log.LogStatic("found contact: " + foundCt.ToString());
+                    foundCt.ContactId = _contact.ContactId;
+                    if (foundCt.Cuid == null || foundCt.Cuid == Guid.Empty)
+                        foundCt.Cuid = new Guid();
+                    if (!string.IsNullOrEmpty(_contact.Address))
+                        foundCt.Address = _contact.Address;
+                    if (!string.IsNullOrEmpty(_contact.Mobile))
+                        foundCt.Mobile = _contact.Mobile;
+
+                    if (_contact.ContactImage != null && !string.IsNullOrEmpty(_contact.ContactImage.ImageFileName) &&
+                        !string.IsNullOrEmpty(_contact.ContactImage.ImageBase64))
+                        foundCt.ContactImage = _contact.ContactImage;
+
+                    _decrypted = foundCt.ToJson();
+
+                    responseMsg = cqrSrvResponseMsg.CqrSrvMsg1(foundCt, EncodingType.Base64);
+                }
+                else
+                {
+                    if (_contact.Cuid == null || _contact.Cuid == Guid.Empty)
+                        _contact.Cuid = new Guid();
+                    _contacts.Add(_contact);
+                    Area23Log.LogStatic("contact added: " + _contact.ToString());
+                    _decrypted = _contact.ToJson();
+                    foundCt = _contact;
+
+                    responseMsg = cqrSrvResponseMsg.CqrSrvMsg1(foundCt, EncodingType.Base64);
+                }
+
+                Application["lastdecrypted"] = _decrypted;
+
+                JsonContacts.SaveJsonContacts(_contacts);
+            }
+
+
+            return responseMsg;
+
+        }
+
+
 
 
         [WebMethod]
@@ -173,7 +267,6 @@ namespace Area23.At.Mono.CqrJD
             return responseMsg;
 
         }
-
 
 
     }

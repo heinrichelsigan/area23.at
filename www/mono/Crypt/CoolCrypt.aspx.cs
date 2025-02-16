@@ -150,7 +150,7 @@ namespace Area23.At.Mono.Crypt
                 {
                     switch (ztype)
                     {   
-                        case ZipType.GZip: encryptBytes = GZ.GZip(inBytes); break;
+                        case ZipType.GZip: encryptBytes = GZ.GZipViaStream(inBytes); break;
                         case ZipType.BZip2: encryptBytes = BZip2.BZip(inBytes); break;
                         case ZipType.Zip: encryptBytes = WinZip.Zip(inBytes); break;
                         case ZipType.None:
@@ -305,7 +305,7 @@ namespace Area23.At.Mono.Crypt
                 {
                     switch (ztype)
                     {
-                        case ZipType.GZip: decryptedBytes = GZ.GUnZip(cipherBytes); break;
+                        case ZipType.GZip: decryptedBytes = GZ.GUnZipViaStream(cipherBytes); break;
                         case ZipType.BZip2: decryptedBytes = BZip2.BUnZip(cipherBytes); break;
                         case ZipType.Zip: decryptedBytes = WinZip.UnZip(cipherBytes); break;
                         case ZipType.None:

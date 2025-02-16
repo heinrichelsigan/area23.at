@@ -13,7 +13,9 @@ using System.Windows.Forms;
 using System.Xml;
 using Area23.At.Framework.Core.Util;
 using Area23.At.WinForm.SecureChat.Entities;
-using Area23.At.Framework.Core.Crypt.CqrJd;
+using Area23.At.Framework.Core.CqrXs;
+using Area23.At.Framework.Core.CqrXs.CqrMsg;
+using Area23.At.Framework.Core.CqrXs.CqrSrv;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {

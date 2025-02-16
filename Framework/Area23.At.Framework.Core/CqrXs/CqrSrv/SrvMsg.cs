@@ -20,8 +20,8 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
     public class SrvMsg : BaseMsg
     {
 
-        public CqrContact CqrSender { get; private set; }
-        public CqrContact CqrRecipient { get; private set; }
+        protected internal CqrContact CqrSender { get; private set; }
+        protected internal CqrContact CqrRecipient { get; private set; }
 
 
         /// <summary>

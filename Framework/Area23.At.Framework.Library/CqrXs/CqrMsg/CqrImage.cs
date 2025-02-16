@@ -16,9 +16,10 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 
     /// <summary>
     /// CqrImage is a image for a <see cref="CqrContact"/>
+    /// [DataContract(Name = "CqrImage")]
     /// </summary>
-    [DataContract(Name = "CqrImage")]
-    [Description("cqrxs.eu image")]
+    [JsonObject]
+    [Serializable]
     public class CqrImage
     {
 
@@ -26,7 +27,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 
         /// <summary>
         /// File Name with extension of Image
-        /// </summary>
+        /// </summary>       
         public string ImageFileName { get; set; }
 
         /// <summary>

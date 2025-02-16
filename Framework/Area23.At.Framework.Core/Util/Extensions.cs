@@ -485,7 +485,11 @@ namespace Area23.At.Framework.Core.Util
             return _color;
         }
 
-
+        /// <summary>
+        /// <see cref="string"/>.<see cref="GetExtensionFromFileString(string)"/> Extension method
+        /// </summary>
+        /// <param name="fileName">fileName to process</param>
+        /// <returns>extension of fileName</returns>
         public static string GetExtensionFromFileString(this string fileName)
         {
             if (string.IsNullOrEmpty(fileName) || !fileName.Contains("."))
@@ -494,6 +498,64 @@ namespace Area23.At.Framework.Core.Util
             string ext = fileName.Substring(lastIdx);
 
             return ext;
+        }
+
+        /// <summary>
+        /// <see cref="string"/>.<see cref="GetSubStringByPattern(string, string, bool, string, string, bool, StringComparison)"/> Extension method 
+        /// gets a substring beginning with patternStart and ending with patternEnd
+        /// </summary>
+        /// <param name="main">string to transform</param>
+        /// <param name="patternStart">start pattern for substring, 
+        /// if <see cref="string.Contains(string, StringComparison)">main.Contains(patternStart, comparasionType)</see>,
+        /// so that int firstIndex = <see cref="string.IndexOf(string)">main.IndexOf(patternStart)</see> >= 0,
+        /// then substring will start at <see cref="string.Substring(int)">main.Substring(firstIndex)</see>
+        /// </param>
+        /// <param name="firstIndex">default <see cref="true"/>, 
+        /// if <see cref="true"/>, then first occurence in main <see cref="string.IndexOf(string)">main.IndexOf(patternStart)</see> will be executed, 
+        /// otherwise if <see cref="false"/>, then <see cref="string.LastIndexOf(string)">main.LastIndexOf(patternStart)</see> will be executed.
+        /// </param>
+        /// <param name="markStartEnd">if <see cref="!string.IsNullOrEmpty(string?)">!string.IsNullOrEmpty(markStartEnd)</see> 
+        /// then start position of substring will be set to <see cref="string.IndexOf(string)>">string.IndexOf(markStartEnd)</see>
+        /// </param>
+        /// <param name="patternEnd">end pattern for substring, <see cref="string.LastIndexOf(string)">main.IndexOf(patternEnd)</see></param>
+        /// <param name="lastIndex">default <see cref="false"/>
+        /// if <see cref="true"/>, then last occurence <see cref="string.LastIndexOf(string)">main.LastIndexOf(patternEnd)</see> will be executed,
+        /// otherwise if <see cref="false"/>, then first occurence in main <see cref="string.IndexOf(string)">main.IndexOf(patternEnd)</see> will be executed. 
+        /// </param>
+        /// <param name="comparasionType">
+        /// <see cref="StringComparison">comparasionType</see> is set default to <see cref="StringComparison.CurrentCulture"/>
+        /// </param>
+        /// <returns><see cref="string">substring</see>, if no substring could be extracted, then <see cref="string.Empty"/></returns>
+        public static string GetSubStringByPattern(this string main, 
+            string patternStart, bool firstIndex = true, string markStartEnd = "",             
+            string patternEnd = "", bool lastIndex = false, StringComparison comparasionType = StringComparison.CurrentCulture)
+        {
+
+            string substring = string.Empty;
+            if (string.IsNullOrEmpty(main))
+                return substring;
+
+            substring = main;
+
+            if (!string.IsNullOrEmpty(patternStart) && substring.Contains(patternStart, comparasionType))
+            {
+                if (firstIndex)
+                    substring = main.Substring(substring.IndexOf(patternStart, comparasionType) + patternStart.Length);
+                else
+                    substring = main.Substring(substring.LastIndexOf(patternStart, comparasionType) + patternStart.Length);
+
+                if (!string.IsNullOrEmpty(markStartEnd) && substring.Contains(markStartEnd, comparasionType))
+                    substring = substring.Substring(substring.IndexOf(markStartEnd, comparasionType) + markStartEnd.Length);
+            }
+            if (!string.IsNullOrEmpty(patternEnd) && substring.Contains(patternEnd, comparasionType))
+            {
+                if (!lastIndex)
+                    substring = substring.Substring(0, substring.IndexOf(patternEnd, comparasionType) + patternEnd.Length);
+                else
+                    substring = substring.Substring(0, substring.LastIndexOf(patternEnd, comparasionType) + patternEnd.Length);                                
+            }
+
+            return substring;
         }
 
 

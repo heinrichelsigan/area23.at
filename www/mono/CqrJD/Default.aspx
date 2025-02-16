@@ -8,7 +8,7 @@
 </head>
 <body>
     <form id="form1" runat="server" method="post" enctype="text/plain" submitdisabledcontrols="true" novalidate="novalidate" enableviewstate="false" style="background-color: transparent;">
-        <div>
+        <div id="DivPost" runat="server" visible="true">
             <div>
                 <span style="display: block; border-style: outset; border-width: 1px; border-color: azure; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size: larger">
                     ServerIPv4: <asp:Literal ID="LiteralServerIPv4" runat="server"></asp:Literal>
@@ -45,7 +45,9 @@
 
             </pre>
         </div>
+        <div id="DivContacr" runat="server" visible="false">
+            <asp:Literal ID="LiteralJson" runat="server"></asp:Literal>
+        </div>
     </form>
 </body>
 </html>
-

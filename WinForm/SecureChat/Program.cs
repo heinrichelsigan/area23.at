@@ -1,5 +1,7 @@
 using Area23.At.Framework.Core;
-using Area23.At.Framework.Core.Crypt.CqrJd;
+using Area23.At.Framework.Core.CqrXs;
+using Area23.At.Framework.Core.CqrXs.CqrMsg;
+using Area23.At.Framework.Core.CqrXs.CqrSrv;
 using Area23.At.Framework.Core.Win32Api;
 using Area23.At.WinForm.SecureChat.Entities;
 using System;

@@ -10,8 +10,13 @@ using System.Net;
 
 namespace Area23.At.Mono.CqrJD
 {
+
+    /// <summary>
+    /// CqrJdBasePage is base page of Default
+    /// </summary>
     public abstract class CqrJdBasePage : System.Web.UI.Page
     {
+
         protected System.Collections.Generic.Queue<string> mqueue = new Queue<string>();
         protected Uri area23AtUrl = new Uri("https://area23.at/");
         protected Uri cqrXsEuUrl = new Uri("https://cqrxs.eu/cqrsrv/cqrjd/");
@@ -132,8 +137,6 @@ namespace Area23.At.Mono.CqrJD
 
 
 
-
-
         public virtual void Log(string msg)
         {
             Area23Log.LogStatic(msg);
@@ -162,5 +165,6 @@ namespace Area23.At.Mono.CqrJD
 
 
     }
+
 
 }

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Core;
 using System.Runtime.InteropServices.ComTypes;
+using System.IO.Compression;
 
 namespace Area23.At.Framework.Library.Zfx
 {
@@ -48,9 +49,11 @@ namespace Area23.At.Framework.Library.Zfx
             MemoryStream msOut = new MemoryStream();
             int buflen = Math.Max(inBytes.Length, 4096);
 
-            using (GZipOutputStream gzOut = new GZipOutputStream(msOut))
+
+            // using (GZipOutputStream gzOut = new GZipOutputStream(msOut, buflen))
+            using (GZipStream gzOut = new GZipStream(msOut, CompressionMode.Compress, false))
             {
-                StreamUtils.Copy(msIn, gzOut, new byte[buflen]);                
+                StreamUtils.Copy(msIn, gzOut, new byte[buflen]);
             }
 
             msOut.Flush();
@@ -76,6 +79,9 @@ namespace Area23.At.Framework.Library.Zfx
             ICSharpCode.SharpZipLib.GZip.GZip.Decompress(msIn, msOut, false);
 
             // msOut.Flush();
+            // msOut.Seek(0, SeekOrigin.Begin);
+            // msOut.Flush();
+
             byte[] unZipBytes = msOut.ToByteArray();
 
             msOut.Close();
@@ -93,9 +99,11 @@ namespace Area23.At.Framework.Library.Zfx
             msIn.Write(inBytes, 0, inBytes.Length);
             msIn.Flush();
             msIn.Seek(0, SeekOrigin.Begin);
-
+            
             MemoryStream msOut = new MemoryStream();
-            using (GZipInputStream gzIn = new GZipInputStream(msIn))
+
+            // using (GZipInputStream gzIn = new GZipInputStream(msIn))
+            using (GZipStream gzIn = new GZipStream(msIn, CompressionMode.Decompress, false))
             {
                 StreamUtils.Copy(gzIn, msOut, new byte[buflen]);
             }

@@ -1,7 +1,9 @@
 ﻿using Area23.At.Framework.Core;
 using Area23.At.Framework.Core.Crypt.Cipher;
 using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Core.Crypt.CqrJd;
+using Area23.At.Framework.Core.CqrXs;
+using Area23.At.Framework.Core.CqrXs.CqrMsg;
+using Area23.At.Framework.Core.CqrXs.CqrSrv;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Net;
 using Area23.At.Framework.Core.Net.IpSocket;
@@ -195,7 +197,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
             // TODO: test case later
 
-            CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
+            SrvMsg serverMessage = new SrvMsg(myServerKey);
             this.TextBoxPipe.Text = serverMessage.PipeString;
 
         }
@@ -360,18 +362,18 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             else
                 this.ComboBoxSecretKey.Text = myServerKey;
 
-            CqrServerMsg serverMessage = new CqrServerMsg(myServerKey);
+            SrvMsg1 serverMessage = new SrvMsg1(myServerKey);
             this.TextBoxPipe.Text = serverMessage.PipeString;
 
             Contact myContact = Entities.Settings.Instance.MyContact;
             string plain = myContact.Name + Environment.NewLine + myContact.Email + Environment.NewLine +
                 myContact.Mobile + Environment.NewLine + myContact.Address + Environment.NewLine +
                 myContact.SecretKey + Environment.NewLine;
-            string encrypted = serverMessage.CqrSrvMsg(plain);
-            string response = serverMessage.SendCqrSrvMsg(plain, ServerIpAddress);
+            string encrypted = serverMessage.CqrBaseMsg(plain);
+            string response = serverMessage.Send1st_CqrSrvMsg1(plain, ServerIpAddress);
 
             this.TextBoxSource.Text = encrypted + "\n"; //  + "\r\n" + serverMessage.symmPipe.HexStages;
-            MsgContent msgContent = serverMessage.NCqrSrvMsg(encrypted);
+            MsgContent msgContent = serverMessage.NCqrBaseMsg(encrypted);
             this.TextBoxDestionation.Text = msgContent.Message + "\n" + response + "\r\n"; // + serverMessage.symmPipe.HexStages;
 
             chat.AddMyMessage(plain);
@@ -428,7 +430,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     }
 
 
-                    CqrPeer2PeerMsg pmsg = new CqrPeer2PeerMsg(myServerKey);
+                    Peer2PeerMsg pmsg = new Peer2PeerMsg(myServerKey);
                     MsgContent msgContent = pmsg.NCqrPeerMsg(encrypted);
 
                     string friendMsg = string.Empty;
@@ -479,8 +481,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             try
             {
                 partnerIpAddress = IPAddress.Parse(this.ComboBoxIpContact.Text);
-                CqrPeer2PeerMsg pmsg = new CqrPeer2PeerMsg(myServerKey);
-                pmsg.SendCqrPeerMsg(unencrypted, partnerIpAddress, EncodingType.Base64, Constants.CHAT_PORT);
+                Peer2PeerMsg pmsg = new Peer2PeerMsg(myServerKey);
+                pmsg.Send_CqrPeerMsg(unencrypted, partnerIpAddress, EncodingType.Base64, Constants.CHAT_PORT);
 
                 chat.AddMyMessage(unencrypted);
                 AppendText(TextBoxSource, unencrypted);
@@ -534,14 +536,14 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     string mimeType = Area23.At.Framework.Core.Util.MimeType.GetMimeType(fileBytes, fileNameOnly);
                     string base64Mime = Base64.Encode(fileBytes);
 
-                    CqrPeer2PeerMsg pmsg = new CqrPeer2PeerMsg(myServerKey);
+                    Peer2PeerMsg pmsg = new Peer2PeerMsg(myServerKey);
                     string unencrypted = MimeAttachment.GetMimeMessage(fileNameOnly, mimeType, base64Mime, pmsg.PipeString);
 
                     try
                     {
                         partnerIpAddress = IPAddress.Parse(this.ComboBoxIpContact.Text);
 
-                        pmsg.SendCqrPeerMsg(unencrypted, partnerIpAddress, EncodingType.Base64, Constants.CHAT_PORT);
+                        pmsg.Send_CqrPeerMsg(unencrypted, partnerIpAddress, EncodingType.Base64, Constants.CHAT_PORT);
                         // pmsg.SendCqrPeerAttachment(fileNameOnly, mimeType, base64Mime, partnerIpAddress, EncodingType.Base64, Constants.CHAT_PORT);
 
                         chat.AddMyMessage(unencrypted);

@@ -94,7 +94,9 @@ namespace Area23.At.Framework.Library
         public const string ACK = "Ack";
         public const string NACK = "Nack";
         public const string ENTER_SECRET_KEY = "[enter secret key here]";
-        public const string ENTER_IP_CONTACT = "[Enter peer IPv4 or reachable IPv6 for directly connect]";
+        public const string ENTER_IP_CONTACT = "[Enter IPv4/IPv6 or select Contact]";
+        public const string ENTER_IP = "[Enter peer IPv4/IPv6]";
+        public const string ENTER_CONTACT = "[Select Contact]";
 
         public const string AUTHOR = "Heinrich Elsigan";
         public const string AUTHOR_EMAIL = "heinrich.elsigan@area23.at";

@@ -27,7 +27,7 @@ namespace Area23.At.Framework.Library.Util
                         Replace(LibPaths.SepChar + Constants.BIN_DIR, "").Replace(LibPaths.SepChar + Constants.OBJ_DIR, "").
                         Replace(LibPaths.SepChar + Constants.RELEASE_DIR, "").Replace(LibPaths.SepChar + Constants.DEBUG_DIR, "");
                     loadFileName += (loadFileName.EndsWith(LibPaths.SepChar)) ? "" : LibPaths.SepChar;
-                    loadFileName += Constants.RES_DIR + LibPaths.SepChar + Constants.JSON_SAVE_FILE;
+                    loadFileName += Constants.QR_DIR + LibPaths.SepChar + Constants.JSON_SAVE_FILE;
                 }
                 if (!File.Exists(loadFileName))
                 {
@@ -40,7 +40,6 @@ namespace Area23.At.Framework.Library.Util
                 return loadFileName;
             }
         }
-
 
         public static string JsonContactsFile
         {
@@ -66,7 +65,6 @@ namespace Area23.At.Framework.Library.Util
                 return loadFileName;
             }
         }
-
 
         public static Dictionary<string, Uri> ShortenMapJson
         {

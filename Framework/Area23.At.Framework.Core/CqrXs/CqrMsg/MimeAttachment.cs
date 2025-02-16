@@ -6,7 +6,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Windows.Interop;
 
 namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 {
@@ -14,12 +16,14 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
     /// <summary>
     /// Represtents a MimeAttachment
     /// </summary>
-    [DataContract(Name = "MimeAttachment")]
+    [JsonObject]
+    [Serializable]
     public class MimeAttachment : MsgContent
     {
+
         internal const string MIME_BASE64_FINISH = "\n\r\n";
 
-        #region properties
+        #region properties 
 
         public string FileName { get; set; }
         public string Base64Type { get; set; }
@@ -30,13 +34,13 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         public string Md5Hash { get; set; }
         public string Sha256Hash { get; set; }
 
-        public string MimeMsg { get => GetMimeMessage(); }
+        public string MimeMsg { get => this.GetMimeMessage(); }
 
-        #endregion properties
+        #endregion properties 
 
         #region ctors
 
-        public MimeAttachment()
+        public MimeAttachment() : base()
         {
             FileName = string.Empty;
             Base64Type = string.Empty;
@@ -54,6 +58,8 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             Base64Mime = base64Mime;
             ContentLength = base64Mime.Length;
             Verification = verification;
+            _hash = verification;
+            _isMime = true;
         }
 
         public MimeAttachment(string fileName, string mimeType, string base64Mime, string verification, string sMd5 = "", string sSha256 = "")
@@ -65,24 +71,69 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             Verification = verification;
             Md5Hash = sMd5;
             Sha256Hash = sSha256;
+            _hash = verification;
+            _isMime = true;
         }
 
-
-        public MimeAttachment(string plainText)
+        public MimeAttachment(string plainText, MsgEnum msgArt = MsgEnum.None)
         {
-            MimeAttachment mimeAttachment = GetBase64Attachment(plainText);
-            Base64Type = mimeAttachment.Base64Type;
-            FileName = mimeAttachment.FileName;
-            ContentLength = mimeAttachment.ContentLength;
-            Verification = mimeAttachment.Verification;
-            Md5Hash = mimeAttachment.Md5Hash;
-            Sha256Hash = mimeAttachment.Sha256Hash;
-            Base64Mime = mimeAttachment.Base64Mime;
+            if (msgArt == MsgEnum.None || msgArt == MsgEnum.RawWithHashAtEnd)
+            {
+                MimeAttachment mimeAttachment = MimeAttachment.GetBase64Attachment(plainText);
+                Base64Type = mimeAttachment.Base64Type;
+                FileName = mimeAttachment.FileName;
+                ContentLength = mimeAttachment.ContentLength;
+                Verification = mimeAttachment.Verification;
+                Md5Hash = mimeAttachment.Md5Hash;
+                Sha256Hash = mimeAttachment.Sha256Hash;
+                Base64Mime = mimeAttachment.Base64Mime;
+                _hash = Verification;
+                _isMime = true;
+            }
+            else if (msgArt == MsgEnum.JsonSerialized || msgArt == MsgEnum.JsonDeserialized)
+            {
+                this.FromJson<MimeAttachment>(plainText);
+            }
         }
 
         #endregion ctors
 
         #region members
+
+
+        public override string ToJson()
+        {
+            string jsonText = JsonConvert.SerializeObject(this);
+            return jsonText;
+        }
+
+        public override T? FromJson<T>(string jsonText) where T : default
+        {
+            T? t = JsonConvert.DeserializeObject<T>(jsonText);
+            if (t != null)
+            {
+                if (t is MsgContent mc)
+                {
+                    this._hash = mc.Hash;
+                    this._message = mc.Message;
+                    this._rawMessage = mc.RawMessage;
+                    _isMime = false;
+                }
+                if (t is MimeAttachment ma)
+                {
+                    this.ContentLength = ma.ContentLength;
+                    this.Base64Mime = ma.Base64Mime;
+                    this.Base64Type = ma.Base64Type;
+                    this.FileName = ma.FileName;
+                    this.Md5Hash = ma.Md5Hash;
+                    this.Sha256Hash = ma.Sha256Hash;
+                    this.Verification = ma.Verification;
+                    _isMime = true;
+                }
+            }
+            return t;
+        }
+
 
         public string GetMimeMessage()
         {
@@ -132,19 +183,28 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             return html;
         }
 
-        public MimeAttachment GetMimeAttachment(string plainAttachment)
+        public MimeAttachment GetMimeAttachment(string plainAttachment, MsgEnum msgArt = MsgEnum.None)
         {
-            MimeAttachment mimeAttachment = GetBase64Attachment(plainAttachment);
+            if (msgArt == MsgEnum.None)
+            {
+                MimeAttachment mimeAttachment = MimeAttachment.GetBase64Attachment(plainAttachment);
 
-            Base64Type = mimeAttachment.Base64Type;
-            FileName = mimeAttachment.FileName;
-            ContentLength = mimeAttachment.ContentLength;
-            Verification = mimeAttachment.Verification;
-            Md5Hash = mimeAttachment.Md5Hash;
-            Sha256Hash = mimeAttachment.Sha256Hash;
-            Base64Mime = mimeAttachment.Base64Mime;
+                Base64Type = mimeAttachment.Base64Type;
+                FileName = mimeAttachment.FileName;
+                ContentLength = mimeAttachment.ContentLength;
+                Verification = mimeAttachment.Verification;
+                Md5Hash = mimeAttachment.Md5Hash;
+                Sha256Hash = mimeAttachment.Sha256Hash;
+                Base64Mime = mimeAttachment.Base64Mime;
+                _isMime = true;
+                _hash = mimeAttachment.Verification;
+            }
+            else if (msgArt == MsgEnum.JsonSerialized)
+            {
+                this.FromJson<MimeAttachment>(plainAttachment);
+            }
 
-            return this;
+            return (MimeAttachment)this;
 
         }
 
@@ -153,7 +213,6 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             string fileCLen = FileName + " [" + ContentLength + "]";
             return fileCLen;
         }
-
 
         public override MimeAttachment ToMimeAttachment()
         {
@@ -176,7 +235,6 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             return mAttach;
         }
 
-
         #endregion members
 
         #region static members
@@ -185,32 +243,20 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         {
             string restString = plainAttachment;
 
-            string mimeType = restString.Substring(restString.IndexOf("Content-Type: ") + "Content-Type: ".Length);
-            // restString = mimeType.Substring(mimeType.IndexOf("; name=\"") + "; name=\"".Length);
-            mimeType = mimeType.Substring(0, mimeType.IndexOf(";"));
-
-            string fileName = restString.Substring(restString.IndexOf("; name=\"") + "; name=\"".Length);
-            fileName = fileName.Substring(0, fileName.IndexOf("\";"));
-
-            string contentLengthString = restString.Substring(restString.IndexOf("Content-Length: ") + "Content-Length: ".Length);
-            contentLengthString = contentLengthString.Substring(0, contentLengthString.IndexOf(";\n"));
+            string mimeType = restString.GetSubStringByPattern("Content-Type: ", true, "", ";", false, StringComparison.CurrentCulture);
+            string fileName = restString.GetSubStringByPattern("; name=\"", true, "", "\";", false, StringComparison.CurrentCulture);
+            string contentLengthString = restString.GetSubStringByPattern("Content-Length: ", true, "", ";\n", false, StringComparison.CurrentCulture);            
             string contentLenString = string.Empty;
             foreach (char ch in contentLengthString.ToCharArray())
-            {
-                if (char.IsDigit(ch) || char.IsNumber(ch) || ch == '.')
+                if (Char.IsDigit(ch) || Char.IsNumber(ch) || ch == '.')
                     contentLenString += ch.ToString();
-            }
-            int contentLen = int.Parse(contentLenString);
+            int contentLen = Int32.Parse(contentLenString);
+
+            string verification = restString.GetSubStringByPattern("Content-Verification: ", true, "", ";", false, StringComparison.CurrentCulture);
+            string md5 = restString.GetSubStringByPattern("md5=\"", true, "", "\";", false, StringComparison.CurrentCultureIgnoreCase);
+            string sha256 = restString.GetSubStringByPattern("sha256=\"", true, "", "\";", false, StringComparison.CurrentCultureIgnoreCase);
 
             restString = restString.Substring(restString.IndexOf("Content-Verification: ") + "Content-Verification: ".Length);
-            string verification = restString.Substring(0, restString.IndexOf(";"));
-
-            string md5 = restString.Substring(restString.IndexOf("md5=\"") + "md5 =\"".Length);
-            md5 = md5.Substring(0, md5.IndexOf("\";"));
-
-            string sha256 = restString.Substring(restString.IndexOf("sha256=\"") + "sha256=\"".Length);
-            sha256 = sha256.Substring(0, sha256.IndexOf("\";"));
-
 
             string mimeBase64 = restString.Substring(restString.IndexOf(";\n") + ";\n".Length);
             restString = restString.Substring(restString.IndexOf(";\n") + ";\n".Length);
@@ -254,20 +300,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         }
 
 
-        public static string ToJson(MimeAttachment mimeAttachment)
-        {
-            string jsonText = JsonConvert.SerializeObject(mimeAttachment);
-            return jsonText;
-        }
-
-        public static MimeAttachment FromJson(string jsonText)
-        {
-            MimeAttachment mimeAttach = JsonConvert.DeserializeObject<MimeAttachment>(jsonText);
-            return mimeAttach;
-        }
-
         #endregion static members
-
 
     }
 
