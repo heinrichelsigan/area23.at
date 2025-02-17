@@ -636,7 +636,7 @@ namespace Area23.At.Mono.Crypt
                         {
                             switch (ztype)
                             {
-                                case ZipType.GZip: inBytes = GZ.GZip(outBytes); break;
+                                case ZipType.GZip: inBytes = GZ.GZipViaStream(outBytes); break;
                                 case ZipType.BZip2: inBytes = BZip2.BZip(outBytes); break;
                                 case ZipType.Zip: inBytes = WinZip.Zip(outBytes); break;
                                 case ZipType.Z7:

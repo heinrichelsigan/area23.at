@@ -14,6 +14,7 @@ namespace Area23.At.Www.S
 {
     public partial class W : System.Web.UI.Page
     {
+
         protected void Page_Load(object sender, EventArgs e)
         {
             string addr = string.Empty;
@@ -46,10 +47,21 @@ namespace Area23.At.Www.S
                 phypath += Path.DirectorySeparatorChar;
             string bmpName = phypath;
             ImageList list = new ImageList();
-            Bitmap ximage = (hexstring.Length <= 16) ? new Bitmap(768, 200) : new Bitmap(2048, 200);
-            if (hexstring.Length > 68)
-                hexstring = hexstring.Substring(0, 67) + "...";
+            Bitmap ximage = new Bitmap(384, 200);
+            if (hexstring.Length > 8)
+            {
+                if (hexstring.Length <= 16)
+                    ximage = new Bitmap(768, 200);
+                else if (hexstring.Length <= 40)
+                    ximage = new Bitmap(1920, 200);
+                else if (hexstring.Length <= 60)
+                {
+                    ximage = new Bitmap(2880, 200);
+                    hexstring = hexstring.Substring(0, 57) + "...";
+                }
+            }
 
+ 
             hexstring = hexstring.ToLower();
 
             System.Drawing.Bitmap mergeimg = new System.Drawing.Bitmap(720, 200);

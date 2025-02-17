@@ -94,19 +94,19 @@ namespace Area23.At.Mono.Util
             {
                 strPath = directoryName;
             }
-            
+
             if (string.IsNullOrEmpty(fileName))
             {
                 fileName = Constants.DateFile + Guid.NewGuid().ToString();
             }
-            string ext = "hex";            
+            string ext = "hex";
 
             if (fileName.LastIndexOf(".") < (fileName.Length - 8))
                 fileName += "." + ext;
 
             string newFileName = fileName;
-           
-            
+
+
             try
             {
                 while (System.IO.File.Exists(strPath + fileName))
@@ -194,7 +194,7 @@ namespace Area23.At.Mono.Util
             }
 
             if (System.IO.File.Exists(strPath + fileName))
-            {                
+            {
                 outMsg = fileName;
                 return fileName;
             }
@@ -217,5 +217,7 @@ namespace Area23.At.Mono.Util
 
             return FileByteArrayData; //return the byte data
         }
+
     }
+
 }
