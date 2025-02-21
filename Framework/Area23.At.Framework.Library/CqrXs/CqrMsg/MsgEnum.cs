@@ -16,5 +16,11 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         JsonDeserialized = 3
     }
 
+
+    public enum MsgKind
+    {
+        Server = 0,
+        Client = 1
+    }
 }
 

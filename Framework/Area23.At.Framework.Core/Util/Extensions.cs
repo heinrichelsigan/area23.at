@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Xml.Linq;
+using System.Net.Sockets;
 
 namespace Area23.At.Framework.Core.Util
 {
@@ -550,9 +551,9 @@ namespace Area23.At.Framework.Core.Util
             if (!string.IsNullOrEmpty(patternEnd) && substring.Contains(patternEnd, comparasionType))
             {
                 if (!lastIndex)
-                    substring = substring.Substring(0, substring.IndexOf(patternEnd, comparasionType) + patternEnd.Length);
+                    substring = substring.Substring(0, substring.IndexOf(patternEnd, comparasionType));
                 else
-                    substring = substring.Substring(0, substring.LastIndexOf(patternEnd, comparasionType) + patternEnd.Length);                                
+                    substring = substring.Substring(0, substring.LastIndexOf(patternEnd, comparasionType));                                
             }
 
             return substring;
@@ -851,6 +852,38 @@ namespace Area23.At.Framework.Core.Util
 
         #endregion serializer_xml_json
 
+        #region System.Net extension methods
+
+        public static bool IsSameIp(this IPAddress ip1, IPAddress ip2, AddressFamily? addrFamily = null)
+        {
+            if (addrFamily == null || !addrFamily.HasValue)
+                return ((Extensions.BytesCompare(ip1.GetAddressBytes(), ip2.GetAddressBytes()) == 0) &&
+                    (ip1.AddressFamily == ip2.AddressFamily));
+
+            return ((Extensions.BytesCompare(ip1.GetAddressBytes(), ip2.GetAddressBytes()) == 0) &&
+                    (ip1.AddressFamily == ip2.AddressFamily) &&
+                    (ip1.AddressFamily == addrFamily.Value));                
+        }
+
+        public static string ShortInfo(this AddressFamily addrFamily)
+        {
+            switch (addrFamily)
+            {
+                case AddressFamily.InterNetwork: return " IPv4 ";
+                case AddressFamily.InterNetworkV6: return " IPv6 ";
+                case AddressFamily.Unix: return " Unix ";
+                case AddressFamily.Irda: return " Irda ";
+                case AddressFamily.Atm: return "  Atm ";
+                case AddressFamily.Ccitt: return "Ccitt ";
+                case AddressFamily.Ecma: return " Ecma ";
+                case AddressFamily.Ipx: return "  Ipx ";
+                // case AddressFamily.Osi:
+                case AddressFamily.Iso: return "  Iso ";
+                default: return "      ";
+            }
+        }
+
+        #endregion System.Net extension methods
 
         #region genericsT_extensions
 
@@ -926,12 +959,60 @@ namespace Area23.At.Framework.Core.Util
             return tt;
         }
 
+
+        public static bool SetNull(params object[] os)
+        {
+            if (os == null || os.Length == 0)
+                return true;
+
+            bool error = false;
+            for (int i = 0; i < os.Length; i++)
+            {
+                object o = os[i];
+                try
+                {
+                    if (o != null)
+                        o = null;
+                }
+                catch (Exception exNull)
+                {
+                    error = true;
+                    Area23Log.LogStatic($"Error in Ext SetNull(params object[] os): {o} {exNull.Message} ...");
+                }
+            }
+
+            return !error;
+        }
+
+        public static bool SetNullT<T>(params T[]? ts) where T : class?
+        {
+            bool error = false;
+            if (ts == null || ts.Length == 0)
+                return true;
+
+            for (int it = 0; it < ts.Length; it++)
+            {
+                T? t = ts[it];
+                try
+                {
+                    if (t != null)
+                        t = null;
+                }
+                catch (Exception exNull)
+                {
+                    error = true;
+                    Area23Log.LogStatic($"Error in Ext SetNullT<T>(params T[] ts) {t.ToString()} {exNull.Message} ....");
+                }
+            }
+
+            return !error;
+
+        }
     }
 
-
     /// <summary>
-    /// Static class alternative for System.Drawing.Color Extension Methods
-    /// </summary>
+        /// Static class alternative for System.Drawing.Color Extension Methods
+        /// </summary>
     public static class ColorFrom
     {
         #region Extensions.ColorFrom static methods

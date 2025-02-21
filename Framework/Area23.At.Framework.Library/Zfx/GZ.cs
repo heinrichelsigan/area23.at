@@ -58,7 +58,7 @@ namespace Area23.At.Framework.Library.Zfx
         public static byte[] GZipViaStream(byte[] inBytes)
         {
             MemoryStream msIn = new MemoryStream();
-            msIn.Write(inBytes, 0, inBytes.Length);            
+            msIn.Write(inBytes, 0, inBytes.Length);
             msIn.Flush();
             msIn.Seek(0, SeekOrigin.Begin);
 
@@ -126,7 +126,7 @@ namespace Area23.At.Framework.Library.Zfx
             msIn.Write(inBytes, 0, inBytes.Length);
             msIn.Flush();
             msIn.Seek(0, SeekOrigin.Begin);
-            
+
             MemoryStream msOut = new MemoryStream();
 
             // using (GZipInputStream gzIn = new GZipInputStream(msIn))
@@ -134,7 +134,7 @@ namespace Area23.At.Framework.Library.Zfx
             {
                 StreamUtils.Copy(gzIn, msOut, new byte[buflen]);
             }
-            
+
             // msOut.Flush();
             byte[] unZipBytes = msOut.ToByteArray();
 
@@ -147,5 +147,6 @@ namespace Area23.At.Framework.Library.Zfx
         }
 
     }
+
 
 }

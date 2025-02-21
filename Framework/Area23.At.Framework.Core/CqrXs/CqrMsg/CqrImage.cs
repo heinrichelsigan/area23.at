@@ -61,6 +61,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             ImageBase64 = "";
         }
 
+
         /// <summary>
         /// Ctor with filename and byte[] data
         /// </summary>
@@ -143,10 +144,20 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         public virtual Bitmap? ToDrawingBitmap()
         {
             Bitmap? bmpImage;
-
-            using (MemoryStream ms = new MemoryStream(ImageData))
+            if (ImageData == null || ImageData.Length == 0)
             {
-                bmpImage = new Bitmap(ms, true);
+                byte[] data = Convert.FromBase64String(ImageBase64);
+                using (MemoryStream ms = new MemoryStream(data))
+                {
+                    bmpImage = new Bitmap(ms, true);
+                }
+            }
+            else
+            {
+                using (MemoryStream ms = new MemoryStream(ImageData))
+                {
+                    bmpImage = new Bitmap(ms, true);
+                }
             }
 
             return bmpImage;
@@ -184,11 +195,22 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         public static Image? ToDrawingImage(CqrImage cqrImage)
         {
             Bitmap? bmpImage;
-
-            using (MemoryStream ms = new MemoryStream(cqrImage.ImageData))
+            if (cqrImage.ImageData == null || cqrImage.ImageData.Length == 0)
             {
-                bmpImage = new Bitmap(ms, true);
+                byte[] data = Convert.FromBase64String(cqrImage.ImageBase64);
+                using (MemoryStream ms = new MemoryStream(data))
+                {
+                    bmpImage = new Bitmap(ms, true);
+                }
             }
+            else
+            {
+                using (MemoryStream ms = new MemoryStream(cqrImage.ImageData))
+                {
+                    bmpImage = new Bitmap(ms, true);
+                }
+            }
+            
 
             return (Image?)bmpImage;
         }
@@ -198,7 +220,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             if (image == null)
                 return null;
 
-            CqrImage? cqrImage;
+            CqrImage? cqrImage = null;
             // ImageFormat format = image.RawFormat;
             byte[] imageData;
             string fileName = string.IsNullOrEmpty(imgName) ? string.Empty : imgName;
@@ -253,10 +275,28 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
                         fileName += "ico";
                         image.Save(ms, ImageFormat.Icon);
                     }
+                    else if (image.RawFormat == ImageFormat.Heif)
+                    {
+                        fileName += "heif";
+                        image.Save(ms, ImageFormat.Heif);
+                    }
+                    else if (image.RawFormat == ImageFormat.Webp)
+                    {
+                        fileName += "webp";
+                        image.Save(ms, ImageFormat.Webp);
+                    }
                     else
                     {
-                        fileName += "raw";
-                        image.Save(ms, image.RawFormat);
+                        try
+                        {
+                            fileName += "bmp";
+                            image.Save(ms, ImageFormat.Bmp);
+                        }
+                        catch (Exception exImg)
+                        {
+                            Area23Log.LogStatic(exImg);
+                            return null;
+                        }
                     }
                 }
                 else

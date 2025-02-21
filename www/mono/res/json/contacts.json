@@ -1,0 +1,20 @@
+[
+  {
+    "ContactId": 0,
+    "Cuid": "00000000-0000-0000-0000-000000000000",
+    "Name": "",
+    "Email": "",
+    "Mobile": "",
+    "Address": "",
+    "SecretKey": ""
+  },
+  {
+    "ContactId": 1,
+    "Cuid": "70d6fefa-253e-4ebd-8dd2-ef9d7545bd4d",
+    "Name": "Heinrich Elsigan",
+    "Email": "he@area23.at",
+    "Mobile": "+43 650 7527928",
+    "Address": "Theresianumgasse 6/28, 1040 Wien",
+    "SecretKey": "WNScVlGDB4UBQyiCnkRmSJgHcidpM1BWP20K49Z4txwtDhhormJ5HVlSqkug38DN+7c3QETkrncBk0nxgyVItb+GBXavWcGdJsYJcovBUHADshNrbZ/tBH5F41RiB7U5v4F3Jw0bNYQAa7KZZKMtmU1WYkbJsie0+SsRIQS5YJ/9DYzYezgeDgha1bUvWRF0dk5mcjZg4HfluCkN843iDtggCP4cQ7mqNscWOSOY+Hw="
+  }
+]

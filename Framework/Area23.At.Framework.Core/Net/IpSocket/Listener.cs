@@ -169,30 +169,84 @@ namespace Area23.At.Framework.Core.Net.IpSocket
 
         public void Dispose()
         {
+
+                if (ServerSocket != null)
+                {
+                    if (ClientSocket != null)
+                    {
+                        try
+                        {
+                            if (ClientSocket.Connected)
+                                ClientSocket.Disconnect(true);
+                        }
+                        catch (Exception exSockDisconnect)
+                        {
+                            Area23Log.LogStatic(exSockDisconnect);
+                        }
+                        try
+                        {
+                            if (ClientSocket.IsBound)
+                                ClientSocket.Close(Constants.CLOSING_TIMEOUT);
+                        }
+                        catch (Exception exSockClose)
+                        {
+                            Area23Log.LogStatic(exSockClose);
+                        }
+                    }
+                    try
+                    {
+                        if (ServerSocket.Connected)
+                            ServerSocket.Disconnect(true);
+                    }
+                    catch (Exception exSrvSockDisconnect)
+                    {
+                        Area23Log.LogStatic(exSrvSockDisconnect);
+                    }
+                    try
+                    {
+                        if (ServerSocket.IsBound)
+                            ServerSocket.Close(Constants.CLOSING_TIMEOUT);
+                    }
+                    catch (Exception exSrvSockClose)
+                    {
+                        Area23Log.LogStatic(exSrvSockClose);
+                    }
+                }
+
+ 
             disposed = true;
-            if (ServerSocket != null)
+
+            try
+            {
+                if (ServerSocket != null)
+                    ServerSocket.Dispose();
+            }
+            catch (Exception exClientSockDispose)
+            {
+                Area23Log.LogStatic(exClientSockDispose);
+            }
+            try
             {
                 if (ClientSocket != null)
-                {
-                    if (ClientSocket.Connected)
-                        ClientSocket.Disconnect(true);
-                    if (ClientSocket.IsBound)
-                        ClientSocket.Close(Constants.CLOSING_TIMEOUT);
-                }
-                if (ServerSocket.Connected)
-                    ServerSocket.Disconnect(true);
-
-                if (ServerSocket.IsBound)
-                    ServerSocket.Close(Constants.CLOSING_TIMEOUT);
-
+                    ClientSocket.Dispose();
             }
-            if (ClientSocket != null)
-                ClientSocket.Dispose();
-            if (ServerSocket != null)
-                ServerSocket.Dispose();
-            
-            ListenerName = "";
-            ServerEndPoint = null; ClientSocket = null; ServerSocket = null; ServerAddress = null;
+            catch (Exception exSrvSockDispose)
+            {
+                Area23Log.LogStatic(exSrvSockDispose);
+            }
+
+            try { EventHandlerClientRequest = null; }
+            catch (Exception exEventHandlerNull) { Area23Log.LogStatic(exEventHandlerNull); }
+            try { ListenerName = ""; ServerEndPoint = null; }
+            catch (Exception exSockNull) { Area23Log.LogStatic(exSockNull); }
+
+            try { ClientSocket = null; }
+            catch (Exception exSockNull) { Area23Log.LogStatic(exSockNull); }
+
+            try { ServerSocket = null; } catch (Exception exSockNull) { Area23Log.LogStatic(exSockNull); }
+
+            try { ServerAddress = null; }
+            catch (Exception exSrvAddr) { Area23Log.LogStatic(exSrvAddr); }
 
         }
 

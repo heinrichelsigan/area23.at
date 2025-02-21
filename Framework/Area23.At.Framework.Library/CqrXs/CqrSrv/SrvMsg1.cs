@@ -19,8 +19,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
 
     /// <summary>
     /// Provides a secure encrypted message to send to the server or receive from server
-    /// </summary>
-    [DataContract(Name = "SrvMsg1")]
+    /// </summary>    
     public class SrvMsg1 : BaseMsg
     {
         protected internal CqrContact MsgContact { get; set; }
@@ -46,37 +45,17 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
         public string CqrSrvMsg1(CqrContact myContact, EncodingType encType)
         {
             myContact._hash = PipeString;
-            MsgContact = myContact;
-            MsgContact._hash = PipeString;
-            JsonSerializer serializer = new JsonSerializer();
-            StringBuilder stringBuilder = new StringBuilder();
-            using (var stringWriter = new StringWriter(stringBuilder))
-            {
-                serializer.Serialize(stringWriter, myContact);
-            }
-            MsgContact._message = stringBuilder.ToString();
-            MsgContact._rawMessage = MsgContact.Message + "\n" + PipeString + "\0";
+            MsgContact = new CqrContact(myContact, PipeString);
+            string allMsg = MsgContact.ToJson();
+            MsgContact._message = allMsg;
+            MsgContact._rawMessage = allMsg + "\n" + symmPipe.PipeString + "\0";
+
+            byte[] allBytes = DeEnCoder.GetBytesFromString(allMsg);
+            byte[] msgBytes = DeEnCoder.GetBytesFromString(MsgContact._message);
+            byte[] cqrMsgBytes = (LibPaths.CqrEncrypt) ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
+            CqrMessage = DeEnCoder.EncodeBytes(cqrMsgBytes, encType);
+
             return CqrBaseMsg(MsgContact, encType);
-        }
-
-
-
-        /// <summary>
-        /// CqrAttachmentSrvMsg1 encrypts the picture of user as attchment
-        /// </summary>
-        /// <param name="myContact"><see cref="CqrContact"/></param>        
-        /// <param name="attachment">out <see cref="MimeAttachment"/></param>
-        /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns>encrypted attachment msg via <see cref="SymmCipherPipe"/></returns>
-        public string CqrAttachmentSrvMsg1(CqrContact myContact, out MimeAttachment attachment, EncodingType encType = EncodingType.Base64)
-        {
-            MsgContact = myContact;
-            CqrImage myImage = myContact.ContactImage;
-            string md5 = Area23.At.Framework.Library.Crypt.Hash.MD5Sum.Hash(myImage.ImageData, myImage.ImageFileName);
-            string sha256 = Area23.At.Framework.Library.Crypt.Hash.Sha256Sum.Hash(myImage.ImageData, myImage.ImageFileName);
-            MimeAttachment mimeAttachment = new MimeAttachment(myImage.ImageFileName, myImage.ImageMimeType, myImage.ImageBase64, "", md5, sha256);
-            
-            return CqrBaseAttachment(myImage.ImageFileName, myImage.ImageMimeType, myImage.ImageBase64, out attachment, encType, md5, sha256);
         }
 
 
@@ -124,6 +103,33 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
 
             return response;
         }
+
+
+
+        //public string Send1st_CqrSrvMsg1_Soap(CqrContact myContact, IPAddress srvIp, EncodingType encodingType = EncodingType.Base64)
+        //{
+
+        //    myContact._hash = PipeString;
+        //    string msg = Newtonsoft.Json.JsonConvert.SerializeObject(myContact);
+        //    // string encMsg = CqrBaseMsg(msg, encodingType);
+        //    string encMsg = CqrSrvMsg1(myContact, encodingType);
+        //    // string encrypted = String.Format("TextBoxEncrypted={0}\r\nTextBoxDecrypted=\r\nTextBoxLastMsg=\r\nButtonSubmit=Submit",
+        //    //     encMsg);
+
+        //    string posturl = ConfigurationManager.AppSettings["ServerUrlToPost"].ToString();
+        //    string hostheader = ConfigurationManager.AppSettings["SendHostHeader"].ToString();
+
+        //    CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoap12);
+
+        //    string response = client.Send1StSrvMsg(encMsg);
+
+
+
+        //    //    string response = WebClientRequest.PostMessage(encrypted, posturl, hostheader, srvIp.ToString());
+
+        //    return response;
+
+        //}
 
 
     }

@@ -25,7 +25,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
     {
 
         /// <summary>
-        /// CqrServerMsg constructor with srvKey
+        /// Peer2PeerMsg constructor with srvKey
         /// </summary>
         /// <param name="srvKey">server key (normally client ip + secret)</param>
         /// <exception cref="ArgumentNullException">thrown, when srvKey is null or <see cref="string.Empty"/></exception>

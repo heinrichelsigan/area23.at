@@ -34,11 +34,11 @@ namespace Area23.At.Framework.Library.Net.NameService
         /// GetIpAddrsByHostName get all ip addresses except loopback for a dns hostname
         /// </summary>
         /// <param name="hostname">hostname</param>
-        /// <returns><see cref="IEnumerable{IPAddress}">IEnumerable{IPAddress}</see></returns>
-        public static IEnumerable<IPAddress> GetIpAddrsByHostName(string hostname = "")
+        /// <returns><see cref="List{IPAddress}">IEnumerable{IPAddress}</see></returns>
+        public static List<IPAddress> GetIpAddrsByHostName(string hostname = "")
         {
             IPHostEntry ipHost = GetHostEntryByHostName(hostname);
-            IEnumerable<IPAddress> ipList = (from ip in ipHost.AddressList where !IPAddress.IsLoopback(ip) select ip).ToList();
+            List<IPAddress> ipList = (from ip in ipHost.AddressList where !IPAddress.IsLoopback(ip) select ip).ToList();
             return ipList;
         }
 

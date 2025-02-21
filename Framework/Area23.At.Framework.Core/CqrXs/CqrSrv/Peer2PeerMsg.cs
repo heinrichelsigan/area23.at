@@ -72,6 +72,8 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             attachment = new MimeAttachment(fileName, mimeType, base64Mime, symmPipe.PipeString, sMd5, sSha256);
             attachment.MsgType = msgType;
             string mimeMsg = string.Empty;
+            attachment._hash = PipeString;
+            attachment.Verification = PipeString;
             if (msgType == MsgEnum.None || msgType == MsgEnum.RawWithHashAtEnd)
             {
                 mimeMsg = attachment.MimeMsg;
@@ -79,8 +81,6 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             }
             else
             {
-                attachment._hash = PipeString;
-                attachment.Verification = PipeString;
                 mimeMsg = JsonConvert.SerializeObject(attachment);
             }
             byte[] msgBytes = DeEnCoder.GetBytesFromString(mimeMsg);
@@ -144,6 +144,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         {
             string encrypted = CqrPeerAttachment(fileName, mimeType, base64Mime, out attachment, sMd5, sSha256, msgType, encodingType);
             attachment.MsgType = msgType;
+            attachment._hash = PipeString;
             string response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
             return response;
         }

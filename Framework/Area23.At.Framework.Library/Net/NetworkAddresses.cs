@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Net.NameService;
 using Area23.At.Framework.Library.Net.WebHttp;
+using Area23.At.Framework.Library.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Net
 {
+
     /// <summary>
     /// NetworkAddresses provides several members to get all local network addresses (except loopback)
     /// </summary>
@@ -30,53 +32,46 @@ namespace Area23.At.Framework.Library.Net
             if (serverIps == null || serverIps.Count == 0)
             {
                 serverIps = new List<IPAddress>();
-                foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.CQRXS_EU))
-                    serverIps.Add(serverIp);
-                foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.AREA23_AT))
-                    serverIps.Add(serverIp);
-                foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.PARIS_AREA23_AT))
-                    serverIps.Add(serverIp);
-
-                try
-                {
-                    foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.IPV6_CQRXS_EU))
-                        serverIps.Add(serverIp);
-                }
-                catch (Exception exVirginia)
-                {
-                    Area23Log.LogStatic(exVirginia);
-                }
-                try
-                {
-                    foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.VIRGINA_AREA23_AT))
-                        serverIps.Add(serverIp);
-                }
-                catch (Exception exVirginia)
-                {
-                    Area23Log.LogStatic(exVirginia);
-                }
-                try
-                {
-                    foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.PARISIENNE_AREA23_AT))
-                        serverIps.Add(serverIp);
-                }
-                catch (Exception exParisienne)
-                {
-                    Area23Log.LogStatic(exParisienne);
-                }
             }
+
+            foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.CQRXS_EU))
+                if (!serverIps.Contains(serverIp))
+                    serverIps.Add(serverIp);
+            // foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.PARIS_CQRXS_EU))
+            //     serverIps.Add(serverIp);
+
+            try
+            {
+                foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.IPV6_CQRXS_EU))
+                    if (!serverIps.Contains(serverIp))
+                        serverIps.Add(serverIp);
+            }
+            catch (Exception exV6)
+            {
+                Area23Log.LogStatic(exV6);
+            }
+            //try
+            //{
+            //    foreach (IPAddress serverIp in DnsHelper.GetIpAddrsByHostName(Constants.PARISIENNE_CQRXS_EU))
+            //      serverIps.Add(serverIp);
+            //}
+            //catch (Exception exParisienne)
+            //{
+            //    Area23Log.LogStatic(exParisienne);
+            //}
 
             foreach (IPAddress serverIp in serverIps)
             {
-                IPAddress clientIp;
+                List<IPAddress> clientIPs = new List<IPAddress>();
                 string resp = string.Empty;
                 try
                 {
-                    resp = TcpClientWebRequest.MakeWebRequest(serverIp);
-
-                    clientIp = IPAddress.Parse(resp);
-                    if (!validAddrs.Contains(clientIp))
-                        validAddrs.Add(clientIp);
+                    resp = TcpClientWebRequest.MakeWebRequest(serverIp, out clientIPs);
+                    foreach (IPAddress cIp in clientIPs)
+                    {
+                        if (!validAddrs.Contains(cIp))
+                            validAddrs.Add(cIp);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -141,9 +136,9 @@ namespace Area23.At.Framework.Library.Net
         /// <param name="addressFamily">only <see cref="AddressFamily.InterNetwork"/>.
         /// <see cref="AddressFamily.InterNetworkV6">AddressFamily.InterNetworkV6</see> and 
         /// <seealso cref="AddressFamily.Unix"/> are supported.</param>
-        /// <returns><see cref="IEnumerable{IPAddress}"/></returns>
+        /// <returns><see cref="IList{IPAddress}"/></returns>
         /// <exception cref="ProtocolViolationException"></exception>
-        public static IEnumerable<IPAddress> GetIpAddresses(AddressFamily addressFamily)
+        public static IList<IPAddress> GetIpAddresses(AddressFamily addressFamily)
         {
             switch (addressFamily)
             {
@@ -166,15 +161,15 @@ namespace Area23.At.Framework.Library.Net
                                              where !IPAddress.IsLoopback(address) && address.AddressFamily == addressFamily
                                              select address;
 
-            return ipAddrs;
+            return ipAddrs.ToList();
         }
 
 
         /// <summary>
         /// GetMacAddress returns Mac Address
         /// </summary>
-        /// <returns><see cref="IEnumerable{PhysicalAddress}"/></returns>
-        public static IEnumerable<PhysicalAddress> GetMacAddress()
+        /// <returns><see cref="IList{PhysicalAddress}"/></returns>
+        public static IList<PhysicalAddress> GetMacAddress()
         {
             IEnumerable<PhysicalAddress> macAddrs =
 
@@ -183,7 +178,7 @@ namespace Area23.At.Framework.Library.Net
                     select nic.GetPhysicalAddress()
                 ;
 
-            return macAddrs;
+            return macAddrs.ToList();
         }
 
 

@@ -62,8 +62,6 @@ namespace Area23.At.Framework.Library
             string logMsg = string.Empty;
             if (!string.IsNullOrEmpty(appName))
                 LogFile = LibPaths.GetLogFilePath(appName);
-            else
-                LogFile = area23LogFile;
 
             if (!CheckedToday)
             {

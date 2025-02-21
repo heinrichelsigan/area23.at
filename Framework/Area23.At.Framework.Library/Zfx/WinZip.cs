@@ -15,7 +15,6 @@ namespace Area23.At.Framework.Library.Zfx
     {
         public static byte[] Zip(byte[] inBytes)
         {
-            
             MemoryStream msIn = new MemoryStream();
             msIn.Write(inBytes, 0, inBytes.Length);
             msIn.Flush();

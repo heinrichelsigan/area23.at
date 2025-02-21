@@ -44,7 +44,7 @@ namespace Area23.At.Framework.Library.Zfx
             msIn.Seek(0, SeekOrigin.Begin);
 
             MemoryStream msOut = new MemoryStream();
-            using (BZip2OutputStream bzOut = new BZip2OutputStream(msOut))
+            using (BZip2OutputStream bzOut = new BZip2OutputStream(msOut, buflen))
             {
                 StreamUtils.Copy(msIn, bzOut, new byte[buflen]);
             }
@@ -97,6 +97,7 @@ namespace Area23.At.Framework.Library.Zfx
 
 
             msOut.Flush();
+            msOut.Seek(0, SeekOrigin.Begin);
             byte[] unZipBytes = msOut.ToArray();
 
             msIn.Close();

@@ -631,18 +631,22 @@ namespace Area23.At.Mono.Crypt
 
                         ZipType ztype = ZipType.None;
                         string zcmd  = (Constants.UNIX) ? "zipunzip.sh" : (Constants.WIN32) ? "zipunzip.bat" : "";
-                        string zopt = " ";
+                        string zopt = "";
                         if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
                         {
                             switch (ztype)
                             {
-                                case ZipType.GZip: inBytes = GZ.GZipViaStream(outBytes); break;
-                                case ZipType.BZip2: inBytes = BZip2.BZip(outBytes); break;
-                                case ZipType.Zip: inBytes = WinZip.Zip(outBytes); break;
+                                case ZipType.GZip: zopt = ".gz"; inBytes = GZ.GZipViaStream(outBytes);
+                                    Array.Copy(inBytes, 0, outBytes, 0, inBytes.Length); break;
+                                case ZipType.BZip2: zopt = ".bz2"; inBytes = BZip2.BZip(outBytes);
+                                    Array.Copy(inBytes, 0, outBytes, 0, inBytes.Length); break;
+                                case ZipType.Zip: zopt = ".zip"; inBytes = WinZip.Zip(outBytes);
+                                    Array.Copy(inBytes, 0, outBytes, 0, inBytes.Length); break;
                                 case ZipType.Z7:
                                 case ZipType.None:
                                 default: break;
                             }
+                            strFileName += zopt;
                             //string outp = string.Empty;
                             //string zfile = DateTime.UtcNow.Area23DateTimeWithMillis();
                             //string zPath = inBytes.ToFile(LibPaths.SystemDirTmpPath, zfile, ".txt");

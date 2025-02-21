@@ -108,7 +108,7 @@ namespace Area23.At.Framework.Core.Net.WebHttp
         /// <param name="url">default: https://cqrxs.eu/net/R.aspx https://area23.at/net/R.aspx</param>
         /// <param name="encoding"><see cref="System.Text.Encoding"/></param>
         /// <returns>external official gateway <see cref="IPAddress">ip address</see> of client</returns>
-        public static IPAddress? ExternalClientIpFromServer(string url = "https://cqrxs.eu/net/R.aspx", System.Text.Encoding? encoding = null)
+        public static IPAddress? ExternalClientIpFromServer(string url = "https://cqrxs.eu/cqrsrv/cqrjd/R.aspx", System.Text.Encoding? encoding = null)
         {
             WebClient wc = GetWebClient(url, encoding);
             Uri uri = new Uri(url);

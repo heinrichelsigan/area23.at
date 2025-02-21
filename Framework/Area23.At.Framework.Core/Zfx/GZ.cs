@@ -46,7 +46,6 @@ namespace Area23.At.Framework.Core.Zfx
             return zipBytes;
         }
 
-
         /// <summary>
         /// GZipViaStream 
         /// </summary>
@@ -80,6 +79,7 @@ namespace Area23.At.Framework.Core.Zfx
             return zipBytes;
         }
 
+
         /// <summary>
         /// Please use <see cref="GUnZipViaStream(byte[])"/>
         /// </summary>
@@ -109,7 +109,6 @@ namespace Area23.At.Framework.Core.Zfx
 
             return unZipBytes;
         }
-
 
         /// <summary>
         /// GUnZipViaStream
@@ -144,5 +143,6 @@ namespace Area23.At.Framework.Core.Zfx
         }
 
     }
+
 
 }

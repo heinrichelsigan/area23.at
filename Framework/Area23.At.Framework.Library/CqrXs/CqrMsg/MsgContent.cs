@@ -102,9 +102,17 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             }
             if (msgArt == MsgEnum.RawWithHashAtEnd || msgArt == MsgEnum.None)
             {
-                _message = msg;
                 _hash = hash;
-                _rawMessage = _message + "\n" + hash + "\0";
+                if (msg.Contains(hash) && msg.IndexOf(hash) > (msg.Length - 10))
+                {
+                    _rawMessage = msg;
+                    _message = _rawMessage.Substring(0, _rawMessage.Length - _hash.Length);
+                }
+                else
+                {
+                    _message = msg;
+                    _rawMessage = _message + "\n" + hash + "\0";
+                }                
             }
         }
 
@@ -213,5 +221,6 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         }
 
     }
+
 
 }

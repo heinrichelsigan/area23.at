@@ -114,7 +114,8 @@ namespace Area23.At.Framework.Library
         public const string LOG_EXT = ".log";
         public const string OUT_DIR = "out";
         public const string TMP_DIR = "tmp";
-        public const string QR_DIR = "Qr";
+        public const string QR_DIR = "json";
+        public const string JSON_DIR = "json";
         public const string RES_DIR = "res";
         public const string RES_FOLDER = "res";
         public const string TEXT_DIR = "text";

@@ -123,7 +123,7 @@ namespace Area23.At.Framework.Library.Net.IpSocket
 
 
         public virtual string ListenToString() => "Listening " +
-            ((ServerEndPoint?.AddressFamily == AddressFamily.InterNetworkV6) ? "ip6 " : "ip4 ") +
+            ServerEndPoint?.AddressFamily.ShortInfo() + 
             ServerAddress?.ToString() + ":" + ServerEndPoint?.Port + " " + ServerSocket?.SocketType.ToString();
 
 

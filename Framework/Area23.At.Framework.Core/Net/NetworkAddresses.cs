@@ -62,14 +62,16 @@ namespace Area23.At.Framework.Core.Net
 
             foreach (IPAddress serverIp in serverIps)
             {
-                IPAddress clientIp, realClientIp;
+                List<IPAddress> clientIPs = new List<IPAddress>();
                 string resp = string.Empty;
                 try
                 {
-                    resp = TcpClientWebRequest.MakeWebRequest(serverIp, out clientIp, out realClientIp);
-                    clientIp = clientIp ?? IPAddress.Parse(resp);
-                    if (!validAddrs.Contains(clientIp))
-                        validAddrs.Add(clientIp);
+                    resp = TcpClientWebRequest.MakeWebRequest(serverIp, out clientIPs);
+                    foreach (IPAddress cIp in clientIPs)
+                    {
+                        if (!validAddrs.Contains(cIp))
+                            validAddrs.Add(cIp);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -134,9 +136,9 @@ namespace Area23.At.Framework.Core.Net
         /// <param name="addressFamily">only <see cref="AddressFamily.InterNetwork"/>.
         /// <see cref="AddressFamily.InterNetworkV6">AddressFamily.InterNetworkV6</see> and 
         /// <seealso cref="AddressFamily.Unix"/> are supported.</param>
-        /// <returns><see cref="IEnumerable{IPAddress}"/></returns>
+        /// <returns><see cref="IList{IPAddress}"/></returns>
         /// <exception cref="ProtocolViolationException"></exception>
-        public static IEnumerable<IPAddress> GetIpAddresses(AddressFamily addressFamily)
+        public static IList<IPAddress> GetIpAddresses(AddressFamily addressFamily)
         {
             switch (addressFamily)
             {
@@ -159,15 +161,15 @@ namespace Area23.At.Framework.Core.Net
                                              where !IPAddress.IsLoopback(address) && address.AddressFamily == addressFamily
                                              select address;
 
-            return ipAddrs;
+            return ipAddrs.ToList();
         }
 
 
         /// <summary>
         /// GetMacAddress returns Mac Address
         /// </summary>
-        /// <returns><see cref="IEnumerable{PhysicalAddress}"/></returns>
-        public static IEnumerable<PhysicalAddress> GetMacAddress()
+        /// <returns><see cref="IList{PhysicalAddress}"/></returns>
+        public static IList<PhysicalAddress> GetMacAddress()
         {
             IEnumerable<PhysicalAddress> macAddrs =
 
@@ -176,7 +178,7 @@ namespace Area23.At.Framework.Core.Net
                     select nic.GetPhysicalAddress()
                 ;
 
-            return macAddrs;
+            return macAddrs.ToList();
         }
 
 

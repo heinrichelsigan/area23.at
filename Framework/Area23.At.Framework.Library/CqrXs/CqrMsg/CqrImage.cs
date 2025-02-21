@@ -143,9 +143,20 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         public virtual Bitmap ToDrawingBitmap()
         {
             Bitmap bmpImage;
-            using (MemoryStream ms = new MemoryStream(ImageData))
+            if (ImageData == null || ImageData.Length == 0)
             {
-                bmpImage = new Bitmap(ms, true);
+                byte[] data = Convert.FromBase64String(ImageBase64);
+                using (MemoryStream ms = new MemoryStream(data))
+                {
+                    bmpImage = new Bitmap(ms, true);
+                }
+            }
+            else
+            {
+                using (MemoryStream ms = new MemoryStream(ImageData))
+                {
+                    bmpImage = new Bitmap(ms, true);
+                }
             }
 
             return bmpImage;
@@ -182,14 +193,26 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         public static Image ToDrawingImage(CqrImage cqrImage)
         {
             Bitmap bmpImage;
-
-            using (MemoryStream ms = new MemoryStream(cqrImage.ImageData))
+            if (cqrImage.ImageData == null || cqrImage.ImageData.Length == 0)
             {
-                bmpImage = new Bitmap(ms, true);
+                byte[] data = Convert.FromBase64String(cqrImage.ImageBase64);
+                using (MemoryStream ms = new MemoryStream(data))
+                {
+                    bmpImage = new Bitmap(ms, true);
+                }
             }
+            else
+            {
+                using (MemoryStream ms = new MemoryStream(cqrImage.ImageData))
+                {
+                    bmpImage = new Bitmap(ms, true);
+                }
+            }
+
 
             return (Image)bmpImage;
         }
+
 
         public static CqrImage FromDrawingImage(System.Drawing.Image image, string imgName = "")
         {

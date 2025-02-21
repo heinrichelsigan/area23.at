@@ -28,7 +28,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
         protected internal readonly SymmCipherPipe symmPipe;
 
 
-        public string PipeString { get; set; }
+        public string PipeString { get; internal set; }
 
 
         public string CqrMessage { get; protected internal set; }
@@ -61,7 +61,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
         public virtual string CqrBaseMsg(string msg, EncodingType encType = EncodingType.Base64)
         {
             MsgContent msc;
-            if (msg.Contains(PipeString) && msg.IndexOf(PipeString) < msg.Length - 7)
+            if (msg.Contains(PipeString) && msg.IndexOf(PipeString) > msg.Length - 10)
                 msc = new MsgContent(msg, MsgEnum.None);
             else
                 msc = new MsgContent(msg, PipeString);
@@ -153,7 +153,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
             MsgEnum msgEnum = (decrypted.IsValidJson()) ? MsgEnum.JsonSerialized : MsgEnum.RawWithHashAtEnd;
             MsgContent msgContent = new MsgContent(decrypted, msgEnum);
             string hashVerification = msgContent.Hash;
-            if (!VerifyHash(hashVerification))
+            if (!VerifyHash(hashVerification, symmPipe.PipeString))
             {
                 string hashSymShow = symmPipe.PipeString ?? "        ";
                 throw new InvalidOperationException(
@@ -201,13 +201,13 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
         /// </summary>
         /// <param name="hash">verification hash parsed out of msg</param>
         /// <returns>true, if msg could be verified, otherwise false</returns>
-        protected internal virtual bool VerifyHash(string hash)
+        protected internal virtual bool VerifyHash(string hash, string pipeClientOrServer)
         {
             int failureCnt = 0;
-            int minLen = Math.Min(hash.Length, symmPipe.PipeString.Length);
+            int minLen = Math.Min(hash.Length, pipeClientOrServer.Length);
             for (int ic = 0; ic < minLen; ic++)
             {
-                if (hash[ic] != symmPipe.PipeString[ic])
+                if (hash[ic] != pipeClientOrServer[ic])
                     failureCnt += ic;
             }
 
@@ -215,6 +215,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
         }
 
     }
+
 
 
 }

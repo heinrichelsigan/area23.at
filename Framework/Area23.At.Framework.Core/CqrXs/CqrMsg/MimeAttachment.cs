@@ -214,6 +214,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             return fileCLen;
         }
 
+
         public override MimeAttachment ToMimeAttachment()
         {
             if (!IsMimeAttachment())
@@ -234,6 +235,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 
             return mAttach;
         }
+
 
         #endregion members
 

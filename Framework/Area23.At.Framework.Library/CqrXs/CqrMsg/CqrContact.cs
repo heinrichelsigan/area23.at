@@ -4,9 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using static QRCoder.PayloadGenerator.SwissQrCode;
+using System.Xml.Linq;
+using System.Net;
 
 namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 {
@@ -40,6 +44,20 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 
         public string NameEmail { get => string.IsNullOrEmpty(Email) ? Name : $"{Name} <{Email}>"; }
 
+
+        #region from server given properties
+
+        public IPAddress ClientIp { get; set; }
+
+
+        public string CharRoomId { get; set; }
+
+
+        public DateTime ValidFrom { get; set; }
+
+
+        #endregion from server given properties
+
         #endregion properties
 
         #region constructors
@@ -61,9 +79,9 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             FromJson<CqrContact>(cs);
         }
 
-        public CqrContact(int contactId, string name, string email, string mobile, string address) : base()
+        public CqrContact(int cid, string name, string email, string mobile, string address) : base()
         {
-            ContactId = contactId;
+            ContactId = cid;
             Name = name;
             Email = email;
             Mobile = mobile;
@@ -79,29 +97,48 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             Address = address;
         }
 
-        public CqrContact(int contactId, string name, string email, string mobile, string address, CqrImage cqrImage) :
-            this(contactId, name, email, mobile, address)
+        public CqrContact(int cid, string name, string email, string mobile, string address, CqrImage cqrImage) 
+            : this(cid, name, email, mobile, address)
         {
             ContactImage = cqrImage;
         }
 
-        public CqrContact(int contactId, Guid cuid, string name, string email, string mobile, string address, CqrImage cqrImage) :
-            this(contactId, name, email, mobile, address)
+        public CqrContact(int cid, Guid cuid, string name, string email, string mobile, string address, CqrImage cqrImage) 
+            : this(cid, name, email, mobile, address)
         {
             Cuid = cuid;
             ContactImage = cqrImage;
         }
 
-        public CqrContact(int contactId, string name, string email, string mobile, string address, Image image) :
-            this(contactId, name, email, mobile, address)
+        public CqrContact(int cid, Guid cuid, string name, string email, string mobile, string address, CqrImage cqrImage, string hash)
+            : this(cid, cuid, name, email, mobile, address, cqrImage)
+        {
+           _hash = hash;
+        }
+
+        public CqrContact(int cid, string name, string email, string mobile, string address, Image image) 
+            : this(cid, name, email, mobile, address)
         {
             ContactImage = CqrImage.FromDrawingImage(image);
         }
 
-        public CqrContact(int contactId, Guid cuid, string name, string email, string mobile, string address, Image image) : this(contactId, name, email, mobile, address)
+        public CqrContact(int cid, Guid cuid, string name, string email, string mobile, string address, Image image) 
+            : this(cid, name, email, mobile, address)
         {
             Cuid = cuid;
             ContactImage = CqrImage.FromDrawingImage(image);
+        }
+
+        public CqrContact(int cid, Guid cuid, string name, string email, string mobile, string address, Image image, string hash)
+            : this(cid, cuid, name, email, mobile, address, image)
+        {
+            this._hash = hash;
+        }
+
+        public CqrContact(CqrContact c, string hash) 
+            : this(c.ContactId, c.Cuid, c.Name, c.Email, c.Mobile, c.Address, c.ContactImage, hash) 
+        {
+
         }
 
         #endregion constructors

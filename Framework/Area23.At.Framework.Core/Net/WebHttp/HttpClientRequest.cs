@@ -106,7 +106,7 @@ namespace Area23.At.Framework.Core.Net.WebHttp
 
         public static async Task<HttpResponseMessage> GetClientIPFormArea23()
         {
-            string url = "https://cqrxs.eu/net/R.aspx";
+            string url = "https://cqrxs.eu/cqrsrv/cqrjd/R.aspx";
             return await GetClientIp(url);
         }
 

@@ -509,6 +509,7 @@
       <DependentUpon>UnixMaster.master</DependentUpon>
     </Compile>
     <Compile Include="Util\HostLogHelper.cs" />
+    <Compile Include="Util\JsonChatRoom.cs" />
     <Compile Include="Util\JsonContacts.cs" />
     <Compile Include="Util\JsonHelper.cs" />
     <Compile Include="Calc\RPNType.cs" />
@@ -540,6 +541,8 @@
     <Content Include="res\bin\zipunzip.sh" />
     <Content Include="res\bin\zipunzip.bat" />
     <Content Include="res\tmp\temp.tmp" />
+    <Content Include="res\json\contacts.json" />
+    <Content Include="res\json\urlshort.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

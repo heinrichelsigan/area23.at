@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 {
 
+    /// <summary>
+    /// Full SrvMsg
+    /// </summary>
+    /// <typeparam name="TC"></typeparam>
     [JsonObject]
     [Serializable]
     public class FullSrvMsg<TC> : MsgContent where TC : class
@@ -16,7 +20,21 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 
         public CqrContact Sender { get; set; }
 
-        public CqrContact Recipient { get; set; }
+        public List<CqrContact> Recipients { get; set; }
+
+        public CqrContact Recipient {
+            get => Recipients[0];
+            set
+            {
+                if (Recipients == null || Recipients.Count == 0)
+                {
+                    Recipients = new List<CqrContact>();
+                    Recipients.Add(value);
+                }
+                else
+                { Recipients[0] = value; }
+            }
+        }
 
         public TC TContent { get; set; }
 
@@ -30,6 +48,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             _rawMessage = string.Empty;
             _hash = string.Empty;
             Sender = null;
+            Recipients = new List<CqrContact>();
             Recipient = null;
             TContent = null;
         }
@@ -39,6 +58,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             this.FromJson<FullSrvMsg<TC>>(fm);
         }
 
+        [Obsolete("Always user FullSrvMsg(CqrContact sender, CqrContact to, TC tc, string hash) : base() ctor", false)]
         public FullSrvMsg(CqrContact sender, CqrContact to, TC tc) : base()
         {
             Sender = sender;
@@ -46,6 +66,13 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             TContent = tc;
         }
 
+        /// <summary>
+        /// Please always use this constuctor
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="to"></param>
+        /// <param name="tc"></param>
+        /// <param name="hash"></param>
         public FullSrvMsg(CqrContact sender, CqrContact to, TC tc, string hash) : base()
         {
             Sender = sender;
@@ -64,20 +91,21 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             return jsonText;
         }
 
-        public override TType FromJson<TType>(string jsonText) 
+        public new FullSrvMsg<TC> FromJson(string jsonText)
         {
-            TType t = JsonConvert.DeserializeObject<TType>(jsonText);
+            FullSrvMsg<TC> tc = JsonConvert.DeserializeObject<FullSrvMsg<TC>>(jsonText);
             try
             {
-                if (t != null && t is FullSrvMsg<TC> fullSrvMsg)
+                if (tc != null && tc is FullSrvMsg<TC> fullSrvMsg)
                 {
                     if (fullSrvMsg != null && !string.IsNullOrEmpty(fullSrvMsg?.Message))
                     {
                         Sender = fullSrvMsg.Sender;
-                        Recipient = fullSrvMsg.Recipient;
+                        // Recipient = fullSrvMsg.Recipient;
+                        Recipients = fullSrvMsg.Recipients;
                         TContent = fullSrvMsg.TContent;
                     }
-                    return t;
+                    return tc;
                 }
             }
             catch (Exception exJson)
@@ -85,7 +113,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                 Area23Log.LogStatic(exJson);
             }
 
-            return default(TType);
+            return default(FullSrvMsg<TC>);
         }
 
     }
