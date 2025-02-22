@@ -531,9 +531,7 @@
     <Content Include="res\bin\bccmd.bat" />
     <None Include="Properties\PublishProfiles\app.publish.pubxml" />
     <None Include="Properties\PublishProfiles\area23.at_release_publish.pubxml" />
-    <Content Include="res\uu\derpark.txt.uze">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="res\uu\derpark.txt.uze" />
     <Content Include="res\bin\uuencrypt.sh" />
     <Content Include="res\bin\uudecrypt.sh" />
     <Content Include="res\bin\GNUWin32.README" />

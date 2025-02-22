@@ -749,12 +749,14 @@ namespace Area23.At.Mono.Crypt
                                 cipherText = System.IO.File.ReadAllText(LibPaths.SystemDirTmpPath + tmpFile, Encoding.UTF8);
                             }
 
-                            outBytes = DeEnCoder.DecodeText(cipherText /*, out string errMsg */, extEncType, plainUu, true);
-                            Array.Copy(outBytes, 0, inBytes, 0, outBytes.Length);
+                            outBytes = DeEnCoder.DecodeText(cipherText /*, out string errMsg */, extEncType, plainUu, true);                            
+                            inBytes = outBytes;
+                            
                             strFileName = strFileName.EndsWith("." + encodingMethod) ? strFileName.Replace("." + encodingMethod, "") : strFileName;
                         }
                         else // if not decode, copy inBytes => outBytes
                         {
+                            outBytes = inBytes;
                             Array.Copy(inBytes, 0, outBytes, 0, inBytes.Length);
                         }
 

@@ -130,9 +130,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             toolStripStatusLabel.Text = "Setup Network";
             await SetupNetwork();
 
-            if (Entities.Settings.Instance != null && Entities.Settings.Instance.MyContact != null && !string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.ImageBase64))
+            if (Entities.Settings.Instance != null && Entities.Settings.Instance.MyContact != null && !string.IsNullOrEmpty(Entities.Settings.Instance.MyContact.ContactImage.ImageBase64))
             {
-                Bitmap? bmp = (Bitmap?)Entities.Settings.Instance.MyContact.ImageBase64.Base64ToImage();
+                Bitmap? bmp = (Bitmap?)Entities.Settings.Instance.MyContact.ContactImage.ImageBase64.Base64ToImage();
                 if (bmp != null)
                     this.PictureBoxYou.Image = bmp;
             }
@@ -370,7 +370,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 myContact.Mobile + Environment.NewLine + myContact.Address + Environment.NewLine +
                 myContact.SecretKey + Environment.NewLine;
             string encrypted = serverMessage.CqrBaseMsg(plain);
-            string response = serverMessage.Send1st_CqrSrvMsg1(plain, ServerIpAddress);
+            string response = serverMessage.Send1st_CqrSrvMsg1(myContact, ServerIpAddress, EncodingType.Base64);
 
             this.TextBoxSource.Text = encrypted + "\n"; //  + "\r\n" + serverMessage.symmPipe.HexStages;
             MsgContent msgContent = serverMessage.NCqrBaseMsg(encrypted);
@@ -643,8 +643,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
             if (Settings.Instance.MyContact != null)
             {
-                string base64image = Settings.Instance.MyContact.ImageBase64 ?? string.Empty;
-
+                string base64image = (Settings.Instance.MyContact.ContactImage != null && Settings.Instance.MyContact.ContactImage.ImageBase64 != null)
+                    ? Settings.Instance.MyContact.ContactImage.ImageBase64 
+                    : string.Empty;
                 if (!string.IsNullOrEmpty(base64image))
                 {
                     try

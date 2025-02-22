@@ -209,6 +209,9 @@ namespace Area23.At.Framework.Core
         public static string SystemDirQrPath { get => SystemDirPath + Constants.QR_DIR + SepChar; }
 
 
+        public static string SystemDirJsonPath { get => SystemDirResPath + Constants.JSON_DIR + SepChar; }
+
+
         public static string AttachmentFilesDir { get => SystemDirPath + Constants.ATTACH_FILES_DIR + SepChar; }
 
         #region LogFiles and LogPaths

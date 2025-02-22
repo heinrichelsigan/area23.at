@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using Area23.At.Framework.Core.Crypt.Cipher;
 using static QRCoder.Core.PayloadGenerator.SwissQrCode;
 using Contact = Area23.At.WinForm.SecureChat.Entities.Contact;
+using Area23.At.Framework.Core.CqrXs.CqrMsg;
 
 namespace Area23.At.WinForm.SecureChat.Gui.Forms
 {
@@ -54,7 +55,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     this.textBoxMobile.Text = Settings.Instance.MyContact.Mobile;
                     this.textBoxAddress.Text = Settings.Instance.MyContact.Address;
                     this.textBoxKey.Text = Settings.Instance.MyContact.SecretKey;
-                    base64image = Entities.Settings.Instance.MyContact.ImageBase64 ?? string.Empty;
+                    base64image = Entities.Settings.Instance.MyContact.ContactImage.ImageBase64 ?? string.Empty;
                     if (!string.IsNullOrEmpty(base64image))
                         this.pictureBoxImage.Image = base64image.Base64ToImage();
                 }
@@ -108,16 +109,20 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                             contact.Name = this.comboBoxName.Text ?? string.Empty; // 
                             contact.Email = this.textBoxEmail.Text ?? string.Empty; //
                             contact.Mobile = this.textBoxMobile.Text ?? string.Empty; //
-                            contact.Address = this.textBoxAddress.Text ?? string.Empty;                           
-                            contact.ImageBase64 = (pictureBoxImage.Tag != null && pictureBoxImage.Tag.ToString() == "Upload image") ? 
-                                null : this.pictureBoxImage.Image.ToBase64();
-
+                            contact.Address = this.textBoxAddress.Text ?? string.Empty;
+                            contact.ContactImage =
+                                (pictureBoxImage.Image == null || pictureBoxImage.Tag == null || pictureBoxImage.Tag.ToString() == "Upload image") 
+                                ? null 
+                                : new Framework.Core.CqrXs.CqrMsg.CqrImage(pictureBoxImage.Image, pictureBoxImage.Tag.ToString());
                             foundContact = true;
                             break;
                         }
                     }
                     if (!foundContact)
                     {
+                        CqrImage? contactImg = (pictureBoxImage != null && pictureBoxImage.Tag != null && pictureBoxImage.Tag.ToString() != "Upload image") 
+                            ? new CqrImage(pictureBoxImage.Tag.ToString(), this.pictureBoxImage.Image.ToBase64()) 
+                            : null;
                         currentId = Entities.Settings.Instance.Contacts.Count + 1;
                         Entities.Settings.Instance.Contacts.Add(
                             new Entities.Contact()
@@ -128,8 +133,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                                 Mobile = this.textBoxMobile.Text ?? string.Empty,
                                 Address = this.textBoxAddress.Text ?? string.Empty,
                                 SecretKey = this.textBoxKey.Text ?? string.Empty,
-                                ImageBase64 = (pictureBoxImage.Tag != null && pictureBoxImage.Tag.ToString() == "Upload image") ?
-                                    null : this.pictureBoxImage.Image.ToBase64()
+                                ContactImage = contactImg
                             }); 
                     }
                 }
@@ -148,6 +152,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             if (_id == 0 && !string.IsNullOrEmpty(this.comboBoxName.Text))
             {
+                CqrImage? contactImg = (pictureBoxImage.Image != null && pictureBoxImage.Tag != null && pictureBoxImage.Tag.ToString() != "Upload image") 
+                    ? new CqrImage(pictureBoxImage.Image, pictureBoxImage.Tag.ToString())
+                    : null;
                 Settings.Instance.MyContact = new Contact()
                 {
                     ContactId = 0,
@@ -156,8 +163,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     Mobile = this.textBoxMobile.Text ?? string.Empty,
                     Address = this.textBoxAddress.Text ?? string.Empty,
                     SecretKey = this.textBoxKey.Text ?? DeEnCoder.KeyToHex(this.textBoxEmail.ToString()),
-                    ImageBase64 = (pictureBoxImage.Tag != null && pictureBoxImage.Tag.ToString() == "Upload image") ?
-                        null : this.pictureBoxImage.Image.ToBase64()
+                    ContactImage = contactImg
                 };                 
                 Settings.Save(Entities.Settings.Instance);
             }
@@ -183,7 +189,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                         this.textBoxMobile.Text = contact.Mobile ?? string.Empty;
                         this.textBoxAddress.Text = contact.Address ?? string.Empty;
                         this.textBoxKey.Text = contact.SecretKey ?? string.Empty;
-                        base64image = contact.ImageBase64 ?? string.Empty;
+                        base64image = (contact.ContactImage != null && contact.ContactImage.ImageBase64 != null) 
+                            ? contact.ContactImage.ImageBase64 
+                            : string.Empty;
                         if (!string.IsNullOrEmpty(base64image))
                         {
                             pictureBoxImage.Tag = $"Contact image";
@@ -218,7 +226,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                         this.textBoxMobile.Text = contact.Mobile ?? string.Empty;
                         this.textBoxAddress.Text = contact.Address ?? string.Empty;
                         this.textBoxKey.Text = contact.SecretKey ?? string.Empty;
-                        base64image = contact.ImageBase64 ?? string.Empty;
+                        base64image = (contact.ContactImage != null && contact.ContactImage.ImageBase64 != null) ?
+                            contact.ContactImage.ImageBase64 : string.Empty;
                         if (!string.IsNullOrEmpty(base64image))
                         {
                             pictureBoxImage.Tag = "Contact image";
