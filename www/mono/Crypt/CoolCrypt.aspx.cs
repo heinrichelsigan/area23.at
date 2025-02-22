@@ -750,6 +750,7 @@ namespace Area23.At.Mono.Crypt
                             }
 
                             outBytes = DeEnCoder.DecodeText(cipherText /*, out string errMsg */, extEncType, plainUu, true);
+                            Array.Copy(outBytes, 0, inBytes, 0, outBytes.Length);
                             strFileName = strFileName.EndsWith("." + encodingMethod) ? strFileName.Replace("." + encodingMethod, "") : strFileName;
                         }
                         else // if not decode, copy inBytes => outBytes

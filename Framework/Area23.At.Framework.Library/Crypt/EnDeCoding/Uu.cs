@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 {
@@ -73,10 +74,11 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             string uu = (new UUEncoder()).EncodeString(bytStr);
             
 
-            if (originalUue)
+            if (originalUue && !fromFile)
             {
                 bytStr = Encoding.UTF8.GetString(inBytes);
                 uu = (new UUEncoder()).EncodeString(bytStr);
+                uu = uu.Replace(" ", "`");
             }
             //else if (fromFile)
             //{
@@ -155,8 +157,9 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             string plainStr = string.Empty;
             byte[] plainBytes = new byte[uuEncStr.Length];
 
-            if (originalUue)
+            if (originalUue && !fromFile)
             {
+                uuEncStr = uuEncStr.Replace(" ", "`");
                 plainStr = (new UUEncoder()).DecodeString(uuEncStr);
                 plainBytes = Encoding.UTF8.GetBytes(plainStr);
             }
@@ -209,6 +212,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                         }
                     }
 
+                    Thread.Sleep(64);
                     Area23Log.LogStatic("FromUu: reading bytes from " + hexOutPath);
                     plainBytes = System.IO.File.ReadAllBytes(hexOutPath);
                     Area23Log.LogStatic("FromUu: read bytes from" + hexOutPath);
@@ -232,6 +236,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         public static string UuEncode(string plainText)
         {
             string uue = (new UUEncoder()).EncodeString(plainText);
+            uue = uue.Replace(" ", "`");
             return uue;
         }
 
@@ -242,6 +247,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// <returns>uudecoded plain text</returns>
         public static string UuDecode(string uuEncodedStr)
         {
+            uuEncodedStr = uuEncodedStr.Replace(" ", "`");
             string plainStr = (new UUEncoder()).DecodeString(uuEncodedStr);
             return plainStr;
         }

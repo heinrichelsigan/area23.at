@@ -20,7 +20,7 @@ namespace Area23.At.Framework.Library.Util
         {
             get
             {
-                string loadFileName = System.IO.Path.Combine(LibPaths.SystemDirQrPath, Constants.JSON_SAVE_FILE);
+                string loadFileName = System.IO.Path.Combine(LibPaths.SystemDirJsonPath, Constants.JSON_SAVE_FILE);
                 if (!File.Exists(loadFileName))
                 {
                     loadFileName = AppContext.BaseDirectory.
@@ -45,7 +45,7 @@ namespace Area23.At.Framework.Library.Util
         {
             get
             {
-                string loadFileName = System.IO.Path.Combine(LibPaths.SystemDirQrPath, Constants.JSON_CONTACTS_FILE);
+                string loadFileName = System.IO.Path.Combine(LibPaths.SystemDirJsonPath, Constants.JSON_CONTACTS_FILE);
                 if (!File.Exists(loadFileName))
                 {
                     loadFileName = AppContext.BaseDirectory.

@@ -209,7 +209,7 @@ namespace Area23.At.Framework.Library
         public static string SystemDirQUtf8Path { get => SystemDirResPath + Constants.UTF8_DIR + SepChar; }
 
 
-        public static string SystemDirQrPath { get => SystemDirResPath + Constants.QR_DIR + SepChar; }
+        public static string SystemDirQrPath { get => SystemDirPath + Constants.QR_DIR + SepChar; }
 
         public static string SystemDirJsonPath { get => SystemDirResPath + Constants.JSON_DIR + SepChar; }
 

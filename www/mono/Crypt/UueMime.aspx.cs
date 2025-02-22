@@ -67,7 +67,7 @@ namespace Area23.At.Mono.Crypt
                     case "base16":      encodedStr = Base16.ToBase16(fileBytes); break;
                     case "base32":      encodedStr = Base32.ToBase32(fileBytes); break;
                     case "hex32":       encodedStr = Hex32.ToHex32(fileBytes); break;
-                    case "uu":          encodedStr = Uu.ToUu(fileBytes, true); break;
+                    case "uu":          encodedStr = Uu.ToUu(fileBytes, true, true); break;
                     case "html":        encodedStr = "Can't html encode a binary file!"; break;
                     case "url":         encodedStr = "Can't url encode a binary file!"; break;
                     case "base64":

@@ -301,7 +301,6 @@
     <Content Include="c\od.html" />
     <Content Include="Qr\Qrc.aspx" />
     <Content Include="Qr\QRCodeGen.aspx" />
-    <Content Include="Web.config" />
     <Content Include="Unix\OctalDump.aspx" />
   </ItemGroup>
   <ItemGroup>
@@ -543,6 +542,7 @@
     <Content Include="res\tmp\temp.tmp" />
     <Content Include="res\json\contacts.json" />
     <Content Include="res\json\urlshort.json" />
+    <Content Include="Web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -552,6 +552,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="res\Qr\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resource.resx">
