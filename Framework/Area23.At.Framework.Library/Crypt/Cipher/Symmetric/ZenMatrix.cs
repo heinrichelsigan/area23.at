@@ -169,9 +169,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         {
             secretKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
             hashIV = string.IsNullOrEmpty(hashIV) ? Constants.AREA23_EMAIL : hashIV;
-            byte[] keyBytes = CryptHelper.GetUserKeyBytes(secretKey, hashIV, 0x10);
+            byte[] keyBytes = CryptHelper.GetUserKeyBytes(secretKey, hashIV, 16);
 
-            ZenMatrixGenWithBytes(privateBytes, true);
+            ZenMatrixGenWithBytes(keyBytes, fullSymmetric);
         }
 
 
@@ -317,7 +317,26 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 _inverseMatrix = MatrixPermutationKey;
             }
             else
+            {
+                for (int i = 0; i < 0x10; i++)
+                {
+                    if ((int)PermutationKeyHash.ElementAt(i) != i)
+                    {
+                        MatrixPermutationKey[i] = PermutationKeyHash.ElementAt(i);
+                    }
+                }               
+                
                 _inverseMatrix = BuildInverseMatrix(MatrixPermutationKey);
+            }
+
+            string perm = string.Empty, kbs = string.Empty;
+
+            for (int j = 0; j < 0x10; j++)
+                perm += MatrixPermutationKey[j].ToString("x1");
+            for (int j=0; j < keyBytes.Length; j++)
+                kbs += keyBytes[j].ToString("x2");
+
+            Area23Log.LogStatic("ZenMatrix: " + perm + " KeyBytes = " + kbs);
         }
 
 

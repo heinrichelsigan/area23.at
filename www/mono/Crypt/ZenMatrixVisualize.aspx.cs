@@ -76,6 +76,7 @@ namespace Area23.At.Mono.Crypt
         protected void Button_Clear_Click(object sender, EventArgs e)
         {            
             this.TextBox_IV.Text = "";
+            ClearMatrix();
         }
 
         /// <summary>
@@ -145,29 +146,45 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void Button_Hash_Click(object sender, EventArgs e)
         {
+            ClearMatrix();
             if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 0)
             {
                 Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text; 
-                Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
+                Reset_TextBox_IV(this.TextBox_Key.Text);
 
                 byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
                 SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb).InPipe;
                 
-
-                ClearMatrix();
-                ZenMatrix z = new ZenMatrix(this.TextBox_Key.Text, this.TextBox_IV.Text, false);
+                
+                ZenMatrix z = new ZenMatrix(this.TextBox_Key.Text, this.TextBox_IV.Text, true);
                 string zenMt = "|zen|=>\t| ";
                 
                 int b = 0xf;
-                foreach (sbyte sb in z.PermutationKeyHash)
+                sbyte[] myBytes = z.PermutationKeyHash.ToArray();
+                string permHashString = string.Empty;
+                foreach (sbyte sb in myBytes)
                 {
                     Control ctrl = MatrixTable.FindControl("TextBox_" + b.ToString("x1") + "_" + sb.ToString("x1"));
+                    permHashString += sb.ToString("x1");
                     if (ctrl != null && ctrl is TextBox tb)
                     {
+                        tb.BorderWidth = 2;
+                        tb.BorderStyle = BorderStyle.Outset;
+                        tb.BorderColor = new Color().FromXrgb("#222222");
                         tb.Text = "1";
                     }
+
+                    Control lctrl = MatrixTable.FindControl("TextBox_" + b.ToString("x1") + "_vf");
+                    if (lctrl != null && lctrl is TextBox ttb)
+                    {
+                        ttb.BorderWidth = 2;
+                        ttb.Text = sb.ToString("x1");
+                        ttb.BorderStyle = BorderStyle.Outset;
+                        ttb.BorderColor = new Color().FromXrgb("#222222");
+                    }
                     b--;
-                }               
+                }
+                this.TextBoxPermutation.Text = permHashString;
             }
         }
 
@@ -176,6 +193,7 @@ namespace Area23.At.Mono.Crypt
 
         protected void ClearMatrix()
         {
+            this.TextBoxPermutation.Text = string.Empty;
             for (int b = 0xf; b >= 0; b--)
             {
                 for (int a = 0; a < 16; a++)
@@ -184,7 +202,18 @@ namespace Area23.At.Mono.Crypt
                     if (ctrl != null && ctrl is TextBox tb)
                     {
                         tb.Text = "0";
+                        tb.BorderWidth = 1;
+                        tb.BorderStyle = BorderStyle.Inset;
+                        tb.BorderColor = new Color().FromXrgb("#cfcfcf");
                     }
+                }
+                Control lctrl = MatrixTable.FindControl("TextBox_" + b.ToString("x1") + "_vf");
+                if (lctrl != null && lctrl is TextBox ttb)
+                {
+                    ttb.Text = "0";
+                    ttb.BorderWidth = 1;
+                    ttb.BorderStyle = BorderStyle.Inset;
+                    ttb.BorderColor = new Color().FromXrgb("#cfcfcf");
                 }
             }
         }
@@ -199,7 +228,7 @@ namespace Area23.At.Mono.Crypt
             if (!string.IsNullOrEmpty(userEmailKey))
                 this.TextBox_Key.Text = userEmailKey;
             else if (string.IsNullOrEmpty(this.TextBox_Key.Text))
-                this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
+                this.TextBox_Key.Text = DateTime.Now.Ticks.ToString();
 
             this.TextBox_IV.Text = DeEnCoder.KeyToHex(this.TextBox_Key.Text);
 
