@@ -41,7 +41,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         ///     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 
         ///     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
         /// </summary>
-        private static readonly sbyte[] MatrixPermutationBase = {
+        protected internal static readonly sbyte[] MatrixPermutationBase = {
             0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7,
             0x8, 0x9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf
         };
@@ -49,14 +49,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <summary>
         /// MagicOrder is a byte[], that helps filling up keybytes up 16 bytes deterministic, when keybytes < 16
         /// </summary>
-        private static readonly int[] MagicOrder = {
+        protected internal static readonly int[] MagicOrder = {
             0x8,    0x3,    0x1,    0xe,
             0x9,    0xf,    0x5,    0xc,
             0x4,    0xd,    0xa,    0x7,
             0xb,    0x2,    0x0,    0x6
         };
 
-        private byte[] privateBytes = new byte[0x10];
+        protected internal byte[] privateBytes = new byte[0x10];
 
         #endregion fields
 
@@ -106,9 +106,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         ///  ...
         ///  value 0xf is   already mapped back to 0x5 !                             f => 5
         /// </summary>
-        public sbyte[] MatrixPermutationKey { get; private set; }
+        public sbyte[] MatrixPermutationKey { get; protected internal set; }
 
-        private sbyte[] _inverseMatrix = new sbyte[0];
+        protected internal sbyte[] _inverseMatrix = new sbyte[0];
         /// <summary>
         /// Inverse Matrix 
         /// </summary>
@@ -133,7 +133,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// PermutationKeyHash is same as <see cref="MatrixPermutationKey"/>
         /// Advantage of <see cref="HashSet{sbyte}"/> is, that no duplicated values can be inside
         /// </summary>
-        public HashSet<sbyte> PermutationKeyHash { get; private set; }
+        public HashSet<sbyte> PermutationKeyHash { get; protected internal set; }
 
 
         #endregion Properties
@@ -216,7 +216,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// fullSymmetric means that zen matrix is it's inverse element 
         /// and decrypts back to plain text, when encrypting twice or ²</param>       
         /// <exception cref="ApplicationException"></exception>
-        private void ZenMatrixGenWithBytes(byte[] keyBytes, bool fullSymmetric = false)
+        protected internal void ZenMatrixGenWithBytes(byte[] keyBytes, bool fullSymmetric = false)
         {
             if ((keyBytes == null || keyBytes.Length < 4))
                 throw new ApplicationException("byte[] keyBytes is null or keyBytes.Length < 4");
@@ -640,7 +640,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="outByte"><see cref=byte"/> mapped out byte</param>
         /// <param name="encrypt">true for encryption, false for decryption</param>
         /// <returns>An <see cref="sbyte[]"/> array with 2  0x0 - 0xf segments (most significant & least significant) bit</returns>
-        private sbyte[] MapByteValue(ref byte inByte, out byte outByte, bool encrypt = true)
+        protected internal sbyte[] MapByteValue(ref byte inByte, out byte outByte, bool encrypt = true)
         {
             List<sbyte> outSBytes = new List<sbyte>(2);
             sbyte lsbIn = (sbyte)((short)inByte % 16);

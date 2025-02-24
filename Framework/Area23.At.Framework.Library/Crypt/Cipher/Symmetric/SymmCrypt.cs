@@ -32,18 +32,18 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             string algo = cipherAlgo.ToString();
             switch (cipherAlgo)
             {
-                case SymmCipherEnum.Des3:
-                    Des3.Des3GenWithKeyHash(secretKey, hashIv, true);
-                    encryptBytes = Des3.Encrypt(inBytes);
-                    break;
-                case SymmCipherEnum.Fish2:
-                    Fish2.Fish2GenWithKeyHash(secretKey, hashIv, true);
-                    encryptBytes = Fish2.Encrypt(inBytes);
-                    break;
-                case SymmCipherEnum.Fish3:
-                    Fish3.Fish3GenWithKeyHash(secretKey, hashIv, true);
-                    encryptBytes = Fish3.Encrypt(inBytes);
-                    break;
+                //case SymmCipherEnum.Des3:
+                //    Des3.Des3GenWithKeyHash(secretKey, hashIv, true);
+                //    encryptBytes = Des3.Encrypt(inBytes);
+                //    break;
+                //case SymmCipherEnum.Fish2:
+                //    Fish2.Fish2GenWithKeyHash(secretKey, hashIv, true);
+                //    encryptBytes = Fish2.Encrypt(inBytes);
+                //    break;
+                //case SymmCipherEnum.Fish3:
+                //    Fish3.Fish3GenWithKeyHash(secretKey, hashIv, true);
+                //    encryptBytes = Fish3.Encrypt(inBytes);
+                //    break;
                 //case SymmCipherEnum.Rijndael:
                 //    Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
                 //    encryptBytes = Rijndael.Encrypt(inBytes);
@@ -55,9 +55,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.ZenMatrix:
                     encryptBytes = (new ZenMatrix(secretKey, hashIv, false)).Encrypt(inBytes);
                     break;
+                case SymmCipherEnum.Des3:
                 case SymmCipherEnum.BlowFish:
-                // case SymmCipherEnum.Fish2:
-                // case SymmCipherEnum.Fish3:
+                case SymmCipherEnum.Fish2:
+                case SymmCipherEnum.Fish3:
                 case SymmCipherEnum.Camellia:
                 case SymmCipherEnum.Cast6:
                 case SymmCipherEnum.Gost28147:
@@ -67,16 +68,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.SkipJack:
                 case SymmCipherEnum.Tea:
                 case SymmCipherEnum.XTea:
+                default:
                     CryptParamsPrefered cpParams = CryptHelper.GetPreferedCryptParams(cipherAlgo);
                     cpParams.Key = secretKey;
                     cpParams.Hash = hashIv;
                     CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                     encryptBytes = cryptBounceCastle.Encrypt(inBytes);
-                    break;
-                case SymmCipherEnum.Aes:
-                default:
-                    Aes.AesGenWithKeyHash(secretKey, hashIv, true);
-                    encryptBytes = Aes.Encrypt(inBytes);
                     break;
             }
 

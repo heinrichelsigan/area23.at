@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Crypto;
+﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using System;
 using System.Collections.Generic;
@@ -94,6 +95,18 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
                     break;
+                case CipherEnum.Des:
+                    BlockSize = 64;
+                    KeyLen = 8;
+                    Mode = "ECB";
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEngine();
+                    break;
+                case CipherEnum.Des3:
+                    BlockSize = 128;
+                    KeyLen = 16;
+                    Mode = "ECB";
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEdeEngine();
+                    break;                
                 case CipherEnum.Gost28147:
                     BlockSize = 256;
                     KeyLen = 32;

@@ -87,6 +87,7 @@
                         <asp:ListItem Enabled="true" Value="Camellia" Selected="false">Camellia</asp:ListItem>              
                         <asp:ListItem Enabled="true" Value="Cast5" Selected="False">Cast5</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Cast6" Selected="False">Cast6</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Des" Selected="False">Des</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Des3" Selected="False">Des3</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Gost28147" Selected="False">Gost28147</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Idea" Selected="false">Idea</asp:ListItem>                        
@@ -104,6 +105,7 @@
                         <asp:ListItem Enabled="true" Value="Tnepres" Selected="false">Tnepres</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="XTea" Selected="false">XTea</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="ZenMatrix" Selected="false">ZenMatrix</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="ZenMatrix" Selected="false">ZenMatrix2</asp:ListItem>
                     </asp:DropDownList>
                 </span>
                 <span class="centerSpan" style="width: 72px;"> 

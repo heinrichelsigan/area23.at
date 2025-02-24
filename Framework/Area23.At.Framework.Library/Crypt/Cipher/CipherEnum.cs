@@ -38,8 +38,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         RC564 = 0x15,
         RC6 = 0x16,
         Tnepres = 0x17,
+        Des = 0x18,
+        ZenMatrix2 = 0x1f,
 
-        Rsa = 0x40
+        Rsa = 0x40        
+
+
     }
 
     /// <summary>
@@ -76,7 +80,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Tea: return 't';
                 case CipherEnum.XTea: return 'X';
 
-                case CipherEnum.ZenMatrix: return 'z';
+                case CipherEnum.ZenMatrix: return 'z';                
 
                 case CipherEnum.Cast5: return 'c';
                 case CipherEnum.Rijndael: return 'a';
@@ -85,8 +89,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.RC564: return 'R';
                 case CipherEnum.RC6: return 'r';
                 case CipherEnum.Tnepres: return 'T';
+                
+                case CipherEnum.ZenMatrix2: return 'Z';
 
-                case CipherEnum.Rsa: return 'Z';
+                case CipherEnum.Des: return '$';
+                case CipherEnum.Rsa: return '%';
                 default: break;
             }
 

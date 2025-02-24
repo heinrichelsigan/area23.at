@@ -121,6 +121,7 @@
     <Compile Include="Crypt\Cipher\Symmetric\SymmCipherPipe.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\SymmCrypt.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Crypt\Cipher\Symmetric\ZenMatrix2.cs" />
     <Compile Include="Crypt\EnDeCoding\Hex32.cs" />
     <Compile Include="Crypt\EnDeCoding\EncodingType.cs" />
     <Compile Include="Crypt\EnDeCoding\Hex16.cs" />

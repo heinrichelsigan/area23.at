@@ -87,23 +87,25 @@
                         <asp:ListItem Enabled="true" Value="Camellia" Selected="false">Camellia</asp:ListItem>              
                         <asp:ListItem Enabled="true" Value="Cast5" Selected="False">Cast5</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Cast6" Selected="False">Cast6</asp:ListItem>
+                        <asp:ListItem Enabled="false" Value="Des" Selected="False">Des</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Des3" Selected="False">Des3</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Gost28147" Selected="False">Gost28147</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Idea" Selected="false">Idea</asp:ListItem>                        
                         <asp:ListItem Enabled="true" Value="Noekeon" Selected="false">Noekeon</asp:ListItem>                        
-                        <asp:ListItem Enabled="true" Value="RC2" Selected="false">RC2</asp:ListItem>
+                        <asp:ListItem Enabled="false" Value="RC2" Selected="false">RC2</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="RC532" Selected="false">RC532</asp:ListItem>                
-                        <asp:ListItem Enabled="true" Value="RC564" Selected="false">RC564</asp:ListItem> 
-                        <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem> 
-                        <asp:ListItem Enabled="true" Value="Rsa" Selected="false">Rsa</asp:ListItem>
+                        <asp:ListItem Enabled="false" Value="RC564" Selected="false">RC564</asp:ListItem> 
+                        <asp:ListItem Enabled="false" Value="RC6" Selected="false">RC6</asp:ListItem>
+                        <asp:ListItem Enabled="false" Value="Rijndael" Selected="false">Rijndael</asp:ListItem> 
+                        <asp:ListItem Enabled="false" Value="Rsa" Selected="false">Rsa</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Seed" Selected="false">Seed</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="SkipJack" Selected="false">SkipJack</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Tea" Selected="false">Tea</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Tnepres" Selected="false">Tnepres</asp:ListItem>
+                        <asp:ListItem Enabled="false" Value="Tnepres" Selected="false">Tnepres</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="XTea" Selected="false">XTea</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="ZenMatrix" Selected="false">ZenMatrix</asp:ListItem>
+                        <asp:ListItem Enabled="false" Value="ZenMatrix2" Selected="false">ZenMatrix2</asp:ListItem>
                     </asp:DropDownList>
                 </span>
                 <span class="centerSpan" style="width: 72px;"> 
