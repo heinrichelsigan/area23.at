@@ -59,6 +59,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
             switch (Cipher)
             {
+                case CipherEnum.Aes:
+                    BlockSize = 256;
+                    KeyLen = 32;
+                    Mode = "ECB";
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
+                    break;
                 case CipherEnum.BlowFish:
                     BlockSize = 64;
                     KeyLen = 8;
@@ -185,7 +191,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
-                case CipherEnum.Aes:
                 default:
                     BlockSize = 256;
                     KeyLen = 32;
