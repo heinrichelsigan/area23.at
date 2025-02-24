@@ -31,6 +31,7 @@ namespace Area23.At.Mono.Calc
             this.aCCalc.HRef = LibPaths.CalcAppPath + "CCalc.aspx";
             this.aRpnCalc.HRef = LibPaths.CalcAppPath + "RpnCalc.aspx";
             this.aBc.HRef = LibPaths.UnixAppPath + "Bc.aspx";
+            this.aMatrixCalc.HRef = LibPaths.CalcAppPath + "MatrixCalc.aspx";
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)
@@ -38,7 +39,7 @@ namespace Area23.At.Mono.Calc
             headerLeft.Attributes["class"] = "headerLeft";
             headerLeftCenter.Attributes["class"] = "headerLeftCenter";
             headerCenter.Attributes["class"] = "headerCenter";
-            // headerRightCenter.Attributes["class"] = "headerRightCenter";
+            headerRightCenter.Attributes["class"] = "headerRightCenter";            
             // headerRight.Style["class"] = "headerRight";
 
             try
@@ -55,9 +56,14 @@ namespace Area23.At.Mono.Calc
                         headerLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("Bc.aspx"))
+                    if (this.Request.RawUrl.Contains("MatrixCalc.aspx"))
                     {
                         headerCenter.Attributes["class"] = "headerCenterSelect";
+                        return;
+                    }
+                    if (this.Request.RawUrl.Contains("Bc.aspx"))
+                    {
+                        headerCenter.Attributes["class"] = "headerRightCenterSelect";
                         return;
                     }                                        
                 }

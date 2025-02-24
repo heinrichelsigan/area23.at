@@ -541,8 +541,7 @@
     <None Include="Properties\PublishProfiles\app.publish.pubxml" />
     <None Include="Properties\PublishProfiles\area23.at_release_publish.pubxml" />
     <None Include="res\uu\derpark.txt.uze" />
-    <Content Include="res\bin\uuencrypt.sh" />
-    <Content Include="res\bin\uudecrypt.sh" />
+    <Content Include="res\bin\uush.sh" />
     <Content Include="res\bin\GNUWin32.README" />
     <Content Include="res\bin\zipunzip.sh" />
     <Content Include="res\bin\zipunzip.bat" />

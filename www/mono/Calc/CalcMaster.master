@@ -7,7 +7,8 @@
     <div id="rowqr" class="headercard" align="left">
         <span id="headerLeft" runat="server" class="headerLeft" align="center" valign="middle"><a id="aCCalc" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.CalcAppPath %>CCalc.aspx'>ccalc</a></span>
         <span id="headerLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a ID="aRpnCalc" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.CalcAppPath %>RpnCalc.aspx'>rpn calc</a></span>
-        <span id="headerCenter" runat="server" class="headerCenter" align="center" valign="middle"><a id="aBc" runat="server" class="spanHeaderA" href="<%= Area23.At.Framework.Library.LibPaths.UnixAppPath %>Bc.aspx">unix bc(1)</a></span>
+        <span id="headerCenter" runat="server" class="headerCenter" align="center" valign="middle"><a id="aMatrixCalc" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.CalcAppPath %>MatrixCalc.aspx'>matrix calc</a></span>
+        <span id="headerRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a id="aBc" runat="server" class="spanHeaderA" href="<%= Area23.At.Framework.Library.LibPaths.UnixAppPath %>Bc.aspx">unix bc(1)</a></span>
     </div>
     <hr />
     <div class="rpnDiv" align="center">

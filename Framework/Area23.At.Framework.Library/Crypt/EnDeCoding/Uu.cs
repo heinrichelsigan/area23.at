@@ -107,7 +107,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
                         try
                         {
-                            ProcessCmd.Execute(exeCmd, " " + hexOutPath + " " + uuOutFile + " " + uuOutPath + " ", false);
+                            ProcessCmd.Execute(exeCmd, " uuencode " + hexOutPath + " " + uuOutFile + " " + uuOutPath + " ", false);
                         }
                         catch (Exception exExe1)
                         {
@@ -259,14 +259,14 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                     Area23Log.LogStatic($"FromUu: exeCmd = {exeCmd}.");
                     try
                     {
-                        ProcessCmd.Execute(exeCmd, " " + uuOutPath + "  " + hexOutPath + " ", false);
+                        ProcessCmd.Execute(exeCmd, " uudecode " + uuOutPath + "  " + hexOutPath + " ", false);
                     }
                     catch (Exception exExe1)
                     {
                         Area23Log.LogStatic(exExe1);
                         try
                         {
-                            ProcessCmd.Execute(exeCmd, uuOutPath + " -o " + hexOutPath + " ", false);
+                            ProcessCmd.Execute("/usr/bin/uudecode", " " + uuOutPath + " > " + hexOutPath + " ", false);
                         }
                         catch (Exception exExe2)
                         {
