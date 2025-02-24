@@ -98,10 +98,10 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                     try
                     {
                         string exeCmd = "/usr/bin/uuencode";
-                        if (System.IO.File.Exists("/usr/local/bin/uuencrypt.sh"))
-                            exeCmd = "/usr/local/bin/uuencrypt.sh";
-                        else if (System.IO.File.Exists(LibPaths.AdditionalBinDir + "uuencrypt.sh"))
-                            exeCmd = LibPaths.AdditionalBinDir + "uuencrypt.sh";
+                        if (System.IO.File.Exists("/usr/local/bin/uush.sh"))
+                            exeCmd = "/usr/local/bin/uush.sh";
+                        else if (System.IO.File.Exists(LibPaths.AdditionalBinDir + "uush.sh"))
+                            exeCmd = LibPaths.AdditionalBinDir + "uush.sh";
 
                         Area23Log.LogStatic("ToUu: exeCmd = " + exeCmd);
 
@@ -182,11 +182,13 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 }
 
                 Area23Log.LogStatic($"ToUu(byte[{inBytes.Length}] inBytes, bool originalUue = {originalUue}. bool fromFile = {fromFile}) ... FINISHED.");
+
+                uu = uu.Replace(" ", "`");
                 return uu;
             }
 
-            
 
+            uu = uu.Replace(" ", "`");
             return uu;
         }
 
@@ -249,10 +251,10 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 if (IsUnix && errInWin)
                 {
                     string exeCmd = "/usr/bin/uudecode";
-                    if (System.IO.File.Exists("/usr/local/bin/uudecrypt.sh"))
-                        exeCmd = "/usr/local/bin/uudecrypt.sh";
-                    else if (System.IO.File.Exists(LibPaths.AdditionalBinDir + "uudecrypt.sh"))
-                        exeCmd = LibPaths.AdditionalBinDir + "uudecrypt.sh";
+                    if (System.IO.File.Exists("/usr/local/bin/uush.sh"))
+                        exeCmd = "/usr/local/bin/uush.sh";
+                    else if (System.IO.File.Exists(LibPaths.AdditionalBinDir + "uush.sh"))
+                        exeCmd = LibPaths.AdditionalBinDir + "uush.sh";
 
                     Area23Log.LogStatic($"FromUu: exeCmd = {exeCmd}.");
                     try
