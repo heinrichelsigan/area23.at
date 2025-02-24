@@ -74,8 +74,7 @@ namespace Area23.At.Mono.Crypt
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
         protected void Button_Clear_Click(object sender, EventArgs e)
-        {
-            this.TextBox_Encryption.Text = "";
+        {            
             this.TextBox_IV.Text = "";
         }
 
@@ -111,10 +110,6 @@ namespace Area23.At.Mono.Crypt
             this.TextBox_IV.BorderStyle = BorderStyle.Dotted;
             this.TextBox_IV.BorderWidth = 1;
 
-            this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
-            this.TextBox_Encryption.BorderColor = Color.DarkOliveGreen;
-            this.TextBox_Encryption.BorderWidth = 2;
-
         }
 
         /// <summary>
@@ -125,7 +120,6 @@ namespace Area23.At.Mono.Crypt
 
         protected void Button_Reset_KeyIV_Click(object sender, EventArgs e)
         {
-            this.TextBox_Encryption.Text = "";
             this.TextBox_IV.Text = "";
         }
 
@@ -158,54 +152,42 @@ namespace Area23.At.Mono.Crypt
 
                 byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
                 SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb).InPipe;
-                this.TextBox_Encryption.Text = string.Empty;
-                foreach (SymmCipherEnum c in cses)
-                {
-                    switch (c)
-                    {
-                        case SymmCipherEnum.Fish2:
-                            this.TextBox_Encryption.Text += "Fish2" + ";";
-                            break;
-                        //case SymmCipherEnum.Fish3:
-                        //    this.TextBox_Encryption.Text += "Fish3" + ";";
-                        //    break;
-                        case SymmCipherEnum.Des3:
-                            this.TextBox_Encryption.Text += "Des3" + ";";
-                            break;
-                        default:
-                            this.TextBox_Encryption.Text += c.ToString() + ";";
-                            break;
-                    }
-                }
-
-                ZenMatrix.ZenMatrixGenWithKey(this.TextBox_Key.Text, this.TextBox_IV.Text);
-                string zenMt = "|zen|=>\t| ";
-                foreach (sbyte sb in ZenMatrix.PermKeyHash)
-                {
-                    zenMt += sb.ToString("x1") + " ";
-                }
-                zenMt += "| \n";
-                if (Session["ZenMtrx"] != null)
-                    zenMt += (string)Session["ZenMtrx"];
-
-                this.zenmatrix.InnerHtml = zenMt;
-                Session["ZenMtrx"] = zenMt;                    
                 
-                for (int zeni = 0; zeni < ZenMatrix.PermKeyHash.Count; zeni++) 
-                {
-                    sbyte sb = (sbyte)ZenMatrix.PermKeyHash.ElementAt(zeni);
-                    this.zenmatrix.InnerHtml += "| " + zeni.ToString("x1") + " |=>\t| " + sb.ToString("x1") + " | \n";
-                }
 
-                this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
-                this.TextBox_Encryption.BorderColor = Color.DarkOliveGreen;
-                this.TextBox_Encryption.BorderWidth = 2;
+                ClearMatrix();
+                ZenMatrix z = new ZenMatrix(this.TextBox_Key.Text, this.TextBox_IV.Text, false);
+                string zenMt = "|zen|=>\t| ";
+                
+                int b = 0xf;
+                foreach (sbyte sb in z.PermutationKeyHash)
+                {
+                    Control ctrl = MatrixTable.FindControl("TextBox_" + b.ToString("x1") + "_" + sb.ToString("x1"));
+                    if (ctrl != null && ctrl is TextBox tb)
+                    {
+                        tb.Text = "1";
+                    }
+                    b--;
+                }               
             }
         }
 
 
         #endregion page_events
 
+        protected void ClearMatrix()
+        {
+            for (int b = 0xf; b >= 0; b--)
+            {
+                for (int a = 0; a < 16; a++)
+                {
+                    Control ctrl = MatrixTable.FindControl("TextBox_" + b.ToString("x1") + "_" + a.ToString("x1"));
+                    if (ctrl != null && ctrl is TextBox tb)
+                    {
+                        tb.Text = "0";
+                    }
+                }
+            }
+        }
 
         
         /// <summary>
@@ -224,13 +206,7 @@ namespace Area23.At.Mono.Crypt
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BorderColor = Color.LightGray;
             this.TextBox_IV.BorderStyle = BorderStyle.Solid;
-            this.TextBox_IV.BorderWidth = 1;
-
-            this.TextBox_Encryption.BorderStyle = BorderStyle.Solid;
-            this.TextBox_Encryption.BorderColor = Color.LightGray;
-            this.TextBox_Encryption.BorderWidth = 1;
-
-            
+            this.TextBox_IV.BorderWidth = 1;           
         }
 
         

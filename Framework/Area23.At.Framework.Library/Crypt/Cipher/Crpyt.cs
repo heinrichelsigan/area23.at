@@ -59,8 +59,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             }
             if (cipherAlgo == CipherEnum.ZenMatrix || algo == "ZenMatrix")
             {
-                ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, true);
-                encryptBytes = ZenMatrix.Encrypt(inBytes);
+                encryptBytes = (new ZenMatrix(secretKey, keyIv, false)).Encrypt(inBytes);
             }
             if (algo == "BlowFish" || algo == "2Fish" || algo == "Fish2" || algo == "3Fish" || algo == "Fish3" ||
                 algo == "Camellia" || algo == "Cast5" || algo == "Cast6" ||
@@ -137,8 +136,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             }
             if (cipherAlgo == CipherEnum.ZenMatrix || algorithmName == "ZenMatrix")
             {
-                sameKey = ZenMatrix.ZenMatrixGenWithKey(secretKey, keyIv, false);
-                decryptBytes = ZenMatrix.Decrypt(cipherBytes);
+                decryptBytes = (new ZenMatrix(secretKey, keyIv, false)).Decrypt(cipherBytes);
             }
             if (algorithmName == "BlowFish" || algorithmName == "2Fish" || algorithmName == "Fish2" || algorithmName == "3Fish" || algorithmName == "Fish3" ||
                 algorithmName == "Camellia" || algorithmName == "Cast5" || algorithmName == "Cast6" ||
