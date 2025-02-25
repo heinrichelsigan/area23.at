@@ -50,10 +50,10 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
             MsgContact._message = allMsg;
             MsgContact._rawMessage = allMsg + "\n" + symmPipe.PipeString + "\0";
 
-            byte[] allBytes = DeEnCoder.GetBytesFromString(allMsg);
-            byte[] msgBytes = DeEnCoder.GetBytesFromString(MsgContact._message);
+            byte[] allBytes = EnDeCodeHelper.GetBytesFromString(allMsg);
+            byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(MsgContact._message);
             byte[] cqrMsgBytes = (LibPaths.CqrEncrypt) ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
-            CqrMessage = DeEnCoder.EncodeBytes(cqrMsgBytes, encType);
+            CqrMessage = EnDeCodeHelper.EncodeBytes(cqrMsgBytes, encType);
 
             return CqrBaseMsg(MsgContact, encType);
         }

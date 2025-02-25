@@ -84,7 +84,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     key = secretKey;
                     keyHash = userHash;
                     // MD5 md5 = new MD5CryptoServiceProvider();
-                    // pKey = md5.ComputeHash(EnDeCoder.GetBytes(secretKey));
+                    // pKey = md5.ComputeHash(EnDeCodeHelper.GetBytes(secretKey));
                     pKey = CryptHelper.GetUserKeyBytes(key, keyHash, 24);
                     pHash = CryptHelper.GetUserKeyBytes(key, keyHash, 8);  
                 }
@@ -159,9 +159,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <returns>Base64 encoded encrypted byte array</returns>
         public static string EncryptString(string inString, EncodingType encType = EncodingType.Base64)
         {
-            byte[] inBytes = EnDeCoder.GetBytes(inString);
+            byte[] inBytes = EnDeCodeHelper.GetBytes(inString);
             byte[] encryptedBytes = Encrypt(inBytes);
-            string encryptedText = DeEnCoder.EncodeBytes(encryptedBytes, encType);
+            string encryptedText = EnDeCodeHelper.EncodeBytes(encryptedBytes, encType);
             return encryptedText;
         }
 
@@ -172,9 +172,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <returns>plain text string</returns>
         public static string DecryptString(string cipherText, EncodingType encType = EncodingType.Base64)
         {
-            byte[] cipherBytes = DeEnCoder.DecodeText(cipherText, encType);
+            byte[] cipherBytes = EnDeCodeHelper.DecodeText(cipherText, encType);
             byte[] decryptedBytes = Decrypt(cipherBytes);
-            string plaintext = EnDeCoder.GetString(decryptedBytes);
+            string plaintext = EnDeCodeHelper.GetString(decryptedBytes);
             return plaintext;
         }
 

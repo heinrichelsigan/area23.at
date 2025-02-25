@@ -208,6 +208,8 @@
     <Content Include="res\js\bc.js" />
     <Content Include="res\js\digiclock.js" />
     <Content Include="SAES_En_Decrypt.aspx" />
+    <Content Include="Settings\Default.aspx" />
+    <AdditionalFiles Include="Settings\.htaccess" />
     <Content Include="Unix\Bc.aspx" />
     <Content Include="Unix\UnixMain.aspx" />
     <Content Include="Unix\FortunAsp.aspx" />
@@ -432,6 +434,13 @@
     </Compile>
     <Compile Include="SAES_En_Decrypt.aspx.designer.cs">
       <DependentUpon>SAES_En_Decrypt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Settings\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Unix\Bc.aspx.cs">
       <DependentUpon>Bc.aspx</DependentUpon>

@@ -496,7 +496,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <returns>Base64 encoded encrypted byte[]</returns>
         public virtual byte[] EncryptTextToBytes(string plaintext)
         {
-            byte[] ecdata = Encrypt(EnDeCoder.GetBytes(plaintext));
+            byte[] ecdata = Encrypt(EnDeCodeHelper.GetBytes(plaintext));
             return ecdata;
         }
 
@@ -527,7 +527,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             {
                 case EncodingType.Null:
                 case EncodingType.None:
-                    return EnDeCoder.GetString(ecdata);
+                    return EnDeCodeHelper.GetString(ecdata);
                 case EncodingType.Hex16:
                     return Hex16.Encode(ecdata);
                 case EncodingType.Base32:
@@ -552,7 +552,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         public virtual string DecryptTextFromBytes(byte[] ecdata)
         {
             byte[] plaindata = Decrypt(ecdata);
-            string plaintext = EnDeCoder.GetString(plaindata);
+            string plaintext = EnDeCodeHelper.GetString(plaindata);
             return plaintext;
         }
 
@@ -582,7 +582,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             {
                 case EncodingType.Null:
                 case EncodingType.None:
-                    ecdata = EnDeCoder.GetBytes(encodedStr);
+                    ecdata = EnDeCodeHelper.GetBytes(encodedStr);
                     break;
                 case EncodingType.Hex16:
                     ecdata = Hex16.Decode(encodedStr);

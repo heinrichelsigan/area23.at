@@ -217,7 +217,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <returns>base64 encoded encrypted string</returns>
         public static string EncryptString(string inPlainString)
         {
-            byte[] plainTextData = EnDeCoder.GetBytes(inPlainString);
+            byte[] plainTextData = EnDeCodeHelper.GetBytes(inPlainString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
 
@@ -233,7 +233,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = EnDeCoder.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = EnDeCodeHelper.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;
         }

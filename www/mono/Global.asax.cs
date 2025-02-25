@@ -24,8 +24,8 @@ namespace Area23.At.Mono
         protected void Application_Start(object sender, EventArgs e)
         {            
             string msg = String.Format("application started at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
-            HostLogHelper.LogRequest(sender, e, msg);
-            Area23Log.Logger.Log("logging to logfile = " + Area23Log.LogFile);            
+            HostLogHelper.LogRequest(sender, e, msg);                        
+            Area23Log.LogStatic("logging to logfile = " + Area23Log.LogFile);
         }
 
         protected void Application_Disposed(object sender, EventArgs e) 

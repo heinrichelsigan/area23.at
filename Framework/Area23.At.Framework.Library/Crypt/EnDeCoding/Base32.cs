@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -27,16 +28,37 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
     /// Base32 encoding is a mapping for double hex from A-Z0-7 (32 chiffers per digit)
     /// <see href="https://gist.github.com/erdomke/9335c394c5cc65404c4cf9aceab04143"/>
     /// </summary>
-    public static class Base32
+    public class Base32 : IDecodable
     {
 
-        public const string VALID_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=";        
-        private static readonly HashSet<char> ValidCharList = new HashSet<char>(VALID_CHARS.ToCharArray());
-        
+        public const string VALID_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=";                      
         private const int _mask = 31;
         private const int _shift = 5;
 
         #region common interface, interfaces for static members appear in C# 7.3 or later
+
+        public IDecodable Decodable => this;
+
+        HashSet<char> IDecodable.ValidCharList => new HashSet<char>(VALID_CHARS.ToCharArray());
+
+        public string EnCode(byte[] inBytes)
+        {
+            return Base32.Encode(inBytes); 
+        }
+
+        public byte[] DeCode(string encodedString)
+        {
+            return Base32.Decode(encodedString);
+        }
+
+        public bool Validate(string encodedString)
+        {
+            return Base32.IsValid(encodedString);
+        }
+
+     
+        #endregion common interface, interfaces for static members appear in C# 7.3 or later
+
 
         /// <summary>
         /// Encodes byte[] to valid encode formatted string
@@ -68,7 +90,6 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             return IsValidBase32(encodedString);
         }
 
-        #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
         private static int CharToInt(char c)
         {
@@ -212,11 +233,12 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         {
             foreach (char ch in inString)
             {
-                if (!ValidCharList.Contains(ch))
+                if (!VALID_CHARS.ToCharArray().Contains(ch))
                     return false;
             }
             return true;
         }
+
     }
 
 }

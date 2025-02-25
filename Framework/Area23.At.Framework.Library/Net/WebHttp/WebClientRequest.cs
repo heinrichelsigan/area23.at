@@ -61,10 +61,10 @@ namespace Area23.At.Framework.Library.Net.WebHttp
             wclient.Encoding = encoding;
             if (!string.IsNullOrEmpty(secretKey))
             {
-                string hexString = DeEnCoder.KeyToHex(CryptHelper.PrivateUserKey(secretKey));
+                string hexString = EnDeCodeHelper.KeyToHex(CryptHelper.PrivateUserKey(secretKey));
                 if (!string.IsNullOrEmpty(keyIv))
                 {
-                    hexString = DeEnCoder.KeyToHex(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
+                    hexString = EnDeCodeHelper.KeyToHex(CryptHelper.PrivateKeyWithUserHash(secretKey, keyIv));
                 }
                 headers.Add(HttpRequestHeader.Authorization, "Basic " + hexString);
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +10,33 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
     /// <summary>
     /// Base16 hexadecimal byte encoding / decoding
     /// </summary>
-    public static class Base16
+    public class Base16 : IDecodable
     {
-        public const string VALID_CHARS = "0123456789ABCDEF";
-        private static readonly HashSet<char> ValidCharList = new HashSet<char>(VALID_CHARS.ToCharArray());
+        public const string VALID_CHARS = "0123456789ABCDEF";       
+
+        #region common interface, interfaces for static members appear in C# 7.3 or later
+
+        public IDecodable Decodable => this;
+
+        HashSet<char> IDecodable.ValidCharList => new HashSet<char>(VALID_CHARS.ToCharArray());
+
+        public string EnCode(byte[] inBytes)
+        {
+            return Base16.Encode(inBytes);
+        }
+
+        public byte[] DeCode(string encodedString)
+        {
+            return Base16.Decode(encodedString);
+        }
+
+        public bool Validate(string encodedString)
+        {
+            return Base16.IsValid(encodedString);
+        }
+
+        #endregion common interface, interfaces for static members appear in C# 7.3 or later
+
 
         /// <summary>
         /// Encodes a byte[] 
@@ -97,7 +121,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 bytes.Add(b);
             }
 
-            byte[] bytesUtf8 = EnDeCoder.GetBytes(hexStr);
+            byte[] bytesUtf8 = EnDeCodeHelper.GetBytes(hexStr);
             // return bytesUtf8;
             return bytes.ToArray();
             
@@ -107,13 +131,13 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         {
             foreach (char ch in inString)
             {
-                if (!ValidCharList.Contains(ch))
+                if (!VALID_CHARS.ToCharArray().Contains(ch))
                     return false;
             }
             return true;
         }
 
-
+       
     }
 
 }

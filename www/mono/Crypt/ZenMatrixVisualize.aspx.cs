@@ -105,7 +105,7 @@ namespace Area23.At.Mono.Crypt
         [Obsolete("TextBox_Key_TextChanged is fully deprectated, because no autopostback anymore", true)]
         protected void TextBox_Key_TextChanged(object sender, EventArgs e)
         {
-            this.TextBox_IV.Text = DeEnCoder.KeyToHex(this.TextBox_Key.Text);
+            this.TextBox_IV.Text = EnDeCodeHelper.KeyToHex(this.TextBox_Key.Text);
             this.TextBox_IV.BorderColor = Color.GreenYellow;
             this.TextBox_IV.ForeColor = Color.DarkOliveGreen;
             this.TextBox_IV.BorderStyle = BorderStyle.Dotted;
@@ -230,7 +230,7 @@ namespace Area23.At.Mono.Crypt
             else if (string.IsNullOrEmpty(this.TextBox_Key.Text))
                 this.TextBox_Key.Text = DateTime.Now.Ticks.ToString();
 
-            this.TextBox_IV.Text = DeEnCoder.KeyToHex(this.TextBox_Key.Text);
+            this.TextBox_IV.Text = EnDeCodeHelper.KeyToHex(this.TextBox_Key.Text);
 
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BorderColor = Color.LightGray;

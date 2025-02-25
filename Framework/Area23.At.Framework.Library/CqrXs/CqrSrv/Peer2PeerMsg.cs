@@ -82,11 +82,11 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
                 attachment.Verification = PipeString;
                 mimeMsg = JsonConvert.SerializeObject(attachment);
             }
-            byte[] msgBytes = DeEnCoder.GetBytesFromString(mimeMsg);
+            byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(mimeMsg);
 
             byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
 
-            CqrMessage = DeEnCoder.EncodeBytes(cqrbytes, encType);
+            CqrMessage = EnDeCodeHelper.EncodeBytes(cqrbytes, encType);
 
             return CqrMessage;
         }

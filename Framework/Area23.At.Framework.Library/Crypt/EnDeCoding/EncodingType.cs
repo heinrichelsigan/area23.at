@@ -34,6 +34,27 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
             return list.ToArray();
         }
+
+
+
+
+        public static IDecodable GetEnCoder(this EncodingType type)
+        {
+            switch (type)
+            {
+                case EncodingType.None:
+                case EncodingType.Null: return ((IDecodable)new RawString());
+                case EncodingType.Hex16: return ((IDecodable)new Hex16());
+                case EncodingType.Base16: return ((IDecodable)new Base16());
+                case EncodingType.Hex32: return ((IDecodable)new Hex32());
+                case EncodingType.Base32: return ((IDecodable)new Base32());
+                case EncodingType.Uu: return ((IDecodable)new Uu());
+                case EncodingType.Base64:
+                default: return ((IDecodable)new Base64());
+            }
+
+        }
+
     }
 
 

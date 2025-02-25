@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,14 +10,36 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
     /// <summary>
     /// Normal hexadecimal byte encoding / decoding
     /// </summary>
-    public static class Hex16
+    public class Hex16 : IDecodable
     {
         
-        public const string VALID_CHARS = "0123456789abcdef";        
-        private static readonly HashSet<char> ValidCharList = new HashSet<char>(VALID_CHARS.ToCharArray());
-
+        public const string VALID_CHARS = "0123456789abcdef";
 
         #region common interface, interfaces for static members appear in C# 7.3 or later
+
+        public IDecodable Decodable => this;
+
+        HashSet<char> IDecodable.ValidCharList => new HashSet<char>(VALID_CHARS.ToCharArray());
+
+
+        public string EnCode(byte[] inBytes)
+        {
+            return Hex16.Encode(inBytes);
+        }
+
+        public byte[] DeCode(string encodedString)
+        {
+            return Hex16.Decode(encodedString); 
+        }
+
+        public bool Validate(string encodedString)
+        {
+            return Hex16.IsValid(encodedString);
+        }
+
+
+        #endregion common interface, interfaces for static members appear in C# 7.3 or later
+
 
         /// <summary>
         /// Encodes byte[] to valid encode formatted string
@@ -47,9 +70,6 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         {
             return IsValidHex16(encodedString);
         }
-
-        #endregion common interface, interfaces for static members appear in C# 7.3 or later
-
 
         /// <summary>
         /// Encode ToHex converts a binary byte array to hex string
@@ -104,7 +124,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 bytes.Add(b);
             }
 
-            byte[] bytesUtf8 = EnDeCoder.GetBytes(hexStr);
+            byte[] bytesUtf8 = EnDeCodeHelper.GetBytes(hexStr);
             // return bytesUtf8
             return bytes.ToArray();
 
@@ -114,12 +134,13 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         {
             foreach (char ch in inString)
             {
-                if (!ValidCharList.Contains(ch))
+                if (!VALID_CHARS.ToCharArray().Contains(ch))
                     return false;
             }
             return true;
         }
 
+      
     }
 
 }

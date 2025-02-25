@@ -242,7 +242,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             }
 
 
-            return DeEnCoder.GetBytesTrimNulls(decryptBytes);
+            return EnDeCodeHelper.GetBytesTrimNulls(decryptBytes);
         }
 
         #endregion static members EncryptBytesFast DecryptBytesFast

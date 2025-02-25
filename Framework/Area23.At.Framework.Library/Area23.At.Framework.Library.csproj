@@ -122,14 +122,15 @@
     <Compile Include="Crypt\Cipher\Symmetric\SymmCrypt.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\ZenMatrix2.cs" />
+    <Compile Include="Crypt\EnDeCoding\EnDeCodeHelper.cs" />
     <Compile Include="Crypt\EnDeCoding\Hex32.cs" />
     <Compile Include="Crypt\EnDeCoding\EncodingType.cs" />
     <Compile Include="Crypt\EnDeCoding\Hex16.cs" />
+    <Compile Include="Crypt\EnDeCoding\IDecodable.cs" />
+    <Compile Include="Crypt\EnDeCoding\RawString.cs" />
     <Compile Include="Crypt\EnDeCoding\Uu.cs" />
     <Compile Include="Crypt\EnDeCoding\Base64.cs" />
     <Compile Include="Crypt\EnDeCoding\Base32.cs" />
-    <Compile Include="Crypt\EnDeCoding\DeEnCoder.cs" />
-    <Compile Include="Crypt\EnDeCoding\EnDeCoder.cs" />
     <Compile Include="Crypt\EnDeCoding\Base16.cs" />
     <Compile Include="Crypt\Hash\Sha512Sum.cs" />
     <Compile Include="Crypt\Hash\Sha256Sum.cs" />

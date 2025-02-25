@@ -32,7 +32,7 @@ namespace Area23.At.Framework.Library.Net.IpSocket
             {
                 IPEndPoint serverIep = new IPEndPoint(serverIp, serverPort);
                 TcpClient tcpClient = new TcpClient();
-                byte[] data = EnDeCoder.GetBytes(msg);
+                byte[] data = EnDeCodeHelper.GetBytes(msg);
                 // byte[] data = Encoding.UTF8.GetBytes(msg);
                 tcpClient.SendBufferSize = Constants.MAX_BYTE_BUFFEER;
                 tcpClient.Connect(serverIep);
@@ -63,7 +63,7 @@ namespace Area23.At.Framework.Library.Net.IpSocket
             }
             catch (Exception ex)
             {
-                Area23Log.Logger.Log(ex);
+                Area23Log.LogStatic(ex);
                 throw;
             }
 

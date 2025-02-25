@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Org.BouncyCastle.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -8,13 +10,34 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
     /// <summary>
     /// Base64 mime standard encoding
     /// </summary>
-    public static class Base64
+    public class Base64 : IDecodable
     {
 
-        public const string VALID_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/=";        
-        private static readonly HashSet<char> ValidCharList = new HashSet<char>(VALID_CHARS.ToCharArray());
+        public const string VALID_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/=";
 
         #region common interface, interfaces for static members appear in C# 7.3 or later
+
+        public IDecodable Decodable => this;
+
+        HashSet<char> IDecodable.ValidCharList => new HashSet<char>(VALID_CHARS.ToCharArray());
+       
+        public string EnCode(byte[] inBytes)
+        {
+            return Base64.Encode(inBytes);
+        }
+
+        public byte[] DeCode(string encodedString)
+        {
+            return Base64.Decode(encodedString);
+        }
+
+        public bool Validate(string encodedString)
+        {
+            return Base64.IsValid(encodedString);
+        }
+
+        #endregion common interface, interfaces for static members appear in C# 7.3 or later
+
 
         /// <summary>
         /// Encodes byte[] to valid encode formatted string
@@ -44,9 +67,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         public static bool IsValid(string encodedString)
         {
             return IsValidBase64(encodedString);
-        }
-
-        #endregion common interface, interfaces for static members appear in C# 7.3 or later
+        }       
 
 
         public static string ToBase64(byte[] inBytes)
@@ -65,7 +86,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         {
             foreach (char ch in inString)
             {
-                if (!ValidCharList.Contains(ch))
+                if (!VALID_CHARS.ToCharArray().Contains(ch))
                     return false;
             }
 

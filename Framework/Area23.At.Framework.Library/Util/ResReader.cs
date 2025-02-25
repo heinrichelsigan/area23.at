@@ -71,7 +71,7 @@ namespace Area23.At.Framework.Library.Util
 
         public static string GetAllFortunes()
         {
-            string fortuneString = EnDeCoder.GetString(Properties.Resource.fortune_u8);
+            string fortuneString = EnDeCodeHelper.GetString(Properties.Resource.fortune_u8);
             return fortuneString;
         }
     

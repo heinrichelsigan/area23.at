@@ -209,7 +209,7 @@ namespace Area23.At.Mono.Crypt
                 bool fromPlain = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
 
                 encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
-                string encryptedText = DeEnCoder.EncodeBytes(encryptBytes, encodeType, fromPlain, false);
+                string encryptedText = EnDeCodeHelper.EncodeBytes(encryptBytes, encodeType, fromPlain, false);
 
                 this.TextBoxDestionation.Text = encryptedText;
 
@@ -272,7 +272,7 @@ namespace Area23.At.Mono.Crypt
                 string encodingMethod = encodeType.ToString().ToLowerInvariant();
                 try
                 {
-                    cipherBytes = DeEnCoder.DecodeText(cipherText /*, out string errMsg */, encodeType, plainUu, false);
+                    cipherBytes = EnDeCodeHelper.DecodeText(cipherText /*, out string errMsg */, encodeType, plainUu, false);
                 }
                 catch (Exception exCode)
                 {
@@ -368,7 +368,7 @@ namespace Area23.At.Mono.Crypt
                     }
                 }
 
-                decryptedText = DeEnCoder.GetStringFromBytesTrimNulls(decryptedBytes);
+                decryptedText = EnDeCodeHelper.GetStringFromBytesTrimNulls(decryptedBytes);
                 this.TextBoxDestionation.Text = decryptedText; // HandleString_PrivateKey_Changed(decryptedText);
 
                 DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;";
@@ -705,7 +705,7 @@ namespace Area23.At.Mono.Crypt
                         if (CheckBoxEncode.Checked)
                         {
                             strFileName += "." + encodeType.ToString().ToLowerInvariant();
-                            string outString = DeEnCoder.EncodeBytes(outBytes, encodeType, plainUu, true);
+                            string outString = EnDeCodeHelper.EncodeBytes(outBytes, encodeType, plainUu, true);
                             savedTransFile = this.StringToFile(outString, out outMsg, strFileName, LibPaths.SystemDirOutPath);
                         }
                         else
@@ -763,7 +763,7 @@ namespace Area23.At.Mono.Crypt
                         if (decode)
                         {
                             encodingMethod = (ext.StartsWith(".")) ? ext.ToLowerInvariant().Substring(1) : ext.ToLowerInvariant();
-                            string cipherText = EnDeCoder.GetString(inBytes);
+                            string cipherText = EnDeCodeHelper.GetString(inBytes);
                             string tmpFile = ByteArrayToFile(inBytes, out outMsg, strFileName + ".tmp", LibPaths.SystemDirTmpPath);
                             // tmpFile = tmpFile.Replace(".hex", ".tmp");
                             if (System.IO.File.Exists(LibPaths.SystemDirTmpPath + tmpFile))
@@ -771,7 +771,7 @@ namespace Area23.At.Mono.Crypt
                                 cipherText = System.IO.File.ReadAllText(LibPaths.SystemDirTmpPath + tmpFile, Encoding.UTF8);
                             }
 
-                            outBytes = DeEnCoder.DecodeText(cipherText /*, out string errMsg */, extEncType, plainUu, true);
+                            outBytes = EnDeCodeHelper.DecodeText(cipherText /*, out string errMsg */, extEncType, plainUu, true);
                             strFileName = strFileName.EndsWith("." + encodingMethod) ? strFileName.Replace("." + encodingMethod, "") : strFileName;
                         }
                         else // if not decode, copy inBytes => outBytes
@@ -806,7 +806,7 @@ namespace Area23.At.Mono.Crypt
                         //    }
                         //}
 
-                        outBytes = DeEnCoder.GetBytesTrimNulls(inBytes);
+                        outBytes = EnDeCodeHelper.GetBytesTrimNulls(inBytes);
 
                         ZipType ztype = ZipType.None;
                         string zcmd = (Constants.UNIX) ? "zipunzip.sh" : (Constants.WIN32) ? "zipunzip.bat" : "";
@@ -955,7 +955,7 @@ namespace Area23.At.Mono.Crypt
             else if (string.IsNullOrEmpty(this.TextBox_Key.Text))
                 this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
 
-            this.TextBox_IV.Text = DeEnCoder.KeyToHex(this.TextBox_Key.Text);
+            this.TextBox_IV.Text = EnDeCodeHelper.KeyToHex(this.TextBox_Key.Text);
 
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BorderColor = Color.LightGray;
@@ -1079,7 +1079,7 @@ namespace Area23.At.Mono.Crypt
         {
             success = false;
             byte[] outBytesSameKey = null;
-            byte[] ivBytesHash = EnDeCoder.GetBytes("\r\n" + this.TextBox_IV.Text);
+            byte[] ivBytesHash = EnDeCodeHelper.GetBytes("\r\n" + this.TextBox_IV.Text);
             // Framework.Library.Crypt.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
             if (decryptedBytes != null && decryptedBytes.Length > ivBytesHash.Length)
             {

@@ -1,0 +1,5 @@
+﻿AuthType Basic
+AuthName "Password Required"
+AuthBasicProvider file
+AuthUserFile "/usr/local/apache2/htpasswd"
+Require user zen
