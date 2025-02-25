@@ -95,12 +95,8 @@ namespace Area23.At.Framework.Library
             }
             catch (Exception exLogWrite)
             {
-                if (!HttpContext.Current.Application.AllKeys.Contains("LogExceptionStatic"))
-                    HttpContext.Current.Application.Add("LogExceptionStatic",
-                        DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {LogFile} Exception {exLogWrite.GetType()} {exLogWrite.Message} \n" + exLogWrite.ToString());
-                else
-                    HttpContext.Current.Application.Set("LogExceptionStatic",
-                        DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {LogFile} Exception {exLogWrite.GetType()} {exLogWrite.Message} \n" + exLogWrite.ToString());
+                HttpContext.Current.Application["LogExceptionStatic"] = 
+                    DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {LogFile} Exception {exLogWrite.GetType()} {exLogWrite.Message} \n" + exLogWrite.ToString();
 
                 Console.Error.WriteLine(DateTime.Now.Area23DateTimeWithSeconds() + $" \tException: {exLogWrite.GetType()} {exLogWrite.Message} writing to logfile: {LogFile}");
                 

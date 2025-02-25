@@ -549,7 +549,6 @@
     <Content Include="res\bin\bccmd.bat" />
     <None Include="Properties\PublishProfiles\app.publish.pubxml" />
     <None Include="Properties\PublishProfiles\area23.at_release_publish.pubxml" />
-    <None Include="res\uu\derpark.txt.uze" />
     <Content Include="res\bin\uush.sh" />
     <Content Include="res\bin\GNUWin32.README" />
     <Content Include="res\bin\zipunzip.sh" />
@@ -558,6 +557,7 @@
     <Content Include="res\json\contacts.json" />
     <Content Include="res\json\urlshort.json" />
     <Content Include="Web.config" />
+    <Content Include="res\uu\derpark.txt.uu" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
