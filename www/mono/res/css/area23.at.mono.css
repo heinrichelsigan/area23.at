@@ -81,7 +81,7 @@ div#DivCryptTextArea {
     margin: 0 0 0 0;
     font-size: smaller;
     text-align: left;
-    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
 }
 
 
@@ -166,6 +166,7 @@ input#ButtonEncrypt.CryptTextArea {
 .DropDownList {
     height: 24px;
     font-size: medium;
+    z-index: 240;
 }
 
 .ButtonTextBox {
