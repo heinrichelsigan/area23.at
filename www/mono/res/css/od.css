@@ -28,27 +28,27 @@ div#DivCryptTextArea {
     margin: 0 0 0 0;
     font-size: smaller;
     text-align: left;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
 }
 
-    CryptTextArea#TextBoxSource,
-    TextBox#TextBoxSource,
-    TextBox#TextBoxSource.CryptTextArea,
-    textarea#TextBoxSource,
-    textarea#TextBoxSource.CryptTextArea,
-    textarea.CryptTextArea,
-    textarea.CryptTextArea#TextBoxSource {
-        width: 512px;
-        text-align: left;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        font-size: smaller;
-        color: darkseagreen;
-        border-style: dashed;
-        border-width: 1px;
-        border-color: #2a122c;
-        background-color: transparent;
-        tab-size: 2;
-    }
+CryptTextArea#TextBoxSource,
+TextBox#TextBoxSource,
+TextBox#TextBoxSource.CryptTextArea,
+textarea#TextBoxSource,
+textarea#TextBoxSource.CryptTextArea,
+textarea.CryptTextArea,
+textarea.CryptTextArea#TextBoxSource {
+    width: 512px;
+    text-align: left;
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+    font-size: smaller;
+    color: #06050e;
+    border-style: ridge;
+    border-width: 1px;
+    border-color: #2a122c;
+    background-color: transparent;
+    tab-size: 2;
+}
 
         TextBox#TextBoxDestination.CryptTextArea,
         textarea.CryptTextArea#TextBoxDestination,
@@ -57,11 +57,11 @@ div#DivCryptTextArea {
         CryptTextArea#TextBoxDestination {
             width: 512px;
             text-align: left;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
             font-size: x-small;
             color: #06050e;
             background-color: transparent;
-            border-style: dashed;
+            border-style: groove;
             border-width: 1px;
             border-color: #230a23;
             tab-size: 2;
