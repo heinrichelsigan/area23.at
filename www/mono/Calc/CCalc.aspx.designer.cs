@@ -51,6 +51,15 @@ namespace Area23.At.Mono.Calc
         protected global::System.Web.UI.HtmlControls.HtmlForm CCalcForm;
 
         /// <summary>
+        /// DivOuter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivOuter;
+
+        /// <summary>
         /// TextBox_Calc control.
         /// </summary>
         /// <remarks>

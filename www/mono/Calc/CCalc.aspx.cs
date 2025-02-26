@@ -127,6 +127,8 @@ namespace Area23.At.Mono.Calc
             }
             if (!Page.IsPostBack)
             {
+                if (rpnStack != null && rpnStack.Count > 0)
+                    this.RpnStackToTextBox();
                 jsonSerRpnStack = JsonConvert.SerializeObject(rpnStack);
                 if (metacursor.Attributes["content"] == null)
                     metacursor.Attributes.Add("content", HttpUtility.HtmlEncode(jsonSerRpnStack));
@@ -418,8 +420,9 @@ namespace Area23.At.Mono.Calc
                     CalcTerm term = null;
 
                     if (newElem.StartsWith("="))
-                    {
+                    {                        
                         BEval_Click(sender, e);
+                        this.CurrentTextBox.Text = "";
                         return;
                     }
                     if (newElem.EndsWith("=") || newElem.LastIndexOf("=") > 0)
@@ -464,6 +467,7 @@ namespace Area23.At.Mono.Calc
                         if (evaluate)
                         {
                             BEval_Click(sender, e);
+                            this.CurrentTextBox.Text = "";
                             return; 
                         }
                     }                    

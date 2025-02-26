@@ -4,15 +4,15 @@
 	<meta id="metacursor" runat="server" content="" />
 	<meta id="metarad" runat="server" content="DEG" />
 	<meta id="metaarc" runat="server" content="" />
-	<title>CCalc</title>    
+	<title>CCalc</title>
 	<link rel="stylesheet" href="../res/css/area23.at.mono.css" />
-	<link rel="stylesheet" href="../res/css/rpncalcweb.css" />	
-	<script async src="../res/js/area23.js"></script>	
+	<link rel="stylesheet" href="../res/css/rpncalcweb.css" />
+	<script async src="../res/js/area23.js"></script>
 	<meta name="description" content="https://github.com/heinrich.elsigan/area23.at/" />
 </asp:Content>
 <asp:Content ID="CalcBodyContent" ContentPlaceHolderID="CalcBody" runat="server" ClientIDMode="Static">
 	<form id="CCalcForm" runat="server" action="CCalc.aspx">
-		<div>			
+		<div id="DivOuter" runat="server" style="border-width: 1px; border-style: double;">
 			<table class="rpnTbl" border="0" cellpadding="0" cellspacing="0">
 				<tr id="trA" class="rpnTr">
 					<td id="tdAa" width="12%" align="left" class="rpnTd"></td>
@@ -54,7 +54,7 @@
 					<td id="td6a" width="12%" class="rpnTd"></td>
 					<td id="td6b" width="12%" align="center" class="azureTd"><asp:Button ID="Binverse" runat="server" ClientIDMode="Static" Text="1/x" OnClick="bMath_Click" /></td>
 					<td id="td6c" width="12%" align="center" class="azureTd"><asp:Button ID="Bln" runat="server" ClientIDMode="Static" Text="ln" OnClick="bMath_Click" /></td>
-					<td id="td6d" width="12%" align="center" class="azureTd"><asp:Button ID="Bld" runat="server" ClientIDMode="Static" Text="ld" OnClick="bMath_Click" /></td>d
+					<td id="td6d" width="12%" align="center" class="azureTd"><asp:Button ID="Bld" runat="server" ClientIDMode="Static" Text="ld" OnClick="bMath_Click" /></td>
 					<td id="td6e" width="12%" align="center" class="azureTd"><asp:Button ID="Blog" runat="server" ClientIDMode="Static" Text="log" OnClick="bMath_Click" /></td>
 					<td id="td6f" width="12%" align="center" class="mistyroseTd"><asp:Button ID="Blogxy" runat="server" ClientIDMode="Static" Text="log&#x2095;a" OnClick="bMath2Op_Click" /></td>
 					<td id="td6g" width="12%" align="center" class="funckeyId"></td>
@@ -124,4 +124,3 @@
 		</div>
 	</form>    
 </asp:Content>
-
