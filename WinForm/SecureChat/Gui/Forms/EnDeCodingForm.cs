@@ -30,7 +30,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 ComboBox_SymChiffer.SelectedIndex = 0;
             }
 
-            ComboBox_EnDeCoding.SelectedIndex = 3;
+            this.ComboBox_EnDeCoding.SelectedIndex = 3;
         }
 
 
@@ -51,12 +51,12 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             {
                 string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;
                 string encryptedText = string.Empty;
-                byte[] inBytesText = DeEnCoder.GetBytesFromString(this.TextBoxSource.Text, 256, false);
-                byte[] inBytesHash = DeEnCoder.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
+                byte[] inBytesText = EnDeCodeHelper.GetBytesFromString(this.TextBoxSource.Text, 256, false);
+                byte[] inBytesHash = EnDeCodeHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
 
                 byte[] inBytes = Extensions.TarBytes(inBytesText, inBytesHash);
 
-                // EnDeCoder.GetBytes(this.TextBoxSource.Text);
+                // EnDeCodeHelper.GetBytes(this.TextBoxSource.Text);
 
                 string[] algos = this.TextBox_CryptPipeline.Text.Split("+;,→⇛".ToCharArray());
                 byte[] encryptBytes = inBytes;
@@ -70,7 +70,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 }
 
                 EncodingType encodingType = (EncodingType)Enum.Parse<EncodingType>(this.ComboBox_EnDeCoding.SelectedItem.ToString());
-                encryptedText = EnDeCoder.Encode(encryptBytes, encodingType);
+                encryptedText = EnDeCodeHelper.Encode(encryptBytes, encodingType);
 
                 this.TextBoxDestionation.BackColor = SystemColors.ControlLightLight;
                 this.TextBoxDestionation.Text = encryptedText;
@@ -105,7 +105,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 string decryptedText = string.Empty;
                 byte[] cipherBytes = null;
                 EncodingType encodingType = (EncodingType)Enum.Parse<EncodingType>(this.ComboBox_EnDeCoding.SelectedItem.ToString());
-                cipherBytes = EnDeCoder.Decode(cipherText, encodingType);                
+                cipherBytes = EnDeCodeHelper.Decode(cipherText, encodingType);                
 
                 byte[] decryptedBytes = cipherBytes;
                 int ig = 0;
@@ -120,7 +120,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     }
                 }
 
-                decryptedText = DeEnCoder.GetStringFromBytesTrimNulls(decryptedBytes);
+                decryptedText = EnDeCodeHelper.GetStringFromBytesTrimNulls(decryptedBytes);
                 this.TextBoxDestionation.BackColor = SystemColors.ControlLightLight;
                 this.TextBoxDestionation.Text = HandleString_PrivateKey_Changed(decryptedText);
             }
@@ -141,8 +141,8 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             if (inFileBytes != null && inFileBytes.Length > 0)
             {
                 string encryptedText = string.Empty;
-                byte[] inBytesSeperator = EnDeCoder.GetBytes8("\r\n");
-                byte[] inBytesKeyHash = EnDeCoder.GetBytes8(this.TextBox_IV.Text);
+                byte[] inBytesSeperator = EnDeCodeHelper.GetBytes8("\r\n");
+                byte[] inBytesKeyHash = EnDeCodeHelper.GetBytes8(this.TextBox_IV.Text);
                 byte[] inBytes = Extensions.TarBytes(inFileBytes, inBytesSeperator, inBytesKeyHash);
                 byte[] encryptBytes = inBytes;
 
@@ -215,9 +215,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     }
                 }
 
-                outBytes = DeEnCoder.GetBytesTrimNulls(decryptedBytes);
+                outBytes = EnDeCodeHelper.GetBytesTrimNulls(decryptedBytes);
                 fileBytes = HandleBytes_PrivateKey_Changed(outBytes, out bool success);
-                decryptedText = DeEnCoder.GetStringFromBytesTrimNulls(decryptedBytes);
+                decryptedText = EnDeCodeHelper.GetStringFromBytesTrimNulls(decryptedBytes);
                 this.TextBoxDestionation.Text = HandleString_PrivateKey_Changed(decryptedText);
                 if (fileBytes != null && fileBytes.Length > 0)
                 {
@@ -312,7 +312,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         protected void TextBox_Key_TextChanged(object sender, EventArgs e)
         {
-            this.TextBox_IV.Text = DeEnCoder.KeyToHex(this.TextBox_Key.Text);
+            this.TextBox_IV.Text = EnDeCodeHelper.KeyToHex(this.TextBox_Key.Text);
             this.TextBox_IV.BackColor = Color.Red;
             this.TextBox_IV.BorderStyle = BorderStyle.FixedSingle;
 
@@ -377,7 +377,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             this.TextBox_Key.ForeColor = SystemColors.ControlText;
             this.TextBox_Key.BackColor = SystemColors.ControlLightLight;
 
-            this.TextBox_IV.Text = DeEnCoder.KeyToHex(this.TextBox_Key.Text);
+            this.TextBox_IV.Text = EnDeCodeHelper.KeyToHex(this.TextBox_Key.Text);
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BackColor = this.TextBox_Key.BackColor;
             this.TextBox_IV.BorderStyle = BorderStyle.None;
@@ -452,7 +452,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             success = false;
             byte[] outBytesSameKey = null;
-            byte[] ivBytesHash = EnDeCoder.GetBytes8("\r\n" + this.TextBox_IV.Text);
+            byte[] ivBytesHash = EnDeCodeHelper.GetBytes8("\r\n" + this.TextBox_IV.Text);
             // Framework.Library.Cipher.Symmetric.CryptHelper.GetBytesFromString("\r\n" + this.TextBox_IV.Text, 256, false);
             if (decryptedBytes != null && decryptedBytes.Length > ivBytesHash.Length)
             {

@@ -107,7 +107,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Controls
         {
             string fileName = mimeAttachment.FileName;
             string filePath = Path.Combine(LibPaths.AttachmentFilesDir, mimeAttachment.FileName);
-            byte[] fileBytes = Area23.At.Framework.Core.Crypt.EnDeCoding.Base64.Decode(mimeAttachment.Base64Mime);
+            byte[] fileBytes = IDecodable.DeCode(mimeAttachment.Base64Mime, EncodingType.Base64);
             System.IO.File.WriteAllBytes(filePath, fileBytes);
 
             SetNameFilePathk(fileName, filePath);

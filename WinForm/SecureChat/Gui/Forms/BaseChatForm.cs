@@ -27,7 +27,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         protected string savedFile = string.Empty;
         protected string loadDir = string.Empty;
-        private System.ComponentModel.IContainer components = null;
+        private System.ComponentModel.IContainer? components = null;
 
         #endregion fields
 

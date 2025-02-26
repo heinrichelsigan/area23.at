@@ -440,7 +440,6 @@
         protected internal ToolStripMenuItem toolStripMenuMain;
         protected internal ToolStripMenuItem toolStripMenuItemAbout;
         protected internal ToolStripMenuItem toolStripMenuItemOld;
-        private ToolStripSeparator toolStripSeparator1;
         private ToolStripSeparator toolStripSeparator3;
         protected internal ToolStripMenuItem toolStripMenuItemOpen;
         protected internal ToolStripMenuItem toolStripMenuItemClose;

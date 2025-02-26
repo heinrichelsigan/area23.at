@@ -70,6 +70,9 @@ namespace Area23.At.Framework.Core
         public const string DECRYPTED_TEXT_AREA = "<textarea cols = \"48\" rows=\"10\" name=\"TextBoxDecrypted\" id=\"TextBoxDecrypted\" title=\"TextBox Current Message\" ValidateRequestMode=\"Disabled\" style=\"width:480px;\" >";
         public const string DECRYPTED_TEXT_BOX = "TextBoxDecrypted";
         public const string DECRYPTED_TEXT_AREA_END = "</textarea>";
+        public const string CQRXS_TEST_FORM = "CqrXsTestForm";
+        public const string FISH_ON_AES_ENGINE = "FishOnAesEngine";
+        public const string CQRXS_DELETE_DATA_ON_CLOSE = "CqrXsDeleteDataOnClose";
 
         public const string ACK = "Ack";
         public const string NACK = "Nack";

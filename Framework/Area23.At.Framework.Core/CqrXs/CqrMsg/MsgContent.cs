@@ -189,7 +189,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 
             if (IsMimeAttachment())
             {
-                _hash = _rawMessage.GetSubStringByPattern("Content-Verification: ", true, "", ";\n", false, StringComparison.CurrentCulture);
+                _hash = _rawMessage.GetSubStringByPattern("Content-Verification: ", true, "", ";", false, StringComparison.InvariantCulture);
                 // _hash = _rawMessage.Substring(0, _rawMessage.IndexOf(";\n"));
             }
 

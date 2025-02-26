@@ -407,14 +407,26 @@ namespace Area23.At.Mono.Calc
 
         protected void bEnter_Click(object sender, EventArgs e)
         {
+            bool evaluate = false;
             lock (bEnter_Click_lock)
             {
                 this.CurrentTextBox.Text = CurrentTextBox.Text.TrimStart(" ".ToArray()).TrimEnd(" ".ToArray());
                 if (!string.IsNullOrEmpty(this.CurrentTextBox.Text))
                 {
-                    string newElem = this.CurrentTextBox.Text;
+                    string newElem = this.CurrentTextBox.Text.TrimStart(" \t".ToArray()).TrimEnd(" \t".ToArray());
                     string newTerm = this.TextBox_Calc.Text + newElem;
                     CalcTerm term = null;
+
+                    if (newElem.StartsWith("="))
+                    {
+                        BEval_Click(sender, e);
+                        return;
+                    }
+                    if (newElem.EndsWith("=") || newElem.LastIndexOf("=") > 0)
+                    {
+                        evaluate = true;
+                        newElem = newElem.Substring(0, newElem.LastIndexOf("="));
+                    }
 
                     if (ValidateAll(newElem) != RPNType.Invalid)
                     {
@@ -447,6 +459,12 @@ namespace Area23.At.Mono.Calc
                             SetMetaContent();
                             CurrentTextBox.Text = string.Empty;
                             this.Change_Click_EventDate = DateTime.UtcNow;
+                        }
+
+                        if (evaluate)
+                        {
+                            BEval_Click(sender, e);
+                            return; 
                         }
                     }                    
                 }

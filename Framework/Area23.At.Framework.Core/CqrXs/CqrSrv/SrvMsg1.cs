@@ -53,10 +53,10 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             MsgContact._message = allMsg;
             MsgContact._rawMessage = allMsg + "\n" + symmPipe.PipeString + "\0";
 
-            byte[] allBytes = DeEnCoder.GetBytesFromString(allMsg);
-            byte[] msgBytes = DeEnCoder.GetBytesFromString(MsgContact._message);
+            byte[] allBytes = EnDeCodeHelper.GetBytesFromString(allMsg);
+            byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(MsgContact._message);
             byte[] cqrMsgBytes = (LibPaths.CqrEncrypt) ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
-            CqrMessage = DeEnCoder.EncodeBytes(cqrMsgBytes, encType);
+            CqrMessage = EnDeCodeHelper.EncodeBytes(cqrMsgBytes, encType);
 
             return CqrBaseMsg(MsgContact, encType);
         }
@@ -102,35 +102,52 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             string posturl = ConfigurationManager.AppSettings["ServerUrlToPost"].ToString();
             string hostheader = ConfigurationManager.AppSettings["SendHostHeader"].ToString();
 
-            string response = WebClientRequest.PostMessage(encrypted, posturl, hostheader, srvIp.ToString());
+            string response = string.Empty;
+            try
+            {
+                response = WebClientRequest.PostMessage(encrypted, posturl, hostheader, srvIp.ToString());
+            }
+            catch (Exception ex)
+            {
+                response = "Exception: " + ex.Message + "\n" + ex.ToString();
+            }
 
-            return response;
+            string reducedResponse = string.Empty;
+            if (response.Contains(Constants.DECRYPTED_TEXT_AREA))
+                reducedResponse = response.GetSubStringByPattern(Constants.DECRYPTED_TEXT_AREA, true, "",
+                    Constants.DECRYPTED_TEXT_AREA_END, false, StringComparison.InvariantCulture);
+            else if (response.Contains(Constants.DECRYPTED_TEXT_BOX))
+                reducedResponse = response.GetSubStringByPattern(Constants.DECRYPTED_TEXT_BOX, true, ">",
+                    Constants.DECRYPTED_TEXT_AREA_END, false, StringComparison.InvariantCulture);
+            return reducedResponse;
         }
 
 
         public string Send1st_CqrSrvMsg1_Soap(CqrContact myContact, IPAddress srvIp, EncodingType encodingType = EncodingType.Base64)
         {
-                
+
             myContact._hash = PipeString;
-            string msg = Newtonsoft.Json.JsonConvert.SerializeObject(myContact);
+            CqrContact sendContact = new CqrContact(myContact.ContactId, myContact.Name, myContact.Email, myContact.Mobile, myContact.Address);
+            sendContact._hash = PipeString;
+
+            string msg = Newtonsoft.Json.JsonConvert.SerializeObject(sendContact);
             // string encMsg = CqrBaseMsg(msg, encodingType);
-            string encMsg = CqrSrvMsg1(myContact, encodingType);
-                // string encrypted = String.Format("TextBoxEncrypted={0}\r\nTextBoxDecrypted=\r\nTextBoxLastMsg=\r\nButtonSubmit=Submit",
-                //     encMsg);
+            string encMsg = CqrSrvMsg1(sendContact, encodingType);
+            // string encrypted = String.Format("TextBoxEncrypted={0}\r\nTextBoxDecrypted=\r\nTextBoxLastMsg=\r\nButtonSubmit=Submit",
+            //     encMsg);
 
-                string posturl = ConfigurationManager.AppSettings["ServerUrlToPost"].ToString();
-                string hostheader = ConfigurationManager.AppSettings["SendHostHeader"].ToString();
-            
-                CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoap12);
+            string posturl = ConfigurationManager.AppSettings["ServerUrlToPost"].ToString();
+            string hostheader = ConfigurationManager.AppSettings["SendHostHeader"].ToString();
 
-                string response = client.Send1StSrvMsg(encMsg);
-            
-                
+            CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoap12);
+
+            string response = client.Send1StSrvMsg(encMsg);
+
 
             //    string response = WebClientRequest.PostMessage(encrypted, posturl, hostheader, srvIp.ToString());
 
-                return response;
-        
+            return response;
+
         }
 
 

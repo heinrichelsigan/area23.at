@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Configuration;
+
 namespace EU.CqrXs.CqrSrv.CqrJd
 {
     
@@ -23,13 +25,6 @@ namespace EU.CqrXs.CqrSrv.CqrJd
         [System.ServiceModel.OperationContractAttribute(Action="https://cqrjd.eu/cqrsrv/cqrjd/Send1StSrvMsg", ReplyAction="*")]
         System.Threading.Tasks.Task<string> Send1StSrvMsgAsync(string cryptMsg);
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://cqrjd.eu/cqrsrv/cqrjd/PollMyInbox", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        string PollMyInbox(string cryptMsg);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="https://cqrjd.eu/cqrsrv/cqrjd/PollMyInbox", ReplyAction="*")]
-        System.Threading.Tasks.Task<string> PollMyInboxAsync(string cryptMsg);
-        
         [System.ServiceModel.OperationContractAttribute(Action="https://cqrjd.eu/cqrsrv/cqrjd/SendValidatedSrvMsg", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         string SendValidatedSrvMsg(System.Guid from, System.Guid to, string cryptMsgSrv, string cryptMsgPartner);
@@ -43,6 +38,34 @@ namespace EU.CqrXs.CqrSrv.CqrJd
         
         [System.ServiceModel.OperationContractAttribute(Action="https://cqrjd.eu/cqrsrv/cqrjd/SendSrvMsg", ReplyAction="*")]
         System.Threading.Tasks.Task<string> SendSrvMsgAsync(string cryptMsgSrv, string cryptMsgPartner);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="https://cqrjd.eu/cqrsrv/cqrjd/ChatRoomInvite", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        string ChatRoomInvite(string cryptMsg);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="https://cqrjd.eu/cqrsrv/cqrjd/ChatRoomInvite", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> ChatRoomInviteAsync(string cryptMsg);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="https://cqrjd.eu/cqrsrv/cqrjd/ChatRoomPoll", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        string ChatRoomPoll(string cryptMsg);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="https://cqrjd.eu/cqrsrv/cqrjd/ChatRoomPoll", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> ChatRoomPollAsync(string cryptMsg);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="https://cqrjd.eu/cqrsrv/cqrjd/ChatRoomPushMessage", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        string ChatRoomPushMessage(string cryptMsg, string chatRoomMembersCrypted);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="https://cqrjd.eu/cqrsrv/cqrjd/ChatRoomPushMessage", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> ChatRoomPushMessageAsync(string cryptMsg, string chatRoomMembersCrypted);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="https://cqrjd.eu/cqrsrv/cqrjd/ChatRoomClose", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        string ChatRoomClose(string cryptMsg);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="https://cqrjd.eu/cqrsrv/cqrjd/ChatRoomClose", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> ChatRoomCloseAsync(string cryptMsg);
         
         [System.ServiceModel.OperationContractAttribute(Action="https://cqrjd.eu/cqrsrv/cqrjd/UpdateContacts", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -112,16 +135,6 @@ namespace EU.CqrXs.CqrSrv.CqrJd
             return base.Channel.Send1StSrvMsgAsync(cryptMsg);
         }
         
-        public string PollMyInbox(string cryptMsg)
-        {
-            return base.Channel.PollMyInbox(cryptMsg);
-        }
-        
-        public System.Threading.Tasks.Task<string> PollMyInboxAsync(string cryptMsg)
-        {
-            return base.Channel.PollMyInboxAsync(cryptMsg);
-        }
-        
         public string SendValidatedSrvMsg(System.Guid from, System.Guid to, string cryptMsgSrv, string cryptMsgPartner)
         {
             return base.Channel.SendValidatedSrvMsg(from, to, cryptMsgSrv, cryptMsgPartner);
@@ -140,6 +153,46 @@ namespace EU.CqrXs.CqrSrv.CqrJd
         public System.Threading.Tasks.Task<string> SendSrvMsgAsync(string cryptMsgSrv, string cryptMsgPartner)
         {
             return base.Channel.SendSrvMsgAsync(cryptMsgSrv, cryptMsgPartner);
+        }
+        
+        public string ChatRoomInvite(string cryptMsg)
+        {
+            return base.Channel.ChatRoomInvite(cryptMsg);
+        }
+        
+        public System.Threading.Tasks.Task<string> ChatRoomInviteAsync(string cryptMsg)
+        {
+            return base.Channel.ChatRoomInviteAsync(cryptMsg);
+        }
+        
+        public string ChatRoomPoll(string cryptMsg)
+        {
+            return base.Channel.ChatRoomPoll(cryptMsg);
+        }
+        
+        public System.Threading.Tasks.Task<string> ChatRoomPollAsync(string cryptMsg)
+        {
+            return base.Channel.ChatRoomPollAsync(cryptMsg);
+        }
+        
+        public string ChatRoomPushMessage(string cryptMsg, string chatRoomMembersCrypted)
+        {
+            return base.Channel.ChatRoomPushMessage(cryptMsg, chatRoomMembersCrypted);
+        }
+        
+        public System.Threading.Tasks.Task<string> ChatRoomPushMessageAsync(string cryptMsg, string chatRoomMembersCrypted)
+        {
+            return base.Channel.ChatRoomPushMessageAsync(cryptMsg, chatRoomMembersCrypted);
+        }
+        
+        public string ChatRoomClose(string cryptMsg)
+        {
+            return base.Channel.ChatRoomClose(cryptMsg);
+        }
+        
+        public System.Threading.Tasks.Task<string> ChatRoomCloseAsync(string cryptMsg)
+        {
+            return base.Channel.ChatRoomCloseAsync(cryptMsg);
         }
         
         public string UpdateContacts(string cryptMsg)
@@ -199,11 +252,11 @@ namespace EU.CqrXs.CqrSrv.CqrJd
         {
             if ((endpointConfiguration == EndpointConfiguration.CqrServiceSoap))
             {
-                return new System.ServiceModel.EndpointAddress("https://cqrxs.eu/cqrsrv/cqrjd/CqrService.asmx");
+                return new System.ServiceModel.EndpointAddress(ConfigurationManager.AppSettings["CqrServiceSoap"]);
             }
             if ((endpointConfiguration == EndpointConfiguration.CqrServiceSoap12))
             {
-                return new System.ServiceModel.EndpointAddress("https://cqrxs.eu/cqrsrv/cqrjd/CqrService.asmx");
+                return new System.ServiceModel.EndpointAddress(ConfigurationManager.AppSettings["CqrServiceSoap12"]);
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }

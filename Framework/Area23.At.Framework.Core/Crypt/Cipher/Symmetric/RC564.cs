@@ -115,7 +115,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
         public static byte[] Encrypt(byte[] plainData)
         {
-            byte[] plainScratched = Area23.At.Framework.Core.Crypt.EnDeCoding.DeEnCoder.GetBytesFromBytes(plainData);
+            byte[] plainScratched = EnDeCodeHelper.GetBytesFromBytes(plainData);
 
             var cipher = new RC564Engine();
 
@@ -173,7 +173,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainData, 0);
             cipherMode.DoFinal(plainData, result);
 
-            byte[] plainShrinken = Area23.At.Framework.Core.Crypt.EnDeCoding.DeEnCoder.GetBytesTrimNulls(plainData);
+            byte[] plainShrinken = Area23.At.Framework.Core.Crypt.EnDeCoding.EnDeCodeHelper.GetBytesTrimNulls(plainData);
             return plainShrinken; // Encoding.ASCII.GetString(pln).TrimEnd('\0');
         }
 
@@ -188,7 +188,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <returns>base64 encoded encrypted string</returns>
         public static string EncryptString(string inString)
         {
-            byte[] plainTextData = EnDeCoder.GetBytes(inString);
+            byte[] plainTextData = EnDeCodeHelper.GetBytes(inString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
 
@@ -205,7 +205,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = EnDeCoder.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = EnDeCodeHelper.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;
         }

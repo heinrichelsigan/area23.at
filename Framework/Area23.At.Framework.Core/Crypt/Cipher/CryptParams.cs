@@ -10,7 +10,6 @@ using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 namespace Area23.At.Framework.Core.Crypt.Cipher
 {
 
-
     /// <summary>
     /// CryptParams parameters for encryption algorithm engine
     /// </summary>
@@ -25,9 +24,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             private set => Cipher = (CipherEnum)Enum.Parse(typeof(CipherEnum), value);
         }
 
-        public string? Key { get; set; }
+        public string Key { get; set; }
 
-        public string? Hash { get; set; }
+        public string Hash { get; set; }
 
         public string Mode { get; set; }
 
@@ -60,6 +59,12 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
 
             switch (Cipher)
             {
+                case CipherEnum.Aes:
+                    BlockSize = 256;
+                    KeyLen = 32;
+                    Mode = "ECB";
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
+                    break;
                 case CipherEnum.BlowFish:
                     BlockSize = 64;
                     KeyLen = 8;
@@ -96,6 +101,18 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
                     break;
+                case CipherEnum.Des:
+                    BlockSize = 64;
+                    KeyLen = 8;
+                    Mode = "ECB";
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEngine();
+                    break;
+                case CipherEnum.Des3:
+                    BlockSize = 128;
+                    KeyLen = 16;
+                    Mode = "ECB";
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEdeEngine();
+                    break;
                 case CipherEnum.Gost28147:
                     BlockSize = 256;
                     KeyLen = 32;
@@ -128,7 +145,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                     break;
                 case CipherEnum.RC564:
                     BlockSize = 64;
-                    KeyLen = 16;
+                    KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
                     break;
@@ -174,7 +191,6 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
-                case CipherEnum.Aes:
                 default:
                     BlockSize = 256;
                     KeyLen = 32;

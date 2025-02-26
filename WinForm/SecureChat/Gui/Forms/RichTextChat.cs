@@ -410,7 +410,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 {
                     if (chat == null)
                         chat = new Chat(0);
-                    string encrypted = EnDeCoder.GetString(ipSockListener.BufferedData);
+                    string encrypted = EnDeCodeHelper.GetString(ipSockListener.BufferedData);
 
                     Area23EventArgs<ReceiveData>? area23EvArgs = null;
                     if (e != null && e is Area23EventArgs<ReceiveData>)
@@ -426,7 +426,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                             SetComboBoxText(ComboBoxIpContact, area23EvArgs.GenericTData.ClientIPAddr);
 
                         }
-                        encrypted = EnDeCoder.GetString(area23EvArgs.GenericTData.BufferedData);
+                        encrypted = EnDeCodeHelper.GetString(area23EvArgs.GenericTData.BufferedData);
                     }
 
 
@@ -534,7 +534,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     byte[] fileBytes = System.IO.File.ReadAllBytes(openFileDialog.FileName);
                     string fileNameOnly = Path.GetFileName(openFileDialog.FileName);
                     string mimeType = Area23.At.Framework.Core.Util.MimeType.GetMimeType(fileBytes, fileNameOnly);
-                    string base64Mime = Base64.Encode(fileBytes);
+                    string base64Mime = IDecodable.EnCode(fileBytes, EncodingType.Base64);
 
                     Peer2PeerMsg pmsg = new Peer2PeerMsg(myServerKey);
                     string unencrypted = MimeAttachment.GetMimeMessage(fileNameOnly, mimeType, base64Mime, pmsg.PipeString);
@@ -572,16 +572,16 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
             string iv = Constants.BC_START_MSG;
             byte[] keyBytes = CryptHelper.GetUserKeyBytes(privKey, iv, 16);
 
-            ZenMatrix.ZenMatrixGenWithBytes(keyBytes, true);
+            ZenMatrix z = new ZenMatrix(keyBytes, true);
             TextBoxDestionation.Text = "| 0 | => | ";
-            foreach (sbyte sb in ZenMatrix.PermKeyHash)
+            foreach (sbyte sb in z.PermutationKeyHash)
             {
                 TextBoxDestionation.Text += sb.ToString("x1") + " ";
             }
             TextBoxDestionation.Text += "| \r\n";
-            for (int zeni = 1; zeni < ZenMatrix.PermKeyHash.Count; zeni++)
+            for (int zeni = 1; zeni < z.PermutationKeyHash.Count; zeni++)
             {
-                sbyte sb = (sbyte)ZenMatrix.PermKeyHash.ElementAt(zeni);
+                sbyte sb = (sbyte)z.PermutationKeyHash.ElementAt(zeni);
                 TextBoxDestionation.Text += "| " + zeni.ToString("x1") + " | => | " + sb.ToString("x1") + " | " + "\r\n";
             }
             // this.TextBoxDestionation.Text += ZenMatrix.EncryptString(this.RichTextBoxChat.Text) + "\n";
@@ -606,7 +606,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         {
             string fileName = mimeAttachment.FileName;
             string filePath = Path.Combine(LibPaths.AttachmentFilesDir, mimeAttachment.FileName);
-            byte[] fileBytes = Area23.At.Framework.Core.Crypt.EnDeCoding.Base64.Decode(mimeAttachment.Base64Mime);
+            byte[] fileBytes = IDecodable.DeCode(mimeAttachment.Base64Mime, EncodingType.Base64);
             System.IO.File.WriteAllBytes(filePath, fileBytes);
 
             GroupBoxLinks.SetNameFilePath(fileName, filePath);
@@ -651,7 +651,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     try
                     {
                         Bitmap? bmp;
-                        byte[] bytes = Base64.Decode(base64image);
+                        byte[] bytes = IDecodable.DeCode(base64image, EncodingType.Base64);
                         using (MemoryStream ms = new MemoryStream(bytes))
                         {
                             bmp = new Bitmap(ms);

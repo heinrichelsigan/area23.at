@@ -25,7 +25,7 @@ namespace Area23.At.Mono.Crypt
             this.aAes.HRef = LibPaths.EncodeAppPath + "AesImprove.aspx";
             this.aImgCrypt.HRef = LibPaths.EncodeAppPath + "ImgPngCrypt.aspx";
             this.aCoolCrypt.HRef = LibPaths.EncodeAppPath + "CoolCrypt.aspx";
-            this.aUrlShort.HRef = "/s/";
+            this.aUrlZenMatrix.HRef = LibPaths.EncodeAppPath + "ZenMatrixVisualize.aspx";
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)
@@ -60,7 +60,7 @@ namespace Area23.At.Mono.Crypt
                         headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("S.aspx"))
+                    if (this.Request.RawUrl.Contains("ZenMatrixVisualize.aspx"))
                     {
                         headerRight.Attributes["background-color"] = "headerRightSelect";
                         return;

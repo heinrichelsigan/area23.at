@@ -63,9 +63,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         /// </summary>
         /// <param name="symmCipherAlgo">symmetric prefered alogorithm to chipher</param>
         /// <returns><see cref="IBlockCipher"/></returns>
-        public static IBlockCipher GetPreferedBlockCipher(SymmCipherEnum symmCipherAlgo)
+        public static IBlockCipher GetPreferedBlockCipher(SymmCipherEnum symmCipherAlgo, bool fishOnAesEngine = true)
         {
-            CryptParamsPrefered cryptParamsPrefered = new CryptParamsPrefered(symmCipherAlgo);
+            CryptParamsPrefered cryptParamsPrefered = new CryptParamsPrefered(symmCipherAlgo, fishOnAesEngine);
             return cryptParamsPrefered.BlockCipher;
         }
 
@@ -76,9 +76,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         /// </summary>
         /// <param name="symmCipherAlgo">alogorithm to chipher</param>
         /// <returns>CryptParamsPrefered</returns>
-        public static CryptParamsPrefered GetPreferedCryptParams(SymmCipherEnum symmCipherAlgo)
+        public static CryptParamsPrefered GetPreferedCryptParams(SymmCipherEnum symmCipherAlgo, bool fishOnAesEngine = false)
         {
-            return new CryptParamsPrefered(symmCipherAlgo);
+            return new CryptParamsPrefered(symmCipherAlgo, fishOnAesEngine);
         }
 
         #endregion GetPreferedBlockCipher
@@ -121,8 +121,8 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             key = (string.IsNullOrEmpty(key)) ? Constants.AUTHOR_EMAIL : key;
             hash = (string.IsNullOrEmpty(hash)) ? Constants.AUTHOR_IV : hash;
 
-            byte[] keyBytes = EnDeCoder.GetBytes(key);
-            byte[] hashBytes = EnDeCoder.GetBytes(hash);
+            byte[] keyBytes = EnDeCodeHelper.GetBytes(key);
+            byte[] hashBytes = EnDeCodeHelper.GetBytes(hash);
 
             List<Byte> outBytes = new List<byte>();
             if (!merge)

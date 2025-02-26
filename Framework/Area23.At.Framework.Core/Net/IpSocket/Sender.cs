@@ -30,11 +30,16 @@ namespace Area23.At.Framework.Core.Net.IpSocket
             {
                 IPEndPoint serverIep = new IPEndPoint(serverIp, serverPort);
                 TcpClient tcpClient = new TcpClient();
-                byte[] data = EnDeCoder.GetBytes(msg);
+                byte[] data = EnDeCodeHelper.GetBytes(msg);
                 // byte[] data = Encoding.UTF8.GetBytes(msg);
                 tcpClient.SendBufferSize = Constants.MAX_BYTE_BUFFEER;
-                tcpClient.Connect(serverIep);
-                tcpClient.Client.Send(data);
+                tcpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.DontLinger, true);
+                tcpClient.Connect(serverIp, serverPort);
+                tcpClient.Client.SendBufferSize = Constants.MAX_BYTE_BUFFEER;
+                tcpClient.Client.NoDelay = true;
+                tcpClient.Client.SendTimeout = 4000;
+                tcpClient.Client.Send(data, 0, data.Length, SocketFlags.None, out SocketError errorCode);
+
                 // NetworkStream netStream = tcpClient.GetStream();
                 // StreamWriter sw = new StreamWriter(netStream);
                 // StreamReader sr = new StreamReader(netStream);
@@ -57,6 +62,8 @@ namespace Area23.At.Framework.Core.Net.IpSocket
                 // sw.Close();
                 // sr.Close();
                 // netStream.Close();
+                
+                tcpClient.Client.Shutdown(SocketShutdown.Both);
                 tcpClient.Close();
             }
             catch (Exception ex)

@@ -162,7 +162,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                     Email = this.textBoxEmail.Text ?? string.Empty,
                     Mobile = this.textBoxMobile.Text ?? string.Empty,
                     Address = this.textBoxAddress.Text ?? string.Empty,
-                    SecretKey = this.textBoxKey.Text ?? DeEnCoder.KeyToHex(this.textBoxEmail.ToString()),
+                    SecretKey = this.textBoxKey.Text ?? EnDeCodeHelper.KeyToHex(this.textBoxEmail.ToString()),
                     ContactImage = contactImg
                 };                 
                 Settings.Save(Entities.Settings.Instance);
@@ -267,7 +267,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
                 if (File.Exists(openFileDialog.FileName))
                 {
                     byte[] bitmapBytes = System.IO.File.ReadAllBytes(openFileDialog.FileName);
-                    base64image = Base64.Encode(bitmapBytes);
+                    base64image = IDecodable.EnCode(bitmapBytes, EncodingType.Base64);
                     Bitmap bmp = new Bitmap(openFileDialog.FileName);
                     int h = bmp.Size.Height;
                     int w = bmp.Size.Width;

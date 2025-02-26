@@ -10,6 +10,7 @@ using Area23.At.Framework.Core.Net.WebHttp;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using Area23.At.Framework.Core.Net.NameService;
+using Area23.At.Framework.Core.Util;
 
 namespace Area23.At.Framework.Core.Net
 {
@@ -69,6 +70,13 @@ namespace Area23.At.Framework.Core.Net
                     resp = TcpClientWebRequest.MakeWebRequest(serverIp, out clientIPs);
                     foreach (IPAddress cIp in clientIPs)
                     {
+                        if (cIp.IsIPv4MappedToIPv6)
+                        {
+                            IPAddress tmpIp = cIp.MapToIPv4();
+                            if (!validAddrs.Contains(tmpIp))
+                                validAddrs.Add(tmpIp);
+                            continue;
+                        }
                         if (!validAddrs.Contains(cIp))
                             validAddrs.Add(cIp);
                     }
@@ -115,8 +123,10 @@ namespace Area23.At.Framework.Core.Net
                 from address in NetworkInterface.GetAllNetworkInterfaces().Select(
                     x => x.GetIPProperties()).SelectMany(x => x.UnicastAddresses).Select(x => x.Address)
                 where // !IPAddress.IsLoopback(address) &&
-                        (address.AddressFamily == AddressFamily.InterNetwork ||
-                         address.AddressFamily == AddressFamily.InterNetworkV6)
+                    (address.AddressFamily == AddressFamily.InterNetwork ||
+                    (address.AddressFamily == AddressFamily.InterNetworkV6 &&
+                        (!address.IsIPv6LinkLocal || address.IsIPv6Multicast ||
+                            address.IsIPv6SiteLocal || address.IsIPv6Teredo)))                            
                 // || address.AddressFamily == AddressFamily.Unix
                 select address;
 

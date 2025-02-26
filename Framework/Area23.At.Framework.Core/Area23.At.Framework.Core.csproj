@@ -10,8 +10,8 @@
     <Copyright>Copyleft © 2000-2040</Copyright>
     <PackageProjectUrl>https://cqrxs.eu/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/heinrichelsigan/chat-ipv6</RepositoryUrl>
-    <AssemblyVersion>2.25.221</AssemblyVersion>
-    <FileVersion>2.25.221</FileVersion>
+    <AssemblyVersion>2.25.222</AssemblyVersion>
+    <FileVersion>2.25.222</FileVersion>
 	<IsTrimmable>true</IsTrimmable>
 	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
 	<PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,14 +31,18 @@
 
   <ItemGroup>
     <Compile Remove="Cipher\**" />
+    <Compile Remove="Crypt\CqrJd\**" />
     <Compile Remove="EnDeCoding\**" />
     <EmbeddedResource Remove="Cipher\**" />
+    <EmbeddedResource Remove="Crypt\CqrJd\**" />
     <EmbeddedResource Remove="EnDeCoding\**" />
     <None Remove="Cipher\**" />
+    <None Remove="Crypt\CqrJd\**" />
     <None Remove="EnDeCoding\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Crypt\EnDeCoding\DeEnCoder.cs" />
     <Compile Remove="Net\IpSocket\IpSocketSender.cs" />
     <Compile Remove="Net\IpSocket\IPSockListener.cs" />  
     <Compile Remove="Util\HttpContextWrapper.cs" />
@@ -47,29 +51,13 @@
   <ItemGroup>
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.1" />
     <PackageReference Include="DBTek.Crypto" Version="2.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SystemWebAdapters.CoreServices" Version="2.0.0" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Win32.SystemEvents" Version="9.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.3" />
-    <PackageReference Include="Newtonsoft.Json.Schema" Version="4.0.1" />
     <PackageReference Include="NLog" Version="5.4.0" />
     <PackageReference Include="QRCoder.Core" Version="1.0.3" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
-    <PackageReference Include="System.Drawing.Common" Version="9.0.2" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Runtime" Version="4.3.1" />
-    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.*" />
-    <PackageReference Include="System.ServiceModel.Federation" Version="6.0.*" />
     <PackageReference Include="System.ServiceModel.Http" Version="6.0.*" />
-    <PackageReference Include="System.ServiceModel.NetNamedPipe" Version="6.0.*" />
-    <PackageReference Include="System.ServiceModel.NetTcp" Version="6.0.*" />
-    <PackageReference Include="System.ServiceModel.Security" Version="6.0.*" />
-    <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.2" />
-    <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
-    <PackageReference Include="System.Web.Services.Description" Version="8.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -88,7 +76,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Crypt\CqrJd\" />
+    <None Include="Crypt\Cipher\Symmetric\ZenMatrix2.cs" />
   </ItemGroup>
 
 </Project>

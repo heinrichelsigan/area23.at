@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
+﻿    using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Util;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
@@ -407,9 +407,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <returns>encoded encrypted string, default base64 encoded</returns>
         public string EncryptString(string inString, EncodingType encodingType = EncodingType.Base64)
         {
-            byte[] plainTextData = EnDeCoder.GetBytes(inString);
+            byte[] plainTextData = EnDeCodeHelper.GetBytes(inString);
             byte[] encryptedBytes = Encrypt(plainTextData);
-            string encryptedString = DeEnCoder.EncodeBytes(encryptedBytes, encodingType);
+            string encryptedString = EnDeCodeHelper.EncodeBytes(encryptedBytes, encodingType);
 
             return encryptedString;
         }
@@ -425,9 +425,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <returns>plain text decrypted string</returns>
         public string DecryptString(string inCryptString, EncodingType encodingType = EncodingType.Base64)
         {
-            byte[] cipherBytes = DeEnCoder.DecodeText(inCryptString, encodingType);
+            byte[] cipherBytes = EnDeCodeHelper.DecodeText(inCryptString, encodingType);
             byte[] plainData = Decrypt(cipherBytes);
-            string plainTextString = EnDeCoder.GetString(plainData).TrimEnd('\0');
+            string plainTextString = EnDeCodeHelper.GetString(plainData).TrimEnd('\0');
 
             return plainTextString;
         }

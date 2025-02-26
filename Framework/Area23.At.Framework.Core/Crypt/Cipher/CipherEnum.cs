@@ -38,6 +38,8 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         RC564 = 0x15,
         RC6 = 0x16,
         Tnepres = 0x17,
+        Des = 0x18,
+        ZenMatrix2 = 0x1f,
 
         Rsa = 0x40
     }
@@ -86,7 +88,10 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                 case CipherEnum.RC6: return 'r';
                 case CipherEnum.Tnepres: return 'T';
 
-                case CipherEnum.Rsa: return 'Z';
+                case CipherEnum.ZenMatrix2: return 'Z';
+
+                case CipherEnum.Des: return '$';
+                case CipherEnum.Rsa: return '%';
                 default: break;
             }
 

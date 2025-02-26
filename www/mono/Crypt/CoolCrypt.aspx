@@ -35,11 +35,11 @@
                         OnClick="Button_Key_Click" ToolTip="save your user key in session" style="max-width: 72px" />
                 </span>
                 <span class="centerSpan" style="width: 72px">&nbsp&nbsp;Secret&nbsp;key:&nbsp;</span>
-                <span class="centerSpan" style="width: 72px"><asp:ImageButton ID="ImageButton_Key" runat="server"  
-                    OnClick="Button_Key_Click" ClientIDMode="Static" ImageUrl="../res/img/a_right_key.png" 
-                    AlternateText="save your user key in session" /></span>
+                <span class="centerSpan" style="width: 72px"><asp:ImageButton ID="ImageButton_Key" runat="server" ClientIDMode="Static"
+                    OnClick="Button_Key_Click" ImageUrl="../res/img/a_right_key.png" AlternateText="save your user key in session" />
+                </span>
                 <span class="centerSpan" style="max-width: 400px;">                
-                    <asp:TextBox ID="TextBox_Key" runat="server" Text="heinrich.elsigan@area23.at"                        
+                    <asp:TextBox ID="TextBox_Key" runat="server" ClientIDMode="Static" Text="heinrich.elsigan@area23.at"                        
                         ToolTip="Enter your personal email address or secret key here" MaxLength="192" Width="480px" style="width: 480px;" />
                 </span>
                 <span class="rightSpan" style="width: 72px">
@@ -53,10 +53,10 @@
                         OnClick="Button_Hash_Click" ToolTip="save your user key in session" style="max-width: 72px" />      
                 </span>
                 <span class="centerSpan" style="width: 72px">Key&nbsp;hash/iv:&nbsp;</span>
-                <span class="centerSpan" style="width: 72px"><asp:ImageButton ID="ImageButton_Hash" runat="server"  
-                    OnClick="Button_Hash_Click" ClientIDMode="Static" ImageUrl="../res/img/a_hash.png" 
-                    AlternateText="Generate new hash from key" /></span>                
-                <span class="centerSpan" style="max-width: 400px;"><asp:TextBox ID="TextBox_IV" runat="server" 
+                <span class="centerSpan" style="width: 72px"><asp:ImageButton ID="ImageButton_Hash" runat="server" ClientIDMode="Static"
+                    OnClick="Button_Hash_Click" ImageUrl="../res/img/a_hash.png" AlternateText="Generate new hash from key" />
+                </span>                
+                <span class="centerSpan" style="max-width: 400px;"><asp:TextBox ID="TextBox_IV" runat="server" ClientIDMode="Static"
                     ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="192"  Width="480px"  style="width: 480px;" />
                 </span>
                 <span class="rightSpan" style="width: 72px">
@@ -69,7 +69,7 @@
         
             <div class="odDiv">
                 <span class="leftSpan" style="width: 72px;">                      
-                    <asp:DropDownList ID="DropDownList_Zip" runat="server" style="width: 64px;">
+                    <asp:DropDownList ID="DropDownList_Zip" runat="server" ClientIDMode="Static" style="width: 64px;">
                         <asp:ListItem Enabled="true" Value="None" Selected="true">None</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Z7" Selected="false">7Zip</asp:ListItem>                
                         <asp:ListItem Enabled="true" Value="BZip2" Selected="false">BZip2</asp:ListItem>
@@ -79,7 +79,7 @@
                     &rArr;
                 </span>
                 <span class="centerSpan" style="width: 72px;">                    
-                    <asp:DropDownList ID="DropDownList_Cipher" runat="server" style="width: 72px;">
+                    <asp:DropDownList ID="DropDownList_Cipher" runat="server" ClientIDMode="Static" style="width: 72px;">
                         <asp:ListItem Enabled="true" Value="Aes" Selected="true">Aes</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="BlowFish" Selected="false">BlowFish</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Fish2" Selected="false">Fish2</asp:ListItem>
@@ -115,12 +115,12 @@
                         onmouseout="document.getElementById('ImageButton_Add').src='../res/img/AddAesArrow.gif'" />
                 </span>
                 <span class="centerSpan" style="max-width: 400px;">
-                    <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true" TextMode="SingleLine" MaxLength="512" 
+                    <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true" ClientIDMode="Static" TextMode="SingleLine" MaxLength="512" 
                         Width="400px"  style="width: 400px;" />
                         &rArr;
                 </span>
                 <span class="rightSpan">
-                     <asp:DropDownList ID="DropDownList_Encoding" runat="server" AutoPostBack="true" 
+                     <asp:DropDownList ID="DropDownList_Encoding" runat="server" ClientIDMode="Static" AutoPostBack="true" 
                          OnSelectedIndexChanged="DropDownList_Encoding_SelectedIndexChanged" style="width: 84px;">
                         <asp:ListItem Enabled="true" Value="None" Selected="false">None</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Base16" Selected="false">Base16</asp:ListItem>
@@ -177,12 +177,12 @@
             </div>
             <br />
             <h3>En-/Decrypt text</h3>
-            <div style="background-color: transparent; padding: 0 0 0 0; margin: 0 0 0 0;">                
-                <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="65536" Rows="10" Columns="48" ValidateRequestMode="Disabled" ToolTip="[Enter text to en-/decrypt here]" Text="" Width="480px"></asp:TextBox>
-                <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="10" Columns="48" MaxLength="65536" ReadOnly="true" ToolTip="Destination Text" Width="468px"></asp:TextBox>
+            <div id="DivCrypTextArea" class="CryptTextArea">                
+                <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="65536" Rows="10" Columns="64" ValidateRequestMode="Disabled" ToolTip="[Enter text to en-/decrypt here]" Text="" Width="512px" CssClass="CryptTextArea" ClientIDMode="Static"></asp:TextBox>
+                <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="10" Columns="64" MaxLength="65536" ReadOnly="true" ToolTip="Destination Text"  Width="512px" CssClass="CryptTextArea" ClientIDMode="Static"></asp:TextBox>
                 <br />
-                <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClientClick="changeCryptBackgroundText()" OnClick="ButtonEncrypt_Click" />
-                <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClientClick="changeCryptBackgroundText();" OnClick="ButtonDecrypt_Click" />   
+                <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClientClick="changeCryptBackgroundText()" OnClick="ButtonEncrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />
+                <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClientClick="changeCryptBackgroundText();" OnClick="ButtonDecrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />   
             </div>
         </div>
         <hr />   

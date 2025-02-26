@@ -15,17 +15,17 @@ namespace Area23.At.WinForm.SecureChat.Util
 
         internal static string ShowZenMatrixPermutation(string secretKey, string iv = "")
         {
-            ZenMatrix.ZenMatrixGenWithKey(secretKey, iv, true);
+            ZenMatrix z = new ZenMatrix(secretKey, iv, true);
             string zmVisualize = "| 0 | => | ";
 
-            foreach (sbyte sb in ZenMatrix.PermKeyHash)
+            foreach (sbyte sb in z.PermutationKeyHash)
             {
                 zmVisualize += sb.ToString("x1") + " ";
             }
             zmVisualize += "| \r\n";
-            for (int zeni = 1; zeni < ZenMatrix.PermKeyHash.Count; zeni++)
+            for (int zeni = 1; zeni < z.PermutationKeyHash.Count; zeni++)
             {
-                sbyte sb = (sbyte)ZenMatrix.PermKeyHash.ElementAt(zeni);
+                sbyte sb = (sbyte)z.PermutationKeyHash.ElementAt(zeni);
                 zmVisualize += "| " + zeni.ToString("x1") + " | => | " + sb.ToString("x1") + " | " + "\r\n";
             }
             // this.TextBoxDestionation.Text += ZenMatrix.EncryptString(this.richTextBoxChat.Text) + "\n";

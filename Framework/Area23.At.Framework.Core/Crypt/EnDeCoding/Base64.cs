@@ -8,43 +8,32 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
     /// <summary>
     /// Base64 mime standard encoding
     /// </summary>
-    public static class Base64
+    public class Base64 : IDecodable
     {
 
-        public const string VALID_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/=";        
-        private static readonly HashSet<char> ValidCharList = new HashSet<char>(VALID_CHARS.ToCharArray());
+        public const string VALID_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/=";
 
         #region common interface, interfaces for static members appear in C# 7.3 or later
+        
+        public IDecodable Decodable => this;
+
+        public static HashSet<char>? ValidCharList { get; private set; } = new HashSet<char>(VALID_CHARS.ToCharArray());        
 
         /// <summary>
         /// Encodes byte[] to valid encode formatted string
         /// </summary>
         /// <param name="inBytes">byte array to encode</param>
         /// <returns>encoded string</returns>
-        public static string Encode(byte[] inBytes)
-        {
-            return ToBase64(inBytes);
-        }
+        public string Encode(byte[] inBytes) => Base64.ToBase64(inBytes);        
 
         /// <summary>
         /// Decodes an encoded string to byte[]
         /// </summary>
         /// <param name="encodedString">encoded string</param>
         /// <returns>byte array</returns>
-        public static byte[] Decode(string encodedString)
-        {
-            return FromBase64(encodedString);
-        }
-
-        /// <summary>
-        /// Checks if a string is a valid encoded string
-        /// </summary>
-        /// <param name="encodedString">encoded string</param>
-        /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
-        public static bool IsValid(string encodedString)
-        {
-            return IsValidBase64(encodedString);
-        }
+        public byte[] Decode(string encodedString) => Base64.FromBase64(encodedString);
+        
+        public bool IsValid(string encodedStr) => Base64.IsValidBase64(encodedStr);
 
         #endregion common interface, interfaces for static members appear in C# 7.3 or later
 

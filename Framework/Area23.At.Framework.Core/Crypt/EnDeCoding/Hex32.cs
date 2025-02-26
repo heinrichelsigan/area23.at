@@ -9,25 +9,27 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
     /// Hex32 encoding is a mapping for double hex from 0-9A-V (32 chiffers per digit), padding char is =
     /// <see href="https://datatracker.ietf.org/doc/html/rfc4648#section-7" />
     /// </summary>
-    public static class Hex32
+    public class Hex32 : IDecodable
     {
 
-        public const string VALID_CHARS =  "0123456789ABCDEFGHIJKLMNOPQRSTUV=";
-        private static readonly HashSet<char> ValidCharList = new HashSet<char>(VALID_CHARS.ToCharArray());
-        
+        public const string VALID_CHARS =  "0123456789ABCDEFGHIJKLMNOPQRSTUV=";                
         private const int _mask = 31;
         private const int _shift = 5;
 
         #region common interface, interfaces for static members appear in C# 7.3 or later
+
+        public IDecodable Decodable => this;
+
+        public static HashSet<char>? ValidCharList { get; private set; } = new HashSet<char>(VALID_CHARS.ToCharArray());
 
         /// <summary>
         /// Encodes byte[] to valid encode formatted string
         /// </summary>
         /// <param name="inBytes">byte array to encode</param>
         /// <returns>encoded string</returns>
-        public static string Encode(byte[] inBytes)
+        public string Encode(byte[] inBytes)
         {
-            return ToHex32(inBytes);
+            return Hex32.ToHex32(inBytes);
         }
 
         /// <summary>
@@ -35,20 +37,13 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// </summary>
         /// <param name="encodedString">encoded string</param>
         /// <returns>byte array</returns>
-        public static byte[] Decode(string encodedString)
+        public byte[] Decode(string encodedString)
         {
-            return FromHex32(encodedString);
+            return Hex32.FromHex32(encodedString);
         }
 
-        /// <summary>
-        /// Checks if a string is a valid encoded string
-        /// </summary>
-        /// <param name="encodedString">encoded string</param>
-        /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
-        public static bool IsValid(string encodedString)
-        {
-            return IsValidHex32(encodedString);
-        }
+        public bool IsValid(string encodedStr) => Hex32.IsValidHex32(encodedStr);
+
 
         #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
@@ -198,11 +193,12 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         {
             foreach (char ch in inString)
             {
-                if (!ValidCharList.Contains(ch))
+                if (!VALID_CHARS.ToCharArray().Contains(ch))
                     return false;
             }
             return true;
         }
+
     }
 
 }

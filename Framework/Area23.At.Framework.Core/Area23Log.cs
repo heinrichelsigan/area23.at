@@ -1,6 +1,8 @@
-﻿using NLog;
+﻿using Area23.At.Framework.Core.Util;
+using NLog;
 using System;
 using System.IO;
+using System.Net.Http;
 
 namespace Area23.At.Framework.Core
 {
@@ -10,7 +12,7 @@ namespace Area23.At.Framework.Core
     /// </summary>
     public class Area23Log
     {
-        private static readonly Lock _atomicLock = new Lock(), _spinLock = new Lock();
+        private static readonly object _lock = new object();
         private static readonly Lazy<Area23Log> instance = new Lazy<Area23Log>(() => new Area23Log());
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
@@ -26,7 +28,7 @@ namespace Area23.At.Framework.Core
         public static void SetLogFileByAppName(string appName = "")
         {
             LogFile = (!string.IsNullOrEmpty(appName)) ? LibPaths.GetLogFilePath(appName) : area23LogFile;
-            instance.Value.InitNLog(appName);
+            InitNLog(appName);
         }
 
         /// <summary>
@@ -63,9 +65,10 @@ namespace Area23.At.Framework.Core
 
             if (!CheckedToday)
             {
+                LogFile = LibPaths.LogFileSystemPath;
                 if (!File.Exists(LogFile))
                 {
-                    lock (_atomicLock)
+                    lock (_lock)
                     {
                         try
                         {
@@ -79,20 +82,37 @@ namespace Area23.At.Framework.Core
                     }
                 }
             }
-            lock (_spinLock)
+
+
+            // LogFile = (string.IsNullOrEmpty(LogFile)) ? LibPaths.LogFileSystemPath : LogFile;           
+            try
             {
+                logMsg = DateTime.Now.Area23DateTimeWithSeconds() + " \t" + msg ?? string.Empty + "\r\n";
+                File.AppendAllText(LogFile, logMsg);
+            }
+            catch (Exception exLogWrite)
+            {
+                System.AppDomain.CurrentDomain.SetData("LogExceptionStatic",
+                    DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {LogFile} Exception {exLogWrite.GetType()} {exLogWrite.Message} \n" + exLogWrite.ToString());
+
+                Console.Error.WriteLine(DateTime.Now.Area23DateTimeWithSeconds() + $" \tException: {exLogWrite.GetType()} {exLogWrite.Message} writing to logfile: {LogFile}");
+
+                string logFile1 = (string.IsNullOrEmpty(LogFile)) ? LibPaths.LogFileSystemPath : LogFile;
+                logFile1 = logFile1.Replace(".log", "_1.log");
                 try
                 {
-                    logMsg = String.Format("{0} \t{1}\r\n",
-                            Constants.DateArea23Seconds,
-                            msg);
-                    File.AppendAllText(LogFile, logMsg);
+                    logMsg = DateTime.Now.Area23DateTimeWithSeconds() + " \t" + msg ?? string.Empty + "\r\n";
+                    File.AppendAllText(logFile1, logMsg);
                 }
-                catch (Exception exLogWrite)
+                catch (Exception exLog)
                 {
-                    Console.Error.WriteLine(Constants.DateArea23Seconds + " Area23.At.Mono Exception writing to logfile: " + exLogWrite.ToString());
+                    System.AppDomain.CurrentDomain.SetData("LogExceptionStaticFile1",
+                        DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {logFile1} Exception {exLog.GetType()} {exLog.Message} \n {exLog.ToString()}");
+
+                    Console.Error.WriteLine(DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {logFile1} Exception {exLog.GetType()} {exLog.Message} \n {exLog.ToString()}");
                 }
             }
+
         }
 
 
@@ -108,7 +128,7 @@ namespace Area23.At.Framework.Core
                 exLog.GetType(),
                 exLog.Message,
                 exLog.ToString().Replace("\r", "").Replace("\n", " "),
-                exLog.StackTrace?.Replace("\r", "").Replace("\n", " "));
+                exLog.StackTrace.Replace("\r", "").Replace("\n", " "));
 
             LogStatic(excMsg, appName);
         }
@@ -116,19 +136,20 @@ namespace Area23.At.Framework.Core
         /// <summary>
         /// private Singelton constructor
         /// </summary>
-        private Area23Log() : this("")
+        static Area23Log()
         {
+            InitNLog("");
         }
 
         /// <summary>
         /// private Singelton constructor
         /// </summary>
-        private Area23Log(string appName = "")
+        public Area23Log(string appName = "")
         {
             InitNLog(appName);
         }
 
-        private void InitNLog(string appName = "")
+        static void InitNLog(string appName = "")
         {
             if (string.IsNullOrEmpty(appName))
             {
@@ -161,7 +182,17 @@ namespace Area23.At.Framework.Core
         public void Log(string msg, int logLevel = 3)
         {
             NLog.LogLevel nlogLvl = NLog.LogLevel.FromOrdinal(logLevel);
-            logger.Log(nlogLvl, msg);
+            try
+            {
+                logger.Log(nlogLvl, msg);
+            }
+            catch (Exception exLog)
+            {
+                System.AppDomain.CurrentDomain.SetData("LogExceptionNLog", 
+                    DateTime.Now.Area23DateTimeWithSeconds() + $" \tException: {exLog.GetType()} {exLog.Message} \n" + exLog.ToString());
+
+                Console.Error.WriteLine(Constants.DateArea23Seconds + $" \tException: {exLog.GetType()} {exLog.Message} writing to logfile: {LogFile}\n{exLog}\n");
+            }
         }
 
 

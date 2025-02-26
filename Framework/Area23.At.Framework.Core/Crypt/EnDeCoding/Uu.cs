@@ -5,12 +5,9 @@ using Org.BouncyCastle.Utilities;
 using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
-using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 {
@@ -18,17 +15,39 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
     /// <summary>
     /// Uu is unix2unix uuencode uudecode
     /// </summary>
-    public static class Uu
+    public class Uu : IDecodable
     {
 
         public static readonly object _lock = new object();
-        public static readonly char[] ValidChars = "!\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_` \r\n".ToCharArray();
-        public static List<char> ValidCharList = new List<char>(ValidChars);
-
+        public const string VALID_CHARS = "!\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_` \r\n";
+        
         public static bool IsUnix { get => (Path.DirectorySeparatorChar == '/'); }
         public static bool IsWindows { get => (Path.DirectorySeparatorChar == '\\'); }
+        
 
         #region common interface, interfaces for static members appear in C# 7.3 or later
+
+        public IDecodable Decodable => this;
+
+        public static HashSet<char>? ValidCharList { get; private set; } = new HashSet<char>(VALID_CHARS.ToCharArray());
+
+        public string Encode(byte[] data) 
+        {
+            return Uu.Encode(data, false, false);
+        }
+
+        public byte[] Decode(string encodedString)
+        {
+            return Uu.Decode(encodedString, false, false);
+        }
+
+        public bool IsValid(string encodedString)
+        {
+            return Uu.IsValidUu(encodedString);
+        }
+
+        #endregion common interface, interfaces for static members appear in C# 7.3 or later
+
 
         /// <summary>
         /// Encodes byte[] to valid encode formatted string
@@ -37,7 +56,7 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// <returns>encoded string</returns>
         public static string Encode(byte[] inBytes, bool fromPlain = false, bool fromFile = false)
         {
-            return ToUu(inBytes, fromPlain, fromFile);
+            return Uu.ToUu(inBytes, fromPlain, fromFile);
         }
 
         /// <summary>
@@ -47,20 +66,8 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// <returns>byte array</returns>
         public static byte[] Decode(string encodedString, bool fromPlain = false, bool fromFile = false)
         {
-            return FromUu(encodedString, fromPlain, fromFile);
+            return Uu.FromUu(encodedString, fromPlain, fromFile);
         }
-
-        /// <summary>
-        /// Checks if a string is a valid encoded string
-        /// </summary>
-        /// <param name="encodedString">encoded string</param>
-        /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
-        public static bool IsValid(string encodedString)
-        {
-            return IsValidUu(encodedString);
-        }
-
-        #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
 
         /// <summary>
@@ -94,100 +101,33 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
                 System.IO.File.WriteAllBytes(hexOutPath, inBytes);
                 Area23Log.LogStatic("ToUu: Wrote inBytes to " + hexOutPath);
 
-                if (IsUnix)
+                try
                 {
-                    try
-                    {
-                        string exeCmd = "/usr/bin/uuencode";
-                        if (System.IO.File.Exists("/usr/local/bin/uuencrypt.sh"))
-                            exeCmd = "/usr/local/bin/uuencrypt.sh";
-                        else if (System.IO.File.Exists(LibPaths.AdditionalBinDir + "uuencrypt.sh"))
-                            exeCmd = LibPaths.AdditionalBinDir + "uuencrypt.sh";
-
-                        Area23Log.LogStatic("ToUu: exeCmd = " + exeCmd);
-
-                        try
-                        {
-                            ProcessCmd.Execute(exeCmd, " " + hexOutPath + " " + uuOutFile + " " + uuOutPath + " ", false);
-                        }
-                        catch (Exception exExe1)
-                        {
-                            Area23Log.LogStatic(exExe1);
-                            try
-                            {
-                                ProcessCmd.Execute("/usr/bin/uuencode", " " + hexOutPath + " " + uuOutFile + " > " + uuOutPath + " ", false);
-                            }
-                            catch (Exception exExe2)
-                            {
-                                Area23Log.LogStatic(exExe2);
-                            }
-                        }
-
-                        Thread.Sleep(64);
-                        if (!File.Exists(uuOutPath))
-                            uu = "";
-                    }
-                    catch (Exception ex)
-                    {
-                        uu = "";
-                        Area23Log.LogStatic($"ToUu: Exception in {toUuFunCall} ...");
-                        Area23Log.LogStatic(ex);
-                    }
+                    (new UUEncoder()).EncodeFile(hexOutPath, uuOutPath);
                 }
-
-                if (IsWindows || string.IsNullOrEmpty(uu))
+                catch (Exception exDbTekUu)
                 {
-                    try
-                    {
-                        (new UUEncoder()).EncodeFile(hexOutPath, uuOutPath);
-                    }
-                    catch (Exception exDbTekUu)
-                    {
-                        Area23Log.LogStatic($"ToUu: Exception {exDbTekUu.Message} in {toUuFunCall},\n \twhen encoding to uu via DBTek.Crypto.");
-                    }
-                    Thread.Sleep(32);
+                    Area23Log.LogStatic($"ToUu: Exception {exDbTekUu.Message} in {toUuFunCall},\n \twhen encoding to uu via DBTek.Crypto.");
                 }
+                Thread.Sleep(32);
+
 
                 if (File.Exists(uuOutPath))
                 {
                     uu = System.IO.File.ReadAllText(uuOutPath);
                     Area23Log.LogStatic($"ToUu: Read uuencoded text (length = {uu.Length} from file {uuOutPath}.");
+                    
+                    Area23Log.LogStatic($"ToUu(byte[{inBytes.Length}] inBytes, bool originalUue = {originalUue}. bool fromFile = {fromFile}) ... FINISHED.");
+                    // uu = uu.Replace(" ", "`");
+                    return uu;
                 }
-                if (!File.Exists(uuOutPath))
-                {
-                    MemoryStream ms = new MemoryStream();
-                    try
-                    {
-                        TextWriter textWriter = new StreamWriter(ms, Encoding.UTF8);
-                        for (int i = 0; i <= inBytes.Length; i += 45)
-                        {
-                            int num = ((inBytes.Length - i > 45) ? 45 : (inBytes.Length - i));
-                            byte[] array2 = new byte[(num % 3 == 0) ? num : (num + 3 - num % 3)];
-                            Array.ConstrainedCopy(inBytes, i, array2, 0, num);
-                            textWriter.WriteLine(Array.ConvertAll(UuEncodeBytes(array2, num), Convert.ToChar));
-                        }
-                        textWriter.Flush();
-                        textWriter.Close();
-                        ms.Flush();
-                        uu = EnDeCoder.GetString(ms.ToByteArray());
-                        ms.Close();
-                    }
-                    catch (Exception exStream)
-                    {
-                        Area23Log.LogStatic($"ToUu: Exception {exStream.Message}, when encoding to uu via MemoryStream in {toUuFunCall}");
-                    }
-                    finally
-                    {
-                        ms?.Close();
-                    }
-                }
-
-                Area23Log.LogStatic($"ToUu(byte[{inBytes.Length}] inBytes, bool originalUue = {originalUue}. bool fromFile = {fromFile}) ... FINISHED.");
-                return uu;
+                                
             }
 
 
-
+            uu = UuEncodeBytesToString(inBytes);
+            Area23Log.LogStatic($"ToUu(byte[{inBytes.Length}] inBytes, bool originalUue = {originalUue}. bool fromFile = {fromFile}) ... FINISHED.");
+            // uu = uu.Replace(" ", "`");
             return uu;
         }
 
@@ -229,76 +169,28 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
                 Area23Log.LogStatic($"{fromUuFunCall} ... wrote uuEncstr (length = {uuEncStr.Length}) to {uuOutPath}.");
                 string[] uuEncodedLines = uuEncStr.Replace("\r\n", "\n").Split("\n".ToCharArray());
 
-                if (IsWindows || !errInUnix)
+                try
                 {
-                    try
-                    {
-                        DBTek.Crypto.UUEncoder uudf = new UUEncoder();
-                        uudf.DecodeFile(uuOutPath, hexOutPath);
+                    DBTek.Crypto.UUEncoder uudf = new UUEncoder();
+                    uudf.DecodeFile(uuOutPath, hexOutPath);
 
-                        Thread.Sleep(32);
-                        if (!File.Exists(hexOutPath))
-                            errInWin = true;
-                    }
-                    catch (Exception exFileUuDecode)
+                    Thread.Sleep(32);
+                    if (File.Exists(hexOutPath))
                     {
-                        Area23Log.LogStatic($"FromUu: Exception {exFileUuDecode.Message},\n \twhen writing bytes to {hexOutPath}!");
-                        errInWin = true;
-                    }
-                }
-
-                if (IsUnix && errInWin)
-                {
-                    string exeCmd = "/usr/bin/uudecode";
-                    if (System.IO.File.Exists("/usr/local/bin/uudecrypt.sh"))
-                        exeCmd = "/usr/local/bin/uudecrypt.sh";
-                    else if (System.IO.File.Exists(LibPaths.AdditionalBinDir + "uudecrypt.sh"))
-                        exeCmd = LibPaths.AdditionalBinDir + "uudecrypt.sh";
-
-                    Area23Log.LogStatic($"FromUu: exeCmd = {exeCmd}.");
-                    try
-                    {
-                        ProcessCmd.Execute(exeCmd, " " + uuOutPath + "  " + hexOutPath + " ", false);
-                    }
-                    catch (Exception exExe1)
-                    {
-                        Area23Log.LogStatic(exExe1);
-                        try
-                        {
-                            ProcessCmd.Execute(exeCmd, uuOutPath + " -o " + hexOutPath + " ", false);
-                        }
-                        catch (Exception exExe2)
-                        {
-                            Area23Log.LogStatic(exExe2);
-                            errInUnix = true;
-                        }
-                    }
-                    if (!errInUnix)
-                    {
-                        Thread.Sleep(64);
-                        if (!File.Exists(hexOutPath))
-                            errInUnix = true;
-                    }
-                }
-
-
-                if (File.Exists(hexOutPath))
-                {
-                    lock (_lock)
-                    {
-                        Area23Log.LogStatic($"FromUu: start reading uudecoded bytes from {hexOutPath}");
                         plainBytes = System.IO.File.ReadAllBytes(hexOutPath);
-                        Area23Log.LogStatic($"FromUu: read {plainBytes.Length} bytes from {hexOutPath}.");
-                    }
-                    Area23Log.LogStatic($"byte[{plainBytes.Length}] plainBytes = FromUu(string uuEncStr, bool originalUue = {originalUue}, fromFile = {fromFile}) ... FINISHED.");
-                    if (plainBytes != null && plainBytes.Length != 0 && plainBytes.Length != 45)
+                        Area23Log.LogStatic($"ToUu: Read uuencoded bytes (length = {plainBytes.Length} from file {hexOutPath}.");
                         return plainBytes;
+                    }
                 }
-
-                Area23Log.LogStatic($"FromUu: Trying to get bytes from memory stream, instead {hexOutPath}");
-                plainBytes = UuDecodeBytes(uuEncStr);
+                catch (Exception exFileUuDecode)
+                {
+                    Area23Log.LogStatic($"FromUu: Exception {exFileUuDecode.Message},\n \twhen writing bytes to {hexOutPath}!");
+                }               
 
             }
+
+            Area23Log.LogStatic($"FromUu: Trying to get bytes from memory stream.");
+            plainBytes = UuDecodeBytes(uuEncStr);
 
             Area23Log.LogStatic($"byte[{plainBytes.Length}] plainBytes = FromUu(string uuEncStr, bool originalUue = {originalUue}, fromFile = {fromFile}) ... FINISHED.");
             return plainBytes;
@@ -330,22 +222,26 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 
         public static bool IsValidUu(string uuEncodedStr)
         {
-            if (uuEncodedStr.StartsWith("begin") && uuEncodedStr.Contains("end"))
+            string encodedBody = uuEncodedStr;
+
+            if (ValidCharList != null)
             {
-                return true;
-            }
-            if (uuEncodedStr.EndsWith("\nend") || uuEncodedStr.EndsWith("\nend\n") || uuEncodedStr.EndsWith("\nend\r\n"))
-            {
-                uuEncodedStr = uuEncodedStr.Replace("\nend\r\n", "\n");
-                uuEncodedStr = uuEncodedStr.Replace("\nend\n", "\n");
-                uuEncodedStr = uuEncodedStr.Replace("\nend", "\n");
+                if (uuEncodedStr.StartsWith("begin"))
+                {
+                    encodedBody = uuEncodedStr.GetSubStringByPattern("begin", true, "", "\n", false, StringComparison.CurrentCultureIgnoreCase);
+                    if (encodedBody.Contains("\nend") || encodedBody.Contains("end"))
+                    {
+                        encodedBody = encodedBody.GetSubStringByPattern("end", false, "", "", true, StringComparison.CurrentCultureIgnoreCase);
+                    }
+                }
+
+                foreach (char ch in uuEncodedStr)
+                {
+                    if (!ValidCharList.Contains(ch))
+                        return false;
+                }
             }
 
-            foreach (char ch in uuEncodedStr)
-            {
-                if (!ValidCharList.Contains(ch))
-                    return false;
-            }
             return true;
         }
 
@@ -380,6 +276,39 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 
             return cod.ToArray();
         }
+
+        private static string UuEncodeBytesToString(byte[] inBytes)
+        {
+            string uu = string.Empty;
+            MemoryStream ms = new MemoryStream();
+            try
+            {
+                TextWriter textWriter = new StreamWriter(ms, Encoding.UTF8);
+                for (int i = 0; i <= inBytes.Length; i += 45)
+                {
+                    int num = ((inBytes.Length - i > 45) ? 45 : (inBytes.Length - i));
+                    byte[] array2 = new byte[(num % 3 == 0) ? num : (num + 3 - num % 3)];
+                    Array.ConstrainedCopy(inBytes, i, array2, 0, num);
+                    textWriter.WriteLine(Array.ConvertAll(UuEncodeBytes(array2, num), Convert.ToChar));
+                }
+                textWriter.Flush();
+                textWriter.Close();
+                ms.Flush();
+                uu = EnDeCodeHelper.GetString(ms.ToByteArray());
+                ms.Close();
+            }
+            catch (Exception exStream)
+            {
+                Area23Log.LogStatic($"ToUu: Exception {exStream.Message}, when encoding to uu via MemoryStream in UuEncodeBytesToString(...)");
+            }
+            finally
+            {
+                ms?.Close();
+            }
+
+            return uu;
+        }
+
 
         private static byte[] UuDecodeBytes(string uuEnc)
         {
@@ -442,5 +371,6 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         #endregion helper
 
     }
+
 
 }

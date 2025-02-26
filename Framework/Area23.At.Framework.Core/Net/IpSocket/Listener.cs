@@ -131,20 +131,25 @@ namespace Area23.At.Framework.Core.Net.IpSocket
                     Area23Log.Logger.LogInfo(sstring);
 
                     ClientSocket.ReceiveBufferSize = Constants.MAX_BYTE_BUFFEER;
+                    ClientSocket.SendBufferSize = Constants.MAX_BYTE_BUFFEER;
                     SocketFlags flags = SocketFlags.None;
                     SocketError errorCode;
-                    int rsize = ClientSocket.Receive(buf, flags, out errorCode);
+                    ClientSocket.NoDelay = true;
+                    // long rsize = (long)ClientSocket.Receive(buf, flags, out errorCode);
+                    int rsize = ClientSocket.Receive(buffer, 0, Constants.MAX_BYTE_BUFFEER, flags, out errorCode);
+
                     // int rsize = ClientSocket.Receive(buffer, 0, Constants.MAX_BYTE_BUFFEER, flags, out errorCode);
                     BufferedData = new byte[rsize];
 
-                    Array.Copy(buf.ToArray(), BufferedData, rsize);
+                    Array.Copy(buffer, 0, BufferedData, 0, (int)rsize);
 
-                    ReceiveData receiveData = new ReceiveData(buf.ToArray(), rsize, clientIEP?.Address.ToString(), clientIEP?.Port);
+                    // ReceiveData receiveData = new ReceiveData(buf.ToArray(), (int)rsize, clientIEP?.Address.ToString(), clientIEP?.Port);
+                    ReceiveData receiveData = new ReceiveData(buffer, (int)rsize, clientIEP?.Address.ToString(), clientIEP?.Port);
 
                     // byte[] sendData = new byte[8];
                     // sendData = Encoding.Default.GetBytes("ACK\r\n\0");
                     // ClientSocket.Send(sendData, SocketFlags.None);
-
+                    
                     ClientSocket.Close();
 
                     if (EventHandlerClientRequest != null)

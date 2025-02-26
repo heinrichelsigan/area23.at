@@ -962,13 +962,9 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
 
         internal MenuStrip menuStrip;
         private StatusStrip statusStrip;
-        private ToolStripMenuItem toolStripMenuMain;
         private ToolStripMenuItem menuItemAbout;
-        private ToolStripMenuItem toolStripMenuItemOld;
         private ToolStripSeparator menuIPsSeparator;
-        private ToolStripSeparator toolStripSeparator3;
-        private ToolStripMenuItem toolStripMenuItemOpen;
-        private ToolStripMenuItem toolStripMenuItemClose;
+        private ToolStripSeparator toolStripSeparator3;       
         private ToolStripMenuItem menuItemInfo;
         private ToolStripMenuItem toolStripMenuItemExit;
         private ToolStripMenuItem menuView;
@@ -1014,9 +1010,7 @@ namespace Area23.At.WinForm.SecureChat.Gui.Forms
         private ToolStripMenuItem menuItemAttach;
         private ToolStripSeparator menuCommandsSeperator;
         private ToolStripMenuItem toolMenuConnect;
-        private ToolStripMenuItem menuConnectItemFriend;
-        private ToolStripMenuItem toolStripMenuItem4;
-        private ToolStripMenuItem toolStripMenuItem5;
+        private ToolStripMenuItem menuConnectItemFriend;       
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripMenuItem menuConnectItemLoopback;
         private ToolStripComboBox menuConnectComboBoxIps;

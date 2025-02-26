@@ -50,7 +50,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
                 throw new ArgumentNullException("public BaseMsg(string srvKey = \"\")");
             }
             cKey = clientKey;
-            cHash = DeEnCoder.KeyToHex(clientKey);
+            cHash = EnDeCodeHelper.KeyToHex(clientKey);
             cKeyBytes = CryptHelper.GetUserKeyBytes(cKey, cHash, 16);
             clientSymmPipe = new SymmCipherPipe(cKeyBytes, 8);
             ClientPipeString = clientSymmPipe.PipeString;
@@ -92,9 +92,9 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             fullMsg._message = allMsg;
             fullMsg._rawMessage = allMsg + "\n" + symmPipe.PipeString + "\0";
 
-            byte[] msgBytes = DeEnCoder.GetBytesFromString(allMsg);
+            byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(allMsg);
             byte[] cqrMsgBytes = (LibPaths.CqrEncrypt) ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
-            CqrMessage = DeEnCoder.EncodeBytes(cqrMsgBytes, encType);
+            CqrMessage = EnDeCodeHelper.EncodeBytes(cqrMsgBytes, encType);
 
             return CqrMessage;
         }
@@ -123,10 +123,10 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             fullMsg._message = allMsg;
             fullMsg._rawMessage = allMsg + "\n" + symmPipe.PipeString + "\0";
 
-            byte[] allBytes = DeEnCoder.GetBytesFromString(allMsg);
-            byte[] msgBytes = DeEnCoder.GetBytesFromString(fullMsg._message);
+            byte[] allBytes = EnDeCodeHelper.GetBytesFromString(allMsg);
+            byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(fullMsg._message);
             byte[] cqrMsgBytes = (LibPaths.CqrEncrypt) ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
-            CqrMessage = DeEnCoder.EncodeBytes(cqrMsgBytes, encType);
+            CqrMessage = EnDeCodeHelper.EncodeBytes(cqrMsgBytes, encType);
 
             return CqrMessage;
         }
@@ -145,15 +145,15 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             fullServMsg._message = allMsg;
             fullServMsg._rawMessage = allMsg + "\n" + fullServMsg._hash + "\0";
 
-            byte[] allBytes = DeEnCoder.GetBytesFromString(fullServMsg._rawMessage);
-            byte[] msgBytes = DeEnCoder.GetBytesFromString(fullServMsg._message);
+            byte[] allBytes = EnDeCodeHelper.GetBytesFromString(fullServMsg._rawMessage);
+            byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(fullServMsg._message);
             byte[] cqrMsgBytes = msgBytes;
             if (LibPaths.CqrEncrypt)
                 cqrMsgBytes = (msgKind == MsgKind.Server) ? 
                     symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) :
                     symmPipe.MerryGoRoundEncrpyt(msgBytes, cKey, cHash);
             
-            CqrMessage = DeEnCoder.EncodeBytes(cqrMsgBytes, encType);
+            CqrMessage = EnDeCodeHelper.EncodeBytes(cqrMsgBytes, encType);
 
             return CqrMessage;
         }
@@ -174,24 +174,24 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             fullServMsg._message = allSrvMsg;
             fullServMsg._rawMessage = allSrvMsg + "\n" + fullServMsg._hash + "\0";
 
-            byte[] msgBytes = DeEnCoder.GetBytesFromString(fullServMsg._message);
+            byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(fullServMsg._message);
             byte[] srvMsgBytes = msgBytes;
             if (LibPaths.CqrEncrypt)
                 srvMsgBytes = symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash);
 
-            CqrMessage = DeEnCoder.EncodeBytes(srvMsgBytes, encType);
+            CqrMessage = EnDeCodeHelper.EncodeBytes(srvMsgBytes, encType);
 
             clientMsg._hash = ClientPipeString;
             string allClientMsg = clientMsg.ToJson();
             clientMsg._message = allClientMsg;
             clientMsg._rawMessage = allClientMsg + "\n" + clientMsg._hash + "\0";
 
-            byte[] cMsgBytes = DeEnCoder.GetBytesFromString(clientMsg._message);
+            byte[] cMsgBytes = EnDeCodeHelper.GetBytesFromString(clientMsg._message);
             byte[] clientMsgBytes = cMsgBytes;
             if (LibPaths.CqrEncrypt)
                 clientMsgBytes = symmPipe.MerryGoRoundEncrpyt(cMsgBytes, cKey, cHash);
 
-            cClientMessage = DeEnCoder.EncodeBytes(clientMsgBytes, encType);
+            cClientMessage = EnDeCodeHelper.EncodeBytes(clientMsgBytes, encType);
 
             
 
@@ -231,9 +231,9 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             FullSrvMsg<TC>? clientOutMsg = new FullSrvMsg<TC>();
             CqrMessage = clientMessage.TrimEnd("\0".ToCharArray());
 
-            byte[] cipherBytes = DeEnCoder.DecodeText(CqrMessage, encType);
+            byte[] cipherBytes = EnDeCodeHelper.DecodeText(CqrMessage, encType);
             byte[] unroundedMerryBytes = LibPaths.CqrEncrypt ? symmPipe.DecrpytRoundGoMerry(cipherBytes, cKey, cHash) : cipherBytes;
-            string decrypted = EnDeCoder.GetString(unroundedMerryBytes); //DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);
+            string decrypted = EnDeCodeHelper.GetString(unroundedMerryBytes); //EnDeCodeHelper.GetStringFromBytesTrimNulls(unroundedMerryBytes);
             while (decrypted[decrypted.Length - 1] == '\0')
                 decrypted = decrypted.Substring(0, decrypted.Length - 1);
 

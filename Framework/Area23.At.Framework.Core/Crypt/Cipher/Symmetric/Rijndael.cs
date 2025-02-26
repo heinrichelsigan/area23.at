@@ -154,9 +154,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <returns>Base64 encoded encrypted byte[]</returns>
         public static string EncryptString(string inPlainString, EncodingType encType = EncodingType.Base64)
         {
-            byte[] plainTextData = EnDeCoder.GetBytes(inPlainString);
+            byte[] plainTextData = EnDeCodeHelper.GetBytes(inPlainString);
             byte[] encryptedBytes = Encrypt(plainTextData);
-            string encryptedString = DeEnCoder.EncodeBytes(encryptedBytes, encType);
+            string encryptedString = EnDeCodeHelper.EncodeBytes(encryptedBytes, encType);
 
             return encryptedString;
         }
@@ -168,9 +168,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <returns>plain text string (decrypted)</returns>
         public static string DecryptString(string cipherText, EncodingType encType = EncodingType.Base64)
         {
-            byte[] cryptData = DeEnCoder.DecodeText(cipherText, encType);
+            byte[] cryptData = EnDeCodeHelper.DecodeText(cipherText, encType);
             byte[] decryptedBytes = Decrypt(cryptData);
-            string plainTextString = EnDeCoder.GetString(decryptedBytes).TrimEnd('\0');
+            string plainTextString = EnDeCodeHelper.GetString(decryptedBytes).TrimEnd('\0');
 
             return plainTextString;
         }
@@ -246,9 +246,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         [Obsolete("byte[] CreateAesKey(string inputString) is deprecated, please use void AesGenWithNewKey(string inputKey = null)", false)]
         private static byte[] CreateAesKey(string inputString)
         {
-            return EnDeCoder.GetByteCount(inputString) == 32 ?
-                EnDeCoder.GetBytes(inputString) :
-                SHA256.Create().ComputeHash(EnDeCoder.GetBytes(inputString));
+            return EnDeCodeHelper.GetByteCount(inputString) == 32 ?
+                EnDeCodeHelper.GetBytes(inputString) :
+                SHA256.Create().ComputeHash(EnDeCodeHelper.GetBytes(inputString));
         }
 
         #endregion ObsoleteDeprecated 

@@ -160,7 +160,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <returns>Base64 encoded encrypted byte[]</returns>
         public static string EncryptString(string inPlainString)
         {
-            byte[] plainTextData = EnDeCoder.GetBytes(inPlainString);
+            byte[] plainTextData = EnDeCodeHelper.GetBytes(inPlainString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = Convert.ToBase64String(encryptedData);
 
@@ -175,9 +175,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         public static string DecryptString(string inCryptString)
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
-            //  EnDeCoder.GetBytes(inCryptString);
+            //  EnDeCodeHelper.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = EnDeCoder.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = EnDeCodeHelper.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;
         }
@@ -253,9 +253,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         [Obsolete("byte[] CreateAesKey(string inputString) is deprecated, please use void AesGenWithNewKey(string inputKey = null)", false)]
         private static byte[] CreateAesKey(string inputString)
         {
-            return EnDeCoder.GetByteCount(inputString) == 32 ?
-                EnDeCoder.GetBytes(inputString) :
-                SHA256.Create().ComputeHash(EnDeCoder.GetBytes(inputString));
+            return EnDeCodeHelper.GetByteCount(inputString) == 32 ?
+                EnDeCodeHelper.GetBytes(inputString) :
+                SHA256.Create().ComputeHash(EnDeCodeHelper.GetBytes(inputString));
         }
 
         #endregion ObsoleteDeprecated 

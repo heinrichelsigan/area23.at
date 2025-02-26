@@ -50,7 +50,7 @@ namespace Area23.At.Framework.Core.Net.WebHttp
 
             if (!string.IsNullOrEmpty(secretKey))
             {
-                string hexString = DeEnCoder.KeyToHex(CryptHelper.PrivateUserKey(secretKey));
+                string hexString = EnDeCodeHelper.KeyToHex(CryptHelper.PrivateUserKey(secretKey));
                 httpClientR.DefaultRequestHeaders.Add("Authorization", $"Basic {hexString}");
             }
 

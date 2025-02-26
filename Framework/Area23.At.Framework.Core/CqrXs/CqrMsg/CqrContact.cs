@@ -31,13 +31,13 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 
         public string Email { get; set; }
 
-        public string Mobile { get; set; }
+        public string? Mobile { get; set; }
 
-        public string Address { get; set; }
+        public string? Address{ get; set; }
 
-        public string SecretKey { get; set; }
+        public string? SecretKey { get; set; }
 
-        public CqrImage ContactImage { get; set; }
+        public CqrImage? ContactImage { get; set; }
 
         public string NameEmail { get => string.IsNullOrEmpty(Email) ? Name : $"{Name} <{Email}>"; }
 

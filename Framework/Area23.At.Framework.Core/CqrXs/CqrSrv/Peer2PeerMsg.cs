@@ -83,11 +83,11 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             {
                 mimeMsg = JsonConvert.SerializeObject(attachment);
             }
-            byte[] msgBytes = DeEnCoder.GetBytesFromString(mimeMsg);
+            byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(mimeMsg);
 
             byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
 
-            CqrMessage = DeEnCoder.EncodeBytes(cqrbytes, encType);
+            CqrMessage = EnDeCodeHelper.EncodeBytes(cqrbytes, encType);
 
             return CqrMessage;
         }

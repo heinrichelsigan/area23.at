@@ -188,9 +188,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <returns>base64 encoded encrypted string</returns>
         public static string EncryptString(string inString, EncodingType encType = EncodingType.Base64)
         {
-            byte[] plainTextData = EnDeCoder.GetBytes(inString);
+            byte[] plainTextData = EnDeCodeHelper.GetBytes(inString);
             byte[] encryptedBytes = Encrypt(plainTextData);
-            string encryptedString = DeEnCoder.EncodeBytes(encryptedBytes, encType);
+            string encryptedString = EnDeCodeHelper.EncodeBytes(encryptedBytes, encType);
 
             return encryptedString;
         }
@@ -202,9 +202,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <returns>plain text decrypted string</returns>
         public static string DecryptString(string inCryptString, EncodingType encType = EncodingType.Base64)
         {
-            byte[] cipherBytes = DeEnCoder.DecodeText(inCryptString, encType);
+            byte[] cipherBytes = EnDeCodeHelper.DecodeText(inCryptString, encType);
             byte[] plainTextData = Decrypt(cipherBytes);
-            string plainTextString = EnDeCoder.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = EnDeCodeHelper.GetString(plainTextData).TrimEnd('\0');
 
             return plainTextString;
         }
