@@ -30,6 +30,9 @@
   </ItemGroup>
     
 	<ItemGroup>
+        <Compile Update="Gui\Forms\SerializeTest.cs">
+          <SubType>Form</SubType>
+        </Compile>
         <Compile Update="Gui\Forms\SecureChat.cs">
           <SubType>Form</SubType>
         </Compile>

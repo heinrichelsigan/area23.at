@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using Area23.At.Framework.Core.Util;
+using Area23.At.WinForm.TWinFormCore.Gui.TForms;
 
 namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
@@ -356,6 +357,12 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             schat.Show();
             schat.BringToFront();
             schat.Focus();
+        }
+
+        private void menuItemSerializerText_Click(object sender, EventArgs e)
+        {
+            (new SerializeTest()).Show();
+
         }
     }
 }

@@ -39,12 +39,13 @@ namespace Area23.At.WinForm.TransparentForms.Gui.TForms
             this.menuItemReload = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemRestart = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemApps = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemFortune = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemAsteriks = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuItemApps = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuItemFortune = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemSerializeTest = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -116,6 +117,22 @@ namespace Area23.At.WinForm.TransparentForms.Gui.TForms
             this.menuItemExit.Text = "Exit";
             this.menuItemExit.Click += new System.EventHandler(this.menuItemExit_Click);
             // 
+            // menuItemApps
+            // 
+            this.menuItemApps.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItemFortune,
+            this.menuItemSerializeTest});
+            this.menuItemApps.Name = "menuItemApps";
+            this.menuItemApps.Size = new System.Drawing.Size(51, 20);
+            this.menuItemApps.Text = "Apps";
+            // 
+            // menuItemFortune
+            // 
+            this.menuItemFortune.Name = "menuItemFortune";
+            this.menuItemFortune.Size = new System.Drawing.Size(226, 22);
+            this.menuItemFortune.Text = "Fortune";
+            this.menuItemFortune.Click += new System.EventHandler(this.menuItemFortune_Click);
+            // 
             // menuItemAsteriks
             // 
             this.menuItemAsteriks.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -130,14 +147,14 @@ namespace Area23.At.WinForm.TransparentForms.Gui.TForms
             // 
             this.menuItemHelp.Name = "menuItemHelp";
             this.menuItemHelp.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F1)));
-            this.menuItemHelp.Size = new System.Drawing.Size(180, 22);
+            this.menuItemHelp.Size = new System.Drawing.Size(161, 22);
             this.menuItemHelp.Text = "Help";
             // 
             // menuItemInfo
             // 
             this.menuItemInfo.Name = "menuItemInfo";
             this.menuItemInfo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F3)));
-            this.menuItemInfo.Size = new System.Drawing.Size(180, 22);
+            this.menuItemInfo.Size = new System.Drawing.Size(161, 22);
             this.menuItemInfo.Text = "Info";
             this.menuItemInfo.Click += new System.EventHandler(this.menuItemInfo_Click);
             // 
@@ -145,24 +162,16 @@ namespace Area23.At.WinForm.TransparentForms.Gui.TForms
             // 
             this.menuItemAbout.Name = "menuItemAbout";
             this.menuItemAbout.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.menuItemAbout.Size = new System.Drawing.Size(180, 22);
+            this.menuItemAbout.Size = new System.Drawing.Size(161, 22);
             this.menuItemAbout.Text = "About";
             this.menuItemAbout.Click += new System.EventHandler(this.menuItemAbout_Click);
             // 
-            // menuItemApps
+            // menuItemSerializeTest
             // 
-            this.menuItemApps.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuItemFortune});
-            this.menuItemApps.Name = "menuItemApps";
-            this.menuItemApps.Size = new System.Drawing.Size(51, 20);
-            this.menuItemApps.Text = "Apps";
-            // 
-            // menuItemFortune
-            // 
-            this.menuItemFortune.Name = "menuItemFortune";
-            this.menuItemFortune.Size = new System.Drawing.Size(180, 22);
-            this.menuItemFortune.Text = "Fortune";
-            this.menuItemFortune.Click += new System.EventHandler(this.menuItemFortune_Click);
+            this.menuItemSerializeTest.Name = "menuItemSerializeTest";
+            this.menuItemSerializeTest.Size = new System.Drawing.Size(226, 22);
+            this.menuItemSerializeTest.Text = "Json Serialize Test";
+            this.menuItemSerializeTest.Click += new System.EventHandler(this.menuItemSerializeTest_Click);
             // 
             // TForm
             // 
@@ -203,6 +212,7 @@ namespace Area23.At.WinForm.TransparentForms.Gui.TForms
         private ToolStripMenuItem menuItemAbout;
         private ToolStripMenuItem menuItemApps;
         private ToolStripMenuItem menuItemFortune;
+        private ToolStripMenuItem menuItemSerializeTest;
     }
 }
 

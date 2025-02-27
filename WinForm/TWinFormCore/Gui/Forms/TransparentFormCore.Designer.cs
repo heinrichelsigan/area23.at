@@ -43,6 +43,7 @@
             menuViewMenuCryptItemCrypt = new ToolStripMenuItem();
             menuViewMenuUnix = new ToolStripMenuItem();
             menuViewMenuUnixItemNetAddr = new ToolStripMenuItem();
+            menuViewMenuUnixItemSecureChat = new ToolStripMenuItem();
             menuViewMenuUnixItemScp = new ToolStripMenuItem();
             menuViewMenuUnixItemFortnune = new ToolStripMenuItem();
             menuViewMenuUnixItemHexDump = new ToolStripMenuItem();
@@ -58,7 +59,7 @@
             splitButtonMenuItemSave = new ToolStripMenuItem();
             toolStripProgressBar = new ToolStripProgressBar();
             toolStripStatusLabel = new ToolStripStatusLabel();
-            menuViewMenuUnixItemSecureChat = new ToolStripMenuItem();
+            menuItemSerializerText = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             statusStrip.SuspendLayout();
             SuspendLayout();
@@ -165,7 +166,7 @@
             // 
             toolStripMenuView.BackColor = SystemColors.MenuBar;
             toolStripMenuView.BackgroundImageLayout = ImageLayout.None;
-            toolStripMenuView.DropDownItems.AddRange(new ToolStripItem[] { menuViewMenuICrypt, menuViewMenuUnix });
+            toolStripMenuView.DropDownItems.AddRange(new ToolStripItem[] { menuViewMenuICrypt, menuViewMenuUnix, menuItemSerializerText });
             toolStripMenuView.ForeColor = SystemColors.MenuText;
             toolStripMenuView.ImageScaling = ToolStripItemImageScaling.None;
             toolStripMenuView.Name = "toolStripMenuView";
@@ -245,6 +246,19 @@
             menuViewMenuUnixItemNetAddr.Size = new Size(193, 22);
             menuViewMenuUnixItemNetAddr.Text = "Network Address";
             menuViewMenuUnixItemNetAddr.Click += menuViewMenuUnixItemNetAddr_Click;
+            // 
+            // menuViewMenuUnixItemSecureChat
+            // 
+            menuViewMenuUnixItemSecureChat.BackColor = SystemColors.Menu;
+            menuViewMenuUnixItemSecureChat.BackgroundImageLayout = ImageLayout.None;
+            menuViewMenuUnixItemSecureChat.Font = new Font("Lucida Sans Unicode", 10F);
+            menuViewMenuUnixItemSecureChat.ForeColor = SystemColors.MenuText;
+            menuViewMenuUnixItemSecureChat.ImageScaling = ToolStripItemImageScaling.None;
+            menuViewMenuUnixItemSecureChat.Margin = new Padding(1);
+            menuViewMenuUnixItemSecureChat.Name = "menuViewMenuUnixItemSecureChat";
+            menuViewMenuUnixItemSecureChat.Size = new Size(193, 22);
+            menuViewMenuUnixItemSecureChat.Text = "Secure Chat";
+            menuViewMenuUnixItemSecureChat.Click += menuViewMenuUnixItemSecureChat_Click;
             // 
             // menuViewMenuUnixItemScp
             // 
@@ -401,18 +415,12 @@
             toolStripStatusLabel.Spring = true;
             toolStripStatusLabel.Text = "Status";
             // 
-            // menuViewMenuUnixItemSecureChat
+            // menuItemSerializerText
             // 
-            menuViewMenuUnixItemSecureChat.BackColor = SystemColors.Menu;
-            menuViewMenuUnixItemSecureChat.BackgroundImageLayout = ImageLayout.None;
-            menuViewMenuUnixItemSecureChat.Font = new Font("Lucida Sans Unicode", 10F);
-            menuViewMenuUnixItemSecureChat.ForeColor = SystemColors.MenuText;
-            menuViewMenuUnixItemSecureChat.ImageScaling = ToolStripItemImageScaling.None;
-            menuViewMenuUnixItemSecureChat.Margin = new Padding(1);
-            menuViewMenuUnixItemSecureChat.Name = "menuViewMenuUnixItemSecureChat";
-            menuViewMenuUnixItemSecureChat.Size = new Size(193, 22);
-            menuViewMenuUnixItemSecureChat.Text = "Secure Chat";
-            menuViewMenuUnixItemSecureChat.Click += menuViewMenuUnixItemSecureChat_Click;
+            menuItemSerializerText.Name = "menuItemSerializerText";
+            menuItemSerializerText.Size = new Size(180, 22);
+            menuItemSerializerText.Text = "Serializer Test";
+            menuItemSerializerText.Click += menuItemSerializerText_Click;
             // 
             // TransparentFormCore
             // 
@@ -476,5 +484,6 @@
         protected internal ToolStripMenuItem menuFileItemExit;
         protected internal ToolStripMenuItem menuViewMenuUnixItemScp;
         protected internal ToolStripMenuItem menuViewMenuUnixItemSecureChat;
+        private ToolStripMenuItem menuItemSerializerText;
     }
 }

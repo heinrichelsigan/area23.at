@@ -36,6 +36,9 @@
     <StartupObject>Area23.At.WinForm.TransparentForms.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Speech" />
@@ -50,6 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gui\TForms\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gui\TForms\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Gui\TForms\TAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,10 +83,14 @@
     <Compile Include="Gui\TForms\TFortune.Designer.cs">
       <DependentUpon>TFortune.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\StreamByteEncoding.cs" />
     <Compile Include="Helper\TEventArgs.cs" />
     <Compile Include="SaySpeach.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Gui\TForms\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Gui\TForms\TAbout.resx">
       <DependentUpon>TAbout.cs</DependentUpon>
     </EmbeddedResource>

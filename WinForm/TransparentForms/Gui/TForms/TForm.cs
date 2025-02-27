@@ -319,5 +319,10 @@ namespace Area23.At.WinForm.TransparentForms.Gui.TForms
             TFortune fortune = new TFortune();
             fortune.Show();
         }
+
+        private void menuItemSerializeTest_Click(object sender, EventArgs e)
+        {
+            (new Form1()).Show();
+        }
     }
 }
