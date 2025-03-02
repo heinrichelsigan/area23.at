@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Area23.At.Framework.Core.Util;
 using System.Diagnostics.Eventing.Reader;
+using Area23.At.Framework.Core.Static;
 
 namespace Area23.At.Framework.Core.Net.IpSocket
 {
@@ -27,11 +28,11 @@ namespace Area23.At.Framework.Core.Net.IpSocket
         public IPEndPoint? ServerEndPoint { get; protected internal set; }
         public Socket? ClientSocket { get; protected internal set; }
 
-        public byte[] BufferedData { get; protected internal set; } = new byte[Constants.MAX_BYTE_BUFFEER];
+        public byte[] BufferedData { get; protected internal set; } = new byte[Constants.MAX_SOCKET_BYTE_BUFFEER];
 
 
 
-        public EventHandler<Area23EventArgs<ReceiveData>> EventHandlerClientRequest { get; protected internal set; }
+        public EventHandler<Area23EventArgs<ReceiveData>> EventHandlerClientRequest { get; internal set; }
 
         protected internal EventHandler AcceptClientConnection { get; set; }
 
@@ -63,23 +64,27 @@ namespace Area23.At.Framework.Core.Net.IpSocket
             //    ServerSocket.Dispose();
             //}
             //ServerSocket = null;            
-            Thread.Sleep(200);
+            
             disposed = false;
             ServerAddress = connectedIpIfAddr;
             ServerEndPoint = new IPEndPoint(ServerAddress, Constants.CHAT_PORT);
             ServerSocket = new Socket(ServerAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            ServerSocket.ReceiveBufferSize = Constants.MAX_SOCKET_BYTE_BUFFEER;
+            ServerSocket.NoDelay = true;
             ServerSocket.Bind(ServerEndPoint);
             ServerSocket.Listen(Constants.BACKLOG);
             ListenerName = ServerEndPoint.ToString();
 
-            Area23Log.LogStatic("new Socket created at " + ListenerName);
-            Task task = new Task(() => OnAcceptClientConnection("ctor", new EventArgs()));
-            task.Start();
+            SLog.Log("new Socket created at " + ListenerName);            
         }
 
         public Listener(IPAddress connectedIpIfAddr, EventHandler<Area23EventArgs<ReceiveData>> evClReq) : this(connectedIpIfAddr)
         {
+            Thread.Sleep(100);
             EventHandlerClientRequest = evClReq;
+            Thread.Sleep(100);
+            Task task = new Task(() => OnAcceptClientConnection("ctor", new EventArgs()));
+            task.Start();
         }
 
 
@@ -100,16 +105,16 @@ namespace Area23.At.Framework.Core.Net.IpSocket
                             }
                             catch (Exception exSock)
                             {
-                                Area23Log.LogStatic(exSock, ListenerName);
+                                SLog.Log(exSock, ListenerName);
                             }
-                        }                        
-                    }
 
-                    // Task task = new Task(() => HandleClientRequest(sender, e));
-                    // task.Start();
-                    t = new Thread(new ThreadStart(() => HandleClientRequest(sender, e)));
-                    t.Start();
-                    Thread.Sleep(256);
+                            // Task task = new Task(() => HandleClientRequest(sender, e));
+                            // task.Start();       
+                            t = new Thread(new ThreadStart(() => HandleClientRequest(sender, e)));
+                            t.Start();
+                            Thread.Sleep(256);
+                        }                        
+                    }                    
                 }
             }
         }
@@ -123,20 +128,20 @@ namespace Area23.At.Framework.Core.Net.IpSocket
             {
                 lock (_lock)
                 {
-                    byte[] buffer = new byte[Constants.MAX_BYTE_BUFFEER];
-                    Span<byte> buf = new Span<byte>(buffer, 0, Constants.MAX_BYTE_BUFFEER);
+                    byte[] buffer = new byte[Constants.MAX_SOCKET_BYTE_BUFFEER];
+                    Span<byte> buf = new Span<byte>(buffer, 0, Constants.MAX_SOCKET_BYTE_BUFFEER);
                     IPEndPoint clientIEP = (IPEndPoint?)ClientSocket.RemoteEndPoint;
                     string sstring = "Accept connection from " + clientIEP?.Address.ToString() + ":" + clientIEP?.Port.ToString() +
                         " => " + ServerAddress?.ToString() + ":" + ServerEndPoint?.ToString();
                     Area23Log.Logger.LogInfo(sstring);
 
-                    ClientSocket.ReceiveBufferSize = Constants.MAX_BYTE_BUFFEER;
-                    ClientSocket.SendBufferSize = Constants.MAX_BYTE_BUFFEER;
+                    ClientSocket.ReceiveBufferSize = Constants.MAX_SOCKET_BYTE_BUFFEER;
+                    ClientSocket.SendBufferSize = Constants.MAX_SOCKET_BYTE_BUFFEER;
                     SocketFlags flags = SocketFlags.None;
                     SocketError errorCode;
                     ClientSocket.NoDelay = true;
                     // long rsize = (long)ClientSocket.Receive(buf, flags, out errorCode);
-                    int rsize = ClientSocket.Receive(buffer, 0, Constants.MAX_BYTE_BUFFEER, flags, out errorCode);
+                    int rsize = ClientSocket.Receive(buffer, 0, Constants.MAX_SOCKET_BYTE_BUFFEER, flags, out errorCode);
 
                     // int rsize = ClientSocket.Receive(buffer, 0, Constants.MAX_BYTE_BUFFEER, flags, out errorCode);
                     BufferedData = new byte[rsize];
@@ -149,9 +154,7 @@ namespace Area23.At.Framework.Core.Net.IpSocket
                     // byte[] sendData = new byte[8];
                     // sendData = Encoding.Default.GetBytes("ACK\r\n\0");
                     // ClientSocket.Send(sendData, SocketFlags.None);
-                    
-                    ClientSocket.Close();
-
+                   
                     if (EventHandlerClientRequest != null)
                     {
                         EventHandler<Area23EventArgs<ReceiveData>> handler = EventHandlerClientRequest;
@@ -159,7 +162,7 @@ namespace Area23.At.Framework.Core.Net.IpSocket
                         handler?.Invoke(this, area23EventArgs);
                     }
 
-
+                    ClientSocket.Close();
                 }
             }
         }
@@ -186,7 +189,7 @@ namespace Area23.At.Framework.Core.Net.IpSocket
                         }
                         catch (Exception exSockDisconnect)
                         {
-                            Area23Log.LogStatic(exSockDisconnect);
+                            SLog.Log(exSockDisconnect);
                         }
                         try
                         {
@@ -195,7 +198,7 @@ namespace Area23.At.Framework.Core.Net.IpSocket
                         }
                         catch (Exception exSockClose)
                         {
-                            Area23Log.LogStatic(exSockClose);
+                            SLog.Log(exSockClose);
                         }
                     }
                     try
@@ -205,7 +208,7 @@ namespace Area23.At.Framework.Core.Net.IpSocket
                     }
                     catch (Exception exSrvSockDisconnect)
                     {
-                        Area23Log.LogStatic(exSrvSockDisconnect);
+                        SLog.Log(exSrvSockDisconnect);
                     }
                     try
                     {
@@ -214,7 +217,7 @@ namespace Area23.At.Framework.Core.Net.IpSocket
                     }
                     catch (Exception exSrvSockClose)
                     {
-                        Area23Log.LogStatic(exSrvSockClose);
+                        SLog.Log(exSrvSockClose);
                     }
                 }
 
@@ -228,7 +231,7 @@ namespace Area23.At.Framework.Core.Net.IpSocket
             }
             catch (Exception exClientSockDispose)
             {
-                Area23Log.LogStatic(exClientSockDispose);
+                SLog.Log(exClientSockDispose);
             }
             try
             {
@@ -237,21 +240,21 @@ namespace Area23.At.Framework.Core.Net.IpSocket
             }
             catch (Exception exSrvSockDispose)
             {
-                Area23Log.LogStatic(exSrvSockDispose);
+                SLog.Log(exSrvSockDispose);
             }
 
             try { EventHandlerClientRequest = null; }
-            catch (Exception exEventHandlerNull) { Area23Log.LogStatic(exEventHandlerNull); }
+            catch (Exception exEventHandlerNull) { SLog.Log(exEventHandlerNull); }
             try { ListenerName = ""; ServerEndPoint = null; }
-            catch (Exception exSockNull) { Area23Log.LogStatic(exSockNull); }
+            catch (Exception exSockNull) { SLog.Log(exSockNull); }
 
             try { ClientSocket = null; }
-            catch (Exception exSockNull) { Area23Log.LogStatic(exSockNull); }
+            catch (Exception exSockNull) { SLog.Log(exSockNull); }
 
-            try { ServerSocket = null; } catch (Exception exSockNull) { Area23Log.LogStatic(exSockNull); }
+            try { ServerSocket = null; } catch (Exception exSockNull) { SLog.Log(exSockNull); }
 
             try { ServerAddress = null; }
-            catch (Exception exSrvAddr) { Area23Log.LogStatic(exSrvAddr); }
+            catch (Exception exSrvAddr) { SLog.Log(exSrvAddr); }
 
         }
 

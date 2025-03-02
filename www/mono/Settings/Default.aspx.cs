@@ -1,13 +1,10 @@
-﻿using Area23.At.Framework.Library;
+﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Windows.Input;
 
 namespace Area23.At.Mono.Settings
 {
@@ -56,7 +53,7 @@ namespace Area23.At.Mono.Settings
             }
             try
             {                
-                settings.Add("Area23Log.LogFile", Area23Log.LogFile);
+                settings.Add("Area23Log.LogFile", SLog.LogFile);
                 settings.Add("UserHostAddress", Request.UserHostAddress);
                 settings.Add("RawUrl", Request.RawUrl);
                 settings.Add("UserAgent", Request.UserAgent);
@@ -132,7 +129,7 @@ namespace Area23.At.Mono.Settings
             try
             {
                 Area23Log.LogStatic("Log test from " + Request.UserHostAddress + " " + Request.UserAgent);
-                DivTest1.InnerHtml = $"<p>{DateTime.Now.Area23DateTimeWithMillis()} LogStatic to {Area23Log.LogFile} successfull!</p>";
+                DivTest1.InnerHtml = $"<p>{DateTime.Now.Area23DateTimeWithMillis()} LogStatic to {SLog.LogFile} successfull!</p>";
             }
             catch (Exception ex1)
             {
@@ -141,7 +138,7 @@ namespace Area23.At.Mono.Settings
             try
             {
                 Area23Log.LogStatic("Log test from " + Request.UserHostAddress + " " + Request.UserAgent);
-                DivTest2.InnerHtml = $"<p>{DateTime.Now.Area23DateTimeWithMillis()} Logger.Log to {Area23Log.LogFile} successfull!</p>";
+                DivTest2.InnerHtml = $"<p>{DateTime.Now.Area23DateTimeWithMillis()} Logger.Log to {SLog.LogFile} successfull!</p>";
             }
             catch (Exception ex2)
             {

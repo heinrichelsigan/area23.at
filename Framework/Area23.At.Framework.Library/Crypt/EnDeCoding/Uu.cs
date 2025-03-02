@@ -1,15 +1,11 @@
-﻿using Area23.At.Framework.Library;
+﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using DBTek.Crypto;
-using Org.BouncyCastle.Utilities;
-using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Area23.At.Framework.Library.Crypt.EnDeCoding
@@ -114,6 +110,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 System.IO.File.WriteAllBytes(hexOutPath, inBytes);
                 Area23Log.LogStatic("ToUu: Wrote inBytes to " + hexOutPath);
 
+
                 try
                 {
                     (new UUEncoder()).EncodeFile(hexOutPath, uuOutPath);
@@ -130,12 +127,12 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                     Area23Log.LogStatic($"ToUu: Read uuencoded text (length = {uu.Length} from file {uuOutPath}.");
                     
                     Area23Log.LogStatic($"ToUu(byte[{inBytes.Length}] inBytes, bool originalUue = {originalUue}. bool fromFile = {fromFile}) ... FINISHED.");
-                    //uu = uu.Replace(" ", "`");
+                    // uu = uu.Replace(" ", "`");
                     return uu;
                 }
-                
+
             }
-            
+
             uu = UuEncodeBytesToString(inBytes);
             Area23Log.LogStatic($"ToUu(byte[{inBytes.Length}] inBytes, bool originalUue = {originalUue}. bool fromFile = {fromFile}) ... FINISHED.");
             // uu = uu.Replace(" ", "`");
@@ -155,7 +152,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             string fromUuFunCall = "FromUu(string uuEncStr[.Length=" + uuEncStr.Length + "], bool originalUue = " + originalUue + ", bool fromFile = " + fromFile + ")";
             Area23Log.LogStatic(fromUuFunCall + "... STARTED.");
 
-            bool errInWin = false, errInUnix = false;
+            // bool errInWin = false, errInUnix = false;
             string plainStr = "";
             byte[] plainBytes = new byte[Math.Max(plainStr.Length, uuEncStr.Length)];
 
@@ -163,7 +160,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             {
                 lock (_lock)
                 {
-                    plainStr = (new UUEncoder()).DecodeString(uuEncStr);
+                    plainStr = (new UUEncoder()).DecodeString(uuEncStr.Replace(" ", "`"));
                     plainBytes = Encoding.UTF8.GetBytes(plainStr);
                 }
                 Area23Log.LogStatic($"byte[{plainBytes.Length}] plainBytes = FromUu(string uuEncStr, bool originalUue = {originalUue}, fromFile = {fromFile}) ... FINISHED.");
@@ -178,6 +175,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 Area23Log.LogStatic($"FromUu: start wrting uuEncStr to file {uuOutPath}");
                 System.IO.File.WriteAllText(uuOutPath, uuEncStr);
                 Area23Log.LogStatic($"{fromUuFunCall} ... wrote uuEncstr (length = {uuEncStr.Length}) to {uuOutPath}.");
+
 
                 try
                 {

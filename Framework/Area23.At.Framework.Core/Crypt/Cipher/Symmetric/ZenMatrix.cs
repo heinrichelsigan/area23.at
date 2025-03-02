@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Core.Static;
 using Area23.At.Framework.Core.Util;
 using System;
 using System.Collections.Generic;
@@ -334,7 +335,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             for (int j = 0; j < keyBytes.Length; j++)
                 kbs += keyBytes[j].ToString("x2");
 
-            Area23Log.LogStatic("ZenMatrix: " + perm + " KeyBytes = " + kbs);
+            SLog.Log("ZenMatrix: " + perm + " KeyBytes = " + kbs);
         }
 
 

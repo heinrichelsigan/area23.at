@@ -1,3 +1,5 @@
+using Area23.At.Framework.Core.Static;
+using Area23.At.Framework.Core.Util;
 using System;
 using System.Diagnostics;
 
@@ -27,7 +29,7 @@ namespace Area23.At.Framework.Core.Win32Api
         public static string Execute(string filepath = "SystemInfo", string args = "", bool useShellExecute = false)
         {
             string consoleError = "", consoleOutput = "";
-            Area23Log.LogStatic(String.Format("ProcessCmd.Execute(filepath = ${0}, args = {1}, useShellExecute = {2}) called ...",
+            SLog.Log(String.Format("ProcessCmd.Execute(filepath = ${0}, args = {1}, useShellExecute = {2}) called ...",
                 filepath, args, useShellExecute));
             try
             {                
@@ -50,14 +52,14 @@ namespace Area23.At.Framework.Core.Win32Api
             }
             catch (Exception exi)
             {
-                Area23Log.LogStatic("ProcessCmd.Execute throwed Exception: " + exi.Message);
-                Area23Log.LogStatic($"can't perform {filepath} {args}\nStdErr = {consoleError}\tException: {exi}");
+                SLog.Log("ProcessCmd.Execute throwed Exception: " + exi.Message);
+                SLog.Log($"can't perform {filepath} {args}\nStdErr = {consoleError}\tException: {exi}");
                 throw new InvalidOperationException($"can't perform {filepath} {args}\nStdErr = {consoleError}", exi);
             }
 
             if (!string.IsNullOrEmpty(consoleError))
-                Area23Log.LogStatic("ProcessCmd.Execute consoleError: " + consoleError);
-            Area23Log.LogStatic("ProcessCmd.Execute consoleOutput: " + consoleOutput);
+                SLog.Log("ProcessCmd.Execute consoleError: " + consoleError);
+            SLog.Log("ProcessCmd.Execute consoleOutput: " + consoleOutput);
 
             return consoleOutput;
         }
@@ -87,7 +89,7 @@ namespace Area23.At.Framework.Core.Win32Api
                 }
             }
 
-            Area23Log.LogStatic(string.Format("ProcessCmd.Execute(cmdPath = ${0}, args = {1}, quoteArgs = {2}, useShellExecute = {3}) called ...",
+            SLog.Log(string.Format("ProcessCmd.Execute(cmdPath = ${0}, args = {1}, quoteArgs = {2}, useShellExecute = {3}) called ...",
                     cmdPath, arguments, quoteArgs, useShellExecute));
             try
             {
@@ -109,14 +111,14 @@ namespace Area23.At.Framework.Core.Win32Api
             }
             catch (Exception exi)
             {
-                Area23Log.LogStatic($"ProcessCmd.Execute {cmdPath} {arguments}\tException: {exi.Message}");
-                Area23Log.LogStatic($"can't perform {cmdPath} {arguments}\nStdErr = {consoleError}\tException: {exi}");
+                SLog.Log($"ProcessCmd.Execute {cmdPath} {arguments}\tException: {exi.Message}");
+                SLog.Log($"can't perform {cmdPath} {arguments}\nStdErr = {consoleError}\tException: {exi}");
                 throw new InvalidOperationException($"can't perform {cmdPath} {arguments}\nStdErr = {consoleError}\tException: {exi}");
             }
 
             if (!string.IsNullOrEmpty(consoleError))
-                Area23Log.LogStatic($"ProcessCmd.Execute {cmdPath} {arguments} consoleError: " + consoleError);
-            Area23Log.LogStatic($"ProcessCmd.Execute {cmdPath} {arguments} consoleOutput: " + consoleOutput);
+                SLog.Log($"ProcessCmd.Execute {cmdPath} {arguments} consoleError: " + consoleError);
+            SLog.Log($"ProcessCmd.Execute {cmdPath} {arguments} consoleOutput: " + consoleOutput);
 
             return consoleOutput;
         }

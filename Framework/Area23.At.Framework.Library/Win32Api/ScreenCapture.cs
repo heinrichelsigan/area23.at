@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Area23.At.Framework.Library.Util;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -111,7 +112,7 @@ namespace Area23.At.Framework.Library.Win32Api
                 }
                 catch (Exception exCapture) 
                 {
-                    Library.Area23Log.Logger.LogOriginMsgEx("ScreenCapture.CaptureAllWindows()",
+                    Area23Log.Logger.LogOriginMsgEx("ScreenCapture.CaptureAllWindows()",
                         $"Exception on capturing window {winCnt} with windows handle {nextPtr.ToString()}.", exCapture);
                 }
             }

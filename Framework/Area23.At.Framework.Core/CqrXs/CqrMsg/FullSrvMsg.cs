@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using static QRCoder.Core.PayloadGenerator.SwissQrCode;
 using System.Xml.Linq;
 using System.Text.Json.Serialization;
+using Area23.At.Framework.Core.Util;
+using Area23.At.Framework.Core.Static;
 
 namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 {
@@ -19,7 +21,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
     /// <typeparam name="TC"></typeparam>
     [JsonObject]
     [Serializable]
-    public class FullSrvMsg<TC> : MsgContent where TC : class
+    public class FullSrvMsg<TC> : MsgContent, ICqrMessagable where TC : class
     {
         #region properties
 
@@ -51,7 +53,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         public FullSrvMsg() : base()
         {
             _message = string.Empty;
-            _rawMessage = string.Empty;
+            RawMessage = string.Empty;
             _hash = string.Empty;
             Sender = null;
             Recipients = new List<CqrContact>();
@@ -59,7 +61,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             TContent = null;
         }
 
-        public FullSrvMsg(string fm, MsgEnum msgArt = MsgEnum.JsonSerialized) : base()
+        public FullSrvMsg(string fm, MsgEnum msgArt = MsgEnum.Json) : base()
         {
             this.FromJson<FullSrvMsg<TC>>(fm);
         }
@@ -93,7 +95,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         public override string ToJson()
         {
             string jsonText = JsonConvert.SerializeObject(this);
-            this._rawMessage = jsonText;
+            this.RawMessage = jsonText;
             return jsonText;
         }
 
@@ -115,7 +117,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             }
             catch (Exception exJson)
             {
-                Area23Log.LogStatic(exJson);
+                SLog.Log(exJson);
             }
 
             return default(FullSrvMsg<TC>);

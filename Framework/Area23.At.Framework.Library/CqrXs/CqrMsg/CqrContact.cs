@@ -1,16 +1,18 @@
-﻿using Newtonsoft.Json;
+﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using static QRCoder.PayloadGenerator.SwissQrCode;
-using System.Xml.Linq;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using System.Net;
+using Area23.At.Framework.Library.Util;
+using Area23.At.Framework.Library;
+using System.Drawing;
+using Area23.At.Framework.Library.CqrMsg;
+using Area23.At.Framework.Library.Static;
 
 namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 {
@@ -19,13 +21,12 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
     /// <summary>
     /// CqrContact is a contact for CqrJd
     /// </summary>
-    [JsonObject]
     [Serializable]
-    public class CqrContact : MsgContent
+    public class CqrContact : MsgContent, ICqrMessagable
     {
 
         #region properties
-        
+
         public int ContactId { get; set; }
 
         public Guid Cuid { get; set; }
@@ -44,7 +45,6 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 
         public string NameEmail { get => string.IsNullOrEmpty(Email) ? Name : $"{Name} <{Email}>"; }
 
-
         #region from server given properties
 
         public IPAddress ClientIp { get; set; }
@@ -54,7 +54,6 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 
 
         public DateTime ValidFrom { get; set; }
-
 
         #endregion from server given properties
 
@@ -74,7 +73,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             ContactImage = null;
         }
 
-        public CqrContact(string cs, MsgEnum msgArt = MsgEnum.JsonSerialized)
+        public CqrContact(string cs, MsgEnum msgArt = MsgEnum.Json)
         {
             FromJson<CqrContact>(cs);
         }
@@ -97,13 +96,13 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             Address = address;
         }
 
-        public CqrContact(int cid, string name, string email, string mobile, string address, CqrImage cqrImage) 
+        public CqrContact(int cid, string name, string email, string mobile, string address, CqrImage cqrImage)
             : this(cid, name, email, mobile, address)
         {
             ContactImage = cqrImage;
         }
 
-        public CqrContact(int cid, Guid cuid, string name, string email, string mobile, string address, CqrImage cqrImage) 
+        public CqrContact(int cid, Guid cuid, string name, string email, string mobile, string address, CqrImage cqrImage)
             : this(cid, name, email, mobile, address)
         {
             Cuid = cuid;
@@ -113,16 +112,16 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         public CqrContact(int cid, Guid cuid, string name, string email, string mobile, string address, CqrImage cqrImage, string hash)
             : this(cid, cuid, name, email, mobile, address, cqrImage)
         {
-           _hash = hash;
+            _hash = hash;
         }
 
-        public CqrContact(int cid, string name, string email, string mobile, string address, Image image) 
+        public CqrContact(int cid, string name, string email, string mobile, string address, Image image)
             : this(cid, name, email, mobile, address)
         {
             ContactImage = CqrImage.FromDrawingImage(image);
         }
 
-        public CqrContact(int cid, Guid cuid, string name, string email, string mobile, string address, Image image) 
+        public CqrContact(int cid, Guid cuid, string name, string email, string mobile, string address, Image image)
             : this(cid, name, email, mobile, address)
         {
             Cuid = cuid;
@@ -135,8 +134,8 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             this._hash = hash;
         }
 
-        public CqrContact(CqrContact c, string hash) 
-            : this(c.ContactId, c.Cuid, c.Name, c.Email, c.Mobile, c.Address, c.ContactImage, hash) 
+        public CqrContact(CqrContact c, string hash)
+            : this(c.ContactId, c.Cuid, c.Name, c.Email, c.Mobile, c.Address, c.ContactImage, hash)
         {
 
         }
@@ -149,15 +148,16 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         {
             // CqrContact cqrContact = new CqrContact(ContactId, Cuid, Name, Email, Mobile, Address, ContactImage);
             string jsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
-            this._rawMessage = jsonString;
+            this.RawMessage = jsonString;
             return jsonString;
         }
 
-        public override TType FromJson<TType>(string jsonText)
+        public override T FromJson<T>(string jsonText)
         {
-            TType tt = JsonConvert.DeserializeObject<TType>(jsonText);
+            T tt = default(T);
             try
             {
+                tt = JsonConvert.DeserializeObject<T>(jsonText);
                 if (tt != null && tt is CqrContact cqrContactJson)
                 {
                     if (cqrContactJson != null && cqrContactJson.ContactId > -1 && !string.IsNullOrEmpty(cqrContactJson.Name))
@@ -169,19 +169,20 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                         Mobile = cqrContactJson.Mobile;
                         Address = cqrContactJson.Address;
                         ContactImage = cqrContactJson.ContactImage;
-                        _message = cqrContactJson.Message;
-                        _hash = cqrContactJson.Hash;
-                        _rawMessage = cqrContactJson.RawMessage;
-                        return tt;
+                        _message = cqrContactJson._message;
+                        _hash = cqrContactJson._hash;
+                        RawMessage = cqrContactJson.RawMessage;
+                        return (T)tt;
                     }
                 }
             }
             catch (Exception exJson)
             {
-                Area23Log.LogStatic(exJson);
+                SLog.Log(exJson);
             }
 
-            return default(TType);
+            return (T)tt;
+
         }
 
         public override string ToString()
@@ -220,6 +221,5 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         #endregion members
 
     }
-
 
 }

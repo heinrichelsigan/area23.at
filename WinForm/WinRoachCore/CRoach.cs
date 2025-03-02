@@ -56,9 +56,9 @@ namespace Area23.At.WinForm.WinRoachCore
                 if (roachCnt % 4 == 0)
                     this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
                 else if (roachCnt % 4 == 1)
-                    this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach1;
+                    this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach0;
                 if (roachCnt % 4 == 2)
-                    this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
+                    this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach1;
                 else if (roachCnt % 4 == 3)
                     this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach0;
             }
@@ -72,7 +72,7 @@ namespace Area23.At.WinForm.WinRoachCore
         }
 
 
-        protected internal override void SelfMoveRoach(int interval = 0)
+        protected internal override void SelfMoveRoach(int interval = 1)
         {
             SetRoachBG(this.Location);
 

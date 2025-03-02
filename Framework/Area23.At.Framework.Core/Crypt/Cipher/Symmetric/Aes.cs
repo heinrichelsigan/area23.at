@@ -1,5 +1,5 @@
 ﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
-using Area23.At.Framework.Core.Util;
+using Area23.At.Framework.Core.Static;
 using System.Security.Cryptography;
 
 namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
@@ -175,7 +175,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         public static string DecryptString(string inCryptString)
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
-            //  EnDeCodeHelper.GetBytes(inCryptString);
+            //  EnDeCoder.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
             string plainTextString = EnDeCodeHelper.GetString(plainTextData).TrimEnd('\0');
 

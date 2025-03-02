@@ -270,7 +270,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                     break;
             }
 
-            // return EnDeCodeHelper.GetBytesTrimNulls(decryptBytes);
+            // return DeEnCoder.GetBytesTrimNulls(decryptBytes);
             return decryptBytes;
         }
         */

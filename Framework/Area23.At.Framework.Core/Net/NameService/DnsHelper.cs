@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Area23.At.Framework.Core.Static;
+using Area23.At.Framework.Core.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -59,7 +61,7 @@ namespace Area23.At.Framework.Core.Net.NameService
                 }
                 catch (Exception ex)
                 {
-                    Area23Log.LogStatic(ex);
+                    SLog.Log(ex);
                 }
 
                 if (!string.IsNullOrEmpty(lastAdded) && !hostnames.Contains(lastAdded))

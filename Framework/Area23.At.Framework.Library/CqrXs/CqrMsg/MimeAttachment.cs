@@ -1,13 +1,7 @@
-﻿using Area23.At.Framework.Library.Util;
+﻿using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 {
@@ -58,7 +52,6 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             ContentLength = base64Mime.Length;
             Verification = verification;
             _hash = verification;
-            _isMime = true;
         }
 
         public MimeAttachment(string fileName, string mimeType, string base64Mime, string verification, string sMd5 = "", string sSha256 = "")
@@ -71,7 +64,6 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             Md5Hash = sMd5;
             Sha256Hash = sSha256;
             _hash = verification;
-            _isMime = true;
         }
 
         public MimeAttachment(string plainText, MsgEnum msgArt = MsgEnum.None)
@@ -87,9 +79,8 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                 Sha256Hash = mimeAttachment.Sha256Hash;
                 Base64Mime = mimeAttachment.Base64Mime;
                 _hash = Verification;
-                _isMime = true;
             }
-            else if (msgArt == MsgEnum.JsonSerialized || msgArt == MsgEnum.JsonDeserialized)
+            else if (msgArt == MsgEnum.Json)
             {
                 this.FromJson<MimeAttachment>(plainText);
             }
@@ -114,9 +105,9 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                 if (t is MsgContent mc)
                 {
                     this._hash = mc.Hash;
-                    this._message = mc.Message;
-                    this._rawMessage = mc.RawMessage;
-                    _isMime = false;
+                    this._message = mc._message;
+                    this.RawMessage = mc.RawMessage;
+            
                 }
                 if (t is MimeAttachment ma)
                 {
@@ -127,7 +118,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                     this.Md5Hash = ma.Md5Hash;
                     this.Sha256Hash = ma.Sha256Hash;
                     this.Verification = ma.Verification;
-                    _isMime = true;
+                    
                 }
             }
             return t;
@@ -151,7 +142,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 
         public string GetWebPage()
         {
-            string html = $"<html>\n\t<head>\n\t\t<title>{FileName} {Base64Mime}</title>\n\t</head>";
+            string html = $"<html>\n\t<head>\n\t\t<title>{Base64Type}:{FileName}</title>\n\t</head>";
             html += $"\n\t<body>\n\t\t";
             if (MimeType.IsMimeTypeImage(Base64Type))
                 html += $"\n\t\t<img src=\"data:{Base64Type};base64,{Base64Mime}\" alt=\"{Base64Type} {FileName}\" />";
@@ -194,11 +185,10 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                 Verification = mimeAttachment.Verification;
                 Md5Hash = mimeAttachment.Md5Hash;
                 Sha256Hash = mimeAttachment.Sha256Hash;
-                Base64Mime = mimeAttachment.Base64Mime;
-                _isMime = true;
+                Base64Mime = mimeAttachment.Base64Mime;;
                 _hash = mimeAttachment.Verification;
             }
-            else if (msgArt == MsgEnum.JsonSerialized)
+            else if (msgArt == MsgEnum.Json)
             {
                 this.FromJson<MimeAttachment>(plainAttachment);
             }
@@ -214,7 +204,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         }
 
 
-        public override MimeAttachment ToMimeAttachment()
+        public virtual MimeAttachment ToMimeAttachment()
         {
             if (!IsMimeAttachment())
                 throw new InvalidCastException($"MsgContent Message={_message} isn't a mime attachment!");
@@ -229,12 +219,18 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             this.Sha256Hash = mAttach.Sha256Hash;
             this._hash = mAttach._hash;
             this._message = mAttach._message;
-            this._isMime = true;
-
 
             return mAttach;
         }
 
+
+        public virtual bool IsMimeAttachment()
+        {
+            if ((RawMessage.StartsWith("Content-Type:") || _message.StartsWith("Content-Type:")) &&
+                (RawMessage.Contains("Content-Length") || _message.Contains("Content-Length")))
+                return true;
+            return false;
+        }
 
         #endregion members
 

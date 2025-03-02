@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework;
-using Area23.At.Framework.Core;
+using Area23.At.Framework.Core.Static;
+using Area23.At.Framework.Core.Util;
 using Area23.At.Framework.Core.Win32Api;
 using System;
 using System.Collections.Generic;

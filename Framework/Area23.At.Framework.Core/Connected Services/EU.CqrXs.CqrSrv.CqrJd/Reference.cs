@@ -7,12 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Configuration;
+using Area23.At.Framework.Core.Static;
 
 namespace EU.CqrXs.CqrSrv.CqrJd
 {
-    
-    
+
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="https://cqrjd.eu/cqrsrv/cqrjd/", ConfigurationName="EU.CqrXs.CqrSrv.CqrJd.CqrServiceSoap")]
     public interface CqrServiceSoap
@@ -252,11 +252,11 @@ namespace EU.CqrXs.CqrSrv.CqrJd
         {
             if ((endpointConfiguration == EndpointConfiguration.CqrServiceSoap))
             {
-                return new System.ServiceModel.EndpointAddress(ConfigurationManager.AppSettings["CqrServiceSoap"]);
+                return new System.ServiceModel.EndpointAddress(LibPaths.CqrServiceSoap);
             }
             if ((endpointConfiguration == EndpointConfiguration.CqrServiceSoap12))
             {
-                return new System.ServiceModel.EndpointAddress(ConfigurationManager.AppSettings["CqrServiceSoap12"]);
+                return new System.ServiceModel.EndpointAddress(LibPaths.CqrServiceSoap12);
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }

@@ -1,6 +1,7 @@
 ﻿using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.Cipher;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Core.Static;
 using Area23.At.Framework.Core.Util;
 using Newtonsoft.Json;
 using System;
@@ -60,7 +61,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         public virtual string CqrBaseMsg(string msg, EncodingType encType = EncodingType.Base64)
         {
             MsgContent msc;
-            if (msg.Contains(PipeString) && msg.IndexOf(PipeString) > msg.Length - 10)
+            if (msg.Contains(PipeString) && msg.IndexOf(PipeString) > 10)
                 msc = new MsgContent(msg, MsgEnum.None);
             else
                 msc = new MsgContent(msg, PipeString);
@@ -82,26 +83,32 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         public virtual string CqrBaseMsg(MsgContent msc, EncodingType encType = EncodingType.Base64)
         {
             byte[] msgBytes = new byte[msc.RawMessage.Length];
+            msc._hash = PipeString;
+
             if (msc.MsgType == MsgEnum.None || msc.MsgType == MsgEnum.RawWithHashAtEnd)
             {
                 msc._hash = PipeString;
-                if (msc.RawMessage.EndsWith("\n" + PipeString + "\0") ||
-                    msc.RawMessage.EndsWith("\n" + PipeString + "\0"))
-                    msgBytes = EnDeCodeHelper.GetBytesFromString(msc.RawMessage);
-                else
+                if (!msc.RawMessage.EndsWith("\n" + PipeString + "\0") &&
+                    !msc.RawMessage.EndsWith("\n" + PipeString) &&
+                    (msc.RawMessage.LastIndexOf("\n" + PipeString) < msc.RawMessage.Length - 10))
                 {
-                    msc._rawMessage = msc.Message + "\n" + PipeString + "\0";
-                    msgBytes = EnDeCodeHelper.GetBytesFromString(msc.RawMessage);
-                }
+                    msc.RawMessage = msc.Message + "\n" + PipeString + "\0";
+                }                
             }
-            else if (msc.MsgType == MsgEnum.JsonSerialized || msc.MsgType == MsgEnum.JsonDeserialized)
+            else if (msc.MsgType == MsgEnum.Json)
             {
-                msc._hash = PipeString;
-                if (!msc.RawMessage.IsValidJson())
-                    msgBytes = EnDeCodeHelper.GetBytesFromString(JsonConvert.SerializeObject(msc));
-                else
-                    msgBytes = EnDeCodeHelper.GetBytesFromString(msc.RawMessage);
+                bool shouldSerialize = true;
+                if (msc.RawMessage.IsValidJson())
+                {
+                    MsgContent? c = JsonConvert.DeserializeObject<MsgContent>(msc.RawMessage);
+                    if (c != null && string.IsNullOrEmpty(c._hash) && c._hash.Equals(PipeString) && !string.IsNullOrEmpty(c._message))
+                        shouldSerialize = false;
+                }                
+                if (shouldSerialize) 
+                    msc.RawMessage = JsonConvert.SerializeObject(msc);
             }
+
+            msgBytes = EnDeCodeHelper.GetBytesFromString(msc.RawMessage);
             byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
             CqrMessage = EnDeCodeHelper.EncodeBytes(cqrbytes, encType);
 
@@ -109,28 +116,6 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         }
 
 
-        /// <summary>
-        /// CqrBaseAttachment encrypts a file attchment message
-        /// </summary>
-        /// <param name="fileName">file name of attached file</param>
-        /// <param name="mimeType"><see cref="Util.MimeType"/></param>
-        /// <param name="base64Mime">base64 encoded mime block</param>
-        /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns>encrypted attachment msg via <see cref="SymmCipherPipe"/></returns>
-        public virtual string CqrBaseAttachment(string fileName, string mimeType, string base64Mime, out MimeAttachment attachment,
-            EncodingType encType = EncodingType.Base64, string sMd5 = "", string sSha256 = "")
-        {
-            attachment = new MimeAttachment(fileName, mimeType, base64Mime, symmPipe.PipeString, sMd5, sSha256);
-            attachment._isMime = true;
-            string mimeMsg = attachment.MimeMsg;
-            mimeMsg += "\n" + symmPipe.PipeString + "\0";
-            byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(mimeMsg);
-
-            byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
-            CqrMessage = EnDeCodeHelper.EncodeBytes(cqrbytes, encType);
-
-            return CqrMessage;
-        }
 
         /// <summary>
         /// NCqrBaseMsg decryptes an secure encrypted msg 
@@ -146,11 +131,11 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 
             byte[] cipherBytes = EnDeCodeHelper.DecodeText(CqrMessage, encType);
             byte[] unroundedMerryBytes = LibPaths.CqrEncrypt ? symmPipe.DecrpytRoundGoMerry(cipherBytes, key, hash) : cipherBytes;
-            string decrypted = EnDeCodeHelper.GetString(unroundedMerryBytes); //EnDeCodeHelper.GetStringFromBytesTrimNulls(unroundedMerryBytes);
+            string decrypted = EnDeCodeHelper.GetString(unroundedMerryBytes); //DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);
             while (decrypted[decrypted.Length - 1] == '\0')
                 decrypted = decrypted.Substring(0, decrypted.Length - 1);
 
-            MsgEnum msgEnum = (decrypted.IsValidJson()) ? MsgEnum.JsonSerialized : MsgEnum.RawWithHashAtEnd;
+            MsgEnum msgEnum = (decrypted.IsValidJson()) ? MsgEnum.Json : MsgEnum.RawWithHashAtEnd;
             MsgContent msgContent = new MsgContent(decrypted, msgEnum);
             string hashVerification = msgContent.Hash;
             bool verified = VerifyHash(hashVerification, symmPipe.PipeString);
@@ -167,17 +152,6 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 
 
 
-        /// <summary>
-        /// IsMimeAttachmentMsg checks if decrypted text contains a mime attachmen
-        /// </summary>
-        /// <param name="decrypted">decrypted text</param>
-        /// <returns>true, if a mime attachment is inside, otherwise false</returns>
-        protected internal virtual bool IsMimeAttachmentMsg(MsgContent msgContent)
-        {
-            _isMimeAttachment = msgContent.IsMimeAttachment();
-            return _isMimeAttachment;
-        }
-
 
         /// <summary>
         /// GetVerificationHash gets verification hash
@@ -187,11 +161,13 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         protected internal virtual string VerificationHash(ref MsgContent msgContent)
         {
             string hash = msgContent.Message.Substring(msgContent.Message.Length - 8);
-            _isMimeAttachment = msgContent.IsMimeAttachment();
-            if (_isMimeAttachment)
+            hash = !string.IsNullOrEmpty(msgContent._hash) ? msgContent._hash : hash;
+            if (msgContent.IsCqrFile())
             {
-                MimeAttachment mime = msgContent.ToMimeAttachment();
-                hash = mime.Verification;
+                CqrFile? cqFile = msgContent.ToCqrFile();
+                hash = cqFile._hash;
+                CqrFile? cfile = (CqrFile)ICqrMessagable.IsTo<CqrFile>((CqrFile)msgContent);
+                // hash = cfile._hash;
             }
 
             return hash;

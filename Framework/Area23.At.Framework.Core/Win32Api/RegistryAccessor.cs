@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using Area23.At.Framework.Core.Static;
+using Area23.At.Framework.Core.Util;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -96,7 +98,7 @@ namespace Area23.At.Framework.Core.Win32Api
             }
             catch (Exception ex)
             {
-                Area23Log.LogStatic(ex);
+                SLog.Log(ex);
                 throw;
             }
             finally
@@ -189,7 +191,7 @@ namespace Area23.At.Framework.Core.Win32Api
 
             try
             {
-                Area23Log.LogStatic($"creating mutex {Constants.MUTEX_REGOPS} for delete operation in regHive {regHive} subTree {subTree}");
+                SLog.Log($"creating mutex {Constants.MUTEX_REGOPS} for delete operation in regHive {regHive} subTree {subTree}");
                 if ((_regOpMutex = new Mutex(true, Constants.MUTEX_REGOPS)) != null)
                 {
                     while (_regOpMutex != null && !_regOpMutex.GetSafeWaitHandle().IsClosed && !

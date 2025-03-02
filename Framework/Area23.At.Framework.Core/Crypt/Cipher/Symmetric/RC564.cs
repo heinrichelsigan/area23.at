@@ -1,5 +1,4 @@
 ﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
-using Area23.At.Framework.Core.Util;
 using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Paddings;
@@ -10,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Area23.At.Framework.Core.Static;
 
 namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 {
@@ -115,7 +115,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
         public static byte[] Encrypt(byte[] plainData)
         {
-            byte[] plainScratched = EnDeCodeHelper.GetBytesFromBytes(plainData);
+            byte[] plainScratched = Area23.At.Framework.Core.Crypt.EnDeCoding.EnDeCodeHelper.GetBytesFromBytes(plainData);
 
             var cipher = new RC564Engine();
 

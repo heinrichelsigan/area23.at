@@ -1,14 +1,13 @@
 ﻿using Area23.At.Framework.Library.Net.NameService;
 using Area23.At.Framework.Library.Net.WebHttp;
+using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Net

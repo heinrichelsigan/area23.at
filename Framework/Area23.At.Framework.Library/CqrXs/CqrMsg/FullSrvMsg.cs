@@ -2,19 +2,24 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using Area23.At.Framework.Library.Util;
+using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Static;
 
 namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 {
+
 
     /// <summary>
     /// Full SrvMsg
     /// </summary>
     /// <typeparam name="TC"></typeparam>
-    [JsonObject]
     [Serializable]
-    public class FullSrvMsg<TC> : MsgContent where TC : class
+    public class FullSrvMsg<TC> : MsgContent, ICqrMessagable where TC : class
     {
         #region properties
 
@@ -22,7 +27,8 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 
         public List<CqrContact> Recipients { get; set; }
 
-        public CqrContact Recipient {
+        public CqrContact Recipient
+        {
             get => Recipients[0];
             set
             {
@@ -45,7 +51,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         public FullSrvMsg() : base()
         {
             _message = string.Empty;
-            _rawMessage = string.Empty;
+            RawMessage = string.Empty;
             _hash = string.Empty;
             Sender = null;
             Recipients = new List<CqrContact>();
@@ -53,7 +59,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             TContent = null;
         }
 
-        public FullSrvMsg(string fm, MsgEnum msgArt = MsgEnum.JsonSerialized) : base()
+        public FullSrvMsg(string fm, MsgEnum msgArt = MsgEnum.Json) : base()
         {
             this.FromJson<FullSrvMsg<TC>>(fm);
         }
@@ -87,22 +93,21 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         public override string ToJson()
         {
             string jsonText = JsonConvert.SerializeObject(this);
-            this._rawMessage = jsonText;
+            this.RawMessage = jsonText;
             return jsonText;
         }
 
-        public new FullSrvMsg<TC> FromJson(string jsonText)
+        public new FullSrvMsg<TC> FromJson(string jsonText) 
         {
             FullSrvMsg<TC> tc = JsonConvert.DeserializeObject<FullSrvMsg<TC>>(jsonText);
             try
             {
                 if (tc != null && tc is FullSrvMsg<TC> fullSrvMsg)
                 {
-                    if (fullSrvMsg != null && !string.IsNullOrEmpty(fullSrvMsg?.Message))
+                    if (fullSrvMsg != null && !string.IsNullOrEmpty(fullSrvMsg.Message))
                     {
                         Sender = fullSrvMsg.Sender;
-                        // Recipient = fullSrvMsg.Recipient;
-                        Recipients = fullSrvMsg.Recipients;
+                        Recipient = fullSrvMsg.Recipient;
                         TContent = fullSrvMsg.TContent;
                     }
                     return tc;
@@ -110,7 +115,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             }
             catch (Exception exJson)
             {
-                Area23Log.LogStatic(exJson);
+                SLog.Log(exJson);
             }
 
             return default(FullSrvMsg<TC>);

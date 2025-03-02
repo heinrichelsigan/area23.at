@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Framework.Library.Static;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

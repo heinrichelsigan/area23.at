@@ -1,15 +1,6 @@
-﻿using Area23.At.Framework.Core.Util;
+﻿using Area23.At.Framework.Core.Static;
+using Area23.At.Framework.Core.Util;
 using Area23.At.WinForm.TWinFormCore.Helper;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Area23.At.WinForm.TWinFormCore.Gui.TForms
 {

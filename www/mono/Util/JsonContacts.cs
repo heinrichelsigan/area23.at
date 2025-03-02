@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.CqrXs.CqrMsg;
-using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Area23.At.Mono.Util
     {
         static object _lock = new object();
         static HashSet<CqrContact> _contacts;
-        internal static string JsonContactsFileName { get => Framework.Library.Util.JsonHelper.JsonContactsFile; }
+        internal static string JsonContactsFileName { get => Framework.Library.Static.JsonHelper.JsonContactsFile; }
 
         static JsonContacts()
         {

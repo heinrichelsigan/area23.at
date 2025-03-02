@@ -1,33 +1,28 @@
-﻿using Area23.At.Framework.Library.Util;
+﻿using Area23.At.Framework.Library.CqrXs.CqrMsg;
+using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Runtime.Serialization;
 
-namespace Area23.At.Framework.Library.CqrXs.CqrMsg
+namespace Area23.At.Framework.Library.CqrMsg
 {
 
     /// <summary>
     /// CqrImage is a image for a <see cref="CqrContact"/>
-    /// [DataContract(Name = "CqrImage")]
     /// </summary>
-    [JsonObject]
     [Serializable]
-    public class CqrImage
+    public class CqrImage : MsgContent, ICqrMessagable
     {
 
-        #region properties 
+        #region properties
 
         /// <summary>
         /// File Name with extension of Image
-        /// </summary>       
+        /// </summary>
         public string ImageFileName { get; set; }
 
         /// <summary>
@@ -38,6 +33,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         /// <summary>
         /// byte[] of Image Raw Data
         /// </summary>
+        [JsonIgnore]
         internal byte[] ImageData { get; set; }
 
         /// <summary>
@@ -45,7 +41,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         /// </summary>
         public string ImageBase64 { get; set; }
 
-        #endregion properties 
+        #endregion properties
 
         #region constructors
 
@@ -88,21 +84,21 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         }
 
         /// <summary>
-        /// Ctor with <see cref="System.Drawing.Image"/> and fileName
+        /// Ctor with <see cref="Image"/> and fileName
         /// </summary>
-        /// <param name="image"> <see cref="System.Drawing.Image"/>  <see cref="System.Drawing.Bitmap"/></param>
+        /// <param name="image"> <see cref="Image"/>  <see cref="Bitmap"/></param>
         /// <param name="fileName">fileName for the image,
         /// if fileName is null or empty
-        /// then a name <see cref="Util.Extensions.Area23DateTimeWithMillis(DateTime)"/></param> + "_image." + extension based mime type will be given
+        /// then a name <see cref="Extensions.Area23DateTimeWithMillis(DateTime)"/></param> + "_image." + extension based mime type will be given
         public CqrImage(Image image, string fileName = "")
         {
-            CqrImage cqrImage = CqrImage.FromDrawingImage(image, fileName);
+            CqrImage cqrImage = FromDrawingImage(image, fileName);
             if (cqrImage != null)
             {
-                this.ImageFileName = cqrImage.ImageFileName;
-                this.ImageMimeType = cqrImage.ImageMimeType;
-                this.ImageData = cqrImage.ImageData;
-                this.ImageBase64 = cqrImage.ImageBase64;
+                ImageFileName = cqrImage.ImageFileName;
+                ImageMimeType = cqrImage.ImageMimeType;
+                ImageData = cqrImage.ImageData;
+                ImageBase64 = cqrImage.ImageBase64;
             }
         }
 
@@ -110,10 +106,11 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 
         #region members
 
+        
         public virtual string ToJson()
         {
             CqrImage image = new CqrImage(ImageFileName, ImageData);
-            string jsonString = JsonConvert.SerializeObject(image, Formatting.Indented);
+            string jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(image, Formatting.Indented);
             return jsonString;
         }
 
@@ -122,19 +119,19 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             CqrImage cqrJsonImage;
             try
             {
-                cqrJsonImage = JsonConvert.DeserializeObject<CqrImage>(jsonText);
+                cqrJsonImage = Newtonsoft.Json.JsonConvert.DeserializeObject<CqrImage>(jsonText);
                 if (cqrJsonImage != null && !string.IsNullOrEmpty(cqrJsonImage?.ImageFileName) && !string.IsNullOrEmpty(cqrJsonImage?.ImageBase64))
                 {
-                    this.ImageFileName = cqrJsonImage.ImageFileName;
-                    this.ImageBase64 = cqrJsonImage.ImageBase64;
-                    this.ImageMimeType = cqrJsonImage.ImageMimeType;
-                    this.ImageData = cqrJsonImage.ImageData;
+                    ImageFileName = cqrJsonImage.ImageFileName;
+                    ImageBase64 = cqrJsonImage.ImageBase64;
+                    ImageMimeType = cqrJsonImage.ImageMimeType;
+                    ImageData = cqrJsonImage.ImageData;
                     return cqrJsonImage;
                 }
             }
             catch (Exception exJson)
             {
-                Area23Log.LogStatic(exJson);
+                SLog.Log(exJson);
             }
 
             return null;
@@ -162,6 +159,10 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             return bmpImage;
         }
 
+        #endregion members
+
+        #region static members
+
         public static void SaveCqrImage(CqrImage image, string directoryPath)
         {
             if (!Directory.Exists(directoryPath))
@@ -173,9 +174,6 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             return;
         }
 
-        #endregion members
-
-        #region static members
 
         public static CqrImage LoadCqrImage(string imageFilePath)
         {
@@ -208,21 +206,20 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                     bmpImage = new Bitmap(ms, true);
                 }
             }
-
+            
 
             return (Image)bmpImage;
         }
 
-
-        public static CqrImage FromDrawingImage(System.Drawing.Image image, string imgName = "")
+        public static CqrImage FromDrawingImage(Image image, string imgName = "")
         {
             if (image == null)
                 return null;
 
-            CqrImage cqrImage;
+            CqrImage cqrImage = null;
             // ImageFormat format = image.RawFormat;
             byte[] imageData;
-            string fileName = (string.IsNullOrEmpty(imgName)) ? string.Empty : imgName;
+            string fileName = string.IsNullOrEmpty(imgName) ? string.Empty : imgName;
 
             using (MemoryStream ms = new MemoryStream())
             {
@@ -274,10 +271,28 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                         fileName += "ico";
                         image.Save(ms, ImageFormat.Icon);
                     }
+                    //else if (image.RawFormat == ImageFormat.Heif)
+                    //{
+                    //    fileName += "heif";
+                    //    image.Save(ms, ImageFormat.Heif);
+                    //}
+                    //else if (image.RawFormat == ImageFormat.Webp)
+                    //{
+                    //    fileName += "webp";
+                    //    image.Save(ms, ImageFormat.Webp);
+                    //}
                     else
                     {
-                        fileName += "raw";
-                        image.Save(ms, image.RawFormat);
+                        try
+                        {
+                            fileName += "bmp";
+                            image.Save(ms, ImageFormat.Bmp);
+                        }
+                        catch (Exception exImg)
+                        {
+                            SLog.Log(exImg);
+                            return null;
+                        }
                     }
                 }
                 else
@@ -338,7 +353,6 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         }
 
         #endregion static members
-
     }
 
 }

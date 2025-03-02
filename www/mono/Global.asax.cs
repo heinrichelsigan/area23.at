@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library;
+﻿using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using Area23.At.Mono.Util;
 using NLog;
 using System;
@@ -6,8 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Security;
-using System.Web.SessionState;
 
 namespace Area23.At.Mono
 {
@@ -25,7 +24,7 @@ namespace Area23.At.Mono
         {            
             string msg = String.Format("application started at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
             HostLogHelper.LogRequest(sender, e, msg);                        
-            Area23Log.LogStatic("logging to logfile = " + Area23Log.LogFile);
+            Area23Log.LogStatic("logging to logfile = " + SLog.LogFile);
         }
 
         protected void Application_Disposed(object sender, EventArgs e) 

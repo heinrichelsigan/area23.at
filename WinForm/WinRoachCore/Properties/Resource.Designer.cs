@@ -89,31 +89,27 @@ namespace Area23.At.WinForm.WinRoachCore.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DRoach
-        {
-            get
-            {
+        internal static System.Drawing.Bitmap DRoach {
+            get {
                 object obj = ResourceManager.GetObject("DRoach", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ERoach
-        {
-            get
-            {
+        internal static System.Drawing.Bitmap ERoach {
+            get {
                 object obj = ResourceManager.GetObject("ERoach", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
@@ -123,25 +119,23 @@ namespace Area23.At.WinForm.WinRoachCore.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon WinCRoach
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("WinCRoach", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon TransparentFormsIcon {
             get {
                 object obj = ResourceManager.GetObject("TransparentFormsIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon WinCRoach {
+            get {
+                object obj = ResourceManager.GetObject("WinCRoach", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

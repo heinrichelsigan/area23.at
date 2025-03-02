@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Library;
+﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Mono.Util;
 using Newtonsoft.Json;
@@ -8,11 +8,8 @@ using System.Configuration;
 using System.Drawing;
 using System.Linq;
 using System.Web;
-using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Windows.Ink;
-using System.Windows.Media.Animation;
 
 namespace Area23.At.Mono.Calc 
 {

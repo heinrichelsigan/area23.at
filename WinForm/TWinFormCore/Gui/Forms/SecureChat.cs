@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Core;
+﻿using Area23.At.Framework.Core.Util;
+using Area23.At.Framework.Core.Static;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.WinForm.TWinFormCore.Gui.Forms;

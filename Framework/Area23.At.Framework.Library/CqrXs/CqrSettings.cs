@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.CqrXs.CqrMsg;
+using Area23.At.Framework.Library.Static;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,6 @@ namespace Area23.At.Framework.Library.CqrXs
 
         protected static readonly Lazy<CqrSettings> _instance =
             new Lazy<CqrSettings>(() => new CqrSettings());
-
 
         #region properties
 
@@ -72,26 +72,26 @@ namespace Area23.At.Framework.Library.CqrXs
 
         #region static members Load() Save(Settings? settings)
 
+
         /// <summary>
         /// loads json serialized Settings data string from 
         /// <see cref="LibPaths.AppDirPath"/> + <see cref="Constants.JSON_SAVE_FILE"/>
         /// and deserialize it to singleton instance <see cref="CqrSettings"/> of <seealso cref="Lazy{Settings}"/>
         /// </summary>
+        /// <param name="jsonFileName">fileName of serialized json</param>
         /// <returns>singelton <see cref="CqrSettings.Instance"/></returns>
-        public static CqrSettings Load()
+        public static CqrSettings Load(string jsonFileName = null)
         {
             string settingsJsonString = string.Empty;
             CqrSettings settings = null;
-            string fileName = LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE;
+            jsonFileName = jsonFileName ?? LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE;
             try
             {
-                if (!File.Exists(fileName) && Directory.Exists(LibPaths.AppPath))
+                if (File.Exists(jsonFileName))
                 {
-                    File.CreateText(fileName);
+                    settingsJsonString = File.ReadAllText(jsonFileName);
+                    settings = JsonConvert.DeserializeObject<CqrSettings>(settingsJsonString);
                 }
-
-                settingsJsonString = File.ReadAllText(fileName);
-                settings = JsonConvert.DeserializeObject<CqrSettings>(settingsJsonString);
             }
             catch (Exception ex)
             {
@@ -108,8 +108,10 @@ namespace Area23.At.Framework.Library.CqrXs
                 _instance.Value.TimeStamp = settings.TimeStamp;
                 _instance.Value.SaveStamp = settings.SaveStamp;
             }
-            return settings;
+
+            return _instance.Value;
         }
+
 
         /// <summary>
         /// json serializes <see cref="CqrSettings"/> and 
@@ -117,28 +119,30 @@ namespace Area23.At.Framework.Library.CqrXs
         /// <see cref="LibPaths.AppDirPath"/> + <see cref="Constants.JSON_SAVE_FILE"/>
         /// </summary>
         /// <param name="CqrSettings">settings to save</param>
+        /// <param name="jsonFileName">filename, where writing serialized json</param>
         /// <returns>true on successfully save</returns>
-        public static bool Save(CqrSettings settings)
+        public static bool Save(CqrSettings settings = null, string jsonFileName = null)
         {
-            string saveString = string.Empty;
-            if (settings == null)
-                settings = CqrSettings.Instance;
+            settings = settings ?? CqrSettings.Instance;
+            jsonFileName = jsonFileName ?? LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE;
             try
             {
                 settings.SaveStamp = DateTime.Now;
-                saveString = JsonConvert.SerializeObject(settings);
-                File.WriteAllText(LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE, saveString);
+                string saveString = JsonConvert.SerializeObject(settings);
+                File.WriteAllText(jsonFileName, saveString);
             }
             catch (Exception ex)
             {
                 CqrException.SetLastException(ex);
                 return false;
             }
+
             return true;
         }
 
         #endregion static members Load() Save(CqrSettings? settings)
-
+        
     }
 
+    
 }

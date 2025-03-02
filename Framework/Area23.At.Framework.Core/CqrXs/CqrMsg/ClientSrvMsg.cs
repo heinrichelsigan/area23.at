@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Area23.At.Framework.Core.CqrXs.CqrMsg;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,11 +9,18 @@ using System.Threading.Tasks;
 namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 {
 
-    public class ClientSrvMsg<TS, TC>
+    public class ClientSrvMsg<TS, TC> : MsgContent, ICqrMessagable
         where TS : class
         where TC : class
     {
 
+        public FullSrvMsg<TS>? ServerMsg { get; set; }
+        public FullSrvMsg<TC>? ClientMsg { get; set; }
+
+        string ServerMsgString { get; set; }
+
+        string ClientMsgString { get; set; }
+        
         public ClientSrvMsg()
         {
             ServerMsgString = string.Empty;
@@ -32,15 +41,33 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             ClientMsgString = clientMsgString;
         }
 
+        public override string ToJson() => JsonConvert.SerializeObject(this);
 
-        public FullSrvMsg<TS>? ServerMsg { get; set; }
-        public FullSrvMsg<TC>? ClientMsg { get; set; }
+        public virtual T? FromJson<T>(string jsonText)
+        {
+            T? t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(jsonText);
+            if (t != null && t is ClientSrvMsg<TS, TC> csrvmsg)
+            {
+                this._hash = csrvmsg._hash;
+                this._message = csrvmsg._message;
+                this.RawMessage = csrvmsg.RawMessage;
+                this.ClientMsgString = csrvmsg.ClientMsgString;
+                this.ServerMsgString = csrvmsg.ServerMsgString;
+                this.ServerMsg = csrvmsg.ServerMsg;
+                this.ClientMsg = csrvmsg.ClientMsg;
+            }
+            return t;
+        }
 
-        string ServerMsgString { get; set; }
+        public string ToXml()
+        {
+            throw new NotImplementedException();
+        }
 
-        string ClientMsgString { get; set; }
-
-
+        public T? FromXml<T>(string xmlText)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

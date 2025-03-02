@@ -1,22 +1,15 @@
-﻿using Area23.At.Framework.Library;
-using Area23.At.Mono.Qr;
+﻿using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
+using QRCoder;
 using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Web;
-using System.Web.UI.HtmlControls;
-using QRCoder;
-using System.Web.UI.WebControls;
-using System.Xml;
-using System.Security.Cryptography;
 using System.Text;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
 // using System.Xml.Linq;
-using System.Data.SqlTypes;
-using System.Windows.Media.Imaging;
-using Area23.At.Framework.Library.Util;
 
 namespace Area23.At.Mono.Qr
 {

@@ -14,8 +14,9 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
     {
         None = 0,
         RawWithHashAtEnd = 1,
-        JsonSerialized = 2,
-        JsonDeserialized = 3
+        Json = 2,
+        Xml = 3,
+        MimeAttachment = 4
     }
 
     public enum MsgKind

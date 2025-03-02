@@ -1,12 +1,9 @@
 ﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
@@ -324,8 +321,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     {
                         MatrixPermutationKey[i] = PermutationKeyHash.ElementAt(i);
                     }
-                }               
-                
+                }
+
                 _inverseMatrix = BuildInverseMatrix(MatrixPermutationKey);
             }
 
@@ -333,7 +330,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             for (int j = 0; j < 0x10; j++)
                 perm += MatrixPermutationKey[j].ToString("x1");
-            for (int j=0; j < keyBytes.Length; j++)
+            for (int j = 0; j < keyBytes.Length; j++)
                 kbs += keyBytes[j].ToString("x2");
 
             Area23Log.LogStatic("ZenMatrix: " + perm + " KeyBytes = " + kbs);

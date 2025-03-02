@@ -1,17 +1,10 @@
-﻿using Area23.At.Framework.Library.Util;
-using DBTek.Crypto;
-using Org.BouncyCastle.Utilities.Zlib;
+﻿using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using System;
-using ICSharpCode.SharpZipLib;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Core;
-using System.Runtime.InteropServices.ComTypes;
 using System.IO.Compression;
+using Area23.At.Framework.Library.Static;
 
 namespace Area23.At.Framework.Library.Zfx
 {

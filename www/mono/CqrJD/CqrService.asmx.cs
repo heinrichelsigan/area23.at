@@ -1,5 +1,6 @@
 ﻿using Area23.At;
-using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using Area23.At.Framework.Library.CqrXs;
 using Area23.At.Framework.Library.CqrXs.CqrMsg;
 using Area23.At.Framework.Library.CqrXs.CqrSrv;
@@ -111,7 +112,7 @@ namespace Area23.At.Mono.CqrJD
                     {
                         string userDir = Path.Combine(dir, _contact.Cuid.ToString());
                         Directory.CreateDirectory(userDir);
-                        string processed = Framework.Library.Util.ProcessCmd.Execute(
+                        string processed = ProcessCmd.Execute(
                             "/usr/local/bin/createLink.sh",
                             userDir + " " + _contact.Email + " " + _contact.NameEmail + " ", false);
                     }

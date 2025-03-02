@@ -184,7 +184,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Asymmetric
         public static string DecryptString(string inCryptString)
         {
             byte[] cryptData = Convert.FromBase64String(inCryptString);
-            //  EnDeCodeHelper.GetBytes(inCryptString);
+            //  EnDeCoder.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
             string plainTextString = EnDeCodeHelper.GetString(plainTextData).TrimEnd('\0');
 

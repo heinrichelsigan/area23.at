@@ -1,27 +1,16 @@
-﻿using Area23.At.Framework.Library;
-using Area23.At.Mono.Util;
-using QRCoder;
+﻿using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Collections.Specialized;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Speech.Synthesis.TtsEngine;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using static QRCoder.PayloadGenerator;
-using System.Security.Policy;
-using Area23.At.Mono.Qr;
-using Area23.At.Framework.Library.Util;
 
 namespace Area23.At.Mono.Qr
 {
+
     public partial class Qr : QrBase
     {
         protected void Page_Load(object sender, EventArgs e)

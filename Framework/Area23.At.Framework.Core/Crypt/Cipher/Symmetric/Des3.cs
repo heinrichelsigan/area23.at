@@ -1,5 +1,5 @@
 ﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
-using Area23.At.Framework.Core.Util;
+using Area23.At.Framework.Core.Static;
 using System.Security.Cryptography;
 
 namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
@@ -82,7 +82,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                     key = secretKey;
                     keyHash = userHash;
                     // MD5 md5 = new MD5CryptoServiceProvider();
-                    // pKey = md5.ComputeHash(EnDeCodeHelper.GetBytes(secretKey));
+                    // pKey = md5.ComputeHash(EnDeCoder.GetBytes(secretKey));
                     pKey = CryptHelper.GetUserKeyBytes(key, keyHash, 24);
                     pHash = CryptHelper.GetUserKeyBytes(key, keyHash, 8);
                 }

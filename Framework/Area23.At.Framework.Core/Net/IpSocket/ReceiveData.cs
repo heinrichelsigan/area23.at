@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Area23.At.Framework.Core.Static;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace Area23.At.Framework.Core.Net.IpSocket
 
         public ReceiveData()
         {
-            BufferedData = new byte[Constants.MAX_BYTE_BUFFEER];
+            BufferedData = new byte[Constants.MAX_SOCKET_BYTE_BUFFEER];
             ClientIPAddr = string.Empty;
             ClientIPPort = 0;
         }

@@ -52,15 +52,19 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     Serpent.SerpentGenWithKey(secretKey, hashIv, true);
                     encryptBytes = Serpent.Encrypt(inBytes);
                     break;
-                case SymmCipherEnum.ZenMatrix:
+                case SymmCipherEnum.ZenMatrix:                    
                     encryptBytes = (new ZenMatrix(secretKey, hashIv, false)).Encrypt(inBytes);
                     break;
-                case SymmCipherEnum.Des3:
+                case SymmCipherEnum.Aes:
+                    //Aes.AesGenWithKeyHash(secretKey, hashIv, true);
+                    //encryptBytes = Aes.Encrypt(inBytes);
+                    //break;
                 case SymmCipherEnum.BlowFish:
                 case SymmCipherEnum.Fish2:
                 case SymmCipherEnum.Fish3:
                 case SymmCipherEnum.Camellia:
                 case SymmCipherEnum.Cast6:
+                case SymmCipherEnum.Des3:
                 case SymmCipherEnum.Gost28147:
                 case SymmCipherEnum.Idea:
                 case SymmCipherEnum.RC532:
@@ -68,10 +72,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.SkipJack:
                 case SymmCipherEnum.Tea:
                 case SymmCipherEnum.XTea:
-                default:
+                    default:
                     CryptParamsPrefered cpParams = CryptHelper.GetPreferedCryptParams(cipherAlgo);
                     cpParams.Key = secretKey;
                     cpParams.Hash = hashIv;
+
                     CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                     encryptBytes = cryptBounceCastle.Encrypt(inBytes);
                     break;
@@ -100,18 +105,18 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             switch (cipherAlgo)
             {
-                case SymmCipherEnum.Des3:
-                    sameKey = Des3.Des3GenWithKeyHash(secretKey, hashIv, true);
-                    decryptBytes = Des3.Decrypt(cipherBytes);
-                    break;
-                case SymmCipherEnum.Fish2:
-                    sameKey = Fish2.Fish2GenWithKeyHash(secretKey, hashIv, true);
-                    decryptBytes = Fish2.Decrypt(cipherBytes);
-                    break;
-                case SymmCipherEnum.Fish3:
-                    sameKey = Fish3.Fish3GenWithKeyHash(secretKey, hashIv, true);
-                    decryptBytes = Fish3.Decrypt(cipherBytes);
-                    break;
+                //case SymmCipherEnum.Des3:
+                //    sameKey = Des3.Des3GenWithKeyHash(secretKey, hashIv, true);
+                //    decryptBytes = Des3.Decrypt(cipherBytes);
+                //    break;
+                //case SymmCipherEnum.Fish2:
+                //    sameKey = Fish2.Fish2GenWithKeyHash(secretKey, hashIv, true);
+                //    decryptBytes = Fish2.Decrypt(cipherBytes);
+                //    break;
+                //case SymmCipherEnum.Fish3:
+                //    sameKey = Fish3.Fish3GenWithKeyHash(secretKey, hashIv, true);
+                //    decryptBytes = Fish3.Decrypt(cipherBytes);
+                //    break;
                 //case SymmCipherEnum.Rijndael:
                 //    sameKey = Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
                 //    decryptBytes = Rijndael.Decrypt(cipherBytes);
@@ -123,11 +128,16 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.ZenMatrix:
                     decryptBytes = (new ZenMatrix(secretKey, hashIv, false)).Decrypt(cipherBytes);
                     break;
+                case SymmCipherEnum.Aes:
+                    //sameKey = Aes.AesGenWithKeyHash(secretKey, hashIv, true);
+                    //decryptBytes = Aes.Decrypt(cipherBytes);
+                    //break;
                 case SymmCipherEnum.BlowFish:
-                // case SymmCipherEnum.Fish2:
-                // case SymmCipherEnum.Fish3:
+                case SymmCipherEnum.Fish2:
+                case SymmCipherEnum.Fish3:
                 case SymmCipherEnum.Camellia:
                 case SymmCipherEnum.Cast6:
+                case SymmCipherEnum.Des3:
                 case SymmCipherEnum.Gost28147:
                 case SymmCipherEnum.Idea:
                 case SymmCipherEnum.RC532:
@@ -135,17 +145,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.SkipJack:
                 case SymmCipherEnum.Tea:
                 case SymmCipherEnum.XTea:
+                default:
                     CryptParamsPrefered cpParams = CryptHelper.GetPreferedCryptParams(cipherAlgo);
                     cpParams.Key = secretKey;
                     cpParams.Hash = hashIv;
+
                     CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                     decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
-                    break;
-                case SymmCipherEnum.Aes:
-                default:
-                    sameKey = Aes.AesGenWithKeyHash(secretKey, hashIv, true);
-                    decryptBytes = Aes.Decrypt(cipherBytes);
-                    break;
+                    break;                
             }
 
             return EnDeCodeHelper.GetBytesTrimNulls(decryptBytes);
@@ -181,7 +188,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     encryptBytes = Serpent.Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.ZenMatrix:
-                    ZenMatrix.ZenMatrixGenWithKey(secretKey, hashIv, true);
+                    (new ZenMatrix(secretKey, hashIv, true);
                     encryptBytes = ZenMatrix.Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.BlowFish:
@@ -241,8 +248,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     decryptBytes = Serpent.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.ZenMatrix:
-                    sameKey = ZenMatrix.ZenMatrixGenWithKey(secretKey, hashIv, true);
-                    decryptBytes = ZenMatrix.Decrypt(cipherBytes);
+                    decryptBytes = (new ZenMatrix(secretKey, hashIv, false)).Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.BlowFish:
                 case SymmCipherEnum.Fish2:
@@ -269,7 +275,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     break;
             }
 
-            // return DeEnCoder.GetBytesTrimNulls(decryptBytes);
+            // return EnDeCodeHelper.GetBytesTrimNulls(decryptBytes);
             return decryptBytes;
         }
         */

@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.Util;
+using Area23.At.Framework.Library.Static;
 using Area23.At.WinForm.TransparentForms.Helper;
 using System;
 using System.Collections.Generic;

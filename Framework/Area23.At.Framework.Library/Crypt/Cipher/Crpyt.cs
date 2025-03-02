@@ -1,7 +1,7 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Static;
 using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Utilities;
 using Symm = Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher
@@ -78,7 +78,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
                     Symm.CryptBounceCastle cryptBounceCastle = new Symm.CryptBounceCastle(cparams, true);
                     encryptBytes = cryptBounceCastle.Encrypt(inBytes);
-                    
+
                     break;
             }
 

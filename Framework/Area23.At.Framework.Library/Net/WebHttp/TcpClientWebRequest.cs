@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Framework.Library.Static;
 
 namespace Area23.At.Framework.Library.Net.WebHttp
 {
@@ -74,7 +75,7 @@ Cache-Control: no-cache";
             }
             catch (Exception ex)
             {
-                Area23Log.LogStatic(ex);
+                Area23Log.Logger.Log(ex);
                 throw;
             }
 

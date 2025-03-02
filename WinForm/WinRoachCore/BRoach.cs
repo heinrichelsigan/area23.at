@@ -90,9 +90,9 @@ namespace Area23.At.WinForm.WinRoachCore
                 if (roachCnt % 4 == 0)
                     this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
                 else if (roachCnt % 4 == 1)
-                    this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach1;
+                    this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach0;
                 if (roachCnt % 4 == 2)
-                    this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
+                    this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach1;
                 else if (roachCnt % 4 == 3)
                     this.panelRoach.BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach0;
             }
@@ -136,7 +136,7 @@ namespace Area23.At.WinForm.WinRoachCore
                                 if (cX < aScreen.Bounds.Width)
                                     cX = aScreen.Bounds.Width;
                             }
-                            cX -= 32;
+                            cX -= 16;
                         }
                             
                         if (cY <= 0)
@@ -147,7 +147,7 @@ namespace Area23.At.WinForm.WinRoachCore
                                 if (cY < aScreen.Bounds.Height)
                                     cY = aScreen.Bounds.Height;
                             }
-                            cY -= 32;
+                            cY -= 16;
                         }
                     }
                 }
@@ -200,14 +200,14 @@ namespace Area23.At.WinForm.WinRoachCore
             return (Form)Form.ActiveForm;            
         }
 
-        protected internal virtual void RoachExit(object sender, MouseEventArgs e)
+        protected internal virtual void RoachExit(object sender, EventArgs e)
         {
             Process[] processes = Processes.GetRunningProcessesByName(Program.progName);
             if (processes != null && processes.Length > 0)
             {
                 foreach (Process process in processes)
                 {
-                    System.Timers.Timer tProcKill = new System.Timers.Timer { Interval = 600 + process.Id };
+                    System.Timers.Timer tProcKill = new System.Timers.Timer { Interval = 100 + process.Id };
                     tProcKill.Elapsed += (s, en) =>
                     {
                         this.Invoke(new Action(() =>
@@ -224,7 +224,8 @@ namespace Area23.At.WinForm.WinRoachCore
 
         protected internal virtual void AppExit(object sender, EventArgs e)
         {
-            string orocRoachName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);           
+            string orocRoachName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
+            RoachExit(sender, e);            
             MessageBox.Show($"Roach {orocRoachName} is exiting now!", $"{orocRoachName} roach exit", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Program.ReleaseCloseDisposeMutex();
             Dispose();

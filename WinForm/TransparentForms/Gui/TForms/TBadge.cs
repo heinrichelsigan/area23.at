@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.Util;
+using Area23.At.Framework.Library.Static;
 using System;
 using System.Windows.Forms;
 

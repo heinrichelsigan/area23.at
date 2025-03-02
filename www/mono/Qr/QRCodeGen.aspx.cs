@@ -1,21 +1,13 @@
-﻿using Area23.At.Framework.Library;
-using Area23.At.Mono.Qr;
-using QRCoder;
+﻿using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Drawing.Imaging;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using static QRCoder.PayloadGenerator;
-using System.Runtime.CompilerServices;
-using Area23.At.Framework.Library.Util;
 
 namespace Area23.At.Mono.Qr
 {

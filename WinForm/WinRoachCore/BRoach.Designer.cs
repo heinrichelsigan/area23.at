@@ -39,7 +39,7 @@ namespace Area23.At.WinForm.WinRoachCore
             panelRoach.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panelRoach.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panelRoach.BackColor = Color.Transparent;
-            panelRoach.BackgroundImage = Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach0;
+            panelRoach.BackgroundImage = Area23.At.WinForm.WinRoachCore.Properties.Resource.CRoach;
             panelRoach.BackgroundImageLayout = ImageLayout.None;
             panelRoach.Location = new Point(0, 0);
             panelRoach.Margin = new Padding(0);

@@ -1,13 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Area23.At.Framework.Core.Crypt.EnDeCoding
+﻿namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 {
- 
+
     /// <summary>
     /// IDecodable is an common interface for <see cref="Base16"/>, <see cref="Base32"/>, <see cref="Base64"/>,
     /// <see cref="Hex16"/>, <see cref="Hex32"/> and <seealso cref="Uu"/> Encoding / Decoding
@@ -42,7 +35,8 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         public abstract string Encode(byte[] inBytes);
 
         public abstract bool IsValid(string encodedString);
-        
+
 
     }
+
 }

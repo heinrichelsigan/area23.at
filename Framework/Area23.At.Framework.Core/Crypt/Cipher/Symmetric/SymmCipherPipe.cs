@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Core.Static;
 using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;

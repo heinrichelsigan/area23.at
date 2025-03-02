@@ -7,6 +7,7 @@ using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using System.Linq;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Org.BouncyCastle.Utilities;
+using Area23.At.Framework.Core.Static;
 
 namespace Area23.At.Framework.Core.Crypt.Cipher
 {

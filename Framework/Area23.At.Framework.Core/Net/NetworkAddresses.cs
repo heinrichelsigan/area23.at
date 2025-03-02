@@ -11,6 +11,7 @@ using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using Area23.At.Framework.Core.Net.NameService;
 using Area23.At.Framework.Core.Util;
+using Area23.At.Framework.Core.Static;
 
 namespace Area23.At.Framework.Core.Net
 {
@@ -49,7 +50,7 @@ namespace Area23.At.Framework.Core.Net
             }
             catch (Exception exV6)
             {
-                Area23Log.LogStatic(exV6);
+                SLog.Log(exV6);
             }               
             //try
             //{
@@ -58,7 +59,7 @@ namespace Area23.At.Framework.Core.Net
             //}
             //catch (Exception exParisienne)
             //{
-            //    Area23Log.LogStatic(exParisienne);
+            //    SLog.Log(exParisienne);
             //}
 
             foreach (IPAddress serverIp in serverIps)
@@ -83,7 +84,7 @@ namespace Area23.At.Framework.Core.Net
                 }
                 catch (Exception ex)
                 {
-                    Area23Log.LogStatic(ex);
+                    SLog.Log(ex);
                 }
             }
 
