@@ -24,6 +24,24 @@ namespace Area23.At.Mono.Qr
         protected global::System.Web.UI.HtmlControls.HtmlForm Form_Qr;
 
         /// <summary>
+        /// DropDownListQrMode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListQrMode;
+
+        /// <summary>
+        /// DropDownListQrLevel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListQrLevel;
+
+        /// <summary>
         /// LinkButton_QrString control.
         /// </summary>
         /// <remarks>

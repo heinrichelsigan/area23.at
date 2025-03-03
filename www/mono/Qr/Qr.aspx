@@ -14,6 +14,25 @@
 <asp:Content ID="ContentQrBody" ContentPlaceHolderID="QrBody" runat="server">
 	<form id="Form_Qr" runat="server">
 		<div align="left" class="contentDiv">
+			<asp:DropDownList ClientIDMode="Static" ID="DropDownListQrMode" runat="server" CssClass="QrDropDownList" ToolTip="Select Qr mode" 
+				Style="display: inline-block;">
+				<asp:ListItem Enabled="true" Selected="False" Value="1" Text="1" />
+				<asp:ListItem Enabled="true" Selected="True" Value="2" Text="2" />
+				<asp:ListItem Enabled="true" Selected="False" Value="3" Text="3" />
+				<asp:ListItem Enabled="true" Selected="False" Value="4" Text="4" />
+				<asp:ListItem Enabled="true" Selected="False" Value="6" Text="6" />
+				<asp:ListItem Enabled="true" Selected="False" Value="8" Text="8" />
+			</asp:DropDownList>
+			<asp:DropDownList ClientIDMode="Static" ID="DropDownListQrLevel" runat="server" CssClass="QrDropDownList" ToolTip="Select Qr mode" 
+				Style="display: inline-block;">
+				<asp:ListItem Enabled="true" Selected="False" Value="-1" Text="Defaukt" />
+				<asp:ListItem Enabled="true" Selected="False" Value="0" Text="L" />
+				<asp:ListItem Enabled="true" Selected="True" Value="1" Text="M" />
+				<asp:ListItem Enabled="true" Selected="False" Value="2" Text="Q" />
+				<asp:ListItem Enabled="true" Selected="False" Value="3" Text="H" />
+			</asp:DropDownList>			
+		</div>
+		<div align="left" class="contentDiv">
 			<asp:LinkButton ID="LinkButton_QrString" runat="server" CssClass="QrLinkButton" ToolTip="Generate QR Code from string" 
 				OnClick="LinkButton_QrString_Click" Text="Generate QrCode from Text" Style="display: inline-block;">Generate QrCode from Text</asp:LinkButton>:
 			<asp:TextBox ID="TextBox_QrString" runat="server" ToolTip="enter text here" AutoPostBack="True" OnTextChanged="QRCode_ParameterChanged"

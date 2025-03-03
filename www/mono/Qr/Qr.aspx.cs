@@ -161,12 +161,15 @@ namespace Area23.At.Mono.Qr
             {
                 Constants.QrColor = ColorFrom.FromHtml(this.input_color.Value);
                 Constants.BackColor = ColorFrom.FromHtml(this.input_backcolor.Value);
-                qrString = (string.IsNullOrEmpty(qrString)) ? GetQrString() : qrString;                
+                qrString = (string.IsNullOrEmpty(qrString)) ? GetQrString() : qrString;
+                short qrMode = Convert.ToInt16(this.DropDownListQrMode.SelectedValue);
+                QRCoder.QRCodeGenerator.ECCLevel eccLevel = QRCoder.QRCodeGenerator.ECCLevel.Q;
+                Enum.TryParse<QRCoder.QRCodeGenerator.ECCLevel>(DropDownListQrLevel.SelectedValue, out eccLevel);
 
                 if (!string.IsNullOrEmpty(qrString))
                 {
                     // aQrBitmap = GetQRBitmap(qrString, Constants.QrColor, Color.Transparent);
-                    qrImgPath = GetQRImgPath(qrString, out qrWidth, this.input_color.Value, this.input_backcolor.Value);
+                    qrImgPath = GetQRImgPath(qrString, out qrWidth, this.input_color.Value, this.input_backcolor.Value, qrMode, eccLevel);
                 }
                 if (!string.IsNullOrEmpty(qrImgPath))
                 {
