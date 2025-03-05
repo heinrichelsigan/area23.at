@@ -160,7 +160,7 @@ namespace Area23.At.Mono.Qr
             //    }
             //}
 
-            Bitmap qrCodeBmp = new Bitmap(qrCodeImage.Width, qrCodeImage.Height);            
+            Bitmap qrCodeBmp = new Bitmap(qrCodeImage.Width, qrCodeImage.Height, PixelFormat.Format32bppArgb);           
             for (int ix = 0; ix < qrCodeImage.Width; ix++)
             {
                 for (int iy = 0; iy < qrCodeImage.Height; iy++)
@@ -177,16 +177,12 @@ namespace Area23.At.Mono.Qr
                     {
                         if ((levenSteinBG < levenSteinFG - 16) || (levenSteinBG < 16))
                         {
-                            qrCodeBmp.SetPixel(ix, iy, backGr);
-                            qrCodeImage.SetPixel(ix, iy, backGr);
-                            qrCodeImage.SetPixel(ix, iy, backGr);
+                            qrCodeBmp.SetPixel(ix, iy, backGr);                            
                             qrCodeBmp.SetPixel(ix, iy, backGr);
                         }
                         if ((levenSteinFG < levenSteinBG - 16) || (levenSteinFG < 16))
                         {                        
                             qrCodeBmp.SetPixel(ix, iy, colFg);
-                            qrCodeImage.SetPixel(ix, iy, colFg);
-                            qrCodeImage.SetPixel(ix, iy, colFg);
                             qrCodeBmp.SetPixel(ix, iy, colFg);
                         } 
                     }
@@ -248,7 +244,7 @@ namespace Area23.At.Mono.Qr
             qrCodeBmp.Save(qrBmpOutToPath);
 
             MemoryStream gifStrm = new MemoryStream();
-            qrCodeImage.Save(gifStrm, ImageFormat.Gif);
+            qrCodeBmp.Save(gifStrm, ImageFormat.Gif);
             string qrStringGif = qrString.Replace("\r", "").Replace("\n", " ").Replace("\t", " ");
 
             byte[] gifBytes = gifStrm.ToArray();

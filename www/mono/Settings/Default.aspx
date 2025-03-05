@@ -12,8 +12,8 @@
             <div>
                 <asp:Table ID="TableSettings" runat="server" BorderStyle="Outset" BorderColor="#c0c0c0" CellPadding="1" CellSpacing="1">
                     <asp:TableHeaderRow>
-                        <asp:TableCell>Setting Name</asp:TableCell> 
-                        <asp:TableCell>Setting Value</asp:TableCell> 
+                        <asp:TableCell BorderStyle="Double" BackColor="Silver" Font-Bold="true">Setting Name</asp:TableCell> 
+                        <asp:TableCell BorderStyle="Double" BackColor="Silver" Font-Bold="true">Setting Value</asp:TableCell> 
                     </asp:TableHeaderRow>
                 </asp:Table>                
             </div>
@@ -21,8 +21,8 @@
             <div>
                 <asp:Table ID="TableRuntime" runat="server" BorderStyle="Outset" BorderColor="#c0c0c0" CellPadding="1" CellSpacing="1">
                     <asp:TableHeaderRow>
-                        <asp:TableCell>Runtime Name</asp:TableCell> 
-                        <asp:TableCell>Runtime Value</asp:TableCell> 
+                        <asp:TableCell BorderStyle="Outset" BackColor="LightGray" Font-Bold="true">Runtime Name</asp:TableCell> 
+                        <asp:TableCell BorderStyle="Outset" BackColor="LightGray" Font-Bold="true">Runtime Value</asp:TableCell> 
                     </asp:TableHeaderRow>
                 </asp:Table>                
             </div>

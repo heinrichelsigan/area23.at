@@ -3,8 +3,10 @@ using Area23.At.Framework.Library.Util;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Web;
 using System.Web.UI.WebControls;
+using System.Windows.Input;
 
 namespace Area23.At.Mono.Settings
 {
@@ -89,25 +91,47 @@ namespace Area23.At.Mono.Settings
         {
             Dictionary<string, string> rtSettings = new Dictionary<string, string>();
 
+            long lenSess = 0;
             rtSettings.Add("SesionID", HttpContext.Current.Session.SessionID.ToString());
-            for (int i = 0; i < HttpContext.Current.Session.Count; i++) 
+            rtSettings.Add("Session state all items count ", HttpContext.Current.Session.Keys.Count.ToString());
+            for (int i = 0; i < HttpContext.Current.Session.Count; i++)
             {
                 string skey = HttpContext.Current.Session.Keys[i].ToString();
                 string sv = HttpContext.Current.Session[skey].ToString();
+                lenSess += sv.Length;
                 rtSettings.Add(skey, sv);
-            }
+            }            
+            rtSettings.Add("Session state all items size ", lenSess.ToString());
 
-            rtSettings.Add("ApplicationID", "");
+            long lenApp = 0;
+            rtSettings.Add("Application state all items count ", HttpContext.Current.Application.AllKeys.Length.ToString());
             foreach (string akey in HttpContext.Current.Application.AllKeys)
             {
                 string av = HttpContext.Current.Application[akey].ToString();
+                lenApp += av.Length;
                 rtSettings.Add(akey, av);
             }
+            rtSettings.Add("Application state all items size ", lenApp.ToString());
 
-            foreach (string ck in ConfigurationManager.AppSettings.AllKeys)
+            rtSettings.Add("Headers count", HttpContext.Current.Request.Headers.AllKeys.Length.ToString());
+            foreach (string hkey in HttpContext.Current.Request.Headers.Keys)
             {
-                string cv = ConfigurationManager.AppSettings[ck].ToString();
-                rtSettings.Add(ck, cv);
+                string hval = HttpContext.Current.Request.Headers[hkey].ToString();
+                rtSettings.Add(hkey, hval);
+            }
+
+            rtSettings.Add("Cookies count", HttpContext.Current.Request.Cookies.AllKeys.Length.ToString());
+            foreach (string ckey in HttpContext.Current.Request.Cookies.AllKeys)
+            {
+                string cval = HttpContext.Current.Request.Cookies[ckey].ToString();
+                rtSettings.Add(ckey, cval);
+            }
+
+            rtSettings.Add("AppSettings keys count ", ConfigurationManager.AppSettings.AllKeys.Length.ToString());
+            foreach (string appSetKey in ConfigurationManager.AppSettings.AllKeys)
+            {
+                string appSetVal = ConfigurationManager.AppSettings[appSetKey].ToString();
+                rtSettings.Add(appSetKey, appSetVal);
             }
 
             foreach (string rtKey in rtSettings.Keys)

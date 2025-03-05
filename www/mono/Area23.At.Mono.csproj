@@ -295,7 +295,6 @@
     <Content Include="res\js\frga.js" />
     <Content Include="res\js\frog.js" />
     <Content Include="res\js\od.js" />
-    <Content Include="Json.aspx" />
     <Content Include="Unix\Fortune.aspx" />
     <Content Include="Global.asax" />
     <Content Include="c\fortune.c" />
@@ -305,6 +304,7 @@
     <Content Include="Qr\Qrc.aspx" />
     <Content Include="Qr\QRCodeGen.aspx" />
     <Content Include="Unix\OctalDump.aspx" />
+    <Content Include="Json.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Area23.Master.cs">
@@ -531,6 +531,13 @@
     <Compile Include="Calc\RPNType.cs" />
     <Compile Include="Util\UIPage.cs">
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Json.aspx.cs">
+      <DependentUpon>Json.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Json.aspx.designer.cs">
+      <DependentUpon>Json.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
