@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="Json Deserialize" Language="C#" MasterPageFile="~/Area23.Master" ValidateRequest="false" AutoEventWireup="true" %>
 <%@ Import namespace="Area23.At.Framework.Library" %>
+<%@ Import namespace="Area23.At.Framework.Library.Static" %>
 <%@ Import namespace="Area23.At.Framework.Library.Util" %>
 <%@ Import namespace="Newtonsoft.Json" %>
 <%@ Import namespace="Newtonsoft.Json.Linq" %>
@@ -54,7 +55,7 @@
         }
         this.jsonPreOut.InnerText = "";
         // TextBoxOut.Text = "";
-        this.LiteralDateTime.Text = Constants.DateArea23 + "json 2 xml.";
+        this.LiteralDateTime.Text = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss") + "json 2 xml.";
         try
         {
             var xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(
@@ -83,7 +84,7 @@
             return;
         }
 
-        this.LiteralDateTime.Text = Constants.DateArea23 + "xml 2 json.";
+        this.LiteralDateTime.Text =  DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss") + " xml 2 json.";
         XmlDocument doc = new XmlDocument();
         doc.LoadXml(xml);
         string json = JsonConvert.SerializeXmlNode(doc);
@@ -108,7 +109,7 @@
         }
         this.jsonPreOut.InnerText = "";
         // TextBoxOut.Text = "";
-        this.LiteralDateTime.Text = Constants.DateArea23 + "json tree paths.";
+        this.LiteralDateTime.Text =  DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss") + " json tree paths.";
 
         try
         {
@@ -143,7 +144,7 @@
     {
         if (this.LinkButtonEmpty.Text == "empty json form")
         {
-            this.LiteralDateTime.Text = Constants.DateArea23 + "Clearing json form.";
+            this.LiteralDateTime.Text = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss") + " clearing json form.";
             this.TextBoxJson.Text = "";
             this.jsonPreOut.InnerText = "";
             // TextBoxOut.Text = "";
@@ -151,7 +152,7 @@
         }
         else if (this.LinkButtonEmpty.Text == "use json default sample")
         {
-            this.LiteralDateTime.Text = Constants.DateArea23 + "Prefilling json form with sample.";
+            this.LiteralDateTime.Text =  DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss") + " prefilling json form with sample.";
             this.TextBoxJson.Text = Constants.JSON_SAMPLE;
             this.LinkButtonEmpty.Text = "empty json form";
         }
@@ -161,7 +162,7 @@
     {
 	    if (this.TextBoxJson.Text.IsValidJson())
         {
-            this.LiteralDateTime.Text = Constants.DateArea23 + "json 2 xml.";
+            this.LiteralDateTime.Text = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss") + " json 2 xml.";
             this.LinkButtonJSON.Visible = true;
             this.LinkButtonJSON.BackColor = System.Drawing.Color.Green;
             this.LinkButtonJsonTreePaths.BackColor = System.Drawing.Color.IndianRed;
@@ -169,7 +170,7 @@
         }
         else if (this.TextBoxJson.Text.IsValidXml())
         {
-            this.LiteralDateTime.Text = Constants.DateArea23 + "xml 2 json.";
+            this.LiteralDateTime.Text =  DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss") + " xml 2 json.";
             this.LinkButtonJSON.BackColor = System.Drawing.Color.IndianRed;
             this.LinkButtonJsonTreePaths.BackColor = System.Drawing.Color.IndianRed;
             this.LinkButtonXML2Json.BackColor = System.Drawing.Color.Green;
@@ -231,7 +232,7 @@
         <asp:Literal ID="LiteralDateTime" runat="server"></asp:Literal>
         <div class="jsonRow" style="display:block; width:100%;">
             <div class="jsonColumn" style="width:49%; float: left; display: inline-block;">
-                <asp:TextBox ID="TextBoxJson" runat="server" TextMode="MultiLine" ToolTip="Put your JSON string here" AutoPostBack="true"  OnTextChanged="TextBoxJson_OnTextChanged" ValidateRequestMode="Disabled" CausesValidation="false" Width="98%" Height="320px" 
+                <asp:TextBox ID="TextBoxJson" runat="server" TextMode="MultiLine" ToolTip="Put your JSON string here" AutoPostBack="true"  OnTextChanged="TextBoxJson_OnTextChanged"  CausesValidation="false" ValidateRequestMode="Disabled"  Width="98%" Height="320px" 
                     Style="table-layout: fixed;" />
             </div>
             <div class="jsonColumn" style="width:49%; float: left; display: inline-block;">

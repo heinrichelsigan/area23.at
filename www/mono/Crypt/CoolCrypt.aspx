@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Simple uu and base64 en-/decode tool (apache2 mod_mono)" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="CoolCrypt.aspx.cs" Inherits="Area23.At.Mono.Crypt.CoolCrypt"  validateRequest="false" %>
+﻿<%@ Page Title="Simple uu and base64 en-/decode tool (apache2 mod_mono)" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="CoolCrypt.aspx.cs" Inherits="Area23.At.Mono.Crypt.CoolCrypt"  validateRequest="true" %>
 <asp:Content ID="ContentEncodeHead" ContentPlaceHolderID="EncodeHead" runat="server">
         <title>Simple uu and base64 en-/decode tool (apache2 mod_mono)</title>
         <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
@@ -178,8 +178,8 @@
             <br />
             <h3>En-/Decrypt text</h3>
             <div id="DivCrypTextArea" class="CryptTextArea">                
-                <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="65536" Rows="10" Columns="64" ValidateRequestMode="Disabled" ToolTip="[Enter text to en-/decrypt here]" Text="" Width="512px" CssClass="CryptTextArea" ClientIDMode="Static"></asp:TextBox>
-                <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="10" Columns="64" MaxLength="65536" ReadOnly="true" ToolTip="Destination Text"  Width="512px" CssClass="CryptTextArea" ClientIDMode="Static"></asp:TextBox>
+                <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="65536" Rows="10" Columns="64" ValidateRequestMode="Enabled" ToolTip="[Enter text to en-/decrypt here]" Text="" Width="512px" CssClass="CryptTextArea" ClientIDMode="Static"></asp:TextBox>
+                <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="10" Columns="64" MaxLength="65536" ReadOnly="true" ValidateRequestMode="Enabled" ToolTip="Destination Text"  Width="512px" CssClass="CryptTextArea" ClientIDMode="Static"></asp:TextBox>
                 <br />
                 <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClientClick="changeCryptBackgroundText()" OnClick="ButtonEncrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />
                 <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClientClick="changeCryptBackgroundText();" OnClick="ButtonDecrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />   

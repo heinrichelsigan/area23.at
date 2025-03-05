@@ -5,9 +5,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>CqrJd Testform</title>
+    <meta http-equiv="refresh" content="4; url=https://cqrxs.eu/cqrsrv/cqrjd/CqrService.asmx" />
 </head>
 <body>
-    <form id="form1" runat="server" method="post" enctype="text/plain" submitdisabledcontrols="true" novalidate="novalidate" enableviewstate="false" style="background-color: transparent;">
+    <form id="form1" runat="server" method="post" enctype="text/plain" submitdisabledcontrols="true" enableviewstate="false" style="background-color: transparent;">
         <div id="DivPost" runat="server" visible="true">
             <div>
                 <span style="display: block; border-style: outset; border-width: 1px; border-color: azure; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size: larger">
@@ -28,11 +29,11 @@
             </div>
             <hr />
             <div>
-                <asp:TextBox ID="TextBoxEncrypted" runat="server" TextMode="MultiLine" MaxLength="65536" Rows="10" Columns="48" ValidateRequestMode="Disabled" ToolTip="TextBox Current Message" Text="" Width="480px"></asp:TextBox>
+                <asp:TextBox ID="TextBoxEncrypted" runat="server" TextMode="MultiLine" MaxLength="65536" Rows="10" Columns="48" ValidateRequestMode="Enabled" ToolTip="TextBox Current Message" Text="" Width="480px"></asp:TextBox>
                 <br />
-                <asp:TextBox ID="TextBoxDecrypted" runat="server" TextMode="MultiLine" MaxLength="65536" Rows="10" Columns="48" ValidateRequestMode="Disabled" ToolTip="TextBox Current Message" Text="" Width="480px"></asp:TextBox>
+                <asp:TextBox ID="TextBoxDecrypted" runat="server" TextMode="MultiLine" MaxLength="65536" Rows="10" Columns="48" ValidateRequestMode="Enabled" ToolTip="TextBox Current Message" Text="" Width="480px"></asp:TextBox>
                 <br />
-                <asp:TextBox ID="TextBoxLastMsg" runat="server" ReadOnly="true" TextMode="MultiLine" MaxLength="65536" Rows="10" Columns="48" ValidateRequestMode="Disabled" ToolTip="TextBox Last Message" Text="" Width="480px"></asp:TextBox>
+                <asp:TextBox ID="TextBoxLastMsg" runat="server" ReadOnly="true" TextMode="MultiLine" MaxLength="65536" Rows="10" Columns="48" ValidateRequestMode="Enabled" ToolTip="TextBox Last Message" Text="" Width="480px"></asp:TextBox>
                 <br />
                 <asp:Button ID="ButtonSubmit" runat="server" Text="Submit" ToolTip="Submit" OnClick="ButtonSubmit_Click" />
             </div>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Simple uu and base64 en-/decode tool (apache2 mod_mono)" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="UueMime.aspx.cs" Inherits="Area23.At.Mono.Crypt.UueMime"  validateRequest="false" %>
+﻿<%@ Page Title="Simple uu and base64 en-/decode tool (apache2 mod_mono)" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="UueMime.aspx.cs" Inherits="Area23.At.Mono.Crypt.UueMime"  validateRequest="true" %>
 <asp:Content ID="ContentEncodeHead" ContentPlaceHolderID="EncodeHead" runat="server">
         <title>Simple uu and base64 en-/decode tool (apache2 mod_mono)</title>
         <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
@@ -10,7 +10,7 @@
     <form id="EncodeMasterForm" runat="server" action="UueMime.aspx" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True">  
         <div class="jsonRow" style="display:block; width:100%;">
             <div class="jsonColumn" style="width:49%; float: left; display: inline-block;">
-                <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="10" Columns="48" ValidateRequestMode="Disabled" 
+                <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="32768" Rows="10" Columns="48" ValidateRequestMode="Enabled"
                     ToolTip="Enter your text to en-/decode here" Text="[Enter text to en-/decrypt here]" 
                      Width="98%" Height="320px" Style="table-layout: fixed;"></asp:TextBox>
             </div>
