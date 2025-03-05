@@ -151,10 +151,35 @@
 			</tr>
 			<tr id="tr9" class="qrcTr">
 				<td id="td9a" class="qrcTdRight" width="18%">
+					<asp:Label id="labelQrMode" runat="server" ToolTip="background color" Text="qr mode:" />
+					<asp:DropDownList ClientIDMode="Static" ID="DropDownListQrMode" runat="server" CssClass="QrDropDownList" ToolTip="Select Qr mode" 
+						Style="display: inline-block;">
+						<asp:ListItem Enabled="true" Selected="False" Value="1" Text="1" />
+						<asp:ListItem Enabled="true" Selected="True" Value="2" Text="2" />
+						<asp:ListItem Enabled="true" Selected="False" Value="3" Text="3" />
+						<asp:ListItem Enabled="true" Selected="False" Value="4" Text="4" />
+						<asp:ListItem Enabled="true" Selected="False" Value="6" Text="6" />
+						<asp:ListItem Enabled="true" Selected="False" Value="8" Text="8" />
+					</asp:DropDownList>
+				</td>
+				<td id="t9b" class="qrcTdLeft" width="32%">
+					<asp:Label id="labelQrLevel" runat="server" ToolTip="background color" Text="qr level:" />
+					<asp:DropDownList ClientIDMode="Static" ID="DropDownListQrLevel" runat="server" CssClass="QrDropDownList" ToolTip="Select Qr mode" 
+						Style="display: inline-block;">
+						<asp:ListItem Enabled="true" Selected="False" Value="-1" Text="Default" />
+						<asp:ListItem Enabled="true" Selected="False" Value="0" Text="L" />
+						<asp:ListItem Enabled="true" Selected="True" Value="1" Text="M" />
+						<asp:ListItem Enabled="true" Selected="False" Value="2" Text="Q" />
+						<asp:ListItem Enabled="true" Selected="False" Value="3" Text="H" />
+					</asp:DropDownList>		
+				</td>
+			</tr>
+			<tr id="tr10" class="qrcTr">
+				<td id="td10a" class="qrcTdRight" width="18%">
 					<asp:Label id="labelNote" runat="server" ToolTip="note" Text="note:" Visible="false" Enabled="false" />
 					<asp:Label id="labelBirthday" runat="server" ToolTip="birthday" Text="birthday:" Visible="false" Enabled="false" />
 				</td>
-				<td id="td9b" class="qrcTdLeft" width="32%">
+				<td id="td10b" class="qrcTdLeft" width="32%">
 					<asp:TextBox ID="TextBox_Birthday" runat="server" ToolTip="Enter birthday" 
 						TextMode="Date" MaxLength="128" Width="128pt" Height="24pt" CssClass="QRTextBoxLeft"						
 						Visible="false" Enabled="false" />	

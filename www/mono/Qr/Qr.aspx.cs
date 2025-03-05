@@ -169,7 +169,12 @@ namespace Area23.At.Mono.Qr
                 if (!string.IsNullOrEmpty(qrString))
                 {
                     // aQrBitmap = GetQRBitmap(qrString, Constants.QrColor, Color.Transparent);
-                    qrImgPath = GetQRImgPath(qrString, out qrWidth, this.input_color.Value, this.input_backcolor.Value, qrMode, eccLevel);
+                    qrImgPath = GetQRImgPath(qrString, 
+                        out qrWidth, 
+                        this.input_color.Value, 
+                        this.input_backcolor.Value, 
+                        qrMode, 
+                        eccLevel);
                 }
                 if (!string.IsNullOrEmpty(qrImgPath))
                 {

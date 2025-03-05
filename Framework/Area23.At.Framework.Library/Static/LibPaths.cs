@@ -1,6 +1,7 @@
 ﻿using Area23.At.Framework.Library;
 using Area23.At.Framework.Library.Util;
 using NLog;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Configuration;
 using System.IO;
@@ -15,6 +16,7 @@ namespace Area23.At.Framework.Library.Static
     /// </summary>
     public static class LibPaths
     {
+        private static string fullAppPath = "";
         private static string appPath = "";
         private static string baseAppPath = "";
         private static string systemDirPath = "";
@@ -31,6 +33,31 @@ namespace Area23.At.Framework.Library.Static
         public static string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
 
         #region Web App Paths
+
+        public static string FullAppPath
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(fullAppPath))
+                {
+                    try
+                    {
+                        Uri uri = HttpContext.Current.Request.Url;
+                        string realAppPath = HttpContext.Current.Request.ApplicationPath;
+
+                        fullAppPath = uri.Scheme + "://" + uri.Host;
+                        fullAppPath += (uri.Port != 80 && uri.Port != 443) ? ":" + uri.Port : "";
+                        // appPath = rawUrl.Substring(0, rawUrl.LastIndexOf('/'));
+                        fullAppPath += (realAppPath.EndsWith("/")) ? realAppPath : realAppPath + "/";
+                    }
+                    catch (Exception appFolderEx)
+                    {
+                        Area23Log.LogStatic(appFolderEx);
+                    }                    
+                }
+                return fullAppPath;
+            }
+        }
 
         public static string AppPath
         {

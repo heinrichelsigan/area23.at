@@ -25,7 +25,7 @@
 			</asp:DropDownList>
 			<asp:DropDownList ClientIDMode="Static" ID="DropDownListQrLevel" runat="server" CssClass="QrDropDownList" ToolTip="Select Qr mode" 
 				Style="display: inline-block;">
-				<asp:ListItem Enabled="true" Selected="False" Value="-1" Text="Defaukt" />
+				<asp:ListItem Enabled="true" Selected="False" Value="-1" Text="Default" />
 				<asp:ListItem Enabled="true" Selected="False" Value="0" Text="L" />
 				<asp:ListItem Enabled="true" Selected="True" Value="1" Text="M" />
 				<asp:ListItem Enabled="true" Selected="False" Value="2" Text="Q" />

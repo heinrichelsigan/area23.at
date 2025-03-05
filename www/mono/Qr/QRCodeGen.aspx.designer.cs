@@ -204,6 +204,42 @@ namespace Area23.At.Mono.Qr
         protected global::System.Web.UI.HtmlControls.HtmlInputText input_backcolor;
 
         /// <summary>
+        /// labelQrMode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelQrMode;
+
+        /// <summary>
+        /// DropDownListQrMode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListQrMode;
+
+        /// <summary>
+        /// labelQrLevel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelQrLevel;
+
+        /// <summary>
+        /// DropDownListQrLevel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListQrLevel;
+
+        /// <summary>
         /// labelNote control.
         /// </summary>
         /// <remarks>
