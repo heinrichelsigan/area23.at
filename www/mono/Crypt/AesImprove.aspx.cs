@@ -300,7 +300,7 @@ namespace Area23.At.Mono.Crypt
                 cipherBytes = decryptedBytes; // DeEnCoder.GetBytesTrimNulls(decryptedBytes);
 
                 ZipType ztype = ZipType.None;
-                string zcmd = (Constants.UNIX) ? "zipunzip.sh" : (Constants.WIN32) ? "zipunzip.bat" : "";
+                string zcmd = (Constants.UNIX) ? "zipunzip.sh" : (Constants.WIN32) ? LibPaths.SystemDirBinPath + "zipunzip.bat" : "";
                 if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
                 {
                     //switch (ztype)
@@ -348,8 +348,7 @@ namespace Area23.At.Mono.Crypt
                     {
                         if (System.IO.File.Exists(zPath) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd))
                         {
-                            outp = ProcessCmd.Execute(LibPaths.SystemDirBinPath + zcmd,
-                                zopt + " " + zPath + " " + zOutPath, false);
+                            outp = ProcessCmd.Execute(zcmd, zopt + " " + zPath + " " + zOutPath, false);
                             Thread.Sleep(64);
                             if (System.IO.File.Exists(zOutPath))
                                 decryptedBytes = System.IO.File.ReadAllBytes(zOutPath);
