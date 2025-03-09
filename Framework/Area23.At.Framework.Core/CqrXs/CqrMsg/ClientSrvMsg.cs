@@ -1,10 +1,4 @@
-﻿using Area23.At.Framework.Core.CqrXs.CqrMsg;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 {

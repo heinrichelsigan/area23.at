@@ -21,20 +21,19 @@ using Area23.At.Framework.Library.Static;
 
 namespace Area23.At.Framework.Library.CqrXs.CqrJd
 {
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.57.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name = "CqrServiceSoap",
-      Namespace = "https://cqrjd.eu/cqrsrv/cqrjd/")]
+          Namespace = "https://cqrjd.eu/cqrsrv/cqrjd/")]
     public partial class CqrService : System.Web.Services.Protocols.SoapHttpClientProtocol
     {
 
         /// <remarks/>
         public CqrService()
         {
-            
             this.Url = LibPaths.CqrServiceSoap;
         }
 
@@ -62,74 +61,6 @@ namespace Area23.At.Framework.Library.CqrXs.CqrJd
 
         /// <remarks/>
         public string EndSend1StSrvMsg(System.IAsyncResult asyncResult)
-        {
-            object[] results = this.EndInvoke(asyncResult);
-            return ((string)(results[0]));
-        }
-
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute(
-             "https://cqrjd.eu/cqrsrv/cqrjd/SendValidatedSrvMsg",
-              RequestNamespace = "https://cqrjd.eu/cqrsrv/cqrjd/",
-              ResponseNamespace = "https://cqrjd.eu/cqrsrv/cqrjd/",
-              Use = System.Web.Services.Description.SoapBindingUse.Literal,
-              ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string SendValidatedSrvMsg(System.Guid from, System.Guid to, string cryptMsgSrv,
-              string cryptMsgPartner)
-        {
-            object[] results = this.Invoke("SendValidatedSrvMsg", new object[] {
-                    from,
-                    to,
-                    cryptMsgSrv,
-                    cryptMsgPartner});
-            return ((string)(results[0]));
-        }
-
-        /// <remarks/>
-        public System.IAsyncResult BeginSendValidatedSrvMsg(System.Guid from, System.Guid to,
-              string cryptMsgSrv, string cryptMsgPartner, System.AsyncCallback callback, object
-              asyncState)
-        {
-            return this.BeginInvoke("SendValidatedSrvMsg", new object[] {
-                    from,
-                    to,
-                    cryptMsgSrv,
-                    cryptMsgPartner}, callback, asyncState);
-        }
-
-        /// <remarks/>
-        public string EndSendValidatedSrvMsg(System.IAsyncResult asyncResult)
-        {
-            object[] results = this.EndInvoke(asyncResult);
-            return ((string)(results[0]));
-        }
-
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute(
-             "https://cqrjd.eu/cqrsrv/cqrjd/SendSrvMsg",
-              RequestNamespace = "https://cqrjd.eu/cqrsrv/cqrjd/",
-              ResponseNamespace = "https://cqrjd.eu/cqrsrv/cqrjd/",
-              Use = System.Web.Services.Description.SoapBindingUse.Literal,
-              ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string SendSrvMsg(string cryptMsgSrv, string cryptMsgPartner)
-        {
-            object[] results = this.Invoke("SendSrvMsg", new object[] {
-                    cryptMsgSrv,
-                    cryptMsgPartner});
-            return ((string)(results[0]));
-        }
-
-        /// <remarks/>
-        public System.IAsyncResult BeginSendSrvMsg(string cryptMsgSrv, string cryptMsgPartner,
-              System.AsyncCallback callback, object asyncState)
-        {
-            return this.BeginInvoke("SendSrvMsg", new object[] {
-                    cryptMsgSrv,
-                    cryptMsgPartner}, callback, asyncState);
-        }
-
-        /// <remarks/>
-        public string EndSendSrvMsg(System.IAsyncResult asyncResult)
         {
             object[] results = this.EndInvoke(asyncResult);
             return ((string)(results[0]));
@@ -255,35 +186,6 @@ namespace Area23.At.Framework.Library.CqrXs.CqrJd
 
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute(
-             "https://cqrjd.eu/cqrsrv/cqrjd/UpdateContacts",
-              RequestNamespace = "https://cqrjd.eu/cqrsrv/cqrjd/",
-              ResponseNamespace = "https://cqrjd.eu/cqrsrv/cqrjd/",
-              Use = System.Web.Services.Description.SoapBindingUse.Literal,
-              ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string UpdateContacts(string cryptMsg)
-        {
-            object[] results = this.Invoke("UpdateContacts", new object[] {
-                    cryptMsg});
-            return ((string)(results[0]));
-        }
-
-        /// <remarks/>
-        public System.IAsyncResult BeginUpdateContacts(string cryptMsg, System.AsyncCallback
-              callback, object asyncState)
-        {
-            return this.BeginInvoke("UpdateContacts", new object[] {
-                    cryptMsg}, callback, asyncState);
-        }
-
-        /// <remarks/>
-        public string EndUpdateContacts(System.IAsyncResult asyncResult)
-        {
-            object[] results = this.EndInvoke(asyncResult);
-            return ((string)(results[0]));
-        }
-
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute(
              "https://cqrjd.eu/cqrsrv/cqrjd/TestService",
               RequestNamespace = "https://cqrjd.eu/cqrsrv/cqrjd/",
               ResponseNamespace = "https://cqrjd.eu/cqrsrv/cqrjd/",
@@ -304,6 +206,59 @@ namespace Area23.At.Framework.Library.CqrXs.CqrJd
 
         /// <remarks/>
         public string EndTestService(System.IAsyncResult asyncResult)
+        {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((string)(results[0]));
+        }
+
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute(
+             "https://cqrjd.eu/cqrsrv/cqrjd/GetIPAddress",
+              RequestNamespace = "https://cqrjd.eu/cqrsrv/cqrjd/",
+              ResponseNamespace = "https://cqrjd.eu/cqrsrv/cqrjd/",
+              Use = System.Web.Services.Description.SoapBindingUse.Literal,
+              ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetIPAddress()
+        {
+            object[] results = this.Invoke("GetIPAddress", new object[0]);
+            return ((string)(results[0]));
+        }
+
+        /// <remarks/>
+        public System.IAsyncResult BeginGetIPAddress(System.AsyncCallback callback, object
+              asyncState)
+        {
+            return this.BeginInvoke("GetIPAddress", new object[0], callback, asyncState);
+        }
+
+        /// <remarks/>
+        public string EndGetIPAddress(System.IAsyncResult asyncResult)
+        {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((string)(results[0]));
+        }
+
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute(
+             "https://cqrjd.eu/cqrsrv/cqrjd/TestCache",
+              RequestNamespace = "https://cqrjd.eu/cqrsrv/cqrjd/",
+              ResponseNamespace = "https://cqrjd.eu/cqrsrv/cqrjd/",
+              Use = System.Web.Services.Description.SoapBindingUse.Literal,
+              ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string TestCache()
+        {
+            object[] results = this.Invoke("TestCache", new object[0]);
+            return ((string)(results[0]));
+        }
+
+        /// <remarks/>
+        public System.IAsyncResult BeginTestCache(System.AsyncCallback callback, object asyncState)
+        {
+            return this.BeginInvoke("TestCache", new object[0], callback, asyncState);
+        }
+
+        /// <remarks/>
+        public string EndTestCache(System.IAsyncResult asyncResult)
         {
             object[] results = this.EndInvoke(asyncResult);
             return ((string)(results[0]));

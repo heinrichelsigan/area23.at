@@ -34,7 +34,9 @@ namespace Area23.At.Framework.Library.Static
 
         public const string APP_NAME = "Area23.At";
         public const string APP_DIR = "net";
-        public const string VERSION = "v2.25.221";
+        public const string VERSION = "v2.25.305";
+        public const string VALKEY_CACHE_HOST_PORT = "ValkeyCacheHostPort";
+
 
         public const string AREA23_URL = "https://area23.at";
         public const string APP_PATH = "https://area23.at/net/";
@@ -89,7 +91,7 @@ namespace Area23.At.Framework.Library.Static
 
         public const string CQRXS_URL = "https://cqrxs.eu/";
         public const string CQRXS_HELP_URL = "https://cqrxs.eu/help/";
-        public const string DECRYPTED_TEXT_AREA = "<textarea cols = \"48\" rows=\"10\" name=\"TextBoxDecrypted\" id=\"TextBoxDecrypted\" title=\"TextBox Current Message\" ValidateRequestMode=\"Disabled\" style=\"width:480px;\" >";
+        public const string DECRYPTED_TEXT_AREA = "<textarea cols = \"48\" rows=\"10\" name=\"TextBoxDecrypted\" id=\"TextBoxDecrypted\" title=\"TextBox Current Message\" ValidateRequestMode=\"Enabled\" style=\"width:480px;\" >";
         public const string DECRYPTED_TEXT_BOX = "TextBoxDecrypted";
         public const string DECRYPTED_TEXT_AREA_END = "</textarea>";
         public const string CQRXS_TEST_FORM = "CqrXsTestForm";

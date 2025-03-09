@@ -123,6 +123,75 @@ namespace Area23.At.Framework.Core.Win32Api
             return consoleOutput;
         }
 
+
+        public static async Task<ProcessReturn> ExecuteAsync(string filepath = "SystemInfo", string args = "",  bool useShellExecute = false)
+        {
+            ProcessReturn psRet = new ProcessReturn();
+
+            string consoleError = "", consoleOutput = "";
+            psRet.PsCmd = filepath;
+            psRet.PsArgs = args.Split(' ');
+            
+            SLog.Log(String.Format("ProcessCmd.Execute(filepath = ${0}, args = {1}, useShellExecute = {2}) called ...",
+                filepath, args, useShellExecute));
+            try
+            {
+                using (Process compiler = new Process())
+                {
+                    compiler.StartInfo.FileName = filepath;
+                    compiler.StartInfo.CreateNoWindow = true;
+                    string argTrys = (!string.IsNullOrEmpty(args)) ? args : "";
+                    compiler.StartInfo.Arguments = argTrys;
+                    compiler.StartInfo.UseShellExecute = useShellExecute;
+                    compiler.StartInfo.RedirectStandardError = true;
+                    compiler.StartInfo.RedirectStandardOutput = true;
+                    compiler.Start();
+                    psRet.StartTime = compiler.StartTime;
+                    
+
+
+                    consoleOutput = await compiler.StandardOutput.ReadToEndAsync();
+                    consoleError = await compiler.StandardError.ReadToEndAsync();
+
+                    psRet.CancelToken = new CancellationToken(false);
+                    await compiler.WaitForExitAsync(psRet.CancelToken);
+
+                    psRet.ExitTime = compiler.ExitTime;
+                    psRet.StdOutString = consoleOutput;
+                    psRet.StdErrString = consoleError;
+                    psRet.TotalProcessorTime = compiler.TotalProcessorTime;
+                    psRet.PsExitCode = compiler.ExitCode;
+                }
+            }
+            catch (Exception exi)
+            {
+                SLog.Log("ProcessCmd.Execute throwed Exception: " + exi.Message);
+                SLog.Log($"can't perform {filepath} {args}\nStdErr = {consoleError}\tException: {exi}");
+                throw new InvalidOperationException($"can't perform {filepath} {args}\nStdErr = {consoleError}", exi);
+            }
+
+            if (!string.IsNullOrEmpty(consoleError))
+                SLog.Log("ProcessCmd.Execute consoleError: " + consoleError);
+            SLog.Log("ProcessCmd.Execute consoleOutput: " + consoleOutput);
+
+            return psRet;
+        }
+
     }
+
+
+    public struct ProcessReturn
+    {
+        public string PsCmd;
+        public string[]? PsArgs;
+        public int PsExitCode;
+        public DateTime StartTime;
+        public DateTime ExitTime;
+        public TimeSpan TotalProcessorTime;
+        public CancellationToken CancelToken;
+        public string? StdOutString;
+        public string? StdErrString;
+    }
+
 
 }

@@ -6,9 +6,10 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
     public interface ICqrMessagable
     {
         public MsgEnum MsgType { get; }
-        public string Hash { get; }
         public string Message { get; }
-        public string RawMessage { get; }
+        public string RawMessage { get; }       
+        public string Hash { get; }
+        public string Md5Hash { get; set; }
 
         abstract string ToJson();
         abstract T? FromJson<T>(string jsonText);

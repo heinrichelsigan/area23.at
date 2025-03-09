@@ -35,7 +35,6 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         public byte[] Data { get; set; }
         
 
-        public string Md5Hash { get; set; }
         public string Sha256Hash { get; set; }
 
         public EncodingType EnCodingType { get; internal set; }

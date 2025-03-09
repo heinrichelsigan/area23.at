@@ -51,9 +51,6 @@
     <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
       <HintPath>..\..\packages\BouncyCastle.Cryptography.2.5.1\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.2\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
     </Reference>
@@ -79,6 +76,9 @@
       <HintPath>..\..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Numerics.Vectors.4.6.0\lib\net462\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.6.1.0\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -134,6 +134,9 @@
   <ItemGroup>
     <Content Include="Calc\CCalc.aspx" />
     <Content Include="Calc\MatrixCalc.aspx" />
+    <Compile Include="CqrJD\CqrBaseService.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Content Include="CqrJD\CqrService.asmx" />
     <Content Include="CqrJD\Default.aspx" />
     <Content Include="Crypt\ZenMatrixVisualize.aspx" />
@@ -529,6 +532,7 @@
     <Compile Include="Util\JsonContacts.cs" />
     <Compile Include="Util\JsonHelper.cs" />
     <Compile Include="Calc\RPNType.cs" />
+    <Compile Include="Util\RedIs.cs" />
     <Compile Include="Util\UIPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>

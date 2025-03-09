@@ -139,7 +139,7 @@ namespace Area23.At.Mono.Crypt
                     switch (ztype)
                     {   
                         case ZipType.GZip: encryptBytes = GZ.GZipViaStream(inBytes); break;
-                        case ZipType.BZip2: encryptBytes = BZip2.BZip(inBytes); break;
+                        case ZipType.BZip2: encryptBytes = BZip2.BZipViaStream(inBytes); break;
                         case ZipType.Zip: encryptBytes = WinZip.Zip(inBytes); break;
                         case ZipType.None:
                         default: break;
@@ -294,7 +294,7 @@ namespace Area23.At.Mono.Crypt
                     switch (ztype)
                     {
                         case ZipType.GZip: decryptedBytes = GZ.GUnZipViaStream(cipherBytes); break;
-                        case ZipType.BZip2: decryptedBytes = BZip2.BUnZip(cipherBytes); break;
+                        case ZipType.BZip2: decryptedBytes = BZip2.BUnZipViaStream(cipherBytes); break;
                         case ZipType.Zip: decryptedBytes = WinZip.UnZip(cipherBytes); break;
                         case ZipType.None:
                         default: decryptedBytes = cipherBytes; break;
@@ -626,7 +626,7 @@ namespace Area23.At.Mono.Crypt
                             {
                                 case ZipType.GZip: zopt = ".gz"; inBytes = GZ.GZipViaStream(outBytes);
                                     Array.Copy(inBytes, 0, outBytes, 0, inBytes.Length); break;
-                                case ZipType.BZip2: zopt = ".bz2"; inBytes = BZip2.BZip(outBytes);
+                                case ZipType.BZip2: zopt = ".bz2"; inBytes = BZip2.BZipViaStream(outBytes);
                                     Array.Copy(inBytes, 0, outBytes, 0, inBytes.Length); break;
                                 case ZipType.Zip: zopt = ".zip"; inBytes = WinZip.Zip(outBytes);
                                     Array.Copy(inBytes, 0, outBytes, 0, inBytes.Length); break;
@@ -779,7 +779,7 @@ namespace Area23.At.Mono.Crypt
                                     outBytes = GZ.GUnZipViaStream(inBytes);
                                     break;
                                 case ZipType.BZip2:
-                                    outBytes = BZip2.BUnZip(inBytes);
+                                    outBytes = BZip2.BUnZipViaStream(inBytes);
                                     break;                                
                                 case ZipType.Zip:
                                     outBytes = WinZip.UnZip(inBytes);

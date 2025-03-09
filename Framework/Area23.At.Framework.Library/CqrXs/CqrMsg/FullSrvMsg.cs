@@ -21,28 +21,86 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
     [Serializable]
     public class FullSrvMsg<TC> : MsgContent, ICqrMessagable where TC : class
     {
+
         #region properties
 
         public CqrContact Sender { get; set; }
 
-        public List<CqrContact> Recipients { get; set; }
+        public HashSet<CqrContact> Recipients { get; set; }
 
-        public CqrContact Recipient
+        public TC TContent { get; set; }
+
+        public string ChatRoomNr { get; set; }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        protected internal List<string> Emails
         {
-            get => Recipients[0];
-            set
+            get
             {
-                if (Recipients == null || Recipients.Count == 0)
+                HashSet<string> mails = new HashSet<string>();
+                foreach (CqrContact c in Recipients)
                 {
-                    Recipients = new List<CqrContact>();
-                    Recipients.Add(value);
+                    if (!mails.Contains(c.Email))
+                        mails.Add(c.Email);
                 }
-                else
-                { Recipients[0] = value; }
+                return mails.ToList();
             }
         }
 
-        public TC TContent { get; set; }
+        [Newtonsoft.Json.JsonIgnore]
+        protected internal List<Guid> Cuids
+        {
+            get
+            {
+                HashSet<Guid> cuids = new HashSet<Guid>();
+                foreach (CqrContact c in Recipients)
+                {
+                    if (!cuids.Contains(c.Cuid))
+                        cuids.Add(c.Cuid);
+                }
+                return cuids.ToList();
+            }
+        }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        protected internal CqrContact Recipient
+        {
+            get => (Recipients == null || Recipients.Count < 1) ? null : Recipients.ElementAt(0);
+            set
+            {
+                if (value != null && !string.IsNullOrEmpty(value.NameEmail))
+                {
+                    if (Recipients == null || Recipients.Count == 0)
+                    {
+                        Recipients = new HashSet<CqrContact>();
+                        Recipients.Add(value);
+                    }
+                    else
+                    {
+                        CqrContact toRemove = null;
+                        for (int ix = 0; ix < Recipients.Count; ix++)
+                        {
+                            if ((value.Cuid != null && value.Cuid != Guid.Empty && value.Cuid == Recipients.ElementAt(ix).Cuid) &&
+                                ((value.Email == Recipients.ElementAt(ix).Email) ||
+                                    (value.NameEmail == Recipients.ElementAt(ix).NameEmail) ||
+                                    (value.Mobile == Recipients.ElementAt(ix).Mobile)))
+                            {
+                                toRemove = Recipients.ElementAt(ix);
+                                break;
+                            }
+                        }
+                        if (toRemove != null)
+                        {
+                            Recipients.Remove(toRemove);
+                            Recipients.Add(value);
+                        }
+
+                    }
+                }
+            }
+        }
 
         #endregion properties
 
@@ -54,9 +112,10 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             RawMessage = string.Empty;
             _hash = string.Empty;
             Sender = null;
-            Recipients = new List<CqrContact>();
+            Recipients = new HashSet<CqrContact>();
             Recipient = null;
             TContent = null;
+            ChatRoomNr = string.Empty;
         }
 
         public FullSrvMsg(string fm, MsgEnum msgArt = MsgEnum.Json) : base()
@@ -68,8 +127,10 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         public FullSrvMsg(CqrContact sender, CqrContact to, TC tc) : base()
         {
             Sender = sender;
-            Recipient = to;
+            CqrContact[] tos = (to != null) ? new CqrContact[1] { to } : new CqrContact[0];
+            Recipients = new HashSet<CqrContact>(tos);
             TContent = tc;
+            ChatRoomNr = string.Empty;
         }
 
         /// <summary>
@@ -79,16 +140,37 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         /// <param name="to"></param>
         /// <param name="tc"></param>
         /// <param name="hash"></param>
-        public FullSrvMsg(CqrContact sender, CqrContact to, TC tc, string hash) : base()
+        public FullSrvMsg(CqrContact sender, CqrContact to, TC tc, string hash, string chatRoomNr = "") : base()
         {
             Sender = sender;
-            Recipient = to;
+            CqrContact[] tos = (to != null) ? new CqrContact[1] { to } : new CqrContact[0];
+            Recipients = new HashSet<CqrContact>(tos);
             TContent = tc;
             _hash = hash;
+            ChatRoomNr = chatRoomNr;
         }
+
+
+        /// <summary>
+        /// Please always use this constuctor
+        /// </summary>
+        /// <param name="sender">CqrContact</param>
+        /// <param name="tos">Array of CqrContact</param>
+        /// <param name="tc"></param>
+        /// <param name="hash"></param>
+        public FullSrvMsg(CqrContact sender, CqrContact[] tos, TC tc, string hash, string chatRoomNr = "") : base()
+        {
+            Sender = sender;
+            Recipients = new HashSet<CqrContact>(tos);
+            TContent = tc;
+            _hash = hash;
+            ChatRoomNr = chatRoomNr;
+        }
+
 
         #endregion ctor
 
+        #region members
 
         public override string ToJson()
         {
@@ -106,9 +188,11 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                 {
                     if (fullSrvMsg != null && !string.IsNullOrEmpty(fullSrvMsg.Message))
                     {
-                        Sender = fullSrvMsg.Sender;
-                        Recipient = fullSrvMsg.Recipient;
+                        Sender = fullSrvMsg.Sender;                        
+                        Recipients = fullSrvMsg.Recipients;
                         TContent = fullSrvMsg.TContent;
+                        ChatRoomNr = fullSrvMsg.ChatRoomNr;
+                        _hash = fullSrvMsg._hash;
                     }
                     return tc;
                 }
@@ -120,6 +204,10 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 
             return default(FullSrvMsg<TC>);
         }
+
+        public string[] GetEmails() => this.Emails.ToArray();
+
+        #endregion members
 
     }
 

@@ -1,26 +1,14 @@
-﻿using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Core.Crypt.Cipher;
+﻿using Area23.At.Framework.Core.CqrXs.CqrMsg;
+using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
-using Area23.At.Framework.Core.Net.WebHttp;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Area23.At.Framework.Core.Net.IpSocket;
-using System.Net;
-using Area23.At.Framework.Core.CqrXs.CqrMsg;
-using System.Windows.Interop;
-using Newtonsoft.Json;
-using static QRCoder.Core.PayloadGenerator.SwissQrCode;
 using Area23.At.Framework.Core.Static;
-using Area23.At.Framework.Core.Util;
-using System.Runtime.InteropServices.JavaScript;
+using Newtonsoft.Json;
+using System.Net;
+
 
 namespace Area23.At.Framework.Core.CqrXs.CqrSrv
 {
-
 
     /// <summary>
     /// Provides a secure encrypted message to send to the server or receive from server
@@ -47,54 +35,17 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             return CqrBaseMsg(msg, encType);
         }
 
+
+        /// <summary>
+        /// CqrPeerMsg encrypts a <see cref="MsgContent"/> msg
+        /// </summary>
+        /// <param name="msc"><see cref="MsgContent"/> </param>
+        /// <param name="encType"><see cref="EncodingType"/></param>
+        /// <returns>encrypted msg via <see cref="SymmCipherPipe"/></returns>
         public virtual string CqrPeerMsg(MsgContent msc, EncodingType encType = EncodingType.Base64)
         {
             return CqrBaseMsg(msc, encType);
         }
-
-        //public string CqrPeerMimeAttachment(MimeAttachment attachment, EncodingType encType = EncodingType.Base64)
-        //{
-        //    attachment._hash = PipeString;
-        //    attachment.Verification = PipeString;
-        //    attachment._message = JsonConvert.SerializeObject(attachment);
-        //    attachment._rawMessage = attachment.Message + "\n" + PipeString + "\0";
-        //    return CqrBaseMsg(attachment, encType);
-        //}
-
-        /// <summary>
-        /// CqrPeerAttachment encrypts a file attchment message
-        /// </summary>
-        /// <param name="fileName">file name of attached file</param>
-        /// <param name="mimeType"><see cref="Util.MimeType"/></param>
-        /// <param name="base64Mime">base64 encoded mime block</param>
-        /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns>encrypted attachment msg via <see cref="SymmCipherPipe"/></returns>
-        //public string CqrPeerAttachment(string fileName, string mimeType, string base64Mime, out MimeAttachment attachment,
-        //    string sMd5 = "", string sSha256 = "", MsgEnum msgType = MsgEnum.None, EncodingType encType = EncodingType.Base64)
-        //{
-        //    attachment = new MimeAttachment(fileName, mimeType, base64Mime, symmPipe.PipeString, sMd5, sSha256);
-        //    attachment.MsgType = msgType;
-        //    string mimeMsg = string.Empty;
-        //    attachment._hash = PipeString;
-        //    attachment.Verification = PipeString;
-        //    if (msgType == MsgEnum.None || msgType == MsgEnum.RawWithHashAtEnd)
-        //    {
-        //        mimeMsg = attachment.MimeMsg;
-        //        mimeMsg += "\n" + symmPipe.PipeString + "\0";                
-        //    }
-        //    else
-        //    {
-        //        mimeMsg = JsonConvert.SerializeObject(attachment);
-        //    }
-        //    byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(mimeMsg);
-
-        //    byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
-
-        //    CqrMessage = EnDeCodeHelper.EncodeBytes(cqrbytes, encType);
-
-        //    return CqrMessage;
-        //}
-
 
 
         /// <summary>
@@ -127,6 +78,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
 
             return CqrMessage;
         }
+
 
         /// <summary>
         /// NCqrPeerMsg decryptes an secure encrypted msg 
@@ -187,6 +139,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             return msgOutContent;
         }
 
+        #region send via socket
 
         /// <summary>
         /// Send_CqrPeerMsg, sends a plain-text message to peer 2 peer partner
@@ -202,7 +155,6 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             string response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
             return response;
         }
-
 
 
         /// <summary>
@@ -222,6 +174,8 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             string response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
             return response;
         }
+
+        #endregion send via socket
 
     }
 

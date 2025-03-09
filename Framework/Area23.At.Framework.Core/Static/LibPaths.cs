@@ -114,7 +114,7 @@ namespace Area23.At.Framework.Core.Static
                     if (ConfigurationManager.AppSettings["CqrServiceSoap"] != null)
                         cqrServiceSoap = ConfigurationManager.AppSettings["CqrServiceSoap"].ToString();
                     else
-                        cqrServiceSoap = "https://cqrxs.eu/cqrsrv/cqrjd/CqrService.asmx";
+                        cqrServiceSoap = "https://cqrxs.eu/cqrsrv/cqrjd/CqrService.asmx ";
                 }
                 return cqrServiceSoap;
             }
@@ -130,6 +130,36 @@ namespace Area23.At.Framework.Core.Static
                         cqrServiceSoap12 = ConfigurationManager.AppSettings["CqrServiceSoap12"].ToString();
                     else
                         cqrServiceSoap12 = "https://cqrxs.eu/cqrsrv/cqrjd/CqrService.asmx";
+                }
+                return cqrServiceSoap12;
+            }
+        }
+
+        public static string CqrServiceSoapv4
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(cqrServiceSoap12))
+                {
+                    if (ConfigurationManager.AppSettings["CqrServiceSoapv4"] != null)
+                        cqrServiceSoap12 = ConfigurationManager.AppSettings["CqrServiceSoapv4"].ToString();
+                    else
+                        cqrServiceSoap12 = "https://ipv4.cqrxs.eu/cqrsrv/cqrjd/CqrService.asmx";
+                }
+                return cqrServiceSoap12;
+            }
+        }
+
+        public static string CqrServiceSoapv6
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(cqrServiceSoap12))
+                {
+                    if (ConfigurationManager.AppSettings["CqrServiceSoapv6"] != null)
+                        cqrServiceSoap12 = ConfigurationManager.AppSettings["CqrServiceSoapv6"].ToString();
+                    else
+                        cqrServiceSoap12 = "https://ipv6.cqrxs.eu/cqrsrv/cqrjd/CqrService.asmx";
                 }
                 return cqrServiceSoap12;
             }
@@ -155,13 +185,23 @@ namespace Area23.At.Framework.Core.Static
                         switch (sysDirTry)
                         {
                             case 0:
-                                if (SepChar == "/" && Path.DirectorySeparatorChar == '/' && SepCh == Path.DirectorySeparatorChar &&
-                                            ConfigurationManager.AppSettings["AppDirPathUnix"] != null &&
-                                            ConfigurationManager.AppSettings["AppDirPathUnix"] != "")
-                                    systemDirPath = ConfigurationManager.AppSettings["AppDirPathUnix"]; break;
+                                try
+                                {
+                                    if (SepChar == "/" && Path.DirectorySeparatorChar == '/' && SepCh == Path.DirectorySeparatorChar &&
+                                                ConfigurationManager.AppSettings["AppDirPathUnix"] != null &&
+                                                ConfigurationManager.AppSettings["AppDirPathUnix"] != "")
+                                        systemDirPath = ConfigurationManager.AppSettings["AppDirPathUnix"]; 
+                                }
+                                catch { }
+                                break;
                             case 1:
-                                if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)
-                                    systemDirPath = ConfigurationManager.AppSettings["AppDirPathWin"]; break;
+                                try
+                                {
+                                    if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)
+                                    systemDirPath = ConfigurationManager.AppSettings["AppDirPathWin"];
+                                }
+                                catch { }
+                                break;
                             case 2: systemDirPath = Path.GetFullPath(Assembly.GetExecutingAssembly().Location); break;
                             case 3: if (AppContext.BaseDirectory != null) systemDirPath = AppContext.BaseDirectory; break;
                             case 4: if (AppDomain.CurrentDomain != null) systemDirPath = AppDomain.CurrentDomain.BaseDirectory; break;

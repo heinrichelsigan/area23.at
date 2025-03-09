@@ -1,16 +1,8 @@
-﻿using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Core.Crypt.Cipher;
+﻿using Area23.At.Framework.Core.Crypt.Cipher;
+using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Static;
-using Area23.At.Framework.Core.Util;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Runtime.Serialization;
 
 namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 {
@@ -26,12 +18,12 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         protected internal bool _isMimeAttachment = false;
 
         protected internal readonly SymmCipherPipe symmPipe;
-
-
         public string PipeString { get; internal set; }
 
-
         public string CqrMessage { get; protected internal set; }
+
+        #region ctor
+
 
         /// <summary>
         /// CqrBaseMsg constructor with srvKey
@@ -51,6 +43,10 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             PipeString = symmPipe.PipeString;
         }
 
+        #endregion ctor
+
+
+        #region CqrBaseMsg encrypts a string or MsgContent msc
 
         /// <summary>
         /// CqrBaseMsg encrypts a msg 
@@ -74,6 +70,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             return CqrMessage;
         }
 
+
         /// <summary>
         /// CqrBaseMsg encrypts a msg 
         /// </summary>
@@ -93,7 +90,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
                     (msc.RawMessage.LastIndexOf("\n" + PipeString) < msc.RawMessage.Length - 10))
                 {
                     msc.RawMessage = msc.Message + "\n" + PipeString + "\0";
-                }                
+                }
             }
             else if (msc.MsgType == MsgEnum.Json)
             {
@@ -103,10 +100,23 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
                     MsgContent? c = JsonConvert.DeserializeObject<MsgContent>(msc.RawMessage);
                     if (c != null && string.IsNullOrEmpty(c._hash) && c._hash.Equals(PipeString) && !string.IsNullOrEmpty(c._message))
                         shouldSerialize = false;
-                }                
-                if (shouldSerialize) 
+                }
+                if (shouldSerialize)
                     msc.RawMessage = JsonConvert.SerializeObject(msc);
             }
+            else if (msc.MsgType == MsgEnum.Xml)
+            {
+                bool shouldSerialize = true;
+                if (msc.RawMessage.IsValidXml())
+                {
+                    MsgContent? c = Static.Utils.DeserializeFromXml<MsgContent>(msc.RawMessage);
+                    if (c != null && string.IsNullOrEmpty(c._hash) && c._hash.Equals(PipeString) && !string.IsNullOrEmpty(c._message))
+                        shouldSerialize = false;
+                }
+                if (shouldSerialize)
+                    msc.RawMessage = Static.Utils.SerializeToXml<MsgContent>(msc);
+            }
+
 
             msgBytes = EnDeCodeHelper.GetBytesFromString(msc.RawMessage);
             byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
@@ -116,6 +126,9 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         }
 
 
+        #endregion CqrBaseMsg encrypts a string or MsgContent msc
+
+        #region NCqrBaseMsg decrypts an encrypted string to a MsgContent
 
         /// <summary>
         /// NCqrBaseMsg decryptes an secure encrypted msg 
@@ -135,7 +148,12 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             while (decrypted[decrypted.Length - 1] == '\0')
                 decrypted = decrypted.Substring(0, decrypted.Length - 1);
 
-            MsgEnum msgEnum = (decrypted.IsValidJson()) ? MsgEnum.Json : MsgEnum.RawWithHashAtEnd;
+            MsgEnum msgEnum = MsgEnum.RawWithHashAtEnd;
+            if (decrypted.IsValidJson())
+                msgEnum = MsgEnum.Json;
+            if (decrypted.IsValidXml())
+                msgEnum = MsgEnum.Xml;
+
             MsgContent msgContent = new MsgContent(decrypted, msgEnum);
             string hashVerification = msgContent.Hash;
             bool verified = VerifyHash(hashVerification, symmPipe.PipeString);
@@ -150,8 +168,9 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             return msgContent;
         }
 
+        #endregion NCqrBaseMsg decrypts an encrypted string to a MsgContent
 
-
+        #region verify hash
 
         /// <summary>
         /// GetVerificationHash gets verification hash
@@ -166,7 +185,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             {
                 CqrFile? cqFile = msgContent.ToCqrFile();
                 hash = cqFile._hash;
-                CqrFile? cfile = (CqrFile)ICqrMessagable.IsTo<CqrFile>((CqrFile)msgContent);
+                // CqrFile? cfile = (CqrFile)ICqrMessagable.IsTo<CqrFile>((CqrFile)msgContent);
                 // hash = cfile._hash;
             }
 
@@ -190,6 +209,9 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 
             return failureCnt == 0;
         }
+
+        #endregion verify hash
+
 
     }
 

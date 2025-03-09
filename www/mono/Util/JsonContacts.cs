@@ -84,6 +84,31 @@ namespace Area23.At.Mono.Util
             return null;
         }
 
+        public static HashSet<CqrContact> GetContacts()
+        {
+            bool loadJson = false;
+
+            if (_contacts == null || _contacts.Count < 1)
+            {
+                //if (BaseWebService.UseApplicationState && HttpContext.Current.Application[Constants.JSON_CONTACTS] != null)
+                //    _contacts = (HashSet<CqrContact>)(HttpContext.Current.Application[Constants.JSON_CONTACTS]);                    
+                //if (BaseWebService.UseAmazonElasticCache)
+                //{
+                //    string dictContactsJson = RedIs.Db.StringGet(Constants.JSON_CONTACTS);
+                //    _contacts = (HashSet<CqrContact>)JsonConvert.DeserializeObject<HashSet<CqrContact>>(dictContactsJson);
+                //}
+                //if (_contacts == null || _contacts.Count < 2)
+                //    loadJson = true;
+                _contacts = JsonContacts.LoadJsonContacts();
+            }
+            //else 
+            //    loadJson = true;
+            //if (loadJson)
+
+
+            return _contacts;
+        }
+
     }
 
 }

@@ -1,5 +1,4 @@
-﻿using Area23.At.Framework.Core.Static;
-using Area23.At.Framework.Core.Util;
+﻿using Area23.At.Framework.Core.Util;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,23 +18,23 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
     /// </summary>
     [JsonObject]
     [Serializable]
-    public class MimeAttachment : MsgContent
+    internal class MimeAttachment : MsgContent
     {
 
         internal const string MIME_BASE64_FINISH = "\n\r\n";
 
         #region properties 
 
-        public string FileName { get; set; }
-        public string Base64Type { get; set; }
-        public string Base64Mime { get; set; }
-        public int ContentLength { get; set; }
-        public string Verification { get; set; }
+        internal string FileName { get; set; }
+        internal string Base64Type { get; set; }
+        internal string Base64Mime { get; set; }
+        internal int ContentLength { get; set; }
+        internal string Verification { get; set; }
 
-        public string Md5Hash { get; set; }
-        public string Sha256Hash { get; set; }
+        internal string Md5Hash { get; set; }
+        internal string Sha256Hash { get; set; }
 
-        public string MimeMsg { get => this.GetMimeMessage(); }
+        internal string MimeMsg { get => this.GetMimeMessage(); }
 
         #endregion properties 
 
@@ -114,7 +113,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
                 {
                     this._hash = mc.Hash;
                     this._message = mc.Message;
-                    this.RawMessage = mc.RawMessage;
+                    this._rawMessage = mc.RawMessage;
                 }
                 if (t is MimeAttachment ma)
                 {
@@ -210,7 +209,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         }
 
 
-        internal virtual MimeAttachment ToMimeAttachment()
+        internal override MimeAttachment ToMimeAttachment()
         {
             // if (!IsMimeAttachment())
             //     throw new InvalidCastException($"MsgContent Message={_message} isn't a mime attachment!");

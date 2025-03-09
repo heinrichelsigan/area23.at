@@ -1,15 +1,7 @@
 ﻿using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Static;
-using Area23.At.Framework.Core.Util;
 using Org.BouncyCastle.Crypto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace Area23.At.Framework.Core.Crypt.Cipher
 {
@@ -64,6 +56,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         /// </summary>
         /// <param name="symmCipherAlgo">symmetric prefered alogorithm to chipher</param>
         /// <returns><see cref="IBlockCipher"/></returns>
+        [Obsolete("Please use directly ctor of CryptParamsPrefered to get IBlockCipher from your prefered crypt parameters", false)]
         public static IBlockCipher GetPreferedBlockCipher(SymmCipherEnum symmCipherAlgo, bool fishOnAesEngine = true)
         {
             CryptParamsPrefered cryptParamsPrefered = new CryptParamsPrefered(symmCipherAlgo, fishOnAesEngine);
@@ -77,6 +70,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         /// </summary>
         /// <param name="symmCipherAlgo">alogorithm to chipher</param>
         /// <returns>CryptParamsPrefered</returns>
+        [Obsolete("Please use directly ctor of CryptParamsPrefered to get your prefered crypt parameters", false)]
         public static CryptParamsPrefered GetPreferedCryptParams(SymmCipherEnum symmCipherAlgo, bool fishOnAesEngine = false)
         {
             return new CryptParamsPrefered(symmCipherAlgo, fishOnAesEngine);

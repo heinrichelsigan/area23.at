@@ -137,6 +137,30 @@ namespace Area23.At.Framework.Library.CqrMsg
             return null;
         }
 
+        public override string ToXml() => this.ToXml();
+
+
+        public override T FromXml<T>(string xmlText)
+        {
+            T cqrT = default(T);
+            cqrT = base.FromXml<T>(xmlText);
+            if (cqrT is CqrImage cimg)
+            {
+                ImageFileName = cimg.ImageFileName;
+                ImageBase64 = cimg.ImageBase64;
+                ImageMimeType = cimg.ImageMimeType;
+                ImageData = cimg.ImageData;
+                _hash = cimg._hash ?? string.Empty;
+                Md5Hash = cimg.Md5Hash;
+                _message = cimg._message;
+                MsgType = cimg.MsgType;
+                RawMessage = cimg.RawMessage;
+            }
+
+            return cqrT;
+
+        }
+
         public virtual Bitmap ToDrawingBitmap()
         {
             Bitmap bmpImage;
@@ -158,6 +182,7 @@ namespace Area23.At.Framework.Library.CqrMsg
 
             return bmpImage;
         }
+
 
         #endregion members
 

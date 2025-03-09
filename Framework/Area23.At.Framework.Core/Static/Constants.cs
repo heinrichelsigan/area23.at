@@ -14,25 +14,34 @@ namespace Area23.At.Framework.Core.Static
 
         #region public const
 
+        // const int number
         public const int BACKLOG = 8;
         public const int CHAT_PORT = 7777;
+
+        // const int size length limits
         public const int MAX_KEY_LEN = 4096;
         public const int MAX_PIPE_LEN = 8;
-        public const int MAX_SERVER_SOCKET_ADDRESSES = 16;
-        public const int CLOSING_TIMEOUT = 1000;
+        public const int MAX_SERVER_SOCKET_ADDRESSES = 16;                
         public const int MIN_SOCKET_BYTE_BUFFEER = 65536;       //  64 KB Buffer  2^16
-        public const int MAX_BYTE_BUFFEER = 16777216;           //  16 MB Buffer  2^24  
         public const int SOCKET_BYTE_BUFFEER = 4194304;         //   4 MB Buffer  2^22
         public const int MAX_FILE_BYTE_BUFFEER = 6291456;       //   6 MB Buffer     
         public const int MAX_SOCKET_BYTE_BUFFEER = 16777216;    //  16 MB Buffer  2^24  
+        
+        // constants time intervals
+        public const int CLOSING_TIMEOUT = 1000;
+        public const int BGWORKWE_BUSYWAITING_SLEEP = 720000;
+        
+        // constants bool
         public const bool CQR_ENCRYPT = true;
         public const bool ZEN_MATRIX_SYMMETRIC = false;
-
+        
+        // constants char
         public const char ANNOUNCE = ':';
         public const char DATE_DELIM = '-';
         public const char WHITE_SPACE = ' ';
         public const char UNDER_SCORE = '_';
 
+        // constants string
         public const string APP_NAME = "Area23.At";
         public const string APP_DIR = "net";
         public const string VERSION = "v2.25.221";
@@ -69,7 +78,7 @@ namespace Area23.At.Framework.Core.Static
 
         public const string CQRXS_URL = "https://cqrxs.eu/";
         public const string CQRXS_HELP_URL = "https://cqrxs.eu/help/";
-        public const string DECRYPTED_TEXT_AREA = "<textarea cols = \"48\" rows=\"10\" name=\"TextBoxDecrypted\" id=\"TextBoxDecrypted\" title=\"TextBox Current Message\" ValidateRequestMode=\"Disabled\" style=\"width:480px;\" >";
+        public const string DECRYPTED_TEXT_AREA = "<textarea cols = \"48\" rows=\"10\" name=\"TextBoxDecrypted\" id=\"TextBoxDecrypted\" title=\"TextBox Current Message\" ValidateRequestMode=\"Enabled\" style=\"width:480px;\" >";
         public const string DECRYPTED_TEXT_BOX = "TextBoxDecrypted";
         public const string DECRYPTED_TEXT_AREA_END = "</textarea>";
         public const string CQRXS_TEST_FORM = "CqrXsTestForm";

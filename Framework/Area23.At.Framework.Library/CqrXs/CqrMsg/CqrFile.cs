@@ -22,9 +22,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         public string Base64Type { get; set; }
         
         public byte[] Data { get; set; }
-        
 
-        public string Md5Hash { get; set; }
         public string Sha256Hash { get; set; }
 
         public EncodingType EnCodingType { get; internal set; }

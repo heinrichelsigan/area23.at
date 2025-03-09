@@ -13,6 +13,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     /// <see cref="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.tripledes.-ctor?view=net-8.0" />
     /// <seealso cref="https://www.c-sharpcorner.com/article/tripledes-encryption-and-decryption-in-c-sharp/ "/>
     /// </summary>
+    [Obsolete("Des and 3-Des are implemented via BouncyCastle", true)]
     public static class Des3
     {
 

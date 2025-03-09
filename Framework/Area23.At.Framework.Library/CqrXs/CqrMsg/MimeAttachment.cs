@@ -9,7 +9,6 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
     /// <summary>
     /// Represtents a MimeAttachment
     /// </summary>
-    [JsonObject]
     [Serializable]
     public class MimeAttachment : MsgContent
     {

@@ -21,11 +21,9 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         public string _hash;
         public string _message;
 
-        public MsgEnum MsgType { get; protected internal set; }
+        public MsgEnum MsgType { get; set; }
 
-        // public bool IsMime { get => IsMimeAttachment(); }
-
-        public string Hash { get => _hash; }
+        // public bool IsMime { get => IsMimeAttachment(); 
 
         //TODO:
         [Obsolete("TODO: remove it with hash at end", false)]
@@ -45,8 +43,12 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         }
 
 
-
         public string RawMessage { get; set; }
+
+        public string Hash { get => _hash; }
+
+
+        public string Md5Hash { get; set; }
 
 
         #region ctor
@@ -57,6 +59,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             _message = string.Empty;
             RawMessage = string.Empty;
             _hash = string.Empty;
+            Md5Hash = string.Empty;
         }
 
 
@@ -77,6 +80,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                         RawMessage = c.RawMessage;
                         _hash = c._hash;
                         _message = c._message;
+                        Md5Hash = Crypt.Hash.MD5Sum.HashString(_message);
                     }
                     break;
                 case MsgEnum.Xml:
@@ -87,6 +91,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                         RawMessage = cXml.RawMessage;
                         _hash = cXml._hash;
                         _message = cXml._message;
+                        Md5Hash = Crypt.Hash.MD5Sum.HashString(_message);
                     }
                     break;
                 case MsgEnum.None: //TODO
@@ -98,6 +103,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                     _message = serializedString;
                     RawMessage = serializedString;
                     _hash = VerificationHash(out _message);
+                    Md5Hash = Crypt.Hash.MD5Sum.HashString(RawMessage);
                     break;                
             }
             
@@ -159,6 +165,8 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             return (MsgContent)this;
         }
 
+        #region serialization / deserialization
+
         public virtual string ToJson() => Newtonsoft.Json.JsonConvert.SerializeObject(this);
 
         public virtual T FromJson<T>(string jsonText)
@@ -188,11 +196,26 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             return cqrT;
         }
 
+        public override string ToString()
+        {
+            string s = this.GetType().ToString() + "\n";
+            var fields = Utils.GetAllFields(this.GetType());
+            foreach (var field in fields)           
+                s += field.Name + " \t\"" + field.GetRawConstantValue()?.ToString() + "\"\n";            
+            var props = Utils.GetAllProperties(this.GetType());
+            foreach (var prp in props)
+                s += prp.Name + " \t\"" + prp.GetRawConstantValue()?.ToString() + "\"\n";
+
+            return s;
+        }
+
+        #endregion serialization / deserialization
+
         public virtual string VerificationHash(out string msg)
         {
             msg = _message;
             if (!string.IsNullOrEmpty(_hash))
-            {                
+            {
                 return _hash;
             }
 
@@ -211,7 +234,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 
             }
 
-            if (RawMessage.Length > 9) 
+            if (RawMessage.Length > 9)
             {
                 // if (_message.Contains('\n') && _message.LastIndexOf('\n') < _message.Length)
                 string tmp = RawMessage.Substring(RawMessage.Length - 10);
@@ -225,26 +248,13 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             else
             {
                 _hash = RawMessage;
-            }        
+            }
 
 
             if (_hash.Length > 4 && RawMessage.Substring(RawMessage.Length - _hash.Length).Equals(_hash, StringComparison.InvariantCulture))
                 msg = RawMessage.Substring(0, RawMessage.Length - _hash.Length);
 
             return _hash ?? string.Empty;
-        }
-
-        public override string ToString()
-        {
-            string s = this.GetType().ToString() + "\n";
-            var fields = Utils.GetAllFields(this.GetType());
-            foreach (var field in fields)           
-                s += field.Name + " \t\"" + field.GetRawConstantValue()?.ToString() + "\"\n";            
-            var props = Utils.GetAllProperties(this.GetType());
-            foreach (var prp in props)
-                s += prp.Name + " \t\"" + prp.GetRawConstantValue()?.ToString() + "\"\n";
-
-            return s;
         }
 
 

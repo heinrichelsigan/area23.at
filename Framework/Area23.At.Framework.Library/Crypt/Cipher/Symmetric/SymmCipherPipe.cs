@@ -42,6 +42,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         #region ctor
 
+        /// <summary>
+        /// SymmCipherPipe constructor with an array of <see cref="SymmCipherEnum[]"/> as inpipe
+        /// </summary>
+        /// <param name="symmCipherEnums">array of <see cref="SymmCipherEnum[]"/> as inpipe</param>
         public SymmCipherPipe(SymmCipherEnum[] symmCipherEnums)
         {
             inPipe = new List<SymmCipherEnum>(symmCipherEnums).ToArray();
@@ -121,18 +125,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             switch (cipherAlgo)
             {
-                //case SymmCipherEnum.Des3:
-                //    Des3.Des3GenWithKeyHash(secretKey, hashIv, true);
-                //    encryptBytes = Des3.Encrypt(inBytes);
-                //    break;
-                //case SymmCipherEnum.Fish2:
-                //    Fish2.Fish2GenWithKeyHash(secretKey, hashIv, true);
-                //    encryptBytes = Fish2.Encrypt(inBytes);
-                //    break;
-                //case SymmCipherEnum.Fish3:
-                //    Fish3.Fish3GenWithKeyHash(secretKey, hashIv, true);
-                //    encryptBytes = Fish3.Encrypt(inBytes);
-                //    break;
                 //case SymmCipherEnum.Rijndael:
                 //    Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
                 //    encryptBytes = Rijndael.Encrypt(inBytes);
@@ -161,16 +153,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.Tea:
                 case SymmCipherEnum.XTea:
                 default:
-                    CryptParamsPrefered cpParams = CryptHelper.GetPreferedCryptParams(cipherAlgo);
-                    cpParams.Key = secretKey;
-                    cpParams.Hash = hashIv;
-
+                    CryptParamsPrefered cpParams = new CryptParamsPrefered(cipherAlgo, secretKey, hashIv);
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
                     encryptBytes = cryptBounceCastle.Encrypt(inBytes);
-                    break;
-                
-
-                   
+                    break;                                 
             }
 
             return encryptBytes;
@@ -195,20 +181,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             byte[] decryptBytes = cipherBytes;
 
             switch (cipherAlgo)
-            {
-
-                //case SymmCipherEnum.Des3:
-                //    sameKey = Des3.Des3GenWithKeyHash(secretKey, hashIv, true);
-                //    decryptBytes = Des3.Decrypt(cipherBytes);
-                //    break;
-                //case SymmCipherEnum.Fish2:
-                //    sameKey = Fish2.Fish2GenWithKeyHash(secretKey, hashIv, true);
-                //    decryptBytes = Fish2.Decrypt(cipherBytes);
-                //    break;
-                //case SymmCipherEnum.Fish3:
-                //    sameKey = Fish3.Fish3GenWithKeyHash(secretKey, hashIv, true);
-                //    decryptBytes = Fish3.Decrypt(cipherBytes);
-                //    break;
+            {                
                 //case SymmCipherEnum.Rijndael:
                     // sameKey = Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
                     // decryptBytes = Rijndael.Decrypt(cipherBytes);
@@ -238,10 +211,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.Tea:
                 case SymmCipherEnum.XTea:
                 default:
-                    CryptParamsPrefered cpParams = CryptHelper.GetPreferedCryptParams(cipherAlgo, fishOnAesEngine);
-                    cpParams.Key = secretKey;
-                    cpParams.Hash = hashIv;
-
+                    CryptParamsPrefered cpParams = new CryptParamsPrefered(cipherAlgo, secretKey, hashIv, fishOnAesEngine);
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
                     decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
                     

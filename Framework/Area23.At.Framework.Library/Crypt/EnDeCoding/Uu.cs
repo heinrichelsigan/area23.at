@@ -166,7 +166,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 Area23Log.LogStatic($"byte[{plainBytes.Length}] plainBytes = FromUu(string uuEncStr, bool originalUue = {originalUue}, fromFile = {fromFile}) ... FINISHED.");
                 return plainBytes;
             }
-            else 
+            else
             {
                 string uuOutFile = DateTime.Now.Area23DateTimeWithMillis() + ".uu";
                 string uuOutPath = LibPaths.SytemDirUuPath + uuOutFile;

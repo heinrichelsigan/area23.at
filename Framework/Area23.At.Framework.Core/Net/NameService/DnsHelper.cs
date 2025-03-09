@@ -38,6 +38,9 @@ namespace Area23.At.Framework.Core.Net.NameService
         /// <returns><see cref="List{IPAddress}">IEnumerable{IPAddress}</see></returns>
         public static List<IPAddress> GetIpAddrsByHostName(string hostname = "")
         {
+            if (string.IsNullOrEmpty(hostname)) 
+                return new List<IPAddress>();
+
             IPHostEntry ipHost = GetHostEntryByHostName(hostname);
             List<IPAddress> ipList = (from ip in ipHost.AddressList where !IPAddress.IsLoopback(ip) select ip).ToList();
             return ipList;

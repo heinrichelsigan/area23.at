@@ -23,10 +23,8 @@ namespace Area23.At.Framework.Core.Win32Api
         /// CaptureScreen creates an Image object containing a screen shot of the entire desktop
         /// </summary>
         /// <returns></returns>
-        public static Image CaptureScreen()
-        {
-            return CaptureWindow(NativeWrapper.User32.GetDesktopWindow());
-        }
+        public static Image CaptureScreen() => CaptureWindow(NativeWrapper.User32.GetDesktopWindow());
+        
 
         /// <summary>
         /// CaptureDesktopScreen creates an Image object containing a screen shot of the entire desktop

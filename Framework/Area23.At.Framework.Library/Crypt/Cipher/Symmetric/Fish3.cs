@@ -11,6 +11,7 @@ using System;
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
 
+    [Obsolete("Fish3 is implemented via BouncyCastle", true)]
     public static class Fish3
     {
 

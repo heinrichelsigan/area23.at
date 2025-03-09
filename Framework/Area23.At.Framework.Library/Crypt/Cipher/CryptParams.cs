@@ -237,7 +237,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
         public static IBlockCipher GetBlockCipher(CipherEnum cipherAlgo)
         {
-            return CryptHelper.GetCryptParams(cipherAlgo).BlockCipher;
+            return (new CryptParams(cipherAlgo)).BlockCipher;
         }
 
     }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Core.CqrXs
 {
+    [Serializable]
     public class CqrSettings 
     {
         // TODO: replace it in C# 9.0 to private static readonly lock _lock

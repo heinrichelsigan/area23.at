@@ -49,10 +49,8 @@ namespace Area23.At.Framework.Core.Win32Api
         /// CloseWindow sends standard close message to window by handle
         /// </summary>
         /// <param name="hwnd">window handle</param>
-        public static void CloseWindow(IntPtr hwnd)
-        {
-            SendMessage(hwnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
-        }
+        public static void CloseWindow(IntPtr hwnd) => SendMessage(hwnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+        
 
         #endregion closeWindow
 

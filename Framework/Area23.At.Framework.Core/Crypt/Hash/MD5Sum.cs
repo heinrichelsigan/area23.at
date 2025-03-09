@@ -27,6 +27,13 @@ namespace Area23.At.Framework.Core.Crypt.Hash
             return hash;
         }
 
+        public static string HashString(string string2Hash, string fileName = "")
+        {
+            byte[] bytes = EnDeCoding.EnDeCodeHelper.GetBytes(string2Hash);
+            string hashed = Hash(bytes, fileName);
+            return hashed;
+        }
+
 
         public static string Hash(byte[] bytes, string fileName = "")
         {

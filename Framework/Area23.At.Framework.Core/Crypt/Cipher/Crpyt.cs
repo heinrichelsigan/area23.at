@@ -78,9 +78,8 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                 case CipherEnum.Tea:
                 case CipherEnum.XTea:
                 default:
-                    CryptParams cparams = CryptHelper.GetCryptParams(cipherAlgo);
-                    cparams.Key = secretKey;
-                    cparams.Hash = keyIv;
+                    CryptParams cparams = new CryptParams(cipherAlgo, secretKey, keyIv); 
+                    // CryptHelper.GetCryptParams(cipherAlgo);
 
                     Symm.CryptBounceCastle cryptBounceCastle = new Symm.CryptBounceCastle(cparams, true);
                     encryptBytes = cryptBounceCastle.Encrypt(inBytes);
@@ -151,10 +150,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                 case CipherEnum.Tea:
                 case CipherEnum.XTea:
                 default:
-                    CryptParams cparams = CryptHelper.GetCryptParams(cipherAlgo);
-                    cparams.Key = secretKey;
-                    cparams.Hash = keyIv;
-
+                    CryptParams cparams = new CryptParams(cipherAlgo, secretKey, keyIv);                    
                     Symm.CryptBounceCastle cryptBounceCastle = new Symm.CryptBounceCastle(cparams, true);
                     decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
 
