@@ -64,7 +64,8 @@ namespace Area23.At.Mono.Calc
 
     public class MathNumber : MathOp
     {
-        internal static string validChars = "0123456789ABCDEF.,";
+        internal static readonly string validChars = "0123456789ABCDEF.,";
+        internal static readonly string validCharsAtEnd = "0123456789ABCDEF";
         protected internal static new string[] validElems = { "ℇ", "π" };
 
         public MathNumber(string elem) : base(elem) { }
@@ -85,6 +86,38 @@ namespace Area23.At.Mono.Calc
                 if (parseNumber == string.Empty || parseNumber.Length == 0)
                     return true;
             }
+            return false;
+        }
+
+
+        internal static bool IsValidMathNumber(string term)
+        {
+            return (ValidateAtStart(term) > 0);
+        }
+
+        internal static bool IsValidMathAtEnd(string term)
+        {
+            string rterm = "";
+            if (term == null  || term.Length == 0) return false;
+            for (int i = term.Length - 1; i >= 0;)
+                rterm += term[i];
+
+            foreach (var elem in validCharsAtEnd)
+            {
+                if (rterm[0] == elem) return true;
+            }
+
+            if (rterm[0] == 'ℇ' || rterm[0] == 'π')
+            {
+                foreach (var elem in validChars)
+                {
+                    if (rterm[1] == elem) return false;
+                }
+                if (rterm[1] == 'ℇ' || rterm[1] == 'π')
+                    return false;
+                return true;
+            }
+
             return false;
         }
 

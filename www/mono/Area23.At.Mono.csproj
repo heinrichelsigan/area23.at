@@ -182,6 +182,7 @@
     <Content Include="res\img\skullTicTacToe.png" />
     <Content Include="res\img\ticTacToeDraw.gif" />
     <Content Include="res\img\workerTicTacToe.gif" />
+    <Content Include="res\js\ccalc.js" />
     <Content Include="res\out\Rational_ObjectOrientedAnalysis-UML.jpg" />
     <Content Include="res\out\Rational_RequisitePro.jpg" />
     <Content Include="res\out\Rational_Rose_Certificate.jpg" />

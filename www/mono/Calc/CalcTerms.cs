@@ -645,8 +645,8 @@ namespace Area23.At.Mono.Calc
                     {
                         //lnum0 = Convert.ToInt64(STerms[th + 1].Elem);
                         //dnum0 = Convert.ToDouble(STerms[th + 1].Elem);
-                        lnum0 = PIEulerParseInt64(STerms[tj + 1].Elem);
-                        dnum0 = PIEulerParse(STerms[tj + 1].Elem);                        
+                        lnum0 = PIEulerParseInt64(STerms[th + 1].Elem);
+                        dnum0 = PIEulerParse(STerms[th + 1].Elem);                        
                         dresult = 1;
                         lresult = 1;
                         switch (STerms[th].Elem)

@@ -44,7 +44,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         Dstu7624 = 0x1a,
         SM4 = 0x1b,
         AesLight = 0x1c,
-        ThreeFish1024 = 0x1d,        
+        ThreeFish256 = 0x1d,        
         Rsa = 0x1e,
 
         ZenMatrix2 = 0x1f
@@ -74,7 +74,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.BlowFish: return 'b';
                 case CipherEnum.Fish2: return 'f';
                 case CipherEnum.Fish3: return 'F';
-                case CipherEnum.ThreeFish1024: return '3';
+                case CipherEnum.ThreeFish256: return '3';
 
                 case CipherEnum.Camellia: return 'C';
                 case CipherEnum.CamelliaLight: return 'l';

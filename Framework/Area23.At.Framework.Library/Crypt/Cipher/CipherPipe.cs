@@ -182,7 +182,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Dstu7624:
                 case CipherEnum.Fish2:
                 case CipherEnum.Fish3:
-                case CipherEnum.ThreeFish1024:
+                case CipherEnum.ThreeFish256:
                 case CipherEnum.Gost28147:
                 case CipherEnum.Idea:
                 case CipherEnum.Noekeon:
@@ -257,7 +257,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Dstu7624:
                 case CipherEnum.Fish2:
                 case CipherEnum.Fish3:
-                case CipherEnum.ThreeFish1024:
+                case CipherEnum.ThreeFish256:
                 case CipherEnum.Gost28147:
                 case CipherEnum.Idea:
                 case CipherEnum.Noekeon:

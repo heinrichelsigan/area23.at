@@ -62,7 +62,7 @@
                     ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="192"  Width="480px"  style="width: 480px;" />
                 </span>
                 <span class="rightSpan" style="width: 80px; min-width: 72px; max-width: 84px">
-                    <asp:Button ID="Button_SetPipeline" runat="server" ClientIDMode="Static"  Text="set pipeline" 
+                    <asp:Button ID="Button_SetPipeline" runat="server" ClientIDMode="Static" Text="set pipeline" 
                         OnClick="Button_SetPipeline_Click" ToolTip="set symmetric cipher pipeline" style="width: 80px; min-width: 72px; max-width: 84px"  />
                 </span>
             </div>
@@ -88,7 +88,7 @@
                         <asp:ListItem Enabled="true" Value="BlowFish" Selected="false">BlowFish</asp:ListItem>  
                         <asp:ListItem Enabled="true" Value="Fish2" Selected="false">Fish2</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Fish3" Selected="false">Fish3</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="ThreeFish1024" Selected="false">ThreeFish1024</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="ThreeFish256" Selected="false">ThreeFish256</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Camellia" Selected="false">Camellia</asp:ListItem>              
                         <asp:ListItem Enabled="true" Value="CamelliaLight" Selected="false">CamelliaLight</asp:ListItem> 
                         <asp:ListItem Enabled="true" Value="Cast5" Selected="False">Cast5</asp:ListItem>
@@ -118,7 +118,7 @@
                 <span class="centerSpan" style="width: 72px;"> 
                     <asp:ImageButton ID="ImageButton_Add" ClientIDMode="Static" runat="server" ImageUrl="../res/img/AddAesArrow.gif" 
                         OnClick="ImageButton_Add_Click" AlternateText="Add symetric chiffer algorithm"
-                        onmouseover="document.getElementById('ImageButton_Add').src='../res/img/AddAesDenied.gif'"                     
+                        onmouseover="document.getElementById('ImageButton_Add').src='../res/img/AddAesArrowHover.gif'"                     
                         onmouseout="document.getElementById('ImageButton_Add').src='../res/img/AddAesArrow.gif'" />
                 </span>
                 <span class="centerSpan" style="max-width: 400px;">

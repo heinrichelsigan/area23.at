@@ -98,8 +98,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
                     break;
-                case CipherEnum.ThreeFish1024:
-                    Size = 512;
+                case CipherEnum.ThreeFish256:
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);

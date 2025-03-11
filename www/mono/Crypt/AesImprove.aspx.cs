@@ -162,7 +162,7 @@ namespace Area23.At.Mono.Crypt
                 string[] algorithms = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
                 CipherEnum[] cses = new Framework.Library.Crypt.Cipher.CipherPipe(kb).InPipe;
                 this.TextBox_Encryption.Text = string.Empty;
-                foreach (SymmCipherEnum c in cses)
+                foreach (CipherEnum c in cses)
                 {
                     this.TextBox_Encryption.Text += c.ToString() + ";";
                 }
