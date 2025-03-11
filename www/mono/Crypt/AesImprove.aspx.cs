@@ -268,8 +268,9 @@ namespace Area23.At.Mono.Crypt
 
                 Reset_TextBox_IV(usrMailKey);
                 byte[] inBytes = Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
-                // string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;
-                byte[] encryptBytes = inBytes;
+                byte[] encryptBytes = new byte[inBytes.Length];
+                Array.Copy(inBytes, 0, encryptBytes, 0, inBytes.Length);
+
 
                 ZipType ztype = ZipType.None;
                 if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
@@ -328,7 +329,8 @@ namespace Area23.At.Mono.Crypt
                 //        }
                 //    }
                 //}
-                encryptBytes = inBytes;
+                encryptBytes = new byte[inBytes.Length];
+                Array.Copy(inBytes, 0, encryptBytes, 0, inBytes.Length);
 
                 bool fromPlain = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
 
@@ -411,7 +413,8 @@ namespace Area23.At.Mono.Crypt
                     return;
                 }
 
-                byte[] decryptedBytes = cipherBytes;
+                byte[] decryptedBytes = new byte[cipherBytes.Length];
+                Array.Copy(cipherBytes, 0, decryptedBytes, 0, cipherBytes.Length);
                 int ig = 0;
 
                 byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
@@ -432,8 +435,8 @@ namespace Area23.At.Mono.Crypt
                 //        }
                 //    }
                 //}
-
-                cipherBytes = decryptedBytes; // DeEnCoder.GetBytesTrimNulls(decryptedBytes);
+                cipherBytes = new byte[decryptedBytes.Length];
+                Array.Copy(decryptedBytes, 0, cipherBytes, 0, decryptedBytes.Length);               
 
                 ZipType ztype = ZipType.None;
                 string zcmd = (Constants.UNIX) ? "/usr/local/bin/zipunzip.sh" : (Constants.WIN32) ?

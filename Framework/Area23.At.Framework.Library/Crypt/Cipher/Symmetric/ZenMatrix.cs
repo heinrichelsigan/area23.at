@@ -139,12 +139,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         public HashSet<sbyte> PermutationKeyHash { get; protected internal set; }
 
-        public string AlgorithmName => SYMMCIPHERALGONAME;
-
 
         #endregion Properties
 
         #region IBlockCipher interface
+
+        public string AlgorithmName => SYMMCIPHERALGONAME;
 
         public int GetBlockSize() => BLOCK_SIZE;
 

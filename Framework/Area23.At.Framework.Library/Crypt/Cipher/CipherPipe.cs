@@ -167,7 +167,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     encryptBytes = (new ZenMatrix(secretKey, hashIv, true)).Encrypt(inBytes);
                     break;
                 case CipherEnum.ZenMatrix2:
-                    encryptBytes = (new ZenMatrix2(secretKey, hashIv, true)).Encrypt(inBytes);
+                    encryptBytes = (new ZenMatrix2(secretKey, hashIv, false)).Encrypt(inBytes);
                     break;
                 case CipherEnum.Aes:
                 case CipherEnum.AesLight:
@@ -239,7 +239,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes);
                     break;
                 case CipherEnum.ZenMatrix:
-                    decryptBytes = (new ZenMatrix(secretKey, hashIv, false)).Decrypt(cipherBytes);
+                    decryptBytes = (new ZenMatrix(secretKey, hashIv, true)).Decrypt(cipherBytes);
                     break;
                 case CipherEnum.ZenMatrix2:
                     decryptBytes = (new ZenMatrix2(secretKey, hashIv, false)).Decrypt(cipherBytes);
@@ -295,6 +295,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             string secretKey = "heinrich.elsigan@area23.at",
             string hashIv = "6865696e726963682e656c736967616e406172656132332e6174")
         {
+            if (InPipe == null || InPipe.Length == 0)
+                return inBytes;
+
             byte[] encryptedBytes = new byte[inBytes.Length * 3 + 1];
 #if DEBUG
             stageDictionary = new Dictionary<CipherEnum, byte[]>();
@@ -325,6 +328,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             string hashIv = "6865696e726963682e656c736967616e406172656132332e6174",
             bool fishOnAesEngine = false)
         {
+            if (OutPipe == null || OutPipe.Length == 0)
+                return cipherBytes;
 
             byte[] decryptedBytes = new byte[cipherBytes.Length * 3 + 1];
 #if DEBUG
