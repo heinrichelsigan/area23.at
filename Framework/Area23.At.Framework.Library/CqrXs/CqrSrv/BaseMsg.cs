@@ -61,7 +61,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         /// </summary>
         /// <param name="msg">plain text string</param>
         /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns>encrypted msg via <see cref="SymmCipherPipe"/></returns>
+        /// <returns>encrypted msg via <see cref="CipherPipe"/></returns>
         public virtual string CqrBaseMsg(string msg, EncodingType encType = EncodingType.Base64)
         {
             MsgContent msc;
@@ -84,7 +84,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         /// </summary>
         /// <param name="msc">plain MsgContent</param>
         /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns>encrypted msg via <see cref="SymmCipherPipe"/></returns>
+        /// <returns>encrypted msg via <see cref="CipherPipe"/></returns>
         public virtual string CqrBaseMsg(MsgContent msc, EncodingType encType = EncodingType.Base64)
         {
             byte[] msgBytes = new byte[msc.RawMessage.Length];
@@ -200,7 +200,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         }
 
         /// <summary>
-        /// VerifyHash verifies hash against <see cref="SymmCipherPipe.PipeString"/>
+        /// VerifyHash verifies hash against <see cref="CipherPipe.PipeString"/>
         /// </summary>
         /// <param name="hash">verification hash parsed out of msg</param>
         /// <returns>true, if msg could be verified, otherwise false</returns>

@@ -99,6 +99,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Crypt\Cipher\CipherPipe.cs" />
     <Compile Include="Util\Area23Log.cs" />
     <Compile Include="CqrXs\CqrException.cs" />
     <Compile Include="CqrXs\CqrJd\CqrService.cs" />

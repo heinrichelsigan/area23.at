@@ -101,13 +101,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <summary>
         /// PrivateKeyWithUserHash, helper to double private secret key with hash
         /// </summary>
-        /// <param name="secretKey">users private secret key</param>
-        /// <param name="userHash">users private secret key hash</param>
+        /// <param name="key">users private secret key</param>
+        /// <param name="hash">users private secret key hash</param>
         /// <returns>doubled concatendated string of (secretKey + hash)</returns>
-        internal static string PrivateKeyWithUserHash(string secretKey, string userHash)
+        internal static string PrivateKeyWithUserHash(string key, string hash)
         {
-            string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
-            string usrHash = string.IsNullOrEmpty(userHash) ? Constants.AUTHOR_IV : userHash;
+            string secKey = string.IsNullOrEmpty(key) ? Constants.AUTHOR_EMAIL : key;
+            string usrHash = string.IsNullOrEmpty(hash) ? Constants.AUTHOR_IV : hash;
 
             return string.Concat(secKey, usrHash);
         }
@@ -180,7 +180,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             {
                 keyHashTarBytes = keyHashBytes.TarBytes(KeyUserHashBytes(hash, key));
                 keyByteCnt = keyHashTarBytes.Length;
-
                 keyHashBytes = new byte[keyByteCnt];
                 Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
             }
@@ -191,21 +190,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     KeyUserHashBytes(key, hash)
                 );
                 keyByteCnt = keyHashTarBytes.Length;
-
-                keyHashBytes = new byte[keyByteCnt];
-                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
-            }
-            if (keyByteCnt < keyLen)
-            {
-                keyHashTarBytes = keyHashBytes.TarBytes(
-                    KeyUserHashBytes(hash + hash, key + key, false),
-                    KeyUserHashBytes(hash + key + hash, key + hash + key, false),
-                    KeyUserHashBytes(hash + key + hash, key + hash + key, true),
-                    KeyUserHashBytes(hash + key + key + hash, key + hash + hash + key, false),
-                    KeyUserHashBytes(hash + key + key + hash, key + hash + hash + key, true)
-                );
-
-                keyByteCnt = keyHashTarBytes.Length;
                 keyHashBytes = new byte[keyByteCnt];
                 Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
             }
@@ -214,17 +198,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             {
                 keyHashTarBytes = keyHashBytes.TarBytes(keyHashBytes);
                 keyByteCnt = keyHashTarBytes.Length;
-                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
-
-                //RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                //randomNumGen.GetBytes(tmpKey, 0, keyLen);
-
-                //int tinyLength = keyHashBytes.Length;
-
-                //for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
-                //{
-                //    tmpKey[bytCnt] = keyHashBytes[bytCnt % tinyLength];
-                //}
+                keyHashBytes = new byte[keyByteCnt];
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);               
             }
 
             if (keyLen <= keyByteCnt)

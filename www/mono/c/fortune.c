@@ -43,7 +43,7 @@ int main(int argc, char** argv)
     printf("<head>\n");
     printf("\t<meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\" />\n");
     printf("\t<link rel=\"stylesheet\" href=\"/css/fortune.css\" />\n");
-    printf("\t<noscript><meta content=\"16; url=https://darkstar.work/cgi/fortune.cgi\" http-equiv=\"refresh\" /></noscript>\n");
+    printf("\t<noscript><meta content=\"16; url=https://area23.at/cgi/fortune.cgi\" http-equiv=\"refresh\" /></noscript>\n");
     printf("\t<title>fortune cgi</title>\n");
     printf("</head>\n");
     printf("<body onload=\"setTimeout(function () { window.location.reload(); }, 16000); return false;\">\n");

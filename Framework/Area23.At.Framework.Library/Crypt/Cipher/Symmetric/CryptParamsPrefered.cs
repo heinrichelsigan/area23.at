@@ -20,7 +20,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         }
 
         /// <summary>
-        /// constructs a object with correct <see cref="Mode"/>, <see cref="BlockSize"/>, <see cref="KeyLen"/>
+        /// constructs a object with correct <see cref="Mode"/>, <see cref="Size"/>, <see cref="KeyLen"/>
         /// for parameter <see cref="Cipher"/>
         /// </summary>
         /// <param name="cipherAlgo"><see cref="SymmCipherEnum"/></param>
@@ -30,107 +30,107 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             switch (cipherAlgo)
             {
                 case SymmCipherEnum.Aes:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;
                 case SymmCipherEnum.BlowFish:
-                    BlockSize = 64;
+                    Size = 64;
                     KeyLen = 8;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.BlowfishEngine();
                     break;
                 case SymmCipherEnum.Fish2:
-                    BlockSize = 128;
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TwofishEngine();
                     break;
                 case SymmCipherEnum.Fish3:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     // TODO: ugly hack because of 1st version bug
                     if (fishOnAesEngine)
                         BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     else
-                        BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(BlockSize);
+                        BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
                     break;
                 case SymmCipherEnum.Camellia:
-                    BlockSize = 128;
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
                     break;                
                 case SymmCipherEnum.Cast6:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
                     break;
                 case SymmCipherEnum.Des3:
-                    BlockSize = 128;
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEdeEngine();
                     break;
                 case SymmCipherEnum.Gost28147:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
                     break;
                 case SymmCipherEnum.Idea:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
                     break;
                 case SymmCipherEnum.RC532:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
                     break;
                 //case "RC564":
-                //    BlockSize = 256;
+                //    Size = 256;
                 //    KeyLen = 32;
                 //    Mode = "ECB";
                 //    BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
                 //    break;
                 case SymmCipherEnum.Seed:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
-                    BlockSize = 128;
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     break;
                 case SymmCipherEnum.Serpent:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
-                    BlockSize = 128;
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     break;
                 case SymmCipherEnum.SkipJack:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
                     break;
                 case SymmCipherEnum.Tea:
-                    BlockSize = 128;
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
                     break;
                 case SymmCipherEnum.XTea:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
                 default:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
@@ -142,7 +142,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         /// <summary>
         /// constructs a <see cref="CryptParamsPrefered"/> object 
-        /// with correct <see cref="Mode"/>, <see cref="BlockSize"/>, <see cref="KeyLen"/>
+        /// with correct <see cref="Mode"/>, <see cref="Size"/>, <see cref="KeyLen"/>
         /// with additional <see cref="Key"/> and <see cref="Hash"/>
         /// for parameter <see cref="Cipher"/>
         /// </summary>

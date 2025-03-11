@@ -30,38 +30,40 @@
     <form id="CoolCryptForm" runat="server" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True" style="background-color: transparent;">
         <div style="background-color: transparent; padding-left: 40px; margin-left: 2px;">
             <div class="odDiv">
-                <span class="leftSpan" style="width: 72px">
-                    <asp:Button ID="Button_Key" runat="server" Text="Key " ClientIDMode="Static"
-                        OnClick="Button_Key_Click" ToolTip="save your user key in session" style="max-width: 72px" />
+                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">
+                    <asp:Button ID="Button_Key" runat="server" Text="key" ClientIDMode="Static"
+                        OnClick="Button_Key_Click" ToolTip="save your user key in session" style="min-width: 48px; max-width: 72px" />
                 </span>
-                <span class="centerSpan" style="width: 72px">&nbsp&nbsp;Secret&nbsp;key:&nbsp;</span>
-                <span class="centerSpan" style="width: 72px"><asp:ImageButton ID="ImageButton_Key" runat="server" ClientIDMode="Static"
+                <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">secret&nbsp;key:</span>
+                <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">
+                    <asp:ImageButton ID="ImageButton_Key" runat="server" ClientIDMode="Static"
                     OnClick="Button_Key_Click" ImageUrl="../res/img/a_right_key.png" AlternateText="save your user key in session" />
                 </span>
                 <span class="centerSpan" style="max-width: 400px;">                
                     <asp:TextBox ID="TextBox_Key" runat="server" ClientIDMode="Static" Text="heinrich.elsigan@area23.at"                        
                         ToolTip="Enter your personal email address or secret key here" MaxLength="192" Width="480px" style="width: 480px;" />
                 </span>
-                <span class="rightSpan" style="width: 72px">
+                <span class="rightSpan" style="width: 60px; min-width: 48px; max-width: 72px">
                     <asp:Button ID="Button_Clear" runat="server" Text="clear" OnClick="Button_Clear_Click" 
-                        ToolTip="Clear SymChiffre Pipeline" style="max-width: 72px" />
+                        ToolTip="Clear SymChiffre Pipeline" style="width: 60px; min-width: 48px; max-width: 72px" />
                 </span>
             </div>    
             <div class="odDiv">
-                <span class="leftSpan" style="width: 72px">
-                    <asp:Button ID="Button_Hash" runat="server" Text="hash" ClientIDMode="Static"
-                        OnClick="Button_Hash_Click" ToolTip="save your user key in session" style="max-width: 72px" />      
+                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">
+                    <asp:Button ID="Button_Hash" runat="server" Text="hash" ClientIDMode="Static" 
+                        OnClick="Button_Hash_Click" ToolTip="calculates an iv hash from entered userkey above" style="min-width: 48px; max-width: 72px" />
                 </span>
-                <span class="centerSpan" style="width: 72px">Key&nbsp;hash/iv:&nbsp;</span>
-                <span class="centerSpan" style="width: 72px"><asp:ImageButton ID="ImageButton_Hash" runat="server" ClientIDMode="Static"
-                    OnClick="Button_Hash_Click" ImageUrl="../res/img/a_hash.png" AlternateText="Generate new hash from key" />
+                <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">key&nbsp;hash:</span>
+                <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">
+                    <asp:ImageButton ID="ImageButton_Hash" runat="server" ClientIDMode="Static"
+                    OnClick="Button_Hash_Click" ImageUrl="../res/img/a_hash.png" AlternateText="generate new hash from key" />
                 </span>                
                 <span class="centerSpan" style="max-width: 400px;"><asp:TextBox ID="TextBox_IV" runat="server" ClientIDMode="Static"
                     ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="192"  Width="480px"  style="width: 480px;" />
                 </span>
-                <span class="rightSpan" style="width: 72px">
-                    <asp:Button ID="Button_Reset_KeyIV" runat="server" Text="reset" ClientIDMode="Static" 
-                        OnClick="Button_Reset_KeyIV_Click" ToolTip="Reset secret key / iv" style="max-width: 72px" />
+                <span class="rightSpan" style="width: 80px; min-width: 72px; max-width: 84px">
+                    <asp:Button ID="Button_SetPipeline" runat="server" ClientIDMode="Static"  Text="set pipeline" 
+                        OnClick="Button_SetPipeline_Click" ToolTip="set symmetric cipher pipeline" style="width: 80px; min-width: 72px; max-width: 84px"  />
                 </span>
             </div>
         </div>
@@ -134,7 +136,7 @@
             </div>
             <div class="odDiv">
                 <span class="leftSpan" style="width: 72px">
-                    Don't use zip compression, if you want to decrypt encrypted file or text view with same key on another server.
+                    Hint: zip and 7zip compression are still buggy implemented, please use only bzip2 and gzip.
                 </span>
                 <span class="centerSpan" style="width: 72px">&nbsp;</span>
                 <span class="centerSpan" style="width: 72px"></span>                
@@ -162,7 +164,7 @@
             <div class="odDiv">                       
                 <span id="SpanLeftFile" runat="server" class="leftSpan" style="vertical-align: top;" visible="false">
                     <a id="aUploaded" runat="server" alt="Uploaded File" href="../res/img/file.png">
-                        <img id="img1" runat="server" border="0" alt="" src="../res/img/file.png" />
+                        <img id="imgIn" runat="server" border="0" alt="" src="../res/img/file.png" />
                     </a>
                 </span>
                 <span id="SpanLabel" runat="server" class="centerSpan" visible="False">

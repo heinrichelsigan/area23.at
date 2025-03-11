@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" %>
 <%@ Import namespace="Area23.At.Framework.Library" %>
+<%@ Import namespace="Area23.At.Framework.Library.Static" %>
 <%@ Import namespace="Newtonsoft.Json" %>
 <%@ Import namespace="Newtonsoft.Json.Linq" %>
 <%@ Import namespace="Newtonsoft.Json.Bson" %>
@@ -67,7 +68,9 @@
 	        <span class="footerCenter" align="center" valign="middle"><a href="/mono/test/HexDump.aspx">hex dump</a></span>			
             <span class="footerCenter" align="center" valign="middle"><a href="/mono/test/Qr/Qrc.aspx">qrcode gen</a></span>	
 	        <span class="footerRightCenter" align="center" valign="middle"><a href="/mono/test/json.aspx">json (de-)serializer</a></span>
-	        <span class="footerRight" align="right" valign="middle"><a href="mailto:he@area23.at">Heinrich Elsigan</a>, GNU General Public License 3.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://darkstar.work">darkstar.work</a></span>
+	        <span class="footerRight" align="right" valign="middle">
+                <a href="mailto:he@area23.at">Heinrich Elsigan</a>, GNU General Public License 3.0, [<a href="http://blog.area23.at">blog.</a>]<a href="https://area23.at">area23.at</a>
+	        </span>
         </div>
         <div align="right" style="height: 3pt; width: 5pt; font-size: xx-small; border-style: none; text-decoration-color: #f7f7f7; color: #f9f9f9; background-color: #fbfbfb;">
             <asp:Button ID="ButtonHidden" runat="server" Text="_" BorderStyle="None" BorderColor="#fbfbfb" BackColor="#fbfbfb" ForeColor="#fbfbfb" BorderWidth="0"

@@ -1,7 +1,7 @@
 ﻿/*
     2023-11-05 froga.js © by Heinrich Elsigan
     2024-01-08 updated
-    https://darkstar.work/froga/
+    https://area23.at/froga/
     https://area23.at/froga/froga.html
 */
 

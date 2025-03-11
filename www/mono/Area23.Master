@@ -24,8 +24,8 @@
     </asp:ContentPlaceHolder>
     <hr />
     <div align="left" class="footerDiv">            
-        <span class="footerLeft" align="left" valign="middle"><a href="http://blog.darkstar.work">blog.</a></span> 
-        <span class="footerLeftCenter" align="center" valign="middle"><a href="https://darkstar.work">darkstar.work</a></span> 
+        <span class="footerLeft" align="left" valign="middle"><a href="http://blog.area23.at">blog.</a></span> 
+        <span class="footerLeftCenter" align="center" valign="middle"><a href="https://area23.at">area23.at</a></span> 
         <span class="footerCenter" align="center" valign="middle"><a href="https://area23.at/net/">area23.at/net/</a> <asp:Literal ID="LiteralVersion" runat="server" Text="" /></span>
         <span class="footerCenter" align="center" valign="middle"><a href="mailto:he@area23.at">Heinrich Elsigan</a></span>	
         <span class="footerRightCenter" align="center" valign="middle">GNU General Public License 3.0</span>

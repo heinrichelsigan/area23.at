@@ -11,7 +11,6 @@ using System.Net;
 namespace Area23.At.Framework.Library.CqrXs.CqrSrv
 {
 
-
     /// <summary>
     /// Provides a secure encrypted message to send to the server or receive from server
     /// </summary>
@@ -31,7 +30,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
         /// </summary>
         /// <param name="msg">plain text string</param>
         /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns>encrypted msg via <see cref="SymmCipherPipe"/></returns>
+        /// <returns>encrypted msg via <see cref="CipherPipe"/></returns>
         public string CqrPeerMsg(string msg, EncodingType encType = EncodingType.Base64)
         {
             return CqrBaseMsg(msg, encType);
@@ -171,6 +170,5 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
         }
 
     }
-
 
 }

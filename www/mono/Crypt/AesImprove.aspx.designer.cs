@@ -87,13 +87,13 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.TextBox TextBox_IV;
 
         /// <summary>
-        /// Button_Reset_KeyIV control.
+        /// Button_SetPipeline control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button_Reset_KeyIV;
+        protected global::System.Web.UI.WebControls.Button Button_SetPipeline;
 
         /// <summary>
         /// DivAesImprove control.
@@ -204,13 +204,13 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.HtmlControls.HtmlAnchor aUploaded;
 
         /// <summary>
-        /// img1 control.
+        /// imgIn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage img1;
+        protected global::System.Web.UI.HtmlControls.HtmlImage imgIn;
 
         /// <summary>
         /// SpanLabel control.

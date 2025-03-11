@@ -1,0 +1,110 @@
+SymmCipher = cipherAlgo;
+switch (cipherAlgo)
+{
+    case SymmCipherEnum.Aes:
+        Size = 256;
+        KeyLen = 32;
+        Mode = "ECB";
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
+        break;
+    case SymmCipherEnum.BlowFish:
+        Size = 64;
+        KeyLen = 8;
+        Mode = "ECB";
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.BlowfishEngine();
+        break;
+    case SymmCipherEnum.Fish2:
+        Size = 128;
+        KeyLen = 16;
+        Mode = "ECB";
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.TwofishEngine();
+        break;
+    case SymmCipherEnum.Fish3:
+        Size = 256;
+        KeyLen = 32;
+        Mode = "ECB";
+        // TODO: ugly hack because of 1st version bug
+        if (fishOnAesEngine)
+            BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
+        else
+            BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
+        break;
+    case SymmCipherEnum.Camellia:
+        Size = 128;
+        KeyLen = 16;
+        Mode = "ECB";
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
+        break;
+    case SymmCipherEnum.Cast6:
+        Size = 256;
+        KeyLen = 32;
+        Mode = "ECB";
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
+        break;
+    case SymmCipherEnum.Des3:
+        Size = 128;
+        KeyLen = 16;
+        Mode = "ECB";
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEdeEngine();
+        break;
+    case SymmCipherEnum.Gost28147:
+        Size = 256;
+        KeyLen = 32;
+        Mode = "ECB";
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
+        break;
+    case SymmCipherEnum.Idea:
+        Size = 256;
+        KeyLen = 32;
+        Mode = "ECB";
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
+        break;
+    case SymmCipherEnum.RC532:
+        Size = 256;
+        KeyLen = 32;
+        Mode = "ECB";
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
+        break;
+    //case "RC564":
+    //    Size = 256;
+    //    KeyLen = 32;
+    //    Mode = "ECB";
+    //    BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
+    //    break;
+    case SymmCipherEnum.Seed:
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
+        Size = 128;
+        KeyLen = 16;
+        Mode = "ECB";
+        break;
+    case SymmCipherEnum.Serpent:
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
+        Size = 128;
+        KeyLen = 16;
+        Mode = "ECB";
+        break;
+    case SymmCipherEnum.SkipJack:
+        Size = 256;
+        KeyLen = 32;
+        Mode = "ECB";
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
+        break;
+    case SymmCipherEnum.Tea:
+        Size = 128;
+        KeyLen = 16;
+        Mode = "ECB";
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
+        break;
+    case SymmCipherEnum.XTea:
+        Size = 256;
+        KeyLen = 32;
+        Mode = "ECB";
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
+        break;
+    default:
+        Size = 256;
+        KeyLen = 32;
+        Mode = "ECB";
+        BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
+        break;
+}

@@ -22,7 +22,6 @@ using System.Web.UI.WebControls;
 namespace Area23.At.Framework.Library.CqrXs.CqrSrv
 {
 
-
     /// <summary>
     /// Provides a secure encrypted message to send to the server or receive from server
     /// </summary>
@@ -83,7 +82,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
         /// <param name="receipient"><see cref="CqrContact"/></param>
         /// <param name="msg">plain text string</param>
         /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns>encrypted msg via <see cref="SymmCipherPipe"/></returns>
+        /// <returns>encrypted msg via <see cref="CipherPipe"/></returns>
         /// <exception cref="InvalidDataException"></exception>
         public string CqrSrvMsg(CqrContact sender, CqrContact receipient, string msg, EncodingType encType = EncodingType.Base64)
         {
@@ -114,7 +113,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
         /// <param name="receipient"><see cref="CqrContact"/></param>
         /// <param name="tcontent">generic content will be mapped to msg</param>
         /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns>encrypted msg via <see cref="SymmCipherPipe"/></returns>
+        /// <returns>encrypted msg via <see cref="CipherPipe"/></returns>
         /// <exception cref="InvalidDataException"></exception>
         public string CqrSrvMsg<T>(CqrContact sender, CqrContact receipient, T tcontent, EncodingType encType = EncodingType.Base64) where T : class
         {
@@ -558,6 +557,5 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
         #endregion obsolete methods
 
     }
-
 
 }

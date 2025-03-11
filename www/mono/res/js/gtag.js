@@ -1,6 +1,6 @@
 ﻿/*
     2024-01-14 gtag.js script to load google tag script async
-    https://darkstar.work/js/gtag.js
+    https://area23.at/js/gtag.js
     https://area23.at/js/gtag.js
 */
 

@@ -66,7 +66,7 @@ void urlInvalidOut(char *url) {
 	printf("\t\t\t<span style=\"width:8%; text-align: center;\" align=\"center\" valign=\"middle\"><a href=\"/cgi/od.cgi\">octal dump</a></span>\n");
 	printf("\t\t\t<span style="width:8 %; text - align: center; \" align="center\" valign="middle\"><a href=" / mono / SchnapsNet / \">schnapsen 66</a></span>\n");
 	printf("\t\t\t<span style="width:64 %; text - align: center; \" align="center\" valign="middle\">\n");
-	printf("\t\t\t\t<a href="mailto:he@area23.at\">Heinrich Elsigan</a>, GNU General Public License 3.0, [<a href="http://blog.darkstar.work\">blog.</a>]<a href="https://darkstar.work\">darkstar.work</a>\n");
+	printf("\t\t\t\t<a href="mailto:he@area23.at\">Heinrich Elsigan</a>, GNU General Public License 3.0, [<a href="http://blog.area23.at\">blog.</a>]<a href="https://area23.at\">area23.at</a>\n");
 	printf("\t\t\t</span>\n");
 	printf("\t\t</div>\n");
 	printf("\t</form>\n");
@@ -142,7 +142,7 @@ int exeCmd(char* cmdStr)
 
 	printf("</pre>\n");
 	printf("\t\t\t<hr />\n");
-	printf("\t\t\t<div align=\"left\" class=\"footerDiv\"><span style=\"width:12%; text-align: left;\" align=\"left\" valign=\"middle\"><a href=\"/test/cgi/fortune.html\">fortune</a></span><span style=\"width:12%; text-align: center;\" align=\"center\" valign=\"middle\"><a href=\"/mono/json/\">json deserializer</a></span><span style=\"width:12%; text-align: center;\" align=\"center\" valign=\"middle\"><a href=\"/cgi/od.cgi\">octal dump</a></span><span style=\"width:64%; text-align: right;\" align=\"right\" valign=\"middle\"><a href=\"mailto:root@darkstar.work\">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href=\"http://blog.darkstar.work\">blog.</a>]<a href=\"https://darkstar.work\">darkstar.work</a></span></div>\n");
+	printf("\t\t\t<div align=\"left\" class=\"footerDiv\"><span style=\"width:12%; text-align: left;\" align=\"left\" valign=\"middle\"><a href=\"/test/cgi/fortune.html\">fortune</a></span><span style=\"width:12%; text-align: center;\" align=\"center\" valign=\"middle\"><a href=\"/mono/json/\">json deserializer</a></span><span style=\"width:12%; text-align: center;\" align=\"center\" valign=\"middle\"><a href=\"/cgi/od.cgi\">octal dump</a></span><span style=\"width:64%; text-align: right;\" align=\"right\" valign=\"middle\"><a href=\"mailto:root@area23.at\">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href=\"http://blog.area23.at\">blog.</a>]<a href=\"https://area23.at\">area23.at</a></span></div>\n");
 	printf("\t</form>\n");
 	printf("\t</body>\n\n</html>\n");
 	

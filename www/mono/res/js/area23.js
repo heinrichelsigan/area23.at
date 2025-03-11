@@ -59,7 +59,7 @@ function highLightOnChange(highLightId) {
 }
 
 
-function ReloadUnixForm() { // var url = "https://darkstar.work/cgi/fortune.cgi";
+function ReloadUnixForm() { // var url = "https://area23.at/cgi/fortune.cgi";
     var delay = 100;
     setTimeout(function () { window.location.reload(); }, delay);
     return;

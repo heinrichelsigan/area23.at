@@ -111,7 +111,7 @@
             <span style="width:12%; text-align: center;" align="center" valign="middle"><a href="/mono/json/">json deserializer</a></span>
             <span style="width:12%; text-align: center;" align="center" valign="middle"><a href="/test/cgi/od.html">octal dump</a></span>
             <span style="width:64%; text-align: right;" align="right" valign="middle">
-                <a href="mailto:root@darkstar.work">Heinrich Elsigan</a>, GNU General Public License 2.0, [<a href="http://blog.darkstar.work">blog.</a>]<a href="https://darkstar.work">darkstar.work</a>
+                <a href="mailto:he@area23.at">Heinrich Elsigan</a>, GNU General Public License 3.0, [<a href="http://blog.area23.at">blog.</a>]<a href="https://area23.at">area23.at</a>
             </span>
         </div>
     </form>

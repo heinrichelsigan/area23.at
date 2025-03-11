@@ -1,22 +1,29 @@
 ﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
 
-
     /// <summary>
     /// Simple sbyte reduced to 0x0 .. 0xf symmetric cipher mapping matrix,
     /// maybe already invented, but created by zen@area23.at (Heinrich Elsigan)
     /// </summary>
-    public class ZenMatrix
+    public class ZenMatrix : IBlockCipher
     {
 
         #region fields
+
+        private const string SYMMCIPHERALGONAME = "ZenMatrix";
+        private const int BLOCK_SIZE = 0x10;
+        private bool initialised = false;
 
         /// <summary>
         /// MatrixPermutationBase is a Permutation Matrix where every value will mapped to itself
@@ -132,8 +139,62 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         public HashSet<sbyte> PermutationKeyHash { get; protected internal set; }
 
+        public string AlgorithmName => SYMMCIPHERALGONAME;
+
 
         #endregion Properties
+
+        #region IBlockCipher interface
+
+        public int GetBlockSize() => BLOCK_SIZE;
+
+
+        public void Init(bool forEncryption, ICipherParameters parameters)
+        {
+            if (!(parameters is KeyParameter))
+                throw new ArgumentException("only simple KeyParameter expected.");
+            
+            ZenMatrixGenWithBytes(privateBytes, !forEncryption);
+            initialised = true;
+        }
+
+
+        /// <summary>
+        /// Processes one BLOCK with BLOCK_SIZE <see cref="BLOCK_SIZE"/>
+        /// </summary>
+        /// <param name="inBuf"></param>
+        /// <param name="inOff"></param>
+        /// <param name="outBuf"></param>
+        /// <param name="outOff"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidDataException"></exception>
+        public int ProcessBlock(byte[] inBuf, int inOff, byte[] outBuf, int outOff)
+        {
+            int len = BLOCK_SIZE;
+            int aCnt = 0, bCnt = 0;
+            byte[] processedEncrypted = null;
+            if (inOff >= inBuf.Length || inOff + len > inBuf.Length)
+                throw new InvalidDataException($"Cannot process next {BLOCK_SIZE} bytes, because inOff ({inOff}) + BLOCK_SIZE ({BLOCK_SIZE}) > inBuf.Length ({inBuf.Length})");
+            if (outOff >= outBuf.Length || outOff + len > outBuf.Length)
+                throw new InvalidDataException($"Cannot process next {BLOCK_SIZE} bytes, because inOff ({outOff}) + BLOCK_SIZE ({BLOCK_SIZE}) > outBuf.Length ({outBuf.Length})");
+
+            if (inOff < inBuf.Length && inOff + len <= inBuf.Length && outOff < outBuf.Length && outOff + len <= outBuf.Length) 
+            {
+                processedEncrypted = new byte[len];
+                for (aCnt = 0, bCnt = inOff; bCnt < inOff + len; aCnt++, bCnt++)
+                {
+                    byte b = inBuf[bCnt];
+                    MapByteValue(ref b, out byte mapEncryptB, true);
+                    sbyte sm = MatrixPermutationKey[aCnt];
+                    outBuf[outOff+(int)sm] = mapEncryptB;
+                }
+            }
+            
+            return BLOCK_SIZE;
+        }
+
+        #endregion IBlockCipher interface
+
 
         #region ctor_init_gen_reverse
 
@@ -162,7 +223,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// fullSymmetric means that zen matrix is it's inverse element 
         /// and decrypts back to plain text, when encrypting twice or ²</param>       
         /// <exception cref="ApplicationException"></exception>
-        public ZenMatrix(string secretKey = "", string hashIV = "", bool fullSymmetric = false) : this()
+        public ZenMatrix(string secretKey = "", string hashIV = "", bool fullSymmetric = true) : this()
         {
             secretKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
             hashIV = string.IsNullOrEmpty(hashIV) ? Constants.AREA23_EMAIL : hashIV;
@@ -179,7 +240,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="fullSymmetric">
         /// fullSymmetric means that zen matrix is it's inverse element 
         /// and decrypts back to plain text, when encrypting twice or ²</param> 
-        public ZenMatrix(byte[] keyBytes, bool fullSymmetric = false) : this()
+        public ZenMatrix(byte[] keyBytes, bool fullSymmetric = true) : this()
         {
             ZenMatrixGenWithBytes(keyBytes, fullSymmetric);
         }
@@ -213,7 +274,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// fullSymmetric means that zen matrix is it's inverse element 
         /// and decrypts back to plain text, when encrypting twice or ²</param>       
         /// <exception cref="ApplicationException"></exception>
-        protected internal void ZenMatrixGenWithBytes(byte[] keyBytes, bool fullSymmetric = false)
+        protected internal void ZenMatrixGenWithBytes(byte[] keyBytes, bool fullSymmetric = true)
         {
             if ((keyBytes == null || keyBytes.Length < 4))
                 throw new ApplicationException("byte[] keyBytes is null or keyBytes.Length < 4");
@@ -333,7 +394,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             for (int j = 0; j < keyBytes.Length; j++)
                 kbs += keyBytes[j].ToString("x2");
 
-            Area23Log.LogStatic("ZenMatrix: " + perm + " KeyBytes = " + kbs);
+
+            initialised = true;
+            Area23Log.LogStatic("ZenMatrix: " + perm + " KeyBytes = " + kbs);            
         }
 
 
@@ -344,20 +407,20 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <summary>
         /// ProcessEncryptBytes, processes the next len=16 bytes to encrypt, starting at offSet
         /// </summary>
-        /// <param name="inBytesPadding">in bytes array to encrypt</param>
+        /// <param name="inBytes">in bytes array to encrypt</param>
         /// <param name="offSet">starting offSet</param>
         /// <param name="len">len of byte block (default 16)</param>
         /// <returns>byte[len] (default: 16) segment of encrypted bytes</returns>
-        protected internal virtual byte[] ProcessEncryptBytes(byte[] inBytesPadding, int offSet = 0, int len = 0x10)
+        protected internal virtual byte[] ProcessEncryptBytes(byte[] inBytes, int offSet = 0, int len = 0x10)
         {
             int aCnt = 0, bCnt = 0;
             byte[] processedEncrypted = null;
-            if (offSet < inBytesPadding.Length && offSet + len <= inBytesPadding.Length)
+            if (offSet < inBytes.Length && offSet + len <= inBytes.Length)
             {
                 processedEncrypted = new byte[len];
                 for (aCnt = 0, bCnt = offSet; bCnt < offSet + len; aCnt++, bCnt++)
                 {
-                    byte b = inBytesPadding[bCnt];
+                    byte b = inBytes[bCnt];
                     MapByteValue(ref b, out byte mapEncryptB, true);
                     sbyte sm = MatrixPermutationKey[aCnt];
                     processedEncrypted[(int)sm] = mapEncryptB;

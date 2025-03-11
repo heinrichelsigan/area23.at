@@ -1,6 +1,6 @@
 ﻿/*
     2023-12-20 od.js © by Heinrich Elsigan
-    https://darkstar.work/cgi/od.cgi
+    https://area23.at/cgi/od.cgi
     https://area23.at/test/cgi/od.html
 */
 

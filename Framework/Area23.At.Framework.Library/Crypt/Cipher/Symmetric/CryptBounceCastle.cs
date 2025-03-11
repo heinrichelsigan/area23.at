@@ -174,7 +174,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 CryptoBlockCipherPadding = new ISO7816d4Padding();
             else CryptoBlockCipherPadding = new ZeroBytePadding();            
             KeyLen = cparams.KeyLen;
-            Size = Math.Min(cparams.BlockSize, CryptoBlockCipher.GetBlockSize());
+            Size = Math.Min(cparams.Size, CryptoBlockCipher.GetBlockSize());
             Mode = cparams.Mode;
 
             if (init)
