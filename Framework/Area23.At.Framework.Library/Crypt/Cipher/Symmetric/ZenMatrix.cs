@@ -15,7 +15,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     /// <summary>
     /// Simple sbyte reduced to 0x0 .. 0xf symmetric cipher mapping matrix,
     /// maybe already invented, but created by zen@area23.at (Heinrich Elsigan)
-    /// </summary>
+    /// </summary> 
     public class ZenMatrix : IBlockCipher
     {
 
