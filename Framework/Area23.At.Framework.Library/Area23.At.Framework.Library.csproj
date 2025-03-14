@@ -100,6 +100,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crypt\Cipher\CipherPipe.cs" />
+    <Compile Include="Properties\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\ResourceFramework.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourceFramework.resx</DependentUpon>
+    </Compile>
     <Compile Include="Util\Area23Log.cs" />
     <Compile Include="CqrXs\CqrException.cs" />
     <Compile Include="CqrXs\CqrJd\CqrService.cs" />
@@ -162,11 +172,6 @@
     <Compile Include="Net\NetworkAddresses.cs" />
     <Compile Include="Net\WebHttp\WebClientRequest.cs" />
     <Compile Include="Static\ProcessCmd.cs" />
-    <Compile Include="Properties\Resource.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resource.resx</DependentUpon>
-    </Compile>
     <Compile Include="Static\ResReader.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\CryptBounceCastle.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\CryptParamsPrefered.cs" />
@@ -195,6 +200,11 @@
     <Compile Include="Zfx\ZipType.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\ResourceFramework.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>ResourceFramework.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Properties\fortune.u8">
