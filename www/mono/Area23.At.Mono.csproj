@@ -115,7 +115,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Calc\CCalc.aspx" />
-    <Content Include="Calc\MatrixCalc.aspx" />
+    <Content Include="Calc\MatrixMCalc.aspx" />
+    <Content Include="Calc\MatrixVCalc.aspx" />
+    <Compile Include="Calc\MatrixMCalc.aspx.cs">
+      <DependentUpon>MatrixMCalc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Calc\MatrixMCalc.aspx.designer.cs">
+      <DependentUpon>MatrixMCalc.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CqrJD\CqrBaseService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -140,6 +148,7 @@
     <Content Include="res\bin\gzip.exe" />
     <Content Include="res\bin\readline4.dll" />
     <Content Include="res\css\ccalcweb.css" />
+    <Content Include="res\css\matrixcalcweb.css" />
     <Content Include="res\img\AddAesArrow.gif" />
     <Content Include="res\img\AddAesArrowHover.gif" />
     <Content Include="res\img\AddAesDenied.gif" />
@@ -309,12 +318,12 @@
     <Compile Include="Calc\CCalc.aspx.designer.cs">
       <DependentUpon>CCalc.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Calc\MatrixCalc.aspx.cs">
-      <DependentUpon>MatrixCalc.aspx</DependentUpon>
+    <Compile Include="Calc\MatrixVCalc.aspx.cs">
+      <DependentUpon>MatrixVCalc.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Calc\MatrixCalc.aspx.designer.cs">
-      <DependentUpon>MatrixCalc.aspx</DependentUpon>
+    <Compile Include="Calc\MatrixVCalc.aspx.designer.cs">
+      <DependentUpon>MatrixVCalc.aspx</DependentUpon>
     </Compile>
     <Compile Include="CqrJD\CqrJdBasePage.cs">
       <SubType>ASPXCodeBehind</SubType>

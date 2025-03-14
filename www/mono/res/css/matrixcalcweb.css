@@ -1,0 +1,291 @@
+﻿/*
+    2025-03-15 matrixcalcweb.css by heinrich elsigan 
+*/
+body {
+}
+    div {
+        line-height: normal;
+        vertical-align: middle;
+        /*
+            text-align: center;
+            align-content: center;
+            align-self: center;
+            background-color: black;
+        */
+    }
+
+    div.rpnDiv {
+        width: 100%;
+        min-width: 360pt;
+        height: 84%;
+        min-height: 240pt;
+        border-style: double;
+        border-color: white;
+        border-spacing: 2pt;
+        border-width: 2pt;
+        background-color: lightgray;
+        /* 
+            align-self: center;
+            align-content: center;
+            text-align: center;
+            line-height: normal;        
+            font-size: medium;
+            table-layout: fixed;
+            inset-block-start: initial;
+            inset-block-start: auto;
+        */
+    }
+
+    div.rpnDivHeader {
+        width: 100%;
+        min-width: 320pt;
+        height: 36pt;
+        min-height: 36pt;
+        align-content: center;
+        line-height: normal;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0px;
+        background-repeat: no-repeat;
+    }
+
+    div.rpnDivFooter {
+        width: 100%;
+        text-align: center;
+        background-color: black;
+        align-content: center;
+        font-size: medium;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        table-layout: fixed;
+        inset-block-start: initial;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+    }
+
+    table {
+        width: 100%;
+        min-width: 960pt;
+        height: 99%;
+        min-height: 768pt;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        background-color: transparent;
+        border-spacing: 0px;
+        background-repeat: no-repeat;
+    }
+
+        table.matrixTbl_m0,
+        table#Matrix_m0_Table,
+        table.matrixTbl#Matrix_m0_Table,
+        table.matrixTbl_m0#Matrix_m0_Table {
+            width: 33%;
+            min-width: 230pt;
+            height: 75%;
+            min-height: 600pt;
+            max-height: 820pt;
+            align-content: center;
+            padding: 0 0 0 0;
+            margin: 0 0 0 0;
+            background-color: lightskyblue;
+            font-synthesis: style;
+            font-variant-numeric: proportional-nums;
+            border-style: dotted;
+            border-width: 1px;
+            border-color: navy;
+            border-spacing: 0px;
+            background-repeat: no-repeat;
+        }
+
+        table.matrixTbl_m1,
+        table#Matrix_m1_Table,
+        table.matrixTbl#Matrix_m1_Table,
+        table.matrixTbl_m1#Matrix_m1_Table {
+            width: 33%;
+            min-width: 230pt;
+            height: 75%;
+            min-height: 600pt;
+            max-height: 820pt;
+            align-content: center;
+            padding: 0 0 0 0;
+            margin: 0 0 0 0;
+            background-color: lightpink;
+            font-synthesis: style;
+            font-variant-numeric: proportional-nums;
+            border-style: dashed;
+            border-width: 1px;
+            border-color: darkseagreen;
+            border-spacing: 0px;
+            background-repeat: no-repeat;
+        }
+
+        table.matrixTbl_m2,
+        table#Matrix_m2_Table,
+        table.matrixTbl#Matrix_m2_Table {
+            width: 33%;
+            min-width: 230pt;
+            height: 75%;
+            min-height: 600pt;
+            max-height: 820pt;
+            align-content: center;
+            padding: 0 0 0 0;
+            margin: 0 0 0 0;
+            background-color: lightgoldenrodyellow;
+            border-style: ridge;
+            border-width: 1px;
+            border-color: indigo;
+            border-spacing: 0px;
+            background-repeat: no-repeat;
+        }
+
+        table.matrixTbl_m.tr.matrixTr_m0,
+        table.matrixTbl_m0#Matrix_m0_Table.tr.matrixTr_m0
+        table.matrixTbl_m0.tr.matrixTr_m0.tr_m0_f,
+        tr.matrixTr_m0,
+        tr.tr_m0_f,
+        tr#tr_m0_f,
+        table.matrixTbl_m0.tr.matrixTr_m0.tr_m0_f#tr_m0_f {
+            width: 33%;
+            min-width: 230pt;
+            height: 24pt;            
+            min-height: 12pt;
+            max-height: 36pt;
+            padding: 0 0 0 0;
+            margin: 0 0 0 0;
+            background-color: lightskyblue;
+            font-synthesis: style;
+            font-variant-numeric: proportional-nums;
+            border-style: dotted;
+            border-width: 1px;
+            border-color: navy;
+            border-spacing: 0px;
+            background-repeat: no-repeat;
+            /*  background-size: 100% 100%; */
+        }
+
+        table.matrixTbl_m1#Matrix_m1_Table.tr.matrixTr_m1,
+        table.matrixTbl_m1.tr.matrixTr_m1.tr_m1_f,
+        table.matrixTbl_m1.tr.matrixTr_m1.tr_m1_f#tr_m1_f
+        tr.matrixTr_m1,
+        tr#tr_m1_f,
+        tr.matrixTr_m1#tr_m1_f {
+            width: 33%;
+            min-width: 230pt;
+            height: 24pt;
+            min-height: 12pt;
+            max-height: 36pt;
+            padding: 0 0 0 0;
+            margin: 0 0 0 0;
+            background-color: lightpink;
+            font-synthesis: style;
+            font-variant-numeric: proportional-nums;
+            border-style: dashed;
+            border-width: 1px;
+            border-color: darkseagreen;
+            border-spacing: 0px;
+            background-repeat: no-repeat;
+            /*  background-size: 100% 100%; */
+        }
+
+        table.matrixTbl_m2#Matrix_m2_Table.tr.matrixTr_m2,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_f,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_f#tr_m2_f
+        tr.matrixTr_m2,
+        tr.tr_m2_f,
+        tr#tr_m2_f, {
+            width: 33%;
+            min-width: 230pt;
+            height: 24pt;
+            min-height: 12pt;
+            max-height: 36pt;
+            padding: 0 0 0 0;
+            margin: 0 0 0 0;
+            background-color: lightgoldenrodyellow;
+            border-style: ridge;
+            border-width: 1px;
+            border-color: indigo;
+            border-spacing: 0px;
+            background-repeat: no-repeat;
+            border-spacing: 0px;
+            background-repeat: no-repeat;
+            /*  background-size: 100% 100%; */
+        }
+
+
+            td.matrixTd_m0 {
+                width: 1%;
+                min-width: 12pt;
+                max-width: 48pt;
+                height: 24pt;
+                min-height: 12pt;
+                max-height: 36pt;
+                padding: 0 0 0 0;
+                margin: 0 0 0 0;
+                background-color: lightskyblue;
+                font-synthesis: style;
+                font-variant-numeric: proportional-nums;
+                border-style: dotted;
+                border-width: 1px;
+                border-color: navy;
+                border-spacing: 0px;
+                background-repeat: no-repeat;
+                /*  background-size: 100% 100%; */
+            }
+
+            td.matrixTd_m1 {
+                width: 1%;
+                min-width: 12pt;
+                max-width: 48pt;
+                height: 24pt;
+                min-height: 12pt;
+                max-height: 36pt;
+                padding: 0 0 0 0;
+                margin: 0 0 0 0;
+                background-color: lightpink;
+                font-synthesis: style;
+                font-variant-numeric: proportional-nums;
+                border-style: dashed;
+                border-width: 1px;
+                border-color: darkseagreen;
+                border-spacing: 0px;
+                background-repeat: no-repeat;
+                /*  background-size: 100% 100%; */
+            }
+
+            td.matrixTd_m2 {
+                width: 1%;
+                min-width: 12pt;
+                max-width: 48pt;
+                height: 24pt;
+                min-height: 12pt;
+                max-height: 36pt;
+                padding: 0 0 0 0;
+                margin: 0 0 0 0;
+                background-color: lightgoldenrodyellow;
+                border-style: ridge;
+                border-width: 1px;
+                border-color: indigo;
+                border-spacing: 0px;
+                background-repeat: no-repeat;
+                /*  background-size: 100% 100%; */
+            }
+
+            td.matrixTbl_m0.TextBox,
+            td.matrixTbl_m0.input
+            td.matrixTbl_m2.TextBox,
+            td.matrixTbl_m2.input
+            td.matrixTbl_m1.TextBox,
+            td.matrixTbl_m1.input
+            td.matrixTbl_m2.TextBox,
+            td.matrixTbl_m2.input {
+                font-synthesis: style;
+                font-variant-numeric: proportional-nums;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+                font-size: small;
+                font-weight: 300;
+                font-display: block;
+                font-style: oblique;
+            }
+

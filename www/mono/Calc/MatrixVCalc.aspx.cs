@@ -16,7 +16,7 @@ using System.Windows.Media.Animation;
 
 namespace Area23.At.Mono.Calc 
 {
-    public partial class MatrixCalc : Util.UIPage
+    public partial class MatrixVCalc : Util.UIPage
     {
         Stack<string> rpnStack = new Stack<string>();
 

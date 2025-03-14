@@ -69,13 +69,13 @@ namespace Area23.At.Mono.Calc
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerCenter;
 
         /// <summary>
-        /// aMatrixCalc control.
+        /// aMatrixVCalc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aMatrixCalc;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aMatrixVCalc;
 
         /// <summary>
         /// headerRightCenter control.
@@ -85,6 +85,24 @@ namespace Area23.At.Mono.Calc
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRightCenter;
+
+        /// <summary>
+        /// aMatrixMCalc control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aMatrixMCalc;
+
+        /// <summary>
+        /// headerRight control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRight;
 
         /// <summary>
         /// aBc control.

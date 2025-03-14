@@ -11,7 +11,7 @@ namespace Area23.At.Mono.Calc
 {
 
 
-    public partial class MatrixCalc
+    public partial class MatrixVCalc
     {
 
         /// <summary>

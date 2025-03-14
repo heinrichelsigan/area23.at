@@ -31,8 +31,9 @@ namespace Area23.At.Mono.Calc
         {
             this.aCCalc.HRef = LibPaths.CalcAppPath + "CCalc.aspx";
             this.aRpnCalc.HRef = LibPaths.CalcAppPath + "RpnCalc.aspx";
+            this.aMatrixVCalc.HRef = LibPaths.CalcAppPath + "MatrixVCalc.aspx";
+            this.aMatrixMCalc.HRef = LibPaths.CalcAppPath + "MatrixMCalc.aspx";
             this.aBc.HRef = LibPaths.UnixAppPath + "Bc.aspx";
-            this.aMatrixCalc.HRef = LibPaths.CalcAppPath + "MatrixCalc.aspx";
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)
@@ -41,7 +42,7 @@ namespace Area23.At.Mono.Calc
             headerLeftCenter.Attributes["class"] = "headerLeftCenter";
             headerCenter.Attributes["class"] = "headerCenter";
             headerRightCenter.Attributes["class"] = "headerRightCenter";            
-            // headerRight.Style["class"] = "headerRight";
+            headerRight.Style["class"] = "headerRight";
 
             try
             {
@@ -57,14 +58,19 @@ namespace Area23.At.Mono.Calc
                         headerLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("MatrixCalc.aspx"))
+                    if (this.Request.RawUrl.Contains("MatrixVCalc.aspx"))
                     {
                         headerCenter.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
+                    if (this.Request.RawUrl.Contains("MatrixMCalc.aspx"))
+                    {
+                        headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
+                        return;
+                    }
                     if (this.Request.RawUrl.Contains("Bc.aspx"))
                     {
-                        headerCenter.Attributes["class"] = "headerRightCenterSelect";
+                        headerRight.Attributes["class"] = "headerRightSelect";
                         return;
                     }                                        
                 }
