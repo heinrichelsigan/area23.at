@@ -87,6 +87,7 @@ body {
             min-height: 600pt;
             max-height: 820pt;
             align-content: center;
+            vertical-align: top;
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             background-color: lightskyblue;
@@ -108,6 +109,7 @@ body {
             height: 75%;
             min-height: 600pt;
             max-height: 820pt;
+            vertical-align: top;
             align-content: center;
             padding: 0 0 0 0;
             margin: 0 0 0 0;
@@ -129,6 +131,7 @@ body {
             height: 75%;
             min-height: 600pt;
             max-height: 820pt;
+            vertical-align: top;
             align-content: center;
             padding: 0 0 0 0;
             margin: 0 0 0 0;
