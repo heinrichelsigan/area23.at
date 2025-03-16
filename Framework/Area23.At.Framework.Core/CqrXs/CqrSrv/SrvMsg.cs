@@ -1,5 +1,5 @@
 ﻿using Area23.At.Framework.Core.CqrXs.CqrJd;
-using Area23.At.Framework.Core.CqrXs.Msg;
+using Area23.At.Framework.Core.CqrXs.CqrMsg;
 using Area23.At.Framework.Core.Crypt.Cipher;
 using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
@@ -260,7 +260,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
              where TS : class
         {
             FullSrvMsg<TS>? fullMsg = null;
-            CqrMsg msgContent = base.NCqrBaseMsg(cqrMessage, encType);
+            MsgContent msgContent = base.NCqrBaseMsg(cqrMessage, encType);
 
             if (msgContent != null && !string.IsNullOrEmpty(msgContent.Message))
             {
@@ -309,7 +309,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             else if (decrypted.IsValidXml())
                 msgEnum = MsgEnum.Xml;
 
-            CqrMsg msgContent = new CqrMsg(decrypted, msgEnum);
+            MsgContent msgContent = new MsgContent(decrypted, msgEnum);
             string hashVerification = msgContent.Hash;
             if (!VerifyHash(hashVerification, clientSymmPipe.PipeString))
             {

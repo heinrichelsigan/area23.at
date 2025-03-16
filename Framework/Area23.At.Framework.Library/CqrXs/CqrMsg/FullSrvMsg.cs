@@ -1,10 +1,16 @@
-﻿using Area23.At.Framework.Library.Static;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using Area23.At.Framework.Library.Util;
+using Area23.At.Framework.Library;
+using Area23.At.Framework.Library.Static;
 
-namespace Area23.At.Framework.Library.CqrXs.Msg
+namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 {
 
 
@@ -13,7 +19,7 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
     /// </summary>
     /// <typeparam name="TC"></typeparam>
     [Serializable]
-    public class FullSrvMsg<TC> : CqrMsg, ICqrMessagable where TC : class
+    public class FullSrvMsg<TC> : MsgContent, ICqrMessagable where TC : class
     {
 
         #region properties

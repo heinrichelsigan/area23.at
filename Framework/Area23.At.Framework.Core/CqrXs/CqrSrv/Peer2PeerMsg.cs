@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Core.CqrXs.Msg;
+﻿using Area23.At.Framework.Core.CqrXs.CqrMsg;
 using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Net.IpSocket;
@@ -37,7 +37,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             return CqrBaseMsg(msg, encType);
         }
 
-        public virtual string CqrPeerMsg(CqrMsg msc, EncodingType encType = EncodingType.Base64)
+        public virtual string CqrPeerMsg(MsgContent msc, EncodingType encType = EncodingType.Base64)
         {
             return CqrBaseMsg(msc, encType);
         }
@@ -80,12 +80,12 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         /// </summary>
         /// <param name="cqrMessage">secure encrypted msg </param>
         /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns><see cref="CqrMsg"/> Message plain text decrypted string</returns>
+        /// <returns><see cref="MsgContent"/> Message plain text decrypted string</returns>
         /// <exception cref="InvalidOperationException">will be thrown, 
         /// if server and client or both side use a different secret key 4 encryption</exception>
-        public CqrMsg NCqrPeerMsg(string cqrMessage, EncodingType encType = EncodingType.Base64)
+        public MsgContent NCqrPeerMsg(string cqrMessage, EncodingType encType = EncodingType.Base64)
         {
-            CqrMsg msgContent = base.NCqrBaseMsg(cqrMessage, encType);
+            MsgContent msgContent = base.NCqrBaseMsg(cqrMessage, encType);
             return msgContent;
         }
 
@@ -128,9 +128,9 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             return cqrFile;
         }
 
-        public CqrMsg NCqrSrvMsg(CqrMsg msgInContent, EncodingType encType = EncodingType.Base64)
+        public MsgContent NCqrSrvMsg(MsgContent msgInContent, EncodingType encType = EncodingType.Base64)
         {
-            CqrMsg msgOutContent = NCqrBaseMsg(msgInContent.RawMessage, encType);
+            MsgContent msgOutContent = NCqrBaseMsg(msgInContent.RawMessage, encType);
             return msgOutContent;
         }
 

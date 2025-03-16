@@ -1,15 +1,18 @@
-﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
-using Area23.At.Framework.Core.Static;
+﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using Newtonsoft.Json;
+using System;
+using System.IO;
 
-namespace Area23.At.Framework.Core.CqrXs.Msg
+namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 {
 
     /// <summary>
     /// Represtents a MimeAttachment
     /// </summary>
     [Serializable]
-    public class CqrFile : CqrMsg, ICqrMessagable
+    public class CqrFile : MsgContent, ICqrMessagable
     {       
 
         #region properties 
@@ -19,7 +22,6 @@ namespace Area23.At.Framework.Core.CqrXs.Msg
         public string Base64Type { get; set; }
         
         public byte[] Data { get; set; }
-        
 
         public string Sha256Hash { get; set; }
 
@@ -93,7 +95,7 @@ namespace Area23.At.Framework.Core.CqrXs.Msg
         /// <param name="msgArt"></param>
         public CqrFile(string plainText, MsgEnum msgArt = MsgEnum.Json)
         {
-            CqrFile? cf = GetCqrFile(plainText, msgArt);
+            CqrFile cf = GetCqrFile(plainText, msgArt);
             CqrFileName = cf.CqrFileName;
             Base64Type = cf.Base64Type;
             Data = cf.Data;
@@ -125,12 +127,12 @@ namespace Area23.At.Framework.Core.CqrXs.Msg
         /// <typeparam name="T"></typeparam>
         /// <param name="jsonText"></param>
         /// <returns></returns>
-        public override T? FromJson<T>(string jsonText) where T : default
+        public override T FromJson<T>(string jsonText)
         {
-            T? t = JsonConvert.DeserializeObject<T>(jsonText);
+            T t = JsonConvert.DeserializeObject<T>(jsonText);
             if (t != null)
             {                
-                if (t is CqrMsg mc)
+                if (t is MsgContent mc)
                 {
                     this._hash = mc.Hash;
                     this._message = mc.Message;
@@ -146,7 +148,7 @@ namespace Area23.At.Framework.Core.CqrXs.Msg
                     Sha256Hash = cf.Sha256Hash;
                     EnCodingType = cf.EnCodingType;
                     MsgType = MsgEnum.Json;
-                    _message = cf.Message;
+                    _message = cf._message;
                     RawMessage = cf.RawMessage;
                     _hash = cf._hash ?? string.Empty;
                 }
@@ -158,9 +160,9 @@ namespace Area23.At.Framework.Core.CqrXs.Msg
         public override string ToXml() => this.ToXml();
         
 
-        public override T? FromXml<T>(string xmlText) where T : default
+        public override T FromXml<T>(string xmlText) 
         {
-            T? cqrT = default(T);
+            T cqrT = default(T);
             cqrT = base.FromXml<T>(xmlText);
             if (cqrT is CqrFile cf)
             {
@@ -306,18 +308,18 @@ namespace Area23.At.Framework.Core.CqrXs.Msg
         {
             string restString = plainAttachment;
 
-            base64Type = restString.GetSubStringByPattern("Content-Type: ", true, "", ";", false, StringComparison.CurrentCulture);
-            cqrFileName = restString.GetSubStringByPattern("; name=\"", true, "", "\";", false, StringComparison.CurrentCulture);
-            string contentLengthString = restString.GetSubStringByPattern("Content-Length: ", true, "", ";\n", false, StringComparison.CurrentCulture);
+            base64Type = restString.GetSubStringByPattern("Content-Type: ", true, "", ";", false);
+            cqrFileName = restString.GetSubStringByPattern("; name=\"", true, "", "\";", false);
+            string contentLengthString = restString.GetSubStringByPattern("Content-Length: ", true, "", ";\n", false);
             string contentLenString = string.Empty;
             foreach (char ch in contentLengthString.ToCharArray())
                 if (Char.IsDigit(ch) || Char.IsNumber(ch) || ch == '.')
                     contentLenString += ch.ToString();
             int contentLen = Int32.Parse(contentLenString);
 
-            _hash = restString.GetSubStringByPattern("Content-Verification: ", true, "", ";", false, StringComparison.CurrentCulture);
-            md5Hash = restString.GetSubStringByPattern("md5=\"", true, "", "\";", false, StringComparison.CurrentCultureIgnoreCase);
-            sha256Hash = restString.GetSubStringByPattern("sha256=\"", true, "", "\";", false, StringComparison.CurrentCultureIgnoreCase);
+            _hash = restString.GetSubStringByPattern("Content-Verification: ", true, "", ";", false);
+            md5Hash = restString.GetSubStringByPattern("md5=\"", true, "", "\";", false);
+            sha256Hash = restString.GetSubStringByPattern("sha256=\"", true, "", "\";", false);
 
             restString = restString.Substring(restString.IndexOf("Content-Verification: ") + "Content-Verification: ".Length);
 

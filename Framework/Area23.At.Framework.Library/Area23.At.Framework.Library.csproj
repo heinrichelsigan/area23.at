@@ -100,26 +100,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crypt\Cipher\CipherPipe.cs" />
-    <Compile Include="Net\IpSocket\SockTcpListener.cs" />
-    <Compile Include="Net\IpSocket\SockTcpSender.cs" />
-    <Compile Include="Net\WebHttp\WebServiceSoap.cs" />
     <Compile Include="Util\Area23Log.cs" />
     <Compile Include="CqrXs\CqrException.cs" />
     <Compile Include="CqrXs\CqrJd\CqrService.cs" />
-    <Compile Include="CqrXs\Msg\ClientSrvMsg.cs" />
-    <Compile Include="CqrXs\Msg\CqrFile.cs" />
-    <Compile Include="CqrXs\Msg\FullSrvMsg.cs" />
-    <Compile Include="CqrXs\Msg\ICqrMessageable.cs" />
-    <Compile Include="CqrXs\Msg\MsgEnum.cs" />
+    <Compile Include="CqrXs\CqrMsg\ClientSrvMsg.cs" />
+    <Compile Include="CqrXs\CqrMsg\CqrFile.cs" />
+    <Compile Include="CqrXs\CqrMsg\FullSrvMsg.cs" />
+    <Compile Include="CqrXs\CqrMsg\ICqrMessageable.cs" />
+    <Compile Include="CqrXs\CqrMsg\MsgEnum.cs" />
     <Compile Include="CqrXs\CqrSettings.cs" />
     <Compile Include="CqrXs\CqrSrv\SrvMsg1.cs" />
     <Compile Include="CqrXs\CqrSrv\BaseMsg.cs" />
-    <Compile Include="CqrXs\Msg\CqrContact.cs" />
-    <Compile Include="CqrXs\Msg\CqrImage.cs" />
+    <Compile Include="CqrXs\CqrMsg\CqrContact.cs" />
+    <Compile Include="CqrXs\CqrMsg\CqrImage.cs" />
     <Compile Include="CqrXs\CqrSrv\Peer2PeerMsg.cs" />
     <Compile Include="CqrXs\CqrSrv\SrvMsg.cs" />
-    <Compile Include="CqrXs\Msg\MimeAttachment.cs" />
-    <Compile Include="CqrXs\Msg\CqrMsg.cs" />
+    <Compile Include="CqrXs\CqrMsg\MimeAttachment.cs" />
+    <Compile Include="CqrXs\CqrMsg\MsgContent.cs" />
     <Compile Include="Crypt\Cipher\Asymmetric\Dsa.cs" />
     <Compile Include="Crypt\Cipher\Asymmetric\DH.cs" />
     <Compile Include="Crypt\Cipher\Asymmetric\Rsa.cs" />
@@ -127,8 +124,11 @@
     <Compile Include="Crypt\Cipher\CipherEnum.cs" />
     <Compile Include="Crypt\Cipher\CryptHelper.cs" />
     <Compile Include="Crypt\Cipher\CryptParams.cs" />
+    <Compile Include="Crypt\Cipher\Symmetric\Fish2.cs" />
+    <Compile Include="Crypt\Cipher\Symmetric\Fish3.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\FishRequiresAesEngineException.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\RC564.cs" />
+    <Compile Include="Crypt\Cipher\Symmetric\Rijndael.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\SymmCipherPipe.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\SymmCrypt.cs" />
     <Compile Include="Static\Constants.cs" />

@@ -25,7 +25,7 @@ namespace Area23.At.Framework.Core.Static
         public const int MIN_SOCKET_BYTE_BUFFEER = 65536;       //  64 KB Buffer  2^16
         public const int SOCKET_BYTE_BUFFEER = 4194304;         //   4 MB Buffer  2^22
         public const int MAX_FILE_BYTE_BUFFEER = 6291456;       //   6 MB Buffer     
-        public const int MAX_SOCKET_BYTE_BUFFEER = 33554432;    //  32 MB Buffer  2^25 
+        public const int MAX_SOCKET_BYTE_BUFFEER = 16777216;    //  16 MB Buffer  2^24  
         
         // constants time intervals
         public const int CLOSING_TIMEOUT = 1000;

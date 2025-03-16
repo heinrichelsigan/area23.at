@@ -12,9 +12,8 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using Area23.At.Framework.Library.Static;
-using Area23.At.Framework.Library.CqrXs.Msg;
 
-namespace Area23.At.Framework.Library.CqrXs.Msg
+namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 {
 
     /// <summary>
@@ -22,7 +21,6 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
     /// </summary>
     public abstract class BaseMsg
     {
-
         protected internal readonly string key;
         protected internal readonly string hash;
         protected internal readonly byte[] keyBytes;
@@ -56,7 +54,7 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
         #endregion ctor
 
 
-        #region CqrBaseMsg encrypts a string or CqrMsg msc
+        #region CqrBaseMsg encrypts a string or MsgContent msc
 
         /// <summary>
         /// CqrBaseMsg encrypts a msg 
@@ -66,11 +64,11 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
         /// <returns>encrypted msg via <see cref="CipherPipe"/></returns>
         public virtual string CqrBaseMsg(string msg, EncodingType encType = EncodingType.Base64)
         {
-            CqrMsg msc;
+            MsgContent msc;
             if (msg.Contains(PipeString) && msg.IndexOf(PipeString) > 10)
-                msc = new CqrMsg(msg, MsgEnum.None);
+                msc = new MsgContent(msg, MsgEnum.None);
             else
-                msc = new CqrMsg(msg, PipeString);
+                msc = new MsgContent(msg, PipeString);
 
             byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(msc.RawMessage);
 
@@ -84,10 +82,10 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
         /// <summary>
         /// CqrBaseMsg encrypts a msg 
         /// </summary>
-        /// <param name="msc">plain CqrMsg</param>
+        /// <param name="msc">plain MsgContent</param>
         /// <param name="encType"><see cref="EncodingType"/></param>
         /// <returns>encrypted msg via <see cref="CipherPipe"/></returns>
-        public virtual string CqrBaseMsg(CqrMsg msc, EncodingType encType = EncodingType.Base64)
+        public virtual string CqrBaseMsg(MsgContent msc, EncodingType encType = EncodingType.Base64)
         {
             byte[] msgBytes = new byte[msc.RawMessage.Length];
             msc._hash = PipeString;
@@ -107,7 +105,7 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
                 bool shouldSerialize = true;
                 if (msc.RawMessage.IsValidJson())
                 {
-                    CqrMsg c = JsonConvert.DeserializeObject<CqrMsg>(msc.RawMessage);
+                    MsgContent c = JsonConvert.DeserializeObject<MsgContent>(msc.RawMessage);
                     if (c != null && string.IsNullOrEmpty(c._hash) && c._hash.Equals(PipeString) && !string.IsNullOrEmpty(c._message))
                         shouldSerialize = false;
                 }
@@ -119,12 +117,12 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
                 bool shouldSerialize = true;
                 if (msc.RawMessage.IsValidXml())
                 {
-                    CqrMsg c = Static.Utils.DeserializeFromXml<CqrMsg>(msc.RawMessage);
+                    MsgContent c = Static.Utils.DeserializeFromXml<MsgContent>(msc.RawMessage);
                     if (c != null && string.IsNullOrEmpty(c._hash) && c._hash.Equals(PipeString) && !string.IsNullOrEmpty(c._message))
                         shouldSerialize = false;
                 }
                 if (shouldSerialize)
-                    msc.RawMessage = Static.Utils.SerializeToXml<CqrMsg>(msc);
+                    msc.RawMessage = Static.Utils.SerializeToXml<MsgContent>(msc);
             }
 
 
@@ -135,19 +133,19 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
             return CqrMessage;
         }
 
-        #endregion CqrBaseMsg encrypts a string or CqrMsg msc
+        #endregion CqrBaseMsg encrypts a string or MsgContent msc
 
-        #region NCqrBaseMsg decrypts an encrypted string to a CqrMsg
+        #region NCqrBaseMsg decrypts an encrypted string to a MsgContent
 
         /// <summary>
         /// NCqrBaseMsg decryptes an secure encrypted msg 
         /// </summary>
         /// <param name="cqrMessage">secure encrypted msg </param>
         /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns>CqrMsg Message plain text decrypted string</returns>
+        /// <returns>MsgContent Message plain text decrypted string</returns>
         /// <exception cref="InvalidOperationException">will be thrown, 
         /// if server and client or both side use a different secret key 4 encryption</exception>
-        public virtual CqrMsg NCqrBaseMsg(string cqrMessage, EncodingType encType = EncodingType.Base64)
+        public virtual MsgContent NCqrBaseMsg(string cqrMessage, EncodingType encType = EncodingType.Base64)
         {
             CqrMessage = cqrMessage.TrimEnd("\0".ToCharArray());
 
@@ -163,7 +161,7 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
             if (decrypted.IsValidXml())
                 msgEnum = MsgEnum.Xml;
 
-            CqrMsg msgContent = new CqrMsg(decrypted, msgEnum);
+            MsgContent msgContent = new MsgContent(decrypted, msgEnum);
             string hashVerification = msgContent.Hash;
             bool verified = VerifyHash(hashVerification, symmPipe.PipeString);
             if (!verified)
@@ -177,7 +175,7 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
             return msgContent;
         }
 
-        #endregion NCqrBaseMsg decrypts an encrypted string to a CqrMsg
+        #endregion NCqrBaseMsg decrypts an encrypted string to a MsgContent
 
         #region verify hash
 
@@ -186,7 +184,7 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
         /// </summary>
         /// <param name="decrypted">decrypted text</param>
         /// <returns>verification hash</returns>
-        protected internal virtual string VerificationHash(ref CqrMsg msgContent)
+        protected internal virtual string VerificationHash(ref MsgContent msgContent)
         {
             string hash = msgContent.Message.Substring(msgContent.Message.Length - 8);
             hash = !string.IsNullOrEmpty(msgContent._hash) ? msgContent._hash : hash;

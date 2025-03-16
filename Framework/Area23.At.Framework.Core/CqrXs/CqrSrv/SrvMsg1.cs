@@ -1,5 +1,5 @@
 ﻿using Area23.At.Framework.Core.CqrXs.CqrJd;
-using Area23.At.Framework.Core.CqrXs.Msg;
+using Area23.At.Framework.Core.CqrXs.CqrMsg;
 using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Net.WebHttp;
@@ -67,7 +67,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         public CqrContact? NCqrSrvMsg1(string cqrMessage, EncodingType encType = EncodingType.Base64)
         {
             CqrContact? myContact = null;
-            CqrMsg msgContent = base.NCqrBaseMsg(cqrMessage, encType);
+            MsgContent msgContent = base.NCqrBaseMsg(cqrMessage, encType);
             if (msgContent != null && !string.IsNullOrEmpty(msgContent.Message))
                 myContact = JsonConvert.DeserializeObject<CqrContact>(msgContent.Message);
 

@@ -1,4 +1,6 @@
-﻿using Area23.At.Framework.Library.Static;
+﻿using Area23.At.Framework.Library.CqrXs.CqrMsg;
+using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -6,14 +8,14 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace Area23.At.Framework.Library.CqrXs.Msg
+namespace Area23.At.Framework.Library.CqrMsg
 {
 
     /// <summary>
     /// CqrImage is a image for a <see cref="CqrContact"/>
     /// </summary>
     [Serializable]
-    public class CqrImage : CqrMsg, ICqrMessagable
+    public class CqrImage : MsgContent, ICqrMessagable
     {
 
         #region properties
@@ -104,6 +106,7 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
 
         #region members
 
+        
         public virtual string ToJson()
         {
             CqrImage image = new CqrImage(ImageFileName, ImageData);
@@ -136,9 +139,11 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
 
         public override string ToXml() => this.ToXml();
 
+
         public override T FromXml<T>(string xmlText)
         {
-            T cqrT = base.FromXml<T>(xmlText);
+            T cqrT = default(T);
+            cqrT = base.FromXml<T>(xmlText);
             if (cqrT is CqrImage cimg)
             {
                 ImageFileName = cimg.ImageFileName;
@@ -155,7 +160,6 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
             return cqrT;
 
         }
-
 
         public virtual Bitmap ToDrawingBitmap()
         {
@@ -178,6 +182,7 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
 
             return bmpImage;
         }
+
 
         #endregion members
 
@@ -226,7 +231,7 @@ namespace Area23.At.Framework.Library.CqrXs.Msg
                     bmpImage = new Bitmap(ms, true);
                 }
             }
-
+            
 
             return (Image)bmpImage;
         }

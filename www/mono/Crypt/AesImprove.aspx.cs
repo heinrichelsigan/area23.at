@@ -156,15 +156,12 @@ namespace Area23.At.Mono.Crypt
             {
                 Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
                 Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
-
-                byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
-
-                string[] algorithms = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
-                CipherEnum[] cses = new Framework.Library.Crypt.Cipher.CipherPipe(kb).InPipe;
+                
+                SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(this.TextBox_Key.Text, this.TextBox_IV.Text).InPipe;
                 this.TextBox_Encryption.Text = string.Empty;
-                foreach (CipherEnum c in cses)
+                foreach (SymmCipherEnum c in cses)
                 {
-                    this.TextBox_Encryption.Text += c.ToString() + ";";
+                    this.TextBox_Encryption.Text += c.ToCipherEnum().ToString() + ";";
                 }
 
                 this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
@@ -308,13 +305,16 @@ namespace Area23.At.Mono.Crypt
                         outp = ProcessCmd.Execute(zcmd, zopt + " " + zPath + " " + zOutPath, false);
                         Thread.Sleep(50);
                         if (System.IO.File.Exists(zOutPath))
+                        {
                             encryptBytes = System.IO.File.ReadAllBytes(zOutPath);
+                            inBytes = encryptBytes;
+                        }
                     }
                 }
 
                 string[] algorithms = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());                
                 CipherPipe pipe = new Framework.Library.Crypt.Cipher.CipherPipe(algorithms);
-                inBytes = pipe.MerryGoRoundEncrpyt(encryptBytes, this.TextBox_Key.Text, this.TextBox_IV.Text);
+                encryptBytes = pipe.MerryGoRoundEncrpyt(inBytes, this.TextBox_Key.Text, this.TextBox_IV.Text);
 
                 //string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
                 //foreach (string algo in algos)
@@ -329,8 +329,7 @@ namespace Area23.At.Mono.Crypt
                 //        }
                 //    }
                 //}
-                encryptBytes = new byte[inBytes.Length];
-                Array.Copy(inBytes, 0, encryptBytes, 0, inBytes.Length);
+                inBytes = encryptBytes;                
 
                 bool fromPlain = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
 
@@ -413,14 +412,13 @@ namespace Area23.At.Mono.Crypt
                     return;
                 }
 
-                byte[] decryptedBytes = new byte[cipherBytes.Length];
-                Array.Copy(cipherBytes, 0, decryptedBytes, 0, cipherBytes.Length);
+                byte[] decryptedBytes = cipherBytes;
                 int ig = 0;
 
                 byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
                 string[] algorithms = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
                 CipherPipe pipe = new Framework.Library.Crypt.Cipher.CipherPipe(algorithms);
-                decryptedBytes = pipe.DecrpytRoundGoMerry(cipherBytes, this.TextBox_Key.Text, this.TextBox_IV.Text);
+                decryptedBytes = pipe.DecrpytRoundGoMerry(cipherBytes);
 
                 //string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
                 //for (ig = (algos.Length - 1); ig >= 0; ig--)
@@ -435,8 +433,7 @@ namespace Area23.At.Mono.Crypt
                 //        }
                 //    }
                 //}
-                cipherBytes = new byte[decryptedBytes.Length];
-                Array.Copy(decryptedBytes, 0, cipherBytes, 0, decryptedBytes.Length);               
+                cipherBytes = decryptedBytes;          
 
                 ZipType ztype = ZipType.None;
                 string zcmd = (Constants.UNIX) ? "/usr/local/bin/zipunzip.sh" : (Constants.WIN32) ?
@@ -491,7 +488,10 @@ namespace Area23.At.Mono.Crypt
                             outp = ProcessCmd.Execute(zcmd, zopt + " " + zPath + " " + zOutPath, false);
                             Thread.Sleep(50);
                             if (System.IO.File.Exists(zOutPath))
+                            {
                                 decryptedBytes = System.IO.File.ReadAllBytes(zOutPath);
+                                cipherBytes = decryptedBytes;
+                            }
                         }
                     }
                 }

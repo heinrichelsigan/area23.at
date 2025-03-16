@@ -12,7 +12,7 @@ using Area23.At.Framework.Core.Util;
 using Area23.At.Framework.Core.Static;
 using System.Configuration;
 
-namespace Area23.At.Framework.Core.CqrXs.Msg
+namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 {
 
     /// <summary>
@@ -20,7 +20,7 @@ namespace Area23.At.Framework.Core.CqrXs.Msg
     /// </summary>
     /// <typeparam name="TC"></typeparam>
     [Serializable]
-    public class FullSrvMsg<TC> : CqrMsg, ICqrMessagable where TC : class
+    public class FullSrvMsg<TC> : MsgContent, ICqrMessagable where TC : class
     {
 
         #region properties

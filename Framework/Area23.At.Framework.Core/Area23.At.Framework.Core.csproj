@@ -44,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="CqrXs\Msg\MimeAttachment.cs" />
+    <Compile Remove="CqrXs\CqrMsg\MimeAttachment.cs" />
     <Compile Remove="Crypt\EnDeCoding\DeEnCoder.cs" />
     <Compile Remove="Net\IpSocket\IpSocketSender.cs" />
     <Compile Remove="Net\IpSocket\IPSockListener.cs" />  

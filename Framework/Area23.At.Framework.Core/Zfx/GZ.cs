@@ -81,6 +81,7 @@ namespace Area23.At.Framework.Core.Zfx
 
         #endregion gzip compression
 
+
         #region gunzip decompression
 
         /// <summary>
@@ -152,6 +153,12 @@ namespace Area23.At.Framework.Core.Zfx
 
         #endregion gunzip decompression
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inFile"></param>
+
         /// <summary>
         /// GzFile gzips or gunzips a file
         /// </summary>
@@ -197,5 +204,7 @@ namespace Area23.At.Framework.Core.Zfx
         }
 
     }
+
+
 
 }

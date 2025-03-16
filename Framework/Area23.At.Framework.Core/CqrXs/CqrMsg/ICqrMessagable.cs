@@ -1,7 +1,7 @@
-﻿using Area23.At.Framework.Core.CqrXs.   Msg;
+﻿using Area23.At.Framework.Core.CqrXs.CqrMsg;
 using System;
 
-namespace Area23.At.Framework.Core.CqrXs.Msg
+namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 {
     public interface ICqrMessagable
     {
@@ -41,7 +41,7 @@ namespace Area23.At.Framework.Core.CqrXs.Msg
             if (cqrT is CqrFile cqrf) // && cf.Data != null && !string.IsNullOrEmpty(cf.CqrFileName))
                 return (ICqrMessagable)cqrf;
 
-            if (cqrT is CqrMsg msgc)
+            if (cqrT is MsgContent msgc)
                 return (ICqrMessagable)msgc;
 
             return (ICqrMessagable)cqrT;

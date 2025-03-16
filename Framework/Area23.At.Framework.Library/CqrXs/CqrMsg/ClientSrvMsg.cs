@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.CqrXs.Msg
+namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 {
     public class ClientSrvMsg<TS, TC>
         where TS : class

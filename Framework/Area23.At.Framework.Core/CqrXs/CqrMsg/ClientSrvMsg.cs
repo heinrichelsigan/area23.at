@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 
-namespace Area23.At.Framework.Core.CqrXs.Msg
+namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 {
 
-    public class ClientSrvMsg<TS, TC> : CqrMsg, ICqrMessagable
+    public class ClientSrvMsg<TS, TC> : MsgContent, ICqrMessagable
         where TS : class
         where TC : class
     {

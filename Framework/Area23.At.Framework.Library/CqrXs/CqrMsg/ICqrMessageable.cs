@@ -1,11 +1,11 @@
-﻿using Area23.At.Framework.Library.CqrXs.Msg;
+﻿using Area23.At.Framework.Library.CqrXs.CqrMsg;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Area23.At.Framework.Library.CqrXs.Msg
+namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 {
     public interface ICqrMessagable
     {

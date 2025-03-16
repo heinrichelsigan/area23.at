@@ -3,14 +3,14 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Drawing.Imaging;
 
-namespace Area23.At.Framework.Core.CqrXs.Msg
+namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 {
 
     /// <summary>
     /// CqrImage is a image for a <see cref="CqrContact"/>
     /// </summary>
     [Serializable]
-    public class CqrImage : CqrMsg, ICqrMessagable
+    public class CqrImage : MsgContent, ICqrMessagable
     {
 
         #region properties
