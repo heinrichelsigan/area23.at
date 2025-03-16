@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using System.Collections.Generic;
+using System;
+using System.ComponentModel;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
@@ -39,6 +42,51 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     {
 
         /// <summary>
+        /// GetSymmCipherTypes 
+        /// </summary>
+        /// <returns>an array of all SymmCipherEnum values</returns>
+        public static SymmCipherEnum[] GetSymmCipherTypes()
+        {
+            List<SymmCipherEnum> list = new List<SymmCipherEnum>();
+            foreach (SymmCipherEnum symmCipher in Enum.GetValues(typeof(SymmCipherEnum))) 
+                list.Add(symmCipher);
+            return list.ToArray();
+        }
+
+        /// <summary>
+        /// GetCharSymmCipherDict gets <see cref="Dictionary{char, SymmCipherEnum}"/>,
+        /// where hexbyte as char is mapped to <see cref="SymmCipherEnum" />
+        /// </summary>
+        /// <returns><see cref="Dictionary{char, SymmCipherEnum}"/></returns>        
+        public static Dictionary<char, SymmCipherEnum> GetCharSymmCipherDict()
+        {
+            Dictionary<char, SymmCipherEnum> charSymmCipherDict = new Dictionary<char, SymmCipherEnum>();
+            foreach (SymmCipherEnum symmCipher in Enum.GetValues(typeof(SymmCipherEnum)))
+            {
+                char hexChar = $"{((ushort)symmCipher):x1}".ToCharArray()[0];
+                charSymmCipherDict.Add(hexChar, symmCipher);
+            }
+            return charSymmCipherDict;
+        }
+
+        /// <summary>
+        /// GetByteSymmCipherDict gets <see cref="Dictionary{byte, SymmCipherEnum}"/>,
+        /// where hex byte value is mapped to  <see cref="SymmCipherEnum" />
+        /// </summary>
+        /// <returns><see cref="Dictionary{byte, SymmCipherEnum}"/></returns>
+        public static Dictionary<byte, SymmCipherEnum> GetByteSymmCipherDict()
+        {
+            Dictionary<byte, SymmCipherEnum> byteSymmCipherDict = new Dictionary<byte, SymmCipherEnum>();
+            foreach (SymmCipherEnum symmCipher in Enum.GetValues(typeof(SymmCipherEnum)))
+            {
+                byte hexByte = ((byte)symmCipher);
+                byteSymmCipherDict.Add(hexByte, symmCipher);
+            }
+            return byteSymmCipherDict;
+        }
+
+
+        /// <summary>
         /// Extensions method for Enum <see cref="SymmCipherEnum"/>
         /// gets a character for each Cipher Algorithm, that is used here
         /// </summary>
@@ -71,6 +119,42 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             }
 
             return ((char)('A'));
+        }
+
+        /// <summary>
+        /// ExtensionMethod ToCipherEnum converts <see cref="SymmCipherEnum"/> to <see cref="CipherEnum"/>
+        /// </summary>
+        /// <param name="symmCipher"><see cref="SymmCipherEnum"/> to convert</param>
+        /// <returns></returns>
+        public static CipherEnum ToCipherEnum(this SymmCipherEnum symmCipher)
+        {
+            switch (symmCipher)
+            {
+
+                case SymmCipherEnum.BlowFish: return CipherEnum.BlowFish;
+                case SymmCipherEnum.Fish2: return CipherEnum.Fish2;
+                case SymmCipherEnum.Fish3: return CipherEnum.Fish3;
+
+                case SymmCipherEnum.Camellia: return CipherEnum.Camellia;
+                case SymmCipherEnum.Cast6: return CipherEnum.Cast6;
+                case SymmCipherEnum.Des3: return CipherEnum.Des3;
+
+                case SymmCipherEnum.Gost28147: return CipherEnum.Gost28147;
+                case SymmCipherEnum.Idea: return CipherEnum.Idea;
+                case SymmCipherEnum.RC532: return CipherEnum.RC532;
+
+                case SymmCipherEnum.Seed: return CipherEnum.Seed;
+                case SymmCipherEnum.Serpent: return CipherEnum.Serpent;
+                case SymmCipherEnum.SkipJack: return CipherEnum.SkipJack;
+
+                case SymmCipherEnum.Tea: return CipherEnum.Tea;
+                case SymmCipherEnum.XTea: return CipherEnum.XTea;
+                case SymmCipherEnum.ZenMatrix: return CipherEnum.ZenMatrix;
+
+                case SymmCipherEnum.Aes:
+                default: return CipherEnum.Aes;
+            }
+
         }
 
     }

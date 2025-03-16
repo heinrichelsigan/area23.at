@@ -10,7 +10,7 @@ namespace Area23.At.Framework.Library.Static
 {
 
     /// <summary>
-    /// ResReader a simple resource file resx reader for resource template <see cref="Properties.ResourceFramework"/>
+    /// ResReader a simple resource file resx reader
     /// </summary>
     public static class ResReader
     {
@@ -22,7 +22,7 @@ namespace Area23.At.Framework.Library.Static
         /// <returns>string in local language fetched from resource file</returns>
         public static string GetValue(string key, string langCode = "")
         {
-            string retVal = Properties.ResourceFramework.ResourceManager.GetString(key);
+            string retVal = Properties.Resource.ResourceManager.GetString(key);
 
             return (!string.IsNullOrEmpty(retVal)) ? retVal : key;
         }
@@ -37,7 +37,7 @@ namespace Area23.At.Framework.Library.Static
         public static string GetRes(string key, CultureInfo ci)
         {
             string lang2IsoToLower = (ci != null) ? ci.TwoLetterISOLanguageName.ToLower() : string.Empty;
-            string retVal = Properties.ResourceFramework.ResourceManager.GetString(key);
+            string retVal = Properties.Resource.ResourceManager.GetString(key);
 
             return (!string.IsNullOrEmpty(retVal)) ? retVal : key.Replace("_", " ");
         }
@@ -52,7 +52,7 @@ namespace Area23.At.Framework.Library.Static
         public static string GetStringFormated(string key, CultureInfo ci, params object[] args)
         {
             string lang2IsoToLower = (ci != null) ? ci.TwoLetterISOLanguageName.ToLower() : string.Empty;
-            string retVal = Properties.ResourceFramework.ResourceManager.GetString(key);
+            string retVal = Properties.Resource.ResourceManager.GetString(key);
             string retValLang = retVal;
 
             if (!string.IsNullOrEmpty(retVal))
@@ -71,7 +71,7 @@ namespace Area23.At.Framework.Library.Static
 
         public static string GetAllFortunes()
         {
-            string fortuneString = EnDeCodeHelper.GetString(Properties.ResourceFramework.fortune_u8);
+            string fortuneString = EnDeCodeHelper.GetString(Properties.Resource.fortune_u8);
             return fortuneString;
         }
     

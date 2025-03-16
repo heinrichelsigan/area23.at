@@ -1,7 +1,9 @@
 ﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Static;
-using System.Windows.Forms;
-using System.Windows.Input;
+using Area23.At.Framework.Core.Util;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
@@ -12,9 +14,11 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
     /// </summary>
     public class SymmCipherPipe
     {
+
         private readonly SymmCipherEnum[] inPipe;
         public readonly SymmCipherEnum[] outPipe;
         private readonly string pipeString;
+        private string symmCipherKey = "", symmCipherHash = "";
 
         public SymmCipherEnum[] InPipe { get => inPipe; }
 
@@ -23,7 +27,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         public string PipeString { get => pipeString; }
 
 #if DEBUG
-        public Dictionary<SymmCipherEnum, byte[]> stageDictionary;
+        public Dictionary<SymmCipherEnum, byte[]> stageDictionary = new Dictionary<SymmCipherEnum, byte[]>();
 
         public string HexStages
         {
@@ -40,15 +44,45 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         }
 #endif
 
-        #region ctor
+        #region ctor SymmCipherPipe
 
+        /// <summary>
+        /// SymmCipherPipe constructor with an array of <see cref="SymmCipherEnum[]"/> as inpipe
+        /// </summary>
+        /// <param name="symmCipherEnums">array of <see cref="SymmCipherEnum[]"/> as inpipe</param>
         public SymmCipherPipe(SymmCipherEnum[] symmCipherEnums)
         {
             inPipe = new List<SymmCipherEnum>(symmCipherEnums).ToArray();
             outPipe = symmCipherEnums.Reverse<SymmCipherEnum>().ToArray();
+            pipeString = "";
             foreach (SymmCipherEnum symmCipher in inPipe)
                 pipeString += symmCipher.GetSymmCipherChar();
+        }
 
+        /// <summary>
+        /// SymmCipherPipe constructor with an array of <see cref="string[]"/> as inpipe
+        /// </summary>
+        /// <param name="symmCipherAlgos">array of <see cref="string[]"/> as inpipe</param>
+        public SymmCipherPipe(string[] symmCipherAlgos)
+        {
+            List<SymmCipherEnum> symmCipherEnums = new List<SymmCipherEnum>();
+            foreach (string algo in symmCipherAlgos)
+            {
+                if (!string.IsNullOrEmpty(algo))
+                {
+                    SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes;
+                    if (!Enum.TryParse<SymmCipherEnum>(algo, out cipherAlgo))
+                        cipherAlgo = SymmCipherEnum.Aes;
+
+                    symmCipherEnums.Add(cipherAlgo);
+                }
+            }
+
+            inPipe = new List<SymmCipherEnum>(symmCipherEnums).ToArray();
+            outPipe = symmCipherEnums.Reverse<SymmCipherEnum>().ToArray();
+            pipeString = "";
+            foreach (SymmCipherEnum symmCipher in inPipe)
+                pipeString += symmCipher.GetSymmCipherChar();
         }
 
         /// <summary>
@@ -63,13 +97,8 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
             ushort scnt = 0;
             List<SymmCipherEnum> pipeList = new List<SymmCipherEnum>();
-            Dictionary<char, SymmCipherEnum> symDict = new Dictionary<char, SymmCipherEnum>();
-            foreach (SymmCipherEnum symmC in Enum.GetValues(typeof(SymmCipherEnum)))
-            {
-                string hex = $"{((ushort)symmC):x1}";
-                scnt++;
-                symDict.Add(hex[0], symmC);
-            }
+            Dictionary<char, SymmCipherEnum> symDict = SymmCipherEnumExtensions.GetCharSymmCipherDict();
+            SymmCipherEnum[] symmCiphers = SymmCipherEnumExtensions.GetSymmCipherTypes();
 
             string hexString = string.Empty;
             HashSet<char> hashBytes = new HashSet<char>();
@@ -86,19 +115,30 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             for (int kcnt = 0; kcnt < hashBytes.Count && pipeList.Count < maxpipe; kcnt++)
             {
                 hexString += hashBytes.ElementAt(kcnt).ToString();
-                SymmCipherEnum sym0 = symDict[hashBytes.ElementAt(kcnt)];
+                SymmCipherEnum sym0 = symDict[hashBytes.ElementAt(kcnt)];                               
                 pipeList.Add(sym0);
             }
+            Area23Log.LogStatic($"On generating symmetric encryption cipher pipe: {hexString}");
 
             inPipe = new List<SymmCipherEnum>(pipeList).ToArray();
             outPipe = pipeList.Reverse<SymmCipherEnum>().ToArray();
-
+            pipeString = "";
             foreach (SymmCipherEnum symmCipher in inPipe)
                 pipeString += symmCipher.GetSymmCipherChar();
-
         }
 
-        #endregion ctor
+        /// <summary>
+        /// Constructs a <see cref="SymmCipherPipe"/> from key and hash
+        /// by getting <see cref="byte[]">byte[] keybytes</see> with <see cref="CryptHelper.GetUserKeyBytes(string, string, int)"/>
+        /// </summary>
+        /// <param name="key">secret key to generate pipe</param>
+        /// <param name="hash">hash value of secret key</param>
+        public SymmCipherPipe(string key = "heinrich.elsigan@area23.at", string hash = "6865696e726963682e656c736967616e406172656132332e6174")
+            : this(CryptHelper.GetUserKeyBytes(key, hash, 16), Constants.MAX_PIPE_LEN)
+        {
+        }
+
+        #endregion ctor SymmCipherPipe
 
         #region static members EncryptBytesFast DecryptBytesFast
 
@@ -121,22 +161,6 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
             switch (cipherAlgo)
             {
-                //case SymmCipherEnum.Des3:
-                //    Des3.Des3GenWithKeyHash(secretKey, hashIv, true);
-                //    encryptBytes = Des3.Encrypt(inBytes);
-                //    break;
-                //case SymmCipherEnum.Fish2:
-                //    Fish2.Fish2GenWithKeyHash(secretKey, hashIv, true);
-                //    encryptBytes = Fish2.Encrypt(inBytes);
-                //    break;
-                //case SymmCipherEnum.Fish3:
-                //    Fish3.Fish3GenWithKeyHash(secretKey, hashIv, true);
-                //    encryptBytes = Fish3.Encrypt(inBytes);
-                //    break;
-                //case SymmCipherEnum.Rijndael:
-                //    Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
-                //    encryptBytes = Rijndael.Encrypt(inBytes);
-                //    break;
                 case SymmCipherEnum.Serpent:
                     Serpent.SerpentGenWithKey(secretKey, hashIv, true);
                     encryptBytes = Serpent.Encrypt(inBytes);
@@ -145,15 +169,13 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                     encryptBytes = (new ZenMatrix(secretKey, hashIv, false)).Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.Aes:
-                //Aes.AesGenWithKeyHash(secretKey, hashIv, true);
-                //encryptBytes = Aes.Encrypt(inBytes);
-                //break;
                 case SymmCipherEnum.BlowFish:
                 case SymmCipherEnum.Fish2:
                 case SymmCipherEnum.Fish3:
                 case SymmCipherEnum.Camellia:
-                case SymmCipherEnum.RC532:
+                case SymmCipherEnum.Des3:
                 case SymmCipherEnum.Cast6:
+                case SymmCipherEnum.RC532:
                 case SymmCipherEnum.Gost28147:
                 case SymmCipherEnum.Idea:
                 case SymmCipherEnum.Seed:
@@ -165,9 +187,6 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
                     encryptBytes = cryptBounceCastle.Encrypt(inBytes);
                     break;
-
-
-
             }
 
             return encryptBytes;
@@ -193,23 +212,6 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
             switch (cipherAlgo)
             {
-
-                //case SymmCipherEnum.Des3:
-                //    sameKey = Des3.Des3GenWithKeyHash(secretKey, hashIv, true);
-                //    decryptBytes = Des3.Decrypt(cipherBytes);
-                //    break;
-                //case SymmCipherEnum.Fish2:
-                //    sameKey = Fish2.Fish2GenWithKeyHash(secretKey, hashIv, true);
-                //    decryptBytes = Fish2.Decrypt(cipherBytes);
-                //    break;
-                //case SymmCipherEnum.Fish3:
-                //    sameKey = Fish3.Fish3GenWithKeyHash(secretKey, hashIv, true);
-                //    decryptBytes = Fish3.Decrypt(cipherBytes);
-                //    break;
-                //case SymmCipherEnum.Rijndael:
-                // sameKey = Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
-                // decryptBytes = Rijndael.Decrypt(cipherBytes);
-                // break;
                 case SymmCipherEnum.Serpent:
                     sameKey = Serpent.SerpentGenWithKey(secretKey, hashIv, true);
                     decryptBytes = Serpent.Decrypt(cipherBytes);
@@ -218,9 +220,6 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                     decryptBytes = (new ZenMatrix(secretKey, hashIv, false)).Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.Aes:
-                // sameKey = Aes.AesGenWithKeyHash(secretKey, hashIv, true);
-                // decryptBytes = Aes.Decrypt(cipherBytes);
-                // break;
                 case SymmCipherEnum.BlowFish:
                 case SymmCipherEnum.Fish2:
                 case SymmCipherEnum.Fish3:
@@ -236,14 +235,10 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.XTea:
                 default:
                     CryptParamsPrefered cpParams = new CryptParamsPrefered(cipherAlgo, secretKey, hashIv, fishOnAesEngine);
-
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
                     decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
-
                     break;
-
             }
-
 
             return EnDeCodeHelper.GetBytesTrimNulls(decryptBytes);
         }
@@ -261,6 +256,13 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             string secretKey = "heinrich.elsigan@area23.at",
             string hashIv = "6865696e726963682e656c736967616e406172656132332e6174")
         {
+            if (!string.IsNullOrEmpty(symmCipherKey) && !string.IsNullOrEmpty(symmCipherHash))
+            {
+                if (secretKey.Equals(symmCipherKey, StringComparison.CurrentCulture))
+                    ; // TODO wajz Exception should be thrown ??
+            }
+            symmCipherKey = secretKey;
+            symmCipherHash = hashIv;
             byte[] encryptedBytes = new byte[inBytes.Length * 3 + 1];
 #if DEBUG
             stageDictionary = new Dictionary<SymmCipherEnum, byte[]>();
@@ -291,7 +293,13 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             string hashIv = "6865696e726963682e656c736967616e406172656132332e6174",
             bool fishOnAesEngine = false)
         {
-
+            if (!string.IsNullOrEmpty(symmCipherKey) && !string.IsNullOrEmpty(symmCipherHash))
+            {
+                if (secretKey.Equals(symmCipherKey, StringComparison.CurrentCulture))
+                    ; // TODO wajz Exception should be thrown ??
+            }
+            symmCipherKey = secretKey;
+            symmCipherHash = hashIv;
             byte[] decryptedBytes = new byte[cipherBytes.Length * 3 + 1];
 #if DEBUG
             stageDictionary = new Dictionary<SymmCipherEnum, byte[]>();
@@ -310,5 +318,6 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         }
 
     }
+
 
 }

@@ -15,7 +15,7 @@ using Area23.At.Framework.Library.Static;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
-
+  
     /// <summary>
     /// Generic CryptBounceCastle Encryption / Decryption class
     /// supports <see cref="Org.BouncyCastle.Crypto.Engines.CamelliaEngine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.Gost28147Engine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.RC2Engine"/>,
@@ -120,7 +120,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             CryptoBlockCipher = (blockCipher == null) ? new AesEngine() : blockCipher;
             if ((CryptoBlockCipher.AlgorithmName == "RC564"))
                 CryptoBlockCipherPadding = new ISO7816d4Padding();
-            else CryptoBlockCipherPadding = new ZeroBytePadding();            
+            else CryptoBlockCipherPadding = new ZeroBytePadding();
             KeyLen = keyLen;
             Size = Math.Min(size, CryptoBlockCipher.GetBlockSize());
             Mode = mode;
@@ -135,7 +135,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 {
                     privateKey = string.Empty;
                     tmpKey = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCEK), privateHash);
-                    tmpIv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), privateHash);                    
+                    tmpIv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), privateHash);
                 }
                 else
                 {
@@ -172,7 +172,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             CryptoBlockCipher = (cparams.BlockCipher == null) ? new AesEngine() : cparams.BlockCipher;
             if ((CryptoBlockCipher.AlgorithmName == "RC564"))
                 CryptoBlockCipherPadding = new ISO7816d4Padding();
-            else CryptoBlockCipherPadding = new ZeroBytePadding();            
+            else CryptoBlockCipherPadding = new ZeroBytePadding();
             KeyLen = cparams.KeyLen;
             Size = Math.Min(cparams.Size, CryptoBlockCipher.GetBlockSize());
             Mode = cparams.Mode;
@@ -284,7 +284,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             if (CryptoBlockCipher.AlgorithmName == "RC564")
             {
                 RC5Parameters rc5Params = new RC5Parameters(Key, 1);
-                Org.BouncyCastle.Crypto.Engines.RC564Engine rc564 = new RC564Engine();                
+                Org.BouncyCastle.Crypto.Engines.RC564Engine rc564 = new RC564Engine();
                 cipherMode.Init(true, rc5Params);
             }
             else
@@ -370,7 +370,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             // decryptedData = cipherMode.ProcessBytes(cipherData);
             if (cipherMode != null)
                 PadBufBChipger = cipherMode;
-            
+
             int outputSize = cipherMode.GetOutputSize(cipherData.Length);
             byte[] plainData = new byte[outputSize];
             byte[] decryptedData = new byte[outputSize];
@@ -441,5 +441,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         #endregion EnDecryptString
 
     }
+
 
 }

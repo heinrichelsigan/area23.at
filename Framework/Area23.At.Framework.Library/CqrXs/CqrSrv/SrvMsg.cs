@@ -1,5 +1,5 @@
 ﻿using Area23.At.Framework.Library.CqrXs.CqrJd;
-using Area23.At.Framework.Library.CqrXs.CqrMsg;
+using Area23.At.Framework.Library.CqrXs.Msg;
 using Area23.At.Framework.Library.Crypt.Cipher;
 using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
@@ -269,7 +269,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
              where TS : class
         {
             FullSrvMsg<TS> fullMsg = null;
-            MsgContent msgContent = base.NCqrBaseMsg(cqrMessage, encType);
+            CqrMsg msgContent = base.NCqrBaseMsg(cqrMessage, encType);
 
             if (msgContent != null && !string.IsNullOrEmpty(msgContent.Message))
             {
@@ -318,7 +318,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
             else if (decrypted.IsValidXml())
                 msgEnum = MsgEnum.Xml;
 
-            MsgContent msgContent = new MsgContent(decrypted, msgEnum);
+            CqrMsg msgContent = new CqrMsg(decrypted, msgEnum);
             string hashVerification = msgContent.Hash;
             if (!VerifyHash(hashVerification, clientSymmPipe.PipeString))
             {
@@ -409,8 +409,8 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
             where T : class
         {
             string cryptSrv = CqrSrvMsg<T>(fullServerMsg);
-            
-            CqrService webService = new CqrService();          
+
+            CqrService webService = new CqrService();
 
             string response = string.Empty;
             try

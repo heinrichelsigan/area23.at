@@ -21,9 +21,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using static Area23.At.Framework.Library.Win32Api.NativeWrapper;
 
 namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 {
+
     /// <summary>
     /// Base32 encoding is a mapping for double hex from A-Z0-7 (32 chiffers per digit)
     /// <see href="https://gist.github.com/erdomke/9335c394c5cc65404c4cf9aceab04143"/>
@@ -41,22 +43,14 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
         HashSet<char> IDecodable.ValidCharList => new HashSet<char>(VALID_CHARS.ToCharArray());
 
-        public string EnCode(byte[] inBytes)
-        {
-            return Base32.Encode(inBytes); 
-        }
+        public string EnCode(byte[] inBytes) => Base32.Encode(inBytes);
 
-        public byte[] DeCode(string encodedString)
-        {
-            return Base32.Decode(encodedString);
-        }
+        public byte[] DeCode(string encodedString) => Base32.Decode(encodedString);
 
-        public bool Validate(string encodedString)
-        {
-            return Base32.IsValid(encodedString);
-        }
+        public bool Validate(string encodedString) => Base32.IsValidBase32(encodedString, out _);
 
-     
+        public bool IsValidShowError(string encodedString, out string error) => Base32.IsValidBase32(encodedString, out error);
+
         #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
 
@@ -87,7 +81,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
         public static bool IsValid(string encodedString)
         {
-            return IsValidBase32(encodedString);
+            return IsValidBase32(encodedString, out _);
         }
 
 
@@ -229,14 +223,19 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             return result.ToString();
         }
 
-        public static bool IsValidBase32(string inString)
+        public static bool IsValidBase32(string inString, out string error)
         {
+            bool valid = true;
+            error = "";
             foreach (char ch in inString)
             {
-                if (!VALID_CHARS.ToCharArray().Contains(ch))
-                    return false;
+                if (!VALID_CHARS.ToArray().Contains(ch))
+                {
+                    error += ch;
+                    valid = false;
+                }
             }
-            return true;
+            return valid;
         }
 
     }

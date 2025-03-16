@@ -113,8 +113,6 @@ namespace Area23.At.Framework.Library.Static
             return dateTime.ToString("yyyy-MM-dd HH:mm:ss") + "." + dateTime.Millisecond;
         }
 
-
-
         #endregion DateTime extensions
 
         #region stream_byteArray_string_extensions

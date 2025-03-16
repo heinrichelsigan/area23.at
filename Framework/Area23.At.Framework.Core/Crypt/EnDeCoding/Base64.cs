@@ -32,8 +32,11 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// <param name="encodedString">encoded string</param>
         /// <returns>byte array</returns>
         public byte[] Decode(string encodedString) => Base64.FromBase64(encodedString);
+
+        public bool IsValid(string encodedStr) => Base64.IsValidBase64(encodedStr, out _);
+
+        public bool IsValidShowError(string encodedString, out string error) => Base64.IsValidBase64(encodedString, out error);
         
-        public bool IsValid(string encodedStr) => Base64.IsValidBase64(encodedStr);
 
         #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
@@ -50,15 +53,20 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
             return outBytes;
         }
 
-        public static bool IsValidBase64(string inString)
+       
+        public static bool IsValidBase64(string inString, out string error)
         {
+            bool valid = true;
+            error = "";
             foreach (char ch in inString)
             {
                 if (!ValidCharList.Contains(ch))
-                    return false;
+                {
+                    error += ch;
+                    valid = false;
+                }
             }
-
-            return true;
+            return valid;
         }
 
     }

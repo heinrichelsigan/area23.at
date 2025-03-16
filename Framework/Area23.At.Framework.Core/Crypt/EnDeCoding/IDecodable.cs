@@ -23,10 +23,11 @@
             return dec.Decode(encodedString);
         }
 
-        public static bool Validate(string encodedString, EncodingType encodeType = EncodingType.Base64)
+        public static bool Validate(string encodedString, out string error, EncodingType encodeType = EncodingType.Base64)
         {
             IDecodable dec = encodeType.GetEnCoder();
-            return dec.IsValid(encodedString);
+            bool isValide = dec.IsValidShowError(encodedString, out error);
+            return isValide;
         }
 
 
@@ -35,6 +36,8 @@
         public abstract string Encode(byte[] inBytes);
 
         public abstract bool IsValid(string encodedString);
+
+        public abstract bool IsValidShowError(string encodedString, out string error);
 
 
     }

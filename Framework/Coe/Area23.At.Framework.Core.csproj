@@ -1,0 +1,90 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows7.0</TargetFramework>
+	<IsTrimmable>true</IsTrimmable>
+	<UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Copyright>Copyleft © 2000-2040</Copyright>
+    <PackageProjectUrl>https://cqrxs.eu/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/heinrichelsigan/chat-ipv6</RepositoryUrl>
+    <AssemblyVersion>2.25.305</AssemblyVersion>
+    <FileVersion>2.25.305</FileVersion>
+	<IsTrimmable>true</IsTrimmable>
+	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+	<PlatformTarget>AnyCPU</PlatformTarget>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
+    <DebugType>embedded</DebugType>
+    <DefineConstants>$(DefineConstants);HILLARIOUSTRUMPED</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
+    <DebugType>embedded</DebugType>
+    <DefineConstants>$(DefineConstants);HILLARIOUSTRUMPED</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Cipher\**" />
+    <Compile Remove="Crypt\CqrJd\**" />
+    <Compile Remove="EnDeCoding\**" />
+    <EmbeddedResource Remove="Cipher\**" />
+    <EmbeddedResource Remove="Crypt\CqrJd\**" />
+    <EmbeddedResource Remove="EnDeCoding\**" />
+    <None Remove="Cipher\**" />
+    <None Remove="Crypt\CqrJd\**" />
+    <None Remove="EnDeCoding\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="CqrXs\CqrMsg\MimeAttachment.cs" />
+    <Compile Remove="Crypt\EnDeCoding\DeEnCoder.cs" />
+    <Compile Remove="Net\IpSocket\IpSocketSender.cs" />
+    <Compile Remove="Net\IpSocket\IPSockListener.cs" />  
+    <Compile Remove="Util\HttpContextWrapper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.1" />
+    <PackageReference Include="DBTek.Crypto" Version="2.1.0" />
+    <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.4.0" />
+    <PackageReference Include="QRCoder.Core" Version="1.0.3" />
+    <PackageReference Include="SharpZipLib" Version="1.4.2" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.NetNamedPipe" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Crypt\Cipher\Symmetric\ZenMatrix2.cs" />
+  </ItemGroup>
+
+</Project>

@@ -10,6 +10,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
     /// <see cref="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.tripledes.-ctor?view=net-8.0" />
     /// <seealso cref="https://www.c-sharpcorner.com/article/tripledes-encryption-and-decryption-in-c-sharp/ "/>
     /// </summary>
+    [Obsolete("Please use TripleDes from CryptBounceCastle https://www.bouncycastle.org/", false)]
     public static class Des3
     {
 

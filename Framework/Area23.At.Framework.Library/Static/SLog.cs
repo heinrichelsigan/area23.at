@@ -81,8 +81,7 @@ namespace Area23.At.Framework.Library.Static
             // LogFile = (string.IsNullOrEmpty(LogFile)) ? LibPaths.LogFileSystemPath : LogFile;           
             try
             {
-                msg = msg ?? "";
-                logMsg = $"{DateTime.Now.Area23DateTimeWithSeconds()} \t {msg} {Environment.NewLine}";
+                logMsg = DateTime.Now.Area23DateTimeWithSeconds() + " \t" + msg ?? string.Empty + "\n";
                 File.AppendAllText(LogFile, logMsg);
             }
             catch (Exception exLogWrite)
@@ -96,7 +95,7 @@ namespace Area23.At.Framework.Library.Static
                 logFile1 = logFile1.Replace(".log", "_1.log");
                 try
                 {
-                    logMsg = $"{DateTime.Now.Area23DateTimeWithSeconds()} \t {msg ?? string.Empty} {Environment.NewLine}";
+                    logMsg = DateTime.Now.Area23DateTimeWithSeconds() + " \t" + msg ?? string.Empty + "\n";
                     File.AppendAllText(logFile1, logMsg);
                 }
                 catch (Exception exLog)
@@ -119,12 +118,11 @@ namespace Area23.At.Framework.Library.Static
         /// <param name="appName">application name</param>
         public static void Log(Exception exLog, string appName = "")
         {
-            string excMsg = String.Format("Exception {0} ⇒ {1}\t{2}\t{3}\n{4}",
+            string excMsg = String.Format("Exception {0} ⇒ {1}\t{2}\t{3}\n",
                 exLog.GetType(),
                 exLog.Message,
                 exLog.ToString().Replace("\r", "").Replace("\n", " "),
-                exLog.StackTrace.Replace("\r", "").Replace("\n", " "), 
-                Environment.NewLine);
+                exLog.StackTrace.Replace("\r", "").Replace("\n", " "));
 
             Log(excMsg, appName);
         }

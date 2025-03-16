@@ -1,5 +1,5 @@
 ﻿using Area23.At.Framework.Core.CqrXs.CqrJd;
-using Area23.At.Framework.Core.CqrXs.CqrMsg;
+using Area23.At.Framework.Core.CqrXs.Msg;
 using Area23.At.Framework.Core.Crypt.Cipher;
 using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
@@ -17,14 +17,13 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
     /// <summary>
     /// Provides a secure encrypted message to send to the server or receive from server
     /// </summary>
-    [DataContract(Name = "SrvMsg")]
     public class SrvMsg : BaseMsg
     {
 
         protected internal readonly string cKey;
         protected internal readonly string cHash;
         protected internal readonly byte[] cKeyBytes;
-        
+
         protected internal readonly SymmCipherPipe clientSymmPipe;
 
         public string ClientPipeString { get; set; }
@@ -74,7 +73,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         /// <param name="receipient"><see cref="CqrContact"/></param>
         /// <param name="msg">plain text string</param>
         /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns>encrypted msg via <see cref="SymmCipherPipe"/></returns>
+        /// <returns>encrypted msg via <see cref="CipherPipe"/></returns>
         /// <exception cref="InvalidDataException"></exception>
         public string CqrSrvMsg(CqrContact sender, CqrContact receipient, string msg, EncodingType encType = EncodingType.Base64)
         {
@@ -87,7 +86,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             FullSrvMsg<string> fullMsg = new FullSrvMsg<string>(sender, receipient, msg, PipeString);
             fullMsg.Md5Hash = Crypt.Hash.MD5Sum.HashString(msg);
             string allMsg = fullMsg.ToJson();
-            fullMsg._message = allMsg;            
+            fullMsg._message = allMsg;
             fullMsg.RawMessage = allMsg + "\n" + symmPipe.PipeString + "\0";
 
             byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(allMsg);
@@ -105,7 +104,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         /// <param name="receipient"><see cref="CqrContact"/></param>
         /// <param name="tcontent">generic content will be mapped to msg</param>
         /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns>encrypted msg via <see cref="SymmCipherPipe"/></returns>
+        /// <returns>encrypted msg via <see cref="CipherPipe"/></returns>
         /// <exception cref="InvalidDataException"></exception>
         public string CqrSrvMsg<T>(CqrContact sender, CqrContact receipient, T tcontent, EncodingType encType = EncodingType.Base64) where T : class
         {
@@ -164,17 +163,17 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
                 fullServMsg.ChatRoomNr = (!string.IsNullOrEmpty(fullServMsg.Sender.ChatRoomId)) ? fullServMsg.Sender.ChatRoomId : fullServMsg.ChatRoomNr;
 
             string allMsg = fullServMsg.ToJson();
-            fullServMsg._message = allMsg;            
+            fullServMsg._message = allMsg;
             fullServMsg.RawMessage = allMsg + "\n" + symmPipe.PipeString + "\0";
 
             byte[] allBytes = EnDeCodeHelper.GetBytesFromString(fullServMsg.RawMessage);
             byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(fullServMsg._message);
             byte[] cqrMsgBytes = msgBytes;
             if (LibPaths.CqrEncrypt)
-                cqrMsgBytes = (msgKind == MsgKind.Server) ? 
+                cqrMsgBytes = (msgKind == MsgKind.Server) ?
                     symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) :
                     symmPipe.MerryGoRoundEncrpyt(msgBytes, cKey, cHash);
-            
+
             CqrMessage = EnDeCodeHelper.EncodeBytes(cqrMsgBytes, encType);
 
             return CqrMessage;
@@ -202,9 +201,9 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
                 {
                     Area23Log.LogStatic(ex);
                 }
-            }            
+            }
             string allSrvMsg = fullServMsg.ToJson();
-            fullServMsg._message = allSrvMsg;            
+            fullServMsg._message = allSrvMsg;
             fullServMsg.RawMessage = allSrvMsg + "\n" + fullServMsg._hash + "\0";
 
             byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(fullServMsg._message);
@@ -228,7 +227,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
                 }
             }
             string allClientMsg = clientMsg.ToJson();
-            clientMsg._message = allClientMsg;            
+            clientMsg._message = allClientMsg;
             clientMsg.RawMessage = allClientMsg + "\n" + clientMsg._hash + "\0";
 
             byte[] cMsgBytes = EnDeCodeHelper.GetBytesFromString(clientMsg._message);
@@ -238,9 +237,9 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
 
             cClientMessage = EnDeCodeHelper.EncodeBytes(clientMsgBytes, encType);
 
-            
 
-            string[] rets  =  { CqrMessage, cClientMessage };
+
+            string[] rets = { CqrMessage, cClientMessage };
             return rets;
         }
 
@@ -258,10 +257,10 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         /// <exception cref="InvalidOperationException">will be thrown, 
         /// if server and client or both side use a different secret key 4 encryption</exception>
         public FullSrvMsg<TS>? NCqrSrvMsg<TS>(string cqrMessage, EncodingType encType = EncodingType.Base64)
-            where TS : class
+             where TS : class
         {
             FullSrvMsg<TS>? fullMsg = null;
-            MsgContent msgContent = base.NCqrBaseMsg(cqrMessage, encType);
+            CqrMsg msgContent = base.NCqrBaseMsg(cqrMessage, encType);
 
             if (msgContent != null && !string.IsNullOrEmpty(msgContent.Message))
             {
@@ -291,7 +290,6 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             return fullMsg;
         }
 
-
         public FullSrvMsg<TC> NCqrClientMsgTC<TC>(string clientMessage, EncodingType encType = EncodingType.Base64)
             where TC : class
         {
@@ -311,7 +309,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             else if (decrypted.IsValidXml())
                 msgEnum = MsgEnum.Xml;
 
-            MsgContent msgContent = new MsgContent(decrypted, msgEnum);
+            CqrMsg msgContent = new CqrMsg(decrypted, msgEnum);
             string hashVerification = msgContent.Hash;
             if (!VerifyHash(hashVerification, clientSymmPipe.PipeString))
             {
@@ -364,11 +362,11 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         /// <param name="cqrMessage">secure encrypted msg </param>
         /// <param name="encType"><see cref="EncodingType"/></param>
         /// <returns><see cref="FullSrvMsg{TC}"/></returns>
-        public FullSrvMsg<TC> NCqrSrvMsgSC<TC>(string cqrMessage, MsgKind msgKind = MsgKind.Server, EncodingType encType = EncodingType.Base64) 
+        public FullSrvMsg<TC> NCqrSrvMsgSC<TC>(string cqrMessage, MsgKind msgKind = MsgKind.Server, EncodingType encType = EncodingType.Base64)
             where TC : class
         {
             FullSrvMsg<TC> fullMsg = new FullSrvMsg<TC>();
-            fullMsg = (msgKind == MsgKind.Server) ? NCqrSrvMsg<TC>(cqrMessage, encType) : NCqrClientMsgTC<TC>(cqrMessage, encType); 
+            fullMsg = (msgKind == MsgKind.Server) ? NCqrSrvMsg<TC>(cqrMessage, encType) : NCqrClientMsgTC<TC>(cqrMessage, encType);
 
             return fullMsg;
         }
@@ -376,10 +374,10 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
 
         public ClientSrvMsg<TS, TC> NCqrClientSrvMsgTSC<TS, TC>(string serverEncrypted, string clientEncrypted, EncodingType encType = EncodingType.Base64)
             where TS : class
-            where TC : class 
+            where TC : class
         {
             FullSrvMsg<TS> fullServer = NCqrSrvMsgSC<TS>(serverEncrypted, MsgKind.Server, encType);
-            FullSrvMsg<TC> fullClient= NCqrSrvMsgSC<TC>(clientEncrypted, MsgKind.Client, encType);
+            FullSrvMsg<TC> fullClient = NCqrSrvMsgSC<TC>(clientEncrypted, MsgKind.Client, encType);
 
             ClientSrvMsg<TS, TC> retMes = new ClientSrvMsg<TS, TC>(fullServer, fullClient, serverEncrypted, clientEncrypted);
             return retMes;
@@ -402,8 +400,8 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             where T : class
         {
             string cryptSrv = CqrSrvMsg<T>(fullServerMsg);
-            
-            CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoap);
+
+           CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoap);
 
             string response = string.Empty;
             try
@@ -417,7 +415,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             }
 
             FullSrvMsg<string> rfmsg = NCqrSrvMsg<string>(response, EncodingType.Base64);
-            
+
 
             return rfmsg;
         }
@@ -437,7 +435,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         {
             string cryptSrv = CqrSrvMsg<T>(fullServerMsg, MsgKind.Server);
             string cryptPatner = CqrSrvMsg<TC>(fullClientMsg, MsgKind.Client);
-            
+
             CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoap12);
             string response = client.ChatRoomPushMessage(cryptSrv, cryptPatner);
             FullSrvMsg<string> rfmsg = NCqrSrvMsg<string>(response, EncodingType.Base64);
@@ -477,17 +475,17 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         /// <param name="srvIp"></param>
         /// <param name="encodingType"></param>
         /// <returns><see cref="FullSrvMsg{string}"/>, containing char room number, last polled date, updated sender and recipients</returns>
-        public FullSrvMsg<string> ReceiveChatMsg_Soap<T>(FullSrvMsg<T> fullServerMsg, IPAddress srvIp, EncodingType encodingType = EncodingType.Base64)
+        public FullSrvMsg<string>? ReceiveChatMsg_Soap<T>(FullSrvMsg<T> fullServerMsg, IPAddress srvIp, EncodingType encodingType = EncodingType.Base64)
         where T : class
         {
             string cryptSrv = CqrSrvMsg<T>(fullServerMsg, MsgKind.Server);
 
             CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoap12);
             string response = client.ChatRoomPoll(cryptSrv);
-            FullSrvMsg<string> rfmsg = NCqrSrvMsg<string>(response, EncodingType.Base64);
+            FullSrvMsg<string>? rfmsg = NCqrSrvMsg<string>(response, EncodingType.Base64);
 
             return rfmsg;
-            
+
         }
 
 
@@ -548,7 +546,6 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         }
 
         #endregion obsolete methods
-
 
     }
 

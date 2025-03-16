@@ -10,7 +10,6 @@ using Org.BouncyCastle.Crypto.Parameters;
 namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 {
 
-
     /// <summary>
     /// Generic CryptBounceCastle Encryption / Decryption class
     /// supports <see cref="Org.BouncyCastle.Crypto.Engines.CamelliaEngine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.Gost28147Engine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.RC2Engine"/>,
@@ -27,8 +26,8 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
         private string privateHash = string.Empty;
 
-        private byte[]? tmpIv;
-        private byte[]? tmpKey;
+        private byte[] tmpIv;
+        private byte[] tmpKey;
 
         #endregion fields
 
@@ -169,7 +168,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                 CryptoBlockCipherPadding = new ISO7816d4Padding();
             else CryptoBlockCipherPadding = new ZeroBytePadding();
             KeyLen = cparams.KeyLen;
-            Size = Math.Min(cparams.BlockSize, CryptoBlockCipher.GetBlockSize());
+            Size = Math.Min(cparams.Size, CryptoBlockCipher.GetBlockSize());
             Mode = cparams.Mode;
 
             if (init)

@@ -20,20 +20,25 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
         HashSet<char> IDecodable.ValidCharList => new HashSet<char>(VALID_CHARS.ToCharArray());
 
-        public string EnCode(byte[] inBytes)
-        {
-            return Base16.Encode(inBytes);
-        }
+        /// <summary>
+        /// Encodes a byte[] 
+        /// </summary>
+        /// <param name="inBytes">byte array to encode</param>
+        /// <returns>hex16 encoded string</returns>
+        public string EnCode(byte[] inBytes) => Base16.ToBase16(inBytes);
 
-        public byte[] DeCode(string encodedString)
-        {
-            return Base16.Decode(encodedString);
-        }
+        /// <summary>
+        /// Decodes a hex string to byte[]
+        /// </summary>
+        /// <param name="hexString">hex16 encoded string</param>
+        /// <returns></returns>
+        public byte[] DeCode(string encodedString) => Base16.FromBase16(encodedString);
 
-        public bool Validate(string encodedString)
-        {
-            return Base16.IsValid(encodedString);
-        }
+
+        public bool Validate(string encodedString) => Base16.IsValidBase16(encodedString, out _);
+
+
+        public bool IsValidShowError(string encodedString, out string error) => Base16.IsValidBase16(encodedString, out error);
 
         #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
@@ -65,7 +70,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
         public static bool IsValid(string encodedString)
         {
-            return IsValidBase16(encodedString);
+            return Base16.IsValidBase16(encodedString, out _);
         }
 
 
@@ -127,17 +132,22 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             
         }
 
-        public static bool IsValidBase16(string inString)
+
+        public static bool IsValidBase16(string inString, out string error)
         {
+            bool valid = true;
+            error = "";
             foreach (char ch in inString)
             {
-                if (!VALID_CHARS.ToCharArray().Contains(ch))
-                    return false;
+                if (!VALID_CHARS.ToArray().Contains(ch))
+                {
+                    error += ch;
+                    valid = false;
+                }
             }
-            return true;
+            return valid;
         }
 
-       
     }
 
 }

@@ -22,21 +22,24 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         HashSet<char> IDecodable.ValidCharList => new HashSet<char>(VALID_CHARS.ToCharArray());
 
 
-        public string EnCode(byte[] inBytes)
-        {
-            return Hex16.Encode(inBytes);
-        }
+        /// <summary>
+        /// Encodes byte[] to valid encode formatted string
+        /// </summary>
+        /// <param name="inBytes">byte array to encode</param>
+        /// <returns>encoded string</returns>
+        public string EnCode(byte[] inBytes) => Hex16.ToHex16(inBytes);
 
-        public byte[] DeCode(string encodedString)
-        {
-            return Hex16.Decode(encodedString); 
-        }
+        /// <summary>
+        /// Decodes an encoded string to byte[]
+        /// </summary>
+        /// <param name="encodedString">encoded string</param>
+        /// <returns>byte array</returns>
+        public byte[] DeCode(string encodedString) => Hex16.FromHex16(encodedString);
 
-        public bool Validate(string encodedString)
-        {
-            return Hex16.IsValid(encodedString);
-        }
 
+        bool IDecodable.Validate(string encodedStr) => Hex16.IsValidHex16(encodedStr, out _);
+
+        public bool IsValidShowError(string encodedString, out string error) => Hex16.IsValidHex16(encodedString, out error);
 
         #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
@@ -46,30 +49,24 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// </summary>
         /// <param name="inBytes">byte array to encode</param>
         /// <returns>encoded string</returns>
-        public static string Encode(byte[] inBytes)
-        {
-            return ToHex16(inBytes);
-        }
+        public static string Encode(byte[] inBytes) => ToHex16(inBytes);
+
 
         /// <summary>
         /// Decodes an encoded string to byte[]
         /// </summary>
         /// <param name="encodedString">encoded string</param>
         /// <returns>byte array</returns>
-        public static byte[] Decode(string encodedString)
-        {
-            return FromHex16(encodedString);
-        }
+        public static byte[] Decode(string encodedString) => FromHex16(encodedString);
+
 
         /// <summary>
         /// Checks if a string is a valid encoded string
         /// </summary>
         /// <param name="encodedString">encoded string</param>
         /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
-        public static bool IsValid(string encodedString)
-        {
-            return IsValidHex16(encodedString);
-        }
+        public static bool IsValid(string encodedString) => IsValidHex16(encodedString, out _);
+
 
         /// <summary>
         /// Encode ToHex converts a binary byte array to hex string
@@ -130,17 +127,23 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
         }
 
-        public static bool IsValidHex16(string inString)
+
+        public static bool IsValidHex16(string inString, out string error)
         {
+            bool valid = true;
+            error = "";
             foreach (char ch in inString)
             {
                 if (!VALID_CHARS.ToCharArray().Contains(ch))
-                    return false;
+                {
+                    error += ch.ToString();
+                    valid = false;
+                }
             }
-            return true;
+            return valid;
         }
 
-      
+
     }
 
 }

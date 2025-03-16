@@ -142,7 +142,7 @@ namespace Area23.At.Mono.Crypt
                     case "url": decodedStr = Server.UrlDecode(srcStr); break;
                     case "base64":
                     default:
-                        if (Base64.IsValidBase64(this.TextBoxSource.Text))
+                        if (Base64.IsValidBase64(this.TextBoxSource.Text, out _))
                             byteSrc = EnDeCodeHelper.Decode(srcStr, EncodingType.Base64);
                         else
                         {

@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Library.CqrXs.CqrMsg;
+﻿using Area23.At.Framework.Library.CqrXs.Msg;
 using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Net.IpSocket;
@@ -36,12 +36,12 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
             return CqrBaseMsg(msg, encType);
         }
 
-        public virtual string CqrPeerMsg(MsgContent msc, EncodingType encType = EncodingType.Base64)
+        public virtual string CqrPeerMsg(CqrMsg msc, EncodingType encType = EncodingType.Base64)
         {
             return CqrBaseMsg(msc, encType);
         }
 
-        
+
 
         /// <summary>
         /// CqrFile, encrypts a attached file persisted in <see cref="CqrFile(CqrMsg.CqrFile, MsgEnum, EncodingType)"/>
@@ -79,12 +79,12 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
         /// </summary>
         /// <param name="cqrMessage">secure encrypted msg </param>
         /// <param name="encType"><see cref="EncodingType"/></param>
-        /// <returns><see cref="MsgContent"/> Message plain text decrypted string</returns>
+        /// <returns><see cref="CqrMsg"/> Message plain text decrypted string</returns>
         /// <exception cref="InvalidOperationException">will be thrown, 
         /// if server and client or both side use a different secret key 4 encryption</exception>
-        public MsgContent NCqrPeerMsg(string cqrMessage, EncodingType encType = EncodingType.Base64)
+        public CqrMsg NCqrPeerMsg(string cqrMessage, EncodingType encType = EncodingType.Base64)
         {
-            MsgContent msgContent = base.NCqrBaseMsg(cqrMessage, encType);
+            CqrMsg msgContent = base.NCqrBaseMsg(cqrMessage, encType);
             return msgContent;
         }
 
@@ -127,9 +127,9 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
             return cqrFile;
         }
 
-        public MsgContent NCqrSrvMsg(MsgContent msgInContent, EncodingType encType = EncodingType.Base64)
+        public CqrMsg NCqrSrvMsg(CqrMsg msgInContent, EncodingType encType = EncodingType.Base64)
         {
-            MsgContent msgOutContent = NCqrBaseMsg(msgInContent.RawMessage, encType);
+            CqrMsg msgOutContent = NCqrBaseMsg(msgInContent.RawMessage, encType);
             return msgOutContent;
         }
 

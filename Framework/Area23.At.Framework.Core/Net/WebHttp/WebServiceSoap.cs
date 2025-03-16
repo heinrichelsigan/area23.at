@@ -21,7 +21,6 @@ namespace Area23.At.Framework.Core.Net.WebHttp
         { 
         }
 
-
         /// <summary>
         /// ExternalClientIpFromServer gets external network ip for client from server
         /// </summary>
@@ -43,7 +42,6 @@ namespace Area23.At.Framework.Core.Net.WebHttp
             string resp = client.GetIPAddress();
             return IPAddress.Parse(resp);
         }
-
 
     }
 

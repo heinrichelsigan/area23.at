@@ -20,6 +20,8 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
         bool Validate(string encodedString);
 
+        bool IsValidShowError(string encodedString, out string error);
+
     }
 
 }

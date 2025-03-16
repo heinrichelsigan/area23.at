@@ -213,7 +213,10 @@ namespace Area23.At.Framework.Library.Zfx
         /// <summary>
         /// BzFile bzips or bunzips a file
         /// </summary>
-        /// <param name="infile"><see cref="string">full (unc) filepath to file</see></param>
+        /// <param name="inFile"><see cref="string">full (unc) filepath to file</see></param>
+        /// <param name="outMessage">string with information, what happend</param>
+        /// <param name="outFile"><see cref="string"/>full (unc) filepath to outfile,
+        /// if keept empty, .bz2 will be added after compression and .bz|.bz2 will be removed after decompressing bzip'd file.</param>
         /// <param name="zip"><see cref="bool">(bool)true for bzip2, (bool)false for bunzip2 (bzip2 -d)</see></param>
         /// <param name="compressionLevel">level of compression: 
         ///  1  ... for at least no compression, 
@@ -221,24 +224,34 @@ namespace Area23.At.Framework.Library.Zfx
         ///  9  ... for strongest bzip2 compression, generating smallest most compact output 
         /// </param>
         /// <returns><see cref="string">string name of processed (bzipped/bunzipped) file</see></returns>
-        public static string BzFile(string inFile, bool zip = true, int compressionLevel = 9)
+        public static bool BzFile(string inFile, out string outMessage, string outFile = "", bool zip = true, int compressionLevel = 9)
         {
             if (string.IsNullOrEmpty(inFile) || !File.Exists(inFile))
                 throw new ArgumentNullException("string BzFile(string inFile, bool zip = true) => inFile is either null or empty or doesn't exist!");
 
-            string outreturn = (zip) ? $"bzip2 {Path.GetFileName(inFile)} ... " : $"bunzip2 {Path.GetFileName(inFile)} ... ";
+            outMessage = String.Format("{0} {1} {2} ... ",
+                DateTime.Now.Area23DateTimeWithSeconds(),
+                (zip ? $"gzip " : $"gunzip "),
+                Path.GetFileName(inFile));
+
             byte[] inBytes = File.ReadAllBytes(inFile);
             byte[] outBytes = zip ? BZip2Bytes(inBytes, 9) : BUnZip2Bytes(inBytes);
-            string outFile = zip ? inFile + ".bz2" : inFile.EndsWith(".bz2") ?
-                inFile.Replace(".bz2", "").Replace(".bz", "") : DateTime.Now.ToString("yy-MM-dd_") + inFile;
+
+            if (string.IsNullOrEmpty(outFile))
+                outFile = zip ? inFile + ".bz2" : inFile.EndsWith(".bz2") ?
+                    inFile.Replace(".bz2", "").Replace(".bz", "") : DateTime.Now.ToString("yy-MM-dd_") + inFile;
             File.WriteAllBytes(outFile, outBytes);
 
             FileInfo fi = new FileInfo(outFile);
             if (fi.Exists)
-                outreturn += $"created file {fi.Name} length={fi.Length} at {fi.CreationTime.ToShortDateString()} {fi.CreationTime.ToShortTimeString()}\nin directory {fi.DirectoryName}";
-            else outreturn += $"=> file {outFile} NOT created; something went wrong!";
+            {
+                outMessage += $"created file {fi.Name} length={fi.Length} at {fi.CreationTime.ToShortDateString()} {fi.CreationTime.ToShortTimeString()}\nin directory {fi.DirectoryName}";
+                return true;
+            }
 
-            return outreturn;
+            else outMessage += $"=> file {outFile} NOT created; something went wrong!";
+
+            return false;
         }
 
     }

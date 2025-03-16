@@ -12,72 +12,6 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
     public static class CryptHelper
     {
 
-        #region GetBlockCipher
-
-        /// <summary>
-        /// Gets <see cref="CryptParams.BlockChipher"/> symmetric or asymmetric engine from <see cref="Org.BouncyCastle.Crypto.Engines"/> 
-        /// </summary>
-        /// <param name="c"><see cref="CryptParams"/></param>
-        /// <returns><see cref="CryptParams"/></returns>
-        public static CryptParams GetCryptParams(CryptParams c)
-        {
-            CryptParams cout = new CryptParams(c);
-            return cout;
-        }
-
-        /// <summary>
-        /// Gets an <see cref="IBlockCipher"/> symmetric or asymmetric engine from <see cref="Org.BouncyCastle.Crypto.Engines"/> 
-        /// </summary>
-        /// <param name="c">CryptParams</param>
-        /// <returns><see cref="IBlockCipher"/></returns>
-        public static IBlockCipher GetBlockCipher(CipherEnum cipherAlgo)
-        {
-            return new CryptParams(cipherAlgo).BlockCipher;
-        }
-
-        /// <summary>
-        /// Gets an <see cref="IBlockCipher"/> via <see cref="CryptParams.BlockChipher"/> and a 
-        /// symmetric or asymmetric engine from <see cref="Org.BouncyCastle.Crypto.Engines"/> 
-        /// </summary>
-        /// <param name="cipherAlgo">alogorithm to chipher</param>
-        /// <returns>CryptParams</returns>
-        public static CryptParams GetCryptParams(CipherEnum cipherAlgo)
-        {
-            return new CryptParams(cipherAlgo);
-        }
-
-        #endregion GetBlockCipher
-
-        #region GetPreferedBlockCipher
-
-        /// <summary>
-        /// Gets a prefered <see cref="IBlockCipher"/> 
-        /// for a symmetric only engine from <see cref="Org.BouncyCastle.Crypto.Engines"/> 
-        /// </summary>
-        /// <param name="symmCipherAlgo">symmetric prefered alogorithm to chipher</param>
-        /// <returns><see cref="IBlockCipher"/></returns>
-        [Obsolete("Please use directly ctor of CryptParamsPrefered to get IBlockCipher from your prefered crypt parameters", false)]
-        public static IBlockCipher GetPreferedBlockCipher(SymmCipherEnum symmCipherAlgo, bool fishOnAesEngine = true)
-        {
-            CryptParamsPrefered cryptParamsPrefered = new CryptParamsPrefered(symmCipherAlgo, fishOnAesEngine);
-            return cryptParamsPrefered.BlockCipher;
-        }
-
-        /// <summary>
-        /// Gets <see cref="CryptParamsPrefered"/> with 
-        /// a symmetric only engine from <see cref="Org.BouncyCastle.Crypto.Engines"/> 
-        /// in <see cref="Org.BouncyCastle.Crypto.IBlockCipher"/> 
-        /// </summary>
-        /// <param name="symmCipherAlgo">alogorithm to chipher</param>
-        /// <returns>CryptParamsPrefered</returns>
-        [Obsolete("Please use directly ctor of CryptParamsPrefered to get your prefered crypt parameters", false)]
-        public static CryptParamsPrefered GetPreferedCryptParams(SymmCipherEnum symmCipherAlgo, bool fishOnAesEngine = false)
-        {
-            return new CryptParamsPrefered(symmCipherAlgo, fishOnAesEngine);
-        }
-
-        #endregion GetPreferedBlockCipher
-
         #region GetUserKeyBytes
 
         /// <summary>
@@ -93,13 +27,13 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         /// <summary>
         /// PrivateKeyWithUserHash, helper to double private secret key with hash
         /// </summary>
-        /// <param name="secretKey">users private secret key</param>
-        /// <param name="userHash">users private secret key hash</param>
+        /// <param name="key">users private secret key</param>
+        /// <param name="hash">users private secret key hash</param>
         /// <returns>doubled concatendated string of (secretKey + hash)</returns>
-        internal static string PrivateKeyWithUserHash(string secretKey, string userHash)
+        internal static string PrivateKeyWithUserHash(string key, string hash)
         {
-            string secKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
-            string usrHash = string.IsNullOrEmpty(userHash) ? Constants.AUTHOR_IV : userHash;
+            string secKey = string.IsNullOrEmpty(key) ? Constants.AUTHOR_EMAIL : key;
+            string usrHash = string.IsNullOrEmpty(hash) ? Constants.AUTHOR_IV : hash;
 
             return string.Concat(secKey, usrHash);
         }
@@ -172,7 +106,6 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             {
                 keyHashTarBytes = keyHashBytes.TarBytes(KeyUserHashBytes(hash, key));
                 keyByteCnt = keyHashTarBytes.Length;
-
                 keyHashBytes = new byte[keyByteCnt];
                 Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
             }
@@ -183,21 +116,6 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                     KeyUserHashBytes(key, hash)
                 );
                 keyByteCnt = keyHashTarBytes.Length;
-
-                keyHashBytes = new byte[keyByteCnt];
-                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
-            }
-            if (keyByteCnt < keyLen)
-            {
-                keyHashTarBytes = keyHashBytes.TarBytes(
-                    KeyUserHashBytes(hash + hash, key + key, false),
-                    KeyUserHashBytes(hash + key + hash, key + hash + key, false),
-                    KeyUserHashBytes(hash + key + hash, key + hash + key, true),
-                    KeyUserHashBytes(hash + key + key + hash, key + hash + hash + key, false),
-                    KeyUserHashBytes(hash + key + key + hash, key + hash + hash + key, true)
-                );
-
-                keyByteCnt = keyHashTarBytes.Length;
                 keyHashBytes = new byte[keyByteCnt];
                 Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
             }
@@ -206,17 +124,8 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             {
                 keyHashTarBytes = keyHashBytes.TarBytes(keyHashBytes);
                 keyByteCnt = keyHashTarBytes.Length;
+                keyHashBytes = new byte[keyByteCnt];
                 Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
-
-                //RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
-                //randomNumGen.GetBytes(tmpKey, 0, keyLen);
-
-                //int tinyLength = keyHashBytes.Length;
-
-                //for (int bytCnt = 0; bytCnt < keyLen; bytCnt++)
-                //{
-                //    tmpKey[bytCnt] = keyHashBytes[bytCnt % tinyLength];
-                //}
             }
 
             if (keyLen <= keyByteCnt)

@@ -1,87 +1,87 @@
 ﻿using Area23.At.Framework.Core.Static;
 using Area23.At.Framework.Core.Util;
+using DBTek.Crypto;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Core.Crypt.Hash
 {
+
+    /// <summary>
+    /// Sha256Sum creates Sha512Sum of a file or stream or byte[] or string
+    /// </summary>
     public static class Sha512Sum
     {
+
+        /// <summary>
+        /// Hashes a file
+        /// </summary>
+        /// <param name="filePath">full(unc) path to file</param>
+        /// <param name="fileName">optional filename to add after hash</param>
+        /// <returns>Sha512 hash of file with optional fileName at end</returns>
+        /// <exception cref="ArgumentNullException">thrown, when filePath == null | filePath == "" | !File.Exists(filePath)</exception>
         public static string Hash(string filePath, bool showFileName = true)
         {
-            if (!System.IO.File.Exists(filePath))
-                return Hash(Encoding.Default.GetBytes(filePath));
-
+            if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
+                throw new ArgumentNullException($"Sha512Sum.Hash(filePath, showFileName = {showFileName}) filePath is null or empty or file at filePath doesn't exist.");
+               
             byte[] bytes = File.ReadAllBytes(filePath);
             string fileName = Path.GetFileName(filePath);
-            string hash = (showFileName) ? Hash(bytes, fileName) : Hash(bytes);
-            return hash;
+            
+            return showFileName ? Hash(bytes, fileName) : Hash(bytes);
         }
 
 
-        public static string HashString(string string2Hash, string fileName = "")
-        {
-            byte[] bytes = EnDeCoding.EnDeCodeHelper.GetBytes(string2Hash);
-            string hashed = Hash(bytes, fileName);
-            return hashed;
+        /// <summary>
+        /// Hashes a string strng
+        /// </summary>
+        /// <param name="strng"><see cref="string">string strng</see></param>
+        /// <param name="fileName">optional filename to add after hash</param>
+        public static string Hash(string strng, string fileName = "") => Hash(Encoding.UTF8.GetBytes(strng), fileName);
+
+
+        /// <summary>
+        /// Hashes a Sha512 of byte[]
+        /// </summary>
+        /// <param name="bytes"><see cref="byte[]">byte[] bytes</see></param>
+        /// <param name="fileName">optional fileName to end</param>
+        /// <returns></returns>
+        public static string Hash(byte[] bytes, string fileName = "") => HashBytes(bytes).ToHexString() + (!string.IsNullOrEmpty(fileName) ? " " + fileName : "");
+
+
+        /// <summary>
+        /// Hashes a stream
+        /// </summary>
+        /// <param name="stream">stream strm</param>
+        /// <param name="fileName">optional filename to add after hash</param>
+        /// <returns><Sha512 hash with optional fileName/returns>
+        public static string Hash(Stream stream, string fileName = "")
+        {            
+            string hash = HashBytes(stream).ToHexString();
+            return string.IsNullOrEmpty(fileName) ? hash : $"{hash} {fileName}";
         }
 
+        #region helper methods
 
-        public static string Hash(byte[] bytes, string fileName = "")
-        {
-            byte[] hashed = HashBytes(bytes);
-            string hasha = Encoding.UTF8.GetString(hashed);
-            string hashb = bytes.ToHexString();
-            if (!string.IsNullOrEmpty(fileName))
-            {
-                hasha += "  " + fileName;
-                hashb += "  " + fileName;
-            }
-            return hashb.ToLower();
-        }
+        internal static string HashString(string s) => (HashBytes(Encoding.UTF8.GetBytes(s))).ToHexString();
 
-        public static string Hash(Stream s, string fileName = "")
-        {
-            byte[] bytes = HashBytes(s);
-            string hasha = BitConverter.ToString(bytes).Replace("-", string.Empty);
-            string hashb = bytes.ToHexString();
-            if (!string.IsNullOrEmpty(fileName))
-            {
-                hasha += "  " + fileName;
-                hashb += "  " + fileName;
-            }
-            return hashb.ToLower();
-        }
+        public static byte[] HashBytes(byte[] bytes) => SHA512.Create().ComputeHash(bytes);
 
-        public static byte[] HashBytes(byte[] bytes)
-        {
-            return SHA512.Create().ComputeHash(bytes);
-        }
+        public static byte[] HashBytes(Stream s) => SHA512.Create().ComputeHash(s);
 
-        public static byte[] HashBytes(Stream s)
-        {
-            return SHA512.Create().ComputeHash(s);
-        }
+        internal static Stream HashStream(byte[] bytes) => new MemoryStream(SHA512.Create().ComputeHash(bytes));
 
-
-        public static Stream HashStream(byte[] bytes)
-        {
-            byte[] hashed = SHA512.Create().ComputeHash(bytes);
-            return new MemoryStream(hashed);
-        }
-
-
-        public static Stream HashStream(Stream s)
-        {
-            byte[] hashed = SHA512.Create().ComputeHash(s);
-            return new MemoryStream(hashed);
-        }
+        internal static Stream HashStream(Stream s) =>new MemoryStream(SHA512.Create().ComputeHash(s));
+        
+        #endregion helper methods
 
     }
 

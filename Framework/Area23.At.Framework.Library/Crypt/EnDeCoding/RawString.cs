@@ -17,18 +17,15 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         public HashSet<char> ValidCharList => null;
 
 
-        public string EnCode(byte[] inBytes)
-        {
-            return RawString.Encode(inBytes);
-        }
+        public string EnCode(byte[] inBytes) => RawString.Encode(inBytes);        
 
-        public byte[] DeCode(string encodedString)
-        {
-            return RawString.Decode(encodedString);
-        }
+        public byte[] DeCode(string encodedString) => RawString.Decode(encodedString);
 
-        public bool Validate(string encodedString)
+        public bool Validate(string encodedString) => true;
+
+        public bool IsValidShowError(string encodedString, out string error)
         {
+            error = "";
             return true;
         }
 

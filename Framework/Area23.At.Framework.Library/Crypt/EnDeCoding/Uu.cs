@@ -29,21 +29,14 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
         #region common interface, interfaces for static members appear in C# 7.3 or later
 
+        public string EnCode(byte[] data) => Uu.Encode(data, false, false);
 
-        public string EnCode(byte[] inBytes)
-        {
-            return Uu.Encode(inBytes); 
-        }
+        public byte[] DeCode(string encodedString) => Uu.Decode(encodedString, false, false);
 
-        public byte[] DeCode(string encodedString)
-        {
-            return Uu.Decode(encodedString);
-        }
 
-        public bool Validate(string encodedString)
-        {
-            return Uu.IsValid(encodedString);
-        }
+        public bool Validate(string encodedString) => Uu.IsValidUu(encodedString, out _);
+
+        public bool IsValidShowError(string encodedString, out string error) => Uu.IsValidUu(encodedString, out error);
 
         #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
@@ -72,11 +65,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// </summary>
         /// <param name="encodedString">encoded string</param>
         /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
-        public static bool IsValid(string encodedString)
-        {
-            return IsValidUu(encodedString);
-        }
-        
+        public static bool IsValid(string encodedString) => IsValidUu(encodedString, out _);        
 
 
         /// <summary>
@@ -228,11 +217,13 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             return plainStr;
         }
 
-        public static bool IsValidUu(string uuEncodedStr)
+        public static bool IsValidUu(string uuEncodedStr, out string error)
         {
             string encodedBody = uuEncodedStr;
+            bool isValid = true;
+            error = "";
 
-            if (ValidChars != null)
+            if ((new HashSet<char>(ValidChars)) != null)
             {
                 if (uuEncodedStr.StartsWith("begin"))
                 {
@@ -245,12 +236,15 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
                 foreach (char ch in uuEncodedStr)
                 {
-                    if (!ValidChars.ToArray().Contains(ch))
-                        return false;
+                    if (!(new HashSet<char>(ValidChars)).Contains(ch))
+                    {
+                        error += ch.ToString();
+                        isValid = false;
+                    }
                 }
             }
 
-            return true;
+            return isValid;
         }
 
         #region helper

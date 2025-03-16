@@ -281,8 +281,9 @@ namespace Area23.At.Mono.Crypt
                 {
                     switch (ztype)
                     {   
-                        case ZipType.GZip:  encryptBytes = GZ.GZipBytes(inBytes);       break;
-                        case ZipType.BZip2: encryptBytes = BZip2.BZip2Bytes(inBytes);    break;
+                        case ZipType.GZip:  encryptBytes = GZ.GZipBytes(inBytes);           break;
+                        // case ZipType.BZip2: encryptBytes = BZip2.BZip2Bytes(inBytes);       break;
+                        case ZipType.BZip2: encryptBytes = BZip2.BZip(inBytes); break;
                         case ZipType.Zip:   encryptBytes = WinZip.Zip(inBytes);             break;
                         case ZipType.None:
                         default: break;
@@ -409,7 +410,8 @@ namespace Area23.At.Mono.Crypt
                     switch (ztype)
                     {
                         case ZipType.GZip:  decryptedBytes = GZ.GUnZipBytes(cipherBytes);           break;
-                        case ZipType.BZip2: decryptedBytes = BZip2.BUnZip2Bytes(cipherBytes);       break;
+                        case ZipType.BZip2: decryptedBytes = BZip2.BUnZip(cipherBytes);             break;
+                        // case ZipType.BZip2: decryptedBytes = BZip2.BUnZip2Bytes(cipherBytes);          break;
                         case ZipType.Zip:   decryptedBytes = WinZip.UnZip(cipherBytes);             break;
                         case ZipType.None:
                         default: decryptedBytes = cipherBytes; break;
@@ -532,12 +534,13 @@ namespace Area23.At.Mono.Crypt
                         {
                             switch (ztype)
                             {
-                                case ZipType.GZip:  zopt = ".gz";   outBytes = GZ.GZipBytes(inBytes);       break;
-                                case ZipType.BZip2: zopt = ".bz2";  outBytes = BZip2.BZip2Bytes(inBytes);    break;
+                                case ZipType.GZip:  zopt = ".gz";   outBytes = GZ.GZipBytes(inBytes);           break;
+                                // case ZipType.BZip2: zopt = ".bz2";  outBytes = BZip2.BZip2Bytes(inBytes);    break;
+                                case ZipType.BZip2: zopt = ".bz2"; outBytes = BZip2.BZip(inBytes);              break;
                                 case ZipType.Zip: zopt = ".zip";    outBytes = WinZip.Zip(inBytes);             break;
                                 case ZipType.Z7:
                                 case ZipType.None:
-                                default: break;
+                                default: break; 
                             }
                             strFileName += zopt;                            
                         }
@@ -656,11 +659,12 @@ namespace Area23.At.Mono.Crypt
                             switch (ztype)
                             {
                                 case ZipType.GZip:  outBytes = GZ.GUnZipBytes(inBytes);     break;
-                                case ZipType.BZip2: outBytes = BZip2.BUnZip2Bytes(inBytes);  break;                                
-                                case ZipType.Zip:   outBytes = WinZip.UnZip(inBytes);           break;
+                                case ZipType.BZip2: outBytes = BZip2.BUnZip(inBytes); break;
+                                // case ZipType.BZip2: outBytes = BZip2.BUnZip2Bytes(inBytes);       break;                                
+                                case ZipType.Zip:   outBytes = WinZip.UnZip(inBytes);       break;
                                 case ZipType.Z7:
                                 case ZipType.None:
-                                default:            outMsg = string.Empty;                      break;
+                                default:            outMsg = string.Empty;                  break;
                             }                            
                         }
                         

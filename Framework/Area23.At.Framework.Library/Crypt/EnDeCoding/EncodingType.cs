@@ -35,9 +35,6 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             return list.ToArray();
         }
 
-
-
-
         public static IDecodable GetEnCoder(this EncodingType type)
         {
             switch (type)

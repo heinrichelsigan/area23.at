@@ -5,10 +5,10 @@ using System.Security.Cryptography;
 namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 {
 
-
     /// <summary>
     /// <see cref="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aes?view=net-8.0" />
     /// </summary>
+    [Obsolete("Please use Aes in CryptBounceCastle https://www.bouncycastle.org/", false)]
     public static class Aes
     {
 

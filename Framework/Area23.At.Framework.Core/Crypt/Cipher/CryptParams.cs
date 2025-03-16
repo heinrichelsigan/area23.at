@@ -1,8 +1,10 @@
-﻿using Org.BouncyCastle.Crypto;
+﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
+using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
@@ -30,7 +32,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
 
         public string Mode { get; set; }
 
-        public int BlockSize { get; set; }
+        public int Size { get; set; }
+
+        public int BlockSize => this.BlockCipher.GetBlockSize();
 
         public int KeyLen { get; set; }
 
@@ -42,7 +46,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         public CryptParams()
         {
             Cipher = CipherEnum.Aes;
-            BlockSize = 256;
+            Size = 256;
             KeyLen = 32;
             Mode = "ECB";
             BlockCipher = new AesEngine();
@@ -60,139 +64,176 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             switch (Cipher)
             {
                 case CipherEnum.Aes:
-                    BlockSize = 256;
+                case CipherEnum.Rijndael:
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;
+                case CipherEnum.AesLight:
+                    Size = 128;
+                    KeyLen = 32;
+                    Mode = "ECB";
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesLightEngine();
+                    break;
+                case CipherEnum.Aria:
+                    Size = 128;
+                    KeyLen = 32;
+                    Mode = "ECB";
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.AriaEngine();
+                    break;
                 case CipherEnum.BlowFish:
-                    BlockSize = 64;
+                    Size = 64;
                     KeyLen = 8;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.BlowfishEngine();
                     break;
                 case CipherEnum.Fish2:
-                    BlockSize = 128;
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TwofishEngine();
                     break;
                 case CipherEnum.Fish3:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
-                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(BlockSize);
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
+                    break;
+                case CipherEnum.ThreeFish256:
+                    Size = 256;
+                    KeyLen = 32;
+                    Mode = "ECB";
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
                     break;
                 case CipherEnum.Camellia:
-                    BlockSize = 128;
+                    Size = 128;
+                    KeyLen = 16;
+                    Mode = "ECB";
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
+                    break;
+                case CipherEnum.CamelliaLight:
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
                     break;
                 case CipherEnum.Cast5:
-                    BlockSize = 128;
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast5Engine();
                     break;
                 case CipherEnum.Cast6:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
                     break;
                 case CipherEnum.Des:
-                    BlockSize = 64;
+                    Size = 64;
                     KeyLen = 8;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEngine();
                     break;
                 case CipherEnum.Des3:
-                    BlockSize = 128;
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEdeEngine();
                     break;
+                case CipherEnum.Dstu7624:
+                    Size = 128;
+                    KeyLen = 16;
+                    Mode = "ECB";
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.Dstu7624Engine(Size);
+                    break;
                 case CipherEnum.Gost28147:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
                     break;
                 case CipherEnum.Idea:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
                     break;
                 case CipherEnum.Noekeon:
-                    BlockSize = 128;
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
                     break;
                 case CipherEnum.RC2:
-                    BlockSize = 128;
+                    Size = 128;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
                     break;
                 case CipherEnum.RC532:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
                     break;
                 case CipherEnum.RC564:
-                    BlockSize = 64;
+                    Size = 64;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
                     break;
                 case CipherEnum.RC6:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
                     break;
                 case CipherEnum.Seed:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
-                    BlockSize = 128;
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     break;
                 case CipherEnum.Serpent:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
-                    BlockSize = 128;
+                    Size = 128;
+                    KeyLen = 16;
+                    Mode = "ECB";
+                    break;
+                case CipherEnum.SM4:
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.SM4Engine();
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     break;
                 case CipherEnum.SkipJack:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
                     break;
                 case CipherEnum.Tea:
-                    BlockSize = 128;
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
                     break;
                 case CipherEnum.Tnepres:
-                    BlockSize = 128;
+                    Size = 128;
                     KeyLen = 16;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();
                     break;
                 case CipherEnum.XTea:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
                 default:
-                    BlockSize = 256;
+                    Size = 256;
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
@@ -211,7 +252,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         public CryptParams(CipherEnum cipherAlgo, string key, string hash) : this(cipherAlgo)
         {
             Key = key;
-            Hash = hash;
+            Hash = (string.IsNullOrEmpty(hash)) ? EnDeCodeHelper.KeyToHex(key) : hash;
         }
 
         /// <summary>

@@ -67,10 +67,9 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// </summary>
         /// <param name="encodedString">encoded string</param>
         /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
-        public bool IsValid(string encodedString)
-        {
-            return Base32.IsValidBase32(encodedString);
-        }
+        public bool IsValid(string encodedString) => Base32.IsValidBase32(encodedString, out _);
+
+        public bool IsValidShowError(string encodedString, out string error) => Base32.IsValidBase32(encodedString, out error);
 
         #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
@@ -212,15 +211,22 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
             return result.ToString();
         }
 
-        public static bool IsValidBase32(string inString)
+        
+        public static bool IsValidBase32(string inString, out string error)
         {
+            bool valid = true;
+            error = "";
             foreach (char ch in inString)
             {
-                if (!VALID_CHARS.ToCharArray().Contains(ch))
-                    return false;
+                if (!VALID_CHARS.ToArray().Contains(ch))
+                {
+                    error += ch;
+                    valid = false;
+                }
             }
-            return true;
+            return valid;
         }
+
     }
 
 }

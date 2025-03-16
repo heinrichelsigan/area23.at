@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
+
     /// <summary>
     /// More complex sbyte mapping from 0x0 .. to 0xf as symmetric cipher matrix
     /// position swaps and byte mappings are seperated in 2 matrizes 
@@ -18,6 +19,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     {
 
         #region fields
+
 
         // protected internal new byte[] privateBytes = new byte[0x10];
         protected internal byte[] privateBytes2 = new byte[0x10];
@@ -40,10 +42,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         {
             get
             {
-                if (_inverseMatrix2 == null || _inverseMatrix2.Length < 0x10 ||
+                if (_inverseMatrix2 == null ||
+                    _inverseMatrix2.Length < 0x10 ||
                     (_inverseMatrix2[0] == (sbyte)0x0 && _inverseMatrix2[1] == (sbyte)0x0 && _inverseMatrix2[0xf] == (sbyte)0x0) ||
-                        (_inverseMatrix2[0] == (sbyte)0x0 && _inverseMatrix2[1] == (sbyte)0x1 && _inverseMatrix2[0xf] == (sbyte)0xf))
+                    (_inverseMatrix2[0] == (sbyte)0x0 && _inverseMatrix2[1] == (sbyte)0x1 && _inverseMatrix2[0xf] == (sbyte)0xf))
+                {
                     _inverseMatrix2 = BuildInverseMatrix(MatrixPermutationKey2);
+                }
 
                 return _inverseMatrix2;
             }

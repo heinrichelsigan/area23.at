@@ -9,9 +9,18 @@ using System.Text;
 namespace Area23.At.Framework.Library.Crypt.Hash
 {
 
+    /// <summary>
+    /// MD5Sum hashes a md5 sum for a string, stream, byte[], 
+    /// </summary>
     public static class MD5Sum
     {
 
+        /// <summary>
+        /// Hash
+        /// </summary>
+        /// <param name="filePath">filePath to file</param>
+        /// <param name="showFileName">show fileName after hash sum</param>
+        /// <returns></returns>
         public static string Hash(string filePath, bool showFileName = true)
         {
             if (!System.IO.File.Exists(filePath))
@@ -19,10 +28,10 @@ namespace Area23.At.Framework.Library.Crypt.Hash
 
             byte[] bytes = File.ReadAllBytes(filePath);
             string fileName = Path.GetFileName(filePath);
-            string hash = (showFileName) ? Hash(bytes, fileName) : Hash(bytes);
 
-            return hash;
+            return (showFileName) ? Hash(bytes, fileName) : Hash(bytes);
         }
+
 
         public static string HashString(string string2Hash, string fileName = "")
         {
@@ -31,33 +40,26 @@ namespace Area23.At.Framework.Library.Crypt.Hash
             return hashed;
         }
 
-        public static string Hash(byte[] bytes, string fileName = null)
+
+        public static string Hash(byte[] bytes, string fileName = "")
         {
             byte[] hashed = MD5.Create().ComputeHash(bytes);
-            string hasha = Encoding.UTF8.GetString(hashed);
-            string hashb = hashed.ToHexString();
+            string hash = hashed.ToHexString();
             if (!string.IsNullOrEmpty(fileName))
-            {
-                hasha += "  " + fileName;
-                hashb += "  " + fileName;
-            }
+                hash += "  " + fileName;
 
-            return hashb.ToLower();
+            return hash.ToLower();
         }
 
-        public static string Hash(Stream s, string fileName = null)
+        public static string Hash(Stream s, string fileName = "")
         {
             byte[] bytes = MD5.Create().ComputeHash(s);
-            string hasha = BitConverter.ToString(bytes).Replace("-", string.Empty);
-            string hashb = bytes.ToHexString();
+            string hash = bytes.ToHexString();
 
             if (!string.IsNullOrEmpty(fileName))
-            {
-                hasha += "  " + fileName;
-                hashb += "  " + fileName;
-            }
+                hash += "  " + fileName;
 
-            return hashb.ToLower();
+            return hash.ToLower();
         }
 
         public static byte[] HashBytes(byte[] bytes)

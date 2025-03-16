@@ -21,9 +21,10 @@ namespace Area23.At.Framework.Library.Static
         public const int MAX_PIPE_LEN = 8;
         public const int MAX_SERVER_SOCKET_ADDRESSES = 16;
         public const int CLOSING_TIMEOUT = 6000;
-        public const int MIN_SOCKET_BYTE_BUFFEER = 65536;   // 64 KB Buffer
-        public const int SOCKET_BYTE_BUFFEER = 1048576;     //  1 MB Buffer
-        public const int MAX_BYTE_BUFFEER = 4194240;        //  4 MB Buffer
+        public const int MIN_SOCKET_BYTE_BUFFEER = 65536;       // 64 KB Buffer
+        public const int SOCKET_BYTE_BUFFEER = 1048576;         //  1 MB Buffer
+        public const int MAX_BYTE_BUFFEER = 4194240;            //  4 MB Buffer
+        public const int MAX_SOCKET_BYTE_BUFFEER = 33554432;    //  32 MB Buffer  2^25
         public const bool CQR_ENCRYPT = true;
         public const bool ZEN_MATRIX_SYMMETRIC = false;
 

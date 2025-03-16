@@ -24,22 +24,19 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// </summary>
         /// <param name="inBytes">byte array to encode</param>
         /// <returns>hex16 encoded string</returns>
-        public string Encode(byte[] inBytes)
-        {
-            return Base16.ToBase16(inBytes);
-        }
+        public string Encode(byte[] inBytes) => Base16.ToBase16(inBytes);
 
         /// <summary>
         /// Decodes a hex string to byte[]
         /// </summary>
         /// <param name="hexString">hex16 encoded string</param>
         /// <returns></returns>
-        public byte[] Decode(string encodedString)
-        {
-            return Base16.FromBase16(encodedString);
-        }
+        public byte[] Decode(string encodedString) => Base16.FromBase16(encodedString);
+     
 
-        public bool IsValid(string encodedStr) => Base16.IsValidBase16(encodedStr);
+        public bool IsValid(string encodedStr) => Base16.IsValidBase16(encodedStr, out _);
+
+        public bool IsValidShowError(string encodedString, out string error) => Base16.IsValidBase16(encodedString, out error);
 
         #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
@@ -102,14 +99,19 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 
         }
 
-        public static bool IsValidBase16(string inString)
+        public static bool IsValidBase16(string inString, out string error)
         {
+            bool valid = true;
+            error = "";
             foreach (char ch in inString)
             {
                 if (!VALID_CHARS.ToArray().Contains(ch))
-                    return false;
+                {
+                    error += ch;
+                    valid = false;
+                }                
             }
-            return true;
+            return valid;
         }
 
     }

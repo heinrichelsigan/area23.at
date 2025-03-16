@@ -2,7 +2,7 @@
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Framework.Library.CqrXs;
-using Area23.At.Framework.Library.CqrXs.CqrMsg;
+using Area23.At.Framework.Library.CqrXs.Msg;
 using Area23.At.Framework.Library.CqrXs.CqrSrv;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Mono.Util;

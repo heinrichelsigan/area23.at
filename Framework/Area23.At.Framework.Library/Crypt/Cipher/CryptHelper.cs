@@ -15,77 +15,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
     public static class CryptHelper
     {
 
-        #region GetBlockCipher
-
-        /// <summary>
-        /// Gets <see cref="CryptParams.BlockChipher"/> symmetric or asymmetric engine from <see cref="Org.BouncyCastle.Crypto.Engines"/> 
-        /// </summary>
-        /// <param name="c"><see cref="CryptParams"/></param>
-        /// <returns><see cref="CryptParams"/></returns>
-        [Obsolete("Please use directly the ctor of CryptParams to get CryptParams", true)]
-        public static CryptParams GetCryptParams(CryptParams c)
-        {
-            CryptParams cout = new CryptParams(c);
-            return cout;
-        }
-
-        /// <summary>
-        /// Gets an <see cref="IBlockCipher"/> symmetric or asymmetric engine from <see cref="Org.BouncyCastle.Crypto.Engines"/> 
-        /// </summary>
-        /// <param name="c">CryptParams</param>
-        /// <returns><see cref="IBlockCipher"/></returns>
-        [Obsolete("Please use default ctor of CryptParams to get IBlockCipher from CryptParams for a CipherEnum cipherAlgo", true)]
-        public static IBlockCipher GetBlockCipher(CipherEnum cipherAlgo)
-        {
-            return new CryptParams(cipherAlgo).BlockCipher;
-        }
-
-        /// <summary>
-        /// Gets an <see cref="IBlockCipher"/> via <see cref="CryptParams.BlockChipher"/> and a 
-        /// symmetric or asymmetric engine from <see cref="Org.BouncyCastle.Crypto.Engines"/> 
-        /// </summary>
-        /// <param name="cipherAlgo">alogorithm to chipher</param>
-        /// <returns>CryptParams</returns>
-        [Obsolete("Please use default ctor of CryptParams to get CryptParams for a CipherEnum cipherAlgo", true)]
-        public static CryptParams GetCryptParams(CipherEnum cipherAlgo)
-        {
-            return new CryptParams(cipherAlgo);
-        }
-
-
-
-        #endregion GetBlockCipher
-
-        #region GetPreferedBlockCipher
-
-        /// <summary>
-        /// Gets a prefered <see cref="IBlockCipher"/> 
-        /// for a symmetric only engine from <see cref="Org.BouncyCastle.Crypto.Engines"/> 
-        /// </summary>
-        /// <param name="symmCipherAlgo">symmetric prefered alogorithm to chipher</param>
-        /// <returns><see cref="IBlockCipher"/></returns>
-        [Obsolete("Please use default ctor of CryptParamsPrefered to get reference to IBlockCipher of your prefered CryptParamsPrefered", true)]
-        public static IBlockCipher GetPreferedBlockCipher(SymmCipherEnum symmCipherAlgo)
-        {
-            CryptParamsPrefered cryptParamsPrefered = new CryptParamsPrefered(symmCipherAlgo);
-            return cryptParamsPrefered.BlockCipher;
-        }
-
-        /// <summary>
-        /// Gets <see cref="CryptParamsPrefered"/> with 
-        /// a symmetric only engine from <see cref="Org.BouncyCastle.Crypto.Engines"/> 
-        /// in <see cref="Org.BouncyCastle.Crypto.IBlockCipher"/> 
-        /// </summary>
-        /// <param name="symmCipherAlgo">alogorithm to chipher</param>
-        /// <returns>CryptParamsPrefered</returns>
-        [Obsolete("Please use default ctor of CryptParamsPrefered to get your prefered CryptParamsPrefered", true)]
-        public static CryptParamsPrefered GetPreferedCryptParams(SymmCipherEnum symmCipherAlgo, bool fishOnAesEngine = false)
-        {
-            return new CryptParamsPrefered(symmCipherAlgo, fishOnAesEngine);
-        }
-
-        #endregion GetPreferedBlockCipher
-
         #region GetUserKeyBytes
 
         /// <summary>
@@ -199,7 +128,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 keyHashTarBytes = keyHashBytes.TarBytes(keyHashBytes);
                 keyByteCnt = keyHashTarBytes.Length;
                 keyHashBytes = new byte[keyByteCnt];
-                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);               
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
             }
 
             if (keyLen <= keyByteCnt)
@@ -214,6 +143,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         }
 
         #endregion GetUserKeyBytes
+
 
     }
 

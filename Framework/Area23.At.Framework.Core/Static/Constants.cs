@@ -25,7 +25,7 @@ namespace Area23.At.Framework.Core.Static
         public const int MIN_SOCKET_BYTE_BUFFEER = 65536;       //  64 KB Buffer  2^16
         public const int SOCKET_BYTE_BUFFEER = 4194304;         //   4 MB Buffer  2^22
         public const int MAX_FILE_BYTE_BUFFEER = 6291456;       //   6 MB Buffer     
-        public const int MAX_SOCKET_BYTE_BUFFEER = 16777216;    //  16 MB Buffer  2^24  
+        public const int MAX_SOCKET_BYTE_BUFFEER = 33554432;    //  32 MB Buffer  2^25 
         
         // constants time intervals
         public const int CLOSING_TIMEOUT = 1000;
@@ -97,7 +97,7 @@ namespace Area23.At.Framework.Core.Static
         public const string AUTHOR_EMAIL = "heinrich.elsigan@area23.at";
         public const string AUTHOR_IV = "6865696e726963682e656c736967616e406172656132332e6174";
         public const string AREA23_EMAIL = "zen@area23.at";
-        public const string AUTHOR_SIGNATURE = "-- \nHeinrich G.Elsigan\nTheresianumgasse 6/28, A-1040 Vienna\n phone: +43 650 752 79 28 \nmobile: +43 670 406 89 83 \nemails: heinrich.elsigan @gmail.com\n        root@darkstar.work he@area23.at\n        heinrich.elsigan @live.at\n        sites: darkstar.work area23.at\nweblog: blog.darkstar.work\n   wko: https://firmen.wko.at/DetailsKontakt.aspx?FirmaID=19800fbd-84a2-456d-890e-eb1fa213100f";
+        public const string AUTHOR_SIGNATURE = "-- \nHeinrich G.Elsigan\nTheresianumgasse 6/28, A-1040 Vienna\n phone: +43 650 752 79 28 \nmobile: +43 670 406 89 83 \nemails: heinrich.elsigan @gmail.com\n        heinrich.elsigan@live.at\n        sites: area23.at cqrxs.eu\nweblog: blog.area23.at\n   wko: https://firmen.wko.at/DetailsKontakt.aspx?FirmaID=19800fbd-84a2-456d-890e-eb1fa213100f";
 
         public const string CALC_DIR = "Calc";
         public const string CSS_DIR = "css";

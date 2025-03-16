@@ -8,18 +8,28 @@ using System.Text;
 namespace Area23.At.Framework.Library.Crypt.Hash
 {
 
+    /// <summary>
+    /// Sha256Sum creates Sha256Sum of a file or stream or byte[] or string
+    /// </summary>
     public static class Sha256Sum
     {
 
+        /// <summary>
+        /// Hashes a file
+        /// </summary>
+        /// <param name="filePath">full(unc) path to file</param>
+        /// <param name="fileName">optional filename to add after hash</param>
+        /// <returns>Sha512 hash of file with optional fileName at end</returns>
+        /// <exception cref="ArgumentNullException">thrown, when filePath == null | filePath == "" | !File.Exists(filePath)</exception>        
         public static string Hash(string filePath, bool showFileName = true)
         {
-            if (!System.IO.File.Exists(filePath))
-                return Hash(Encoding.Default.GetBytes(filePath));
-            
+            if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
+                throw new ArgumentNullException($"Sha256Sum.Hash(filePath, showFileName = {showFileName}) filePath is null or empty or file at filePath doesn't exist.");
+
+
             byte[] fileBytes = File.ReadAllBytes(filePath);
             string fileName = Path.GetFileName(filePath);
-            string hash = (showFileName) ? Hash(fileBytes, fileName) : Hash(fileBytes);
-            return hash;
+            return (showFileName) ? Hash(fileBytes, fileName) : Hash(fileBytes);
         }
 
 
@@ -31,8 +41,7 @@ namespace Area23.At.Framework.Library.Crypt.Hash
         }
 
 
-
-        public static string Hash(byte[] bytes, string fileName = null)
+        public static string Hash(byte[] bytes, string fileName = "")
         {
             byte[] hashed = HashBytes(bytes);
             string hasha = Encoding.UTF8.GetString(hashed);
@@ -45,7 +54,7 @@ namespace Area23.At.Framework.Library.Crypt.Hash
             return hashb.ToLower();
         }
 
-        public static string Hash(Stream s, string fileName = null)
+        public static string Hash(Stream s, string fileName = "")
         {
             byte[] hashed = HashBytes(s);
             string hasha = BitConverter.ToString(hashed).Replace("-", string.Empty);

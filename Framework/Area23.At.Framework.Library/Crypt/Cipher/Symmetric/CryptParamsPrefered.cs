@@ -8,13 +8,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     /// CryptParamsPrefered prefered params for symmetric block cipher
     /// </summary>
     public class CryptParamsPrefered : CryptParams
-    {        
+    {
         public SymmCipherEnum SymmCipher { get; set; }
 
         /// <summary>
         /// standard ctor with <see cref="SymmCipherEnum.Aes"/> default
         /// </summary>
-        public CryptParamsPrefered() : base() 
+        public CryptParamsPrefered() : base()
         {
             SymmCipher = SymmCipherEnum.Aes;
         }
@@ -62,7 +62,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     KeyLen = 16;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
-                    break;                
+                    break;
                 case SymmCipherEnum.Cast6:
                     Size = 256;
                     KeyLen = 32;
@@ -152,7 +152,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         {
             SymmCipher = cipherAlgo;
             Key = key;
-            Hash = hash;            
+            Hash = hash;
         }
 
         /// <summary>
@@ -171,5 +171,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         }
 
     }
+
 
 }

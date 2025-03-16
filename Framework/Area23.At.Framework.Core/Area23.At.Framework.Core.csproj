@@ -22,13 +22,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>7</WarningLevel>
     <DebugType>embedded</DebugType>
-    <DefineConstants>$(DefineConstants);HILLARIOUSTRUMPED</DefineConstants>
+    <DefineConstants>$(DefineConstants);HTTPBINDING</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>7</WarningLevel>
     <DebugType>embedded</DebugType>
-    <DefineConstants>$(DefineConstants);HILLARIOUSTRUMPED</DefineConstants>
+    <DefineConstants>$(DefineConstants);HTTPBINDING</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -44,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="CqrXs\CqrMsg\MimeAttachment.cs" />
+    <Compile Remove="CqrXs\Msg\MimeAttachment.cs" />
     <Compile Remove="Crypt\EnDeCoding\DeEnCoder.cs" />
     <Compile Remove="Net\IpSocket\IpSocketSender.cs" />
     <Compile Remove="Net\IpSocket\IPSockListener.cs" />  

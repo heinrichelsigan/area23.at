@@ -180,34 +180,34 @@ namespace Area23.At.Framework.Core.Static
             {
                 if (string.IsNullOrEmpty(systemDirPath))
                 {
-                    for (int sysDirTry = 0; sysDirTry < 6; sysDirTry++)
+                    for (int sysDirTry = 0; sysDirTry < 8; sysDirTry++)
                     {
-                        switch (sysDirTry)
+                        try
                         {
-                            case 0:
-                                try
-                                {
+                            switch (sysDirTry)
+                            {
+                                case 0:
                                     if (SepChar == "/" && Path.DirectorySeparatorChar == '/' && SepCh == Path.DirectorySeparatorChar &&
-                                                ConfigurationManager.AppSettings["AppDirPathUnix"] != null &&
-                                                ConfigurationManager.AppSettings["AppDirPathUnix"] != "")
-                                        systemDirPath = ConfigurationManager.AppSettings["AppDirPathUnix"]; 
-                                }
-                                catch { }
-                                break;
-                            case 1:
-                                try
-                                {
+                                            ConfigurationManager.AppSettings["AppDirPathUnix"] != null &&
+                                            ConfigurationManager.AppSettings["AppDirPathUnix"] != "")
+                                        systemDirPath = ConfigurationManager.AppSettings["AppDirPathUnix"];
+                                    break;
+                                case 1:
                                     if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)
-                                    systemDirPath = ConfigurationManager.AppSettings["AppDirPathWin"];
-                                }
-                                catch { }
-                                break;
-                            case 2: systemDirPath = Path.GetFullPath(Assembly.GetExecutingAssembly().Location); break;
-                            case 3: if (AppContext.BaseDirectory != null) systemDirPath = AppContext.BaseDirectory; break;
-                            case 4: if (AppDomain.CurrentDomain != null) systemDirPath = AppDomain.CurrentDomain.BaseDirectory; break;
-                            case 5:
-                            default: systemDirPath = Path.GetFullPath(Assembly.GetExecutingAssembly().Location); break;
+                                        systemDirPath = ConfigurationManager.AppSettings["AppDirPathWin"];
+                                    break;
+                                case 2: systemDirPath = Path.GetFullPath(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName); break;
+                                case 3: systemDirPath = Path.GetFullPath(System.Environment.ProcessPath); break;
+                                case 4: systemDirPath = Path.GetFullPath(Assembly.GetExecutingAssembly().Location); break;
+                                case 5: systemDirPath = AppContext.BaseDirectory; break;
+                                case 6: if (AppDomain.CurrentDomain != null) systemDirPath = AppDomain.CurrentDomain.BaseDirectory; break;
+                                case 7: systemDirPath = Path.GetFullPath(Assembly.GetExecutingAssembly().CodeBase); break;
+                                case 8: systemDirPath = Path.GetFullPath(System.Environment.GetCommandLineArgs()[0]); break;
+                                default:
+                                    systemDirPath = Path.GetFullPath(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName); break;
+                            }
                         }
+                        catch { }
 
                         if (!string.IsNullOrEmpty(systemDirPath) && Directory.Exists(systemDirPath))
                             break;

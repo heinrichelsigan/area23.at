@@ -32,20 +32,14 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 
         public static HashSet<char>? ValidCharList { get; private set; } = new HashSet<char>(VALID_CHARS.ToCharArray());
 
-        public string Encode(byte[] data) 
-        {
-            return Uu.Encode(data, false, false);
-        }
+        public string Encode(byte[] data) => Uu.Encode(data, false, false);
 
-        public byte[] Decode(string encodedString)
-        {
-            return Uu.Decode(encodedString, false, false);
-        }
+        public byte[] Decode(string encodedString) => Uu.Decode(encodedString, false, false);
 
-        public bool IsValid(string encodedString)
-        {
-            return Uu.IsValidUu(encodedString);
-        }
+
+        public bool IsValidShowError(string encodedString, out string error) => Uu.IsValidUu(encodedString, out error);
+
+        public bool IsValid(string encodedString) => Uu.IsValidUu(encodedString, out _);
 
         #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
@@ -221,9 +215,12 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
             return plainStr;
         }
 
-        public static bool IsValidUu(string uuEncodedStr)
+        public static bool IsValidUu(string uuEncodedStr, out string error)
         {
             string encodedBody = uuEncodedStr;
+            bool isValid = true;
+            error = "";
+            
 
             if (ValidCharList != null)
             {
@@ -239,11 +236,14 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
                 foreach (char ch in uuEncodedStr)
                 {
                     if (!ValidCharList.Contains(ch))
-                        return false;
+                    {
+                        error += ch.ToString();
+                        isValid = false;
+                    }
                 }
             }
 
-            return true;
+            return isValid;
         }
 
         #region helper

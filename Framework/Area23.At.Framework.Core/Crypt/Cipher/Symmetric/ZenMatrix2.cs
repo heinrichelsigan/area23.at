@@ -278,7 +278,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             for (int j = 0; j < keyBytes2.Length; j++)
                 kbs2 += keyBytes2[j].ToString("x2");
 
-            SLog.Log("ZenMatrix2 " + perm2 + " KeyBytes = " + kbs2);
+            Area23Log.LogStatic("ZenMatrix2 " + perm2 + " KeyBytes = " + kbs2);
         }
 
 

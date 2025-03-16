@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 {
@@ -26,23 +27,21 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// </summary>
         /// <param name="inBytes">byte array to encode</param>
         /// <returns>encoded string</returns>
-        public string Encode(byte[] inBytes)
-        {
-            return Hex16.ToHex16(inBytes);
-        }
+        public string Encode(byte[] inBytes) => Hex16.ToHex16(inBytes);
 
         /// <summary>
         /// Decodes an encoded string to byte[]
         /// </summary>
         /// <param name="encodedString">encoded string</param>
         /// <returns>byte array</returns>
-        public byte[] Decode(string encodedString)
-        {
-            return Hex16.FromHex16(encodedString);
-        }
+        public byte[] Decode(string encodedString) => Hex16.FromHex16(encodedString);
 
-        public bool IsValid(string encodedStr) => Hex16.IsValidHex16(encodedStr);
 
+        public bool IsValid(string encodedStr) => Hex16.IsValidHex16(encodedStr, out _);
+
+        public bool IsValidShowError(string encodedString, out string error) => Hex16.IsValidHex16(encodedString, out error);
+                
+        
         #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
 
@@ -104,16 +103,22 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
             return bytes.ToArray();
 
         }
+        
 
-
-        public static bool IsValidHex16(string inString)
+        public static bool IsValidHex16(string inString, out string error)
         {
+            bool isValid = true;
+            error = "";
             foreach (char ch in inString)
             {
                 if (!VALID_CHARS.ToCharArray().Contains(ch))
-                    return false;
+                {
+                    error += ch.ToString();
+                    isValid = false;
+                }
             }
-            return true;
+
+            return isValid;
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Crypto;
+﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using System;
 using System.Collections.Generic;
@@ -250,7 +251,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         public CryptParams(CipherEnum cipherAlgo, string key, string hash) : this(cipherAlgo)
         {
             Key = key;
-            Hash = hash;
+            Hash = (string.IsNullOrEmpty(hash)) ? EnDeCodeHelper.KeyToHex(key) : hash;
         }
 
         /// <summary>

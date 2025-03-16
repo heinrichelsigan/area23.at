@@ -1,11 +1,8 @@
-﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
-using Org.BouncyCastle.Utilities;
+﻿using Area23.At.Framework.Library.Crypt.Cipher;
+using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Input;
 
-namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
+namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 {
 
     /// <summary>
@@ -22,52 +19,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="hashIv">key hash iv</param>
         /// <returns>encrypted byte Array</returns>
-        public static new byte[] EncryptBytes(byte[] inBytes,
+        public static byte[] EncryptBytes(byte[] inBytes,
             SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes,
             string secretKey = "heinrich.elsigan@area23.at",
             string hashIv = "6865696e726963682e656c736967616e406172656132332e6174")
         {
-            byte[] encryptBytes = inBytes;
-
-            string algo = cipherAlgo.ToString();
-            switch (cipherAlgo)
-            {                
-                //case SymmCipherEnum.Rijndael:
-                //    Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
-                //    encryptBytes = Rijndael.Encrypt(inBytes);
-                //    break;
-                case SymmCipherEnum.Serpent:
-                    Serpent.SerpentGenWithKey(secretKey, hashIv, true);
-                    encryptBytes = Serpent.Encrypt(inBytes);
-                    break;
-                case SymmCipherEnum.ZenMatrix:                    
-                    encryptBytes = (new ZenMatrix(secretKey, hashIv, false)).Encrypt(inBytes);
-                    break;
-                case SymmCipherEnum.Aes:
-                case SymmCipherEnum.BlowFish:
-                case SymmCipherEnum.Fish2:
-                case SymmCipherEnum.Fish3:
-                case SymmCipherEnum.Camellia:
-                case SymmCipherEnum.Cast6:
-                case SymmCipherEnum.Des3:
-                case SymmCipherEnum.Gost28147:
-                case SymmCipherEnum.Idea:
-                case SymmCipherEnum.RC532:
-                case SymmCipherEnum.Seed:
-                case SymmCipherEnum.SkipJack:
-                case SymmCipherEnum.Tea:
-                case SymmCipherEnum.XTea:
-                    default:
-                    CryptParamsPrefered cpParams = new CryptParamsPrefered(cipherAlgo, secretKey, hashIv);
-                    CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                    encryptBytes = cryptBounceCastle.Encrypt(inBytes);
-                    break;
-            }
-
-
+            byte[] encryptBytes = SymmCipherPipe.EncryptBytesFast(inBytes, cipherAlgo, secretKey, hashIv);
             return encryptBytes;
         }
-
 
         /// <summary>
         /// Generic decrypt bytes to bytes
@@ -77,53 +36,29 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="hashIv">key hash iv</param>
         /// <returns>decrypted byte Array</returns>
-        public static new byte[] DecryptBytes(byte[] cipherBytes,
+        public static byte[] DecryptBytes(byte[] cipherBytes,
             SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes,
             string secretKey = "heinrich.elsigan@area23.at",
             string hashIv = "6865696e726963682e656c736967616e406172656132332e6174")
         {
-            bool sameKey = true;
-            byte[] decryptBytes = cipherBytes;
+            byte[] decryptBytes = SymmCipherPipe.DecryptBytesFast(cipherBytes, cipherAlgo, secretKey, hashIv);
+            return decryptBytes;
+        }
 
-            switch (cipherAlgo)
-            {                
-                //case SymmCipherEnum.Rijndael:
-                //    sameKey = Rijndael.RijndaelGenWithNewKey(secretKey, hashIv, true);
-                //    decryptBytes = Rijndael.Decrypt(cipherBytes);
-                //    break;
-                case SymmCipherEnum.Serpent:
-                    sameKey = Serpent.SerpentGenWithKey(secretKey, hashIv, true);
-                    decryptBytes = Serpent.Decrypt(cipherBytes);
-                    break;
-                case SymmCipherEnum.ZenMatrix:
-                    decryptBytes = (new ZenMatrix(secretKey, hashIv, false)).Decrypt(cipherBytes);
-                    break;
-                case SymmCipherEnum.Aes:
-                case SymmCipherEnum.BlowFish:
-                case SymmCipherEnum.Fish2:
-                case SymmCipherEnum.Fish3:
-                case SymmCipherEnum.Camellia:
-                case SymmCipherEnum.Cast6:
-                case SymmCipherEnum.Des3:
-                case SymmCipherEnum.Gost28147:
-                case SymmCipherEnum.Idea:
-                case SymmCipherEnum.RC532:
-                case SymmCipherEnum.Seed:
-                case SymmCipherEnum.SkipJack:
-                case SymmCipherEnum.Tea:
-                case SymmCipherEnum.XTea:
-                default:
-                    CryptParamsPrefered cpParams = new CryptParamsPrefered(cipherAlgo, secretKey, hashIv);
-                    CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                    decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
-                    break;                
-            }
 
-            return EnDeCodeHelper.GetBytesTrimNulls(decryptBytes);
-            // return decryptBytes;
+        public static new byte[] EncryptBytes(byte[] inBytes, CipherEnum cipherAlgo = CipherEnum.Aes,
+            string secretKey = "", string keyIv = "")
+        {
+            throw new NotImplementedException("Use: static byte[] EncryptBytes(byte[] cipherBytes, SymmCipherEnum cipherAlgo, string secretKey, string hashIV)");
+        }
+
+        public static new byte[] DecryptBytes(byte[] ipherBytes, CipherEnum cipherAlgo = CipherEnum.Aes,
+            string secretKey = "postmaster@kernel.org", string keyIv = "")
+        {
+            throw new NotImplementedException("Use: static byte[] DecryptBytes(byte[] cipherBytes, SymmCipherEnum cipherAlgo, string secretKey, string hashIV)");
         }
 
     }
 
-
 }
+

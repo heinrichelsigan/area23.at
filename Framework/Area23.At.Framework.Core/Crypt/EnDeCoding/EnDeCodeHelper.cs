@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 {
@@ -35,24 +36,46 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         }
 
         /// <summary>
-        /// EncodeBytes encodes encrypted byte[] by encodingMethod to an encoded text string
+        /// EncodeBytes encodes byte[] inBytes by encodingMethod to an encoded text string
         /// </summary>
-        /// <param name="encryptBytes">encryptedBytes to encdode</param>
+        /// <param name="inBytes">inBytes to encdode</param>
         /// <param name="encodingType">EncodingTypes are "None", "Hex16", "Base16", "Base32", "Hex32", "Uu", "Base64".
         /// "Base64" is default.</param>
         /// <param name="fromPlain">Only for uu: true, if <see cref="encryptBytes"/> represent a binary without encryption</param>
         /// <param name="fromFile">Only for uu: true, if file and not textbox will be encrypted, default (false)</param>
-        /// <returns>encoded encrypted string</returns>
-        public static string EncodeBytes(byte[] encryptBytes, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
+        /// <returns>encoded string</returns>
+        public static string EncodeBytes(byte[] inBytes, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
         {
             SLog.Log(
-                "EncodeEncryptedBytes(byte[] encryptBytes.[Length=" + encryptBytes.Length + "], EncodingType encodingType =  "
+                "EncodeEncryptedBytes(byte[] inBytes.[Length=" + inBytes.Length + "], EncodingType encodingType =  "
                 + encodingType.ToString() + ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
 
-            string encryptedText = EnDeCodeHelper.Encode(encryptBytes, encodingType, fromPlain, fromFile);
+            string encryptedText = EnDeCodeHelper.Encode(inBytes, encodingType, fromPlain, fromFile);
 
             return encryptedText;
         }
+
+        /// <summary>
+        /// EncodeBytes encodes byte[] inBytes by encodingMethod as plain text param enCodingString to an encoded text string
+        /// </summary>
+        /// <param name="inBytes">inBytes to encdode</param>
+        /// <param name="enCodingString">ebcoding enum <see cref="EncodingType"/> as plain string
+        /// "Base64" is default.</param>
+        /// <returns>encoded string</returns>
+        public static string EncodeBytesToString(byte[] inBytes, string enCodingString)
+        {
+            EncodingType encodingType = EncodingTypesExtensions.GetEnum(enCodingString);
+
+            SLog.Log(
+                "EncdoeBytes(byte[] inBytes.[Length=" + inBytes.Length + "], EncodingType encodingType =  "
+                + encodingType.ToString() + ")");
+
+            string encodedText = EnDeCodeHelper.Encode(inBytes, encodingType);
+            return encodedText;
+        }
+
+        public static byte[] EncodeBytes(byte[] inBytes, string enCodingString) => Encoding.UTF8.GetBytes(EncodeBytesToString(inBytes, enCodingString));
+
 
         /// <summary>
         /// EncodedTextToBytes transforms an encoded text string into a <see cref="byte[]">býte array</see>
@@ -79,6 +102,46 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 
             return cipherBytes;
         }
+
+        /// <summary>
+        /// DecodeText decodes an encoded text string to a <see cref="byte[]">býte array</see>
+        /// </summary>
+        /// <param name="inText">encoded (encrypted) text string</param>
+        /// <param name="enCodingString">ebcoding enum <see cref="EncodingType"/> as plain string
+        /// "Base64" is default.</param>
+        /// <returns>binary byte array</returns>
+        /// <exception cref="FormatException"></exception>
+        public static byte[] DecodeText(string inText, string enCodingString)
+        {
+            EncodingType encodingType = EncodingTypesExtensions.GetEnum(enCodingString);
+
+            SLog.Log(
+                string.Format("DecodeText(string inText[.Length {0}], EncodingType encodingType = {1})",
+                    inText.Length,
+                    encodingType.ToString()));
+
+            // errMsg = string.Empty;
+            if (!EnDeCodeHelper.IsValidShowError(inText, out string error, encodingType))
+            {
+                // errMsg = $"Input Text is not a valid {encodingType.ToString()} string!";
+                throw new FormatException($"Input Text is not a valid {encodingType.ToString()} string, invalid chars: {error}");
+            }
+
+            byte[] outBytes = IDecodable.DeCode(inText, encodingType);
+
+            return outBytes;
+        }
+
+        /// <summary>
+        /// DecodeText decodes an encoded text string to a <see cref="byte[]">býte array</see>
+        /// </summary>
+        /// <param name="inText">encoded (encrypted) text string</param>
+        /// <param name="enCodingString">ebcoding enum <see cref="EncodingType"/> as plain string
+        /// "Base64" is default.</param>
+        /// <returns>binary byte array</returns>>
+        /// <returns></returns>
+        public static byte[] DecodeBytes(byte[] inBytes, string enCodingString) => DecodeText(Encoding.UTF8.GetString(inBytes), enCodingString);
+        
 
 
         /// <summary>
@@ -175,6 +238,29 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         }
 
         /// <summary>
+        /// GetBytesTrimNulls gets a byte[] from binary byte[] data and truncate all 0 byte at the end.
+        /// </summary>
+        /// <param name="inBytes">decrypted byte[]</param>
+        /// <returns>truncated byte[] without a lot of \0 (null) characters</returns>
+        public static byte[] GetBytesTrimCrLfNulls(byte[] inBytes)
+        {            
+            if (inBytes == null || inBytes.Length < 1)
+                return new byte[0];
+
+            int ig = inBytes.Length;
+            byte[] nonNullBytes = new byte[inBytes.Length];            
+            
+            while (ig > 0 && ((inBytes[ig - 1] == (byte)0) || (inBytes[ig-1] == (byte)10) || (inBytes[ig-1] == (byte)13)))
+            {
+                ig--;
+            }
+            nonNullBytes = new byte[ig];
+            Array.Copy(inBytes, 0, nonNullBytes, 0, ig);                            
+            
+            return nonNullBytes;
+        }
+
+        /// <summary>
         /// Trim_Decrypted_Text removes all special control characters from a text string
         /// </summary>
         /// <param name="decryptedText">string to trim and strip from special control characters.</param>
@@ -224,6 +310,12 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         {
             IDecodable dec = encodingType.GetEnCoder();
             return dec.IsValid(encodedString);
+        }
+
+        public static bool IsValidShowError(string encodedString, out string error, EncodingType encodingType = EncodingType.Base64)
+        {
+            IDecodable dec = encodingType.GetEnCoder();
+            return dec.IsValidShowError(encodedString, out error);
         }
 
 
@@ -280,20 +372,11 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 
         #region GetBytes
 
-        public static byte[] GetBytesDefault(string str2encode)
-        {
-            return Encoding.Default.GetBytes(str2encode);
-        }
+        public static byte[] GetBytesDefault(string str2encode) => Encoding.Default.GetBytes(str2encode);
 
-        public static byte[] GetBytesASCII(string str2encode)
-        {
-            return Encoding.ASCII.GetBytes(str2encode);
-        }
+        public static byte[] GetBytesASCII(string str2encode) => Encoding.ASCII.GetBytes(str2encode);
 
-        public static byte[] GetBytes7(string str2encode)
-        {
-            return Encoding.UTF7.GetBytes(str2encode);
-        }
+        public static byte[] GetBytes7(string str2encode) => Encoding.UTF7.GetBytes(str2encode);
 
         public static byte[] GetBytes8(string str2encode)
         {

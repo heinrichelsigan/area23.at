@@ -38,6 +38,12 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
             return RawString.FromRawString(encodedString);
         }
 
+        public bool IsValidShowError(string encodedString, out string error)
+        {
+            error = "";
+            return true;
+        }
+
         public bool IsValid(string encodedStr) => true;
 
         public static string ToRawString(byte[] inBytes)

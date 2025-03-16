@@ -52,6 +52,52 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
             
         }
 
+        public static EncodingType GetEnum(string enCodingString) 
+        {
+            switch (enCodingString.ToLower())
+            {
+                case "raw":
+                case "none":
+                case "null":
+                case "0":
+                    return EncodingType.None;
+
+                case "hex16":
+                case "hex":
+                case "h16":
+                case "16":
+                    return EncodingType.Hex16;
+
+                case "base16":
+                case "b16":
+                    return EncodingType.Base16;
+
+                case "base32":
+                case "b32":
+                    return EncodingType.Base32; 
+
+                case "hex32":
+                case "h32":
+                case "32":
+                    return EncodingType.Hex32; 
+
+                case "uu":
+                case "uue":
+                case "uud":
+                case "uuencode":
+                case "uudecode":
+                    return EncodingType.Uu;
+
+                case "base64":
+                case "mime":
+                case "b64":
+                case "64":
+                default:
+                    return EncodingType.Base64;
+            }
+
+        }        
+
     }
 
 }
