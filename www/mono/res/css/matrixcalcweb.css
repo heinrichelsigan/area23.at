@@ -14,27 +14,34 @@ body {
         */
     }
 
-    div.rpnDiv {
-        width: 100%;
-        min-width: 360pt;
-        height: 84%;
-        min-height: 240pt;
-        border-style: double;
-        border-color: white;
-        border-spacing: 2pt;
-        border-width: 2pt;
-        background-color: lightgray;
-        /* 
+        div.matrixDiv {
+            width: 100%;
+            min-width: 620pt;
+            max-width: 1280pt;
+            height: 80%;
+            min-height: 620pt;
+            max-height: 768pt;
+            align-self: start;
+            vertical-align: top;
+            align-content: center;
+            padding: 0 0 0 0;
+            margin: 0 0 0 0;
+            border-style: outset;
+            border-color: #efefef;
+            border-spacing: 1pt;
+            border-width: 1pt;
+            table-layout: fixed;
+            inset-block-start: initial;
+            inset-block-start: auto;
+            background-color: transparent;
+            /* 
             align-self: center;
             align-content: center;
             text-align: center;
             line-height: normal;        
             font-size: medium;
-            table-layout: fixed;
-            inset-block-start: initial;
-            inset-block-start: auto;
-        */
-    }
+            */
+        }
 
     div.rpnDivHeader {
         width: 100%;
@@ -81,13 +88,15 @@ body {
         table#Matrix_m0_Table,
         table.matrixTbl#Matrix_m0_Table,
         table.matrixTbl_m0#Matrix_m0_Table {
-            width: 33%;
-            min-width: 230pt;
-            height: 75%;
-            min-height: 600pt;
-            max-height: 820pt;
-            align-content: center;
+            width: 30%;
+            min-width: 220pt;
+            max-width: 420pt;
+            height: 60%;
+            min-height: 480pt;
+            max-height: 580pt;
+            align-self: start;
             vertical-align: top;
+            /* align-content: center; */
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             background-color: lightskyblue;
@@ -104,13 +113,14 @@ body {
         table#Matrix_m1_Table,
         table.matrixTbl#Matrix_m1_Table,
         table.matrixTbl_m1#Matrix_m1_Table {
-            width: 33%;
-            min-width: 230pt;
-            height: 75%;
-            min-height: 600pt;
-            max-height: 820pt;
+            width: 30%;
+            min-width: 220pt;
+            max-width: 420pt;
+            height: 60%;
+            min-height: 480pt;
+            max-height: 580pt;
             vertical-align: top;
-            align-content: center;
+            /* align-content: center; */
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             background-color: lightpink;
@@ -126,13 +136,14 @@ body {
         table.matrixTbl_m2,
         table#Matrix_m2_Table,
         table.matrixTbl#Matrix_m2_Table {
-            width: 33%;
-            min-width: 230pt;
-            height: 75%;
-            min-height: 600pt;
-            max-height: 820pt;
+            width: 30%;
+            min-width: 220pt;
+            max-width: 420pt;
+            height: 60%;
+            min-height: 480pt;
+            max-height: 580pt;
             vertical-align: top;
-            align-content: center;
+            /* align-content: center; */
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             background-color: lightgoldenrodyellow;
@@ -150,14 +161,17 @@ body {
         tr.tr_m0_f,
         tr#tr_m0_f,
         table.matrixTbl_m0.tr.matrixTr_m0.tr_m0_f#tr_m0_f {
-            width: 33%;
-            min-width: 230pt;
-            height: 24pt;            
+            width: 30%;
+            min-width: 220pt;
+            max-width: 420pt;
+            height: 20pt;
             min-height: 12pt;
-            max-height: 36pt;
+            max-height: 24pt;
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             background-color: lightskyblue;
+            vertical-align: central;
+            align-content: center;
             font-synthesis: style;
             font-variant-numeric: proportional-nums;
             border-style: dotted;
@@ -174,14 +188,17 @@ body {
         tr.matrixTr_m1,
         tr#tr_m1_f,
         tr.matrixTr_m1#tr_m1_f {
-            width: 33%;
-            min-width: 230pt;
-            height: 24pt;
+            width: 30%;
+            min-width: 220pt;
+            max-width: 420pt;
+            height: 20pt;
             min-height: 12pt;
-            max-height: 36pt;
+            max-height: 24pt;
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             background-color: lightpink;
+            vertical-align: central;
+            align-content: center;
             font-synthesis: style;
             font-variant-numeric: proportional-nums;
             border-style: dashed;
@@ -198,13 +215,16 @@ body {
         tr.matrixTr_m2,
         tr.tr_m2_f,
         tr#tr_m2_f, {
-            width: 33%;
-            min-width: 230pt;
-            height: 24pt;
+            width: 30%;
+            min-width: 220pt;
+            max-width: 420pt;
+            height: 20pt;
             min-height: 12pt;
-            max-height: 36pt;
+            max-height: 24pt;
             padding: 0 0 0 0;
             margin: 0 0 0 0;
+            vertical-align: central;
+            align-content: center;
             background-color: lightgoldenrodyellow;
             border-style: ridge;
             border-width: 1px;
@@ -220,12 +240,14 @@ body {
             td.matrixTd_m0 {
                 width: 1%;
                 min-width: 12pt;
-                max-width: 48pt;
-                height: 24pt;
+                max-width: 32pt;
+                height: 20pt;
                 min-height: 12pt;
-                max-height: 36pt;
+                max-height: 24pt;
                 padding: 0 0 0 0;
                 margin: 0 0 0 0;
+                vertical-align: central;
+                align-content: center;
                 background-color: lightskyblue;
                 font-synthesis: style;
                 font-variant-numeric: proportional-nums;
@@ -240,12 +262,14 @@ body {
             td.matrixTd_m1 {
                 width: 1%;
                 min-width: 12pt;
-                max-width: 48pt;
-                height: 24pt;
+                max-width: 32pt;
+                height: 20pt;
                 min-height: 12pt;
-                max-height: 36pt;
+                max-height: 24pt;
                 padding: 0 0 0 0;
                 margin: 0 0 0 0;
+                vertical-align: central;
+                align-content: center;
                 background-color: lightpink;
                 font-synthesis: style;
                 font-variant-numeric: proportional-nums;
@@ -260,12 +284,14 @@ body {
             td.matrixTd_m2 {
                 width: 1%;
                 min-width: 12pt;
-                max-width: 48pt;
-                height: 24pt;
+                max-width: 32pt;
+                height: 20pt;
                 min-height: 12pt;
-                max-height: 36pt;
+                max-height: 24pt;
                 padding: 0 0 0 0;
                 margin: 0 0 0 0;
+                vertical-align: central;
+                align-content: center;
                 background-color: lightgoldenrodyellow;
                 border-style: ridge;
                 border-width: 1px;

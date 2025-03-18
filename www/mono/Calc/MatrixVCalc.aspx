@@ -369,6 +369,14 @@
 				</tr>
 			</table>
 		</div>
+		<br />
+		<asp:Button ID="Button_RandomSetVA" runat="server" ClientIDMode="Static" Text="Random Set Vector A" OnClick="Button_RandomSetVA_Click" />&nbsp;
+		<asp:Button ID="Button_ResetVA" runat="server" ClientIDMode="Static" Text="Reset Vector A" OnClick="Button_ResetVA_Click" />&nbsp;
+		<asp:Button ID="Button_RandomSetMB" runat="server" ClientIDMode="Static"  Text="Random Set Matrix B" OnClick="Button_RandomSetMB_Click" />&nbsp;
+		<asp:Button ID="Button_ResetMB" runat="server" ClientIDMode="Static"  Text="Reset Matrix B" OnClick="Button_ResetMB_Click" />&nbsp;
+		<asp:Button ID="Button_VectorAxMatrixB" runat="server" ClientIDMode="Static"  Text="Matrix A x Matrix B" OnClick="Button_VectorAxMatrixB_Click" />&nbsp;
+		<asp:Button ID="Button_ResetVectorC" runat="server" ClientIDMode="Static" Text="Reset Vector C" OnClick="Button_ResetVectorC_Click" />&nbsp;
+		<hr />
 	</form>    
 </asp:Content>
 

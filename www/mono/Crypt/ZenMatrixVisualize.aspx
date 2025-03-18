@@ -69,7 +69,7 @@
         </div>                    
         <br />                
         <div style="width: 800px; height: 480px; min-height: 360px">
-<table class="rpnTbl" border="0" cellpadding="0" cellspacing="0" runat="server" id="MatrixTable" width="49%" height="60%">
+			<table class="rpnTbl" border="0" cellpadding="0" cellspacing="0" runat="server" id="MatrixTable" width="49%" height="60%">
 				<tr class="rpnTr" runat="server" id="tr_f" width="49%" height="3%">					
 					<td class="rpnTd" colspan=2 width="6%" id="td_f_v1" runat="server" align="center">&nbsp;</td>	
 					<td class="azureTd" width="3%" id="td_f_0" runat="server" align="center"><asp:TextBox ID="TextBox_f_0" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
