@@ -138,7 +138,7 @@ namespace Area23.At.Mono.Crypt
                 SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb).InPipe;
                 
                 
-                ZenMatrix z = new ZenMatrix(this.TextBox_Key.Text, this.TextBox_IV.Text, true);
+                ZenMatrix z = new ZenMatrix(this.TextBox_Key.Text, this.TextBox_IV.Text, false);
                 string zenMt = "|zen|=>\t| ";
                 
                 int b = 0xf;

@@ -178,10 +178,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     encryptBytes = Serpent.Encrypt(inBytes);
                     break;
                 case CipherEnum.ZenMatrix:
-                    encryptBytes = (new ZenMatrix(secretKey, hash, true)).Encrypt(inBytes);
+                    encryptBytes = (new ZenMatrix(secretKey, hash, false)).Encrypt(inBytes);
                     break;
                 case CipherEnum.ZenMatrix2:
-                    encryptBytes = (new ZenMatrix2(secretKey, hash, true)).Encrypt(inBytes);
+                    encryptBytes = (new ZenMatrix2(secretKey, hash, false)).Encrypt(inBytes);
                     break;
                 case CipherEnum.Aes:
                 case CipherEnum.AesLight:
