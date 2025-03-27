@@ -1,7 +1,6 @@
 ﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
-using DBTek.Crypto;
 using ICSharpCode.SharpZipLib.BZip2;
 using ICSharpCode.SharpZipLib.Core;
 using System;
