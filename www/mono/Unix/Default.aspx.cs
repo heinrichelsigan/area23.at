@@ -10,11 +10,11 @@ using System.Web.UI.WebControls;
 
 namespace Area23.At.Mono.Unix
 {
-    public partial class UnixMain : System.Web.UI.Page
+    public partial class Default : System.Web.UI.Page
     {
         static object fortuneLock;
 
-        public UnixMain()
+        public Default()
         {
             fortuneLock = new object();
         }

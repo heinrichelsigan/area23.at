@@ -61,6 +61,8 @@ namespace Area23.At.Mono.Calc
         }
     }
 
+    public class MathOp : MathOp
+
 
     public class MathNumber : MathOp
     {

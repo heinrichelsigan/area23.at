@@ -115,8 +115,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Calc\CCalc.aspx" />
+    <Content Include="Calc\Default.aspx" />
     <Content Include="Calc\MatrixMCalc.aspx" />
     <Content Include="Calc\MatrixVCalc.aspx" />
+    <Compile Include="Calc\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Calc\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Calc\MatrixMCalc.aspx.cs">
       <DependentUpon>MatrixMCalc.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -129,6 +137,7 @@
     </Compile>
     <Content Include="CqrJD\CqrService.asmx" />
     <Content Include="CqrJD\Default.aspx" />
+    <Content Include="Crypt\Default.aspx" />
     <Content Include="Crypt\ZenMatrixVisualize.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Crypt\CoolCrypt.aspx" />
@@ -136,9 +145,11 @@
     <Content Include="Crypt\ImgPngCrypt.aspx" />
     <Content Include="Crypt\S.aspx" />
     <Content Include="Crypt\UueMime.aspx" />
+    <Content Include="Gamez\Default.aspx" />
     <Content Include="Gamez\froga.aspx" />
     <Content Include="Gamez\frogb.aspx" />
     <Content Include="Gamez\TicTacToe.aspx" />
+    <Content Include="Qr\Default.aspx" />
     <Content Include="R.aspx" />
     <Content Include="res\audio\aDraw.m4a" />
     <Content Include="res\bin\bc.exe" />
@@ -208,7 +219,7 @@
     <Content Include="Settings\Default.aspx" />
     <AdditionalFiles Include="Settings\.htaccess" />
     <Content Include="Unix\Bc.aspx" />
-    <Content Include="Unix\UnixMain.aspx" />
+    <Content Include="Unix\Default.aspx" />
     <Content Include="Unix\FortunAsp.aspx" />
     <Content Include="res\css\area23.at.mono.css" />
     <Content Include="res\img\rpnHeader.png" />
@@ -339,6 +350,13 @@
     <Compile Include="CqrJD\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Crypt\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Crypt\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Crypt\ZenMatrixVisualize.aspx.cs">
       <DependentUpon>ZenMatrixVisualize.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -411,6 +429,13 @@
     <Compile Include="Calc\RpnCalc.aspx.designer.cs">
       <DependentUpon>RpnCalc.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Gamez\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Gamez\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Gamez\froga.aspx.cs">
       <DependentUpon>froga.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -431,6 +456,13 @@
     </Compile>
     <Compile Include="Gamez\GamesMaster.master.designer.cs">
       <DependentUpon>GamesMaster.master</DependentUpon>
+    </Compile>
+    <Compile Include="Qr\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Qr\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="R.aspx.cs">
       <DependentUpon>R.aspx</DependentUpon>
@@ -460,12 +492,12 @@
     <Compile Include="Unix\Bc.aspx.designer.cs">
       <DependentUpon>Bc.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Unix\UnixMain.aspx.cs">
-      <DependentUpon>UnixMain.aspx</DependentUpon>
+    <Compile Include="Unix\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Unix\UnixMain.aspx.designer.cs">
-      <DependentUpon>UnixMain.aspx</DependentUpon>
+    <Compile Include="Unix\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Unix\FortunAsp.aspx.cs">
       <DependentUpon>FortunAsp.aspx</DependentUpon>

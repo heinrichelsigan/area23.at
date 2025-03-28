@@ -1,4 +1,4 @@
-﻿<%@ Page Title="some unix cmd line shell tools (apache2 mod_mono)" Language="C#" MasterPageFile="~/Unix/UnixMaster.master" AutoEventWireup="true" CodeBehind="UnixMain.aspx.cs" Inherits="Area23.At.Mono.Unix.UnixMain" %>
+﻿<%@ Page Title="some unix cmd line shell tools (apache2 mod_mono)" Language="C#" MasterPageFile="~/Unix/UnixMaster.master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Area23.At.Mono.Unix.Default" %>
 <asp:Content ID="UnixHeadContent" ContentPlaceHolderID="UnixHead" runat="server" ClientIDMode="Static">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>    
     <link rel="stylesheet" href="https://area23.at/css/fortune.css" />

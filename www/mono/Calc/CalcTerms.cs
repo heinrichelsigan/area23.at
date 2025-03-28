@@ -351,7 +351,7 @@ namespace Area23.At.Mono.Calc
                                 sterms.Insert(ti, resultTermNumber);
                                 break;
                             case "2ⁿ":
-                                dresult = Math.Pow(10, dnum0);
+                                dresult = Math.Pow(2, dnum0);
                                 resultTermNumber = new CalcTerm(dresult.ToString());
                                 sterms.RemoveAt(ti + 1);
                                 sterms.RemoveAt(ti);

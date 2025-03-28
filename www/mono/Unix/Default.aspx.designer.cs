@@ -7,83 +7,65 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Area23.At.Mono
+namespace Area23.At.Mono.Unix
 {
 
 
-    public partial class ByteTransColor
+    public partial class Default
     {
 
         /// <summary>
-        /// Area23TransColorForm control.
+        /// Area23UnixMain control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm Area23TransColorForm;
+        protected global::System.Web.UI.HtmlControls.HtmlForm Area23UnixMain;
 
         /// <summary>
-        /// oFile control.
+        /// divDigitalTimeId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputFile oFile;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDigitalTimeId;
 
         /// <summary>
-        /// buttonUploadTrans control.
+        /// spanHoursId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton buttonUploadTrans;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanHoursId;
 
         /// <summary>
-        /// btnUpLoad control.
+        /// spanMinutesId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton btnUpLoad;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanMinutesId;
 
         /// <summary>
-        /// frmConfirmation control.
+        /// spanSecondsId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel frmConfirmation;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanSecondsId;
 
         /// <summary>
-        /// imgIn control.
+        /// h2Id control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage imgIn;
-
-        /// <summary>
-        /// lblUploadResult control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUploadResult;
-
-        /// <summary>
-        /// imgOut control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage imgOut;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl h2Id;
     }
 }

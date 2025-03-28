@@ -31,7 +31,7 @@ namespace Area23.At.Mono.Unix
 
         protected void InitAHrefs()
         {
-            this.aUnixMain.HRef = LibPaths.UnixAppPath + "UnixMain.aspx";
+            this.aUnixMain.HRef = LibPaths.UnixAppPath + "Default.aspx";
             this.aFortunAsp.HRef = LibPaths.UnixAppPath + "FortunAsp.aspx";
             this.aHexDump.HRef = LibPaths.UnixAppPath + "HexDump.aspx";
             this.aBc.HRef = LibPaths.UnixAppPath + "Bc.aspx";
@@ -64,7 +64,7 @@ namespace Area23.At.Mono.Unix
             {
                 if (this.Request != null && this.Request.RawUrl != null)
                 {
-                    if (this.Request.RawUrl.Contains("UnixMain.aspx"))
+                    if (this.Request.RawUrl.Contains("Default.aspx"))
                     {
                         headerLeft.Attributes["class"] = "headerLeftSelect";
                         return;
