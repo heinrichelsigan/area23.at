@@ -39,7 +39,7 @@ namespace Area23.At.Mono.Calc
                 {
                     if (tmpElem.StartsWith(_mathOp1))
                     {
-                        if (!firstDone || lastType == RPNType.MathOp2)
+                        if (!firstDone || lastType == RPNType.MathOp2 || lastType == RPNType.BracketOpening)
                         {
                             MathOpUnary mathOpUnary = new MathOpUnary(_mathOp1);
                             terms.Add(mathOpUnary);
@@ -54,10 +54,47 @@ namespace Area23.At.Mono.Calc
                         break;
                     }
                 }
+                foreach (string _mathBracket in BracketOpen.validElems)
+                {
+                    if (tmpElem.Equals(_mathBracket))
+                    {
+                        if (!firstDone || lastType == RPNType.MathOp2)
+                        {
+                            BracketOpen mathOpBracket = new BracketOpen(_mathBracket);
+                            terms.Add(mathOpBracket);
+                            tmpElem = tmpElem.Substring(_mathBracket.Length);
+                            if (!firstDone)
+                                firstDone = true;
+                            lastType = RPNType.BracketOpening;
+                        }
+                        else throw new InvalidOperationException(
+                            String.Format("Bracket opening {0} must be at start or follow binary operator: {1}.", _mathBracket, _elem));
+                        proceeded = true;
+                        break;
+                    }
+                }
+                foreach (string _closeBracket in BracketClose.validElems)
+                {
+                    if (tmpElem.Equals(_closeBracket))
+                    {
+                        if (lastType == RPNType.Number && firstDone)
+                        {
+                            BracketClose mathCloseBracket = new BracketClose(_closeBracket);
+                            terms.Add(mathCloseBracket);
+                            tmpElem = tmpElem.Substring(_closeBracket.Length);                            
+                            lastType = RPNType.BracketClosing;
+                        }
+                        else throw new InvalidOperationException(
+                            String.Format("Bracket opening {0} must follow math number {1}.", _closeBracket, _elem));
+                        proceeded = true;
+                        break;
+                    }
+                }
+
                 if ((numLen = MathNumber.ValidateAtStart(tmpElem)) > 0)
                 {
                     string numStr = tmpElem.Substring(0, numLen);
-                    if (!firstDone || lastType == RPNType.MathOp1 || lastType == RPNType.MathOp2)
+                    if (!firstDone || lastType == RPNType.MathOp1 || lastType == RPNType.MathOp2 || lastType == RPNType.BracketOpening)
                     {
                         MathNumber mathNumber = new MathNumber(numStr);
                         terms.Add(mathNumber);
@@ -67,14 +104,14 @@ namespace Area23.At.Mono.Calc
                         lastType = RPNType.Number;
                     }
                     else throw new InvalidOperationException(
-                        String.Format("Mathnumber {0} must follow Unary or Binary operator: {1}", numStr, _elem));
+                        String.Format("Mathnumber {0} must follow opening bracket or Unary or Binary operator: {1}", numStr, _elem));
                     proceeded = true;
                 }
                 foreach (string _mathOp2 in MathOpBinary.validElems)
                 {
                     if (tmpElem.StartsWith(_mathOp2))
                     {
-                        if (lastType == RPNType.Number)
+                        if (lastType == RPNType.Number || lastType == RPNType.BracketClosing)
                         {
                             MathOpBinary mathOpBinary = new MathOpBinary(_mathOp2);
                             terms.Add(mathOpBinary);
@@ -82,7 +119,7 @@ namespace Area23.At.Mono.Calc
                             lastType = RPNType.MathOp2;
                         }
                         else throw new InvalidOperationException(
-                            String.Format("Math binary operator {0} must follow math number: {1}", _mathOp2, _elem));
+                            String.Format("Math binary operator {0} must follow closing bracket or math number: {1}", _mathOp2, _elem));
                         proceeded = true;
                         break;
                     }
@@ -114,7 +151,7 @@ namespace Area23.At.Mono.Calc
                 }
                 if (termElem is MathNumber)
                 {
-                    if (!firstDone || lastType == RPNType.MathOp1 || lastType == RPNType.MathOp2)
+                    if (!firstDone || lastType == RPNType.MathOp1 || lastType == RPNType.MathOp2 || lastType == RPNType.BracketOpening)
                     {
                         if (!firstDone) firstDone = true;
                         lastType = RPNType.Number;
@@ -131,6 +168,26 @@ namespace Area23.At.Mono.Calc
                     else throw new InvalidOperationException(
                            String.Format("Math binary operator {0} must follow math number: {1}", termElem._elem, _elem));
                 }
+                if (termElem is BracketOpen)
+                {
+                    if (!firstDone || lastType == RPNType.MathOp2)
+                    {
+                        if (!firstDone) firstDone = true;
+                        lastType = RPNType.BracketOpening;
+                    }
+                    else throw new InvalidOperationException(
+                        String.Format("Bracket open {0} must follow Binary operator: {1}", termElem._elem, _elem));
+                }
+                if (termElem is BracketClose)
+                {
+                    if (lastType == RPNType.Number)
+                    {
+                        lastType = RPNType.BracketClosing;
+                    }
+                    else throw new InvalidOperationException(
+                        String.Format("Bracket close {0} must follow math number; {1}", termElem._elem, _elem));
+                }
+                
             }
 
             return true;

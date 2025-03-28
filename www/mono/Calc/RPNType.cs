@@ -10,7 +10,9 @@ namespace Area23.At.Mono.Calc
         Invalid = -1,
         Number = 0,
         MathOp1 = 1,
-        MathOp2 = 2        
+        MathOp2 = 2,
+        BracketOpening = 3,
+        BracketClosing = 4
     }
 
     public enum RPNRad

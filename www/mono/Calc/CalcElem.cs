@@ -61,7 +61,29 @@ namespace Area23.At.Mono.Calc
         }
     }
 
-    public class MathOp : MathOp
+    public class BracketOpen : MathOp
+    {
+        protected internal static new string[] validElems = { "(",  "["  };
+
+        public BracketOpen(string elem) : base(elem) { }
+
+        internal override bool Validate()
+        {
+            return (_elem != null && _elem.Length > 0 && validElems.Contains(_elem));
+        }
+    }
+
+    public class BracketClose : MathOp
+    {
+        protected internal static new string[] validElems = { ")", "]" };
+
+        public BracketClose(string elem) : base(elem) { }
+
+        internal override bool Validate()
+        {
+            return (_elem != null && _elem.Length > 0 && validElems.Contains(_elem));
+        }
+    }
 
 
     public class MathNumber : MathOp
