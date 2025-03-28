@@ -35,7 +35,7 @@ namespace Area23.At.Mono.Crypt
             headerLeftCenter.Attributes["class"] = "headerLeftCenter";
             headerCenter.Attributes["class"] = "headerCenter";
             headerRightCenter.Attributes["class"] = "headerRightCenter";
-            headerRight.Style["class"] = "headerRight";
+            headerRight.Attributes["class"] = "headerRight";
 
             try
             {
@@ -63,7 +63,7 @@ namespace Area23.At.Mono.Crypt
                     }
                     if (this.Request.RawUrl.Contains("ZenMatrixVisualize.aspx"))
                     {
-                        headerRight.Attributes["background-color"] = "headerRightSelect";
+                        headerRight.Attributes["class"] = "headerRightSelect";
                         return;
                     }
                 }

@@ -1,27 +1,7 @@
-﻿<%@ Page Title="froga" Language="C#" MasterPageFile="~/Gamez/GamesMaster.master" AutoEventWireup="false"  %>
-<%@ Import namespace="Area23.At.Framework.Library" %>
-<%@ Import namespace="System" %>
-<%@ Import namespace="System.Collections.Generic" %>
-<%@ Import namespace="System.Web"%>
-<%@ Import namespace="System.Web.UI"  %>
-<%@ Import namespace="System.Web.UI.WebControls" %>
-<%@ Import namespace="Area23.At.Mono.Util" %>
-
-<script runat="server" language="C#">
-   
-    void Page_Load(object sender, EventArgs e)
-    {
-        if (!this.IsPostBack)
-        {
-            
-        }
-    }
-
-</script>
-
+﻿<%@ Page Title="froga" Language="C#" MasterPageFile="~/Gamez/GamesMaster.master" AutoEventWireup="true" CodeBehind="froga.aspx.cs" Inherits="Area23.At.Mono.Gamez.froga" %>
 <asp:Content ID="ContentEncodeHead" ContentPlaceHolderID="EncodeHead" runat="server">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>froga</title>
+	<title>frogga</title>
     <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
 	<style>
         body.frogbody {
@@ -312,7 +292,7 @@
         var imgSavedWoodB, imgSavedWoodT;
         window.onload = function () {
             frogInit();
-        }; 
+        };
 
         // windows cursor key press hanlder
         function windowCursorKeysHandler() {

@@ -87,13 +87,13 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             {
                 bytStr = Encoding.UTF8.GetString(inBytes);
                 uu = UuEncodeString(bytStr);
-                uu = uu.Replace(" ", "`");
             }
             else
             {
                 uu = UuEncodeBytesToString(inBytes);
             }
 
+            uu = uu.Replace(" ", "`");
             SLog.Log($"ToUu(byte[{inBytes.Length}] inBytes, bool originalUue = {originalUue}. bool fromFile = {fromFile}) ... FINISHED.");
             // uu = uu.Replace(" ", "`");
             return uu;

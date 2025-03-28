@@ -21,7 +21,7 @@ namespace Area23.At.Mono.Gamez
             this.aGameFroga.HRef = LibPaths.GamesAppPath + "froga.aspx";
             this.aGameFrogb.HRef = LibPaths.GamesAppPath + "frogb.aspx";
             this.aTicTacToe.HRef = LibPaths.GamesAppPath + "TicTacToe.aspx";
-            this.aGameSchnapsen.HRef = "/mono/SchnapNet/";
+            this.aGameSchnapsen.HRef = "/mono/SchnapsNet/";
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)
@@ -29,7 +29,7 @@ namespace Area23.At.Mono.Gamez
             headerLeft.Attributes["class"] = "headerLeft";
             headerLeftCenter.Attributes["class"] = "headerLeftCenter";
             headerCenter.Attributes["class"] = "headerCenter";
-            headerRight.Style["class"] = "headerRight";
+            headerRight.Attributes["class"] = "headerRight";
 
             try
             {

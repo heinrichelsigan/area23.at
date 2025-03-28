@@ -905,11 +905,13 @@
 		</div>
 		<br />
 		<asp:Button ID="Button_RandomSetMA" runat="server" ClientIDMode="Static" Text="Random Set Matrix A" OnClick="Button_RandomSetMA_Click" />&nbsp;
-		<asp:Button ID="Button_ResetMA" runat="server" ClientIDMode="Static" Text="Reset Matrix A" OnClick="Button_ResetMA_Click" />&nbsp;
+		<asp:Button ID="Button_ResetMA_0" runat="server" ClientIDMode="Static" Text="Reset Matrix A 0" OnClick="Button_ResetMA_0_Click" />&nbsp;
+		<asp:Button ID="Button_ResetMA_1" runat="server" ClientIDMode="Static" Text="Reset Matrix A 1" OnClick="Button_ResetMA_1_Click" />&nbsp;
 		<asp:Button ID="Button_RandomSetMB" runat="server" ClientIDMode="Static"  Text="Random Set Matrix B" OnClick="Button_RandomSetMB_Click" />&nbsp;
-		<asp:Button ID="Button_ResetMB" runat="server" ClientIDMode="Static"  Text="Reset Matrix B" OnClick="Button_ResetMB_Click" />&nbsp;
+		<asp:Button ID="Button_ResetMB_0" runat="server" ClientIDMode="Static"  Text="Reset Matrix B 0" OnClick="Button_ResetMB_0_Click" />&nbsp;
+		<asp:Button ID="Button_ResetMB_1" runat="server" ClientIDMode="Static"  Text="Reset Matrix B 1" OnClick="Button_ResetMB_1_Click" />&nbsp;
 		<asp:Button ID="Button_MatrixAxB" runat="server" ClientIDMode="Static"  Text="Matrix A x Matrix B" OnClick="Button_MatrixAxB_Click" />&nbsp;
-		<asp:Button ID="Button_MatrixBxA" runat="server" ClientIDMode="Static" Text="Matrix B x Matrix B" OnClick="Button_MatrixBxA_Click" />&nbsp;
+		<asp:Button ID="Button_MatrixBxA" runat="server" ClientIDMode="Static" Text="Matrix B x Matrix A" OnClick="Button_MatrixBxA_Click" />&nbsp;
 		<hr />
 	</form>    
 </asp:Content>

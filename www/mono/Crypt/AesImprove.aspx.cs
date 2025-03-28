@@ -837,7 +837,7 @@ namespace Area23.At.Mono.Crypt
                                 case ZipType.Zip:
                                     zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.zip");
                                     zOutPath = zOutPath.Replace(".txt.zip", ".txt").Replace(".zip", "");
-                                    zopt = "7unzip";
+                                    zopt = "unzip";
                                     break;
                                 case ZipType.None:
                                 default:

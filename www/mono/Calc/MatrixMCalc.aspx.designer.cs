@@ -14388,13 +14388,22 @@ namespace Area23.At.Mono.Calc
         protected global::System.Web.UI.WebControls.Button Button_RandomSetMA;
 
         /// <summary>
-        /// Button_ResetMA control.
+        /// Button_ResetMA_0 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button_ResetMA;
+        protected global::System.Web.UI.WebControls.Button Button_ResetMA_0;
+
+        /// <summary>
+        /// Button_ResetMA_1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button_ResetMA_1;
 
         /// <summary>
         /// Button_RandomSetMB control.
@@ -14406,13 +14415,22 @@ namespace Area23.At.Mono.Calc
         protected global::System.Web.UI.WebControls.Button Button_RandomSetMB;
 
         /// <summary>
-        /// Button_ResetMB control.
+        /// Button_ResetMB_0 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button_ResetMB;
+        protected global::System.Web.UI.WebControls.Button Button_ResetMB_0;
+
+        /// <summary>
+        /// Button_ResetMB_1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button_ResetMB_1;
 
         /// <summary>
         /// Button_MatrixAxB control.

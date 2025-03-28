@@ -18,8 +18,8 @@ body {
             width: 100%;
             min-width: 620pt;
             max-width: 1280pt;
-            height: 80%;
-            min-height: 620pt;
+            height: 75%;
+            min-height: 520pt;
             max-height: 768pt;
             align-self: start;
             vertical-align: top;
@@ -71,11 +71,13 @@ body {
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
     }
 
-    table {
+    div.matrixDiv.table,
+    table#MatrixMatrixTable {
         width: 100%;
         min-width: 960pt;
-        height: 99%;
-        min-height: 768pt;
+        height: 75%;
+        min-height: 520pt;
+        max-height: 768pt;
         padding: 0 0 0 0;
         margin: 0 0 0 0;
         border-style: none;
@@ -147,7 +149,7 @@ body {
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             background-color: lightgoldenrodyellow;
-            border-style: ridge;
+            border-style: solid;
             border-width: 1px;
             border-color: indigo;
             border-spacing: 0px;
@@ -160,7 +162,11 @@ body {
         tr.matrixTr_m0,
         tr.tr_m0_f,
         tr#tr_m0_f,
-        table.matrixTbl_m0.tr.matrixTr_m0.tr_m0_f#tr_m0_f {
+        tr.matrixTr_m0#tr_m0_f, tr.matrixTr_m0#tr_m0_e, tr.matrixTr_m0#tr_m0_d, tr.matrixTr_m0#tr_m0_c,
+        tr.matrixTr_m0#tr_m0_b, tr.matrixTr_m0#tr_m0_a, tr.matrixTr_m0#tr_m0_9, tr.matrixTr_m0#tr_m0_8,
+        tr.matrixTr_m0#tr_m0_7, tr.matrixTr_m0#tr_m0_6, tr.matrixTr_m0#tr_m0_5, tr.matrixTr_m0#tr_m0_4,
+        tr.matrixTr_m0#tr_m0_3, tr.matrixTr_m0#tr_m0_2, tr.matrixTr_m0#tr_m0_1, tr.matrixTr_m0#tr_m0_0
+        {
             width: 30%;
             min-width: 220pt;
             max-width: 420pt;
@@ -187,7 +193,22 @@ body {
         table.matrixTbl_m1.tr.matrixTr_m1.tr_m1_f#tr_m1_f
         tr.matrixTr_m1,
         tr#tr_m1_f,
-        tr.matrixTr_m1#tr_m1_f {
+        tr.matrixTr_m1#tr_m1_f,
+        tr.matrixTr_m1#tr_m1_e,
+        tr.matrixTr_m1#tr_m1_d,
+        tr.matrixTr_m1#tr_m1_c,
+        tr.matrixTr_m1#tr_m1_b,
+        tr.matrixTr_m1#tr_m1_a,
+        tr.matrixTr_m1#tr_m1_9,
+        tr.matrixTr_m1#tr_m1_8,
+        tr.matrixTr_m1#tr_m1_7,
+        tr.matrixTr_m1#tr_m1_6,
+        tr.matrixTr_m1#tr_m1_5,
+        tr.matrixTr_m1#tr_m1_4,
+        tr.matrixTr_m1#tr_m1_3,
+        tr.matrixTr_m1#tr_m1_2,
+        tr.matrixTr_m1#tr_m1_1,
+        tr.matrixTr_m1#tr_m1_0 {
             width: 30%;
             min-width: 220pt;
             max-width: 420pt;
@@ -211,10 +232,43 @@ body {
 
         table.matrixTbl_m2#Matrix_m2_Table.tr.matrixTr_m2,
         table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_f,
-        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_f#tr_m2_f
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_e,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_d,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_c,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_b,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_a,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_9,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_8,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_7,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_6,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_5,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_4,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_3,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_2,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_1,
+        table.matrixTbl_m2.tr.matrixTr_m2.tr_m2_0,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_f,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_e,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_d,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_c,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_b,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_a,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_9,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_8,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_7,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_6,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_5,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_4,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_3,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_2,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_1,
+        table.matrixTbl_m2.tr.matrixTr_m2#tr_m2_0,
         tr.matrixTr_m2,
         tr.tr_m2_f,
-        tr#tr_m2_f, {
+        tr.matrixTr_m2#tr_m2_f, tr.matrixTr_m2#tr_m2_e, tr.matrixTr_m2#tr_m2_d, tr.matrixTr_m2#tr_m2_c,
+        tr.matrixTr_m2#tr_m2_b, tr.matrixTr_m2#tr_m2_a, tr.matrixTr_m2#tr_m2_9, tr.matrixTr_m2#tr_m2_8,
+        tr.matrixTr_m2#tr_m2_7, tr.matrixTr_m2#tr_m2_6, tr.matrixTr_m2#tr_m2_5, tr.matrixTr_m2#tr_m2_4,
+        tr.matrixTr_m2#tr_m2_3, tr.matrixTr_m2#tr_m2_2, tr.matrixTr_m2#tr_m2_1, tr.matrixTr_m2#tr_m2_0, {
             width: 30%;
             min-width: 220pt;
             max-width: 420pt;
@@ -226,7 +280,7 @@ body {
             vertical-align: central;
             align-content: center;
             background-color: lightgoldenrodyellow;
-            border-style: ridge;
+            border-style: solid;
             border-width: 1px;
             border-color: indigo;
             border-spacing: 0px;
@@ -293,7 +347,7 @@ body {
                 vertical-align: central;
                 align-content: center;
                 background-color: lightgoldenrodyellow;
-                border-style: ridge;
+                border-style: solid;
                 border-width: 1px;
                 border-color: indigo;
                 border-spacing: 0px;
