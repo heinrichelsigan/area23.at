@@ -160,6 +160,7 @@
     <Content Include="res\bin\readline4.dll" />
     <Content Include="res\css\ccalcweb.css" />
     <Content Include="res\css\matrixcalcweb.css" />
+    <Content Include="res\css\ccalc.css" />
     <Content Include="res\img\AddAesArrow.gif" />
     <Content Include="res\img\AddAesArrowHover.gif" />
     <Content Include="res\img\AddAesDenied.gif" />

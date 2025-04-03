@@ -114,13 +114,13 @@ namespace Area23.At.Mono.Calc
         protected global::System.Web.UI.WebControls.Button Bcot;
 
         /// <summary>
-        /// Brad control.
+        /// Barc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Brad;
+        protected global::System.Web.UI.WebControls.Button Barc;
 
         /// <summary>
         /// Bpow2 control.
@@ -168,13 +168,13 @@ namespace Area23.At.Mono.Calc
         protected global::System.Web.UI.WebControls.Button Bxpown;
 
         /// <summary>
-        /// Barc control.
+        /// Brad control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Barc;
+        protected global::System.Web.UI.WebControls.Button Brad;
 
         /// <summary>
         /// td7a control.

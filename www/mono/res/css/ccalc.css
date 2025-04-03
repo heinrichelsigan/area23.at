@@ -1,0 +1,351 @@
+﻿/*
+    2025-04-04 ccalc.css by heinrich elsigan 
+*/
+body {
+}
+
+
+div {
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #0f0f1f;
+    /*
+        text-align: center;
+        align-content: center;
+        align-self: center;
+        background-color: black;
+    */
+}
+
+    div.rpnDiv {
+        width: 100%;
+        min-width: 360pt;
+        height: 84%;
+        min-height: 240pt;
+        border-style: double;
+        border-color: white;
+        border-spacing: 2pt;
+        border-width: 2pt;
+        background-color: black;
+        /* 
+            align-self: center;
+            align-content: center;
+            text-align: center;
+            line-height: normal;        
+            font-size: medium;
+            table-layout: fixed;
+            inset-block-start: initial;
+            inset-block-start: auto;
+        */
+    }
+
+    div.rpnDivHeader {
+        width: 100%;
+        min-width: 320pt;
+        height: 36pt;
+        min-height: 36pt;
+        align-content: center;
+        line-height: normal;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0px;
+        background-repeat: no-repeat;
+    }
+
+    div.rpnDivFooter {
+        width: 100%;
+        text-align: center;
+        background-color: black;
+        align-content: center;
+        font-size: medium;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        table-layout: fixed;
+        inset-block-start: initial;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+    }
+
+table {
+    width: 72%;
+    min-width: 360pt;
+    height: 54%;
+    min-height: 270pt;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    background-color: #0f0f1f;
+    border-spacing: 0px;
+    background-repeat: no-repeat;
+}
+
+    table.ccalcTbl {
+        width: 360pt;
+        min-width: 360pt;
+        height: 270pt;
+        min-height: 270pt;
+        align-content: center;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        background-color: black;
+        border-style: none;
+        border-spacing: 0px;
+        background-repeat: no-repeat;
+    }
+
+tr {
+    width: 72%;
+    min-width: 360pt;
+    height: 27pt;
+    min-height: 27pt;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0pt;
+    border-width: 0pt;
+    background-color: #0f0f1f;
+    background-repeat: no-repeat;
+    /* background-size: 100% 100%; */
+}
+
+    tr.ccalcTr {
+        /* width: 72%; */
+        width: 360pt;
+        min-width: 360pt;
+        height: 27pt;
+        min-height: 27pt;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0px;
+        border-width: 0px;
+        background-color: black;
+        background-repeat: no-repeat;
+        /*  background-size: 100% 100%; */
+    }
+
+
+td {
+    width: 36pt;
+    min-width: 36pt;
+    height: 27pt;
+    min-height: 27pt;
+    text-align: center;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0px;
+    border-width: 0px;
+    background-repeat: no-repeat;
+    background-color: #0f0f1f;
+    /* background-size: 100% 100%; */
+}
+
+    td.ccalcTd {
+        width: 36pt;
+        min-width: 36pt;
+        height: 27pt;
+        min-height: 27pt;
+        text-align: center;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0px;
+        border-width: 0px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-color: black;
+    }
+
+
+    td.gainsboroTd {
+        width: 36pt;
+        min-width: 36pt;
+        height: 27pt;
+        min-height: 27pt;
+        text-align: center;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0px;
+        border-width: 0px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-color: gainsboro;
+    }
+
+    td.azureTd {
+        width: 36pt;
+        min-width: 36pt;
+        height: 27pt;
+        min-height: 27pt;
+        text-align: center;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0px;
+        border-width: 0px;
+        /* background-repeat: no-repeat; */
+        background-size: 100% 100%;
+        background-color: azure;
+    }
+
+    td.mistyroseTd {
+        width: 36pt;
+        min-width: 36pt;
+        height: 27pt;
+        min-height: 27pt;
+        text-align: center;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0px;
+        border-width: 0px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-color: mistyrose;
+    }
+
+    td.funckeyId {
+        width: 36pt;
+        min-width: 36pt;
+        height: 27pt;
+        min-height: 27pt;
+        text-align: center;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0px;
+        border-width: 0px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-color: moccasin;
+    }
+
+    td.salmonTd {
+        width: 36pt;
+        min-width: 36pt;
+        height: 27pt;
+        min-height: 27pt;
+        text-align: center;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0px;
+        border-width: 0px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-color: salmon;
+    }
+
+
+.CcTextBox, #TextBox_Calc, #textbox0 {
+    border-style: inset;
+    color: black;
+    font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
+}
+    .CcTextBox:hover, #TextBox_Calc:hover, #textbox0:hover {
+        border-style: outset;
+        font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
+        color: #0f1f1f;
+    }
+
+.CcTxtResult, #TextBox_Top {
+    border-style: inset;
+    color: black;
+    background-color: ghostwhite;
+    margin: 0px 1px 0px 1px;
+    padding: 1px 1px 1px 1px;
+    font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
+}
+    .CcTxtResult:hover, #TextBox_Top:hover {
+        border-style: outset;
+        color: #0f1f1f;
+        background-color: ghostwhite;
+        margin: 0px 1px 0px 1px;
+        padding: 1px 1px 1px 1px;
+        font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
+    }
+
+
+.CcBtn, button.CcBtn {
+    border-style: inset;
+    color: black;
+    min-width: 24pt;
+    max-width: 36pt;
+    width: 27pt;
+    font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
+}
+    .CcBtn:hover, button.CcBtn:hover {
+        border-style: outset;
+        color: #afbfcf;
+        min-width: 24pt;
+        max-width: 36pt;
+        width: 27pt;
+        font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
+    }
+
+.CcToggle, #Brad, #Barc {
+    border-style: ridge;
+    color: black;
+    min-width: 24pt;
+    max-width: 36pt;
+    width: 32pt;
+    font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
+}
+    .CcToggle:hover, button.CcToggle#Brad:hover, #Brad:hover, #Barc:hover {
+        border-style: double;
+        color: #bfcfdf;
+        min-width: 24pt;
+        max-width: 36pt;
+        width: 32pt;
+        font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
+    }
+
+img {
+    width: 36pt;
+    min-width: 36pt;
+    height: 27pt;
+    min-height: 27pt;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-style: none;
+    border-spacing: 0px;
+    border-width: 0px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+    img.rpnImg {
+        width: 36pt;
+        min-width: 36pt;
+        height: 27pt;
+        min-height: 27pt;
+        visibility: visible;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0pt;
+        border-width: 0pt;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        z-index: 100;
+        /* backface-visibility: revert; */
+    }
+
+    img.rpnImgHeader {
+        width: 240pt;
+        min-width: 240pt;
+        height: 36pt;
+        min-height: 32pt;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-style: none;
+        border-spacing: 0px;
+        border-width: 0px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+
+
