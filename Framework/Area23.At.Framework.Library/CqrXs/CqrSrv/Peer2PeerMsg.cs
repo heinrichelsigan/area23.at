@@ -109,6 +109,14 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
 
             if (decrypted.IsValidJson())
                 msgType = MsgEnum.Json;
+            else if (decrypted.StartsWith("{\"") && decrypted.Contains("\"_hash\":") && decrypted.Contains("\"_message\":"))
+            {
+                if (Char.IsLetter(decrypted[decrypted.Length - 1]) || Char.IsDigit(decrypted[decrypted.Length - 1]))
+                {
+                    decrypted += "\" }";
+                    msgType = MsgEnum.Json;
+                }
+            }
             else if (decrypted.IsValidXml())
                 msgType = MsgEnum.Xml;
             else msgType = MsgEnum.RawWithHashAtEnd;

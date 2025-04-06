@@ -1,22 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0-windows7.0</TargetFramework>
+	<TargetFramework>net9.0-windows</TargetFramework>
 	<IsTrimmable>true</IsTrimmable>
 	<UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Copyright>Copyleft © 2000-2040</Copyright>
-    <PackageProjectUrl>https://cqrxs.eu/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/heinrichelsigan/chat-ipv6</RepositoryUrl>
-    <AssemblyVersion>2.25.305</AssemblyVersion>
-    <FileVersion>2.25.305</FileVersion>
+    <PackageProjectUrl>https://area23.at/net/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>
+    <AssemblyVersion>2.25.323</AssemblyVersion>
+    <FileVersion>2.25.323</FileVersion>
 	<IsTrimmable>true</IsTrimmable>
 	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
 	<PlatformTarget>AnyCPU</PlatformTarget>
     <IncludeSymbols>true</IncludeSymbols>
-    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <Title>Area23.At.Framework.Core</Title>
+    <Description>a small Area23.At.Framework.Core framework with minimalistic helper methods</Description>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -35,12 +37,15 @@
     <Compile Remove="Cipher\**" />
     <Compile Remove="Crypt\CqrJd\**" />
     <Compile Remove="EnDeCoding\**" />
+    <Compile Remove="Resources\**" />
     <EmbeddedResource Remove="Cipher\**" />
     <EmbeddedResource Remove="Crypt\CqrJd\**" />
     <EmbeddedResource Remove="EnDeCoding\**" />
+    <EmbeddedResource Remove="Resources\**" />
     <None Remove="Cipher\**" />
     <None Remove="Crypt\CqrJd\**" />
     <None Remove="EnDeCoding\**" />
+    <None Remove="Resources\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,22 +56,6 @@
     <Compile Remove="Util\HttpContextWrapper.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.1" />
-    <PackageReference Include="DBTek.Crypto" Version="2.1.0" />
-    <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
-    <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NLog" Version="5.4.0" />
-    <PackageReference Include="QRCoder.Core" Version="1.0.3" />
-    <PackageReference Include="SharpZipLib" Version="1.4.2" />
-    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.*" />
-    <PackageReference Include="System.ServiceModel.Federation" Version="6.0.*" />
-    <PackageReference Include="System.ServiceModel.Http" Version="6.0.*" />
-    <PackageReference Include="System.ServiceModel.NetNamedPipe" Version="6.0.*" />
-    <PackageReference Include="System.ServiceModel.NetTcp" Version="6.0.*" />
-    <PackageReference Include="System.ServiceModel.Security" Version="6.0.*" />
-  </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Properties\Resource.Designer.cs">
@@ -85,6 +74,20 @@
 
   <ItemGroup>
     <None Include="Crypt\Cipher\Symmetric\ZenMatrix2.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.4.0" />
+    <PackageReference Include="QRCoder.Core" Version="1.0.3" />
+    <PackageReference Include="SharpZipLib" Version="1.4.2" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.NetNamedPipe" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
   </ItemGroup>
 
 </Project>

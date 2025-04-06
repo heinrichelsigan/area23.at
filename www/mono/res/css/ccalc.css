@@ -274,7 +274,7 @@ td {
     color: black;
     min-width: 24pt;
     max-width: 36pt;
-    width: 27pt;
+    width: 32pt;
     font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
 }
     .CcBtn:hover, button.CcBtn:hover {
@@ -282,7 +282,7 @@ td {
         color: #afbfcf;
         min-width: 24pt;
         max-width: 36pt;
-        width: 27pt;
+        width: 32pt;
         font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
     }
 

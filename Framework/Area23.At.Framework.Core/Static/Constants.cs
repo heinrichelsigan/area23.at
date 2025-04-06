@@ -29,7 +29,7 @@ namespace Area23.At.Framework.Core.Static
         
         // constants time intervals
         public const int CLOSING_TIMEOUT = 1000;
-        public const int BGWORKWE_BUSYWAITING_SLEEP = 720000;
+        public const int BGWORKWE_BUSYWAITING_SLEEP = 360000;
         
         // constants bool
         public const bool CQR_ENCRYPT = true;
@@ -84,6 +84,10 @@ namespace Area23.At.Framework.Core.Static
         public const string CQRXS_TEST_FORM = "CqrXsTestForm";
         public const string FISH_ON_AES_ENGINE = "FishOnAesEngine";
         public const string CQRXS_DELETE_DATA_ON_CLOSE = "CqrXsDeleteDataOnClose";
+        public const string PERSIST_MSG_IN = "PersistMsgIn"; 
+        public const string PERSIST_MSG_IN_APPLICATION_STATE = "ApplicationState";
+        public const string PERSIST_MSG_IN_AMAZON_ELASTIC_CACHE = "AmazonElasticCache";
+        public const string PERSIST_MSG_IN_FILE_SYSTEM = "FileSystem";
 
         public const string ACK = "Ack";
         public const string NACK = "Nack";
@@ -110,7 +114,7 @@ namespace Area23.At.Framework.Core.Static
         public const string OUT_DIR = "out";
         public const string TMP_DIR = "tmp";
         public const string QR_DIR = "Qr";
-        public const string JSON_DIR = "json";
+        public const string JSON_DIR = "json";        
         public const string RES_DIR = "res";
         public const string RES_FOLDER = "res";
         public const string TEXT_DIR = "text";
@@ -134,6 +138,9 @@ namespace Area23.At.Framework.Core.Static
 
         public const string UTF8_JSON = "utf8symol.json";
         public const string JSON_SAVE_FILE = "urlshort.json";
+        public const string JSON_CONTACTS_FILE = "contacts.json";
+        public const string JSON_CONTACTS = "contacts";
+        public const string JSON_CONTACTS_SELECTED = "contacts_selected";
         public const string JSON_SETTINGS_FILE = "settings.json";
         public const string CQR_CHAT_FILE = "cqr{0}chat.json";
         public const string PREVIOUS_EXCEPTION = "previous_exception";
@@ -152,6 +159,8 @@ namespace Area23.At.Framework.Core.Static
         public const string QR_COLOR = "QrColor";
         public const string BACK_COLOR_STRING = "BackColorString";
         public const string QR_COLOR_STRING = "QrColorString";
+        public const string IMAGE_UPLOAD_CLICK = "click_here_to_upload";
+        public const string IMAGE_UPLOAD_EXTENSION = ".png";
 
         public const string ROACH_DESKTOP_WINDOW = "Roach.Desktop.Window";
         public const string MUTEX_REGOPS = "Mutex.Registry.Operations";
@@ -384,6 +393,10 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
 
         public static bool UNIX => SEP_CHAR == '/';
         public static bool WIN32 => SEP_CHAR == '\\';
+
+        public static bool NOLog { get; set; } = false;
+
+        public static bool DirCreate { get; set; } = true;
 
         /// <summary>
         /// AppLogFile - logfile with <see cref="Framework.Library.Extensions.Area23Date(DateTime)"/> prefix

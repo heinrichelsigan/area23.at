@@ -89,6 +89,26 @@ namespace Area23.At.Framework.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap F40 {
+            get {
+                object obj = ResourceManager.GetObject("F40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap F45 {
+            get {
+                object obj = ResourceManager.GetObject("F45", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] fortune_u8 {
@@ -321,7 +341,7 @@ namespace Area23.At.Framework.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.24.831.
+        ///   Looks up a localized string similar to v2.25.321.
         /// </summary>
         internal static string version_name {
             get {

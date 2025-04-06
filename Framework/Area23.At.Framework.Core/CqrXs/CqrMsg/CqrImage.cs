@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Core.Static;
+﻿using Area23.At.Framework.Core.Crypt.Hash;
+using Area23.At.Framework.Core.Static;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Drawing.Imaging;
@@ -43,12 +44,13 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         /// <summary>
         /// Default empty constructor (needed for json serialize & deserialize)
         /// </summary>
-        public CqrImage()
+        public CqrImage() 
         {
             ImageFileName = string.Empty;
             ImageData = new byte[0];
             ImageMimeType = string.Empty;
             ImageBase64 = "";
+            Md5Hash = "";
         }
 
 
@@ -57,12 +59,13 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="data"></param>
-        public CqrImage(string fileName, byte[] data)
+        public CqrImage(string fileName, byte[] data) 
         {
             ImageFileName = fileName;
             ImageData = data;
             ImageMimeType = MimeType.GetMimeType(ImageData, ImageFileName);
             ImageBase64 = Convert.ToBase64String(ImageData, 0, ImageData.Length);
+            Md5Hash = MD5Sum.Hash(ImageData, ImageFileName);
         }
 
         /// <summary>
@@ -76,6 +79,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             ImageBase64 = base64Image;
             ImageData = Convert.FromBase64String(base64Image);
             ImageMimeType = MimeType.GetMimeType(ImageData, ImageFileName);
+            Md5Hash = MD5Sum.Hash(ImageData, ImageFileName);
         }
 
         /// <summary>
@@ -85,7 +89,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         /// <param name="fileName">fileName for the image,
         /// if fileName is null or empty
         /// then a name <see cref="Extensions.Area23DateTimeWithMillis(DateTime)"/></param> + "_image." + extension based mime type will be given
-        public CqrImage(Image image, string? fileName = "")
+        public CqrImage(Image image, string? fileName = "") 
         {
             CqrImage? cqrImage = FromDrawingImage(image, fileName);
             if (cqrImage != null)
@@ -94,20 +98,30 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
                 ImageMimeType = cqrImage.ImageMimeType;
                 ImageData = cqrImage.ImageData;
                 ImageBase64 = cqrImage.ImageBase64;
+                Md5Hash = MD5Sum.Hash(ImageData, ImageFileName);
             }
         }
 
         #endregion constructors
 
         #region members
-        
-        public virtual string ToJson()
+
+        /// <summary>
+        /// Serializes this <see cref="CqrImage"/> to <see cref="string">serialized json string</see>
+        /// </summary>
+        /// <returns><see cref="string">serialized json string</see></returns>
+        public override string ToJson()
         {
             CqrImage image = new CqrImage(ImageFileName, ImageData);
             string jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(image, Formatting.Indented);
             return jsonString;
         }
 
+        /// <summary>
+        /// FromJson deserializes a <see cref="CqrImage"/> from serialized json <see cref="string"/>
+        /// </summary>
+        /// <param name="jsonText">serialized json <see cref="string"/></param>
+        /// <returns>deserialized  <see cref="CqrImage"/></returns>
         public virtual CqrImage? FromJson(string jsonText)
         {
             CqrImage? cqrJsonImage;
@@ -120,6 +134,8 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
                     ImageBase64 = cqrJsonImage.ImageBase64;
                     ImageMimeType = cqrJsonImage.ImageMimeType;
                     ImageData = cqrJsonImage.ImageData;
+                    _hash = cqrJsonImage._hash;
+                    Md5Hash = cqrJsonImage.Md5Hash;
                     return cqrJsonImage;
                 }
             }
@@ -131,8 +147,17 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             return null;
         }
 
+        /// <summary>
+        /// ToXml serializes this <see cref="CqrImage"/> to serialized xml <see cref="string"/>
+        /// </summary>
+        /// <returns></returns>
         public override string ToXml() => this.ToXml();
 
+        /// <summary>
+        /// FromXml deserializes <see cref="CqrImage"/> from <see cref="string">xml serialized string</see>
+        /// </summary>
+        /// <param name="xmlText"><see cref="string">xml serialized string</see></param>
+        /// <returns>deserialized <see cref="CqrImage"/> /returns>
         public override T? FromXml<T>(string xmlText) where T : default
         {         
             T? cqrT = base.FromXml<T>(xmlText);
@@ -153,7 +178,10 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 
         }
 
-
+        /// <summary>
+        /// ToDrawingBitmap converts this <see cref="CqrImage"/> to <see cref="System.Drawing.Bitmap"/>
+        /// </summary>
+        /// <returns>transformed see cref="System.Drawing.Bitmap"/></returns>
         public virtual Bitmap? ToDrawingBitmap()
         {
             Bitmap? bmpImage;
@@ -180,6 +208,12 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 
         #region static members
 
+        /// <summary>
+        /// Saves a <see cref="CqrImage"/> to a filepath
+        /// </summary>
+        /// <param name="image"><see cref="CqrImage"/></param>
+        /// <param name="directoryPath">full directory and file path</param>
+        /// <exception cref="DirectoryNotFoundException"></exception>
         public static void SaveCqrImage(CqrImage image, string directoryPath)
         {
             if (!Directory.Exists(directoryPath))
@@ -191,7 +225,12 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             return;
         }
 
-
+        /// <summary>
+        /// LoadCqrImage loads a <see cref="CqrImage"/> from filepath
+        /// </summary>
+        /// <param name="imageFilePath">full filepath</param>
+        /// <returns><see cref="CqrImage"/></returns>
+        /// <exception cref="FileNotFoundException"></exception>
         public static CqrImage LoadCqrImage(string imageFilePath)
         {
             if (!File.Exists(imageFilePath))
@@ -205,6 +244,11 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 
         }
 
+        /// <summary>
+        /// ToDrawingImage converts a <see cref="CqrImage"/> to a <see cref="System.Drawing.Image"/>
+        /// </summary>
+        /// <param name="cqrImage"><see cref="CqrImage"/> to convert</param>
+        /// <returns>converted <see cref="System.Drawing.Image"/></returns>
         public static Image? ToDrawingImage(CqrImage cqrImage)
         {
             Bitmap? bmpImage;
@@ -228,6 +272,12 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             return (Image?)bmpImage;
         }
 
+        /// <summary>
+        /// FromDrawingImage converts a <see cref="CqrImage"/> from a <see cref="System.Drawing.Image"/>
+        /// </summary>
+        /// <param name="image"><see cref="System.Drawing.Image"/></param>
+        /// <param name="imgName"><see cref="string">string imgName</see></param>
+        /// <returns><see cref="CqrImage">converted CqrImage</see></returns>
         public static CqrImage? FromDrawingImage(Image? image, string? imgName = "")
         {
             if (image == null)

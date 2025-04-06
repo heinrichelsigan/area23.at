@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Core.Crypt.Hash;
 using Area23.At.Framework.Core.Static;
 using Area23.At.Framework.Core.Util;
 using Newtonsoft.Json;
@@ -7,14 +8,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Formats.Tar;
 using System.Linq;
-using System.Runtime.InteropServices.JavaScript;
 using System.Runtime.Serialization;
-using System.Security.Cryptography;
-using System.Security.Policy;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using System.Windows.Interop;
 
 namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 {
@@ -60,8 +57,8 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             Data = data;
             _hash = hash;
             MsgType = MsgEnum.Json;
-            Md5Hash = string.Empty;
-            Sha256Hash = string.Empty;
+            Md5Hash = MD5Sum.Hash(Data, CqrFileName);
+            Sha256Hash = Sha256Sum.Hash(Data, CqrFileName);
             EnCodingType = EncodingType.Base64;
         }
 
@@ -71,8 +68,8 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             Base64Type = mimeType;
             Data = Convert.FromBase64String(base64);
             _hash = hash;
-            Md5Hash = string.Empty;
-            Sha256Hash = string.Empty;
+            Md5Hash = MD5Sum.Hash(Data, CqrFileName);
+            Sha256Hash = Sha256Sum.Hash(Data, CqrFileName);
             MsgType = MsgEnum.Json;
             EnCodingType = EncodingType.Base64;
         }
@@ -180,15 +177,14 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             {
                 this.Base64Type = cf.Base64Type;
                 this.Data = cf.Data;
-                this.Base64Type = cf.Base64Type;
                 this.EnCodingType = cf.EnCodingType;
                 this.Data = cf.Data;
                 this._hash = cf._hash ?? string.Empty;
-                this.Md5Hash = cf.Md5Hash;
+                Md5Hash = cf.Md5Hash;
+                Sha256Hash = cf.Sha256Hash;
                 this._message = cf._message;
-                this.MsgType = cf.MsgType;
+                this.MsgType = MsgEnum.Xml;
                 this.RawMessage = cf.RawMessage;
-                this.Sha256Hash = cf.Sha256Hash;
             }
 
             return cqrT;
@@ -214,10 +210,10 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
                 if (mimeGot && !string.IsNullOrEmpty(mimeBase64))
                 {
                     CqrFileName = cqrFileName;
-                    Base64Type = base64Type;
+                    Base64Type = base64Type;                    
+                    Data = Convert.FromBase64String(mimeBase64);
                     Md5Hash = md5Hash;
                     Sha256Hash = sha256Hash;
-                    Data = Convert.FromBase64String(mimeBase64);
                     _hash = hash;
                 }
             }

@@ -99,7 +99,19 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 
         public TC? TContent { get; set; }
 
-        public string ChatRoomNr { get; set; } 
+        #region from server given properties
+
+        public Guid ChatRuid { get; set; }
+
+        public string ChatRoomNr { get; set; }
+
+        public List<long> TicksLong { get; set; }
+
+        public DateTime LastPushed { get; set; }
+
+        public DateTime LastPolled { get; set; }
+
+        #endregion from server given properties
 
         #endregion properties
 
@@ -113,16 +125,20 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             Sender = null;
             Recipients = new HashSet<CqrContact>();
             TContent = null;
-            ChatRoomNr = string.Empty; 
+            TicksLong = new List<long>();
+            LastPushed = DateTime.MinValue;
+            LastPolled = DateTime.MinValue;
+            ChatRoomNr = string.Empty;
+            ChatRuid = Guid.NewGuid();
         }
 
-        public FullSrvMsg(string fm, MsgEnum msgArt = MsgEnum.Json) : base()
+        public FullSrvMsg(string fm, MsgEnum msgArt = MsgEnum.Json) : this()
         {
-            this.FromJson<FullSrvMsg<TC>>(fm);
+            this.FromJson<FullSrvMsg<TC>>(fm);            
         }
 
         [Obsolete("Always user FullSrvMsg(CqrContact sender, CqrContact to, TC tc, string hash) : base() ctor", false)]
-        public FullSrvMsg(CqrContact sender, CqrContact to, TC tc) : base()
+        public FullSrvMsg(CqrContact sender, CqrContact to, TC tc) : this()
         {
             Sender = sender;
             CqrContact[] tos = (to != null) ? new CqrContact[1] { to } : new CqrContact[0];
@@ -137,7 +153,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         /// <param name="to">CqrContact</param>
         /// <param name="tc"></param>
         /// <param name="hash"></param>
-        public FullSrvMsg(CqrContact sender, CqrContact to, TC tc, string hash, string chatRoomNr = "") : base()
+        public FullSrvMsg(CqrContact sender, CqrContact to, TC tc, string hash, string chatRoomNr = "") : this()
         {
             Sender = sender;
             CqrContact[] tos = (to != null) ? new CqrContact[1] { to } : new CqrContact[0];
@@ -158,7 +174,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         /// <param name="tos">Array of CqrContact</param>
         /// <param name="tc"></param>
         /// <param name="hash"></param>
-        public FullSrvMsg(CqrContact sender, CqrContact[] tos, TC tc, string hash, string chatRoomNr = "") : base()
+        public FullSrvMsg(CqrContact sender, CqrContact[] tos, TC tc, string hash, string chatRoomNr = "") : this()
         {
             Sender = sender;
             Recipients = new HashSet<CqrContact>(tos);
@@ -195,6 +211,10 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
                         _hash = fullSrvMsg._hash;
                         Recipients = fullSrvMsg.Recipients;
                         ChatRoomNr = fullSrvMsg.ChatRoomNr;
+                        ChatRuid = fullSrvMsg.ChatRuid;
+                        TicksLong = fullSrvMsg.TicksLong;
+                        LastPushed = fullSrvMsg.LastPushed; 
+                        LastPolled =  fullSrvMsg.LastPolled;
                         TContent = fullSrvMsg.TContent;
                     }
                     return tc;

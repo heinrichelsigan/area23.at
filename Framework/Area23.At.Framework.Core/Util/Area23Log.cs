@@ -82,6 +82,8 @@ namespace Area23.At.Framework.Core.Util
 
         public static void LogStatic(string msg, string appName = "") => SLog.Log(msg, appName);
 
+        public static void LogStatic(string prefix, Exception xZpd, string appName) => SLog.Log(prefix, xZpd, appName);
+
         public static void LogStatic(Exception ex, string appName = "") => SLog.Log(ex, appName);
 
         #endregion static members
@@ -124,6 +126,8 @@ namespace Area23.At.Framework.Core.Util
         /// <param name="logLevel">log level: 0 for Trace, 1 for Debug, ..., 4 for Error, 5 for Fatal</param>
         public void Log(string msg, int logLevel = 3)
         {
+            if (Constants.NOLog) return;
+
             if (string.IsNullOrEmpty(LogFile) || !CheckedToday)
             {
                 lock (_lock)
@@ -177,6 +181,8 @@ namespace Area23.At.Framework.Core.Util
         /// <param name="level">log level: 0 for Trace, 1 for Debug, ..., 4 for Error, 5 for Fatal</param>
         public void Log(Exception ex, int level = 2)
         {
+            if (Constants.NOLog) return;
+
             Log(ex.Message, level);
             if (level < 4)
                 Log(ex.ToString(), level);
@@ -192,6 +198,8 @@ namespace Area23.At.Framework.Core.Util
         /// <param name="level">log level: 0 for Trace, 1 for Debug, ..., 4 for Error, 5 for Fatal</param>
         public void LogOriginMsg(string origin, string message, int level = 2)
         {
+            if (Constants.NOLog) return;
+
             string logMsg = (string.IsNullOrEmpty(origin) ? "  \t" : origin + " \t") + message;
             Log(logMsg, level);
         }
@@ -205,6 +213,8 @@ namespace Area23.At.Framework.Core.Util
         /// <param name="level"><see cref="int">int log level</see>: 0 for Trace, 1 for Debug, ..., 4 for Error, 5 for Fatal</param>
         public void LogOriginMsgEx(string origin, string message, Exception ex, int level = 2)
         {
+            if (Constants.NOLog) return;
+
             string logPrefix = string.IsNullOrEmpty(origin) ? "   " : origin;
             Log($"{logPrefix} \t{message} {ex.GetType()}: \t{ex.Message}", level);
             if (level < 4)

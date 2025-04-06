@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 
 namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 {
@@ -18,7 +17,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
     {
 
         public static readonly object _lock = new object();
-        public static readonly char[] ValidChars = "!\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_` \r\n".ToCharArray();
+        public static readonly char[] ValidChars = "!\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_` \r\n".ToCharArray();        
 
         public static bool IsUnix { get => (Path.DirectorySeparatorChar == '/'); }
         public static bool IsWindows { get => (Path.DirectorySeparatorChar == '\\'); }
@@ -65,7 +64,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// </summary>
         /// <param name="encodedString">encoded string</param>
         /// <returns>true, when encoding is OK, otherwise false, if encoding contains illegal characters</returns>
-        public static bool IsValid(string encodedString) => IsValidUu(encodedString, out _);
+        public static bool IsValid(string encodedString) => IsValidUu(encodedString, out _);        
 
 
         /// <summary>
@@ -87,13 +86,13 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             {
                 bytStr = Encoding.UTF8.GetString(inBytes);
                 uu = UuEncodeString(bytStr);
+                uu = uu.Replace(" ", "`");
             }
             else
             {
                 uu = UuEncodeBytesToString(inBytes);
             }
 
-            uu = uu.Replace(" ", "`");
             SLog.Log($"ToUu(byte[{inBytes.Length}] inBytes, bool originalUue = {originalUue}. bool fromFile = {fromFile}) ... FINISHED.");
             // uu = uu.Replace(" ", "`");
             return uu;

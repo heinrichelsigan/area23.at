@@ -22,8 +22,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         public string Base64Mime { get; set; }
         public int ContentLength { get; set; }
         public string Verification { get; set; }
-
-        public string Md5Hash { get; set; }
+        
         public string Sha256Hash { get; set; }
 
         public string MimeMsg { get => this.GetMimeMessage(); }
@@ -273,7 +272,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             }
             catch (Exception exMime)
             {
-                Area23Log.LogStatic(exMime);
+                Area23Log.LogStatic(", when GetBase64Attachment(...)", exMime, "");
             }
 
             MimeAttachment mimeAttach = new MimeAttachment(fileName, mimeType, mimeBase64, verification, md5, sha256);

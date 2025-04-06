@@ -157,8 +157,60 @@ namespace Area23.At.Mono.Calc
         }
 
         protected void bBracers_Click(object sender, EventArgs e)
-        {
-            string mathString = (sender is Button) ? ((Button)sender).Text : "";
+        {            
+            string mathString = (sender is Button) ? ((Button)sender).Text :
+                (sender is TextBox) ? ((TextBox)sender).Text : "";
+
+            if (mathString == "{")
+                mathString = "(";
+            if (mathString == "}")
+                mathString = ")";
+
+
+            if (!string.IsNullOrEmpty(mathString))
+            {
+                this.CurrentTextBox.Text = mathString.ToString();
+
+                string newElem = this.CurrentTextBox.Text;
+                string newTerm = this.TextBox_Calc.Text + newElem;
+                CalcTerm term = null;
+                bool validated = true;
+                string unvalidateReasion = ".";
+
+                if (ValidateBracket(mathString) == RPNType.BracketOpening || ValidateBracket(mathString) == RPNType.BracketClosing)
+                {
+                    try
+                    {
+                        term = new CalcTerm(newTerm);
+                        validated = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Area23Log.LogStatic(ex);
+                        unvalidateReasion = ": " + ex.Message;
+                        validated = false;
+                    }
+
+                    if (validated)
+                    {
+                        rpnStack.Push(mathString.ToString());
+                        TextCursor++;
+                        RpnStackToTextBox();
+                        SetMetaContent();
+                        CurrentTextBox.Text = string.Empty;
+                        this.Change_Click_EventDate = DateTime.UtcNow;
+                        return;
+                    }
+                }
+
+                if (!validated)
+                {
+                    this.CurrentTextBox.BorderColor = Color.Red;
+                    this.CurrentTextBox.BorderStyle = BorderStyle.Dashed;
+                    this.CurrentTextBox.BorderWidth = 1;
+                    this.CurrentTextBox.ToolTip = "Bracket " + this.CurrentTextBox.Text + " invalid: " + unvalidateReasion;
+                }
+            }
         }
 
         protected void bRad_Click(object sender, EventArgs e)
@@ -478,7 +530,7 @@ namespace Area23.At.Mono.Calc
                 string stackTermStr = string.Empty;
                 CalcTerm stackTerm = null, textTerm = null;
 
-                if ((ValidateOperator(op) == RPNType.MathOp1) || (ValidateAll(op) == RPNType.Number))
+                if ((ValidateOperator(op) == RPNType.MathOp1) || (ValidateAll(op) == RPNType.Number) || (ValidateAll(op) == RPNType.BracketOpening))
                 {
                     while (rpnStack.Count > 1)
                     {
@@ -516,8 +568,7 @@ namespace Area23.At.Mono.Calc
             string[] rpnArr = rpnStack.ToArray();
             if (rpnArr == null || rpnArr.Length < 2)
                 return rpnT;
-            if (ValidateNumber(rpnArr[0]) == RPNType.Number
-                && ValidateNumber(rpnArr[1]) == RPNType.Number)
+            if ((ValidateNumber(rpnArr[0]) == RPNType.Number) || (ValidateBracket(rpnArr[0]) == RPNType.BracketOpening))
             {
                 rpnT = ValidateAll(op);
             }
@@ -530,9 +581,25 @@ namespace Area23.At.Mono.Calc
             string[] rpnArr = rpnStack.ToArray();
             if (rpnArr == null || rpnArr.Length < 1)
                 return rpnT;
-            if (ValidateNumber(rpnArr[0]) == RPNType.Number)
+            if ((ValidateNumber(rpnArr[0]) == RPNType.Number)  || (ValidateBracket(rpnArr[0]) == RPNType.BracketOpening))
                 rpnT = ValidateAll(op);
             return rpnT;
+        }
+
+        protected RPNType ValidateBracket(string bracket)
+        {
+            RPNType rpnType = RPNType.Invalid;
+            switch (bracket)
+            {
+                case "(":
+                case "[":
+                    rpnType = RPNType.BracketOpening; break;
+                case ")":
+                case "]":
+                    rpnType = RPNType.BracketClosing; break;
+                default: break;
+            }
+            return rpnType;
         }
 
         protected RPNType ValidateNumber(string num)
@@ -569,6 +636,12 @@ namespace Area23.At.Mono.Calc
             RPNType rpnType = RPNType.Invalid;
             switch (op)
             {
+                case "(":
+                case "[":
+                    rpnType = RPNType.BracketOpening; break;
+                case ")":
+                case "]":
+                    rpnType = RPNType.BracketClosing; break;
                 case "+":
                 case "-":
                 case "*":

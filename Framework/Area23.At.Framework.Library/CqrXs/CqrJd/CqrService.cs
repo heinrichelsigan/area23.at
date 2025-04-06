@@ -7,6 +7,8 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+using Area23.At.Framework.Library.Static;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +19,6 @@ using System.Diagnostics;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Serialization;
-using Area23.At.Framework.Library.Static;
 
 namespace Area23.At.Framework.Library.CqrXs.CqrJd
 {
@@ -47,7 +48,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrJd
         public string Send1StSrvMsg(string cryptMsg)
         {
             object[] results = this.Invoke("Send1StSrvMsg", new object[] {
-                    cryptMsg});
+                        cryptMsg});
             return ((string)(results[0]));
         }
 
@@ -56,7 +57,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrJd
               callback, object asyncState)
         {
             return this.BeginInvoke("Send1StSrvMsg", new object[] {
-                    cryptMsg}, callback, asyncState);
+                        cryptMsg}, callback, asyncState);
         }
 
         /// <remarks/>
@@ -76,7 +77,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrJd
         public string ChatRoomInvite(string cryptMsg)
         {
             object[] results = this.Invoke("ChatRoomInvite", new object[] {
-                    cryptMsg});
+                        cryptMsg});
             return ((string)(results[0]));
         }
 
@@ -85,7 +86,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrJd
               callback, object asyncState)
         {
             return this.BeginInvoke("ChatRoomInvite", new object[] {
-                    cryptMsg}, callback, asyncState);
+                        cryptMsg}, callback, asyncState);
         }
 
         /// <remarks/>
@@ -105,7 +106,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrJd
         public string ChatRoomPoll(string cryptMsg)
         {
             object[] results = this.Invoke("ChatRoomPoll", new object[] {
-                    cryptMsg});
+                        cryptMsg});
             return ((string)(results[0]));
         }
 
@@ -114,7 +115,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrJd
               object asyncState)
         {
             return this.BeginInvoke("ChatRoomPoll", new object[] {
-                    cryptMsg}, callback, asyncState);
+                        cryptMsg}, callback, asyncState);
         }
 
         /// <remarks/>
@@ -134,8 +135,8 @@ namespace Area23.At.Framework.Library.CqrXs.CqrJd
         public string ChatRoomPushMessage(string cryptMsg, string chatRoomMembersCrypted)
         {
             object[] results = this.Invoke("ChatRoomPushMessage", new object[] {
-                    cryptMsg,
-                    chatRoomMembersCrypted});
+                        cryptMsg,
+                        chatRoomMembersCrypted});
             return ((string)(results[0]));
         }
 
@@ -144,8 +145,8 @@ namespace Area23.At.Framework.Library.CqrXs.CqrJd
               chatRoomMembersCrypted, System.AsyncCallback callback, object asyncState)
         {
             return this.BeginInvoke("ChatRoomPushMessage", new object[] {
-                    cryptMsg,
-                    chatRoomMembersCrypted}, callback, asyncState);
+                        cryptMsg,
+                        chatRoomMembersCrypted}, callback, asyncState);
         }
 
         /// <remarks/>
@@ -165,7 +166,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrJd
         public string ChatRoomClose(string cryptMsg)
         {
             object[] results = this.Invoke("ChatRoomClose", new object[] {
-                    cryptMsg});
+                        cryptMsg});
             return ((string)(results[0]));
         }
 
@@ -174,7 +175,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrJd
               callback, object asyncState)
         {
             return this.BeginInvoke("ChatRoomClose", new object[] {
-                    cryptMsg}, callback, asyncState);
+                        cryptMsg}, callback, asyncState);
         }
 
         /// <remarks/>
@@ -263,7 +264,6 @@ namespace Area23.At.Framework.Library.CqrXs.CqrJd
             object[] results = this.EndInvoke(asyncResult);
             return ((string)(results[0]));
         }
-
-    }
+        }
 
 }

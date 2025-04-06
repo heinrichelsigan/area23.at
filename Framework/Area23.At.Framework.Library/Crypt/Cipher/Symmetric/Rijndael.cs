@@ -12,6 +12,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     /// <see cref="System.Security.Cryptography.RijndaelManaged"/> implementation of Aes
     /// <see cref="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aes?view=net-8.0" />
     /// </summary>
+    [Obsolete("Please use Aes from CryptBounceCastle https://www.bouncycastle.org/", false)]
     public static class Rijndael
     {
 

@@ -131,7 +131,6 @@ namespace Area23.At.Framework.Library.CqrXs.CqrSrv
         /// <param name="srvIp"></param>
         /// <param name="encodingType"></param>
         /// <returns></returns>
-
         public string Test_Send1st_CqrSrvMsg1_Soap(CqrContact myContact, IPAddress srvIp, EncodingType encodingType = EncodingType.Base64)
         {
 

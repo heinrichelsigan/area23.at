@@ -12,13 +12,12 @@ using System.Net;
 namespace Area23.At.Framework.Core.CqrXs.CqrSrv
 {
 
-
     /// <summary>
     /// Provides a secure encrypted message to send to the server or receive from server
     /// </summary>    
     public class SrvMsg1 : BaseMsg
     {
-        protected internal CqrContact MsgContact { get; set; }
+        protected internal CqrContact? MsgContact { get; set; }
 
         public SrvMsg1() { }
 
@@ -28,7 +27,6 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         /// <param name="srvKey">server key (normally client ip + secret)</param>
         /// <exception cref="ArgumentNullException">thrown, when srvKey is null or <see cref="string.Empty"/></exception>
         public SrvMsg1(string srvKey = "") : base(srvKey) { }
-
 
 
         /// <summary>
@@ -53,7 +51,6 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
 
             return CqrBaseMsg(MsgContact, encType);
         }
-
 
 
         /// <summary>

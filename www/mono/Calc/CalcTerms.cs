@@ -56,7 +56,7 @@ namespace Area23.At.Mono.Calc
                 }
                 foreach (string _mathBracket in BracketOpen.validElems)
                 {
-                    if (tmpElem.Equals(_mathBracket))
+                    if (tmpElem.StartsWith(_mathBracket))
                     {
                         if (!firstDone || lastType == RPNType.MathOp2)
                         {
@@ -75,9 +75,9 @@ namespace Area23.At.Mono.Calc
                 }
                 foreach (string _closeBracket in BracketClose.validElems)
                 {
-                    if (tmpElem.Equals(_closeBracket))
+                    if (tmpElem.StartsWith(_closeBracket))
                     {
-                        if (lastType == RPNType.Number && firstDone)
+                        if ((lastType == RPNType.Number || lastType == RPNType.BracketOpening) && firstDone)
                         {
                             BracketClose mathCloseBracket = new BracketClose(_closeBracket);
                             terms.Add(mathCloseBracket);

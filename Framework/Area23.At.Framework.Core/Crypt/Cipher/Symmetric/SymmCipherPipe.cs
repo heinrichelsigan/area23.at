@@ -136,6 +136,8 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         public SymmCipherPipe(string key = "heinrich.elsigan@area23.at", string hash = "6865696e726963682e656c736967616e406172656132332e6174")
             : this(CryptHelper.GetUserKeyBytes(key, hash, 16), Constants.MAX_PIPE_LEN)
         {
+            symmCipherKey = key;
+            symmCipherHash = hash;
         }
 
         #endregion ctor SymmCipherPipe
@@ -150,23 +152,20 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>encrypted byte Array</returns>
-        public static byte[] EncryptBytesFast(byte[] inBytes,
-            SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes,
-            string secretKey = "heinrich.elsigan@area23.at",
-            string hashIv = "6865696e726963682e656c736967616e406172656132332e6174")
+        public static byte[] EncryptBytesFast(byte[] inBytes, SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes, 
+            string secretKey = "heinrich.elsigan@area23.at", string hashIv = "")
         {
             byte[] encryptBytes = inBytes;
-
-            string algo = cipherAlgo.ToString();
+            string hash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIv;            
 
             switch (cipherAlgo)
             {
                 case SymmCipherEnum.Serpent:
-                    Serpent.SerpentGenWithKey(secretKey, hashIv, true);
+                    Serpent.SerpentGenWithKey(secretKey, hash, true);
                     encryptBytes = Serpent.Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.ZenMatrix:
-                    encryptBytes = (new ZenMatrix(secretKey, hashIv, false)).Encrypt(inBytes);
+                    encryptBytes = (new ZenMatrix(secretKey, hash, false)).Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.Aes:
                 case SymmCipherEnum.BlowFish:
@@ -183,7 +182,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.Tea:
                 case SymmCipherEnum.XTea:
                 default:
-                    CryptParamsPrefered cpParams = new CryptParamsPrefered(cipherAlgo, secretKey, hashIv);
+                    CryptParamsPrefered cpParams = new CryptParamsPrefered(cipherAlgo, secretKey, hash);
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
                     encryptBytes = cryptBounceCastle.Encrypt(inBytes);
                     break;
@@ -200,24 +199,21 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <param name="secretKey">secret key to decrypt</param>
         /// <param name="keyIv">key's iv</param>
         /// <returns>decrypted byte Array</returns>
-        public static byte[] DecryptBytesFast(byte[] cipherBytes,
-            SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes,
-            string secretKey = "heinrich.elsigan@area23.at",
-            string hashIv = "6865696e726963682e656c736967616e406172656132332e6174",
-            bool fishOnAesEngine = false)
+        public static byte[] DecryptBytesFast(byte[] cipherBytes, SymmCipherEnum cipherAlgo = SymmCipherEnum.Aes,
+            string secretKey = "heinrich.elsigan@area23.at", string hashIv = "", bool fishOnAesEngine = false)
         {
             bool sameKey = true;
-            string algorithmName = cipherAlgo.ToString();
+            string hash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIv;
             byte[] decryptBytes = cipherBytes;
 
             switch (cipherAlgo)
             {
                 case SymmCipherEnum.Serpent:
-                    sameKey = Serpent.SerpentGenWithKey(secretKey, hashIv, true);
+                    sameKey = Serpent.SerpentGenWithKey(secretKey, hash, true);
                     decryptBytes = Serpent.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.ZenMatrix:
-                    decryptBytes = (new ZenMatrix(secretKey, hashIv, false)).Decrypt(cipherBytes);
+                    decryptBytes = (new ZenMatrix(secretKey, hash, false)).Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.Aes:
                 case SymmCipherEnum.BlowFish:
@@ -234,7 +230,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.Tea:
                 case SymmCipherEnum.XTea:
                 default:
-                    CryptParamsPrefered cpParams = new CryptParamsPrefered(cipherAlgo, secretKey, hashIv, fishOnAesEngine);
+                    CryptParamsPrefered cpParams = new CryptParamsPrefered(cipherAlgo, secretKey, hash, fishOnAesEngine);
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
                     decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
                     break;

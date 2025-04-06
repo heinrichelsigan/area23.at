@@ -158,7 +158,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             string secretKey = "heinrich.elsigan@area23.at", string hashIv = "")
         {
             byte[] encryptBytes = inBytes;
-            string hash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(hashIv) : hashIv;
+            string hash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIv;
             string algo = cipherAlgo.ToString();
 
             switch (cipherAlgo)
@@ -232,7 +232,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             bool sameKey = true;
             string algorithmName = cipherAlgo.ToString();
             byte[] decryptBytes = cipherBytes;
-            string hash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(hashIv) : hashIv;
+            string hash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIv;
 
             switch (cipherAlgo)
             {
@@ -304,7 +304,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         /// <returns>encrypted byte[]</returns>
         public byte[] MerryGoRoundEncrpyt(byte[] inBytes, string secretKey = "heinrich.elsigan@area23.at", string hashIv = "")
         {
-            string hash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(hashIv) : hashIv;
+            string hash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIv;
             byte[] encryptedBytes = new byte[inBytes.Length * 3 + 1];
 #if DEBUG
             stageDictionary = new Dictionary<CipherEnum, byte[]>();
@@ -332,7 +332,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         /// <returns><see cref="byte[]"/> plain bytes</returns>
         public byte[] DecrpytRoundGoMerry(byte[] cipherBytes, string secretKey = "heinrich.elsigan@area23.at", string hashIv = "", bool fishOnAesEngine = false)
         {
-            string hash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(hashIv) : hashIv;
+            string hash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIv;
             byte[] decryptedBytes = new byte[cipherBytes.Length * 3 + 1];
 #if DEBUG
             stageDictionary = new Dictionary<CipherEnum, byte[]>();

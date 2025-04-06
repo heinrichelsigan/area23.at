@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Area23.At.Framework.Core.Static;
+using Newtonsoft.Json;
 
 namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 {
@@ -37,7 +38,8 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 
         public override string ToJson() => JsonConvert.SerializeObject(this);
 
-        public virtual T? FromJson<T>(string jsonText)
+
+        public override T? FromJson<T>(string jsonText) where T : default
         {
             T? t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(jsonText);
             if (t != null && t is ClientSrvMsg<TS, TC> csrvmsg)
@@ -53,15 +55,28 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             return t;
         }
 
-        public string ToXml()
+        public override string ToXml() => Utils.SerializeToXml<ClientSrvMsg<TS, TC>>(this);
+
+        public override T? FromXml<T>(string xmlText) where T : default
         {
-            throw new NotImplementedException();
+            T? cqrT = Utils.DeserializeFromXml<T>(xmlText);
+            if (cqrT is ClientSrvMsg<TS, TC> csmsgmc)
+            {
+                this.ServerMsg = csmsgmc.ServerMsg;
+                this.ClientMsg = csmsgmc.ClientMsg;
+                this._hash = csmsgmc._hash;
+                this.RawMessage = csmsgmc.RawMessage;
+                this.ServerMsg = csmsgmc.ServerMsg;
+                this._message = csmsgmc._message;
+                this.Md5Hash = csmsgmc.Md5Hash;
+                this.ClientMsgString = csmsgmc.ClientMsgString;
+                this.ServerMsg = csmsgmc.ServerMsg;
+            }
+
+            return cqrT;
+            return base.FromXml<T>(xmlText);
         }
 
-        public T? FromXml<T>(string xmlText)
-        {
-            throw new NotImplementedException();
-        }
     }
 
 

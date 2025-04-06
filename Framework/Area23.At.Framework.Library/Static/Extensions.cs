@@ -807,6 +807,11 @@ namespace Area23.At.Framework.Library.Static
 
         #region serializer_xml_json
 
+        /// <summary>
+        /// IsValidXml extension method, that verifies if a string is a valid xml serialization
+        /// </summary>
+        /// <param name="xml">this <see cref="string">string xml</see> to xml validate</param>
+        /// <returns>true, if it's a valid serialized xml string, otherwise false</returns>
         public static bool IsValidXml(this string xml)
         {
             try
@@ -820,6 +825,11 @@ namespace Area23.At.Framework.Library.Static
             }
         }
 
+        /// <summary>
+        /// Extension Method, that verifies if a string is a valid json serialization
+        /// </summary>
+        /// <param name="strInput">this <see cref="string">string input</see> to json validate</param>
+        /// <returns>true, if it's a valid serialized json string, otherwise false</returns>
         public static bool IsValidJson(this string strInput)
         {
             if (string.IsNullOrWhiteSpace(strInput)) { return false; }

@@ -85,6 +85,8 @@ namespace Area23.At.Framework.Library.Util
 
         public static void LogStatic(string msg, string appName = "") => SLog.Log(msg, appName);
 
+        public static void LogStatic(string prefix, Exception xZpd, string appName) => SLog.Log(prefix, xZpd, appName);
+
         public static void LogStatic(Exception ex, string appName = "") => SLog.Log(ex, appName);
 
         #endregion static members

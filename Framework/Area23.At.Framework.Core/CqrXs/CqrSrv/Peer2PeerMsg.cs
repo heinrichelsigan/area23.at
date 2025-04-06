@@ -54,17 +54,12 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         public string CqrFile(CqrFile cqrFile, MsgEnum msgType = MsgEnum.Json, EncodingType encType = EncodingType.Base64)
         {
             if (msgType == MsgEnum.None || msgType == MsgEnum.RawWithHashAtEnd)
-            {
                 cqrFile.RawMessage += "\n" + symmPipe.PipeString + "\0";
-            }
             else if (msgType == MsgEnum.Json)
-            {
                 cqrFile.RawMessage = JsonConvert.SerializeObject(cqrFile);
-            }
             else if (msgType == MsgEnum.Xml)
-            {
                 cqrFile.RawMessage = Utils.SerializeToXml(cqrFile);
-            }
+            
             byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(cqrFile.RawMessage);
 
             // Crypt cipherbytes from message
@@ -74,6 +69,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
 
             return CqrMessage;
         }
+
 
         /// <summary>
         /// NCqrPeerMsg decryptes an secure encrypted msg 
@@ -110,6 +106,14 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
 
             if (decrypted.IsValidJson())
                 msgType = MsgEnum.Json;
+            else if (decrypted.StartsWith("{\"") && decrypted.Contains("\"_hash\":") && decrypted.Contains("\"_message\":"))
+            {
+                if (Char.IsAsciiLetter(decrypted[decrypted.Length - 1]) || Char.IsDigit(decrypted[decrypted.Length - 1]))
+                {
+                    decrypted += "\" }";
+                    msgType = MsgEnum.Json;
+                }
+            }
             else if (decrypted.IsValidXml())
                 msgType = MsgEnum.Xml;
             else msgType = MsgEnum.RawWithHashAtEnd;
@@ -147,7 +151,18 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         {
             string encrypted = CqrPeerMsg(msg, encodingType);
             Area23Log.LogStatic($"msg.Lentgh = {msg.Length}, encrypted.Length = {encrypted.Length}.");
-            string response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
+            string response = "";
+            try
+            {
+                response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
+            } 
+            catch (Exception ex)
+            {
+                if (ex is IndexOutOfRangeException)
+                {
+                    response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
+                }
+            }
             return response;
         }
 
@@ -176,7 +191,19 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             cqrFile.MsgType = msgType;
             string encrypted = CqrFile(cqrFile, msgType, encType);
             Area23Log.LogStatic($"FileName: {cqrFile.CqrFileName}, File.Lentgh = {cqrFile.Data.Length}, encrypted.Length = {encrypted.Length}.");
-            string response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
+            string response = "";
+            try
+            {
+                response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
+            } 
+            catch (Exception ex)
+            {
+                Area23Log.LogStatic(ex);
+                if (ex is IndexOutOfRangeException)
+                {
+                    response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
+                }
+            }
             return response;
         }
 

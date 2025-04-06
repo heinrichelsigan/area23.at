@@ -32,7 +32,7 @@ namespace Area23.At.Framework.Core.Zfx
         ///  9  ... for strongest bzip2 compression, generating smallest most compact output 
         /// </param>
         /// <returns><see cref="byte[]?">byte[] bzip2 compressed out bytes</see></returns>
-        public static byte[]? BZip(byte[] inBytes, int compressionLevel = 9)
+        public static byte[]? BZip(byte[] inBytes, int compressionLevel = 6)
         {
             byte[]? zipBytes = null;
             MemoryStream msIn = new MemoryStream(inBytes, 0, inBytes.Length);

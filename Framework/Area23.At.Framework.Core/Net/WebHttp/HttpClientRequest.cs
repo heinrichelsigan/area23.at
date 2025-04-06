@@ -1,6 +1,9 @@
-﻿using Area23.At.Framework.Core.Crypt.Cipher;
+﻿using Area23.At.Framework.Core.CqrXs;
+using Area23.At.Framework.Core.Crypt.Cipher;
 using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Core.Net.NameService;
+using Area23.At.Framework.Core.Static;
 using Org.BouncyCastle.Asn1.Crmf;
 using System;
 using System.Collections.Generic;
@@ -9,6 +12,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
 
 namespace Area23.At.Framework.Core.Net.WebHttp
 {
@@ -84,7 +88,7 @@ namespace Area23.At.Framework.Core.Net.WebHttp
         }
 
 
-        public async static Task<HttpResponseMessage> GetClientIp(string url)
+        public async static Task<HttpResponseMessage> GetClientIpByUrl(string url)
         {
             Uri uri = new Uri(url);
             httpClientR = HttpClientRequest.GetHttpClient(url, "cqrxs.eu", Encoding.UTF8);
@@ -104,23 +108,43 @@ namespace Area23.At.Framework.Core.Net.WebHttp
             return res.IsSuccessStatusCode;
         }
 
-        public static async Task<HttpResponseMessage> GetClientIPFormArea23()
+        public static async Task<HttpResponseMessage> GetClientBodyFromArea23(bool area23 = false, string urlR = "https://cqrxs.eu/cqrsrv/cqrjd/R.aspx")
         {
-            string url = "https://cqrxs.eu/cqrsrv/cqrjd/R.aspx";
-            return await GetClientIp(url);
+            string url = (area23) ? "https://area23.at/net/R.aspx" : urlR;
+            return await GetClientIpByUrl(url);
         }
 
 
-        public static IPAddress? GetClientIP()
+        public static IPAddress? GetClientIP(string urlR = "https://cqrxs.eu/cqrsrv/cqrjd/R.aspx")
         {
-            string myIp = GetClientIPFormArea23().Result.ToString();
+            string myIp = GetClientBodyFromArea23(true).Result.ToString();
             if (myIp.Contains("<body>"))
             {
                 myIp = myIp.Substring(myIp.IndexOf("<body>"));
                 if (myIp.Contains("</body>"))
                     myIp = myIp.Substring(0, myIp.IndexOf("</body>")).Replace("<body>", "").Replace("</body>", "");
             }
-            return IPAddress.Parse(myIp);
+            IPAddress ipClient = IPAddress.Parse(myIp);
+            List<IPAddress> cqrXsEuIpList = DnsHelper.GetIpAddrsByHostName(Constants.CQRXS_EU);
+            cqrXsEuIpList.AddRange(DnsHelper.GetIpAddrsByHostName(Constants.AREA23_AT));
+            foreach (IPAddress euIp in cqrXsEuIpList)
+            {
+                if (euIp == null)
+                    continue;
+                try
+                {
+                    if (Extensions.BytesCompare(ipClient.GetAddressBytes(), euIp.GetAddressBytes()) == 0)
+                        throw new InvalidOperationException($"{ipClient.AddressFamily} {ipClient.Address} equals {euIp.Address}");
+                }
+                catch (Exception ex)
+                {
+                    CqrException.SetLastException(ex);
+                    SLog.Log("Error on getting external client ip", ex, "");
+                    return null;
+                }
+            }
+
+            return ipClient;
         }
 
 

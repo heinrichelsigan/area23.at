@@ -24,11 +24,56 @@ namespace Area23.At.Framework.Core.Static
         private static string logFilePath = "";
         private static string cqrServiceSoap = "";
         private static string cqrServiceSoap12 = "";
+        private static readonly char _sepCh;
         private static int daysave = -1;
 
-        public static char SepCh { get => Path.DirectorySeparatorChar; }
+        public static bool LogDebug { get; private set; }  
 
-        public static string SepChar { get => Path.DirectorySeparatorChar.ToString(); }
+        public static char SepCh { get => _sepCh; }
+
+        public static string SepChar { get => _sepCh.ToString(); }
+
+        /// <summary>
+        /// static constructor
+        /// </summary>
+        static LibPaths()
+        {
+            _sepCh = Path.DirectorySeparatorChar;
+            if (Constants.DirCreate)
+            {
+                if (Directory.Exists(LibPaths.SystemDirResPath))
+                    try
+                    {
+                        Directory.CreateDirectory(LibPaths.SystemDirResPath);
+                    }
+                    catch { }
+                if (Directory.Exists(LibPaths.SytemDirUuPath))
+                    try
+                    {
+                        Directory.CreateDirectory(LibPaths.SytemDirUuPath);
+                    }
+                    catch { }
+                if (Directory.Exists(LibPaths.SystemDirOutPath))
+                    try
+                    {
+                        Directory.CreateDirectory(LibPaths.SystemDirOutPath);
+                    }
+                    catch { }
+                if (Directory.Exists(LibPaths.SystemDirTmpPath))
+                    try
+                    {
+                        Directory.CreateDirectory(LibPaths.SystemDirTmpPath);
+                    }
+                    catch { }
+                if (Directory.Exists(LibPaths.SystemDirLogPath))
+                    try
+                    {
+                        Directory.CreateDirectory(LibPaths.SystemDirLogPath);
+                    }
+                    catch { }
+            }
+        }
+
 
         #region Web App Paths
 
@@ -167,6 +212,28 @@ namespace Area23.At.Framework.Core.Static
 
         #endregion WebServices
 
+        #region other properties 
+
+        public static bool CqrEncrypt
+        {
+            get
+            {
+                bool _cqrEncrypt = Constants.CQR_ENCRYPT;
+                try
+                {
+                    if (ConfigurationManager.AppSettings["CqrEncrypt"] != null)
+                        _cqrEncrypt = Convert.ToBoolean(ConfigurationManager.AppSettings["CqrEncrypt"].ToString());
+                }
+                catch
+                {
+                    _cqrEncrypt = true;
+                }
+                return _cqrEncrypt;
+            }
+        }
+
+        #endregion other properties 
+
         #region directory & file paths
 
         /// <summary>
@@ -253,7 +320,8 @@ namespace Area23.At.Framework.Core.Static
                         {
                             string dirNotFoundMsg = string.Format("out directory {0} doesn't exist, creating it!", systemDirResPath);
                             SLog.Log(dirNotFoundMsg);
-                            Directory.CreateDirectory(systemDirResPath);
+                            if (Constants.DirCreate)
+                                Directory.CreateDirectory(systemDirResPath);
                         }
                         catch (Exception ex)
                         {
@@ -289,6 +357,8 @@ namespace Area23.At.Framework.Core.Static
 
         public static string AttachmentFilesDir { get => SystemDirPath + Constants.ATTACH_FILES_DIR + SepChar; }
 
+        #endregion directory & file paths
+
         #region LogFiles and LogPaths
 
         /// <summary>
@@ -306,7 +376,9 @@ namespace Area23.At.Framework.Core.Static
                     {
                         try
                         {
-                            Directory.CreateDirectory(logDirPath);
+                            if (Constants.DirCreate && !Constants.NOLog)
+                                Directory.CreateDirectory(logDirPath);
+
                         }
                         catch { }
                     }
@@ -314,6 +386,8 @@ namespace Area23.At.Framework.Core.Static
                 return logDirPath;
             }
         }
+
+        public static string LogFileSystemPath { get => SystemDirLogPath + Constants.AppLogFile; }
 
         /// <summary>
         /// GetLogFilePath - gets individual named logfile with substring appName
@@ -335,7 +409,8 @@ namespace Area23.At.Framework.Core.Static
                 {
                     try
                     {
-                        File.Create(logFilePath);
+                        if (!Constants.NOLog)
+                            File.Create(logFilePath);
                     }
                     catch { }
                 }
@@ -343,33 +418,9 @@ namespace Area23.At.Framework.Core.Static
             return logFilePath;
         }
 
-        public static string LogFileSystemPath { get => SystemDirLogPath + Constants.AppLogFile; }
 
         #endregion LogFiles and LogPaths
 
-        #endregion directory & file paths
-
-        #region other properties 
-
-        public static bool CqrEncrypt
-        {
-            get
-            {
-                bool _cqrEncrypt = Constants.CQR_ENCRYPT;
-                try
-                {
-                    if (ConfigurationManager.AppSettings["CqrEncrypt"] != null)
-                        _cqrEncrypt = Convert.ToBoolean(ConfigurationManager.AppSettings["CqrEncrypt"].ToString());
-                }
-                catch
-                {
-                    _cqrEncrypt = true;
-                }
-                return _cqrEncrypt;
-            }
-        }
-
-        #endregion other properties 
 
     }
 

@@ -59,7 +59,7 @@ namespace Area23.At.Mono.Util
                     JsonChatRoomNumber += ".json";
 
                 fullSrvMsg.ChatRoomNr = JsonChatRoomNumber;
-                fullSrvMsg.Sender.ChatRoomId = JsonChatRoomNumber;
+                fullSrvMsg.Sender.ChatRoomNr = JsonChatRoomNumber;
                 fullSrvMsg.RawMessage = "";
                 fullSrvMsg._message = "";
 

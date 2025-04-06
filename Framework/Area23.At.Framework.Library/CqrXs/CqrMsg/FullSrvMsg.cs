@@ -30,8 +30,19 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 
         public TC TContent { get; set; }
 
+        #region chatroom properties
+        
         public string ChatRoomNr { get; set; }
 
+        public Guid ChatRuid { get; set; }
+
+        public List<long> TicksLong { get; set; }
+
+        public DateTime LastPushed { get; set; }
+
+        public DateTime LastPolled { get; set; }
+
+        #endregion chatroom properties
 
         [Newtonsoft.Json.JsonIgnore]
         protected internal List<string> Emails
@@ -113,15 +124,19 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             _hash = string.Empty;
             Sender = null;
             Recipients = new HashSet<CqrContact>();
-            Recipient = null;
             TContent = null;
+            TicksLong = new List<long>();
+            LastPushed = DateTime.MinValue;
+            LastPolled = DateTime.MinValue;
             ChatRoomNr = string.Empty;
+            ChatRuid = Guid.NewGuid();
         }
 
         public FullSrvMsg(string fm, MsgEnum msgArt = MsgEnum.Json) : base()
         {
             this.FromJson<FullSrvMsg<TC>>(fm);
         }
+
 
         [Obsolete("Always user FullSrvMsg(CqrContact sender, CqrContact to, TC tc, string hash) : base() ctor", false)]
         public FullSrvMsg(CqrContact sender, CqrContact to, TC tc) : base()
@@ -130,8 +145,8 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             CqrContact[] tos = (to != null) ? new CqrContact[1] { to } : new CqrContact[0];
             Recipients = new HashSet<CqrContact>(tos);
             TContent = tc;
-            ChatRoomNr = string.Empty;
         }
+
 
         /// <summary>
         /// Please always use this constuctor
@@ -148,6 +163,9 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             TContent = tc;
             _hash = hash;
             ChatRoomNr = chatRoomNr;
+            string allMsg = this.ToJson();
+            _message = allMsg;
+            RawMessage = allMsg;
         }
 
 
@@ -165,6 +183,9 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             TContent = tc;
             _hash = hash;
             ChatRoomNr = chatRoomNr;
+            string allMsg = this.ToJson();
+            _message = allMsg;
+            RawMessage = allMsg;
         }
 
 
@@ -192,6 +213,10 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                         Recipients = fullSrvMsg.Recipients;
                         TContent = fullSrvMsg.TContent;
                         ChatRoomNr = fullSrvMsg.ChatRoomNr;
+                        ChatRuid = fullSrvMsg.ChatRuid;
+                        TicksLong = fullSrvMsg.TicksLong;
+                        LastPushed = fullSrvMsg.LastPushed;
+                        LastPolled = fullSrvMsg.LastPolled;
                         _hash = fullSrvMsg._hash;
                     }
                     return tc;

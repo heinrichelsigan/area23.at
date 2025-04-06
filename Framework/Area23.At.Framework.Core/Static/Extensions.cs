@@ -1,23 +1,10 @@
-﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using Org.BouncyCastle.Crypto.Generators;
-using Org.BouncyCastle.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
-using System.Xml.Serialization;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using Area23.At.Framework.Core.Util;
 
 
 namespace Area23.At.Framework.Core.Static
@@ -175,6 +162,7 @@ namespace Area23.At.Framework.Core.Static
             }
             return -1;
         }
+
 
         /// <summary>
         /// <see cref="byte[]"/>.ToFile(string filePath, string fileName, string fext) extension method: writes a byte array to a file
@@ -814,6 +802,11 @@ namespace Area23.At.Framework.Core.Static
 
         #region serializer_xml_json
 
+        /// <summary>
+        /// IsValidXml extension method, that verifies if a string is a valid xml serialization
+        /// </summary>
+        /// <param name="xml">this <see cref="string">string xml</see> to xml validate</param>
+        /// <returns>true, if it's a valid serialized xml string, otherwise false</returns>
         public static bool IsValidXml(this string xml)
         {
             try
@@ -827,9 +820,17 @@ namespace Area23.At.Framework.Core.Static
             }
         }
 
+        /// <summary>
+        /// Extension Method, that verifies if a string is a valid json serialization
+        /// </summary>
+        /// <param name="strInput">this <see cref="string">string input</see> to json validate</param>
+        /// <returns>true, if it's a valid serialized json string, otherwise false</returns>
         public static bool IsValidJson(this string strInput)
         {
-            if (string.IsNullOrWhiteSpace(strInput)) { return false; }
+            if (string.IsNullOrWhiteSpace(strInput))
+            {
+                return false;
+            }
             strInput = strInput.Trim();
             if ((strInput.StartsWith("{") && strInput.EndsWith("}")) || //For object
                 (strInput.StartsWith("[") && strInput.EndsWith("]"))) //For array

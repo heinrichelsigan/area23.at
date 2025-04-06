@@ -1,7 +1,15 @@
 ﻿using Area23.At.Framework.Core.Util;
+using Microsoft.VisualBasic.Logging;
+using System.Diagnostics;
+using System.Reflection;
+using System.Windows.Interop;
 
 namespace Area23.At.Framework.Core.Static
 {
+
+    /// <summary>
+    /// Most simple & tiny static logger
+    /// </summary>
     public static class SLog
     {
         private static readonly Lock _lock = new Lock();
@@ -47,6 +55,12 @@ namespace Area23.At.Framework.Core.Static
         /// <param name="appName">application name</param>
         public static void Log(string msg, string appName = "")
         {
+            if (Constants.NOLog)
+            {
+                Console.Error.WriteLine(msg);
+                return;
+            }
+                
             string logMsg = string.Empty;
 
             if (string.IsNullOrEmpty(LogFile) || !CheckedToday)
@@ -73,38 +87,46 @@ namespace Area23.At.Framework.Core.Static
                 }
             }
 
-
-            // LogFile = (string.IsNullOrEmpty(LogFile)) ? LibPaths.LogFileSystemPath : LogFile;           
-            try
+            string logFile1 = "";
+            lock (_lock)
             {
-                logMsg = DateTime.Now.Area23DateTimeWithSeconds() + " \t" + msg ?? string.Empty + "\r\n";
-                File.AppendAllText(LogFile, logMsg);
-            }
-            catch (Exception exLogWrite)
-            {
-                System.AppDomain.CurrentDomain.SetData("LogExceptionStatic",
-                    DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {LogFile} Exception {exLogWrite.GetType()} {exLogWrite.Message} \n" + exLogWrite.ToString());
-
-                Console.Error.WriteLine(DateTime.Now.Area23DateTimeWithSeconds() + $" \tException: {exLogWrite.GetType()} {exLogWrite.Message} writing to logfile: {LogFile}");
-
-                string logFile1 = (string.IsNullOrEmpty(LogFile)) ? LibPaths.LogFileSystemPath : LogFile;
-                logFile1 = logFile1.Replace(".log", "_1.log");
                 try
                 {
-                    logMsg = DateTime.Now.Area23DateTimeWithSeconds() + " \t" + msg ?? string.Empty + "\r\n";
-                    File.AppendAllText(logFile1, logMsg);
+                    logMsg = DateTime.Now.Area23DateTimeWithSeconds() + " \t" + msg ?? string.Empty + "\n";
+                    File.AppendAllText(LogFile, logMsg);
                 }
-                catch (Exception exLog)
+                catch (Exception exLogWrite)
                 {
-                    System.AppDomain.CurrentDomain.SetData("LogExceptionStaticFile1",
-                        DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {logFile1} Exception {exLog.GetType()} {exLog.Message} \n {exLog.ToString()}");
+                    System.AppDomain.CurrentDomain.SetData("LogExceptionStatic",
+                    DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {LogFile} Exception {exLogWrite.GetType()} {exLogWrite.Message} \n" + exLogWrite.ToString());
 
-                    Console.Error.WriteLine(DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {logFile1} Exception {exLog.GetType()} {exLog.Message} \n {exLog.ToString()}");
+                    Console.Error.WriteLine(DateTime.Now.Area23DateTimeWithSeconds() + $" \tException: {exLogWrite.GetType()} {exLogWrite.Message} writing to logfile: {LogFile}");
+
+                    logFile1 = (string.IsNullOrEmpty(LogFile)) ? LibPaths.LogFileSystemPath : LogFile;
+                    logFile1 = logFile1.Replace(".log", "_1.log");
+                }
+            }
+
+            lock (_lock)
+            {
+                if (!string.IsNullOrEmpty(logFile1))
+                {
+                    try
+                    {
+                        logMsg = DateTime.Now.Area23DateTimeWithSeconds() + " \t" + msg ?? string.Empty + "\n";
+                        File.AppendAllText(logFile1, logMsg);
+                    }
+                    catch (Exception exLog)
+                    {
+                        System.AppDomain.CurrentDomain.SetData("LogExceptionStaticFile1",
+                            DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {logFile1} Exception {exLog.GetType()} {exLog.Message} \n {exLog.ToString()}");
+
+                        Console.Error.WriteLine(DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {logFile1} Exception {exLog.GetType()} {exLog.Message} \n {exLog.ToString()}");
+                    }
                 }
             }
 
         }
-
 
 
         /// <summary>
@@ -114,24 +136,60 @@ namespace Area23.At.Framework.Core.Static
         /// <param name="appName">application name</param>
         public static void Log(Exception exLog, string appName = "")
         {
-            string excMsg = String.Format("Exception {0} ⇒ {1}\t{2}\t{3}",
+            MethodBase? mBase = (new StackFrame(1))?.GetMethod();
+
+            string excMsg = String.Format("{0}throwed {1} ⇒ {2}\t{3}\nStacktrace: \t{4}\n",
+                (mBase != null) ? mBase.ToString() + " " : "",
                 exLog.GetType(),
                 exLog.Message,
                 exLog.ToString().Replace("\r", "").Replace("\n", " "),
-                exLog.StackTrace.Replace("\r", "").Replace("\n", " "));
+                exLog.StackTrace?.Replace("\r", "").Replace("\n", " "));
 
-            Log(excMsg, appName);
+            if (Constants.NOLog)
+            {
+                Console.Error.WriteLine(excMsg);
+                return; 
+            }
+               
+            Log(excMsg, appName);                
         }
+
+        /// <summary>
+        /// static log with <see cref="string">string prefix</see>, downcasted generic <see cref="Exception/">Exception xZpd</see> 
+        /// and <see cref="string">string appName</see>
+        /// </summary>
+        /// <param name="prefix"><see cref="string"/> prefix</param>
+        /// <param name="exLog"><see cref="Exception/">xZpd</param>
+        /// <param name="appName"><see cref="string"/> appName</param>
+        public static void Log(string prefix, Exception exLog, string appName = "")
+        {
+            MethodBase? mBase = (new StackFrame(1))?.GetMethod();
+
+            string msgPrefix = String.Format("{0}{1} throwed Exception {2}",
+                (mBase != null) ? mBase.ToString() + " " : "",
+                prefix ?? "",
+                exLog.GetType());
+
+            string exMsg = String.Format("{0} ⇒ \t{1}\t{2}\nStacktrace: \t{3}",
+                exLog.GetType(),
+                exLog.Message,
+                exLog.ToString().Replace("\r", "").Replace("\n", " "),
+                exLog.StackTrace?.Replace("\r", "").Replace("\n", " "));
+
+            if (Constants.NOLog)
+            {
+                Console.Error.WriteLine(string.Concat(msgPrefix, "\n \t", exMsg));
+                return;
+            }
+            
+            Log(string.Concat(msgPrefix, "\n \t", exMsg), appName);                
+        }
+
 
         /// <summary>
         /// private static ctor of SLog
         /// </summary>
-        static SLog()
-        {
-            ;
-        }
-
-
+        static SLog() { ; }
 
     }
 }

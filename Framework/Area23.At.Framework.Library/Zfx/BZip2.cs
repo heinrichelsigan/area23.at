@@ -1,6 +1,5 @@
 ﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Static;
-using Area23.At.Framework.Library.Util;
 using ICSharpCode.SharpZipLib.BZip2;
 using ICSharpCode.SharpZipLib.Core;
 using System;
@@ -29,7 +28,7 @@ namespace Area23.At.Framework.Library.Zfx
         ///  9  ... for strongest bzip2 compression, generating smallest most compact output 
         /// </param>
         /// <returns><see cref="byte[]?">byte[] bzip2 compressed out bytes</see></returns>
-        public static byte[] BZip(byte[] inBytes, int compressionLevel = 6)
+        public static byte[] BZip(byte[] inBytes, int compressionLevel = 9)
         {
             byte[] zipBytes = null;
             MemoryStream msIn = new MemoryStream(inBytes, 0, inBytes.Length);
@@ -59,7 +58,7 @@ namespace Area23.At.Framework.Library.Zfx
         ///  9  ... for strongest bzip2 compression, generating smallest most compact output 
         /// </param>
         /// <returns><see cref="MemoryStream">MemoryStream memOut containing bzip2 compressed data</see></returns>
-        public static MemoryStream BZip2Stream(MemoryStream memIn, bool closeDisposeMemIn = false, int compressionLevel = 6)
+        public static MemoryStream BZip2Stream(MemoryStream memIn, bool closeDisposeMemIn = false, int compressionLevel = 9)
         {
             long buflen = Math.Max(memIn.Length, 4096);
             MemoryStream memOut = new MemoryStream();
@@ -88,7 +87,7 @@ namespace Area23.At.Framework.Library.Zfx
         ///  9  ... for strongest bzip2 compression, generating smallest most compact output 
         /// </param>
         /// <returns><see cref="byte[]">byte[] outBytes</see> containing bzip2 compressed data of / from <see cref="byte[]">byte[] outBytes</see></returns>
-        public static byte[] BZip2Bytes(byte[] inBytes, int compressionLevel = 6)
+        public static byte[] BZip2Bytes(byte[] inBytes, int compressionLevel = 9)
         {
             byte[] zipBytes = null;
 
@@ -140,23 +139,9 @@ namespace Area23.At.Framework.Library.Zfx
             msIn.Seek(0, SeekOrigin.Begin);
             using (MemoryStream msOut = new MemoryStream())
             {
-                ICSharpCode.SharpZipLib.BZip2.BZip2.Decompress(msIn, msOut, false);
+                ICSharpCode.SharpZipLib.BZip2.BZip2.Decompress(msIn, msOut, true);
                 msOut.Flush();
                 unZipBytes = msOut.ToByteArray();
-            }
-
-            if (msIn != null)
-            {
-                try
-                {
-                    msIn.Close();
-                }
-                catch { }
-                try
-                {
-                    msIn.Dispose();
-                }
-                catch { }
             }
 
             return unZipBytes;

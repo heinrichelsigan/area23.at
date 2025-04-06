@@ -1,13 +1,13 @@
 ﻿using Area23.At.Framework.Core.Static;
 using Area23.At.Framework.Core.Util;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Pqc.Crypto.Lms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Net.Mail;
-using System.Runtime.InteropServices.JavaScript;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -34,8 +34,10 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
         // public bool IsMime { get => IsMimeAttachment(); }
 
 
-        //TODO:
-        [Obsolete("TODO: remove it with hash at end", false)]
+        /// <summary>
+        /// Message TODO:
+        /// [Obsolete("TODO: remove it with hash at end", false)]
+        /// </summary>
         public string Message
         {
             get
@@ -50,7 +52,6 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
                 return _message;
             }
         }
-
 
 
         public string RawMessage { get; set; }
@@ -189,6 +190,8 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
                 this._hash = mc.Hash;
                 this._message = mc._message;
                 this.RawMessage = mc.RawMessage;
+                this.MsgType = mc.MsgType;
+                this.Md5Hash = mc.Md5Hash;
             }
             return t;
         }
@@ -203,6 +206,8 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
                 this._hash = mc._hash;
                 this.RawMessage = mc.RawMessage;
                 this._message = mc._message;
+                this.MsgType = mc.MsgType;
+                this.Md5Hash = mc.Md5Hash;
             }
             
             return cqrT;

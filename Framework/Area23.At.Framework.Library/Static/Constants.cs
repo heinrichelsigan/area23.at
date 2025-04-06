@@ -38,7 +38,6 @@ namespace Area23.At.Framework.Library.Static
         public const string VERSION = "v2.25.305";
         public const string VALKEY_CACHE_HOST_PORT = "ValkeyCacheHostPort";
 
-
         public const string AREA23_URL = "https://area23.at";
         public const string APP_PATH = "https://area23.at/net/";
         public const string RPN_URL = "https://area23.at/net/RpnCalc.aspx";
@@ -98,6 +97,10 @@ namespace Area23.At.Framework.Library.Static
         public const string CQRXS_TEST_FORM = "CqrXsTestForm";
         public const string FISH_ON_AES_ENGINE = "FishOnAesEngine";
         public const string CQRXS_DELETE_DATA_ON_CLOSE = "CqrXsDeleteDataOnClose";
+        public const string PERSIST_MSG_IN = "PersistMsgIn";
+        public const string PERSIST_MSG_IN_APPLICATION_STATE = "ApplicationState";
+        public const string PERSIST_MSG_IN_AMAZON_ELASTIC_CACHE = "AmazonElasticCache";        
+        public const string PERSIST_MSG_IN_FILE_SYSTEM = "FileSystem";
 
         public const string ACK = "Ack";
         public const string NACK = "Nack";
@@ -126,6 +129,8 @@ namespace Area23.At.Framework.Library.Static
         public const string JSON_DIR = "json";
         public const string RES_DIR = "res";
         public const string RES_FOLDER = "res";
+        public const string IMG_DIR = "img";
+        public const string IMG_FOLDER = "Image";
         public const string TEXT_DIR = "text";
         public const string UNIX_DIR = "Unix";
         public const string UTF8_DIR = "Utf8";
@@ -145,12 +150,14 @@ namespace Area23.At.Framework.Library.Static
         public const string ATTACH_FILES_DIR = "AttachFiles";
         public const string UPSAVED_FILE = "SavedFile";
 
+        public const string CHATROOMS = "ChatRooms";
         public const string UTF8_JSON = "utf8symol.json";
         public const string JSON_SAVE_FILE = "urlshort.json";
         public const string JSON_CONTACTS = "contacts";
         public const string JSON_CONTACTS_FILE = "contacts.json";
-        public const string JSON_SETTINGS_FILE = "settings.json";
+        public const string JSON_SETTINGS_FILE = "settings.json";        
         public const string CQR_CHAT_FILE = "cqr{0}chat.json";
+        public const string PREVIOUS_EXCEPTION = "previous_exception";
         public const string LAST_EXCEPTION = "last_exception";
         public const string COOL_CRYPT_SPLIT = "+-;,:→⇛\t ";
 

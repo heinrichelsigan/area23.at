@@ -222,8 +222,8 @@ namespace Area23.At.Mono.CqrJD
                     foundCt.Address = cqrContact.Address;
                 if (cqrContact.Mobile != null && cqrContact.Mobile.Length > 1)
                     foundCt.Mobile = cqrContact.Mobile;
-                if (!string.IsNullOrEmpty(cqrContact.ChatRoomId))
-                    foundCt.ChatRoomId = cqrContact.ChatRoomId;
+                if (!string.IsNullOrEmpty(cqrContact.ChatRoomNr))
+                    foundCt.ChatRoomNr = cqrContact.ChatRoomNr;
                 if (cqrContact.LastPolled != null && cqrContact.LastPolled > DateTime.MinValue)
                     foundCt.LastPolled = cqrContact.LastPolled;
 
@@ -261,7 +261,7 @@ namespace Area23.At.Mono.CqrJD
                 if ((ct.Cuid == cqrContact.Cuid && ct.Email == cqrContact.Email) ||
                     (ct.NameEmail == cqrContact.NameEmail))
                 {
-                    toAddContact = new CqrContact(cqrContact, cqrContact.ChatRoomId, cqrContact.LastPolled, cqrContact.Hash);
+                    toAddContact = new CqrContact(cqrContact, cqrContact.ChatRoomNr, cqrContact.Hash);
                     toAddContact.Mobile = cqrContact.Mobile;
                     toAddContact.ContactImage = null;
                     toAddContact.Cuid = (cqrContact.Cuid != null && cqrContact.Cuid != Guid.Empty) ? cqrContact.Cuid : Guid.NewGuid();
@@ -284,7 +284,7 @@ namespace Area23.At.Mono.CqrJD
             if ((chatRoomMsg.Sender.Cuid == contact.Cuid && chatRoomMsg.Sender.Email == contact.Email) ||
                 (chatRoomMsg.Sender.NameEmail == contact.NameEmail))
             {
-                chatRoomMsg.Sender = new CqrContact(contact, chatRoomNr, contact.LastPolled, contact.Hash);
+                chatRoomMsg.Sender = new CqrContact(contact, chatRoomNr, contact.Hash);
             }
             for (int i = 0; i < chatRoomMsg.Recipients.Count; i++)
             {
@@ -299,7 +299,7 @@ namespace Area23.At.Mono.CqrJD
             }
             if (foundCt)
                 if (chatRoomMsg.Recipients.Remove(toDelContact))
-                    chatRoomMsg.Recipients.Add(new CqrContact(contact, chatRoomNr, contact.LastPolled, contact._hash));
+                    chatRoomMsg.Recipients.Add(new CqrContact(contact, chatRoomNr, contact._hash));
 
             (new JsonChatRoom(_chatRoomNumber)).SaveJsonChatRoom(chatRoomMsg, chatRoomNr);
 
@@ -318,7 +318,7 @@ namespace Area23.At.Mono.CqrJD
             }
             if (foundCt)
                 if (_contacts.Remove(toDelContact))
-                    _contacts.Add(new CqrContact(contact, chatRoomNr, contact.LastPolled, contact.Hash));
+                    _contacts.Add(new CqrContact(contact, chatRoomNr, contact.Hash));
 
             JsonContacts.SaveJsonContacts(_contacts);
 
@@ -343,7 +343,7 @@ namespace Area23.At.Mono.CqrJD
                 chatRoomId = $"room_{DateTime.Now:yyMMddHHmmss}_0.json";
 
             fullSrvMsg.ChatRoomNr = chatRoomId;
-            fullSrvMsg.Sender.ChatRoomId = chatRoomId;
+            fullSrvMsg.Sender.ChatRoomNr = chatRoomId;
 
             DateTime now = DateTime.Now;
             Dictionary<long, string> dict = new Dictionary<long, string>();
@@ -363,7 +363,7 @@ namespace Area23.At.Mono.CqrJD
             bool addSender = true;
             foreach (CqrContact c in fullSrvMsg.Recipients)
             {
-                c.ChatRoomId = chatRoomId;
+                c.ChatRoomNr = chatRoomId;
                
                 _invited.Add(c);
                 if ((!string.IsNullOrEmpty(c.NameEmail) && c.NameEmail == fullSrvMsg.Sender.NameEmail) ||
@@ -376,7 +376,7 @@ namespace Area23.At.Mono.CqrJD
  
             FullSrvMsg<string> chatRSrvMsg = new FullSrvMsg<string>();
             chatRSrvMsg.Sender = fullSrvMsg.Sender;
-            chatRSrvMsg.Sender.ChatRoomId = chatRoomId;
+            chatRSrvMsg.Sender.ChatRoomNr = chatRoomId;
             chatRSrvMsg.Sender.LastPolled = DateTime.Now;
             chatRSrvMsg.Sender.LastPushed = DateTime.Now;
             chatRSrvMsg.Recipients = new HashSet<CqrContact>(_invited);

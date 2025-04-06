@@ -156,7 +156,7 @@ namespace Area23.At.Mono.CqrJD
                 {
                     fullSrvMsg = srvMsg.NCqrSrvMsg<string>(cryptMsg);
                     _contact = fullSrvMsg.Sender;
-                    _chatRoomNumber = (!string.IsNullOrEmpty(fullSrvMsg.ChatRoomNr)) ? fullSrvMsg.ChatRoomNr : fullSrvMsg.Sender.ChatRoomId;
+                    _chatRoomNumber = (!string.IsNullOrEmpty(fullSrvMsg.ChatRoomNr)) ? fullSrvMsg.ChatRoomNr : fullSrvMsg.Sender.ChatRoomNr;
 
                     FullSrvMsg<string> chatRoomMsg = (new JsonChatRoom(_chatRoomNumber)).LoadJsonChatRoom(fullSrvMsg, _chatRoomNumber);
                     isValid = ValidateChatRoomNr(fullSrvMsg, chatRoomMsg, _chatRoomNumber);
@@ -244,7 +244,7 @@ namespace Area23.At.Mono.CqrJD
                 {
                     fullSrvMsg = srvMsg.NCqrSrvMsg<string>(cryptMsg);
                     _contact = fullSrvMsg.Sender;
-                    _chatRoomNumber = (!string.IsNullOrEmpty(fullSrvMsg.ChatRoomNr)) ? fullSrvMsg.ChatRoomNr : fullSrvMsg.Sender.ChatRoomId;
+                    _chatRoomNumber = (!string.IsNullOrEmpty(fullSrvMsg.ChatRoomNr)) ? fullSrvMsg.ChatRoomNr : fullSrvMsg.Sender.ChatRoomNr;
 
                     FullSrvMsg<string> chatRoomMsg = (new JsonChatRoom(_chatRoomNumber)).LoadJsonChatRoom(fullSrvMsg, _chatRoomNumber);
                     isValid = ValidateChatRoomNr(fullSrvMsg, chatRoomMsg, _chatRoomNumber);
@@ -319,7 +319,7 @@ namespace Area23.At.Mono.CqrJD
                 {
                     fullSrvMsg = srvMsg.NCqrSrvMsg<string>(cryptMsg);
                     _contact = AddContact(fullSrvMsg.Sender);
-                    _chatRoomNumber = (!string.IsNullOrEmpty(fullSrvMsg.ChatRoomNr)) ? fullSrvMsg.ChatRoomNr : fullSrvMsg.Sender.ChatRoomId;
+                    _chatRoomNumber = (!string.IsNullOrEmpty(fullSrvMsg.ChatRoomNr)) ? fullSrvMsg.ChatRoomNr : fullSrvMsg.Sender.ChatRoomNr;
                     JsonChatRoom jschatRoom = new JsonChatRoom(_chatRoomNumber);
                     FullSrvMsg<string> chatRoomMsg = jschatRoom.LoadJsonChatRoom(fullSrvMsg, _chatRoomNumber);
                     isValid = ValidateChatRoomNr(fullSrvMsg, chatRoomMsg, _chatRoomNumber);

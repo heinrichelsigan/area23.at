@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Newtonsoft.Json;
@@ -48,8 +49,8 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             Data = data;
             _hash = hash;
             MsgType = MsgEnum.Json;
-            Md5Hash = string.Empty;
-            Sha256Hash = string.Empty;
+            Md5Hash = MD5Sum.Hash(Data, CqrFileName);
+            Sha256Hash = Sha256Sum.Hash(Data, CqrFileName);
             EnCodingType = EncodingType.Base64;
         }
 
@@ -59,8 +60,8 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             Base64Type = mimeType;
             Data = Convert.FromBase64String(base64);
             _hash = hash;
-            Md5Hash = string.Empty;
-            Sha256Hash = string.Empty;
+            Md5Hash = MD5Sum.Hash(Data, CqrFileName);
+            Sha256Hash = Sha256Sum.Hash(Data, CqrFileName);
             MsgType = MsgEnum.Json;
             EnCodingType = EncodingType.Base64;
         }
@@ -107,19 +108,18 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
             EnCodingType = cf.EnCodingType;
             MsgType = cf.MsgType;
         }
-   
+
         #endregion ctors
 
         #region members
 
-        public virtual string ToBase64() => Convert.ToBase64String(Data);       
+        public virtual string ToBase64() => Convert.ToBase64String(Data);
 
         /// <summary>
         /// Serialize <see cref="CqrFile"/> to Json Stting
         /// </summary>
         /// <returns></returns>
         public override string ToJson() => JsonConvert.SerializeObject(this);
-        
 
         /// <summary>
         /// Generic method to convert back from json string
@@ -127,11 +127,11 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         /// <typeparam name="T"></typeparam>
         /// <param name="jsonText"></param>
         /// <returns></returns>
-        public override T FromJson<T>(string jsonText)
+        public override T FromJson<T>(string jsonText) 
         {
             T t = JsonConvert.DeserializeObject<T>(jsonText);
             if (t != null)
-            {                
+            {
                 if (t is MsgContent mc)
                 {
                     this._hash = mc.Hash;
@@ -144,11 +144,10 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                     CqrFileName = cf.CqrFileName;
                     Base64Type = cf.Base64Type;
                     Data = cf.Data;
+                    MsgType = MsgEnum.Json;
                     Md5Hash = cf.Md5Hash;
                     Sha256Hash = cf.Sha256Hash;
-                    EnCodingType = cf.EnCodingType;
-                    MsgType = MsgEnum.Json;
-                    _message = cf._message;
+                    _message = cf.Message;
                     RawMessage = cf.RawMessage;
                     _hash = cf._hash ?? string.Empty;
                 }
@@ -158,7 +157,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
         }
 
         public override string ToXml() => this.ToXml();
-        
+
 
         public override T FromXml<T>(string xmlText) 
         {
@@ -171,12 +170,14 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                 this.Base64Type = cf.Base64Type;
                 this.EnCodingType = cf.EnCodingType;
                 this.Data = cf.Data;
+                MsgType = MsgEnum.Xml;
+                Md5Hash = cf.Md5Hash;
+                Sha256Hash = cf.Sha256Hash;                
                 this._hash = cf._hash ?? string.Empty;
-                this.Md5Hash = cf.Md5Hash;
                 this._message = cf._message;
                 this.MsgType = cf.MsgType;
                 this.RawMessage = cf.RawMessage;
-                this.Sha256Hash = cf.Sha256Hash;
+                
             }
 
             return cqrT;
@@ -192,7 +193,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                     " is not implemented for MsgEnum.None and MsgEnum.RawWithHashAtEnd");
             }
             if (msgArt == MsgEnum.MimeAttachment)
-            {               
+            {
                 Data = new byte[0];
 
                 bool mimeGot = GetByBase64Attachment(encodedSerilizedOrRawText,
@@ -214,7 +215,7 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
                 this.FromJson<CqrFile>(encodedSerilizedOrRawText);
             }
             else if (msgArt == MsgEnum.Xml)
-            {                
+            {
                 this.FromXml<CqrFile>(encodedSerilizedOrRawText);
             }
             return this;

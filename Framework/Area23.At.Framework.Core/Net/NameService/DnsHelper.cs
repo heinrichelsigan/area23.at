@@ -1,11 +1,5 @@
 ﻿using Area23.At.Framework.Core.Static;
-using Area23.At.Framework.Core.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Core.Net.NameService
 {
@@ -46,7 +40,6 @@ namespace Area23.At.Framework.Core.Net.NameService
             return ipList;
         }
 
-
         /// <summary>
         /// GetDnsHostNamesByHostName gets official reverse lookup hostname for a hostname
         /// </summary>
@@ -74,9 +67,7 @@ namespace Area23.At.Framework.Core.Net.NameService
             return hostnames;
         }
 
-
-
-        #endregion dns
+        #endregion DnsHelper
 
     }
 

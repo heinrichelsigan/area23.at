@@ -25,8 +25,10 @@ namespace Area23.At.Framework.Library.CqrXs.CqrMsg
 
         // public bool IsMime { get => IsMimeAttachment(); 
 
-        //TODO:
-        [Obsolete("TODO: remove it with hash at end", false)]
+        /// <summary>
+        /// Message TODO:
+        /// Obsolete("TODO: remove it with hash at end", false)]
+        /// </summary>
         public string Message
         {
             get
