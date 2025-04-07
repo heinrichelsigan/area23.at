@@ -14,7 +14,15 @@ namespace Area23.At.Mono.Unix
         object bcLock = new object();
         private static readonly bool USE_UNIX = (Path.DirectorySeparatorChar == '/') ? true : false;
         private readonly string BC_CMD_PATH = (USE_UNIX) ? "/usr/local/bin/bccmd.sh" : LibPaths.AdditionalBinDir + "bccmd.bat";
-        const string BC_CMD = "bc";             
+        const string BC_CMD = "bc";
+        public readonly string[] BAD_WORDS = { "exit", "quit", "exec", "exe", "cat", "echo", "`", "$ (", "$ [", "$[", "$(", "run", "bash", "tcsh", "csh", "ksh", "tsh", "sh", "xargs" };
+        public readonly string[] KEY_WORDS = { "sqrt", "ibase", "obase", "return", "define", "auto", "for", "while", "if",
+            "cos", "sin", "tan", "atan", "asin", "acos", "sinh", "cosh", "tanh", "exp", "ln", "ld", "log", "!",
+            "+", "-", "*", "/", "%", "^", "=", "<", ">", "(", ")", "[", "]", "{", "}",
+            ",", ".", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "A", "B", "C", "D", "E", "F",
+            "x", "i", "y", "n", "j", " "
+            };
+
         Stack<string> bcStack = new Stack<string>();
 
         public DateTime Change_Click_EventDate
@@ -84,7 +92,7 @@ namespace Area23.At.Mono.Unix
                 if (!string.IsNullOrEmpty(bcStr) && !bcStack.Contains(bcStr) &&
                     !bcStr.StartsWith("bc 1.07.1") && !bcStr.ToLower().Contains("free software") && !bcStr.ToLower().Contains("warranty"))
                 {
-                    if (!string.IsNullOrEmpty(bcStr))
+                    if (!string.IsNullOrEmpty(bcStr)) 
                         bcStack.Push(bcStr);
                 }
             }
@@ -116,6 +124,27 @@ namespace Area23.At.Mono.Unix
         {
             if (string.IsNullOrEmpty(bcStr))
                 bcStr = GetLastLineFromBcText();
+
+            string dcStr = $"{bcStr.ToString()}";
+            foreach (string word in BAD_WORDS)
+            {
+                if (dcStr.Contains(word) || dcStr.ToLower().Contains(word.ToLower()))
+                {
+                    Area23Log.LogStatic(" illegal dangerous token: " + word);
+                    this.TextBox_BcOut.Text += " illegal dangerous token: " + word + "\r\n";
+                    return;
+                }
+            }
+            
+            foreach (string word in KEY_WORDS)
+                dcStr = dcStr.Replace(word, "");
+            
+            if (!string.IsNullOrEmpty(dcStr))
+            {
+                Area23Log.LogStatic(" unrecognized pattern: " + dcStr);
+                this.TextBox_BcOut.Text += " unrecognized pattern: " + dcStr + "\r\n";
+                return;
+            }
 
             Area23Log.LogStatic(" Executing: " + BC_CMD_PATH + " " + bcStr);
             try
