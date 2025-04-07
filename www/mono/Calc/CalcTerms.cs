@@ -161,7 +161,7 @@ namespace Area23.At.Mono.Calc
                 }
                 if (termElem is MathOpBinary)
                 {
-                    if (lastType == RPNType.Number)
+                    if (lastType == RPNType.Number || lastType == RPNType.BracketClosing)
                     {
                         lastType = RPNType.MathOp2;
                     }

@@ -541,8 +541,23 @@ namespace Area23.At.Mono.Calc
                         this.TextBox_Calc.Text = stackTerm.ToString();
                         rpnStack.Clear();
                         TextCursor = 0;
-                        foreach (var selem in stackTerm.sterms)
-                            rpnStack.Push(selem.Elem);
+                        for (int mc = 0; mc < stackTerm.sterms.Count; mc++)
+                        {
+                            if ((mc >= 0 && (mc < stackTerm.sterms.Count - 2)) &&
+                                (stackTerm.sterms[mc] is BracketOpen && stackTerm.sterms[mc + 1] is MathNumber && stackTerm.sterms[mc + 2] is BracketClose))
+                            {
+                                rpnStack.Push(stackTerm.sterms[mc + 1].Elem);
+                                mc += 2;
+                                continue;
+                            }
+                            else
+                            {
+                                rpnStack.Push(stackTerm.sterms[mc].Elem);
+                            }
+                                    
+                        }
+                        // foreach (var selem in stackTerm.sterms)
+                        //     rpnStack.Push(selem.Elem);
 
                     }
 
