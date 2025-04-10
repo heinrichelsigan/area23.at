@@ -55,7 +55,7 @@ namespace Area23.At.Framework.Core.Util
 
         private BitmapFrame GetBitmapFrame(Stream stream)
         {
-            BitmapDecoder decoder = null;
+            BitmapDecoder? decoder = null;
             decoder = new JpegBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);
             return decoder.Frames[0];
         }

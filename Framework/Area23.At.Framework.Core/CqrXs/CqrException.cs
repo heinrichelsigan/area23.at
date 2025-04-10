@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Core.Static;
+using Area23.At.Framework.Core.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,31 +28,54 @@ namespace Area23.At.Framework.Core.CqrXs
         public CqrException(string message) : base(message)
         {
             TimeStampException = DateTime.UtcNow;
-            CqrException lastButNotLeast = (CqrException)LastException;
+            CqrException? lastButNotLeast = null;
+            try
+            {
+                lastButNotLeast = (CqrException)LastException;
+            }
+            catch { }
+            
             Previous = (lastButNotLeast != null) ? (CqrException)lastButNotLeast : null;
+            
             AppDomain.CurrentDomain.SetData(Constants.LAST_EXCEPTION, this);
         }
 
         public CqrException(string message, Exception innerException) : base(message, innerException)
         {
             TimeStampException = DateTime.UtcNow;
-            CqrException? lastButNotLeast = (CqrException)LastException;
+            CqrException? lastButNotLeast = null;
+            try
+            {
+                if (AppDomain.CurrentDomain.GetData(Constants.LAST_EXCEPTION) != null)
+                    lastButNotLeast = (CqrException)LastException;
+            }
+            catch { }
+
             Previous = (lastButNotLeast != null) ? lastButNotLeast : null;
+
             AppDomain.CurrentDomain.SetData(Constants.LAST_EXCEPTION, this);
         }
 
-        public static void SetLastException(Exception exc)
+        public static Exception SetLastException(Exception? exc, bool logException = true)
         {
             CqrException cqrLastEx = (exc != null && exc is CqrException) ? (CqrException)exc :
-                ((exc != null && exc.InnerException != null) ? new CqrException(exc.Message, exc.InnerException) :
-                    ((exc != null && exc.Message != null) ? new CqrException(exc.Message) : null));
+                ((exc != null && exc.Message != null && exc.InnerException != null) ? new CqrException(exc.Message, exc.InnerException) :
+                    ((exc != null && exc.Message != null) ? new CqrException(exc.Message) : new CqrException(Constants.UNKNOWN)));
 
-            cqrLastEx.Source = exc.Source;
-            cqrLastEx.HelpLink = exc.HelpLink;
-            cqrLastEx.HResult = exc.HResult;
-            cqrLastEx.Previous = (CqrException)LastException;
+            if (exc != null) 
+            {
+                cqrLastEx.Source = exc.Source;
+                cqrLastEx.HelpLink = exc.HelpLink;
+                cqrLastEx.HResult = exc.HResult;
+                cqrLastEx.Previous = (CqrException)LastException;
+            }
 
-            AppDomain.CurrentDomain.SetData(Constants.LAST_EXCEPTION, cqrLastEx);
+            if (logException) 
+                Area23Log.LogStatic(exc ?? cqrLastEx);
+
+            AppDomain.CurrentDomain.SetData(Constants.LAST_EXCEPTION, exc ?? cqrLastEx);
+
+            return exc ?? cqrLastEx;
         }
     }
 }

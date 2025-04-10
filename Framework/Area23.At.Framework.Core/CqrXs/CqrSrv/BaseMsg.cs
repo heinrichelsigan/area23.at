@@ -69,6 +69,25 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
             return CqrMessage;
         }
 
+        /// <summary>
+        /// CqrBaseMsg encrypts a msg 
+        /// </summary>
+        /// <param name="msg">plain text string</param>
+        /// <param name="encType"><see cref="EncodingType"/></param>
+        /// <returns>encrypted msg via <see cref="CipherPipe"/></returns>
+        public virtual string CqrBaseMsg(string msg, MsgEnum msgType = MsgEnum.None, EncodingType encType = EncodingType.Base64)
+        {
+            MsgContent msc = new MsgContent(msg, PipeString, msgType);
+
+            byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(msc.RawMessage);
+
+            byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, key, hash) : msgBytes;
+            CqrMessage = EnDeCodeHelper.EncodeBytes(cqrbytes, encType);
+
+            return CqrMessage;
+        }
+
+
 
         /// <summary>
         /// CqrBaseMsg encrypts a msg 
@@ -101,7 +120,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
                         shouldSerialize = false;
                 }
                 if (shouldSerialize)
-                    msc.RawMessage = JsonConvert.SerializeObject(msc); 
+                    msc.RawMessage = JsonConvert.SerializeObject(msc);
             }
             else if (msc.MsgType == MsgEnum.Xml)
             {
@@ -112,7 +131,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
                     if (c != null && string.IsNullOrEmpty(c._hash) && c._hash.Equals(PipeString) && !string.IsNullOrEmpty(c._message))
                         shouldSerialize = false;
                 }
-                if (shouldSerialize)                
+                if (shouldSerialize)
                     msc.RawMessage = Static.Utils.SerializeToXml<MsgContent>(msc);
             }
 
@@ -155,11 +174,11 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
                 {
                     decrypted += "\" }";
                     msgEnum = MsgEnum.Json;
-                }                    
+                }
             }
             if (decrypted.IsValidXml())
                 msgEnum = MsgEnum.Xml;
-                
+
             MsgContent msgContent = new MsgContent(decrypted, msgEnum);
             string hashVerification = msgContent.Hash;
             bool verified = VerifyHash(hashVerification, symmPipe.PipeString);
@@ -173,6 +192,61 @@ namespace Area23.At.Framework.Core.CqrXs.CqrMsg
 
             return msgContent;
         }
+
+        public virtual string NCqrBaseMsg(string cqrMessage, out MsgEnum msgEnum, EncodingType encType = EncodingType.Base64)
+        {
+            CqrMessage = cqrMessage.TrimEnd("\0".ToCharArray());
+            msgEnum = MsgEnum.None;
+            byte[] cipherBytes = EnDeCodeHelper.DecodeText(CqrMessage, encType);
+            byte[] unroundedMerryBytes = LibPaths.CqrEncrypt ? symmPipe.DecrpytRoundGoMerry(cipherBytes, key, hash) : cipherBytes;
+            string decrypted = EnDeCodeHelper.GetString(unroundedMerryBytes); //DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);
+            while (decrypted[decrypted.Length - 1] == '\0')
+                decrypted = decrypted.Substring(0, decrypted.Length - 1);
+
+            msgEnum = MsgEnum.RawWithHashAtEnd;
+            if (decrypted.IsValidJson())
+                msgEnum = MsgEnum.Json;
+            else if (decrypted.StartsWith("{\"") && decrypted.Contains("\"_hash\":") && decrypted.Contains("\"_message\":"))
+            {
+                if (Char.IsAsciiLetter(decrypted[decrypted.Length - 1]) || Char.IsDigit(decrypted[decrypted.Length - 1]))
+                {
+                    decrypted += "\" }";
+                    msgEnum = MsgEnum.Json;
+                }
+            }
+            if (decrypted.IsValidXml())
+                msgEnum = MsgEnum.Xml;
+
+            MsgContent msgContent = new MsgContent(decrypted, msgEnum);
+            string hashVerification = msgContent.Hash;
+            bool verified = VerifyHash(hashVerification, symmPipe.PipeString);
+            if (!verified)
+            {
+                string hashSymShow = symmPipe.PipeString ?? "        ";
+                throw new InvalidOperationException(
+                    string.Format("SymmCiphers [{0}] in crypt pipeline doesn't match serverside key !?$* byte length={1}.",
+                        hashSymShow.Substring(0, 2) + "...." + hashSymShow.Substring(6), keyBytes.Length));
+            }
+
+            switch (msgEnum) 
+            {
+                case MsgEnum.Json:
+                    return JsonConvert.DeserializeObject<string>(msgContent.Message) ?? "";
+                case MsgEnum.Xml:
+                    return Utils.DeserializeFromXml<string>(msgContent.Message) ?? "";
+                case MsgEnum.RawWithHashAtEnd:
+                    string hashEnd = "\n" + symmPipe.PipeString;
+                    if (msgContent.Message.Contains(hashEnd))
+                        return msgContent.Message.Substring(0, msgContent.Message.IndexOf(hashEnd) - 1) ?? "";
+                    break;
+                case MsgEnum.None:
+                default:
+                    break;
+            }
+
+            return msgContent.Message ?? "";
+        }
+
 
         #endregion NCqrBaseMsg decrypts an encrypted string to a MsgContent
 

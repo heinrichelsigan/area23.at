@@ -14,7 +14,7 @@ namespace Area23.At.Framework.Core.CqrXs
     public class CqrSettings 
     {
         // TODO: replace it in C# 9.0 to private static readonly lock _lock
-        protected static readonly object _lock = true;
+        protected static readonly Lock _lock = new Lock();
 
         protected static readonly Lazy<CqrSettings> _instance =
             new Lazy<CqrSettings>(() => new CqrSettings());
@@ -38,6 +38,7 @@ namespace Area23.At.Framework.Core.CqrXs
 
         public List<string> Proxies { get; set; }
 
+        [JsonIgnore]
         public List<string> SecretKeys { get; set; }
 
         #endregion properties
@@ -71,6 +72,16 @@ namespace Area23.At.Framework.Core.CqrXs
 
         #endregion ctor CqrSettings() CqrSettings(DateTime timeStamp) => Load()
 
+
+        #region member functions
+
+        protected virtual void Load() => LoadSettings();
+
+        protected virtual bool Save() => SaveSettings(this, LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE);
+
+        #endregion member functions
+
+
         #region static members Load() Save(Settings? settings)
 
 
@@ -81,17 +92,20 @@ namespace Area23.At.Framework.Core.CqrXs
         /// </summary>
         /// <param name="jsonFileName">file name (incl. path), that contains serialized <see cref="CqrSettings"/> json</param>
         /// <returns>singelton <see cref="CqrSettings.Instance"/></returns>
-        public static CqrSettings? Load(string? jsonFileName = null)
+        internal static CqrSettings? LoadSettings(string? jsonFileName = null)
         {
             string settingsJsonString = string.Empty;
             CqrSettings? settings = null;
             jsonFileName = jsonFileName ?? LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE;
             try
             {
-                if (File.Exists(jsonFileName))
+                lock (_lock)
                 {
-                    settingsJsonString = File.ReadAllText(jsonFileName);
-                    settings = JsonConvert.DeserializeObject<CqrSettings>(settingsJsonString);
+                    if (File.Exists(jsonFileName))
+                    {
+                        settingsJsonString = File.ReadAllText(jsonFileName);
+                        settings = JsonConvert.DeserializeObject<CqrSettings>(settingsJsonString);
+                    }
                 }
             }
             catch (Exception ex)
@@ -121,20 +135,31 @@ namespace Area23.At.Framework.Core.CqrXs
         /// <param name="CqrSettings">settings to save</param>
         /// <param name="jsonFileName">filename (incl. path), where writing serialized <see cref="CqrSettings"/> json</param>
         /// <returns>true on successfully save</returns>
-        public static bool Save(CqrSettings? settings = null, string? jsonFileName = null)
+        internal static bool SaveSettings(CqrSettings? settings = null, string? jsonFileName = null)
         {
             settings = settings ?? CqrSettings.Instance;
             jsonFileName = jsonFileName ?? LibPaths.SystemDirPath + Constants.JSON_SETTINGS_FILE;
-            try
+            JsonSerializerSettings jsets = new JsonSerializerSettings();
+            jsets.Formatting = Formatting.Indented;
+            jsets.SerializationBinder = new Newtonsoft.Json.Serialization.DefaultSerializationBinder();
+            jsets.MaxDepth = 8;
+
+            lock (_lock)
             {
-                settings.SaveStamp = DateTime.Now;
-                string saveString = JsonConvert.SerializeObject(settings);
-                File.WriteAllText(jsonFileName, saveString);
-            }
-            catch (Exception ex)
-            {
-                CqrException.SetLastException(ex);
-                return false;
+                DateTime lastSaved = settings.SaveStamp ?? DateTime.Now;
+                if (settings.SaveStamp != null && DateTime.Now.Subtract(lastSaved).TotalSeconds < 5)
+                    return true;
+                try
+                {                    
+                    settings.SaveStamp = DateTime.Now;
+                    string saveString = JsonConvert.SerializeObject(settings, jsets);
+                    File.WriteAllText(jsonFileName, saveString);
+                }
+                catch (Exception ex)
+                {
+                    CqrException.SetLastException(ex);
+                    return false;
+                }
             }
 
             return true;

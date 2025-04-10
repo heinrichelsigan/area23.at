@@ -10,7 +10,7 @@ namespace Area23.At.Framework.Core.Util
 
     public class GifMetadataAdapter
     {
-        private readonly string path;
+        private readonly string? path;
         private readonly Stream stream;
         private BitmapFrame frame;
         public BitmapMetadata Metadata;
@@ -19,6 +19,7 @@ namespace Area23.At.Framework.Core.Util
         {
             this.path = _path;
             frame = getBitmapFrame(path);
+            stream = new FileStream(path, FileMode.Open, FileAccess.Read);
             Metadata = (BitmapMetadata)frame.Metadata.Clone();
         }
 
@@ -33,7 +34,7 @@ namespace Area23.At.Framework.Core.Util
 
         public GifMetadataAdapter(Stream _stream, string _path) : this(_stream) { this.path = _path; }
 
-        public void Save() { SaveAs(path); }
+        public void Save() { if (path != null) SaveAs(path); }
 
         public void SaveAs(string path)
         {
@@ -47,7 +48,7 @@ namespace Area23.At.Framework.Core.Util
 
         private BitmapFrame getBitmapFrame(string path)
         {
-            GifBitmapDecoder decoder = null;
+            GifBitmapDecoder? decoder = null;
             using (Stream stream = File.Open(path, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
             {
                 decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);

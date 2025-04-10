@@ -107,7 +107,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         /// <param name="srvIp"></param>
         /// <param name="encodingType"></param>
         /// <returns>my Contact with Guid Cuid</returns>
-        public CqrContact SendFirstSrvMsg_Soap(CqrContact myContact, IPAddress srvIp, EncodingType encodingType = EncodingType.Base64)
+        public CqrContact? SendFirstSrvMsg_Soap(CqrContact myContact, IPAddress srvIp, EncodingType encodingType = EncodingType.Base64)
         {
 
             myContact._hash = PipeString;

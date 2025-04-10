@@ -172,7 +172,7 @@ namespace Area23.At.Framework.Core.Static
         /// <param name="fileName">filename</param>
         /// <param name="fext">file extension</param>
         /// <returns>full file system path to new written file in case of success, on error simply null</returns>
-        public static string ToFile(this byte[] bytes, string filePath = null, string fileName = null, string fext = null)
+        public static string ToFile(this byte[] bytes, string? filePath = null, string? fileName = null, string? fext = null)
         {
             if (string.IsNullOrEmpty(filePath) || !Directory.Exists(filePath))
                 filePath = LibPaths.SystemDirPath;

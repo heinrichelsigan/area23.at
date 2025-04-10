@@ -479,6 +479,55 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
             return rfmsg;
         }
 
+
+        public FullSrvMsg<string>? Send_CloseChatRoom_Soap<T>(FullSrvMsg<T> fullServerMsg, string chatRoomNr, EncodingType encodingType = EncodingType.Base64) where T : class
+        {
+            fullServerMsg.ChatRoomNr = chatRoomNr;
+            string cryptSrv = CqrSrvMsg<T>(fullServerMsg);
+
+            CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoap);
+
+            string response = string.Empty;
+            try
+            {
+                response = client.ChatRoomClose(cryptSrv);
+            }
+            catch (Exception exSoap)
+            {
+                Area23Log.LogStatic($"Exception {exSoap.GetType()}: {exSoap.Message}\n\t{exSoap}\n");
+                throw;
+            }
+
+            FullSrvMsg<string>? rfmsg = NCqrSrvMsg<string>(response, EncodingType.Base64);
+
+
+            return rfmsg;
+        }
+
+        public async Task<FullSrvMsg<string>?> Send_CloseChatRoom_SoapAsync<T>(FullSrvMsg<T> fullServerMsg, string chatRoomNr, EncodingType encodingType = EncodingType.Base64) where T : class
+        {
+            fullServerMsg.ChatRoomNr = chatRoomNr;
+            string cryptSrv = CqrSrvMsg<T>(fullServerMsg);
+
+            CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoap);
+
+            string response = string.Empty;
+            try
+            {
+                response = await client.ChatRoomCloseAsync(cryptSrv);
+            }
+            catch (Exception exSoap)
+            {
+                Area23Log.LogStatic($"Exception {exSoap.GetType()}: {exSoap.Message}\n\t{exSoap}\n");
+                throw;
+            }
+
+            FullSrvMsg<string>? rfmsg = NCqrSrvMsg<string>(response, EncodingType.Base64);
+
+
+            return rfmsg;
+        }
+
         /// <summary>
         /// SendChatMsg_Soap{<typeparamref name="T"/>, <typeparamref name="TC"/>} 
         /// </summary>
@@ -626,7 +675,7 @@ namespace Area23.At.Framework.Core.CqrXs.CqrSrv
         public string Send_CqrSrvMsg(string msg, IPAddress srvIp, EncodingType encodingType = EncodingType.Base64)
         {
             string encrypted = string.Format("TextBoxEncrypted={0}\r\nTextBoxDecrypted=\r\nTextBoxLastMsg=\r\nButtonSubmit=Submit",
-                CqrBaseMsg(msg));
+                CqrBaseMsg(msg, EncodingType.Base64));
 
             string posturl = ConfigurationManager.AppSettings["ServerUrlToPost"].ToString();
             string hostheader = ConfigurationManager.AppSettings["SendHostHeader"].ToString();

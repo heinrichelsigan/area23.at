@@ -418,7 +418,7 @@ namespace Area23.At.Mono.Crypt
                 byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
                 string[] algorithms = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
                 CipherPipe pipe = new Framework.Library.Crypt.Cipher.CipherPipe(algorithms);
-                decryptedBytes = pipe.DecrpytRoundGoMerry(cipherBytes);
+                decryptedBytes = pipe.DecrpytRoundGoMerry(cipherBytes, this.TextBox_Key.Text, this.TextBox_IV.Text);
 
                 //string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
                 //for (ig = (algos.Length - 1); ig >= 0; ig--)

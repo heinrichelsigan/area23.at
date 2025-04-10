@@ -138,7 +138,7 @@ namespace Area23.At.Framework.Core.Net.WebHttp
                 }
                 catch (Exception ex)
                 {
-                    CqrException.SetLastException(ex);
+                    CqrException.SetLastException(ex, false);
                     SLog.Log("Error on getting external client ip", ex, "");
                     return null;
                 }

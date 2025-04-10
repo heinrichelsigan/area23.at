@@ -53,7 +53,7 @@ namespace Area23.At.Framework.Core.Static
             bool error = false;
             for (int i = 0; i < os.Length; i++)
             {
-                object o = os[i];
+                object? o = os[i];
                 try
                 {
                     if (o != null)

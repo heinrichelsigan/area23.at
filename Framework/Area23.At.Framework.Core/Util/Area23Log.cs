@@ -1,5 +1,8 @@
-﻿using Area23.At.Framework.Core.Static;
+﻿using Area23.At.Framework.Core.CqrXs;
+using Area23.At.Framework.Core.Static;
 using NLog;
+using NLog.Config;
+using NLog.Targets;
 using System;
 using System.IO;
 using System.Net.Http;
@@ -45,7 +48,7 @@ namespace Area23.At.Framework.Core.Util
 
         #region properties
 
-        public string AppName { get; private set; } = string.Empty;
+        public string AppName { get; private set; }
 
         /// <summary>
         /// LogFile
@@ -59,19 +62,23 @@ namespace Area23.At.Framework.Core.Util
         /// <summary>
         /// private Singelton constructor
         /// </summary>
-        public Area23Log()
-        {
-            InitNLog("");
-        }
+        public Area23Log() : this("") { }
 
         /// <summary>
         /// private Singelton constructor
         /// </summary>
         public Area23Log(string appName = "")
         {
-            if (!string.IsNullOrEmpty(appName))
-                AppName = appName;
+            if (string.IsNullOrEmpty(appName))
+            {
+                appName = "";
+                LogFile = LibPaths.LogFileSystemPath;
+            }
 
+            if (string.IsNullOrEmpty(LogFile))
+                LogFile = LibPaths.GetLogFilePath(AppName);
+            AppName = appName;                
+                
             InitNLog(AppName);
         }
 
@@ -97,18 +104,20 @@ namespace Area23.At.Framework.Core.Util
         protected internal void InitNLog(string appName = "")
         {
             if (!string.IsNullOrEmpty(appName))
+            {
                 AppName = appName;
-
-            if (!string.IsNullOrEmpty(AppName))
                 LogFile = LibPaths.GetLogFilePath(AppName);
-            else
-                LogFile = LibPaths.LogFileSystemPath;
-
-            var config = new NLog.Config.LoggingConfiguration();
+            }
+           
+            LoggingConfiguration? config = new NLog.Config.LoggingConfiguration();
             // Targets where to log to: File and Console            
 
-            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = LogFile };
-            var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+            FileTarget? logfile = new NLog.Targets.FileTarget("logfile")
+            {
+                FileName = (!string.IsNullOrEmpty(LogFile)) ? LogFile : LibPaths.LogFileSystemPath
+            };
+            ConsoleTarget? logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+            
             // Rules for mapping loggers to targets            
             config.AddRule(LogLevel.Trace, LogLevel.Trace, logconsole);
             config.AddRule(LogLevel.Debug, LogLevel.Debug, logfile);
@@ -116,6 +125,7 @@ namespace Area23.At.Framework.Core.Util
             config.AddRule(LogLevel.Warn, LogLevel.Warn, logfile);
             config.AddRule(LogLevel.Error, LogLevel.Error, logfile);
             config.AddRule(LogLevel.Fatal, LogLevel.Fatal, logfile);
+            
             LogManager.Configuration = config; // Apply config
         }
 
@@ -143,6 +153,7 @@ namespace Area23.At.Framework.Core.Util
             }
             catch (Exception exLog)
             {
+                CqrException.SetLastException(exLog, false);
                 AppDomain.CurrentDomain.SetData("LogExceptionNLog",
                     DateTime.Now.Area23DateTimeWithSeconds() + $" \tException: {exLog.GetType()} {exLog.Message} \n" + exLog.ToString());
 

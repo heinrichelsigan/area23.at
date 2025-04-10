@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Core.Util;
+﻿using Area23.At.Framework.Core.CqrXs;
+using Area23.At.Framework.Core.Util;
 using Microsoft.VisualBasic.Logging;
 using System.Diagnostics;
 using System.Reflection;
@@ -65,10 +66,8 @@ namespace Area23.At.Framework.Core.Static
 
             if (string.IsNullOrEmpty(LogFile) || !CheckedToday)
             {
-                if (!string.IsNullOrEmpty(appName))
-                    LogFile = LibPaths.GetLogFilePath(appName);
-                else 
-                    LogFile = LibPaths.LogFileSystemPath;
+                
+                LogFile = (!string.IsNullOrEmpty(appName)) ? LibPaths.GetLogFilePath(appName) : LibPaths.LogFileSystemPath;
                 
                 if (!File.Exists(LogFile))
                 {
@@ -78,10 +77,12 @@ namespace Area23.At.Framework.Core.Static
                         {
                             File.Create(LogFile);
                         }
-                        catch (Exception exLogFiteCreate)
+                        catch (Exception exLogFileCreate)
                         {
+                            CqrException logFileCreateException = new CqrException($"Exception creating logfile {LogFile}", exLogFileCreate);
+                            CqrException.SetLastException(logFileCreateException, false);
                             ; // throw
-                            Console.Error.WriteLine("Exception creating logfile: " + exLogFiteCreate.ToString());
+                            Console.Error.WriteLine($"Exception creating logfile {LogFile}\n\t{exLogFileCreate.ToString()}");
                         }
                     }
                 }
@@ -97,13 +98,19 @@ namespace Area23.At.Framework.Core.Static
                 }
                 catch (Exception exLogWrite)
                 {
-                    System.AppDomain.CurrentDomain.SetData("LogExceptionStatic",
-                    DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {LogFile} Exception {exLogWrite.GetType()} {exLogWrite.Message} \n" + exLogWrite.ToString());
+                    string excMsg = $"{DateTime.Now.Area23DateTimeWithSeconds()} \tWriting to file {LogFile} Exception {exLogWrite.GetType()} {exLogWrite.Message} {exLogWrite.ToString()}\n";
+                    CqrException cqrLogException = new CqrException(
+                        excMsg,
+                        exLogWrite);
+                    CqrException.SetLastException(cqrLogException, false);
 
-                    Console.Error.WriteLine(DateTime.Now.Area23DateTimeWithSeconds() + $" \tException: {exLogWrite.GetType()} {exLogWrite.Message} writing to logfile: {LogFile}");
+                    Console.Error.WriteLine(excMsg);
 
-                    logFile1 = (string.IsNullOrEmpty(LogFile)) ? LibPaths.LogFileSystemPath : LogFile;
-                    logFile1 = logFile1.Replace(".log", "_1.log");
+                    logFile1 = string.Concat(
+                        DateTime.UtcNow.Area23Date(),
+                        Constants.UNDER_SCORE + Constants.UNDER_SCORE,
+                        string.IsNullOrEmpty(appName) ? Constants.APP_NAME : appName,
+                        Constants.LOG_EXT);
                 }
             }
 
@@ -118,10 +125,11 @@ namespace Area23.At.Framework.Core.Static
                     }
                     catch (Exception exLog)
                     {
-                        System.AppDomain.CurrentDomain.SetData("LogExceptionStaticFile1",
-                            DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {logFile1} Exception {exLog.GetType()} {exLog.Message} \n {exLog.ToString()}");
+                        string exLog1Msg = $"{DateTime.Now.Area23DateTimeWithSeconds()} \tWriting to file {logFile1} Exception {exLog.GetType()} {exLog.Message} \n {exLog.ToString()}";
+                        CqrException cqrLog1Exc = new CqrException(exLog1Msg, exLog);
+                        CqrException.SetLastException(cqrLog1Exc, false);
 
-                        Console.Error.WriteLine(DateTime.Now.Area23DateTimeWithSeconds() + $" \tWriting to file {logFile1} Exception {exLog.GetType()} {exLog.Message} \n {exLog.ToString()}");
+                        Console.Error.WriteLine(exLog1Msg);
                     }
                 }
             }

@@ -8,10 +8,10 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Copyright>Copyleft © 2000-2040</Copyright>
-    <PackageProjectUrl>https://area23.at/net/</PackageProjectUrl>
+    <PackageProjectUrl>https://area23.at/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>
-    <AssemblyVersion>2.25.323</AssemblyVersion>
-    <FileVersion>2.25.323</FileVersion>
+    <AssemblyVersion>2.25.411</AssemblyVersion>
+    <FileVersion>2.25.411</FileVersion>
 	<IsTrimmable>true</IsTrimmable>
 	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
 	<PlatformTarget>AnyCPU</PlatformTarget>
@@ -19,17 +19,19 @@
     <Title>Area23.At.Framework.Core</Title>
     <Description>a small Area23.At.Framework.Core framework with minimalistic helper methods</Description>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>S:\area23.at\Framework\Area23.At.Framework.Core\Properties\Area23Framework.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>7</WarningLevel>
-    <DebugType>embedded</DebugType>
+    <DebugType>full</DebugType>
     <DefineConstants>$(DefineConstants);HTTPBINDING</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>7</WarningLevel>
-    <DebugType>embedded</DebugType>
+    <DebugType>full</DebugType>
     <DefineConstants>$(DefineConstants);HTTPBINDING</DefineConstants>
   </PropertyGroup>
 
@@ -78,16 +80,38 @@
 
   <ItemGroup>
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.1" />
+    <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="8.0.10" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.WsTrust" Version="6.8.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Xml" Version="8.2.0" />
+    <PackageReference Include="Microsoft.NETCore.Platforms" Version="1.1.1" />
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="1.1.3" />
+    <PackageReference Include="Microsoft.Win32.SystemEvents" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog" Version="5.4.0" />
     <PackageReference Include="QRCoder.Core" Version="1.0.3" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
+    <PackageReference Include="System.IO" Version="4.3.0" />
+    <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
+    <PackageReference Include="System.Reflection" Version="4.3.0" />
+    <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Handles" Version="4.3.0" />
     <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
     <PackageReference Include="System.ServiceModel.Federation" Version="8.1.2" />
     <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
     <PackageReference Include="System.ServiceModel.NetNamedPipe" Version="8.1.2" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="8.1.2" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
+    <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
+    <PackageReference Include="System.Threading" Version="4.3.0" />
+    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.3.0" />
+    <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.0" />
+    <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
   </ItemGroup>
 
 </Project>

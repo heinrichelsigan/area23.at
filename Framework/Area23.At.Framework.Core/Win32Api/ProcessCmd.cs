@@ -73,7 +73,7 @@ namespace Area23.At.Framework.Core.Win32Api
         /// <param name="useShellExecute"><see cref="bool">bool useShellExecute</see> true, when using system shell to execute cmdPath</param>
         /// <returns>Console output of executed command</returns>
         /// <exception cref="InvalidOperationException"></exception>
-        public static string Execute(string cmdPath = "SystemInfo", string[] args = null, bool quoteArgs = false, bool useShellExecute = false)
+        public static string Execute(string cmdPath = "SystemInfo", string[]? args = null, bool quoteArgs = false, bool useShellExecute = false)
         {
             string consoleError = string.Empty, consoleOutput = string.Empty, arguments = string.Empty;
             if (args != null && args.Length > 0)
