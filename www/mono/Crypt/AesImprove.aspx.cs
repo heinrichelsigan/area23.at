@@ -483,7 +483,7 @@ namespace Area23.At.Mono.Crypt
 
                     if (!string.IsNullOrEmpty(zopt) && !string.IsNullOrEmpty(zPath) && !string.IsNullOrEmpty(zOutPath))
                     {
-                        if (System.IO.File.Exists(zPath) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd))
+                        if (System.IO.File.Exists(zPath) && System.IO.File.Exists(zcmd))
                         {
                             outp = ProcessCmd.Execute(zcmd, zopt + " " + zPath + " " + zOutPath, false);
                             Thread.Sleep(50);

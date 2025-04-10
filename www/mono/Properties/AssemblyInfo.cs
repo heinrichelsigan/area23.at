@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("area23.at Heinrich Elsigan")]
 [assembly: AssemblyProduct("Area23.At.Mono")]
 [assembly: AssemblyCopyright("Copyleft © Heinrich Elsigan 2000-2040")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("No Trademark")]
 [assembly: AssemblyCulture("")]
 
 // Durch Festlegen von ComVisible auf "false" werden die Typen in dieser Assembly unsichtbar 
