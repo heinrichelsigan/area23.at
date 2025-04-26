@@ -13,6 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -114,8 +116,8 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.6.1.1\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
@@ -147,8 +149,8 @@
     <Reference Include="System.Threading.Channels, Version=9.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Threading.Channels.9.0.3\lib\net462\System.Threading.Channels.dll</HintPath>
     </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.6.2\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Services" />
@@ -164,7 +166,18 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CqrXs\CqrMsg\CqrChatRoom.cs" />
+    <Compile Include="Cache\CacheHashDict.cs" />
+    <Compile Include="Cache\CacheValue.cs" />
+    <Compile Include="Cache\RedIstatic.cs" />
+    <Compile Include="Cqr\CqrFacade.cs" />
+    <Compile Include="Cqr\CqrService.cs" />
+    <Compile Include="Cqr\Msg\CFile.cs" />
+    <Compile Include="Cqr\Msg\CChatRoom.cs" />
+    <Compile Include="Cqr\Msg\CContact.cs" />
+    <Compile Include="Cqr\Msg\CImage.cs" />
+    <Compile Include="Cqr\Msg\CType.cs" />
+    <Compile Include="Cqr\Msg\CSrvMsg.cs" />
+    <Compile Include="Cqr\Msg\IMsgAble.cs" />
     <Compile Include="Crypt\Cipher\CipherPipe.cs" />
     <Compile Include="Net\IpSocket\SockTcpListener.cs" />
     <Compile Include="Net\IpSocket\SockTcpSender.cs" />
@@ -175,22 +188,8 @@
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
     <Compile Include="Util\Area23Log.cs" />
-    <Compile Include="CqrXs\CqrException.cs" />
-    <Compile Include="CqrXs\CqrJd\CqrService.cs" />
-    <Compile Include="CqrXs\CqrMsg\ClientSrvMsg.cs" />
-    <Compile Include="CqrXs\CqrMsg\CqrFile.cs" />
-    <Compile Include="CqrXs\CqrMsg\FullSrvMsg.cs" />
-    <Compile Include="CqrXs\CqrMsg\ICqrMessageable.cs" />
-    <Compile Include="CqrXs\CqrMsg\MsgEnum.cs" />
-    <Compile Include="CqrXs\CqrSettings.cs" />
-    <Compile Include="CqrXs\CqrSrv\SrvMsg1.cs" />
-    <Compile Include="CqrXs\CqrSrv\BaseMsg.cs" />
-    <Compile Include="CqrXs\CqrMsg\CqrContact.cs" />
-    <Compile Include="CqrXs\CqrMsg\CqrImage.cs" />
-    <Compile Include="CqrXs\CqrSrv\Peer2PeerMsg.cs" />
-    <Compile Include="CqrXs\CqrSrv\SrvMsg.cs" />
-    <Compile Include="CqrXs\CqrMsg\MimeAttachment.cs" />
-    <Compile Include="CqrXs\CqrMsg\MsgContent.cs" />
+    <Compile Include="Cqr\CqrException.cs" />
+    <Compile Include="Cqr\CqrSettings.cs" />
     <Compile Include="Crypt\Cipher\Asymmetric\Dsa.cs" />
     <Compile Include="Crypt\Cipher\Asymmetric\DH.cs" />
     <Compile Include="Crypt\Cipher\Asymmetric\Rsa.cs" />
@@ -263,6 +262,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Compile Include="Cqr\Msg\CContent.cs" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Properties\fortune.u8">
       <CustomToolNamespace>Area23.At.Framework.Library.Properties</CustomToolNamespace>
@@ -276,4 +276,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets'))" />
+  </Target>
 </Project>

@@ -124,7 +124,7 @@ namespace Area23.At.Framework.Library.Static
                     if (ConfigurationManager.AppSettings["CqrServiceSoap"] != null)
                         cqrServiceSoap = ConfigurationManager.AppSettings["CqrServiceSoap"].ToString();
                     else
-                        cqrServiceSoap = "https://cqrxs.eu/cqrsrv/cqrjd/CqrService.asmx";
+                        cqrServiceSoap = "https://srv.cqrxs.eu/v1.1/CqrService.asmx";
                 }
                 return cqrServiceSoap;
             }
@@ -139,7 +139,7 @@ namespace Area23.At.Framework.Library.Static
                     if (ConfigurationManager.AppSettings["CqrServiceSoap12"] != null)
                         cqrServiceSoap12 = ConfigurationManager.AppSettings["CqrServiceSoap12"].ToString();
                     else
-                        cqrServiceSoap12 = "https://cqrxs.eu/cqrsrv/cqrjd/CqrService.asmx";
+                        cqrServiceSoap12 = "https://srv.cqrxs.eu/v1.1/CqrService.asmx";
                 }
                 return cqrServiceSoap12;
             }

@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Core.CqrXs;
+﻿using Area23.At.Framework.Core.Cqr;
 using Area23.At.Framework.Core.Util;
 using Microsoft.VisualBasic.Logging;
 using System.Diagnostics;
@@ -80,7 +80,7 @@ namespace Area23.At.Framework.Core.Static
                         catch (Exception exLogFileCreate)
                         {
                             CqrException logFileCreateException = new CqrException($"Exception creating logfile {LogFile}", exLogFileCreate);
-                            CqrException.SetLastException(logFileCreateException, false);
+                            CqrException.SetLastException(logFileCreateException);
                             ; // throw
                             Console.Error.WriteLine($"Exception creating logfile {LogFile}\n\t{exLogFileCreate.ToString()}");
                         }
@@ -102,7 +102,7 @@ namespace Area23.At.Framework.Core.Static
                     CqrException cqrLogException = new CqrException(
                         excMsg,
                         exLogWrite);
-                    CqrException.SetLastException(cqrLogException, false);
+                    CqrException.SetLastException(cqrLogException);
 
                     Console.Error.WriteLine(excMsg);
 
@@ -127,7 +127,7 @@ namespace Area23.At.Framework.Core.Static
                     {
                         string exLog1Msg = $"{DateTime.Now.Area23DateTimeWithSeconds()} \tWriting to file {logFile1} Exception {exLog.GetType()} {exLog.Message} \n {exLog.ToString()}";
                         CqrException cqrLog1Exc = new CqrException(exLog1Msg, exLog);
-                        CqrException.SetLastException(cqrLog1Exc, false);
+                        CqrException.SetLastException(cqrLog1Exc);
 
                         Console.Error.WriteLine(exLog1Msg);
                     }

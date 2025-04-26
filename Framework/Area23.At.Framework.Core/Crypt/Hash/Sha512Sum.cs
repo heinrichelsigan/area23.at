@@ -63,13 +63,13 @@ namespace Area23.At.Framework.Core.Crypt.Hash
 
         internal static string HashString(string s) => (HashBytes(Encoding.UTF8.GetBytes(s))).ToHexString();
 
-        public static byte[] HashBytes(byte[] bytes) => SHA512.Create().ComputeHash(bytes);
+        public static byte[] HashBytes(byte[] bytes) => SHA512.HashData(bytes);
 
-        public static byte[] HashBytes(Stream s) => SHA512.Create().ComputeHash(s);
+        public static byte[] HashBytes(Stream s) => SHA512.HashData(s);
 
-        internal static Stream HashStream(byte[] bytes) => new MemoryStream(SHA512.Create().ComputeHash(bytes));
+        internal static Stream HashStream(byte[] bytes) => new MemoryStream(SHA512.HashData(bytes));
 
-        internal static Stream HashStream(Stream s) =>new MemoryStream(SHA512.Create().ComputeHash(s));
+        internal static Stream HashStream(Stream s) =>new MemoryStream(SHA512.HashData(s));
         
         #endregion helper methods
 

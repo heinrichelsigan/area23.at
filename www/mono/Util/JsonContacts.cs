@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Library.CqrXs.CqrMsg;
+﻿using Area23.At.Framework.Library.Cqr.Msg;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Newtonsoft.Json;
@@ -13,7 +13,7 @@ namespace Area23.At.Mono.Util
     public static class JsonContacts
     {
         static object _lock = new object();
-        static HashSet<CqrContact> _contacts;
+        static HashSet<CContact> _contacts;
         internal static string JsonContactsFileName { get => Framework.Library.Static.JsonHelper.JsonContactsFile; }
 
         static JsonContacts()
@@ -21,7 +21,7 @@ namespace Area23.At.Mono.Util
             _contacts = LoadJsonContacts();
         }
 
-        internal static HashSet<CqrContact> LoadJsonContacts()
+        internal static HashSet<CContact> LoadJsonContacts()
         {
             lock (_lock)
             {
@@ -32,15 +32,15 @@ namespace Area23.At.Mono.Util
             lock (_lock)
             {
                 string jsonText = System.IO.File.ReadAllText(JsonContactsFileName);
-                _contacts = JsonConvert.DeserializeObject<HashSet<CqrContact>>(jsonText);
+                _contacts = JsonConvert.DeserializeObject<HashSet<CContact>>(jsonText);
                 if (_contacts == null || _contacts.Count == 0)
-                    _contacts = new HashSet<CqrContact>();
+                    _contacts = new HashSet<CContact>();
                 HttpContext.Current.Application[Constants.JSON_CONTACTS] = _contacts;
             }
             return _contacts;
         }
 
-        internal static void SaveJsonContacts(HashSet<CqrContact> contacts)
+        internal static void SaveJsonContacts(HashSet<CContact> contacts)
         {
             JsonSerializerSettings jsets = new JsonSerializerSettings();
             jsets.Formatting = Formatting.Indented;
@@ -50,14 +50,14 @@ namespace Area23.At.Mono.Util
         }
 
 
-        public static CqrContact FindContactByNameEmail(HashSet<CqrContact> contacts, CqrContact searchContact)
+        public static CContact FindContactByNameEmail(HashSet<CContact> contacts, CContact searchContact)
         {
-            CqrContact foundC = FindContactByNameEmail(contacts, searchContact.Name, searchContact.Email, searchContact.Mobile);
+            CContact foundC = FindContactByNameEmail(contacts, searchContact.Name, searchContact.Email, searchContact.Mobile);
             return foundC;
         }
 
 
-        public static CqrContact FindContactByNameEmail(HashSet<CqrContact> contacts, string cName, string cEmail, string cMobile)
+        public static CContact FindContactByNameEmail(HashSet<CContact> contacts, string cName, string cEmail, string cMobile)
         {
 
             if (!string.IsNullOrEmpty(cName) || !string.IsNullOrEmpty(cEmail))
@@ -65,7 +65,7 @@ namespace Area23.At.Mono.Util
                 string cNameEmail = string.IsNullOrEmpty(cEmail) ? cName : $"{cName} <{cEmail}>";
                 string cPhone = cMobile ?? string.Empty;
 
-                foreach (CqrContact c in contacts)
+                foreach (CContact c in contacts)
                 {
                     if (c != null && !string.IsNullOrEmpty(c.NameEmail))
                     {
@@ -84,7 +84,7 @@ namespace Area23.At.Mono.Util
             return null;
         }
 
-        public static HashSet<CqrContact> GetContacts()
+        public static HashSet<CContact> GetContacts()
         {
             bool loadJson = false;
 

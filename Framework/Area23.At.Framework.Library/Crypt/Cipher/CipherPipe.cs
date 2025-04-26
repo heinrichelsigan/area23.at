@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher
 {
@@ -16,6 +17,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
     public class CipherPipe
     {
 
+        private string cipherKey = "", cipherHash = "";
         private readonly CipherEnum[] inPipe;
         public readonly CipherEnum[] outPipe;
         private readonly string pipeString;
@@ -140,10 +142,17 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         public CipherPipe(string key = "heinrich.elsigan@area23.at", string hash = "6865696e726963682e656c736967616e406172656132332e6174")
             : this(CryptHelper.GetUserKeyBytes(key, hash, 16), Constants.MAX_PIPE_LEN)
         {
+            cipherKey = key;
+            cipherHash = hash;
         }
 
-        public CipherPipe(string key = "heinrich.elsigan@area23.at") : this (key, EnDeCodeHelper.KeyToHex(key))
+        /// <summary>
+        /// CipherPipe ctor with only key
+        /// </summary>
+        /// <param name="key"></param>
+        public CipherPipe(string key = "heinrich.elsigan@area23.at") : this(key, EnDeCodeHelper.KeyToHex(key)) 
         {
+            cipherKey = key;
         }
 
         #endregion ctor CipherPipe
@@ -180,10 +189,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     encryptBytes = Serpent.Encrypt(inBytes);
                     break;
                 case CipherEnum.ZenMatrix:
-                    encryptBytes = (new ZenMatrix(secretKey, hash, true)).Encrypt(inBytes);
+                    encryptBytes = (new ZenMatrix(secretKey, hash, false)).Encrypt(inBytes);
                     break;
                 case CipherEnum.ZenMatrix2:
-                    encryptBytes = (new ZenMatrix2(secretKey, hash, true)).Encrypt(inBytes);
+                    encryptBytes = (new ZenMatrix2(secretKey, hash, false)).Encrypt(inBytes);
                     break;
                 case CipherEnum.Aes:
                 case CipherEnum.AesLight:
@@ -306,7 +315,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <returns>encrypted byte[]</returns>
         public byte[] MerryGoRoundEncrpyt(byte[] inBytes, string secretKey = "heinrich.elsigan@area23.at", string hashIv = "")
         {
-            string hash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIv;
+            cipherKey = secretKey;
+            cipherHash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIv;
             byte[] encryptedBytes = new byte[inBytes.Length * 3 + 1];
 #if DEBUG
             stageDictionary = new Dictionary<CipherEnum, byte[]>();
@@ -314,7 +324,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 #endif
             foreach (CipherEnum cipher in InPipe)
             {
-                encryptedBytes = EncryptBytesFast(inBytes, cipher, secretKey, hash);
+                encryptedBytes = EncryptBytesFast(inBytes, cipher, cipherKey, cipherHash);
                 inBytes = encryptedBytes;
 #if DEBUG
                 stageDictionary.Add(cipher, encryptedBytes);
@@ -334,7 +344,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <returns><see cref="byte[]"/> plain bytes</returns>
         public byte[] DecrpytRoundGoMerry(byte[] cipherBytes, string secretKey = "heinrich.elsigan@area23.at", string hashIv = "", bool fishOnAesEngine = false)
         {
-            string hash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIv;
+            cipherKey = secretKey;
+            cipherHash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIv;
             byte[] decryptedBytes = new byte[cipherBytes.Length * 3 + 1];
 #if DEBUG
             stageDictionary = new Dictionary<CipherEnum, byte[]>();
@@ -342,7 +353,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 #endif 
             foreach (CipherEnum cipher in OutPipe)
             {
-                decryptedBytes = DecryptBytesFast(cipherBytes, cipher, secretKey, hash, fishOnAesEngine);
+                decryptedBytes = DecryptBytesFast(cipherBytes, cipher, cipherKey, cipherHash, fishOnAesEngine);
                 cipherBytes = decryptedBytes;
 #if DEBUG
                 stageDictionary.Add(cipher, cipherBytes);

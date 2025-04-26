@@ -1,0 +1,70 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "https://srv.cqrxs.eu/v1.1/CqrService.asmx"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, Area23.At.Framework.Core.Cqr.WebSrv"
+    ],
+    "references": [
+      "BouncyCastle.Cryptography, {BouncyCastle.Cryptography, 2.5.1}",
+      "ICSharpCode.SharpZipLib, {SharpZipLib, 1.4.2}",
+      "Microsoft.Bcl.TimeProvider, {Microsoft.Bcl.TimeProvider, 9.0.4}",
+      "Microsoft.Extensions.DependencyInjection.Abstractions, {Microsoft.Extensions.DependencyInjection.Abstractions, 8.0.2}",
+      "Microsoft.Extensions.Logging.Abstractions, {Microsoft.Extensions.Logging.Abstractions, 8.0.2}",
+      "Microsoft.Extensions.ObjectPool, {Microsoft.Extensions.ObjectPool, 9.0.4}",
+      "Microsoft.IdentityModel.Abstractions, {Microsoft.IdentityModel.Abstractions, 8.8.0}",
+      "Microsoft.IdentityModel.Logging, {Microsoft.IdentityModel.Logging, 8.8.0}",
+      "Microsoft.IdentityModel.Protocols.WsTrust, {Microsoft.IdentityModel.Protocols.WsTrust, 6.8.0}",
+      "Microsoft.IdentityModel.Tokens, {Microsoft.IdentityModel.Tokens, 8.8.0}",
+      "Microsoft.IdentityModel.Tokens.Saml, {Microsoft.IdentityModel.Tokens.Saml, 8.2.0}",
+      "Microsoft.IdentityModel.Xml, {Microsoft.IdentityModel.Xml, 8.8.0}",
+      "Microsoft.Win32.SystemEvents, {Microsoft.Win32.SystemEvents, 9.0.4}",
+      "Newtonsoft.Json, {Newtonsoft.Json, 13.0.3}",
+      "NLog, {NLog, 5.4.0}",
+      "Pipelines.Sockets.Unofficial, {Pipelines.Sockets.Unofficial, 2.2.8}",
+      "QRCoder.Core, {QRCoder.Core, 1.0.3}",
+      "StackExchange.Redis, {StackExchange.Redis, 2.8.31}",
+      "System.Collections, {System.Collections, 4.3.0}",
+      "System.Diagnostics.Debug, {System.Diagnostics.Debug, 4.3.0}",
+      "System.Drawing.Common, {System.Drawing.Common, 6.0.0}",
+      "System.Globalization, {System.Globalization, 4.3.0}",
+      "System.IO, {System.IO, 4.3.0}",
+      "System.IO.FileSystem, {System.IO.FileSystem, 4.3.0}",
+      "System.IO.FileSystem.Primitives, {System.IO.FileSystem.Primitives, 4.3.0}",
+      "System.IO.Pipelines, {System.IO.Pipelines, 5.0.1}",
+      "System.Reflection, {System.Reflection, 4.3.0}",
+      "System.Reflection.Primitives, {System.Reflection.Primitives, 4.3.0}",
+      "System.Resources.ResourceManager, {System.Resources.ResourceManager, 4.3.0}",
+      "System.Runtime, {System.Runtime, 4.3.1}",
+      "System.Runtime.Extensions, {System.Runtime.Extensions, 4.3.1}",
+      "System.Runtime.Handles, {System.Runtime.Handles, 4.3.0}",
+      "System.Security.Cryptography.Pkcs, {System.Security.Cryptography.Pkcs, 8.0.1}",
+      "System.Security.Cryptography.Xml, {System.Security.Cryptography.Xml, 8.0.2}",
+      "System.ServiceModel, {System.ServiceModel.Primitives, 8.1.2}",
+      "System.ServiceModel.Duplex, {System.ServiceModel.Duplex, 6.0.0}",
+      "System.ServiceModel.Federation, {System.ServiceModel.Federation, 8.1.2}",
+      "System.ServiceModel.Http, {System.ServiceModel.Http, 8.1.2}",
+      "System.ServiceModel.NetFramingBase, {System.ServiceModel.NetFramingBase, 8.1.2}",
+      "System.ServiceModel.NetNamedPipe, {System.ServiceModel.NetNamedPipe, 8.1.2}",
+      "System.ServiceModel.NetTcp, {System.ServiceModel.NetTcp, 8.1.2}",
+      "System.ServiceModel.Primitives, {System.ServiceModel.Primitives, 8.1.2}",
+      "System.ServiceModel.Security, {System.ServiceModel.Primitives, 8.1.2}",
+      "System.Text.Encoding, {System.Text.Encoding, 4.3.0}",
+      "System.Text.Encoding.CodePages, {System.Text.Encoding.CodePages, 8.0.0}",
+      "System.Text.Encoding.Extensions, {System.Text.Encoding.Extensions, 4.3.0}",
+      "System.Text.RegularExpressions, {System.Text.RegularExpressions, 4.3.1}",
+      "System.Threading, {System.Threading, 4.3.0}",
+      "System.Threading.Tasks, {System.Threading.Tasks, 4.3.0}",
+      "System.Xml.ReaderWriter, {System.Xml.ReaderWriter, 4.3.1}",
+      "System.Xml.XmlDocument, {System.Xml.XmlDocument, 4.3.0}"
+    ],
+    "sync": true,
+    "targetFramework": "net9.0",
+    "typeReuseMode": "All"
+  }
+}

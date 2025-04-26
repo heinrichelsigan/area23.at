@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Core.CqrXs;
+﻿using Area23.At.Framework.Core.Cqr;
 using Area23.At.Framework.Core.Static;
 using NLog;
 using NLog.Config;
@@ -153,7 +153,7 @@ namespace Area23.At.Framework.Core.Util
             }
             catch (Exception exLog)
             {
-                CqrException.SetLastException(exLog, false);
+                CqrException.SetLastException(exLog);
                 AppDomain.CurrentDomain.SetData("LogExceptionNLog",
                     DateTime.Now.Area23DateTimeWithSeconds() + $" \tException: {exLog.GetType()} {exLog.Message} \n" + exLog.ToString());
 

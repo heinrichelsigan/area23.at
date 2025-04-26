@@ -228,6 +228,9 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         public static byte[] GetBytesTrimNulls(byte[] inBytes)
         {
             int ig = -1;
+            if (inBytes == null || inBytes.Length == 0)
+                return null;
+
             if ((ig = inBytes.ArrayIndexOf((byte)0)) < 1)
                 return inBytes;
 

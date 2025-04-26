@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Core.CqrXs.CqrJd;
+﻿using Area23.At.Framework.Core.Cqr;
+using Area23.At.Framework.Core.Cqr.Srv;
 using System.Net;
 
 namespace Area23.At.Framework.Core.Net.WebHttp

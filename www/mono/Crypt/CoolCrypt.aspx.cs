@@ -282,7 +282,7 @@ namespace Area23.At.Mono.Crypt
                     {   
                         case ZipType.GZip:  encryptBytes = GZ.GZipBytes(inBytes);           break;
                         // case ZipType.BZip2: encryptBytes = BZip2.BZip2Bytes(inBytes);       break;
-                        case ZipType.BZip2: encryptBytes = BZip2.BZip(inBytes); break;
+                        case ZipType.BZip2: encryptBytes = BZip2.BZip(inBytes);             break;
                         case ZipType.Zip:   encryptBytes = WinZip.Zip(inBytes);             break;
                         case ZipType.None:
                         default: break;
@@ -533,15 +533,29 @@ namespace Area23.At.Mono.Crypt
                         {
                             switch (ztype)
                             {
-                                case ZipType.GZip:  zopt = ".gz";   outBytes = GZ.GZipBytes(inBytes);           break;
-                                // case ZipType.BZip2: zopt = ".bz2";  outBytes = BZip2.BZip2Bytes(inBytes);    break;
-                                case ZipType.BZip2: zopt = ".bz2"; outBytes = BZip2.BZip(inBytes);              break;
-                                case ZipType.Zip: zopt = ".zip";    outBytes = WinZip.Zip(inBytes);             break;
+                                case ZipType.GZip: 
+                                    zopt = ".gz";   
+                                    outBytes = GZ.GZipBytes(inBytes);
+                                    break;
+                                case ZipType.BZip2: 
+                                    zopt = ".bz2";
+                                    outBytes = BZip2.BZip(inBytes);
+                                    break;
+                                case ZipType.Zip: 
+                                    zopt = ".zip"; 
+                                    outBytes = WinZip.Zip(inBytes, strFileName); 
+                                    break;
                                 case ZipType.Z7:
                                 case ZipType.None:
-                                default: break; 
+                                default:
+                                    zopt = "";
+                                    break; 
                             }
-                            strFileName += zopt;                            
+                            if (!string.IsNullOrEmpty(zopt))
+                            {
+                                strFileName += zopt;
+                                Array.Copy(outBytes, 0, inBytes, 0, outBytes.Length);
+                            }
                         }
 
                         foreach (string algo in algos)
@@ -657,13 +671,20 @@ namespace Area23.At.Mono.Crypt
                         {
                             switch (ztype)
                             {
-                                case ZipType.GZip:  outBytes = GZ.GUnZipBytes(inBytes);     break;
-                                case ZipType.BZip2: outBytes = BZip2.BUnZip(inBytes); break;
-                                // case ZipType.BZip2: outBytes = BZip2.BUnZip2Bytes(inBytes);       break;                                
-                                case ZipType.Zip:   outBytes = WinZip.UnZip(inBytes);       break;
+                                case ZipType.GZip:  
+                                    outBytes = GZ.GUnZipBytes(inBytes); 
+                                    break;
+                                case ZipType.BZip2:
+                                    outBytes = BZip2.BUnZip(inBytes); // BZip2.BUnZip2Bytes(inBytes); 
+                                    break;
+                                case ZipType.Zip: 
+                                    outBytes = WinZip.UnZip(inBytes); 
+                                    break;
                                 case ZipType.Z7:
                                 case ZipType.None:
-                                default:            outMsg = string.Empty;                  break;
+                                default: 
+                                    outMsg = string.Empty; 
+                                    break;
                             }                            
                         }
                         

@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Core.CqrXs;
+﻿using Area23.At.Framework.Core.Cqr;
 using Area23.At.Framework.Core.Crypt.Cipher;
 using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
@@ -138,7 +138,7 @@ namespace Area23.At.Framework.Core.Net.WebHttp
                 }
                 catch (Exception ex)
                 {
-                    CqrException.SetLastException(ex, false);
+                    CqrException.SetLastException(ex);
                     SLog.Log("Error on getting external client ip", ex, "");
                     return null;
                 }

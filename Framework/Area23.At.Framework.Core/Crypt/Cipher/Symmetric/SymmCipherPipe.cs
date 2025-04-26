@@ -3,6 +3,7 @@ using Area23.At.Framework.Core.Static;
 using Area23.At.Framework.Core.Util;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 
@@ -140,6 +141,15 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             symmCipherHash = hash;
         }
 
+        /// <summary>
+        /// SymmCipherPipe ctor with only key
+        /// </summary>
+        /// <param name="key"></param>
+        public SymmCipherPipe(string key = "heinrich.elsigan@area23.at") : this(key, EnDeCodeHelper.KeyToHex(key))
+        {
+            symmCipherKey = key;
+        }
+
         #endregion ctor SymmCipherPipe
 
         #region static members EncryptBytesFast DecryptBytesFast
@@ -248,17 +258,17 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <param name="secretKey">user secret key to use for all symmetric cipher algorithms in the pipe</param>
         /// <param name="hashIv">hash key iv relational to secret key</param>
         /// <returns>encrypted byte[]</returns>
-        public byte[] MerryGoRoundEncrpyt(byte[] inBytes,
-            string secretKey = "heinrich.elsigan@area23.at",
-            string hashIv = "6865696e726963682e656c736967616e406172656132332e6174")
+        public byte[] MerryGoRoundEncrpyt(byte[] inBytes, string secretKey = "", string hashIv = "")
         {
             if (!string.IsNullOrEmpty(symmCipherKey) && !string.IsNullOrEmpty(symmCipherHash))
             {
                 if (secretKey.Equals(symmCipherKey, StringComparison.CurrentCulture))
                     ; // TODO wajz Exception should be thrown ??
             }
-            symmCipherKey = secretKey;
-            symmCipherHash = hashIv;
+            if (!string.IsNullOrEmpty(secretKey))
+                symmCipherKey = secretKey;
+            symmCipherHash = (!string.IsNullOrEmpty(hashIv)) ? hashIv : EnDeCodeHelper.KeyToHex(symmCipherKey);
+
             byte[] encryptedBytes = new byte[inBytes.Length * 3 + 1];
 #if DEBUG
             stageDictionary = new Dictionary<SymmCipherEnum, byte[]>();
@@ -284,18 +294,17 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <param name="secretKey">user secret key, normally email address</param>
         /// <param name="hashIv">hash relational to secret kay</param>
         /// <returns><see cref="byte[]"/> plain bytes</returns>
-        public byte[] DecrpytRoundGoMerry(byte[] cipherBytes,
-            string secretKey = "heinrich.elsigan@area23.at",
-            string hashIv = "6865696e726963682e656c736967616e406172656132332e6174",
-            bool fishOnAesEngine = false)
+        public byte[] DecrpytRoundGoMerry(byte[] cipherBytes, string secretKey = "", string hashIv = "", bool fishOnAesEngine = false)
         {
             if (!string.IsNullOrEmpty(symmCipherKey) && !string.IsNullOrEmpty(symmCipherHash))
             {
                 if (secretKey.Equals(symmCipherKey, StringComparison.CurrentCulture))
                     ; // TODO wajz Exception should be thrown ??
             }
-            symmCipherKey = secretKey;
-            symmCipherHash = hashIv;
+            if (!string.IsNullOrEmpty(secretKey))
+                symmCipherKey = secretKey;
+            symmCipherHash = (!string.IsNullOrEmpty(hashIv)) ? hashIv : EnDeCodeHelper.KeyToHex(symmCipherKey);
+
             byte[] decryptedBytes = new byte[cipherBytes.Length * 3 + 1];
 #if DEBUG
             stageDictionary = new Dictionary<SymmCipherEnum, byte[]>();

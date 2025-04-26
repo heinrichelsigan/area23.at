@@ -35,7 +35,7 @@ namespace Area23.At.Framework.Core.Zfx
         /// <returns><see cref="byte[]"/> outbytes</returns>
         public static byte[] GZip(byte[] inBytes, int compressionLevel = 6)
         {
-            byte[] zipBytes = null;
+            byte[]? zipBytes = null;
             MemoryStream msIn = new MemoryStream(inBytes, 0, inBytes.Length);
             msIn.Seek(0, SeekOrigin.Begin);
 
@@ -51,7 +51,7 @@ namespace Area23.At.Framework.Core.Zfx
 
         public static byte[] GZipBytes(byte[] inBytes)
         {
-            byte[] zipBytes = null;
+            byte[]? zipBytes = null;
             using (MemoryStream memIn = new MemoryStream(inBytes, 0, inBytes.Length))
             {
                 MemoryStream memOut = GZipStream(memIn);
@@ -91,7 +91,7 @@ namespace Area23.At.Framework.Core.Zfx
         /// <returns><see cref="byte[]"/> outbytes</returns>
         public static byte[] GUnZip(byte[] inBytes)
         {
-            byte[] unZipBytes = null;
+            byte[]? unZipBytes = null;
 
             using (MemoryStream msIn = new MemoryStream(inBytes, 0, inBytes.Length))
             {
@@ -117,7 +117,7 @@ namespace Area23.At.Framework.Core.Zfx
         /// <returns><see cref="byte[]"/> outbytes</returns>
         public static byte[] GUnZipBytes(byte[] inBytes)
         {
-            byte[] unZipBytes = null;
+            byte[]? unZipBytes = null;
 
             using (MemoryStream msIn = new MemoryStream(inBytes, 0, inBytes.Length))
             {

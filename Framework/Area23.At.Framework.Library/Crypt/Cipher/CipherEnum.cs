@@ -68,57 +68,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return list.ToArray();
         }
 
-        public static CipherEnum GetCipherEnumFromChar(this char cipherChar)
-        {
-            switch (cipherChar)
-            {
-                case 'A':   return CipherEnum.Aes;
-                case 'L':   return CipherEnum.AesLight;
-                case 'a':   return CipherEnum.Aria;
-
-                case 'b':   return CipherEnum.BlowFish;
-                case 'f':   return CipherEnum.Fish2;
-                case 'F':   return CipherEnum.Fish3;
-                case '3':   return CipherEnum.ThreeFish256;
-
-                case 'C':   return CipherEnum.Camellia;
-                case 'l':   return CipherEnum.CamelliaLight;
-                case 'c':   return CipherEnum.Cast5;
-                case '6':   return CipherEnum.Cast6;
-
-                case '$':   return CipherEnum.Des;
-                case 'D':   return CipherEnum.Des3;
-                case 'd':   return CipherEnum.Dstu7624;
-
-                case 'g':   return CipherEnum.Gost28147;
-                case 'I':   return CipherEnum.Idea;
-                case 'N':   return CipherEnum.Noekeon;
-
-                case '2':   return CipherEnum.RC2;
-                case '5':   return CipherEnum.RC532;
-
-                case 'R':   return CipherEnum.RC564;
-                case 'r':   return CipherEnum.RC6;
-                case '%':   return CipherEnum.Rsa;
-
-                case 's':   return CipherEnum.Seed;
-                case 'S':   return CipherEnum.Serpent;
-                case '4':   return CipherEnum.SM4;
-                case 'J':   return CipherEnum.SkipJack;
-
-                case 't':   return CipherEnum.Tea;
-                case 'T':   return CipherEnum.Tnepres;
-                case 'X':   return CipherEnum.XTea;
-
-                case 'z':   return CipherEnum.ZenMatrix;
-                case 'Z':    return CipherEnum.ZenMatrix2;
-
-                default: break;
-            }
-
-            return CipherEnum.Aes;
-        }
-
         /// <summary>
         /// Extensions method for Enum <see cref="CipherEnum"/>
         /// gets a character for each Cipher Algorithm, that is used here

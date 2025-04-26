@@ -136,7 +136,21 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         public SymmCipherPipe(string key = "heinrich.elsigan@area23.at", string hash = "6865696e726963682e656c736967616e406172656132332e6174")
             : this(CryptHelper.GetUserKeyBytes(key, hash, 16), Constants.MAX_PIPE_LEN)
         {
+            symmCipherKey = key;
+            symmCipherHash = hash;
         }
+
+
+        /// <summary>
+        /// SymmCipherPipe ctor with only key
+        /// </summary>
+        /// <param name="key">server key</param>
+        public SymmCipherPipe(string key = "heinrich.elsigan@area23.at") : this(key, EnDeCodeHelper.KeyToHex(key))
+        {
+            symmCipherKey = key;
+        }
+
+ 
 
         #endregion ctor SymmCipherPipe
 

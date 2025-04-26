@@ -149,18 +149,34 @@ namespace Area23.At.Framework.Library.Static
         /// <param name="appName"><see cref="string"/> appName</param>
         public static void Log(string prefix, Exception exLog, string appName = "")
         {
-            MethodBase mBase = (new StackFrame(1))?.GetMethod();
+            string methodBase = "";
+            string stackTrace = (exLog != null && !string.IsNullOrEmpty(exLog.StackTrace)) ? exLog.StackTrace.Replace("\r", "").Replace("\n", " ") : "";
+            string exLogType = (exLog != null && !string.IsNullOrEmpty(exLog.GetType().ToString())) ? exLog.GetType().ToString() : "(NULL)";
+            string exLogMsg = (exLog != null && !string.IsNullOrEmpty(exLog.Message)) ? exLog.Message : "(NULL)";
+            string exLogString = (exLog != null) ? exLog.ToString().Replace("\r", "").Replace("\n", " ") : "(NULL)";
+
+
+            try
+            {
+                MethodBase mBase = (new StackFrame(1))?.GetMethod();
+                methodBase = mBase.ToString();
+            } 
+            catch  
+            {
+                methodBase = "unknown";
+            }
+            
 
             string msgPrefix = String.Format("{0}{1} throwed Exception {2}",
-                (mBase != null) ? mBase.ToString() + " " : "",
-                prefix ?? "",
-                exLog.GetType());
+                methodBase,
+                (string.IsNullOrEmpty(prefix) ? "" : prefix),
+                exLogType);
 
             string exMsg = String.Format("{0} ⇒ \t{1}\t{2}\nStacktrace: \t{3}",
-                exLog.GetType(),
-                exLog.Message,
-                exLog.ToString().Replace("\r", "").Replace("\n", " "),
-                exLog.StackTrace.Replace("\r", "").Replace("\n", " "));
+                exLogType,
+                exLogMsg,
+                exLogString,
+                stackTrace);
 
             Log(string.Concat(msgPrefix, "\n \t", exMsg), appName);
         }

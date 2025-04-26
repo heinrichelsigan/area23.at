@@ -20,7 +20,7 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml.Serialization;
 
-namespace Area23.At.Framework.Library.CqrXs.CqrJd
+namespace Area23.At.Framework.Library.Cqr
 {
 
     /// <remarks/>

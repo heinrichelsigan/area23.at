@@ -159,7 +159,7 @@ namespace Area23.At.Framework.Core.Static
                     if (ConfigurationManager.AppSettings["CqrServiceSoap"] != null)
                         cqrServiceSoap = ConfigurationManager.AppSettings["CqrServiceSoap"].ToString();
                     else
-                        cqrServiceSoap = "https://cqrxs.eu/cqrsrv/cqrjd/CqrService.asmx ";
+                        cqrServiceSoap = "https://srv.cqrxs.eu/v1.1/CqrService.asmx";
                 }
                 return cqrServiceSoap;
             }
@@ -174,7 +174,7 @@ namespace Area23.At.Framework.Core.Static
                     if (ConfigurationManager.AppSettings["CqrServiceSoap12"] != null)
                         cqrServiceSoap12 = ConfigurationManager.AppSettings["CqrServiceSoap12"].ToString();
                     else
-                        cqrServiceSoap12 = "https://cqrxs.eu/cqrsrv/cqrjd/CqrService.asmx";
+                        cqrServiceSoap12 = "https://srv.cqrxs.eu/v1.1/CqrService.asmx";
                 }
                 return cqrServiceSoap12;
             }
@@ -189,7 +189,7 @@ namespace Area23.At.Framework.Core.Static
                     if (ConfigurationManager.AppSettings["CqrServiceSoapv4"] != null)
                         cqrServiceSoap12 = ConfigurationManager.AppSettings["CqrServiceSoapv4"].ToString();
                     else
-                        cqrServiceSoap12 = "https://ipv4.cqrxs.eu/cqrsrv/cqrjd/CqrService.asmx";
+                        cqrServiceSoap12 = "https://srv.cqrxs.eu/v1.1/CqrService.asmx";
                 }
                 return cqrServiceSoap12;
             }
@@ -204,7 +204,7 @@ namespace Area23.At.Framework.Core.Static
                     if (ConfigurationManager.AppSettings["CqrServiceSoapv6"] != null)
                         cqrServiceSoap12 = ConfigurationManager.AppSettings["CqrServiceSoapv6"].ToString();
                     else
-                        cqrServiceSoap12 = "https://ipv6.cqrxs.eu/cqrsrv/cqrjd/CqrService.asmx";
+                        cqrServiceSoap12 = "https://ipv6.cqrxs.eu/v1.1/CqrService.asmx";
                 }
                 return cqrServiceSoap12;
             }

@@ -73,25 +73,25 @@ namespace Area23.At.Framework.Core.Crypt.Hash
 
         public static byte[] HashBytes(byte[] bytes)
         {
-            return SHA256.Create().ComputeHash(bytes);
+            return SHA256.HashData(bytes);
         }
 
         public static byte[] HashBytes(Stream s)
         {
-            return SHA512.Create().ComputeHash(s);
+            return SHA256.HashData(s);
         }
 
 
         public static Stream HashStream(byte[] bytes)
         {
-            byte[] hashed = SHA256.Create().ComputeHash(bytes);
+            byte[] hashed = SHA256.HashData(bytes);
             return new MemoryStream(hashed);
         }
 
 
         public static Stream HashStream(Stream s)
         {
-            byte[] hashed = SHA256.Create().ComputeHash(s);
+            byte[] hashed = SHA256.HashData(s);
             return new MemoryStream(hashed);
         }
 

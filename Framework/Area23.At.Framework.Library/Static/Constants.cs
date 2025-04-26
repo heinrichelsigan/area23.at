@@ -1,6 +1,4 @@
-﻿using Area23.At.Framework.Library.Util;
-using System;
-using System.Configuration;
+﻿using System;
 using System.Text;
 using System.Web;
 
@@ -14,6 +12,7 @@ namespace Area23.At.Framework.Library.Static
     {
 
         #region public const
+#pragma warning disable CA1707 // Identifiers should not contain underscores
 
         public const int BACKLOG = 8;
         public const int CHAT_PORT = 7777;
@@ -35,8 +34,11 @@ namespace Area23.At.Framework.Library.Static
 
         public const string APP_NAME = "Area23.At";
         public const string APP_DIR = "net";
-        public const string VERSION = "v2.25.305";
-        public const string VALKEY_CACHE_HOST_PORT = "ValkeyCacheHostPort";
+        public const string VERSION = "v2.25.411";
+        public const string VALKEY_CACHE_HOST = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com";
+        public const int VALKEY_CACHE_PORT = 6379;
+        public const string VALKEY_CACHE_HOST_PORT = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com:6379";
+        public const string VALKEY_CACHE_HOST_PORT_KEY = "ValkeyCacheHostPort";
 
         public const string AREA23_URL = "https://area23.at";
         public const string APP_PATH = "https://area23.at/net/";
@@ -89,6 +91,8 @@ namespace Area23.At.Framework.Library.Static
         public const string BERNERIN_CQRXS_EU = "bernerin.cqrxs.eu";
 
 
+        public const string ALL_KEYS = "AllKeys";
+        public const string CHATROOMS = "ChatRooms";
         public const string CQRXS_URL = "https://cqrxs.eu/";
         public const string CQRXS_HELP_URL = "https://cqrxs.eu/help/";
         public const string DECRYPTED_TEXT_AREA = "<textarea cols = \"48\" rows=\"10\" name=\"TextBoxDecrypted\" id=\"TextBoxDecrypted\" title=\"TextBox Current Message\" ValidateRequestMode=\"Enabled\" style=\"width:480px;\" >";
@@ -109,33 +113,43 @@ namespace Area23.At.Framework.Library.Static
         public const string ENTER_IP = "[Enter peer IPv4/IPv6]";
         public const string ENTER_CONTACT = "[Select Contact]";
 
+        public const string ACCEPT_LANGUAGE = "Accept-Language";
+        public const string AES_ENVIROMENT_KEY = "APP_ENCRYPTION_SECRET_KEY";
         public const string AUTHOR = "Heinrich Elsigan";
         public const string AUTHOR_EMAIL = "heinrich.elsigan@area23.at";
         public const string AUTHOR_IV = "6865696e726963682e656c736967616e406172656132332e6174";
         public const string AREA23_EMAIL = "zen@area23.at";
         public const string AUTHOR_SIGNATURE = "-- \nHeinrich G.Elsigan\nTheresianumgasse 6/28, A-1040 Vienna\n phone: +43 650 752 79 28 \nmobile: +43 670 406 89 83 \nemails: heinrich.elsigan @gmail.com\n        heinrich.elsigan@live.at\n        sites: area23.at cqrxs.eu\nweblog: blog.area23.at\n   wko: https://firmen.wko.at/DetailsKontakt.aspx?FirmaID=19800fbd-84a2-456d-890e-eb1fa213100f";
 
+        public const string APP_CONCURRENT_DICT = "APP_CONCURRENT_DICT";
+        public const string APP_FIRST_REG = "APP_FIRST_REG";
+        public const string APP_TRANSPARENT_BADGE = "APP_TRANSPARENT_BADGE";
+        public const string APP_SERVER_KEY = "APP_SERVER_KEY";
+        public const string APP_INPUT_DIALOG = "APP_INPUT_DIALOG";
+        public const string APP_MY_CONTACT = "APP_MY_CONTACT";
+
+        public const string BIN_DIR = "bin";
         public const string CALC_DIR = "Calc";
         public const string CSS_DIR = "css";
         public const string CRYPT_DIR = "Crypt";
         public const string ENCODE_DIR = "Crypt";
         public const string GAMES_DIR = "Gamez";
-        public const string JS_DIR = "js";
-        public const string LOG_DIR = "log";
-        public const string LOG_EXT = ".log";
-        public const string OUT_DIR = "out";
-        public const string TMP_DIR = "tmp";
-        public const string QR_DIR = "Qr";
-        public const string JSON_DIR = "json";
-        public const string RES_DIR = "res";
-        public const string RES_FOLDER = "res";
         public const string IMG_DIR = "img";
         public const string IMG_FOLDER = "Image";
+        public const string JS_DIR = "js";
+        public const string JSON_DIR = "json";
+        public const string LOG_DIR = "log";
+        public const string LOG_EXT = ".log";
+        public const string OUT_DIR = "out";        
+        public const string QR_DIR = "Qr";
+        public const string RES_DIR = "res";
+        public const string RES_FOLDER = "res";
         public const string TEXT_DIR = "text";
+        public const string TMP_DIR = "tmp";
         public const string UNIX_DIR = "Unix";
         public const string UTF8_DIR = "Utf8";
         public const string UU_DIR = "uu";
-        public const string BIN_DIR = "bin";
+        
         public const string OBJ_DIR = "obj";
         public const string RELEASE_DIR = "Release";
         public const string DEBUG_DIR = "Release";
@@ -150,7 +164,7 @@ namespace Area23.At.Framework.Library.Static
         public const string ATTACH_FILES_DIR = "AttachFiles";
         public const string UPSAVED_FILE = "SavedFile";
 
-        public const string CHATROOMS = "ChatRooms";
+        
         public const string UTF8_JSON = "utf8symol.json";
         public const string JSON_SAVE_FILE = "urlshort.json";
         public const string JSON_CONTACTS = "contacts";
@@ -161,7 +175,7 @@ namespace Area23.At.Framework.Library.Static
         public const string LAST_EXCEPTION = "last_exception";
         public const string COOL_CRYPT_SPLIT = "+-;,:→⇛\t ";
 
-        public const string ACCEPT_LANGUAGE = "Accept-Language";
+        
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";
         public const string UNKNOWN = "UnKnown";
         public const string DEFAULT_MIMETYPE = "application/octet-stream";
@@ -198,7 +212,6 @@ namespace Area23.At.Framework.Library.Static
         public const string STRING_NULL = null;
         public const string SNULL = "(null)";
 
-        public const string AES_ENVIROMENT_KEY = "APP_ENCRYPTION_SECRET_KEY";
 
         public const string JSON_SAMPLE = @"{ 
  	""quiz"": { 
@@ -376,7 +389,7 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
 2sGnnAaPJgE8Iy2z08jS3rF9npK27A==
 -----END PRIVATE KEY-----";
 
-
+#pragma warning restore CA1707 // Identifiers should not contain underscores
         #endregion public const
 
         #region public static readonly fields
@@ -567,9 +580,9 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
                 return null;
             try
             {
-                if (ConfigurationManager.AppSettings[key] != null)
+                if (System.Configuration.ConfigurationManager.AppSettings[key] != null)
                 {
-                    return (string)ConfigurationManager.AppSettings[key].ToString();
+                    return (string)(System.Configuration.ConfigurationManager.AppSettings[key].ToString());
                 }
             }
             catch { }

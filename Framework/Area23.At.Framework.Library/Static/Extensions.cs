@@ -101,16 +101,14 @@ namespace Area23.At.Framework.Library.Static
         /// <returns>formatted date time <see cref="string"/> </returns>
         public static string Area23DateTimeWithMillis(this DateTime dateTime)
         {
-            string formatted = String.Format("{0:yyyyMMdd_HHmmss}_{1}", dateTime, dateTime.Millisecond);
+            string formatted = String.Format("{0:yyyy-MM-dd_HH:mm:ss.fff}", dateTime);
             // return formatted;
-            return dateTime.ToString("yyyyMMdd_HHmmss_") + dateTime.Millisecond;
+            return formatted;
         }
 
         public static string Area23DateTimeMilliseconds(this DateTime dateTime)
         {
-            // string formatted = $"{dateTime:yyyy-MM-dd HH:mm:ss}.{dateTime.Millisecond}";
-            // return formatted;
-            return dateTime.ToString("yyyy-MM-dd HH:mm:ss") + "." + dateTime.Millisecond;
+            return dateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
         }
 
         #endregion DateTime extensions

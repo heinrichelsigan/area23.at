@@ -40,7 +40,7 @@ namespace Area23.At.Framework.Core.Crypt.Hash
 
         public static string Hash(byte[] bytes, string fileName = "")
         {
-            byte[] hashed = MD5.Create().ComputeHash(bytes);
+            byte[] hashed = MD5.HashData(bytes);
             string hash = hashed.ToHexString();
             if (!string.IsNullOrEmpty(fileName))
                 hash += "  " + fileName;
@@ -50,8 +50,8 @@ namespace Area23.At.Framework.Core.Crypt.Hash
 
         public static string Hash(Stream s, string fileName = "")
         {
-            byte[] bytes = MD5.Create().ComputeHash(s);
-            string hash = bytes.ToHexString();
+            byte[] hashed = MD5.HashData(s);
+            string hash = hashed.ToHexString();
 
             if (!string.IsNullOrEmpty(fileName))
                 hash += "  " + fileName;
@@ -61,25 +61,25 @@ namespace Area23.At.Framework.Core.Crypt.Hash
 
         public static byte[] HashBytes(byte[] bytes)
         {
-            return MD5.Create().ComputeHash(bytes);
+            return MD5.HashData(bytes);
         }
 
         public static byte[] HashBytes(Stream s)
         {
-            return MD5.Create().ComputeHash(s);
+            return MD5.HashData(s);
         }
 
 
         public static Stream HashStream(byte[] bytes)
         {
-            byte[] hashed = MD5.Create().ComputeHash(bytes);
+            byte[] hashed = MD5.HashData(bytes);
             return new MemoryStream(bytes);
         }
 
 
         public static Stream HashStream(Stream s)
         {
-            byte[] bytes = MD5.Create().ComputeHash(s);
+            byte[] bytes = MD5.HashData(s);
             return new MemoryStream(bytes);
         }
 
