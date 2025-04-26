@@ -788,7 +788,7 @@ namespace Area23.At.Mono.Calc
                     return Math.PI;
                 if (elem.Equals("ℇ"))
                     return Math.E;
-                if (Double.TryParse(elem, out double result))
+                if (Double.TryParse(elem.Replace(".", ","), out double result))
                     return result;
             }
             throw new InvalidOperationException($"Error on PIEulerParse(string {elem})");
@@ -802,7 +802,7 @@ namespace Area23.At.Mono.Calc
                     return Convert.ToInt64(Math.PI);
                 if (elem.Equals("ℇ"))
                     return Convert.ToInt64(Math.E);
-                if (Int64.TryParse(elem, out long result))
+                if (Int64.TryParse(elem.Replace(".", ","), out long result))
                     return result;
             }
             throw new InvalidOperationException($"Error on PIEulerParseInt64(string {elem})");

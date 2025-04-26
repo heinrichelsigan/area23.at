@@ -904,6 +904,7 @@
 			</table>
 		</div>
 		<br />
+		<asp:CheckBox ID="CheckBox_Hex" runat="server" ClientIDMode="Static" Text="long hex" ToolTip="long hexadecimal or double decimal" Checked="true" />&nbsp;
 		<asp:Button ID="Button_RandomSetMA" runat="server" ClientIDMode="Static" Text="Random Set Matrix A" OnClick="Button_RandomSetMA_Click" />&nbsp;
 		<asp:Button ID="Button_ResetMA_0" runat="server" ClientIDMode="Static" Text="Reset Matrix A 0" OnClick="Button_ResetMA_0_Click" />&nbsp;
 		<asp:Button ID="Button_ResetMA_1" runat="server" ClientIDMode="Static" Text="Reset Matrix A 1" OnClick="Button_ResetMA_1_Click" />&nbsp;

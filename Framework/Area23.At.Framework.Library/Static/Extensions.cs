@@ -101,7 +101,7 @@ namespace Area23.At.Framework.Library.Static
         /// <returns>formatted date time <see cref="string"/> </returns>
         public static string Area23DateTimeWithMillis(this DateTime dateTime)
         {
-            string formatted = String.Format("{0:yyyy-MM-dd_HH:mm:ss.fff}", dateTime);
+            string formatted = String.Format("{0:yyyy-MM-dd_HH.mm.ss.fff}", dateTime);
             // return formatted;
             return formatted;
         }
