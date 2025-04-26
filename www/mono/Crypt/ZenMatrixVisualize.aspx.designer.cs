@@ -60,6 +60,15 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.Button Button_Clear;
 
         /// <summary>
+        /// CheckBox_FullSymmetric control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CheckBox_FullSymmetric;
+
+        /// <summary>
         /// Button_Hash control.
         /// </summary>
         /// <remarks>

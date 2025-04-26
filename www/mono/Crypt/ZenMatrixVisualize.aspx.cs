@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+﻿using Area23.At.Framework.Library.Cqr;
+using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
@@ -37,6 +38,7 @@ namespace Area23.At.Mono.Crypt
                         (((string)Session[Constants.AES_ENVIROMENT_KEY]).Length > 7))
                     {
                         Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
+                        Button_Hash_Click(sender, e);
                     }
                 }
                 catch (Exception ex)
@@ -68,6 +70,11 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void ImageButton_Add_Click(object sender, EventArgs e)
         {            
+        }
+
+        protected void CheckBox_FullSymmetric_OnCheckedChanged(object sender, EventArgs e)
+        {
+            Button_Hash_Click(sender, e);
         }
 
         /// <summary>
@@ -136,9 +143,18 @@ namespace Area23.At.Mono.Crypt
 
                 byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
                 SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb).InPipe;
-                
-                
-                ZenMatrix z = new ZenMatrix(this.TextBox_Key.Text, this.TextBox_IV.Text, false);
+
+
+                bool fullSymmetric = false;
+                try
+                {
+                    fullSymmetric = this.CheckBox_FullSymmetric.Checked;
+                }
+                catch (Exception ex)
+                {
+                    CqrException.SetLastException(ex);
+                }
+                ZenMatrix z = new ZenMatrix(this.TextBox_Key.Text, this.TextBox_IV.Text, fullSymmetric);
                 string zenMt = "|zen|=>\t| ";
                 
                 int b = 0xf;

@@ -39,13 +39,17 @@
                     ClientIDMode="Static" ImageUrl="../res/img/a_right_key.png" 
                     AlternateText="save your user key in session" /></span>
                 <span class="centerSpan" style="max-width: 400px;">                
-                    <asp:TextBox ID="TextBox_Key" runat="server" Text="heinrich.elsigan@area23.at"                        
+                    <asp:TextBox ID="TextBox_Key" runat="server" Text="heinrich.elsigan@gmail.com"                        
                         ToolTip="Enter your personal email address or secret key here" MaxLength="192" Width="480px" style="width: 480px;" />
                 </span>
                 <span class="rightSpan" style="width: 72px">
                     <asp:Button ID="Button_Clear" runat="server" Text="clear" OnClick="Button_Clear_Click" 
                         ToolTip="Clear SymChiffre Pipeline" style="max-width: 72px" />
                 </span>
+				<span class="rightSpan" style="width: 72px">
+					<asp:CheckBox ID="CheckBox_FullSymmetric" runat="server" ClientIDMode="Static" Text="full fymmetric"
+					 ToolTip="FullSymmetric ZenMatrix"  OnCheckedChanged="CheckBox_FullSymmetric_OnCheckedChanged" Checked="true" AutoPostBack="true" style="max-width: 72px" />
+				</span>
             </div>    
             <div class="odDiv">
                 <span class="leftSpan" style="width: 72px">

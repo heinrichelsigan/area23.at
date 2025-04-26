@@ -1,6 +1,6 @@
-﻿using Area23.At.Framework.Library.Static;
+﻿using Area23.At.Framework.Library.Cqr;
+using Area23.At.Framework.Library.Static;
 using Newtonsoft.Json;
-using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -18,42 +18,15 @@ namespace Area23.At.Framework.Library.Cache
     {
 
 
-        static ConnectionMultiplexer connMux;
-        static ConfigurationOptions options;
+        static object _lock = new object();
         static string endpoint = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com:6379";
-        static StackExchange.Redis.IDatabase db;
+        
 
 
         private static HashSet<string> _allKeys = new HashSet<string>();
-        public static string[] AllKeys { get => _allKeys.ToArray(); }
+        public static string[] AllKeys { get => GetAllKeys(false).ToArray(); }
 
-        public static StackExchange.Redis.IDatabase Db
-        {
-            get
-            {
-                if (db == null)
-                    db = ConnMux.GetDatabase();
-                return db;
-            }
-        }
-
-        public static StackExchange.Redis.ConnectionMultiplexer ConnMux
-        {
-            get
-            {
-                if (connMux == null)
-                {
-                    if (options == null)
-                        options = new ConfigurationOptions
-                        {
-                            EndPoints = { endpoint },
-                            Ssl = true
-                        };
-                    connMux = ConnectionMultiplexer.Connect(options);
-                }
-                return connMux;
-            }
-        }
+        
 
 
         /// <summary>
@@ -64,15 +37,7 @@ namespace Area23.At.Framework.Library.Cache
             endpoint = Constants.VALKEY_CACHE_HOST_PORT; // "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com:6379";
             if (ConfigurationManager.AppSettings != null && ConfigurationManager.AppSettings[Constants.VALKEY_CACHE_HOST_PORT_KEY] != null)
                 endpoint = (string)ConfigurationManager.AppSettings[Constants.VALKEY_CACHE_HOST_PORT_KEY];
-            options = new ConfigurationOptions
-            {
-                EndPoints = { endpoint },
-                Ssl = true
-            };
-            if (connMux == null)
-                connMux = ConnectionMultiplexer.Connect(options);
-            if (db == null)
-                db = connMux.GetDatabase();
+            _allKeys = GetAllKeys();
         }
 
 
@@ -81,11 +46,10 @@ namespace Area23.At.Framework.Library.Cache
         /// GetString gets a string value by redis key
         /// </summary>
         /// <param name="redIsKey">key</param>
-        /// <param name="flags"><see cref="CommandFlags"/></param>
         /// <returns>(<see cref="string"/>) value for key redIsKey</returns>
-        public static string GetString(string redIsKey, CommandFlags flags = CommandFlags.None)
+        public static string GetString(string redIsKey)
         {
-            string redIsString = Db.StringGet(redIsKey, flags);
+            string redIsString = CacheHashDict.GetValue<string>(redIsKey);
             return redIsString;
         }
 
@@ -94,24 +58,19 @@ namespace Area23.At.Framework.Library.Cache
         /// </summary>
         /// <param name="redIsKey">key for string/param>
         /// <param name="redIsString"></param>
-        /// <param name="expiry"></param>
-        /// <param name="keepTtl"></param>
-        /// <param name="when"></param>
-        /// <param name="flags"></param>
-        public static void SetString(string redIsKey, string redIsString, TimeSpan? expiry = null, bool keepTtl = false, When when = When.Always, CommandFlags flags = CommandFlags.None)
+        public static void SetString(string redIsKey, string redIsString)
         {
-            Db.StringSet(redIsKey, redIsString, expiry, keepTtl, when, flags);
-            if (_allKeys == null || _allKeys.Count == 0)
+            lock (_lock)
             {
-                var keys = GetKey<string[]>("AllKeys");
-                if (keys != null && keys.Length > 0)
-                    _allKeys = new HashSet<string>(keys);
-            }            
-            if (!_allKeys.Contains(redIsKey))
-            {
-                _allKeys.Add(redIsKey);
-                string jsonVal = JsonConvert.SerializeObject(AllKeys);
-                Db.StringSet("AllKeys", jsonVal, null, false, When.Always, CommandFlags.None);
+                HashSet<string> allRedIsKeys = GetAllKeys(true);
+                CacheHashDict.SetValue<string>(redIsKey, redIsString);
+
+                if (!allRedIsKeys.Contains(redIsKey))
+                {
+                    allRedIsKeys.Add(redIsKey);
+                    CacheHashDict.SetValue<string[]>(Constants.ALL_KEYS, allRedIsKeys.ToArray());
+                    _allKeys = allRedIsKeys;
+                }
             }
         }
 
@@ -122,14 +81,20 @@ namespace Area23.At.Framework.Library.Cache
         /// <typeparam name="T">generic type or class</typeparam>
         /// <param name="redIsKey">key for cache</param>
         /// <param name="tValue">Generic value to set</param>
-        /// <param name="expiry"></param>
-        /// <param name="keepTtl"></param>
-        /// <param name="when"></param>
-        /// <param name="flags"></param>
-        public static void SetKey<T>(string redIsKey, T tValue, TimeSpan? expiry = null, bool keepTtl = false, When when = When.Always, CommandFlags flags = CommandFlags.None)
+        public static void SetKey<T>(string redIsKey, T tValue)
         {
-            string jsonVal = JsonConvert.SerializeObject(tValue);
-            SetString(redIsKey, jsonVal, expiry, keepTtl, when, flags);
+            lock (_lock)
+            {
+                HashSet<string> allRedIsKeys = GetAllKeys(true);
+                CacheHashDict.SetValue<T>(redIsKey, tValue);
+
+                if (!allRedIsKeys.Contains(redIsKey))
+                {
+                    allRedIsKeys.Add(redIsKey);
+                    CacheHashDict.SetValue<string[]>(Constants.ALL_KEYS, allRedIsKeys.ToArray());
+                    _allKeys = allRedIsKeys;
+                }
+            }
         }
 
         /// <summary>
@@ -137,37 +102,84 @@ namespace Area23.At.Framework.Library.Cache
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="redIsKey">key</param>
-        /// <param name="flags"></param>
         /// <returns></returns>
-        public static T GetKey<T>(string redIsKey, CommandFlags flags = CommandFlags.None)
+        public static T GetKey<T>(string redIsKey)
         {
-            string jsonVal = Db.StringGet(redIsKey, flags);
-            var tValue = JsonConvert.DeserializeObject<T>(jsonVal);
-
-            return tValue;
+            T tval = CacheHashDict.GetValue<T>(redIsKey);
+            return tval;
         }
 
         /// <summary>
         /// DeleteKey delete entry referenced at key
         /// </summary>
         /// <param name="redIsKey">key</param>
-        /// <param name="flags"><see cref="CommandFlags.FireAndForget"/> as default</param>
-        public static void DeleteKey(string redIsKey, CommandFlags flags = CommandFlags.FireAndForget)
+        public static void DeleteKey(string redIsKey)
         {
-            Db.StringGetDelete(redIsKey, flags);
-            if (_allKeys == null || _allKeys.Count == 0)
+            lock (_lock)
             {
-                var keys = GetKey<string[]>("AllKeys");
+                HashSet<string> allRedIsKeys = GetAllKeys();
+                if (allRedIsKeys.Contains(redIsKey))
+                {
+                    allRedIsKeys.Remove(redIsKey);
+                    CacheHashDict.SetValue<string[]>(Constants.ALL_KEYS, allRedIsKeys.ToArray());
+                    _allKeys = allRedIsKeys;
+                }
+                try
+                {
+                    CacheHashDict.DeleteKeyValue(redIsKey);
+                }
+                catch (Exception ex)
+                {
+                    CqrException.SetLastException(ex);
+                }
+            }
+        }
+
+
+
+        /// <summary>
+        /// ContainsKey check if <see cref="Constants.ALL_KEYS">AllKeys</see> key contains element redIsKey
+        /// </summary>
+        /// <param name="redIsKey">redIsKey to search</param>
+        /// <returns>true, if cache contains key, otherwise false</returns>
+        public static bool ContainsKey(string redIsKey)
+        {
+            if (GetAllKeys().Contains(redIsKey))
+            {
+                return CacheHashDict.ContainsKey(redIsKey);
+            }
+
+            return false;
+        }
+
+
+
+        /// <summary>
+        /// GetAllKeys returns <see cref="HashSet{string}"/></string> <see cref="_allKeys"/>
+        /// </summary>
+        /// <returns>returns <see cref="HashSet{string}"/></string> <see cref="_allKeys"/></returns>
+        public static HashSet<string> GetAllKeys(bool getThrough = false)
+        {
+            if (_allKeys == null || _allKeys.Count == 0 || getThrough)
+            {
+                string[] keys = CacheHashDict.GetValue<string[]>(Constants.ALL_KEYS);
                 if (keys != null && keys.Length > 0)
                     _allKeys = new HashSet<string>(keys);
             }
-            if (!_allKeys.Contains(redIsKey))
-            {
-                _allKeys.Add(redIsKey);
-                string jsonVal = JsonConvert.SerializeObject(AllKeys);
-                Db.StringSet("AllKeys", jsonVal, null, false, When.Always, CommandFlags.None);
-            }
+
+            return _allKeys;
         }
+
+
+        public static string GetStatus()
+        {
+            var allCacheKeys = GetAllKeys();
+            if (allCacheKeys == null || allCacheKeys.Count == 0)
+                return "cmpty cache";
+
+            return allCacheKeys.Count + " keys in cache";
+        }
+
 
     }
 

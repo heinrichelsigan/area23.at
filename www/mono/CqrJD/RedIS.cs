@@ -110,10 +110,6 @@ namespace Area23.At.Mono.CqrJD
         /// </summary>
         /// <param name="redIsKey">key for string/param>
         /// <param name="redIsString"></param>
-        /// <param name="expiry"></param>
-        /// <param name="keepTtl"></param>
-        /// <param name="when"></param>
-        /// <param name="flags"></param>
         public void SetString(string redIsKey, string redIsString)
         {
             lock (_lock)

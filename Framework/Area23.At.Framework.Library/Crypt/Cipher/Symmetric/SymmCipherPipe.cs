@@ -180,7 +180,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     encryptBytes = Serpent.Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.ZenMatrix:
-                    encryptBytes = (new ZenMatrix(secretKey, hashIv, false)).Encrypt(inBytes);
+                    encryptBytes = (new ZenMatrix(secretKey, hashIv, true)).Encrypt(inBytes);
                     break;
                 case SymmCipherEnum.Aes:
                 case SymmCipherEnum.BlowFish:
@@ -231,7 +231,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     decryptBytes = Serpent.Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.ZenMatrix:
-                    decryptBytes = (new ZenMatrix(secretKey, hashIv, false)).Decrypt(cipherBytes);
+                    decryptBytes = (new ZenMatrix(secretKey, hashIv, true)).Decrypt(cipherBytes);
                     break;
                 case SymmCipherEnum.Aes:
                 case SymmCipherEnum.BlowFish:

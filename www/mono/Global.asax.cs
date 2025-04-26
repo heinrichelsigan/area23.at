@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library.Static;
+﻿using Area23.At.Framework.Library.Cqr;
+using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Mono.Util;
 using NLog;
@@ -62,12 +63,23 @@ namespace Area23.At.Mono
         }
         */
 
+       
         protected void Application_Error(object sender, EventArgs e)
         {
-            string msg = String.Format("application error at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
-            HostLogHelper.LogRequest(sender, e, msg);
-        }
+            Exception ex = Server.GetLastError();
+            string path = "N/A";
+            if (sender is HttpApplication)
+                path = ((HttpApplication)sender).Request.Url.PathAndQuery;
 
+            Area23Log.LogStatic($"Application_Error: sender  {sender?.GetType()} {sender?.ToString()} EventArgs {e?.GetType()} {e?.ToString()}");
+
+            CqrException appException = new CqrException(
+                string.Format("[0}: {1} thrown with path {2}", ex.GetType(), ex.Message, path),
+                ex);
+
+
+            // Response.Redirect(Request.ApplicationPath + "/Error.aspx");
+        }
 
         protected void Session_Start(object sender, EventArgs e)
         {
