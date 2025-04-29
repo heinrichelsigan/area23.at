@@ -16,11 +16,11 @@ body {
 
         div.matrixDiv {
             width: 100%;
-            min-width: 620pt;
-            max-width: 1280pt;
+            min-width: 720px;
+            /* max-width: 1280px; */
             height: 75%;
-            min-height: 520pt;
-            max-height: 768pt;
+            min-height: 540px;
+            max-height: 768px;
             align-self: start;
             vertical-align: top;
             align-content: center;
@@ -28,8 +28,8 @@ body {
             margin: 0 0 0 0;
             border-style: outset;
             border-color: #efefef;
-            border-spacing: 1pt;
-            border-width: 1pt;
+            border-spacing: 1px;
+            border-width: 1px;
             table-layout: fixed;
             inset-block-start: initial;
             inset-block-start: auto;
@@ -45,15 +45,15 @@ body {
 
     div.rpnDivHeader {
         width: 100%;
-        min-width: 320pt;
-        height: 36pt;
-        min-height: 36pt;
+        min-width: 320px;
+        height: 36px;
+        min-height: 36px;
         align-content: center;
         line-height: normal;
         padding: 0 0 0 0;
         margin: 0 0 0 0;
         border-style: none;
-        border-spacing: 0px;
+        border-spacing: 1px;
         background-repeat: no-repeat;
     }
 
@@ -74,15 +74,15 @@ body {
     div.matrixDiv.table,
     table#MatrixMatrixTable {
         width: 100%;
-        min-width: 960pt;
+        min-width: 720px;
         height: 75%;
-        min-height: 520pt;
-        max-height: 768pt;
+        min-height: 540px;
+        max-height: 768px;
         padding: 0 0 0 0;
         margin: 0 0 0 0;
         border-style: none;
         background-color: transparent;
-        border-spacing: 0px;
+        border-spacing: 1px;
         background-repeat: no-repeat;
     }
 
@@ -91,11 +91,11 @@ body {
         table.matrixTbl#Matrix_m0_Table,
         table.matrixTbl_m0#Matrix_m0_Table {
             width: 30%;
-            min-width: 220pt;
-            max-width: 420pt;
+            min-width: 256px;
+            max-width: 512px;
             height: 60%;
-            min-height: 480pt;
-            max-height: 580pt;
+            min-height: 480px;
+            max-height: 640px;
             align-self: start;
             vertical-align: top;
             /* align-content: center; */
@@ -107,7 +107,7 @@ body {
             border-style: dotted;
             border-width: 1px;
             border-color: navy;
-            border-spacing: 0px;
+            border-spacing: 1px;
             background-repeat: no-repeat;
         }
 
@@ -116,11 +116,11 @@ body {
         table.matrixTbl#Matrix_m1_Table,
         table.matrixTbl_m1#Matrix_m1_Table {
             width: 30%;
-            min-width: 220pt;
-            max-width: 420pt;
+            min-width: 256px;
+            max-width: 512px;
             height: 60%;
-            min-height: 480pt;
-            max-height: 580pt;
+            min-height: 480px;
+            max-height: 640px;
             vertical-align: top;
             /* align-content: center; */
             padding: 0 0 0 0;
@@ -131,7 +131,7 @@ body {
             border-style: dashed;
             border-width: 1px;
             border-color: darkseagreen;
-            border-spacing: 0px;
+            border-spacing: 1px;
             background-repeat: no-repeat;
         }
 
@@ -139,11 +139,11 @@ body {
         table#Matrix_m2_Table,
         table.matrixTbl#Matrix_m2_Table {
             width: 30%;
-            min-width: 220pt;
-            max-width: 420pt;
+            min-width: 256px;
+            max-width: 512px;
             height: 60%;
-            min-height: 480pt;
-            max-height: 580pt;
+            min-height: 480px;
+            max-height: 640px;
             vertical-align: top;
             /* align-content: center; */
             padding: 0 0 0 0;
@@ -152,7 +152,7 @@ body {
             border-style: solid;
             border-width: 1px;
             border-color: indigo;
-            border-spacing: 0px;
+            border-spacing: 1px;
             background-repeat: no-repeat;
         }
 
@@ -168,11 +168,11 @@ body {
         tr.matrixTr_m0#tr_m0_3, tr.matrixTr_m0#tr_m0_2, tr.matrixTr_m0#tr_m0_1, tr.matrixTr_m0#tr_m0_0
         {
             width: 30%;
-            min-width: 220pt;
-            max-width: 420pt;
-            height: 20pt;
-            min-height: 12pt;
-            max-height: 24pt;
+            min-width: 256px;
+            max-width: 512px;
+            height: 28px;
+            min-height: 16px;
+            max-height: 32px;
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             background-color: lightskyblue;
@@ -183,7 +183,7 @@ body {
             border-style: dotted;
             border-width: 1px;
             border-color: navy;
-            border-spacing: 0px;
+            border-spacing: 1px;
             background-repeat: no-repeat;
             /*  background-size: 100% 100%; */
         }
@@ -210,11 +210,11 @@ body {
         tr.matrixTr_m1#tr_m1_1,
         tr.matrixTr_m1#tr_m1_0 {
             width: 30%;
-            min-width: 220pt;
-            max-width: 420pt;
-            height: 20pt;
-            min-height: 12pt;
-            max-height: 24pt;
+            min-width: 256px;
+            max-width: 512px;
+            height: 28px;
+            min-height: 16px;
+            max-height: 32px;
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             background-color: lightpink;
@@ -225,7 +225,7 @@ body {
             border-style: dashed;
             border-width: 1px;
             border-color: darkseagreen;
-            border-spacing: 0px;
+            border-spacing: 1px;
             background-repeat: no-repeat;
             /*  background-size: 100% 100%; */
         }
@@ -270,11 +270,11 @@ body {
         tr.matrixTr_m2#tr_m2_7, tr.matrixTr_m2#tr_m2_6, tr.matrixTr_m2#tr_m2_5, tr.matrixTr_m2#tr_m2_4,
         tr.matrixTr_m2#tr_m2_3, tr.matrixTr_m2#tr_m2_2, tr.matrixTr_m2#tr_m2_1, tr.matrixTr_m2#tr_m2_0, {
             width: 30%;
-            min-width: 220pt;
-            max-width: 420pt;
-            height: 20pt;
-            min-height: 12pt;
-            max-height: 24pt;
+            min-width: 256px;
+            max-width: 512px;
+            height: 28px;
+            min-height: 16px;
+            max-height: 32px;
             padding: 0 0 0 0;
             margin: 0 0 0 0;
             vertical-align: central;
@@ -283,9 +283,7 @@ body {
             border-style: solid;
             border-width: 1px;
             border-color: indigo;
-            border-spacing: 0px;
-            background-repeat: no-repeat;
-            border-spacing: 0px;
+            border-spacing: 1px;
             background-repeat: no-repeat;
             /*  background-size: 100% 100%; */
         }
@@ -293,11 +291,11 @@ body {
 
             td.matrixTd_m0 {
                 width: 1%;
-                min-width: 12pt;
-                max-width: 32pt;
-                height: 20pt;
-                min-height: 12pt;
-                max-height: 24pt;
+                min-width: 16px;
+                max-width: 32px;
+                height: 28px;
+                min-height: 16px;
+                max-height: 32px;
                 padding: 0 0 0 0;
                 margin: 0 0 0 0;
                 vertical-align: central;
@@ -308,18 +306,18 @@ body {
                 border-style: dotted;
                 border-width: 1px;
                 border-color: navy;
-                border-spacing: 0px;
+                border-spacing: 1px;
                 background-repeat: no-repeat;
                 /*  background-size: 100% 100%; */
             }
 
             td.matrixTd_m1 {
-                width: 1%;
-                min-width: 12pt;
-                max-width: 32pt;
-                height: 20pt;
-                min-height: 12pt;
-                max-height: 24pt;
+                width: 1
+                min-width: 16px;
+                max-width: 32px;
+                height: 28px;
+                min-height: 16px;
+                max-height: 32px;
                 padding: 0 0 0 0;
                 margin: 0 0 0 0;
                 vertical-align: central;
@@ -330,18 +328,18 @@ body {
                 border-style: dashed;
                 border-width: 1px;
                 border-color: darkseagreen;
-                border-spacing: 0px;
+                border-spacing: 1px;
                 background-repeat: no-repeat;
                 /*  background-size: 100% 100%; */
             }
 
             td.matrixTd_m2 {
                 width: 1%;
-                min-width: 12pt;
-                max-width: 32pt;
-                height: 20pt;
-                min-height: 12pt;
-                max-height: 24pt;
+                min-width: 16px;
+                max-width: 32px;
+                height: 28px;
+                min-height: 16px;
+                max-height: 32px;
                 padding: 0 0 0 0;
                 margin: 0 0 0 0;
                 vertical-align: central;
@@ -350,7 +348,7 @@ body {
                 border-style: solid;
                 border-width: 1px;
                 border-color: indigo;
-                border-spacing: 0px;
+                border-spacing: 1px;
                 background-repeat: no-repeat;
                 /*  background-size: 100% 100%; */
             }
@@ -367,7 +365,7 @@ body {
                 font-variant-numeric: proportional-nums;
                 font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
                 font-size: small;
-                font-weight: 300;
+                font-weight: 600;
                 font-display: block;
                 font-style: oblique;
             }
