@@ -34,6 +34,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PreferNativeArm64>true</PreferNativeArm64>
   </PropertyGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -60,10 +61,16 @@
     <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.5.4.0\lib\net46\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="Pipelines.Sockets.Unofficial, Version=1.0.0.0, Culture=neutral, PublicKeyToken=42ea0a778e13fbe2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Pipelines.Sockets.Unofficial.2.2.8\lib\net461\Pipelines.Sockets.Unofficial.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="QRCoder, Version=1.6.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
       <HintPath>..\..\packages\QRCoder.1.6.0\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="StackExchange.Redis, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c219ff1ca8c2ce46, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\StackExchange.Redis.2.8.37\lib\net461\StackExchange.Redis.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -160,8 +167,14 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache\CacheHashDict.cs" />
+    <Compile Include="Cache\AppDomainCache.cs" />
+    <Compile Include="Cache\ApplicationStateCache.cs" />
+    <Compile Include="Cache\CacheData.cs" />
     <Compile Include="Cache\CacheValue.cs" />
+    <Compile Include="Cache\JsonFileCache.cs" />
+    <Compile Include="Cache\MemoryCache.cs" />
+    <Compile Include="Cache\PersistInCache.cs" />
+    <Compile Include="Cache\RedisCache.cs" />
     <Compile Include="Cache\RedIstatic.cs" />
     <Compile Include="Cqr\CqrFacade.cs" />
     <Compile Include="Cqr\CqrService.cs" />

@@ -45,9 +45,10 @@
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>5</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <PreferNativeArm64>false</PreferNativeArm64>
+    <PreferNativeArm64>true</PreferNativeArm64>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
@@ -219,8 +220,10 @@
     <Content Include="res\js\bc.js" />
     <Content Include="res\js\digiclock.js" />
     <Content Include="SAES_En_Decrypt.aspx" />
+    <Content Include="Settings\CacheTest.aspx" />
     <Content Include="Settings\Default.aspx" />
     <AdditionalFiles Include="Settings\.htaccess" />
+    <Content Include="Settings\Setting.aspx" />
     <Content Include="Unix\Bc.aspx" />
     <Content Include="Unix\Default.aspx" />
     <Content Include="Unix\FortunAsp.aspx" />
@@ -483,12 +486,26 @@
     <Compile Include="SAES_En_Decrypt.aspx.designer.cs">
       <DependentUpon>SAES_En_Decrypt.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Settings\CacheTest.aspx.cs">
+      <DependentUpon>CacheTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Settings\CacheTest.aspx.designer.cs">
+      <DependentUpon>CacheTest.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Settings\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Settings\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\Setting.aspx.cs">
+      <DependentUpon>Setting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Settings\Setting.aspx.designer.cs">
+      <DependentUpon>Setting.aspx</DependentUpon>
     </Compile>
     <Compile Include="Unix\Bc.aspx.cs">
       <DependentUpon>Bc.aspx</DependentUpon>

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die
 // Assemblyinformationen zu ändern.
 [assembly: AssemblyTitle("Area23.At.Mono")]
-[assembly: AssemblyDescription("Area23.At.Mono sample for mono under linux")]
+[assembly: AssemblyDescription("Area23.At.Mono sample for mono under linux ARMx64")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("area23.at Heinrich Elsigan")]
 [assembly: AssemblyProduct("Area23.At.Mono")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // Sie können alle Werte angeben oder die standardmäßigen Revisions- und Buildnummern 
 // übernehmen, indem Sie "*" wie folgt verwenden:
-[assembly: AssemblyVersion("2.25.426.0")]
-[assembly: AssemblyFileVersion("2.25.426.0")]
+[assembly: AssemblyVersion("2.25.514.0")]
+[assembly: AssemblyFileVersion("2.25.514.0")]

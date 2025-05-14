@@ -15,7 +15,7 @@ namespace Area23.At.Mono.CqrJD
     /// <summary>
     /// Redis AWS elastic valkey cache singelton connector
     /// </summary>
-    public class RedIS
+    public class RedIS : MemoryCache
     {
         private static readonly Lazy<RedIS> _instance = new Lazy<RedIS>(() => new RedIS());
 
@@ -28,8 +28,8 @@ namespace Area23.At.Mono.CqrJD
 
         public static RedIS ValKey => _instance.Value;
 
-        private static HashSet<string> _allKeys = new HashSet<string>();
-        public static string[] AllKeys { get => GetAllKeys().ToArray(); }
+        // private static HashSet<string> _allKeys = new HashSet<string>();
+        // public static string[] AllKeys { get => GetAllKeys().ToArray(); }
 
         public static string EndPoint
         {
@@ -101,8 +101,9 @@ namespace Area23.At.Mono.CqrJD
         /// <returns>(<see cref="string"/>) value for key redIsKey</returns>
         public string GetString(string redIsKey) // CommandFlags flags = CommandFlags.None)
         {
-            string redIsString = CacheHashDict.GetValue<string>(redIsKey);
-            return redIsString;
+            if (!AppDict.TryGetValue(redIsKey, out CacheValue cacheValue))
+                return null;
+            return cacheValue.GetValue<string>();
         }
 
         /// <summary>
@@ -114,14 +115,26 @@ namespace Area23.At.Mono.CqrJD
         {
             lock (_lock)
             {
+                CacheValue newCache = new CacheValue(redIsString, typeof(string));
+                newCache.SetValue<string>(redIsString);
                 HashSet<string> allRedIsKeys = GetAllKeys();
-                CacheHashDict.SetValue<string>(redIsKey, redIsString);
+                if (AppDict.ContainsKey(redIsKey))
+                {
+                    AppDict.TryGetValue(redIsKey, out CacheValue oldCache);
+                    AppDict.TryUpdate(redIsKey, oldCache, newCache);
+                }
+                else
+                    AppDict.TryAdd(redIsKey, newCache);
+
 
                 if (!allRedIsKeys.Contains(redIsKey))
                 {
                     allRedIsKeys.Add(redIsKey);
-                    CacheHashDict.SetValue<string[]>(Constants.ALL_KEYS, allRedIsKeys.ToArray());
-                    _allKeys = allRedIsKeys;
+                    AppDict.TryGetValue(Constants.ALL_KEYS, out CacheValue oldAllKeys);
+                    CacheValue newAllKeys = new CacheValue(allRedIsKeys.ToArray(), typeof(String[]));
+                    newAllKeys.SetValue<string[]>(allRedIsKeys.ToArray());
+                    AppDict.TryUpdate(Constants.ALL_KEYS, oldAllKeys, newAllKeys);
+                    // _allKeys = allRedIsKeys;
                 }
             }
         }
@@ -142,13 +155,25 @@ namespace Area23.At.Mono.CqrJD
             lock (_lock)
             {
                 HashSet<string> allRedIsKeys = GetAllKeys();
-                CacheHashDict.SetValue<T>(redIsKey, tValue);
+                CacheValue newCache = new CacheValue(redIsKey, typeof(T));
+                newCache.SetValue<T>(tValue);
+                if (AppDict.ContainsKey(redIsKey))
+                {
+                    AppDict.TryGetValue(redIsKey, out CacheValue oldCache);
+                    AppDict.TryUpdate(redIsKey, oldCache, newCache);
+                }
+                else
+                    AppDict.TryAdd(redIsKey, newCache);
+
 
                 if (!allRedIsKeys.Contains(redIsKey))
                 {
                     allRedIsKeys.Add(redIsKey);
-                    CacheHashDict.SetValue<string[]>(Constants.ALL_KEYS, allRedIsKeys.ToArray());
-                    _allKeys = allRedIsKeys;
+                    AppDict.TryGetValue(Constants.ALL_KEYS, out CacheValue oldAllKeys);
+                    CacheValue newAllKeys = new CacheValue(allRedIsKeys.ToArray(), typeof(String[]));
+                    newAllKeys.SetValue<string[]>(allRedIsKeys.ToArray());
+                    AppDict.TryUpdate(Constants.ALL_KEYS, oldAllKeys, newAllKeys);
+                    // _allKeys = allRedIsKeys;
                 }
             }
             
@@ -163,9 +188,9 @@ namespace Area23.At.Mono.CqrJD
         /// <returns></returns>
         public T GetKey<T>(string redIsKey) // , CommandFlags flags = CommandFlags.None)
         {
-            
-            T tval = CacheHashDict.GetValue<T>(redIsKey);            
-            return tval;
+            AppDict.TryGetValue(redIsKey, out CacheValue getCacheValue);
+            T tvalue = getCacheValue.GetValue<T>();    
+            return tvalue;
         }
 
         /// <summary>
@@ -179,19 +204,14 @@ namespace Area23.At.Mono.CqrJD
             lock (_lock)
             {
                 HashSet<string> allRedIsKeys = GetAllKeys();
-                if (allRedIsKeys.Contains(redIsKey))
+                if (AppDict.TryRemove(redIsKey, out CacheValue removeCacheValue) && allRedIsKeys.Contains(redIsKey))
                 {
-                    allRedIsKeys.Remove(redIsKey);
-                    CacheHashDict.SetValue<string[]>(Constants.ALL_KEYS, allRedIsKeys.ToArray());
-                    _allKeys = allRedIsKeys;
-                }
-                try
-                {
-                    CacheHashDict.DeleteKeyValue(redIsKey);                    
-                }
-                catch (Exception ex)
-                {
-                    CqrException.SetLastException(ex);
+                    allRedIsKeys.Add(redIsKey);
+                    AppDict.TryGetValue(Constants.ALL_KEYS, out CacheValue oldAllKeys);
+                    CacheValue newAllKeys = new CacheValue(allRedIsKeys.ToArray(), typeof(String[]));
+                    newAllKeys.SetValue<string[]>(allRedIsKeys.ToArray());
+                    AppDict.TryUpdate(Constants.ALL_KEYS, oldAllKeys, newAllKeys);
+                    // _allKeys = allRedIsKeys;
                 }
             }
         }
@@ -207,7 +227,7 @@ namespace Area23.At.Mono.CqrJD
         {
             if (GetAllKeys().Contains(redIsKey))
             {
-                return CacheHashDict.ContainsKey(redIsKey);
+                return AppDict.ContainsKey(redIsKey);
             }
 
             return false;
@@ -221,14 +241,14 @@ namespace Area23.At.Mono.CqrJD
         /// <returns>returns <see cref="HashSet{string}"/></string> <see cref="_allKeys"/></returns>
         protected static internal HashSet<string> GetAllKeys()
         {
-            if (_allKeys == null || _allKeys.Count == 0)
-            {
-                string[] keys = CacheHashDict.GetValue<string[]>(Constants.ALL_KEYS);
+            if (MemoryCache.CacheDict.AllKeys == null || MemoryCache.CacheDict.AllKeys.Length == 0)
+            {                
+                string[] keys = MemoryCache.CacheDict.GetValue<string[]>(Constants.ALL_KEYS);
                 if (keys != null && keys.Length > 0)
-                    _allKeys = new HashSet<string>(keys);
+                    return new HashSet<string>(keys);                    
             }
 
-            return _allKeys;
+            return new HashSet<string>(MemoryCache.CacheDict.AllKeys);
         }
 
 
