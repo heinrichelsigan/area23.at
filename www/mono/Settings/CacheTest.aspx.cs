@@ -19,12 +19,42 @@ namespace Area23.At.Mono.Settings
 
     public partial class CacheTest : System.Web.UI.Page
     {
+        bool parallel = false, serial = false;
+        int iterations = 128;
+        PersistType persistType = PersistType.AppDomain;
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            Enum.TryParse<PersistType>(this.DropDownList_CacheVariant.SelectedValue, out persistType);
+
+            string persistString = this.DropDownList_CacheVariant.SelectedItem.Text;
+            if (persistString.StartsWith("AppDomain"))
+                persistType = PersistType.AppDomain;
+            if (persistString.StartsWith("ApplicationState"))
+                persistType = PersistType.ApplicationState;
+            if (persistString.StartsWith("JsonFile"))
+                persistType = PersistType.JsonFile;
+            if (persistString.StartsWith("Redis"))
+                persistType = PersistType.Redis;
+
+
+            if (!Int32.TryParse(this.DropDownList_Iterations.SelectedValue, out iterations))
+                iterations = 128;
+            foreach (ListItem item in CheckBoxList_TestType.Items)
+            {
+                if (item.Text == "Parallel")
+                    parallel = item.Selected;
+                if (item.Text == "Serial")
+                    serial = item.Selected;
+            }
+
             if (!IsPostBack)
+            {
                 OnInit(e);
-            BuildSettingsTable();
-            PerformTests();
+                // BuildSettingsTable();
+                PerformTests(persistType, iterations, parallel, serial);
+            }
+
         }
 
         protected override void OnInit(EventArgs e)
@@ -43,13 +73,14 @@ namespace Area23.At.Mono.Settings
                 }
                 catch (Exception exStart)
                 {
-                    DivTest1.InnerHtml += $"<p>Exception ${exStart.GetType()} {exStart.Message}</p><pre>\n{exStart.ToString()}</pre>";
+                    DivTest0.InnerHtml += $"<p>Exception ${exStart.GetType()} {exStart.Message}</p><pre>\n{exStart.ToString()}</pre>";
                 }
             }
         }
 
+
         protected void BuildSettingsTable()
-        {            
+        {
             Dictionary<string, string> settings = new Dictionary<string, string>();
             try
             {
@@ -123,7 +154,7 @@ namespace Area23.At.Mono.Settings
             {
                 DivTest0.InnerHtml += $"<p>Exception ${ex1.GetType()} {ex1.Message}</p><pre>\n{ex1.ToString()}</pre>";
             }
-            
+
             try
             {
                 foreach (string key in settings.Keys)
@@ -140,13 +171,13 @@ namespace Area23.At.Mono.Settings
             }
             catch (Exception ex3)
             {
-                DivTest1.InnerHtml += $"<p>Exception ${ex3.GetType()} {ex3.Message}</p><pre>\n{ex3.ToString()}</pre>";
+                DivTest0.InnerHtml += $"<p>Exception ${ex3.GetType()} {ex3.Message}</p><pre>\n{ex3.ToString()}</pre>";
             }
 
         }
 
 
-        protected void PerformTests(PersistType persistType = PersistType.AppDomain, int iterations = 128, bool parallel = true, bool serial = true)
+        protected void PerformTests(PersistType persistType, int iterations = 128, bool parallel = true, bool serial = true)
         {
 
             Dictionary<string, string> cachTests = new Dictionary<string, string>();
@@ -154,48 +185,77 @@ namespace Area23.At.Mono.Settings
             try
             {
                 if (serial)
-                    cachTests.Add($" Serial  {persistType.ToString()}/{iterations}", RunSerial(persistType, iterations));
+                {
+                    string serials = RunSerial(persistType, iterations);
+                    string serialt = "";
+                    if (serials.Contains("\nFinished"))
+                        serialt = serials.Substring(serials.LastIndexOf("\nFinished"));
+                    cachTests.Add($" Serial  {persistType.ToString()}/{iterations}", serialt);
+                    DivTest1.InnerHtml += $"<pre> Serial  {persistType.ToString()}/{iterations}\n" + serials + " </pre>";
+                }
             }
             catch (Exception exSerial)
             {
                 DivTest2.InnerHtml += $"<p>Exception ${exSerial.GetType()} {exSerial.Message}</p><pre>\n{exSerial.ToString()}</pre>";
             }
-            try { 
+            try
+            {
                 if (parallel)
-                    cachTests.Add($"Parallel {persistType.ToString()}/{iterations}", RunTasks(persistType, iterations));
-                cachTests.Add("PersistType.AppDomain Serial", RunSerial(PersistType.AppDomain, 64));
+                {
+                    string parallels = RunTasks(persistType, iterations);
+                    string parallelt = "";
+                    if (parallels.Contains("\nFinished"))
+                        parallelt = parallels.Substring(parallels.LastIndexOf("\nFinished"));
+                    cachTests.Add($"Parallel {persistType.ToString()}/{iterations}", parallelt);
+                    DivTest1.InnerHtml += $"<pre>Parallel {persistType.ToString()}/{iterations}\n" + parallels + "</pre>";
+                }
             }
             catch (Exception exParallel)
             {
-                DivTest2.InnerHtml += $"<p>Exception ${exParallel.GetType()} {exParallel.Message}</p><pre>\n{exParallel.ToString()}</pre>";
+                DivTest2.InnerHtml += $"<p>Exception ${exParallel.GetType()} {exParallel.Message}</p>";
+                DivTest2.InnerHtml += $"<pre>\n{exParallel.ToString()}</pre>";
             }
-            
 
-            foreach (string rtKey in cachTests.Keys)
+            foreach (string key in cachTests.Keys)
             {
                 try
                 {
                     TableRow row = new TableRow();
                     TableCell cellName = new TableCell();
-                    cellName.Text = rtKey.ToString();
+                    cellName.Text = key.ToString();
                     TableCell cellValue = new TableCell();
-                    cellValue.Text = cachTests[rtKey].ToString();
+                    cellValue.Text = cachTests[key].ToString();
                     row.Cells.Add(cellName);
                     row.Cells.Add(cellValue);
-                    TableRuntime.Rows.Add(row);
+                    TableCacheTest.Rows.Add(row);
                 }
                 catch (Exception exTableRow)
                 {
-                    DivTest2.InnerHtml += $"<p>Exception ${exTableRow.GetType()} {exTableRow.Message}</p><pre>\n{exTableRow.ToString()}</pre>";
+                    try
+                    {
+                        DivTest2.InnerHtml += $"<p>Exception ${exTableRow.GetType()} {exTableRow.Message}</p>";
+                    }
+                    catch (Exception exTableRow0)
+                    {
+                        Area23Log.LogStatic(exTableRow0);
+                    }
+                    try
+                    {
+                        DivTest2.InnerHtml += $"<pre>\n{exTableRow.ToString()}</pre>";
+                    }
+                    catch (Exception exTableRow1)
+                    {
+                        Area23Log.LogStatic(exTableRow1);
+                    }
+
                 }
             }
         }
 
 
-              
-
         static string RunTasks(PersistType persitVariant, int numberOfTasks, short maxKexs = 16)
         {
+            string s = "";
             MemoryCache memoryCache = null;
             switch (persitVariant)
             {
@@ -218,7 +278,7 @@ namespace Area23.At.Mono.Settings
                     break;
             }
             string parallelCache = MemoryCache.CacheVariant;
-            System.Console.WriteLine($"RunTasks(int numberOfTasks = {numberOfTasks}) cache = {parallelCache}.");
+            s += $"RunTasks(int numberOfTasks = {numberOfTasks}) cache = {parallelCache}.\n";
             DateTime now = DateTime.Now;
             if (numberOfTasks <= 0)
                 numberOfTasks = 16;
@@ -237,13 +297,24 @@ namespace Area23.At.Mono.Settings
                     taskArray[i] = Task.Factory.StartNew((object obj) =>
                     {
                         string ckey = string.Concat("Key_", (i % maxKexs).ToString());
-                        CacheData data = obj as CacheData;
+                        CacheData data = null;
+                        try
+                        {
+                            data = obj as CacheData;
+                            if (data == null)
+                                data = new CacheData(ckey, Thread.CurrentThread.ManagedThreadId);
+                        }
+                        catch (Exception exCastData)
+                        {
+                            Area23Log.LogStatic(exCastData);
+                        }
                         if (data == null)
-                            data = new CacheData(ckey, Thread.CurrentThread.ManagedThreadId);
+                            data = new CacheData() { CKey = ckey, CThreadId = Thread.CurrentThread.ManagedThreadId, CTime = DateTime.Now };
+
 
                         data.CThreadId = Thread.CurrentThread.ManagedThreadId;
                         MemoryCache.CacheDict.SetValue<CacheData>(ckey, data);
-                        // Console.WriteLine($"Task set cache key #{data.CKey} created at {data.CTime} on thread #{data.CThreadId}.");
+                        s += $"Task set cache key #{data.CKey} created at {data.CTime} on thread #{data.CThreadId}.\n";
                     },
                     new CacheData("Key_" + (i % maxKexs).ToString()));
                 }
@@ -257,7 +328,7 @@ namespace Area23.At.Mono.Settings
                             strkey = ckey;
 
                         CacheData data = (CacheData)MemoryCache.CacheDict.GetValue<CacheData>(strkey);
-                        // Console.WriteLine($"Task get cache key #{strkey} => {data.CValue} created at {data.CTime} original thread {data.CThreadId} on current thread #{Thread.CurrentThread.ManagedThreadId}.");
+                        s += $"Task get cache key #{strkey} => {data.CValue} created at {data.CTime} original thread {data.CThreadId} on current thread #{Thread.CurrentThread.ManagedThreadId}.\n";
                     },
                     new StringBuilder(string.Concat("Key_", (i % maxKexs).ToString())).ToString());
                 }
@@ -270,15 +341,17 @@ namespace Area23.At.Mono.Settings
             if (numberOfTasks > ts.TotalSeconds)
                 doublePerSecond = (1000 * numberOfTasks) / ts.TotalMilliseconds;
             ulong perSecond = (ulong)doublePerSecond;
-            
-            return $"Finished {numberOfTasks} parallel tasks in {ts.Minutes:d2}:{ts.Seconds:d2}.{ts.Milliseconds:d3}\n\t{perSecond} tasks per second.";
+
+            s += $"\nFinished {numberOfTasks} parallel tasks in {ts.Minutes:d2}:{ts.Seconds:d2}.{ts.Milliseconds:d3}\n\t{perSecond} tasks per second.";
+            return s;
         }
 
         static string RunSerial(PersistType persitVariant, int iterationsCount, short maxKexs = 16)
         {
+            string s = "";
             MemoryCache memoryCache = null;
             switch (persitVariant)
-            {                
+            {
                 case PersistType.JsonFile:
                     JsonFileCache jsonFileCache = new JsonFileCache(persitVariant);
                     memoryCache = (MemoryCache)jsonFileCache;
@@ -298,7 +371,7 @@ namespace Area23.At.Mono.Settings
                     break;
             }
             string serialSache = MemoryCache.CacheVariant;
-            System.Console.WriteLine($"RunSerial(int iterationsCount = {iterationsCount}) cache = {serialSache}.");
+            s += $"RunSerial(int iterationsCount = {iterationsCount}) cache = {serialSache}.\n";
 
             if (iterationsCount <= 0)
                 iterationsCount = 16;
@@ -316,13 +389,13 @@ namespace Area23.At.Mono.Settings
                     string ckey = string.Concat("Key_", (i % maxKexs).ToString());
                     CacheData data = new CacheData(ckey, Thread.CurrentThread.ManagedThreadId);
                     MemoryCache.CacheDict.SetValue<CacheData>(ckey, data);
-                    // Console.WriteLine($"Task set cache key #{data.CKey} created at {data.CTime} on thread #{data.CThreadId}.");
+                    s += $"Task set cache key #{data.CKey} created at {data.CTime} on thread #{data.CThreadId}.\n";
                 }
                 else if ((i >= quater && i < half) || i >= threequater)
                 {
                     string strkey = "Key_" + (i % maxKexs).ToString();
                     CacheData cacheData = (CacheData)MemoryCache.CacheDict[strkey];
-                    // Console.WriteLine($"Task get cache key #{strkey} => {cacheData.CValue} created at {cacheData.CTime} original thread {cacheData.CThreadId} on current thread #{Thread.CurrentThread.ManagedThreadId}.");
+                    s += $"Task get cache key #{strkey} => {cacheData.CValue} created at {cacheData.CTime} original thread {cacheData.CThreadId} on current thread #{Thread.CurrentThread.ManagedThreadId}.\n";
                 }
             }
 
@@ -335,10 +408,11 @@ namespace Area23.At.Mono.Settings
             if (iterationsCount > ts.TotalSeconds)
                 doublePerSecond = (1000 * iterationsCount) / ts.TotalMilliseconds;
             ulong perSecond = (ulong)doublePerSecond;
-            
-            return $"Finished {iterationsCount} iterations in {ts.Minutes:d2}:{ts.Seconds:d2}.{ts.Milliseconds:d3}\n\t{perSecond} iterations per second.";
 
+            s += $"\nFinished {iterationsCount} iterations in {ts.Minutes:d2}:{ts.Seconds:d2}.{ts.Milliseconds:d3}\n\t{perSecond} iterations per second.";
+            return s;
         }
+
 
         protected void Button_TestCache_Click(object sender, EventArgs e)
         {
@@ -349,8 +423,10 @@ namespace Area23.At.Mono.Settings
                 iterations = 128;
             foreach (ListItem item in CheckBoxList_TestType.Items)
             {
-                parallel = (item.Text == "Parallel" && item.Selected);
-                serial = (item.Text == "Serial" && item.Selected);
+                if (item.Text == "Parallel")
+                    parallel = item.Selected;
+                if (item.Text == "Serial")
+                    serial = item.Selected;
             }
             if (serial || parallel)
                 PerformTests(persistType, iterations, parallel, serial);

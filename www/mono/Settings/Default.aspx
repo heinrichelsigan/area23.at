@@ -12,17 +12,17 @@
             <div>
                 <asp:Table ID="TableSettings" runat="server" BorderStyle="Outset" BorderColor="#c0c0c0" CellPadding="1" CellSpacing="1">
                     <asp:TableHeaderRow>
-                        <asp:TableCell BorderStyle="Double" BackColor="Silver" Font-Bold="true">Setting Name</asp:TableCell> 
-                        <asp:TableCell BorderStyle="Double" BackColor="Silver" Font-Bold="true">Setting Value</asp:TableCell> 
-                    </asp:TableHeaderRow>
+                        <asp:TableHeaderCell BorderStyle="Double" BackColor="Silver" Font-Bold="true">Setting Name</asp:TableHeaderCell>
+                        <asp:TableHeaderCell BorderStyle="Double" BackColor="Silver" Font-Bold="true">Setting Value</asp:TableHeaderCell>
+                    </asp:TableHeaderRow>                    
                 </asp:Table>                
             </div>
             <hr />
             <div>
                 <asp:Table ID="TableRuntime" runat="server" BorderStyle="Outset" BorderColor="#c0c0c0" CellPadding="1" CellSpacing="1">
                     <asp:TableHeaderRow>
-                        <asp:TableCell BorderStyle="Outset" BackColor="LightGray" Font-Bold="true">Runtime Name</asp:TableCell> 
-                        <asp:TableCell BorderStyle="Outset" BackColor="LightGray" Font-Bold="true">Runtime Value</asp:TableCell> 
+                        <asp:TableHeaderCell BorderStyle="Outset" BackColor="LightGray" Font-Bold="true">Name</asp:TableHeaderCell>
+                        <asp:TableHeaderCell BorderStyle="Outset" BackColor="LightGray" Font-Bold="true">Value</asp:TableHeaderCell>
                     </asp:TableHeaderRow>
                 </asp:Table>                
             </div>

@@ -78,6 +78,15 @@ namespace Area23.At.Mono.Settings
         protected global::System.Web.UI.WebControls.CheckBoxList CheckBoxList_TestType;
 
         /// <summary>
+        /// DivSettingsTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivSettingsTable;
+
+        /// <summary>
         /// TableSettings control.
         /// </summary>
         /// <remarks>
@@ -87,13 +96,13 @@ namespace Area23.At.Mono.Settings
         protected global::System.Web.UI.WebControls.Table TableSettings;
 
         /// <summary>
-        /// TableRuntime control.
+        /// TableCacheTest control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table TableRuntime;
+        protected global::System.Web.UI.WebControls.Table TableCacheTest;
 
         /// <summary>
         /// DivTest0 control.

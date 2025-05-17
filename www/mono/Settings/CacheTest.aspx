@@ -12,10 +12,10 @@
             <div style="word-wrap:unset">
                 <asp:Label ID="Label_CacheVariant" runat="server" ClientIDMode="Static" Text="cache variant:" ToolTip="choose cache variant to test" />
                 <asp:DropDownList ID="DropDownList_CacheVariant" runat="server" ClientIDMode="Static">
-                    <asp:ListItem Enabled="true"  Selected="False" Text="AppDomain" Value="AppDomain" />
+                    <asp:ListItem Enabled="true"  Selected="True" Text="AppDomain" Value="AppDomain" />
                     <asp:ListItem Enabled="true" Selected="False" Text="ApplicationState" Value="ApplicationState" />
                     <asp:ListItem Enabled="true" Selected="False" Text="JsonFile" Value="JsonFile" />
-                    <asp:ListItem Enabled="true" Selected="True" Text="Redis" Value="Redis" />
+                    <asp:ListItem Enabled="true" Selected="False" Text="Redis" Value="Redis" />
                 </asp:DropDownList>
                 <asp:Literal ID="Literal_Iterations" runat="server" ClientIDMode="Static" Text="iterations:" />
                 <asp:DropDownList ID="DropDownList_Iterations" runat="server" ClientIDMode="Static">
@@ -37,21 +37,21 @@
             </div>
             
             <hr />
-            <div>
-                <asp:Table ID="TableSettings" runat="server" ClientIDMode="Static" BorderStyle="Outset" BorderColor="#c0c0c0" CellPadding="1" CellSpacing="1">
+            <div id="DivSettingsTable" runat="server" visible="false">
+                <asp:Table ID="TableSettings" runat="server" BorderStyle="Outset" BorderColor="#c0c0c0" CellPadding="1" CellSpacing="1" Visible="false">
                     <asp:TableHeaderRow>
-                        <asp:TableCell>Setting Name</asp:TableCell> 
-                        <asp:TableCell>Setting Value</asp:TableCell> 
+                        <asp:TableHeaderCell BorderStyle="Double" BackColor="Silver" Font-Bold="true">Setting Name</asp:TableHeaderCell>
+                        <asp:TableHeaderCell BorderStyle="Double" BackColor="Silver" Font-Bold="true">Setting Value</asp:TableHeaderCell>
                     </asp:TableHeaderRow>
                 </asp:Table>                
             </div>
             <hr />
             <div>
-                <asp:Table ID="TableRuntime" runat="server" BorderStyle="Outset" BorderColor="#c0c0c0" CellPadding="1" CellSpacing="1">
+                <asp:Table ID="TableCacheTest" runat="server" BorderStyle="Outset" BorderColor="#c0c0c0" CellPadding="1" CellSpacing="1">
                     <asp:TableHeaderRow>
-                        <asp:TableCell>Runtime Name</asp:TableCell> 
-                        <asp:TableCell>Runtime Value</asp:TableCell> 
-                    </asp:TableHeaderRow>
+                        <asp:TableHeaderCell BorderStyle="Outset" BackColor="LightGray" Font-Bold="true">Name</asp:TableHeaderCell>
+                        <asp:TableHeaderCell BorderStyle="Outset" BackColor="LightGray" Font-Bold="true">Value</asp:TableHeaderCell>
+                    </asp:TableHeaderRow>  
                 </asp:Table>                
             </div>
             <hr />
