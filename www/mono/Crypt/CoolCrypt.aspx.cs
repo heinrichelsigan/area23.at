@@ -554,7 +554,8 @@ namespace Area23.At.Mono.Crypt
                             if (!string.IsNullOrEmpty(zopt))
                             {
                                 strFileName += zopt;
-                                Array.Copy(outBytes, 0, inBytes, 0, outBytes.Length);
+                                int arrayLen = Math.Max(outBytes.Length, inBytes.Length);
+                                Array.Copy(outBytes, 0, inBytes, 0, arrayLen);
                             }
                         }
 

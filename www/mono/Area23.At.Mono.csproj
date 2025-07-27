@@ -151,6 +151,7 @@
     <Content Include="Gamez\Default.aspx" />
     <Content Include="Gamez\froga.aspx" />
     <Content Include="Gamez\frogb.aspx" />
+    <Content Include="Gamez\Pong.aspx" />
     <Content Include="Gamez\TicTacToe.aspx" />
     <Content Include="Qr\Default.aspx" />
     <Content Include="R.aspx" />
@@ -464,6 +465,13 @@
     </Compile>
     <Compile Include="Gamez\GamesMaster.master.designer.cs">
       <DependentUpon>GamesMaster.master</DependentUpon>
+    </Compile>
+    <Compile Include="Gamez\Pong.aspx.cs">
+      <DependentUpon>Pong.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Gamez\Pong.aspx.designer.cs">
+      <DependentUpon>Pong.aspx</DependentUpon>
     </Compile>
     <Compile Include="Qr\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
