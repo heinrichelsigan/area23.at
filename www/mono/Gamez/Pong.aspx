@@ -1339,7 +1339,7 @@
 
     </script>
 </asp:Content>
-<asp:Content ID="ContentEncodeBody" ContentPlaceHolderID="EncodeBody" runat="server" ClientIDMode="Stapong">     
+<asp:Content ID="ContentEncodeBody" ContentPlaceHolderID="EncodeBody" runat="server">     
     <noscript>Your browser does not support JavaScript!</noscript>
     <div class="pong" align="center">
 	    <div class="pongHeader">

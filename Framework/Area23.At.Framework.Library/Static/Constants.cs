@@ -140,6 +140,7 @@ namespace Area23.At.Framework.Library.Static
         public const string JSON_DIR = "json";
         public const string LOG_DIR = "log";
         public const string LOG_EXT = ".log";
+        public const string LOG_EXCEPTION_STATIC = "LogExceptionStatic";
         public const string OUT_DIR = "out";        
         public const string QR_DIR = "Qr";
         public const string RES_DIR = "res";

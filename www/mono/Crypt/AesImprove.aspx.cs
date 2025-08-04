@@ -265,9 +265,10 @@ namespace Area23.At.Mono.Crypt
 
                 Reset_TextBox_IV(usrMailKey);
                 byte[] inBytes = Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
-                byte[] encryptBytes = new byte[inBytes.Length];
-                Array.Copy(inBytes, 0, encryptBytes, 0, inBytes.Length);
-
+                byte[] encryptBytes = inBytes;
+                // byte[] encryptBytes = new byte[inBytes.Length];
+                // string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;                
+                // Array.Copy(inBytes, 0, encryptBytes, 0, inBytes.Length);
 
                 ZipType ztype = ZipType.None;
                 if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))

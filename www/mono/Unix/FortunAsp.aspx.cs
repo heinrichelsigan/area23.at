@@ -27,6 +27,13 @@ namespace Area23.At.Mono.Unix
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                if (metaRefreshId != null && metaRefreshId.Attributes != null && metaRefreshId.Attributes.Count > 0 && metaRefreshId.Attributes["content"] != null)
+                {
+                    metaRefreshId.Attributes["content"] = "20; url=" + Request.RawUrl.ToString();
+                }
+            }
             SetFortune();
         }
 
@@ -59,7 +66,7 @@ namespace Area23.At.Mono.Unix
                 catch (Exception ex)
                 {
                     Area23Log.LogStatic(ex);
-                    if (execTimes >= 8) useExec = false;
+                    if (execTimes >= 4) useExec = false;
                 }
             }
             if (string.IsNullOrEmpty(fortuneResult))

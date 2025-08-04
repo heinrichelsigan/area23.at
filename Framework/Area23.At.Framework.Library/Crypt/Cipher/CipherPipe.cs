@@ -1,6 +1,7 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Static;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -317,19 +318,23 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         {
             cipherKey = secretKey;
             cipherHash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIv;
-            byte[] encryptedBytes = new byte[inBytes.Length * 3 + 1];
+            long outByteLen = (InPipe == null || InPipe.Length == 0) ? inBytes.Length : ((inBytes.Length * 3) + 1);
+            byte[] encryptedBytes = new byte[outByteLen];
 #if DEBUG
             stageDictionary = new Dictionary<CipherEnum, byte[]>();
             // stageDictionary.Add(CipherEnum.ZenMatrix, inBytes);
 #endif
-            foreach (CipherEnum cipher in InPipe)
-            {
-                encryptedBytes = EncryptBytesFast(inBytes, cipher, cipherKey, cipherHash);
-                inBytes = encryptedBytes;
+            if (InPipe == null || InPipe.Length == 0)
+                Array.Copy(inBytes, 0, encryptedBytes, 0, inBytes.Length);
+            else
+                foreach (CipherEnum cipher in InPipe)
+                {
+                    encryptedBytes = EncryptBytesFast(inBytes, cipher, cipherKey, cipherHash);
+                    inBytes = encryptedBytes;
 #if DEBUG
-                stageDictionary.Add(cipher, encryptedBytes);
+                    stageDictionary.Add(cipher, encryptedBytes);
 #endif
-            }
+                }
 
             return encryptedBytes;
         }
@@ -346,19 +351,23 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         {
             cipherKey = secretKey;
             cipherHash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIv;
-            byte[] decryptedBytes = new byte[cipherBytes.Length * 3 + 1];
+            long outByteLen = (OutPipe == null || OutPipe.Length == 0) ? cipherBytes.Length : ((cipherBytes.Length * 3) + 1);
+            byte[] decryptedBytes = new byte[outByteLen];
 #if DEBUG
             stageDictionary = new Dictionary<CipherEnum, byte[]>();
             // stageDictionary.Add(CipherEnum.ZenMatrix, cipherBytes);
 #endif 
-            foreach (CipherEnum cipher in OutPipe)
-            {
-                decryptedBytes = DecryptBytesFast(cipherBytes, cipher, cipherKey, cipherHash, fishOnAesEngine);
-                cipherBytes = decryptedBytes;
+            if (OutPipe == null || OutPipe.Length == 0)
+                Array.Copy(cipherBytes, 0, decryptedBytes, 0, cipherBytes.Length);
+            else
+                foreach (CipherEnum cipher in OutPipe)
+                {
+                    decryptedBytes = DecryptBytesFast(cipherBytes, cipher, cipherKey, cipherHash, fishOnAesEngine);
+                    cipherBytes = decryptedBytes;
 #if DEBUG
-                stageDictionary.Add(cipher, cipherBytes);
+                    stageDictionary.Add(cipher, cipherBytes);
 #endif
-            }
+                }
 
             return cipherBytes;
         }

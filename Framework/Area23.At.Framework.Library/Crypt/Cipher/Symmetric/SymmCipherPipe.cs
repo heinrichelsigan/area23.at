@@ -280,19 +280,24 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             }
             symmCipherKey = secretKey;
             symmCipherHash = hashIv;
-            byte[] encryptedBytes = new byte[inBytes.Length * 3 + 1];
+            long outByteLen = (InPipe == null || InPipe.Length == 0) ? inBytes.Length : ((inBytes.Length * 3) + 1);
+            byte[] encryptedBytes = new byte[outByteLen];
 #if DEBUG
             stageDictionary = new Dictionary<SymmCipherEnum, byte[]>();
             // stageDictionary.Add(SymmCipherEnum.ZenMatrix, inBytes);
 #endif
-            foreach (SymmCipherEnum symmCipher in InPipe)
-            {
-                encryptedBytes = EncryptBytesFast(inBytes, symmCipher, secretKey, hashIv);
-                inBytes = encryptedBytes;
+
+            if (InPipe == null || InPipe.Length == 0)
+                Array.Copy(inBytes, 0, encryptedBytes, 0, inBytes.Length);
+            else
+                foreach (SymmCipherEnum symmCipher in InPipe)
+                {
+                    encryptedBytes = EncryptBytesFast(inBytes, symmCipher, secretKey, hashIv);
+                    inBytes = encryptedBytes;
 #if DEBUG
-                stageDictionary.Add(symmCipher, encryptedBytes);
+                    stageDictionary.Add(symmCipher, encryptedBytes);
 #endif
-            }
+                }
 
             return encryptedBytes;
         }
@@ -317,19 +322,23 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             }
             symmCipherKey = secretKey;
             symmCipherHash = hashIv;
-            byte[] decryptedBytes = new byte[cipherBytes.Length * 3 + 1];
+            long outByteLen = (OutPipe == null || OutPipe.Length == 0) ? cipherBytes.Length : ((cipherBytes.Length * 3) + 1);
+            byte[] decryptedBytes = new byte[outByteLen];
 #if DEBUG
             stageDictionary = new Dictionary<SymmCipherEnum, byte[]>();
             // stageDictionary.Add(SymmCipherEnum.ZenMatrix, cipherBytes);
-#endif 
-            foreach (SymmCipherEnum symmCipher in OutPipe)
-            {
-                decryptedBytes = DecryptBytesFast(cipherBytes, symmCipher, secretKey, hashIv, fishOnAesEngine);
-                cipherBytes = decryptedBytes;
-#if DEBUG
-                stageDictionary.Add(symmCipher, cipherBytes);
 #endif
-            }
+            if (OutPipe == null || OutPipe.Length == 0)
+                Array.Copy(cipherBytes, 0, decryptedBytes, 0, cipherBytes.Length);
+            else
+                foreach (SymmCipherEnum symmCipher in OutPipe)
+                {
+                    decryptedBytes = DecryptBytesFast(cipherBytes, symmCipher, secretKey, hashIv, fishOnAesEngine);
+                    cipherBytes = decryptedBytes;
+#if DEBUG
+                    stageDictionary.Add(symmCipher, cipherBytes);
+#endif
+                }
 
             return cipherBytes;
         }

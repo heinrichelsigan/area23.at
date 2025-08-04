@@ -112,6 +112,7 @@ namespace Area23.At.Framework.Core.Static
         public const string JS_DIR = "js";
         public const string LOG_DIR = "log";
         public const string LOG_EXT = ".log";
+		public const string LOG_EXCEPTION_STATIC = "LogExceptionStatic";
         public const string OUT_DIR = "out";
         public const string TMP_DIR = "tmp";
         public const string QR_DIR = "Qr";

@@ -357,8 +357,6 @@
     <Compile Include="CqrJD\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="CqrJD\PersistMsgIn.cs" />
-    <Compile Include="CqrJD\RedIS.cs" />
     <Compile Include="Crypt\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
