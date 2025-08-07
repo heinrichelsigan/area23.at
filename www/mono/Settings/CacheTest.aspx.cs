@@ -54,7 +54,6 @@ namespace Area23.At.Mono.Settings
                 // BuildSettingsTable();
                 PerformTests(persistType, iterations, parallel, serial);
             }
-
         }
 
         protected override void OnInit(EventArgs e)
@@ -77,7 +76,6 @@ namespace Area23.At.Mono.Settings
                 }
             }
         }
-
 
         protected void BuildSettingsTable()
         {
@@ -277,7 +275,8 @@ namespace Area23.At.Mono.Settings
                     memoryCache = (MemoryCache)appDomainCache;
                     break;
             }
-            string parallelCache = MemoryCache.CacheVariant;
+            string parallelCache = memoryCache.CacheType;
+
             s += $"RunTasks(int numberOfTasks = {numberOfTasks}) cache = {parallelCache}.\n";
             DateTime now = DateTime.Now;
             if (numberOfTasks <= 0)
@@ -313,7 +312,7 @@ namespace Area23.At.Mono.Settings
 
 
                         data.CThreadId = Thread.CurrentThread.ManagedThreadId;
-                        MemoryCache.CacheDict.SetValue<CacheData>(ckey, data);
+                        memoryCache.SetValue<CacheData>(ckey, data);
                         s += $"Task set cache key #{data.CKey} created at {data.CTime} on thread #{data.CThreadId}.\n";
                     },
                     new CacheData("Key_" + (i % maxKexs).ToString()));
@@ -327,8 +326,11 @@ namespace Area23.At.Mono.Settings
                         if (string.IsNullOrEmpty(strkey))
                             strkey = ckey;
 
-                        CacheData data = (CacheData)MemoryCache.CacheDict.GetValue<CacheData>(strkey);
-                        s += $"Task get cache key #{strkey} => {data.CValue} created at {data.CTime} original thread {data.CThreadId} on current thread #{Thread.CurrentThread.ManagedThreadId}.\n";
+                        CacheData data = (CacheData)memoryCache.GetValue<CacheData>(strkey);
+                        if (data == null)
+                            s += $"Task get cache key #{strkey} => (nil)";
+                        else
+                            s += $"Task get cache key #{strkey} => {data.CValue} created at {data.CTime} original thread {data.CThreadId} on current thread #{Thread.CurrentThread.ManagedThreadId}.\n";
                     },
                     new StringBuilder(string.Concat("Key_", (i % maxKexs).ToString())).ToString());
                 }
@@ -370,7 +372,7 @@ namespace Area23.At.Mono.Settings
                     memoryCache = (MemoryCache)appDomainCache;
                     break;
             }
-            string serialSache = MemoryCache.CacheVariant;
+            string serialSache = memoryCache.CacheType;
             s += $"RunSerial(int iterationsCount = {iterationsCount}) cache = {serialSache}.\n";
 
             if (iterationsCount <= 0)
@@ -388,14 +390,17 @@ namespace Area23.At.Mono.Settings
                 {
                     string ckey = string.Concat("Key_", (i % maxKexs).ToString());
                     CacheData data = new CacheData(ckey, Thread.CurrentThread.ManagedThreadId);
-                    MemoryCache.CacheDict.SetValue<CacheData>(ckey, data);
+                    memoryCache.SetValue<CacheData>(ckey, data);
                     s += $"Task set cache key #{data.CKey} created at {data.CTime} on thread #{data.CThreadId}.\n";
                 }
                 else if ((i >= quater && i < half) || i >= threequater)
                 {
                     string strkey = "Key_" + (i % maxKexs).ToString();
-                    CacheData cacheData = (CacheData)MemoryCache.CacheDict[strkey];
-                    s += $"Task get cache key #{strkey} => {cacheData.CValue} created at {cacheData.CTime} original thread {cacheData.CThreadId} on current thread #{Thread.CurrentThread.ManagedThreadId}.\n";
+                    CacheData cacheData = (CacheData)memoryCache[strkey];
+                    if (cacheData == null)
+                        s += $"Task get cache key #{strkey} => (nil)\n";
+                    else
+                        s += $"Task get cache key #{strkey} => {cacheData.CValue} created at {cacheData.CTime} original thread {cacheData.CThreadId} on current thread #{Thread.CurrentThread.ManagedThreadId}.\n";
                 }
             }
 
@@ -413,13 +418,25 @@ namespace Area23.At.Mono.Settings
             return s;
         }
 
-
         protected void Button_TestCache_Click(object sender, EventArgs e)
         {
-            bool parallel = false, serial = false;
-            if (!Enum.TryParse<PersistType>(this.DropDownList_CacheVariant.SelectedValue, out PersistType persistType))
+            DivTest0.InnerHtml = string.Empty;
+            DivTest1.InnerHtml = string.Empty;
+            DivTest2.InnerHtml = string.Empty;
+            Enum.TryParse<PersistType>(this.DropDownList_CacheVariant.SelectedValue, out persistType);
+
+            string persistString = this.DropDownList_CacheVariant.SelectedItem.Text;
+            if (persistString.StartsWith("AppDomain"))
                 persistType = PersistType.AppDomain;
-            if (!Int32.TryParse(this.DropDownList_Iterations.SelectedValue, out int iterations))
+            if (persistString.StartsWith("ApplicationState"))
+                persistType = PersistType.ApplicationState;
+            if (persistString.StartsWith("JsonFile"))
+                persistType = PersistType.JsonFile;
+            if (persistString.StartsWith("Redis"))
+                persistType = PersistType.Redis;
+
+
+            if (!Int32.TryParse(this.DropDownList_Iterations.SelectedValue, out iterations))
                 iterations = 128;
             foreach (ListItem item in CheckBoxList_TestType.Items)
             {
@@ -431,6 +448,7 @@ namespace Area23.At.Mono.Settings
             if (serial || parallel)
                 PerformTests(persistType, iterations, parallel, serial);
         }
+
     }
 
 }

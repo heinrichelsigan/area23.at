@@ -150,7 +150,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             symmCipherKey = key;
         }
 
- 
 
         #endregion ctor SymmCipherPipe
 

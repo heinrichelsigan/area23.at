@@ -9,13 +9,13 @@
             try {
                 SetTimeDigital();
             } catch (exDigiTime) {
-                console.log(`Exception on executing function SetTimeDigital() => now calling setDigiTime().`);
+                console.log(`Exception ' + exDigiTime + ' on executing function SetTimeDigital() => now calling setDigiTime().`);
                 setDigiTime();
             }  
             try {
                 InitTimeDigital();
             } catch (exDigiTime) {
-                console.log(`Exception on executing function InitTimeDigital() => now calling initDigiTime().`);
+                console.log(`Exception ' + exDigiTime + ' on executing function InitTimeDigital() => now calling initDigiTime().`);
                 initDigiTime();
             }  
             setTimeout(function () { setDigiTime() }, 900);

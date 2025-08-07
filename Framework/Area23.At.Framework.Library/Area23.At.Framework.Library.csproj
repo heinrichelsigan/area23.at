@@ -41,7 +41,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\BouncyCastle.Cryptography.2.5.1\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+      <HintPath>..\..\packages\BouncyCastle.Cryptography.2.6.2\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.4.2.13, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SharpZipLib.1.4.2\lib\netstandard2.0\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -58,8 +58,8 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NLog.5.4.0\lib\net46\NLog.dll</HintPath>
+    <Reference Include="NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.6.0.2\lib\net46\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Pipelines.Sockets.Unofficial, Version=1.0.0.0, Culture=neutral, PublicKeyToken=42ea0a778e13fbe2, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Pipelines.Sockets.Unofficial.2.2.8\lib\net461\Pipelines.Sockets.Unofficial.dll</HintPath>
@@ -173,6 +173,7 @@
     <Compile Include="Cache\CacheValue.cs" />
     <Compile Include="Cache\JsonFileCache.cs" />
     <Compile Include="Cache\MemoryCache.cs" />
+    <Compile Include="Cache\MutalExclusion.cs" />
     <Compile Include="Cache\PersistInCache.cs" />
     <Compile Include="Cache\RedisCache.cs" />
     <Compile Include="Cache\RedIstatic.cs" />
@@ -206,7 +207,7 @@
     <Compile Include="Crypt\Cipher\CryptParams.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\FishRequiresAesEngineException.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\RC564.cs" />
-    <Compile Include="Crypt\Cipher\Symmetric\Rijndael.cs" />
+    <Compile Include="Crypt\Cipher\Symmetric\Rfc3211Wrap.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\SymmCipherPipe.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\SymmCrypt.cs" />
     <Compile Include="Static\Constants.cs" />

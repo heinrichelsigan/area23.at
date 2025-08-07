@@ -57,7 +57,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         }
 
         /// <summary>
-        /// RijndaelGenWithKey - Generate new <see cref="Rijndael"/> with secret key
+        /// RijndaelGenWithKey - Generate new <see cref="Rfc3211Wrap"/> with secret key
         /// </summary>
         /// <param name="secretKey">key param for encryption</param>
         /// <param name="usrHash">user key hash</param>

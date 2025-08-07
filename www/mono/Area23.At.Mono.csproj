@@ -135,9 +135,33 @@
     <Compile Include="Calc\MatrixMCalc.aspx.designer.cs">
       <DependentUpon>MatrixMCalc.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Controls\LetterImageControl.ascx.cs">
+      <DependentUpon>LetterImageControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\LetterImageControl.ascx.designer.cs">
+      <DependentUpon>LetterImageControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TreeViewControl.ascx.cs">
+      <DependentUpon>TreeViewControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeViewControl.ascx.designer.cs">
+      <DependentUpon>TreeViewControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CqrJD\CqrBaseService.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Content Include="Controls\LetterImageControl.ascx" />
+    <Content Include="Controls\TreeViewControl.ascx" />
+    <Content Include="Controls\Default.aspx" />
     <Content Include="CqrJD\CqrService.asmx" />
     <Content Include="CqrJD\Default.aspx" />
     <Content Include="Crypt\Default.aspx" />
@@ -165,22 +189,33 @@
     <Content Include="res\css\ccalcweb.css" />
     <Content Include="res\css\matrixcalcweb.css" />
     <Content Include="res\css\ccalc.css" />
-    <Content Include="res\img\AddAesArrow.gif" />
-    <Content Include="res\img\AddAesArrowHover.gif" />
-    <Content Include="res\img\AddAesDenied.gif" />
-    <Content Include="res\img\AesBGFile.gif" />
-    <Content Include="res\img\AesBGFile.png" />
-    <Content Include="res\img\AesBGText.gif" />
-    <Content Include="res\img\AesBGText.png" />
-    <Content Include="res\img\AesImproveBG.gif" />
     <Content Include="res\img\androidSetTicTacToe.gif" />
     <Content Include="res\img\androidSetTicTacToe.png" />
     <Content Include="res\img\androidTicTacToe.gif" />
     <Content Include="res\img\androidTicTacToe.png" />
-    <Content Include="res\img\a_hash.png" />
-    <Content Include="res\img\a_right_hover.gif" />
-    <Content Include="res\img\a_right_key.png" />
-    <Content Include="res\img\decrypted.png" />
+    <Content Include="res\img\arrow\AddAesArrow.gif" />
+    <Content Include="res\img\arrow\AddAesArrowHover.gif" />
+    <Content Include="res\img\arrow\AddAesDenied.gif" />
+    <Content Include="res\img\arrow\a_down.gif" />
+    <Content Include="res\img\arrow\a_left.gif" />
+    <Content Include="res\img\arrow\a_right.gif" />
+    <Content Include="res\img\arrow\a_right_hover.gif" />
+    <Content Include="res\img\arrow\a_up.gif" />
+    <Content Include="res\img\crypt\AddAesArrow.gif" />
+    <Content Include="res\img\crypt\AddAesArrowHover.gif" />
+    <Content Include="res\img\crypt\AddAesDenied.gif" />
+    <Content Include="res\img\crypt\AesBGFile.gif" />
+    <Content Include="res\img\crypt\AesBGFile.png" />
+    <Content Include="res\img\crypt\AesBGText.gif" />
+    <Content Include="res\img\crypt\AesBGText.png" />
+    <Content Include="res\img\crypt\AesImproveBG.gif" />
+    <Content Include="res\img\crypt\a_hash.png" />
+    <Content Include="res\img\crypt\a_right_key.png" />
+    <Content Include="res\img\crypt\decrypted.png" />
+    <Content Include="res\img\crypt\encrypted.png" />
+    <Content Include="res\img\crypt\file.png" />
+    <Content Include="res\img\crypt\folder1.gif" />
+    <Content Include="res\img\crypt\folder1.png" />
     <Content Include="res\img\emptyCellBlueTicTacToe.gif" />
     <Content Include="res\img\emptyCellBlueTicTacToe.png" />
     <Content Include="res\img\emptyCellGreenTicTacToe.gif" />
@@ -189,10 +224,6 @@
     <Content Include="res\img\emptyCellRedTicTacToe.png" />
     <Content Include="res\img\emptyCellTicTacToe.gif" />
     <Content Include="res\img\emptyCellTicTacToe.png" />
-    <Content Include="res\img\encrypted.png" />
-    <Content Include="res\img\file.png" />
-    <Content Include="res\img\folder1.gif" />
-    <Content Include="res\img\folder1.png" />
     <Content Include="res\img\headerb.png" />
     <Content Include="res\img\headerTicTacToe.png" />
     <Content Include="res\img\headerTicTacToeComputer.gif" />
@@ -200,6 +231,28 @@
     <Content Include="res\img\heinrichelsigan.png" />
     <Content Include="res\img\heinrichgeorgelsigan.png" />
     <Content Include="res\img\https--area23_at-.gif" />
+    <Content Include="res\img\letter\--1.png" />
+    <Content Include="res\img\letter\0.png" />
+    <Content Include="res\img\letter\1.png" />
+    <Content Include="res\img\letter\2.png" />
+    <Content Include="res\img\letter\3.png" />
+    <Content Include="res\img\letter\4.png" />
+    <Content Include="res\img\letter\5.png" />
+    <Content Include="res\img\letter\6.png" />
+    <Content Include="res\img\letter\7.png" />
+    <Content Include="res\img\letter\8.png" />
+    <Content Include="res\img\letter\9.png" />
+    <Content Include="res\img\letter\a.png" />
+    <Content Include="res\img\letter\b.png" />
+    <Content Include="res\img\letter\c.png" />
+    <Content Include="res\img\letter\col.png" />
+    <Content Include="res\img\letter\d.png" />
+    <Content Include="res\img\letter\e.png" />
+    <Content Include="res\img\letter\f.png" />
+    <Content Include="res\img\letter\p.png" />
+    <Content Include="res\img\letter\point.png" />
+    <Content Include="res\img\letter\transparentCanvas.png" />
+    <Content Include="res\img\letter\whiteCanvas.png" />
     <Content Include="res\img\qrsample.gif" />
     <Content Include="res\img\skullSetTicTacToe.gif" />
     <Content Include="res\img\skullSetTicTacToe.png" />
@@ -233,6 +286,7 @@
     <Content Include="res\img\transparent.gif" />
     <Content Include="res\img\transparent.png" />
     <Content Include="res\js\rpn.js" />
+    <Content Include="Unix\HeinrichElsigan.html" />
     <Content Include="Unix\HexDump.aspx" />
     <Content Include="Qr\Qr.aspx" />
     <Content Include="Qr\QRGen.aspx" />
@@ -255,10 +309,6 @@
     <Content Include="res\css\frog.css" />
     <Content Include="res\css\od.css" />
     <Content Include="res\css\rpncalcweb.css" />
-    <Content Include="res\img\a_down.gif" />
-    <Content Include="res\img\a_left.gif" />
-    <Content Include="res\img\a_right.gif" />
-    <Content Include="res\img\a_up.gif" />
     <Content Include="res\img\car2.gif" />
     <Content Include="res\img\car2crashed.png" />
     <Content Include="res\img\car3.gif" />
@@ -651,6 +701,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="res\img\symbol\" />
     <Folder Include="res\Qr\" />
   </ItemGroup>
   <ItemGroup>

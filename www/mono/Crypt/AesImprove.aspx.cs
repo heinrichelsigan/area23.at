@@ -68,9 +68,9 @@ namespace Area23.At.Mono.Crypt
         {
             Button_Hash_Click(sender, e);
 
-            DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
-            DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImproveBG.gif')";
-            DivAesImprove.Style["background-image"] = "url('../res/img/AesImproveBG.gif')";
+            DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+            DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesImproveBG.gif')";
+            DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesImproveBG.gif')";
         }
 
         /// <summary>
@@ -100,9 +100,9 @@ namespace Area23.At.Mono.Crypt
             this.TextBoxDestionation.Text = "";
             ClearPostedFileSession(false);
 
-            DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImprotveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
-            DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImprotveBG.gif')";
-            DivAesImprove.Style["background-image"] = "url('../res/img/AesImprotveBG.gif')";
+            DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+            DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesImproveBG.gif')";
+            DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesImproveBG.gif')";
         }
 
         /// <summary>
@@ -136,9 +136,9 @@ namespace Area23.At.Mono.Crypt
                         this.TextBox_Encryption.Text += addChiffre;
                         this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
 
-                        DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
-                        DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImproveBG.gif')";
-                        DivAesImprove.Style["background-image"] = "url('../res/img/AesImproveBG.gif')";
+                        DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+                        DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesImproveBG.gif')";
+                        DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesImproveBG.gif')";
                         break;
                     }
                 }
@@ -339,9 +339,9 @@ namespace Area23.At.Mono.Crypt
 
                 this.TextBoxDestionation.Text = encryptedText;
 
-                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;";
-                DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesBGText.gif')";
-                DivAesImprove.Style["background-image"] = "url('../res/img/AesBGText.gif')";
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesBGText.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesBGText.gif')";
             }
             else
             {
@@ -354,9 +354,9 @@ namespace Area23.At.Mono.Crypt
                 this.TextBoxSource.BorderWidth = 2;
 
 
-                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImprotveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
-                DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImprotveBG.gif')";
-                DivAesImprove.Style["background-image"] = "url('../res/img/AesImprotveBG.gif')";
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesImproveBG.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesImproveBG.gif')";
             }
         }
 
@@ -500,9 +500,9 @@ namespace Area23.At.Mono.Crypt
                 decryptedText = EnDeCodeHelper.GetStringFromBytesTrimNulls(decryptedBytes);
                 this.TextBoxDestionation.Text = decryptedText; // HandleString_PrivateKey_Changed(decryptedText);
 
-                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;";
-                DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesBGText.gif')";
-                DivAesImprove.Style["background-image"] = "url('../res/img/AesBGText.gif')";
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesBGText.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesBGText.gif')";
             }
             else
             {
@@ -514,9 +514,9 @@ namespace Area23.At.Mono.Crypt
                 this.TextBoxSource.BorderStyle = BorderStyle.Dotted;
                 this.TextBoxSource.BorderWidth = 2;
 
-                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImprotveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
-                DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImprotveBG.gif')";
-                DivAesImprove.Style["background-image"] = "url('../res/img/AesImprotveBG.gif')";
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesImproveBG.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesImproveBG.gif')";
             }
         }
 
@@ -615,7 +615,7 @@ namespace Area23.At.Mono.Crypt
                     {
                         // byte[] inBytes = fileBytes; //.TarBytes(inBytesSeperator, inBytesKeyHash);                            
 
-                        imgOut.Src = LibPaths.ResAppPath + "img/encrypted.png";
+                        imgOut.Src = LibPaths.ResAppPath + "img/crypt/encrypted.png";
 
                         ZipType ztype = ZipType.None;
                         string zcmd = (Constants.UNIX) ? "/usr/local/bin/zipunzip.sh" : (Constants.WIN32) ? 
@@ -761,7 +761,7 @@ namespace Area23.At.Mono.Crypt
 
                         strFileName = strFileName.EndsWith(".hex") ? strFileName.Replace(".hex", "") : strFileName;
                         strFileName = strFileName.EndsWith(".oct") ? strFileName.Replace(".oct", "") : strFileName;
-                        imgOut.Src = LibPaths.ResAppPath + "img/decrypted.png";
+                        imgOut.Src = LibPaths.ResAppPath + "img/crypt/decrypted.png";
 
                         byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
                         string[] algorithms = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
@@ -905,9 +905,9 @@ namespace Area23.At.Mono.Crypt
                 // Display the result of the upload.
                 ClearPostedFileSession(true);
 
-                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGFile.gif'); background-repeat: no-repeat; background-color: transparent;";
-                DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesBGFile.gif')";
-                DivAesImprove.Style["background-image"] = "url('../res/img/AesBGFile.gif')";
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesBGFile.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesBGFile.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesBGFile.gif')";
             }
             else
             {
@@ -915,9 +915,9 @@ namespace Area23.At.Mono.Crypt
                 ClearPostedFileSession(false);
                 SpanLabel.Visible = true;
 
-                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
-                DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImproveBG.gif')";
-                DivAesImprove.Style["background-image"] = "url('../res/img/AesImproveBG.gif')";
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesImproveBG.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesImproveBG.gif')";
             }
 
         }
@@ -969,9 +969,9 @@ namespace Area23.At.Mono.Crypt
             }
             SpanRightFile.Visible = false;
 
-            DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
-            DivAesImprove.Style["backgroundImage"] = "url('../res/img/AesImproveBG.gif')";
-            DivAesImprove.Style["background-image"] = "url('../res/img/AesImproveBG.gif')";
+            DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+            DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesImproveBG.gif')";
+            DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesImproveBG.gif')";
 
         }
 

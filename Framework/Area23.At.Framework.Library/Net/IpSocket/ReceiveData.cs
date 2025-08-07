@@ -21,7 +21,7 @@ namespace Area23.At.Framework.Library.Net.IpSocket
             ClientIPPort = 0;
         }
 
-        public ReceiveData(byte[] buffer, int bytesLen, string clientIpAddr, int? clientIPPort)
+        public ReceiveData(byte[] buffer, int bytesLen, string clientIpAddr, Nullable<int> clientIPPort)
         {
             if (buffer != null && buffer.Length > 0)
             {
@@ -30,7 +30,7 @@ namespace Area23.At.Framework.Library.Net.IpSocket
             }
             if (!string.IsNullOrEmpty(clientIpAddr))
                 this.ClientIPAddr = clientIpAddr;
-            if (clientIPPort.HasValue)
+            if (clientIPPort != null && clientIPPort.HasValue)
                 this.ClientIPPort = clientIPPort.Value;
         }
 

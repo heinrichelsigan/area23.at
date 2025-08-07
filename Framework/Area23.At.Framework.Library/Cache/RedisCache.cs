@@ -24,6 +24,9 @@ namespace Area23.At.Framework.Library.Cache
         const string ALL_KEYS = "AllKeys";
         protected internal static object _redIsLock = new object();
 
+        public static new string CacheVariant = "RedisCache";
+        public override string CacheType => "RedisCache";
+
         ConnectionMultiplexer connMux;
         ConfigurationOptions options;
         string endpoint = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com:6379";
@@ -78,10 +81,12 @@ namespace Area23.At.Framework.Library.Cache
 
 
         /// <summary>
-        /// default parameterless constructor for RedisCacheValKey cache singleton
+        /// default constructor for RedisCacheValKey cache singleton
         /// </summary>
-        public RedisCache(PersistType cacheType = PersistType.Redis) 
+        public RedisCache(PersistType cacheType = PersistType.Redis)
         {
+            _persistType = cacheType;
+
             endpoint = VALKEY_CACHE_HOST_PORT; // "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com:6379";
             if (ConfigurationManager.AppSettings != null && ConfigurationManager.AppSettings[VALKEY_CACHE_APP_KEY] != null)
                 endpoint = (string)ConfigurationManager.AppSettings[VALKEY_CACHE_APP_KEY];
@@ -95,7 +100,7 @@ namespace Area23.At.Framework.Library.Cache
                 SyncTimeout = 9000
             };
             // if (connMux == null)
-                connMux = ConnectionMultiplexer.Connect(options);
+            connMux = ConnectionMultiplexer.Connect(options);
             if (db == null)
                 db = connMux.GetDatabase();
         }

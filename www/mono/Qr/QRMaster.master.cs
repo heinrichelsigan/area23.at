@@ -24,7 +24,7 @@ namespace Area23.At.Mono.Qr
 
         protected void InitAHrefs()
         {
-            this.aQrCodeGen.HRef = LibPaths.QrAppPath + "QRCodeGen.aspx";
+            this.aQrCodeGen.HRef = LibPaths.QrAppPath + "ContactQrGenerator.aspx";
             this.aQrc.HRef = LibPaths.QrAppPath + "Qrc.aspx";
             this.aQr.HRef = LibPaths.QrAppPath + "Qr.aspx";
             // this.aQrGen.HRef = LibPaths.QrAppPath + "QRGen.aspx";
@@ -43,7 +43,7 @@ namespace Area23.At.Mono.Qr
             {
                 if (this.Request != null && this.Request.RawUrl != null)
                 {
-                    if (this.Request.RawUrl.Contains("QRCodeGen.aspx"))
+                    if (this.Request.RawUrl.Contains("ContactQrGenerator.aspx"))
                     {
                         headerLeft.Attributes["class"] = "headerLeftSelect";
                         return;

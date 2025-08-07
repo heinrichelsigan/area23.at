@@ -10,16 +10,16 @@
             function changeCryptBackgroundFile() {
                 var divAes = document.getElementById("DivAesImprove");
                 if (divAes != null) {
-                    divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGFile.gif'); background-repeat: no-repeat; background-color: transparent;");
-                    divAes.style.backgroundImage = "url('../res/img/AesBGFile.gif')";
+                    divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesBGFile.gif'); background-repeat: no-repeat; background-color: transparent;");
+                    divAes.style.backgroundImage = "url('../res/img/crypt/AesBGFile.gif')";
                 }
             }
 
             function changeCryptBackgroundText() {
                 var divAes = document.getElementById("DivAesImprove");
                 if (divAes != null) {
-                    divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;");
-                    divAes.style.backgroundImage = "url('../res/img/AesBGText.gif')";
+                    divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;");
+                    divAes.style.backgroundImage = "url('../res/img/crypt/AesBGText.gif')";
                 }
             }
 
@@ -37,7 +37,7 @@
                 <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">secret&nbsp;key:</span>
                 <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">
                     <asp:ImageButton ID="ImageButton_Key" runat="server" ClientIDMode="Static"
-                    OnClick="Button_Key_Click" ImageUrl="../res/img/a_right_key.png" AlternateText="save your user key in session" />
+                    OnClick="Button_Key_Click" ImageUrl="../res/img/crypt/a_right_key.png" AlternateText="save your user key in session" />
                 </span>
                 <span class="centerSpan" style="max-width: 400px;">                
                     <asp:TextBox ID="TextBox_Key" runat="server" ClientIDMode="Static" Text="heinrich.elsigan@area23.at"                        
@@ -56,7 +56,7 @@
                 <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">key&nbsp;hash:</span>
                 <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">
                     <asp:ImageButton ID="ImageButton_Hash" runat="server" ClientIDMode="Static"
-                    OnClick="Button_Hash_Click" ImageUrl="../res/img/a_hash.png" AlternateText="generate new hash from key" />
+                    OnClick="Button_Hash_Click" ImageUrl="../res/img/crypt/a_hash.png" AlternateText="generate new hash from key" />
                 </span>                
                 <span class="centerSpan" style="max-width: 400px;"><asp:TextBox ID="TextBox_IV" runat="server" ClientIDMode="Static"
                     ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="192"  Width="480px"  style="width: 480px;" />
@@ -67,7 +67,7 @@
                 </span>
             </div>
         </div>
-        <div id="DivAesImprove" runat="server" style="padding-left: 40px; margin-left: 2px; background-image: url('../res/img/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;">
+        <div id="DivAesImprove" runat="server" style="padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;">
         
             <div class="odDiv">
                 <span class="leftSpan" style="width: 72px;">                      
@@ -103,7 +103,7 @@
                         <asp:ListItem Enabled="true" Value="RC532" Selected="false">RC532</asp:ListItem>                
                         <asp:ListItem Enabled="true" Value="RC564" Selected="false">RC564</asp:ListItem> 
                         <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem> 
+                        <asp:ListItem Enabled="true" Value="Rfc3211" Selected="false">Rfc3211Wrap</asp:ListItem> 
                         <asp:ListItem Enabled="true" Value="Rsa" Selected="false">Rsa</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Seed" Selected="false">Seed</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>
@@ -117,10 +117,10 @@
                     </asp:DropDownList>
                 </span>
                 <span class="centerSpan" style="width: 72px;"> 
-                    <asp:ImageButton ID="ImageButton_Add" ClientIDMode="Static" runat="server" ImageUrl="../res/img/AddAesArrow.gif" 
+                    <asp:ImageButton ID="ImageButton_Add" ClientIDMode="Static" runat="server" ImageUrl="../res/img/crypt/AddAesArrow.gif" 
                         OnClick="ImageButton_Add_Click" AlternateText="Add symetric chiffer algorithm"
-                        onmouseover="document.getElementById('ImageButton_Add').src='../res/img/AddAesArrowHover.gif'"                     
-                        onmouseout="document.getElementById('ImageButton_Add').src='../res/img/AddAesArrow.gif'" />
+                        onmouseover="document.getElementById('ImageButton_Add').src='../res/img/crypt/AddAesArrowHover.gif'"                     
+                        onmouseout="document.getElementById('ImageButton_Add').src='../res/img/crypt/AddAesArrow.gif'" />
                 </span>
                 <span class="centerSpan" style="max-width: 400px;">
                     <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true" ClientIDMode="Static" TextMode="SingleLine" MaxLength="512" 
@@ -169,8 +169,8 @@
             </div>     
             <div class="odDiv">                       
                 <span id="SpanLeftFile" runat="server" class="leftSpan" style="vertical-align: top;" visible="false">
-                    <a id="aUploaded" runat="server" alt="Uploaded File" href="../res/img/file.png">
-                        <img id="imgIn" runat="server" border="0" alt="" src="../res/img/file.png" />
+                    <a id="aUploaded" runat="server" alt="Uploaded File" href="../res/img/crypt/file.png">
+                        <img id="imgIn" runat="server" border="0" alt="" src="../res/img/crypt/file.png" />
                     </a>
                 </span>
                 <span id="SpanLabel" runat="server" class="centerSpan" visible="False">
@@ -179,7 +179,7 @@
                 <span class="centerSpan">&nbsp;</span>
                 <span id="SpanRightFile" runat="server" class="rightSpan" style="vertical-align: top;" visible="false">
                     <a id="aTransFormed" runat="server" alt="Transformed File" href="../res/fortune.u8">
-                        <img id="imgOut" runat="server" border="0" alt="File transformed" src="../res/img/file.png" />
+                        <img id="imgOut" runat="server" border="0" alt="File transformed" src="../res/img/crypt/file.png" />
                     </a>
                 </span>                
             </div>

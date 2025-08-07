@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,21 +56,49 @@ namespace Area23.At.Framework.Library.Cache
             return _Type;
         }
 
+
         /// <summary>
         /// Get a value from cache
         /// </summary>
         /// <typeparam name="T">generic type of value passed by typeparameter</typeparam>
         /// <returns>generic T value</returns>
         /// <exception cref="InvalidOperationException">thrown, when cached value isn't of typeof(T)</exception>
-        public T GetValue<T>()
+        internal T GetValue<T>()
         {
-            T tvalue;
-            if (typeof(T) == _Type)
-                tvalue = (T)_Value;
+            if (_Type != null && _Value != null && typeof(T) == _Type)
+                return (T)_Value;
             else
-                throw new InvalidOperationException($"typeof(T) = {typeof(T)} while _type = {_Type}");
+                return default(T);
+        }
 
-            return tvalue;
+        /// <summary>
+        /// Get a value from cache
+        /// </summary>
+        /// <typeparam name="T">generic type of value passed by typeparameter</typeparam>
+        /// <returns>generic T value</returns>
+        /// <exception cref="InvalidOperationException">thrown, when cached value isn't of typeof(T)</exception>
+        public Nullable<T> GetNullableValue<T>() where T : struct
+        {
+            T tvalue = default(T);
+            Nullable<T> tNullValue = null;
+
+            if (_Type == null || _Value == null)
+            {
+                tvalue = default(T);
+                tNullValue = null;
+            }
+            else
+            {
+                if (typeof(T) == _Type)
+                {
+                    tNullValue = new Nullable<T>((T)_Value);
+                    tvalue = tNullValue.GetValueOrDefault();
+                }
+                else
+                    throw new InvalidOperationException($"typeof(T) = {typeof(T)} while _type = {_Type}");
+            }
+
+            return tNullValue;
         }
 
         /// <summary>

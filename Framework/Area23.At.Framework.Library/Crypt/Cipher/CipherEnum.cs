@@ -33,7 +33,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
 
         Cast5 = 0x10,
-        Rijndael = 0x11,
+        Rfc3211 = 0x11,
         Noekeon = 0x12,
         RC2 = 0x13,
         RC564 = 0x14,
@@ -49,6 +49,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         Rsa = 0x1e,
 
         ZenMatrix2 = 0x1f
+
     }
 
     /// <summary>
@@ -78,8 +79,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         {
             switch (cipher)
             {
-                case CipherEnum.Aes:
-                case CipherEnum.Rijndael: return 'A';
+                case CipherEnum.Aes: return 'A';
                 case CipherEnum.AesLight: return 'L';
                 case CipherEnum.Aria: return 'a';
 
@@ -114,6 +114,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
                 case CipherEnum.Tea: return 't';
                 case CipherEnum.Tnepres: return 'T';
+                case CipherEnum.Rfc3211: return 'W';
                 case CipherEnum.XTea: return 'X';
 
                 case CipherEnum.ZenMatrix: return 'z';

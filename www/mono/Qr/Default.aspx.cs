@@ -11,7 +11,7 @@ namespace Area23.At.Mono.Qr
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Response.Redirect("QRCodeGen.aspx");
+            Response.Redirect("QRCoContactQrGenerator.aspx");
         }
     }
 }

@@ -640,7 +640,7 @@
 
             if (jumpDirection.charAt(0) == 'u') {
                 nrY = upper(frY);												// up 	
-                document.getElementById("aUp").src = "../res/img/a_up.gif";
+                document.getElementById("aUp").src = "../res/img/arrow/a_up.gif";
             }
             else if (jumpDirection.charAt(0) == 'd') { 							// TODO should we let frog drive back to start meadow
                 nrY = below(frY);												// down 				
@@ -649,10 +649,10 @@
 
             if (jumpDirection.charAt(0) == 'r' || jumpDirection.charAt(1) == 'r') {
                 nrX = righter(frX);												// right
-                document.getElementById("aRight").src = "../res/img/a_right.gif";
+                document.getElementById("aRight").src = "../res/img/arrow/a_right.gif";
             } else if (jumpDirection.charAt(0) == 'l' || jumpDirection.charAt(1) == 'l') {
                 nrX = lefter(frX);												// left
-                document.getElementById("aLeft").src = "../res/img/a_left.gif";
+                document.getElementById("aLeft").src = "../res/img/arrow/a_left.gif";
             }
 
             // TODO: better use newTd = getNewTdPositionByMoving(car, 'rr');
@@ -1446,12 +1446,12 @@
 	    </table>
 	    <div class="frogaFooter">
             <span id="spanLeft" align="left" valign="middle">
-                <img id="aLeft" class="frogaImage" src="../res/img/a_left.gif" border="0" onclick="moveFrog('left')" />
+                <img id="aLeft" class="frogaImage" src="../res/img/arrow/a_left.gif" border="0" onclick="moveFrog('left')" />
             </span>
-		    <img id="aUp" class="frogaImage" src="../res/img/a_up.gif" border="0" onclick="moveFrog('up')" />
-            <img id="aDown" class="frogaImage" src="../res/img/a_down.gif" border="0" onclick="moveFrog('down')" />
+		    <img id="aUp" class="frogaImage" src="../res/img/arrow/a_up.gif" border="0" onclick="moveFrog('up')" />
+            <img id="aDown" class="frogaImage" src="../res/img/arrow/a_down.gif" border="0" onclick="moveFrog('down')" />
             <span id="spanRight" align="right" valign="middle">
-                <img id="aRight" src="../res/img/a_right.gif" border="0" onclick="moveFrog('right')" />
+                <img id="aRight" src="../res/img/arrow/a_right.gif" border="0" onclick="moveFrog('right')" />
             </span>
 	    </div>	    
     </div>

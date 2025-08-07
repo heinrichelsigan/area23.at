@@ -19,10 +19,10 @@
                 </asp:DropDownList>
                 <asp:Literal ID="Literal_Iterations" runat="server" ClientIDMode="Static" Text="iterations:" />
                 <asp:DropDownList ID="DropDownList_Iterations" runat="server" ClientIDMode="Static">
-                    <asp:ListItem Enabled="true"  Selected="False" Text="16" Value="16" />
+                    <asp:ListItem Enabled="true" Selected="False" Text="16" Value="16" />
                     <asp:ListItem Enabled="true" Selected="False" Text="32" Value="32" />
-                    <asp:ListItem Enabled="true" Selected="False" Text="64" Value="64" />
-                    <asp:ListItem Enabled="true" Selected="True" Text="128" Value="128" />
+                    <asp:ListItem Enabled="true" Selected="True" Text="64" Value="64" />
+                    <asp:ListItem Enabled="true" Selected="False" Text="128" Value="128" />
                     <asp:ListItem Enabled="true" Selected="False" Text="256" Value="256" />
                     <asp:ListItem Enabled="true" Selected="False" Text="512" Value="512" />
                     <asp:ListItem Enabled="true" Selected="False" Text="1024" Value="1024" />
@@ -51,7 +51,7 @@
                     <asp:TableHeaderRow>
                         <asp:TableHeaderCell BorderStyle="Outset" BackColor="LightGray" Font-Bold="true">Name</asp:TableHeaderCell>
                         <asp:TableHeaderCell BorderStyle="Outset" BackColor="LightGray" Font-Bold="true">Value</asp:TableHeaderCell>
-                    </asp:TableHeaderRow>  
+                    </asp:TableHeaderRow>                
                 </asp:Table>                
             </div>
             <hr />
