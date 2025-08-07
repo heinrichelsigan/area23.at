@@ -384,3 +384,4 @@ FodyWeavers.xsd
 /www/mono/res/out/*.fish3
 /Framework/Core
 /Framework/Library
+/Stat/wko
