@@ -278,6 +278,7 @@
     <Content Include="Settings\Default.aspx" />
     <AdditionalFiles Include="Settings\.htaccess" />
     <Content Include="Settings\Setting.aspx" />
+    <Content Include="Settings\TestLogin.aspx" />
     <Content Include="Unix\Bc.aspx" />
     <Content Include="Unix\Default.aspx" />
     <Content Include="Unix\FortunAsp.aspx" />
@@ -562,6 +563,13 @@
     </Compile>
     <Compile Include="Settings\Setting.aspx.designer.cs">
       <DependentUpon>Setting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\TestLogin.aspx.cs">
+      <DependentUpon>TestLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Settings\TestLogin.aspx.designer.cs">
+      <DependentUpon>TestLogin.aspx</DependentUpon>
     </Compile>
     <Compile Include="Unix\Bc.aspx.cs">
       <DependentUpon>Bc.aspx</DependentUpon>
