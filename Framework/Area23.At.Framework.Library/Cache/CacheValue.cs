@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Cache
 {
@@ -19,10 +14,10 @@ namespace Area23.At.Framework.Library.Cache
     public class CacheValue
     {
 
+        #region properties
         public object _Value { get; protected internal set; }
-
         public Type _Type { get; protected internal set; }
-
+        #endregion properties
 
         /// <summary>
         /// Empty default ctor
@@ -46,7 +41,6 @@ namespace Area23.At.Framework.Library.Cache
             _Value = ovalue;
         }
 
-
         /// <summary>
         /// gets the <see cref="Type"/> of generic cached value
         /// </summary>
@@ -55,7 +49,6 @@ namespace Area23.At.Framework.Library.Cache
         {
             return _Type;
         }
-
 
         /// <summary>
         /// Get a value from cache
@@ -72,33 +65,23 @@ namespace Area23.At.Framework.Library.Cache
         }
 
         /// <summary>
-        /// Get a value from cache
+        /// Get a nullable value from cache
         /// </summary>
-        /// <typeparam name="T">generic type of value passed by typeparameter</typeparam>
-        /// <returns>generic T value</returns>
+        /// <typeparam name="T">generic type of value passed by type parameter</typeparam>
+        /// <returns><see cref="Nullable{T}">Nullable{T} now T?</see></returns>
         /// <exception cref="InvalidOperationException">thrown, when cached value isn't of typeof(T)</exception>
-        public Nullable<T> GetNullableValue<T>() where T : struct
-        {
-            T tvalue = default(T);
+        public Nullable<T> GetNullableValue<T>() where T : struct 
+        {            
             Nullable<T> tNullValue = null;
 
             if (_Type == null || _Value == null)
-            {
-                tvalue = default(T);
                 tNullValue = null;
-            }
+            else if (typeof(T) == _Type)
+                tNullValue = new Nullable<T>((T)_Value);
             else
-            {
-                if (typeof(T) == _Type)
-                {
-                    tNullValue = new Nullable<T>((T)_Value);
-                    tvalue = tNullValue.GetValueOrDefault();
-                }
-                else
-                    throw new InvalidOperationException($"typeof(T) = {typeof(T)} while _type = {_Type}");
-            }
+                throw new InvalidOperationException($"typeof(T) = {typeof(T)} while _type = {_Type}");
 
-            return tNullValue;
+            return tNullValue;                
         }
 
         /// <summary>
@@ -112,6 +95,15 @@ namespace Area23.At.Framework.Library.Cache
             _Value = (object)tvalue;
         }
 
+        /// <summary>
+        /// override ToString() returns <see cref="_Value"/>
+        /// </summary>
+        /// <returns>returns <see cref="_Value"/></returns>
+        public override string ToString()
+        {
+            return (_Value == null) ? null : _Value.ToString();
+        }
+    
     }
 
 }

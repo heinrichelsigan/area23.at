@@ -1,10 +1,6 @@
 ﻿using Area23.At.Framework.Library.Static;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace Area23.At.Framework.Library.Cache
@@ -19,8 +15,6 @@ namespace Area23.At.Framework.Library.Cache
         protected internal static readonly object _smartLock = new object();
 
         public static new string CacheVariant = "ApplicationStateCache";
-        public override string CacheType => "ApplicationStateCache";
-
 
         /// <summary>
         /// public property get accessor for <see cref="_appDict"/> stored in <see cref="AppDomain.CurrentDomain"/>
@@ -39,37 +33,37 @@ namespace Area23.At.Framework.Library.Cache
         public override ConcurrentDictionary<string, CacheValue> LoadDictionaryCache(bool repeatLoadingPeriodically = false)
         {
 
-            _timePassedSinceLastRW = DateTime.Now.Subtract(_lastCacheRW);
+                _timePassedSinceLastRW = DateTime.Now.Subtract(_lastCacheRW);
 
-            if (HttpContext.Current != null && HttpContext.Current.Application != null &&
-                HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT] != null)
-            {
-                lock (_smartLock)
+                if (HttpContext.Current != null && HttpContext.Current.Application != null &&
+                    HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT] != null)
                 {
-                    try
+                    lock (_smartLock)
                     {
-                        _appDict = (ConcurrentDictionary<string, CacheValue>)HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT];
+                        try
+                        {
+                            _appDict = (ConcurrentDictionary<string, CacheValue>)HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT];
+                            _lastCacheRW = DateTime.Now;                        
+                        }
+                        catch (Exception ex)
+                        {
+                            Area23.At.Framework.Library.Util.Area23Log.LogStatic(ex);
+                        }
+                    }
+                }
+
+
+                if (_appDict == null)
+                {
+                    lock (_smartLock)
+                    {
+                        _appDict = new ConcurrentDictionary<string, CacheValue>();
+                        HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT] = _appDict;
                         _lastCacheRW = DateTime.Now;
                     }
-                    catch (Exception ex)
-                    {
-                        Area23.At.Framework.Library.Util.Area23Log.LogStatic(ex);
-                    }
                 }
-            }
 
-
-            if (_appDict == null)
-            {
-                lock (_smartLock)
-                {
-                    _appDict = new ConcurrentDictionary<string, CacheValue>();
-                    HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT] = _appDict;
-                    _lastCacheRW = DateTime.Now;
-                }
-            }
-
-            return _appDict;
+                return _appDict;            
         }
 
         /// <summary>
@@ -94,9 +88,11 @@ namespace Area23.At.Framework.Library.Cache
         }
 
 
-        public ApplicationStateCache(PersistType cacheType = PersistType.ApplicationState)
+        public ApplicationStateCache() : this(PersistType.ApplicationState) { }
+
+        public ApplicationStateCache(PersistType cacheType)
         {
-            _persistType = cacheType;
+            _persistType = (cacheType == PersistType.ApplicationState) ? cacheType : PersistType.ApplicationState;
         }
 
     }

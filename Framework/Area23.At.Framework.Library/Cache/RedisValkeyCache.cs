@@ -1,14 +1,10 @@
-﻿using Area23.At.Framework.Library.Cqr;
-using Area23.At.Framework.Library.Static;
+﻿using Area23.At.Framework.Library.Static;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Security.AccessControl;
-using System.Web;
 
 namespace Area23.At.Framework.Library.Cache
 {
@@ -16,27 +12,19 @@ namespace Area23.At.Framework.Library.Cache
     /// <summary>
     /// RedisCache AWS elastic valkey cache singelton connector
     /// </summary>
-    public class RedisCache : MemoryCache
+    public class RedisValkeyCache : MemoryCache
     {
+
+        #region const and static
 
         const string VALKEY_CACHE_HOST_PORT = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com:6379";
         const string VALKEY_CACHE_APP_KEY = "RedisValkeyCache";
+        const string REDIS_VALKEY_SSL = "RedisValkeySsl";
         const string ALL_KEYS = "AllKeys";
+
         protected internal static object _redIsLock = new object();
-
-        public static new string CacheVariant = "RedisCache";
-        public override string CacheType => "RedisCache";
-
-        ConnectionMultiplexer connMux;
-        ConfigurationOptions options;
-        string endpoint = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com:6379";
-        StackExchange.Redis.IDatabase db;
-
-        public static MemoryCache ValKey => _instance.Value;
-
-        private static HashSet<string> _allKeys = new HashSet<string>();
-        public override string[] AllKeys { get => GetAllKeys().ToArray(); }
-
+        public static new string CacheVariant = "RedisValkey";
+        private static bool _ssl = true;
         private static string _endPoint = VALKEY_CACHE_HOST_PORT;
         public static string EndPoint
         {
@@ -49,72 +37,130 @@ namespace Area23.At.Framework.Library.Cache
                 return _endPoint;
             }
         }
+        public static RedisValkeyCache ValKeyInstance => ((RedisValkeyCache)_instance.Value);
 
-        public static StackExchange.Redis.IDatabase Db
+        public string Status { get => ConnMux.GetStatus();  }
+
+        #endregion const and static
+
+
+        ConfigurationOptions options;
+        
+        public override string[] AllKeys { get => GetAllKeys().ToArray(); }
+
+        StackExchange.Redis.IDatabase _db;
+        public StackExchange.Redis.IDatabase Db
         {
             get
             {
-                if (((RedisCache)(_instance.Value)).db == null)
-                    ((RedisCache)(_instance.Value)).db = ConnMux.GetDatabase();
+                if (_db == null)
+                    _db = ConnMux.GetDatabase();
 
-                return ((RedisCache)(_instance.Value)).db;
+                return _db;
             }
         }
 
-        public static StackExchange.Redis.ConnectionMultiplexer ConnMux
+        ConnectionMultiplexer _connMux;               
+        public StackExchange.Redis.ConnectionMultiplexer ConnMux
         {
             get
             {
-                if (((RedisCache)(_instance.Value)).connMux == null)
+                if (_connMux == null)
                 {
-                    if (((RedisCache)(_instance.Value)).options == null)
-                        ((RedisCache)(_instance.Value)).options = new ConfigurationOptions
+                    if (options == null)
+                    {
+                        if (!bool.TryParse((string)ConfigurationManager.AppSettings[REDIS_VALKEY_SSL], out _ssl))
+                            _ssl = true;
+                        options = new ConfigurationOptions
                         {
                             EndPoints = { EndPoint },
-                            Ssl = true
+                            AbortOnConnectFail = false,
+                            Ssl = _ssl
                         };
-                    ((RedisCache)(_instance.Value)).connMux = ConnectionMultiplexer.Connect(((RedisCache)(_instance.Value)).options);
+                    }
+                    _connMux = ConnectionMultiplexer.Connect(options);
                 }
-                return ((RedisCache)(_instance.Value)).connMux;
+                return _connMux;
             }
         }
 
+
+        #region constructors
+
+        public RedisValkeyCache() : this(PersistType.RedisValkey) { }
 
         /// <summary>
         /// default constructor for RedisCacheValKey cache singleton
         /// </summary>
-        public RedisCache(PersistType cacheType = PersistType.Redis)
+        public RedisValkeyCache(PersistType cacheType)
         {
-            _persistType = cacheType;
+            _persistType = (cacheType == PersistType.RedisValkey) ? cacheType : PersistType.RedisValkey;
+            _allKeys = new HashSet<string>();
+            if (!bool.TryParse((string)ConfigurationManager.AppSettings[REDIS_VALKEY_SSL], out _ssl))
+                _ssl = true;
 
-            endpoint = VALKEY_CACHE_HOST_PORT; // "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com:6379";
-            if (ConfigurationManager.AppSettings != null && ConfigurationManager.AppSettings[VALKEY_CACHE_APP_KEY] != null)
-                endpoint = (string)ConfigurationManager.AppSettings[VALKEY_CACHE_APP_KEY];
             options = new ConfigurationOptions
             {
-                EndPoints = { endpoint },
+                EndPoints = { EndPoint },
                 AbortOnConnectFail = false,
-                Ssl = true,
+                Ssl = _ssl,
                 ConnectTimeout = 6000,
                 AsyncTimeout = 6000,
                 SyncTimeout = 9000
             };
-            // if (connMux == null)
-            connMux = ConnectionMultiplexer.Connect(options);
-            if (db == null)
-                db = connMux.GetDatabase();
+
+            _connMux = ConnectionMultiplexer.Connect(options);
+            _db = _connMux.GetDatabase();
         }
 
+        #endregion constructors
 
+        #region GetString GetValue
         /// <summary>
         /// GetString gets a string value by RedisCache key
         /// </summary>
         /// <param name="redIsKey">key</param>
-        /// <param name="flags"><see cref="CommandFlags"/></param>
         /// <returns>(<see cref="string"/>) value for key redIsKey</returns>
-        public string GetString(string redIsKey, CommandFlags flags = CommandFlags.None)
+        public override string GetString(string redIsKey)
         {
-            return Db.StringGet(redIsKey, flags);
+            return GetStringWithParams(redIsKey, CommandFlags.None);
+        }
+
+        public virtual string GetStringWithParams(string ckey, CommandFlags flags = CommandFlags.None)
+        {
+            return Db.StringGet(ckey, flags);
+        }
+
+        /// <summary>
+        /// gets a generic class type T from redis cache with key
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ckey">rediskey</param>
+        /// <returns>T value/returns>
+        public override T GetValue<T>(string ckey)
+        {
+            string jsonVal = GetStringWithParams(ckey, CommandFlags.None); // Db.StringGet(ckey, flags);
+
+            T tval = default(T);
+            if (jsonVal != null)
+            {
+                tval = JsonConvert.DeserializeObject<T>(jsonVal);
+            }
+
+            return tval;
+        }
+
+        #endregion GetString GetValue
+
+        #region SetString SetValue
+        /// <summary>
+        /// SetString set key with string value
+        /// </summary>
+        /// <param name="ckey">key for string/param>
+        /// <param name="svalue">value to set</param>
+        public override bool SetString(string ckey, string svalue)
+        {
+            return SetStringWithParams(ckey, svalue);
         }
 
         /// <summary>
@@ -126,20 +172,19 @@ namespace Area23.At.Framework.Library.Cache
         /// <param name="keepTtl"></param>
         /// <param name="when"></param>
         /// <param name="flags"></param>
-        public bool SetString(string redIsKey, string redIsString, TimeSpan? expiry = null, bool keepTtl = false, When when = When.Always, CommandFlags flags = CommandFlags.None)
+        public virtual bool SetStringWithParams(string redIsKey, string redIsString, TimeSpan? expiry = null, bool keepTtl = false, When when = When.Always, CommandFlags flags = CommandFlags.None)
         {
             bool success = false;
             lock (_redIsLock)
             {
-                var allRedIsKeys = GetAllKeys();
+                _allKeys = GetAllKeys();
                 success = Db.StringSet(redIsKey, redIsString, expiry, when, flags);
 
-                if (success && !allRedIsKeys.Contains(redIsKey))
+                if (success && !_allKeys.Contains(redIsKey))
                 {
-                    allRedIsKeys.Add(redIsKey);
-                    string jsonVal = JsonConvert.SerializeObject(AllKeys);
+                    _allKeys.Add(redIsKey);
+                    string jsonVal = JsonConvert.SerializeObject(_allKeys);
                     success = Db.StringSet(ALL_KEYS, jsonVal, null, keepTtl, When.Always, CommandFlags.None);
-                    _allKeys = allRedIsKeys;
                 }
             }
 
@@ -160,29 +205,14 @@ namespace Area23.At.Framework.Library.Cache
             When when = When.Always;
             CommandFlags flags = CommandFlags.None;
             string jsonVal = JsonConvert.SerializeObject(tvalue);
-            bool success = SetString(ckey, jsonVal, expiry, keepTtl, when, flags);
+            bool success = SetStringWithParams(ckey, jsonVal, expiry, keepTtl, when, flags);
 
             return success;
         }
 
-        /// <summary>
-        /// gets a generic class type T from redis cache with key
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ckey">rediskey</param>
-        /// <returns>T value/returns>
-        public override T GetValue<T>(string ckey)
-        {
-            CommandFlags flags = CommandFlags.None;
-            string jsonVal = Db.StringGet(ckey, flags);
-            T tval = default(T);
-            if (jsonVal != null)
-            {
-                tval = JsonConvert.DeserializeObject<T>(jsonVal);
-            }
+        #endregion SetString SetValue
 
-            return tval;
-        }
+        #region RemoveKey ContainsKey
 
         /// <summary>
         /// DeleteKey delete entry referenced at key
@@ -194,13 +224,11 @@ namespace Area23.At.Framework.Library.Cache
             CommandFlags flags = CommandFlags.FireAndForget;
             lock (_redIsLock)
             {
-                var allRedIsKeys = GetAllKeys();
-                if (allRedIsKeys.Contains(redIsKey))
+                if (ContainsKey(redIsKey) || _allKeys.Contains(redIsKey))
                 {
-                    allRedIsKeys.Remove(redIsKey);
-                    string jsonVal = JsonConvert.SerializeObject(allRedIsKeys.ToArray());
+                    _allKeys.Remove(redIsKey);
+                    string jsonVal = JsonConvert.SerializeObject(_allKeys.ToArray());
                     Db.StringSet("AllKeys", jsonVal, null, false, When.Always, flags);
-                    _allKeys = allRedIsKeys;
                 }
                 try
                 {
@@ -224,21 +252,23 @@ namespace Area23.At.Framework.Library.Cache
         /// <returns>true, if cache contains key, otherwise false</returns>
         public override bool ContainsKey(string ckey)
         {
-            if (GetAllKeys().Contains(ckey))
+            _allKeys = GetAllKeys();
+            if (_allKeys.Contains(ckey))
             {
                 string redIsString = Db.StringGet(ckey, CommandFlags.None);
-                if (!string.IsNullOrEmpty(redIsString))
+                if (redIsString != null)
                     return true;
             }
-
             return false;
         }
+
+        #endregion RemoveKey ContainsKey
 
         /// <summary>
         /// GetAllKeys returns <see cref="HashSet{string}"/></string> <see cref="_allKeys"/>
         /// </summary>
         /// <returns>returns <see cref="HashSet{string}"/></string> <see cref="_allKeys"/></returns>
-        public static HashSet<string> GetAllKeys()
+        public override HashSet<string> GetAllKeys()
         {
             if (_allKeys == null || _allKeys.Count == 0)
             {

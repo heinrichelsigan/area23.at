@@ -62,7 +62,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Asymmetric
 
         public static AsymmetricCipherKeyPair RsaGenWithKey(string pub, string priv)
         {
-            rsaKeyPair = GetRsaKeyPair(pub, priv);
+            rsaKeyPair = GenerateNewRsaKeyPair();
 
             return rsaKeyPair;
         }

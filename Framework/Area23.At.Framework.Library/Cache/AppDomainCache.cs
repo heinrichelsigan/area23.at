@@ -1,11 +1,6 @@
 ﻿using Area23.At.Framework.Library.Cqr;
-using Area23.At.Framework.Library.Static;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Cache
 {
@@ -18,7 +13,6 @@ namespace Area23.At.Framework.Library.Cache
         protected internal static readonly object _smartLock = new object();
 
         public static new string CacheVariant = "AppDomainCache";
-        public override string CacheType => "AppDomainCache";
 
         /// <summary>
         /// public property get accessor for <see cref="_appDict"/> stored in <see cref="AppDomain.CurrentDomain"/>
@@ -65,7 +59,7 @@ namespace Area23.At.Framework.Library.Cache
                         _lastCacheRW = DateTime.Now;
                     }
                 }
-
+                
                 return _appDict;
             }
         }
@@ -92,10 +86,11 @@ namespace Area23.At.Framework.Library.Cache
             }
         }
 
+        public AppDomainCache() : this(PersistType.AppDomain) { }
 
-        public AppDomainCache(PersistType cacheType = PersistType.AppDomain)
+        public AppDomainCache(PersistType cacheType)
         {
-            _persistType = cacheType;
+            _persistType = (cacheType == PersistType.AppDomain) ? cacheType : PersistType.AppDomain;
         }
 
     }

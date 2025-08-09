@@ -221,7 +221,7 @@ namespace Area23.At.Mono.CqrJD
 
             testReport += $"{DateTime.Now.Area23DateTimeMilliseconds()}: Persistence in {PersistInCache.CacheType.ToString()}\n";
 
-            if (PersistInCache.CacheType == PersistType.Redis)
+            if (PersistInCache.CacheType == PersistType.RedisValkey)
             {
                 try
                 {

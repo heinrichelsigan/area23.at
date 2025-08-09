@@ -13,6 +13,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using Area23.At.Mono.Util;
 
 namespace Area23.At.Mono.Settings
 {
@@ -34,9 +35,10 @@ namespace Area23.At.Mono.Settings
                 persistType = PersistType.ApplicationState;
             if (persistString.StartsWith("JsonFile"))
                 persistType = PersistType.JsonFile;
-            if (persistString.StartsWith("Redis"))
-                persistType = PersistType.Redis;
-
+            if (persistString.StartsWith("RedisValkey"))
+                persistType = PersistType.RedisValkey;
+            if (persistString.StartsWith("RedisMS"))
+                persistType = PersistType.RedisMS;
 
             if (!Int32.TryParse(this.DropDownList_Iterations.SelectedValue, out iterations))
                 iterations = 128;
@@ -265,9 +267,13 @@ namespace Area23.At.Mono.Settings
                     ApplicationStateCache appStateCache = new ApplicationStateCache(persitVariant);
                     memoryCache = (MemoryCache)appStateCache;
                     break;
-                case PersistType.Redis:
-                    RedisCache redisCache = new RedisCache(persitVariant);
-                    memoryCache = (MemoryCache)redisCache;
+                case PersistType.RedisValkey:
+                    RedisValkeyCache redisValkeyCache = new RedisValkeyCache(persitVariant);
+                    memoryCache = (MemoryCache)redisValkeyCache;
+                    break;
+                case PersistType.RedisMS:
+                    RedisMSCache redisMSCache = new RedisMSCache(persitVariant);
+                    memoryCache = (MemoryCache)redisMSCache;
                     break;
                 case PersistType.AppDomain:
                 default:
@@ -362,9 +368,13 @@ namespace Area23.At.Mono.Settings
                     ApplicationStateCache appStateCache = new ApplicationStateCache(persitVariant);
                     memoryCache = (MemoryCache)appStateCache;
                     break;
-                case PersistType.Redis:
-                    RedisCache redisCache = new RedisCache(persitVariant);
-                    memoryCache = (MemoryCache)redisCache;
+                case PersistType.RedisValkey:
+                    RedisValkeyCache redisValkeyCache = new RedisValkeyCache(persitVariant);
+                    memoryCache = (MemoryCache)redisValkeyCache;
+                    break;
+                case PersistType.RedisMS:
+                    RedisMSCache redisMSCache = new RedisMSCache(persitVariant);
+                    memoryCache = (MemoryCache)redisMSCache;
                     break;
                 case PersistType.AppDomain:
                 default:
@@ -396,7 +406,7 @@ namespace Area23.At.Mono.Settings
                 else if ((i >= quater && i < half) || i >= threequater)
                 {
                     string strkey = "Key_" + (i % maxKexs).ToString();
-                    CacheData cacheData = (CacheData)memoryCache[strkey];
+                    CacheTestData cacheData = (CacheTestData)memoryCache.GetValue<CacheTestData>(strkey);
                     if (cacheData == null)
                         s += $"Task get cache key #{strkey} => (nil)\n";
                     else
@@ -432,9 +442,10 @@ namespace Area23.At.Mono.Settings
                 persistType = PersistType.ApplicationState;
             if (persistString.StartsWith("JsonFile"))
                 persistType = PersistType.JsonFile;
-            if (persistString.StartsWith("Redis"))
-                persistType = PersistType.Redis;
-
+            if (persistString.StartsWith("RedisValkey"))
+                persistType = PersistType.RedisValkey;
+            if (persistString.StartsWith("RedisMS"))
+                persistType = PersistType.RedisMS;
 
             if (!Int32.TryParse(this.DropDownList_Iterations.SelectedValue, out iterations))
                 iterations = 128;

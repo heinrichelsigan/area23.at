@@ -3,13 +3,9 @@ using Area23.At.Framework.Library.Static;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Cache
 {
@@ -20,21 +16,13 @@ namespace Area23.At.Framework.Library.Cache
     public class JsonFileCache : MemoryCache
     {
 
-        //protected internal static readonly Lazy<MemCache> _instance = new Lazy<MemCache>(() => new JsonCache());
-        //public static MemCache CacheDict => _instance.Value;
-
-        const int INIT_SEM_COUNT = 2;
-        const int MAX_SEM_COUNT = 2;
         protected internal static readonly object _smartLock = new object();
         const string JSON_APPCACHE_FILE = "AppCache.json";
-        readonly static string JsonFullDirPath = LibPaths.SystemDirJsonPath; // Path.Combine(Environment.GetEnvironmentVariable("LOCALAPPDATA"), "TEMP");
+        readonly static string JsonFullDirPath = LibPaths.SystemDirJsonPath; 
         readonly static string JsonFullFilePath = Path.Combine(JsonFullDirPath, JSON_APPCACHE_FILE);
 
         public static new string CacheVariant = "JsonFileCache";
-        public override string CacheType => "JsonFileCache";
-
-        protected static SemaphoreSlim ReadWriteSemaphore = new SemaphoreSlim(INIT_SEM_COUNT, MAX_SEM_COUNT);
-
+        
         protected static JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
         {
             Formatting = Formatting.Indented,
@@ -47,8 +35,6 @@ namespace Area23.At.Framework.Library.Cache
             PreserveReferencesHandling = PreserveReferencesHandling.All,
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
         };
-
-
 
         /// <summary>
         /// public property get accessor for <see cref="_appDict"/> stored in <see cref="AppDomain.CurrentDomain"/>
@@ -74,7 +60,7 @@ namespace Area23.At.Framework.Library.Cache
                 {
                     if (_appDict == null || _appDict.Count == 0 || (repeatLoadingPeriodically && _timePassedSinceLastRW.TotalSeconds > CACHE_READ_UPDATE_INTERVAL))
                     {
-                        var mutex = MutalExclusion.CacheMutalExclusion;
+                        var mutex = StaticMutalExclusion.TheMutalExclusion;
                         if (mutex != null && mutex.WaitOne(1024, false))
                         {
                             throw new SynchronizationLockException("Mutex " + mutex.ToString() + " blocks loading serialized json from " + JsonFullFilePath + ".");
@@ -122,20 +108,19 @@ namespace Area23.At.Framework.Library.Cache
             lock (_outerlock)
             {
                 string jsonDeserializedAppDict = "";
-                var writeExclusion = MutalExclusion.CacheMutalExclusion;
+                var mutex = StaticMutalExclusion.TheMutalExclusion;
                 if (cacheDict == null) //  && value.Count > 0
                     return;
 
                 try
                 {
-                    if (writeExclusion != null && writeExclusion.WaitOne(1024, false))
+                    if (mutex != null && mutex.WaitOne(1024, false))
                     {
-                        throw new SynchronizationLockException("Mutex " + writeExclusion.ToString() + " blocks writing serialized json to " + JsonFullFilePath + ".");
+                        throw new SynchronizationLockException("Mutex " + mutex.ToString() + " blocks writing serialized json to " + JsonFullFilePath + ".");
                     }
 
-                    MutalExclusion.CreateCacheMutalExlusion();
+                    StaticMutalExclusion.CreateMutalExlusion("CacheWrite", false);
 
-                    // if (mutex.WaitOne(250, false)) 
                     lock (_lock)
                     {
                         _appDict = cacheDict;
@@ -154,7 +139,7 @@ namespace Area23.At.Framework.Library.Cache
                 }
                 finally
                 {
-                    MutalExclusion.ReleaseCloseDisposeMutex();
+                    StaticMutalExclusion.ReleaseCloseDisposeMutex();
                 }
             }
         }
@@ -166,15 +151,15 @@ namespace Area23.At.Framework.Library.Cache
         /// <typeparam name="T">generic type of cached value</typeparam>
         /// <param name="ckey">cache key</param>
         /// <returns>generic cached value stored at key</returns>
-        public override T GetValue<T>(string ckey)
+        public override T GetValue<T>(string ckey) 
         {
             T tvalue = default;
 
             if (!string.IsNullOrEmpty(ckey))
-            {
+            {                    
                 lock (_lock)
                 {
-
+                    
                     if (_appDict.ContainsKey(ckey) && _appDict.TryGetValue(ckey, out var cvalue))
                     {
                         if (cvalue != null)
@@ -182,14 +167,14 @@ namespace Area23.At.Framework.Library.Cache
                             tvalue = cvalue.GetValue<T>();
                         }
                     }
-                }
+                }                
             }
 
             return tvalue;
         }
 
 
-        public override Nullable<T> GetNullableValue<T>(string ckey)
+        public override Nullable<T> GetNullableValue<T>(string ckey) 
         {
             T tvalue = default(T);
 
@@ -213,11 +198,15 @@ namespace Area23.At.Framework.Library.Cache
             return tvalue;
         }
 
-        public JsonFileCache(PersistType cacheType = PersistType.JsonFile)
+
+        public JsonFileCache() : this(PersistType.JsonFile) {  }
+
+        public JsonFileCache(PersistType cacheType)
         {
+            _persistType = (cacheType == PersistType.JsonFile) ? cacheType : PersistType.JsonFile;
+            
             lock (_lock)
             {
-                _persistType = cacheType;
 
                 try
                 {
@@ -233,6 +222,6 @@ namespace Area23.At.Framework.Library.Cache
 
         }
 
-    }
+    } 
 
 }
