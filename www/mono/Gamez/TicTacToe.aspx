@@ -217,7 +217,7 @@
             min-height: 80px;         
             
             background-color: #1f1f1f;
-            /* background-image: url('../res/img/emptyCellBlueTikTakToe.png'); */
+            /* background-image: url('../res/gamez/tictactoe/emptyCellBlueTikTakToe.png'); */
             /* background-repeat: no-repeat; */
             background-size: 100% 100%;
 
@@ -405,14 +405,14 @@
 
             if (whoStarts == 2) { // Player starts
                 if (headerImg != null) {
-                    document.getElementById("headerImg").src = "../res/img/headerTicTacToePlayer.gif";
+                    document.getElementById("headerImg").src = "../res/gamez/tictactoe/headerTicTacToePlayer.gif";
                     document.getElementById("headerImg").focus();
                     document.getElementById("headerImg").blur();
                 }
             }
             else if (whoStarts == 1) { // Computer starts           
                 if (headerImg != null) {
-                    document.getElementById("headerImg").src = "../res/img/headerTicTacToeComputer.gif";
+                    document.getElementById("headerImg").src = "../res/gamez/tictactoe/headerTicTacToeComputer.gif";
                     document.getElementById("headerImg").focus();
                     document.getElementById("headerImg").blur();
                 }
@@ -477,29 +477,29 @@
 
             // level completed
             if (whoWins == 2) {
-                headerImg.src = "../res/img/levelcompleted.gif"
+                headerImg.src = "../res/gamez/tictactoe/levelcompleted.gif"
                 headerImg.height = 36;
                 level++;
                 soundDuration = 3600;
-                setTimeout(function () { ticSound("../res/audio/levelCompleted.mp3") }, 100);
+                setTimeout(function () { ticSound("../res/gamez/audio/levelCompleted.mp3") }, 100);
                 setTimeout(function () { ticTacToeReStart(false); }, 4000); // will call the function after 8 secs.
                 return whoWins;
             }
             else if (whoWins == 1) {
-                headerImg.src = "../res/img/gameover.png";
+                headerImg.src = "../res/gamez/tictactoe/gameover.png";
                 headerImg.height = 36;
                 gameOver = 1;
                 soundDuration = 4800;
-                setTimeout(function () { ticSound("../res/audio/frogaGameOver.mp3") }, 100);
+                setTimeout(function () { ticSound("../res/gamez/audio/frogaGameOver.mp3") }, 100);
                 setTimeout(function () { ticTacToeReStart(true); }, 5000); // will call the function after 8 secs.
                 return whoWins;
             }
             if (whoWins == 0) {
-                headerImg.src = "../res/img/ticTacToeDraw.gif"
+                headerImg.src = "../res/gamez/tictactoe/ticTacToeDraw.gif"
                 headerImg.height = 36;
                 level++;
                 soundDuration = 5000;
-                setTimeout(function () { ticSound("../res/audio/aDraw.m4a") }, 100);
+                setTimeout(function () { ticSound("../res/gamez/audio/aDraw.m4a") }, 100);
                 setTimeout(function () { ticTacToeReStart(false); }, 6000); // will call the function after 8 secs.
                 return whoWins;
             }
@@ -1018,11 +1018,11 @@
             if (forWho == 1) {
                 ticNum = androidCount;
                 ticId = "a" + ticNum;
-                ticImgSrc = "../res/img/androidSetTicTacToe.gif";
+                ticImgSrc = "../res/gamez/tictactoe/androidSetTicTacToe.gif";
             } else if (forWho == 2) {
                 ticNum = playersCount;
                 ticId = "p" + ticNum;
-                ticImgSrc = "../res/img/skullSetTicTacToe.gif";
+                ticImgSrc = "../res/gamez/tictactoe/skullSetTicTacToe.gif";
             }
 
             if (aCellId != null && aCellId.charAt(0) != '\0' && aCellId.length > 1) {
@@ -1033,13 +1033,13 @@
             }
 
             if (forWho == 1) {
-                ticImgSrc = "../res/img/androidSetTicTacToe.gif";
+                ticImgSrc = "../res/gamez/tictactoe/androidSetTicTacToe.gif";
                 ticNum = androidCount;
                 ticId = "a" + ticNum;
                 ticTitle = "android" + ticNum;
             }
             else if (forWho == 2) {
-                ticImgSrc = "../res/img/skullSetTicTacToe.gif";
+                ticImgSrc = "../res/gamez/tictactoe/skullSetTicTacToe.gif";
                 ticNum = playersCount;
                 ticId = "p" + ticNum;
                 ticTitle = "players" + ticNum;
@@ -1064,7 +1064,7 @@
 
             var tacImg = new Image(23, 20);
             var tacNum = -1;
-            var tacImgSrc = "../res/img/emptyCellTicTacToe.gif";
+            var tacImgSrc = "../res/gamez/tictactoe/emptyCellTicTacToe.gif";
             var tacId = "";
 
             if (aCellId != null) {
@@ -1346,49 +1346,49 @@
             <span id="headerLeft" align="right" valign="middle">
                 <span id="ticTacToeLevel">0</span>
                 <span id="leftNotes"></span>
-                <img class="frogsInImg" src="../res/img/skullTicTacToe.gif" /><span id="playersCounter" alt="players counter">5</span>
+                <img class="frogsInImg" src="../res/gamez/tictactoe/skullTicTacToe.gif" /><span id="playersCounter" alt="players counter">5</span>
                 &nbsp;
             </span>
 		    <span id="headerCenter" align="center" valign="middle">
-			    <img class="headerImage" src="../res/img/headerTicTacToe.png" id="headerImg" border="0" onclick="restart()" />
+			    <img class="headerImage" src="../res/gamez/tictactoe/headerTicTacToe.png" id="headerImg" border="0" onclick="restart()" />
 		    </span>
 		    <span id="headerRight" align="left" valign="middle">
-			    &nbsp;<img class="frogsInImg" src="../res/img/androidTicTacToe.gif" /><span id="androidCounter" alt="android counter">5</span>
+			    &nbsp;<img class="frogsInImg" src="../res/gamez/tictactoe/androidTicTacToe.gif" /><span id="androidCounter" alt="android counter">5</span>
 		    </span>
             <span id="rightNotes"></span>
 	    </div>
 	    <table class="ticTacToeTable" border="1" cellpadding="1" cellpadding="1">
 		    <tr id="t2" class="ticTacToeTr">
 			    <td id="a2" class="ticTacToeTd" onmouseover="ticMouseOver('a2'); return false;" onclick="tacPlayerSets('a2'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-			        <img class="ticTacToeImage" id="a20" src='../res/img/emptyCellTicTacToe.gif' border="0" />
+			        <img class="ticTacToeImage" id="a20" src='../res/gamez/tictactoe/emptyCellTicTacToe.gif' border="0" />
                 </td>
 			    <td id="b2" class="ticTacToeTd" onmouseover="ticMouseOver('b2'); return false;" onclick="tacPlayerSets('b2'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-			        <img class="ticTacToeImage" id="b20" src='../res/img/emptyCellTicTacToe.gif' border="0" />
+			        <img class="ticTacToeImage" id="b20" src='../res/gamez/tictactoe/emptyCellTicTacToe.gif' border="0" />
                 </td>
 			    <td id="c2" class="ticTacToeTd" onmouseover="ticMouseOver('c2'); return false;" onclick="tacPlayerSets('c2'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-			        <img class="ticTacToeImage" id="c20" src='../res/img/emptyCellTicTacToe.gif' border="0" />
+			        <img class="ticTacToeImage" id="c20" src='../res/gamez/tictactoe/emptyCellTicTacToe.gif' border="0" />
                 </td>
 		    </tr>
 		    <tr id="t1" class="ticTacToeTr">
 			    <td id="a1" class="ticTacToeTd" onmouseover="ticMouseOver('a1'); return false;"  onclick="tacPlayerSets('a1'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-			        <img class="ticTacToeImage" id="a10" src='../res/img/emptyCellTicTacToe.gif' border="0" />
+			        <img class="ticTacToeImage" id="a10" src='../res/gamez/tictactoe/emptyCellTicTacToe.gif' border="0" />
                 </td>
 			    <td id="b1" class="ticTacToeTd" onmouseover="ticMouseOver('b1'); return false;"  onclick="tacPlayerSets('b1'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-			        <img class="ticTacToeImage" id="b10" src='../res/img/emptyCellTicTacToe.gif' border="0" />
+			        <img class="ticTacToeImage" id="b10" src='../res/gamez/tictactoe/emptyCellTicTacToe.gif' border="0" />
                 </td>
 			    <td id="c1" class="ticTacToeTd" onmouseover="ticMouseOver('c1'); return false;"  onclick="tacPlayerSets('c1'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-			        <img class="ticTacToeImage" id="c10" src='../res/img/emptyCellTicTacToe.gif' border="0" />
+			        <img class="ticTacToeImage" id="c10" src='../res/gamez/tictactoe/emptyCellTicTacToe.gif' border="0" />
                 </td>
 		    </tr>
             <tr id="t0" class="ticTacToeTr">
                 <td id="a0" class="ticTacToeTd" onmouseover="ticMouseOver('a0'); return false;" onclick="tacPlayerSets('a0'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-                    <img class="ticTacToeImage" id="a00" src='../res/img/emptyCellTicTacToe.gif' border="0" />
+                    <img class="ticTacToeImage" id="a00" src='../res/gamez/tictactoe/emptyCellTicTacToe.gif' border="0" />
                 </td>
                 <td id="b0" class="ticTacToeTd" onmouseover="ticMouseOver('b0'); return false;" onclick="tacPlayerSets('b0'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-                    <img class="ticTacToeImage" id="b00" src='../res/img/emptyCellTicTacToe.gif' border="0" />
+                    <img class="ticTacToeImage" id="b00" src='../res/gamez/tictactoe/emptyCellTicTacToe.gif' border="0" />
                 </td>
                 <td id="c0" class="ticTacToeTd" onmouseover="ticMouseOver('c0'); return false;" onclick="tacPlayerSets('c0'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-                    <img class="ticTacToeImage" id="c00" src='../res/img/emptyCellTicTacToe.gif' border="0" />
+                    <img class="ticTacToeImage" id="c00" src='../res/gamez/tictactoe/emptyCellTicTacToe.gif' border="0" />
                 </td>
             </tr>
 	    </table> 

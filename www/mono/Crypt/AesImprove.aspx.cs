@@ -1,18 +1,13 @@
-﻿using Area23.At;
-using Area23.At.Framework.Library.Crypt.Cipher;
+﻿using Area23.At.Framework.Library.Crypt.Cipher;
 using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Framework.Library.Zfx;
-using Area23.At.Mono.Properties;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -20,7 +15,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Windows.Controls;
-using System.Windows.Interop;
 
 namespace Area23.At.Mono.Crypt
 {

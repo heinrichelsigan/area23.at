@@ -83,11 +83,11 @@ namespace Area23.At.Framework.Library.Util
 
         #region static members
 
-        public static void LogStatic(string msg, string appName = "") => SLog.Log(msg, appName);
+        public static void LogStatic(string msg, string appName = "") => Area23Log.Logger.LogOriginMsg(appName, msg);
 
-        public static void LogStatic(string prefix, Exception xZpd, string appName) => SLog.Log(prefix, xZpd, appName);
+        public static void LogStatic(string prefix, Exception xZpd, string appName) => Area23Log.Logger.LogOriginMsgEx(appName, prefix, xZpd);
 
-        public static void LogStatic(Exception ex, string appName = "") => SLog.Log(ex, appName);
+        public static void LogStatic(Exception ex, string appName = "") => Area23Log.Logger.LogOriginEx(appName, ex);
 
         #endregion static members
 
@@ -199,6 +199,16 @@ namespace Area23.At.Framework.Library.Util
         {
             string logMsg = (string.IsNullOrEmpty(origin) ? "  \t" : origin + " \t") + message;
             Log(logMsg, level);
+        }
+
+        public void LogOriginEx(string origin, Exception ex, int level = 2)
+        {
+            string logPrefix = string.IsNullOrEmpty(origin) ? "   " : origin;
+            Log($"{logPrefix} \tException {ex.GetType()}: \t{ex.Message}", level);
+            if (level < 4)
+                Log($"{logPrefix} \tException {ex.GetType()}: \t{ex.ToString()}", level);
+            if (level < 2)
+                Log($"{logPrefix} \t{ex.GetType()} StackTrace: \t{ex.StackTrace}", level);
         }
 
         /// <summary>

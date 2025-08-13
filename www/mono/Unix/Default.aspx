@@ -40,6 +40,7 @@
 
             const now = new Date(Date.now());
             seconds = now.getSeconds();
+            now.getMilliseconds
             digiSeconds = (seconds < 10) ? "0" + seconds : seconds + "";
             minutes = now.getMinutes();
             digiMinutes = (minutes < 10) ? ("0" + minutes) : (minutes + "");
@@ -111,7 +112,7 @@
             <li><a href="FortunAsp.aspx">fortune(6)</a></li>
             <li><a href="HexDump.aspx">hex dump od(1)</a></li>
             <li><a href="Bc.aspx">basic calculator bc(1)</a></li>
-            <li><a name="netstat">netstat(8)</a></li>
+            <li><a href="PdfMerge.aspx" name="PdfMerge">pdfunite(1)</a></li>
             <li><a name="lsof">lsof(8)</a></li>
         </ul>
     </form>

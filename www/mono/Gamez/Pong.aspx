@@ -217,7 +217,7 @@
             min-height: 80px;         
             
             background-color: #1f1f1f;
-            /* background-image: url('../res/img/emptyCellBlueTikTakToe.png'); */
+            /* background-image: url('../res/gamez/pong/emptyCellBlueTikTakToe.png'); */
             /* background-repeat: no-repeat; */
             background-size: 100% 100%;
 
@@ -405,14 +405,14 @@
 
             if (whoStarts == 2) { // Player starts
                 if (headerImg != null) {
-                    document.getElementById("headerImg").src = "../res/img/headerPongPlayer.gif";
+                    document.getElementById("headerImg").src = "../res/gamez/pong/headerPongPlayer.gif";
                     document.getElementById("headerImg").focus();
                     document.getElementById("headerImg").blur();
                 }
             }
             else if (whoStarts == 1) { // Computer starts           
                 if (headerImg != null) {
-                    document.getElementById("headerImg").src = "../res/img/headerPongComputer.gif";
+                    document.getElementById("headerImg").src = "../res/gamez/pong/headerPongComputer.gif";
                     document.getElementById("headerImg").focus();
                     document.getElementById("headerImg").blur();
                 }
@@ -477,29 +477,29 @@
 
             // level completed
             if (whoWins == 2) {
-                headerImg.src = "../res/img/levelcompleted.gif"
+                headerImg.src = "../res/gamez/pong/levelcompleted.gif"
                 headerImg.height = 36;
                 level++;
                 soundDuration = 3600;
-                setTimeout(function () { ticSound("../res/audio/levelCompleted.mp3") }, 100);
+                setTimeout(function () { ticSound("../res/gamez/audio/levelCompleted.mp3") }, 100);
                 setTimeout(function () { pongReStart(false); }, 4000); // will call the function after 8 secs.
                 return whoWins;
             }
             else if (whoWins == 1) {
-                headerImg.src = "../res/img/gameover.png";
+                headerImg.src = "../res/gamez/pong/gameover.png";
                 headerImg.height = 36;
                 gameOver = 1;
                 soundDuration = 4800;
-                setTimeout(function () { ticSound("../res/audio/frogaGameOver.mp3") }, 100);
+                setTimeout(function () { ticSound("../res/gamez/audio/frogaGameOver.mp3") }, 100);
                 setTimeout(function () { pongReStart(true); }, 5000); // will call the function after 8 secs.
                 return whoWins;
             }
             if (whoWins == 0) {
-                headerImg.src = "../res/img/pongDraw.gif"
+                headerImg.src = "../res/gamez/pong/pongDraw.gif"
                 headerImg.height = 36;
                 level++;
                 soundDuration = 5000;
-                setTimeout(function () { ticSound("../res/audio/aDraw.m4a") }, 100);
+                setTimeout(function () { ticSound("../res/gamez/audio/aDraw.m4a") }, 100);
                 setTimeout(function () { pongReStart(false); }, 6000); // will call the function after 8 secs.
                 return whoWins;
             }
@@ -1018,11 +1018,11 @@
             if (forWho == 1) {
                 pongNum = androidCount;
                 pongId = "a" + pongNum;
-                pongImgSrc = "../res/img/androidSetPong.gif";
+                pongImgSrc = "../res/gamez/pong/androidSetPong.gif";
             } else if (forWho == 2) {
                 pongNum = playersCount;
                 pongId = "p" + pongNum;
-                pongImgSrc = "../res/img/skullSetPong.gif";
+                pongImgSrc = "../res/gamez/pong/skullSetPong.gif";
             }
 
             if (aCellId != null && aCellId.charAt(0) != '\0' && aCellId.length > 1) {
@@ -1033,13 +1033,13 @@
             }
 
             if (forWho == 1) {
-                pongImgSrc = "../res/img/androidSetPong.gif";
+                pongImgSrc = "../res/gamez/pong/androidSetPong.gif";
                 pongNum = androidCount;
                 pongId = "a" + pongNum;
                 pongTitle = "android" + pongNum;
             }
             else if (forWho == 2) {
-                pongImgSrc = "../res/img/skullSetPong.gif";
+                pongImgSrc = "../res/gamez/pong/skullSetPong.gif";
                 pongNum = playersCount;
                 pongId = "p" + pongNum;
                 pongTitle = "players" + pongNum;
@@ -1064,7 +1064,7 @@
 
             var tacImg = new Image(23, 20);
             var tacNum = -1;
-            var tacImgSrc = "../res/img/emptyCellPong.gif";
+            var tacImgSrc = "../res/gamez/pong/emptyCellPong.gif";
             var tacId = "";
 
             if (aCellId != null) {
@@ -1346,49 +1346,49 @@
             <span id="headerLeft" align="right" valign="middle">
                 <span id="pongLevel">0</span>
                 <span id="leftNotes"></span>
-                <img class="frogsInImg" src="../res/img/skullPong.gif" /><span id="playersCounter" alt="players counter">5</span>
+                <img class="frogsInImg" src="../res/gamez/pong/skullPong.gif" /><span id="playersCounter" alt="players counter">5</span>
                 &nbsp;
             </span>
 		    <span id="headerCenter" align="center" valign="middle">
-			    <img class="headerImage" src="../res/img/headerPong.png" id="headerImg" border="0" onclick="restart()" />
+			    <img class="headerImage" src="../res/gamez/pong/headerPong.png" id="headerImg" border="0" onclick="restart()" />
 		    </span>
 		    <span id="headerRight" align="left" valign="middle">
-			    &nbsp;<img class="frogsInImg" src="../res/img/androidPong.gif" /><span id="androidCounter" alt="android counter">5</span>
+			    &nbsp;<img class="frogsInImg" src="../res/gamez/pong/androidPong.gif" /><span id="androidCounter" alt="android counter">5</span>
 		    </span>
             <span id="rightNotes"></span>
 	    </div>
 	    <table class="pongTable" border="1" cellpadding="1" cellpadding="1">
 		    <tr id="t2" class="pongTr">
 			    <td id="a2" class="pongTd" onmouseover="pongMouseOver('a2'); return false;" onclick="tacPlayerSets('a2'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-			        <img class="pongImage" id="a20" src='../res/img/emptyCellPong.gif' border="0" />
+			        <img class="pongImage" id="a20" src='../res/gamez/pong/emptyCellPong.gif' border="0" />
                 </td>
 			    <td id="b2" class="pongTd" onmouseover="pongMouseOver('b2'); return false;" onclick="tacPlayerSets('b2'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-			        <img class="pongImage" id="b20" src='../res/img/emptyCellPong.gif' border="0" />
+			        <img class="pongImage" id="b20" src='../res/gamez/pong/emptyCellPong.gif' border="0" />
                 </td>
 			    <td id="c2" class="pongTd" onmouseover="pongMouseOver('c2'); return false;" onclick="tacPlayerSets('c2'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-			        <img class="pongImage" id="c20" src='../res/img/emptyCellPong.gif' border="0" />
+			        <img class="pongImage" id="c20" src='../res/gamez/pong/emptyCellPong.gif' border="0" />
                 </td>
 		    </tr>
 		    <tr id="t1" class="pongTr">
 			    <td id="a1" class="pongTd" onmouseover="pongMouseOver('a1'); return false;"  onclick="tacPlayerSets('a1'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-			        <img class="pongImage" id="a10" src='../res/img/emptyCellPong.gif' border="0" />
+			        <img class="pongImage" id="a10" src='../res/gamez/pong/emptyCellPong.gif' border="0" />
                 </td>
 			    <td id="b1" class="pongTd" onmouseover="pongMouseOver('b1'); return false;"  onclick="tacPlayerSets('b1'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-			        <img class="pongImage" id="b10" src='../res/img/emptyCellPong.gif' border="0" />
+			        <img class="pongImage" id="b10" src='../res/gamez/pong/emptyCellPong.gif' border="0" />
                 </td>
 			    <td id="c1" class="pongTd" onmouseover="pongMouseOver('c1'); return false;"  onclick="tacPlayerSets('c1'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-			        <img class="pongImage" id="c10" src='../res/img/emptyCellPong.gif' border="0" />
+			        <img class="pongImage" id="c10" src='../res/gamez/pong/emptyCellPong.gif' border="0" />
                 </td>
 		    </tr>
             <tr id="t0" class="pongTr">
                 <td id="a0" class="pongTd" onmouseover="pongMouseOver('a0'); return false;" onclick="tacPlayerSets('a0'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-                    <img class="pongImage" id="a00" src='../res/img/emptyCellPong.gif' border="0" />
+                    <img class="pongImage" id="a00" src='../res/gamez/pong/emptyCellPong.gif' border="0" />
                 </td>
                 <td id="b0" class="pongTd" onmouseover="pongMouseOver('b0'); return false;" onclick="tacPlayerSets('b0'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-                    <img class="pongImage" id="b00" src='../res/img/emptyCellPong.gif' border="0" />
+                    <img class="pongImage" id="b00" src='../res/gamez/pong/emptyCellPong.gif' border="0" />
                 </td>
                 <td id="c0" class="pongTd" onmouseover="ticMouseOver('c0'); return false;" onclick="tacPlayerSets('c0'); return false;" width="20%" height="24%" title="" align="center" valign="middle">
-                    <img class="pongImage" id="c00" src='../res/img/emptyCellPong.gif' border="0" />
+                    <img class="pongImage" id="c00" src='../res/gamez/pong/emptyCellPong.gif' border="0" />
                 </td>
             </tr>
 	    </table> 

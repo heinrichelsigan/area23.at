@@ -48,7 +48,7 @@ namespace Area23.At.Mono.CqrJD
 
             MemoryCache.CacheDict.SetValue<string>("lastmsg", cryptMsg);
 
-            CContact cContact = new CContact() { _hash = cqrFacade.PipeString };
+            CContact cContact = new CContact() { Hash = cqrFacade.PipeString };
 
             try
             {
@@ -92,7 +92,7 @@ namespace Area23.At.Mono.CqrJD
             InitMethod();
 
             _chatRoomNumber = "";
-            CSrvMsg<string> cSrvMsg, chatRSrvMsg = new CSrvMsg<string>(cryptMsg, CType.Json) { _hash = cqrFacade.PipeString, SerializedMsg = cryptMsg };
+            CSrvMsg<string> cSrvMsg, chatRSrvMsg = new CSrvMsg<string>(cryptMsg, CType.Json) { Hash = cqrFacade.PipeString, SerializedMsg = cryptMsg };
             chatRSrvMsg = chatRSrvMsg.FromJson(cryptMsg);
 
             _responseString = "";
@@ -139,7 +139,7 @@ namespace Area23.At.Mono.CqrJD
             Dictionary<long, string> dict = new Dictionary<long, string>();
             bool isValid = false;
 
-            CSrvMsg<string> cSrvMsg, aSrvMsg = new CSrvMsg<string>(cryptMsg, CType.Json) { _hash = cqrFacade.PipeString, SerializedMsg = cryptMsg };
+            CSrvMsg<string> cSrvMsg, aSrvMsg = new CSrvMsg<string>(cryptMsg, CType.Json) { Hash = cqrFacade.PipeString, SerializedMsg = cryptMsg };
             aSrvMsg = aSrvMsg.FromJson(cryptMsg);
 
             _responseString = "";
@@ -151,7 +151,7 @@ namespace Area23.At.Mono.CqrJD
                     cSrvMsg = CSrvMsg<string>.FromJsonDecrypt(_serverKey, cryptMsg);        // decrypt FullSrvMsg<string>
                     cSrvMsg = aSrvMsg.DecryptFromJson(_serverKey, cryptMsg);                // decrypt FullSrvMsg<string>
                     _contact = cSrvMsg.Sender;
-                    _chatRoomNumber = (cSrvMsg.CRoom != null && !string.IsNullOrEmpty(cSrvMsg.CRoom.ChatRoomNr)) ? cSrvMsg.CRoom.ChatRoomNr : cSrvMsg._message;
+                    _chatRoomNumber = (cSrvMsg.CRoom != null && !string.IsNullOrEmpty(cSrvMsg.CRoom.ChatRoomNr)) ? cSrvMsg.CRoom.ChatRoomNr : cSrvMsg.Message;
 
                     CSrvMsg<string> chatRoomMsg = JsonChatRoom.LoadChatRoom(cSrvMsg, _chatRoomNumber);
                     chatRoomMsg = JsonChatRoom.CheckPermission(cSrvMsg, chatRoomMsg, _chatRoomNumber, out isValid);
@@ -213,7 +213,7 @@ namespace Area23.At.Mono.CqrJD
             bool isValid = false;
             Dictionary<long, string> dict;
 
-            CSrvMsg<string> cSrvMsg, aSrvMsg = new CSrvMsg<string>(cryptMsg, CType.Json) { _hash = cqrFacade.PipeString, SerializedMsg = cryptMsg };
+            CSrvMsg<string> cSrvMsg, aSrvMsg = new CSrvMsg<string>(cryptMsg, CType.Json) { Hash = cqrFacade.PipeString, SerializedMsg = cryptMsg };
             aSrvMsg = aSrvMsg.FromJson(cryptMsg);
 
             _responseString = ""; // set empty response string per default
@@ -253,7 +253,7 @@ namespace Area23.At.Mono.CqrJD
 
                         chatRoomMsg.CRoom.LastPushed = now;
                         chatRoomMsg.CRoom.TicksLong.Remove(now.Ticks);                          // TODO: Delete later, with that, you get your own message in sended queue
-                        chatRoomMsg.Sender._message = _chatRoomNumber;
+                        chatRoomMsg.Sender.Message = _chatRoomNumber;
                     }
                     else
                         chatRoomMsg.TContent = cSrvMsg.Sender.NameEmail + " has no permission for chat room " + _chatRoomNumber;
@@ -284,7 +284,7 @@ namespace Area23.At.Mono.CqrJD
             InitMethod();
             bool isValid = false;
 
-            CSrvMsg<string> cSrvMsg, aSrvMsg = new CSrvMsg<string>(cryptMsg, CType.Json) { _hash = cqrFacade.PipeString, SerializedMsg = cryptMsg };
+            CSrvMsg<string> cSrvMsg, aSrvMsg = new CSrvMsg<string>(cryptMsg, CType.Json) { Hash = cqrFacade.PipeString, SerializedMsg = cryptMsg };
             aSrvMsg = aSrvMsg.FromJson(cryptMsg);
             List<CContact> _invited = new List<CContact>();
 
@@ -307,7 +307,7 @@ namespace Area23.At.Mono.CqrJD
                         if (JsonChatRoom.DeleteChatRoom(_chatRoomNumber))
                         {
                             chatRoomMsg.CRoom = null;
-                            chatRoomMsg.Sender._message = "";
+                            chatRoomMsg.Sender.Message = "";
                         }
                     }
 

@@ -50,8 +50,8 @@ namespace Area23.At.Framework.Library.Static
         /// <param name="appName">application name</param>
         public static void Log(string msg, string appName = "")
         {
-            string logMsg = string.Empty, errMsg = string.Empty;
-                      
+            string logMsg = string.Empty, errMsg = string.Empty, allLogMsg = string.Empty;
+
             lock (_outerLock)
             {
                 if (string.IsNullOrEmpty(LogFile) || !CheckedToday || !File.Exists(LogFile))
@@ -75,7 +75,27 @@ namespace Area23.At.Framework.Library.Static
                     }
                 }
 
-                string logFile1 = "";
+                try
+                {
+                    if ((AppDomain.CurrentDomain.GetData(Constants.ALL_KEYS) != null) &&
+                        ((allLogMsg = AppDomain.CurrentDomain.GetData(Constants.ALL_KEYS).ToString()) != null && allLogMsg != ""))
+                    {
+                        lock (_lock)
+                        {
+                            File.AppendAllText(LogFile, allLogMsg, System.Text.Encoding.UTF8);
+                            allLogMsg = "";
+                            AppDomain.CurrentDomain.SetData(Constants.ALL_KEYS, allLogMsg);
+                        }
+                    }                   
+                }
+                catch (Exception exLog)
+                {
+                    errMsg = String.Format("{0} \tWriting to file {1} Exception {2} {3} \n{4}\n",
+                        DateTime.Now.Area23DateTimeWithSeconds(), LogFile, exLog.GetType(), exLog.Message, exLog.ToString());
+                    AppDomain.CurrentDomain.SetData(Constants.LOG_EXCEPTION_STATIC, errMsg);
+                    Console.Error.WriteLine(errMsg);
+                }
+                
                 logMsg = DateTime.Now.Area23DateTimeWithSeconds() + "\t " + (string.IsNullOrEmpty(msg) ? string.Empty : (msg.EndsWith("\n") ? msg : msg + "\n"));
                 try
                 {
@@ -88,39 +108,14 @@ namespace Area23.At.Framework.Library.Static
                 {
                     errMsg = String.Format("{0} \tWriting to file {1} Exception {2} {3} \n{4}\n",
                             DateTime.Now.Area23DateTimeWithSeconds(), LogFile, exLogWrite.GetType(), exLogWrite.Message, exLogWrite.ToString());
-                    System.AppDomain.CurrentDomain.SetData(Constants.LOG_EXCEPTION_STATIC, errMsg);
+                    AppDomain.CurrentDomain.SetData(Constants.LOG_EXCEPTION_STATIC, errMsg);                    
+                    if (AppDomain.CurrentDomain.GetData(Constants.ALL_KEYS) != null)
+                        allLogMsg = (string)AppDomain.CurrentDomain.GetData(Constants.ALL_KEYS);
+                    allLogMsg += "\n" + logMsg + "\n" + errMsg;
+                    AppDomain.CurrentDomain.SetData(Constants.ALL_KEYS, allLogMsg);
                     Console.Error.WriteLine(errMsg);
-
-                    logFile1 = (string.IsNullOrEmpty(LogFile)) ? LibPaths.LogFileSystemPath : LogFile;
-                    logFile1 = logFile1.Replace(".log", "_1.log");
                 }
-
-                if (!string.IsNullOrEmpty(logFile1))
-                {
-                    try
-                    {
-                        if ((AppDomain.CurrentDomain.GetData(Constants.LOG_EXCEPTION_STATIC) != null) &&
-                            ((errMsg = AppDomain.CurrentDomain.GetData(Constants.LOG_EXCEPTION_STATIC).ToString()) != null && errMsg != ""))
-                        {
-                            lock (_lock)
-                            {
-                                File.AppendAllText(logFile1, errMsg, System.Text.Encoding.UTF8);
-                                errMsg = "";
-                            }
-                        }
-                        lock (_lock)
-                        {
-                            File.AppendAllText(logFile1, logMsg, System.Text.Encoding.UTF8);
-                        }
-                    }
-                    catch (Exception exLog)
-                    {
-                        errMsg = String.Format("{0} \tWriting to file {1} Exception {2} {3} \n{4}\n",
-                            DateTime.Now.Area23DateTimeWithSeconds(), logFile1, exLog.GetType(), exLog.Message, exLog.ToString());
-                        System.AppDomain.CurrentDomain.SetData(Constants.LOG_EXCEPTION_STATIC, errMsg);
-                        Console.Error.WriteLine(errMsg);
-                    }
-                }
+                
             }
 
         }

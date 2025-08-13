@@ -1,9 +1,6 @@
-﻿using Org.BouncyCastle.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 {
@@ -12,11 +9,8 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
     /// </summary>
     public class Hex16 : IDecodable
     {
-        
-        public const string VALID_CHARS = "0123456789abcdef";
-
+        public const string VALID_CHARS = "0123456789abcdef";        
         #region common interface, interfaces for static members appear in C# 7.3 or later
-
         public IDecodable Decodable => this;
 
         HashSet<char> IDecodable.ValidCharList => new HashSet<char>(VALID_CHARS.ToCharArray());
@@ -76,7 +70,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// <exception cref="ArgumentNullException"></exception>
         public static string ToHex16(byte[] inBytes)
         {
-            if (inBytes == null || inBytes.Length < 1)
+            if (inBytes == null || inBytes.Length == 0)
                 throw new ArgumentNullException("inBytes", "public static string ToHex(byte[] inBytes == NULL)");
 
             string hexString = string.Empty;
@@ -85,9 +79,9 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 hexString += string.Format("{0:x2}", inBytes[wc]);
             }
 
-            string strUtf8 = hexString; // to slow for very large files.ToLower();
+            string strUtf8 = System.Text.Encoding.UTF8.GetString(inBytes);
 
-            return strUtf8;
+            return hexString;
         }
 
         /// <summary>
@@ -109,7 +103,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 if (wb == hexStr.Length - 1)
                 {
                     msb = '0';
-                    lsb = hexStr[wb];
+                   lsb = hexStr[wb];
                 }
                 else
                 {
@@ -121,8 +115,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 bytes.Add(b);
             }
 
-            byte[] bytesUtf8 = EnDeCodeHelper.GetBytes(hexStr);
-            // return bytesUtf8
+            byte[] bytesUtf8 = System.Text.Encoding.UTF8.GetBytes(hexStr);
             return bytes.ToArray();
 
         }

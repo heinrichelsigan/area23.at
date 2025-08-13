@@ -98,14 +98,14 @@ namespace Area23.At.Mono.Util
                 {
                     MsgType = chatRoom.MsgType,
                     TicksLong = chatRoom.TicksLong,
-                    _message = chatRoomNumber,
-                    _hash = chatRoom.Hash,
+                    Message = chatRoomNumber,
+                    Hash = chatRoom.Hash,
                     Md5Hash = chatRoom.Md5Hash,
                     CBytes = chatRoom.CBytes
                 };
 
                 if (cSrvMsg.CRoom != null && !string.IsNullOrEmpty(cSrvMsg.CRoom.ChatRoomNr))
-                    cSrvMsg.Sender._message = cSrvMsg.CRoom.ChatRoomNr;
+                    cSrvMsg.Sender.Message = cSrvMsg.CRoom.ChatRoomNr;
 
                 string jsonCRoomFileName = GetJsonChatRoomFullPath(chatRoomNumber);
                 SerializeCSrvMsg(cSrvMsg, out jsonString, true);
@@ -213,7 +213,7 @@ namespace Area23.At.Mono.Util
             if (chatRoomNr.Equals(chatRoomMsg.CRoom.ChatRoomNr, StringComparison.CurrentCultureIgnoreCase)) // validate chat number
             {
                 chatRoomMsg.TContent = string.Empty;
-                chatRoomMsg._message = chatRoomNr;
+                chatRoomMsg.Message = chatRoomNr;
 
                 if ((!string.IsNullOrEmpty(cSrvMsg.Sender.Email) && cSrvMsg.Sender.Email.Equals(chatRoomMsg.Sender.Email, StringComparison.CurrentCultureIgnoreCase)) ||
                     (!string.IsNullOrEmpty(cSrvMsg.Sender.NameEmail) && cSrvMsg.Sender.NameEmail.Equals(chatRoomMsg.Sender.NameEmail, StringComparison.InvariantCultureIgnoreCase)))

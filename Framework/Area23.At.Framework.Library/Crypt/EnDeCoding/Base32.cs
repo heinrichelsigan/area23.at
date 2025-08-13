@@ -20,8 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using static Area23.At.Framework.Library.Win32Api.NativeWrapper;
 
 namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 {

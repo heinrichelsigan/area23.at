@@ -62,7 +62,7 @@ namespace Area23.At.Framework.Library.Net.IpSocket
             }
             catch (Exception ex)
             {
-                Area23Log.LogStatic(ex);
+                Area23Log.Logger.LogOriginMsgEx("Sender", "Send(...) throwed Exception " + ex.GetType(), ex);
                 throw;
             }
 

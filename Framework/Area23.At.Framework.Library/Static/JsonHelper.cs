@@ -78,7 +78,7 @@ namespace Area23.At.Framework.Library.Static
                 }
                 catch (Exception getMapEx)
                 {
-                    Area23Log.LogStatic(getMapEx);
+                    Area23Log.Logger.LogOriginMsgEx("JsonHelper", "Dictionary<string, Uri> ShortenMapJson.get throwed Exception " + getMapEx.GetType(), getMapEx);
                     tmpDict = null;
                 }
 
@@ -87,7 +87,7 @@ namespace Area23.At.Framework.Library.Static
                     tmpDict = new Dictionary<string, Uri>();
                 }
 
-                Area23Log.LogStatic("urlshorter dict count: " + tmpDict.Count);
+                Area23Log.Logger.LogOriginMsg("JsonHelper", "urlshorter dict count: " + tmpDict.Count);
                 HttpContext.Current.Application[Constants.APP_NAME] = tmpDict;
                 return tmpDict;
             }

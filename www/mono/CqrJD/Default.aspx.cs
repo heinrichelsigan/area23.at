@@ -82,7 +82,7 @@ namespace Area23.At.Mono.CqrJD
 
                 Application["lastmsg"] = rq;
                 this.TextBoxEncrypted.Text = rq;
-                CContact aContact = new CContact() { _hash = cqrFacade.PipeString };
+                CContact aContact = new CContact() { Hash = cqrFacade.PipeString };
 
                 try
                 {

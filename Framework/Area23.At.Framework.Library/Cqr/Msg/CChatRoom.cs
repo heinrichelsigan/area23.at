@@ -43,11 +43,11 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             ChatRuid = Guid.Empty;
             InvitedEmails = new List<string>();
             ChatRoomNr = "";
-            _message = "";
+            Message = "";
             TicksLong = new List<long>();
             LastPushed = DateTime.MinValue;
             LastPolled = DateTime.MinValue;
-            _hash = "";
+            Hash = "";
             Md5Hash = "";
             MsgType = CType.None;
             CBytes = new byte[0];
@@ -79,7 +79,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             LastPolled = lastPolled;
             TicksLong = new List<long>(ticks);
             InvitedEmails = new List<string>(invited);
-            _hash = hash;
+            Hash = hash;
             Md5Hash = md5sum;
             CBytes = bytes;
             MsgType = CType.Json;
@@ -97,30 +97,37 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 
         #endregion ctor
 
+
         public new CChatRoom CCopy(CChatRoom leftDest, CChatRoom rightSrc)
         {
-            if (rightSrc == null)
-                return null;
-            if (leftDest == null)
-                leftDest = new CChatRoom(rightSrc);
-
-            leftDest._message = rightSrc._message;
-            leftDest._hash = rightSrc._hash;
-            leftDest.MsgType = rightSrc.MsgType;
-            leftDest.CBytes = rightSrc.CBytes;
-            leftDest.Md5Hash = rightSrc.Md5Hash;
-
-            leftDest.ChatRoomNr = rightSrc.ChatRoomNr;
-            leftDest.ChatRuid = rightSrc.ChatRuid;
-            leftDest.TicksLong = rightSrc.TicksLong;
-            leftDest.LastPolled = rightSrc.LastPolled;
-            leftDest.LastPushed = rightSrc.LastPushed;
-            leftDest.InvitedEmails = rightSrc.InvitedEmails;
-            leftDest.SerializedMsg = "";
-            leftDest.SerializedMsg = this.ToJson();
-
-            return leftDest;
+            return CloneCopy(rightSrc, leftDest);
         }
+
+        public new static CChatRoom CloneCopy(CChatRoom source, CChatRoom destination)
+        {
+            if (source == null)
+                return null;
+            if (destination == null)
+                destination = new CChatRoom(source);
+
+            destination.Message = source.Message;
+            destination.Hash = source.Hash;
+            destination.MsgType = source.MsgType;
+            destination.CBytes = source.CBytes;
+            destination.Md5Hash = source.Md5Hash;
+
+            destination.ChatRoomNr = source.ChatRoomNr;
+            destination.ChatRuid = source.ChatRuid;
+            destination.TicksLong = source.TicksLong;
+            destination.LastPolled = source.LastPolled;
+            destination.LastPushed = source.LastPushed;
+            destination.InvitedEmails = source.InvitedEmails;
+            destination.SerializedMsg = "";
+            destination.SerializedMsg = destination.ToJson();
+
+            return destination;
+        }
+
 
         #region members
 
@@ -182,8 +189,8 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 "\"TicksLong\": \t\"" + String.Join(",", TicksLong) + "\";" + Environment.NewLine +
                 "\"LastPushed\": \t\"" + LastPushed ?? "" + "\";" + Environment.NewLine +
                 "\"LastPolled\": \t\"" + LastPolled ?? "" + "\";" + Environment.NewLine +
-                "\"_message\": \t\"" + _message ?? "" + "\";" + Environment.NewLine +
-                "\"_hash\": \t\"" + _hash ?? "" + "\";" + Environment.NewLine +
+                "\"_message\": \t\"" + Message ?? "" + "\";" + Environment.NewLine +
+                "\"Hash\": \t\"" + Hash ?? "" + "\";" + Environment.NewLine +
                 "\"SerializedMsg\": \t\"" + SerializedMsg ?? "" + "\";" + Environment.NewLine +
                 "\"Md5Hash\": \t\"" + Md5Hash ?? "" + "\";" + Environment.NewLine;
         }

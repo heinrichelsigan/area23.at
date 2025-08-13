@@ -43,7 +43,7 @@ function levelCompleted() {
         headerImg.height = 36;
         level++;
         soundDuration = 3600;
-        setTimeout(function () { frogSound("res/audio/levelCompleted.mp3") }, 100);
+        setTimeout(function () { frogSound("res/gamez/audio/levelCompleted.mp3") }, 100);
         setTimeout(function () { frogReStart(false); }, 4000); // will call the function after 8 secs.
 
         return true;
@@ -58,7 +58,7 @@ function gameOver() {
         headerImg.height = 36;
         isGameOver = 1;
         soundDuration = 4800;
-        setTimeout(function () { frogSound("res/audio/frogaGameOver.mp3") }, 100);
+        setTimeout(function () { frogSound("res/gamez/audio/frogaGameOver.mp3") }, 100);
         setTimeout(function () { frogReStart(true); }, 5000); // will call the function after 8 secs.
 
         return true;
@@ -142,7 +142,7 @@ function frogaLooper(ticks, delay) {
         headerImg.height = 36;
         level++;
         soundDuration = 3600;
-        setTimeout(function () { frogSound("res/audio/levelCompleted.mp3") }, 100);
+        setTimeout(function () { frogSound("res/gamez/audio/levelCompleted.mp3") }, 100);
         setTimeout(function () { frogReStart(false); }, 4000); // will call the function after 8 secs.
         return;
     }
@@ -155,7 +155,7 @@ function frogaLooper(ticks, delay) {
         headerImg.height = 36;
         isGameOver = 1;
         soundDuration = 4800;
-        setTimeout(function () { frogSound("res/audio/frogaGameOver.mp3") }, 100);
+        setTimeout(function () { frogSound("res/gamez/audio/frogaGameOver.mp3") }, 100);
         setTimeout(function () { frogReStart(true); }, 5000); // will call the function after 8 secs.
         return;
     }
@@ -223,7 +223,7 @@ function moveCars() {
 
             car.src = "res/img/car3crashed.png";
             car.style.marginLeft = "0px";
-            changeImagePlaySound(car, "res/img/car3crashed.png", "res/audio/frogCrash.ogg");
+            changeImagePlaySound(car, "res/img/car3crashed.png", "res/gamez/audio/frogCrash.ogg");
 
             // currentFrog & currentFrogId will be fetched in setFrogsDied
             setFrogsDied(++frogsDied);
@@ -258,7 +258,7 @@ function moveCars() {
 
             car.src = "res/img/car2crashed.png";
 
-            changeImagePlaySound(car, "res/img/car2crashed.png", "res/audio/frogCrash.ogg");
+            changeImagePlaySound(car, "res/img/car2crashed.png", "res/gamez/audio/frogCrash.ogg");
 
             // currentFrog & currentFrogId will be fetched in setFrogsDied
             setFrogsDied(++frogsDied);
@@ -327,7 +327,7 @@ function moveWalkers() {
             document.getElementById(newTd).removeChild(currentFrog);
 
             walk.src = "res/img/walk0m.gif"
-            changeImagePlaySound(walk, "res/img/walk0m.gif", "res/audio/frogJump.ogg");
+            changeImagePlaySound(walk, "res/img/walk0m.gif", "res/gamez/audio/frogJump.ogg");
 
             // currentFrog & currentFrogId will be fetched in setFrogsDied
             setFrogsDied(++frogsDied);
@@ -523,7 +523,7 @@ function moveFrog(jumpDirection) {
         }
         // frog dies in river
         if (imgDisApear == null) {
-            frogDied = frogInRiverOrSwampOrHole(newFrog, "res/img/frogDiesInWaterB.gif", "res/audio/frogUnderWater.ogg", "died", "Frog died!");
+            frogDied = frogInRiverOrSwampOrHole(newFrog, "res/img/frogDiesInWaterB.gif", "res/gamez/audio/frogUnderWater.ogg", "died", "Frog died!");
         }
     }
 
@@ -547,7 +547,7 @@ function moveFrog(jumpDirection) {
         }
         // frog dies in river
         if (imgDisApear == null) {
-            frogDied = frogInRiverOrSwampOrHole(newFrog, "res/img/frogDiesInWaterT.gif", "res/audio/frogUnderWater.ogg", "died", "Frog died!");
+            frogDied = frogInRiverOrSwampOrHole(newFrog, "res/img/frogDiesInWaterT.gif", "res/gamez/audio/frogUnderWater.ogg", "died", "Frog died!");
         }
     }
 
@@ -574,18 +574,18 @@ function moveFrog(jumpDirection) {
         }
 
         if (imgDisApear == null) {
-            frogDied = frogInRiverOrSwampOrHole(newFrog, "res/img/frogDiesInSwamp.gif", "res/audio/frogInSwamp.ogg", "died", "Frog died!");
+            frogDied = frogInRiverOrSwampOrHole(newFrog, "res/img/frogDiesInSwamp.gif", "res/gamez/audio/frogInSwamp.ogg", "died", "Frog died!");
         }
         else if (imgDisApear != null) {
             if (frogDoubleHole >= 1) {
                 newTd = "td" + nrY + lefter(nrX);
-                frogDied = frogInRiverOrSwampOrHole(newFrog, "res/img/frogDiesInSwamp.gif", "res/audio/frogInSwamp.ogg", "died", "frog" + frogNr + "@graveyard");
+                frogDied = frogInRiverOrSwampOrHole(newFrog, "res/img/frogDiesInSwamp.gif", "res/gamez/audio/frogInSwamp.ogg", "died", "frog" + frogNr + "@graveyard");
                 imgDisApear = null;
             }
             else if (frogDoubleHole < 1) {
                 frogsInHole++;
                 setFrogsInHole(frogsInHole);
-                frogInRiverOrSwampOrHole(newFrog, "res/img/frogInHole.gif", "res/audio/frogInHole.ogg", "save", "frog" + frogNr + "@home");
+                frogInRiverOrSwampOrHole(newFrog, "res/img/frogInHole.gif", "res/gamez/audio/frogInHole.ogg", "save", "frog" + frogNr + "@home");
             }
         }
     }
@@ -730,15 +730,15 @@ function crashFrog(tdFrogCell) {
                 if (_move_Id.length >= 4) {
                     switch (_move_Id.substr(0, 4)) {
                         case "car2": ++crashCnt;
-                            changeImagePlaySound(move, "res/img/car2crashed.png", "res/audio/frogCrash.ogg");
+                            changeImagePlaySound(move, "res/img/car2crashed.png", "res/gamez/audio/frogCrash.ogg");
                             move.src = "res/img/car2crashed.png";
                             break;
                         case "car3": ++crashCnt;
-                            changeImagePlaySound(move, "res/img/car3crashed.png", "res/audio/frogCrash.ogg");
+                            changeImagePlaySound(move, "res/img/car3crashed.png", "res/gamez/audio/frogCrash.ogg");
                             move.src = "res/img/car3crashed.png";
                             break;
                         case "pers": ++crashCnt;
-                            changeImagePlaySound(move, "res/img/walk0m.gif", "res/audio/frogJump.ogg");
+                            changeImagePlaySound(move, "res/img/walk0m.gif", "res/gamez/audio/frogJump.ogg");
                             move.src = "res/img/walk0m.gif";
                             break;
                         default: break;

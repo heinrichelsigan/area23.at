@@ -114,9 +114,9 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 
         public CSrvMsg() : base()
         {
-            _message = string.Empty;
+            Message = string.Empty;
             SerializedMsg = string.Empty;
-            _hash = string.Empty;
+            Hash = string.Empty;
             Sender = null;
             Recipients = new HashSet<CContact>();
             TContent = null;
@@ -152,10 +152,10 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             CContact[] tos = (to != null) ? new CContact[1] { to } : new CContact[0];
             Recipients = new HashSet<CContact>(tos);
             TContent = tc;
-            _hash = hash;
+            Hash = hash;
             CRoom = new CChatRoom(chatRoomNr, Guid.NewGuid(), DateTime.MinValue, DateTime.MinValue);            
             string allMsg = this.ToJson();
-            _message = allMsg;
+            Message = allMsg;
             SerializedMsg = allMsg;
         }
 
@@ -172,12 +172,12 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             Sender = sender;
             Recipients = new HashSet<CContact>(tos);
             TContent = tc;
-            _hash = hash;
+            Hash = hash;
             CRoom = new CChatRoom(chatRoomNr, Guid.NewGuid(), DateTime.MinValue, DateTime.MinValue);            
-            if (tc is string || tc is int || tc is long || tc is byte || tc is short || tc is uint || tc is ulong || tc is ushort || tc is sbyte || tc is float || tc is double) 
-                _message = tc.ToString();
+            if (tc is string || tc is int || tc is long || tc is byte || tc is short || tc is uint || tc is ulong || tc is ushort || tc is sbyte || tc is float || tc is double)
+                Message = tc.ToString();
             else
-                _message = JsonConvert.SerializeObject(tc);                    
+                Message = JsonConvert.SerializeObject(tc);                    
             string allMsg = this.ToJson();
             SerializedMsg = allMsg;
         }
@@ -191,28 +191,19 @@ namespace Area23.At.Framework.Library.Cqr.Msg
         { 
             if (cSrvMsg != null)
             {
-                Sender = cSrvMsg.Sender;
-                Recipients = cSrvMsg.Recipients;
-                TContent = cSrvMsg.TContent;
-                _hash = cSrvMsg.Hash;
-                CRoom = new CChatRoom(cSrvMsg.CRoom);
-                _message = cSrvMsg.Message;
-                Md5Hash = cSrvMsg.Md5Hash;
+                CloneCopy(cSrvMsg, this);
             }
         }
 
         #endregion ctor
 
-
+        public new CSrvMsg<TC> CCopy(CSrvMsg<TC> leftDest, CSrvMsg<TC> rightSrc)
+        {
+            return CloneCopy(rightSrc, leftDest);
+        }
 
         #region EnDeCrypt+DeSerialize
 
-
-        public override byte[] EncryptToJsonToBytes(string serverKey)
-        {
-            string serialized = EncryptToJson(serverKey);
-            return Encoding.UTF8.GetBytes(serialized);
-        }
 
         /// <summary>
         /// Serialize <see cref="CSrvMsg{TC}"/> to Json Stting
@@ -234,14 +225,14 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             {
                 string hash = EnDeCodeHelper.KeyToHex(serverKey);
                 SymmCipherPipe symmPipe = new SymmCipherPipe(serverKey, hash);
-                _hash = symmPipe.PipeString;
-                Md5Hash = MD5Sum.HashString(String.Concat(serverKey, _hash, symmPipe.PipeString, _message), "");
+                Hash = symmPipe.PipeString;
+                Md5Hash = MD5Sum.HashString(String.Concat(serverKey, Hash, symmPipe.PipeString, Message), "");
 
                 byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(Message);
                 byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, serverKey, hash) : msgBytes;
 
                 CBytes = cqrbytes;
-                _message = Base64.ToBase64(CBytes);
+                Message = Base64.ToBase64(CBytes);
             }
             catch (Exception exCrypt)
             {
@@ -251,13 +242,6 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             return true;
         }
 
-        public new CSrvMsg<TC> DecryptFromJsonFromBytes(string serverKey, byte[] serializedBytes)
-        {
-            string serialized = Encoding.UTF8.GetString(serializedBytes);
-            return DecryptFromJson(serverKey, serialized);
-        }
-
-
         public new CSrvMsg<TC> DecryptFromJson(string serverKey, string serialized = "")
         {
             if (string.IsNullOrEmpty(serialized))
@@ -266,11 +250,11 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             CSrvMsg<TC> csrvmsg = FromJson<CSrvMsg<TC>>(serialized);
             if (csrvmsg != null && Decrypt(serverKey))
             {
-                csrvmsg._message = _message;
+                csrvmsg.Message = Message;
                 csrvmsg.CBytes = CBytes;
                 csrvmsg.MsgType = MsgType;
                 csrvmsg.Md5Hash = Md5Hash;
-                csrvmsg._hash = Hash;
+                csrvmsg.Hash = Hash;
                 csrvmsg.TContent = TContent;
                 csrvmsg.Sender = Sender;
                 csrvmsg.Recipients = Recipients;
@@ -294,13 +278,13 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 while (decrypted[decrypted.Length - 1] == '\0')
                     decrypted = decrypted.Substring(0, decrypted.Length - 1);
 
-                if (!_hash.Equals(symmPipe.PipeString))
-                    throw new CqrException($"Hash: {_hash} doesn't match symmPipe.PipeString: {symmPipe.PipeString}");
-                string md5Hash = MD5Sum.HashString(String.Concat(serverKey, _hash, symmPipe.PipeString, decrypted), "");
+                if (!Hash.Equals(symmPipe.PipeString))
+                    throw new CqrException($"Hash: {Hash} doesn't match symmPipe.PipeString: {symmPipe.PipeString}");
+                string md5Hash = MD5Sum.HashString(String.Concat(serverKey, Hash, symmPipe.PipeString, decrypted), "");
                 if (!md5Hash.Equals(Md5Hash))
                     throw new CqrException($"md5Hash: {md5Hash} doesn't match property Md5Hash: {Md5Hash}");
 
-                _message = decrypted;
+                Message = decrypted;
                 CBytes = new byte[0];
             }
             catch (Exception exCrypt)
@@ -338,9 +322,9 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                         Recipients = cSrvMsg.Recipients;
                         TContent = cSrvMsg.TContent;
                         CRoom = new CChatRoom(cSrvMsg.CRoom);
-                        _hash = cSrvMsg._hash;
+                        Hash = cSrvMsg.Hash;
                         Md5Hash = cSrvMsg.Md5Hash;
-                        _message = cSrvMsg._message;
+                        Message = cSrvMsg.Message;
                         MsgType = CType.Json;
                         CBytes = cSrvMsg.CBytes;
                         SerializedMsg = jsonText;
@@ -372,8 +356,8 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 this.SerializedMsg = xmlText;
                 this.MsgType = CType.Xml;
                 this.Md5Hash = cSrvMsg.Md5Hash;
-                this._hash = cSrvMsg.Hash;
-                this._message = cSrvMsg._message;
+                this.Hash = cSrvMsg.Hash;
+                this.Message = cSrvMsg.Message;
                 this.CBytes = cSrvMsg.CBytes;
                 this.TContent = cSrvMsg.TContent;
                 this.CRoom = cSrvMsg.CRoom;
@@ -390,6 +374,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
         #endregion members
 
         #region static_members
+
 
         /// <summary>
         /// Serialize <see cref="CSrvMsg{TC}"/> to Json Stting
@@ -411,14 +396,14 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             {
                 string hash = EnDeCodeHelper.KeyToHex(serverKey);
                 SymmCipherPipe symmPipe = new SymmCipherPipe(serverKey, hash);
-                cSrvMsg._hash = hash;
-                cSrvMsg.Md5Hash = MD5Sum.HashString(String.Concat(serverKey, hash, symmPipe.PipeString, cSrvMsg._message), "");
+                cSrvMsg.Hash = hash;
+                cSrvMsg.Md5Hash = MD5Sum.HashString(String.Concat(serverKey, hash, symmPipe.PipeString, cSrvMsg.Message), "");
 
                 byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(cSrvMsg.Message);
                 byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, serverKey, hash) : msgBytes;
 
                 cSrvMsg.CBytes = cqrbytes;
-                cSrvMsg._message = "";
+                cSrvMsg.Message = "";
             }
             catch (Exception exCrypt)
             {
@@ -453,13 +438,13 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 while (decrypted[decrypted.Length - 1] == '\0')
                     decrypted = decrypted.Substring(0, decrypted.Length - 1);
 
-                if (!cSrvMsg._hash.Equals(symmPipe.PipeString))
+                if (!cSrvMsg.Hash.Equals(symmPipe.PipeString))
                 {
-                    string errMsg = $"Hash: {cSrvMsg._hash} doesn't match symmPipe.PipeString: {symmPipe.PipeString}";
+                    string errMsg = $"Hash: {cSrvMsg.Hash} doesn't match symmPipe.PipeString: {symmPipe.PipeString}";
                     // throw new CqrException(errMsg);
                     ;
                 }
-                string md5Hash = MD5Sum.HashString(String.Concat(serverKey, cSrvMsg._hash, symmPipe.PipeString, decrypted), "");
+                string md5Hash = MD5Sum.HashString(String.Concat(serverKey, cSrvMsg.Hash, symmPipe.PipeString, decrypted), "");
                 if (!md5Hash.Equals(cSrvMsg.Md5Hash))
                 {
                     string md5ErrExcMsg = $"md5Hash: {md5Hash} doesn't match property Md5Hash: {cSrvMsg.Md5Hash}";
@@ -468,7 +453,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 }
                     
 
-                cSrvMsg._message = decrypted;
+                cSrvMsg.Message = decrypted;
                 cSrvMsg.CBytes = new byte[0];
             }
             catch (Exception exCrypt)
@@ -479,6 +464,33 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 
             return cSrvMsg;
         }
+
+
+
+        public new static CSrvMsg<TC> CloneCopy(CSrvMsg<TC> source, CSrvMsg<TC> destination)
+        {
+            if (source == null)
+                return null;
+            if (source == null)
+                destination = new CSrvMsg<TC>(source);
+
+            destination.Hash = source.Hash;
+            destination.Message = source.Message;
+            destination.MsgType = source.MsgType;
+            destination.CBytes = source.CBytes;
+            destination.Md5Hash = source.Md5Hash;
+
+            destination.Sender = source.Sender;
+            destination.Recipients = source.Recipients;
+            destination.TContent = source.TContent;
+            destination.CRoom = source.CRoom;
+
+            destination.SerializedMsg = "";
+            destination.SerializedMsg = destination.ToJson();
+
+            return destination;
+        }
+
 
         #endregion static_members
 

@@ -1,13 +1,8 @@
 ﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
-using Area23.At.Framework.Library.Win32Api;
-using Area23.At.Mono.Qr;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace Area23.At.Mono.Unix
 {
@@ -35,6 +30,7 @@ namespace Area23.At.Mono.Unix
             this.aFortunAsp.HRef = LibPaths.UnixAppPath + "FortunAsp.aspx";
             this.aHexDump.HRef = LibPaths.UnixAppPath + "HexDump.aspx";
             this.aBc.HRef = LibPaths.UnixAppPath + "Bc.aspx";
+            this.aPdfMerge.HRef = LibPaths.UnixAppPath + "PdfMerge.aspx";
         }
 
         public static string GetFinalUrl(string suffixUrl = "")
@@ -57,8 +53,9 @@ namespace Area23.At.Mono.Unix
             headerLeft.Attributes["class"] = "headerLeft";
             headerLeftCenter.Attributes["class"] = "headerLeftCenter";
             headerCenter.Attributes["class"] = "headerCenter";
-            // headerRightCenter.Attributes["class"] = "headerRightCenter";
-            // headerRight.Style["class"] = "headerRight";
+            headerRightCenter.Attributes["class"] = "headerRightCenter";
+            headerRight.Attributes["class"] = "headerRight";
+            // headerRight.Style["class"] = "headerRight";            
 
             try
             {
@@ -84,16 +81,16 @@ namespace Area23.At.Mono.Unix
                         headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("trans"))
+                    if (this.Request.RawUrl.Contains("PdfMerge.aspx"))
                     {
-                        // headerRight.Attributes["background-color"] = "headerRightSelect";
+                        headerRight.Attributes["class"] = "headerRightSelect";
                         return;
                     }
                 }
             }
             catch (Exception ex)
             {
-                Area23Log.LogStatic(ex);
+                Area23Log.Logger.LogOriginMsgEx("UnixMaster.master.cs", "Error when setting up masterpage for unix.", ex);
             }            
         }
     }

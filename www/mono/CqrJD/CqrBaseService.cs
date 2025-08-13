@@ -322,13 +322,13 @@ namespace Area23.At.Mono.CqrJD
                     cSrvMsg.CRoom.TicksLong.Add(now.Ticks);
             }
 
-            cSrvMsg._message = (cSrvMsg.CRoom != null && !string.IsNullOrEmpty(cSrvMsg.CRoom.ChatRoomNr)) ? cSrvMsg.CRoom.ChatRoomNr : "";
+            cSrvMsg.Message = (cSrvMsg.CRoom != null && !string.IsNullOrEmpty(cSrvMsg.CRoom.ChatRoomNr)) ? cSrvMsg.CRoom.ChatRoomNr : "";
 
 
             bool addSender = true;
             foreach (CContact cr in cSrvMsg.Recipients)
             {
-                cr._message = (cSrvMsg.CRoom != null && !string.IsNullOrEmpty(cSrvMsg.CRoom.ChatRoomNr)) ? cSrvMsg.CRoom.ChatRoomNr : "";
+                cr.Message = (cSrvMsg.CRoom != null && !string.IsNullOrEmpty(cSrvMsg.CRoom.ChatRoomNr)) ? cSrvMsg.CRoom.ChatRoomNr : "";
 
                 _invited.Add(cr);
                 if ((!string.IsNullOrEmpty(cr.NameEmail) && cr.NameEmail == cSrvMsg.Sender.NameEmail) ||
@@ -343,7 +343,7 @@ namespace Area23.At.Mono.CqrJD
 
             CSrvMsg<string> cChatRSrvMsg = JsonChatRoom.SaveChatRoom(cSrvMsg, cSrvMsg.CRoom);
             _chatRoomNumber = cChatRSrvMsg.CRoom.ChatRoomNr;
-            cChatRSrvMsg._message = _chatRoomNumber;
+            cChatRSrvMsg.Message = _chatRoomNumber;
             JsonChatRoom.AddJsonChatRoomToCache(_chatRoomNumber);
 
             // serialize chat room in msg later then saving
