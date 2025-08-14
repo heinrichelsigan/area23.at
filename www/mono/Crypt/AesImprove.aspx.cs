@@ -530,7 +530,7 @@ namespace Area23.At.Mono.Crypt
             if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
             {
                 string strFileName = pfile.FileName;
-                strFileName = System.IO.Path.GetFileName(strFileName);
+                strFileName = System.IO.Path.GetFileName(strFileName).BeautifyUploadFileNames();
                 string strFilePath = LibPaths.SystemDirOutPath + strFileName;
                 pfile.SaveAs(strFilePath);
 
@@ -559,7 +559,7 @@ namespace Area23.At.Mono.Crypt
             // Get the name of the file that is posted.
             string strFileName = (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ?
                 pfile.FileName : fileSavedName;
-            strFileName = System.IO.Path.GetFileName(strFileName);
+            strFileName = System.IO.Path.GetFileName(strFileName).BeautifyUploadFileNames();
 
             long inFileLen = -1;
             if (!string.IsNullOrEmpty(fileSavedName) && System.IO.File.Exists(fileSavedName))
@@ -640,7 +640,7 @@ namespace Area23.At.Mono.Crypt
                                 default: zopt = ""; break;
                             }
 
-                            if (!string.IsNullOrEmpty(zopt) && System.IO.File.Exists(LibPaths.SystemDirBinPath + zcmd))
+                            if (!string.IsNullOrEmpty(zopt) && System.IO.File.Exists(zcmd))
                             {
                                 outp = ProcessCmd.Execute(zcmd, " " + zopt + " " + zPath + " " + zOutPath, false);
                                 Thread.Sleep(64);
@@ -658,7 +658,8 @@ namespace Area23.At.Mono.Crypt
                         inBytes = outBytes;
                         cryptCount += 8;
 
-                        strFileName += "." + pipe.PipeString;
+                        if (!string.IsNullOrEmpty(pipe.PipeString) && pipe.PipeString.Length > 0)
+                            strFileName += "." + pipe.PipeString;
 
                         //foreach (string algo in algos)
                         //{
@@ -818,21 +819,26 @@ namespace Area23.At.Mono.Crypt
                                     zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.gz");
                                     zOutPath = zOutPath.Replace(".txt.gz", ".txt").Replace(".gz", "");
                                     zopt = "gunzip";
+                                    strFileName = (strFileName.EndsWith(".gz") || strFileName.Contains(".gz")) ? strFileName.Replace(".gz", "") : strFileName;
                                     break;
                                 case ZipType.BZip2:
                                     zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.bz2");
                                     zOutPath = zOutPath.Replace(".txt.bz2", ".txt").Replace(".bz2", "").Replace(".bz", "");
                                     zopt = "bunzip";
+                                    strFileName = (strFileName.EndsWith(".bz2") || strFileName.Contains(".bz2")) ? strFileName.Replace(".bz2", "") : strFileName;
+                                    strFileName = (strFileName.EndsWith(".bz") || strFileName.Contains(".bz")) ? strFileName.Replace(".bz", "") : strFileName;
                                     break;
                                 case ZipType.Z7:
                                     zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.7z");
                                     zOutPath = zOutPath.Replace(".txt.7z", ".txt").Replace(".7z", "").Replace(".z7", "");
                                     zopt = "7unzip";
+                                    strFileName = (strFileName.EndsWith(".7z") || strFileName.Contains(".7z")) ? strFileName.Replace(".7z", "") : strFileName;
                                     break;
                                 case ZipType.Zip:
                                     zPath = outBytes.ToFile(LibPaths.SystemDirOutPath, zfile, ".txt.zip");
                                     zOutPath = zOutPath.Replace(".txt.zip", ".txt").Replace(".zip", "");
                                     zopt = "unzip";
+                                    strFileName = (strFileName.EndsWith(".zip") || strFileName.Contains(".zip")) ? strFileName.Replace(".zip", "") : strFileName;
                                     break;
                                 case ZipType.None:
                                 default:

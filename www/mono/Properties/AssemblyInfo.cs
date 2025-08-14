@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die
 // Assemblyinformationen zu ändern.
-[assembly: AssemblyTitle("Area23.At.Mono ARM64")]
-[assembly: AssemblyDescription("Area23.At.Mono sample for linux apache mod_mono ARM64")]
+[assembly: AssemblyTitle("Area23.At.Mono")]
+[assembly: AssemblyDescription("Area23.At.Mono sample for linux apache mod_mono")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("area23.at Heinrich Elsigan")]
 [assembly: AssemblyProduct("Area23.At.Mono")]

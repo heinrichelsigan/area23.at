@@ -99,71 +99,6 @@ namespace Area23.At.Mono.Unix
         }
 
 
-        internal string BeautifyUploadName(string fName)
-        {
-            string bfName = fName;
-            if (!string.IsNullOrEmpty(fName) && fName.Length > 2)
-            {
-                bfName = bfName.Replace(' ', '_');
-                bfName = bfName.Replace('\\', '_');
-                bfName = bfName.Replace('\"', '_');
-                bfName = bfName.Replace('\'', '_');
-                bfName = bfName.Replace('!', '_');
-                bfName = bfName.Replace('?', '_');
-                bfName = bfName.Replace('´', '_');
-                bfName = bfName.Replace('$', '_');
-                bfName = bfName.Replace('%', '_');
-                bfName = bfName.Replace('&', '_');
-                bfName = bfName.Replace('´', '_');
-                bfName = bfName.Replace('´', '_');
-                bfName = bfName.Replace('#', '_');
-                bfName = bfName.Replace(':', '_');
-                bfName = bfName.Replace(';', '_');
-                bfName = bfName.Replace(',', '_');
-                bfName = bfName.Replace('<', '_');
-                bfName = bfName.Replace('|', '_');
-                bfName = bfName.Replace('>', '_');
-                bfName = bfName.Replace('=', '_');
-                bfName = bfName.Replace('^', '_');
-                bfName = bfName.Replace('°', '_');
-
-                bfName = bfName.Replace('*', '-');
-                bfName = bfName.Replace('+', '-');
-                bfName = bfName.Replace('/', '-');
-                bfName = bfName.Replace('~', '-');
-
-                bfName = bfName.Replace('²', '2');
-                bfName = bfName.Replace('³', '3');
-                bfName = bfName.Replace('{', '[');
-                bfName = bfName.Replace('}', ']');
-                bfName = bfName.Replace('(', '[');
-                bfName = bfName.Replace(')', ']');
-
-
-                bfName = bfName.Replace('\t', ' ');
-
-                bfName = bfName.Replace("â", "a");
-                bfName = bfName.Replace("à", "a");
-                bfName = bfName.Replace("á", "a");
-
-                bfName = bfName.Replace("è", "e");
-                bfName = bfName.Replace("é", "e");
-                bfName = bfName.Replace("ê", "e");
-                
-                bfName = bfName.Replace("ß", "sz");
-                bfName = bfName.Replace("ä", "ae");
-                bfName = bfName.Replace("ö", "oe");
-                bfName = bfName.Replace("ü", "ue");
-                bfName = bfName.Replace("Ä", "Ae");
-                bfName = bfName.Replace("Ö", "Oe");
-                bfName = bfName.Replace("Ü", "Ue");
-                
-            }
-
-            return bfName;
-
-        }
-
         protected void Page_Load(object sender, EventArgs e)
         {
             ButtonUploadID.Attributes["name"] = "ButtonUploadName";
@@ -217,7 +152,7 @@ namespace Area23.At.Mono.Unix
             {               
                 fileExtn = Path.GetExtension(pfile.FileName).Trim().ToLower();
 
-                fileName = BeautifyUploadName(Path.GetFileName(pfile.FileName));
+                fileName = Path.GetFileName(pfile.FileName).BeautifyUploadFileNames();
                 filePath = LibPaths.SystemDirOutPath + fileName;
 
                 if (!fileExtn.TrimEnd().EndsWith("pdf"))

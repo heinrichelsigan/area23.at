@@ -455,7 +455,7 @@ namespace Area23.At.Mono.Crypt
             if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
             {
                 string strFileName = pfile.FileName;
-                strFileName = System.IO.Path.GetFileName(strFileName);
+                strFileName = System.IO.Path.GetFileName(strFileName).BeautifyUploadFileNames();
                 string strFilePath = LibPaths.SystemDirOutPath + strFileName;
                 pfile.SaveAs(strFilePath);
 
@@ -483,7 +483,7 @@ namespace Area23.At.Mono.Crypt
             // Get the name of the file that is posted.
             string strFileName = (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ? 
                 pfile.FileName : fileSavedName;
-            strFileName = System.IO.Path.GetFileName(strFileName);
+            strFileName = System.IO.Path.GetFileName(strFileName).BeautifyUploadFileNames();
 
             string savedTransFile = string.Empty;
             string outMsg = string.Empty;            
@@ -554,8 +554,9 @@ namespace Area23.At.Mono.Crypt
                             if (!string.IsNullOrEmpty(zopt))
                             {
                                 strFileName += zopt;
-                                int arrayLen = Math.Max(outBytes.Length, inBytes.Length);
-                                Array.Copy(outBytes, 0, inBytes, 0, arrayLen);
+                                int arrayLen = outBytes.Length;
+                                inBytes = new byte[arrayLen];
+                                Array.Copy(outBytes, 0, inBytes, 0, outBytes.Length);
                             }
                         }
 
@@ -673,15 +674,22 @@ namespace Area23.At.Mono.Crypt
                             switch (ztype)
                             {
                                 case ZipType.GZip:  
-                                    outBytes = GZ.GUnZipBytes(inBytes); 
+                                    outBytes = GZ.GUnZipBytes(inBytes);
+                                    strFileName = (strFileName.EndsWith(".gz") || strFileName.Contains(".gz")) ? strFileName.Replace(".gz", "") : strFileName;
                                     break;
                                 case ZipType.BZip2:
                                     outBytes = BZip2.BUnZip(inBytes); // BZip2.BUnZip2Bytes(inBytes); 
+                                    strFileName = (strFileName.EndsWith(".bz2") || strFileName.Contains(".bz2")) ? strFileName.Replace(".bz2", "") : strFileName;
+                                    strFileName = (strFileName.EndsWith(".bz") || strFileName.Contains(".bz")) ? strFileName.Replace(".bz", "") : strFileName;
                                     break;
                                 case ZipType.Zip: 
-                                    outBytes = WinZip.UnZip(inBytes); 
+                                    outBytes = WinZip.UnZip(inBytes);
+                                    strFileName = (strFileName.EndsWith(".zip") || strFileName.Contains(".zip")) ? strFileName.Replace(".zip", "") : strFileName;
                                     break;
                                 case ZipType.Z7:
+                                    strFileName = (strFileName.EndsWith(".7z") || strFileName.Contains(".7z")) ? strFileName.Replace(".7z", "") : strFileName;
+                                    outMsg = string.Empty;
+                                    break;
                                 case ZipType.None:
                                 default: 
                                     outMsg = string.Empty; 

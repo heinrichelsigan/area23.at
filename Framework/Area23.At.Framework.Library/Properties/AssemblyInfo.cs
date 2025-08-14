@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Area23.At.Framework.Library ARM64")]
-[assembly: AssemblyDescription(".Net 4.[678].* Framework Area23 Library ARM64")]
+[assembly: AssemblyTitle("Area23.At.Framework.Library")]
+[assembly: AssemblyDescription(".Net 4.[678].* Framework Area23 Library")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Heinrich Elsigan https://heinrichelsigan.area23.at")]
 [assembly: AssemblyProduct("area23.at FrameworkLibrary")]

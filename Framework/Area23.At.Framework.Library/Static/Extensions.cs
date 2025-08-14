@@ -567,6 +567,77 @@ namespace Area23.At.Framework.Library.Static
         }
 
 
+        /// <summary>
+        /// BeautifyUploadFileNames extension method for string
+        /// </summary>
+        /// <param name="uploadFileName">this string to beautify</param>
+        /// <returns>beautified string</returns>
+        public static string BeautifyUploadFileNames(this string uploadFileName)
+        {
+
+            string bfName = uploadFileName;
+            if (!string.IsNullOrEmpty(bfName) && bfName.Length > 2)
+            {
+                bfName = bfName.Replace(' ', '_');
+                bfName = bfName.Replace('\\', '_');
+                bfName = bfName.Replace('\"', '_');
+                bfName = bfName.Replace('\'', '_');
+                bfName = bfName.Replace('!', '_');
+                bfName = bfName.Replace('?', '_');
+                bfName = bfName.Replace('´', '_');
+                bfName = bfName.Replace('$', '_');
+                bfName = bfName.Replace('%', '_');
+                bfName = bfName.Replace('&', '_');
+                bfName = bfName.Replace('´', '_');
+                bfName = bfName.Replace('´', '_');
+                bfName = bfName.Replace('#', '_');
+                bfName = bfName.Replace(':', '_');
+                bfName = bfName.Replace(';', '_');
+                bfName = bfName.Replace(',', '_');
+                bfName = bfName.Replace('<', '_');
+                bfName = bfName.Replace('|', '_');
+                bfName = bfName.Replace('>', '_');
+                bfName = bfName.Replace('=', '_');
+                bfName = bfName.Replace('^', '_');
+                bfName = bfName.Replace('°', '_');
+
+                bfName = bfName.Replace('*', '-');
+                bfName = bfName.Replace('+', '-');
+                bfName = bfName.Replace('/', '-');
+                bfName = bfName.Replace('~', '-');
+
+                bfName = bfName.Replace('²', '2');
+                bfName = bfName.Replace('³', '3');
+                bfName = bfName.Replace('{', '[');
+                bfName = bfName.Replace('}', ']');
+                bfName = bfName.Replace('(', '[');
+                bfName = bfName.Replace(')', ']');
+
+
+                bfName = bfName.Replace('\t', ' ');
+
+                bfName = bfName.Replace("â", "a");
+                bfName = bfName.Replace("à", "a");
+                bfName = bfName.Replace("á", "a");
+
+                bfName = bfName.Replace("è", "e");
+                bfName = bfName.Replace("é", "e");
+                bfName = bfName.Replace("ê", "e");
+
+                bfName = bfName.Replace("ß", "sz");
+                bfName = bfName.Replace("ä", "ae");
+                bfName = bfName.Replace("ö", "oe");
+                bfName = bfName.Replace("ü", "ue");
+                bfName = bfName.Replace("Ä", "Ae");
+                bfName = bfName.Replace("Ö", "Oe");
+                bfName = bfName.Replace("Ü", "Ue");
+
+            }
+
+            return bfName;
+
+        }
+
         #endregion string_extensions
 
         #endregion stream_byteArray_string_extensions
