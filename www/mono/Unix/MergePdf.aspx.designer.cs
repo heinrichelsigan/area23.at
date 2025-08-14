@@ -11,35 +11,35 @@ namespace Area23.At.Mono.Unix
 {
 
 
-    public partial class PdfMerge
+    public partial class MergePdf
     {
 
         /// <summary>
-        /// Area23UnixPdfMerge control.
+        /// MergePdfForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm Area23UnixPdfMerge;
+        protected global::System.Web.UI.HtmlControls.HtmlForm MergePdfForm;
 
         /// <summary>
-        /// oFile control.
+        /// FileUploadInput control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputFile oFile;
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadInput;
 
         /// <summary>
-        /// ButtonUploadID control.
+        /// UploadID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonUploadID;
+        protected global::System.Web.UI.WebControls.Button UploadID;
 
         /// <summary>
         /// ListBoxFilesUploaded control.
@@ -49,15 +49,6 @@ namespace Area23.At.Mono.Unix
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox ListBoxFilesUploaded;
-
-        /// <summary>
-        /// DivLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivLabel;
 
         /// <summary>
         /// ButtonPdfMerge control.
@@ -76,6 +67,15 @@ namespace Area23.At.Mono.Unix
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor aPdfMergeDownload;
+
+        /// <summary>
+        /// DivLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivLabel;
 
         /// <summary>
         /// LabelUploadResult control.

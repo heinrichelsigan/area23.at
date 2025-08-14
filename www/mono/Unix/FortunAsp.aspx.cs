@@ -1,11 +1,8 @@
 ﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
-using Area23.At.Framework.Library.Win32Api;
-using Area23.At.Mono.Unix;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 
 namespace Area23.At.Mono.Unix

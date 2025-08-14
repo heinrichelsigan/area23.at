@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Configuration;
 using System.IO;
@@ -11,7 +12,7 @@ using System.Web.UI.WebControls;
 namespace Area23.At.Mono.Unix
 {
 
-    public partial class PdfMerge : System.Web.UI.Page
+    public partial class MergePdf : System.Web.UI.Page
     {
 
         private static readonly string pdfMergeCmd = "";
@@ -29,14 +30,14 @@ namespace Area23.At.Mono.Unix
             set => ListBoxFromValue(value);
         }
 
-        static PdfMerge()
+        static MergePdf()
         {
             _lock = new object();
             if (ConfigurationManager.AppSettings["PDFMergeCmd"] != null)
                 pdfMergeCmd = (string)ConfigurationManager.AppSettings["PDFMergeCmd"];
         }
 
-        public PdfMerge()
+        public MergePdf()
         {            
             Base64Mime = "";                        
         }
@@ -90,8 +91,11 @@ namespace Area23.At.Mono.Unix
                 {
                     if (!ListBoxContainsItemByName(file))
                     {
-                        ListItem listItem = new ListItem(file, file, true);
-                        ListBoxFilesUploaded.Items.Add(listItem);
+                        if (File.Exists(LibPaths.SystemDirOutPath + file))
+                        {
+                            ListItem listItem = new ListItem(file);
+                            ListBoxFilesUploaded.Items.Add(listItem);
+                        }
                     }
                 }
             }
@@ -142,13 +146,13 @@ namespace Area23.At.Mono.Unix
 
         }
 
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            ButtonUploadID.Attributes["name"] = "ButtonUploadName";
-            // oFile.Attributes["onchange"] = "UploadFileJS(this)";
-            oFile.Attributes["onchange"] = "UploadFile(this, " + ButtonUploadID.ClientID + ")";
-            // FileUploadInput.Attributes["onchange"] = "UploadFileJS(this, " + ButtonUploadID.ClientID + ")";            
-
+            UploadID.Attributes["name"] = "UploadName";
+            // oFile.Attributes["onchange"] = "UploadFile(this)";
+            FileUploadInput.Attributes["onchange"] = "UploadFile(this, " + UploadID.ClientID + ")";
+            
             if (!Page.IsPostBack)
             {
                 if ((HttpContext.Current.Session != null) && (HttpContext.Current.Session[Constants.UPSAVED_FILE] != null))
@@ -168,12 +172,10 @@ namespace Area23.At.Mono.Unix
         }
 
 
-        protected void ButtonUpload_Click(object sender, EventArgs e)
+        protected void Upload_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(oFile.Value))
-                UploadFile(oFile.PostedFile);
-            // else if (FileUploadInput.PostedFile != null)
-            //     UploadFile(FileUploadInput.PostedFile);
+            if (FileUploadInput.PostedFile != null)
+                UploadFile(FileUploadInput.PostedFile);
         }
 
 
@@ -189,7 +191,7 @@ namespace Area23.At.Mono.Unix
             DivObject.Visible = false;
 
             if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
-            {               
+            {
                 fileExtn = Path.GetExtension(pfile.FileName).Trim().ToLower();
 
                 fileName = BeautifyUploadName(Path.GetFileName(pfile.FileName));
@@ -201,14 +203,14 @@ namespace Area23.At.Mono.Unix
                     LabelUploadResult.ToolTip = "Can't upload file " + fileName + ", because " + fileExtn + " isn't 'pdf'!";
                     return;
                 }
-                
+
                 if (ListBoxContainsItemByName(fileName) && File.Exists(filePath))
                 {
                     LabelUploadResult.Text = fileName + " already exists.";
                     LabelUploadResult.ToolTip = "Can't upload file " + fileName + ", because it already exists.";
                     return;
                 }
-                
+
                 pfile.SaveAs(filePath);
 
                 if (System.IO.File.Exists(filePath))
@@ -216,10 +218,10 @@ namespace Area23.At.Mono.Unix
                     LabelUploadResult.Text = fileName + " successfully uploaded.";
                     LabelUploadResult.ToolTip = "File " + fileName + " has been successfully uploaded.";
 
-                    ListItem listItem = new ListItem(fileName);           
+                    ListItem listItem = new ListItem(fileName);
                     ListBoxFilesUploaded.Items.Add(listItem);
                     Session[Constants.UPSAVED_FILE] = JoinedFiles;
-                    
+
                     Base64Mime = Convert.ToBase64String(pfile.InputStream.ToByteArray(), Base64FormattingOptions.None);
                     DivObject.InnerHtml = String.Format(
                             "<object data=\"data:application/pdf;base64,{0}\" type='application/pdf' width=\"640px\" height=\"480px\">" +
@@ -230,7 +232,7 @@ namespace Area23.At.Mono.Unix
             else
             {
                 LabelUploadResult.Text = "Upload unsuccessfully!";
-                LabelUploadResult.ToolTip = "Failed to upload file!";                
+                LabelUploadResult.ToolTip = "Failed to upload file!";
             }
         }
 

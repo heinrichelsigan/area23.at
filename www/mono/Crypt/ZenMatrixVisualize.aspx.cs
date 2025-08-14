@@ -154,8 +154,9 @@ namespace Area23.At.Mono.Crypt
                 {
                     CqrException.SetLastException(ex);
                 }
+                
                 ZenMatrix z = new ZenMatrix(this.TextBox_Key.Text, this.TextBox_IV.Text, fullSymmetric);
-                string zenMt = "|zen|=>\t| ";
+                // string zenMt = "|zen|=>\t| ";
                 
                 int b = 0xf;
                 sbyte[] myBytes = z.PermutationKeyHash.ToArray();

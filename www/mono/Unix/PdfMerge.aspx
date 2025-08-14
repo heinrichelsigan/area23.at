@@ -4,30 +4,68 @@
     <link rel="stylesheet" href="https://area23.at/css/fortune.css" />
     <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
     <script async src="../res/js/area23.js"></script>
+    <script type="text/javascript">
+        function UploadFile(fileUpload, buttonToClick) {
+
+            if (fileUpload.value != '') {
+
+                if ((buttonToClick != null || buttonToClick.value != '') && document.getElementById(buttonToClick) != null) {
+                    document.getElementById(buttonToClick).click();
+                    return;
+                }
+                else {
+                    var buttonUploadId = "ButtonUploadID";
+                    if (document.getElementById(buttonUploadId) != null) {
+                        document.getElementById(buttonUploadId).click();
+                        return;
+                    }
+                    const buttonUploadNames = document.getElementsByName("ButtonUploadName");
+                    if (buttonUploadNames != null && buttonUploadNames.length > 0) {
+                        buttonUploadId = buttonUploadNames[0].id;
+                    }
+                    if (document.getElementById(buttonUploadId) != null) {
+                        document.getElementById(buttonUploadId).click();
+                        return;
+                    }
+                }
+                document.getElementById("<%=ButtonUploadID.ClientID %>").click();
+            }
+        }        
+    </script>
     <title>pdf file merge (apache2 mod_mono)</title>    
 </asp:Content>
 <asp:Content ID="UnixBodyContent" ContentPlaceHolderID="UnixBody" ClientIDMode="Static" runat="server">
     <form id="Area23UnixPdfMerge" runat="server">
-        <h2>Upload several Pdf's, merge & download</h2>
-        <div class="odDiv" style="vertical-align: top;">                       
-            <span class="leftSpan" style="vertical-align: top;">
-                <INPUT id="oFile" type="file" runat="server" ClientIDMode="Static" NAME="oFile" /> 
+        <h2>Upload several pdf's, merge & download</h2>
+        <div class="odDiv" style="vertical-align: top; display: block;">                       
+            <span class="leftSpan" style="vertical-align: top;">                
+                <INPUT id="oFile" type="file" runat="server" ClientIDMode="Static" NAME="oFile" onchange="UploadFile(this)" />
+                <asp:Button ID="ButtonUploadID" CommandName="ButtonUploadName" Text="Upload" runat="server" OnClick="ButtonUpload_Click" Style="display: none" />
             </span>
-            <span class="centerSpan" style="max-width: 72px; vertical-align: top;">
-                <asp:ListBox ID="ListBoxFilesUploaded" runat="server" ClientIDMode="Static" ToolTip="Uploaded files" OnSelectedIndexChanged="ListBoxFilesUploaded_SelectedIndexChanged"  Rows="8" Height="220px" Width="220px" />
+        </div>
+        <div style="display: block; clear: both; max-width: 480px; min-height: 220p;">             
+            <span class="leftSpan" style="max-width: 480px; min-height: 220px; min-width: 320px;">
+                <asp:ListBox ID="ListBoxFilesUploaded" runat="server" ClientIDMode="Static" ToolTip="Uploaded files" OnSelectedIndexChanged="ListBoxFilesUploaded_SelectedIndexChanged"  Rows="8" Height="220px" Width="396px" />
+            </span>            
+        </div>
+        <div id="DivLabel" runat="server" style="clear:both; display: block;">
+            <span class="leftSpan">
+                <asp:Button ID="ButtonPdfMerge" runat="server" ClientIDMode="Static" ToolTip="Merge all uploaded pdfs to one output pdf file" 
+                    OnClick="ButtonPdfMerge_Click" Text="Merge pdfs" />  
             </span>
-            <span class="centerSpan" style="vertical-align: top;">     
-                <asp:Button ID="ButtonPdfMerge" runat="server" ClientIDMode="Static" ToolTip="Merge all uploaded pdfs to one output pdf file" OnClick="ButtonPdfMerge_Click" Text="Merge pdf's" />  
+            <span class="centerSpan">
+                <a id="aPdfMergeDownload" runat="server" href="#" title="Download merged pdf">Download merged pdf</a>
             </span>
-            <span class="rightSpan" style="vertical-align: top;"> 
-                <asp:Label id="LabelUploadResult" runat="server" ClientIDMode="Static" ToolTip="File succesfully uploaded!" Text="File succesfully uploaded" Visible="false" /> 
-                <a id="aPdfMergeDownload" runat="server" href="#" onclick="javascript:Alert('Upload pdfs first, then merge, then download');" title="Download merged pdf">Download merged pdf</a>
+            <span class="rightSpan">
+                <asp:Label id="LabelUploadResult" runat="server" ClientIDMode="Static" ToolTip="File succesfully uploaded!" Text="File succesfully uploaded" Visible="false" />                 
             </span>
-        </div>    
-        <div class="odDiv" id="DivObject" runat="server" visible="false">
-            <object data="data:application/pdf;base64,<%= Base64Mime %>" type='application/pdf' width="640px" height="480px">
-                <p>Unable to display type application/pdf</p>
-            </object>
+        </div>
+        <div style="clear:left; display: none; margin-left: 40px" id="DivObject" runat="server" visible="false">
+            <p>&nbsp;</p>
         </div>        
+        <asp:Button ID="ButtonClear" runat="server" ClientIDMode="Static" OnClick="ButtonClear_Click" Text="Clear" ToolTip="Clear entire form" />
     </form>
+    <div style="clear:both; display: block;">
+        &nbsp;
+    </div>
 </asp:Content>

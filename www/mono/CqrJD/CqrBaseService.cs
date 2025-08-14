@@ -51,7 +51,7 @@ namespace Area23.At.Mono.CqrJD
             InitMethod();
         }
 
-        public virtual void InitMethod()
+        public void InitMethod()
         {
             _contacts = JsonContacts.GetContacts();
             GetServerKey();

@@ -14,7 +14,7 @@ namespace Area23.At.Mono.Calc
     public partial class CCalc : Util.UIPage
     {
         Stack<string> rpnStack = new Stack<string>();
-        object _lock = new object();
+        new object _lock = new object();
 
         private int _textCursor = 0;
         internal int TextCursor
