@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Qr/QRMaster.master" AutoEventWireup="true" CodeBehind="ContactQrGenerator.aspx.cs" Inherits="Area23.At.Mono.Qr.ContactQrGenerator" %>
 <asp:Content ID="QrHeadContent" ContentPlaceHolderID="QrHead" runat="server" ClientIDMode="Static">
-    <title>Contact Qr Generator (apache2 mod_mono)</title>
+    <title>qr contact (apache2 mod_mono)</title>
     <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
 	<meta name="keywords" content="QR code generator" />
 	<meta name="description" content="https://github.com/heinrichelsigan/area23.at/" />

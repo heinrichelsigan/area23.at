@@ -11,152 +11,143 @@ namespace Area23.At.Mono.Qr
 {
 
 
-    public partial class Qr
+    public partial class ContactPrefilled
     {
 
         /// <summary>
-        /// Form_Qr control.
+        /// Form_Qrc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm Form_Qr;
+        protected global::System.Web.UI.HtmlControls.HtmlForm Form_Qrc;
 
         /// <summary>
-        /// DropDownListQrMode control.
+        /// TextBox_FirstName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListQrMode;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_FirstName;
 
         /// <summary>
-        /// DropDownListQrLevel control.
+        /// TextBox_LastName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListQrLevel;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_LastName;
 
         /// <summary>
-        /// LinkButton_QrString control.
+        /// TextBox_Phone control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton_QrString;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Phone;
 
         /// <summary>
-        /// TextBox_QrString control.
+        /// TextBox_Mobile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_QrString;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Mobile;
 
         /// <summary>
-        /// LinkButton_QrUrl control.
+        /// TextBox_Email control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton_QrUrl;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Email;
 
         /// <summary>
-        /// TextBox_QrUrl control.
+        /// TextBox_Web control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_QrUrl;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Web;
 
         /// <summary>
-        /// LinkButton_QrPhone control.
+        /// TextBox_Coutry control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton_QrPhone;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Coutry;
 
         /// <summary>
-        /// TextBox_QrPhone control.
+        /// TextBox_Region control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_QrPhone;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Region;
 
         /// <summary>
-        /// LinkButton_QrIBAN control.
+        /// TextBox_City control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton_QrIBAN;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_City;
 
         /// <summary>
-        /// TextBox_IBAN control.
+        /// TextBox_ZipCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_IBAN;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_ZipCode;
 
         /// <summary>
-        /// TextBox_BIC control.
+        /// TextBox_Street control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_BIC;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Street;
 
         /// <summary>
-        /// TextBox_AccountName control.
+        /// TextBox_StreetNr control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_AccountName;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_StreetNr;
 
         /// <summary>
-        /// TextBox_Reason control.
+        /// labelOrg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_Reason;
+        protected global::System.Web.UI.WebControls.Label labelOrg;
 
         /// <summary>
-        /// input_color control.
+        /// TextBox_Org control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText input_color;
-
-        /// <summary>
-        /// input_backcolor control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText input_backcolor;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Org;
 
         /// <summary>
         /// Button_QRCode control.
@@ -168,13 +159,85 @@ namespace Area23.At.Mono.Qr
         protected global::System.Web.UI.WebControls.Button Button_QRCode;
 
         /// <summary>
-        /// ImageQr control.
+        /// ImgQR control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImageQr;
+        protected global::System.Web.UI.HtmlControls.HtmlImage ImgQR;
+
+        /// <summary>
+        /// labelQrColor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelQrColor;
+
+        /// <summary>
+        /// input_color control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText input_color;
+
+        /// <summary>
+        /// labelBgColor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelBgColor;
+
+        /// <summary>
+        /// input_backcolor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText input_backcolor;
+
+        /// <summary>
+        /// labelNote control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelNote;
+
+        /// <summary>
+        /// labelBirthday control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelBirthday;
+
+        /// <summary>
+        /// TextBox_Note control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Note;
+
+        /// <summary>
+        /// TextBox_Birthday control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBox_Birthday;
 
         /// <summary>
         /// ErrorDiv control.

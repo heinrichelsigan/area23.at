@@ -11,7 +11,7 @@ using static QRCoder.PayloadGenerator;
 namespace Area23.At.Mono.Qr
 {
 
-    public partial class Qr : QrBase
+    public partial class GenericQr : QrBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {

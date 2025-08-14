@@ -33,13 +33,13 @@ namespace Area23.At.Mono.Qr
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeft;
 
         /// <summary>
-        /// aQrCodeGen control.
+        /// aContactQrGenerator control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aQrCodeGen;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aContactQrGenerator;
 
         /// <summary>
         /// headerLeftCenter control.
@@ -51,13 +51,13 @@ namespace Area23.At.Mono.Qr
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeftCenter;
 
         /// <summary>
-        /// aQrc control.
+        /// aContactPrefilled control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aQrc;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aContactPrefilled;
 
         /// <summary>
         /// headerCenter control.
@@ -69,13 +69,31 @@ namespace Area23.At.Mono.Qr
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerCenter;
 
         /// <summary>
-        /// aQr control.
+        /// aGenericQr control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aQr;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aGenericQr;
+
+        /// <summary>
+        /// headerRightCenter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRightCenter;
+
+        /// <summary>
+        /// aQrRedirect control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aQrRedirect;
 
         /// <summary>
         /// headerRight control.

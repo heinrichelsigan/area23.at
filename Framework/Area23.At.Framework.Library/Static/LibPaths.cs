@@ -40,8 +40,8 @@ namespace Area23.At.Framework.Library.Static
                 {
                     try
                     {
-                        if (System.Configuration.ConfigurationManager.AppSettings["AppPath"] != null)
-                            appPath = System.Configuration.ConfigurationManager.AppSettings["AppPath"].ToString();
+                        if (System.Configuration.ConfigurationManager.AppSettings["AppUrl"] != null)
+                            appPath = System.Configuration.ConfigurationManager.AppSettings["AppUrl"].ToString();
                         if (System.Configuration.ConfigurationManager.AppSettings["AppUrlPath"] != null)
                             appPath = System.Configuration.ConfigurationManager.AppSettings["AppUrlPath"].ToString();                        
                         if (System.Configuration.ConfigurationManager.AppSettings["AppDir"] != null)

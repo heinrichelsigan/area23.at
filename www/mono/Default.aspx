@@ -14,12 +14,15 @@
 │   ├── <a href="Unix/Default.aspx" tatget="top">unix cmd tools</a>
 │   ├── <a href="Unix/FortunAsp.aspx" tatget="top">fortune(6)</a>
 │   ├── <a href="Unix/HexDump.aspx" tatget="top">hexdump od(1)</a>
-│   └── <a href="Unix/Bc.aspx" tatget="top">basic calc bc(1)</a>
+│   ├── <a href="Unix/Bc.aspx" tatget="top">basic calc bc(1)</a>
+│   ├── <a href="Unix/MergePdf.aspx" tatget="top">pdf merge pdfunite(1)</a>
+│   └── <a href="Unix/PdfMerge.aspx" tatget="top">merge pdf pdfunite(1)</a>
 │
 ├── <span style="color: blue">qr</span>
-│   ├── <a href="Qr/QRCodeGen.aspx" tatget="top">qr contact</a>
-│   ├── <a href="Qr/Qrc.aspx" tatget="top">qr prefilled</a>
-│   └── <a href="Qr/Qr.aspx" tatget="top">qrcode generic</a>
+│   ├── <a href="Qr/ContactQrGenerator.aspx" tatget="top">qr contact generator</a>
+│   ├── <a href="Qr/ContactPrefilled.aspx" tatget="top">contact prefilled</a>
+│   ├── <a href="Qr/GenericQr.aspx" tatget="top">generic qr (generator)</a>
+│   └── <a href="Qr/QrRedirect.aspx" tatget="top">qr redirect</a>
 │
 ├── <a href="Json.aspx" tatget="top">json/xml ser</a>
 │

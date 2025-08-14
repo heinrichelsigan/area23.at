@@ -7,38 +7,38 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Area23.At.Mono.Qr
+namespace Area23.At.Mono
 {
 
 
-    public partial class QRGen
+    public partial class Error
     {
 
         /// <summary>
-        /// Form_QRGen control.
+        /// Area23ErrorForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm Form_QRGen;
+        protected global::System.Web.UI.HtmlControls.HtmlForm Area23ErrorForm;
 
         /// <summary>
-        /// aHref control.
+        /// DivException control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aHref;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivException;
 
         /// <summary>
-        /// ImgQR control.
+        /// PreException control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage ImgQR;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl PreException;
     }
 }

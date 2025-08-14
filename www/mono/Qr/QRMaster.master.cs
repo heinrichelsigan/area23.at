@@ -24,10 +24,10 @@ namespace Area23.At.Mono.Qr
 
         protected void InitAHrefs()
         {
-            this.aQrCodeGen.HRef = LibPaths.QrAppPath + "ContactQrGenerator.aspx";
-            this.aQrc.HRef = LibPaths.QrAppPath + "Qrc.aspx";
-            this.aQr.HRef = LibPaths.QrAppPath + "Qr.aspx";
-            // this.aQrGen.HRef = LibPaths.QrAppPath + "QRGen.aspx";
+            this.aContactQrGenerator.HRef = LibPaths.QrAppPath + "ContactQrGenerator.aspx";
+            this.aContactPrefilled.HRef = LibPaths.QrAppPath + "ContactPrefilled.aspx";
+            this.aGenericQr.HRef = LibPaths.QrAppPath + "GenericQr.aspx";
+            this.aQrRedirect.HRef = LibPaths.QrAppPath + "QrRedirect.aspx";
             this.aUrlShortner.HRef = Constants.AREA23_S;          
         }
 
@@ -36,7 +36,8 @@ namespace Area23.At.Mono.Qr
             headerLeft.Attributes["class"] = "headerLeft";
             headerLeftCenter.Attributes["class"] = "headerLeftCenter";
             headerCenter.Attributes["class"] = "headerCenter";
-            // headerRightCenter.Attributes["class"] = "headerRightCenter";
+            headerRightCenter.Attributes["class"] = "headerRightCenter";
+            headerRight.Attributes["class"] = "headerRight";
             // headerRight.Style["class"] = "headerRight";
 
             try
@@ -48,26 +49,26 @@ namespace Area23.At.Mono.Qr
                         headerLeft.Attributes["class"] = "headerLeftSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("Qrc.aspx"))
+                    if (this.Request.RawUrl.Contains("ContactPrefilled.aspx"))
                     {
                         headerLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("Qr.aspx"))
+                    if (this.Request.RawUrl.Contains("GenericQr.aspx"))
                     {
                         headerCenter.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
-                    // if (this.Request.RawUrl.Contains("QRGen.aspx"))
-                    // {
-                    // headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
-                    // return;
-                    // }
-                    // if (this.Request.RawUrl.Contains("trans"))
-                    // {
-                    // headerRight.Attributes["background-color"] = "headerRightSelect";
-                    // return;
-                    // }
+                    if (this.Request.RawUrl.Contains("QRGen.aspx"))
+                    {
+                        headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
+                        return;
+                    }
+                    if (this.Request.RawUrl.Contains(Constants.AREA23_S))
+                    {
+                        headerRight.Attributes["class"] = "headerRightSelect";
+                        return;
+                    }
                 }
             }
             catch (Exception ex)

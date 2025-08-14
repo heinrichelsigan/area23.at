@@ -12,7 +12,7 @@ using static QRCoder.PayloadGenerator;
 
 namespace Area23.At.Mono.Qr
 {
-    public partial class Qrc : QrBase
+    public partial class ContactPrefilled : QrBase
     {        
         internal static List<Control> listControl = null;
 

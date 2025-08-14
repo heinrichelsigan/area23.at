@@ -51,15 +51,6 @@ namespace Area23.At.Mono.Unix
         protected global::System.Web.UI.WebControls.ListBox ListBoxFilesUploaded;
 
         /// <summary>
-        /// DivLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivLabel;
-
-        /// <summary>
         /// ButtonPdfMerge control.
         /// </summary>
         /// <remarks>
@@ -67,6 +58,15 @@ namespace Area23.At.Mono.Unix
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonPdfMerge;
+
+        /// <summary>
+        /// ButtonClear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonClear;
 
         /// <summary>
         /// aPdfMergeDownload control.
@@ -94,14 +94,5 @@ namespace Area23.At.Mono.Unix
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivObject;
-
-        /// <summary>
-        /// ButtonClear control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonClear;
     }
 }

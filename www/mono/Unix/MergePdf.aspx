@@ -49,7 +49,7 @@
                 <asp:Button ID="ButtonPdfMerge" runat="server" ClientIDMode="Static" ToolTip="Merge all uploaded pdfs to one output pdf file" OnClick="ButtonPdfMerge_Click" Text="Merge pdf's" />  
             </span>
             <span class="rightSpan" style="vertical-align: top;">                 
-                <a id="aPdfMergeDownload" runat="server" href="#" onclick="javascript:Alert('Upload pdfs first, then merge, then download');" title="Download merged pdf">Download merged pdf</a>
+                <a id="aPdfMergeDownload" runat="server" href="#" title="Download merged pdf">Download merged pdf</a>
             </span>
         </div>
         <div id="DivLabel" runat="server" style="clear:left; display: block;">

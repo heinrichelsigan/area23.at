@@ -15,7 +15,7 @@ namespace Area23.At.Mono.Unix
         private static readonly bool USE_UNIX = (Path.DirectorySeparatorChar == '/') ? true : false;
         private readonly string BC_CMD_PATH = (USE_UNIX) ? "/usr/local/bin/bccmd.sh" : LibPaths.AdditionalBinDir + "bccmd.bat";
         const string BC_CMD = "bc";
-        public readonly string[] BAD_WORDS = { "exit", "quit", "exec", "exe", "cat", "echo", "`", "$ (", "$ [", "$[", "$(", "run", "bash", "tcsh", "csh", "ksh", "tsh", "sh", "xargs" };
+        public readonly string[] BAD_WORDS = { "exit", "quit", "exec", "exe", "cat", "echo", "`", "$ (", "$ [", "$[", "$(", "run", "bash", "tcsh", "csh", "ksh", "tsh", "sh", "xargs", "^C", "^c", "^z", "^Z" };
         public readonly string[] KEY_WORDS = { "sqrt", "ibase", "obase", "return", "define", "auto", "for", "while", "if",
             "cos", "sin", "tan", "atan", "asin", "acos", "sinh", "cosh", "tanh", "exp", "ln", "ld", "log", "!",
             "+", "-", "*", "/", "%", "^", "=", "<", ">", "(", ")", "[", "]", "{", "}",
@@ -130,7 +130,7 @@ namespace Area23.At.Mono.Unix
             {
                 if (dcStr.Contains(word) || dcStr.ToLower().Contains(word.ToLower()))
                 {
-                    Area23Log.LogStatic(" illegal dangerous token: " + word);
+                    Area23Log.Logger.LogOriginMsg("Bc.aspx", " illegal dangerous token: " + word);
                     this.TextBox_BcOut.Text += " illegal dangerous token: " + word + "\r\n";
                     return;
                 }
@@ -141,12 +141,12 @@ namespace Area23.At.Mono.Unix
             
             if (!string.IsNullOrEmpty(dcStr))
             {
-                Area23Log.LogStatic(" unrecognized pattern: " + dcStr);
+                Area23Log.Logger.LogOriginMsg("Bc.aspx", " unrecognized pattern: " + dcStr);
                 this.TextBox_BcOut.Text += " unrecognized pattern: " + dcStr + "\r\n";
                 return;
             }
 
-            Area23Log.LogStatic(" Executing: " + BC_CMD_PATH + " " + bcStr);
+            Area23Log.Logger.LogOriginMsg("Bc.aspx", " Executing: " + BC_CMD_PATH + " " + bcStr);
             try
             {                
                 string bcCmd = BC_CMD_PATH;                

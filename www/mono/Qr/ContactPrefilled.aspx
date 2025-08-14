@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#"  MasterPageFile="~/Qr/QRMaster.master" AutoEventWireup="true" CodeBehind="Qrc.aspx.cs" Inherits="Area23.At.Mono.Qr.Qrc" %>
+﻿<%@ Page Language="C#"  MasterPageFile="~/Qr/QRMaster.master" AutoEventWireup="true" CodeBehind="ContactPrefilled.aspx.cs" Inherits="Area23.At.Mono.Qr.ContactPrefilled" %>
 <asp:Content ID="QrHeadContent" ContentPlaceHolderID="QrHead" runat="server">
 	<title>qr contact prefilled (apache2 mod_mono)</title>
 	<link rel="stylesheet" href="../res/css/area23.at.mono.css" />

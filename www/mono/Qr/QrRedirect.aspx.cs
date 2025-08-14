@@ -13,7 +13,7 @@ using System.Web.UI.HtmlControls;
 
 namespace Area23.At.Mono.Qr
 {
-    public partial class QRGen : System.Web.UI.Page
+    public partial class QrRedirect : System.Web.UI.Page
     {
 
         string redirectUrl = string.Empty;

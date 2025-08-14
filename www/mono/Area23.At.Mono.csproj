@@ -36,7 +36,7 @@
     <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <PreferNativeArm64>false</PreferNativeArm64>
+    <PreferNativeArm64>true</PreferNativeArm64>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -177,6 +177,7 @@
     <Content Include="Gamez\frogb.aspx" />
     <Content Include="Gamez\Pong.aspx" />
     <Content Include="Gamez\TicTacToe.aspx" />
+    <Content Include="Error.aspx" />
     <Content Include="Qr\Default.aspx" />
     <Content Include="R.aspx" />
     <Content Include="res\gamez\audio\aDraw.m4a" />
@@ -306,10 +307,9 @@
     <Content Include="res\img\rpnHeader.png" />
     <Content Include="res\img\transparent.png" />
     <Content Include="res\js\rpn.js" />
-    <Content Include="Unix\HeinrichElsigan.html" />
     <Content Include="Unix\HexDump.aspx" />
-    <Content Include="Qr\Qr.aspx" />
-    <Content Include="Qr\QRGen.aspx" />
+    <Content Include="Qr\GenericQr.aspx" />
+    <Content Include="Qr\QrRedirect.aspx" />
     <Content Include="res\gamez\audio\frogaGameOver.mp3" />
     <Content Include="res\gamez\audio\frogaGameOver.ogg" />
     <Content Include="res\gamez\audio\frogCrash.mp3" />
@@ -380,15 +380,12 @@
     <Content Include="res\js\frga.js" />
     <Content Include="res\js\frog.js" />
     <Content Include="res\js\od.js" />
-    <Content Include="Unix\Fortune.aspx" />
     <Content Include="Global.asax" />
     <Content Include="c\fortune.c" />
-    <Content Include="Unix\od.aspx" />
     <Content Include="c\od.c" />
     <Content Include="c\od.html" />
-    <Content Include="Qr\Qrc.aspx" />
-    <Content Include="Qr\QRCodeGen.aspx" />
-    <Content Include="Unix\OctalDump.aspx" />
+    <Content Include="Qr\ContactPrefilled.aspx" />
+    <Content Include="Qr\ContactQrGenerator.aspx" />
     <Content Include="Json.aspx" />
   </ItemGroup>
   <ItemGroup>
@@ -541,6 +538,13 @@
     <Compile Include="Gamez\Pong.aspx.designer.cs">
       <DependentUpon>Pong.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Qr\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -641,36 +645,36 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Qr\Qr.aspx.cs">
-      <DependentUpon>Qr.aspx</DependentUpon>
+    <Compile Include="Qr\GenericQr.aspx.cs">
+      <DependentUpon>GenericQr.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Qr\Qr.aspx.designer.cs">
-      <DependentUpon>Qr.aspx</DependentUpon>
+    <Compile Include="Qr\GenericQr.aspx.designer.cs">
+      <DependentUpon>GenericQr.aspx</DependentUpon>
     </Compile>
     <Compile Include="Qr\QrBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Qr\Qrc.aspx.cs">
-      <DependentUpon>Qrc.aspx</DependentUpon>
+    <Compile Include="Qr\ContactPrefilled.aspx.cs">
+      <DependentUpon>ContactPrefilled.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Qr\Qrc.aspx.designer.cs">
-      <DependentUpon>Qrc.aspx</DependentUpon>
+    <Compile Include="Qr\ContactPrefilled.aspx.designer.cs">
+      <DependentUpon>ContactPrefilled.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Qr\QRCodeGen.aspx.cs">
-      <DependentUpon>QRCodeGen.aspx</DependentUpon>
+    <Compile Include="Qr\ContactQrGenerator.aspx.cs">
+      <DependentUpon>ContactQrGenerator.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Qr\QRCodeGen.aspx.designer.cs">
-      <DependentUpon>QRCodeGen.aspx</DependentUpon>
+    <Compile Include="Qr\ContactQrGenerator.aspx.designer.cs">
+      <DependentUpon>ContactQrGenerator.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Qr\QRGen.aspx.cs">
-      <DependentUpon>QRGen.aspx</DependentUpon>
+    <Compile Include="Qr\QrRedirect.aspx.cs">
+      <DependentUpon>QrRedirect.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Qr\QRGen.aspx.designer.cs">
-      <DependentUpon>QRGen.aspx</DependentUpon>
+    <Compile Include="Qr\QrRedirect.aspx.designer.cs">
+      <DependentUpon>QrRedirect.aspx</DependentUpon>
     </Compile>
     <Compile Include="Qr\QRMaster.master.cs">
       <DependentUpon>QRMaster.master</DependentUpon>

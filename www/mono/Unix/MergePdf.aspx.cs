@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Web.UI;
@@ -105,34 +106,54 @@ namespace Area23.At.Mono.Unix
         internal string BeautifyUploadName(string fName)
         {
             string bfName = fName;
-            if (!string.IsNullOrEmpty(fName) && fName.Length > 4)
+            if (!string.IsNullOrEmpty(fName) && fName.Length > 2)
             {
-                bfName = bfName.Replace("'", "_");
-                bfName = bfName.Replace(" ", "_");
-                bfName = bfName.Replace("\"", "_");
-                bfName = bfName.Replace("!", "_");
-                bfName = bfName.Replace("?", "_");
-                bfName = bfName.Replace("`", "_");
-                bfName = bfName.Replace("$", "_");
-                bfName = bfName.Replace("%", "_");
-                bfName = bfName.Replace("{", "[");
-                bfName = bfName.Replace("}", "]");
-                bfName = bfName.Replace("|", "_");
-                bfName = bfName.Replace("|", "_");
-                bfName = bfName.Replace("*", "-");
-                bfName = bfName.Replace("+", "-");
-                bfName = bfName.Replace("/", "-");
-                bfName = bfName.Replace("~", "-");
-                bfName = bfName.Replace("#", "_");
-                bfName = bfName.Replace(":", "_");
-                bfName = bfName.Replace(";", "_");
-                bfName = bfName.Replace(",", "_");
-                bfName = bfName.Replace("<", "_");
-                bfName = bfName.Replace(">", "_");
-                bfName = bfName.Replace("=", "_");
-                bfName = bfName.Replace("^", "_");
-                bfName = bfName.Replace("\\", "_");
-                bfName = bfName.Replace("\t", " ");
+                bfName = bfName.Replace(' ', '_');
+                bfName = bfName.Replace('\\', '_');
+                bfName = bfName.Replace('\"', '_');
+                bfName = bfName.Replace('\'', '_');
+                bfName = bfName.Replace('!', '_');
+                bfName = bfName.Replace('?', '_');
+                bfName = bfName.Replace('´', '_');
+                bfName = bfName.Replace('$', '_');
+                bfName = bfName.Replace('%', '_');
+                bfName = bfName.Replace('&', '_');
+                bfName = bfName.Replace('´', '_');
+                bfName = bfName.Replace('´', '_');
+                bfName = bfName.Replace('#', '_');
+                bfName = bfName.Replace(':', '_');
+                bfName = bfName.Replace(';', '_');
+                bfName = bfName.Replace(',', '_');
+                bfName = bfName.Replace('<', '_');
+                bfName = bfName.Replace('|', '_');
+                bfName = bfName.Replace('>', '_');
+                bfName = bfName.Replace('=', '_');
+                bfName = bfName.Replace('^', '_');
+                bfName = bfName.Replace('°', '_');
+
+                bfName = bfName.Replace('*', '-');
+                bfName = bfName.Replace('+', '-');
+                bfName = bfName.Replace('/', '-');
+                bfName = bfName.Replace('~', '-');
+
+                bfName = bfName.Replace('²', '2');
+                bfName = bfName.Replace('³', '3');
+                bfName = bfName.Replace('{', '[');
+                bfName = bfName.Replace('}', ']');
+                bfName = bfName.Replace('(', '[');
+                bfName = bfName.Replace(')', ']');
+
+
+                bfName = bfName.Replace('\t', ' ');
+
+                bfName = bfName.Replace("â", "a");
+                bfName = bfName.Replace("à", "a");
+                bfName = bfName.Replace("á", "a");
+
+                bfName = bfName.Replace("è", "e");
+                bfName = bfName.Replace("é", "e");
+                bfName = bfName.Replace("ê", "e");
+
                 bfName = bfName.Replace("ß", "sz");
                 bfName = bfName.Replace("ä", "ae");
                 bfName = bfName.Replace("ö", "oe");
@@ -140,12 +161,12 @@ namespace Area23.At.Mono.Unix
                 bfName = bfName.Replace("Ä", "Ae");
                 bfName = bfName.Replace("Ö", "Oe");
                 bfName = bfName.Replace("Ü", "Ue");
+
             }
 
             return bfName;
 
         }
-
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -161,6 +182,8 @@ namespace Area23.At.Mono.Unix
                     ListBoxFromValue(joinFiles);
                 }
                 DivObject.Visible = false;
+                aPdfMergeDownload.Visible = false;
+                LabelUploadResult.Visible = false;
             }
 
             //if (Request.Files != null && Request.Files.Count > 0)
@@ -189,6 +212,7 @@ namespace Area23.At.Mono.Unix
             LabelUploadResult.Visible = true;
             aPdfMergeDownload.Visible = false;
             DivObject.Visible = false;
+            LabelUploadResult.Text = "";
 
             if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
             {
@@ -197,12 +221,12 @@ namespace Area23.At.Mono.Unix
                 fileName = BeautifyUploadName(Path.GetFileName(pfile.FileName));
                 filePath = LibPaths.SystemDirOutPath + fileName;
 
-                if (!fileExtn.TrimEnd().EndsWith("pdf"))
+                if (!fileExtn.TrimEnd().EndsWith("pdf", StringComparison.InvariantCultureIgnoreCase))
                 {
                     LabelUploadResult.Text = fileName + " " + fileExtn + " isn't 'pdf'!";
                     LabelUploadResult.ToolTip = "Can't upload file " + fileName + ", because " + fileExtn + " isn't 'pdf'!";
                     return;
-                }
+                } 
 
                 if (ListBoxContainsItemByName(fileName) && File.Exists(filePath))
                 {
@@ -211,18 +235,25 @@ namespace Area23.At.Mono.Unix
                     return;
                 }
 
+                byte[] fileBytes = pfile.InputStream.ToByteArray();
+                if (!fileBytes.Take(7).SequenceEqual(MimeType.PDF))
+                {
+                    LabelUploadResult.ToolTip = fileName + " might be a corrupted pdf after testing MIT magic sequence.";
+                    LabelUploadResult.Text = "Maybe corrupted ? ";
+                }
+
                 pfile.SaveAs(filePath);
 
                 if (System.IO.File.Exists(filePath))
                 {
-                    LabelUploadResult.Text = fileName + " successfully uploaded.";
+                    LabelUploadResult.Text += fileName + " successfully uploaded.";
                     LabelUploadResult.ToolTip = "File " + fileName + " has been successfully uploaded.";
 
                     ListItem listItem = new ListItem(fileName);
                     ListBoxFilesUploaded.Items.Add(listItem);
                     Session[Constants.UPSAVED_FILE] = JoinedFiles;
 
-                    Base64Mime = Convert.ToBase64String(pfile.InputStream.ToByteArray(), Base64FormattingOptions.None);
+                    Base64Mime = Convert.ToBase64String(fileBytes, Base64FormattingOptions.None);
                     DivObject.InnerHtml = String.Format(
                             "<object data=\"data:application/pdf;base64,{0}\" type='application/pdf' width=\"640px\" height=\"480px\">" +
                             "<p>Unable to display type application/pdf</p></object>\r\n", Base64Mime);
