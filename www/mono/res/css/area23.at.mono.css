@@ -245,7 +245,7 @@ div {
         /* border-spacing: 1px 1px;        */
         margin: 1px 0px 0px 0px;
         text-align: left;
-        background-color: #fafafa;
+        background-color: #ffddee;
         vertical-align: middle;
         font-size: medium;
         table-layout: fixed;
@@ -259,7 +259,8 @@ div {
             border-right: 0px none #bab5b1;
             border-bottom: 0px none #bab5b1;
             border-left: 0px none #bab5b1;
-            background-color: #fdfdfd;
+            background-color: #ffeeef;
+            
         }
 
     div.contentDiv {
@@ -270,7 +271,7 @@ div {
 
         width: 100%;
         text-align: left;
-        background-color: #eeeeee;
+        background-color: #ffbbdd;
         vertical-align: middle;
         font-size: medium;
         table-layout: fixed;

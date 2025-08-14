@@ -1,13 +1,7 @@
-﻿using Area23.At.Framework.Library.Cqr;
-using Area23.At.Framework.Library.Cqr.Msg;
-using Area23.At.Framework.Library.Crypt.Cipher;
-using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+﻿using Area23.At.Framework.Library.Crypt.Cipher;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
-using Area23.At.Framework.Library.Net.NameService;
-using Area23.At.Framework.Library.Static;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;

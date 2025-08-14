@@ -62,7 +62,9 @@
             </span>
         </div>
         <div id="DivLabel" style="clear:both; display: block;">
-            Downlaod: <a id="aPdfMergeDownload" runat="server" href="#" title="Download merged pdf">Download merged pdf</a>
+            <span class="leftSpan" id="SpanDownload" runat="server" visible="false" style="display: none">
+                Downlaod: <a id="aPdfMergeDownload" runat="server" href="#" title="Download merged pdf">Download merged pdf</a>
+            </span>            
             <br />
             <asp:Label id="LabelUploadResult" runat="server" ClientIDMode="Static" ToolTip="File succesfully uploaded!" Text="File succesfully uploaded" Visible="false" /> 
         </div>

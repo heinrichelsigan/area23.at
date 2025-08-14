@@ -1,17 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Crypt.Hash;
+using Area23.At.Framework.Library.Static;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Area23.At.Framework.Library.Util;
-using Area23.At.Framework.Library;
-using Area23.At.Framework.Library.Static;
-using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Library.Crypt.EnDeCoding;
-using Area23.At.Framework.Library.Crypt.Hash;
 
 namespace Area23.At.Framework.Library.Cqr.Msg
 {

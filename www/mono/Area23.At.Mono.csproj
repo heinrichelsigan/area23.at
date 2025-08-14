@@ -174,9 +174,9 @@
     <Content Include="Crypt\UueMime.aspx" />
     <Content Include="Gamez\Default.aspx" />
     <Content Include="Gamez\froga.aspx" />
+    <Content Include="Gamez\TicTacToe.aspx" />
     <Content Include="Gamez\frogb.aspx" />
     <Content Include="Gamez\Pong.aspx" />
-    <Content Include="Gamez\TicTacToe.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="Qr\Default.aspx" />
     <Content Include="R.aspx" />
@@ -517,6 +517,13 @@
     <Compile Include="Gamez\froga.aspx.designer.cs">
       <DependentUpon>froga.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Gamez\TicTacToe.aspx.cs">
+      <DependentUpon>TicTacToe.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Gamez\TicTacToe.aspx.designer.cs">
+      <DependentUpon>TicTacToe.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Gamez\frogb.aspx.cs">
       <DependentUpon>frogb.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -713,10 +720,6 @@
     <Content Include="Crypt\EncodeMaster.master" />
     <Content Include="Gamez\GamesMaster.master" />
     <Content Include="log\2025-02-22_Area23.At.log" />
-    <Compile Include="Gamez\TicTacToe.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Gamez\TicTacToe.aspx.designer.cs" />
     <None Include="packages.config" />
     <Content Include="res\text\fortune.u8" />
     <Content Include="Qr\QRMaster.master" />

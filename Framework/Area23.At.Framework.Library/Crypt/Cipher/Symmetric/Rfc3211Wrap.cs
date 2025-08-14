@@ -1,14 +1,9 @@
 ﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Static;
-using Area23.At.Framework.Library.Util;
-using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto;
-using System;
-using System.IO;
-using System.Security.Cryptography;
+using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Parameters;
-using System.Windows.Input;
-using System.Text;
+using System;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {

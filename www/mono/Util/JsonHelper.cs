@@ -1,12 +1,5 @@
-﻿using Area23.At;
-using Area23.At.Framework.Library.Static;
-using Area23.At.Framework.Library.Util;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
 
 namespace Area23.At.Mono.Util
 {

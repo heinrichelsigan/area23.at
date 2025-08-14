@@ -1,19 +1,15 @@
 ﻿#define CLR2COMPATIBILITY
-using Area23.At.Framework.Library;
-using Area23.At.Framework.Library.Win32Api;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Win32Api
 {

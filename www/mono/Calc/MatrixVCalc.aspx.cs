@@ -1,10 +1,6 @@
 ﻿using Area23.At.Framework.Library.Static;
-using Area23.At.Framework.Library.Util;
-using Area23.At.Mono.Util;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Drawing;
 using System.Globalization;
 using System.Web.UI;

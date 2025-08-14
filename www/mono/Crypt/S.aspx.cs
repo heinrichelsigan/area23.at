@@ -1,7 +1,5 @@
-﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
-using Area23.At.Framework.Library.Static;
+﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
-using Area23.At.Mono.Util;
 using Area23.At.Mono.Qr;
 using QRCoder;
 using System;
@@ -9,10 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 

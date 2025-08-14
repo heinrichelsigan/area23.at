@@ -1,6 +1,4 @@
-﻿using Area23.At.Framework.Library.Cqr;
-using Area23.At.Framework.Library.Cqr.Msg;
-using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
@@ -11,7 +9,6 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Text;
 
 namespace Area23.At.Framework.Library.Cqr.Msg
 {

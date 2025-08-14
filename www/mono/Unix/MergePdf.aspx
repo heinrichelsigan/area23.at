@@ -39,7 +39,7 @@
         <h2>Upload several pdf's, merge & download</h2>
         <div class="odDiv" style="vertical-align: top; display: block; height: 240px;">                       
             <span class="leftSpan" style="vertical-align: top;">
-                <asp:FileUpload ID="FileUploadInput" runat="server" ClientIDMode="Static" ToolTip="Upload file"  />
+                <asp:FileUpload ID="FileUploadInput" runat="server" ClientIDMode="Static" ToolTip="Upload file" AllowMultiple="true"  />
                 <asp:Button ID="UploadID" CommandName="UploadName" Text="Upload" runat="server" OnClick="Upload_Click" Style="display: none" />
             </span>
             <span class="centerSpan" style="max-width: 72px; vertical-align: top;">
@@ -52,7 +52,10 @@
                 <a id="aPdfMergeDownload" runat="server" href="#" title="Download merged pdf">Download merged pdf</a>
             </span>
         </div>
-        <div id="DivLabel" runat="server" style="clear:left; display: block;">
+        <div id="DivLabel" style="clear:left; display: block;">
+            <span class="leftSpan" id="SpanDownload" title="merged.pdf" runat="server" visible="false" style="display: none">
+                Downlaod: <a href="#" title="Download merged pdf">Download merged pdf</a>
+            </span> 
             <asp:Label id="LabelUploadResult" runat="server" ClientIDMode="Static" ToolTip="File succesfully uploaded!" Text="File succesfully uploaded" Visible="false" /> 
         </div>
         <div style="clear:left; display: block; margin-left: 40px" id="DivObject" runat="server" visible="false">

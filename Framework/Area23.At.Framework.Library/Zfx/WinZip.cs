@@ -1,10 +1,7 @@
 ﻿using Area23.At.Framework.Library.Static;
-using Area23.At.Framework.Library.Util;
 using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Zip;
 using System;
-using System.IdentityModel.Protocols.WSTrust;
 using System.IO;
 
 namespace Area23.At.Framework.Library.Zfx

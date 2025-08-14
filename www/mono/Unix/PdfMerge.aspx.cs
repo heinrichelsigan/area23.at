@@ -12,16 +12,24 @@ using System.Web.UI.WebControls;
 namespace Area23.At.Mono.Unix
 {
 
+    /// <summary>
+    /// PdfMerge variant for merging multiple pdfs
+    /// </summary>
     public partial class PdfMerge : System.Web.UI.Page
     {
+
+        #region fields & properties
 
         private static readonly string pdfMergeCmd = "";
 
         private static readonly object _lock;
+        
+        private string _mergeFile = "";
+        internal string MergeAppPath { get => LibPaths.OutAppPath + _mergeFile; }
+        internal string MergeSystemPath { get => LibPaths.SystemDirOutPath + _mergeFile; }
+        internal string MergeToolTip { get => "Successfully merged pdfs to " + _mergeFile; }
 
-        private string mergeFile = "";
-        public string Base64Mime { get; set; }
-
+        public string Base64Mime { get; set; }        
 
         string _joinFiles = "";
         internal string JoinedFiles 
@@ -30,6 +38,9 @@ namespace Area23.At.Mono.Unix
             set => ListBoxFromValue(value);
         }
 
+        #endregion fields & properties
+
+        #region ctors
         static PdfMerge()
         {
             _lock = new object();
@@ -41,71 +52,39 @@ namespace Area23.At.Mono.Unix
         {            
             Base64Mime = "";                        
         }
+        #endregion ctors
 
+        #region page and control event handlers
+        #region OnInit Page_Load page event cycle hooks
 
-        internal bool ListBoxContainsItemByName(string itemName)
+        /// <summary>
+        /// overriden init calls base <see cref="Page.OnInit(EventArgs)"/>
+        /// </summary>
+        /// <param name="e"><see cref="EventArgs">EventArgs e</see></param>
+        protected override void OnInit(EventArgs e)
         {
-            foreach (ListItem item in ListBoxFilesUploaded.Items)
-            {
-                if (item == null)
-                    continue;
-                if ((!string.IsNullOrEmpty(item.Text) && item.Text.Equals(itemName, StringComparison.CurrentCultureIgnoreCase)) ||
-                    (!string.IsNullOrEmpty(item.Value) && item.Value.Equals(itemName, StringComparison.CurrentCultureIgnoreCase)) ||
-                    (!string.IsNullOrEmpty(item.ToString()) && item.ToString().Equals(itemName, StringComparison.CurrentCultureIgnoreCase)))
-                        return true;
-            }
-            return false;              
-        }
-
-        internal string StringValueFromListBox()
-        {
-
-            string _val = "";
-            int cnt = 0;
-
-            foreach (ListItem item in ListBoxFilesUploaded.Items)
-            {
-                if (item == null)
-                    continue;
-
-                string itemString = (!string.IsNullOrEmpty(item.Value)) ? item.Value :
-                    (!string.IsNullOrEmpty(item.Text) ? item.Text : item.ToString());
-
-                if (string.IsNullOrEmpty(itemString))
-                    continue;
-
-                _val += ((cnt > 0) ? ";" : "") + itemString;
-                ++cnt;
-            }
-
-            _joinFiles = _val;
-            return _val;
-        }
-         
-        internal void ListBoxFromValue(string _val)
-        {
-            if (!string.IsNullOrEmpty(_val))
-            {
-                _joinFiles = _val;
-                foreach (string file in _joinFiles.Split(";".ToCharArray()))
-                {
-                    if (!ListBoxContainsItemByName(file))
-                    {
-                        ListItem listItem = new ListItem(file, file, true);
-                        ListBoxFilesUploaded.Items.Add(listItem);
-                    }
-                }
-            }
-        }
-
-
-        protected void Page_Load(object sender, EventArgs e)
-        {
+            base.OnInit(e);
             ButtonUploadID.Attributes["name"] = "ButtonUploadName";
             // oFile.Attributes["onchange"] = "UploadFileJS(this)";
             oFile.Attributes["onchange"] = "UploadFile(this, " + ButtonUploadID.ClientID + ")";
             // FileUploadInput.Attributes["onchange"] = "UploadFileJS(this, " + ButtonUploadID.ClientID + ")";            
 
+            if (HttpContext.Current != null && HttpContext.Current.Session != null && HttpContext.Current.Session.Keys != null && HttpContext.Current.Session.Keys.Count > 0)
+            {
+                _mergeFile = (HttpContext.Current.Session[Constants.DECRYPTED_TEXT_BOX] != null) ?
+                                (string)HttpContext.Current.Session[Constants.DECRYPTED_TEXT_BOX] :
+                            (SpanDownload.Visible && !string.IsNullOrEmpty(aPdfMergeDownload.InnerText) ?
+                                aPdfMergeDownload.InnerText : _mergeFile);
+            }
+        }
+
+        /// <summary>
+        /// Page_Load is fired at <see cref="System.Web.UI.Page.OnLoadComplete(EventArgs)"/> page life cycle in asp.net classic
+        /// </summary>
+        /// <param name="sender"><see cref="object">object sender</see></param>
+        /// <param name="e"><see cref="EventArgs">EventArgs e</see></param>
+        protected void Page_Load(object sender, EventArgs e)
+        {            
             if (!Page.IsPostBack)
             {
                 if ((HttpContext.Current.Session != null) && (HttpContext.Current.Session[Constants.UPSAVED_FILE] != null))
@@ -114,6 +93,8 @@ namespace Area23.At.Mono.Unix
                     ListBoxFromValue(joinFiles);
                 }
                 DivObject.Visible = false;
+                SpanDownload.Visible = false;
+                SpanDownload.Style["display"] = "none";
                 aPdfMergeDownload.Visible = false;
                 LabelUploadResult.Visible = false;
             }
@@ -126,7 +107,14 @@ namespace Area23.At.Mono.Unix
 
         }
 
+        #endregion OnInit Page_Load page event cycle hooks
 
+        /// <summary>
+        /// Event fired only from hidden <see cref="Button"/ <see cref="UploadID"/> via onchange js property of file uploader
+        /// Calls simply <see cref="UploadFile(HttpPostedFile)"/>
+        /// </summary>
+        /// <param name="sender"><see cref="object">object sender</see></param>
+        /// <param name="e"><see cref="EventArgs">EventArgs e</see></param>
         protected void ButtonUpload_Click(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(oFile.Value))
@@ -135,90 +123,34 @@ namespace Area23.At.Mono.Unix
             //     UploadFile(FileUploadInput.PostedFile);
         }
 
-
-        /// <summary>
-        /// Uploads a http posted file
-        /// </summary>
-        /// <param name="pfile"><see cref="HttpPostedFile"/></param>
-        protected void UploadFile(HttpPostedFile pfile)
-        {
-            string filePath = "", fileName = "", fileExtn = "";
-            LabelUploadResult.Visible = true;
-            aPdfMergeDownload.Visible = false;
-            DivObject.Visible = false;
-            LabelUploadResult.Text = "";
-
-            if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
-            {               
-                fileExtn = Path.GetExtension(pfile.FileName).Trim().ToLower();
-
-                fileName = Path.GetFileName(pfile.FileName).BeautifyUploadFileNames();
-                filePath = LibPaths.SystemDirOutPath + fileName;
-
-                if (!fileExtn.TrimEnd().EndsWith("pdf"))
-                {
-                    LabelUploadResult.Text = fileName + " " + fileExtn + " isn't 'pdf'!";
-                    LabelUploadResult.ToolTip = "Can't upload file " + fileName + ", because " + fileExtn + " isn't 'pdf'!";
-                    return;
-                }
-                
-                if (ListBoxContainsItemByName(fileName) && File.Exists(filePath))
-                {
-                    LabelUploadResult.Text = fileName + " already exists.";
-                    LabelUploadResult.ToolTip = "Can't upload file " + fileName + ", because it already exists.";
-                    return;
-                }
-
-                byte[] fileBytes = pfile.InputStream.ToByteArray();
-                if (!fileBytes.Take(7).SequenceEqual(MimeType.PDF))
-                {
-                    LabelUploadResult.ToolTip = fileName + " might be a corrupted pdf after testing MIT magic sequence.";
-                    LabelUploadResult.Text = "Maybe corrupted ? ";
-                }
-
-                pfile.SaveAs(filePath);
-
-                if (System.IO.File.Exists(filePath))
-                {
-                    LabelUploadResult.Text = fileName + " successfully uploaded.";
-                    LabelUploadResult.ToolTip = "File " + fileName + " has been successfully uploaded.";
-
-                    ListItem listItem = new ListItem(fileName);           
-                    ListBoxFilesUploaded.Items.Add(listItem);
-                    Session[Constants.UPSAVED_FILE] = JoinedFiles;
-
-                    Base64Mime = Convert.ToBase64String(fileBytes, Base64FormattingOptions.None);
-                    DivObject.InnerHtml = String.Format(
-                            "<object data=\"data:application/pdf;base64,{0}\" type='application/pdf' width=\"640px\" height=\"480px\">" +
-                            "<p>Unable to display type application/pdf</p></object>\r\n", Base64Mime);
-                    DivObject.Visible = true;
-                }
-            }
-            else
-            {
-                LabelUploadResult.Text = "Upload unsuccessfully!";
-                LabelUploadResult.ToolTip = "Failed to upload file!";                
-            }
-        }
-
-
         protected void ListBoxFilesUploaded_SelectedIndexChanged(object sender, EventArgs e) 
         {
 
 
         }
 
+        /// <summary>
+        /// Clears all <see cref="ListBoxFilesUploaded"/> items and deletes all uploaded files
+        /// and merged pdf file
+        /// </summary>
+        /// <param name="sender"><see cref="object">object sender</see></param>
+        /// <param name="e"><see cref="EventArgs">EventArgs e</see></param>
         protected void ButtonClear_Click(object sender, EventArgs e)
         {
-            if (aPdfMergeDownload.Visible && !string.IsNullOrEmpty(aPdfMergeDownload.InnerText))
+            _mergeFile = (HttpContext.Current.Session[Constants.DECRYPTED_TEXT_BOX] != null) ?
+                   (string)HttpContext.Current.Session[Constants.DECRYPTED_TEXT_BOX] :
+                       (!string.IsNullOrEmpty(aPdfMergeDownload.InnerText) ?
+                           aPdfMergeDownload.InnerText : _mergeFile);
+
+            if (SpanDownload.Visible && !string.IsNullOrEmpty(_mergeFile)) 
             {
                 lock (_lock)
                 {
-                    if (File.Exists(LibPaths.SystemDirOutPath + aPdfMergeDownload.InnerText))
+                    if (File.Exists(MergeSystemPath))
                     {
                         try
                         {
-                            File.Delete(LibPaths.SystemDirOutPath + aPdfMergeDownload.InnerText);
+                            File.Delete(MergeSystemPath);
                         }
                         catch (Exception exFileDel)
                         {
@@ -226,8 +158,6 @@ namespace Area23.At.Mono.Unix
                         }
                     }
                 }
-
-                aPdfMergeDownload.Visible = false;
             }
             
             foreach (ListItem item in ListBoxFilesUploaded.Items)
@@ -256,21 +186,31 @@ namespace Area23.At.Mono.Unix
                     }
                 }
             }
+
             _joinFiles = "";
             Session[Constants.UPSAVED_FILE] = _joinFiles;
-            
+            Session[Constants.DECRYPTED_TEXT_BOX] = "";
             ListBoxFilesUploaded.Items.Clear();
-
-            aPdfMergeDownload.Visible = false;
-            DivObject.Visible = false;
+                     
             LabelUploadResult.Text = "Form cleared.";
             LabelUploadResult.Visible = true;
-            
+
+            aPdfMergeDownload.InnerText = "";
+            SpanDownload.Visible = false;
+            aPdfMergeDownload.Visible = false;
+            DivObject.Visible = false;
+
+            HttpContext.Current.Session.Remove(Constants.DECRYPTED_TEXT_BOX);
             HttpContext.Current.Session.Remove(Constants.UPSAVED_FILE);
 
         }
 
 
+        /// <summary>
+        /// ButtonPdfMerge_Click merges all uploaded files shown in <see cref="ListBoxFilesUploaded"/> to a merged pdf
+        /// </summary>
+        /// <param name="sender"><see cref="object">object sender</see></param>
+        /// <param name="e"><see cref="EventArgs">EventArgs e</see></param>
         protected void ButtonPdfMerge_Click(object sender, EventArgs e)
         {
             int argCnt = 0;
@@ -296,36 +236,166 @@ namespace Area23.At.Mono.Unix
 
             if (argCnt > 0)
             {
-                mergeFile = DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_merge.pdf";
-                args += LibPaths.SystemDirOutPath + mergeFile;
+                _mergeFile = DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_merge.pdf";
+                args += MergeSystemPath;
                 string psCmd = ProcessCmd.ExecuteWithOutAndErr(pdfMergeCmd, args, out stdOut, out stdErr);
 
                 Thread.Sleep(100);
 
-                if (File.Exists(LibPaths.SystemDirOutPath + mergeFile))
+                if (File.Exists(MergeSystemPath))
                 {
-                    LabelUploadResult.Text = "succesfully merged to " + mergeFile;
+                    LabelUploadResult.Text = $"successfully merged {argCnt} pdf's to {_mergeFile}.";
                     LabelUploadResult.Visible = true;
-                    
-                    aPdfMergeDownload.HRef = LibPaths.OutAppPath + mergeFile;
-                    aPdfMergeDownload.Visible = true;
-                    aPdfMergeDownload.InnerText = mergeFile;
-                    Thread.Sleep(100);
 
-                    DivObject.Style["display"] = "block";
-                    byte[] fileBytes = File.ReadAllBytes(LibPaths.SystemDirOutPath + mergeFile);
+                    aPdfMergeDownload.HRef = MergeAppPath;
+                    aPdfMergeDownload.Visible = true;
+                    aPdfMergeDownload.InnerText = _mergeFile;
+                    SpanDownload.Style["display"] = "block";
+                    SpanDownload.Visible = true;
+
+                    Thread.Sleep(100);
+                    
+                    byte[] fileBytes = File.ReadAllBytes(MergeSystemPath);
                     Base64Mime = Convert.ToBase64String(fileBytes, Base64FormattingOptions.None);
 
                     DivObject.InnerHtml = String.Format(
                            "<object data=\"data:application/pdf;base64,{0}\" type='application/pdf' width=\"640px\" height=\"480px\">" +
                            "</object>", Base64Mime);
+                    DivObject.Style["display"] = "block";
                     DivObject.Visible = true;
                 }
+
             }
 
         }
 
+        #endregion page and control event handlers
 
-    } 
-       
+
+        #region ListBoxFilesUploaded helper functions
+        internal bool ListBoxContainsItemByName(string itemName)
+        {
+            foreach (ListItem item in ListBoxFilesUploaded.Items)
+            {
+                if (item == null)
+                    continue;
+                if ((!string.IsNullOrEmpty(item.Text) && item.Text.Equals(itemName, StringComparison.CurrentCultureIgnoreCase)) ||
+                    (!string.IsNullOrEmpty(item.Value) && item.Value.Equals(itemName, StringComparison.CurrentCultureIgnoreCase)) ||
+                    (!string.IsNullOrEmpty(item.ToString()) && item.ToString().Equals(itemName, StringComparison.CurrentCultureIgnoreCase)))
+                    return true;
+            }
+            return false;
+        }
+
+        internal string StringValueFromListBox()
+        {
+
+            string _val = "";
+            int cnt = 0;
+
+            foreach (ListItem item in ListBoxFilesUploaded.Items)
+            {
+                if (item == null)
+                    continue;
+
+                string itemString = (!string.IsNullOrEmpty(item.Value)) ? item.Value :
+                    (!string.IsNullOrEmpty(item.Text) ? item.Text : item.ToString());
+
+                if (string.IsNullOrEmpty(itemString))
+                    continue;
+
+                _val += ((cnt > 0) ? ";" : "") + itemString;
+                ++cnt;
+            }
+
+            _joinFiles = _val;
+            return _val;
+        }
+
+        internal void ListBoxFromValue(string _val)
+        {
+            if (!string.IsNullOrEmpty(_val))
+            {
+                _joinFiles = _val;
+                foreach (string file in _joinFiles.Split(";".ToCharArray()))
+                {
+                    if (!ListBoxContainsItemByName(file))
+                    {
+                        ListItem listItem = new ListItem(file, file, true);
+                        ListBoxFilesUploaded.Items.Add(listItem);
+                    }
+                }
+            }
+        }
+
+        #endregion ListBoxFilesUploaded helper functions
+
+
+        /// <summary>
+        /// Uploads a http posted file
+        /// </summary>
+        /// <param name="pfile"><see cref="HttpPostedFile"/></param>
+        protected void UploadFile(HttpPostedFile pfile)
+        {
+            string filePath = "", fileName = "", fileExtn = "";
+            LabelUploadResult.Visible = true;
+            aPdfMergeDownload.Visible = false;
+            DivObject.Visible = false;
+            LabelUploadResult.Text = "";
+
+            if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
+            {
+                fileExtn = Path.GetExtension(pfile.FileName).Trim().ToLower();
+
+                fileName = Path.GetFileName(pfile.FileName).BeautifyUploadFileNames();
+                filePath = LibPaths.SystemDirOutPath + fileName;
+
+                if (!fileExtn.TrimEnd().EndsWith("pdf"))
+                {
+                    LabelUploadResult.Text = fileName + " " + fileExtn + " isn't 'pdf'!";
+                    LabelUploadResult.ToolTip = "Can't upload file " + fileName + ", because " + fileExtn + " isn't 'pdf'!";
+                    return;
+                }
+
+                if (ListBoxContainsItemByName(fileName) && File.Exists(filePath))
+                {
+                    LabelUploadResult.Text = fileName + " already exists.";
+                    LabelUploadResult.ToolTip = "Can't upload file " + fileName + ", because it already exists.";
+                    return;
+                }
+
+                byte[] fileBytes = pfile.InputStream.ToByteArray();
+                if (!fileBytes.Take(7).SequenceEqual(MimeType.PDF))
+                {
+                    LabelUploadResult.ToolTip = fileName + " might be a corrupted pdf after testing MIT magic sequence.";
+                    LabelUploadResult.Text = "Maybe corrupted ? ";
+                }
+
+                pfile.SaveAs(filePath);
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    LabelUploadResult.Text = fileName + " successfully uploaded.";
+                    LabelUploadResult.ToolTip = "File " + fileName + " has been successfully uploaded.";
+
+                    ListItem listItem = new ListItem(fileName);
+                    ListBoxFilesUploaded.Items.Add(listItem);
+                    Session[Constants.UPSAVED_FILE] = JoinedFiles;
+
+                    Base64Mime = Convert.ToBase64String(fileBytes, Base64FormattingOptions.None);
+                    DivObject.InnerHtml = String.Format(
+                            "<object data=\"data:application/pdf;base64,{0}\" type='application/pdf' width=\"640px\" height=\"480px\">" +
+                            "<p>Unable to display type application/pdf</p></object>\r\n", Base64Mime);
+                    DivObject.Visible = true;
+                }
+            }
+            else
+            {
+                LabelUploadResult.Text = "Upload unsuccessfully!";
+                LabelUploadResult.ToolTip = "Failed to upload file!";
+            }
+        }
+
+    }
+
 }

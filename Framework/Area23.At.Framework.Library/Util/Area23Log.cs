@@ -1,11 +1,6 @@
-﻿using Area23.At.Framework.Library;
-using Area23.At.Framework.Library.Static;
-using Area23.At.Framework.Library.Util;
+﻿using Area23.At.Framework.Library.Static;
 using NLog;
 using System;
-using System.IO;
-using System.Threading;
-using System.Web;
 
 namespace Area23.At.Framework.Library.Util
 {

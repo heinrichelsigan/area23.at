@@ -69,13 +69,13 @@ namespace Area23.At.Mono.Unix
         protected global::System.Web.UI.HtmlControls.HtmlAnchor aPdfMergeDownload;
 
         /// <summary>
-        /// DivLabel control.
+        /// SpanDownload control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivLabel;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanDownload;
 
         /// <summary>
         /// LabelUploadResult control.

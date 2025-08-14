@@ -1,9 +1,4 @@
-﻿using Area23.At.Framework.Library.Static;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
+﻿using System;
 
 namespace Area23.At.Mono.Util
 {

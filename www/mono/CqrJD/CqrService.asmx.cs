@@ -1,23 +1,12 @@
-﻿using Area23.At;
-using Area23.At.Framework.Library.Static;
-using Area23.At.Framework.Library.Util;
+﻿using Area23.At.Framework.Library.Cache;
 using Area23.At.Framework.Library.Cqr;
 using Area23.At.Framework.Library.Cqr.Msg;
-using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Util;
 using Area23.At.Mono.Util;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Web;
 using System.Web.Services;
-using Newtonsoft.Json;
-using System.Diagnostics.Contracts;
-using Area23.At.Framework.Library.Cache;
-using static QRCoder.PayloadGenerator.SwissQrCode;
 
 
 namespace Area23.At.Mono.CqrJD

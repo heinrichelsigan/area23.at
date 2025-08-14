@@ -1,12 +1,8 @@
 ﻿using Area23.At.Framework.Library.Cqr.Msg;
-using Area23.At.Framework.Library.Static;
-using Area23.At.Framework.Library.Util;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Web;
 
 namespace Area23.At.Mono.Util
 {

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Area23.At.Framework.Library.Crypt.EnDeCoding;
+﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using System;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Net.IpSocket
 {
