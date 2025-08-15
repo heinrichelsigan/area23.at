@@ -218,7 +218,6 @@
     <Compile Include="Crypt\Cipher\Asymmetric\Dsa.cs" />
     <Compile Include="Crypt\Cipher\Asymmetric\DH.cs" />
     <Compile Include="Crypt\Cipher\Asymmetric\Rsa.cs" />
-    <Compile Include="Crypt\Cipher\Crpyt.cs" />
     <Compile Include="Crypt\Cipher\CipherEnum.cs" />
     <Compile Include="Crypt\Cipher\CryptHelper.cs" />
     <Compile Include="Crypt\Cipher\CryptParams.cs" />
@@ -226,7 +225,6 @@
     <Compile Include="Crypt\Cipher\Symmetric\RC564.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\Rfc3211Wrap.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\SymmCipherPipe.cs" />
-    <Compile Include="Crypt\Cipher\Symmetric\SymmCrypt.cs" />
     <Compile Include="Static\Constants.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\ZenMatrix2.cs" />
     <Compile Include="Crypt\EnDeCoding\EnDeCodeHelper.cs" />

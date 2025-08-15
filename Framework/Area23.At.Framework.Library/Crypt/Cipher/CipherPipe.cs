@@ -319,7 +319,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <param name="zipBefore"><see cref="ZipType"/> and <see cref="ZipTypeExtensions.Zip(ZipType, byte[])"/></param>
         /// <returns>encrypted byte[]</returns>
         public byte[] MerryGoRoundEncrpyt(byte[] inBytes, 
-            string secretKey = "heinrich.elsigan@area23.at",  string hashIv = "", 
+            string secretKey = "heinrich.elsigan@area23.at",  
+            string hashIv = "", 
             ZipType zipBefore = ZipType.None)
         {
             cipherKey = secretKey;
@@ -349,6 +350,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return encryptedBytes;
         }
 
+
         /// <summary>
         /// DecrpytRoundGoMerry against clock turn -
         /// starts merry to turn arround from right to left against clock hour cycle 
@@ -356,8 +358,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <param name="cipherBytes">encrypted byte array</param>
         /// <param name="secretKey">user secret key, normally email address</param>
         /// <param name="hashIv">hash relational to secret kay</param>
+        /// <param name="unzipAfter"><see cref="ZipType"/> and <see cref="ZipTypeExtensions.Unzip(ZipType, byte[])"/></param>
         /// <returns><see cref="byte[]"/> plain bytes</returns>
-        public byte[] DecrpytRoundGoMerry(byte[] cipherBytes, string secretKey = "heinrich.elsigan@area23.at", string hashIv = "", bool fishOnAesEngine = false)
+        public byte[] DecrpytRoundGoMerry(byte[] cipherBytes,
+            string secretKey = "heinrich.elsigan@area23.at",
+            string hashIv = "",
+            ZipType unzipAfter = ZipType.None)
         {
             cipherKey = secretKey;
             cipherHash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIv;
@@ -372,15 +378,19 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             else
                 foreach (CipherEnum cipher in OutPipe)
                 {
-                    decryptedBytes = DecryptBytesFast(cipherBytes, cipher, cipherKey, cipherHash, fishOnAesEngine);
+                    decryptedBytes = DecryptBytesFast(cipherBytes, cipher, cipherKey, cipherHash);
                     cipherBytes = decryptedBytes;
 #if DEBUG
                     stageDictionary.Add(cipher, cipherBytes);
 #endif
                 }
 
-            return cipherBytes;        
+            if (unzipAfter != ZipType.None)
+                decryptedBytes = unzipAfter.Unzip(cipherBytes);
+
+            return cipherBytes;
         }
+
 
 
         /// <summary>
@@ -393,13 +403,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <returns>encrypted string</returns>
         public static string EncrpytToStringMerryGoRound(string inString, string serverKey, EncodingType encoding = EncodingType.Base64, ZipType zipBefore = ZipType.None)
         {
-            string encrypted = "", hash = EnDeCodeHelper.KeyToHex(serverKey);
+            string hash = EnDeCodeHelper.KeyToHex(serverKey);
             byte[] inBytes = EnDeCodeHelper.GetBytesFromString(inString);
 
-            SymmCipherPipe symmPipe = new SymmCipherPipe(serverKey, hash);
-            byte[] encryptedBytes = symmPipe.MerryGoRoundEncrpyt(inBytes, serverKey, hash, zipBefore);
+            CipherPipe cryptPipe = new CipherPipe(serverKey, hash);
+            byte[] encryptedBytes = cryptPipe.MerryGoRoundEncrpyt(inBytes, serverKey, hash, zipBefore);
 
-            encrypted = encoding.GetEnCoder().EnCode(encryptedBytes);
+            string encrypted = encoding.GetEnCoder().EnCode(encryptedBytes);
 
             return encrypted;
         }
@@ -414,12 +424,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <returns></returns>
         public static string DecrpytToStringRoundGoMerry(string cryptedEncodedMsg, string serverKey, EncodingType decoding = EncodingType.Base64, ZipType unzipAfter = ZipType.None)
         {
-            string decrypted = "", hash = EnDeCodeHelper.KeyToHex(serverKey);
+            string hash = EnDeCodeHelper.KeyToHex(serverKey);
             byte[] cipherBytes = decoding.GetEnCoder().DeCode(cryptedEncodedMsg);
 
-            SymmCipherPipe symmPipe = new SymmCipherPipe(serverKey, hash);
-            byte[] unroundedMerryBytes = symmPipe.DecrpytRoundGoMerry(cipherBytes, serverKey, hash, unzipAfter);
-            decrypted = EnDeCodeHelper.GetString(unroundedMerryBytes); //DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);
+            CipherPipe cryptPipe = new CipherPipe(serverKey, hash);
+            byte[] unroundedMerryBytes = cryptPipe.DecrpytRoundGoMerry(cipherBytes, serverKey, hash, unzipAfter);
+            
+            string decrypted = EnDeCodeHelper.GetString(unroundedMerryBytes); //DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);
             while (decrypted[decrypted.Length - 1] == '\0')
                 decrypted = decrypted.Substring(0, decrypted.Length - 1);
 
