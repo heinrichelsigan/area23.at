@@ -403,6 +403,9 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
 2sGnnAaPJgE8Iy2z08jS3rF9npK27A==
 -----END PRIVATE KEY-----";
 
+
+        
+
 #pragma warning restore CA1707 // Identifiers should not contain underscores
         #endregion public const
 
@@ -424,6 +427,32 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
             EXE_SVC_HOST, EXE_TASK_HOST, EXE_DLL_HOST,
             EXE_SCHEDULER, EXE_VM_COMPUTE, EXE_WIN_DEFENDER, EXE_LASS, EXE_CSRSS,
             EXE_WIN_LOGON, EXE_DESKTOP_WINDOW_MANAGER
+        };
+
+        public static readonly string[] OUTFILE_EXTENSIONS = {
+            ".md", ".txt", ".text", ".cfg",
+            ".css", ".js", ".htm", ".html", ".xhtml", ".json", ".rdf",
+
+            ".avif", ".bmp", ".exif", ".gif", ".ico", ".ief", ".jpg", ".jpeg", ".pcx", ".pic", ".png", ".psd", ".tif", ".xcf", ".xif",
+            ".3pg", ".3g2", ".aif", ".au", ".m3u", ".mid", ".midi", ".mp4", ".mpeg", ".ogg", ".webm", ".wav", ".wax", ".wma", ".mp3",
+            ".avi", ".f4v", ".flx", ".m4u", ".m4v", ".mov", ".mpg", ".wmv",
+
+            ".pdf", ".ps", ".gs", ".dvi", ".tex",
+            ".ods", ".odt", ".rtf", ".doc", ".dot", ".xls", ".xlt", ".csv", ".mdb", ".ppt", ".vsx", ".vst", ".mpp",
+
+            ".ttf", ".woff",
+
+            ".eml", ".mbox", ".vcs", ".vcf", ".msg",
+
+            ".zip",
+            ".z", ".gz", ".bz", ".bz2", ".tar", ".tgz", ".tbz",
+            ".arj", ".arc", ".rar",
+            ".7z", ".xz",
+            ".uu", ".base", ".mime",
+
+            ".pki", ".cer", ".der", ".crl", ".p10", ".p7c", ".p7s",
+
+            ".exe", ".dll", ".oct", ".bin", ".tmp", ".img"
         };
 
         #endregion public static readonly fields

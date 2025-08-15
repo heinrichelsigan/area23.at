@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using System.Xml.Serialization;
 
 namespace Area23.At.Framework.Library.Static
@@ -212,6 +213,31 @@ namespace Area23.At.Framework.Library.Static
             return type.GetProperties(flags).Union(type.BaseType.GetAllProperties());
         }
 
+
+        public static bool AllowUrlExtensionInOut(string url = "")
+        {
+            bool allow = false;
+            if (String.IsNullOrEmpty(url))
+                url = HttpContext.Current.Request.Url.ToString().ToLower();
+            else
+                url = url.ToLower();
+
+            foreach (string allowedExt in Constants.OUTFILE_EXTENSIONS)
+            {
+                if ((allow = url.EndsWith(allowedExt)))
+                    break;
+
+                if (url.LastIndexOf(".") > -1)
+                {
+                    string restUrl = url.Substring(url.LastIndexOf("."));
+                    if ((allow = (restUrl.EndsWith(allowedExt) || restUrl.Contains(allowedExt))))
+                        break;
+                }
+            }
+
+            return allow;
+
+        }
 
     }
 

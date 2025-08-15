@@ -437,16 +437,17 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 
         public static bool EncryptSrvMsg(string serverKey, ref CFile cfile)
         {
+            string pipeString = "";
             try
             {
-                string hash = EnDeCodeHelper.KeyToHex(serverKey);
-                SymmCipherPipe symmPipe = new SymmCipherPipe(serverKey, hash);
-                cfile.Hash = hash;
-                cfile.Md5Hash = MD5Sum.HashString(String.Concat(serverKey, hash, symmPipe.PipeString, cfile.Message), "");
+                SymmCipherPipe symmPipe = new SymmCipherPipe(serverKey);
+                pipeString = (new SymmCipherPipe(serverKey)).PipeString;
+                cfile.Hash = pipeString;
+                cfile.Md5Hash = MD5Sum.HashString(String.Concat(serverKey, EnDeCodeHelper.KeyToHex(serverKey), pipeString, cfile.Message), "");
                 cfile.Sha256Hash = Sha256Sum.Hash(cfile.Data, "");
 
                 byte[] msgBytes = cfile.Data;
-                byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, serverKey, hash) : msgBytes;
+                byte[] cqrbytes = symmPipe.MerryGoRoundEncrpyt(msgBytes, serverKey, EnDeCodeHelper.KeyToHex(serverKey));
 
                 cfile.CBytes = cqrbytes;
                 cfile.Data = new byte[0];
@@ -485,13 +486,14 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 
         public static CFile DecryptSrvMsg(string serverKey, ref CFile cfile)
         {
+            string pipeString = "";
             try
             {
-                string hash = EnDeCodeHelper.KeyToHex(serverKey);
-                SymmCipherPipe symmPipe = new SymmCipherPipe(serverKey, hash);
+                SymmCipherPipe symmPipe = new SymmCipherPipe(serverKey);
+                pipeString = symmPipe.PipeString;
 
                 byte[] cipherBytes = cfile.CBytes;
-                byte[] unroundedMerryBytes = LibPaths.CqrEncrypt ? symmPipe.DecrpytRoundGoMerry(cipherBytes, serverKey, hash) : cipherBytes;
+                byte[] unroundedMerryBytes = symmPipe.DecrpytRoundGoMerry(cipherBytes, serverKey, EnDeCodeHelper.KeyToHex(serverKey));
 
                 if (!cfile.Hash.Equals(symmPipe.PipeString))
                     throw new CqrException($"Hash: {cfile.Hash} doesn't match symmPipe.PipeString: {symmPipe.PipeString}");
