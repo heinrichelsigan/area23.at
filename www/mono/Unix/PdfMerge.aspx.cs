@@ -94,7 +94,6 @@ namespace Area23.At.Mono.Unix
                 }
                 DivObject.Visible = false;
                 SpanDownload.Visible = false;
-                SpanDownload.Style["display"] = "none";
                 aPdfMergeDownload.Visible = false;
                 LabelUploadResult.Visible = false;
             }
@@ -118,9 +117,7 @@ namespace Area23.At.Mono.Unix
         protected void ButtonUpload_Click(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(oFile.Value))
-                UploadFile(oFile.PostedFile);
-            // else if (FileUploadInput.PostedFile != null)
-            //     UploadFile(FileUploadInput.PostedFile);
+                UploadFile(oFile.PostedFile);            
         }
 
         protected void ListBoxFilesUploaded_SelectedIndexChanged(object sender, EventArgs e) 
@@ -128,6 +125,49 @@ namespace Area23.At.Mono.Unix
 
 
         }
+
+
+        protected void ImButtonUp_ArrowUp(object sender, EventArgs e)
+        {
+            int selected = ListBoxFilesUploaded.SelectedIndex;
+            if (selected > 0)
+            {
+                ListItem item = ListBoxFilesUploaded.Items[selected];
+                ListBoxFilesUploaded.Items.RemoveAt(selected);
+                ListBoxFilesUploaded.Items.Insert(selected - 1, item);
+                ListBoxFilesUploaded.SelectedIndex = (selected - 1);
+            }
+        }
+
+
+        protected void ImButtonDown_ArrowDown(object sender, EventArgs e)
+        {
+            int selected = ListBoxFilesUploaded.SelectedIndex;
+            if (selected > -1 && selected < (ListBoxFilesUploaded.Items.Count - 1))
+            {
+                ListItem item = ListBoxFilesUploaded.Items[selected];
+                ListBoxFilesUploaded.Items.RemoveAt(selected);
+                ListBoxFilesUploaded.Items.Insert(selected + 1, item);
+                ListBoxFilesUploaded.SelectedIndex = selected + 1;
+            }
+        }
+
+        protected void ImButtonDel_Delete(object sender, EventArgs e)
+        {
+            int selected = ListBoxFilesUploaded.SelectedIndex;
+            if (selected > -1)
+            {
+                ListItem item = ListBoxFilesUploaded.Items[selected];
+                ListBoxFilesUploaded.Items.RemoveAt(selected);
+                DeleteItemFile(item);
+            }
+        }
+
+        protected void ImButtonMerge_Merge(object sender, EventArgs e)
+        {
+            ButtonPdfMerge_Click(sender, e);
+        }
+
 
         /// <summary>
         /// Clears all <see cref="ListBoxFilesUploaded"/> items and deletes all uploaded files
@@ -154,7 +194,7 @@ namespace Area23.At.Mono.Unix
                         }
                         catch (Exception exFileDel)
                         {
-                            Area23Log.Logger.Log(exFileDel);
+                            Area23Log.LogStatic(exFileDel);
                         }
                     }
                 }
@@ -162,29 +202,7 @@ namespace Area23.At.Mono.Unix
             
             foreach (ListItem item in ListBoxFilesUploaded.Items)
             {
-                if (item == null)
-                    continue;
-
-                string itemString = (!string.IsNullOrEmpty(item.Value)) ? item.Value :
-                    (!string.IsNullOrEmpty(item.Text) ? item.Text : item.ToString());
-
-                if (string.IsNullOrEmpty(itemString))
-                    continue;
-
-                lock (_lock)
-                {
-                    if (File.Exists(LibPaths.SystemDirOutPath + itemString))
-                    {
-                        try
-                        {
-                            File.Delete(LibPaths.SystemDirOutPath + itemString);
-                        }
-                        catch (Exception exFileDel)
-                        {
-                            Area23Log.Logger.Log(exFileDel);
-                        }
-                    }
-                }
+                DeleteItemFile(item);
             }
 
             _joinFiles = "";
@@ -250,18 +268,16 @@ namespace Area23.At.Mono.Unix
                     aPdfMergeDownload.HRef = MergeAppPath;
                     aPdfMergeDownload.Visible = true;
                     aPdfMergeDownload.InnerText = _mergeFile;
-                    SpanDownload.Style["display"] = "block";
                     SpanDownload.Visible = true;
 
-                    Thread.Sleep(100);
+                    // Thread.Sleep(100);
                     
                     byte[] fileBytes = File.ReadAllBytes(MergeSystemPath);
                     Base64Mime = Convert.ToBase64String(fileBytes, Base64FormattingOptions.None);
 
                     DivObject.InnerHtml = String.Format(
-                           "<object data=\"data:application/pdf;base64,{0}\" type='application/pdf' width=\"640px\" height=\"480px\">" +
-                           "</object>", Base64Mime);
-                    DivObject.Style["display"] = "block";
+                        "\t\t<object data=\"data:application/pdf;base64,{0}\" type='application/pdf' width=\"640px\" height=\"480px\">\r\n" +
+                        "\t\t\t<p>Unable to display type application/pdf</p>\r\n\t\t</object>\r\n", Base64Mime);                    
                     DivObject.Visible = true;
                 }
 
@@ -327,6 +343,34 @@ namespace Area23.At.Mono.Unix
                 }
             }
         }
+
+        internal void DeleteItemFile(ListItem item)
+        {
+            if (item == null)
+                return;
+
+            string itemString = (!string.IsNullOrEmpty(item.Value)) ? item.Value :
+                (!string.IsNullOrEmpty(item.Text) ? item.Text : item.ToString());
+
+            if (string.IsNullOrEmpty(itemString))
+                return;
+
+            lock (_lock)
+            {
+                if (File.Exists(LibPaths.SystemDirOutPath + itemString))
+                {
+                    try
+                    {
+                        File.Delete(LibPaths.SystemDirOutPath + itemString);
+                    }
+                    catch (Exception exFileDel)
+                    {
+                        Area23Log.LogStatic(exFileDel);
+                    }
+                }
+            }
+        }
+
 
         #endregion ListBoxFilesUploaded helper functions
 

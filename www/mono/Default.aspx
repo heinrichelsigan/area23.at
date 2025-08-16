@@ -12,11 +12,11 @@
 <a href="Default.aspx" tatget="top">/</a>
 ├── <span style="color: blue">unix</span>
 │   ├── <a href="Unix/Default.aspx" tatget="top">unix cmd tools</a>
-│   ├── <a href="Unix/FortunAsp.aspx" tatget="top">fortune(6)</a>
-│   ├── <a href="Unix/HexDump.aspx" tatget="top">hexdump od(1)</a>
-│   ├── <a href="Unix/Bc.aspx" tatget="top">basic calc bc(1)</a>
-│   ├── <a href="Unix/MergePdf.aspx" tatget="top">pdf merge pdfunite(1)</a>
-│   └── <a href="Unix/PdfMerge.aspx" tatget="top">merge pdf pdfunite(1)</a>
+│   ├── <a href="Unix/FortunAsp.aspx" tatget="top">fortunes</a> <a href="https://area23.at/shared/fortune.txt" target="_blank">fortune(6)</a>
+│   ├── <a href="Unix/HexDump.aspx" tatget="top">hexdump</a> <a href="https://www.man7.org/linux/man-pages/man1/od.1.html" target="_blank">od(1)</a>
+│   ├── <a href="Unix/Bc.aspx" tatget="top">basic calc</a> <a href="https://linux.die.net/man/1/bc" target="_blank">bc(1)</a>
+│   ├── <a href="Unix/MergePdf.aspx" tatget="top">merge pdf</a> <a href="https://wiki.ubuntuusers.de/poppler-utils/" target="_blank">pdfunite (1)</a>
+│   └── <a href="Unix/PdfMerge.aspx" tatget="top">pdf merge</a> <a href="https://wiki.ubuntuusers.de/poppler-utils/" target="_blank">pdfunite (1)</a>
 │
 ├── <span style="color: blue">qr</span>
 │   ├── <a href="Qr/ContactQrGenerator.aspx" tatget="top">qr contact generator</a>

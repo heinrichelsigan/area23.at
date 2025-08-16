@@ -42,15 +42,6 @@ namespace Area23.At.Mono.Unix
         protected global::System.Web.UI.WebControls.Button UploadID;
 
         /// <summary>
-        /// ListBoxFilesUploaded control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox ListBoxFilesUploaded;
-
-        /// <summary>
         /// ButtonPdfMerge control.
         /// </summary>
         /// <remarks>
@@ -60,13 +51,67 @@ namespace Area23.At.Mono.Unix
         protected global::System.Web.UI.WebControls.Button ButtonPdfMerge;
 
         /// <summary>
-        /// aPdfMergeDownload control.
+        /// ButtonClear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aPdfMergeDownload;
+        protected global::System.Web.UI.WebControls.Button ButtonClear;
+
+        /// <summary>
+        /// ListBoxFilesUploaded control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox ListBoxFilesUploaded;
+
+        /// <summary>
+        /// ImButtonUp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImButtonUp;
+
+        /// <summary>
+        /// ImButtonDel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImButtonDel;
+
+        /// <summary>
+        /// ImButtonMerge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImButtonMerge;
+
+        /// <summary>
+        /// ImButtonDown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImButtonDown;
+
+        /// <summary>
+        /// CheckBoxPreview control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CheckBoxPreview;
 
         /// <summary>
         /// SpanDownload control.
@@ -76,6 +121,15 @@ namespace Area23.At.Mono.Unix
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanDownload;
+
+        /// <summary>
+        /// DivLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivLabel;
 
         /// <summary>
         /// LabelUploadResult control.
@@ -94,14 +148,5 @@ namespace Area23.At.Mono.Unix
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivObject;
-
-        /// <summary>
-        /// ButtonClear control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonClear;
     }
 }

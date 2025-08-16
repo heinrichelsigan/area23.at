@@ -14,26 +14,26 @@ namespace Area23.At.Mono
         protected void Application_Init(object sender, EventArgs e)
         {
             string msg = String.Format("application init at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
-            Area23Log.Logger.LogOriginMsg("Global.asax", msg);
+            Area23Log.LogOriginMsg("Global.asax", msg);
             HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
         }
 
         protected void Application_Start(object sender, EventArgs e)
         {            
             string msg = String.Format("application started at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));                      
-            Area23Log.Logger.LogOriginMsg("Global.asax", msg + "\tlogging to logfile = " + Area23Log.Logger.LogFile);
+            Area23Log.LogOriginMsg("Global.asax", msg + "\tlogging to logfile = " + Area23Log.LogFile);
         }
 
         protected void Application_Disposed(object sender, EventArgs e) 
         {
             string msg = String.Format("application disposed at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
-            Area23Log.Logger.LogOriginMsg("Global.asax", msg);
+            Area23Log.LogOriginMsg("Global.asax", msg);
         }
 
         protected void Application_End(object sender, EventArgs e)
         {
             string msg = String.Format("application ended at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
-            Area23Log.Logger.LogOriginMsg("Global.asax", msg);
+            Area23Log.LogOriginMsg("Global.asax", msg);
             HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
         }
 
@@ -54,7 +54,7 @@ namespace Area23.At.Mono
                     url.Contains("/tmp/") ||
                     url.Contains("/uu/"))
                 {
-                    Area23Log.Logger.LogOriginMsg("Global.asax", "Application_BeginRequest: Url = " + url + " \n\tError.aspx?attack=DirectoryTraversal");
+                    Area23Log.LogOriginMsg("Global.asax", "Application_BeginRequest: Url = " + url + " \n\tError.aspx?attack=DirectoryTraversal");
                     Response.Redirect(LibPaths.AppPath + "Error.aspx?attack=DirectoryTraversal");
                     return;
                 }
@@ -75,7 +75,7 @@ namespace Area23.At.Mono
                         !url.Contains(".m4a") &&
                         !url.Contains(".wav"))
                     {
-                        Area23Log.Logger.LogOriginMsg("Global.asax", "\"Application_BeginRequest: Url = " + url + " \n\tError.aspx?attack=WrongFileType");
+                        Area23Log.LogOriginMsg("Global.asax", "\"Application_BeginRequest: Url = " + url + " \n\tError.aspx?attack=WrongFileType");
                         Response.Redirect(LibPaths.AppPath + "Error.aspx?attack=WrongFileType");
                         return;
                     }
@@ -86,7 +86,7 @@ namespace Area23.At.Mono
                     if (page.ToLower().Contains(".as") || url.ToLower().Contains(".as") || url.ToLower().Contains(".master") ||
                         page.ToLower().EndsWith(".aspx") || page.ToLower().EndsWith(".ascx"))
                     {
-                        Area23Log.Logger.LogOriginMsg("Global.asax", "Application_BeginRequest: Url = " + url + " \n\tError.aspx?attack=codeInjectionUpload");
+                        Area23Log.LogOriginMsg("Global.asax", "Application_BeginRequest: Url = " + url + " \n\tError.aspx?attack=codeInjectionUpload");
                         Response.Redirect(LibPaths.AppPath + "Error.aspx?attack=codeInjectionUpload");
                         return;
                     }
@@ -95,14 +95,14 @@ namespace Area23.At.Mono
                     if (restUrl.Contains("/"))
                     {
                         string wrongDir = restUrl.Substring(0, restUrl.IndexOf("/"));
-                        Area23Log.Logger.LogOriginMsg("Global.asax", "Application_BeginRequest: Url = " + url + " \n\tError.aspx?attack=subDirInOut");
+                        Area23Log.LogOriginMsg("Global.asax", "Application_BeginRequest: Url = " + url + " \n\tError.aspx?attack=subDirInOut");
                         Response.Redirect(LibPaths.AppPath + "Error.aspx?attack=subDirInOut");
                         return;
                     }
 
                     if (!Utils.AllowUrlExtensionInOut(url))
                     {
-                        Area23Log.Logger.LogOriginMsg("Global.asax", "Application_BeginRequest: Url = " + url + " seemed to be denied.");
+                        Area23Log.LogOriginMsg("Global.asax", "Application_BeginRequest: Url = " + url + " seemed to be denied.");
                     }
 
                 }
@@ -114,7 +114,7 @@ namespace Area23.At.Mono
 
         protected void Application_EndRequest(object sender, EventArgs e)
         {
-            Area23Log.Logger.LogOriginMsg("Global.asax", "EndRequest Url: " + HttpContext.Current.Request.Url.ToString());
+            Area23Log.LogOriginMsg("Global.asax", "EndRequest Url: " + HttpContext.Current.Request.Url.ToString());
             
         }
         
@@ -127,7 +127,7 @@ namespace Area23.At.Mono
             if (sender is HttpApplication)
                 path = ((HttpApplication)sender).Request.Url.PathAndQuery;
 
-            Area23Log.Logger.LogOriginMsg("Global.asax", string.Format("Application_Error: {0}: {1} thrown with path {2}", 
+            Area23Log.LogOriginMsg("Global.asax", string.Format("Application_Error: {0}: {1} thrown with path {2}", 
                 ex.GetType(), ex.Message, path));
             
             CqrException appException = new CqrException(string.Format("Application_Error: {0}: {1} thrown with path {2}",
@@ -154,7 +154,7 @@ namespace Area23.At.Mono
                     DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
             }
 
-            Area23Log.Logger.LogOriginMsg("Global.asax", msg);
+            Area23Log.LogOriginMsg("Global.asax", msg);
         }
 
 
@@ -175,7 +175,7 @@ namespace Area23.At.Mono
                     DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
             }
 
-            Area23Log.Logger.LogOriginMsg("Global.asax", msg);
+            Area23Log.LogOriginMsg("Global.asax", msg);
         }
 
     }

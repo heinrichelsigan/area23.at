@@ -42,33 +42,50 @@
                 <INPUT id="oFile" type="file" runat="server" ClientIDMode="Static" NAME="oFile" onchange="UploadFile(this)" />
                 <asp:Button ID="ButtonUploadID" CommandName="ButtonUploadName" Text="Upload" runat="server" OnClick="ButtonUpload_Click" Style="display: none" />
             </span>
-        </div>
-        <div style="display: block; clear: both; min-width: 320px; max-width: 540px; min-height: 180px; max-height: 240px;">
-            <span class="leftSpan" style="min-width: 320px; max-width: 540px; min-height: 180px; max-height: 240px;">
-                <asp:ListBox ID="ListBoxFilesUploaded" runat="server" ClientIDMode="Static" ToolTip="Uploaded files"
-                    OnSelectedIndexChanged="ListBoxFilesUploaded_SelectedIndexChanged"  Rows="8" Height="200px" Width="436px" />
-            </span>            
-        </div>
-        <div id="DivButtons" style="clear:both; display: block;">
-            <span class="leftSpan">
-                <asp:Button ID="ButtonPdfMerge" runat="server" ClientIDMode="Static" ToolTip="Merge all uploaded pdfs to one output pdf file" 
-                    OnClick="ButtonPdfMerge_Click" Text="Merge pdfs" />  
-            </span>
             <span class="centerSpan">
-                
-            </span>
-            <span class="rightSpan">
                 <asp:Button ID="ButtonClear" runat="server" ClientIDMode="Static" OnClick="ButtonClear_Click" Text="Clear" ToolTip="Clear entire form" />                
             </span>
+             <span class="rightSpan">
+                 <asp:Button ID="ButtonPdfMerge" runat="server" ClientIDMode="Static" ToolTip="Merge all uploaded pdfs to one output pdf file" 
+                    OnClick="ButtonPdfMerge_Click" Text="Merge pdfs" />  
+            </span>
+        </div>
+        <div style="display: block; clear: both;">
+            <table>
+                <tr>
+                    <td rowspan="4">
+                        <asp:ListBox ID="ListBoxFilesUploaded" runat="server" ClientIDMode="Static" ToolTip="Uploaded files"
+                        OnSelectedIndexChanged="ListBoxFilesUploaded_SelectedIndexChanged"  Rows="8" Height="192px" Width="480px" />
+                    </td>
+                    <td>
+                        <asp:ImageButton ID="ImButtonUp" runat="server" ClientIDMode="Static" ImageUrl="../res/img/arrow/arrow_up.gif" OnClick="ImButtonUp_ArrowUp" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:ImageButton ID="ImButtonDel" runat="server" ClientIDMode="Static" ImageUrl="../res/img/arrow/close_delete.gif" OnClick="ImButtonDel_Delete" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:ImageButton ID="ImButtonMerge" runat="server" ClientIDMode="Static" ImageUrl="../res/img/symbol/file_working.gif" OnClick="ImButtonMerge_Merge" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:ImageButton ID="ImButtonDown" runat="server" ClientIDMode="Static" ImageUrl="../res/img/arrow/arrow_down.gif" OnClick="ImButtonDown_ArrowDown" />
+                    </td>
+                </tr>
+            </table>          
         </div>
         <div id="DivLabel" style="clear:both; display: block;">
-            <span class="leftSpan" id="SpanDownload" runat="server" visible="false" style="display: none">
+            <span class="leftSpan" id="SpanDownload" runat="server" visible="false">
                 Downlaod: <a id="aPdfMergeDownload" runat="server" href="#" title="Download merged pdf">Download merged pdf</a>
             </span>            
             <br />
             <asp:Label id="LabelUploadResult" runat="server" ClientIDMode="Static" ToolTip="File succesfully uploaded!" Text="File succesfully uploaded" Visible="false" /> 
         </div>
-        <div style="clear:left; display: none;" id="DivObject" runat="server" visible="false">
+        <div style="clear:left; display: block;" id="DivObject" runat="server" visible="false">
             <p>&nbsp;</p>
         </div>                        
     </form>

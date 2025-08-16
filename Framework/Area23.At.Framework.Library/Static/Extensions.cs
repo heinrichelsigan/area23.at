@@ -210,7 +210,7 @@ namespace Area23.At.Framework.Library.Static
             }
             catch (Exception ex)
             {
-                Area23Log.Logger.LogOriginMsgEx("Extension", "ToFile(...) throwed Exception " + ex.GetType(),  ex);
+                Area23Log.LogOriginMsgEx("Extension", "ToFile(...) throwed Exception " + ex.GetType(),  ex);
             }       
 
             if (File.Exists(fullFileName))
@@ -467,7 +467,7 @@ namespace Area23.At.Framework.Library.Static
             }
             catch (Exception ex)
             {
-                Area23Log.Logger.LogOriginMsgEx("Extension", "Base64ToImage(...) throwed Exception " + ex.GetType(), ex);
+                Area23Log.LogOriginMsgEx("Extension", "Base64ToImage(...) throwed Exception " + ex.GetType(), ex);
                 bitmap = null;
             }
             return bitmap;
@@ -823,7 +823,7 @@ namespace Area23.At.Framework.Library.Static
             catch (Exception exImgFormat)
             {
                 imgFormGuid = Guid.Empty;
-                Area23Log.Logger.LogOriginMsgEx("Extension", "ToByteArray(this Image img) throwed Exception " + exImgFormat.GetType(), exImgFormat);
+                Area23Log.LogOriginMsgEx("Extension", "ToByteArray(this Image img) throwed Exception " + exImgFormat.GetType(), exImgFormat);
             }
 
             if (imgFormGuid != null && imgFormGuid.HasValue && imgFormGuid.Value != Guid.Empty)
@@ -840,7 +840,7 @@ namespace Area23.At.Framework.Library.Static
             }
             catch (Exception ex)
             {
-                Area23Log.Logger.LogOriginMsgEx("Extension", "ToByteArray(this Image img) throwed Exception " + ex.GetType(), ex);
+                Area23Log.LogOriginMsgEx("Extension", "ToByteArray(this Image img) throwed Exception " + ex.GetType(), ex);
             }
 
             return bytes;
@@ -863,7 +863,7 @@ namespace Area23.At.Framework.Library.Static
             }
             catch (Exception ex)
             {
-                Area23Log.Logger.LogOriginMsgEx("Extension", "ToBase64(this Image img) throwed Exception " + ex.GetType(), ex);
+                Area23Log.LogOriginMsgEx("Extension", "ToBase64(this Image img) throwed Exception " + ex.GetType(), ex);
             }
 
             return base64;

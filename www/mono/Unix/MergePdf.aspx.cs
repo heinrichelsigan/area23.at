@@ -45,7 +45,7 @@ namespace Area23.At.Mono.Unix
         {
             _lock = new object();
             if (ConfigurationManager.AppSettings["PDFMergeCmd"] != null)
-                pdfMergeCmd = (string)ConfigurationManager.AppSettings["PDFMergeCmd"];
+                pdfMergeCmd = (string)ConfigurationManager.AppSettings["PDFMergeCmd"];            
         }
 
         public MergePdf()
@@ -55,7 +55,9 @@ namespace Area23.At.Mono.Unix
         #endregion ctors
 
         #region page and control event handlers
+
         #region OnInit Page_Load page event cycle hooks
+
         /// <summary>
         /// overriden init calls base <see cref="Page.OnInit(EventArgs)"/>
         /// </summary>
@@ -93,7 +95,6 @@ namespace Area23.At.Mono.Unix
                 }
                
                 SpanDownload.Attributes["title"] = "";
-                SpanDownload.Style["display"] = "none";
                 SpanDownload.Visible = false;
                 DivObject.Visible = false;
                 LabelUploadResult.Visible = false;
@@ -116,8 +117,40 @@ namespace Area23.At.Mono.Unix
         /// <param name="e"><see cref="EventArgs">EventArgs e</see></param>
         protected void Upload_Click(object sender, EventArgs e)
         {
-            if (FileUploadInput.PostedFile != null)
-                UploadFile(FileUploadInput.PostedFile);
+
+            //if (Constants.UNIX)
+            //{
+                if (FileUploadInput.PostedFile != null)
+                    UploadFile(FileUploadInput.PostedFile);
+                return;                 
+            //}
+            //if (Constants.WIN32)
+            //{
+            //    try
+            //    {
+            //        int fcnt = FileUploadInput.PostedFiles.Count;
+            //        if (fcnt > 0)
+            //        {
+            //            DivLabel.InnerHtml = "";
+            //            if (fcnt > 1)
+            //                DivLabel.InnerHtml = $"<h4>loading up {fcnt} files</h4>\r\n";
+
+            //            foreach (HttpPostedFile file in FileUploadInput.PostedFiles)
+            //            {
+            //                UploadFile(file, FileUploadInput.PostedFiles.Count);
+            //            }
+            //            if (fcnt > 1)
+            //            {
+            //                LabelUploadResult.Text = $"upload finished for {fcnt}files.";
+            //                LabelUploadResult.Visible = true;
+            //            }
+            //        }
+            //    }
+            //    catch (Exception exi)
+            //    {
+            //        Area23Log.LogOriginMsgEx("MergePdf", "Upload_Click", exi);
+            //    }
+            //}
         }
 
 
@@ -154,7 +187,7 @@ namespace Area23.At.Mono.Unix
                         }
                         catch (Exception exFileDel)
                         {
-                            Area23Log.Logger.Log(exFileDel);
+                            Area23Log.LogStatic(exFileDel);
                         }
                     }
                 }
@@ -166,29 +199,7 @@ namespace Area23.At.Mono.Unix
             
             foreach (ListItem item in ListBoxFilesUploaded.Items)
             {
-                if (item == null)
-                    continue;
-
-                string itemString = (!string.IsNullOrEmpty(item.Value)) ? item.Value :
-                    (!string.IsNullOrEmpty(item.Text) ? item.Text : item.ToString());
-
-                if (string.IsNullOrEmpty(itemString))
-                    continue;
-
-                lock (_lock)
-                {
-                    if (File.Exists(LibPaths.SystemDirOutPath + itemString))
-                    {
-                        try
-                        {
-                            File.Delete(LibPaths.SystemDirOutPath + itemString);
-                        }
-                        catch (Exception exFileDel)
-                        {
-                            Area23Log.Logger.Log(exFileDel);
-                        }
-                    }
-                }
+                DeleteItemFile(item);
             }
 
             _joinFiles = "";
@@ -203,6 +214,47 @@ namespace Area23.At.Mono.Unix
             HttpContext.Current.Session.Remove(Constants.DECRYPTED_TEXT_BOX);
         }
 
+
+        protected void ImButtonUp_ArrowUp(object sender, EventArgs e)
+        {
+            int selected = ListBoxFilesUploaded.SelectedIndex;
+            if (selected > 0)
+            {
+                ListItem item = ListBoxFilesUploaded.Items[selected];
+                ListBoxFilesUploaded.Items.RemoveAt(selected);
+                ListBoxFilesUploaded.Items.Insert(selected - 1, item);
+                ListBoxFilesUploaded.SelectedIndex = (selected -1);
+            }
+        }
+
+
+        protected void ImButtonDown_ArrowDown(object sender, EventArgs e)
+        {
+            int selected = ListBoxFilesUploaded.SelectedIndex;
+            if (selected > -1 && selected < (ListBoxFilesUploaded.Items.Count - 1))
+            {
+                ListItem item = ListBoxFilesUploaded.Items[selected];
+                ListBoxFilesUploaded.Items.RemoveAt(selected);
+                ListBoxFilesUploaded.Items.Insert(selected + 1, item);
+                ListBoxFilesUploaded.SelectedIndex = selected + 1;
+            }
+        }
+
+        protected void ImButtonDel_Delete(object sender, EventArgs e)
+        {
+            int selected = ListBoxFilesUploaded.SelectedIndex;
+            if (selected > -1)
+            {
+                ListItem item = ListBoxFilesUploaded.Items[selected];
+                ListBoxFilesUploaded.Items.RemoveAt(selected);
+                DeleteItemFile(item);
+            }
+        }
+
+        protected void ImButtonMerge_Merge(object sender, EventArgs e)
+        {
+            ButtonPdfMerge_Click(sender, e);
+        }
 
         /// <summary>
         /// ButtonPdfMerge_Click merges all uploaded files shown in <see cref="ListBoxFilesUploaded"/> to a merged pdf
@@ -252,12 +304,11 @@ namespace Area23.At.Mono.Unix
                     SpanDownload.InnerHtml = string.Format(
                         "Downlaod: <a href=\"{0}\"  target=\"_blank\" title='{1}'>{2}</a>",
                             MergeAppPath, MergeToolTip, _mergeFile);                           
-                    SpanDownload.Style["display"] = "block";
+                    // SpanDownload.Style["display"] = "block";
                     SpanDownload.Visible = true;
 
-                    Thread.Sleep(100);
+                    // Thread.Sleep(100);
 
-                    DivObject.Style["display"] = "block";
                     byte[] fileBytes = File.ReadAllBytes(MergeSystemPath);
                     Base64Mime = Convert.ToBase64String(fileBytes, Base64FormattingOptions.None);
 
@@ -332,6 +383,33 @@ namespace Area23.At.Mono.Unix
             }
         }
 
+        internal void DeleteItemFile(ListItem item)
+        {
+            if (item == null)
+                return;
+
+            string itemString = (!string.IsNullOrEmpty(item.Value)) ? item.Value :
+                (!string.IsNullOrEmpty(item.Text) ? item.Text : item.ToString());
+
+            if (string.IsNullOrEmpty(itemString))
+                return;
+
+            lock (_lock)
+            {
+                if (File.Exists(LibPaths.SystemDirOutPath + itemString))
+                {
+                    try
+                    {
+                        File.Delete(LibPaths.SystemDirOutPath + itemString);
+                    }
+                    catch (Exception exFileDel)
+                    {
+                        Area23Log.LogStatic(exFileDel);
+                    }
+                }
+            }
+        }
+
         #endregion ListBoxFilesUploaded helper functions
 
 
@@ -339,13 +417,14 @@ namespace Area23.At.Mono.Unix
         /// Uploads a http posted file
         /// </summary>
         /// <param name="pfile"><see cref="HttpPostedFile"/></param>
-        protected void UploadFile(HttpPostedFile pfile)
+        protected void UploadFile(HttpPostedFile pfile, int fileCnt = 1)
         {
             string filePath = "", fileName = "", fileExtn = "";
-            LabelUploadResult.Visible = true;
+            
             SpanDownload.Visible = false;
             DivObject.Visible = false;
             LabelUploadResult.Text = "";
+            LabelUploadResult.Visible = true;
 
             if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
             {
@@ -355,42 +434,65 @@ namespace Area23.At.Mono.Unix
                 filePath = LibPaths.SystemDirOutPath + fileName;
 
                 if (!fileExtn.TrimEnd().EndsWith("pdf", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    LabelUploadResult.Text = fileName + " " + fileExtn + " isn't 'pdf'!";
-                    LabelUploadResult.ToolTip = "Can't upload file " + fileName + ", because " + fileExtn + " isn't 'pdf'!";
+                {                    
+                    if (fileCnt > 1)
+                        DivLabel.InnerHtml += "Can't upload " + fileName + ", cause " + fileExtn + " isn't 'pdf'!<br>\r\n";
+                    else
+                    {
+                        LabelUploadResult.Text = fileName + " " + fileExtn + " isn't 'pdf'!";
+                        LabelUploadResult.ToolTip = "Can't upload file " + fileName + ", because " + fileExtn + " isn't 'pdf'!";
+                    }
                     return;
                 }
 
                 if (ListBoxContainsItemByName(fileName) && File.Exists(filePath))
                 {
-                    LabelUploadResult.Text = fileName + " already exists.";
-                    LabelUploadResult.ToolTip = "Can't upload file " + fileName + ", because it already exists.";
+                    if (fileCnt > 1)
+                        DivLabel.InnerHtml += "file " + fileName + " already exists.<br>\r\n";
+                    else
+                    {
+                        LabelUploadResult.Text = fileName + " already exists.";
+                        LabelUploadResult.ToolTip = "Can't upload file " + fileName + ", because it already exists.";
+                    }
                     return;
                 }
 
                 byte[] fileBytes = pfile.InputStream.ToByteArray();
                 if (!fileBytes.Take(7).SequenceEqual(MimeType.PDF))
                 {
-                    LabelUploadResult.ToolTip = fileName + " might be a corrupted pdf after testing MIT magic sequence.";
-                    LabelUploadResult.Text = "Maybe corrupted ? ";
+                    if (fileCnt > 1)
+                        DivLabel.InnerHtml += "file " + fileName + " might be a corrupted pdf.<br>\r\n";
+                    else
+                    {
+                        LabelUploadResult.ToolTip = fileName + " might be a corrupted pdf after testing MIT magic sequence.";
+                        LabelUploadResult.Text = "Maybe corrupted ? ";
+                    }
                 }
 
                 pfile.SaveAs(filePath);
 
                 if (System.IO.File.Exists(filePath))
                 {
-                    LabelUploadResult.Text += fileName + " successfully uploaded.";
-                    LabelUploadResult.ToolTip = "File " + fileName + " has been successfully uploaded.";
+                    if (fileCnt > 1)
+                        DivLabel.InnerHtml += "file " + fileName + " successfully uploaded.<br>\r\n";
+                    else
+                    {
+                        LabelUploadResult.Text += fileName + " successfully uploaded.";
+                        LabelUploadResult.ToolTip = "File " + fileName + " has been successfully uploaded.\r\n" + LabelUploadResult.ToolTip;
+                    }
 
                     ListItem listItem = new ListItem(fileName);
                     ListBoxFilesUploaded.Items.Add(listItem);
                     Session[Constants.UPSAVED_FILE] = JoinedFiles;
 
-                    Base64Mime = Convert.ToBase64String(fileBytes, Base64FormattingOptions.None);
-                    DivObject.InnerHtml = String.Format(
-                            "<object data=\"data:application/pdf;base64,{0}\" type='application/pdf' width=\"640px\" height=\"480px\">" +
-                            "<p>Unable to display type application/pdf</p></object>\r\n", Base64Mime);
-                    DivObject.Visible = true;
+                    if (CheckBoxPreview.Checked && fileCnt == 1)
+                    {
+                        Base64Mime = Convert.ToBase64String(fileBytes, Base64FormattingOptions.None);
+                        DivObject.InnerHtml = String.Format(
+                                "<object data=\"data:application/pdf;base64,{0}\" type='application/pdf' width=\"640px\" height=\"480px\">" +
+                                "<p>Unable to display type application/pdf</p></object>\r\n", Base64Mime);
+                        DivObject.Visible = true;
+                    }
                 }
             }
             else

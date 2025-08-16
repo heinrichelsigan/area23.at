@@ -130,7 +130,7 @@ namespace Area23.At.Mono.Unix
             {
                 if (dcStr.Contains(word) || dcStr.ToLower().Contains(word.ToLower()))
                 {
-                    Area23Log.Logger.LogOriginMsg("Bc.aspx", " illegal dangerous token: " + word);
+                    Area23Log.LogOriginMsg("Bc.aspx", " illegal dangerous token: " + word);
                     this.TextBox_BcOut.Text += " illegal dangerous token: " + word + "\r\n";
                     return;
                 }
@@ -141,12 +141,12 @@ namespace Area23.At.Mono.Unix
             
             if (!string.IsNullOrEmpty(dcStr))
             {
-                Area23Log.Logger.LogOriginMsg("Bc.aspx", " unrecognized pattern: " + dcStr);
+                Area23Log.LogOriginMsg("Bc.aspx", " unrecognized pattern: " + dcStr);
                 this.TextBox_BcOut.Text += " unrecognized pattern: " + dcStr + "\r\n";
                 return;
             }
 
-            Area23Log.Logger.LogOriginMsg("Bc.aspx", " Executing: " + BC_CMD_PATH + " " + bcStr);
+            Area23Log.LogOriginMsg("Bc.aspx", " Executing: " + BC_CMD_PATH + " " + bcStr);
             try
             {                
                 string bcCmd = BC_CMD_PATH;                

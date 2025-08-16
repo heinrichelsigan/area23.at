@@ -90,7 +90,7 @@ namespace Area23.At.Mono.Unix
             }
             catch (Exception ex)
             {
-                Area23Log.Logger.LogOriginMsgEx("UnixMaster.master.cs", "Error when setting up masterpage for unix.", ex);
+                Area23Log.LogOriginMsgEx("UnixMaster.master.cs", "Error when setting up masterpage for unix.", ex);
             }            
         }
     }

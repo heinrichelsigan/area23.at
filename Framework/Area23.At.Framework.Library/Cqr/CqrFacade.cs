@@ -158,7 +158,7 @@ namespace Area23.At.Framework.Library.Cqr
             }
             catch (Exception exSoap)
             {
-                Area23Log.Logger.LogOriginMsgEx("CqrFacade", $"Exception {exSoap.GetType()}: {exSoap.Message}", exSoap);
+                Area23Log.LogOriginMsgEx("CqrFacade", $"Exception {exSoap.GetType()}: {exSoap.Message}", exSoap);
                 throw;
             }
 
@@ -278,7 +278,7 @@ namespace Area23.At.Framework.Library.Cqr
             }
             catch (Exception exSoap)
             {
-                Area23Log.Logger.LogOriginMsgEx("CqrFacade", $"Exception {exSoap.GetType()}: {exSoap.Message}", exSoap);
+                Area23Log.LogOriginMsgEx("CqrFacade", $"Exception {exSoap.GetType()}: {exSoap.Message}", exSoap);
                 throw;
             }
 
@@ -306,7 +306,7 @@ namespace Area23.At.Framework.Library.Cqr
             }
             catch (Exception exSoap)
             {
-                Area23Log.Logger.LogOriginMsgEx("CqrFacade", $"Exception {exSoap.GetType()}: {exSoap.Message}", exSoap);
+                Area23Log.LogOriginMsgEx("CqrFacade", $"Exception {exSoap.GetType()}: {exSoap.Message}", exSoap);
                 throw;
             }
 

@@ -47,7 +47,7 @@ namespace Area23.At.Framework.Library.Static
                     }
                     catch (Exception appFolderEx)
                     {
-                        Area23Log.Logger.LogOriginMsgEx("LibPaths", "AppPath.get throwed Exception " + appFolderEx.GetType(), appFolderEx);
+                        Area23Log.LogOriginMsgEx("LibPaths", "AppPath.get throwed Exception " + appFolderEx.GetType(), appFolderEx);
                     }
                     if (String.IsNullOrEmpty(appPath))
                         appPath = Constants.APP_DIR;
@@ -216,12 +216,12 @@ namespace Area23.At.Framework.Library.Static
                         try
                         {
                             string dirNotFoundMsg = String.Format("out directory {0} doesn't exist, creating it!", systemDirResPath);
-                            Area23Log.Logger.LogOriginMsg("LibPaths", dirNotFoundMsg);
+                            Area23Log.LogOriginMsg("LibPaths", dirNotFoundMsg);
                             Directory.CreateDirectory(systemDirResPath);
                         }
                         catch (Exception ex)
                         {
-                            Area23Log.Logger.LogOriginMsgEx("LibPaths", "SystemDirResPath.get throwed Exception " + ex.GetType(), ex);
+                            Area23Log.LogOriginMsgEx("LibPaths", "SystemDirResPath.get throwed Exception " + ex.GetType(), ex);
                         }
                     }
                 }

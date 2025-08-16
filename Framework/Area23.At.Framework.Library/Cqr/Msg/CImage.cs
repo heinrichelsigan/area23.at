@@ -554,14 +554,14 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 if (!md5Hash.Equals(cimg.Md5Hash))
                 {
                     string md5ErrMsg = $"md5Hash: {md5Hash} doesn't match property Md5Hash: {cimg.Md5Hash}";
-                    Area23Log.Logger.LogOriginMsg("CImage", md5ErrMsg);
+                    Area23Log.LogOriginMsg("CImage", md5ErrMsg);
                     // throw new CqrException(md5ErrMsg);
                 }
                 string sha256Hash = Sha256Sum.Hash(unroundedMerryBytes, "");
                 if (!sha256Hash.Equals(cimg.Sha256Hash))
                 {
                     string sha256ErrMsg = $"Sha256 from decrypted = {sha256Hash}, while this.Sha256Hash = {cimg.Sha256Hash}.";
-                    Area23Log.Logger.LogOriginMsg("CImage", sha256ErrMsg);
+                    Area23Log.LogOriginMsg("CImage", sha256ErrMsg);
                     // throw new CqrException(sha256ErrMsg);
                 }
 

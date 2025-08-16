@@ -36,7 +36,7 @@
     <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <PreferNativeArm64>true</PreferNativeArm64>
+    <PreferNativeArm64>false</PreferNativeArm64>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -212,6 +212,8 @@
     <Content Include="res\img\arrow\a_right.gif" />
     <Content Include="res\img\arrow\a_right_hover.gif" />
     <Content Include="res\img\arrow\a_up.gif" />
+    <Content Include="res\img\arrow\close_delete.gif" />
+    <Content Include="res\img\arrow\close_delete.png" />
     <Content Include="res\img\crypt\AddAesArrow.gif" />
     <Content Include="res\img\crypt\AddAesArrowHover.gif" />
     <Content Include="res\img\crypt\AddAesDenied.gif" />
@@ -272,6 +274,7 @@
     <Content Include="res\gamez\tictactoe\ticTacToeDraw.gif" />
     <Content Include="res\gamez\tictactoe\workerTicTacToe.gif" />
     <Content Include="res\img\symbol\access_denied.gif" />
+    <Content Include="res\img\symbol\close_delete.gif" />
     <Content Include="res\img\symbol\file_warning.gif" />
     <Content Include="res\img\symbol\file_working.gif" />
     <Content Include="res\img\symbol\key_ring.gif" />

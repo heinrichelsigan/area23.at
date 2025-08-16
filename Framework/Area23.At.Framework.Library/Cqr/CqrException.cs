@@ -25,7 +25,7 @@ namespace Area23.At.Framework.Library.Cqr
             Previous = (lastButNotLeast != null) ? (CqrException)lastButNotLeast : null;
             AppDomain.CurrentDomain.SetData(Constants.LAST_EXCEPTION, this);
 
-            Area23Log.Logger.LogOriginMsg("CqrException", message);
+            Area23Log.LogOriginMsg("CqrException", message);
         }
 
         public CqrException(string message, Exception innerException) : base(message, innerException)
@@ -35,7 +35,7 @@ namespace Area23.At.Framework.Library.Cqr
             Previous = (lastButNotLeast != null) ? lastButNotLeast : null;
             AppDomain.CurrentDomain.SetData(Constants.LAST_EXCEPTION, this);
 
-            Area23Log.Logger.LogOriginMsgEx("CqrException", message, innerException);
+            Area23Log.LogOriginMsgEx("CqrException", message, innerException);
         }
 
         public static void SetLastException(Exception exc)
@@ -51,7 +51,7 @@ namespace Area23.At.Framework.Library.Cqr
 
             AppDomain.CurrentDomain.SetData(Constants.LAST_EXCEPTION, cqrLastEx);
 
-            Area23Log.Logger.LogOriginMsgEx("CqrException", cqrLastEx.Message, cqrLastEx.InnerException ?? cqrLastEx);
+            Area23Log.LogOriginMsgEx("CqrException", cqrLastEx.Message, cqrLastEx.InnerException ?? cqrLastEx);
         }
     }
 

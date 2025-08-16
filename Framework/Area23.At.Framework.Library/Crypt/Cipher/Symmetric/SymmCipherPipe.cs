@@ -119,7 +119,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 SymmCipherEnum sym0 = symDict[hashBytes.ElementAt(kcnt)];               
                 pipeList.Add(sym0);
             }
-            Area23Log.Logger.LogOriginMsg("SymmCipherPipe", $"Generating symmetric encryption cipher pipe: {hexString}");
+            Area23Log.LogOriginMsg("SymmCipherPipe", $"Generating symmetric encryption cipher pipe: {hexString}");
 
             inPipe = new List<SymmCipherEnum>(pipeList).ToArray();
             outPipe = pipeList.Reverse<SymmCipherEnum>().ToArray();

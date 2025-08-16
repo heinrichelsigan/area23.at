@@ -55,7 +55,7 @@ namespace Area23.At.Framework.Library.Net.IpSocket
                     " TcpClient.Client.ReceiveBufferSize = " + tcpClient.Client.ReceiveBufferSize + " TcpClient.Client.ReceiveTimeout = " + tcpClient.Client.ReceiveTimeout + "\n" +
                     " TcpClient.Client.Ttl = " + tcpClient.Client.Ttl + " TcpClient.Client.NoDelay = " + tcpClient.Client.NoDelay + ",\n" +
                     " TcpClient.Client.Blocking = " + tcpClient.Client.Blocking + ";\n";
-                Area23Log.Logger.Log("Client: " + tcpClientSettings);
+                Area23Log.LogStatic("Client: " + tcpClientSettings);
                                            
 
                 using (NetworkStream netStream = tcpClient.GetStream())
@@ -77,7 +77,7 @@ namespace Area23.At.Framework.Library.Net.IpSocket
                 // foreach (char ch in charbuf) rs += ch;
                 if (Int32.TryParse(rs, out int rsize))
                 {
-                    Area23Log.Logger.Log($"msg.Length = {msg.Length}, rsize = {rsize}\n");
+                    Area23Log.LogStatic($"msg.Length = {msg.Length}, rsize = {rsize}\n");
                 }
                 // sr.BaseStream.Read(outbuf, 0, 8192);
                
@@ -97,7 +97,7 @@ namespace Area23.At.Framework.Library.Net.IpSocket
             }
             catch (Exception ex)
             {
-                Area23Log.Logger.Log(ex);
+                Area23Log.LogStatic(ex);
                 throw;
             }
 

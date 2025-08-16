@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Configuration;
+using System.IO;
 using System.Text;
 using System.Web;
+using System.Windows.Documents;
 
 namespace Area23.At.Framework.Library.Static
 {
@@ -459,8 +462,56 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
 
         #region public static properties
 
-        public static bool UNIX => (SEP_CHAR == '/');
-        public static bool WIN32 => (SEP_CHAR == '\\');
+        private static bool _unix = false;
+        public static bool UNIX
+        {
+            get
+            {
+                if (_unix)
+                    return _unix;
+
+                string pathUnix = "", os = "";
+                
+                if (ConfigurationManager.AppSettings["AppDirPathUnix"] != null)
+                    pathUnix = ConfigurationManager.AppSettings["AppDirPathUnix"];
+                                                                    
+                if (ConfigurationManager.AppSettings["OS"] != null)
+                    os = ConfigurationManager.AppSettings["OS"];
+                
+                _unix = ((System.AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("/") &&
+                            !System.AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("\\")) 
+                        || os.ToLower().Contains("x") 
+                        || Directory.Exists(pathUnix));
+
+                return _unix;
+            }
+        }
+            
+        private static bool _win32 = false;   
+
+        public static bool WIN32
+        {
+            get
+            {
+                if (_win32)
+                    return _win32;
+
+                string pathWin32 = "", os = "";
+                
+                if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)
+                    pathWin32 = ConfigurationManager.AppSettings["AppDirPathWin"];
+                
+                if (ConfigurationManager.AppSettings["OS"] != null)
+                    os = ConfigurationManager.AppSettings["OS"];
+
+                _win32 = ((AppDomain.CurrentDomain.BaseDirectory.Contains("\\") &&
+                            !AppDomain.CurrentDomain.BaseDirectory.Contains("/")) 
+                        || Directory.Exists(pathWin32) 
+                        || os.ToLower().Contains("win"));
+
+                return _win32;
+            }
+        }
 
         /// <summary>
         /// AppLogFile - logfile with <see cref="At.Framework.Library.Extensions.Area23Date(DateTime)"/> prefix

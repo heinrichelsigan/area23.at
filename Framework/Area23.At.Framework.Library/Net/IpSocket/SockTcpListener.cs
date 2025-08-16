@@ -84,7 +84,7 @@ namespace Area23.At.Framework.Library.Net.IpSocket
                     " ServerTcpListener.Server.ReceiveBufferSize = " + ServerTcpListener.Server.ReceiveBufferSize + ", ServerTcpListener.Server.ReceiveTimeout = " + ServerTcpListener.Server.ReceiveTimeout + ",\n" +
                     " ServerTcpListener.Server.Ttl = " + ServerTcpListener.Server.Ttl + ", ServerTcpListener.Server.NoDelay = " + ServerTcpListener.Server.NoDelay + ",\n" +
                     " ServerTcpListener.Server.Blocking = " + ServerTcpListener.Server.Blocking + ";\n";
-                Area23Log.Logger.Log("Server: " + tcpServerSettings);
+                Area23Log.LogStatic("Server: " + tcpServerSettings);
 
                 if (ServerTcpListener.Pending())
                 {
@@ -134,8 +134,8 @@ namespace Area23.At.Framework.Library.Net.IpSocket
                     " ClientTcpClient.Client.Ttl = " + ClientTcpClient.Client.Ttl + ", ClientTcpClient.Client.NoDelay = " + ClientTcpClient.Client.NoDelay + ",\n" +
                     " ClientTcpClient.Client.Blocking = " + ClientTcpClient.Client.Blocking + ";\n";    
                 string sstring = "Accept connection from " + clientIEP?.Address.ToString() + ":" + clientIEP?.Port.ToString() + " => " + ServerAddress?.ToString() + ":" + ServerEndPoint?.ToString();
-                Area23Log.Logger.LogInfo(sstring);
-                Area23Log.Logger.Log("Client: " + tcpClientSettings);
+                Area23Log.LogStatic(sstring);
+                Area23Log.LogStatic("Client: " + tcpClientSettings);
 
                 lock (_lock)
                 {
