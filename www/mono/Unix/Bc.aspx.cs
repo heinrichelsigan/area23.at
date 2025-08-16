@@ -12,7 +12,7 @@ namespace Area23.At.Mono.Unix
         // static Random random;
         string lastLine = "";
         object bcLock = new object();
-        private static readonly bool USE_UNIX = (Path.DirectorySeparatorChar == '/') ? true : false;
+        private static readonly bool USE_UNIX = Constants.UNIX;
         private readonly string BC_CMD_PATH = (USE_UNIX) ? "/usr/local/bin/bccmd.sh" : LibPaths.AdditionalBinDir + "bccmd.bat";
         const string BC_CMD = "bc";
         public readonly string[] BAD_WORDS = { "exit", "quit", "exec", "exe", "cat", "echo", "`", "$ (", "$ [", "$[", "$(", "run", "bash", "tcsh", "csh", "ksh", "tsh", "sh", "xargs", "^C", "^c", "^z", "^Z" };
