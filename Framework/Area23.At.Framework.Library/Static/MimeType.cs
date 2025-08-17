@@ -10,24 +10,24 @@ namespace Area23.At.Framework.Library.Static
     /// </summary>
     public class MimeType
     {
-        public static readonly byte[] BMP = { 66, 77 };
-        public static readonly byte[] DOC = { 208, 207, 17, 224, 161, 177, 26, 225 };
-        public static readonly byte[] EXE_DLL = { 77, 90 };
-        public static readonly byte[] GIF = { 71, 73, 70, 56 };
-        public static readonly byte[] ICO = { 0, 0, 1, 0 };
-        public static readonly byte[] JPG = { 255, 216, 255 };
-        public static readonly byte[] MP3 = { 255, 251, 48 };
-        public static readonly byte[] OGG = { 79, 103, 103, 83, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0 };
+        private static readonly byte[] BMP = { 66, 77 };
+        private static readonly byte[] DOC = { 208, 207, 17, 224, 161, 177, 26, 225 };
+        private static readonly byte[] EXE_DLL = { 77, 90 };
+        private static readonly byte[] GIF = { 71, 73, 70, 56 };
+        private static readonly byte[] ICO = { 0, 0, 1, 0 };
+        private static readonly byte[] JPG = { 255, 216, 255 };
+        private static readonly byte[] MP3 = { 255, 251, 48 };
+        private static readonly byte[] OGG = { 79, 103, 103, 83, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0 };
         public static readonly byte[] PDF = { 37, 80, 68, 70, 45, 49, 46 };
-        public static readonly byte[] PNG = { 137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82 };
-        public static readonly byte[] RAR = { 82, 97, 114, 33, 26, 7, 0 };
-        public static readonly byte[] SWF = { 70, 87, 83 };
-        public static readonly byte[] TIFF = { 73, 73, 42, 0 };
-        public static readonly byte[] TORRENT = { 100, 56, 58, 97, 110, 110, 111, 117, 110, 99, 101 };
-        public static readonly byte[] TTF = { 0, 1, 0, 0, 0 };
-        public static readonly byte[] WAV_AVI = { 82, 73, 70, 70 };
-        public static readonly byte[] WMV_WMA = { 48, 38, 178, 117, 142, 102, 207, 17, 166, 217, 0, 170, 0, 98, 206, 108 };
-        public static readonly byte[] ZIP_DOCX = { 80, 75, 3, 4 };
+        private static readonly byte[] PNG = { 137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82 };
+        private static readonly byte[] RAR = { 82, 97, 114, 33, 26, 7, 0 };
+        private static readonly byte[] SWF = { 70, 87, 83 };
+        private static readonly byte[] TIFF = { 73, 73, 42, 0 };
+        private static readonly byte[] TORRENT = { 100, 56, 58, 97, 110, 110, 111, 117, 110, 99, 101 };
+        private static readonly byte[] TTF = { 0, 1, 0, 0, 0 };
+        private static readonly byte[] WAV_AVI = { 82, 73, 70, 70 };
+        private static readonly byte[] WMV_WMA = { 48, 38, 178, 117, 142, 102, 207, 17, 166, 217, 0, 170, 0, 98, 206, 108 };
+        private static readonly byte[] ZIP_DOCX = { 80, 75, 3, 4 };
 
 
         // public static string DefaultMimeType = DEFAULTMIMETYPE
@@ -36,11 +36,11 @@ namespace Area23.At.Framework.Library.Static
         /// <summary>
         /// GetMimeType
         /// </summary>
-        /// <param name="file"><see cref="byte[]">byte[] binary array</see></param>
+        /// <param name="fileBytes"><see cref="byte[]">byte[] binary array</see></param>
         /// <param name="fileName">save filename</param>
         /// <returns>detected mime type by binary byte pattern, 
         /// if no specific mime type detect => default application/octet-stream</returns>
-        public static string GetMimeType(byte[] file, string fileName)
+        public static string GetMimeType(byte[] fileBytes, string fileName)
         {
 
             string mime = Constants.DEFAULT_MIMETYPE;
@@ -57,35 +57,35 @@ namespace Area23.At.Framework.Library.Static
                                    : Path.GetExtension(fileName).ToUpper();
 
             //Get the MIME Type
-            if (file.Take(2).SequenceEqual(BMP))
+            if (fileBytes.Take(2).SequenceEqual(BMP))
             {
                 mime = "image/bmp";
             }
-            else if (file.Take(8).SequenceEqual(DOC))
+            else if (fileBytes.Take(8).SequenceEqual(DOC))
             {
                 mime = "application/msword";
             }
-            else if (file.Take(2).SequenceEqual(EXE_DLL))
+            else if (fileBytes.Take(2).SequenceEqual(EXE_DLL))
             {
                 mime = "application/x-msdownload"; //both use same mime type
             }
-            else if (file.Take(4).SequenceEqual(GIF))
+            else if (fileBytes.Take(4).SequenceEqual(GIF))
             {
                 mime = "image/gif";
             }
-            else if (file.Take(4).SequenceEqual(ICO))
+            else if (fileBytes.Take(4).SequenceEqual(ICO))
             {
                 mime = "image/x-icon";
             }
-            else if (file.Take(3).SequenceEqual(JPG))
+            else if (fileBytes.Take(3).SequenceEqual(JPG))
             {
                 mime = "image/jpeg";
             }
-            else if (file.Take(3).SequenceEqual(MP3))
+            else if (fileBytes.Take(3).SequenceEqual(MP3))
             {
                 mime = "audio/mpeg";
             }
-            else if (file.Take(14).SequenceEqual(OGG))
+            else if (fileBytes.Take(14).SequenceEqual(OGG))
             {
                 if (extension == ".OGX")
                 {
@@ -100,43 +100,43 @@ namespace Area23.At.Framework.Library.Static
                     mime = "video/ogg";
                 }
             }
-            else if (file.Take(7).SequenceEqual(PDF))
+            else if (fileBytes.Take(7).SequenceEqual(PDF))
             {
                 mime = "application/pdf";
             }
-            else if (file.Take(16).SequenceEqual(PNG))
+            else if (fileBytes.Take(16).SequenceEqual(PNG))
             {
                 mime = "image/png";
             }
-            else if (file.Take(7).SequenceEqual(RAR))
+            else if (fileBytes.Take(7).SequenceEqual(RAR))
             {
                 mime = "application/x-rar-compressed";
             }
-            else if (file.Take(3).SequenceEqual(SWF))
+            else if (fileBytes.Take(3).SequenceEqual(SWF))
             {
                 mime = "application/x-shockwave-flash";
             }
-            else if (file.Take(4).SequenceEqual(TIFF))
+            else if (fileBytes.Take(4).SequenceEqual(TIFF))
             {
                 mime = "image/tiff";
             }
-            else if (file.Take(11).SequenceEqual(TORRENT))
+            else if (fileBytes.Take(11).SequenceEqual(TORRENT))
             {
                 mime = "application/x-bittorrent";
             }
-            else if (file.Take(5).SequenceEqual(TTF))
+            else if (fileBytes.Take(5).SequenceEqual(TTF))
             {
                 mime = "application/x-font-ttf";
             }
-            else if (file.Take(4).SequenceEqual(WAV_AVI))
+            else if (fileBytes.Take(4).SequenceEqual(WAV_AVI))
             {
                 mime = extension == ".AVI" ? "video/x-msvideo" : "audio/x-wav";
             }
-            else if (file.Take(16).SequenceEqual(WMV_WMA))
+            else if (fileBytes.Take(16).SequenceEqual(WMV_WMA))
             {
                 mime = extension == ".WMA" ? "audio/x-ms-wma" : "video/x-ms-wmv";
             }
-            else if (file.Take(4).SequenceEqual(ZIP_DOCX))
+            else if (fileBytes.Take(4).SequenceEqual(ZIP_DOCX))
             {
                 mime = extension == ".DOCX" ? "application/vnd.openxmlformats-officedocument.wordprocessingml.document" : "application/x-zip-compressed";
             }
@@ -410,7 +410,7 @@ namespace Area23.At.Framework.Library.Static
             }
             return false;
         }
-             
+
 
     }
 

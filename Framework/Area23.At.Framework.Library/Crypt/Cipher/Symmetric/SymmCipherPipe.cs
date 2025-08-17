@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
 
@@ -15,7 +14,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     /// </summary>
     public class SymmCipherPipe
     {
-        
+
         private readonly SymmCipherEnum[] inPipe;
         public readonly SymmCipherEnum[] outPipe;
         private readonly string pipeString;
@@ -82,7 +81,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             inPipe = new List<SymmCipherEnum>(symmCipherEnums).ToArray();
             outPipe = symmCipherEnums.Reverse<SymmCipherEnum>().ToArray();
             pipeString = "";
-           foreach (SymmCipherEnum symmCipher in inPipe)
+            foreach (SymmCipherEnum symmCipher in inPipe)
                 pipeString += symmCipher.GetSymmCipherChar();
         }
 
@@ -116,7 +115,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             for (int kcnt = 0; kcnt < hashBytes.Count && pipeList.Count < maxpipe; kcnt++)
             {
                 hexString += hashBytes.ElementAt(kcnt).ToString();
-                SymmCipherEnum sym0 = symDict[hashBytes.ElementAt(kcnt)];               
+                SymmCipherEnum sym0 = symDict[hashBytes.ElementAt(kcnt)];
                 pipeList.Add(sym0);
             }
             Area23Log.LogOriginMsg("SymmCipherPipe", $"Generating symmetric encryption cipher pipe: {hexString}");
@@ -262,6 +261,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         #endregion static members EncryptBytesFast DecryptBytesFast
 
+        #region multiple rounds en-de-cryption
+
         /// <summary>
         /// MerryGoRoundEncrpyt starts merry to go arround from left to right in clock hour cycle
         /// </summary>
@@ -361,6 +362,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             => DecrpytRoundGoMerry(cipherBytes, secretKey, EnDeCodeHelper.KeyToHex(secretKey), unzipAfter);
 
 
+        #region static en-de-crypt members
+
         /// <summary>
         /// EncrpytToStringd
         /// </summary>
@@ -371,12 +374,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="encoding"><see cref="EncodingType"/ type for encoding encrypted bytes back in plain text></param>
         /// <param name="zipBefore">Zip bytes with <see cref="ZipType"/> before passing them in encrypted stage pipeline. <see cref="ZipTypeExtensions.Zip(ZipType, byte[])"/></param>
         /// <returns>encrypted string</returns>
-        public static string EncrpytToString(string inString, string cryptKey, out string pipeStrig,
+        public static string EncrpytToString(string inString, string cryptKey, out string pipeString,
             EncodingType encoding = EncodingType.Base64, ZipType zipBefore = ZipType.None)
         {
             // construct symmetric cipher pipeline with cryptKey and pass pipeString as out param            
             SymmCipherPipe symmPipe = new SymmCipherPipe(cryptKey);
-            pipeStrig = symmPipe.PipeString;
+            pipeString = symmPipe.PipeString;
 
             // Transform string to bytes
             byte[] inBytes = EnDeCodeHelper.GetBytesFromString(inString);
@@ -388,12 +391,27 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             return encrypted;
         }
 
-        public static string EncrpytFromBytesToString(byte[] plainBytes, string cryptKey, out string pipeStrig,
+        public static byte[] EncrpytStringToBytes(string inString, string cryptKey, out string pipeString,
             EncodingType encoding = EncodingType.Base64, ZipType zipBefore = ZipType.None)
         {
             // construct symmetric cipher pipeline with cryptKey and pass pipeString as out param            
             SymmCipherPipe symmPipe = new SymmCipherPipe(cryptKey);
-            pipeStrig = symmPipe.PipeString;
+            pipeString = symmPipe.PipeString;
+
+            // Transform string to bytes
+            byte[] inBytes = EnDeCodeHelper.GetBytesFromString(inString);
+            // perform multi crypt pipe stages
+            byte[] encryptedBytes = symmPipe.EncrpytGoRounds(inBytes, cryptKey, zipBefore);
+
+            return encryptedBytes;
+        }
+
+        public static string EncrpytBytesToString(byte[] plainBytes, string cryptKey, out string pipeString,
+            EncodingType encoding = EncodingType.Base64, ZipType zipBefore = ZipType.None)
+        {
+            // construct symmetric cipher pipeline with cryptKey and pass pipeString as out param            
+            SymmCipherPipe symmPipe = new SymmCipherPipe(cryptKey);
+            pipeString = symmPipe.PipeString;
 
             // perform multi crypt pipe stages
             byte[] encryptedBytes = symmPipe.EncrpytGoRounds(plainBytes, cryptKey, zipBefore);
@@ -402,6 +420,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             return encrypted;
         }
+
 
         /// <summary>
         /// DecrpytToString
@@ -448,6 +467,29 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             return unroundedMerryBytes;
         }
+
+        public static string DecrpytBytesToString(byte[] cipherBytes, string cryptKey, out string pipeString,
+            EncodingType decoding = EncodingType.Base64, ZipType unzipAfter = ZipType.None)
+        {
+            // create symmetric cipher pipe for decryption with crypt key and pass pipeString as out param
+            SymmCipherPipe symmPipe = new SymmCipherPipe(cryptKey);
+            pipeString = symmPipe.PipeString;
+
+            // staged decryption of bytes
+            byte[] unroundedMerryBytes = symmPipe.DecrpytRoundsGo(cipherBytes, cryptKey, unzipAfter);
+
+            // Get string from decrypted bytes
+            string decrypted = EnDeCodeHelper.GetString(unroundedMerryBytes);
+            // find first \0 = NULL char in string and truncate all after first \0 apperance in string
+            while (decrypted[decrypted.Length - 1] == '\0')
+                decrypted = decrypted.Substring(0, decrypted.Length - 1);
+
+            return decrypted;
+        }
+
+        #endregion static en-de-crypt members
+
+        #endregion multiple rounds en-de-cryption
 
     }
 
