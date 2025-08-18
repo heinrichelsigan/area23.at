@@ -1,5 +1,4 @@
 ﻿using Area23.At.Framework.Library.Static;
-using NLog;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -9,7 +8,7 @@ namespace Area23.At.Framework.Library.Util
 {
 
     /// <summary>
-    /// simple singelton logger via NLog
+    /// simple static logger via NLog
     /// </summary>
     public class Area23Log
     {
@@ -18,7 +17,6 @@ namespace Area23.At.Framework.Library.Util
 
         private static readonly object _lock = new object(), _outerLock = new object();
         private static readonly Lazy<Area23Log> instance = new Lazy<Area23Log>(() => new Area23Log());
-        private static Logger nlogger = LogManager.GetCurrentClassLogger();
 
         private static int checkedToday = DateTime.UtcNow.Date.Day;
 
@@ -42,10 +40,6 @@ namespace Area23.At.Framework.Library.Util
             }
         }
 
-        #endregion static fields and properties
-
-        #region properties
-
         public static string AppName { get; private set; } = string.Empty;
 
         /// <summary>
@@ -53,39 +47,37 @@ namespace Area23.At.Framework.Library.Util
         /// </summary>
         public static string LogFile { get; private set; }
 
-        #endregion properties
+        #endregion static fields and properties
 
         #region ctor
 
+        /// <summary>
+        /// private Singelton constructor
+        /// </summary>
         static Area23Log()
         {
-            InitNLog("");
+            LogFile = LibPaths.LogFileSystemPath;
+            InitLog("");
         }
-
-        /// <summary>
-        /// private Singelton constructor
-        /// </summary>
-        public Area23Log()
-        {
-            InitNLog("");
-        }
-
-        /// <summary>
-        /// private Singelton constructor
-        /// </summary>
-        public Area23Log(string appName = "")
-        {
-            if (!string.IsNullOrEmpty(appName))
-                AppName = appName;
-
-            InitNLog(AppName);
-        }
-
 
         #endregion ctor
 
         #region static members
 
+        /// <summary>
+        /// InitLog init Log configuration
+        /// </summary>
+        /// <param name="appName">application name</param>
+        protected internal static void InitLog(string appName = "")
+        {
+            if (!string.IsNullOrEmpty(appName))
+                AppName = appName;
+
+            if (!string.IsNullOrEmpty(AppName))
+                LogFile = LibPaths.GetLogFilePath(AppName);
+            else
+                LogFile = LibPaths.LogFileSystemPath;
+        }
 
         public static void SetLogFileByAppName(string appName = "")
         {
@@ -169,9 +161,6 @@ namespace Area23.At.Framework.Library.Util
 
         }
 
-
-
-
         /// <summary>
         /// Log - static logging method
         /// </summary>
@@ -205,102 +194,6 @@ namespace Area23.At.Framework.Library.Util
         public static void LogStatic(string prefix, Exception xZpd, string appName) => Area23Log.LogOriginMsgEx(appName, prefix, xZpd);
 
         public static void LogStatic(Exception ex, string appName = "") => Area23Log.Log(ex, appName);
-
-        #endregion static members
-
-        #region members
-
-        /// <summary>
-        /// InitNLog init NLog configuration
-        /// </summary>
-        /// <param name="appName">application name</param>
-        protected internal static void InitNLog(string appName = "")
-        {
-            if (!string.IsNullOrEmpty(appName))
-                AppName = appName;
-
-            if (!string.IsNullOrEmpty(AppName))
-                LogFile = LibPaths.GetLogFilePath(AppName);
-            else
-                LogFile = LibPaths.LogFileSystemPath;
-
-            var config = new NLog.Config.LoggingConfiguration();
-            // Targets where to log to: File and Console            
-
-            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = LogFile };
-            var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
-            // Rules for mapping loggers to targets            
-            config.AddRule(LogLevel.Trace, LogLevel.Trace, logconsole);
-            config.AddRule(LogLevel.Debug, LogLevel.Debug, logfile);
-            config.AddRule(LogLevel.Info, LogLevel.Info, logfile);
-            config.AddRule(LogLevel.Warn, LogLevel.Warn, logfile);
-            config.AddRule(LogLevel.Error, LogLevel.Error, logfile);
-            config.AddRule(LogLevel.Fatal, LogLevel.Fatal, logfile);
-            LogManager.Configuration = config; // Apply config
-        }
-
-        /// <summary>
-        /// log - logs to NLog
-        /// </summary>
-        /// <param name="msg">debug msg to log</param>
-        /// <param name="logLevel">log level: 0 for Trace, 1 for Debug, ..., 4 for Error, 5 for Fatal</param>
-        public void NLog(string msg, int logLevel = 3)
-        {
-            if (string.IsNullOrEmpty(LogFile) || !CheckedToday)
-            {
-                lock (_lock)
-                {
-                    InitNLog(AppName);
-                }
-            }
-
-            LogLevel nlogLvl = LogLevel.FromOrdinal(logLevel);
-            try
-            {
-                nlogger.Log(nlogLvl, msg);
-            }
-            catch (Exception exLog)
-            {
-                AppDomain.CurrentDomain.SetData("LogExceptionNLog",
-                    DateTime.Now.Area23DateTimeWithSeconds() + $" \tException: {exLog.GetType()} {exLog.Message} \n" + exLog.ToString());
-
-                Console.Error.WriteLine(Constants.DateArea23Seconds + $" \tException: {exLog.GetType()} {exLog.Message} writing to logfile: {LogFile}\n{exLog}\n");
-            }
-        }
-
-        #region LogLevelLogger members
-
-        public void LogDebug(string msg)
-        {
-            NLog(msg, LogLevel.Debug.Ordinal);
-        }
-
-        public void LogInfo(string msg)
-        {
-            NLog(msg, LogLevel.Info.Ordinal);
-        }
-
-        public void LogWarn(string msg)
-        {
-            NLog(msg, LogLevel.Warn.Ordinal);
-        }
-
-        public void LogError(string msg)
-        {
-            NLog(msg, LogLevel.Error.Ordinal);
-        }
-
-        #endregion LogLevelLogger members
-
-        /// <summary>
-        /// log Exception
-        /// </summary>
-        /// <param name="ex">Exception ex to log</param>
-        /// <param name="level">log level: 0 for Trace, 1 for Debug, ..., 4 for Error, 5 for Fatal</param>
-        public static void Log(Exception ex, int level = 2)
-        {
-            LogStatic(ex);
-        }
 
         /// <summary>
         /// Log origin with message to NLog
@@ -339,7 +232,7 @@ namespace Area23.At.Framework.Library.Util
                 LogStatic($"{logPrefix} \t{ex.GetType()} StackTrace: \t{ex.StackTrace}");
         }
 
-        #endregion members
+        #endregion static members
 
     }
 

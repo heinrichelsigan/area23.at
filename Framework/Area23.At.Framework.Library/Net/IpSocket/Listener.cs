@@ -88,7 +88,7 @@ namespace Area23.At.Framework.Library.Net.IpSocket
                     IPEndPoint clientIEP = (IPEndPoint)ClientSocket.RemoteEndPoint;
                     string sstring = "Accept connection from " + clientIEP.Address.ToString() + ":" + clientIEP.Port.ToString() +
                         " => " + ServerAddress.ToString() + ":" + ServerEndPoint.ToString();
-                    Area23Log.LogStatic(sstring);
+                    Area23Log.Log(sstring);
 
                     ClientSocket.ReceiveBufferSize = Constants.MAX_BYTE_BUFFEER;
                     SocketFlags flags = SocketFlags.None;

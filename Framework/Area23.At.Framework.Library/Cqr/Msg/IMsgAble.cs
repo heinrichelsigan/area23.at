@@ -1,4 +1,12 @@
-﻿namespace Area23.At.Framework.Library.Cqr.Msg
+﻿using Area23.At.Framework.Library.Cqr;
+using Area23.At.Framework.Library.Cqr.Msg;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Area23.At.Framework.Library.Cqr.Msg
 {
     public interface IMsgAble
     {

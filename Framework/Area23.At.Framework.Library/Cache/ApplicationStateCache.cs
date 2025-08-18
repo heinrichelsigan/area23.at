@@ -33,37 +33,37 @@ namespace Area23.At.Framework.Library.Cache
         public override ConcurrentDictionary<string, CacheValue> LoadDictionaryCache(bool repeatLoadingPeriodically = false)
         {
 
-                _timePassedSinceLastRW = DateTime.Now.Subtract(_lastCacheRW);
+            _timePassedSinceLastRW = DateTime.Now.Subtract(_lastCacheRW);
 
-                if (HttpContext.Current != null && HttpContext.Current.Application != null &&
-                    HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT] != null)
+            if (HttpContext.Current != null && HttpContext.Current.Application != null &&
+                HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT] != null)
+            {
+                lock (_smartLock)
                 {
-                    lock (_smartLock)
+                    try
                     {
-                        try
-                        {
-                            _appDict = (ConcurrentDictionary<string, CacheValue>)HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT];
-                            _lastCacheRW = DateTime.Now;                        
-                        }
-                        catch (Exception ex)
-                        {
-                            Area23.At.Framework.Library.Util.Area23Log.LogStatic(ex);
-                        }
-                    }
-                }
-
-
-                if (_appDict == null)
-                {
-                    lock (_smartLock)
-                    {
-                        _appDict = new ConcurrentDictionary<string, CacheValue>();
-                        HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT] = _appDict;
+                        _appDict = (ConcurrentDictionary<string, CacheValue>)HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT];
                         _lastCacheRW = DateTime.Now;
                     }
+                    catch (Exception ex)
+                    {
+                        Area23.At.Framework.Library.Util.Area23Log.LogOriginMsgEx("ApplicationStateCache",
+                            "LoadDictionaryCache(repeatLoadingPeriodically=" + repeatLoadingPeriodically + ") throwed Exception " + ex.GetType(), ex);
+                    }
                 }
+            }
 
-                return _appDict;            
+            if (_appDict == null)
+            {
+                lock (_smartLock)
+                {
+                    _appDict = new ConcurrentDictionary<string, CacheValue>();
+                    HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT] = _appDict;
+                    _lastCacheRW = DateTime.Now;
+                }
+            }
+
+            return _appDict;
         }
 
         /// <summary>

@@ -3,7 +3,7 @@ using System.Configuration;
 using System.IO;
 using System.Text;
 using System.Web;
-using System.Windows.Documents;
+
 
 namespace Area23.At.Framework.Library.Static
 {
@@ -82,7 +82,7 @@ namespace Area23.At.Framework.Library.Static
         public const string FR_CQRXS_EU = "fr.cqrxs.eu";
         public const string PARIS_CQRXS_EU = "paris.cqrxs.eu";
         public const string PARISIENNSE_CQRXS_EU = "parisienne.cqrxs.eu";
-        
+
         public const string DE_CQRXS_EU = "de.cqrxs.eu";
         public const string FRANKFURT_CQRXS_EU = "frankfurt.cqrxs.eu";
         public const string BERLINERIN_CQRXS_EU = "berlinerin.cqrxs.eu";
@@ -97,7 +97,7 @@ namespace Area23.At.Framework.Library.Static
         public const string UK_CQRXS_EU = "uk.cqrxs.eu";
         public const string LONDON_CQRXS_EU = "london.cqrxs.eu";
         public const string EDINBURGH_CQRXS_EU = "edinburgh.cqrxs.eu";
-        
+
         public const string CH_CQRXS_EU = "ch.cqrxs.eu";
         public const string ZURICH_CQRXS_EU = "zurich.cqrxs.eu";
         public const string BERNERIN_CQRXS_EU = "bernerin.cqrxs.eu";
@@ -115,7 +115,7 @@ namespace Area23.At.Framework.Library.Static
         public const string CQRXS_DELETE_DATA_ON_CLOSE = "CqrXsDeleteDataOnClose";
         public const string PERSIST_MSG_IN = "PersistMsgIn";
         public const string PERSIST_MSG_IN_APPLICATION_STATE = "ApplicationState";
-        public const string PERSIST_MSG_IN_AMAZON_ELASTIC_CACHE = "AmazonElasticCache";        
+        public const string PERSIST_MSG_IN_AMAZON_ELASTIC_CACHE = "AmazonElasticCache";
         public const string PERSIST_MSG_IN_FILE_SYSTEM = "FileSystem";
 
         public const string ACK = "Ack";
@@ -158,7 +158,7 @@ namespace Area23.At.Framework.Library.Static
         public const string LOG_DIR = "log";
         public const string LOG_EXT = ".log";
         public const string LOG_EXCEPTION_STATIC = "LogExceptionStatic";
-        public const string OUT_DIR = "out";        
+        public const string OUT_DIR = "out";
         public const string QR_DIR = "Qr";
         public const string RES_DIR = "res";
         public const string RES_FOLDER = "res";
@@ -167,7 +167,7 @@ namespace Area23.At.Framework.Library.Static
         public const string UNIX_DIR = "Unix";
         public const string UTF8_DIR = "Utf8";
         public const string UU_DIR = "uu";
-        
+
         public const string OBJ_DIR = "obj";
         public const string RELEASE_DIR = "Release";
         public const string DEBUG_DIR = "Release";
@@ -186,13 +186,13 @@ namespace Area23.At.Framework.Library.Static
         public const string JSON_SAVE_FILE = "urlshort.json";
         public const string JSON_CONTACTS = "contacts";
         public const string JSON_CONTACTS_FILE = "contacts.json";
-        public const string JSON_SETTINGS_FILE = "settings.json";        
+        public const string JSON_SETTINGS_FILE = "settings.json";
         public const string CQR_CHAT_FILE = "cqr{0}chat.json";
         public const string PREVIOUS_EXCEPTION = "previous_exception";
         public const string LAST_EXCEPTION = "last_exception";
         public const string COOL_CRYPT_SPLIT = "+-;,:→⇛\t ";
 
-        
+
         public const string FORTUNE_BOOL = "FORTUNE_BOOL";
         public const string UNKNOWN = "UnKnown";
         public const string DEFAULT_MIMETYPE = "application/octet-stream";
@@ -407,7 +407,7 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
 -----END PRIVATE KEY-----";
 
 
-        
+
 
 #pragma warning restore CA1707 // Identifiers should not contain underscores
         #endregion public const
@@ -471,23 +471,23 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
                     return _unix;
 
                 string pathUnix = "", os = "";
-                
+
                 if (ConfigurationManager.AppSettings["AppDirPathUnix"] != null)
                     pathUnix = ConfigurationManager.AppSettings["AppDirPathUnix"];
-                                                                    
+
                 if (ConfigurationManager.AppSettings["OS"] != null)
                     os = ConfigurationManager.AppSettings["OS"];
-                
+
                 _unix = ((System.AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("/") &&
-                            !System.AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("\\")) 
-                        || os.ToLower().Contains("x") 
+                            !System.AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("\\"))
+                        || os.ToLower().Contains("x")
                         || Directory.Exists(pathUnix));
 
                 return _unix;
             }
         }
-            
-        private static bool _win32 = false;   
+
+        private static bool _win32 = false;
 
         public static bool WIN32
         {
@@ -497,16 +497,16 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
                     return _win32;
 
                 string pathWin32 = "", os = "";
-                
+
                 if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)
                     pathWin32 = ConfigurationManager.AppSettings["AppDirPathWin"];
-                
+
                 if (ConfigurationManager.AppSettings["OS"] != null)
                     os = ConfigurationManager.AppSettings["OS"];
 
                 _win32 = ((AppDomain.CurrentDomain.BaseDirectory.Contains("\\") &&
-                            !AppDomain.CurrentDomain.BaseDirectory.Contains("/")) 
-                        || Directory.Exists(pathWin32) 
+                            !AppDomain.CurrentDomain.BaseDirectory.Contains("/"))
+                        || Directory.Exists(pathWin32)
                         || os.ToLower().Contains("win"));
 
                 return _win32;

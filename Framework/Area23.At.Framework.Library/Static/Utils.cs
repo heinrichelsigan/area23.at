@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Area23.At.Framework.Library.Util;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -61,7 +62,7 @@ namespace Area23.At.Framework.Library.Static
                 catch (Exception exNull)
                 {
                     error = true;
-                    SLog.Log($"Error in Ext SetNull(params object[] os): {o} {exNull.Message} ...");
+                    Area23Log.Log($"Error in Ext SetNull(params object[] os): {o} {exNull.Message} ...");
                 }
             }
 
@@ -91,7 +92,7 @@ namespace Area23.At.Framework.Library.Static
                 catch (Exception exNull)
                 {
                     error = true;
-                    SLog.Log($"Error in Ext SetNullT<T>(params T[] ts) {t.ToString()} {exNull.Message} ....");
+                    Area23Log.Log($"Error in Ext SetNullT<T>(params T[] ts) {t.ToString()} {exNull.Message} ....");
                 }
             }
 
@@ -118,8 +119,8 @@ namespace Area23.At.Framework.Library.Static
             }
             catch (Exception exSerialize)
             {
-                SLog.Log($"Exception {exSerialize.GetType()} in static byte[]? SerializeToXml<T = {obj.GetType()}>(T obj, out serialized)  {exSerialize.Message}\n");
-                SLog.Log(exSerialize);
+                Area23Log.Log($"Exception {exSerialize.GetType()} in static byte[]? SerializeToXml<T = {obj.GetType()}>(T obj, out serialized)  {exSerialize.Message}\n");
+                Area23Log.Log(exSerialize);
             }
 
             return xml;
@@ -146,8 +147,8 @@ namespace Area23.At.Framework.Library.Static
             }
             catch (Exception exDeserialize)
             {
-                SLog.Log($"Exception {exDeserialize.GetType()} in static T? ({result.GetType()}) DeserializeFromXml<T = {result.GetType()}>(string xml) {exDeserialize.Message}\n");
-                SLog.Log(exDeserialize);
+                Area23Log.Log($"Exception {exDeserialize.GetType()} in static T? ({result.GetType()}) DeserializeFromXml<T = {result.GetType()}>(string xml) {exDeserialize.Message}\n");
+                Area23Log.Log(exDeserialize);
             }
 
             return result;
