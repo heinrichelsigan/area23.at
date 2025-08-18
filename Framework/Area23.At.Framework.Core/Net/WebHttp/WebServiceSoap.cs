@@ -28,7 +28,7 @@ namespace Area23.At.Framework.Core.Net.WebHttp
         /// <returns>external official gateway <see cref="IPAddress">ip address</see> of client</returns>
         public static IPAddress? ExternalClientIpFromServer()
         {
-            CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoapv4);
+            CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoap);
             string resp = client.GetIPAddress();
             return IPAddress.Parse(resp);
         }
@@ -39,7 +39,7 @@ namespace Area23.At.Framework.Core.Net.WebHttp
         /// <returns>external official gateway <see cref="IPAddress">ip address</see> of client</returns>
         public static IPAddress? ExternalClientIpv6FromServer()
         {
-            CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoapv6);
+            CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoapV6);
             string resp = client.GetIPAddress();
             return IPAddress.Parse(resp);
         }

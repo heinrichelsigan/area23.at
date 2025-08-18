@@ -40,6 +40,33 @@ namespace Area23.At.Framework.Core.Static
             }
         }
 
+
+        public static string JsonContactsFile
+        {
+            get
+            {
+                string loadFileName = System.IO.Path.Combine(LibPaths.SystemDirJsonPath, Constants.JSON_CONTACTS_FILE);
+                if (!File.Exists(loadFileName))
+                {
+                    loadFileName = AppContext.BaseDirectory.
+                        Replace(LibPaths.SepChar + Constants.BIN_DIR, "").Replace(LibPaths.SepChar + Constants.OBJ_DIR, "").
+                        Replace(LibPaths.SepChar + Constants.RELEASE_DIR, "").Replace(LibPaths.SepChar + Constants.DEBUG_DIR, "");
+                    loadFileName += (loadFileName.EndsWith(LibPaths.SepChar)) ? "" : LibPaths.SepChar;
+                    loadFileName += Constants.RES_DIR + LibPaths.SepChar + Constants.JSON_CONTACTS_FILE;
+                }
+                if (!File.Exists(loadFileName))
+                {
+                    loadFileName = AppDomain.CurrentDomain.BaseDirectory.
+                        Replace(LibPaths.SepChar + Constants.BIN_DIR, "").Replace(LibPaths.SepChar + Constants.OBJ_DIR, "").
+                        Replace(LibPaths.SepChar + Constants.RELEASE_DIR, "").Replace(LibPaths.SepChar + Constants.DEBUG_DIR, "");
+                    loadFileName += (loadFileName.EndsWith(LibPaths.SepChar)) ? "" : LibPaths.SepChar;
+                    loadFileName += Constants.RES_DIR + LibPaths.SepChar + Constants.JSON_CONTACTS_FILE;
+                }
+                return loadFileName;
+            }
+        }
+
+
         public static Dictionary<string, Uri> ShortenMapJson
         {
             get
@@ -54,7 +81,7 @@ namespace Area23.At.Framework.Core.Static
                 }
                 catch (Exception getMapEx)
                 {
-                    SLog.Log(getMapEx);
+                    Area23Log.LogOriginMsgEx("JsonHelper", "ShortenMapJson.get", getMapEx);
                     tmpDict = null;
                 }
 
@@ -63,7 +90,7 @@ namespace Area23.At.Framework.Core.Static
                     tmpDict = new Dictionary<string, Uri>();
                 }
 
-                SLog.Log("urlshorter dict count: " + tmpDict.Count);
+                Area23Log.LogOriginMsg("JsonHelper", "urlshorter dict count: " + tmpDict.Count);
                 AppDomain.CurrentDomain.SetData(Constants.UTF8_JSON, tmpDict);
                 return tmpDict;
             }

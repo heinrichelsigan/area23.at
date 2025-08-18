@@ -1,12 +1,8 @@
 ﻿using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Static;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
+using Area23.At.Framework.Core.Zfx;
+
 
 namespace Area23.At.Framework.Core.Crypt.Cipher
 {
@@ -190,7 +186,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                     encryptBytes = Serpent.Encrypt(inBytes);
                     break;
                 case CipherEnum.ZenMatrix:
-                    encryptBytes = (new ZenMatrix(secretKey, hash, false)).Encrypt(inBytes);
+                    encryptBytes = (new ZenMatrix(secretKey, hash, true)).Encrypt(inBytes);
                     break;
                 case CipherEnum.ZenMatrix2:
                     encryptBytes = (new ZenMatrix2(secretKey, hash, false)).Encrypt(inBytes);
@@ -263,7 +259,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                     decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes);
                     break;
                 case CipherEnum.ZenMatrix:
-                    decryptBytes = (new ZenMatrix(secretKey, hash, false)).Decrypt(cipherBytes);
+                    decryptBytes = (new ZenMatrix(secretKey, hash, true)).Decrypt(cipherBytes);
                     break;
                 case CipherEnum.ZenMatrix2:
                     decryptBytes = (new ZenMatrix2(secretKey, hash, false)).Decrypt(cipherBytes);
@@ -308,36 +304,42 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
 
         #endregion static members EncryptBytesFast DecryptBytesFast
 
+        #region multiple rounds en-de-cryption
+
         /// <summary>
         /// MerryGoRoundEncrpyt starts merry to go arround from left to right in clock hour cycle
         /// </summary>
         /// <param name="inBytes">plain <see cref="byte[]"/ to encrypt></param>
         /// <param name="secretKey">user secret key to use for all symmetric cipher algorithms in the pipe</param>
         /// <param name="hashIv">hash key iv relational to secret key</param>
+        /// <param name="zipBefore"><see cref="ZipType"/> and <see cref="ZipTypeExtensions.Zip(ZipType, byte[])"/></param>
         /// <returns>encrypted byte[]</returns>
-        public byte[] MerryGoRoundEncrpyt(byte[] inBytes, string secretKey = "heinrich.elsigan@area23.at", string hashIv = "")
+        public byte[] MerryGoRoundEncrpyt(byte[] inBytes, string secretKey = "heinrich.elsigan@area23.at", string hashIv = "", ZipType zipBefore = ZipType.None)
         {
             if (!string.IsNullOrEmpty(secretKey))
                 cipherKey = secretKey;
             cipherHash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(cipherKey) : hashIv;
-			
-            long outByteLen = (InPipe == null || InPipe.Length == 0) ? inBytes.Length : ((inBytes.Length * 3) + 1);
-            byte[] encryptedBytes = new byte[outByteLen];
+            
+            byte[] encryptedBytes = new byte[inBytes.Length];
+            Array.Copy(inBytes, 0, encryptedBytes, 0, inBytes.Length);
 #if DEBUG
             stageDictionary = new Dictionary<CipherEnum, byte[]>();
-            // stageDictionary.Add(CipherEnum.ZenMatrix, inBytes);
+            // stageDictionary.Add(SymmCipherEnum.ZenMatrix, inBytes);
 #endif
-            if (InPipe == null || InPipe.Length == 0)
-                Array.Copy(inBytes, 0, encryptedBytes, 0, inBytes.Length);
-            else
-				foreach (CipherEnum cipher in InPipe)
-				{
-					encryptedBytes = EncryptBytesFast(inBytes, cipher, cipherKey, cipherHash);
-					inBytes = encryptedBytes;
+            if (zipBefore != ZipType.None)
+            {
+                encryptedBytes = zipBefore.Zip(inBytes);
+                inBytes = encryptedBytes;
+            }
+
+            foreach (CipherEnum cipher in InPipe)
+            {
+                encryptedBytes = EncryptBytesFast(inBytes, cipher, cipherKey, cipherHash);
+                inBytes = encryptedBytes;
 #if DEBUG
-					stageDictionary.Add(cipher, encryptedBytes);
+                stageDictionary.Add(cipher, encryptedBytes);
 #endif
-				}
+            }
 
             return encryptedBytes;
         }
@@ -349,13 +351,14 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         /// <param name="cipherBytes">encrypted byte array</param>
         /// <param name="secretKey">user secret key, normally email address</param>
         /// <param name="hashIv">hash relational to secret kay</param>
+        /// <param name="unzipAfter"><see cref="ZipType"/> and <see cref="ZipTypeExtensions.Unzip(ZipType, byte[])"/></param>
         /// <returns><see cref="byte[]"/> plain bytes</returns>
-        public byte[] DecrpytRoundGoMerry(byte[] cipherBytes, string secretKey = "heinrich.elsigan@area23.at", string hashIv = "", bool fishOnAesEngine = false)
+        public byte[] DecrpytRoundGoMerry(byte[] cipherBytes, string secretKey = "heinrich.elsigan@area23.at", string hashIv = "", ZipType unzipAfter = ZipType.None)
         {
             if (!string.IsNullOrEmpty(secretKey))
-                cipherKey = secretKey;                
+                cipherKey = secretKey;
             cipherHash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(cipherKey) : hashIv;
-
+            
             long outByteLen = (OutPipe == null || OutPipe.Length == 0) ? cipherBytes.Length : ((cipherBytes.Length * 3) + 1);
             byte[] decryptedBytes = new byte[outByteLen];
 #if DEBUG
@@ -364,19 +367,143 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
 #endif 
             if (OutPipe == null || OutPipe.Length == 0)
                 Array.Copy(cipherBytes, 0, decryptedBytes, 0, cipherBytes.Length);
-            else                
-				foreach (CipherEnum cipher in OutPipe)
-				{
-					decryptedBytes = DecryptBytesFast(cipherBytes, cipher, cipherKey, cipherHash, fishOnAesEngine);
-					cipherBytes = decryptedBytes;
+            else
+                foreach (CipherEnum cipher in OutPipe)
+                {
+                    decryptedBytes = DecryptBytesFast(cipherBytes, cipher, cipherKey, cipherHash);
+                    cipherBytes = decryptedBytes;
 #if DEBUG
-					stageDictionary.Add(cipher, cipherBytes);
+                    stageDictionary.Add(cipher, cipherBytes);
 #endif
-				}
+                }
 
-            return cipherBytes;
+            if (unzipAfter != ZipType.None)
+                decryptedBytes = unzipAfter.Unzip(cipherBytes);
+
+            return decryptedBytes;
         }
 
+
+        public byte[] EncrpytGoRounds(byte[] inBytes, string secretKey = "", ZipType zipBefore = ZipType.None)
+            => MerryGoRoundEncrpyt(inBytes, secretKey, EnDeCodeHelper.KeyToHex(secretKey), zipBefore);
+
+        public byte[] DecrpytRoundsGo(byte[] cipherBytes, string secretKey = "", ZipType unzipAfter = ZipType.None)
+            => DecrpytRoundGoMerry(cipherBytes, secretKey, EnDeCodeHelper.KeyToHex(secretKey), unzipAfter);
+
+        #region static en-de-crypt members
+
+        /// <summary>
+        /// EncrpytToStringd
+        /// </summary>
+        /// <param name="inString">string to encrypt multiple times</param>
+        /// <param name="cryptKey">Unique deterministic key for either generating the mix of symmetric cipher algorithms in the crypt pipeline 
+        /// and unique crypt key for each symmetric cipher algorithm in each stage of the pipe</param>
+        /// <param name="encType"><see cref="EncodingType"/ type for encoding encrypted bytes back in plain text></param>
+        /// <param name="zipBefore">Zip bytes with <see cref="ZipType"/> before passing them in encrypted stage pipeline. <see cref="ZipTypeExtensions.Zip(ZipType, byte[])"/></param>
+        /// <returns>encrypted string</returns>
+        public static string EncrpytToString(string inString, string cryptKey, EncodingType encoding = EncodingType.Base64, ZipType zipBefore = ZipType.None)
+        {
+            // construct symmetric cipher pipeline with cryptKey
+            CipherPipe cyptPipe = new CipherPipe(cryptKey);
+
+            // Transform string to bytes
+            byte[] inBytes = EnDeCodeHelper.GetBytesFromString(inString);
+            // perform multi crypt pipe stages
+            byte[] encryptedBytes = cyptPipe.EncrpytGoRounds(inBytes, cryptKey, zipBefore);
+            // Encode pipes by encodingType, e.g. base64, uu, hex16, ...
+            string encrypted = encoding.GetEnCoder().Encode(encryptedBytes);
+
+            return encrypted;
+        }
+
+        public static string EncrpytBytesToString(byte[] plainBytes, string cryptKey, EncodingType encoding = EncodingType.Base64, ZipType zipBefore = ZipType.None)
+        {
+            // construct symmetric cipher pipeline with cryptKey 
+            CipherPipe cyptPipe = new CipherPipe(cryptKey);
+
+            // perform multi crypt pipe stages
+            byte[] encryptedBytes = cyptPipe.EncrpytGoRounds(plainBytes, cryptKey, zipBefore);
+            // Encode pipes by encodingType, e.g. base64, uu, hex16, ...
+            string encrypted = encoding.GetEnCoder().Encode(encryptedBytes);
+
+            return encrypted;
+        }
+
+        public static byte[] EncrpytStringToBytes(string inString, string cryptKey, EncodingType encoding = EncodingType.Base64, ZipType zipBefore = ZipType.None)
+        {
+            // construct symmetric cipher pipeline with cryptKey and pass pipeString as out param            
+            CipherPipe cryptPipe = new CipherPipe(cryptKey);
+
+            // Transform string to bytes
+            byte[] inBytes = EnDeCodeHelper.GetBytesFromString(inString);
+            // perform multi crypt pipe stages
+            byte[] encryptedBytes = cryptPipe.EncrpytGoRounds(inBytes, cryptKey, zipBefore);
+
+            return encryptedBytes;
+        }
+
+
+        /// <summary>
+        /// DecrpytToString
+        /// </summary>
+        /// <param name="cryptedEncodedMsg">encrypted message</param>
+        /// <param name="cryptKey">Unique deterministic key for either generating the mix of symmetric cipher algorithms in the crypt pipeline 
+        /// and unique crypt key for each symmetric cipher algorithm in each stage of the pipe</param>
+        /// <param name="decoding"><see cref="EncodingType"/> type for encoding encrypted bytes back in plain text></param>
+        /// <param name="unzipAfter"><see cref="ZipType"/> and <see cref="ZipTypeExtensions.Unzip(ZipType, byte[])"/></param>
+        /// <returns>Decrypted stirng</returns>
+        public static string DecrpytToString(string cryptedEncodedMsg, string cryptKey, EncodingType decoding = EncodingType.Base64, ZipType unzipAfter = ZipType.None)
+        {
+            // create symmetric cipher pipe for decryption with crypt key and pass pipeString as out param
+            CipherPipe cryptPipe = new CipherPipe(cryptKey);
+
+            // get bytes from encrypted encoded string dependent on the encoding type(uu, base64, base32,..)
+            byte[] cipherBytes = decoding.GetEnCoder().Decode(cryptedEncodedMsg);
+            // staged decryption of bytes
+            byte[] unroundedMerryBytes = cryptPipe.DecrpytRoundsGo(cipherBytes, cryptKey, unzipAfter);
+
+            // Get string from decrypted bytes
+            string decrypted = EnDeCodeHelper.GetString(unroundedMerryBytes);
+            // find first \0 = NULL char in string and truncate all after first \0 apperance in string
+            while (decrypted[decrypted.Length - 1] == '\0')
+                decrypted = decrypted.Substring(0, decrypted.Length - 1);
+
+            return decrypted;
+        }
+
+        public static byte[] DecrpytStringToBytes(string cryptedEncodedMsg, string cryptKey, EncodingType decoding = EncodingType.Base64, ZipType unzipAfter = ZipType.None)
+        {
+            // create symmetric cipher pipe for decryption with crypt key
+            CipherPipe cryptPipe = new CipherPipe(cryptKey);
+
+            // get bytes from encrypted encoded string dependent on the encoding type (uu, base64, base32,..)
+            byte[] cipherBytes = decoding.GetEnCoder().Decode(cryptedEncodedMsg);
+            // staged decryption of bytes
+            byte[] unroundedMerryBytes = cryptPipe.DecrpytRoundsGo(cipherBytes, cryptKey, unzipAfter);
+
+            return unroundedMerryBytes;
+        }
+
+        public static string DecrpytBytesToString(byte[] cipherBytes, string cryptKey, EncodingType decoding = EncodingType.Base64, ZipType unzipAfter = ZipType.None)
+        {
+            // create symmetric cipher pipe for decryption with crypt key and pass pipeString as out param
+            CipherPipe cryptPipe = new CipherPipe(cryptKey);
+
+            // staged decryption of bytes
+            byte[] unroundedMerryBytes = cryptPipe.DecrpytRoundsGo(cipherBytes, cryptKey, unzipAfter);
+
+            // Get string from decrypted bytes
+            string decrypted = EnDeCodeHelper.GetString(unroundedMerryBytes);
+            // find first \0 = NULL char in string and truncate all after first \0 apperance in string
+            while (decrypted[decrypted.Length - 1] == '\0')
+                decrypted = decrypted.Substring(0, decrypted.Length - 1);
+
+            return decrypted;
+        }
+
+        #endregion static en-de-crypt members
+
+        #endregion multiple rounds en-de-cryption
     }
 
 }

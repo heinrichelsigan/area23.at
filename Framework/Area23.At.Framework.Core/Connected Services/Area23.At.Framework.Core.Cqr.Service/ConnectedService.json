@@ -1,15 +1,14 @@
 {
   "ExtendedData": {
     "inputs": [
-      "https://srv.cqrxs.eu/v1.3/CqrService.asmx"
+      "https://srv.cqrxs.eu/v1.2/CqrService.asmx"
     ],
     "collectionTypes": [
       "System.Array",
       "System.Collections.Generic.Dictionary`2"
     ],
-    "enableDataBinding": true,
     "namespaceMappings": [
-      "*, Area23.At.Framework.Core.Cqr.Srv"
+      "*, Area23.At.Framework.Core.Cqr.Service"
     ],
     "references": [
       "BouncyCastle.Cryptography, {BouncyCastle.Cryptography, 2.5.1}",

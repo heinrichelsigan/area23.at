@@ -18,7 +18,7 @@ namespace Area23.At.Framework.Core.Net.WebHttp
     {
 
 
-        const string TEST_HTTP_REQUEST_HEADER = @"GET /cqrsrv/cqrjd/R.aspx HTTP/1.1
+        const string TEST_HTTP_REQUEST_HEADER = @"GET /net/R.aspx HTTP/1.1
 Host: cqrxs.eu
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 Accept-Language: en-US,en;q=0.5
@@ -78,7 +78,7 @@ Cache-Control: no-cache";
             }
             catch (Exception ex)
             {
-                Area23Log.Logger.Log(ex);
+                Area23Log.Log(ex);
                 throw;
             }
             finally

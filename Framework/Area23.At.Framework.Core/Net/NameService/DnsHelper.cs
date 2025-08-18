@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Core.Static;
+using Area23.At.Framework.Core.Util;
 using System.Net;
 
 namespace Area23.At.Framework.Core.Net.NameService
@@ -57,7 +58,7 @@ namespace Area23.At.Framework.Core.Net.NameService
                 }
                 catch (Exception ex)
                 {
-                    SLog.Log(ex);
+                    Area23Log.LogOriginMsgEx("DnsHelper", "GetHostNamesByHostName", ex);
                 }
 
                 if (!string.IsNullOrEmpty(lastAdded) && !hostnames.Contains(lastAdded))

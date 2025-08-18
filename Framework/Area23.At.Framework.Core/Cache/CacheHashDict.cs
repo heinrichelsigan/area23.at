@@ -1,130 +1,111 @@
 ﻿using Area23.At.Framework.Core.Cqr;
 using Area23.At.Framework.Core.Static;
+using Area23.At.Framework.Core.Util;
+using Newtonsoft.Json;
 using System.Collections.Concurrent;
-using System.Windows.Input;
+using System.Text;
 
 namespace Area23.At.Framework.Core.Cache
 {
 
     /// <summary>
-    /// CacheHashDict an application cache over AppDomain
+    /// CacheHashDict an application cache implemented with a <see cref="ConcurrentDictionary{string, CacheValue}"/> serialized with json    
     /// </summary>
-    public static class CacheHashDict
+    public class CacheHashDict : MemoryCache
     {
 
-        /// <summary>
-        /// private <see cref="ConcurrentDictionary{string, CacheValue}"/> 
-        /// </summary>
-        private static ConcurrentDictionary<string, CacheValue> _appDict = new ConcurrentDictionary<string, CacheValue>();
+        //protected internal static readonly Lazy<MemCacheDict> _instance = new Lazy<MemCacheDict>(() => new CacheHashDict());
+
+        //public static MemCacheDict CacheDict => _instance.Value;
+
+        const int INIT_SEM_COUNT = 1;
+        const int MAX_SEM_COUNT = 1;
+
+        internal static SemaphoreSlim ReadWriteSemaphore = new SemaphoreSlim(INIT_SEM_COUNT, MAX_SEM_COUNT);
+
+        protected static string JsonFile { get => System.IO.Path.Combine(LibPaths.SystemDirJsonPath, Constants.JSON_APPDICT_FILE); }
+
+        protected static JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
+        {
+            Formatting = Formatting.Indented,
+            MaxDepth = 16,
+            NullValueHandling = NullValueHandling.Include,
+            MissingMemberHandling = MissingMemberHandling.Ignore,
+            ObjectCreationHandling = ObjectCreationHandling.Auto,
+            DateFormatHandling = DateFormatHandling.IsoDateFormat,
+            DateParseHandling = DateParseHandling.DateTime,
+            PreserveReferencesHandling = PreserveReferencesHandling.All,
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+        };
 
         /// <summary>
         /// public property get accessor for <see cref="_appDict"/> stored in <see cref="AppDomain.CurrentDomain"/>
         /// </summary>
-        public static ConcurrentDictionary<string, CacheValue> AppDict
+        protected override ConcurrentDictionary<string, CacheValue> AppDict
         {
             get
-            {                
-                _appDict = (ConcurrentDictionary<string, CacheValue>)AppDomain.CurrentDomain.GetData(Constants.APP_CONCURRENT_DICT);
-                if (_appDict == null)
+            {
+                int semCnt = 0;
+                try
                 {
-                    _appDict = new ConcurrentDictionary<string, CacheValue>();
-                    AppDomain.CurrentDomain.SetData(Constants.APP_CONCURRENT_DICT, _appDict);
-                }
+                    semCnt = ReadWriteSemaphore.CurrentCount;
+                    ReadWriteSemaphore.Wait(128);
 
+                    if (_appDict == null || _appDict.Count == 0)
+                    {
+                        if (!Directory.Exists(LibPaths.SystemDirJsonPath))
+                            Directory.CreateDirectory(LibPaths.SystemDirJsonPath);
+
+                        string jsonSerializedAppDict = (System.IO.File.Exists(JsonFile)) ? System.IO.File.ReadAllText(JsonFile) : "";
+                        if (!string.IsNullOrEmpty(jsonSerializedAppDict))
+                            _appDict = (ConcurrentDictionary<string, CacheValue>)JsonConvert.DeserializeObject<ConcurrentDictionary<string, CacheValue>>(jsonSerializedAppDict);
+                    }
+
+                    if (_appDict == null || _appDict.Count == 0)
+                    {
+                        _appDict = new ConcurrentDictionary<string, CacheValue>();
+                        // where to set it _appDict
+                        string jsonDeserializedAppDict = JsonConvert.SerializeObject(_appDict, Formatting.Indented, JsonSettings);
+                        System.IO.File.WriteAllText(JsonFile, jsonDeserializedAppDict, Encoding.UTF8);  // set it where to set it _appDict
+                    }
+                }
+                catch (Exception exGetRead)
+                {
+                    Area23Log.LogStatic(exGetRead);
+                }
+                finally
+                {
+                    semCnt = ReadWriteSemaphore.Release();
+                }
                 return _appDict;
             }
             set
             {
-                if (value != null && value.Count > 0)
-                    _appDict = value;
-
-                if (_appDict != null && _appDict.Count > 0)
-                    AppDomain.CurrentDomain.SetData(Constants.APP_CONCURRENT_DICT, _appDict);
-            }
-        } 
-
-
-        /// <summary>
-        /// Gets a value from <see cref="ConcurrentDictionary<string, CacheValue>"/> stored <see cref="System.AppDomain.CurrentDomain"/>
-        /// </summary>
-        /// <typeparam name="T">generic type of cached value</typeparam>
-        /// <param name="ckey">cache key</param>
-        /// <returns>generic cached value stored at key</returns>
-        public static T? GetValue<T>(string ckey)
-        {
-            if (AppDict.ContainsKey(ckey))
-            {
-                if (!AppDict.TryGetValue(ckey, out var cvalue))                    
-                    throw new CqrException($"{typeof(T)}? GetValue<{typeof(T)}>(string ckey = {ckey}) failed.",
-                        new InvalidOperationException($"ConcurrentDictionary<string, CacheValue>.TryGetValue(string = {ckey}, out {typeof(T)} cvalue failed."));               
-                return cvalue.GetValue<T>();
-            }
-
-            return default(T);
-        }
-
-        /// <summary>
-        /// ContainsKey checks if application cache hash dict contains key
-        /// </summary>
-        /// <param name="ckey">key to check</param>
-        /// <returns>true, if <see cref="AppDict" /> <see cref="ConcurrentDictionary{string, CacheValue}"/> contains key ckey, otherwise false</returns>
-        public static bool ContainsKey(string ckey)
-        {
-            return (AppDict.ContainsKey(ckey));
-        }
-
-
-
-        /// <summary>
-        /// Sets a generic value to <see cref="ConcurrentDictionary<string, CacheValue>"/> stored <see cref="System.AppDomain.CurrentDomain"/>
-        /// </summary>
-        /// <typeparam name="T">generic type of cached value</typeparam>
-        /// <param name="ckey">cache key</param>
-        /// <param name="cvalue">generic value to stored with key in cache</param>
-        /// <returns>true on succesfull add or succesfull update, false if add or update operation on <see cref="AppDict"/> failed</returns>
-        public static bool SetValue<T>(string ckey, T cvalue)
-        {
-            bool success = false, addNotUpdate = true;
-            CacheValue cacheValue = new CacheValue();
-            cacheValue.SetValue<T>(cvalue);
-
-            if (AppDict.ContainsKey(ckey))
-            {
-                if (_appDict.TryGetValue(ckey, out var oldValue))
+                int semCnt = 0;
+                try
                 {
-                    success = _appDict.TryUpdate(ckey, cacheValue, oldValue);
-                    addNotUpdate = false;
+                    semCnt = ReadWriteSemaphore.CurrentCount;
+                    ReadWriteSemaphore.Wait();
+
+                    string jsonDeserializedAppDict = "";
+                    if (value != null && value.Count > 0)
+                    {
+                        _appDict = value;
+
+                        // set it where to set it _appDict
+                        jsonDeserializedAppDict = JsonConvert.SerializeObject(_appDict, Formatting.Indented, JsonSettings);
+                        System.IO.File.WriteAllText(JsonFile, jsonDeserializedAppDict, Encoding.UTF8);  // set it where to set it _appDict
+                    }
                 }
-                else
-                    _appDict.TryRemove(ckey, out var cacheOutValue);
+                catch (Exception exSetWrite)
+                {
+                    Area23Log.LogStatic(exSetWrite);
+                }
+                finally
+                {
+                    semCnt = ReadWriteSemaphore.Release();
+                }
             }
-
-            if (addNotUpdate)
-                success = _appDict.TryAdd(ckey, cacheValue);
-                        
-            if (success)
-                AppDict = _appDict;                                                  
-
-            return success;                       
-        }
-
-
-        /// <summary>
-        /// DeleteKey delete key with corresponding <see cref="CacheValue"/> from <see cref="AppDict"/>
-        /// </summary>
-        /// <param name="ckey">corresponding key</param>
-        /// <returns>true, if <see cref="AppDict"/> contained key and delete key operation was successful, otherwise false</returns>
-        public static bool DeleteKey(string ckey)
-        {
-            bool success = false;
-
-            if (AppDict.ContainsKey(ckey))
-                success = _appDict.TryRemove(ckey, out var cacheOutValue);
-
-            if (success)
-                AppDict = _appDict;
-
-            return success;
         }
 
     }

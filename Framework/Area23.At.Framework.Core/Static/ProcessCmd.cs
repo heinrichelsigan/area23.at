@@ -32,7 +32,7 @@ namespace Area23.At.Framework.Core.Static
         public static string Execute(string filepath = "SystemInfo", string arguments = "", bool useShellExecute = false)
         {
             string consoleError = "", consoleOutput = "", args = !string.IsNullOrEmpty(arguments) ? arguments : "";
-            SLog.Log(string.Format("ProcessCmd.Execute(filepath = ${0}, args = {1}, useShellExecute = {2}) called ...",
+            Area23Log.LogOriginMsg("ProcessCmd", string.Format("ProcessCmd.Execute(filepath = ${0}, args = {1}, useShellExecute = {2}) called ...",
                 filepath, args, useShellExecute));
             try
             {
@@ -54,16 +54,15 @@ namespace Area23.At.Framework.Core.Static
             }
             catch (Exception exi)
             {
-                string stdErr = string.IsNullOrEmpty(consoleError) ? string.Empty : $"\tStdErr = {consoleError}";
-                SLog.Log("ProcessCmd.Execute throwed Exception: " + exi.Message);
-                SLog.Log($"can't execute: {filepath} {args} {stdErr}\n\tException: {exi}");
-                throw new InvalidOperationException($"can't execute: {filepath} {args} {stdErr}", exi);
+                Area23Log.LogOriginMsgEx("ProcessCmd", $"can't execute: {filepath} {args}\n\tStdErr = {consoleError}", exi); 
+                throw new InvalidOperationException($"can't execute: {filepath} {args} \tStdErr = {consoleError}", exi);
             }
 
-            SLog.Log(string.Format("ProcessCmd.Execute(filepath = ${0}, args = {1}, useShellExecute = {2}) finished successfull, output length: {3}",
-                filepath, args, useShellExecute, consoleOutput.Length));
+            Area23Log.LogOriginMsg("ProcessCmd", 
+                string.Format("ProcessCmd.Execute(filepath = ${0}, args = {1}, useShellExecute = {2}) finished successfull, output length: {3}",
+                    filepath, args, useShellExecute, consoleOutput.Length));
             if (!string.IsNullOrEmpty(consoleError))
-                SLog.Log("ProcessCmd.Execute consoleError: " + consoleError);
+                Area23Log.LogOriginMsg("ProcessCmd", "ProcessCmd.Execute consoleError: " + consoleError);
 
             return consoleOutput;
         }
@@ -96,7 +95,8 @@ namespace Area23.At.Framework.Core.Static
                 }
             }
 
-            SLog.Log(string.Format("ProcessCmd.Execute(cmdPath = ${0}, args = {1}, quoteArgs = {2}, useShellExecute = {3}) called ...",
+            Area23Log.LogOriginMsg("ProcessCmd", 
+                string.Format("ProcessCmd.Execute(cmdPath = ${0}, args = {1}, quoteArgs = {2}, useShellExecute = {3}) called ...",
                     cmdPath, argStr, quoteArgs, useShellExecute));
             try
             {
@@ -119,16 +119,17 @@ namespace Area23.At.Framework.Core.Static
             catch (Exception exi)
             {
                 string stdErr = string.IsNullOrEmpty(consoleError) ? string.Empty : $"\tStdErr = {consoleError}";
-                SLog.Log($"ProcessCmd.Execute {cmdPath} {argStr} throwed Exception: {exi.Message}");
-                SLog.Log($"can't execute: {cmdPath} {argStr} {stdErr}\n\tException: {exi}");
+                Area23Log.LogOriginMsg("ProcessCmd", $"ProcessCmd.Execute {cmdPath} {argStr} throwed Exception: {exi.Message}");
+                Area23Log.LogOriginMsg("ProcessCmd", $"can't execute: {cmdPath} {argStr} {stdErr}\n\tException: {exi}");
                 throw new InvalidOperationException($"can't perform {cmdPath} {argStr} {stdErr}", exi);
             }
 
 
-            SLog.Log(string.Format("ProcessCmd.Execute(cmdPath = ${0}, arguments = {1}, useShellExecute = {2}) finished successfull, output length: {3}",
-                cmdPath, argStr, useShellExecute, consoleOutput.Length));
+            Area23Log.LogOriginMsg("ProcessCmd",
+                string.Format("ProcessCmd.Execute(cmdPath = ${0}, arguments = {1}, useShellExecute = {2}) finished successfull, output length: {3}",
+                    cmdPath, argStr, useShellExecute, consoleOutput.Length));
             if (!string.IsNullOrEmpty(consoleError))
-                SLog.Log("ProcessCmd.Execute consoleError: " + consoleError);
+                Area23Log.LogOriginMsg("ProcessCmd", "ProcessCmd.Execute consoleError: " + consoleError);
 
             return consoleOutput;
         }

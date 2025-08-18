@@ -10,8 +10,8 @@
     <Copyright>Copyleft © 2000-2040</Copyright>
 	<PackageProjectUrl>https://area23.at/</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>
-    <AssemblyVersion>2.25.426</AssemblyVersion>
-    <FileVersion>2.25.426</FileVersion>
+    <AssemblyVersion>2.25.812</AssemblyVersion>
+    <FileVersion>2.25.812</FileVersion>
 	<IsTrimmable>true</IsTrimmable>
 	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
 	<PlatformTarget>AnyCPU</PlatformTarget>
@@ -22,17 +22,18 @@
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <DocumentationFile>S:\area23.at\area23.at\Framework\Area23.At.Framework.Core\Properties\text\Area23Framework.xml</DocumentationFile>
     <NuGetAuditMode>all</NuGetAuditMode>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>7</WarningLevel>
-    <DebugType>full</DebugType>
+    <DebugType>embedded</DebugType>
     <DefineConstants>$(DefineConstants);HTTPBINDING</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>7</WarningLevel>
-    <DebugType>full</DebugType>
+    <DebugType>embedded</DebugType>
     <DefineConstants>$(DefineConstants);HTTPBINDING</DefineConstants>
   </PropertyGroup>
 
@@ -58,6 +59,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Cache\CacheHashDict.cs" />
+    <Compile Remove="Crypt\Cipher\Crpyt.cs" />
     <Compile Remove="Crypt\EnDeCoding\DeEnCoder.cs" />
     <Compile Remove="Net\IpSocket\IpSocketSender.cs" />
     <Compile Remove="Net\IpSocket\IPSockListener.cs" />  
@@ -87,7 +90,11 @@
   <ItemGroup>
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.1" />
     <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.2" />
     <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.3" />
     <PackageReference Include="Microsoft.IdentityModel.Protocols.WsTrust" Version="6.8.0" />
     <PackageReference Include="Microsoft.IdentityModel.Xml" Version="8.8.0" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />

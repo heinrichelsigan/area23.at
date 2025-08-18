@@ -1,4 +1,4 @@
-﻿using Area23.At.Framework.Library.CqrXs.CqrMsg;
+﻿using Area23.At.Framework.Library.Cqr.Msg;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Framework.Library.Static;
 using Newtonsoft.Json;

@@ -87,7 +87,7 @@ namespace Area23.At.Framework.Core.Win32Api
             catch (Exception exThread)
             {
                 threadId = -1;
-                Area23Log.Logger.LogOriginMsgEx($"bool Processes.ProcessRuns(int threadId = {threadId})",
+                Area23Log.LogOriginMsgEx($"bool Processes.ProcessRuns(int threadId = {threadId})",
                     $"Error on fetching process for pid {threadId}.", exThread);
             }
 

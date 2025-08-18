@@ -1,14 +1,8 @@
 ﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Static;
 using Area23.At.Framework.Core.Util;
-using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+using Org.BouncyCastle.Crypto.Parameters;
 
 namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 {
@@ -401,7 +395,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
 
             initialised = true;
-            Area23Log.LogStatic("ZenMatrix: " + perm + " KeyBytes = " + kbs);
+            Area23Log.LogOriginMsg("ZenMatrix", perm + " KeyBytes = " + kbs);
         }
 
 

@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Area23.At.Framework.Core.Crypt.EnDeCoding
+﻿namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 {
     /// <summary>
     /// Normal hexadecimal byte encoding / decoding
     /// </summary>
     public class Hex16 : IDecodable
     {
-        
+
         public const string VALID_CHARS = "0123456789abcdef";
 
 
@@ -53,7 +46,7 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// <exception cref="ArgumentNullException"></exception>
         public static string ToHex16(byte[] inBytes)
         {
-            if (inBytes == null || inBytes.Length < 1)
+            if (inBytes == null || inBytes.Length == 0)
                 throw new ArgumentNullException("inBytes", "public static string ToHex(byte[] inBytes == NULL)");
 
             string hexString = string.Empty;
@@ -62,9 +55,8 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
                 hexString += string.Format("{0:x2}", inBytes[wc]);
             }
 
-            string strUtf8 = hexString; // to slow for very large files.ToLower();
-
-            return strUtf8;
+            // string strUtf8 = System.Text.Encoding.UTF8.GetString(inBytes);
+            return hexString;
         }
 
         /// <summary>
@@ -98,9 +90,9 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
                 bytes.Add(b);
             }
 
-            byte[] bytesUtf8 = EnDeCodeHelper.GetBytes(hexStr);
-            // return bytesUtf8
-            return bytes.ToArray();
+            byte[] bytesUtf8 = bytes.ToArray(); // System.Text.Encoding.UTF8.GetBytes(hexStr);
+
+            return bytesUtf8;
 
         }
         

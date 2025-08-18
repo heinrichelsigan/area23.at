@@ -375,7 +375,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             }
             catch (Exception exDecrypt)
             {
-                Area23Log.Logger.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {cipherMode.AlgorithmName}: Exceptíon on decrypting final block", exDecrypt);
+                Area23Log.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {cipherMode.AlgorithmName}: Exceptíon on decrypting final block", exDecrypt);
                 try
                 {
                     plainData = new byte[outputSize];
@@ -383,7 +383,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                 }
                 catch (Exception exDecrypt2)
                 {
-                    Area23Log.Logger.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {cipherMode.AlgorithmName}: Exceptíon on 2x decrypting final block", exDecrypt2);
+                    Area23Log.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {cipherMode.AlgorithmName}: Exceptíon on 2x decrypting final block", exDecrypt2);
                     plainData = new byte[outputSize];
                     plainData = cipherMode.ProcessBytes(cipherData);
                 }

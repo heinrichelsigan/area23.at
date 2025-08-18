@@ -1,6 +1,4 @@
-﻿using Org.BouncyCastle.Utilities;
-using System.Text;
-using System.Windows.Navigation;
+﻿using System.Text;
 
 namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 {

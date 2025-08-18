@@ -1,17 +1,9 @@
-﻿using Area23.At.Framework.Core.Cqr.Msg;
-using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
+﻿using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Crypt.Hash;
 using Area23.At.Framework.Core.Static;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Security.Policy;
 using System.Text;
-using System.Threading.Tasks;
-using static QRCoder.Core.PayloadGenerator.SwissQrCode;
 
 namespace Area23.At.Framework.Core.Cqr.Msg
 {
@@ -20,7 +12,6 @@ namespace Area23.At.Framework.Core.Cqr.Msg
     {
 
         #region properties
-
         public int ContactId { get; set; }
 
         public Guid Cuid { get; set; }
@@ -58,9 +49,30 @@ namespace Area23.At.Framework.Core.Cqr.Msg
             ContactImage = null;
         }
 
-        public CContact(string cs, CType msgArt = CType.Json)
+        /// <summary>
+        /// ctor with serialized string and serialization type
+        /// </summary>
+        /// <param name="serialized">serialized or mime string</param>
+        /// <param name="serType">serialized type</param>
+        public CContact(string serialized, CType serType = CType.Json)
         {
-            FromJson<CContact>(cs);
+            switch(serType)
+            {
+                case CType.Xml:
+                    FromXml<CContact>(serialized);
+                    break;
+                case CType.Raw:     // TODO= implement it
+                case CType.None:    // TODO= implement it
+                    break;
+                case CType.Mime:
+                    string json = Encoding.UTF8.GetString(Convert.FromBase64String(serialized));
+                    FromJson<CContact>(json);
+                    break;
+                case CType.Json:
+                default:
+                    FromJson<CContact>(serialized);
+                    break;
+            } 
         }
 
         public CContact(int cid, string name, string email, string mobile, string address) : base()
@@ -99,7 +111,7 @@ namespace Area23.At.Framework.Core.Cqr.Msg
         public CContact(int cid, Guid cuid, string name, string email, string mobile, string address, CImage cqrImage, string hash)
             : this(cid, cuid, name, email, mobile, address, cqrImage)
         {
-            _hash = hash;
+            Hash = hash;
         }
 
         public CContact(int cid, string name, string email, string mobile, string address, Image image)
@@ -118,94 +130,58 @@ namespace Area23.At.Framework.Core.Cqr.Msg
         public CContact(int cid, Guid cuid, string name, string email, string mobile, string address, Image image, string hash)
             : this(cid, cuid, name, email, mobile, address, image)
         {
-            this._hash = hash;
+            this.Hash = hash;
         }
 
         public CContact(CContact ccntct, string hash)
             : this(ccntct.ContactId, ccntct.Cuid, ccntct.Name, ccntct.Email, ccntct.Mobile, ccntct.Address, ccntct.ContactImage, hash)
         {
-            CCopy(this, ccntct);
-            this._hash = hash;             
+			CloneCopy(ccntct, this);
+            this.Hash = hash;             
             SerializedMsg = "";
             SerializedMsg = this.ToJson();
         }
 
         public CContact(CContact ccntct, string ChatRoomNr, string hash) : this(ccntct, hash)
         {
-            CCopy(this, ccntct);
-            _hash = hash;
+            CloneCopy(ccntct, this);
+			Hash = hash;
             ContactImage = null;
             Cuid = (ccntct.Cuid == Guid.Empty) ? Guid.NewGuid() : ccntct.Cuid;            
-            _message = ChatRoomNr;              
+            Message = ChatRoomNr;              
             SerializedMsg = "";
             SerializedMsg = this.ToJson();
         }
 
         public CContact(CContact ccntct)
         {
-            CCopy(this, ccntct);            
-            Cuid = (ccntct.Cuid == Guid.Empty) ? Guid.NewGuid() : ccntct.Cuid;
+			CloneCopy(ccntct, this);
+			Cuid = (ccntct.Cuid == Guid.Empty) ? Guid.NewGuid() : ccntct.Cuid;
             SerializedMsg = "";
             SerializedMsg = this.ToJson();
         }
 
         public CContact(CContact ccntct, string chatRoomNr, string hash, CImage cqrImage) : this(ccntct, chatRoomNr, hash)
         {
-            CCopy(this, ccntct);
-            Cuid = (ccntct.Cuid == Guid.Empty) ? Guid.NewGuid() : ccntct.Cuid;
-            _hash = hash;
+			CloneCopy(ccntct, this);
+			Cuid = (ccntct.Cuid == Guid.Empty) ? Guid.NewGuid() : ccntct.Cuid;
+            Hash = hash;
             ContactImage = cqrImage;
-            _message = chatRoomNr;
+            Message = chatRoomNr;
             SerializedMsg = "";
             SerializedMsg = this.ToJson();      
         }
 
         #endregion constructors
 
-        public new CContact? CCopy(CContact? leftDest, CContact? rightSrc)
-        {
-            if (rightSrc == null)
-                return null;
-            if (leftDest == null)
-                leftDest = new CContact(rightSrc);
-
-            leftDest._hash = rightSrc._hash;
-            leftDest._message = rightSrc._message;
-            leftDest.MsgType = rightSrc.MsgType;
-            leftDest.CBytes = rightSrc.CBytes;
-            leftDest.Md5Hash = rightSrc.Md5Hash;
-
-            leftDest.ContactId = rightSrc.ContactId;
-            leftDest.Cuid = rightSrc.Cuid;
-            leftDest.Name = rightSrc.Name;
-            leftDest.Email = rightSrc.Email;
-            leftDest.Mobile = rightSrc.Mobile;
-            leftDest.Address = rightSrc.Address;
-            leftDest.SecretKey = rightSrc.SecretKey;
-            leftDest.ContactImage = (rightSrc.ContactImage == null) ? null : new CImage(rightSrc.ContactImage.ToDrawingBitmap(), rightSrc.ContactImage.ImageFileName);
-            
-            leftDest.SerializedMsg = "";
-            leftDest.SerializedMsg = leftDest.ToJson();
-            
-            return leftDest;
-
-        }
-
 
         #region EnDeCrypt+DeSerialize
-
-
-        public override byte[] EncryptToJsonToBytes(string serverKey)
-        {
-            string serialized = EncryptToJson(serverKey);
-            return Encoding.UTF8.GetBytes(serialized);
-        }
 
         public override string EncryptToJson(string serverKey)
         {
             if (Encrypt(serverKey))
             {
-                this.SerializedMsg = JsonConvert.SerializeObject(this);
+                this.SerializedMsg = ToJson();
                 return this.SerializedMsg;
             }
             throw new CqrException($"EncryptToJson(string severKey) failed for CContact.");
@@ -217,14 +193,14 @@ namespace Area23.At.Framework.Core.Cqr.Msg
             {
                 string hash = EnDeCodeHelper.KeyToHex(serverKey);
                 SymmCipherPipe symmPipe = new SymmCipherPipe(serverKey, hash);
-                _hash = symmPipe.PipeString;
-                Md5Hash = MD5Sum.HashString(String.Concat(serverKey, _hash, symmPipe.PipeString, _message), "");
+                Hash = symmPipe.PipeString;
+                Md5Hash = MD5Sum.HashString(String.Concat(serverKey, Hash, symmPipe.PipeString, Message), "");
 
                 byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(Message);
                 byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, serverKey, hash) : msgBytes;
 
                 CBytes = cqrbytes;
-                _message = Base64.ToBase64(CBytes);
+                Message = Base64.ToBase64(CBytes);
             }
             catch (Exception exCrypt)
             {
@@ -232,12 +208,7 @@ namespace Area23.At.Framework.Core.Cqr.Msg
                 throw;
             }
             return true;
-        }
 
-        public new CContact DecryptFromJsonFromBytes(string serverKey, byte[] serializedBytes)
-        {
-            string serialized = Encoding.UTF8.GetString(serializedBytes);
-            return DecryptFromJson(serverKey, serialized);
         }
 
 
@@ -253,7 +224,7 @@ namespace Area23.At.Framework.Core.Cqr.Msg
             {
                 contact.SerializedMsg = "";
                 contact.SerializedMsg = contact.ToJson();
-                CCopy(this, contact);                
+				CloneCopy(contact, this);    
                 return contact;
             }
             throw new CqrException($"DecryptFromJson<T>(string severKey, string serialized) failed for CContact");
@@ -273,13 +244,13 @@ namespace Area23.At.Framework.Core.Cqr.Msg
                     decrypted = decrypted.Substring(0, decrypted.Length - 1);
 
 
-                if (!_hash.Equals(symmPipe.PipeString))
-                    throw new CqrException($"Hash: {_hash} doesn't match symmPipe.PipeString: {symmPipe.PipeString}");
-                string md5Hash = MD5Sum.HashString(String.Concat(serverKey, _hash, symmPipe.PipeString, decrypted), "");
+                if (!Hash.Equals(symmPipe.PipeString))
+                    throw new CqrException($"Hash: {Hash} doesn't match symmPipe.PipeString: {symmPipe.PipeString}");
+                string md5Hash = MD5Sum.HashString(String.Concat(serverKey, Hash, symmPipe.PipeString, decrypted), "");
                 if (!md5Hash.Equals(Md5Hash))
                     throw new CqrException($"md5Hash: {md5Hash} doesn't match property Md5Hash: {Md5Hash}");
 
-                _message = decrypted;
+                Message = decrypted;
                 CBytes = new byte[0];
             }
             catch (Exception exCrypt)
@@ -289,7 +260,6 @@ namespace Area23.At.Framework.Core.Cqr.Msg
             }
             return true;
         }
-
 
         #endregion EnDeCrypt+DeSerialize
 
@@ -310,7 +280,7 @@ namespace Area23.At.Framework.Core.Cqr.Msg
             {
                 if (contactJson != null && contactJson.ContactId > -1 && !string.IsNullOrEmpty(contactJson.Name))
                 {
-                    CCopy(this, contactJson); 
+					CloneCopy(contactJson, this);
                 }
             }
 
@@ -331,7 +301,7 @@ namespace Area23.At.Framework.Core.Cqr.Msg
             T? cqrT = base.FromXml<T>(xmlText);
             if (cqrT is CContact cCnt)
             {
-                CCopy(this, cCnt);
+				CloneCopy(cCnt, this);
             }
 
             return (T?)cqrT;
@@ -365,6 +335,7 @@ namespace Area23.At.Framework.Core.Cqr.Msg
         {
             List<object> oList = new List<object>();
             oList.Add(ContactId);
+            oList.Add(Cuid);
             oList.Add(Name);
             oList.Add(Email);
             oList.Add(Mobile);
@@ -372,19 +343,21 @@ namespace Area23.At.Framework.Core.Cqr.Msg
             return oList.ToArray();
         }
 
-        #endregion members
+		#endregion members
 
 
-        #region static members ToJsonEncrypt EncryptSrvMsg FromJsonDecrypt DecryptSrvMsg
+        #region static members 
 
-        /// <summary>
-        /// ToJsonEncrypt
-        /// </summary>
-        /// <param name="serverKey">server key to encrypt</param>
-        /// <param name="ccntct"><see cref="CContact"/> to encrypt and serialize</param>
-        /// <returns>a serialized <see cref="string" /> of encrypted <see cref="CContact"/></returns>
-        /// <exception cref="CqrException"></exception>
-        public static string ToJsonEncrypt(string serverKey, CContact ccntct)
+		#region static members ToJsonEncrypt EncryptSrvMsg FromJsonDecrypt DecryptSrvMsg
+
+		/// <summary>
+		/// ToJsonEncrypt
+		/// </summary>
+		/// <param name="serverKey">server key to encrypt</param>
+		/// <param name="ccntct"><see cref="CContact"/> to encrypt and serialize</param>
+		/// <returns>a serialized <see cref="string" /> of encrypted <see cref="CContact"/></returns>
+		/// <exception cref="CqrException"></exception>
+		public static string ToJsonEncrypt(string serverKey, CContact ccntct)
         {
             if (string.IsNullOrEmpty(serverKey) || ccntct == null)
                 throw new CqrException($"static string ToJsonEncrypt(string serverKey, CContact ccntct) failed: NULL reference!");
@@ -401,15 +374,12 @@ namespace Area23.At.Framework.Core.Cqr.Msg
             try
             {
                 string hash = EnDeCodeHelper.KeyToHex(serverKey);
-                SymmCipherPipe symmPipe = new SymmCipherPipe(serverKey, hash);
-                ccntct._hash = hash;
-                ccntct.Md5Hash = MD5Sum.HashString(String.Concat(serverKey, hash, symmPipe.PipeString, ccntct._message), "");
+                string pipeString = (new SymmCipherPipe(serverKey)).PipeString;                 
+                ccntct.Hash = pipeString;
+                ccntct.Md5Hash = MD5Sum.HashString(String.Concat(serverKey, EnDeCodeHelper.KeyToHex(serverKey), ccntct.Hash, ccntct.Message), "");
 
-                byte[] msgBytes = EnDeCodeHelper.GetBytesFromString(ccntct.Message);
-                byte[] cqrbytes = LibPaths.CqrEncrypt ? symmPipe.MerryGoRoundEncrpyt(msgBytes, serverKey, hash) : msgBytes;
-
-                ccntct.CBytes = cqrbytes;
-                ccntct._message = "";
+                ccntct.CBytes = SymmCipherPipe.EncrpytStringToBytes(ccntct.Message, serverKey, out pipeString, EncodingType.Base64, Zfx.ZipType.None);
+                ccntct.Message = "";
             }
             catch (Exception exCrypt)
             {
@@ -447,21 +417,17 @@ namespace Area23.At.Framework.Core.Cqr.Msg
             try
             {
                 string hash = EnDeCodeHelper.KeyToHex(serverKey);
-                SymmCipherPipe symmPipe = new SymmCipherPipe(serverKey, hash);
+                string pipeString = (new SymmCipherPipe(serverKey, hash)).PipeString;
 
-                byte[] cipherBytes = ccntct.CBytes;
-                byte[] unroundedMerryBytes = LibPaths.CqrEncrypt ? symmPipe.DecrpytRoundGoMerry(cipherBytes, serverKey, hash) : cipherBytes;
-                string decrypted = EnDeCodeHelper.GetString(unroundedMerryBytes); //DeEnCoder.GetStringFromBytesTrimNulls(unroundedMerryBytes);
-                while (decrypted[decrypted.Length - 1] == '\0')
-                    decrypted = decrypted.Substring(0, decrypted.Length - 1);
+                string decrypted = SymmCipherPipe.DecrpytBytesToString(ccntct.CBytes, serverKey, out pipeString, EncodingType.Base64, Zfx.ZipType.None);
 
-                if (!ccntct._hash.Equals(symmPipe.PipeString))
+                if (!ccntct.Hash.Equals(pipeString))
                 {
-                    string errMsg = $"Hash: {ccntct._hash} doesn't match symmPipe.PipeString: {symmPipe.PipeString}";
+                    string errMsg = $"Hash: {ccntct.Hash} doesn't match symmPipe.PipeString: {pipeString}";
                     // throw new CqrException(errMsg);
                     ;
                 }
-                string md5Hash = MD5Sum.HashString(String.Concat(serverKey, ccntct._hash, symmPipe.PipeString, decrypted), "");
+                string md5Hash = MD5Sum.HashString(String.Concat(serverKey, ccntct.Hash, pipeString, decrypted), "");
                 if (!md5Hash.Equals(ccntct.Md5Hash))
                 {
                     string md5ErrExcMsg = $"md5Hash: {md5Hash} doesn't match property Md5Hash: {ccntct.Md5Hash}";
@@ -469,8 +435,7 @@ namespace Area23.At.Framework.Core.Cqr.Msg
                     ;
                 }
 
-
-                ccntct._message = decrypted;
+                ccntct.Message = decrypted;
                 ccntct.CBytes = new byte[0];
             }
             catch (Exception exCrypt)
@@ -482,8 +447,56 @@ namespace Area23.At.Framework.Core.Cqr.Msg
             return ccntct;
         }
 
-        #endregion static members ToJsonEncrypt EncryptSrvMsg FromJsonDecrypt DecryptSrvMsg
+		#endregion static members ToJsonEncrypt EncryptSrvMsg FromJsonDecrypt DecryptSrvMsg
 
+		public new static CContact? CloneCopy(CContact? source, CContact? destination)
+		{
+			if (source == null)
+				return null;
+			if (destination == null)
+				destination = new CContact();
 
-    }
+			destination.Hash = source.Hash;
+			destination.Message = source.Message;
+			destination.MsgType = source.MsgType;
+			destination.CBytes = source.CBytes;
+			destination.Md5Hash = source.Md5Hash;
+
+			destination.ContactId = source.ContactId;
+			destination.Cuid = source.Cuid;
+			destination.Name = source.Name;
+			destination.Email = source.Email;
+			destination.Mobile = source.Mobile;
+			destination.Address = source.Address;
+			destination.SecretKey = source.SecretKey;
+			try
+			{
+                CImage.CloneCopy(source.ContactImage, destination.ContactImage);				
+			}
+			catch (Exception exImg)
+			{
+			}
+			CImage? contactImage = source.ContactImage;
+			if (contactImage != null)
+			{
+				try
+				{
+					destination.ContactImage = new CImage(contactImage.ToDrawingBitmap(), contactImage.ImageFileName);
+				}
+				catch (Exception exImg)
+				{
+				}
+			}
+
+			destination.SerializedMsg = "";
+			destination.SerializedMsg = destination.ToJson();
+
+			return destination;
+
+		}
+
+        #endregion static members 
+
+	}
+
 }

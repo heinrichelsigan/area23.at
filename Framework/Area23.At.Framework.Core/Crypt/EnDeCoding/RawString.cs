@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 {
@@ -11,8 +7,14 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
     /// </summary>
     public class RawString : IDecodable
     {
-        public const string VALID_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\"!'.?;,.;-_+*^%/=(){}[]ß´`:'#~<>§$&/|^°²³";
-        
+        public const string VALID_CHARS =
+            " !\"#$%&'()*+,-./0123456789:;<=>?" +
+            "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_" +
+            "`abcdefghijklmnopqrstuvwxyz{|}~Ç" +
+            "üéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒá";
+            // "íóúñÑªº¿½¼¡ßπΣσµτΦΘΩδ∞φε∩²³ⁿ©®≈"; 
+
+
 
         public IDecodable Decodable => this;
 
@@ -48,6 +50,24 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 
         public static string ToRawString(byte[] inBytes)
         {
+            /*
+            byte[] sixBytes = new byte[6];
+            int len = inBytes.Length;
+            int offset = inBytes.Length % 6;
+            string rawString = "";
+            for (int i = 0; i < inBytes.Length; i += 6)
+            {
+                string rawHex = "0x";
+                offset = ((i + 6) <= len) ? 6 : len % 6; // (len - i);
+                Array.Copy(inBytes, i, sixBytes, 0, offset);
+                foreach (byte b in sixBytes)
+                    rawHex += string.Format("{0:x2}", b);
+                int intValue = Convert.ToInt32(rawHex, 16);
+                // TODO: l8r
+            }
+            */
+
+
             return EnDeCodeHelper.GetString(inBytes);
         }
 

@@ -1,25 +1,23 @@
-﻿using Org.BouncyCastle.Utilities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 {
-
+    /// <summary>
+    /// EncodingType Enum 
+    /// TODO: base58
+    /// </summary>
     [DefaultValue(EncodingType.Base64)]
     public enum EncodingType
     {
-        Null = 0x00,
-        None = 0x01,
-        Base16 = 0x10,
-        Hex16 = 0x11,
-        Base32 = 0x20,
-        Hex32 = 0x21,
-        Uu = 0x33,
-        Base64 = 0x40
+        Null    = 0x00,
+        None    = 0x01,
+        Base16  = 0x10,
+        Hex16   = 0x11,
+        Base32  = 0x20,
+        Hex32   = 0x21,
+        Uu      = 0x33,
+        Base58  = 0x3a,
+        Base64  = 0x40
     }
 
     public static class EncodingTypesExtensions

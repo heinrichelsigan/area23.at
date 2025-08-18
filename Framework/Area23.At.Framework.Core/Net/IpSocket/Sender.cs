@@ -82,7 +82,7 @@ namespace Area23.At.Framework.Core.Net.IpSocket
                 while (fsize < data.Length)
                 {
                     ssize = tcpClient.Client.Send(data, fsize, data.Length, SocketFlags.None, out SocketError errorCode);
-                    Area23Log.LogStatic($"Socket send: data.len = {data.Length}, offset = {fsize} SocketError = {errorCode.ToString()} \n");
+                    Area23Log.LogOriginMsg("Sender", $"Socket send: data.len = {data.Length}, offset = {fsize} SocketError = {errorCode.ToString()} \n");
 
                     
 
@@ -94,7 +94,7 @@ namespace Area23.At.Framework.Core.Net.IpSocket
                         if (ssize != rsize)
                         {
                             fsize += rsize;
-                            Area23Log.LogStatic($"msg.Length = {msg.Length}, fsize = {fsize}, rsize = {rsize}\n");                            
+                            Area23Log.LogOriginMsg("Sender", $"msg.Length = {msg.Length}, fsize = {fsize}, rsize = {rsize}\n");                            
                         }
                         else
                             fsize += ssize;
@@ -109,7 +109,7 @@ namespace Area23.At.Framework.Core.Net.IpSocket
                 //{
                 //    if (fsize != rsize)
                 //    {
-                //        Area23Log.LogStatic($"msg.Length = {msg.Length}, ssize = {ssize}, rsize = {rsize}\n");
+                //        Area23Log.Log$"msg.Length = {msg.Length}, ssize = {ssize}, rsize = {rsize}\n");
                 //        throw new IndexOutOfRangeException($"msg.Length = {msg.Length}, ssize = {ssize}, rsize = {rsize}");
                 //    }
                 //}
@@ -137,7 +137,7 @@ namespace Area23.At.Framework.Core.Net.IpSocket
             }
             catch (Exception ex)
             {
-                Area23Log.Logger.Log(ex);
+                Area23Log.Log(ex);
                 throw;
             }
             finally
@@ -150,7 +150,7 @@ namespace Area23.At.Framework.Core.Net.IpSocket
                     }
                     catch (Exception ex)
                     {
-                        Area23Log.Logger.Log(ex);
+                        Area23Log.Log(ex);
                     }
                     try
                     {

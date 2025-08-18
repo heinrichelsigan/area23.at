@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Web;
 
 namespace Area23.At.Framework.Core.Static
 {
@@ -39,11 +36,11 @@ namespace Area23.At.Framework.Core.Static
         /// <summary>
         /// GetMimeType
         /// </summary>
-        /// <param name="file"><see cref="byte[]">byte[] binary array</see></param>
+        /// <param name="fileBytes"><see cref="byte[]">byte[] binary array</see></param>
         /// <param name="fileName">save filename</param>
         /// <returns>detected mime type by binary byte pattern, 
         /// if no specific mime type detect => default application/octet-stream</returns>
-        public static string GetMimeType(byte[] file, string fileName)
+        public static string GetMimeType(byte[] fileBytes, string fileName)
         {
 
             string mime = Constants.DEFAULT_MIMETYPE;
@@ -60,35 +57,35 @@ namespace Area23.At.Framework.Core.Static
                                    : Path.GetExtension(fileName).ToUpper();
 
             //Get the MIME Type
-            if (file.Take(2).SequenceEqual(BMP))
+            if (fileBytes.Take(2).SequenceEqual(BMP))
             {
                 mime = "image/bmp";
             }
-            else if (file.Take(8).SequenceEqual(DOC))
+            else if (fileBytes.Take(8).SequenceEqual(DOC))
             {
                 mime = "application/msword";
             }
-            else if (file.Take(2).SequenceEqual(EXE_DLL))
+            else if (fileBytes.Take(2).SequenceEqual(EXE_DLL))
             {
                 mime = "application/x-msdownload"; //both use same mime type
             }
-            else if (file.Take(4).SequenceEqual(GIF))
+            else if (fileBytes.Take(4).SequenceEqual(GIF))
             {
                 mime = "image/gif";
             }
-            else if (file.Take(4).SequenceEqual(ICO))
+            else if (fileBytes.Take(4).SequenceEqual(ICO))
             {
                 mime = "image/x-icon";
             }
-            else if (file.Take(3).SequenceEqual(JPG))
+            else if (fileBytes.Take(3).SequenceEqual(JPG))
             {
                 mime = "image/jpeg";
             }
-            else if (file.Take(3).SequenceEqual(MP3))
+            else if (fileBytes.Take(3).SequenceEqual(MP3))
             {
                 mime = "audio/mpeg";
             }
-            else if (file.Take(14).SequenceEqual(OGG))
+            else if (fileBytes.Take(14).SequenceEqual(OGG))
             {
                 if (extension == ".OGX")
                 {
@@ -103,50 +100,49 @@ namespace Area23.At.Framework.Core.Static
                     mime = "video/ogg";
                 }
             }
-            else if (file.Take(7).SequenceEqual(PDF))
+            else if (fileBytes.Take(7).SequenceEqual(PDF))
             {
                 mime = "application/pdf";
             }
-            else if (file.Take(16).SequenceEqual(PNG))
+            else if (fileBytes.Take(16).SequenceEqual(PNG))
             {
                 mime = "image/png";
             }
-            else if (file.Take(7).SequenceEqual(RAR))
+            else if (fileBytes.Take(7).SequenceEqual(RAR))
             {
                 mime = "application/x-rar-compressed";
             }
-            else if (file.Take(3).SequenceEqual(SWF))
+            else if (fileBytes.Take(3).SequenceEqual(SWF))
             {
                 mime = "application/x-shockwave-flash";
             }
-            else if (file.Take(4).SequenceEqual(TIFF))
+            else if (fileBytes.Take(4).SequenceEqual(TIFF))
             {
                 mime = "image/tiff";
             }
-            else if (file.Take(11).SequenceEqual(TORRENT))
+            else if (fileBytes.Take(11).SequenceEqual(TORRENT))
             {
                 mime = "application/x-bittorrent";
             }
-            else if (file.Take(5).SequenceEqual(TTF))
+            else if (fileBytes.Take(5).SequenceEqual(TTF))
             {
                 mime = "application/x-font-ttf";
             }
-            else if (file.Take(4).SequenceEqual(WAV_AVI))
+            else if (fileBytes.Take(4).SequenceEqual(WAV_AVI))
             {
                 mime = extension == ".AVI" ? "video/x-msvideo" : "audio/x-wav";
             }
-            else if (file.Take(16).SequenceEqual(WMV_WMA))
+            else if (fileBytes.Take(16).SequenceEqual(WMV_WMA))
             {
                 mime = extension == ".WMA" ? "audio/x-ms-wma" : "video/x-ms-wmv";
             }
-            else if (file.Take(4).SequenceEqual(ZIP_DOCX))
+            else if (fileBytes.Take(4).SequenceEqual(ZIP_DOCX))
             {
                 mime = extension == ".DOCX" ? "application/vnd.openxmlformats-officedocument.wordprocessingml.document" : "application/x-zip-compressed";
             }
 
             return mime;
         }
-
 
         /// <summary>
         /// GetFileExtForMimeTypeApache
@@ -298,7 +294,6 @@ namespace Area23.At.Framework.Core.Static
             return "hex";
         }
 
-
         public static bool IsMimeTypeImage(string mimeString)
         {
             //Ensure that the mimeString isn't empty or null
@@ -415,6 +410,7 @@ namespace Area23.At.Framework.Core.Static
             }
             return false;
         }
+
 
     }
 

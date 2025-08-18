@@ -43,9 +43,20 @@ namespace Area23.At.Framework.Core.Static
         // constants string
         public const string APP_NAME = "Area23.At";
         public const string APP_DIR = "net";
-        public const string VERSION = "v2.25.420";
+        public const string VERSION = "v2.25.805";
+        public const string VALKEY_CACHE_HOST = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com";
+        public const int VALKEY_CACHE_PORT = 6379;
         public const string VALKEY_CACHE_HOST_PORT = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com:6379";
         public const string VALKEY_CACHE_HOST_PORT_KEY = "ValkeyCacheHostPort";
+        public const string EXTERNAL_CLIENT_IP = "ExternalClientIP";
+        public const string EXTERNAL_CLIENT_IP_V4 = "ExternalClientIPv4";
+        public const string SERVER_IP_V4 = "ServerIPv4";
+        public const string SERVER_IP_V6 = "ServerIPv6";
+        public const string CQR_SERVICE_SOAP = "CqrServiceSoap";
+        public const string CQR_SERVICE_SOAP12 = "CqrServiceSoap12";
+        public const string CQR_SRV_SOAP = "CqrSrvSoap";
+        public const string CQR_SRV_SOAP12 = "CqrSrvSoap12";
+
 
         public const string AREA23_URL = "https://area23.at";
         public const string APP_PATH = "https://area23.at/net/";
@@ -104,6 +115,17 @@ namespace Area23.At.Framework.Core.Static
         public const string AREA23_EMAIL = "zen@area23.at";
         public const string AUTHOR_SIGNATURE = "-- \nHeinrich G.Elsigan\nTheresianumgasse 6/28, A-1040 Vienna\n phone: +43 650 752 79 28 \nmobile: +43 670 406 89 83 \nemails: heinrich.elsigan @gmail.com\n        heinrich.elsigan@live.at\n        sites: area23.at cqrxs.eu\nweblog: blog.area23.at\n   wko: https://firmen.wko.at/DetailsKontakt.aspx?FirmaID=19800fbd-84a2-456d-890e-eb1fa213100f";
 
+        public const string APP_CONCURRENT_DICT = "APP_CONCURRENT_DICT";
+        public const string APP_FIRST_REG = "APP_FIRST_REG";
+        public const string APP_TRANSPARENT_BADGE = "APP_TRANSPARENT_BADGE";
+        public const string APP_SERVER_KEY = "APP_SERVER_KEY";
+        public const string APP_INPUT_DIALOG = "APP_INPUT_DIALOG";
+        public const string APP_MY_CONTACT = "APP_MY_CONTACT";
+
+        public const string APP_DIR_PATH_WIN = "AppDirPathWin";
+        public const string BASE_APP_PATH_WIN = "BaseAppPathWin";
+        public const string APP_DIR_PATH_UNIX = "AppDirPathUnix";
+        public const string BASE_APP_PATH_UNIX = "BaseAppPathUnix";
         public const string CALC_DIR = "Calc";
         public const string CSS_DIR = "css";
         public const string CRYPT_DIR = "Crypt";
@@ -112,7 +134,7 @@ namespace Area23.At.Framework.Core.Static
         public const string JS_DIR = "js";
         public const string LOG_DIR = "log";
         public const string LOG_EXT = ".log";
-		public const string LOG_EXCEPTION_STATIC = "LogExceptionStatic";
+        public const string LOG_EXCEPTION_STATIC = "LogExceptionStatic";
         public const string OUT_DIR = "out";
         public const string TMP_DIR = "tmp";
         public const string QR_DIR = "Qr";
@@ -140,6 +162,7 @@ namespace Area23.At.Framework.Core.Static
 
         public const string UTF8_JSON = "utf8symol.json";
         public const string JSON_SAVE_FILE = "urlshort.json";
+        public const string JSON_APPDICT_FILE = "appdict.json";
         public const string JSON_CONTACTS_FILE = "contacts.json";
         public const string JSON_CONTACTS = "contacts";
         public const string JSON_CONTACTS_SELECTED = "contacts_selected";
@@ -187,13 +210,6 @@ namespace Area23.At.Framework.Core.Static
         public const string STRING_EMPTY = "";
         public const string STRING_NULL = null;
         public const string SNULL = "(null)";
-
-        public const string APP_CONCURRENT_DICT = "APP_CONCURRENT_DICT";
-        public const string APP_FIRST_REG = "APP_FIRST_REG";
-        public const string APP_TRANSPARENT_BADGE = "APP_TRANSPARENT_BADGE";
-        public const string APP_SERVER_KEY = "APP_SERVER_KEY";
-        public const string APP_INPUT_DIALOG = "APP_INPUT_DIALOG";
-        public const string APP_MY_CONTACT = "APP_MY_CONTACT";
 
         public const string AES_ENVIROMENT_KEY = "APP_ENCRYPTION_SECRET_KEY";
 

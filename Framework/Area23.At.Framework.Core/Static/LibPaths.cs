@@ -22,8 +22,7 @@ namespace Area23.At.Framework.Core.Static
         private static string systemDirResPath = "";
         private static string logDirPath = "";
         private static string logFilePath = "";
-        private static string cqrServiceSoap = "";
-        private static string cqrServiceSoap12 = "";
+        private static string cqrServiceSoap = "", cqrServiceSoap12 = "", cqrSrvSoap = "", cqrSrvSoap12 = "";
         private static readonly char _sepCh;
         private static int daysave = -1;
 
@@ -77,6 +76,7 @@ namespace Area23.At.Framework.Core.Static
 
         #region Web App Paths
 
+        // TODO: not only via Configuration
         public static string AppPath
         {
             get
@@ -94,7 +94,7 @@ namespace Area23.At.Framework.Core.Static
                     }
                     catch (Exception appFolderEx)
                     {
-                        SLog.Log(appFolderEx);
+                        Area23Log.LogOriginMsgEx("LibPaths", "AppPath.get", appFolderEx);     
                     }
                     if (string.IsNullOrEmpty(appPath))
                         appPath = Constants.APP_DIR;
@@ -111,11 +111,11 @@ namespace Area23.At.Framework.Core.Static
                 {
                     string basApPath = "";
                     if (SepCh == '/' &&
-                        ConfigurationManager.AppSettings["BaseAppPathUnix"] != null &&
-                        ConfigurationManager.AppSettings["BaseAppPathUnix"] != "")
-                        basApPath = ConfigurationManager.AppSettings["BaseAppPathUnix"];
-                    else if (ConfigurationManager.AppSettings["BaseAppPathWin"] != null)
-                        basApPath = ConfigurationManager.AppSettings["BaseAppPathWin"];
+                        ConfigurationManager.AppSettings[Constants.BASE_APP_PATH_UNIX] != null &&
+                        ConfigurationManager.AppSettings[Constants.BASE_APP_PATH_UNIX] != "")
+                        basApPath = (string)ConfigurationManager.AppSettings[Constants.BASE_APP_PATH_UNIX];
+                    else if (ConfigurationManager.AppSettings[Constants.BASE_APP_PATH_WIN] != null)
+                        basApPath = (string)ConfigurationManager.AppSettings[Constants.BASE_APP_PATH_WIN];
 
                     baseAppPath = !basApPath.EndsWith("/") ? basApPath + "/" : basApPath;
                 }
@@ -156,10 +156,10 @@ namespace Area23.At.Framework.Core.Static
             {
                 if (string.IsNullOrEmpty(cqrServiceSoap))
                 {
-                    if (ConfigurationManager.AppSettings["CqrServiceSoap"] != null)
-                        cqrServiceSoap = ConfigurationManager.AppSettings["CqrServiceSoap"].ToString();
+                    if (ConfigurationManager.AppSettings[Constants.CQR_SERVICE_SOAP] != null)
+                        cqrServiceSoap = ConfigurationManager.AppSettings[Constants.CQR_SERVICE_SOAP].ToString();
                     else
-                        cqrServiceSoap = "https://srv.cqrxs.eu/v1.1/CqrService.asmx";
+                        cqrServiceSoap = "https://srv.cqrxs.eu/v1.2/CqrService.asmx";
                 }
                 return cqrServiceSoap;
             }
@@ -171,44 +171,48 @@ namespace Area23.At.Framework.Core.Static
             {
                 if (string.IsNullOrEmpty(cqrServiceSoap12))
                 {
-                    if (ConfigurationManager.AppSettings["CqrServiceSoap12"] != null)
-                        cqrServiceSoap12 = ConfigurationManager.AppSettings["CqrServiceSoap12"].ToString();
+                    if (ConfigurationManager.AppSettings[Constants.CQR_SERVICE_SOAP12] != null)
+                        cqrServiceSoap12 = ConfigurationManager.AppSettings[Constants.CQR_SERVICE_SOAP12].ToString();
                     else
-                        cqrServiceSoap12 = "https://srv.cqrxs.eu/v1.1/CqrService.asmx";
+                        cqrServiceSoap12 = "https://srv.cqrxs.eu/v1.2/CqrService.asmx";
                 }
                 return cqrServiceSoap12;
             }
         }
 
-        public static string CqrServiceSoapv4
+        public static string CqrServiceSoapV6 { get => CqrServiceSoap12.Replace("://srv.", "://ipv6."); }
+
+        public static string CqrSrvSoap
         {
             get
             {
-                if (string.IsNullOrEmpty(cqrServiceSoap12))
+                if (string.IsNullOrEmpty(cqrSrvSoap))
                 {
-                    if (ConfigurationManager.AppSettings["CqrServiceSoapv4"] != null)
-                        cqrServiceSoap12 = ConfigurationManager.AppSettings["CqrServiceSoapv4"].ToString();
+                    if (ConfigurationManager.AppSettings[Constants.CQR_SRV_SOAP] != null)
+                        cqrSrvSoap = (string)ConfigurationManager.AppSettings[Constants.CQR_SRV_SOAP].ToString();
                     else
-                        cqrServiceSoap12 = "https://srv.cqrxs.eu/v1.1/CqrService.asmx";
+                        cqrSrvSoap = "https://srv.cqrxs.eu/v1.3/CqrService.asmx";
                 }
-                return cqrServiceSoap12;
+                return cqrSrvSoap;
             }
         }
 
-        public static string CqrServiceSoapv6
+        public static string CqrSrvSoap12
         {
             get
             {
-                if (string.IsNullOrEmpty(cqrServiceSoap12))
+                if (string.IsNullOrEmpty(cqrSrvSoap12))
                 {
-                    if (ConfigurationManager.AppSettings["CqrServiceSoapv6"] != null)
-                        cqrServiceSoap12 = ConfigurationManager.AppSettings["CqrServiceSoapv6"].ToString();
+                    if (ConfigurationManager.AppSettings[Constants.CQR_SRV_SOAP12] != null)
+                        cqrSrvSoap12 = (string)ConfigurationManager.AppSettings[Constants.CQR_SRV_SOAP12].ToString();
                     else
-                        cqrServiceSoap12 = "https://ipv6.cqrxs.eu/v1.1/CqrService.asmx";
+                        cqrSrvSoap12 = "https://srv.cqrxs.eu/v1.3/CqrService.asmx";
                 }
-                return cqrServiceSoap12;
+                return cqrSrvSoap12;
             }
         }
+
+        public static string CqrSrvSoapV6 { get => CqrSrvSoap12.Replace("://srv.", "://ipv6."); }
 
         #endregion WebServices
 
@@ -255,13 +259,13 @@ namespace Area23.At.Framework.Core.Static
                             {
                                 case 0:
                                     if (SepChar == "/" && Path.DirectorySeparatorChar == '/' && SepCh == Path.DirectorySeparatorChar &&
-                                            ConfigurationManager.AppSettings["AppDirPathUnix"] != null &&
-                                            ConfigurationManager.AppSettings["AppDirPathUnix"] != "")
-                                        systemDirPath = ConfigurationManager.AppSettings["AppDirPathUnix"];
+                                            ConfigurationManager.AppSettings[Constants.APP_DIR_PATH_UNIX] != null &&
+                                            ConfigurationManager.AppSettings[Constants.APP_DIR_PATH_UNIX] != "")
+                                        systemDirPath = ConfigurationManager.AppSettings[Constants.APP_DIR_PATH_UNIX];
                                     break;
                                 case 1:
-                                    if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)
-                                        systemDirPath = ConfigurationManager.AppSettings["AppDirPathWin"];
+                                    if (ConfigurationManager.AppSettings[Constants.APP_DIR_PATH_WIN] != null)
+                                        systemDirPath = ConfigurationManager.AppSettings[Constants.APP_DIR_PATH_WIN];
                                     break;
                                 case 2: systemDirPath = Path.GetFullPath(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName); break;
                                 case 3: systemDirPath = Path.GetFullPath(System.Environment.ProcessPath); break;
@@ -319,13 +323,13 @@ namespace Area23.At.Framework.Core.Static
                         try
                         {
                             string dirNotFoundMsg = string.Format("out directory {0} doesn't exist, creating it!", systemDirResPath);
-                            SLog.Log(dirNotFoundMsg);
+                            Area23Log.LogOriginMsg("LibPaths", "SystemDirResPath.get: " + dirNotFoundMsg);
                             if (Constants.DirCreate)
                                 Directory.CreateDirectory(systemDirResPath);
                         }
                         catch (Exception ex)
                         {
-                            SLog.Log(ex);
+                            Area23Log.LogOriginMsgEx("LibPaths", "SystemDirResPath.get", ex);
                         }
                     }
                 }

@@ -4,7 +4,7 @@
     /// <summary>
     /// Basic class for symmetric cipher encryption
     /// </summary>
-    public class SymmCrypt : Area23.At.Framework.Core.Crypt.Cipher.Crypt
+    public class SymmCrypt
     {
 
         /// <summary>

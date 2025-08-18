@@ -9,80 +9,87 @@
 
 using Area23.At.Framework.Core.Static;
 
-namespace Area23.At.Framework.Core.Cqr.WebSrv
+namespace Area23.At.Framework.Core.Cqr.Service
 {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="https://srv.cqrxs.eu/v1.1/", ConfigurationName="Area23.At.Framework.Core.Cqr.WebSrv.CqrServiceSoap")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="https://srv.cqrxs.eu/v1.2/", ConfigurationName="Area23.At.Framework.Core.Cqr.Service.CqrServiceSoap")]
     public interface CqrServiceSoap
     {
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/Send1StSrvMsg", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/Send1StSrvMsg", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         string Send1StSrvMsg(string cryptMsg);
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/Send1StSrvMsg", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/Send1StSrvMsg", ReplyAction="*")]
         System.Threading.Tasks.Task<string> Send1StSrvMsgAsync(string cryptMsg);
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/ChatRoomInvite", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/ChatRoomInvite", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         string ChatRoomInvite(string cryptMsg);
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/ChatRoomInvite", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/ChatRoomInvite", ReplyAction="*")]
         System.Threading.Tasks.Task<string> ChatRoomInviteAsync(string cryptMsg);
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/ChatRoomPoll", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/ChatRoomPoll", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         string ChatRoomPoll(string cryptMsg);
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/ChatRoomPoll", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/ChatRoomPoll", ReplyAction="*")]
         System.Threading.Tasks.Task<string> ChatRoomPollAsync(string cryptMsg);
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/ChatRoomPushMessage", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/ChatRoomPush", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        string ChatRoomPushMessage(string cryptMsg, string chatRoomMembersCrypted);
+        string ChatRoomPush(string cryptMsg);
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/ChatRoomPushMessage", ReplyAction="*")]
-        System.Threading.Tasks.Task<string> ChatRoomPushMessageAsync(string cryptMsg, string chatRoomMembersCrypted);
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/ChatRoomPush", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> ChatRoomPushAsync(string cryptMsg);
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/ChatRoomClose", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/ChatRoomClose", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         string ChatRoomClose(string cryptMsg);
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/ChatRoomClose", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/ChatRoomClose", ReplyAction="*")]
         System.Threading.Tasks.Task<string> ChatRoomCloseAsync(string cryptMsg);
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/TestService", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/TestService", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         string TestService();
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/TestService", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/TestService", ReplyAction="*")]
         System.Threading.Tasks.Task<string> TestServiceAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/GetIPAddress", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/GetIPAddress", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         string GetIPAddress();
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/GetIPAddress", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/GetIPAddress", ReplyAction="*")]
         System.Threading.Tasks.Task<string> GetIPAddressAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/TestCache", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/TestCache", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         string TestCache();
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.1/TestCache", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/TestCache", ReplyAction="*")]
         System.Threading.Tasks.Task<string> TestCacheAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/ResetCache", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        string ResetCache();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="https://srv.cqrxs.eu/v1.2/ResetCache", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> ResetCacheAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    public interface CqrServiceSoapChannel : Area23.At.Framework.Core.Cqr.WebSrv.CqrServiceSoap, System.ServiceModel.IClientChannel
+    public interface CqrServiceSoapChannel : Area23.At.Framework.Core.Cqr.Service.CqrServiceSoap, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    public partial class CqrServiceSoapClient : System.ServiceModel.ClientBase<Area23.At.Framework.Core.Cqr.WebSrv.CqrServiceSoap>, Area23.At.Framework.Core.Cqr.WebSrv.CqrServiceSoap
+    public partial class CqrServiceSoapClient : System.ServiceModel.ClientBase<Area23.At.Framework.Core.Cqr.Service.CqrServiceSoap>, Area23.At.Framework.Core.Cqr.Service.CqrServiceSoap
     {
         
         /// <summary>
@@ -148,14 +155,14 @@ namespace Area23.At.Framework.Core.Cqr.WebSrv
             return base.Channel.ChatRoomPollAsync(cryptMsg);
         }
         
-        public string ChatRoomPushMessage(string cryptMsg, string chatRoomMembersCrypted)
+        public string ChatRoomPush(string cryptMsg)
         {
-            return base.Channel.ChatRoomPushMessage(cryptMsg, chatRoomMembersCrypted);
+            return base.Channel.ChatRoomPush(cryptMsg);
         }
         
-        public System.Threading.Tasks.Task<string> ChatRoomPushMessageAsync(string cryptMsg, string chatRoomMembersCrypted)
+        public System.Threading.Tasks.Task<string> ChatRoomPushAsync(string cryptMsg)
         {
-            return base.Channel.ChatRoomPushMessageAsync(cryptMsg, chatRoomMembersCrypted);
+            return base.Channel.ChatRoomPushAsync(cryptMsg);
         }
         
         public string ChatRoomClose(string cryptMsg)
@@ -198,12 +205,21 @@ namespace Area23.At.Framework.Core.Cqr.WebSrv
             return base.Channel.TestCacheAsync();
         }
         
+        public string ResetCache()
+        {
+            return base.Channel.ResetCache();
+        }
+        
+        public System.Threading.Tasks.Task<string> ResetCacheAsync()
+        {
+            return base.Channel.ResetCacheAsync();
+        }
+        
         public virtual System.Threading.Tasks.Task OpenAsync()
         {
             return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndOpen));
         }
-
-
+        
         private static System.ServiceModel.Channels.Binding GetBindingForEndpoint(EndpointConfiguration endpointConfiguration)
         {
             if ((endpointConfiguration == EndpointConfiguration.CqrServiceSoap))
@@ -214,10 +230,6 @@ namespace Area23.At.Framework.Core.Cqr.WebSrv
                 System.ServiceModel.BasicHttpsBinding result = new System.ServiceModel.BasicHttpsBinding();
 #endif
                 result.MaxBufferSize = int.MaxValue;
-                result.SendTimeout = new TimeSpan(0, 4, 0);
-                result.ReceiveTimeout = new TimeSpan(0, 4, 0);
-                result.OpenTimeout = new TimeSpan(0, 4, 0);
-                result.CloseTimeout = new TimeSpan(0, 4, 0);
                 result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
                 result.MaxReceivedMessageSize = int.MaxValue;
                 result.AllowCookies = true;
@@ -228,8 +240,7 @@ namespace Area23.At.Framework.Core.Cqr.WebSrv
 #endif
                 return result;
             }
-            if ((endpointConfiguration == EndpointConfiguration.CqrServiceSoap12) || endpointConfiguration == EndpointConfiguration.CqrServiceSoapv4 ||
-                endpointConfiguration == EndpointConfiguration.CqrServiceSoapv6)
+            if ((endpointConfiguration == EndpointConfiguration.CqrServiceSoap12))
             {
                 System.ServiceModel.Channels.CustomBinding result = new System.ServiceModel.Channels.CustomBinding();
                 System.ServiceModel.Channels.TextMessageEncodingBindingElement textBindingElement = new System.ServiceModel.Channels.TextMessageEncodingBindingElement();
@@ -247,13 +258,13 @@ namespace Area23.At.Framework.Core.Cqr.WebSrv
                 httpsBindingElement.AllowCookies = true;
                 httpsBindingElement.MaxBufferSize = int.MaxValue;
                 httpsBindingElement.MaxReceivedMessageSize = int.MaxValue;
-                result.Elements.Add(httpsBindingElement);                
+                result.Elements.Add(httpsBindingElement);               
 #endif
                 return result;
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
-
+        
         private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
         {
             if ((endpointConfiguration == EndpointConfiguration.CqrServiceSoap))
@@ -264,30 +275,21 @@ namespace Area23.At.Framework.Core.Cqr.WebSrv
             {
                 return new System.ServiceModel.EndpointAddress(LibPaths.CqrServiceSoap12);
             }
-            if ((endpointConfiguration == EndpointConfiguration.CqrServiceSoapv4))
+            if ((endpointConfiguration == EndpointConfiguration.CqrServiceSoapV6))
             {
-                return new System.ServiceModel.EndpointAddress(LibPaths.CqrServiceSoap);
-            }
-            if ((endpointConfiguration == EndpointConfiguration.CqrServiceSoap12))
-            {
-                return new System.ServiceModel.EndpointAddress(LibPaths.CqrServiceSoap12);
+                return new System.ServiceModel.EndpointAddress(LibPaths.CqrServiceSoapV6);
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
-
+        
         public enum EndpointConfiguration
         {
-
+            
             CqrServiceSoap,
-
+            
             CqrServiceSoap12,
 
-            CqrServiceSoapv4,
-
-            CqrServiceSoapv6,
-
+            CqrServiceSoapV6
         }
-
     }
-
 }

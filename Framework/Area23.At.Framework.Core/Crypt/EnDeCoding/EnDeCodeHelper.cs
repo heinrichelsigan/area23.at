@@ -1,11 +1,6 @@
 ﻿using Area23.At.Framework.Core.Static;
 using Area23.At.Framework.Core.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 {
@@ -46,7 +41,7 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// <returns>encoded string</returns>
         public static string EncodeBytes(byte[] inBytes, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
         {
-            SLog.Log(
+            Area23Log.LogOriginMsg("EnDeCodeHelper", 
                 "EncodeEncryptedBytes(byte[] inBytes.[Length=" + inBytes.Length + "], EncodingType encodingType =  "
                 + encodingType.ToString() + ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
 
@@ -66,7 +61,7 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         {
             EncodingType encodingType = EncodingTypesExtensions.GetEnum(enCodingString);
 
-            SLog.Log(
+            Area23Log.LogOriginMsg("EnDeCodeHelper",
                 "EncdoeBytes(byte[] inBytes.[Length=" + inBytes.Length + "], EncodingType encodingType =  "
                 + encodingType.ToString() + ")");
 
@@ -88,7 +83,8 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// <returns>binary byte array</returns>
         public static byte[] DecodeText(string cipherText, /* out string errMsg, */ EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
         {
-            SLog.Log("EncodedTextToBytes(string cipherText[.Length " + cipherText.Length + "], EncodingType encodingType  = " +
+            Area23Log.LogOriginMsg("EnDeCodeHelper", 
+                "EncodedTextToBytes(string cipherText[.Length " + cipherText.Length + "], EncodingType encodingType  = " +
                 encodingType.ToString() + ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
 
             // errMsg = string.Empty;
@@ -115,7 +111,7 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         {
             EncodingType encodingType = EncodingTypesExtensions.GetEnum(enCodingString);
 
-            SLog.Log(
+            Area23Log.LogOriginMsg("EnDeCodeHelper", 
                 string.Format("DecodeText(string inText[.Length {0}], EncodingType encodingType = {1})",
                     inText.Length,
                     encodingType.ToString()));

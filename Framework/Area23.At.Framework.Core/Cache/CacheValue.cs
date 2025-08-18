@@ -1,13 +1,4 @@
-﻿using Area23.At.Framework.Core.Static;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Area23.At.Framework.Core.Cache
+﻿namespace Area23.At.Framework.Core.Cache
 {
 
     /// <summary>
@@ -17,13 +8,14 @@ namespace Area23.At.Framework.Core.Cache
     /// setting cache value via <see cref="CacheValue(object, Type)"/> ctor is obsolete.
     /// Use <see cref="GetValue{T}"/> to get the cached value
     /// </summary>
+    [Serializable]
     public class CacheValue
     {
-        
-        protected internal object? _Value { get; set; }
 
-        protected internal Type? _Type { get; set; }
-
+        #region properties
+        public object _Value { get; protected internal set; }
+        public Type _Type { get; protected internal set; }
+        #endregion properties
 
         /// <summary>
         /// Empty default ctor
@@ -47,12 +39,11 @@ namespace Area23.At.Framework.Core.Cache
             _Value = ovalue;
         }
 
-
         /// <summary>
         /// gets the <see cref="Type"/> of generic cached value
         /// </summary>
         /// <returns><see cref="Type"/> of generic value or null if cached value is <see cref="null"/></returns>
-        public Type? GetType()
+        public new Type GetType()
         {
             return _Type;
         }
@@ -63,15 +54,32 @@ namespace Area23.At.Framework.Core.Cache
         /// <typeparam name="T">generic type of value passed by typeparameter</typeparam>
         /// <returns>generic T value</returns>
         /// <exception cref="InvalidOperationException">thrown, when cached value isn't of typeof(T)</exception>
-        public T? GetValue<T>()
+        internal T GetValue<T>()
         {
-            T? tvalue;
-            if (typeof(T) == _Type)
-                tvalue = (T?)_Value;
+            if (_Type != null && _Value != null && typeof(T) == _Type)
+                return (T)_Value;
+            else
+                return default(T);
+        }
+
+        /// <summary>
+        /// Get a nullable value from cache
+        /// </summary>
+        /// <typeparam name="T">generic type of value passed by type parameter</typeparam>
+        /// <returns><see cref="Nullable{T}">Nullable{T} now T?</see></returns>
+        /// <exception cref="InvalidOperationException">thrown, when cached value isn't of typeof(T)</exception>
+        public Nullable<T> GetNullableValue<T>() where T : struct
+        {
+            Nullable<T> tNullValue = null;
+
+            if (_Type == null || _Value == null)
+                tNullValue = null;
+            else if (typeof(T) == _Type)
+                tNullValue = new Nullable<T>((T)_Value);
             else
                 throw new InvalidOperationException($"typeof(T) = {typeof(T)} while _type = {_Type}");
 
-            return tvalue ?? default(T);
+            return tNullValue;
         }
 
         /// <summary>
@@ -83,6 +91,15 @@ namespace Area23.At.Framework.Core.Cache
         {
             _Type = typeof(T);
             _Value = (object)tvalue;
+        }
+
+        /// <summary>
+        /// override ToString() returns <see cref="_Value"/>
+        /// </summary>
+        /// <returns>returns <see cref="_Value"/></returns>
+        public override string ToString()
+        {
+            return (_Value == null) ? null : _Value.ToString();
         }
 
     }

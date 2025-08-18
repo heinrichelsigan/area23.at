@@ -378,7 +378,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
             CipherEnum cipherAlgo = Enum.Parse<CipherEnum>(algo);
 
-            byte[] encryptBytes = Area23.At.Framework.Core.Crypt.Cipher.Crypt.EncryptBytes(inBytes, cipherAlgo, secretKey, keyIv);
+            byte[] encryptBytes = CipherPipe.EncryptBytesFast(inBytes, cipherAlgo, secretKey, keyIv);
 
             return encryptBytes;
         }
@@ -396,7 +396,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
             CipherEnum cipherAlgo = Enum.Parse<CipherEnum>(algorithmName);
 
-            byte[] decryptBytes = Area23.At.Framework.Core.Crypt.Cipher.Crypt.DecryptBytes(cipherBytes, cipherAlgo, secretKey, keyIv);
+            byte[] decryptBytes = CipherPipe.DecryptBytesFast(cipherBytes, cipherAlgo, secretKey, keyIv);
 
             return decryptBytes;
         }

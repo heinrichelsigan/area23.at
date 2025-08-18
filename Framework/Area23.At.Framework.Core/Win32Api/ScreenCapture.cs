@@ -110,7 +110,7 @@ namespace Area23.At.Framework.Core.Win32Api
                 }
                 catch (Exception exCapture) 
                 {
-                    Area23Log.Logger.LogOriginMsgEx("ScreenCapture.CaptureAllWindows()",
+                    Area23Log.LogOriginMsgEx("ScreenCapture.CaptureAllWindows()",
                         $"Exception on capturing window {winCnt} with windows handle {nextPtr.ToString()}.", exCapture);
                 }
             }

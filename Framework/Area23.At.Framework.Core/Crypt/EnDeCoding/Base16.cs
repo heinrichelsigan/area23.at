@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Area23.At.Framework.Core.Crypt.EnDeCoding
+﻿namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 {
     /// <summary>
     /// RawString hexadecimal byte encoding / decoding
