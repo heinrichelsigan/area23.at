@@ -1,7 +1,8 @@
 ﻿using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Static;
-using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Generators;
+using System.Windows.Forms;
 
 namespace Area23.At.Framework.Core.Crypt.Cipher
 {
@@ -11,6 +12,36 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
     /// </summary>
     public static class CryptHelper
     {
+        const ushort PASSWD_BYTE_LEN = 64;
+        const ushort SALT_BYTE_LEN = 16;
+        const ushort AVG_COST = 46;
+
+        /// <summary>
+        /// <see cref="Org.BouncyCastle.Crypto.Generators.BCrypt"/>
+        /// Thanx to the legion of <see href="https://bouncycastle.org/"" />
+        /// </summary>
+        /// <param name="passwd">passwd or key to encrypt</param>
+        /// <returns>bcrypted byte[]</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public static byte[] BCrypt(string passwd)
+        {
+            if (string.IsNullOrEmpty(passwd))
+                throw new ArgumentNullException("passwd");
+
+            byte[] keyBytes = EnDeCodeHelper.GetBytes(passwd);
+            
+            if (keyBytes.Length > PASSWD_BYTE_LEN)
+                throw new ArgumentException($"BCrypt(passwd) => GetBytes(passwd) => {Hex16.ToHex16(keyBytes)} Length {keyBytes.LongLength} > {PASSWD_BYTE_LEN} bytes", "passwd");
+
+            byte[] salt = EnDeCodeHelper.KeyToHexBytes(passwd, SALT_BYTE_LEN);
+            
+            byte[] bcrypted = Org.BouncyCastle.Crypto.Generators.BCrypt.Generate(keyBytes, salt, AVG_COST);
+            
+            return bcrypted;
+        }
+
+
 
         #region GetUserKeyBytes
 
@@ -27,84 +58,112 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         /// <summary>
         /// PrivateKeyWithUserHash, helper to double private secret key with hash
         /// </summary>
-        /// <param name="key">users private secret key</param>
-        /// <param name="hash">users private secret key hash</param>
+        /// <param name="secKey">users private secret key</param>
+        /// <param name="keyHash">users private secret key hash</param>
         /// <returns>doubled concatendated string of (secretKey + hash)</returns>
-        internal static string PrivateKeyWithUserHash(string key, string hash)
+        /// <exception cref="ArgumentNullException"></exception>
+        internal static string PrivateKeyWithUserHash(string secKey, string kayHash)
         {
-            string secKey = string.IsNullOrEmpty(key) ? Constants.AUTHOR_EMAIL : key;
-            string usrHash = string.IsNullOrEmpty(hash) ? Constants.AUTHOR_IV : hash;
+            if (string.IsNullOrEmpty(secKey))
+                throw new ArgumentNullException("secKey");
+
+            string usrHash = string.IsNullOrEmpty(kayHash) ? EnDeCodeHelper.KeyToHex(secKey) : kayHash;
 
             return string.Concat(secKey, usrHash);
         }
 
+
+        /// <summary>
         /// PrivateKeyWithUserHash, helper to hash merge private user key with hash
         /// </summary>
         /// <param name="key">users private key</param>
-        /// <param name="hash">users private hash</param>
+        /// <param name="keyHash">key hash</param>
+        /// <param name="merge">do merge</param>
         /// <returns>doubled concatendated string of (secretKey + hash)</returns>
-        internal static byte[] KeyUserHashBytes(string key, string hash, bool merge = true)
+        /// <exception cref="ArgumentNullException"></exception>
+        internal static byte[] KeyUserHashBytes(string key, string keyHash, bool merge = true)
         {
-            // TODO: throw Exception, when secret key is null or empty,
-            // instead of using Constants.AUTHOR_EMAIL & Constants.AUTHOR_IV
-            key = (string.IsNullOrEmpty(key)) ? Constants.AUTHOR_EMAIL : key;
-            hash = (string.IsNullOrEmpty(hash)) ? Constants.AUTHOR_IV : hash;
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException("key");
+
+            keyHash = (string.IsNullOrEmpty(keyHash)) ? EnDeCodeHelper.KeyToHex(key) : keyHash;
 
             byte[] keyBytes = EnDeCodeHelper.GetBytes(key);
-            byte[] hashBytes = EnDeCodeHelper.GetBytes(hash);
+            byte[] hashBytes = EnDeCodeHelper.GetBytes(keyHash);
+
+            return KeyHashBytes(keyBytes, hashBytes, merge);
+        }
+
+        /// <summary>
+        /// KeyHashBytes
+        /// </summary>
+        /// <param name="keyBytes">private key bytes</param>
+        /// <param name="hashBytes">key hash bytes</param>
+        /// <param name="merge">do merge</param>
+        /// <returns>doubled concatendated string of (secretKey + hash)</returns>
+        internal static byte[] KeyHashBytes(byte[] keyBytes, byte[] hashBytes, bool merge = true)
+        {
+            if (keyBytes == null || keyBytes.Length == 0)
+                throw new ArgumentNullException("keyBytes");
+
+            if (hashBytes == null || hashBytes.Length == 0)
+                throw new ArgumentNullException("hashBytes");
+
+            if (!merge)
+                return keyBytes.TarBytes(hashBytes);
 
             List<Byte> outBytes = new List<byte>();
-            if (!merge)
-                outBytes.AddRange(keyBytes.TarBytes(hashBytes));
-            else
+            int kb = 0, hb = 0;
+            for (int ob = 0; (ob < (keyBytes.Length + hashBytes.Length)); ob++)
             {
-                int kb = 0, hb = 0;
-                for (int ob = 0; (ob < (keyBytes.Length + hashBytes.Length)); ob++)
-                {
-                    if (kb < keyBytes.Length)
-                        outBytes.Add(keyBytes[kb++]);
-                    if (hb < hashBytes.Length)
-                        outBytes.Add(hashBytes[hb++]);
-                    if (hb < hashBytes.Length)
-                        outBytes.Add(hashBytes[hashBytes.Length - hb]);
-                    hb++;
-                    if (kb < keyBytes.Length)
-                        outBytes.Add(keyBytes[keyBytes.Length - kb]);
-                    kb++;
+                if (kb < keyBytes.Length)
+                    outBytes.Add(keyBytes[kb++]);
+                if (hb < hashBytes.Length)
+                    outBytes.Add(hashBytes[hb++]);
+                if (hb < hashBytes.Length)
+                    outBytes.Add(hashBytes[hashBytes.Length - hb]);
+                hb++;
+                if (kb < keyBytes.Length)
+                    outBytes.Add(keyBytes[keyBytes.Length - kb]);
+                kb++;
 
-                    ob = outBytes.Count;
-                }
+                ob = outBytes.Count;
             }
 
             return outBytes.ToArray();
         }
 
+
         /// <summary>
-        /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
+        /// GetUserKeyBytes gets symmetric chiffre private byte[KeyLen] encryption / decryption key
         /// </summary>
         /// <param name="key">user key, default email address</param>
-        /// <param name="hash">user hash</param>        
-        /// <param name="keyLen">length of user key bytes, maximum length <see cref="Constants.MAX_KEY_LEN"/></param>
+        /// <param name="keyHash">user hash</param>        
+        /// <param name="keyLen">length of user key bytes, maximum length <see cref="Constants.MAX_KEY_LEN"/></param>        
+        /// <param name="useBcrypt">use bcrypted key <see cref="BCrypt(string)"/></param>
         /// <returns>Array of byte with length KeyLen</returns>
-        public static byte[] GetUserKeyBytes(string key, string hash, int keyLen = 32)
+        /// <exception cref="ArgumentNullException"></exception>
+        public static byte[] GetUserKeyBytes(string key, string keyHash, int keyLen = 32, bool useBcrypt = false)
         {
-            // TODO: throw Exception, when secret key is null or empty,
-            // instead of using Constants.AUTHOR_EMAIL & Constants.AUTHOR_IV
-            key = (string.IsNullOrEmpty(key)) ? Constants.AUTHOR_EMAIL : key;
-            hash = (string.IsNullOrEmpty(hash)) ? Constants.AUTHOR_IV : hash;
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException("key");
+
+            byte[] keyBytes = (useBcrypt) ? BCrypt(key) : EnDeCodeHelper.GetBytes(key);
+            byte[] hashBytes = string.IsNullOrEmpty(keyHash) ? EnDeCodeHelper.GetBytes(Hex16.ToHex16(keyBytes)) : EnDeCodeHelper.GetBytes(keyHash);
+            // keyHash = (string.IsNullOrEmpty(keyHash)) ? EnDeCodeHelper.KeyToHex(key) : keyHash;
 
             int keyByteCnt = -1;
             keyLen = (keyLen > Constants.MAX_KEY_LEN) ? Constants.MAX_KEY_LEN : keyLen;
             string keyByteHashString = key;
             byte[] tmpKey = new byte[keyLen];
 
-            byte[] keyHashBytes = KeyUserHashBytes(key, hash);
+            byte[] keyHashBytes = KeyHashBytes(keyBytes, hashBytes);
             keyByteCnt = keyHashBytes.Length;
             byte[] keyHashTarBytes = new byte[keyByteCnt * 2 + 1];
 
             if (keyByteCnt < keyLen)
             {
-                keyHashTarBytes = keyHashBytes.TarBytes(KeyUserHashBytes(hash, key));
+                keyHashTarBytes = keyHashBytes.TarBytes(KeyHashBytes(hashBytes, keyBytes));
                 keyByteCnt = keyHashTarBytes.Length;
                 keyHashBytes = new byte[keyByteCnt];
                 Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
@@ -112,8 +171,8 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             if (keyByteCnt < keyLen)
             {
                 keyHashTarBytes = keyHashBytes.TarBytes(
-                    KeyUserHashBytes(hash, key),
-                    KeyUserHashBytes(key, hash)
+                    KeyHashBytes(hashBytes, keyBytes),
+                    KeyHashBytes(keyBytes, hashBytes)
                 );
                 keyByteCnt = keyHashTarBytes.Length;
                 keyHashBytes = new byte[keyByteCnt];

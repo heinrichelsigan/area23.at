@@ -39,32 +39,44 @@
                     <asp:ImageButton ID="ImageButton_Key" runat="server" ClientIDMode="Static"
                     OnClick="Button_Key_Click" ImageUrl="../res/img/crypt/a_right_key.png" AlternateText="save your user key in session" />
                 </span>
-                <span class="centerSpan" style="max-width: 400px;">                
+                <span class="centerSpan" style="margin-left: 1px; max-width: 600px; min-width: 480px">
                     <asp:TextBox ID="TextBox_Key" runat="server" ClientIDMode="Static" Text="heinrich.elsigan@area23.at"                        
-                        ToolTip="Enter your personal email address or secret key here" MaxLength="192" Width="480px" style="width: 480px;" />
+                        ToolTip="Enter your personal email address or secret key here" MaxLength="192" Width="480px" style="width: 480px; max-width: 600px" />
                 </span>
                 <span class="rightSpan" style="width: 60px; min-width: 48px; max-width: 72px">
                     <asp:Button ID="Button_Clear" runat="server" Text="clear" OnClick="Button_Clear_Click" 
                         ToolTip="Clear SymChiffre Pipeline" style="width: 60px; min-width: 48px; max-width: 72px" />
                 </span>
             </div>    
-            <div class="odDiv">
+            <div class="odDiv" style="margin-top: 2px">
                 <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">
                     <asp:Button ID="Button_Hash" runat="server" Text="hash" ClientIDMode="Static" 
                         OnClick="Button_Hash_Click" ToolTip="calculates an iv hash from entered userkey above" style="min-width: 48px; max-width: 72px" />
                 </span>
                 <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">key&nbsp;hash:</span>
-                <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">
+                <span class="centerSpan" style="margin-left: 8px; width: 60px; min-width: 48px; max-width: 72px">
                     <asp:ImageButton ID="ImageButton_Hash" runat="server" ClientIDMode="Static"
                     OnClick="Button_Hash_Click" ImageUrl="../res/img/crypt/a_hash.png" AlternateText="generate new hash from key" />
                 </span>                
-                <span class="centerSpan" style="max-width: 400px;"><asp:TextBox ID="TextBox_IV" runat="server" ClientIDMode="Static"
-                    ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="192"  Width="480px"  style="width: 480px;" />
+                <span class="centerSpan" style="margin-left: 2px; max-width: 600px; min-width: 480px;">
+                    <asp:TextBox ID="TextBox_IV" runat="server" ClientIDMode="Static"
+                        ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="192"  Width="480px" style="width: 480px; max-width: 600px" />
                 </span>
                 <span class="rightSpan" style="width: 80px; min-width: 72px; max-width: 84px">
                     <asp:Button ID="Button_SetPipeline" runat="server" ClientIDMode="Static"  Text="set pipeline" 
                         OnClick="Button_SetPipeline_Click" ToolTip="set symmetric cipher pipeline" style="width: 80px; min-width: 72px; max-width: 84px"  />
                 </span>
+            </div>
+            <div class="odDiv" style="margin-top: 4px">
+                <span class="leftSpan" style="width: 120px; min-width: 120px; max-width: 180px">
+                    <asp:CheckBox ID="CheckBox_BCrypt" runat="server" AutoPostBack="true" ClientIDMode="Static" Text="bcrypt key as hash" 
+                        OnCheckedChanged="CheckBox_BCrypt_CheckedCahnged" Checked="false" ToolTip="bcrypt hash instead of hex string" />
+                   </span>                
+                <span class="centerSpan" style="margin-left: 20px; max-width: 800px; min-width: 720px;">
+                    <asp:TextBox ID="TextBox_BCrypted_Hash" runat="server" ClientIDMode="Static" Visible="false"
+                        ToolTip="bcrypted key hash" ReadOnly="true" Text="" MaxLength="192"  Width="720px" style="width: 720px; max-width: 800px" />
+                </span>
+                <span class="rightSpan" style="width: 80px; min-width: 72px; max-width: 84px">&nbsp;</span>    
             </div>
         </div>
         <div id="DivAesImprove" runat="server" style="padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;">
@@ -103,8 +115,6 @@
                         <asp:ListItem Enabled="true" Value="RC532" Selected="false">RC532</asp:ListItem>                
                         <asp:ListItem Enabled="true" Value="RC564" Selected="false">RC564</asp:ListItem> 
                         <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Rfc3211" Selected="false">Rfc3211Wrap</asp:ListItem> 
-                        <asp:ListItem Enabled="true" Value="Rsa" Selected="false">Rsa</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Seed" Selected="false">Seed</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="SM4" Selected="false">SM4</asp:ListItem>
@@ -122,9 +132,9 @@
                         onmouseover="document.getElementById('ImageButton_Add').src='../res/img/crypt/AddAesArrowHover.gif'"                     
                         onmouseout="document.getElementById('ImageButton_Add').src='../res/img/crypt/AddAesArrow.gif'" />
                 </span>
-                <span class="centerSpan" style="max-width: 400px;">
+                <span class="centerSpan" style="width: 432px; max-width: 480px;">
                     <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true" ClientIDMode="Static" TextMode="SingleLine" MaxLength="512" 
-                        Width="400px"  style="width: 400px;" />
+                        Width="432px"  style="width: 432px; max-width: 480px" />
                         &rArr;
                 </span>
                 <span class="rightSpan">
