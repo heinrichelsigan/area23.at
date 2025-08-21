@@ -34,7 +34,7 @@ namespace Area23.At.Mono.Crypt
             if (!Page.IsPostBack)
             {
                 if ((Session[Constants.AES_ENVIROMENT_KEY] != null) && !string.IsNullOrEmpty((string)Session[Constants.AES_ENVIROMENT_KEY]) &&
-                    (((string)Session[Constants.AES_ENVIROMENT_KEY]).Length > 7))
+                    (((string)Session[Constants.AES_ENVIROMENT_KEY]).Length > 3))
                 {
                     Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
                 }                            
@@ -57,9 +57,8 @@ namespace Area23.At.Mono.Crypt
         [Obsolete("TextBox_Key_TextChanged is fully deprectated, because no autopostback anymore", true)]
         protected void TextBox_Key_TextChanged(object sender, EventArgs e)
         {
-            this.TextBox_IV.Text = (CheckBox_BCrypt.Checked) ?
-                Hex16.ToHex16(CryptHelper.BCrypt(TextBox_Key.Text)) :
-                    EnDeCodeHelper.KeyToHex(this.TextBox_Key.Text);
+            Reset_TextBox_IV(this.TextBox_Key.Text);
+
             this.TextBox_IV.BorderColor = Color.GreenYellow;
             this.TextBox_IV.ForeColor = Color.DarkOliveGreen;
             this.TextBox_IV.BorderStyle = BorderStyle.Dotted;
@@ -98,9 +97,7 @@ namespace Area23.At.Mono.Crypt
             this.TextBox_Encryption.Text = "";
             this.TextBox_IV.Text = "";
             this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
-            this.CheckBox_BCrypt.Checked = false;
-            this.TextBox_BCrypted_Hash.Text = "";
-            this.TextBox_BCrypted_Hash.Visible = false;
+            this.RadioButtonList_Hash.SelectedValue = "h";
             this.TextBoxSource.Text = "";
             this.TextBoxDestionation.Text = "";
             
@@ -126,18 +123,15 @@ namespace Area23.At.Mono.Crypt
         }
 
         /// <summary>
-        /// CheckBox_BCrypt_CheckedCahnged set or reset bcrypted key as hash
+        /// RadioButtonList_Hash_ParameterChanged changes key hashing method
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void CheckBox_BCrypt_CheckedCahnged(object sender, EventArgs e)
+        protected void RadioButtonList_Hash_ParameterChanged(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 0)
             {
-                Reset_TextBox_IV(this.TextBox_Key.Text);
-                TextBox_BCrypted_Hash.Text = (CheckBox_BCrypt.Checked) ?
-                    EnDeCodeHelper.KeyToHex(TextBox_IV.Text) :
-                        EnDeCodeHelper.KeyToHex(TextBox_Key.Text);
+                Reset_TextBox_IV(this.TextBox_Key.Text);                
             }
         }
 
@@ -176,10 +170,12 @@ namespace Area23.At.Mono.Crypt
         protected void Button_SetPipeline_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 0)
-            {                
+            {
                 Reset_TextBox_IV(this.TextBox_Key.Text);
+                string secretKey = TextBox_Key.Text;
+                string keyHash = TextBox_IV.Text;
 
-                SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(this.TextBox_Key.Text, this.TextBox_IV.Text).InPipe;
+                SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(secretKey, keyHash).InPipe;
                 this.TextBox_Encryption.Text = string.Empty;
                 foreach (SymmCipherEnum c in cses)
                 {
@@ -263,11 +259,9 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void ButtonEncrypt_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(this.TextBox_Key.Text))
-                 this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
             Reset_TextBox_IV(this.TextBox_Key.Text);
-            string secretKey = (CheckBox_BCrypt.Checked) ? TextBox_IV.Text : TextBox_Key.Text;
-            string keyIv = (CheckBox_BCrypt.Checked) ? TextBox_BCrypted_Hash.Text : TextBox_IV.Text;
+            string secretKey = TextBox_Key.Text;
+            string keyHash = TextBox_IV.Text;
 
             EncodingType encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);            
 
@@ -315,7 +309,7 @@ namespace Area23.At.Mono.Crypt
                         CipherEnum cipherAlgo = CipherEnum.Aes;
                         if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
                         {
-                            inBytes = CipherPipe.EncryptBytesFast(encryptBytes, cipherAlgo, secretKey, keyIv);                            
+                            inBytes = CipherPipe.EncryptBytesFast(encryptBytes, cipherAlgo, secretKey, keyHash);                            
                             encryptBytes = inBytes;
                         }
                     }
@@ -356,11 +350,9 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void ButtonDecrypt_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(this.TextBox_Key.Text))
-                this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
             Reset_TextBox_IV(this.TextBox_Key.Text);
-            string secretKey = (CheckBox_BCrypt.Checked) ? TextBox_IV.Text : TextBox_Key.Text;
-            string keyIv = (CheckBox_BCrypt.Checked) ? TextBox_BCrypted_Hash.Text : TextBox_IV.Text;
+            string secretKey = TextBox_Key.Text;
+            string keyHash = TextBox_IV.Text;
 
             EncodingType encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);                        
 
@@ -414,7 +406,7 @@ namespace Area23.At.Mono.Crypt
                         CipherEnum cipherAlgo = CipherEnum.Aes;
                         if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
                         {
-                            decryptedBytes = CipherPipe.DecryptBytesFast(cipherBytes, cipherAlgo, secretKey, keyIv);                            
+                            decryptedBytes = CipherPipe.DecryptBytesFast(cipherBytes, cipherAlgo, secretKey, keyHash);                            
                             cipherBytes = decryptedBytes;
                         }
                     }
@@ -504,11 +496,9 @@ namespace Area23.At.Mono.Crypt
                 pfile.FileName : fileSavedName;
             strFileName = System.IO.Path.GetFileName(strFileName).BeautifyUploadFileNames();
 
-            if (string.IsNullOrEmpty(this.TextBox_Key.Text))
-                this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
             Reset_TextBox_IV(this.TextBox_Key.Text);
-            string secretKey = (CheckBox_BCrypt.Checked) ? TextBox_IV.Text : TextBox_Key.Text;
-            string keyIv = (CheckBox_BCrypt.Checked) ? TextBox_BCrypted_Hash.Text : TextBox_IV.Text;
+            string secretKey = TextBox_Key.Text;
+            string keyHash = TextBox_IV.Text;
 
             string savedTransFile = string.Empty;
             string outMsg = string.Empty;            
@@ -591,7 +581,7 @@ namespace Area23.At.Mono.Crypt
                                 CipherEnum cipherAlgo = CipherEnum.Aes;
                                 if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
                                 {
-                                    outBytes = CipherPipe.EncryptBytesFast(inBytes, cipherAlgo, secretKey, keyIv);
+                                    outBytes = CipherPipe.EncryptBytesFast(inBytes, cipherAlgo, secretKey, keyHash);
                                     inBytes = outBytes;
                                     cryptCount++;
                                     strFileName += "." + algo.ToLower();
@@ -682,7 +672,7 @@ namespace Area23.At.Mono.Crypt
                                 CipherEnum cipherAlgo = CipherEnum.Aes;
                                 if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
                                 {
-                                    inBytes = CipherPipe.DecryptBytesFast(outBytes, cipherAlgo, secretKey, keyIv);
+                                    inBytes = CipherPipe.DecryptBytesFast(outBytes, cipherAlgo, secretKey, keyHash);
                                     outBytes = inBytes;
                                     cryptCount++;
                                     strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;
@@ -774,21 +764,25 @@ namespace Area23.At.Mono.Crypt
                 this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
             Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
 
-            if (CheckBox_BCrypt.Checked)
+            string hashed = "";
+            switch (RadioButtonList_Hash.SelectedValue)
             {
-                this.TextBox_IV.Text = Hex16.ToHex16(CryptHelper.BCrypt(TextBox_Key.Text));
-                this.TextBox_BCrypted_Hash.Text = EnDeCodeHelper.KeyToHex(TextBox_IV.Text);
-                this.TextBox_BCrypted_Hash.Visible = true;
-                this.TextBox_BCrypted_Hash.BorderColor = Color.LightGray;
-                this.TextBox_BCrypted_Hash.BorderStyle = BorderStyle.Solid;
-                this.TextBox_BCrypted_Hash.BorderWidth = 1;
+                case "b":
+                    hashed = Hex16.ToHex16(CryptHelper.BCrypt(TextBox_Key.Text));
+                    break;
+                case "o":
+                    hashed = CryptHelper.BSDCrypt(TextBox_Key.Text);
+                    break;
+                case "s":
+                    hashed = Hex16.ToHex16(CryptHelper.SCrypt(TextBox_Key.Text));
+                    break;
+                case "h":
+                default:
+                    hashed = EnDeCodeHelper.KeyToHex(TextBox_Key.Text);
+                    break;
             }
-            else
-            {
-                this.TextBox_IV.Text = EnDeCodeHelper.KeyToHex(this.TextBox_Key.Text);
-                this.TextBox_BCrypted_Hash.Text = "";
-                this.TextBox_BCrypted_Hash.Visible = false;
-            }
+
+            TextBox_IV.Text = hashed;
 
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BorderColor = Color.LightGray;

@@ -81,8 +81,8 @@ namespace Area23.At.Mono.CqrJD
             InitMethod();
 
             _chatRoomNumber = "";
-            CSrvMsg<string> cSrvMsg, chatRSrvMsg = new CSrvMsg<string>(cryptMsg, CType.Json) { Hash = cqrFacade.PipeString, SerializedMsg = cryptMsg };
-            chatRSrvMsg = chatRSrvMsg.FromJson(cryptMsg);
+            CSrvMsg<string> cSrvMsg, chatRSrvMsg = new CSrvMsg<string>(cryptMsg, SerType.Json) { Hash = cqrFacade.PipeString, Message = cryptMsg };
+            chatRSrvMsg = chatRSrvMsg.FromJson<CSrvMsg<string>>(cryptMsg);
 
             _responseString = "";
 
@@ -128,8 +128,8 @@ namespace Area23.At.Mono.CqrJD
             Dictionary<long, string> dict = new Dictionary<long, string>();
             bool isValid = false;
 
-            CSrvMsg<string> cSrvMsg, aSrvMsg = new CSrvMsg<string>(cryptMsg, CType.Json) { Hash = cqrFacade.PipeString, SerializedMsg = cryptMsg };
-            aSrvMsg = aSrvMsg.FromJson(cryptMsg);
+            CSrvMsg<string> cSrvMsg, aSrvMsg = new CSrvMsg<string>(cryptMsg, SerType.Json) { Hash = cqrFacade.PipeString, Message = cryptMsg };
+            aSrvMsg = aSrvMsg.FromJson<CSrvMsg<string>>(cryptMsg);
 
             _responseString = "";
 
@@ -202,8 +202,8 @@ namespace Area23.At.Mono.CqrJD
             bool isValid = false;
             Dictionary<long, string> dict;
 
-            CSrvMsg<string> cSrvMsg, aSrvMsg = new CSrvMsg<string>(cryptMsg, CType.Json) { Hash = cqrFacade.PipeString, SerializedMsg = cryptMsg };
-            aSrvMsg = aSrvMsg.FromJson(cryptMsg);
+            CSrvMsg<string> cSrvMsg, aSrvMsg = new CSrvMsg<string>(cryptMsg, SerType.Json) { Hash = cqrFacade.PipeString, Message = cryptMsg };
+            aSrvMsg = aSrvMsg.FromJson<CSrvMsg<string>>(cryptMsg);
 
             _responseString = ""; // set empty response string per default
             CSrvMsg<string> chatRoomMsg = new CSrvMsg<string>(); // construct an empty message
@@ -273,8 +273,8 @@ namespace Area23.At.Mono.CqrJD
             InitMethod();
             bool isValid = false;
 
-            CSrvMsg<string> cSrvMsg, aSrvMsg = new CSrvMsg<string>(cryptMsg, CType.Json) { Hash = cqrFacade.PipeString, SerializedMsg = cryptMsg };
-            aSrvMsg = aSrvMsg.FromJson(cryptMsg);
+            CSrvMsg<string> cSrvMsg, aSrvMsg = new CSrvMsg<string>(cryptMsg, SerType.Json) { Hash = cqrFacade.PipeString, Message = cryptMsg };
+            aSrvMsg = aSrvMsg.FromJson<CSrvMsg<string>>(cryptMsg);
             List<CContact> _invited = new List<CContact>();
 
             _responseString = "";

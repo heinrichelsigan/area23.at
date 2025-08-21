@@ -52,10 +52,9 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void Button_Key_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 3)
+            if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 0)
             {
-                Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
-                // Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
+                Button_Hash_Click(sender, e);
             }
         }
 
@@ -66,16 +65,21 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void Button_Clear_Click(object sender, EventArgs e)
         {
-            this.TextBox_BCrypt_Hash.Text = "";
-            this.TextBox_IV.Text = "";
-            this.TextBox_Key.Text = "he@area23.at";
+            this.RadioButtonList_Hash.SelectedValue = "h";
+            this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
             this.TextBox_BCrypt_Key.Text = "";
+            this.TextBox_BCrypt_Key.ForeColor = this.TextBox_Key.ForeColor;
+            this.TextBox_BCrypt_Key.BorderStyle = BorderStyle.Solid;
+            this.TextBox_BCrypt_Key.BorderColor = Color.LightGray;
+            this.TextBox_BCrypt_Key.BorderWidth = 1;
 
-            Session.Remove(Constants.AES_ENVIROMENT_KEY);
+            if (Session[Constants.AES_ENVIROMENT_KEY] != null)
+                Session.Remove(Constants.AES_ENVIROMENT_KEY);
         }
 
+
         /// <summary>
-        /// Button_Hash_Click sets hash from key and fills pipeline
+        /// Button_BCrypt_Click sets <see cref="TextBox_BCrypt_Key" /> and <see cref="TextBox_BCrypt_Hash"/>
         /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
@@ -83,38 +87,29 @@ namespace Area23.At.Mono.Crypt
         {
             if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 1)
             {
-                Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
-                Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
-            }
-        }
+                Reset_TextBox_IV(this.TextBox_Key.Text);
+                string crypted = "";
+                switch (RadioButtonList_Hash.SelectedValue)
+                {
+                    case "b":
+                        crypted = Hex16.ToHex16(CryptHelper.BCrypt(TextBox_Key.Text));
+                        break;
+                    case "o":
+                        crypted = CryptHelper.BSDCrypt(TextBox_Key.Text);
+                        break;
+                    case "s":
+                        crypted = Hex16.ToHex16(CryptHelper.SCrypt(TextBox_Key.Text));
+                        break;
+                    case "h":
+                    default:
+                        crypted = EnDeCodeHelper.KeyToHex(TextBox_Key.Text);
+                        break;
+                }
 
-        protected void Button_BCrypt_Hash_Click(object sender, EventArgs e)
-        {
-            Button_BCrypt_Click(sender, e);
-        }
-
-        /// <summary>
-        /// Button_BCrypt_Click sets <see cref="TextBox_BCrypt_Key" /> and <see cref="TextBox_BCrypt_Hash"/>
-        /// </summary>
-        /// <param name="sender">object sender</param>
-        /// <param name="e">EventArgs e</param>
-        protected void Button_BCrypt_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 1)
-            {
-                Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
-                Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
-
-                TextBox_BCrypt_Key.Text = Hex16.ToHex16(CryptHelper.BCrypt(TextBox_Key.Text));
-                TextBox_BCrypt_Hash.Text = EnDeCodeHelper.KeyToHex(TextBox_BCrypt_Key.Text);
-
-                this.TextBox_BCrypt_Key.BorderStyle = BorderStyle.Groove;
-                this.TextBox_BCrypt_Key.BorderColor = Color.DarkOliveGreen;
-                this.TextBox_BCrypt_Key.BorderWidth = 2;
-
-                this.TextBox_BCrypt_Hash.BorderStyle = BorderStyle.Outset;
-                this.TextBox_BCrypt_Hash.BorderColor = Color.DarkBlue;
-                this.TextBox_BCrypt_Hash.BorderWidth = 2;
+                TextBox_BCrypt_Key.Text = crypted;
+                TextBox_BCrypt_Key.BorderStyle = BorderStyle.Groove;
+                TextBox_BCrypt_Key.BorderColor = Color.DarkOliveGreen;
+                TextBox_BCrypt_Key.BorderWidth = 2;
             }
         }
 
@@ -134,23 +129,12 @@ namespace Area23.At.Mono.Crypt
                 this.TextBox_Key.Text = userEmailKey;
             else if (string.IsNullOrEmpty(this.TextBox_Key.Text))
                 this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
-
-            this.TextBox_IV.Text = EnDeCodeHelper.KeyToHex(this.TextBox_Key.Text);
-
-            this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
-            this.TextBox_IV.BorderColor = Color.LightGray;
-            this.TextBox_IV.BorderStyle = BorderStyle.Solid;
-            this.TextBox_IV.BorderWidth = 1;
+            Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
 
             this.TextBox_BCrypt_Key.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_BCrypt_Key.BorderStyle = BorderStyle.Solid;
             this.TextBox_BCrypt_Key.BorderColor = Color.LightGray;
             this.TextBox_BCrypt_Key.BorderWidth = 1;
-
-            this.TextBox_BCrypt_Hash.ForeColor = this.TextBox_Key.ForeColor;
-            this.TextBox_BCrypt_Hash.BorderStyle = BorderStyle.Solid;
-            this.TextBox_BCrypt_Hash.BorderColor = Color.LightGray;
-            this.TextBox_BCrypt_Hash.BorderWidth = 1;
 
         }
 

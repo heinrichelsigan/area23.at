@@ -99,7 +99,6 @@ namespace Area23.At.Mono.Util
                     Message = chatRoomNumber,
                     Hash = chatRoom.Hash,
                     Md5Hash = chatRoom.Md5Hash,
-                    CBytes = chatRoom.CBytes
                 };
 
                 if (cSrvMsg.CRoom != null && !string.IsNullOrEmpty(cSrvMsg.CRoom.ChatRoomNr))
@@ -110,7 +109,7 @@ namespace Area23.At.Mono.Util
                 // System.IO.File.WriteAllText(jsonCRoomFileName, jsonString);
             }
 
-            cSrvMsg.SerializedMsg = jsonString;
+            cSrvMsg.Message = jsonString;
 
             return cSrvMsg;
         }
@@ -162,7 +161,7 @@ namespace Area23.At.Mono.Util
             serializedJsonString = string.Empty;
             if (cSrvMsg != null)
             {
-                cSrvMsg.SerializedMsg = string.Empty;
+                cSrvMsg.Message = string.Empty;
                 JsonSerializerSettings jsets = new JsonSerializerSettings();
                 jsets.Formatting = Formatting.Indented;
                 jsets.MaxDepth = 16;
@@ -175,7 +174,7 @@ namespace Area23.At.Mono.Util
                 }
             }
 
-            cSrvMsg.SerializedMsg = serializedJsonString;
+            cSrvMsg.Message = serializedJsonString;
             return cSrvMsg;
         }
 

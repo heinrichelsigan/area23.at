@@ -70,6 +70,16 @@
                     ToolTip="ZenMatrix permutation key" ReadOnly="true" Text="" MaxLength="128"  Width="120px"  style="width: 120px;" />
                 </span>
             </div>
+			<div class="odDiv" style="margin-top: 4px">
+				<span class="leftSpan" style="width: 120px; min-width: 120px; max-width: 180px">
+					<asp:CheckBox ID="CheckBox_BCrypt" runat="server" AutoPostBack="true" ClientIDMode="Static" Text="bcrypt key as hash" 
+						OnCheckedChanged="CheckBox_BCrypt_CheckedChanged" Checked="false" ToolTip="bcrypt hash instead of hex string" />
+				   </span>                
+				<span class="centerSpan" style="margin-left: 20px; max-width: 800px; min-width: 720px;">
+					&nbsp;
+				</span>
+				<span class="rightSpan" style="width: 80px; min-width: 72px; max-width: 84px">&nbsp;</span>    
+			</div>
         </div>                    
         <br />                
         <div style="width: 800px; height: 480px; min-height: 360px">

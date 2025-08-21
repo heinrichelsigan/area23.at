@@ -12,16 +12,17 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
     /// </summary>
     public static class CryptHelper
     {
-        const ushort PASSWD_BYTE_LEN = 64;
-        const ushort SALT_BYTE_LEN = 16;
-        const ushort AVG_COST = 46;
+        const int PASSWD_BYTE_LEN = 64;
+        const int SALT_BYTE_LEN = 16;
+        const int AVG_COST = 4;
+
 
         /// <summary>
         /// <see cref="Org.BouncyCastle.Crypto.Generators.BCrypt"/>
         /// Thanx to the legion of <see href="https://bouncycastle.org/"" />
         /// </summary>
         /// <param name="passwd">passwd or key to encrypt</param>
-        /// <returns>bcrypted byte[]</returns>
+        /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         public static byte[] BCrypt(string passwd)
@@ -30,17 +31,51 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                 throw new ArgumentNullException("passwd");
 
             byte[] keyBytes = EnDeCodeHelper.GetBytes(passwd);
-            
+
             if (keyBytes.Length > PASSWD_BYTE_LEN)
                 throw new ArgumentException($"BCrypt(passwd) => GetBytes(passwd) => {Hex16.ToHex16(keyBytes)} Length {keyBytes.LongLength} > {PASSWD_BYTE_LEN} bytes", "passwd");
 
-            byte[] salt = EnDeCodeHelper.KeyToHexBytes(passwd, SALT_BYTE_LEN);
-            
+            byte[] salt = EnDeCodeHelper.KeyToHexBytesSalt(passwd, SALT_BYTE_LEN);
+
             byte[] bcrypted = Org.BouncyCastle.Crypto.Generators.BCrypt.Generate(keyBytes, salt, AVG_COST);
-            
+
             return bcrypted;
         }
 
+        public static byte[] SCrypt(string passwd)
+        {
+            if (string.IsNullOrEmpty(passwd))
+                throw new ArgumentNullException("passwd");
+
+            byte[] keyBytes = EnDeCodeHelper.GetBytes(passwd);
+
+            if (keyBytes.Length > PASSWD_BYTE_LEN)
+                throw new ArgumentException($"SCrypt(passwd) => GetBytes(passwd) => {Hex16.ToHex16(keyBytes)} Length {keyBytes.LongLength} > {PASSWD_BYTE_LEN} bytes", "passwd");
+
+            byte[] salt = EnDeCodeHelper.KeyToHexBytesSalt(passwd, SALT_BYTE_LEN);
+
+            byte[] scrypted = Org.BouncyCastle.Crypto.Generators.SCrypt.Generate(keyBytes, salt, AVG_COST, SALT_BYTE_LEN, 1, 32);
+
+            return scrypted;
+        }
+
+        public static string BSDCrypt(string passwd)
+        {
+            if (string.IsNullOrEmpty(passwd))
+                throw new ArgumentNullException("passwd");
+
+            char[] passChars = passwd.ToCharArray();
+            byte[] keyBytes = EnDeCodeHelper.GetBytes(passwd);
+
+            if (keyBytes.Length > PASSWD_BYTE_LEN)
+                throw new ArgumentException($"BSDCrypt(passwd) => GetBytes(passwd) => {Hex16.ToHex16(keyBytes)} Length {keyBytes.LongLength} > {PASSWD_BYTE_LEN} bytes", "passwd");
+
+            byte[] salt = EnDeCodeHelper.KeyToHexBytesSalt(passwd, SALT_BYTE_LEN);
+
+            string bcdCrypted = Org.BouncyCastle.Crypto.Generators.OpenBsdBCrypt.Generate(passChars, salt, AVG_COST);
+
+            return bcdCrypted;
+        }
 
 
         #region GetUserKeyBytes
@@ -139,18 +174,17 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         /// </summary>
         /// <param name="key">user key, default email address</param>
         /// <param name="keyHash">user hash</param>        
-        /// <param name="keyLen">length of user key bytes, maximum length <see cref="Constants.MAX_KEY_LEN"/></param>        
-        /// <param name="useBcrypt">use bcrypted key <see cref="BCrypt(string)"/></param>
+        /// <param name="keyLen">length of user key bytes, maximum length <see cref="Constants.MAX_KEY_LEN"/></param> 
         /// <returns>Array of byte with length KeyLen</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static byte[] GetUserKeyBytes(string key, string keyHash, int keyLen = 32, bool useBcrypt = false)
+        public static byte[] GetUserKeyBytes(string key, string keyHash, int keyLen = 32)
         {
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException("key");
 
-            byte[] keyBytes = (useBcrypt) ? BCrypt(key) : EnDeCodeHelper.GetBytes(key);
-            byte[] hashBytes = string.IsNullOrEmpty(keyHash) ? EnDeCodeHelper.GetBytes(Hex16.ToHex16(keyBytes)) : EnDeCodeHelper.GetBytes(keyHash);
+            byte[] keyBytes = EnDeCodeHelper.GetBytes(key);
             // keyHash = (string.IsNullOrEmpty(keyHash)) ? EnDeCodeHelper.KeyToHex(key) : keyHash;
+            byte[] hashBytes = string.IsNullOrEmpty(keyHash) ? EnDeCodeHelper.GetBytes(Hex16.ToHex16(keyBytes)) : EnDeCodeHelper.GetBytes(keyHash);
 
             int keyByteCnt = -1;
             keyLen = (keyLen > Constants.MAX_KEY_LEN) ? Constants.MAX_KEY_LEN : keyLen;
@@ -197,6 +231,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             return tmpKey;
 
         }
+
 
         #endregion GetUserKeyBytes
 

@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.Cqr;
+using Area23.At.Framework.Library.Crypt.Cipher;
 using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Static;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Input;
 
 
 namespace Area23.At.Mono.Crypt
@@ -50,7 +52,6 @@ namespace Area23.At.Mono.Crypt
 
         #region page_events
 
-
         /// <summary>
         /// Clear encryption pipeline
         /// </summary>
@@ -63,26 +64,13 @@ namespace Area23.At.Mono.Crypt
         }
 
         /// <summary>
-        /// Add encryption alog to encryption pipeline
+        /// Change mode from key keyHash to bcrypted key and keyHash from bcrypted
         /// </summary>
-        /// <param name="sender">object sender</param>
-        /// <param name="e">EventArgs e</param>
-        protected void ImageButton_Add_Click(object sender, EventArgs e)
-        {            
-        }
-
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void CheckBox_FullSymmetric_OnCheckedChanged(object sender, EventArgs e)
         {
             Button_Hash_Click(sender, e);
-        }
-
-        /// <summary>
-        /// Fired, when DropDownList_Encoding_SelectedIndexChanged
-        /// </summary>
-        /// <param name="sender">object sender</param>
-        /// <param name="e">EventArgs e</param>
-        protected void DropDownList_Encoding_SelectedIndexChanged(object sender, EventArgs e)
-        {            
         }
 
         /// <summary>
@@ -127,68 +115,52 @@ namespace Area23.At.Mono.Crypt
             }
         }
 
+
+        /// <summary>
+        /// CheckBox_BCrypt_CheckedCahnged set or reset bcrypted key as hash
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void CheckBox_BCrypt_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 0)
+            {
+                Reset_TextBox_IV(this.TextBox_Key.Text);
+
+                ClearMatrix();
+                string key = TextBox_Key.Text;
+                string keyHash = TextBox_IV.Text;
+                DrawZenMatrix(key, keyHash);
+
+            }
+        }
+
+
         /// <summary>
         /// Button_Hash_Click sets hash from key and fills pipeline
         /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
         protected void Button_Hash_Click(object sender, EventArgs e)
-        {
-            ClearMatrix();
+        {            
             if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 0)
             {
-                Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text; 
+                ClearMatrix();
                 Reset_TextBox_IV(this.TextBox_Key.Text);
 
-                byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(this.TextBox_Key.Text, this.TextBox_IV.Text, 16);
-                SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb).InPipe;
+                string key = TextBox_Key.Text;
+                string keyHash = TextBox_IV.Text;
 
-
-                bool fullSymmetric = false;
-                try
-                {
-                    fullSymmetric = this.CheckBox_FullSymmetric.Checked;
-                }
-                catch (Exception ex)
-                {
-                    CqrException.SetLastException(ex);
-                }
-                
-                ZenMatrix z = new ZenMatrix(this.TextBox_Key.Text, this.TextBox_IV.Text, fullSymmetric);
-                // string zenMt = "|zen|=>\t| ";
-                
-                int b = 0xf;
-                sbyte[] myBytes = z.PermutationKeyHash.ToArray();
-                string permHashString = string.Empty;
-                foreach (sbyte sb in myBytes)
-                {
-                    Control ctrl = MatrixTable.FindControl("TextBox_" + b.ToString("x1") + "_" + sb.ToString("x1"));
-                    permHashString += sb.ToString("x1");
-                    if (ctrl != null && ctrl is TextBox tb)
-                    {
-                        tb.BorderWidth = 2;
-                        tb.BorderStyle = BorderStyle.Outset;
-                        tb.BorderColor = new Color().FromXrgb("#222222");
-                        tb.Text = "1";
-                    }
-
-                    Control lctrl = MatrixTable.FindControl("TextBox_" + b.ToString("x1") + "_vf");
-                    if (lctrl != null && lctrl is TextBox ttb)
-                    {
-                        ttb.BorderWidth = 2;
-                        ttb.Text = sb.ToString("x1");
-                        ttb.BorderStyle = BorderStyle.Outset;
-                        ttb.BorderColor = new Color().FromXrgb("#222222");
-                    }
-                    b--;
-                }
-                this.TextBoxPermutation.Text = permHashString;
+                DrawZenMatrix(key, keyHash);
             }
         }
 
 
         #endregion page_events
 
+        /// <summary>
+        /// Clears the drawn matrix
+        /// </summary>
         protected void ClearMatrix()
         {
             this.TextBoxPermutation.Text = string.Empty;
@@ -216,27 +188,81 @@ namespace Area23.At.Mono.Crypt
             }
         }
 
-        
+        /// <summary>
+        /// Draws a ZenMatrix
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="keyHash"></param>
+        protected void DrawZenMatrix(string key, string keyHash)
+        {
+            byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(key, keyHash, 16);
+            SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb).InPipe;
+
+
+            bool fullSymmetric = false;
+            try
+            {
+                fullSymmetric = this.CheckBox_FullSymmetric.Checked;
+            }
+            catch (Exception ex)
+            {
+                CqrException.SetLastException(ex);
+            }
+
+            ZenMatrix z = new ZenMatrix(key, keyHash, fullSymmetric);
+            // string zenMt = "|zen|=>\t| ";
+
+            int b = 0xf;
+            sbyte[] myBytes = z.PermutationKeyHash.ToArray();
+            string permHashString = string.Empty;
+            foreach (sbyte sb in myBytes)
+            {
+                Control ctrl = MatrixTable.FindControl("TextBox_" + b.ToString("x1") + "_" + sb.ToString("x1"));
+                permHashString += sb.ToString("x1");
+                if (ctrl != null && ctrl is TextBox tb)
+                {
+                    tb.BorderWidth = 2;
+                    tb.BorderStyle = BorderStyle.Outset;
+                    tb.BorderColor = new Color().FromXrgb("#222222");
+                    tb.Text = "1";
+                }
+
+                Control lctrl = MatrixTable.FindControl("TextBox_" + b.ToString("x1") + "_vf");
+                if (lctrl != null && lctrl is TextBox ttb)
+                {
+                    ttb.BorderWidth = 2;
+                    ttb.Text = sb.ToString("x1");
+                    ttb.BorderStyle = BorderStyle.Outset;
+                    ttb.BorderColor = new Color().FromXrgb("#222222");
+                }
+                b--;
+            }
+            this.TextBoxPermutation.Text = permHashString;
+        }
+
         /// <summary>
         /// Resets TextBox Key_IV to standard value for <see cref="Constants.AUTHOR_EMAIL"/>
         /// </summary>
-        /// <param name="userEmailKey">user email key to generate key bytes iv</param>
+        /// <param name="userEmailKey">user email key to generate key bytes iv</param>        
         protected void Reset_TextBox_IV(string userEmailKey = "")
         {
             if (!string.IsNullOrEmpty(userEmailKey))
                 this.TextBox_Key.Text = userEmailKey;
             else if (string.IsNullOrEmpty(this.TextBox_Key.Text))
                 this.TextBox_Key.Text = DateTime.Now.Ticks.ToString();
+            Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
 
-            this.TextBox_IV.Text = EnDeCodeHelper.KeyToHex(this.TextBox_Key.Text);
+            this.TextBox_IV.Text = (CheckBox_BCrypt.Checked) ?
+                Hex16.ToHex16(CryptHelper.BCrypt(TextBox_Key.Text)) :
+                    EnDeCodeHelper.KeyToHex(this.TextBox_Key.Text);
 
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BorderColor = Color.LightGray;
             this.TextBox_IV.BorderStyle = BorderStyle.Solid;
-            this.TextBox_IV.BorderWidth = 1;           
+            this.TextBox_IV.BorderWidth = 1;
+
         }
 
-        
     }
 
 }

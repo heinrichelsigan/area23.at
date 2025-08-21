@@ -10,9 +10,9 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 {
     public interface IMsgAble
     {
-        CType MsgType { get; }        
+        SerType MsgType { get; }        
         string Message { get; }
-        string SerializedMsg { get; }
+        // string SerializedMsg { get; }
 
         string Hash { get; }
         string Md5Hash { get; }

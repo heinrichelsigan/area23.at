@@ -1,17 +1,12 @@
-﻿using Area23.At.Framework.Library.Cqr;
-using Area23.At.Framework.Library.Cqr.Msg;
-using Area23.At.Framework.Library.Static;
+﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Library.Cqr.Msg
 {
+
     [Serializable]
     public class CChatRoom : CContent, IMsgAble
     {
@@ -27,21 +22,12 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 
         public List<string> InvitedEmails { get; set; }
 
-        #region ICqrMessagable interface
-
-        // public new CType MsgType => CType.Json;
-
-        //public new string RawMessage { get => ToJson(); set; }        
-
-        // public new string Md5Hash { get => MD5Sum.HashString(_message); set; }
-
-        #endregion ICqrMessagable interface
-
+        
         #region ctor
 
         public CChatRoom() : base()
         {
-            ChatRuid = Guid.Empty;
+            ChatRuid = Guid.NewGuid();
             InvitedEmails = new List<string>();
             ChatRoomNr = "";
             Message = "";
@@ -50,7 +36,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             LastPolled = DateTime.MinValue;
             Hash = "";
             Md5Hash = "";
-            MsgType = CType.None;
+            MsgType = SerType.None;
             CBytes = new byte[0];
         }
 
@@ -83,33 +69,42 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             Hash = hash;
             Md5Hash = md5sum;
             CBytes = bytes;
-            MsgType = CType.Json;
-            SerializedMsg = "";
-            SerializedMsg = this.ToJson();
+            MsgType = SerType.Json;
         }
 
         public CChatRoom(CChatRoom chatRoom) : this()
         {
             if (chatRoom != null)
             {
-                CCopy(this, chatRoom);
+                CChatRoom.CloneCopy(chatRoom, this);
             }
         }
 
         #endregion ctor
 
-
-        public new CChatRoom CCopy(CChatRoom leftDest, CChatRoom rightSrc)
+        public override CContent CCopy(CContent leftDest, CContent rightSrc)
         {
-            return CloneCopy(rightSrc, leftDest);
+            if (leftDest is CChatRoom && rightSrc is CChatRoom)
+                return CChatRoom.CloneCopy(rightSrc, leftDest);
+
+            return base.CCopy(leftDest, rightSrc);
         }
+
+
+        #region members
+
+        public override string ToXml() => Utils.SerializeToXml<CChatRoom>(this);
+
+        #endregion members
+
+        #region static members
 
         public new static CChatRoom CloneCopy(CChatRoom source, CChatRoom destination)
         {
             if (source == null)
                 return null;
             if (destination == null)
-                destination = new CChatRoom(source);
+                destination = new CChatRoom();
 
             destination.Message = source.Message;
             destination.Hash = source.Hash;
@@ -123,80 +118,12 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             destination.LastPolled = source.LastPolled;
             destination.LastPushed = source.LastPushed;
             destination.InvitedEmails = source.InvitedEmails;
-            destination.SerializedMsg = "";
-            destination.SerializedMsg = destination.ToJson();
 
             return destination;
         }
 
+        #endregion static members
 
-        #region members
-
-        public override string ToJson()
-        {
-            // CqrContact cqrContact = new CqrContact(ContactId, Cuid, Name, Email, Mobile, Address, ContactImage);
-            this.SerializedMsg = "";
-            string jsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
-            this.SerializedMsg = jsonString;
-            return jsonString;
-        }
-
-        public new CChatRoom FromJson(string jsonText)
-        {
-            CChatRoom ccRoom = null;
-            try
-            {
-                ccRoom = JsonConvert.DeserializeObject<CChatRoom>(jsonText);
-                if (ccRoom != null && ccRoom.ChatRuid != Guid.Empty && !string.IsNullOrEmpty(ccRoom.ChatRoomNr))
-                {
-                    return CCopy(this, ccRoom);
-                }
-            }
-            catch (Exception exJson)
-            {
-                Area23Log.Log(exJson);
-            }
-
-            return ccRoom;
-
-        }
-
-        public override string ToXml()
-        {
-            SerializedMsg = "";
-            string xmlString = Utils.SerializeToXml<CChatRoom>(this);
-            SerializedMsg = xmlString;
-            return xmlString;
-        }
-
-        public new CChatRoom FromXml(string xmlText)
-        {
-            CChatRoom chatRoom = base.FromXml<CChatRoom>(xmlText);
-            if (chatRoom != null && chatRoom.ChatRuid != Guid.Empty && !string.IsNullOrEmpty(chatRoom.ChatRoomNr))
-            {
-                return CCopy(this, chatRoom);
-            }
-
-            return chatRoom;
-        }
-
-
-        public override string ToString()
-        {
-
-            return
-                "\"ChatRuid\": \t\"" + ChatRuid + "\";" + Environment.NewLine +
-                "\"ChatRoomNr\": \t\"" + ChatRoomNr + "\";" + Environment.NewLine +
-                "\"TicksLong\": \t\"" + String.Join(",", TicksLong) + "\";" + Environment.NewLine +
-                "\"LastPushed\": \t\"" + LastPushed ?? "" + "\";" + Environment.NewLine +
-                "\"LastPolled\": \t\"" + LastPolled ?? "" + "\";" + Environment.NewLine +
-                "\"_message\": \t\"" + Message ?? "" + "\";" + Environment.NewLine +
-                "\"Hash\": \t\"" + Hash ?? "" + "\";" + Environment.NewLine +
-                "\"SerializedMsg\": \t\"" + SerializedMsg ?? "" + "\";" + Environment.NewLine +
-                "\"Md5Hash\": \t\"" + Md5Hash ?? "" + "\";" + Environment.NewLine;
-        }
-
-        #endregion members
     }
 
 }

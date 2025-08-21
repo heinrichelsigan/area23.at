@@ -49,9 +49,9 @@ namespace Area23.At.Mono.Util
             {
                 foreach (CContact deContact in deserializedContacts)
                 {
-                    deContact.SerializedMsg = string.Empty;
+                    deContact.Message = string.Empty;
                     string serializedMsg = JsonConvert.SerializeObject(deContact);
-                    deContact.SerializedMsg = serializedMsg;
+                    deContact.Message = serializedMsg;
                     contacts.Add(deContact);
                 }
             }
@@ -85,7 +85,7 @@ namespace Area23.At.Mono.Util
             {
                 if (cContact != null && !string.IsNullOrEmpty(cContact.NameEmail))
                 {
-                    cContact.SerializedMsg = string.Empty;
+                    cContact.Message = string.Empty;
                     serializingContacts.Add(cContact);
                 }
             }

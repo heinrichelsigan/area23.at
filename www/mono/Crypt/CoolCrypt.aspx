@@ -68,15 +68,17 @@
                 </span>
             </div>
             <div class="odDiv" style="margin-top: 4px">
-                <span class="leftSpan" style="width: 120px; min-width: 120px; max-width: 180px">
-                    <asp:CheckBox ID="CheckBox_BCrypt" runat="server" AutoPostBack="true" ClientIDMode="Static" Text="bcrypt key as hash" 
-                        OnCheckedChanged="CheckBox_BCrypt_CheckedCahnged" Checked="false" ToolTip="bcrypt hash instead of hex string" />
-                   </span>                
+                <span class="leftSpan" style="white-space: nowrap; width:80%; text-align: left;"
+                    <asp:RadioButtonList ID="RadioButtonList_Hash" runat="server" AutoPostBack="true" ToolTip="choose hashing key method" RepeatDirection="Horizontal" OnSelectedIndexChanged="RadioButtonList_Hash_ParameterChanged"> 
+                        <asp:ListItem Selected="False" Value="b">bcrypt key</asp:ListItem>
+                        <asp:ListItem Selected="True" Value="h">hex hash key</asp:ListItem>
+                        <asp:ListItem Selected="False" Value="o">openbsd crypt</asp:ListItem>
+                        <asp:ListItem Selected="False" Value="s">scrypt key</asp:ListItem>
+                    </asp:RadioButtonList>                    
+                </span>                
                 <span class="centerSpan" style="margin-left: 20px; max-width: 800px; min-width: 720px;">
-                    <asp:TextBox ID="TextBox_BCrypted_Hash" runat="server" ClientIDMode="Static" Visible="false"
-                        ToolTip="bcrypted key hash" ReadOnly="true" Text="" MaxLength="192"  Width="720px" style="width: 720px; max-width: 800px" />
+                    &nbsp;
                 </span>
-                <span class="rightSpan" style="width: 80px; min-width: 72px; max-width: 84px">&nbsp;</span>    
             </div>
         </div>
         <div id="DivAesImprove" runat="server" style="padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;">

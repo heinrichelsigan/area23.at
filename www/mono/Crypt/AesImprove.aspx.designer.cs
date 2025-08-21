@@ -96,22 +96,13 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.Button Button_SetPipeline;
 
         /// <summary>
-        /// CheckBox_BCrypt control.
+        /// RadioButtonList_Hash control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CheckBox_BCrypt;
-
-        /// <summary>
-        /// TextBox_BCrypted_Hash control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_BCrypted_Hash;
+        protected global::System.Web.UI.WebControls.RadioButtonList RadioButtonList_Hash;
 
         /// <summary>
         /// DivAesImprove control.

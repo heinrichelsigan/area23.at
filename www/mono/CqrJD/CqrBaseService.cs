@@ -344,7 +344,7 @@ namespace Area23.At.Mono.CqrJD
             JsonChatRoom.AddJsonChatRoomToCache(_chatRoomNumber);
 
             // serialize chat room in msg later then saving
-            cChatRSrvMsg.SerializedMsg = cChatRSrvMsg.ToJson();
+            cChatRSrvMsg.Message = cChatRSrvMsg.ToJson();
 
             return cChatRSrvMsg;
         }

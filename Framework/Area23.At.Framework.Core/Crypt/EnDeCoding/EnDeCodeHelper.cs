@@ -49,17 +49,23 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// <param name="length">byte array length, default: 16, -1 for unlimited length</param>
         /// <returns><see cref="byte[]">byte[length]</see></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static byte[] KeyToHexBytes(string key, int length = 16)
+        public static byte[] KeyToHexBytesSalt(string key, int length = 16)
         {
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException("key");
 
             string hexString = Hex16.ToHex16(EnDeCodeHelper.GetBytes(key));
             byte[] hexBytes = EnDeCodeHelper.GetBytes(hexString);
+
+            while (hexBytes.Length < length)
+            {
+                hexBytes = hexBytes.TarBytes(EnDeCodeHelper.GetBytes(key), GetBytes(hexString));
+            }
+
             int len = (length > 0 && hexBytes.Length >= length) ? length : hexBytes.Length;
 
             byte[] outBytes = new byte[len];
-            for (int i = 0; i < len; outBytes[i++] = ((byte)0)) ;                       
+            for (int i = 0; i < len; outBytes[i++] = ((byte)0)) ;
             Array.Copy(hexBytes, 0, outBytes, 0, len);
 
             return outBytes;
@@ -80,6 +86,9 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
             string key = EnDeCodeHelper.GetString(keyBytes);
             return key;
         }
+
+
+
 
         /// <summary>
         /// EncodeBytes encodes byte[] inBytes by encodingMethod to an encoded text string

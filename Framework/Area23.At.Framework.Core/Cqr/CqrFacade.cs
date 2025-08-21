@@ -55,7 +55,7 @@ namespace Area23.At.Framework.Core.Cqr
         /// <returns>response string</returns>
         public string Send_CContent_Peer(string msg, IPAddress peerIp, int serverPort = 7777, EncodingType encodingType = EncodingType.Base64)
         {
-            CContent content = new CContent(msg, _symmPipe.PipeString, Msg.CType.Json, MD5Sum.HashString(msg, ""));
+            CContent content = new CContent(msg, _symmPipe.PipeString, Msg.SerType.Json, MD5Sum.HashString(msg, ""));
             string encrypted = content.EncryptToJson(_key);
 
             string response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
@@ -71,10 +71,10 @@ namespace Area23.At.Framework.Core.Cqr
         /// <param name="msgType"><see cref="MsgEnum">msgType</see> default with <see cref="MsgEnum.Json"/></param>
         /// <param name="encType"><see cref="EncodingType"/> default to <see cref="EncodingType.Base64"/></param>
         /// <returns></returns>
-        public string Send_CFile_Peer(CFile cFile, IPAddress peerIp, int serverPort = 7777, CType msgType = CType.Json, EncodingType encType = EncodingType.Base64)
+        public string Send_CFile_Peer(CFile cFile, IPAddress peerIp, int serverPort = 7777, SerType msgType = SerType.Json, EncodingType encType = EncodingType.Base64)
         {
             cFile.Hash = PipeString;
-            cFile.MsgType = CType.Json;
+            cFile.MsgType = SerType.Json;
             string encrypted = cFile.EncryptToJson(_key);
 
             string response = Sender.Send(peerIp, encrypted, Constants.CHAT_PORT);
@@ -163,7 +163,7 @@ namespace Area23.At.Framework.Core.Cqr
                 throw;
             }
 
-            CSrvMsg<string> respTmpMsg = new CSrvMsg<string>(response, CType.Json) {  Hash = _symmPipe.PipeString, SerializedMsg = response };
+            CSrvMsg<string> respTmpMsg = new CSrvMsg<string>(response, SerType.Json) {  Hash = _symmPipe.PipeString, Message = response };
             CSrvMsg<string> responseMsg = respTmpMsg.DecryptFromJson(_key, response);
 
 
@@ -245,7 +245,7 @@ namespace Area23.At.Framework.Core.Cqr
             CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoap);
             string response = client.ChatRoomPoll(cryptSrvMsg);
 
-            CSrvMsg<string> respTmpMsg = new CSrvMsg<string>(response, CType.Json) { Hash = _symmPipe.PipeString, SerializedMsg = response };
+            CSrvMsg<string> respTmpMsg = new CSrvMsg<string>(response, SerType.Json) { Hash = _symmPipe.PipeString, Message = response };
             CSrvMsg<string> responseMsg = respTmpMsg.DecryptFromJson(_key, response);
 
             return responseMsg;
@@ -343,7 +343,7 @@ namespace Area23.At.Framework.Core.Cqr
                 throw;
             }
 
-            CSrvMsg<string> respTmpMsg = new CSrvMsg<string>(response, CType.Json) { Hash = _symmPipe.PipeString, SerializedMsg = response };
+            CSrvMsg<string> respTmpMsg = new CSrvMsg<string>(response, SerType.Json) { Hash = _symmPipe.PipeString, Message = response };
             CSrvMsg<string> responseMsg = respTmpMsg.DecryptFromJson(_key, response);
 
             return responseMsg;
@@ -381,7 +381,7 @@ namespace Area23.At.Framework.Core.Cqr
             
             string response = await client.ChatRoomPushAsync(cryptSrvMsg);
 
-            CSrvMsg<string> respTmpMsg = new CSrvMsg<string>(response, CType.Json) { Hash = _symmPipe.PipeString, SerializedMsg = response };
+            CSrvMsg<string> respTmpMsg = new CSrvMsg<string>(response, SerType.Json) { Hash = _symmPipe.PipeString, Message = response };
             CSrvMsg<string> responseMsg = respTmpMsg.DecryptFromJson(_key, response);
 
             return responseMsg;
@@ -430,7 +430,7 @@ namespace Area23.At.Framework.Core.Cqr
             CqrServiceSoapClient client = new CqrServiceSoapClient(CqrServiceSoapClient.EndpointConfiguration.CqrServiceSoap);
             string response = await client.ChatRoomPollAsync(cryptSrvMsg);
 
-            CSrvMsg<string> respTmpMsg = new CSrvMsg<string>(response, CType.Json) { Hash = _symmPipe.PipeString, SerializedMsg = response };
+            CSrvMsg<string> respTmpMsg = new CSrvMsg<string>(response, SerType.Json) { Hash = _symmPipe.PipeString, Message = response };
             CSrvMsg<string> responseMsg = respTmpMsg.DecryptFromJson(_key, response);
 
             return responseMsg;

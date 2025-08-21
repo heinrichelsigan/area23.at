@@ -33,13 +33,13 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLeft;
 
         /// <summary>
-        /// aUueMime control.
+        /// aCoolCrypt control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aUueMime;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aCoolCrypt;
 
         /// <summary>
         /// headerLeftCenter control.
@@ -87,13 +87,13 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRightCenter;
 
         /// <summary>
-        /// aCoolCrypt control.
+        /// aBCrypt control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aCoolCrypt;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aBCrypt;
 
         /// <summary>
         /// headerRight control.

@@ -42,6 +42,15 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.TextBox TextBox_Key;
 
         /// <summary>
+        /// Button_Hash control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button_Hash;
+
+        /// <summary>
         /// Button_Clear control.
         /// </summary>
         /// <remarks>
@@ -49,33 +58,6 @@ namespace Area23.At.Mono.Crypt
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Button_Clear;
-
-        /// <summary>
-        /// ImageButton_Hash control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton_Hash;
-
-        /// <summary>
-        /// TextBox_IV control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_IV;
-
-        /// <summary>
-        /// Button_BCrypt control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button_BCrypt;
 
         /// <summary>
         /// TextBox_BCrypt_Key control.
@@ -87,22 +69,13 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.TextBox TextBox_BCrypt_Key;
 
         /// <summary>
-        /// Button_BCrypt_Hash control.
+        /// RadioButtonList_Hash control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button_BCrypt_Hash;
-
-        /// <summary>
-        /// TextBox_BCrypt_Hash control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_BCrypt_Hash;
+        protected global::System.Web.UI.WebControls.RadioButtonList RadioButtonList_Hash;
 
         /// <summary>
         /// DivAesImprove control.

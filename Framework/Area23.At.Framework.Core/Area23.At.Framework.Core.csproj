@@ -60,6 +60,7 @@
 
   <ItemGroup>
     <Compile Remove="Cache\CacheHashDict.cs" />
+    <Compile Remove="Cqr\Msg\CType.cs" />
     <Compile Remove="Crypt\Cipher\Crpyt.cs" />
     <Compile Remove="Crypt\EnDeCoding\DeEnCoder.cs" />
     <Compile Remove="Net\IpSocket\IpSocketSender.cs" />

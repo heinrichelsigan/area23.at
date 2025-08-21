@@ -18,10 +18,10 @@ namespace Area23.At.Mono.Crypt
 
         protected void InitAHrefs()
         {
-            this.aUueMime.HRef = LibPaths.EncodeAppPath + "UueMime.aspx";
+            this.aCoolCrypt.HRef = LibPaths.EncodeAppPath + "CoolCrypt.aspx";
             this.aAes.HRef = LibPaths.EncodeAppPath + "AesImprove.aspx";
             this.aImgCrypt.HRef = LibPaths.EncodeAppPath + "ImgPngCrypt.aspx";
-            this.aCoolCrypt.HRef = LibPaths.EncodeAppPath + "CoolCrypt.aspx";
+            this.aBCrypt.HRef = LibPaths.EncodeAppPath + "BCrypt.aspx";
             this.aUrlZenMatrix.HRef = LibPaths.EncodeAppPath + "ZenMatrixVisualize.aspx";
         }
 
@@ -37,7 +37,7 @@ namespace Area23.At.Mono.Crypt
             {
                 if (this.Request != null && this.Request.RawUrl != null)
                 {
-                    if (this.Request.RawUrl.Contains("UueMime.aspx"))
+                    if (this.Request.RawUrl.Contains("CoolCrypt.aspx"))
                     {
                         headerLeft.Attributes["class"] = "headerLeftSelect";
                         return;
@@ -52,7 +52,7 @@ namespace Area23.At.Mono.Crypt
                         headerCenter.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("CoolCrypt.aspx"))
+                    if (this.Request.RawUrl.Contains("BCrypt.aspx"))
                     {
                         headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
                         return;
