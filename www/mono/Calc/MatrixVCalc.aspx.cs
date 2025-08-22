@@ -109,15 +109,17 @@ namespace Area23.At.Mono.Calc
                             IFormatProvider provider = new NumberFormatInfo();
 
 
-                            if (((m0Vector = MatrixCalcForm.FindControl($"TextBox_{row:x1}_v0")) != null) && m0Vector is TextBox m0TextBox)
-                            {                               
-                                if (!Int64.TryParse(m0TextBox.Text, System.Globalization.NumberStyles.HexNumber, provider, out m0scaV))
-                                    m0scaV = 0;
-                            }
-                            if (((m1Vector = MatrixCalcForm.FindControl($"TextBox_{crossRow:x1}_{col:x1}")) != null) && m1Vector is TextBox m1TextBox)
+                            if (((m0Vector = MatrixCalcForm.FindControl($"TextBox_{crossRow:x1}_v0")) != null) && m0Vector is TextBox m0TextBox)
                             {
-                                if (!Int64.TryParse(m1TextBox.Text, System.Globalization.NumberStyles.HexNumber, provider, out m1scaV))
-                                    m1scaV = 0;
+                                m0scaV = Convert.ToInt32(m0TextBox.Text);
+                                // if (!Int64.TryParse(m0TextBox.Text, System.Globalization.NumberStyles.HexNumber, provider, out m0scaV))
+                                    
+                            }
+                            if (((m1Vector = MatrixCalcForm.FindControl($"TextBox_{row:x1}_{crossVP:x1}")) != null) && m1Vector is TextBox m1TextBox)
+                            {
+                                m1scaV = Convert.ToInt32(m1TextBox.Text);
+                                // if (!Int64.TryParse(m1TextBox.Text, System.Globalization.NumberStyles.HexNumber, provider, out m1scaV))
+                                    
                             }
                             m2scaR += (m0scaV * m1scaV);
                         }

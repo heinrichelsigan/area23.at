@@ -275,6 +275,7 @@
     <Content Include="res\img\letter\point.png" />
     <Content Include="res\img\letter\transparentCanvas.png" />
     <Content Include="res\img\letter\whiteCanvas.png" />
+    <Content Include="res\img\LinkedMatrix.png" />
     <Content Include="res\img\qrsample.gif" />
     <Content Include="res\gamez\tictactoe\skullSetTicTacToe.gif" />
     <Content Include="res\gamez\tictactoe\skullSetTicTacToe.png" />
@@ -721,7 +722,6 @@
     <Compile Include="Util\JsonContacts.cs" />
     <Compile Include="Util\JsonHelper.cs" />
     <Compile Include="Calc\RPNType.cs" />
-    <Compile Include="Util\RedIs.cs" />
     <Compile Include="Util\UIPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -738,11 +738,10 @@
     <Content Include="log\2024-03-00_Area23.At.Mono.log" />
     <Content Include="Crypt\EncodeMaster.master" />
     <Content Include="Gamez\GamesMaster.master" />
-    <Content Include="log\2025-02-22_Area23.At.log" />
     <None Include="packages.config" />
     <Content Include="res\text\fortune.u8" />
     <Content Include="Qr\QRMaster.master" />
-    <Content Include="res\img\transparent.xcf" />
+    <None Include="res\img\transparent.xcf" />
     <Content Include="Unix\UnixMaster.master" />
     <Content Include="res\bin\bccmd.sh" />
     <Content Include="Calc\CalcMaster.master" />

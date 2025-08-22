@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="res/css/area23.at.mono.css" />
     <title>Server Error (apache2 mod_mono)</title>
     <script async src="res/js/area23.js"></script>
-    <link rev="made" href="mailto:mailadmin@area23.at" />
+    <link rel="made" href="mailto:mailadmin@area23.at" />
     <style type="text/css"><!--/*--><![CDATA[/*><!--*/ 
         body { color: #000000; background-color: #FFFFFF; }
         a:link { color: #0000CC; }
@@ -37,7 +37,7 @@ the <a href="mailto:mailadmin@area23.at">webmaster</a>.
 </address>
    
     <div id="DivException" runat="server" visible="false">
-        <pre id="PreException" runat="server" visible="false" style="background-color: #dfcfef; color: #1111dd; padding: 2 2 2 2; margin: 2 2 2 2;"></pre>
+        <pre id="PreException" runat="server" visible="false" style="background-color: #dfcfef; color: #1111dd; padding: 2px 2px 2px 2px; margin: 2px 2px 2px 2px;"></pre>
     </div>
 
     </form>

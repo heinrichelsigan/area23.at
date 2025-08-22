@@ -127,13 +127,16 @@ namespace Area23.At.Mono
             if (sender is HttpApplication)
                 path = ((HttpApplication)sender).Request.Url.PathAndQuery;
 
-            Area23Log.LogOriginMsg("Global.asax", string.Format("Application_Error: {0}: {1} thrown with path {2}", 
-                ex.GetType(), ex.Message, path));
+            string appLogErr = string.Format("Application_Error: {0}: {1} thrown at path {2}",
+                ex.GetType(), ex.Message, path);
+            Application[Constants.APP_ERROR] = appLogErr;
+            Area23Log.LogOriginMsg("Global.asax", appLogErr);
             
             CqrException appException = new CqrException(string.Format("Application_Error: {0}: {1} thrown with path {2}",
                 ex.GetType(), ex.Message, path), ex);
             CqrException.SetLastException(appException);
 
+            Response.Redirect(LibPaths.AppPath + "Error.aspx?event=appError");
             // Response.Redirect(Request.ApplicationPath + "/Error.aspx");
         }
 

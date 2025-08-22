@@ -71,7 +71,7 @@
                 </span>
             </div>
 			<div class="odDiv" style="margin-top: 4px">
-                <span class="leftSpan" style="white-space: nowrap; width:80%; text-align: left;"
+                <span class="leftSpan" style="white-space: nowrap; width:80%; text-align: left;">
                     <asp:RadioButtonList ID="RadioButtonList_Hash" runat="server" AutoPostBack="true" ToolTip="choose hashing key method" RepeatDirection="Horizontal" OnSelectedIndexChanged="RadioButtonList_Hash_ParameterChanged"> 
                         <asp:ListItem Selected="False" Value="b">bcrypt key</asp:ListItem>
                         <asp:ListItem Selected="True" Value="h">hex hash key</asp:ListItem>
