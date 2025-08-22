@@ -119,6 +119,7 @@
   <ItemGroup>
     <Content Include="Calc\CCalc.aspx" />
     <Content Include="Calc\Default.aspx" />
+    <Content Include="Calc\MatrixSO.aspx" />
     <Content Include="Calc\MatrixMCalc.aspx" />
     <Content Include="Calc\MatrixVCalc.aspx" />
     <Compile Include="Calc\Default.aspx.cs">
@@ -127,6 +128,13 @@
     </Compile>
     <Compile Include="Calc\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Calc\MatrixSO.aspx.cs">
+      <DependentUpon>MatrixSO.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Calc\MatrixSO.aspx.designer.cs">
+      <DependentUpon>MatrixSO.aspx</DependentUpon>
     </Compile>
     <Compile Include="Calc\MatrixMCalc.aspx.cs">
       <DependentUpon>MatrixMCalc.aspx</DependentUpon>
