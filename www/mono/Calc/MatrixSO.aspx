@@ -12,6 +12,7 @@
 </asp:Content>
 <asp:Content ID="CalcBodyContent" ContentPlaceHolderID="CalcBody" runat="server" ClientIDMode="Static">
 	<form id="MatrixSOForm" runat="server" action="MatrixSO.aspx">
+		<a href="../res/img/LinkedMatrix.png" target="_blank">LinkedMatrix.png</a>
 		<div class="matrixDiv">
 			<table border="0" cellpadding="0" cellspacing="0" runat="server" id="MatrixMatrixTable" style="vertical-align: top" width="90%" height="75%">
 				<tr runat="server" id="tr_m012" width="30%" height="75%" style="vertical-align: top">	
