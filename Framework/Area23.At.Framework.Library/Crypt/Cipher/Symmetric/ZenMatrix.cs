@@ -379,6 +379,37 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             }
             else
             {
+                #region bugfix for missing permutations
+                sbyte[] strikeBytes = {  (sbyte)0x0, (sbyte)0x1, (sbyte)0x2, (sbyte)0x3, (sbyte)0x4, (sbyte)0x5, (sbyte)0x6, (sbyte)0x7,
+                                        (sbyte)0x8, (sbyte)0x9, (sbyte)0xa, (sbyte)0xb, (sbyte)0xc, (sbyte)0xd, (sbyte)0xe, (sbyte)0xf  };
+                HashSet<sbyte> strikeList = new HashSet<sbyte>(strikeBytes);
+                int cancelationCounter = 0;
+                if (PermutationKeyHash.Count < 0x10)
+                {
+                    while (strikeList.Count > 0 && cancelationCounter++ < 0x10)
+                    {
+                        for (int k = 0; k < 0x10; k++)
+                        {
+                            try
+                            {
+                                sbyte inByte = PermutationKeyHash.ElementAt(k);
+                                if (strikeList.Contains(inByte))
+                                    strikeList.Remove(inByte);
+                            }
+                            catch (Exception exByte)
+                            {
+                                Area23Log.LogOriginMsgEx("ZenMatrix", $"Error when loading PermutationKeyHash.ElementAt({k});", exByte);
+                                if (strikeList.Count > 0)
+                                {
+                                    sbyte addedFromStrikeList = (sbyte)strikeList.ElementAt(0);
+                                    strikeList.Remove(addedFromStrikeList);
+                                    PermutationKeyHash.Add(addedFromStrikeList);
+                                }
+                            }
+                        }
+                    }
+                }
+                #endregion bugfix for missing permutations
                 for (int i = 0; i < 0x10; i++)
                 {
                     if ((int)PermutationKeyHash.ElementAt(i) != i)

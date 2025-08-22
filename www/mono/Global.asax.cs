@@ -136,7 +136,7 @@ namespace Area23.At.Mono
                 ex.GetType(), ex.Message, path), ex);
             CqrException.SetLastException(appException);
 
-            Response.Redirect(LibPaths.AppPath + "Error.aspx?event=appError");
+            // Response.Redirect(LibPaths.AppPath + "Error.aspx?event=appError");
             // Response.Redirect(Request.ApplicationPath + "/Error.aspx");
         }
 
