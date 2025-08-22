@@ -34,13 +34,11 @@ namespace Area23.At.Mono.Crypt
             if (!Page.IsPostBack)
             {
                 if ((Session[Constants.AES_ENVIROMENT_KEY] != null) && !string.IsNullOrEmpty((string)Session[Constants.AES_ENVIROMENT_KEY]) &&
-                    (((string)Session[Constants.AES_ENVIROMENT_KEY]).Length > 7))
+                    (((string)Session[Constants.AES_ENVIROMENT_KEY]).Length > 0))
                 {
                     Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
                 }                            
-            }
-
-            
+            }            
         }
 
         #region page_events

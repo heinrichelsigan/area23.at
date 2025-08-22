@@ -1,6 +1,5 @@
 ﻿using Area23.At.Framework.Library.Static;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Web.UI;
@@ -10,28 +9,9 @@ namespace Area23.At.Mono.Calc
 {
     public partial class MatrixMCalc : Util.UIPage
     {
-        Stack<string> rpnStack = new Stack<string>();
-
-        private int _textCursor = 0;
-        internal int TextCursor
-        {
-            get => _textCursor;
-            set => _textCursor = (value > 0 && value <= 18) ? value : _textCursor;
-        }
-
-        public DateTime Change_Click_EventDate
-        {
-            get => (Session[Constants.CHANGE_CLICK_EVENTCNT] != null) ?
-                (DateTime)Session[Constants.CHANGE_CLICK_EVENTCNT] : DateTime.MinValue;
-            set => Session[Constants.CHANGE_CLICK_EVENTCNT] = value;
-        }
-        object bChange_Click_lock = new object();
-        object bEnter_Click_lock = new object();
 
         protected void Page_Load(object sender, EventArgs e)
-        {
-            
-            _textCursor = rpnStack.Count;
+        {            
             if (!IsPostBack)
             {
                 Button_ResetMC_Click(sender, e);

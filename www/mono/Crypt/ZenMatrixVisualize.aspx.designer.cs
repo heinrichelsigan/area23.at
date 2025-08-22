@@ -114,13 +114,13 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.TextBox TextBoxPermutation;
 
         /// <summary>
-        /// CheckBox_BCrypt control.
+        /// RadioButtonList_Hash control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CheckBox_BCrypt;
+        protected global::System.Web.UI.WebControls.RadioButtonList RadioButtonList_Hash;
 
         /// <summary>
         /// MatrixTable control.

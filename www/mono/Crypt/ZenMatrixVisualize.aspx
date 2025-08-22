@@ -67,23 +67,26 @@
                     <asp:Button ID="Button_Reset_KeyIV" runat="server" Text="reset" ClientIDMode="Static" 
                         OnClick="Button_Reset_KeyIV_Click" ToolTip="Reset secret key / iv" style="max-width: 72px" />
 					<asp:TextBox ID="TextBoxPermutation" runat="server" 
-                    ToolTip="ZenMatrix permutation key" ReadOnly="true" Text="" MaxLength="128"  Width="120px"  style="width: 120px;" />
+						ToolTip="ZenMatrix permutation key" ReadOnly="true" Text="" MaxLength="128"  Width="120px"  style="width: 120px;" />
                 </span>
             </div>
 			<div class="odDiv" style="margin-top: 4px">
-				<span class="leftSpan" style="width: 120px; min-width: 120px; max-width: 180px">
-					<asp:CheckBox ID="CheckBox_BCrypt" runat="server" AutoPostBack="true" ClientIDMode="Static" Text="bcrypt key as hash" 
-						OnCheckedChanged="CheckBox_BCrypt_CheckedChanged" Checked="false" ToolTip="bcrypt hash instead of hex string" />
-				   </span>                
-				<span class="centerSpan" style="margin-left: 20px; max-width: 800px; min-width: 720px;">
-					&nbsp;
-				</span>
-				<span class="rightSpan" style="width: 80px; min-width: 72px; max-width: 84px">&nbsp;</span>    
-			</div>
-        </div>                    
-        <br />                
-        <div style="width: 800px; height: 480px; min-height: 360px">
-			<table class="rpnTbl" border="0" cellpadding="0" cellspacing="0" runat="server" id="MatrixTable" width="49%" height="60%">
+                <span class="leftSpan" style="white-space: nowrap; width:80%; text-align: left;"
+                    <asp:RadioButtonList ID="RadioButtonList_Hash" runat="server" AutoPostBack="true" ToolTip="choose hashing key method" RepeatDirection="Horizontal" OnSelectedIndexChanged="RadioButtonList_Hash_ParameterChanged"> 
+                        <asp:ListItem Selected="False" Value="b">bcrypt key</asp:ListItem>
+                        <asp:ListItem Selected="True" Value="h">hex hash key</asp:ListItem>
+                        <asp:ListItem Selected="False" Value="o">openbsd crypt</asp:ListItem>
+                        <asp:ListItem Selected="False" Value="s">scrypt key</asp:ListItem>
+                    </asp:RadioButtonList>                    
+                </span>                
+                <span class="centerSpan" style="margin-left: 20px; max-width: 800px; min-width: 720px;">
+                    &nbsp;
+                </span>
+            </div>        
+		</div>
+		<br />                
+        <div style="width: 800px; height: 600px; min-height: 480px">
+			<table class="rpnTbl" border="0" cellpadding="0" cellspacing="0" runat="server" id="MatrixTable" width="49%" height="56%">
 				<tr class="rpnTr" runat="server" id="tr_f" width="49%" height="3%">					
 					<td class="rpnTd" colspan=2 width="6%" id="td_f_v1" runat="server" align="center">&nbsp;</td>	
 					<td class="azureTd" width="3%" id="td_f_0" runat="server" align="center"><asp:TextBox ID="TextBox_f_0" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
@@ -423,17 +426,9 @@
 			</table>
         </div>            
 		<br />
-		<br />
     </form>
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-    <hr />   
-    <h3>Great thanks to <a href="https://www.bouncycastle.org/download/bouncy-castle-c/" target="_blank">bouncycastle.org</a>!</h3>
-	<br />
+	<div style="clear: both">		
+		<h3>Great thanks to <a href="https://www.bouncycastle.org/download/bouncy-castle-c/" target="_blank">bouncycastle.org</a>!</h3>			
+		<br />
+	</div>
 </asp:Content>
