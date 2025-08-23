@@ -97,7 +97,7 @@ namespace Area23.At.Mono.Crypt
             this.TextBox_Encryption.Text = "";
             this.TextBox_IV.Text = "";
             this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
-            this.RadioButtonList_Hash.SelectedValue = "h";
+            this.RadioButtonList_Hash.SelectedValue = KeyHash.Hex.ToString();
             this.TextBoxSource.Text = "";
             this.TextBoxDestionation.Text = "";
             
@@ -764,24 +764,11 @@ namespace Area23.At.Mono.Crypt
                 this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
             Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
 
-            string hashed = "";
-            switch (RadioButtonList_Hash.SelectedValue)
-            {
-                case "b":
-                    hashed = Hex16.ToHex16(CryptHelper.BCrypt(TextBox_Key.Text));
-                    break;
-                case "o":
-                    hashed = CryptHelper.BSDCrypt(TextBox_Key.Text);
-                    break;
-                case "s":
-                    hashed = Hex16.ToHex16(CryptHelper.SCrypt(TextBox_Key.Text));
-                    break;
-                case "h":
-                default:
-                    hashed = EnDeCodeHelper.KeyToHex(TextBox_Key.Text);
-                    break;
-            }
+            KeyHash keyHash = KeyHash.Hex;
+            if (!Enum.TryParse<KeyHash>(RadioButtonList_Hash.SelectedValue, out keyHash))
+                keyHash = KeyHash.Hex;
 
+            string hashed = keyHash.Hash(TextBox_Key.Text);           
             TextBox_IV.Text = hashed;
 
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;

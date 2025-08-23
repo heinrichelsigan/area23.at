@@ -181,11 +181,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.RC564:
                     RC564.RC564GenWithKey(secretKey, hash, true);
                     encryptBytes = RC564.Encrypt(inBytes);
-                    break;
-                case CipherEnum.Rfc3211:
-                    Rfc3211Wrap.Rfc3211WrapGenWithKey(secretKey, hash, true);
-                    encryptBytes = Rfc3211Wrap.Encrypt(inBytes);
-                    break;
+                    break;                
                 case CipherEnum.Rsa:
                     var keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
                     string privKey = keyPair.Private.ToString();
@@ -195,9 +191,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     Serpent.SerpentGenWithKey(secretKey, hash, true);
                     encryptBytes = Serpent.Encrypt(inBytes);
                     break;
-                case CipherEnum.ZenMatrix:
-                    encryptBytes = (new ZenMatrix(secretKey, hash, true)).Encrypt(inBytes);
-                    break;
+                //case CipherEnum.ZenMatrix:
+                //    encryptBytes = (new ZenMatrix(secretKey, hash, true)).Encrypt(inBytes);
+                //    break;
                 case CipherEnum.ZenMatrix2:
                     encryptBytes = (new ZenMatrix2(secretKey, hash, false)).Encrypt(inBytes);
                     break;
@@ -220,12 +216,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.RC2:
                 case CipherEnum.RC532:
                 case CipherEnum.RC6:
+                case CipherEnum.Rijndael:
                 case CipherEnum.Seed:
                 case CipherEnum.SM4:
                 case CipherEnum.SkipJack:
                 case CipherEnum.Tea:
                 case CipherEnum.Tnepres:
                 case CipherEnum.XTea:
+                case CipherEnum.ZenMatrix:
                 default:
                     CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash);
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
@@ -261,18 +259,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     RC564.RC564GenWithKey(secretKey, hash, true);
                     decryptBytes = RC564.Decrypt(cipherBytes);
                     break;
-                case CipherEnum.Rfc3211:
-                    Rfc3211Wrap.Rfc3211WrapGenWithKey(secretKey, hash, false);
-                    decryptBytes = Rfc3211Wrap.Decrypt(cipherBytes);
-                    break;
                 case CipherEnum.Rsa:
                     Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
                     string privKey = keyPair.Private.ToString();
                     decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes);
                     break;
-                case CipherEnum.ZenMatrix:
-                    decryptBytes = (new ZenMatrix(secretKey, hash, true)).Decrypt(cipherBytes);
-                    break;
+                //case CipherEnum.ZenMatrix:
+                //    decryptBytes = (new ZenMatrix(secretKey, hash, true)).Decrypt(cipherBytes);
+                //    break;
                 case CipherEnum.ZenMatrix2:
                     decryptBytes = (new ZenMatrix2(secretKey, hash, false)).Decrypt(cipherBytes);
                     break;
@@ -295,12 +289,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.RC2:
                 case CipherEnum.RC532:
                 case CipherEnum.RC6:
+                case CipherEnum.Rijndael:
                 case CipherEnum.Seed:
                 case CipherEnum.SM4:
                 case CipherEnum.SkipJack:
                 case CipherEnum.Tea:
                 case CipherEnum.Tnepres:
                 case CipherEnum.XTea:
+                case CipherEnum.ZenMatrix:
                 default:
                     CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash);
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);

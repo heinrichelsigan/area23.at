@@ -14,12 +14,13 @@ namespace Area23.At.Mono
                 Exception ex = CqrException.LastException;
                 if (ex != null || Application[Constants.APP_ERROR] != null || Request.QueryString["attack"] != null) 
                 {
-                    this.PreException.Visible = true;
-                    PreException.InnerText = (ex != null) ? 
+                    this.DivException.Visible = true;
+
+                    DivException.InnerText = (ex != null) ? 
                         (ex.GetType().Name + ": " + ex.Message + "\r\n") : "";
-                    PreException.InnerText += (Application[Constants.APP_ERROR] != null) ?
+                    DivException.InnerText += (Application[Constants.APP_ERROR] != null) ?
                         (string)Application[Constants.APP_ERROR] + "\r\n" : "";
-                    PreException.InnerText += "Attac: " + (string)Request.QueryString["attack"] + "\r\n";
+                    DivException.InnerText += "Attac: " + (string)Request.QueryString["attack"] + "\r\n";
                 }
             }
             

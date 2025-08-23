@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
+﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using System;
@@ -60,12 +61,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Aes:
                     Size = 256;
                     KeyLen = 32;
-                    Mode = "ECB";
-                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
-                    break;
-                case CipherEnum.Rfc3211:
-                    Size = 128;
-                    KeyLen = 16;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;
@@ -188,7 +183,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
-                    break;                
+                    break;
+                case CipherEnum.Rijndael:
+                    Size = 256;
+                    KeyLen = 32;
+                    Mode = "ECB";
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.RijndaelEngine();
+                    break;
                 case CipherEnum.Seed:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
                     Size = 128;
@@ -230,6 +231,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     KeyLen = 32;
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
+                    break;
+                case CipherEnum.ZenMatrix:
+                    Size = 16;
+                    KeyLen = 16;
+                    Mode = "ECB";
+                    BlockCipher = new ZenMatrix();
                     break;
                 default:
                     Size = 256;

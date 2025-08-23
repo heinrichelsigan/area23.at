@@ -143,6 +143,13 @@
     <Compile Include="Calc\MatrixMCalc.aspx.designer.cs">
       <DependentUpon>MatrixMCalc.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Controls\HashKeyRadioButtonList.ascx.cs">
+      <DependentUpon>HashKeyRadioButtonList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\HashKeyRadioButtonList.ascx.designer.cs">
+      <DependentUpon>HashKeyRadioButtonList.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LetterImageControl.ascx.cs">
       <DependentUpon>LetterImageControl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -167,12 +174,13 @@
     <Compile Include="CqrJD\CqrBaseService.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Content Include="Controls\HashKeyRadioButtonList.ascx" />
     <Content Include="Controls\LetterImageControl.ascx" />
     <Content Include="Controls\TreeViewControl.ascx" />
     <Content Include="Controls\Default.aspx" />
     <Content Include="CqrJD\CqrService.asmx" />
     <Content Include="CqrJD\Default.aspx" />
-    <Content Include="Crypt\BCrypt.aspx" />
+    <Content Include="Crypt\HashKey.aspx" />
     <Content Include="Crypt\Default.aspx" />
     <Content Include="Crypt\ZenMatrixVisualize.aspx" />
     <Content Include="Default.aspx" />
@@ -437,12 +445,12 @@
     <Compile Include="CqrJD\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Crypt\BCrypt.aspx.cs">
-      <DependentUpon>BCrypt.aspx</DependentUpon>
+    <Compile Include="Crypt\HashKey.aspx.cs">
+      <DependentUpon>HashKey.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Crypt\BCrypt.aspx.designer.cs">
-      <DependentUpon>BCrypt.aspx</DependentUpon>
+    <Compile Include="Crypt\HashKey.aspx.designer.cs">
+      <DependentUpon>HashKey.aspx</DependentUpon>
     </Compile>
     <Compile Include="Crypt\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

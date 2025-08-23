@@ -33,7 +33,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
 
         Cast5 = 0x10,
-        Rfc3211 = 0x11,
+        Rijndael = 0x11,
         Noekeon = 0x12,
         RC2 = 0x13,
         RC564 = 0x14,
@@ -105,6 +105,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.RC532: return '5';
                 case CipherEnum.RC564: return 'R';
                 case CipherEnum.RC6: return 'r';
+                case CipherEnum.Rijndael: return 'J';
                 case CipherEnum.Rsa: return '%';
 
                 case CipherEnum.Seed: return 's';
@@ -114,7 +115,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
                 case CipherEnum.Tea: return 't';
                 case CipherEnum.Tnepres: return 'T';
-                case CipherEnum.Rfc3211: return 'W';
                 case CipherEnum.XTea: return 'X';
 
                 case CipherEnum.ZenMatrix: return 'z';

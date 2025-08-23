@@ -129,6 +129,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
+                case SymmCipherEnum.ZenMatrix:
+                    Size = 256;
+                    KeyLen = 16;
+                    Mode = "ECB";
+                    BlockCipher = new ZenMatrix();
+                    break;
                 default:
                     Size = 256;
                     KeyLen = 32;

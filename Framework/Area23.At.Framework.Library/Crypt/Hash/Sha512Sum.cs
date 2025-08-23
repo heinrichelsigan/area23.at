@@ -65,7 +65,7 @@ namespace Area23.At.Framework.Library.Crypt.Hash
         #region helper methods
 
         internal static string HashString(string s) => (HashBytes(Encoding.UTF8.GetBytes(s))).ToHexString();
-
+       
         public static byte[] HashBytes(byte[] bytes) => SHA512.Create().ComputeHash(bytes);
 
         public static byte[] HashBytes(Stream s) => SHA512.Create().ComputeHash(s);

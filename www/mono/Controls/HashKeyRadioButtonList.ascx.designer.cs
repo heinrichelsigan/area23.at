@@ -7,29 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Area23.At.Mono
+namespace Area23.At.Mono.Controls
 {
 
 
-    public partial class Error
+    public partial class HashKeyRadioButtonList
     {
 
         /// <summary>
-        /// Area23ErrorForm control.
+        /// RadioButtonList_Hash control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm Area23ErrorForm;
-
-        /// <summary>
-        /// DivException control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivException;
+        protected global::System.Web.UI.WebControls.RadioButtonList RadioButtonList_Hash;
     }
 }

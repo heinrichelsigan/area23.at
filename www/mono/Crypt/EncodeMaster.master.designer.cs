@@ -87,13 +87,13 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRightCenter;
 
         /// <summary>
-        /// aBCrypt control.
+        /// aHashKey control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aBCrypt;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aHashKey;
 
         /// <summary>
         /// headerRight control.

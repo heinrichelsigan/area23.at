@@ -36,8 +36,8 @@ the <a href="mailto:mailadmin@area23.at">webmaster</a>.
   <span>Apache/2.4.58 (Ubuntu)</span>
 </address>
    
-    <div id="DivException" runat="server" visible="false">
-        <pre id="PreException" runat="server" visible="false" style="background-color: #dfcfef; color: #1111dd; padding: 2px 2px 2px 2px; margin: 2px 2px 2px 2px;"></pre>
+    <div id="DivException" runat="server" visible="false" style="clear: both; display: block; background-color: azure; margin-left: 18px; margin-top: 12px; width: 86%; max-width: 90%; height: 180px; font-family: Courier New, Courier, monospace">
+
     </div>
 
     </form>

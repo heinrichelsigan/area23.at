@@ -11,17 +11,17 @@ namespace Area23.At.Mono.Crypt
 {
 
 
-    public partial class BCrypt
+    public partial class HashKey
     {
 
         /// <summary>
-        /// CoolCryptForm control.
+        /// HashKeyForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm CoolCryptForm;
+        protected global::System.Web.UI.HtmlControls.HtmlForm HashKeyForm;
 
         /// <summary>
         /// ImageButton_Key control.

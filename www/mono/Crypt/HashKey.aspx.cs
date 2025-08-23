@@ -1,18 +1,10 @@
-﻿using Area23.At.Framework.Library.Crypt.Cipher;
-using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Library.Crypt.EnDeCoding;
-using Area23.At.Framework.Library.Crypt.Hash;
+﻿using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
-using Area23.At.Framework.Library.Util;
-using Area23.At.Framework.Library.Zfx;
 using System;
 using System.Drawing;
 using System.Security.Cryptography;
-using System.Text;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Windows.Input;
 
 namespace Area23.At.Mono.Crypt
 {
@@ -21,7 +13,7 @@ namespace Area23.At.Mono.Crypt
     /// BCrypt is an advanced crypt(3) unix hash crypt utility
     /// Great thanx to the legion of <see href="https://bouncycastle.org" />
     /// </summary>
-    public partial class BCrypt : Util.UIPage
+    public partial class HashKey : Util.UIPage
     {        
 
         /// <summary>
@@ -63,7 +55,7 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void Button_Clear_Click(object sender, EventArgs e)
         {
-            this.RadioButtonList_Hash.SelectedValue = "h";
+            this.RadioButtonList_Hash.SelectedValue = KeyHash.Hex.ToString();
             this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
             this.TextBox_BCrypt_Key.Text = "";
             this.TextBox_BCrypt_Key.ForeColor = this.TextBox_Key.ForeColor;
@@ -87,31 +79,24 @@ namespace Area23.At.Mono.Crypt
             {
                 Reset_TextBox_IV(this.TextBox_Key.Text);
                 string crypted = "";
-                switch (RadioButtonList_Hash.SelectedValue)
-                {
-                    case "b":
-                        crypted = Hex16.ToHex16(CryptHelper.BCrypt(TextBox_Key.Text));
-                        break;
-                    case "o":
-                        crypted = CryptHelper.BSDCrypt(TextBox_Key.Text);
-                        break;
-                    case "s":
-                        crypted = Hex16.ToHex16(CryptHelper.SCrypt(TextBox_Key.Text));
-                        break;
-                    case "h":
-                    default:
-                        crypted = EnDeCodeHelper.KeyToHex(TextBox_Key.Text);
-                        break;
-                }
+                KeyHash keyHash = KeyHash.Hex;
+                if (!Enum.TryParse<KeyHash>(RadioButtonList_Hash.SelectedValue, out keyHash))
+                    keyHash = KeyHash.Hex;
 
-                TextBox_BCrypt_Key.Text = crypted;
+                string hashed = keyHash.Hash(TextBox_Key.Text);
+
+                TextBox_BCrypt_Key.Text = hashed;
                 TextBox_BCrypt_Key.BorderStyle = BorderStyle.Groove;
                 TextBox_BCrypt_Key.BorderColor = Color.DarkOliveGreen;
                 TextBox_BCrypt_Key.BorderWidth = 2;
             }
         }
 
- 
+        protected void RadioButtonList_Hash_ParameterChanged(object sender, EventArgs e)
+        {
+            Button_Hash_Click(sender, e);
+        }
+
         #endregion page_events
 
 

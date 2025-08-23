@@ -1,4 +1,4 @@
-﻿<%@ Page Title="BCrypt (apache2 mod_mono)" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="BCrypt.aspx.cs" Inherits="Area23.At.Mono.Crypt.BCrypt"  validateRequest="true" %>
+﻿<%@ Page Title="HashKey (apache2 mod_mono)" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="HashKey.aspx.cs" Inherits="Area23.At.Mono.Crypt.HashKey"  validateRequest="true" %>
 <asp:Content ID="ContentEncodeHead" ContentPlaceHolderID="EncodeHead" runat="server">
         <title>Simple uu and base64 en-/decode tool (apache2 mod_mono)</title>
         <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
@@ -8,7 +8,7 @@
 </asp:Content>
 <asp:Content ID="ContentEncodeBody" ContentPlaceHolderID="EncodeBody" runat="server" ClientIDMode="Static">
     <h2>Enryption method</h2>
-    <form id="CoolCryptForm" runat="server" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True" style="background-color: transparent;">
+    <form id="HashKeyForm" runat="server" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True" style="background-color: transparent;">
         <div style="background-color: transparent; padding-left: 40px; margin-left: 2px;">
             <div class="odDiv">
                 <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">secret&nbsp;key:</span>
@@ -39,11 +39,16 @@
             </div>                    
             <div class="odDiv" style="margin-top: 4px">
                 <span class="leftSpan" style="white-space: nowrap; width:80%; text-align: left;"
-                    <asp:RadioButtonList ID="RadioButtonList_Hash" runat="server" AutoPostBack="true" ToolTip="choose hashing key method" RepeatDirection="Horizontal" OnSelectedIndexChanged="Button_Key_Click">                        
-                        <asp:ListItem Selected="False" Value="b">bcrypt key</asp:ListItem>
-                        <asp:ListItem Selected="True" Value="h">hex hash key</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="o">openbsd crypt</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="s">scrypt key</asp:ListItem>
+                    <asp:RadioButtonList ID="RadioButtonList_Hash" runat="server" AutoPostBack="true" ToolTip="choose hashing key method" RepeatDirection="Horizontal" OnSelectedIndexChanged="RadioButtonList_Hash_ParameterChanged"> 
+                        <asp:ListItem Selected="False" Value="BCrypt">bcrypt key</asp:ListItem>
+                        <asp:ListItem Selected="True" Value="Hex">hex hash key</asp:ListItem>
+                        <asp:ListItem Selected="False" Value="MD5">md5 key</asp:ListItem>
+                        <asp:ListItem Selected="False" Value="OpenBSDCrypt">openbsd crypt</asp:ListItem>
+                        <asp:ListItem Selected="False" Value="SCrypt">scrypt key</asp:ListItem>
+                        <asp:ListItem Selected="False" Value="Sha1">sha1 key</asp:ListItem>
+                        <asp:ListItem Selected="False" Value="Sha256">sha256 key</asp:ListItem>
+                        <asp:ListItem Selected="False" Value="Sha384">sha384 key</asp:ListItem>
+                        <asp:ListItem Selected="False" Value="Sha512">sha256 key</asp:ListItem>
                     </asp:RadioButtonList>                    
                 </span> 
             </div>

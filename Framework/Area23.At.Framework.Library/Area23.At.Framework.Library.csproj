@@ -206,6 +206,11 @@
     <Compile Include="Cqr\Msg\IMsgAble.cs" />
     <Compile Include="Cqr\Msg\SerType.cs" />
     <Compile Include="Crypt\Cipher\CipherPipe.cs" />
+    <Compile Include="Crypt\Hash\Sha256HMac.cs" />
+    <Compile Include="Crypt\Hash\KeyHash.cs" />
+    <Compile Include="Crypt\Hash\PasswdCrypt.cs" />
+    <Compile Include="Crypt\Hash\Sha384.cs" />
+    <Compile Include="Crypt\Hash\Sha1.cs" />
     <Compile Include="Net\IpSocket\SockTcpListener.cs" />
     <Compile Include="Net\IpSocket\SockTcpSender.cs" />
     <Compile Include="Net\WebHttp\WebServiceSoap.cs" />

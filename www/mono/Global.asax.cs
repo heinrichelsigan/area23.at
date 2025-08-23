@@ -2,9 +2,11 @@
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Mono.Util;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Runtime.InteropServices;
 using System.Web;
+using System.Windows.Controls;
 
 namespace Area23.At.Mono
 {
@@ -132,11 +134,19 @@ namespace Area23.At.Mono
             Application[Constants.APP_ERROR] = appLogErr;
             Area23Log.LogOriginMsg("Global.asax", appLogErr);
             
+            
             CqrException appException = new CqrException(string.Format("Application_Error: {0}: {1} thrown with path {2}",
                 ex.GetType(), ex.Message, path), ex);
             CqrException.SetLastException(appException);
 
-            // Response.Redirect(LibPaths.AppPath + "Error.aspx?event=appError");
+            int idx = HttpContext.Current.Request.Url.AbsoluteUri.IndexOf(HttpContext.Current.Request.ApplicationPath);
+            if (idx > -1)
+            {
+                string redir = HttpContext.Current.Request.Url.AbsoluteUri.Substring(0, idx);
+                redir += (redir.EndsWith("/")) ? "Error.aspx?event=appError" : "/Error.aspx?event=appError";
+                Response.Redirect(redir);
+            }
+            
             // Response.Redirect(Request.ApplicationPath + "/Error.aspx");
         }
 
