@@ -315,36 +315,34 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// <returns>The decoded string</returns>
         public static string UuDecodeString(string srcString)
         {
-            if (!string.IsNullOrEmpty(srcString) && srcString[0] != '`')
+            if (!string.IsNullOrWhiteSpace(srcString) && srcString[0] != '`')
             {
-                string text0 = "";
-                string[] array = srcString.Split(new char[1] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string text1 in array)
+                string returnStr = "";
+
+                string[] lines = srcString.Split(new char[] { (char)10 }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string str in lines)
                 {
-                    int num = text1[0] - 32;
-                    string text2 = "";
-                    for (int j = 1; j < text2.Length; j += 4)
+                    int len = str[0] - 32;
+                    string ret = "";
+
+                    for (int i = 1; i < str.Length; i += 4)
                     {
-                        text2 += (char)((text1[j] - 32) * 4 + (text1[j + 1] - 32) / 16);
-                        if (text2.Length == num)
-                            break;
-
-                        text2 += (char)((text1[j + 1] - 32) % 16 * 16 + (text1[j + 2] - 32) / 4);
-                        if (text2.Length == num)
-                            break;
-
-                        text2 += (char)((text1[j + 2] - 32) % 4 * 64 + (text1[j + 3] - 32));
-                        if (text2.Length == num)
-                            break;
+                        ret += (char)((str[i] - 32) * 4 + (str[i + 1] - 32) / 16);
+                        if (ret.Length == len) break;
+                        ret += (char)(((str[i + 1] - 32) % 16) * 16 + (str[i + 2] - 32) / 4);
+                        if (ret.Length == len) break;
+                        ret += (char)(((str[i + 2] - 32) % 4) * 64 + (str[i + 3] - 32));
+                        if (ret.Length == len) break;
                     }
 
-                    text0 += text2;
+                    returnStr += ret;
                 }
 
-                return text0;
+                return returnStr;
             }
 
-            return string.Empty;
+            return "";
         }
 
 

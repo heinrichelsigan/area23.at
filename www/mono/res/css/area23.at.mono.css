@@ -229,7 +229,7 @@ div {
         width: 100%;
         line-height: normal;
         vertical-align: top;
-        font-size: medium;
+        font-size: larger;
         table-layout: fixed;
         inset-block-start: initial;
     }
@@ -247,7 +247,7 @@ div {
         text-align: left;
         background-color: #ffddee;
         vertical-align: middle;
-        font-size: medium;
+        font-size: larger;
         table-layout: fixed;
         inset-block-start: initial;
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
@@ -294,6 +294,21 @@ div {
         inset-block-start: initial;
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
     }
+
+    div.defaultpage {
+        background-color: seashell;
+        margin: 8px 8px 4px 4px;
+        padding: 2px 2px 2px 2px;
+        font-family: Courier New, Courier, monospace;
+        font-size: large
+    }
+
+        .defaultpage, div.defaultpage, a.defaultpage, span.defaultpage,
+            div.defaultpage.pre, div.defaultpage.a, div.defaultpage.pre.a, pre.a, div.defaultpage.pre.span, div.defaultpage.span 
+        {
+            font-size: large;
+            font-family: Courier New, Courier, monospace;
+        }
 
     div.digitalclock {
         border-block: 2px solid #bab5b1;

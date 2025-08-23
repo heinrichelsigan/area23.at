@@ -69,13 +69,13 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.TextBox TextBox_BCrypt_Key;
 
         /// <summary>
-        /// RadioButtonList_Hash control.
+        /// hashKeyRadioButtonList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList RadioButtonList_Hash;
+        protected global::Area23.At.Mono.Controls.HashKeyRadioButtonList hashKeyRadioButtonList;
 
         /// <summary>
         /// DivAesImprove control.

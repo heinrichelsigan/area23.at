@@ -1,14 +1,16 @@
 ﻿using Area23.At.Framework.Library.Crypt.Hash;
-using Area23.At.Framework.Library.Static;
+using Newtonsoft.Json.Linq;
 using System;
-using System.Web.UI.HtmlControls;
 
 namespace Area23.At.Mono.Controls
 {
 
     public partial class HashKeyRadioButtonList : System.Web.UI.UserControl
     {
-        public EventHandler RadioButtonList_Hash_ParameterChanged_FireUp { protected get; set; }
+
+        public string SelectedKeyHashValue { get => RadioButtonList_Hash.SelectedValue; set => RadioButtonList_Hash.SelectedValue = value; }
+
+        public event EventHandler ParameterChanged_FireUp;            
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -21,11 +23,10 @@ namespace Area23.At.Mono.Controls
 
         protected void RadioButtonList_Hash_ParameterChanged(object sender, EventArgs e)
         {
-            if (RadioButtonList_Hash_ParameterChanged_FireUp != null)
-            {
-                RadioButtonList_Hash_ParameterChanged_FireUp.Invoke(this, e);
-            }
-        }
+            if (ParameterChanged_FireUp != null) 
+                ParameterChanged_FireUp.Invoke(sender, e);
+            // base.Events.AddHandler(ParameterChangedFireUp, value);            
+        }         
 
     }
 

@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="HashKey (apache2 mod_mono)" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="HashKey.aspx.cs" Inherits="Area23.At.Mono.Crypt.HashKey"  validateRequest="true" %>
+<%@ Register TagPrefix="uc23" TagName="HashKeyRadioButtonList" Src="~/Controls/HashKeyRadioButtonList.ascx" %> 
 <asp:Content ID="ContentEncodeHead" ContentPlaceHolderID="EncodeHead" runat="server">
         <title>Simple uu and base64 en-/decode tool (apache2 mod_mono)</title>
         <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
@@ -39,17 +40,7 @@
             </div>                    
             <div class="odDiv" style="margin-top: 4px">
                 <span class="leftSpan" style="white-space: nowrap; width:80%; text-align: left;"
-                    <asp:RadioButtonList ID="RadioButtonList_Hash" runat="server" AutoPostBack="true" ToolTip="choose hashing key method" RepeatDirection="Horizontal" OnSelectedIndexChanged="RadioButtonList_Hash_ParameterChanged"> 
-                        <asp:ListItem Selected="False" Value="BCrypt">bcrypt key</asp:ListItem>
-                        <asp:ListItem Selected="True" Value="Hex">hex hash key</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="MD5">md5 key</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="OpenBSDCrypt">openbsd crypt</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="SCrypt">scrypt key</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Sha1">sha1 key</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Sha256">sha256 key</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Sha384">sha384 key</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Sha512">sha256 key</asp:ListItem>
-                    </asp:RadioButtonList>                    
+                    <uc23:HashKeyRadioButtonList ID="hashKeyRadioButtonList"  ClientIDMode="Static" runat="server" OnParameterChanged_FireUp="Button_Hash_Click" />                    
                 </span> 
             </div>
         </div>

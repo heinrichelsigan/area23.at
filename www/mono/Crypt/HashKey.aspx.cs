@@ -22,9 +22,11 @@ namespace Area23.At.Mono.Crypt
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
         protected void Page_Load(object sender, EventArgs e)
-        {
+        {            
             if (!Page.IsPostBack)
             {
+                this.hashKeyRadioButtonList.ParameterChanged_FireUp += new EventHandler(Button_Hash_Click);
+
                 if ((Session[Constants.AES_ENVIROMENT_KEY] != null) && !string.IsNullOrEmpty((string)Session[Constants.AES_ENVIROMENT_KEY]) &&
                     (((string)Session[Constants.AES_ENVIROMENT_KEY]).Length > 0))
                 {
@@ -55,7 +57,7 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void Button_Clear_Click(object sender, EventArgs e)
         {
-            this.RadioButtonList_Hash.SelectedValue = KeyHash.Hex.ToString();
+            this.hashKeyRadioButtonList.SelectedKeyHashValue = KeyHash.Hex.ToString();
             this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
             this.TextBox_BCrypt_Key.Text = "";
             this.TextBox_BCrypt_Key.ForeColor = this.TextBox_Key.ForeColor;
@@ -80,7 +82,7 @@ namespace Area23.At.Mono.Crypt
                 Reset_TextBox_IV(this.TextBox_Key.Text);
                 string crypted = "";
                 KeyHash keyHash = KeyHash.Hex;
-                if (!Enum.TryParse<KeyHash>(RadioButtonList_Hash.SelectedValue, out keyHash))
+                if (!Enum.TryParse<KeyHash>(this.hashKeyRadioButtonList.SelectedKeyHashValue, out keyHash))
                     keyHash = KeyHash.Hex;
 
                 string hashed = keyHash.Hash(TextBox_Key.Text);
@@ -92,10 +94,6 @@ namespace Area23.At.Mono.Crypt
             }
         }
 
-        protected void RadioButtonList_Hash_ParameterChanged(object sender, EventArgs e)
-        {
-            Button_Hash_Click(sender, e);
-        }
 
         #endregion page_events
 
