@@ -49,7 +49,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         Rsa = 0x1e,
 
         ZenMatrix2 = 0x1f
-
     }
 
     /// <summary>
@@ -114,7 +113,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
                 case CipherEnum.Tea: return 't';
                 case CipherEnum.Tnepres: return 'T';
-                case CipherEnum.Rijndael: return 'J';
+                case CipherEnum.Rijndael: return 'j';
                 case CipherEnum.XTea: return 'X';
 
                 case CipherEnum.ZenMatrix: return 'z';
@@ -127,14 +126,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         }
 
 
-        public static string PrintChipherTypes()
+        public static string PrintChipherTypes(this CipherEnum cipher)
         {
-            string s = "";
-            foreach (CipherEnum cipher in GetCipherTypes())
-            {
-                s += "\t" + cipher.GetCipherChar() + "\t" + cipher.ToString() + "\t" + cipher.ToString("x:2");
-            }
-
+            string s = cipher.ToString("x:2") + " " + cipher.GetCipherChar() + "\t" + cipher.ToString();
             return s;
         }
 

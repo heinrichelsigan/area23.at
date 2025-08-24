@@ -98,7 +98,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             if (privateBytes == null)
                 throw new InvalidOperationException($"{SYMM_CIPHER_ALGO_NAME} engine not initialised");
 
-            int len = BLOCK_SIZE;
+            // int len = BLOCK_SIZE;
             int aCnt = 0, bCnt = 0;
 
             if (inOff >= inBuf.Length || inOff + BLOCK_SIZE > inBuf.Length)
@@ -514,7 +514,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="inBytes">input bytes to pad </param>
         /// <param name="useRandom">use random padding</param>
         /// <returns>padded or unpadded out bytes</returns>
-        public virtual byte[] PadBuffer(byte[] inBytes, bool useRandom = false)
+        public override byte[] PadBuffer(byte[] inBytes, bool useRandom = false)
         {
             int ilen = inBytes.Length;                          // length of data bytes
             int oSize = (BLOCK_SIZE - (ilen % BLOCK_SIZE));     // oSize is rounded up to next number % BLOCK_SIZE == 0
@@ -577,7 +577,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="pdata">plain data as <see cref="byte[]"/></param>
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
-        public virtual byte[] Encrypt(byte[] pdata)
+        public override byte[] Encrypt(byte[] pdata)
         {
             // Check arguments.
             if (pdata == null || pdata.Length <= 0)
@@ -603,7 +603,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="cdata">encrypted cipher <see cref="byte[]">bytes</see></param>
         /// <returns>decrypted plain byte[] data</returns>
-        public virtual byte[] Decrypt(byte[] ecdata)
+        public override byte[] Decrypt(byte[] ecdata)
         {
             if (ecdata == null || ecdata.Length <= 0)
                 throw new ArgumentNullException("ZenMatrix byte[] Encrypt(byte[] ecdata): ArgumentNullException ecdata = null or Lenght 0.");
@@ -626,7 +626,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         }
 
         #endregion encrypt decrypt
-
 
 
         #region static helpers swap byte and SwapT{T} generic 

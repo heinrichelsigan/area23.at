@@ -659,7 +659,7 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
         /// <summary>
         /// AppSettingsValueByKey 
         /// </summary>
-        /// <param name="key">key to lookup up in appsettings key value collection</param>
+        /// <param name="key">key to lookup up in AppSettings key value collection</param>
         /// <returns><see cref="string"/> AppSettingsValue</returns>
         public static string AppSettingsValueByKey(string key)
         {

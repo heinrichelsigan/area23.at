@@ -3,7 +3,6 @@ using System;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
-using System.Security.Policy;
 using System.Web;
 
 namespace Area23.At.Framework.Library.Static
@@ -14,7 +13,7 @@ namespace Area23.At.Framework.Library.Static
     /// </summary>
     public static class LibPaths
     {
-        private static string appPath = "";
+        // private static string appPath = "";
         private static string appUrlPath = "";
         private static string baseAppPath = "";
         private static string systemDirPath = "";

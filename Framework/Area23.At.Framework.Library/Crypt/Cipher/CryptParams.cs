@@ -1,5 +1,4 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
@@ -13,6 +12,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
     /// </summary>
     public class CryptParams
     {
+
+        #region Properties
+
         public CipherEnum Cipher { get; set; }
 
         public string AlgorithmName
@@ -169,7 +171,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Serpent:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
                     Size = 128;
-                    KeyLen = 16;;
+                    KeyLen = 16;
                     break;
                 case CipherEnum.SM4:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SM4Engine();
@@ -218,9 +220,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         }
 
 
-
         public CryptParams(CipherEnum cipherAlgo, string key, KeyHash keyHash) : this(cipherAlgo, key, keyHash.Hash(key), keyHash) { }
-
 
         /// <summary>
         /// constructs a <see cref="CryptParams"/> object by <see cref="CipherEnum"/>
@@ -240,6 +240,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// </summary>
         /// <param name="cryptParams">another instance</param>
         public CryptParams(CryptParams cryptParams) : this(cryptParams.Cipher, cryptParams.Key, cryptParams.Hash, cryptParams.KeyHashing) { }
+
+        #endregion Constructors
+
+        #region obsolete static members
 
         /// <summary>
         /// static way to get valid <see cref="CryptParams"/> for a requested <see cref="CipherEnum"/>
@@ -263,6 +267,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         {
             return (new CryptParams(cipherAlgo)).BlockCipher;
         }
+
+        #endregion obsolete static members
 
     }
 

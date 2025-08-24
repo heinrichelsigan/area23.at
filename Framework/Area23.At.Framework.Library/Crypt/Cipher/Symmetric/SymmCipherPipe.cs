@@ -7,17 +7,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
 
 	/// <summary>
-	/// Provides a simple crypt pipe for <see cref="SymmCipherEnum"/>
+	/// Provides a simple multistaged crypt pipe for <see cref="SymmCipherEnum"/> with max stages = 8
 	/// </summary>
 	public class SymmCipherPipe
 	{
 
-		private readonly SymmCipherEnum[] inPipe;
+        #region fields and properties
+
+        private readonly SymmCipherEnum[] inPipe;
 		public readonly SymmCipherEnum[] outPipe;
 		private readonly string pipeString;
 		private string symmCipherKey = "", symmCipherHash = "";
@@ -45,14 +46,16 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 			}
 		}
 #endif
+        
+		#endregion fields and properties
 
-		#region ctor SymmCipherPipe
+        #region ctor SymmCipherPipe
 
-		/// <summary>
-		/// SymmCipherPipe constructor with an array of <see cref="SymmCipherEnum[]"/> as inpipe
-		/// </summary>
-		/// <param name="symmCipherEnums">array of <see cref="SymmCipherEnum[]"/> as inpipe</param>
-		public SymmCipherPipe(SymmCipherEnum[] symmCipherEnums)
+        /// <summary>
+        /// SymmCipherPipe constructor with an array of <see cref="SymmCipherEnum[]"/> as inpipe
+        /// </summary>
+        /// <param name="symmCipherEnums">array of <see cref="SymmCipherEnum[]"/> as inpipe</param>
+        public SymmCipherPipe(SymmCipherEnum[] symmCipherEnums)
 		{
 			inPipe = new List<SymmCipherEnum>(symmCipherEnums).ToArray();
 			outPipe = symmCipherEnums.Reverse<SymmCipherEnum>().ToArray();
@@ -136,7 +139,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 		/// <param name="key">secret key to generate pipe</param>
 		/// <param name="hash">hash value of secret key</param>
 		public SymmCipherPipe(string key = "heinrich.elsigan@area23.at", string hash = "6865696e726963682e656c736967616e406172656132332e6174")
-			: this(CryptHelper.GetUserKeyBytes(key, hash, 16), Constants.MAX_PIPE_LEN)
+			: this(	CryptHelper.GetKeyBytesSimple(key, hash, 16), Constants.MAX_PIPE_LEN)
 		{
 			symmCipherKey = key;
 			symmCipherHash = hash;
@@ -174,10 +177,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
 			switch (cipherAlgo)
 			{
-				case SymmCipherEnum.Serpent:
-					Serpent.SerpentGenWithKey(secretKey, hashIv, true);
-					encryptBytes = Serpent.Encrypt(inBytes);
-					break;				
+				// case SymmCipherEnum.Serpent:
+				//	Serpent.SerpentGenWithKey(secretKey, hashIv, true);
+				//	encryptBytes = Serpent.Encrypt(inBytes);
+				//	break;				
 				case SymmCipherEnum.Aes:
 				case SymmCipherEnum.BlowFish:
 				case SymmCipherEnum.Fish2:
@@ -189,6 +192,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 				case SymmCipherEnum.Gost28147:
 				case SymmCipherEnum.Idea:
 				case SymmCipherEnum.Seed:
+				case SymmCipherEnum.Serpent:
 				case SymmCipherEnum.SkipJack:
 				case SymmCipherEnum.Tea:
 				case SymmCipherEnum.XTea:
@@ -217,16 +221,16 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 			string hashIv = "6865696e726963682e656c736967616e406172656132332e6174",
 			bool fishOnAesEngine = false)
 		{
-			bool sameKey = true;
+			// bool sameKey = true;
 			string algorithmName = cipherAlgo.ToString();
 			byte[] decryptBytes = cipherBytes;
 
 			switch (cipherAlgo)
 			{
-				case SymmCipherEnum.Serpent:
-					sameKey = Serpent.SerpentGenWithKey(secretKey, hashIv, true);
-					decryptBytes = Serpent.Decrypt(cipherBytes);
-					break;
+				// case SymmCipherEnum.Serpent:
+				//	sameKey = Serpent.SerpentGenWithKey(secretKey, hashIv, true);
+				//	decryptBytes = Serpent.Decrypt(cipherBytes);
+				//	break;
 				case SymmCipherEnum.Aes:
 				case SymmCipherEnum.BlowFish:
 				case SymmCipherEnum.Fish2:
@@ -238,7 +242,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 				case SymmCipherEnum.Idea:
 				case SymmCipherEnum.RC532:
 				case SymmCipherEnum.Seed:
-				case SymmCipherEnum.SkipJack:
+                case SymmCipherEnum.Serpent:
+                case SymmCipherEnum.SkipJack:
 				case SymmCipherEnum.Tea:
 				case SymmCipherEnum.XTea:
                 case SymmCipherEnum.ZenMatrix:

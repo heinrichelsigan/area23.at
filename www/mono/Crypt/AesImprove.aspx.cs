@@ -168,9 +168,10 @@ namespace Area23.At.Mono.Crypt
                 string secretKey = TextBox_Key.Text;
                 string keyIv = TextBox_IV.Text;
 
-                SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(secretKey, keyIv).InPipe;
+                CipherEnum[] cipherTypes = new CipherPipe(secretKey, keyIv).InPipe;
+                // SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(secretKey, keyIv).InPipe;
                 this.TextBox_Encryption.Text = string.Empty;
-                foreach (SymmCipherEnum c in cses)
+                foreach (CipherEnum c in cipherTypes)
                 {
                     this.TextBox_Encryption.Text += c.ToString() + ";";
                 }
@@ -428,7 +429,7 @@ namespace Area23.At.Mono.Crypt
                 }
 
                 byte[] decryptedBytes = cipherBytes;
-                int ig = 0;
+                // int ig = 0;
 
                 byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(secretKey, keyIv, 16);
                 string[] algorithms = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());

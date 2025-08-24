@@ -102,6 +102,33 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return outBytes.ToArray();
         }
 
+        public static byte[] GetKeyBytesSimple(string key, string keyHash, int keyLen = 16)
+        {
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException("key");
+            byte[] keyBytes = EnDeCodeHelper.GetBytes(key);
+            byte[] outBytes = new byte[16];
+            if (keyBytes.Length >= 16)
+            {
+                Array.Copy(keyBytes, 0, outBytes, 0, keyLen);
+                return outBytes;
+            }
+            byte[] smallBytes = keyBytes.TarBytes(EnDeCodeHelper.GetBytes(keyHash));
+            if (smallBytes.Length >= keyLen)
+            {
+                Array.Copy(smallBytes, 0, outBytes, 0, keyLen);
+                return outBytes;
+            }
+            byte[] bigBytes = smallBytes.TarBytes(EnDeCodeHelper.GetBytes(keyHash), keyBytes);
+            if (bigBytes.Length >= keyLen)
+            {
+                Array.Copy(bigBytes, 0, outBytes, 0, keyLen);
+                return outBytes;
+            }
+
+            return GetUserKeyBytes(key, keyHash, keyLen);
+        }
+
         /// <summary>
         /// GetUserKeyBytes gets symmetric chiffre private byte[KeyLen] encryption / decryption key
         /// </summary>

@@ -30,7 +30,7 @@ namespace Area23.At.Mono.CqrJD
             //    _contacts = (HashSet<CqrContact>)(Application[Constants.JSON_CONTACTS]);
             //else
             //    _contacts = LoadJsonContacts();
-
+            /*
             tmpStrg = string.Empty;
 
             if (ConfigurationManager.AppSettings["ServerIPv4"] != null)
@@ -154,6 +154,7 @@ namespace Area23.At.Mono.CqrJD
                 this.preOut.InnerText = allStrng;
                 Application["lastall"] = allStrng;
             }
+            */
         }
 
         protected void ButtonSubmit_Click(object sender, EventArgs e)

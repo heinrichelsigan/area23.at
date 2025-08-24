@@ -80,7 +80,7 @@ namespace Area23.At.Mono.Crypt
             if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 1)
             {
                 Reset_TextBox_IV(this.TextBox_Key.Text);
-                string crypted = "";
+                
                 KeyHash keyHash = KeyHash.Hex;
                 if (!Enum.TryParse<KeyHash>(this.hashKeyRadioButtonList.SelectedKeyHashValue, out keyHash))
                     keyHash = KeyHash.Hex;

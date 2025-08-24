@@ -11,10 +11,12 @@ using System.Linq;
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
 
-
     /// <summary>
-    /// Simple sbyte reduced to 0x0 .. 0xf symmetric cipher mapping matrix,
-    /// maybe already invented, but created by zen@area23.at (Heinrich Elsigan)
+    /// <see cref="ZenMatrix"/>, a very simple symmetric block cipher
+    /// hex shifting and position swapping reduced to 0x0 .. 0xf mapping matrix
+    /// Implements <see cref="Org.BouncyCastle.Crypto.IBlockCipher">Org.BouncyCastle.Crypto.IBlockCipher</see>
+    ///
+    /// probably already invented, but created by zen@area23.at (Heinrich Elsigan)
     /// </summary>
     public class ZenMatrix : IBlockCipher
     {
@@ -195,7 +197,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             if (privateBytes == null)
                 throw new InvalidOperationException($"{SYMMCIPHERALGONAME} engine not initialised");
 
-            int len = BLOCK_SIZE;
+            // int len = BLOCK_SIZE;
             int bCnt = 0;
 
             if (inOff >= inBuf.Length || inOff + BLOCK_SIZE > inBuf.Length)

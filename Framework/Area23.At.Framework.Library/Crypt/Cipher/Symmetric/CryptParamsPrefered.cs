@@ -1,7 +1,6 @@
 ﻿using Area23.At.Framework.Library.Crypt.Hash;
 using Org.BouncyCastle.Crypto;
 using System;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
@@ -12,6 +11,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     public class CryptParamsPrefered : CryptParams
     {
         public SymmCipherEnum SymmCipher { get; set; }
+
+        #region Constructors
 
         /// <summary>
         /// standard ctor with <see cref="SymmCipherEnum.Aes"/> default
@@ -132,6 +133,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             Hash = string.IsNullOrEmpty(hash) ? KeyHashing.Hash(key) : hash;
         }
 
+        #endregion Constructors
+
+        #region obsolete deprecated static members
+
         /// <summary>
         /// static way to get valid <see cref="CryptParamsPrefered"/> for a requested <see cref="SymmCipherEnum"/>
         /// </summary>
@@ -149,7 +154,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             return new CryptParamsPrefered(cipherAlgo, fishOnAesEngine).BlockCipher;
         }
 
-    }
+        #endregion obsolete deprecated static members
 
+    }
 
 }

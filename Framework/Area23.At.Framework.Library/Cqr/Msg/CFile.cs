@@ -444,7 +444,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             Zfx.ZipType zipType = Zfx.ZipType.None
         )
         {
-            string decrypted = "", pipeString = "", keyHash = EnDeCodeHelper.KeyToHex(serverKey);
+            string pipeString = "", keyHash = EnDeCodeHelper.KeyToHex(serverKey);
             try
             {
                 pipeString = (new SymmCipherPipe(serverKey, keyHash)).PipeString;
