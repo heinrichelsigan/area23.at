@@ -22,8 +22,9 @@ area23.at summarized repository containing tiny, small &amp; medium freaky proje
 - https://area23.at/net/Unix/HexDump.aspx
 
 ### 3DES AES encryption pipeline
-- https://area23.at/net/Encode/CoolCrypt.aspx
-- https://area23.at/net/SAES_En_Decrypt.aspx
+- https://area23.at/net/Crypt/CoolCrypt.aspx
+- https://area23.at/net/AesImprove.aspx
+- https://cqrxs.eu/net/CoolCrypt.aspx
   
 ### rpncalc
 rpncalc is a never finished project of reverse polnish notation calculator (still buggy)
