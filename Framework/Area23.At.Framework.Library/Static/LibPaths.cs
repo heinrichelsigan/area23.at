@@ -3,6 +3,7 @@ using System;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
+using System.Security.Policy;
 using System.Web;
 
 namespace Area23.At.Framework.Library.Static
@@ -14,6 +15,7 @@ namespace Area23.At.Framework.Library.Static
     public static class LibPaths
     {
         private static string appPath = "";
+        private static string appUrlPath = "";
         private static string baseAppPath = "";
         private static string systemDirPath = "";
         private static string systemDirResPath = "";
@@ -30,31 +32,37 @@ namespace Area23.At.Framework.Library.Static
 
         #region Web App Paths
 
-        public static string AppPath
+        public static string AppUrlPath
         {
             get
             {
-                if (String.IsNullOrEmpty(appPath))
-                {
+                if (string.IsNullOrEmpty(appUrlPath))
+                {                    
                     try
                     {
-                        if (System.Configuration.ConfigurationManager.AppSettings["AppUrl"] != null)
-                            appPath = System.Configuration.ConfigurationManager.AppSettings["AppUrl"].ToString();
-                        if (System.Configuration.ConfigurationManager.AppSettings["AppUrlPath"] != null)
-                            appPath = System.Configuration.ConfigurationManager.AppSettings["AppUrlPath"].ToString();                        
-                        if (System.Configuration.ConfigurationManager.AppSettings["AppDir"] != null)
-                            appPath = System.Configuration.ConfigurationManager.AppSettings["AppDir"].ToString();
-                    }
-                    catch (Exception appFolderEx)
+                        string appUrl = HttpContext.Current.Request.Url.ToString();
+                        string reqAppPath = HttpContext.Current.Request.ApplicationPath.ToString();
+                        int idx = appUrl.IndexOf(reqAppPath);
+                        if (idx > -1)
+                            appUrlPath = appUrl.Substring(0, idx);
+                    } 
+                    catch (Exception)
                     {
-                        Area23Log.LogOriginMsgEx("LibPaths", "AppPath.get throwed Exception " + appFolderEx.GetType(), appFolderEx);
+                        appUrlPath = "";
                     }
-                    if (String.IsNullOrEmpty(appPath))
-                        appPath = Constants.APP_DIR;
+
+                    if (string.IsNullOrEmpty(appUrlPath) && System.Configuration.ConfigurationManager.AppSettings["AppUrl"] != null)
+                        appUrlPath = System.Configuration.ConfigurationManager.AppSettings["AppUrl"].ToString();
+
+                    if (!appUrlPath.EndsWith("/"))
+                        appUrlPath += "/";
                 }
-                return appPath;
+
+                return appUrlPath;
             }
         }
+
+        public static string AppPath => AppUrlPath;       
 
         public static string BaseAppPath
         {
@@ -63,21 +71,15 @@ namespace Area23.At.Framework.Library.Static
                 if (String.IsNullOrEmpty(baseAppPath))
                 {
                     string basApPath = "";
-                    if ((SepCh == '/') && (System.Configuration.ConfigurationManager.AppSettings["BaseAppPathUnix"] != null))
+                    
+                    if (Constants.UNIX && System.Configuration.ConfigurationManager.AppSettings["BaseAppPathUnix"] != null)
                         basApPath = System.Configuration.ConfigurationManager.AppSettings["BaseAppPathUnix"];
-                    else if (System.Configuration.ConfigurationManager.AppSettings["BaseAppPathWin"] != null)
+                    else if (Constants.WIN32 && System.Configuration.ConfigurationManager.AppSettings["BaseAppPathWin"] != null)
                         basApPath = System.Configuration.ConfigurationManager.AppSettings["BaseAppPathWin"];
 
                     if (String.IsNullOrEmpty(basApPath))
                     {
-                        basApPath = HttpContext.Current.Request.RawUrl.ToString().
-                            Replace("/c/", "/").Replace("/Calc/", "/").Replace("/Crypt/", "/").
-                            Replace("/Gamez/", "/").Replace("/log/", "/").Replace("/Qr/", "/").
-                            Replace("/res/", "/").Replace("/audio/", "/").Replace("/bin/", "/").
-                            Replace("/css/", "/").Replace("/img/", "/").Replace("/js/", "/").
-                            Replace("/out/", "/").Replace("/text/", "/").Replace("/fortune.u8", "/").
-                            Replace("/Unix/", "/").Replace("/Util/", "/");
-                        basApPath = basApPath.Substring(0, basApPath.LastIndexOf("/"));
+                        basApPath = AppUrlPath;
                     }
 
                     baseAppPath = (!basApPath.EndsWith("/")) ? basApPath + "/" : basApPath;                    

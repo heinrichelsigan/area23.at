@@ -2,11 +2,8 @@
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Mono.Util;
-using Org.BouncyCastle.Asn1.Ocsp;
 using System;
-using System.Runtime.InteropServices;
 using System.Web;
-using System.Windows.Controls;
 
 namespace Area23.At.Mono
 {
@@ -15,31 +12,44 @@ namespace Area23.At.Mono
 
         protected void Application_Init(object sender, EventArgs e)
         {
-            string msg = String.Format("application init at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
-            Area23Log.LogOriginMsg("Global.asax", msg);
-            HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
+            try {
+                string msg = String.Format("application init at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
+                Area23Log.LogOriginMsg("Global.asax", msg);
+                HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
+            }
+            catch (Exception) { }
         }
 
         protected void Application_Start(object sender, EventArgs e)
-        {            
-            string msg = String.Format("application started at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));                      
-            Area23Log.LogOriginMsg("Global.asax", msg + "\tlogging to logfile = " + Area23Log.LogFile);
+        {
+            try
+            {
+                string msg = String.Format("application started at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
+                Area23Log.LogOriginMsg("Global.asax", msg + "\tlogging to logfile = " + Area23Log.LogFile);
+            }
+            catch (Exception) { }
         }
 
-        protected void Application_Disposed(object sender, EventArgs e) 
+        protected void Application_Disposed(object sender, EventArgs e)
         {
-            string msg = String.Format("application disposed at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
-            Area23Log.LogOriginMsg("Global.asax", msg);
+            try
+            {
+                string msg = String.Format("application disposed at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
+                Area23Log.LogOriginMsg("Global.asax", msg);
+            }
+            catch (Exception) { }
         }
 
         protected void Application_End(object sender, EventArgs e)
         {
-            string msg = String.Format("application ended at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
-            Area23Log.LogOriginMsg("Global.asax", msg);
-            HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
+            try
+            {
+                string msg = String.Format("application ended at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
+                Area23Log.LogOriginMsg("Global.asax", msg);
+                HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
+            }
+            catch (Exception) { }
         }
-
-
         
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
@@ -86,7 +96,7 @@ namespace Area23.At.Mono
                 if (url.ToLower().Contains("/res/out/"))
                 {
                     if (page.ToLower().Contains(".as") || url.ToLower().Contains(".as") || url.ToLower().Contains(".master") ||
-                        page.ToLower().EndsWith(".aspx") || page.ToLower().EndsWith(".ascx"))
+                        page.ToLower().EndsWith(".aspx") || page.ToLower().EndsWith(".ascx") || page.ToLower().EndsWith(".asax"))
                     {
                         Area23Log.LogOriginMsg("Global.asax", "Application_BeginRequest: Url = " + url + " \n\tError.aspx?attack=codeInjectionUpload");
                         Response.Redirect(LibPaths.AppPath + "Error.aspx?attack=codeInjectionUpload");

@@ -471,17 +471,13 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
                 if (_unix)
                     return _unix;
 
-                string pathUnix = "", os = "";
+                string pathUnix = "";
 
                 if (ConfigurationManager.AppSettings["AppDirPathUnix"] != null)
                     pathUnix = ConfigurationManager.AppSettings["AppDirPathUnix"];
 
-                if (ConfigurationManager.AppSettings["OS"] != null)
-                    os = ConfigurationManager.AppSettings["OS"];
-
                 _unix = ((System.AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("/") &&
                             !System.AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("\\"))
-                        || os.ToLower().Contains("x")
                         || Directory.Exists(pathUnix));
 
                 return _unix;
@@ -497,18 +493,14 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
                 if (_win32)
                     return _win32;
 
-                string pathWin32 = "", os = "";
+                string pathWin32 = "";
 
                 if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)
                     pathWin32 = ConfigurationManager.AppSettings["AppDirPathWin"];
 
-                if (ConfigurationManager.AppSettings["OS"] != null)
-                    os = ConfigurationManager.AppSettings["OS"];
-
                 _win32 = ((AppDomain.CurrentDomain.BaseDirectory.Contains("\\") &&
                             !AppDomain.CurrentDomain.BaseDirectory.Contains("/"))
-                        || Directory.Exists(pathWin32)
-                        || os.ToLower().Contains("win"));
+                        || Directory.Exists(pathWin32));
 
                 return _win32;
             }
