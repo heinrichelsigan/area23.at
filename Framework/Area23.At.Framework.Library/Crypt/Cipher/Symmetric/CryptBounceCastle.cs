@@ -97,65 +97,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             tmpIv = null;
         }
 
-        /// <summary>
-        /// Generic CryptBounceCastle constructor
-        /// </summary>
-        /// <param name="blockCipher">Base symmetric key block cipher interface, pass instance to constructor, e.g. 
-        /// <code>CryptBounceCastle cryptCastle = new CryptBounceCastle(new Org.BouncyCastle.Crypto.Engines.CamelliaEngine());</code></param>
-        /// <param name="size">block size with default value 256</param>
-        /// <param name="keyLen">key length with default value 32</param>
-        /// <param name="mode">cipher mode string, default value "ECB"</param>
-        /// <param name="userHostAddr">user host address</param>
-        /// <param name="secretKey">key param for encryption</param>
-        /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
-        [Obsolete("this constructor is obsolete, please use public CryptBounceCastle(CryptParams cparams, bool init = true) instead", true)]
-        public CryptBounceCastle(IBlockCipher blockCipher, int size = 256, int keyLen = 32, string mode = "ECB",
-            string secretKey = "", string privateHash = "", bool init = true)
-        {
-            CryptoBlockCipher = (blockCipher == null) ? new AesEngine() : blockCipher;
-            if ((CryptoBlockCipher.AlgorithmName == "RC564"))
-                CryptoBlockCipherPadding = new ISO7816d4Padding();
-            else CryptoBlockCipherPadding = new ZeroBytePadding();
-            KeyLen = keyLen;
-            Size = Math.Min(size, CryptoBlockCipher.GetBlockSize());
-            Mode = mode;
-
-            if (init)
-            {
-                tmpKey = new byte[keyLen];
-                tmpIv = new byte[keyLen];
-
-                privateHash = (string.IsNullOrEmpty(privateHash)) ? string.Empty : privateHash;
-                if (string.IsNullOrEmpty(secretKey))
-                {
-                    privateKey = string.Empty;
-                    tmpKey = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCEK), privateHash);
-                    tmpIv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), privateHash);
-                }
-                else
-                {
-                    privateKey = secretKey;
-                    tmpKey = GetUserKeyBytes(secretKey, privateHash);
-                    tmpIv = GetUserKeyBytes(privateHash, secretKey);
-                }
-
-                Key = new byte[keyLen];
-                Iv = new byte[keyLen];
-                Array.Copy(tmpIv, Iv, keyLen);
-                Array.Copy(tmpKey, Key, keyLen);
-            }
-            else
-            {
-                if (tmpKey == null || tmpIv == null || tmpKey.Length <= 1 || tmpIv.Length <= 1)
-                {
-                    tmpKey = new byte[keyLen];
-                    tmpIv = new byte[keyLen];
-                    Array.Copy(Iv, tmpIv, keyLen);
-                    Array.Copy(Key, tmpKey, keyLen);
-                }
-            }
-        }
-
 
         /// <summary>
         /// Generic CryptBounceCastle constructor
@@ -171,26 +112,21 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             KeyLen = cparams.KeyLen;
             Size = Math.Min(cparams.Size, CryptoBlockCipher.GetBlockSize());
             Mode = cparams.Mode;
-
             if (init)
             {
                 tmpKey = new byte[KeyLen];
                 tmpIv = new byte[KeyLen];
 
-                privateHash = (string.IsNullOrEmpty(cparams.Hash)) ? string.Empty : cparams.Hash;
                 if (string.IsNullOrEmpty(cparams.Key))
-                {
-                    privateKey = string.Empty;
-                    tmpKey = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCEK), privateHash);
-                    tmpIv = GetUserKeyBytes(ResReader.GetValue(Constants.BOUNCE4), privateHash);
-                }
-                else
-                {
-                    privateKey = cparams.Key;
-                    privateHash = cparams.Hash;
-                    tmpKey = GetUserKeyBytes(privateKey, privateHash);
-                    tmpIv = GetUserKeyBytes(privateHash, privateKey);
-                }
+                    throw new ArgumentNullException("cparams.Key");
+
+                privateKey = cparams.Key;
+                privateHash = (string.IsNullOrEmpty(cparams.Hash)) ? EnDeCodeHelper.KeyToHex(cparams.Key) : cparams.Hash;
+
+                tmpKey = GetUserKeyBytes(privateKey, privateHash);
+                // tmpKey = (privateKey.Length >= KeyLen) ? Encoding.UTF8.GetBytes(privateKey) : Encoding.UTF8.GetBytes(privateKey + privateHash);
+                tmpIv = GetUserKeyBytes(privateHash, privateKey);
+                // tmpIv = (privateHash.Length >= KeyLen) ? Encoding.UTF8.GetBytes(privateHash) : Encoding.UTF8.GetBytes(privateHash + privateKey);
 
                 Key = new byte[KeyLen];
                 Iv = new byte[KeyLen];

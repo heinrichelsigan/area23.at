@@ -399,6 +399,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             }
             catch (Exception exImg)
             {
+                Area23Log.LogOriginMsgEx("CContact", "CloneCopy error on prcocessing image", exImg);
             }
             CImage contactImage = source.ContactImage;
             if (contactImage != null)
@@ -409,6 +410,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 }
                 catch (Exception exImg)
                 {
+                    Area23Log.LogOriginMsgEx("CContact", "CloneCopy error on prcocessing image", exImg);
                 }
             }
 

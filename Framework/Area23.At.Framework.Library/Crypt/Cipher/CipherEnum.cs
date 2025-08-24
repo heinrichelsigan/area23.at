@@ -1,6 +1,6 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
-using System;
 using System.Collections.Generic;
+using System;
 using System.ComponentModel;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher
@@ -105,7 +105,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.RC532: return '5';
                 case CipherEnum.RC564: return 'R';
                 case CipherEnum.RC6: return 'r';
-                case CipherEnum.Rijndael: return 'J';
                 case CipherEnum.Rsa: return '%';
 
                 case CipherEnum.Seed: return 's';
@@ -115,6 +114,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
                 case CipherEnum.Tea: return 't';
                 case CipherEnum.Tnepres: return 'T';
+                case CipherEnum.Rijndael: return 'J';
                 case CipherEnum.XTea: return 'X';
 
                 case CipherEnum.ZenMatrix: return 'z';

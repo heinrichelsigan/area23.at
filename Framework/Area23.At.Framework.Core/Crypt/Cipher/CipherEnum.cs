@@ -77,8 +77,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         {
             switch (cipher)
             {
-                case CipherEnum.Aes:
-                case CipherEnum.Rijndael: return 'A';
+                case CipherEnum.Aes: return 'A';
                 case CipherEnum.AesLight: return 'L';
                 case CipherEnum.Aria: return 'a';
 
@@ -104,6 +103,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                 case CipherEnum.RC532: return '5';
                 case CipherEnum.RC564: return 'R';
                 case CipherEnum.RC6: return 'r';
+                case CipherEnum.Rijndael: return 'J';
                 case CipherEnum.Rsa: return '%';
 
                 case CipherEnum.Seed: return 's';

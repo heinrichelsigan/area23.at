@@ -1,12 +1,6 @@
 ﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Static;
 using Area23.At.Framework.Core.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 {
@@ -24,7 +18,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
         #region fields
 
-
+        private const string SYMMCIPHERALGONAME = "ZenMatrix1";
         // protected internal new byte[] privateBytes = new byte[0x10];
         protected internal byte[] privateBytes2 = new byte[0x10];
 
@@ -96,10 +90,13 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// and decrypts back to plain text, when encrypting twice or ²</param>       
         /// <exception cref="ApplicationException"></exception>
         public ZenMatrix2(string secretKey = "", string hashIV = "", bool fullSymmetric = false) : this()
-        {            
-            secretKey = string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
-            hashIV = string.IsNullOrEmpty(hashIV) ? Constants.AREA23_EMAIL : hashIV;
-            byte[] keyBytes2 = CryptHelper.GetUserKeyBytes(secretKey, hashIV, 0x10);
+        {
+            if (string.IsNullOrEmpty(secretKey))
+                throw new ArgumentNullException("secretKey");
+
+            hashIV = string.IsNullOrEmpty(hashIV) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIV;
+            byte[] keyBytes = CryptHelper.GetUserKeyBytes(secretKey, hashIV, 0x10);
+            byte[] keyBytes2 = CryptHelper.GetUserKeyBytes(secretKey, hashIV, 0x20);
 
             ZenMatrixGenWithBytes2(keyBytes2, true);
         }
@@ -166,7 +163,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             if (keyBytes2.Length < 0x10)
             {
                 Array.Copy(keyBytes2, 0, privateBytes2, 0, Math.Min(keyBytes2.Length, 0x10));
-                for (int i = keyBytes2.Length; i < 0x10; i++)
+                for (int i = keyBytes2.Length; i < 0x20; i++)
                 {
                     if (i < 0x08)
                         privateBytes2[i] = (byte)keyBytes2[i % keyBytes2.Length];
@@ -260,16 +257,29 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             }            
             else
             {
+                #region bugfix for missing permutations                
+                sbyte[] strikeBytes = {  (sbyte)0x0, (sbyte)0x1, (sbyte)0x2, (sbyte)0x3, (sbyte)0x4, (sbyte)0x5, (sbyte)0x6, (sbyte)0x7,
+                                        (sbyte)0x8, (sbyte)0x9, (sbyte)0xa, (sbyte)0xb, (sbyte)0xc, (sbyte)0xd, (sbyte)0xe, (sbyte)0xf  };
+                HashSet<sbyte> strikeList2 = new HashSet<sbyte>(strikeBytes);
+
                 for (int i = 0; i < 0x10; i++)
                 {
+                    if ((PermutationKeyHash2.Count <= i) && strikeList2.Count > 0)
+                        PermutationKeyHash2.Add((sbyte)strikeList2.ElementAt(0));
+
+                    sbyte inByte = (sbyte)i;
                     if ((int)PermutationKeyHash2.ElementAt(i) != i)
                     {
-                        MatrixPermutationKey2[i] = PermutationKeyHash2.ElementAt(i);
+                        inByte = PermutationKeyHash2.ElementAt(i);
+                        MatrixPermutationKey2[i] = inByte;
                     }
+                    if (strikeList2.Contains(inByte))
+                        strikeList2.Remove(inByte);
                 }
 
-                _inverseMatrix2 = BuildInverseMatrix(MatrixPermutationKey);
-            }            
+                _inverseMatrix2 = BuildInverseMatrix(MatrixPermutationKey2);
+                #endregion bugfix for missing permutations
+            }
 
             string perm2 = string.Empty, kbs2 = string.Empty;
 

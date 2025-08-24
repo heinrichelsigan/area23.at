@@ -1,5 +1,6 @@
-﻿using System;
+﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using System.Collections.Generic;
+using System;
 using System.ComponentModel;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric

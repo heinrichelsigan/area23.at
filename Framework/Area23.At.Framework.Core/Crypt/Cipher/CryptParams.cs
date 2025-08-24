@@ -1,4 +1,6 @@
-﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
+﻿using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Core.Crypt.Hash;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using System;
@@ -17,6 +19,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
     /// </summary>
     public class CryptParams
     {
+
+        #region Properties
+
         public CipherEnum Cipher { get; set; }
 
         public string AlgorithmName
@@ -40,6 +45,12 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
 
         public IBlockCipher BlockCipher { get; set; }
 
+        public KeyHash KeyHashing { get; set; }
+
+        #endregion Properties
+
+        #region ctor
+
         /// <summary>
         /// standard ctor with <see cref="CipherEnum.Aes"/> default
         /// </summary>
@@ -50,6 +61,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             KeyLen = 32;
             Mode = "ECB";
             BlockCipher = new AesEngine();
+            KeyHashing = KeyHash.Hex;
         }
 
         /// <summary>
@@ -57,125 +69,88 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         /// for parameter <see cref="Cipher"/>
         /// </summary>
         /// <param name="cipherAlgo"><see cref="CipherEnum"/></param>
-        public CryptParams(CipherEnum cipherAlgo)
+        public CryptParams(CipherEnum cipherAlgo) : this()
         {
             Cipher = cipherAlgo;
 
             switch (Cipher)
             {
                 case CipherEnum.Aes:
-                case CipherEnum.Rijndael:
-                    Size = 256;
-                    KeyLen = 32;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;
                 case CipherEnum.AesLight:
                     Size = 128;
-                    KeyLen = 32;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesLightEngine();
                     break;
                 case CipherEnum.Aria:
-                    Size = 128;
-                    KeyLen = 32;
-                    Mode = "ECB";
+                    Size = 128;                    
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AriaEngine();
                     break;
                 case CipherEnum.BlowFish:
                     Size = 64;
                     KeyLen = 8;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.BlowfishEngine();
                     break;
                 case CipherEnum.Fish2:
                     Size = 128;
                     KeyLen = 16;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TwofishEngine();
                     break;
                 case CipherEnum.Fish3:
-                    Size = 256;
-                    KeyLen = 32;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
                     break;
-                case CipherEnum.ThreeFish256:
-                    Size = 256;
-                    KeyLen = 32;
-                    Mode = "ECB";
+                case CipherEnum.ThreeFish256: // TODO:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
                     break;
                 case CipherEnum.Camellia:
                     Size = 128;
                     KeyLen = 16;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
                     break;
                 case CipherEnum.CamelliaLight:
                     Size = 128;
                     KeyLen = 16;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
                     break;
                 case CipherEnum.Cast5:
                     Size = 128;
                     KeyLen = 16;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast5Engine();
                     break;
                 case CipherEnum.Cast6:
-                    Size = 256;
-                    KeyLen = 32;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
                     break;
                 case CipherEnum.Des:
                     Size = 64;
                     KeyLen = 8;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEngine();
                     break;
                 case CipherEnum.Des3:
                     Size = 128;
                     KeyLen = 16;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEdeEngine();
                     break;
                 case CipherEnum.Dstu7624:
                     Size = 128;
                     KeyLen = 16;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Dstu7624Engine(Size);
                     break;
-                case CipherEnum.Gost28147:
-                    Size = 256;
-                    KeyLen = 32;
-                    Mode = "ECB";
+                case CipherEnum.Gost28147:                    ;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
                     break;
                 case CipherEnum.Idea:
-                    Size = 256;
-                    KeyLen = 32;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
                     break;
                 case CipherEnum.Noekeon:
                     Size = 128;
                     KeyLen = 16;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
                     break;
                 case CipherEnum.RC2:
                     Size = 128;
-                    KeyLen = 32;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
                     break;
                 case CipherEnum.RC532:
-                    Size = 256;
-                    KeyLen = 32;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
                     break;
                 case CipherEnum.RC564:
@@ -185,57 +160,48 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
                     break;
                 case CipherEnum.RC6:
-                    Size = 256;
-                    KeyLen = 32;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
+                    break;
+                case CipherEnum.Rijndael:
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.RijndaelEngine();
                     break;
                 case CipherEnum.Seed:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
                     Size = 128;
                     KeyLen = 16;
-                    Mode = "ECB";
                     break;
                 case CipherEnum.Serpent:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
                     Size = 128;
                     KeyLen = 16;
-                    Mode = "ECB";
                     break;
                 case CipherEnum.SM4:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SM4Engine();
                     Size = 128;
                     KeyLen = 16;
-                    Mode = "ECB";
                     break;
-                case CipherEnum.SkipJack:
-                    Size = 256;
-                    KeyLen = 32;
-                    Mode = "ECB";
+                case CipherEnum.SkipJack:                    
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
                     break;
                 case CipherEnum.Tea:
                     Size = 128;
                     KeyLen = 16;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
                     break;
                 case CipherEnum.Tnepres:
                     Size = 128;
                     KeyLen = 16;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();
                     break;
                 case CipherEnum.XTea:
-                    Size = 256;
-                    KeyLen = 32;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
+                case CipherEnum.ZenMatrix:
+                    Size = 15;
+                    KeyLen = 15;
+                    BlockCipher = new ZenMatrix();
+                    break;
                 default:
-                    Size = 256;
-                    KeyLen = 32;
-                    Mode = "ECB";
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;
             }
@@ -252,30 +218,65 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         public CryptParams(CipherEnum cipherAlgo, string key, string hash) : this(cipherAlgo)
         {
             Key = key;
-            Hash = (string.IsNullOrEmpty(hash)) ? EnDeCodeHelper.KeyToHex(key) : hash;
+            Hash = (string.IsNullOrEmpty(hash)) ? KeyHashing.Hash(key) : hash;
+        }
+
+
+        /// <summary>
+        /// constructs a <see cref="CryptParams"/> object by <see cref="CipherEnum"/>
+        /// with additional <see cref="Key"/> and <see cref="KeyHashing"/>
+        /// </summary>
+        /// <param name="cipherAlgo"><see cref="CipherEnum"/></param>
+        /// <param name="key">secret key</param>
+        /// <param name="keyHash">key hashing</param>
+        public CryptParams(CipherEnum cipherAlgo, string key, KeyHash keyHash) : this(cipherAlgo)
+        {
+            Key = key;
+            KeyHashing = keyHash;
+            Hash = KeyHashing.Hash(key);
+        }
+
+        /// <summary>
+        /// constructs a <see cref="CryptParams"/> object by <see cref="CipherEnum"/>
+        /// with additional <see cref="Key"/>, <see cref="Hash"/> and <see cref="KeyHashing"/>
+        /// </summary>
+        /// <param name="cipherAlgo"><see cref="CipherEnum"/></param>
+        /// <param name="key">secret key</param>
+        /// <param name="hash">corresponding key hash</param>
+        /// <param name="keyHash">key hashing</param>
+        public CryptParams(CipherEnum cipherAlgo, string key, string hash, KeyHash keyHash) : this(cipherAlgo)
+        {
+            Key = key;
+            KeyHashing = keyHash;
+            Hash = (string.IsNullOrEmpty(hash)) ? KeyHashing.Hash(key) : hash;
         }
 
         /// <summary>
         /// Constructs instance via another object instance
         /// </summary>
         /// <param name="cryptParams">another instance</param>
-        public CryptParams(CryptParams cryptParams) : this(cryptParams.Cipher, cryptParams.Key, cryptParams.Hash) { }
+        public CryptParams(CryptParams cryptParams) : this(cryptParams.Cipher, cryptParams.Key, cryptParams.Hash, cryptParams.KeyHashing) { }
+
+        #endregion ctor
 
         /// <summary>
         /// static way to get valid <see cref="CryptParams"/> for a requested <see cref="CipherEnum"/>
         /// </summary>
         /// <param name="cipherAlgo"><see cref="CipherEnum"/></param>
         /// <returns><see cref="CryptParams"/></returns>
+        [Obsolete("RequestAlgorithm no mote used", true)]
         public static CryptParams RequestAlgorithm(CipherEnum cipherAlgo)
         {
             return new CryptParams(cipherAlgo);
         }
 
+        [Obsolete("GetCryptParams no mote used", true)]
         public static CryptParams GetCryptParams(CryptParams cParams)
         {
             return new CryptParams(cParams);
         }
 
+        [Obsolete("GetBlockCipher no mote used", true)]
         public static IBlockCipher GetBlockCipher(CipherEnum cipherAlgo)
         {
             return (new CryptParams(cipherAlgo)).BlockCipher;
