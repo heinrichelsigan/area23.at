@@ -38,6 +38,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
         public KeyHash KeyHashing { get; set; }
 
+        #endregion Properties
+
+        #region Constructors
+
         /// <summary>
         /// standard ctor with <see cref="CipherEnum.Aes"/> default
         /// </summary>
