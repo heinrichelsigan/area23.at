@@ -23,6 +23,13 @@ namespace Area23.At.Mono.Crypt
     /// </summary>
     public partial class CoolCrypt : Util.UIPage
     {        
+        
+        KeyHash keyHash = KeyHash.Hex;
+        EncodingType encType = EncodingType.Base64;
+        ZipType zipType = ZipType.None;
+        CipherEnum[] pipeAlgortihms = new CipherEnum[0];
+        CipherPipe cipherPipe;
+        string key = "", hash = "";
 
         /// <summary>
         /// Page_Load
@@ -129,7 +136,7 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e"></param>
         protected void RadioButtonList_Hash_ParameterChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 0)
+            if (!string.IsNullOrEmpty(this.TextBox_Key.Text))
             {
                 Reset_TextBox_IV(this.TextBox_Key.Text);                
             }
@@ -172,10 +179,10 @@ namespace Area23.At.Mono.Crypt
             if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 0)
             {
                 Reset_TextBox_IV(this.TextBox_Key.Text);
-                string secretKey = TextBox_Key.Text;
-                string keyHash = TextBox_IV.Text;
+                key = TextBox_Key.Text;
+                hash = TextBox_IV.Text;
 
-                SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(secretKey, keyHash).InPipe;
+                SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(key, hash).InPipe;
                 this.TextBox_Encryption.Text = string.Empty;
                 foreach (SymmCipherEnum c in cses)
                 {
@@ -258,70 +265,26 @@ namespace Area23.At.Mono.Crypt
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
         protected void ButtonEncrypt_Click(object sender, EventArgs e)
-        {
+        {            
             Reset_TextBox_IV(this.TextBox_Key.Text);
-            string secretKey = TextBox_Key.Text;
-            string keyHash = TextBox_IV.Text;
-
-            EncodingType encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);            
 
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
                 ClearPostedFileSession(false);
 
-                if (encodeType == EncodingType.None || encodeType == EncodingType.Null)
+                cipherPipe = new CipherPipe(pipeAlgortihms);
+
+                // None Encoding not possible, because we can't display binary non ASCII data in a TextBox
+                if (encType == EncodingType.None || encType == EncodingType.Null)
                 {
-                    for (int it = 0; it < DropDownList_Encoding.Items.Count; it++)
-                    {
-                        if (DropDownList_Encoding.Items[it].Value == EncodingType.Base64.ToString())
-                            DropDownList_Encoding.Items[it].Selected = true;
-                        else DropDownList_Encoding.Items[it].Selected = false;
-                    }
-                    encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
-                    this.CheckBoxEncode.Checked = true;
-                    this.CheckBoxEncode.Enabled = true;
+                    DropDownList_Encoding.SelectedValue = EncodingType.Base64.ToString();
+                    encType = EncodingType.Base64; ;
+                    CheckBoxEncode.Checked = true;
+                    CheckBoxEncode.Enabled = true;
                 }
 
-                
-                byte[] inBytes = Encoding.UTF8.GetBytes(this.TextBoxSource.Text);
-                // string source = this.TextBoxSource.Text + "\r\n" + this.TextBox_IV.Text;
-                byte[] encryptBytes = inBytes;                
-
-                ZipType ztype = ZipType.None;
-                if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
-                {
-                    switch (ztype)
-                    {   
-                        case ZipType.GZip:  encryptBytes = GZ.GZipBytes(inBytes);           break;
-                        // case ZipType.BZip2: encryptBytes = BZip2.BZip2Bytes(inBytes);       break;
-                        case ZipType.BZip2: encryptBytes = BZip2.BZip(inBytes);             break;
-                        case ZipType.Zip:   encryptBytes = WinZip.Zip(inBytes);             break;
-                        case ZipType.None:
-                        default: break;
-                    }
-                }
-
-                string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
-                foreach (string algo in algos)
-                {
-                    if (!string.IsNullOrEmpty(algo))
-                    {
-                        CipherEnum cipherAlgo = CipherEnum.Aes;
-                        if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
-                        {
-                            inBytes = CipherPipe.EncryptBytesFast(encryptBytes, cipherAlgo, secretKey, keyHash);                            
-                            encryptBytes = inBytes;
-                        }
-                    }
-                }
-
-                bool fromPlain = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
-                
-                encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
-                string encryptedText = EnDeCodeHelper.EncodeBytes(encryptBytes, encodeType, fromPlain, false);
-
-                this.TextBoxDestionation.Text = encryptedText;
-
+                TextBoxDestionation.Text = cipherPipe.EncrpytTextGoRounds(TextBoxSource.Text, key, hash, encType, zipType, keyHash);
+                                   
                 DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;";
                 DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesBGText.gif')";
                 DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesBGText.gif')";
@@ -350,9 +313,7 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void ButtonDecrypt_Click(object sender, EventArgs e)
         {
-            Reset_TextBox_IV(this.TextBox_Key.Text);
-            string secretKey = TextBox_Key.Text;
-            string keyHash = TextBox_IV.Text;
+            Reset_TextBox_IV(this.TextBox_Key.Text);           
 
             EncodingType encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);                        
 
@@ -362,75 +323,15 @@ namespace Area23.At.Mono.Crypt
 
                 if (encodeType == EncodingType.None || encodeType == EncodingType.Null)
                 {
-                    for (int it = 0; it < DropDownList_Encoding.Items.Count; it++)
-                    {
-                        if (DropDownList_Encoding.Items[it].Value == EncodingType.Base64.ToString())
-                            DropDownList_Encoding.Items[it].Selected = true;
-                        else DropDownList_Encoding.Items[it].Selected = false;
-                    }
-                    encodeType = EncodingType.Base64;
-                    this.CheckBoxEncode.Checked = true;
-                    this.CheckBoxEncode.Enabled = true;
-                }               
-
-                string cipherText = this.TextBoxSource.Text;
-                bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
-                string decryptedText = string.Empty;                
-                byte[] cipherBytes;
-                string encodingMethod = encodeType.ToString().ToLowerInvariant();
-                try
-                {
-                    cipherBytes = EnDeCodeHelper.DecodeText(cipherText /*, out string errMsg */, encodeType, plainUu, false);
-                } 
-                catch (Exception exCode)
-                {
-                    Area23Log.LogStatic(exCode);
-                    cipherBytes = new byte[0];
-                    this.TextBox_IV.Text = "0 bytes decoded, there might be an encode or crypt error!";
-                }
-                if (cipherBytes == null || cipherBytes.Length < 1)
-                {                    
-                    this.TextBox_IV.ForeColor = Color.BlueViolet;
-                    this.TextBox_IV.BorderColor = Color.Blue;
-                    return;
+                    DropDownList_Encoding.SelectedValue = EncodingType.Base64.ToString();
+                    encType = EncodingType.Base64;
+                    CheckBoxEncode.Checked = true;
+                    CheckBoxEncode.Enabled = true;
                 }
 
-                byte[] decryptedBytes = cipherBytes;
-                int ig = 0;
-
-                string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
-                for (ig = (algos.Length - 1); ig >= 0; ig--)
-                {
-                    if (!string.IsNullOrEmpty(algos[ig]))
-                    {
-                        CipherEnum cipherAlgo = CipherEnum.Aes;
-                        if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
-                        {
-                            decryptedBytes = CipherPipe.DecryptBytesFast(cipherBytes, cipherAlgo, secretKey, keyHash);                            
-                            cipherBytes = decryptedBytes;
-                        }
-                    }
-                }
-
-                cipherBytes = decryptedBytes; // DeEnCoder.GetBytesTrimNulls(decryptedBytes);
+                cipherPipe = new CipherPipe(pipeAlgortihms);
+                TextBoxDestionation.Text = cipherPipe.DecryptTextRoundsGo(TextBoxSource.Text, key, hash, encType, zipType, keyHash);
                 
-                ZipType ztype = ZipType.None;                
-                if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
-                {
-                    switch (ztype)
-                    {
-                        case ZipType.GZip:  decryptedBytes = GZ.GUnZipBytes(cipherBytes);           break;
-                        case ZipType.BZip2: decryptedBytes = BZip2.BUnZip(cipherBytes);             break;
-                        // case ZipType.BZip2: decryptedBytes = BZip2.BUnZip2Bytes(cipherBytes);          break;
-                        case ZipType.Zip:   decryptedBytes = WinZip.UnZip(cipherBytes);             break;
-                        case ZipType.None:
-                        default: decryptedBytes = cipherBytes; break;
-                    }
-                }
-
-                decryptedText = EnDeCodeHelper.GetStringFromBytesTrimNulls(decryptedBytes);
-                this.TextBoxDestionation.Text = decryptedText; // HandleString_PrivateKey_Changed(decryptedText);
-
                 DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;";
                 DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesBGText.gif')";
                 DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesBGText.gif')";
@@ -497,9 +398,7 @@ namespace Area23.At.Mono.Crypt
             strFileName = System.IO.Path.GetFileName(strFileName).BeautifyUploadFileNames();
 
             Reset_TextBox_IV(this.TextBox_Key.Text);
-            string secretKey = TextBox_Key.Text;
-            string keyHash = TextBox_IV.Text;
-
+            
             string savedTransFile = string.Empty;
             string outMsg = string.Empty;            
             EncodingType encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
@@ -507,14 +406,15 @@ namespace Area23.At.Mono.Crypt
             
             string encodingMethod = encodeType.ToString().ToLowerInvariant();
             bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
+            byte[] inBytes = null;
 
             if ((pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ||
                 (!string.IsNullOrEmpty(fileSavedName) && System.IO.File.Exists(fileSavedName)))
             {
-                byte[] inBytes = (!string.IsNullOrEmpty(fileSavedName) && System.IO.File.Exists(fileSavedName)) ?
-                     System.IO.File.ReadAllBytes(fileSavedName) : (
-                        (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ?
-                            pfile.InputStream.ToByteArray() : new byte[65536]);
+                if (!string.IsNullOrEmpty(fileSavedName) && System.IO.File.Exists(fileSavedName))
+                    inBytes = System.IO.File.ReadAllBytes(fileSavedName);
+                else if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
+                    inBytes = pfile.InputStream.ToByteArray();                     
 
                 // write source file hash
                 this.TextBoxSource.Text = 
@@ -763,13 +663,18 @@ namespace Area23.At.Mono.Crypt
             else if (string.IsNullOrEmpty(this.TextBox_Key.Text))
                 this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
             Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
-
-            KeyHash keyHash = KeyHash.Hex;
+           
             if (!Enum.TryParse<KeyHash>(RadioButtonList_Hash.SelectedValue, out keyHash))
                 keyHash = KeyHash.Hex;
+            if (!Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out zipType))
+                zipType = ZipType.None;
+            if (!Enum.TryParse<EncodingType>(DropDownList_Encoding.SelectedValue, out encType))
+                encType = EncodingType.Base64;
 
-            string hashed = keyHash.Hash(TextBox_Key.Text);           
-            TextBox_IV.Text = hashed;
+            key = this.TextBox_Key.Text;
+            hash = keyHash.Hash(TextBox_Key.Text);
+            TextBox_IV.Text = hash;
+            pipeAlgortihms = CipherEnumExtensions.ParsePipeText(TextBox_Encryption.Text);
 
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BorderColor = Color.LightGray;

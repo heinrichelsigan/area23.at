@@ -6,6 +6,7 @@ using Area23.At.Framework.Library.Zfx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher
 {
@@ -404,7 +405,81 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             if (unzipAfter != ZipType.None)
                 decryptedBytes = unzipAfter.Unzip(cipherBytes);
 
-            return cipherBytes;
+            return decryptedBytes;
+        }
+
+        public string EncrpytTextGoRounds(
+            string inString,
+            string cryptKey,
+            string hashIv, 
+            EncodingType encoding = EncodingType.Base64,
+            ZipType zipBefore = ZipType.None,
+            KeyHash keyHash = KeyHash.Hex)
+        {
+            // Transform string to bytes
+            byte[] inBytes = EnDeCodeHelper.GetBytesFromString(inString);
+
+            return EncrpytFileBytesGoRounds(inBytes, cryptKey, hashIv, encoding, zipBefore, keyHash);
+        }
+
+        public string EncrpytFileBytesGoRounds(
+            byte[] inBytes,
+            string cryptKey,
+            string hashIv,
+            EncodingType encoding = EncodingType.Base64,
+            ZipType zipBefore = ZipType.None,
+            KeyHash keyHash = KeyHash.Hex)
+        {
+            // hashIv if empty hash secretKey with keyHash hashing variant
+            hashIv = (string.IsNullOrEmpty(hashIv)) ? keyHash.Hash(cryptKey) : hashIv;
+
+            // perform multi crypt pipe stages
+            byte[] encryptedBytes = MerryGoRoundEncrpyt(inBytes, cryptKey, hashIv, zipBefore);
+            
+            // Encode pipes by encodingType, e.g. base64, uu, hex16, ...
+            string encrypted = encoding.GetEnCoder().EnCode(encryptedBytes);
+
+            return encrypted;
+        }
+
+
+        public string DecryptTextRoundsGo(
+            string cryptedEncodedMsg,
+            string cryptKey,
+            string hashIv,
+            EncodingType decoding = EncodingType.Base64,
+            ZipType unzipAfter = ZipType.None,
+            KeyHash keyHash = KeyHash.Hex)
+        {
+            // get bytes from encrypted encoded string dependent on the encoding type(uu, base64, base32,..)
+            byte[] cipherBytes = decoding.GetEnCoder().DeCode(cryptedEncodedMsg);
+
+            // perform multi crypt pipe stages
+            byte[] decryptedBytes = DecryptFileBytesRoundsGo(cipherBytes, cryptKey, hashIv, unzipAfter, keyHash);
+            
+            // Get string from decrypted bytes
+            string decrypted = EnDeCodeHelper.GetString(decryptedBytes);
+            // find first \0 = NULL char in string and truncate all after first \0 apperance in string
+            while (decrypted[decrypted.Length - 1] == '\0')
+                decrypted = decrypted.Substring(0, decrypted.Length - 1);
+
+            return decrypted;
+        }
+
+        public byte[] DecryptFileBytesRoundsGo(
+            byte[] cipherBytes,
+            string cryptKey,
+            string hashIv,
+            ZipType unzipAfter = ZipType.None,
+            KeyHash keyHash = KeyHash.Hex)
+        {
+            // hashIv if empty hash secretKey with keyHash hashing variant
+            hashIv = (string.IsNullOrEmpty(hashIv)) ? keyHash.Hash(cryptKey) : hashIv;
+
+            // perform multi crypt pipe stages
+            byte[] decryptedBytes = DecrpytRoundGoMerry(cipherBytes, cryptKey, hashIv, unzipAfter);
+
+            return decryptedBytes;
         }
 
 
@@ -417,6 +492,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
 
         #region static en-de-crypt members
+
+
+        
 
         /// <summary>
         /// EncrpytToStringd

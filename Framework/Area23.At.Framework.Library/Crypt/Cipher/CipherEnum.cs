@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using System.ComponentModel;
+using Area23.At.Framework.Library.Static;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher
 {
@@ -126,12 +127,33 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         }
 
 
-        public static string PrintChipherTypes(this CipherEnum cipher)
+        public static string PrintChipherType(this CipherEnum cipher)
         {
             string s = cipher.ToString("x:2") + " " + cipher.GetCipherChar() + "\t" + cipher.ToString();
             return s;
         }
 
+
+        /// <summary>
+        /// parses pipe semicolon separated pipe string to CipherList
+        /// </summary>
+        /// <param name="pipeText">semicolon separated pipe string to CipherList </param>
+        /// <returns><see cref="CipherEnum[]"/> array of ciphers for the pipe</returns>
+        public static CipherEnum[] ParsePipeText(string pipeText)
+        {
+            CipherEnum cipher = CipherEnum.Aes;
+            List<CipherEnum> cipherList = new List<CipherEnum>();
+            pipeText = pipeText ?? "";
+
+            string[] algos = pipeText.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
+            foreach (string algo in algos)
+            {
+                if (Enum.TryParse<CipherEnum>(algo, out cipher))
+                    cipherList.Add(cipher);
+            }
+
+            return cipherList.ToArray();
+        }
 
         public static CipherEnum FromSymmCipherEnum(Symmetric.SymmCipherEnum symmCipherEnum)
         {

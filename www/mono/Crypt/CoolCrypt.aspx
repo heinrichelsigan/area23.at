@@ -67,7 +67,7 @@
                         OnClick="Button_SetPipeline_Click" ToolTip="set symmetric cipher pipeline" style="width: 80px; min-width: 72px; max-width: 84px"  />
                 </span>
             </div>
-            <div class="odDiv" style="margin-top: 4px">
+            <div class="odDiv" style="margin-top: 4px;">
                 <span class="leftSpan" style="white-space: nowrap; width:80%; text-align: left;">
                     <asp:RadioButtonList ID="RadioButtonList_Hash" runat="server" AutoPostBack="true" ToolTip="choose hashing key method" RepeatDirection="Horizontal" OnSelectedIndexChanged="RadioButtonList_Hash_ParameterChanged"> 
                         <asp:ListItem Selected="False" Value="BCrypt">bcrypt</asp:ListItem>
