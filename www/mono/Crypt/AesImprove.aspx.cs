@@ -5,6 +5,7 @@ using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Framework.Library.Zfx;
+using Org.BouncyCastle.Tls;
 using System;
 using System.Drawing;
 using System.IO;
@@ -168,10 +169,12 @@ namespace Area23.At.Mono.Crypt
                 string secretKey = TextBox_Key.Text;
                 string keyIv = TextBox_IV.Text;
 
-                CipherEnum[] cipherTypes = new CipherPipe(secretKey, keyIv).InPipe;
-                // SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(secretKey, keyIv).InPipe;
                 this.TextBox_Encryption.Text = string.Empty;
-                foreach (CipherEnum c in cipherTypes)
+                // CipherEnum[] cipherTypes = new CipherPipe(secretKey, keyIv).InPipe;
+                // foreach (CipherEnum c in cipherTypes)
+                //    this.TextBox_Encryption.Text += c.ToString() + ";";                
+                SymmCipherEnum[] symmCipherTypes = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(secretKey, keyIv).InPipe;
+                foreach (SymmCipherEnum c in symmCipherTypes)
                 {
                     this.TextBox_Encryption.Text += c.ToString() + ";";
                 }
@@ -553,11 +556,37 @@ namespace Area23.At.Mono.Crypt
                 string strFileName = pfile.FileName;
                 strFileName = System.IO.Path.GetFileName(strFileName).BeautifyUploadFileNames();
                 string strFilePath = LibPaths.SystemDirOutPath + strFileName;
+
+                if (Utils.DenyExtensionInOut(LibPaths.OutAppPath + strFileName))
+                {
+                    SpanLeftFile.Visible = true;
+                    imgIn.Src = "../res/img/crypt/file_warning.gif";
+                    SpanLabel.Visible = true;
+                    uploadResult.Visible = true;
+                    uploadResult.Text = "File extension \"" + System.IO.Path.GetExtension(strFilePath) +
+                        "\" denied for upload!";
+
+                    return;
+                }
+
                 pfile.SaveAs(strFilePath);
 
                 if (System.IO.File.Exists(strFilePath))
                 {
-                    uploadResult.Text = strFileName + " has been successfully uploaded.";
+                    if (Utils.AllowExtensionInOut(LibPaths.OutAppPath + strFileName))
+                    {
+                        uploadResult.Text = strFileName + " has been successfully uploaded.";
+                        imgIn.Src = "../res/img/crypt/file_working.gif";
+
+                    }
+                    else
+                    {
+                        imgIn.Src = "../res/img/crypt/file_warning.gif";
+                        uploadResult.Visible = true;
+                        uploadResult.Text = "File ext \"" + System.IO.Path.GetExtension(strFilePath) +
+                            "\" might be critically!";
+                    }
+
                     Session[Constants.UPSAVED_FILE] = strFilePath;
 
                     SpanLabel.Visible = true;
@@ -581,12 +610,40 @@ namespace Area23.At.Mono.Crypt
             string strFileName = (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ?
                 pfile.FileName : fileSavedName;
             strFileName = System.IO.Path.GetFileName(strFileName).BeautifyUploadFileNames();
+            string strFilePath = LibPaths.SystemDirOutPath + strFileName;
 
             long inFileLen = -1;
             if (!string.IsNullOrEmpty(fileSavedName) && System.IO.File.Exists(fileSavedName))
             {
                 FileInfo fIn = new FileInfo(fileSavedName);
                 inFileLen = fIn.Length;
+            }
+
+            if (Utils.DenyExtensionInOut(LibPaths.OutAppPath + strFileName))
+            {
+                SpanLeftFile.Visible = true;
+                imgIn.Src = "../res/img/crypt/file_warning.gif";
+                SpanLabel.Visible = true;
+                uploadResult.Visible = true;
+                uploadResult.Text = "File extension \"" + System.IO.Path.GetExtension(strFilePath) +
+                    "\" denied for upload!";
+
+                try
+                {
+                    if (System.IO.File.Exists(strFilePath))
+                        System.IO.File.Delete(strFilePath);
+                }
+                catch (Exception exFile)
+                {
+                    Area23Log.LogOriginMsgEx("AesImprove.aspx", "EnDeCryptUploadFile", exFile);
+                    try
+                    {
+                        System.IO.File.Move(strFilePath, strFilePath.Replace("/out/", "/tmp/") + DateTime.Now.Ticks);
+                    }
+                    catch { }
+                }
+
+                return;
             }
 
             if (string.IsNullOrEmpty(this.TextBox_Key.Text))

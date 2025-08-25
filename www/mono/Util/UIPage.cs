@@ -215,12 +215,9 @@ namespace Area23.At.Mono.Util
                 fileName = Constants.DateFile + Guid.NewGuid().ToString();
             }
             string ext = "hex";
+            fileName += (fileName.LastIndexOf(".") > -1) ? "" : "." + ext;
 
-            if (fileName.LastIndexOf(".") < (fileName.Length - 8))
-                fileName += "." + ext;
-
-            string newFileName = fileName;
-
+            string newFileName = fileName.BeautifyUploadFileNames();
 
             try
             {
@@ -284,10 +281,9 @@ namespace Area23.At.Mono.Util
             }
             string ext = "hex";
 
-            if (fileName.LastIndexOf(".") < (fileName.Length - 12))
-                fileName += "." + ext;
+            fileName += (fileName.LastIndexOf(".") > -1) ? "" : "." + ext;
 
-            string newFileName = fileName;
+            string newFileName = fileName.BeautifyUploadFileNames();
 
             // strPath = LibPaths.SystemDirOutPath + fileName;
             try

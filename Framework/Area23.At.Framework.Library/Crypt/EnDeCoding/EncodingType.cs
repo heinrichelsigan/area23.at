@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 {
@@ -34,6 +35,29 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             }
 
             return list.ToArray();
+        }
+
+        public static EncodingType GetEncodingTypeFromFileExt(string ext = "")
+        {
+            if (string.IsNullOrEmpty(ext))
+                throw new ArgumentNullException("ext");
+
+            EncodingType extEncType = EncodingType.None;
+
+            foreach (var encodeType in EncodingTypesExtensions.GetEncodingTypes())
+            {
+                if (ext.Equals(encodeType.ToString(), StringComparison.OrdinalIgnoreCase) ||
+                    ext.Equals(encodeType.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+                    ext.ToLowerInvariant() == encodeType.ToString().ToLowerInvariant() ||
+                    ext.Equals("." + encodeType.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+                    ext.ToLowerInvariant() == "." + encodeType.ToString().ToLowerInvariant())
+                {
+                    extEncType = encodeType;
+                    break;
+                }
+            }
+
+            return extEncType;
         }
 
         public static IDecodable GetEnCoder(this EncodingType type)
@@ -99,6 +123,19 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             }
 
         }
+
+        public static string GetEncodingFileExtension(this EncodingType encodeType)
+        {
+            switch (encodeType)
+            {
+                case EncodingType.None:
+                case EncodingType.Null:
+                    return "";
+                default:
+                    return encodeType.ToString().ToLowerInvariant();
+            }
+        }
+    
     }
 
 }

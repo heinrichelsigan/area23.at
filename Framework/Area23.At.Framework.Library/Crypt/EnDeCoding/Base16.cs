@@ -111,7 +111,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 if (wb == hexStr.Length - 1)
                 {
                     msb = '0';
-                    lsb = hexStr[wb];
+                    lsb = Char.ToUpper((char)hexStr[wb]);
                 }
                 else
                 {
@@ -123,7 +123,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 bytes.Add(b);
             }
 
-            byte[] bytesUtf8 = EnDeCodeHelper.GetBytes(hexStr);
+            // byte[] bytesUtf8 = EnDeCodeHelper.GetBytes(hexStr);
             // return bytesUtf8;
             return bytes.ToArray();
             

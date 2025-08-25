@@ -112,7 +112,7 @@ namespace Area23.At.Mono
                         return;
                     }
 
-                    if (!Utils.AllowUrlExtensionInOut(url))
+                    if (!Utils.AllowExtensionInOut(url))
                     {
                         Area23Log.LogOriginMsg("Global.asax", "Application_BeginRequest: Url = " + url + " seemed to be denied.");
                     }

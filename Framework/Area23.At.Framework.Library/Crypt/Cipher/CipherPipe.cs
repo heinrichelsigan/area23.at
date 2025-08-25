@@ -384,8 +384,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             cipherKey = string.IsNullOrEmpty(secretKey) ? cipherKey : secretKey;
             cipherHash = hash;
 
-            long outByteLen = (OutPipe == null || OutPipe.Length == 0) ? cipherBytes.Length : ((cipherBytes.Length * 3) + 1);
-            byte[] decryptedBytes = new byte[outByteLen];
+            byte[] decryptedBytes = new byte[cipherBytes.Length];
 #if DEBUG
             stageDictionary = new Dictionary<CipherEnum, byte[]>();
             // stageDictionary.Add(CipherEnum.ZenMatrix, cipherBytes);
@@ -408,6 +407,16 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return decryptedBytes;
         }
 
+        /// <summary>
+        /// EncrpytTextGoRounds encrypts text with cipher pipe pipeline
+        /// </summary>
+        /// <param name="inString">plain text to encrypt</param>
+        /// <param name="cryptKey">prviate key for encryption</param>
+        /// <param name="hashIv">private hash for encryption</param>
+        /// <param name="encoding"><see cref="EncodingType"/></param>
+        /// <param name="zipBefore"><see cref="ZipType"/></param>
+        /// <param name="keyHash"><see cref="KeyHash"/></param>
+        /// <returns>UTF9 emcoded encrypted string without binary data</returns>
         public string EncrpytTextGoRounds(
             string inString,
             string cryptKey,
@@ -419,10 +428,25 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             // Transform string to bytes
             byte[] inBytes = EnDeCodeHelper.GetBytesFromString(inString);
 
-            return EncrpytFileBytesGoRounds(inBytes, cryptKey, hashIv, encoding, zipBefore, keyHash);
+            // use EncrpytFileBytesGoRounds for operations zip before and pipe cycöe encryption
+            byte[] encryptedBytes = EncrpytFileBytesGoRounds(inBytes, cryptKey, hashIv, encoding, zipBefore, keyHash);
+
+            // Encode pipes by encodingType, e.g. base64, uu, hex16, ...
+            string encrypted = encoding.GetEnCoder().EnCode(encryptedBytes);
+
+            return encrypted;
         }
 
-        public string EncrpytFileBytesGoRounds(
+        /// <summary>
+        /// Encrypt nomary data byte[]
+        /// </summary>
+        /// <param name="inBytes">binary data</param>
+        /// <param name="cryptKey">prviate key for encryption</param>
+        /// <param name="hashIv">private key hash for encryption</param>
+        /// <param name="zipBefore"><see cref="ZipType"/></param>
+        /// <param name="keyHash"><see cref="KeyHash"/></param>
+        /// <returns><binary data/returns>
+        public byte[] EncrpytFileBytesGoRounds(
             byte[] inBytes,
             string cryptKey,
             string hashIv,
@@ -435,14 +459,20 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
             // perform multi crypt pipe stages
             byte[] encryptedBytes = MerryGoRoundEncrpyt(inBytes, cryptKey, hashIv, zipBefore);
-            
-            // Encode pipes by encodingType, e.g. base64, uu, hex16, ...
-            string encrypted = encoding.GetEnCoder().EnCode(encryptedBytes);
 
-            return encrypted;
+            return encryptedBytes;
         }
 
-
+        /// <summary>
+        /// decrypt encoded encrypted text
+        /// </summary>
+        /// <param name="cryptedEncodedMsg">encoded encrypted ASCII string</param>
+        /// <param name="cryptKey">prviate key for encryption</param>
+        /// <param name="hashIv">private hash for encryption</param>
+        /// <param name="decoding"><see cref="EncodingType"/></param>
+        /// <param name="unzipAfter"><see cref="ZipType"/></param>
+        /// <param name="keyHash"><see cref="KeyHash"/></param>
+        /// <returns>decrypted UTF8 string, containing no binary data</returns>
         public string DecryptTextRoundsGo(
             string cryptedEncodedMsg,
             string cryptKey,
@@ -466,6 +496,15 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return decrypted;
         }
 
+        /// <summary>
+        /// DecryptFileBytesRoundsGo
+        /// </summary>
+        /// <param name="cipherBytes"></param>
+        /// <param name="cryptKey">prviate key for encryption</param>
+        /// <param name="hashIv">private hash for encryption</param>
+        /// <param name="unzipAfter"><see cref="ZipType"/></param>
+        /// <param name="keyHash"><see cref="KeyHash"/></param>
+        /// <returns>plain data byte[]</returns>
         public byte[] DecryptFileBytesRoundsGo(
             byte[] cipherBytes,
             string cryptKey,
@@ -474,7 +513,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             KeyHash keyHash = KeyHash.Hex)
         {
             // hashIv if empty hash secretKey with keyHash hashing variant
-            hashIv = (string.IsNullOrEmpty(hashIv)) ? keyHash.Hash(cryptKey) : hashIv;
+            hashIv = string.IsNullOrEmpty(hashIv) ? keyHash.Hash(cryptKey) : hashIv;
 
             // perform multi crypt pipe stages
             byte[] decryptedBytes = DecrpytRoundGoMerry(cipherBytes, cryptKey, hashIv, unzipAfter);
@@ -492,10 +531,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
 
         #region static en-de-crypt members
-
-
-        
-
+       
         /// <summary>
         /// EncrpytToStringd
         /// </summary>

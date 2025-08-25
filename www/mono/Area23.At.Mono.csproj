@@ -244,6 +244,7 @@
     <Content Include="res\img\crypt\decrypted.png" />
     <Content Include="res\img\crypt\encrypted.png" />
     <Content Include="res\img\crypt\file.png" />
+    <Content Include="res\img\crypt\file_warning.gif" />
     <Content Include="res\img\crypt\folder1.gif" />
     <Content Include="res\img\crypt\folder1.png" />
     <Content Include="res\gamez\tictactoe\emptyCellBlueTicTacToe.gif" />
@@ -294,6 +295,7 @@
     <Content Include="res\img\symbol\access_denied.gif" />
     <Content Include="res\img\symbol\close_delete.gif" />
     <Content Include="res\img\symbol\file_warning.gif" />
+    <Content Include="res\img\crypt\file_working.gif" />
     <Content Include="res\img\symbol\file_working.gif" />
     <Content Include="res\img\symbol\key_ring.gif" />
     <Content Include="res\img\symbol\pdf_icon.gif" />

@@ -433,7 +433,18 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
             EXE_WIN_LOGON, EXE_DESKTOP_WINDOW_MANAGER
         };
 
-        public static readonly string[] OUTFILE_EXTENSIONS = {
+        public static readonly string[] DENIED_EXTENSIONS = {
+            ".asp", ".asax", ".aspx", ".ascx", ".asmx", ".ashx", ".svc", ".master", ".config",
+            ".php", ".js", ".html", ".xhtml", ".htm",
+            ".razor", ".cshtml", ".javascript", ".cgi"
+        };
+
+
+        public static readonly string[] ALLOWED_EXTENSIONS = {
+
+            ".base", ".hex", 
+            ".hex16", ".base16", ".base32", ".hex32", ".uu", ",base58", ".base64", ".mime", 
+            
             ".md", ".txt", ".text", ".cfg",
             ".css", ".js", ".htm", ".html", ".xhtml", ".json", ".rdf",
 
@@ -452,7 +463,7 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
             ".z", ".gz", ".bz", ".bz2", ".tar", ".tgz", ".tbz",
             ".arj", ".arc", ".rar",
             ".7z", ".xz",
-            ".uu", ".base", ".mime",
+            
 
             ".pki", ".cer", ".der", ".crl", ".p10", ".p7c", ".p7s",
 

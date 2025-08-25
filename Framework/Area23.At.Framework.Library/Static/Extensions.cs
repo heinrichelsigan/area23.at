@@ -597,6 +597,7 @@ namespace Area23.At.Framework.Library.Static
                 bfName = bfName.Replace('=', '_');
                 bfName = bfName.Replace('^', '_');
                 bfName = bfName.Replace('°', '_');
+                bfName = bfName.Replace('\t', '_');
 
                 bfName = bfName.Replace('*', '-');
                 bfName = bfName.Replace('+', '-');
@@ -609,10 +610,7 @@ namespace Area23.At.Framework.Library.Static
                 bfName = bfName.Replace('}', ']');
                 bfName = bfName.Replace('(', '[');
                 bfName = bfName.Replace(')', ']');
-
-
-                bfName = bfName.Replace('\t', ' ');
-
+                
                 bfName = bfName.Replace("â", "a");
                 bfName = bfName.Replace("à", "a");
                 bfName = bfName.Replace("á", "a");

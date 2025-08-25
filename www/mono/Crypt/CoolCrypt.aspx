@@ -169,7 +169,7 @@
                 <span class="rightSpan" style="width: 72px">
                 </span>
             </div>
-            <hr />                
+            <hr />                 
             <h3>En-/Decrypt file</h3>
             <div class="odDiv" style="vertical-align: top;">                       
                 <span class="leftSpan" style="vertical-align: top;">
@@ -210,6 +210,7 @@
                 <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClientClick="changeCryptBackgroundText()" OnClick="ButtonEncrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />
                 <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClientClick="changeCryptBackgroundText();" OnClick="ButtonDecrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />   
             </div>
+        
         </div>
         <hr />   
         <h3>Great thanks to <a href="https://www.bouncycastle.org/download/bouncy-castle-c/" target="_blank">bouncycastle.org</a>!</h3>

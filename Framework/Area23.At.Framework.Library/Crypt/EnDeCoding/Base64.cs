@@ -6,11 +6,17 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
     /// <summary>
     /// Base64 mime standard encoding
+    /// Must handle 0xfeff
+    /// <see href="https://www.fileformat.info/info/unicode/char/feff/index.htm" />
+    /// Unicode Character 'ZERO WIDTH NO-BREAK SPACE' (U+FEFF)
     /// </summary>
     public class Base64 : IDecodable
     {
 
-        public const string VALID_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/=";
+        public const char ZERO_WIDTH_NO_BREAK_SPACE = (char)0xfeff;
+        public static readonly char[] SPECIAL_CHAR_ARRAY = { ZERO_WIDTH_NO_BREAK_SPACE, ' ', '\t', '\r', '\n' };
+        public static readonly string SPECIAL_CHARS = new string(SPECIAL_CHAR_ARRAY);
+        public static readonly string VALID_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/=" + SPECIAL_CHARS;
 
         #region common interface, interfaces for static members appear in C# 7.3 or later
 
@@ -66,6 +72,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
         public static byte[] FromBase64(string inString)
         {
+            inString = inString.Replace(Base64.ZERO_WIDTH_NO_BREAK_SPACE.ToString(), "");
             byte[] outBytes = Convert.FromBase64String(inString);
             return outBytes;
         }

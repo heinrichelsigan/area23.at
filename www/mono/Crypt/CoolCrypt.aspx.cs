@@ -13,6 +13,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+
 namespace Area23.At.Mono.Crypt
 {
 
@@ -47,7 +48,7 @@ namespace Area23.At.Mono.Crypt
                 }                            
             }
 
-            if ((Request.Files != null && Request.Files.Count > 0) || (!String.IsNullOrEmpty(oFile.Value)))
+            if ((Request.Files != null && Request.Files.Count > 0) || (!string.IsNullOrEmpty(oFile.Value)))
             {
                 UploadFile(oFile.PostedFile); 
             }
@@ -227,13 +228,14 @@ namespace Area23.At.Mono.Crypt
                 string filePath = LibPaths.SystemDirOutPath + imgIn.Alt;
                 if (System.IO.File.Exists(filePath))
                 {
-                    EnDeCryptUploadFile(null, true, filePath);
+                    EnDeCryptFile(null, true, filePath);
+                    // EnDeCryptUploadFile(null, true, filePath);
                     return;
                 }
             }            
             
             if (Request.Files != null && Request.Files.Count > 0)
-                EnDeCryptUploadFile(Request.Files[0], true);
+                EnDeCryptFile(Request.Files[0], true);
         }
 
         /// <summary>
@@ -248,14 +250,16 @@ namespace Area23.At.Mono.Crypt
                 string filePath = LibPaths.SystemDirOutPath + imgIn.Alt;
                 if (System.IO.File.Exists(filePath))
                 {
-                    EnDeCryptUploadFile(null, false, filePath);
+                    EnDeCryptFile(null, false, filePath);
+                    // EnDeCryptUploadFile(null, false, filePath);
                     return;
                 }
             }
 
-            if (!String.IsNullOrEmpty(oFile.Value))
+            if (!string.IsNullOrEmpty(oFile.Value))
             {
-                EnDeCryptUploadFile(oFile.PostedFile, false);
+                EnDeCryptFile(oFile.PostedFile, false);
+                // EnDeCryptUploadFile(oFile.PostedFile, false);
             }
         }
 
@@ -314,14 +318,12 @@ namespace Area23.At.Mono.Crypt
         protected void ButtonDecrypt_Click(object sender, EventArgs e)
         {
             Reset_TextBox_IV(this.TextBox_Key.Text);           
-
-            EncodingType encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);                        
-
+   
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
                 ClearPostedFileSession(false);
 
-                if (encodeType == EncodingType.None || encodeType == EncodingType.Null)
+                if (encType == EncodingType.None || encType == EncodingType.Null)
                 {
                     DropDownList_Encoding.SelectedValue = EncodingType.Base64.ToString();
                     encType = EncodingType.Base64;
@@ -333,7 +335,6 @@ namespace Area23.At.Mono.Crypt
                 TextBoxDestionation.Text = cipherPipe.DecryptTextRoundsGo(TextBoxSource.Text, key, hash, encType, zipType, keyHash);
                 
                 DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;";
-                DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesBGText.gif')";
                 DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesBGText.gif')";
             }
             else
@@ -347,7 +348,6 @@ namespace Area23.At.Mono.Crypt
                 this.TextBoxSource.BorderWidth = 2;
 
                 DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
-                DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesImproveBG.gif')";
                 DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesImproveBG.gif')";
             }
         }
@@ -369,19 +369,46 @@ namespace Area23.At.Mono.Crypt
                 string strFileName = pfile.FileName;
                 strFileName = System.IO.Path.GetFileName(strFileName).BeautifyUploadFileNames();
                 string strFilePath = LibPaths.SystemDirOutPath + strFileName;
+
+                if (Utils.DenyExtensionInOut(LibPaths.OutAppPath + strFileName))
+                {
+                    SpanLeftFile.Visible = true;
+                    imgIn.Src = "../res/img/crypt/file_warning.gif";
+                    SpanLabel.Visible = true;
+                    uploadResult.Visible = true;
+                    uploadResult.Text = "File extension \"" + System.IO.Path.GetExtension(strFilePath) +
+                        "\" denied for upload!";
+
+                    return;
+                }
+               
                 pfile.SaveAs(strFilePath);
 
                 if (System.IO.File.Exists(strFilePath))
                 {
-                    uploadResult.Text = strFileName + " has been successfully uploaded.";
-                    Session[Constants.UPSAVED_FILE] = strFilePath;
+                    if (Utils.AllowExtensionInOut(LibPaths.OutAppPath + strFileName))
+                    {
+                        uploadResult.Text = strFileName + " has been successfully uploaded.";
+                        imgIn.Src = "../res/img/crypt/file_working.gif";
 
+                    }
+                    else
+                    {
+                        imgIn.Src = "../res/img/crypt/file_warning.gif";
+                        uploadResult.Visible = true;
+                        uploadResult.Text = "File ext \"" + System.IO.Path.GetExtension(strFilePath) +
+                            "\" might be critically!";
+                    }
+                    
+                    Session[Constants.UPSAVED_FILE] = strFilePath;
+                    
                     SpanLabel.Visible = true;
                     SpanLeftFile.Visible = true;
                     SpanRightFile.Visible = false;
                     aUploaded.HRef = LibPaths.OutAppPath + strFileName;
                     imgIn.Alt = strFileName;
                 }
+            
             }
         }
 
@@ -393,20 +420,20 @@ namespace Area23.At.Mono.Crypt
         protected void EnDeCryptUploadFile(HttpPostedFile pfile, bool crypt = true, string fileSavedName = "")
         {
             // Get the name of the file that is posted.
-            string strFileName = (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ? 
+            string strFileName = (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ?
                 pfile.FileName : fileSavedName;
             strFileName = System.IO.Path.GetFileName(strFileName).BeautifyUploadFileNames();
 
             Reset_TextBox_IV(this.TextBox_Key.Text);
-            
+
             string savedTransFile = string.Empty;
-            string outMsg = string.Empty;            
+            string outMsg = string.Empty;
             EncodingType encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
             EncodingType extEncType = encodeType;
-            
+
             string encodingMethod = encodeType.ToString().ToLowerInvariant();
             bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
-            byte[] inBytes = null;
+            byte[] inBytes = new byte[65536];
 
             if ((pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ||
                 (!string.IsNullOrEmpty(fileSavedName) && System.IO.File.Exists(fileSavedName)))
@@ -414,13 +441,13 @@ namespace Area23.At.Mono.Crypt
                 if (!string.IsNullOrEmpty(fileSavedName) && System.IO.File.Exists(fileSavedName))
                     inBytes = System.IO.File.ReadAllBytes(fileSavedName);
                 else if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
-                    inBytes = pfile.InputStream.ToByteArray();                     
+                    inBytes = pfile.InputStream.ToByteArray();
 
                 // write source file hash
-                this.TextBoxSource.Text = 
+                this.TextBoxSource.Text =
                     "File: " + strFileName + "\n" +
                     "StreamLength: " + inBytes.Length + "\n" +
-                    "MD5Sum " + MD5Sum.Hash(inBytes, strFileName) + "\n" + 
+                    "MD5Sum " + MD5Sum.Hash(inBytes, strFileName) + "\n" +
                     "Sha256 " + Sha256Sum.Hash(inBytes, strFileName) + "\n";
                 uploadResult.Text = "";
 
@@ -441,29 +468,29 @@ namespace Area23.At.Mono.Crypt
 
                         imgOut.Src = LibPaths.ResAppPath + "img/crypt/encrypted.png";
 
-                        ZipType ztype = ZipType.None;                        
+                        ZipType ztype = ZipType.None;
                         string zopt = "";
                         if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
                         {
                             switch (ztype)
                             {
-                                case ZipType.GZip: 
-                                    zopt = ".gz";   
+                                case ZipType.GZip:
+                                    zopt = ".gz";
                                     outBytes = GZ.GZipBytes(inBytes);
                                     break;
-                                case ZipType.BZip2: 
+                                case ZipType.BZip2:
                                     zopt = ".bz2";
                                     outBytes = BZip2.BZip(inBytes);
                                     break;
-                                case ZipType.Zip: 
-                                    zopt = ".zip"; 
-                                    outBytes = WinZip.Zip(inBytes, strFileName); 
+                                case ZipType.Zip:
+                                    zopt = ".zip";
+                                    outBytes = WinZip.Zip(inBytes, strFileName);
                                     break;
                                 case ZipType.Z7:
                                 case ZipType.None:
                                 default:
                                     zopt = "";
-                                    break; 
+                                    break;
                             }
                             if (!string.IsNullOrEmpty(zopt))
                             {
@@ -481,7 +508,7 @@ namespace Area23.At.Mono.Crypt
                                 CipherEnum cipherAlgo = CipherEnum.Aes;
                                 if (Enum.TryParse<CipherEnum>(algo, out cipherAlgo))
                                 {
-                                    outBytes = CipherPipe.EncryptBytesFast(inBytes, cipherAlgo, secretKey, keyHash);
+                                    outBytes = CipherPipe.EncryptBytesFast(inBytes, cipherAlgo, key, hash);
                                     inBytes = outBytes;
                                     cryptCount++;
                                     strFileName += "." + algo.ToLower();
@@ -508,22 +535,22 @@ namespace Area23.At.Mono.Crypt
                             "OutStringLen: " + strLen + "\n" +
                             "StreamLength: " + outBytes.Length + "\n" +
                             "MD5Sum " + MD5Sum.Hash(LibPaths.SystemDirOutPath + savedTransFile) + "\n" +
-                            "Sha256 " + Sha256Sum.Hash(LibPaths.SystemDirOutPath + savedTransFile) + "\n";                        
+                            "Sha256 " + Sha256Sum.Hash(LibPaths.SystemDirOutPath + savedTransFile) + "\n";
 
                         if (!string.IsNullOrEmpty(savedTransFile) && !string.IsNullOrEmpty(outMsg))
                         {
                             uploadResult.Text = string.Format("{0}x crypt {1}", cryptCount, outMsg);
                             if (cryptCount > 4)
-                                uploadResult.Text = 
+                                uploadResult.Text =
                                     string.Format("{0}x crypt {1}", cryptCount, outMsg.Substring(outMsg.IndexOf(".")));
-                        }                            
+                        }
                         else
                             uploadResult.Text = "file failed to encrypt and save!";
                     }
                     else
                     {
 
-                        string decryptedText = string.Empty;                        
+                        string decryptedText = string.Empty;
                         bool decode = false;
                         string ext = strFileName.GetExtensionFromFileString();
                         foreach (var encType in EncodingTypesExtensions.GetEncodingTypes())
@@ -550,9 +577,9 @@ namespace Area23.At.Mono.Crypt
                                 cipherText = System.IO.File.ReadAllText(LibPaths.SystemDirTmpPath + tmpFile, Encoding.UTF8);
                             }
 
-                            outBytes = EnDeCodeHelper.DecodeText(cipherText /*, out string errMsg */, extEncType, plainUu, true);                            
+                            outBytes = EnDeCodeHelper.DecodeText(cipherText /*, out string errMsg */, extEncType, plainUu, true);
                             inBytes = outBytes;
-                            
+
                             strFileName = strFileName.EndsWith("." + encodingMethod) ? strFileName.Replace("." + encodingMethod, "") : strFileName;
                         }
                         else // if not decode, copy inBytes => outBytes
@@ -572,7 +599,7 @@ namespace Area23.At.Mono.Crypt
                                 CipherEnum cipherAlgo = CipherEnum.Aes;
                                 if (Enum.TryParse<CipherEnum>(algos[ig], out cipherAlgo))
                                 {
-                                    inBytes = CipherPipe.DecryptBytesFast(outBytes, cipherAlgo, secretKey, keyHash);
+                                    inBytes = CipherPipe.DecryptBytesFast(outBytes, cipherAlgo, key, hash);
                                     outBytes = inBytes;
                                     cryptCount++;
                                     strFileName = strFileName.EndsWith("." + algos[ig].ToLower()) ? strFileName.Replace("." + algos[ig].ToLower(), "") : strFileName;
@@ -582,12 +609,12 @@ namespace Area23.At.Mono.Crypt
 
                         outBytes = EnDeCodeHelper.GetBytesTrimNulls(inBytes);
 
-                        ZipType ztype = ZipType.None;                    
+                        ZipType ztype = ZipType.None;
                         if (Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out ztype))
                         {
                             switch (ztype)
                             {
-                                case ZipType.GZip:  
+                                case ZipType.GZip:
                                     outBytes = GZ.GUnZipBytes(inBytes);
                                     strFileName = (strFileName.EndsWith(".gz") || strFileName.Contains(".gz")) ? strFileName.Replace(".gz", "") : strFileName;
                                     break;
@@ -596,7 +623,7 @@ namespace Area23.At.Mono.Crypt
                                     strFileName = (strFileName.EndsWith(".bz2") || strFileName.Contains(".bz2")) ? strFileName.Replace(".bz2", "") : strFileName;
                                     strFileName = (strFileName.EndsWith(".bz") || strFileName.Contains(".bz")) ? strFileName.Replace(".bz", "") : strFileName;
                                     break;
-                                case ZipType.Zip: 
+                                case ZipType.Zip:
                                     outBytes = WinZip.UnZip(inBytes);
                                     strFileName = (strFileName.EndsWith(".zip") || strFileName.Contains(".zip")) ? strFileName.Replace(".zip", "") : strFileName;
                                     break;
@@ -605,12 +632,12 @@ namespace Area23.At.Mono.Crypt
                                     outMsg = string.Empty;
                                     break;
                                 case ZipType.None:
-                                default: 
-                                    outMsg = string.Empty; 
+                                default:
+                                    outMsg = string.Empty;
                                     break;
-                            }                            
+                            }
                         }
-                        
+
                         savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName, LibPaths.SystemDirOutPath);
 
                         // write destination file hash
@@ -619,9 +646,9 @@ namespace Area23.At.Mono.Crypt
                             "StreamLength: " + outBytes.Length + "\n" +
                             "MD5Sum " + MD5Sum.Hash(LibPaths.SystemDirOutPath + savedTransFile) + "\n" +
                             "Sha256 " + Sha256Sum.Hash(LibPaths.SystemDirOutPath + savedTransFile) + "\n";
-                        
+
                         uploadResult.Text = string.Format("decrypt to {0}", outMsg);
-                                                 
+
                     }
 
                     aTransFormed.HRef = LibPaths.OutAppPath + savedTransFile;
@@ -647,6 +674,163 @@ namespace Area23.At.Mono.Crypt
             }
 
         }
+
+        /// <summary>
+        /// Encrypts or Decrypts uploaded file
+        /// </summary>
+        /// <param name="pfile">HttpPostedFile pfile</param>
+        /// <param name="crypt">true for encrypt, false for decrypt</param>
+        protected void EnDeCryptFile(HttpPostedFile pfile, bool crypt = true, string fileSavedName = "")
+        {
+            // Get the name of the file that is posted.
+            string strFileName = (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ?
+                pfile.FileName : fileSavedName;
+            strFileName = System.IO.Path.GetFileName(strFileName).BeautifyUploadFileNames();
+            string strFilePath = LibPaths.SystemDirOutPath + strFileName;
+
+            Reset_TextBox_IV(this.TextBox_Key.Text);
+
+
+            if (Utils.DenyExtensionInOut(LibPaths.OutAppPath + strFileName))
+            {
+                SpanLeftFile.Visible = true;
+                imgIn.Src = "../res/img/crypt/file_warning.gif";
+                SpanLabel.Visible = true;
+                uploadResult.Visible = true;
+                uploadResult.Text = "File extension \"" + System.IO.Path.GetExtension(strFilePath) +
+                    "\" denied for upload!";
+
+                try
+                {
+                    if (System.IO.File.Exists(strFilePath))
+                        System.IO.File.Delete(strFilePath);
+                }
+                catch (Exception exFile)
+                {
+                    Area23Log.LogOriginMsgEx("AesImprove.aspx", "EnDeCryptUploadFile", exFile);
+                    try
+                    {
+                        System.IO.File.Move(strFilePath, strFilePath.Replace("/out/", "/tmp/") + DateTime.Now.Ticks);
+                    }
+                    catch { }
+                }
+
+                return;
+                return;
+            }
+
+            string savedTransFile = "", outMsg = "";
+            byte[] inBytes = new byte[65536];
+            int strLen = 0;
+
+            if (!string.IsNullOrEmpty(strFileName) &&
+                ((pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ||
+                (!string.IsNullOrEmpty(fileSavedName) && System.IO.File.Exists(fileSavedName))))
+            {
+                if (!string.IsNullOrEmpty(fileSavedName) && System.IO.File.Exists(fileSavedName))
+                    inBytes = System.IO.File.ReadAllBytes(fileSavedName);
+                else if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
+                    inBytes = pfile.InputStream.ToByteArray();
+
+                cipherPipe = new CipherPipe(pipeAlgortihms);
+
+                // write source file hash
+                this.TextBoxSource.Text =
+                    "File: " + strFileName + "\n" +
+                    "StreamLength: " + inBytes.Length + "\n" +
+                    "MD5Sum " + MD5Sum.Hash(inBytes, strFileName) + "\n" +
+                    "Sha256 " + Sha256Sum.Hash(inBytes, strFileName) + "\n";
+                uploadResult.Text = "";
+
+                byte[] outBytes = new byte[inBytes.Length];
+                imgOut.Src = LibPaths.ResAppPath + "img/crypt/file_warning.gif";
+
+                if (crypt)
+                {
+                    strFileName += zipType.ZipFileExtension(cipherPipe.PipeString);
+                    outBytes = cipherPipe.EncrpytFileBytesGoRounds(inBytes, key, hash, encType, zipType, keyHash);
+
+                    if (CheckBoxEncode.Checked)
+                    {
+                        strFileName += "." + encType.ToString().ToLowerInvariant();
+                        string outString = encType.GetEnCoder().EnCode(outBytes);
+                        strLen = outString.Length;
+                        savedTransFile = this.StringToFile(outString, out outMsg, strFileName, LibPaths.SystemDirOutPath);
+                    }
+                    else
+                        savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName, LibPaths.SystemDirOutPath);
+
+                    imgOut.Src = LibPaths.ResAppPath + "img/crypt/encrypted.png";
+
+                    if (!string.IsNullOrEmpty(savedTransFile) && !string.IsNullOrEmpty(outMsg))
+                        uploadResult.Text = string.Format("{0}x crypt {1}", cipherPipe.PipeString.Length, outMsg);
+                    else
+                        uploadResult.Text = "file failed to encrypt and save!";
+                }
+                else // decrypt
+                {
+                    string decryptedText = string.Empty;
+                    strFileName = strFileName.EndsWith(".hex") ? strFileName.Replace(".hex", "") : strFileName;
+                    strFileName = strFileName.EndsWith(".oct") ? strFileName.Replace(".oct", "") : strFileName;
+
+                    string ext = strFileName.GetExtensionFromFileString();
+                    EncodingType extEncType = EncodingTypesExtensions.GetEncodingTypeFromFileExt(ext);
+                    if (extEncType != EncodingType.None && extEncType != EncodingType.Null)
+                    {
+                        string error = "";
+                        string cipherText = System.Text.Encoding.UTF8.GetString(inBytes);
+                        if (!extEncType.GetEnCoder().IsValidShowError(cipherText, out error))
+                        {
+                            uploadResult.Text = "file isn't a valid " + extEncType.ToString() + " encoding. Invalid characters: " + error;
+                            SpanLabel.Visible = true;
+                            return;
+                        }
+                        inBytes = extEncType.GetEnCoder().DeCode(cipherText);
+
+                        strFileName = strFileName.EndsWith("." + extEncType.GetEncodingFileExtension()) ? strFileName.Replace("." + extEncType.GetEncodingFileExtension(), "") : strFileName;
+                    }
+
+                    outBytes = cipherPipe.DecryptFileBytesRoundsGo(inBytes, key, hash, zipType, keyHash);
+                    strFileName = strFileName.Contains(zipType.ZipFileExtension(cipherPipe.PipeString)) ?
+                        strFileName.Replace(zipType.ZipFileExtension(cipherPipe.PipeString), "") :
+                        strFileName;
+
+                    imgOut.Src = LibPaths.ResAppPath + "img/crypt/decrypted.png";
+                    savedTransFile = ByteArrayToFile(outBytes, out outMsg, strFileName, LibPaths.SystemDirOutPath);
+                    uploadResult.Text = string.Format("decrypt to {0}", outMsg);
+
+                }
+
+                // set a href to saved trans file
+                aTransFormed.HRef = LibPaths.OutAppPath + savedTransFile;
+
+                // write destination file hash
+                this.TextBoxDestionation.Text =
+                    "File: " + savedTransFile + "\n" +
+                    "StreamLength: " + outBytes.Length + "\n" +
+                    "MD5Sum " + MD5Sum.Hash(LibPaths.SystemDirOutPath + savedTransFile) + "\n" +
+                    "Sha256 " + Sha256Sum.Hash(LibPaths.SystemDirOutPath + savedTransFile) + "\n";
+
+                // Display the result of the upload.
+                ClearPostedFileSession(true);
+
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesBGFile.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesBGFile.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesBGFile.gif')";
+            }
+            else
+            {
+                uploadResult.Text = "Click 'Browse' to select the file to upload.";
+                ClearPostedFileSession(false);
+                SpanLabel.Visible = true;
+
+                DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
+                DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesImproveBG.gif')";
+                DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesImproveBG.gif')";
+            }
+
+        }
+
 
         #endregion file_handling_members 
 
@@ -674,7 +858,7 @@ namespace Area23.At.Mono.Crypt
             key = this.TextBox_Key.Text;
             hash = keyHash.Hash(TextBox_Key.Text);
             TextBox_IV.Text = hash;
-            pipeAlgortihms = CipherEnumExtensions.ParsePipeText(TextBox_Encryption.Text);
+            pipeAlgortihms = CipherEnumExtensions.ParsePipeText(TextBox_Encryption.Text);            
 
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BorderColor = Color.LightGray;
@@ -695,6 +879,8 @@ namespace Area23.At.Mono.Crypt
             this.TextBox_Encryption.BorderColor = Color.LightGray;
             this.TextBox_Encryption.BorderWidth = 1;
 
+            // this.LiteralWarn.Text = "Hint: 7zip compression is still noty implemented, please use only gzip, bzip2 and zip.";            
+
             if ((Session[Constants.UPSAVED_FILE] != null) && System.IO.File.Exists((string)Session[Constants.UPSAVED_FILE]))
             {
                 SpanLabel.Visible = true;
@@ -707,7 +893,6 @@ namespace Area23.At.Mono.Crypt
             SpanRightFile.Visible = false;
 
             DivAesImprove.Attributes["style"] = "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;";
-            DivAesImprove.Style["backgroundImage"] = "url('../res/img/crypt/AesImproveBG.gif')";
             DivAesImprove.Style["background-image"] = "url('../res/img/crypt/AesImproveBG.gif')";
 
         }

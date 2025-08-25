@@ -215,15 +215,40 @@ namespace Area23.At.Framework.Library.Static
         }
 
 
-        public static bool AllowUrlExtensionInOut(string url = "")
+        public static bool DenyExtensionInOut(string url = "")
         {
-            bool allow = false;
-            if (String.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(url))
                 url = HttpContext.Current.Request.Url.ToString().ToLower();
             else
                 url = url.ToLower();
 
-            foreach (string allowedExt in Constants.OUTFILE_EXTENSIONS)
+            foreach (string deniedExt in Constants.DENIED_EXTENSIONS)
+            {
+                if (url.EndsWith(deniedExt, StringComparison.InvariantCultureIgnoreCase))
+                    return true;
+                string restUrl = url.Substring(url.LastIndexOf("."));
+                if (restUrl.EndsWith(deniedExt) || restUrl.Contains(deniedExt))
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool AllowExtensionInOut(string url = "")
+        {
+            bool allow = false;
+            if (string.IsNullOrEmpty(url))
+                url = HttpContext.Current.Request.Url.ToString().ToLower();
+            else
+                url = url.ToLower();
+
+            foreach (string deniedExt in Constants.DENIED_EXTENSIONS)
+            {
+                if (url.EndsWith(deniedExt, StringComparison.InvariantCultureIgnoreCase))
+                    return false;
+            }
+
+            foreach (string allowedExt in Constants.ALLOWED_EXTENSIONS)
             {
                 if ((allow = url.EndsWith(allowedExt)))
                     break;

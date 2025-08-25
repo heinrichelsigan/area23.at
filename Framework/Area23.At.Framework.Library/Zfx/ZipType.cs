@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Area23.At.Framework.Library;
 
 namespace Area23.At.Framework.Library.Zfx
 {
@@ -72,5 +73,28 @@ namespace Area23.At.Framework.Library.Zfx
 
             return new byte[0];
         }
+
+
+
+        /// <summary>
+        /// ZipFileExtension returns file extension
+        /// </summary>
+        /// <param name="zipt">this ZipType zipt</param>
+        /// <param name="pipeString">pipe string <see cref="Crypt.Cipher.CipherPipe.PipeString"/></param>
+        /// <returns>zip file extension for windoes & unix</returns>
+        public static string ZipFileExtension(this ZipType zipt, string pipeString = "")
+        {
+            string extPre = string.IsNullOrEmpty(pipeString) ? "" : "." + pipeString;
+            switch (zipt)
+            {
+                case ZipType.GZip: return string.Format("{0}.gz", extPre);
+                case ZipType.BZip2: return string.Format("{0}.bz2", extPre);
+                case ZipType.Zip: return string.Format("{0}.zip", extPre);
+                case ZipType.Z7: return string.Format("{0}.7z", extPre);
+                case ZipType.None:
+                default: return extPre;
+            }
+        }
+
     }
 }
