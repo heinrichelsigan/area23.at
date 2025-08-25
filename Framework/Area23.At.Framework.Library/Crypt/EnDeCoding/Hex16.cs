@@ -79,7 +79,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 hexString += string.Format("{0:x2}", inBytes[wc]);
             }
 
-            string strUtf8 = System.Text.Encoding.UTF8.GetString(inBytes);
+            // string strUtf8 = System.Text.Encoding.UTF8.GetString(inBytes);
 
             return hexString;
         }
@@ -115,7 +115,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 bytes.Add(b);
             }
 
-            byte[] bytesUtf8 = System.Text.Encoding.UTF8.GetBytes(hexStr);
+            // byte[] bytesUtf8 = System.Text.Encoding.UTF8.GetBytes(hexStr);
             return bytes.ToArray();
 
         }
