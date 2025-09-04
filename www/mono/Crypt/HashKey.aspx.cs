@@ -1,5 +1,7 @@
-﻿using Area23.At.Framework.Library.Crypt.Hash;
+﻿using Area23.At.Framework.Library.Cache;
+using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using System;
 using System.Drawing;
 using System.Security.Cryptography;
@@ -13,7 +15,7 @@ namespace Area23.At.Mono.Crypt
     /// BCrypt is an advanced crypt(3) unix hash crypt utility
     /// Great thanx to the legion of <see href="https://bouncycastle.org" />
     /// </summary>
-    public partial class HashKey : Util.UIPage
+    public partial class HashKey : UIPage
     {        
 
         /// <summary>
@@ -26,12 +28,10 @@ namespace Area23.At.Mono.Crypt
             if (!Page.IsPostBack)
             {
                 this.hashKeyRadioButtonList.ParameterChanged_FireUp += new EventHandler(Button_Hash_Click);
-
-                if ((Session[Constants.AES_ENVIROMENT_KEY] != null) && !string.IsNullOrEmpty((string)Session[Constants.AES_ENVIROMENT_KEY]) &&
-                    (((string)Session[Constants.AES_ENVIROMENT_KEY]).Length > 0))
-                {
-                    Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
-                }                            
+                string aesKey = MemoryCache.CacheDict.ContainsKey(Constants.AES_ENVIROMENT_KEY) ?
+                   MemoryCache.CacheDict.GetValue<string>(Constants.AES_ENVIROMENT_KEY) : TextBox_Key.Text;
+                if (!string.IsNullOrEmpty(aesKey) && aesKey.Length > 0)
+                    Reset_TextBox_IV(aesKey);
             }            
         }
 
@@ -65,8 +65,8 @@ namespace Area23.At.Mono.Crypt
             this.TextBox_BCrypt_Key.BorderColor = Color.LightGray;
             this.TextBox_BCrypt_Key.BorderWidth = 1;
 
-            if (Session[Constants.AES_ENVIROMENT_KEY] != null)
-                Session.Remove(Constants.AES_ENVIROMENT_KEY);
+            if (MemoryCache.CacheDict.ContainsKey(Constants.AES_ENVIROMENT_KEY))
+                MemoryCache.CacheDict.RemoveKey(Constants.AES_ENVIROMENT_KEY);
         }
 
 
@@ -110,7 +110,7 @@ namespace Area23.At.Mono.Crypt
                 this.TextBox_Key.Text = userEmailKey;
             else if (string.IsNullOrEmpty(this.TextBox_Key.Text))
                 this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
-            Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
+            MemoryCache.CacheDict.SetValue<string>(Constants.AES_ENVIROMENT_KEY, TextBox_Key.Text);
 
             this.TextBox_BCrypt_Key.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_BCrypt_Key.BorderStyle = BorderStyle.Solid;

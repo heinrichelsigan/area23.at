@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Area23.At.Framework.Library.Util;
+using System;
 using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -10,7 +11,7 @@ namespace Area23.At.Mono.Calc
     /// <see href="https://math.stackexchange.com/questions/2201193/creating-link-matrix#comment10956997_2201193" />
     /// <see href="https://pastebin.com/aeh8yAxa" />
     /// </summary>
-    public partial class MatrixSO : Util.UIPage
+    public partial class MatrixSO : UIPage
     {
         int[,] MatrixA = new int[16,16];
         int[,] MatrixB = new int[16,16];

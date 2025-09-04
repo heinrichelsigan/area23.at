@@ -31,10 +31,10 @@ namespace Area23.At.Mono.Settings
                 persistType = PersistType.ApplicationState;
             if (persistString.StartsWith("JsonFile"))
                 persistType = PersistType.JsonFile;
-            if (persistString.StartsWith("RedisValkey"))
-                persistType = PersistType.RedisValkey;
-            if (persistString.StartsWith("RedisMS"))
-                persistType = PersistType.RedisMS;
+            //if (persistString.StartsWith("RedisValkey"))
+            //    persistType = PersistType.RedisValkey;
+            if (persistString.StartsWith("SessionState"))
+                persistType = PersistType.SessionState;
 
             if (!Int32.TryParse(this.DropDownList_Iterations.SelectedValue, out iterations))
                 iterations = 128;
@@ -66,7 +66,7 @@ namespace Area23.At.Mono.Settings
                     DivTest2.InnerHtml = string.Empty;
                     string log0 = "Log test from " + Request.UserHostAddress + " " + Request.UserAgent + " " + Request.ClientCertificate.Issuer.ToString();
                     Area23Log.LogStatic(log0);
-                    DivTest0.InnerHtml += $"<p>{DateTime.Now.Area23DateTimeWithMillis()}: {log0} -> LogStatic to {SLog.LogFile}  successfull!</p>";
+                    DivTest0.InnerHtml += $"<p>{DateTime.Now.Area23DateTimeWithMillis()}: {log0} -> LogStatic to {Area23Log.LogFile}  successfull!</p>";
                 }
                 catch (Exception exStart)
                 {
@@ -92,7 +92,7 @@ namespace Area23.At.Mono.Settings
                 settings.Add("SystemDirLogPath", LibPaths.SystemDirLogPath);
                 settings.Add("LogFileSystemPath", LibPaths.LogFileSystemPath);
                 settings.Add("AppLogFile", Constants.AppLogFile);
-                settings.Add("SLog.LogFile", SLog.LogFile);
+                settings.Add("Area23Log.LogFile", Area23Log.LogFile);
                 settings.Add("UserHostAddress", Request.UserHostAddress);
                 settings.Add("RawUrl", Request.RawUrl);
                 settings.Add("UserAgent", Request.UserAgent);
@@ -263,13 +263,17 @@ namespace Area23.At.Mono.Settings
                     ApplicationStateCache appStateCache = new ApplicationStateCache(persitVariant);
                     memoryCache = (MemoryCache)appStateCache;
                     break;
-                case PersistType.RedisValkey:
-                    RedisValkeyCache redisValkeyCache = new RedisValkeyCache(persitVariant);
-                    memoryCache = (MemoryCache)redisValkeyCache;
+                case PersistType.None:
+                    MemoryCache memCache = new MemoryCache(persitVariant);
+                    memoryCache = (MemoryCache)memCache;
                     break;
-                case PersistType.RedisMS:
-                    RedisMSCache redisMSCache = new RedisMSCache(persitVariant);
-                    memoryCache = (MemoryCache)redisMSCache;
+                //case PersistType.RedisValkey:
+                //    RedisValkeyCache redisValkeyCache = new RedisValkeyCache(persitVariant);
+                //    memoryCache = (MemoryCache)redisValkeyCache;
+                //    break;
+                case PersistType.SessionState:
+                    SessionStateCache sessionCache = new SessionStateCache(persitVariant);
+                    memoryCache = (MemoryCache)sessionCache;
                     break;
                 case PersistType.AppDomain:
                 default:
@@ -330,7 +334,7 @@ namespace Area23.At.Mono.Settings
 
                         CacheData data = (CacheData)memoryCache.GetValue<CacheData>(strkey);
                         if (data == null)
-                            s += $"Task get cache key #{strkey} => (nil)";
+                            s += $"Task get cache key #{strkey} => (nil)\n";
                         else
                             s += $"Task get cache key #{strkey} => {data.CValue} created at {data.CTime} original thread {data.CThreadId} on current thread #{Thread.CurrentThread.ManagedThreadId}.\n";
                     },
@@ -364,13 +368,17 @@ namespace Area23.At.Mono.Settings
                     ApplicationStateCache appStateCache = new ApplicationStateCache(persitVariant);
                     memoryCache = (MemoryCache)appStateCache;
                     break;
-                case PersistType.RedisValkey:
-                    RedisValkeyCache redisValkeyCache = new RedisValkeyCache(persitVariant);
-                    memoryCache = (MemoryCache)redisValkeyCache;
+                case PersistType.None:
+                    MemoryCache memCache = new MemoryCache(persitVariant);
+                    memoryCache = (MemoryCache)memCache;
                     break;
-                case PersistType.RedisMS:
-                    RedisMSCache redisMSCache = new RedisMSCache(persitVariant);
-                    memoryCache = (MemoryCache)redisMSCache;
+                //case PersistType.RedisValkey:
+                //    RedisValkeyCache redisValkeyCache = new RedisValkeyCache(persitVariant);
+                //    memoryCache = (MemoryCache)redisValkeyCache;
+                //    break;
+                case PersistType.SessionState:
+                    SessionStateCache sessionCache = new SessionStateCache(persitVariant);
+                    memoryCache = (MemoryCache)sessionCache;
                     break;
                 case PersistType.AppDomain:
                 default:
@@ -402,7 +410,7 @@ namespace Area23.At.Mono.Settings
                 else if ((i >= quater && i < half) || i >= threequater)
                 {
                     string strkey = "Key_" + (i % maxKexs).ToString();
-                    CacheTestData cacheData = (CacheTestData)memoryCache.GetValue<CacheTestData>(strkey);
+                    CacheData cacheData = (CacheData)memoryCache.GetValue<CacheData>(strkey);
                     if (cacheData == null)
                         s += $"Task get cache key #{strkey} => (nil)\n";
                     else
@@ -438,10 +446,10 @@ namespace Area23.At.Mono.Settings
                 persistType = PersistType.ApplicationState;
             if (persistString.StartsWith("JsonFile"))
                 persistType = PersistType.JsonFile;
-            if (persistString.StartsWith("RedisValkey"))
-                persistType = PersistType.RedisValkey;
-            if (persistString.StartsWith("RedisMS"))
-                persistType = PersistType.RedisMS;
+            //if (persistString.StartsWith("RedisValkey"))
+            //    persistType = PersistType.RedisValkey;
+            if (persistString.StartsWith("SessionState"))
+                persistType = PersistType.SessionState;
 
             if (!Int32.TryParse(this.DropDownList_Iterations.SelectedValue, out iterations))
                 iterations = 128;

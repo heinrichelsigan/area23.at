@@ -11,12 +11,12 @@ namespace Area23.At.Framework.Library.Cache
     /// Use <see cref="GetValue{T}"/> to get the cached value
     /// </summary>
     [Serializable]
-    public class CacheValue
+    public class CacheValue 
     {
 
         #region properties
-        public object _Value { get; protected internal set; }
-        public Type _Type { get; protected internal set; }
+        public object CValue { get; protected internal set; }
+        public Type CType { get; protected internal set; }
         #endregion properties
 
         /// <summary>
@@ -24,45 +24,35 @@ namespace Area23.At.Framework.Library.Cache
         /// </summary>
         public CacheValue()
         {
-            _Type = null;
-            _Value = null;
+            CType = null;
+            CValue = null;
         }
 
         /// <summary>
         /// Obsolete ctor, please use default empty ctor <see cref="CacheValue()"/> 
         /// and then <see cref="SetValue{T}(T)"/> to set a cached value instead.
         /// </summary>
-        /// <param name="ovalue"><see cref="object" /> ovalue</param>
-        /// <param name="atype"><see cref="Type"/> atype</param>
+        /// <param name="oValue"><see cref="object" /> oValue</param>
+        /// <param name="aType"><see cref="Type"/> atype</param>
         [Obsolete("Don't use ctor CacheValue(object, Type) to set a cache value, use SetValue<T>(T tvalue) instead.", false)]
-        public CacheValue(object ovalue, Type atype)
+        public CacheValue(object oValue, Type aType)
         {
-            _Type = atype;
-            _Value = ovalue;
+            CType = aType;
+            CValue = oValue;
         }
 
         /// <summary>
         /// gets the <see cref="Type"/> of generic cached value
         /// </summary>
         /// <returns><see cref="Type"/> of generic value or null if cached value is <see cref="null"/></returns>
-        public new Type GetType()
-        {
-            return _Type;
-        }
+        public new Type GetType() => CType;
 
         /// <summary>
         /// Get a value from cache
         /// </summary>
         /// <typeparam name="T">generic type of value passed by typeparameter</typeparam>
-        /// <returns>generic T value</returns>
-        /// <exception cref="InvalidOperationException">thrown, when cached value isn't of typeof(T)</exception>
-        internal T GetValue<T>()
-        {
-            if (_Type != null && _Value != null && typeof(T) == _Type)
-                return (T)_Value;
-            else
-                return default(T);
-        }
+        /// <returns>generic T value</returns>        
+        internal T GetValue<T>() => (CType != null && CValue != null && typeof(T) == CType) ? (T)CValue : default;
 
         /// <summary>
         /// Get a nullable value from cache
@@ -71,15 +61,17 @@ namespace Area23.At.Framework.Library.Cache
         /// <returns><see cref="Nullable{T}">Nullable{T} now T?</see></returns>
         /// <exception cref="InvalidOperationException">thrown, when cached value isn't of typeof(T)</exception>
         public Nullable<T> GetNullableValue<T>() where T : struct 
-        {            
+        {                                    
             Nullable<T> tNullValue = null;
+            // return (_Type != null && _Value != null && typeof(T) == _Type) ? new Nullable<T>((T)_Value) : null;
 
-            if (_Type == null || _Value == null)
-                tNullValue = null;
-            else if (typeof(T) == _Type)
-                tNullValue = new Nullable<T>((T)_Value);
-            else
-                throw new InvalidOperationException($"typeof(T) = {typeof(T)} while _type = {_Type}");
+            if (CType != null && CValue != null)
+            {
+                if (typeof(T) == CType)
+                    tNullValue = new Nullable<T>((T)CValue);                
+                else
+                    throw new InvalidOperationException($"typeof(T) = {typeof(T)} while _type = {CType}");
+            }
 
             return tNullValue;                
         }
@@ -88,21 +80,18 @@ namespace Area23.At.Framework.Library.Cache
         /// Sets a generic cached value
         /// </summary>
         /// <typeparam name="T">generic type of value passed by typeparameter</typeparam>
-        /// <param name="tvalue">generic value to set cached</param>
-        public void SetValue<T>(T tvalue)
+        /// <param name="tValue">generic value to set cached</param>
+        public void SetValue<T>(T tValue)
         {
-            _Type = typeof(T);
-            _Value = (object)tvalue;
+            CType = typeof(T);
+            CValue = (object)tValue;
         }
 
         /// <summary>
-        /// override ToString() returns <see cref="_Value"/>
+        /// override ToString() returns <see cref="CValue"/>
         /// </summary>
-        /// <returns>returns <see cref="_Value"/></returns>
-        public override string ToString()
-        {
-            return (_Value == null) ? null : _Value.ToString();
-        }
+        /// <returns>returns <see cref="CValue"/></returns>
+        public override string ToString() => (CValue == null) ? null : CValue.ToString();
     
     }
 

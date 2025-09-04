@@ -15,6 +15,8 @@
                     <asp:ListItem Enabled="true"  Selected="True" Text="AppDomain" Value="AppDomain" />
                     <asp:ListItem Enabled="true" Selected="False" Text="ApplicationState" Value="ApplicationState" />
                     <asp:ListItem Enabled="true" Selected="False" Text="JsonFile" Value="JsonFile" />
+                    <asp:ListItem Enabled="true" Selected="False" Text="SessionState" Value="SessionState" />
+                    <asp:ListItem Enabled="true" Selected="False" Text="MemoryCache" Value="None" />
                     <asp:ListItem Enabled="true" Selected="False" Text="Redis" Value="Redis" />
                 </asp:DropDownList>
                 <asp:Literal ID="Literal_Iterations" runat="server" ClientIDMode="Static" Text="iterations:" />

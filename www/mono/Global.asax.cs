@@ -10,24 +10,43 @@ namespace Area23.At.Mono
     public class Global : System.Web.HttpApplication
     {
 
+        private static readonly object _lock = new object();
+
         protected void Application_Init(object sender, EventArgs e)
         {
-            try {
-                string msg = String.Format("application init at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
-                Area23Log.LogOriginMsg("Global.asax", msg);
-                HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
+            lock (_lock)
+            {
+                try
+                {
+                    Area23Log.InitLog("");
+                }
+                catch (Exception) { }
+                try
+                {
+                    string msg = String.Format("application init at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
+                    Area23Log.LogOriginMsg("Global.asax: Application_Init", msg);
+                    HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
+                }
+                catch (Exception) { }
             }
-            catch (Exception) { }
         }
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            try
+            lock (_lock)
             {
-                string msg = String.Format("application started at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
-                Area23Log.LogOriginMsg("Global.asax", msg + "\tlogging to logfile = " + Area23Log.LogFile);
+                try
+                {
+                    Area23Log.InitLog("");
+                }
+                catch (Exception) { }
+                try
+                {
+                    string msg = String.Format("application started at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
+                    Area23Log.LogOriginMsg("Global.asax", msg + "\tlogging to logfile = " + Area23Log.LogFile);
+                }
+                catch (Exception) { }
             }
-            catch (Exception) { }
         }
 
         protected void Application_Disposed(object sender, EventArgs e)
@@ -124,11 +143,7 @@ namespace Area23.At.Mono
         }
 
 
-        protected void Application_EndRequest(object sender, EventArgs e)
-        {
-            Area23Log.LogOriginMsg("Global.asax", "EndRequest Url: " + HttpContext.Current.Request.Url.ToString());
-            
-        }
+        // protected void Application_EndRequest(object sender, EventArgs e) { }
         
 
        

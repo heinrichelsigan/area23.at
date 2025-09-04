@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 
-namespace Area23.At.Framework.Library.Cache
+namespace Area23.At.Framework.Library.Static
 {
 
     /// <summary>
@@ -10,23 +10,23 @@ namespace Area23.At.Framework.Library.Cache
     /// get <see cref="Mutex"/> by calling <see cref="CreateMutalExlusion(string, bool)"/> 
     /// release <see cref="Mutex"/> by calling <see cref="ReleaseCloseDisposeMutex"/>
     /// </summary>
-    internal static class StaticMutalExclusion 
+    internal static class LogMutalExclusion 
     {
         private static readonly object _outerLock = new object(), _lock = new object();
      
-        private static Mutex _theMutalExclusion = null;
+        private static Mutex _theMutex = null;
 
         /// <summary>
         /// Gets the Mutal Exclusion
         /// </summary>
-        internal static Mutex TheMutalExclusion { get => _theMutalExclusion; }
+        internal static Mutex TheMutex { get => _theMutex; }
 
         /// <summary>
         /// static ctor
         /// </summary>
-        static StaticMutalExclusion()
+        static LogMutalExclusion()
         {
-            _theMutalExclusion = null;
+            _theMutex = null;
         }
 
         /// <summary>
@@ -38,14 +38,14 @@ namespace Area23.At.Framework.Library.Cache
         /// <returns><see cref="Mutex"/></returns>
         internal static Mutex CreateMutalExlusion(string mutexUniqueName = "MutalExclusion", bool useExistingMutex = false)
         {
-            if (useExistingMutex && _theMutalExclusion != null && _theMutalExclusion.SafeWaitHandle != null && 
-                !_theMutalExclusion.SafeWaitHandle.IsClosed && !_theMutalExclusion.SafeWaitHandle.IsInvalid) 
-                    return _theMutalExclusion;
+            if (useExistingMutex && _theMutex != null && _theMutex.SafeWaitHandle != null && 
+                !_theMutex.SafeWaitHandle.IsClosed && !_theMutex.SafeWaitHandle.IsInvalid) 
+                    return _theMutex;
 
-            Thread.Sleep(16);
-            _theMutalExclusion = new Mutex(true, mutexUniqueName);
+            // Thread.Sleep(16);
+            _theMutex = new Mutex(true, mutexUniqueName);
 
-            return _theMutalExclusion;
+            return _theMutex;
         }
 
         /// <summary>
@@ -59,17 +59,17 @@ namespace Area23.At.Framework.Library.Cache
 
             lock (_outerLock)
             {
-                if (_theMutalExclusion != null)
+                if (_theMutex != null)
                 {
                     lock (_lock)
                     {
-                        safeWaitHandle = _theMutalExclusion.GetSafeWaitHandle();
+                        safeWaitHandle = _theMutex.GetSafeWaitHandle();
                         safeMutextWin32Handle = safeWaitHandle.DangerousGetHandle();
                         if (safeWaitHandle != null && !safeWaitHandle.IsClosed)
                         {
                             try
                             {
-                                _theMutalExclusion.ReleaseMutex();
+                                _theMutex.ReleaseMutex();
                                 //    safeWaitHandle.DangerousRelease();
                             }
                             catch (Exception exRelease)
@@ -79,7 +79,7 @@ namespace Area23.At.Framework.Library.Cache
                             }
                             try
                             {
-                                _theMutalExclusion.Close();
+                                _theMutex.Close();
                                 //    safeWaitHandle.Close();
                             }
                             catch (Exception exClose)
@@ -91,7 +91,7 @@ namespace Area23.At.Framework.Library.Cache
 
                         try
                         {
-                            _theMutalExclusion.Dispose();
+                            _theMutex.Dispose();
                             //    safeWaitHandle.Dispose();
                         }
                         catch (Exception exDispose)
@@ -104,7 +104,7 @@ namespace Area23.At.Framework.Library.Cache
 
                 try
                 {
-                    _theMutalExclusion = null;
+                    _theMutex = null;
                 }
                 catch (Exception exNull)
                 {

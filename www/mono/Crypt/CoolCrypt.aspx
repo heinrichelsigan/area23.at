@@ -1,14 +1,14 @@
 ﻿<%@ Page Title="Simple uu and base64 en-/decode tool (apache2 mod_mono)" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="CoolCrypt.aspx.cs" Inherits="Area23.At.Mono.Crypt.CoolCrypt"  validateRequest="true" %>
 <asp:Content ID="ContentEncodeHead" ContentPlaceHolderID="EncodeHead" runat="server">
-        <title>Simple uu and base64 en-/decode tool (apache2 mod_mono)</title>
+        <title>Cool Crypt (apache2 mod_mono)</title>
         <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
-        <meta name="keywords" content="encode decode uuencode uudecode mime base64 aes encrypt decrypt" />
-        <meta name="description" content="https://github.com/heinrichelsigan/area23.at/" />
-        <meta name="author" content="Heinrich Elsigan (he@area23.at)" />
+        <meta charset="utf-8" />
+        <meta name="keywords" content="encode decode uuencode uudecode mime base64 symmmetric chipher pipeline aes 3des blowfish serpent twofish threefish des encrypt decrypt" />
+        <meta name="description" content="Cool Crypt symmmetric chipher pipeline" />
         <script type="text/javascript">
 
             function changeCryptBackgroundFile() {
-                var divAes = document.getElementById("DivAesImprove");
+                var divAes = document.getElementById("DivCryptImprove");
                 if (divAes != null) {
                     divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesBGFile.gif'); background-repeat: no-repeat; background-color: transparent;");
                     divAes.style.backgroundImage = "url('../res/img/crypt/AesBGFile.gif')";
@@ -16,7 +16,7 @@
             }
 
             function changeCryptBackgroundText() {
-                var divAes = document.getElementById("DivAesImprove");
+                var divAes = document.getElementById("DivCryptImprove");
                 if (divAes != null) {
                     divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;");
                     divAes.style.backgroundImage = "url('../res/img/crypt/AesBGText.gif')";
@@ -86,7 +86,7 @@
                 </span>
             </div>
         </div>
-        <div id="DivAesImprove" runat="server" style="padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;">
+        <div id="DivCryptImprove" runat="server" ClientIDMode="Static" tyle="padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;">
         
             <div class="odDiv">
                 <span class="leftSpan" style="width: 72px;">                      

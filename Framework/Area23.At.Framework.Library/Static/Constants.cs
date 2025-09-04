@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Area23.At.Framework.Library.Cache;
+using Area23.At.Framework.Library.Crypt.Hash;
+using System;
 using System.Configuration;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Web;
@@ -418,13 +421,11 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
         public static readonly char SEP_CHAR = System.IO.Path.DirectorySeparatorChar;
 
         public static readonly string AES_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("AesKey"));
-        public static readonly string AES_IV = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("AesIv4"));
+        public static readonly string AES_IV = KeyHash.BCrypt.Hash(AES_KEY);
         public static readonly string DES3_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("DesKey"));
-        public static readonly string DES3_IV = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("3DesIv"));
-        // public static readonly string SERPENT_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("BOUNCE"));
-        // public static readonly string SERPENT_IV = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("CASTLE"));
+        public static readonly string DES3_IV = KeyHash.OpenBSDCrypt.Hash(DES3_KEY);
         public static readonly string BOUNCEK = Convert.ToBase64String(Encoding.UTF8.GetBytes("BOUNCE"));
-        public static readonly string BOUNCE4 = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("CASTLE"));
+        public static readonly string BOUNCE4 = KeyHash.SCrypt.Hash(BOUNCEK);
 
 
         public static readonly string[] EXE_WIN_SYSTEM = { EXE_WIN_INIT, EXE_SERVICES,
@@ -587,43 +588,41 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
         private static readonly string backColorString = "#ffffff";
         public static string BackColorString
         {
-            get => (HttpContext.Current.Session != null && HttpContext.Current.Session[BACK_COLOR_STRING] != null) ?
-                    (string)HttpContext.Current.Session[BACK_COLOR_STRING] : backColorString;
+
+            get => MemoryCache.CacheDict.ContainsKey(BACK_COLOR_STRING) ? MemoryCache.CacheDict.GetValue<string>(BACK_COLOR_STRING) : backColorString;
             set
             {
-                HttpContext.Current.Session[BACK_COLOR] = ColorFrom.FromHtml(value);
-                HttpContext.Current.Session[BACK_COLOR_STRING] = value;
+                MemoryCache.CacheDict.SetValue<Color>(BACK_COLOR, ColorFrom.FromHtml(value));
+                MemoryCache.CacheDict.SetValue<string>(BACK_COLOR_STRING, value);
             }
         }
 
         private static readonly string qrColorString = "#000000";
         public static string QrColorString
         {
-            get => (HttpContext.Current.Session != null && HttpContext.Current.Session[QR_COLOR_STRING] != null) ?
-                    (string)HttpContext.Current.Session[QR_COLOR_STRING] : qrColorString;
+            get => MemoryCache.CacheDict.ContainsKey(QR_COLOR_STRING) ? MemoryCache.CacheDict.GetValue<string>(QR_COLOR_STRING) : qrColorString;
             set
             {
-                HttpContext.Current.Session[QR_COLOR] = ColorFrom.FromHtml(value);
-                HttpContext.Current.Session[QR_COLOR_STRING] = value;
+                MemoryCache.CacheDict.SetValue<Color>(QR_COLOR, ColorFrom.FromHtml(value));
+                MemoryCache.CacheDict.SetValue<string>(QR_COLOR_STRING, value);               
             }
         }
 
         public static System.Drawing.Color BackColor
         {
-            get => (HttpContext.Current.Session != null && HttpContext.Current.Session[BACK_COLOR] != null) ?
-                    (System.Drawing.Color)HttpContext.Current.Session[BACK_COLOR] : ColorFrom.FromHtml(backColorString);
+            get => MemoryCache.CacheDict.ContainsKey(BACK_COLOR) ? MemoryCache.CacheDict.GetValue<Color>(BACK_COLOR) : ColorFrom.FromHtml(backColorString);
             set
             {
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 if (value != null)
                 {
-                    HttpContext.Current.Session[BACK_COLOR] = value;
-                    HttpContext.Current.Session[BACK_COLOR_STRING] = value.ToXrgb();
+                    MemoryCache.CacheDict.SetValue<string>(BACK_COLOR_STRING, value.ToXrgb());
+                    MemoryCache.CacheDict.SetValue<Color>(BACK_COLOR, value);
                 }
                 else
                 {
-                    HttpContext.Current.Session[BACK_COLOR_STRING] = backColorString;
-                    HttpContext.Current.Session[BACK_COLOR] = ColorFrom.FromHtml(backColorString);
+                    MemoryCache.CacheDict.SetValue<string>(BACK_COLOR_STRING, backColorString);
+                    MemoryCache.CacheDict.SetValue<Color>(BACK_COLOR, ColorFrom.FromHtml(backColorString));
                 }
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
             }
@@ -631,35 +630,31 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
 
         public static System.Drawing.Color QrColor
         {
-            get => (HttpContext.Current.Session != null && HttpContext.Current.Session[QR_COLOR] != null) ?
-                    (System.Drawing.Color)HttpContext.Current.Session[QR_COLOR] : ColorFrom.FromHtml(qrColorString);
+            get => MemoryCache.CacheDict.ContainsKey(QR_COLOR) ? MemoryCache.CacheDict.GetValue<Color>(QR_COLOR) : ColorFrom.FromHtml(qrColorString);
             set
             {
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 if (value != null)
                 {
-                    HttpContext.Current.Session[QR_COLOR] = value;
-                    HttpContext.Current.Session[QR_COLOR_STRING] = value.ToXrgb();
+                    MemoryCache.CacheDict.SetValue<string>(QR_COLOR_STRING, value.ToXrgb());
+                    MemoryCache.CacheDict.SetValue<Color>(QR_COLOR, value);
                 }
                 else
                 {
-                    HttpContext.Current.Session[QR_COLOR_STRING] = qrColorString;
-                    HttpContext.Current.Session[QR_COLOR] = ColorFrom.FromHtml(qrColorString);
+                    MemoryCache.CacheDict.SetValue<string>(QR_COLOR_STRING, qrColorString);
+                    MemoryCache.CacheDict.SetValue<Color>(QR_COLOR, ColorFrom.FromHtml(qrColorString));
                 }
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
             }
         }
 
+        private static bool _fortuneBool = false;
         public static bool FortuneBool
         {
             get
             {
-                if (HttpContext.Current.Session[FORTUNE_BOOL] == null)
-                    HttpContext.Current.Session[FORTUNE_BOOL] = false;
-                else
-                    HttpContext.Current.Session[FORTUNE_BOOL] = !((bool)HttpContext.Current.Session[FORTUNE_BOOL]);
-
-                return (bool)HttpContext.Current.Session[FORTUNE_BOOL];
+                _fortuneBool = !_fortuneBool;
+                return (bool)_fortuneBool;
             }
         }
 

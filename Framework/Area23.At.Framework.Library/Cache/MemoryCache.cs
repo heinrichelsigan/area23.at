@@ -14,7 +14,7 @@ namespace Area23.At.Framework.Library.Cache
     {
 
         public const string APP_CONCURRENT_DICT = "APP_CONCURRENT_DICT";
-        public const int CACHE_READ_UPDATE_INTERVAL = 120;
+        public const int CACHE_READ_UPDATE_INTERVAL = 60;
         protected internal static readonly object _lock = new object(), _outerlock = new object();
 
         protected internal DateTime _lastCacheRW = DateTime.Now;
@@ -88,9 +88,13 @@ namespace Area23.At.Framework.Library.Cache
         }
 
 
-        public MemoryCache()
+        public MemoryCache() : this(PersistType.None) { }
+
+        public MemoryCache(PersistType cacheType)
         {
-            _persistType = PersistInCache.CacheType;
+            _persistType = (cacheType == PersistType.None) ? cacheType : PersistType.None;
+            _allKeys = GetAllKeys();
+            LoadDictionaryCache(false);
         }
 
         protected internal static void CreateInstance(PersistType cacheType)
@@ -99,14 +103,14 @@ namespace Area23.At.Framework.Library.Cache
             {
                 switch (cacheType)
                 {
+                    case PersistType.None:                    
+                        _instance = new Lazy<MemoryCache>(() => new MemoryCache()); 
+                        break;
                     case PersistType.JsonFile:
                         _instance = new Lazy<MemoryCache>(() => new JsonFileCache());
                         break;
-                    case PersistType.RedisValkey:
-                        _instance = new Lazy<MemoryCache>(() => new RedisValkeyCache());
-                        break;
-                    case PersistType.RedisMS:
-                        _instance = new Lazy<MemoryCache>(() => new RedisMSCache());
+                    case PersistType.SessionState:
+                        _instance = new Lazy<MemoryCache>(() => new SessionStateCache());
                         break;
                     case PersistType.ApplicationState:
                         _instance = new Lazy<MemoryCache>(() => new ApplicationStateCache());
@@ -366,6 +370,9 @@ namespace Area23.At.Framework.Library.Cache
                 return success;
             }
         }
+
+
+        public virtual bool DeleteKey(string ckey) => RemoveKey(ckey);
 
         public virtual HashSet<string> GetAllKeys()
         {

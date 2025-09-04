@@ -5,6 +5,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -256,9 +257,8 @@ namespace Area23.At.Mono.Unix
             {
                 _mergeFile = DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_merge.pdf";
                 args += MergeSystemPath;
-                string psCmd = ProcessCmd.ExecuteWithOutAndErr(pdfMergeCmd, args, out stdOut, out stdErr);
 
-                Thread.Sleep(100);
+                string psCmd = ProcessCmd.ExecuteWithOutAndErr(pdfMergeCmd, args, out stdOut, out stdErr);
 
                 if (File.Exists(MergeSystemPath))
                 {
@@ -405,6 +405,19 @@ namespace Area23.At.Mono.Unix
                 {
                     LabelUploadResult.Text = fileName + " already exists.";
                     LabelUploadResult.ToolTip = "Can't upload file " + fileName + ", because it already exists.";
+                    return;
+                }
+
+                if (ListBoxFilesUploaded.Items.Count > 4)
+                {
+                    LabelUploadResult.Text = "Only 4 .pdf's are allowed. Discarded: " + fileName + "!";
+                    LabelUploadResult.ToolTip = "You can merge more .pdf's by merging 4 by 4 and then merge the results!";
+                    return;
+                }
+                if (pfile.ContentLength > (1024 * 1024 * 2))
+                {
+                    LabelUploadResult.Text = "Maximum 2.097.152 bytes are allowed for upload. Discarded: " + fileName + "!";
+                    LabelUploadResult.ToolTip = "You can merge bigger .pdf's by using pdfunite under linux / unix!";
                     return;
                 }
 

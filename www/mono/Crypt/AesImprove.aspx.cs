@@ -5,7 +5,6 @@ using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Framework.Library.Zfx;
-using Org.BouncyCastle.Tls;
 using System;
 using System.Drawing;
 using System.IO;
@@ -24,7 +23,7 @@ namespace Area23.At.Mono.Crypt
     /// AesImprove former SAES_En_Decrypt En-/De-cryption pipeline page 
     /// Feature to encrypt and decrypt simple plain text or files
     /// </summary>
-    public partial class AesImprove : Util.UIPage
+    public partial class AesImprove : UIPage
     {
 
         /// <summary>

@@ -1,4 +1,6 @@
-﻿using Area23.At.Framework.Library.Cqr;
+﻿/*
+
+using Area23.At.Framework.Library.Cqr;
 using Area23.At.Framework.Library.Static;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
@@ -10,7 +12,6 @@ using System.Linq;
 
 namespace Area23.At.Framework.Library.Cache
 {
-
 
     /// <summary>
     /// RedIstatic static AWS elastic valkey cache singelton connector
@@ -189,3 +190,4 @@ namespace Area23.At.Framework.Library.Cache
     }
 
 }
+*/

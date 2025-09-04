@@ -163,18 +163,10 @@ namespace Area23.At.Framework.Library.Static
                     {
                         switch (sysDirTry)
                         {
-                            case 0:
-                                if (SepChar == "/" && Path.DirectorySeparatorChar == '/' && SepCh == Path.DirectorySeparatorChar &&
-                                            ConfigurationManager.AppSettings["AppDirPathUnix"] != null &&
-                                            ConfigurationManager.AppSettings["AppDirPathUnix"] != "")
-                                    systemDirPath = (string)ConfigurationManager.AppSettings["AppDirPathUnix"]; break;
-                            case 1:
-                                if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)
-                                    systemDirPath = (string)ConfigurationManager.AppSettings["AppDirPathWin"]; break;
-                            case 2: if (AppContext.BaseDirectory != null) systemDirPath = AppContext.BaseDirectory; break;
-                            case 3: if (AppDomain.CurrentDomain != null) systemDirPath = AppDomain.CurrentDomain.BaseDirectory; break;
-                            case 4: systemDirPath = Path.GetFullPath(System.Reflection.Assembly.GetExecutingAssembly().Location); break;
-                            case 5:
+                            case 0: if (AppContext.BaseDirectory != null) systemDirPath = AppContext.BaseDirectory; break;
+                            case 1: if (AppDomain.CurrentDomain != null) systemDirPath = AppDomain.CurrentDomain.BaseDirectory; break;
+                            case 2: systemDirPath = Path.GetFullPath(System.Reflection.Assembly.GetExecutingAssembly().Location); break;
+                            case 3:
                             default: systemDirPath = Path.GetFullPath(Assembly.GetExecutingAssembly().Location); break;
                         }
 

@@ -37,7 +37,7 @@ namespace Area23.At.Mono.Crypt
             if (shortenMap == null)
             {
                 shortenMap = (Application[Constants.APP_NAME] != null) ? (Dictionary<string, Uri>)Application[Constants.APP_NAME] : 
-                    Util.JsonHelper.ShortenMapJson;
+                    JsonHelper.ShortenMapJson;
             }
         }
 
@@ -337,7 +337,7 @@ namespace Area23.At.Mono.Crypt
             if (longUri != null)
             {
                 if (shortenMap == null || shortenMap.Count == 0)
-                    shortenMap = (Dictionary<string, Uri>)(Application[Constants.APP_NAME] ?? Util.JsonHelper.ShortenMapJson);
+                    shortenMap = (Dictionary<string, Uri>)(Application[Constants.APP_NAME] ?? JsonHelper.ShortenMapJson);
 
                 // if already uri exists in Dictionary => return hash
                 if (shortenMap.ContainsValue(longUri))
@@ -358,7 +358,7 @@ namespace Area23.At.Mono.Crypt
                 }
 
                 shortenMap.Add(shortHash, longUri);
-                Mono.Util.JsonHelper.ShortenMapJson = shortenMap;
+                JsonHelper.ShortenMapJson = shortenMap;
             }
 
             return shortHash;

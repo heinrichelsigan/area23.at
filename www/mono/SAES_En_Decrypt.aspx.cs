@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using System;
 
 namespace Area23.At.Mono
@@ -7,7 +8,7 @@ namespace Area23.At.Mono
     /// SAES_En_Decrypt En-/De-cryption pipeline page 
     /// Feature to encrypt and decrypt simple plain text or files
     /// </summary>
-    public partial class SAES_En_Decrypt : Util.UIPage
+    public partial class SAES_En_Decrypt : UIPage
     {
 
         /// <summary>

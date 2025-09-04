@@ -105,13 +105,13 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.RadioButtonList RadioButtonList_Hash;
 
         /// <summary>
-        /// DivAesImprove control.
+        /// DivCryptImprove control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivAesImprove;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivCryptImprove;
 
         /// <summary>
         /// DropDownList_Zip control.

@@ -69,24 +69,6 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerCenter;
 
         /// <summary>
-        /// aImgCrypt control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aImgCrypt;
-
-        /// <summary>
-        /// headerRightCenter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRightCenter;
-
-        /// <summary>
         /// aHashKey control.
         /// </summary>
         /// <remarks>
@@ -96,13 +78,13 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.HtmlControls.HtmlAnchor aHashKey;
 
         /// <summary>
-        /// headerRight control.
+        /// headerRightCenter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRight;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRightCenter;
 
         /// <summary>
         /// aUrlZenMatrix control.

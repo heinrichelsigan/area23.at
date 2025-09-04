@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library.Cqr;
+﻿using Area23.At.Framework.Library.Cache;
+using Area23.At.Framework.Library.Cqr;
 using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
@@ -19,7 +20,7 @@ namespace Area23.At.Mono.Crypt
     /// Former hash inside crypted bytestream is removed
     /// Feature to encrypt and decrypt simple plain text or files
     /// </summary>
-    public partial class ZenMatrixVisualize : Util.UIPage
+    public partial class ZenMatrixVisualize : UIPage
     {        
 
         /// <summary>
@@ -29,15 +30,15 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void Page_Load(object sender, EventArgs e)
         {
+
             if (!Page.IsPostBack)
             {
                 try
                 {
-                    if ((Session[Constants.AES_ENVIROMENT_KEY] != null) && !string.IsNullOrEmpty((string)Session[Constants.AES_ENVIROMENT_KEY]) &&
-                            (((string)Session[Constants.AES_ENVIROMENT_KEY]).Length > 0))
-                    {
-                        Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
-                    }                    
+                    string aesKey = MemoryCache.CacheDict.ContainsKey(Constants.AES_ENVIROMENT_KEY) ?
+                        MemoryCache.CacheDict.GetValue<string>(Constants.AES_ENVIROMENT_KEY) : TextBox_Key.Text;
+                    if (!string.IsNullOrEmpty(aesKey) && aesKey.Length > 0)
+                        Reset_TextBox_IV(aesKey);
                 }
                 catch (Exception ex)
                 {
@@ -66,8 +67,8 @@ namespace Area23.At.Mono.Crypt
 
             ClearMatrix();
 
-            if (Session[Constants.AES_ENVIROMENT_KEY] != null)
-                Session.Remove(Constants.AES_ENVIROMENT_KEY);            
+            if (MemoryCache.CacheDict.ContainsKey(Constants.AES_ENVIROMENT_KEY))
+                MemoryCache.CacheDict.RemoveKey(Constants.AES_ENVIROMENT_KEY);
         }
 
         /// <summary>
@@ -249,7 +250,7 @@ namespace Area23.At.Mono.Crypt
                 this.TextBox_Key.Text = userEmailKey;
             else if (string.IsNullOrEmpty(this.TextBox_Key.Text))
                 this.TextBox_Key.Text = DateTime.Now.Ticks.ToString();
-            Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
+            MemoryCache.CacheDict.SetValue<string>(Constants.AES_ENVIROMENT_KEY, TextBox_Key.Text);
 
             KeyHash keyHash = KeyHash.Hex;
             if (!Enum.TryParse<KeyHash>(RadioButtonList_Hash.SelectedValue, out keyHash))

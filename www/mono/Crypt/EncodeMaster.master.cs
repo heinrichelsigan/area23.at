@@ -20,7 +20,6 @@ namespace Area23.At.Mono.Crypt
         {
             this.aCoolCrypt.HRef = LibPaths.EncodeAppPath + "CoolCrypt.aspx";
             this.aAes.HRef = LibPaths.EncodeAppPath + "AesImprove.aspx";
-            this.aImgCrypt.HRef = LibPaths.EncodeAppPath + "ImgPngCrypt.aspx";
             this.aHashKey.HRef = LibPaths.EncodeAppPath + "HashKey.aspx";
             this.aUrlZenMatrix.HRef = LibPaths.EncodeAppPath + "ZenMatrixVisualize.aspx";
         }
@@ -31,7 +30,6 @@ namespace Area23.At.Mono.Crypt
             headerLeftCenter.Attributes["class"] = "headerLeftCenter";
             headerCenter.Attributes["class"] = "headerCenter";
             headerRightCenter.Attributes["class"] = "headerRightCenter";
-            headerRight.Attributes["class"] = "headerRight";
 
             try
             {
@@ -47,21 +45,21 @@ namespace Area23.At.Mono.Crypt
                         headerLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("ImgPngCrypt.aspx"))
+                    if (this.Request.RawUrl.Contains("HashKey.aspx"))
                     {
                         headerCenter.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("HashKey.aspx"))
+                    if (this.Request.RawUrl.Contains("ZenMatrixVisualize.aspx"))
                     {
                         headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains("ZenMatrixVisualize.aspx"))
-                    {
-                        headerRight.Attributes["class"] = "headerRightSelect";
-                        return;
-                    }
+                    //if (this.Request.RawUrl.Contains("ZenMatrixVisualize.aspx"))
+                    //{
+                    //    headerRight.Attributes["class"] = "headerRightSelect";
+                    //    return;
+                    //}
                 }
             }
             catch (Exception ex)

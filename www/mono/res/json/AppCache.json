@@ -1,0 +1,108 @@
+﻿{
+  "$id": "1",
+  "Key_9": {
+    "$id": "2",
+    "CValue": {
+      "CKey": "Key_8",
+      "CValue": "H+hCj13UGTiABGCcEkJWhfOJbxb/TLHV/TXb4GNRlRZbbUl07B2zNrLEiqwW8wwI8V9/MKXRItM2bZEn+DjVLg==",
+      "CThreadId": 15,
+      "CTime": "2025-09-04T05:25:45.3229779+02:00"
+    },
+    "CType": "Area23.At.Framework.Library.Cache.CacheData, Area23.At.Framework.Library, Version=2.25.904.0, Culture=neutral, PublicKeyToken=null"
+  },
+  "Key_8": {
+    "$id": "3",
+    "CValue": null,
+    "CType": null
+  },
+  "Key_14": {
+    "$id": "4",
+    "CValue": null,
+    "CType": null
+  },
+  "Key_11": {
+    "$id": "5",
+    "CValue": {
+      "CKey": "Key_9",
+      "CValue": "6EKPXdQZOIAEYJwSQlaF84lvFv9MsdX9NdvgY1GVFlttSXTsHbM2ssSKrBbzDAjxX38wpdEi0zZtkSf4ONUubg==",
+      "CThreadId": 20,
+      "CTime": "2025-09-04T05:25:45.3229779+02:00"
+    },
+    "CType": "Area23.At.Framework.Library.Cache.CacheData, Area23.At.Framework.Library, Version=2.25.904.0, Culture=neutral, PublicKeyToken=null"
+  },
+  "Key_13": {
+    "$id": "6",
+    "CValue": null,
+    "CType": null
+  },
+  "Key_10": {
+    "$id": "7",
+    "CValue": null,
+    "CType": null
+  },
+  "Key_15": {
+    "$id": "8",
+    "CValue": null,
+    "CType": null
+  },
+  "Key_12": {
+    "$id": "9",
+    "CValue": null,
+    "CType": null
+  },
+  "Key_7": {
+    "$id": "10",
+    "CValue": null,
+    "CType": null
+  },
+  "Key_6": {
+    "$id": "11",
+    "CValue": {
+      "CKey": "Key_5",
+      "CValue": "FeciH+hCj13UGTiABGCcEkJWhfOJbxb/TLHV/TXb4GNRlRZbbUl07B2zNrLEiqwW8wwI8V9/MKXRItM2bZEn+A==",
+      "CThreadId": 12,
+      "CTime": "2025-09-04T05:25:45.3229779+02:00"
+    },
+    "CType": "Area23.At.Framework.Library.Cache.CacheData, Area23.At.Framework.Library, Version=2.25.904.0, Culture=neutral, PublicKeyToken=null"
+  },
+  "Key_5": {
+    "$id": "12",
+    "CValue": {
+      "CKey": "Key_1",
+      "CValue": "R+VzuRXnIh/oQo9d1Bk4gARgnBJCVoXziW8W/0yx1f012+BjUZUWW21JdOwdszayxIqsFvMMCPFffzCl0SLTNg==",
+      "CThreadId": 8,
+      "CTime": "2025-09-04T05:25:45.3229779+02:00"
+    },
+    "CType": "Area23.At.Framework.Library.Cache.CacheData, Area23.At.Framework.Library, Version=2.25.904.0, Culture=neutral, PublicKeyToken=null"
+  },
+  "Key_4": {
+    "$id": "13",
+    "CValue": null,
+    "CType": null
+  },
+  "Key_3": {
+    "$id": "14",
+    "CValue": null,
+    "CType": null
+  },
+  "Key_2": {
+    "$id": "15",
+    "CValue": null,
+    "CType": null
+  },
+  "Key_1": {
+    "$id": "16",
+    "CValue": null,
+    "CType": null
+  },
+  "Key_0": {
+    "$id": "17",
+    "CValue": {
+      "CKey": "Key_15",
+      "CValue": "OIAEYJwSQlaF84lvFv9MsdX9NdvgY1GVFlttSXTsHbM2ssSKrBbzDAjxX38wpdEi0zZtkSf4ONUubklBpPnimQ==",
+      "CThreadId": 11,
+      "CTime": "2025-09-04T05:25:45.3229779+02:00"
+    },
+    "CType": "Area23.At.Framework.Library.Cache.CacheData, Area23.At.Framework.Library, Version=2.25.904.0, Culture=neutral, PublicKeyToken=null"
+  }
+}

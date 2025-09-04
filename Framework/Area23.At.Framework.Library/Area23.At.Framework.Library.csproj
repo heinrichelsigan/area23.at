@@ -52,20 +52,11 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.8\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=9.0.0.8, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Abstractions.9.0.8\lib\net462\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Caching.StackExchangeRedis, Version=9.0.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Caching.StackExchangeRedis.9.0.8\lib\net462\Microsoft.Extensions.Caching.StackExchangeRedis.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=9.0.0.8, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.9.0.8\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=9.0.0.8, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Extensions.Logging.Abstractions.9.0.8\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Options, Version=9.0.0.8, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Options.9.0.8\lib\net462\Microsoft.Extensions.Options.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Primitives, Version=9.0.0.8, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Extensions.Primitives.9.0.8\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
@@ -73,19 +64,10 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NLog.6.0.3\lib\net46\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="Pipelines.Sockets.Unofficial, Version=1.0.0.0, Culture=neutral, PublicKeyToken=42ea0a778e13fbe2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Pipelines.Sockets.Unofficial.2.2.8\lib\net461\Pipelines.Sockets.Unofficial.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="QRCoder, Version=1.6.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
       <HintPath>..\..\packages\QRCoder.1.6.0\lib\net40\QRCoder.dll</HintPath>
-    </Reference>
-    <Reference Include="StackExchange.Redis, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c219ff1ca8c2ce46, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\StackExchange.Redis.2.8.58\lib\net461\StackExchange.Redis.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -100,9 +82,6 @@
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=9.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Diagnostics.DiagnosticSource.9.0.8\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
-    <Reference Include="System.Diagnostics.PerformanceCounter, Version=9.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Diagnostics.PerformanceCounter.9.0.8\lib\net462\System.Diagnostics.PerformanceCounter.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -114,9 +93,6 @@
       <HintPath>..\..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.Pipelines, Version=9.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.Pipelines.9.0.8\lib\net462\System.IO.Pipelines.dll</HintPath>
     </Reference>
     <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
@@ -165,9 +141,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Threading.Channels, Version=9.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Threading.Channels.9.0.8\lib\net462\System.Threading.Channels.dll</HintPath>
-    </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -186,16 +159,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache\AppDomainCache.cs" />
+    <Compile Include="Cache\CacheEntry.cs" />
+    <Compile Include="Cache\SessionStateCache.cs" />
     <Compile Include="Cache\ApplicationStateCache.cs" />
     <Compile Include="Cache\CacheData.cs" />
     <Compile Include="Cache\CacheTestData.cs" />
     <Compile Include="Cache\CacheValue.cs" />
     <Compile Include="Cache\JsonFileCache.cs" />
     <Compile Include="Cache\MemoryCache.cs" />
-    <Compile Include="Cache\MutalExclusion.cs" />
+    <Compile Include="Cache\CacheMutalExclusion.cs" />
     <Compile Include="Cache\PersistInCache.cs" />
-    <Compile Include="Cache\RedisMSCache.cs" />
-    <Compile Include="Cache\RedisValkeyCache.cs" />
     <Compile Include="Cqr\CqrFacade.cs" />
     <Compile Include="Cqr\CqrService.cs" />
     <Compile Include="Cqr\Msg\CFile.cs" />
@@ -219,6 +192,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Static\LogMutalExclusion.cs" />
     <Compile Include="Util\Area23Log.cs" />
     <Compile Include="Cqr\CqrException.cs" />
     <Compile Include="Cqr\CqrSettings.cs" />
@@ -274,6 +248,7 @@
     <Compile Include="Crypt\Cipher\Symmetric\Aes.cs" />
     <Compile Include="Util\GifMetadataAdapter.cs" />
     <Compile Include="Static\JsonHelper.cs" />
+    <Compile Include="Util\MimeSignature.cs" />
     <Compile Include="Util\QRGenericString.cs" />
     <Compile Include="Static\SLog.cs" />
     <Compile Include="Util\UIPage.cs">

@@ -1,8 +1,13 @@
-﻿using Area23.At.Framework.Library.Static;
+﻿using Area23.At.Framework.Library.Cache;
+using Area23.At.Framework.Library.Cqr;
+using Area23.At.Framework.Library.Static;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.IO;
 using System.Reflection;
+using System.ServiceModel.Channels;
+using System.Threading;
 
 namespace Area23.At.Framework.Library.Util
 {
@@ -15,7 +20,7 @@ namespace Area23.At.Framework.Library.Util
 
         #region static fields and properties
 
-        private static readonly object _lock = new object(), _outerLock = new object();
+        private static readonly object _lock = new object(), _outerLock = new object(), _mutexLock = new object();
         private static readonly Lazy<Area23Log> instance = new Lazy<Area23Log>(() => new Area23Log());
 
         private static int checkedToday = DateTime.UtcNow.Date.Day;
@@ -68,7 +73,7 @@ namespace Area23.At.Framework.Library.Util
         /// InitLog init Log configuration
         /// </summary>
         /// <param name="appName">application name</param>
-        protected internal static void InitLog(string appName = "")
+        public static void InitLog(string appName = "")
         {
             if (!string.IsNullOrEmpty(appName))
                 AppName = appName;
@@ -77,6 +82,8 @@ namespace Area23.At.Framework.Library.Util
                 LogFile = LibPaths.GetLogFilePath(AppName);
             else
                 LogFile = LibPaths.LogFileSystemPath;
+
+            CreateLogFile(appName);
         }
 
         public static void SetLogFileByAppName(string appName = "")
@@ -84,15 +91,25 @@ namespace Area23.At.Framework.Library.Util
             LogFile = (!string.IsNullOrEmpty(appName)) ? LibPaths.GetLogFilePath(appName) : LibPaths.LogFileSystemPath;
         }
 
-        /// <summary>
-        /// Log - static logging method
-        /// </summary>
-        /// <param name="msg">message to log</param>
-        /// <param name="appName">application name</param>
-        public static void Log(string msg, string appName = "")
-        {
-            string logMsg = string.Empty, errMsg = string.Empty, allLogMsg = string.Empty;
 
+        private static void BufferErrorMessage(string errMsg)
+        {
+            AppDomain.CurrentDomain.SetData(Constants.LOG_EXCEPTION_STATIC, errMsg);
+            Console.Error.WriteLine(errMsg);
+        }
+
+        private static void BufferLogMsg(string logMsg, string errMsg)
+        {
+            string allLogMsg = "";
+            BufferErrorMessage(errMsg);
+            if (AppDomain.CurrentDomain.GetData(Constants.ALL_KEYS) != null)
+                allLogMsg = (string)AppDomain.CurrentDomain.GetData(Constants.ALL_KEYS);
+            allLogMsg += "\n" + logMsg + "\n" + errMsg;
+            AppDomain.CurrentDomain.SetData(Constants.ALL_KEYS, allLogMsg);            
+        }
+
+        private static void CreateLogFile(string appName = "")
+        {
             lock (_outerLock)
             {
                 if (string.IsNullOrEmpty(LogFile) || !CheckedToday || !File.Exists(LogFile))
@@ -109,54 +126,72 @@ namespace Area23.At.Framework.Library.Util
                             }
                             catch (Exception exLogFiteCreate)
                             {
-                                ; // throw
-                                Console.Error.WriteLine("Exception creating logfile: " + exLogFiteCreate.ToString());
+                                BufferErrorMessage("Exception creating logfile: " + exLogFiteCreate.ToString());
                             }
                         }
                     }
                 }
+            }
+        }
 
-                try
-                {
-                    if ((AppDomain.CurrentDomain.GetData(Constants.ALL_KEYS) != null) &&
-                        ((allLogMsg = AppDomain.CurrentDomain.GetData(Constants.ALL_KEYS).ToString()) != null && allLogMsg != ""))
-                    {
-                        lock (_lock)
-                        {
-                            File.AppendAllText(LogFile, allLogMsg, System.Text.Encoding.UTF8);
-                            allLogMsg = "";
-                            AppDomain.CurrentDomain.SetData(Constants.ALL_KEYS, allLogMsg);
-                        }
-                    }
-                }
-                catch (Exception exLog)
-                {
-                    errMsg = String.Format("{0} \tWriting to file {1} Exception {2} {3} \n{4}\n",
-                        DateTime.Now.Area23DateTimeWithSeconds(), LogFile, exLog.GetType(), exLog.Message, exLog.ToString());
-                    AppDomain.CurrentDomain.SetData(Constants.LOG_EXCEPTION_STATIC, errMsg);
-                    Console.Error.WriteLine(errMsg);
-                }
 
-                logMsg = DateTime.Now.Area23DateTimeWithSeconds() + "\t " + (string.IsNullOrEmpty(msg) ? string.Empty : (msg.EndsWith("\n") ? msg : msg + "\n"));
-                try
+        /// <summary>
+        /// Log - static logging method
+        /// </summary>
+        /// <param name="msg">message to log</param>
+        /// <param name="appName">application name</param>
+        public static void Log(string msg, string appName = "")
+        {
+            int mcnt = 0;
+            string errMsg = "", allLogMsg = "", logMsg = DateTime.Now.Area23DateTimeWithSeconds() + "\t " + 
+                (string.IsNullOrEmpty(msg) ? "" : (msg.EndsWith("\n") ? msg : msg + "\n"));
+
+            Mutex mutex = LogMutalExclusion.TheMutex;
+        
+            while (mutex != null && mutex.WaitOne(256, false))
+            {
+                if (mcnt++ == 0)
+                    BufferLogMsg(msg, "Mutex " + mutex.ToString() + " blocks writing to logfile.");
+                if (mcnt > 4)
+                    throw new CqrException("Mutex " + mutex.ToString() + " blocks writing to logfile.");
+            }
+
+            mutex = LogMutalExclusion.CreateMutalExlusion("LogWrite", false);
+
+            try
+            {
+                CreateLogFile(appName);
+
+
+                if ((AppDomain.CurrentDomain.GetData(Constants.ALL_KEYS) != null) &&
+                    ((allLogMsg = AppDomain.CurrentDomain.GetData(Constants.ALL_KEYS).ToString()) != null && allLogMsg != ""))
                 {
                     lock (_lock)
                     {
+                        allLogMsg += "\n" + logMsg;
+                        File.AppendAllText(LogFile, allLogMsg, System.Text.Encoding.UTF8);
+                        allLogMsg = "";
+                        AppDomain.CurrentDomain.SetData(Constants.ALL_KEYS, allLogMsg);
+                    }
+                }
+                else
+                {
+                    lock (_lock)
+                    {
+                        logMsg = DateTime.Now.Area23DateTimeWithSeconds() + "\t " + (string.IsNullOrEmpty(msg) ? string.Empty : (msg.EndsWith("\n") ? msg : msg + "\n"));
                         File.AppendAllText(LogFile, logMsg, System.Text.Encoding.UTF8);
                     }
                 }
-                catch (Exception exLogWrite)
-                {
-                    errMsg = String.Format("{0} \tWriting to file {1} Exception {2} {3} \n{4}\n",
-                            DateTime.Now.Area23DateTimeWithSeconds(), LogFile, exLogWrite.GetType(), exLogWrite.Message, exLogWrite.ToString());
-                    AppDomain.CurrentDomain.SetData(Constants.LOG_EXCEPTION_STATIC, errMsg);
-                    if (AppDomain.CurrentDomain.GetData(Constants.ALL_KEYS) != null)
-                        allLogMsg = (string)AppDomain.CurrentDomain.GetData(Constants.ALL_KEYS);
-                    allLogMsg += "\n" + logMsg + "\n" + errMsg;
-                    AppDomain.CurrentDomain.SetData(Constants.ALL_KEYS, allLogMsg);
-                    Console.Error.WriteLine(errMsg);
-                }
-
+            }
+            catch (Exception exLog)
+            {
+                errMsg = String.Format("{0} \tException {1}, when writing to file {2} => {3} \n{4}\n",
+                                    DateTime.Now.Area23DateTimeWithSeconds(), exLog.GetType(), LogFile, exLog.Message, exLog.ToString());
+                BufferLogMsg(logMsg, errMsg);
+            }
+            finally
+            {
+                LogMutalExclusion.ReleaseCloseDisposeMutex();
             }
 
         }

@@ -60,9 +60,6 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NLog.6.0.3\lib\net46\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="QRCoder, Version=1.6.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
@@ -171,24 +168,17 @@
     <Compile Include="Controls\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="CqrJD\CqrBaseService.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Content Include="Controls\HashKeyRadioButtonList.ascx" />
     <Content Include="Controls\LetterImageControl.ascx" />
     <Content Include="Controls\TreeViewControl.ascx" />
     <Content Include="Controls\Default.aspx" />
-    <Content Include="CqrJD\CqrService.asmx" />
-    <Content Include="CqrJD\Default.aspx" />
     <Content Include="Crypt\HashKey.aspx" />
     <Content Include="Crypt\Default.aspx" />
     <Content Include="Crypt\ZenMatrixVisualize.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Crypt\CoolCrypt.aspx" />
     <Content Include="Crypt\AesImprove.aspx" />
-    <Content Include="Crypt\ImgPngCrypt.aspx" />
     <Content Include="Crypt\S.aspx" />
-    <Content Include="Crypt\UueMime.aspx" />
     <Content Include="Gamez\Default.aspx" />
     <Content Include="Gamez\froga.aspx" />
     <Content Include="Gamez\TicTacToe.aspx" />
@@ -433,20 +423,6 @@
     <Compile Include="Calc\MatrixVCalc.aspx.designer.cs">
       <DependentUpon>MatrixVCalc.aspx</DependentUpon>
     </Compile>
-    <Compile Include="CqrJD\CqrJdBasePage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="CqrJD\CqrService.asmx.cs">
-      <DependentUpon>CqrService.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CqrJD\Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="CqrJD\Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Crypt\HashKey.aspx.cs">
       <DependentUpon>HashKey.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -482,13 +458,6 @@
     <Compile Include="Crypt\CoolCrypt.aspx.designer.cs">
       <DependentUpon>CoolCrypt.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Crypt\ImgPngCrypt.aspx.cs">
-      <DependentUpon>ImgPngCrypt.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Crypt\ImgPngCrypt.aspx.designer.cs">
-      <DependentUpon>ImgPngCrypt.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Crypt\EncodeMaster.master.cs">
       <DependentUpon>EncodeMaster.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -509,13 +478,6 @@
     </Compile>
     <Compile Include="Crypt\S.aspx.designer.cs">
       <DependentUpon>S.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Crypt\UueMime.aspx.cs">
-      <DependentUpon>UueMime.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Crypt\UueMime.aspx.designer.cs">
-      <DependentUpon>UueMime.aspx</DependentUpon>
     </Compile>
     <Compile Include="Calc\CalcMaster.master.cs">
       <DependentUpon>CalcMaster.master</DependentUpon>
@@ -728,13 +690,7 @@
       <DependentUpon>UnixMaster.master</DependentUpon>
     </Compile>
     <Compile Include="Util\HostLogHelper.cs" />
-    <Compile Include="Util\JsonChatRoom.cs" />
-    <Compile Include="Util\JsonContacts.cs" />
-    <Compile Include="Util\JsonHelper.cs" />
     <Compile Include="Calc\RPNType.cs" />
-    <Compile Include="Util\UIPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Json.aspx.cs">
       <DependentUpon>Json.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

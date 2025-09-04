@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using System;
 using System.Drawing;
 using System.Globalization;
@@ -8,7 +9,7 @@ using System.Web.UI.WebControls;
 namespace Area23.At.Mono.Calc 
 {
 
-    public partial class MatrixVCalc : Util.UIPage
+    public partial class MatrixVCalc : UIPage
     {
                 
         protected void Page_Load(object sender, EventArgs e)

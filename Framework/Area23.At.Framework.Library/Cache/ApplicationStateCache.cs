@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library.Static;
+﻿using Area23.At.Framework.Library.Cqr;
+using Area23.At.Framework.Library.Static;
 using System;
 using System.Collections.Concurrent;
 using System.Web;
@@ -33,22 +34,25 @@ namespace Area23.At.Framework.Library.Cache
         public override ConcurrentDictionary<string, CacheValue> LoadDictionaryCache(bool repeatLoadingPeriodically = false)
         {
 
-            _timePassedSinceLastRW = DateTime.Now.Subtract(_lastCacheRW);
-
-            if (HttpContext.Current != null && HttpContext.Current.Application != null &&
-                HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT] != null)
+            lock (_outerlock)
             {
-                lock (_smartLock)
+                _timePassedSinceLastRW = DateTime.Now.Subtract(_lastCacheRW);
+
+                if (HttpContext.Current != null && HttpContext.Current.Application != null &&
+                    HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT] != null)
                 {
-                    try
+                    lock (_smartLock)
                     {
-                        _appDict = (ConcurrentDictionary<string, CacheValue>)HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT];
-                        _lastCacheRW = DateTime.Now;
-                    }
-                    catch (Exception ex)
-                    {
-                        Area23.At.Framework.Library.Util.Area23Log.LogOriginMsgEx("ApplicationStateCache",
-                            "LoadDictionaryCache(repeatLoadingPeriodically=" + repeatLoadingPeriodically + ") throwed Exception " + ex.GetType(), ex);
+                        try
+                        {
+                            _appDict = (ConcurrentDictionary<string, CacheValue>)HttpContext.Current.Application[Constants.APP_CONCURRENT_DICT];
+                            _lastCacheRW = DateTime.Now;
+                        }
+                        catch (Exception ex)
+                        {
+                            CqrException.SetLastException(
+                                new CqrException($"ApplicationStateCache LoadDictionaryCache(repeatLoadingPeriodically={repeatLoadingPeriodically} throwed {ex.GetType()}!", ex));
+                        }
                     }
                 }
             }
@@ -93,6 +97,8 @@ namespace Area23.At.Framework.Library.Cache
         public ApplicationStateCache(PersistType cacheType)
         {
             _persistType = (cacheType == PersistType.ApplicationState) ? cacheType : PersistType.ApplicationState;
+            _allKeys = GetAllKeys();
+            LoadDictionaryCache(false);
         }
 
     }

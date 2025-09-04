@@ -58,9 +58,9 @@ namespace Area23.At.Framework.Library.Cache
 
                 try
                 {
-                    if (_appDict == null || _appDict.Count == 0 || (repeatLoadingPeriodically && _timePassedSinceLastRW.TotalSeconds > CACHE_READ_UPDATE_INTERVAL))
+                    if (_appDict == null || _appDict.Count == 0 || (repeatLoadingPeriodically && _timePassedSinceLastRW.TotalMilliseconds > CACHE_READ_UPDATE_INTERVAL))
                     {
-                        var mutex = StaticMutalExclusion.TheMutalExclusion;
+                        Mutex mutex = CacheMutalExclusion.TheMutalExclusion;
                         if (mutex != null && mutex.WaitOne(1024, false))
                         {
                             throw new SynchronizationLockException("Mutex " + mutex.ToString() + " blocks loading serialized json from " + JsonFullFilePath + ".");
@@ -108,7 +108,7 @@ namespace Area23.At.Framework.Library.Cache
             lock (_outerlock)
             {
                 string jsonDeserializedAppDict = "";
-                var mutex = StaticMutalExclusion.TheMutalExclusion;
+                Mutex mutex = CacheMutalExclusion.TheMutalExclusion;
                 if (cacheDict == null) //  && value.Count > 0
                     return;
 
@@ -119,7 +119,7 @@ namespace Area23.At.Framework.Library.Cache
                         throw new SynchronizationLockException("Mutex " + mutex.ToString() + " blocks writing serialized json to " + JsonFullFilePath + ".");
                     }
 
-                    StaticMutalExclusion.CreateMutalExlusion("CacheWrite", false);
+                    CacheMutalExclusion.CreateMutalExlusion("CacheWrite", false);
 
                     lock (_lock)
                     {
@@ -139,12 +139,12 @@ namespace Area23.At.Framework.Library.Cache
                 }
                 finally
                 {
-                    StaticMutalExclusion.ReleaseCloseDisposeMutex();
+                    CacheMutalExclusion.ReleaseCloseDisposeMutex();
                 }
             }
         }
 
-
+        /*
         /// <summary>
         /// Gets a value from <see cref="ConcurrentDictionary{string, CacheValue}"/> stored <see cref="System.AppDomain.CurrentDomain"/>
         /// </summary>
@@ -197,7 +197,7 @@ namespace Area23.At.Framework.Library.Cache
 
             return tvalue;
         }
-
+        */
 
         public JsonFileCache() : this(PersistType.JsonFile) {  }
 

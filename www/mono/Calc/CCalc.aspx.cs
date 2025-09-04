@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 
 namespace Area23.At.Mono.Calc
 {
-    public partial class CCalc : Util.UIPage
+    public partial class CCalc : UIPage
     {
         Stack<string> rpnStack = new Stack<string>();
         new object _lock = new object();
@@ -94,9 +94,9 @@ namespace Area23.At.Mono.Calc
 
         public DateTime Change_Click_EventDate
         {
-            get => (Session[Constants.CHANGE_CLICK_EVENTCNT] != null) ?
-                (DateTime)Session[Constants.CHANGE_CLICK_EVENTCNT] : DateTime.MinValue;
-            set => Session[Constants.CHANGE_CLICK_EVENTCNT] = value;
+            get => ContainsK(Constants.CHANGE_CLICK_EVENTCNT) ?
+                GetV<DateTime>(Constants.CHANGE_CLICK_EVENTCNT) : DateTime.MinValue;
+            set => SetV<DateTime>(Constants.CHANGE_CLICK_EVENTCNT, value);
         }
         object bChange_Click_lock = new object();
         object bEnter_Click_lock = new object();
@@ -104,9 +104,9 @@ namespace Area23.At.Mono.Calc
         protected void Page_Load(object sender, EventArgs e)
         {
             string jsonSerRpnStack = string.Empty;
-            if (Session[Constants.RPN_STACK] != null)
+            if (ContainsK(Constants.RPN_STACK))
             {
-                rpnStack = (Stack<string>)Session[Constants.RPN_STACK];
+                rpnStack = GetV<Stack<string>>(Constants.RPN_STACK);
             }
             else
             {
@@ -117,7 +117,7 @@ namespace Area23.At.Mono.Calc
                     rpnStack = JsonConvert.DeserializeObject<Stack<string>>(jsonSerRpnStack);
                 }
 
-                Session[Constants.RPN_STACK] = rpnStack;
+                SetV<Stack<string>>(Constants.RPN_STACK, rpnStack);
             }
             if (!Page.IsPostBack)
             {
@@ -211,6 +211,8 @@ namespace Area23.At.Mono.Calc
                     this.CurrentTextBox.ToolTip = "Bracket " + this.CurrentTextBox.Text + " invalid: " + unvalidateReasion;
                 }
             }
+
+            this.CurrentTextBox.Focus();
         }
 
         protected void bRad_Click(object sender, EventArgs e)
@@ -234,6 +236,8 @@ namespace Area23.At.Mono.Calc
                         break;
                 }
             }
+
+            this.CurrentTextBox.Focus();
         }
 
         protected void bArc_Click(object sender, EventArgs e)
@@ -248,6 +252,8 @@ namespace Area23.At.Mono.Calc
                     this.CurrentArc = "";
                     break;
             }
+
+            this.CurrentTextBox.Focus();
         }
 
         protected void bModus_Click(object sender, EventArgs e)
@@ -259,6 +265,8 @@ namespace Area23.At.Mono.Calc
         {
             string mathString = (sender is Button) ? ((Button)sender).Text : "";
             this.CurrentTextBox.Text += mathString.ToString();
+
+            this.CurrentTextBox.Focus();
         }
 
         protected void bPlusMinus_Click(object sender, EventArgs e)
@@ -269,6 +277,8 @@ namespace Area23.At.Mono.Calc
                 if (!string.IsNullOrEmpty(this.CurrentTextBox.Text) || 
                     this.CurrentTextBox.Text != "0" || this.CurrentTextBox.Text != "0,0")
                     this.CurrentTextBox.Text = "-" + this.CurrentTextBox.Text;
+            
+            this.CurrentTextBox.Focus();
         }
 
         protected void bPiE_Click(object sender, EventArgs e)
@@ -280,6 +290,8 @@ namespace Area23.At.Mono.Calc
             RpnStackToTextBox();
             SetMetaContent();
             this.CurrentTextBox.Text = string.Empty;
+
+            this.CurrentTextBox.Focus();
         }
 
 
@@ -292,6 +304,8 @@ namespace Area23.At.Mono.Calc
             RpnStackToTextBox();
             SetMetaContent();
             this.CurrentTextBox.Text = string.Empty;
+
+            this.CurrentTextBox.Focus();
         }
 
 
@@ -347,6 +361,8 @@ namespace Area23.At.Mono.Calc
                     this.CurrentTextBox.ToolTip = "Unary math op " + this.CurrentTextBox.Text + " invalid: " + unvalidateReasion;
                 }
             }
+
+            this.CurrentTextBox.Focus();
         }
 
         protected void bMath2Op_Click(object sender, EventArgs e)
@@ -389,6 +405,7 @@ namespace Area23.At.Mono.Calc
                         RpnStackToTextBox();
                         SetMetaContent();
                         CurrentTextBox.Text = string.Empty;
+                        CurrentTextBox.Focus();
                         return;
                     }
                 }
@@ -401,7 +418,10 @@ namespace Area23.At.Mono.Calc
                     this.CurrentTextBox.BorderColor = Color.Red;
                     this.CurrentTextBox.BorderWidth = 1;
                 }
+                
             }
+
+            CurrentTextBox.Focus();
         }
 
         protected void BClear_Click(object sender, EventArgs e)
@@ -412,6 +432,7 @@ namespace Area23.At.Mono.Calc
             this.CurrentTextBox.Text = "";
             this.TextBox_Top.Text = "";
             this.TextBox_Calc.Text = "";
+            CurrentTextBox.Focus();
         }
 
         protected void Bdel_Click(object sender, EventArgs e)
@@ -435,6 +456,8 @@ namespace Area23.At.Mono.Calc
                     this.TextBox_Calc.Text = string.Empty;
                 }
             }
+
+            CurrentTextBox.Focus();
         }
 
         protected void bChange_Click(object sender, EventArgs e)
@@ -442,7 +465,7 @@ namespace Area23.At.Mono.Calc
             lock (bChange_Click_lock)
             {
                 TimeSpan t0 = DateTime.UtcNow.Subtract(this.Change_Click_EventDate);
-                if (t0.TotalMilliseconds >= 1024 || t0.Seconds >= 2)
+                if (t0.TotalMilliseconds >= 1024 || t0.Seconds >= 1)
                 {
                     string x = t0.Ticks.ToString();
                     if (!string.IsNullOrEmpty(this.CurrentTextBox.Text))
@@ -451,6 +474,7 @@ namespace Area23.At.Mono.Calc
                     }
                 }
             }
+            CurrentTextBox.Focus();
         }
 
         protected void bEnter_Click(object sender, EventArgs e)
@@ -469,6 +493,7 @@ namespace Area23.At.Mono.Calc
                     {                        
                         BEval_Click(sender, e);
                         this.CurrentTextBox.Text = "";
+                        CurrentTextBox.Focus();
                         return;
                     }
                     if (newElem.EndsWith("=") || newElem.LastIndexOf("=") > 0)
@@ -489,6 +514,7 @@ namespace Area23.At.Mono.Calc
                             this.CurrentTextBox.BorderColor = Color.Red;
                             this.CurrentTextBox.BorderStyle = BorderStyle.Dotted;
                             this.CurrentTextBox.ToolTip = "Math op " + this.CurrentTextBox.Text + " invalid: " +ex.Message;
+                            CurrentTextBox.Focus();
                             return;
                         }
 
@@ -514,10 +540,14 @@ namespace Area23.At.Mono.Calc
                         {
                             BEval_Click(sender, e);
                             this.CurrentTextBox.Text = "";
+                            CurrentTextBox.Focus();
                             return; 
                         }
+
                     }                    
                 }
+
+                CurrentTextBox.Focus();
             }
         }
 
@@ -573,6 +603,8 @@ namespace Area23.At.Mono.Calc
                     }
                 }
             }
+
+            CurrentTextBox.Focus();
         }
 
 
@@ -760,7 +792,7 @@ namespace Area23.At.Mono.Calc
                 this.TextBox_Calc.ReadOnly = false;
                 this.TextBox_Calc.Text = rpnText;
             }
-            Session["rpnStack"] = rpnStack;
+            SetV<Stack<string>>(Constants.RPN_STACK, rpnStack);
             this.TextBox_Calc.ReadOnly = true;
             this.CurrentTextBox.Focus();
         }

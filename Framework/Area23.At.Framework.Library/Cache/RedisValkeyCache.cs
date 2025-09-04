@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library.Static;
+﻿/*
+using Area23.At.Framework.Library.Static;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
@@ -284,3 +285,5 @@ namespace Area23.At.Framework.Library.Cache
     }
 
 }
+
+*/

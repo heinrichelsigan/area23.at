@@ -2,10 +2,17 @@
 <!DOCTYPE html>
 <html>
 <head runat="server">    
+    <meta charset="utf-8" />
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <meta name="author" content="Heinrich Elsigan" />  
+    <meta name="author" content="Heinrich Elsigan, he@area23.at" />       
+    <meta name='url' content='http://area23.at/net' />
+    <meta name='original-source' content='https://github.com/heinrichelsigan/area23.at/' />
+    <meta name="language" content="en-us" />
     <asp:ContentPlaceHolder ID="HeadContentPlaceHolder" runat="server">            
         <title>Area23.At.Mono</title>    
+        <meta name="keywords" content="Area23.At apache2 mod_mono C# .Net demo" />
+        <meta name="description" content="Area23.At apache2 mod_mono C# .Net demo" />        
+        <meta name='pagename' content='Area23.At apache2 mod_mono C# .Net demo' />
         <link rel="stylesheet" href="res/css/area23.at.mono.css" /> 
         <script src="res/js/area23.js" />
     </asp:ContentPlaceHolder>
