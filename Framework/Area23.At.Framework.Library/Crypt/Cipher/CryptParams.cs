@@ -79,6 +79,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     KeyLen = 32;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesLightEngine();
                     break;
+                case CipherEnum.AesNet: // TODO: Implement interface IBlockCipher in AesNet
+                    KeyLen = 32;
+                    Size = 256;
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
+                    break;
                 case CipherEnum.Aria:
                     Size = 128;
                     KeyLen = 32;
@@ -125,7 +130,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     break;
                 case CipherEnum.Des3:
                     Size = 128;
-                    KeyLen = 16;;
+                    KeyLen = 16;
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEdeEngine();
+                    break;
+                case CipherEnum.Des3Net: // TODO: implement IBlockCipher in Des3Net
+                    Size = 128;
+                    KeyLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEdeEngine();
                     break;
                 case CipherEnum.Dstu7624:

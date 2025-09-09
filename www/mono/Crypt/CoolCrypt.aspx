@@ -103,6 +103,7 @@
                     <asp:DropDownList ID="DropDownList_Cipher" runat="server" ClientIDMode="Static" style="width: 72px; z-index: 120;">
                         <asp:ListItem Enabled="true" Value="Aes" Selected="true">Aes</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="AesLight" Selected="false">AesLight</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="AesNet" Selected="false">AesNet</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Aria" Selected="false">Aria</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="BlowFish" Selected="false">BlowFish</asp:ListItem>  
                         <asp:ListItem Enabled="true" Value="Fish2" Selected="false">Fish2</asp:ListItem>
@@ -114,6 +115,7 @@
                         <asp:ListItem Enabled="true" Value="Cast6" Selected="False">Cast6</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Des" Selected="False">Des</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Des3" Selected="False">Des3</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Des3Net" Selected="False">Des3Net</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Dstu7624" Selected="False">Dstu7624</asp:ListItem> 
                         <asp:ListItem Enabled="true" Value="Gost28147" Selected="False">Gost28147</asp:ListItem> 
                         <asp:ListItem Enabled="true" Value="Idea" Selected="false">Idea</asp:ListItem>                        

@@ -12,7 +12,7 @@
     <form id="HashKeyForm" runat="server" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True" style="background-color: transparent;">
         <div style="background-color: transparent; padding-left: 40px; margin-left: 2px;">
             <div class="odDiv">
-                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">secret&nbsp;key:</span>
+                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">&nbsp;private&nbsp;key:</span>
                 <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">
                     <asp:ImageButton ID="ImageButton_Key" runat="server" ClientIDMode="Static"
                     OnClick="Button_Key_Click" ImageUrl="../res/img/crypt/a_right_key.png" AlternateText="save your user key in session" />
@@ -29,10 +29,10 @@
                 </span>
             </div>
             <div class="odDiv">
-                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">secret key hash:</span>
-                <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">
-                    &nbsp;
-                </span>
+                <span class="leftSpan" style="width: 72px">key&nbsp;hash/iv:&nbsp;</span>
+                <span class="centerSpan" style="width: 72px"><asp:ImageButton ID="ImageButton_Hash" runat="server"  
+                    OnClick="Button_Hash_Click" ClientIDMode="Static" ImageUrl="../res/img/crypt/a_hash.png" 
+                    AlternateText="Generate new hash from key" /></span>   
                 <span class="centerSpan" style="max-width: 600px;">                
                     <asp:TextBox ID="TextBox_BCrypt_Key" runat="server" ClientIDMode="Static" Text=""                        
                         ToolTip="hashed key" MaxLength="192" Width="532px" style="width: 532px;" />

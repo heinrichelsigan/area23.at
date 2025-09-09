@@ -37,7 +37,7 @@
 │   ├── <a href="Calc/CCalc.aspx" tatget="top">ccalc</a>
 │   ├── <a href="Calc/RpnCalc.aspx" tatget="top">rpn calc</a>
 │   ├── <a href="Calc/MatrixVCalc.aspx" tatget="top">matrix x vector</a>
-│   └── <a href="Calc/MatrixMCalc.aspx" tatget="top">atrix x matrix</a>
+│   └── <a href="Calc/MatrixMCalc.aspx" tatget="top">matrix x matrix</a>
 │ 
 └── <span class="defaultpage">gamez</span> 
     ├── <a href="Gamez/froga.aspx" tatget="top">frogA</a> 

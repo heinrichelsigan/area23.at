@@ -58,7 +58,7 @@ namespace Area23.At.Mono.Settings
                 this.preOut.InnerHtml = "<i style=\"color: yellow\">Warning, empty password.</i>.\n";
             }
 
-            Application["KeepSignIn"] = (bool)this.CheckBoxKeepSignIn.Checked;
+            Session["KeepSignIn"] = (bool)this.CheckBoxKeepSignIn.Checked;
 
             bool authenticated = this.AuthHtPasswd(this.TextBoxUserName.Text, this.TextBoxPassword.Text);
             if (!authenticated)

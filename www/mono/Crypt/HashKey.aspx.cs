@@ -28,8 +28,9 @@ namespace Area23.At.Mono.Crypt
             if (!Page.IsPostBack)
             {
                 this.hashKeyRadioButtonList.ParameterChanged_FireUp += new EventHandler(Button_Hash_Click);
-                string aesKey = MemoryCache.CacheDict.ContainsKey(Constants.AES_ENVIROMENT_KEY) ?
-                   MemoryCache.CacheDict.GetValue<string>(Constants.AES_ENVIROMENT_KEY) : TextBox_Key.Text;
+                string aesKey = (Session[Constants.AES_ENVIROMENT_KEY] != null) ?
+                    (string)Session[Constants.AES_ENVIROMENT_KEY] : TextBox_Key.Text;
+
                 if (!string.IsNullOrEmpty(aesKey) && aesKey.Length > 0)
                     Reset_TextBox_IV(aesKey);
             }            
@@ -65,8 +66,8 @@ namespace Area23.At.Mono.Crypt
             this.TextBox_BCrypt_Key.BorderColor = Color.LightGray;
             this.TextBox_BCrypt_Key.BorderWidth = 1;
 
-            if (MemoryCache.CacheDict.ContainsKey(Constants.AES_ENVIROMENT_KEY))
-                MemoryCache.CacheDict.RemoveKey(Constants.AES_ENVIROMENT_KEY);
+            if (Session[Constants.AES_ENVIROMENT_KEY] != null)
+                Session.Remove(Constants.AES_ENVIROMENT_KEY);
         }
 
 
@@ -110,7 +111,7 @@ namespace Area23.At.Mono.Crypt
                 this.TextBox_Key.Text = userEmailKey;
             else if (string.IsNullOrEmpty(this.TextBox_Key.Text))
                 this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
-            MemoryCache.CacheDict.SetValue<string>(Constants.AES_ENVIROMENT_KEY, TextBox_Key.Text);
+            Session[Constants.AES_ENVIROMENT_KEY] = TextBox_Key.Text;
 
             this.TextBox_BCrypt_Key.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_BCrypt_Key.BorderStyle = BorderStyle.Solid;

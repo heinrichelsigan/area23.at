@@ -30,16 +30,13 @@
     <form id="ZenMatrixVisualizeForm" runat="server" method="post" enableviewstate="True"  style="background-color: transparent;">
         <div style="background-color: transparent; padding-left: 40px; margin-left: 2px;">
             <div class="odDiv">
-                <span class="leftSpan" style="width: 72px">
-                    <asp:Button ID="Button_Key" runat="server" Text="Key " ClientIDMode="Static"
-                        OnClick="Button_Key_Click" ToolTip="save your user key in session" style="max-width: 72px" />
-                </span>
                 <span class="centerSpan" style="width: 72px">&nbsp&nbsp;Secret&nbsp;key:&nbsp;</span>
                 <span class="centerSpan" style="width: 72px"><asp:ImageButton ID="ImageButton_Key" runat="server"  
                     ClientIDMode="Static" ImageUrl="../res/img/crypt/a_right_key.png" 
                     AlternateText="save your user key in session" /></span>
                 <span class="centerSpan" style="max-width: 400px;">                
-                    <asp:TextBox ID="TextBox_Key" runat="server" Text="heinrich.elsigan@gmail.com"                        
+                    <asp:TextBox ID="TextBox_Key" runat="server" Text="heinrich.elsigan@gmail.com"  AutoPostBack="true" 
+                        OnTextChanged="TextBox_Key_TextChanged"                       
                         ToolTip="Enter your personal email address or secret key here" MaxLength="192" Width="480px" style="width: 480px;" />
                 </span>
                 <span class="rightSpan" style="width: 72px">
@@ -52,10 +49,6 @@
 				</span>
             </div>    
             <div class="odDiv">
-                <span class="leftSpan" style="width: 72px">
-                    <asp:Button ID="Button_Hash" runat="server" Text="hash" ClientIDMode="Static"
-                        OnClick="Button_Hash_Click" ToolTip="save your user key in session" style="max-width: 72px" />      
-                </span>
                 <span class="centerSpan" style="width: 72px">Key&nbsp;hash/iv:&nbsp;</span>
                 <span class="centerSpan" style="width: 72px"><asp:ImageButton ID="ImageButton_Hash" runat="server"  
                     OnClick="Button_Hash_Click" ClientIDMode="Static" ImageUrl="../res/img/crypt/a_hash.png" 
@@ -63,9 +56,7 @@
                 <span class="centerSpan" style="max-width: 400px;"><asp:TextBox ID="TextBox_IV" runat="server" 
                     ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="192"  Width="480px"  style="width: 480px;" />
                 </span>
-                <span class="rightSpan" style="width: 72px">
-                    <asp:Button ID="Button_Reset_KeyIV" runat="server" Text="reset" ClientIDMode="Static" 
-                        OnClick="Button_Reset_KeyIV_Click" ToolTip="Reset secret key / iv" style="max-width: 72px" />
+                <span class="rightSpan" style="width: 72px">   
 					<asp:TextBox ID="TextBoxPermutation" runat="server" 
 						ToolTip="ZenMatrix permutation key" ReadOnly="true" Text="" MaxLength="128"  Width="120px"  style="width: 120px;" />
                 </span>

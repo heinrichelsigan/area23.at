@@ -179,6 +179,7 @@
     <Compile Include="Cqr\Msg\IMsgAble.cs" />
     <Compile Include="Cqr\Msg\SerType.cs" />
     <Compile Include="Crypt\Cipher\CipherPipe.cs" />
+    <Compile Include="Crypt\Cipher\Symmetric\Des3Net.cs" />
     <Compile Include="Crypt\Hash\Sha256HMac.cs" />
     <Compile Include="Crypt\Hash\KeyHash.cs" />
     <Compile Include="Crypt\Hash\PasswdCrypt.cs" />
@@ -244,8 +245,7 @@
     <Compile Include="Crypt\Cipher\Symmetric\SymmCipherEnum.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\ZenMatrix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Crypt\Cipher\Symmetric\Des3.cs" />
-    <Compile Include="Crypt\Cipher\Symmetric\Aes.cs" />
+    <Compile Include="Crypt\Cipher\Symmetric\AesNet.cs" />
     <Compile Include="Util\GifMetadataAdapter.cs" />
     <Compile Include="Static\JsonHelper.cs" />
     <Compile Include="Util\MimeSignature.cs" />

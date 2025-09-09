@@ -192,8 +192,8 @@ namespace Area23.At.Framework.Library.Cqr
                         
             CqrService webService = new CqrService();
             string response = webService.ChatRoomPush(cryptSrvMsg);
-
-            CSrvMsg<string> responseMsg = CSrvMsg<string>.FromJsonDecrypt(_key, response);
+            
+            CSrvMsg<string> responseMsg = CSrvMsg<string>.Json2Decrypt(_key, response);
 
             return responseMsg;
         }
@@ -220,7 +220,7 @@ namespace Area23.At.Framework.Library.Cqr
             CqrService webService = new CqrService();
             string response = webService.ChatRoomPush(cryptSrvMsg);
 
-            CSrvMsg<string> responseMsg = CSrvMsg<string>.FromJsonDecrypt(_key, response);
+            CSrvMsg<string> responseMsg = CSrvMsg<string>.Json2Decrypt(_key, response);
             
             return responseMsg;
         }
@@ -331,7 +331,7 @@ namespace Area23.At.Framework.Library.Cqr
             where TC : class
         {
             T t = default(T);
-            TC tc = default(TC);
+            // TC tc = default(TC);
 
             cServerMsg.Hash = _symmPipe.PipeString;
             SymmCipherPipe clientPipe = new SymmCipherPipe(clientKey);
@@ -380,7 +380,7 @@ namespace Area23.At.Framework.Library.Cqr
             string response = await Task.Run(() => webService.ChatRoomPush(cryptSrvMsg));
 
             
-            CSrvMsg<string> responseMsg = CSrvMsg<string>.FromJsonDecrypt(_key, response);
+            CSrvMsg<string> responseMsg = CSrvMsg<string>.Json2Decrypt(_key, response);
 
             return responseMsg;
         }

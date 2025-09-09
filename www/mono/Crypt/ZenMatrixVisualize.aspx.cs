@@ -35,10 +35,17 @@ namespace Area23.At.Mono.Crypt
             {
                 try
                 {
-                    string aesKey = MemoryCache.CacheDict.ContainsKey(Constants.AES_ENVIROMENT_KEY) ?
-                        MemoryCache.CacheDict.GetValue<string>(Constants.AES_ENVIROMENT_KEY) : TextBox_Key.Text;
+                    string aesKey = ((Session[Constants.AES_ENVIROMENT_KEY] != null) && !string.IsNullOrEmpty((string)Session[Constants.AES_ENVIROMENT_KEY])) ?                       
+                        (string)Session[Constants.AES_ENVIROMENT_KEY] : TextBox_Key.Text;
                     if (!string.IsNullOrEmpty(aesKey) && aesKey.Length > 0)
+                    {
                         Reset_TextBox_IV(aesKey);
+
+                        string key = TextBox_Key.Text;
+                        string keyHash = TextBox_IV.Text;
+
+                        DrawZenMatrix(key, keyHash);
+                    };
                 }
                 catch (Exception ex)
                 {
@@ -67,8 +74,8 @@ namespace Area23.At.Mono.Crypt
 
             ClearMatrix();
 
-            if (MemoryCache.CacheDict.ContainsKey(Constants.AES_ENVIROMENT_KEY))
-                MemoryCache.CacheDict.RemoveKey(Constants.AES_ENVIROMENT_KEY);
+            if (Session[Constants.AES_ENVIROMENT_KEY] != null)
+                Session.Remove(Constants.AES_ENVIROMENT_KEY);
         }
 
         /// <summary>
@@ -85,12 +92,11 @@ namespace Area23.At.Mono.Crypt
         /// TextBox_Key_TextChanged - fired on <see cref="TextBox_Key"/> TextChanged event
         /// </summary>
         /// <param name="sender">object sender</param>
-        /// <param name="e">EventArgs e</param>
-        [Obsolete("TextBox_Key_TextChanged is fully deprectated, because no autopostback anymore", true)]
+        /// <param name="e">EventArgs e</param>        
         protected void TextBox_Key_TextChanged(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 0)
-                Reset_TextBox_IV(this.TextBox_Key.Text);
+                Button_Hash_Click(sender, e);
         }
 
         /// <summary>
@@ -124,16 +130,7 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e"></param>
         protected void RadioButtonList_Hash_ParameterChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(this.TextBox_Key.Text) && this.TextBox_Key.Text.Length > 0)
-            {
-                Reset_TextBox_IV(this.TextBox_Key.Text);
-                
-                ClearMatrix();
-                string key = TextBox_Key.Text;
-                string keyHash = TextBox_IV.Text;
-                DrawZenMatrix(key, keyHash);
-
-            }
+            Button_Hash_Click(sender, e);
         }
 
 
@@ -250,7 +247,7 @@ namespace Area23.At.Mono.Crypt
                 this.TextBox_Key.Text = userEmailKey;
             else if (string.IsNullOrEmpty(this.TextBox_Key.Text))
                 this.TextBox_Key.Text = DateTime.Now.Ticks.ToString();
-            MemoryCache.CacheDict.SetValue<string>(Constants.AES_ENVIROMENT_KEY, TextBox_Key.Text);
+            Session[Constants.AES_ENVIROMENT_KEY] = TextBox_Key.Text;
 
             KeyHash keyHash = KeyHash.Hex;
             if (!Enum.TryParse<KeyHash>(RadioButtonList_Hash.SelectedValue, out keyHash))

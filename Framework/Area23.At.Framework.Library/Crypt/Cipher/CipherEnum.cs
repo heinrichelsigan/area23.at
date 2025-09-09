@@ -47,9 +47,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         SM4 = 0x1b,
         AesLight = 0x1c,
         ThreeFish256 = 0x1d,
-        Rsa = 0x1e,
+        AesNet = 0x1e,
 
-        ZenMatrix2 = 0x1f
+        ZenMatrix2 = 0x1f,
+
+        Des3Net = 0x21
+
+        // Rsa = 0x21,
+        // DH = 0x22
     }
 
     /// <summary>
@@ -104,8 +109,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.RC2: return '2';
                 case CipherEnum.RC532: return '5';
                 case CipherEnum.RC564: return 'R';
-                case CipherEnum.RC6: return 'r';
-                case CipherEnum.Rsa: return '%';
+                case CipherEnum.RC6: return 'r';                
 
                 case CipherEnum.Seed: return 's';
                 case CipherEnum.Serpent: return 'S';
@@ -119,6 +123,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
                 case CipherEnum.ZenMatrix: return 'z';
                 case CipherEnum.ZenMatrix2: return 'Z';
+
+                case CipherEnum.AesNet: return 'E';
+                case CipherEnum.Des3Net: return 'e';
+
+                // case CipherEnum.Rsa: return '%';
+                // case CipherEnum.DH: return '!';
 
                 default: break;
             }

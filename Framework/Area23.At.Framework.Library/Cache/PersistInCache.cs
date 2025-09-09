@@ -11,10 +11,10 @@ namespace Area23.At.Framework.Library.Cache
     public enum PersistType
     {
         None = 0,
-        AppDomain = 1,        
-        JsonFile = 2,
-        ApplicationState = 3,
-        SessionState = 4
+        SessionState = 1,
+        ApplicationState = 2,
+        AppDomain = 3,
+        JsonFile = 4
         // RedisValkey = 5,
         // RedisMS = 6
     }

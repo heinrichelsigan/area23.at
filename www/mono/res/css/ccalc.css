@@ -1,5 +1,6 @@
 ﻿/*
     2025-04-04 ccalc.css by heinrich elsigan 
+    2025-09-04 update by he@area23.at
 */
 body {
 }
@@ -68,9 +69,9 @@ div {
     }
 
 table {
-    width: 72%;
+    width: 80%;
     min-width: 360pt;
-    height: 54%;
+    height: 60%;
     min-height: 270pt;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
@@ -81,9 +82,9 @@ table {
 }
 
     table.ccalcTbl {
-        width: 360pt;
+        width: 480pt;
         min-width: 360pt;
-        height: 270pt;
+        height: 320pt;
         min-height: 270pt;
         align-content: center;
         padding: 0 0 0 0;
@@ -95,9 +96,9 @@ table {
     }
 
 tr {
-    width: 72%;
+    width: 80%;
     min-width: 360pt;
-    height: 27pt;
+    height: 32pt;
     min-height: 27pt;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
@@ -111,9 +112,9 @@ tr {
 
     tr.ccalcTr {
         /* width: 72%; */
-        width: 360pt;
+        width: 480pt;
         min-width: 360pt;
-        height: 27pt;
+        height: 32pt;
         min-height: 27pt;
         padding: 0 0 0 0;
         margin: 0 0 0 0;
@@ -127,9 +128,9 @@ tr {
 
 
 td {
-    width: 36pt;
+    width: 48pt;
     min-width: 36pt;
-    height: 27pt;
+    height: 32pt;
     min-height: 27pt;
     text-align: center;
     padding: 0 0 0 0;
@@ -143,9 +144,9 @@ td {
 }
 
     td.ccalcTd {
-        width: 36pt;
+        width: 48pt;
         min-width: 36pt;
-        height: 27pt;
+        height: 32pt;
         min-height: 27pt;
         text-align: center;
         padding: 0 0 0 0;
@@ -160,9 +161,9 @@ td {
 
 
     td.gainsboroTd {
-        width: 36pt;
+        width: 48pt;
         min-width: 36pt;
-        height: 27pt;
+        height: 32pt;
         min-height: 27pt;
         text-align: center;
         padding: 0 0 0 0;
@@ -176,9 +177,9 @@ td {
     }
 
     td.azureTd {
-        width: 36pt;
+        width: 48pt;
         min-width: 36pt;
-        height: 27pt;
+        height: 32pt;
         min-height: 27pt;
         text-align: center;
         padding: 0 0 0 0;
@@ -192,9 +193,9 @@ td {
     }
 
     td.mistyroseTd {
-        width: 36pt;
+        width: 48pt;
         min-width: 36pt;
-        height: 27pt;
+        height: 32pt;
         min-height: 27pt;
         text-align: center;
         padding: 0 0 0 0;
@@ -208,9 +209,9 @@ td {
     }
 
     td.funckeyId {
-        width: 36pt;
+        width: 48pt;
         min-width: 36pt;
-        height: 27pt;
+        height: 32pt;
         min-height: 27pt;
         text-align: center;
         padding: 0 0 0 0;
@@ -224,9 +225,9 @@ td {
     }
 
     td.salmonTd {
-        width: 36pt;
+        width: 48pt;
         min-width: 36pt;
-        height: 27pt;
+        height: 32pt;
         min-height: 27pt;
         text-align: center;
         padding: 0 0 0 0;
@@ -243,6 +244,9 @@ td {
 .CcTextBox, #TextBox_Calc, #textbox0 {
     border-style: inset;
     color: black;
+    font-size: large;
+    height: 32pt;
+    min-height: 27pt;
     font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
 }
     .CcTextBox:hover, #TextBox_Calc:hover, #textbox0:hover {
@@ -253,6 +257,10 @@ td {
 
 .CcTxtResult, #TextBox_Top {
     border-style: inset;
+    font-size: large;
+    height: 32pt;
+    min-height: 27pt;
+
     color: black;
     background-color: ghostwhite;
     margin: 0px 1px 0px 1px;
@@ -272,41 +280,53 @@ td {
 .CcBtn, button.CcBtn {
     border-style: inset;
     color: black;
-    min-width: 24pt;
-    max-width: 36pt;
-    width: 32pt;
+    font-size: medium;    
+    min-width: 32pt;
+    max-width: 48pt;
+    width: 40pt;
+    min-height: 20pt;
+    height: 24pt;
     font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
 }
     .CcBtn:hover, button.CcBtn:hover {
+        font-size: large;
         border-style: outset;
         color: #afbfcf;
-        min-width: 24pt;
-        max-width: 36pt;
-        width: 32pt;
+        min-width: 32pt;
+        max-width: 48pt;
+        width: 40pt;
+        min-height: 20pt;
+        height: 24pt;
         font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
     }
 
 .CcToggle, #Brad, #Barc {
+    font-size: medium;
     border-style: ridge;
     color: black;
-    min-width: 24pt;
-    max-width: 36pt;
-    width: 32pt;
+    min-width: 32pt;
+    max-width: 48pt;
+    width: 40pt;
+    min-height: 20pt;
+    height: 24pt;
     font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
 }
     .CcToggle:hover, button.CcToggle#Brad:hover, #Brad:hover, #Barc:hover {
+        font-size: large;
         border-style: double;
         color: #bfcfdf;
-        min-width: 24pt;
-        max-width: 36pt;
-        width: 32pt;
+        min-width: 32pt;
+        max-width: 48pt;
+        width: 40pt;
+        min-height: 20pt;
+        height: 24pt;
         font-family: 'Lucida Sans Unicode', 'Lucida Console', 'Courier New', 'Global Monospace', Courier, monospace;
     }
 
 img {
-    width: 36pt;
+    width: 48pt;
     min-width: 36pt;
-    height: 27pt;
+    height: 32pt;
     min-height: 27pt;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
@@ -318,9 +338,9 @@ img {
 }
 
     img.rpnImg {
-        width: 36pt;
+        width: 48pt;
         min-width: 36pt;
-        height: 27pt;
+        height: 32pt;
         min-height: 27pt;
         visibility: visible;
         padding: 0 0 0 0;

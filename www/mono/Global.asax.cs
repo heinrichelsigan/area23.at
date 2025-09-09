@@ -202,15 +202,12 @@ namespace Area23.At.Mono
 
             try
             {
-                msg = String.Format("Session_End: session ended at {0} from {1} browser {2}",
-                    DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"),
-                    HttpContext.Current.Request.UserHostAddress,
-                    HttpContext.Current.Request.UserAgent);
+                msg = String.Format("Session_End: session ended at {0}.",
+                    DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
             }
             catch
             {
-                msg = String.Format("Session_End: session ended at {0}.",
-                    DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
+                msg = "Session_End: session ended at.";
             }
 
             Area23Log.LogOriginMsg("Global.asax", msg);

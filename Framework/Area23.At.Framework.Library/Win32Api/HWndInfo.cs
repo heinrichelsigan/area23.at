@@ -183,7 +183,7 @@ namespace Area23.At.Framework.Library.Win32Api
         {
             GCHandle gcChildhandlesList = GCHandle.FromIntPtr(lParam);
 
-            if (gcChildhandlesList != null && gcChildhandlesList.Target != null)
+            if (gcChildhandlesList.Target != null)
             {
                 List<IntPtr> childHandles = gcChildhandlesList.Target as List<IntPtr>;
                 childHandles.Add(hWnd);

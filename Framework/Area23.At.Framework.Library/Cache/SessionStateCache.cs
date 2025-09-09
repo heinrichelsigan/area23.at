@@ -1,9 +1,7 @@
 ﻿using Area23.At.Framework.Library.Static;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Web;
-using System.Windows.Input;
 
 namespace Area23.At.Framework.Library.Cache
 {

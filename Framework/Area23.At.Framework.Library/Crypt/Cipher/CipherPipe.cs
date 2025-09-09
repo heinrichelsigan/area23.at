@@ -6,7 +6,6 @@ using Area23.At.Framework.Library.Zfx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher
 {
@@ -115,7 +114,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             HashSet<string> hashBytes = new HashSet<string>();
             foreach (byte bb in keyBytes)
             {
-                byte cb = (byte)((int)((int)bb % 20));
+                byte cb = (byte)((int)((int)bb % 21));
                 hexString = string.Format("{0:x2}", cb);
                 if (hexString.Length > 0 && !hashBytes.Contains(hexString))
                     hashBytes.Add(hexString);
@@ -182,24 +181,22 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
             switch (cipherAlgo)
             {
+                case CipherEnum.AesNet:
+                    AesNet aesNet = new AesNet(secretKey, hash);
+                    encryptBytes = aesNet.Encrypt(inBytes);
+                    break;
+                case CipherEnum.Des3Net:
+                    Des3Net des3 = new Des3Net(secretKey, hash);
+                    encryptBytes = des3.Encrypt(inBytes);
+                    break;
                 case CipherEnum.RC564:
                     RC564.RC564GenWithKey(secretKey, hash, true);
                     encryptBytes = RC564.Encrypt(inBytes);
                     break;                    
-                case CipherEnum.Rsa:
-                    var keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
-                    string privKey = keyPair.Private.ToString();
-                    encryptBytes = Asymmetric.Rsa.Encrypt(inBytes);
-                    break;
-                //case CipherEnum.Serpent:
-                //    Serpent.SerpentGenWithKey(secretKey, hash, true);
-                //    encryptBytes = Serpent.Encrypt(inBytes);
-                //    break;
-                //case CipherEnum.ZenMatrix:
-                //    encryptBytes = (new ZenMatrix(secretKey, hash, true)).Encrypt(inBytes);
-                //    break;
-                //case CipherEnum.ZenMatrix2:
-                //    encryptBytes = (new ZenMatrix2(secretKey, hash, false)).Encrypt(inBytes);
+                //case CipherEnum.Rsa:
+                //    var keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                //    string privKey = keyPair.Private.ToString();
+                //    encryptBytes = Asymmetric.Rsa.Encrypt(inBytes);
                 //    break;
                 case CipherEnum.Aes:
                 case CipherEnum.AesLight:
@@ -259,22 +256,23 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
             switch (cipherAlgo)
             {
-                //case CipherEnum.Serpent:
-                //    sameKey = Serpent.SerpentGenWithKey(secretKey, hash, true);
-                //    decryptBytes = Serpent.Decrypt(cipherBytes);
-                //    break;
+                case CipherEnum.AesNet:
+                    AesNet aesNet = new AesNet(secretKey, hash);
+                    decryptBytes = aesNet.Decrypt(cipherBytes);
+                    break;
+                case CipherEnum.Des3Net:
+                    Des3Net des3 = new Des3Net(secretKey, hash);
+                    decryptBytes = des3.Decrypt(cipherBytes);
+                    break;
                 case CipherEnum.RC564:
                     RC564.RC564GenWithKey(secretKey, hash, true);
                     decryptBytes = RC564.Decrypt(cipherBytes);
                     break;
-                case CipherEnum.Rsa:
-                    Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
-                    string privKey = keyPair.Private.ToString();
-                    decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes);
-                    break;                
-                //case CipherEnum.ZenMatrix2:
-                //    decryptBytes = (new ZenMatrix2(secretKey, hash, false)).Decrypt(cipherBytes);
-                //    break;
+                //case CipherEnum.Rsa:
+                //    Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                //    string privKey = keyPair.Private.ToString();
+                //    decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes);
+                //    break;                
                 case CipherEnum.Aes:
                 case CipherEnum.AesLight:
                 case CipherEnum.Aria:

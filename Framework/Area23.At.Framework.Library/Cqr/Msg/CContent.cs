@@ -2,9 +2,11 @@
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using Area23.At.Framework.Library.Zfx;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Area23.At.Framework.Library.Cqr.Msg
@@ -254,8 +256,6 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             T t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(jsonText);
             if (t != null)
             {
-                if (t is CContent cc)
-                    cc.CCopy(this, cc);
                 if (t is CContact cct)
                     cct.CCopy(this, cct);
                 if (t is CFile cfile)
@@ -264,6 +264,12 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                     cimg.CCopy(this, cimg);
                 else if (t is CChatRoom cchatr)
                     cchatr.CCopy(this, cchatr);
+                else if (t is CSrvMsg<string> cmsg)
+                    cmsg.CCopy(this, cmsg);
+                else if (t is CSrvMsg<List<string>> clmsg)
+                    clmsg.CCopy(this, clmsg);
+                if (t is CContent cc)
+                    cc.CCopy(this, cc);
             }
 
             return t;
@@ -276,8 +282,6 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             T t = Utils.DeserializeFromXml<T>(xmlText);
             if (t != null)
             {
-                if (t is CContent cc)
-                    cc.CCopy(this, cc);
                 if (t is CContact cct)
                     cct.CCopy(this, cct);
                 else if (t is CFile cfile)
@@ -286,8 +290,12 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                     cimg.CCopy(this, cimg);
                 else if (t is CChatRoom cchatr)
                     cchatr.CCopy(this, cchatr);
-                //else if (t is CSrvMsg<TC> csrvmsg)
-                //                csrvmsg.CCopy(this, csrvmsg);
+                else if (t is CSrvMsg<string> cmsg)
+                    cmsg.CCopy(this, cmsg);
+                else if (t is CSrvMsg<List<string>> clmsg)
+                    clmsg.CCopy(this, clmsg);
+                if (t is CContent cc)
+                    cc.CCopy(this, cc);
             }
 
             return t;
@@ -416,16 +424,21 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 case SerType.Json:
                     if (serString.IsValidJson())
                     {
-                        //if (serString.Contains("ServerMsg") && serString.Contains("ClientMsg") && serString.Contains("ServerMsgString") && serString.Contains("ClientMsgString"))
-                        //{
-                        //    outType = typeof(ClientSrvMsg<CSrvMsg<string>, CSrvMsg<string>>);
-                        //    return (ClientSrvMsg<CSrvMsg<string>, CSrvMsg<string>>)
-                        //        JsonConvert.DeserializeObject<CSrvMsg<CSrvMsg<string>, CSrvMsg<string>>>(serString);
-                        //}
                         if (serString.Contains("Sender") && serString.Contains("Recipients") && serString.Contains("TContent"))
                         {
-                            outType = typeof(CSrvMsg<string>);
-                            return (CSrvMsg<string>)JsonConvert.DeserializeObject<CSrvMsg<string>>(serString);
+                            try
+                            {
+                                outType = typeof(CSrvMsg<List<string>>);
+                                CSrvMsg<List<string>> clmsg = (CSrvMsg<List<string>>)JsonConvert.DeserializeObject<CSrvMsg<List<string>>>(serString);
+                                return clmsg;
+                            }
+                            catch (Exception ex)
+                            {
+                                CqrException.SetLastException(ex);
+                                outType = typeof(CSrvMsg<string>);
+                                CSrvMsg<string> cmsg = (CSrvMsg<string>)JsonConvert.DeserializeObject<CSrvMsg<string>>(serString);
+                                return cmsg;
+                            }
                         }
 
                         if (serString.Contains("FileName") && serString.Contains("Base64Type"))
@@ -453,16 +466,21 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 case SerType.Xml:
                     if (serString.IsValidXml())
                     {
-                        //if (serString.Contains("ServerMsg") && serString.Contains("ClientMsg") && serString.Contains("ServerMsgString") && serString.Contains("ClientMsgString"))
-                        //{
-                        //    outType = typeof(ClientSrvMsg<CSrvMsg<string>, CSrvMsg<string>>);
-                        //    return (ClientSrvMsg<CSrvMsg<string>, CSrvMsg<string>>)
-                        //        Utils.DeserializeFromXml<ClientSrvMsg<CSrvMsg<string>, CSrvMsg<string>>>(serString);                            
-                        //}
                         if (serString.Contains("Sender") && serString.Contains("Recipients") && serString.Contains("TContent"))
                         {
-                            outType = typeof(CSrvMsg<string>);
-                            return (CSrvMsg<string>)Utils.DeserializeFromXml<CSrvMsg<string>>(serString);
+                            try
+                            {
+                                outType = typeof(CSrvMsg<List<string>>);
+                                CSrvMsg<List<string>> clmsg = (CSrvMsg<List<string>>)Utils.DeserializeFromXml<CSrvMsg<List<string>>>(serString);
+                                return clmsg;
+                            }
+                            catch (Exception ex)
+                            {
+                                CqrException.SetLastException(ex);
+                                outType = typeof(CSrvMsg<string>);
+                                CSrvMsg<string> cmsg = (CSrvMsg<string>)Utils.DeserializeFromXml<CSrvMsg<string>>(serString);
+                                return cmsg;
+                            }
                         }
                         if (serString.Contains("FileName") && serString.Contains("Base64Type"))
                         {
@@ -492,23 +510,124 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             return null;
         }
 
+        #region static members DeSeralizeDeCrypt<T> EncryptSerialize<T> Encrypt2Json Json2Decrypt
 
-        public static string Encrypt(string serverKey, ref CContent cContent, EncodingType encType = EncodingType.Base64, ZipType zipType = ZipType.None)
+        public static T DeSeralizeDeCrypt<T>(string serverKey, string serialized = "", EncodingType decoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None)
         {
-            // cContent.SerializedMsg = "";
-            cContent.Md5Hash = "";
-            string pipeString = "";
-            string encryptedMsg = "";
+            if (string.IsNullOrEmpty(serialized))
+                new ArgumentNullException("serialized");
 
+            string pipeString = "";
+            T t = (serialized.IsValidJson() && !serialized.IsValidXml()) ?
+                        Newtonsoft.Json.JsonConvert.DeserializeObject<T>(serialized) :
+                        Utils.DeserializeFromXml<T>(serialized);
+
+            Area23Log.LogOriginMsg("CContent", $"DecryptSerialized<T = {t?.GetType()}>(...) => {JsonConvert.SerializeObject(t)}.");
+
+            if (t != null)
+            {
+                if (t is CSrvMsg<string> cmsg)
+                    if (cmsg.Decrypt(serverKey, decoder, zipType))
+                        return (T)t;
+
+                if (t is CSrvMsg<List<string>> clmsg)
+                    if (clmsg.Decrypt(serverKey, decoder, zipType))
+                        return (T)t;
+
+                if (t is CFile cfile)
+                    if (cfile.Decrypt(serverKey, decoder, zipType))
+                        return (T)t;
+
+                if (t is CContact ctnct)
+                    if (ctnct.Decrypt(serverKey, decoder, zipType))
+                        return (T)t;
+
+                if (t is CChatRoom cchatr)
+                    if (cchatr.Decrypt(serverKey, decoder, zipType))
+                        return (T)t;
+
+                if (t is CImage cimg)
+                    if (cimg.Decrypt(serverKey, decoder, zipType))
+                        return (T)t;
+
+                if (t is CContent cc)
+                {
+                    try
+                    {
+                        string decrypted = SymmCipherPipe.DecrpytToString(cc.Message, serverKey, out pipeString, EncodingType.Base64, ZipType.None);
+
+                        if (!cc.Hash.Equals(pipeString))
+                            throw new CqrException($"cContent.Hash={cc.Hash} doesn't match PipeString={pipeString}");
+
+                        string md5Hash = MD5Sum.HashString(String.Concat(serverKey, EnDeCodeHelper.KeyToHex(serverKey), pipeString, decrypted), "");
+                        if (!md5Hash.Equals(cc.Md5Hash))
+                            throw new CqrException($"cContent.Md5Hash={cc.Md5Hash} doesn't match md5Hash={md5Hash}.");
+
+                        cc.Message = decrypted;
+                        cc.CBytes = new byte[0];
+                    }
+                    catch (Exception exCrypt)
+                    {
+                        CqrException.SetLastException(exCrypt);
+                        throw;
+                    }
+
+                    return (T)t;
+                }
+
+            }
+
+            throw new CqrException($"DecryptSeralized<T>((string severKey, string serialized) failed");
+        }
+
+        public static string EncryptSerialize<T>(string serverKey, ref T t, EncodingType encType = EncodingType.Base64, ZipType zipType = ZipType.None)
+        {
+            if (t != null)
+            {
+                if (t is CSrvMsg<string> cmsg)
+                    return cmsg.EncryptToJson(serverKey, encType, zipType);
+                if (t is CSrvMsg<List<string>> clmsg)
+                    return clmsg.EncryptToJson(serverKey, encType, zipType);
+                if (t is CFile cfile)
+                    return cfile.EncryptToJson(serverKey, encType, zipType);
+                if (t is CContact ctnct)
+                    return ctnct.EncryptToJson(serverKey, encType, zipType);
+                if (t is CImage cimg)
+                    return cimg.EncryptToJson(serverKey, encType, zipType);
+                if (t is CChatRoom cchatr)
+                    return cchatr.EncryptToJson(serverKey, encType, zipType);
+                if (t is CContent cc)
+                    return cc.EncryptToJson(serverKey, encType, zipType);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Encrypt2Json
+        /// </summary>
+        /// <param name="key">server key to encrypt</param>
+        /// <param name="cmsg"><see cref="CContent"/> to encrypt and serialize</param>
+        /// <returns>a serialized <see cref="string" /> of encrypted <see cref="CContent"/></returns>
+        /// <exception cref="CqrException"></exception>
+        public static string Encrypt2Json(string key, CContent cmsg, EncodingType encoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None)
+        {
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException("key");
+
+            if (cmsg == null)
+                throw new ArgumentNullException("cmsg");
+
+            string keyHash = EnDeCodeHelper.KeyToHex(key);
             try
             {
-                pipeString = (new SymmCipherPipe(serverKey)).PipeString;
-                cContent.Hash = pipeString;
-                cContent.Md5Hash = MD5Sum.HashString(String.Concat(serverKey, EnDeCodeHelper.KeyToHex(serverKey), pipeString, cContent.Message), "");
+                string pipeString = (new SymmCipherPipe(key, keyHash)).PipeString;
 
-                encryptedMsg = SymmCipherPipe.EncrpytToString(cContent.Message, serverKey, out pipeString, encType, zipType);
-                cContent.Message = encryptedMsg;
+                string encrypted = SymmCipherPipe.EncrpytToString(cmsg.Message, key, out pipeString, encoder, zipType);
+                cmsg.Hash = pipeString;
+                cmsg.Md5Hash = MD5Sum.HashString(String.Concat(key, keyHash, pipeString, cmsg.Message), "");
 
+                cmsg.Message = encrypted;
             }
             catch (Exception exCrypt)
             {
@@ -516,33 +635,53 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 throw;
             }
 
-            return encryptedMsg;
+            return JsonConvert.SerializeObject(cmsg);
         }
 
-        public static CContent Decrypt(ref CContent cContent, string serverKey, EncodingType encType = EncodingType.Base64)
+        /// <summary>
+        /// Json2Decrypt
+        /// </summary>
+        /// <param name="key">server key to decrypt</param>
+        /// <param name="serialized">serialized string of <see cref="CContent"/></param>
+        /// <returns>deserialized and decrypted <see cref="CContent"/></returns>
+        /// <exception cref="CqrException">thrown, 
+        /// when serialized string to decrypt and deserialize is either null or empty 
+        /// or <see cref="CContent"/> can't be decrypted and deserialized.
+        /// </exception>
+        public static CContent Json2Decrypt(string key, string serialized, EncodingType decoder = EncodingType.Base64, ZipType zipType = ZipType.None)
         {
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException("key");
+
+            if (string.IsNullOrEmpty(serialized))
+                throw new CqrException("static CContent Json2Decrypt(string serverKey, string serialized): serialized is null or empty.");
+
+            CContent cmsg = Newtonsoft.Json.JsonConvert.DeserializeObject<CContent>(serialized);
+
             string pipeString = "";
             try
             {
-                string decrypted = SymmCipherPipe.DecrpytToString(cContent.Message, serverKey, out pipeString, EncodingType.Base64, ZipType.None);
+                string decrypted = SymmCipherPipe.DecrpytToString(cmsg.Message, key, out pipeString, EncodingType.Base64, ZipType.None);
 
-                if (!cContent.Hash.Equals(pipeString))
-                    throw new CqrException($"cContent.Hash={cContent.Hash} doesn't match PipeString={pipeString}");
+                if (!cmsg.Hash.Equals(pipeString))
+                    throw new CqrException($"cContent.Hash={cmsg.Hash} doesn't match PipeString={pipeString}");
 
-                string md5Hash = MD5Sum.HashString(String.Concat(serverKey, EnDeCodeHelper.KeyToHex(serverKey), pipeString, decrypted), "");
-                if (!md5Hash.Equals(cContent.Md5Hash))
-                    throw new CqrException($"cContent.Md5Hash={cContent.Md5Hash} doesn't match md5Hash={md5Hash}.");
+                string md5Hash = MD5Sum.HashString(String.Concat(key, EnDeCodeHelper.KeyToHex(key), pipeString, decrypted), "");
+                if (!md5Hash.Equals(cmsg.Md5Hash))
+                    throw new CqrException($"cContent.Md5Hash={cmsg.Md5Hash} doesn't match md5Hash={md5Hash}.");
 
-                cContent.Message = decrypted;
-                cContent.CBytes = new byte[0];
+                cmsg.Message = decrypted;
+                cmsg.CBytes = new byte[0];
             }
             catch (Exception exCrypt)
             {
                 CqrException.SetLastException(exCrypt);
                 throw;
             }
-            return cContent;
+            return cmsg;
         }
+
+        #endregion static members DeSeralizeDeCrypt<T> EncryptSerialize<T> Encrypt2Json Json2Decrypt
 
 
 
