@@ -1,7 +1,5 @@
 ﻿using Area23.At.Framework.Core.Cqr;
-using Area23.At.Framework.Core.Static;
 using System.Collections.Concurrent;
-using System.Security.AccessControl;
 
 namespace Area23.At.Framework.Core.Cache
 {

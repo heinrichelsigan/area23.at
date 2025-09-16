@@ -1,11 +1,4 @@
-﻿using Area23.At.Framework.Core;
-using Area23.At.Framework.Core.Util;
-using QRCoder;
-using QRCoder.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using QRCoder.Core;
 
 namespace Area23.At.Framework.Core.Util
 {

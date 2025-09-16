@@ -1,5 +1,4 @@
-﻿using Area23.At.Framework.Core.Net.NameService;
-using Area23.At.Framework.Core.Static;
+﻿using Area23.At.Framework.Core.Static;
 using System.Security.Cryptography;
 using System.Text;
 

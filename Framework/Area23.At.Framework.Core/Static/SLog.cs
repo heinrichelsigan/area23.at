@@ -1,5 +1,4 @@
-﻿using Area23.At.Framework.Core.Cqr;
-using Area23.At.Framework.Core.Util;
+﻿using Area23.At.Framework.Core.Util;
 using System.Diagnostics;
 using System.Reflection;
 

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
+﻿using Area23.At.Framework.Core.Util;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Win32;
-using Area23.At.Framework.Core.Util;
 
 namespace Area23.At.Framework.Core.Net.WebHttp
 {

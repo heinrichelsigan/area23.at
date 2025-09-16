@@ -1,11 +1,5 @@
 ﻿using Area23.At.Framework.Core.Util;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace Area23.At.Framework.Core.Win32Api
 {

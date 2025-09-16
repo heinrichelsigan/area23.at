@@ -103,9 +103,9 @@ namespace Area23.At.WinForm.TWinFormCore.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap a_hash4 {
+        internal static System.Drawing.Bitmap a_hash4a {
             get {
-                object obj = ResourceManager.GetObject("a_hash4", resourceCulture);
+                object obj = ResourceManager.GetObject("a_hash4a", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -227,6 +227,26 @@ namespace Area23.At.WinForm.TWinFormCore.Properties {
             get {
                 object obj = ResourceManager.GetObject("file", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon icon_file_warning {
+            get {
+                object obj = ResourceManager.GetObject("icon_file_warning", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon icon_file_working {
+            get {
+                object obj = ResourceManager.GetObject("icon_file_working", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         

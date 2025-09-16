@@ -1,5 +1,4 @@
-﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace Area23.At.Framework.Core.Zfx
 {
@@ -45,6 +44,22 @@ namespace Area23.At.Framework.Core.Zfx
             }
             return ZipType.None;
         }
+
+        public static string GetZipTypeExtension(this ZipType zipType) {   
+        {
+                switch (zipType)
+                {
+                    case ZipType.Zip: return ".zip";
+                    case ZipType.GZip: return ".gz";
+                    case ZipType.BZip2: return ".bz2";
+                    case ZipType.Z7: return ".7z";
+                    case ZipType.None:
+                    default: break;
+                }
+            }
+            return string.Empty;
+        }
+
 
         public static ZipType GetZipTypeFromValue(short zValue)
         {

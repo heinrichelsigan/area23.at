@@ -1,11 +1,7 @@
 ﻿using Area23.At.Framework.Core.Util;
-using NLog;
-using System;
+// using NLog;
 using System.Configuration;
-using System.IO;
-using System.Net.Http;
 using System.Reflection;
-using System.Web;
 
 namespace Area23.At.Framework.Core.Static
 {

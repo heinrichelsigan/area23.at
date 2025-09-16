@@ -1,16 +1,6 @@
-﻿using Area23.At.Framework.Core;
-using Area23.At.Framework.Core.Crypt;
-using Area23.At.Framework.Core.Crypt.Cipher;
-using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Core.Static;
-using Microsoft.IdentityModel.Protocols.WsTrust;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using Area23.At.Framework.Core.Static;
 using System.Security.Cryptography;
 using System.Text;
-using System.Windows.Forms;
 
 namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 {

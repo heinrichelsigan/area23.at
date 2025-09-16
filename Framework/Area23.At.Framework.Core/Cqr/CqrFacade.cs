@@ -1,17 +1,14 @@
 ﻿using Area23.At.Framework.Core.Cqr.Msg;
 // using Area23.At.Framework.Core.Cqr.Srv;
 using Area23.At.Framework.Core.Cqr.Service;
-using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.Cipher;
+using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Crypt.Hash;
 using Area23.At.Framework.Core.Net.IpSocket;
-using Area23.At.Framework.Core.Util;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net;
 using Area23.At.Framework.Core.Static;
+using Area23.At.Framework.Core.Util;
+using System.Net;
 
 
 namespace Area23.At.Framework.Core.Cqr

@@ -60,8 +60,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Cache\ApplicationCacheAllInOne.cs" />
     <Compile Remove="Cache\ApplicationStateCache.cs" />
     <Compile Remove="Cache\CacheHashDict.cs" />
+    <Compile Remove="Cache\RedIs.cs" />
+    <Compile Remove="Cache\RedisMSCache.cs" />
+    <Compile Remove="Cache\RedIstatic.cs" />
+    <Compile Remove="Cache\RedisValkeyCache.cs" />
     <Compile Remove="Cqr\Msg\CType.cs" />
     <Compile Remove="Crypt\Cipher\Crpyt.cs" />
     <Compile Remove="Crypt\EnDeCoding\DeEnCoder.cs" />
@@ -92,24 +97,16 @@
 
   <ItemGroup>
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.1" />
-    <PackageReference Include="MessagePack" Version="3.1.4" />
     <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="9.0.4" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.2" />
-    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="9.0.4" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.3" />
     <PackageReference Include="Microsoft.IdentityModel.Protocols.WsTrust" Version="6.8.0" />
     <PackageReference Include="Microsoft.IdentityModel.Xml" Version="8.8.0" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" />
     <PackageReference Include="Microsoft.Win32.SystemEvents" Version="9.0.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NLog" Version="5.4.0" />
     <PackageReference Include="protobuf-net" Version="3.2.56" />
     <PackageReference Include="QRCoder.Core" Version="1.0.3" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
-    <PackageReference Include="StackExchange.Redis" Version="2.8.31" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
     <PackageReference Include="System.IO" Version="4.3.0" />
@@ -122,7 +119,6 @@
     <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
     <PackageReference Include="System.ServiceModel.Federation" Version="8.1.2" />
     <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
-    <PackageReference Include="System.ServiceModel.NetNamedPipe" Version="8.1.2" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="8.1.2" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
     <PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />

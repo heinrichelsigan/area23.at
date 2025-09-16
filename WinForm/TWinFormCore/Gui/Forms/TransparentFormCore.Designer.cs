@@ -47,6 +47,7 @@
             menuViewMenuUnixItemScp = new ToolStripMenuItem();
             menuViewMenuUnixItemFortnune = new ToolStripMenuItem();
             menuViewMenuUnixItemHexDump = new ToolStripMenuItem();
+            menuItemSerializerText = new ToolStripMenuItem();
             toolStripMenuQuestionMark = new ToolStripMenuItem();
             toolStripMenuItemAbout = new ToolStripMenuItem();
             toolStripMenuItemHelp = new ToolStripMenuItem();
@@ -59,7 +60,6 @@
             splitButtonMenuItemSave = new ToolStripMenuItem();
             toolStripProgressBar = new ToolStripProgressBar();
             toolStripStatusLabel = new ToolStripStatusLabel();
-            menuItemSerializerText = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             statusStrip.SuspendLayout();
             SuspendLayout();
@@ -186,7 +186,7 @@
             menuViewMenuICrypt.Margin = new Padding(1);
             menuViewMenuICrypt.Name = "menuViewMenuICrypt";
             menuViewMenuICrypt.ShortcutKeys = Keys.Alt | Keys.C;
-            menuViewMenuICrypt.Size = new Size(180, 22);
+            menuViewMenuICrypt.Size = new Size(173, 22);
             menuViewMenuICrypt.Text = "Crypt";
             menuViewMenuICrypt.ToolTipText = "Crypt Forms Submenu";
             // 
@@ -230,7 +230,7 @@
             menuViewMenuUnix.Margin = new Padding(1);
             menuViewMenuUnix.Name = "menuViewMenuUnix";
             menuViewMenuUnix.ShortcutKeys = Keys.Alt | Keys.U;
-            menuViewMenuUnix.Size = new Size(180, 22);
+            menuViewMenuUnix.Size = new Size(173, 22);
             menuViewMenuUnix.Text = "Unix";
             menuViewMenuUnix.ToolTipText = "Unix Tools Submenu";
             // 
@@ -296,6 +296,13 @@
             menuViewMenuUnixItemHexDump.Name = "menuViewMenuUnixItemHexDump";
             menuViewMenuUnixItemHexDump.Size = new Size(193, 22);
             menuViewMenuUnixItemHexDump.Text = "HexDump";
+            // 
+            // menuItemSerializerText
+            // 
+            menuItemSerializerText.Name = "menuItemSerializerText";
+            menuItemSerializerText.Size = new Size(173, 22);
+            menuItemSerializerText.Text = "Serializer Test";
+            menuItemSerializerText.Click += menuItemSerializerText_Click;
             // 
             // toolStripMenuQuestionMark
             // 
@@ -415,13 +422,6 @@
             toolStripStatusLabel.Spring = true;
             toolStripStatusLabel.Text = "Status";
             // 
-            // menuItemSerializerText
-            // 
-            menuItemSerializerText.Name = "menuItemSerializerText";
-            menuItemSerializerText.Size = new Size(180, 22);
-            menuItemSerializerText.Text = "Serializer Test";
-            menuItemSerializerText.Click += menuItemSerializerText_Click;
-            // 
             // TransparentFormCore
             // 
             AutoScaleDimensions = new SizeF(96F, 96F);
@@ -432,6 +432,7 @@
             Controls.Add(statusStrip);
             Controls.Add(menuStrip);
             Font = new Font("Lucida Sans Unicode", 10F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip;
             Name = "TransparentFormCore";
             Text = "TransparentFormCore8";

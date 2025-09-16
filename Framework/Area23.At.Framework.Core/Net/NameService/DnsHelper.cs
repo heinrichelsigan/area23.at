@@ -1,5 +1,4 @@
-﻿using Area23.At.Framework.Core.Static;
-using Area23.At.Framework.Core.Util;
+﻿using Area23.At.Framework.Core.Util;
 using System.Net;
 
 namespace Area23.At.Framework.Core.Net.NameService

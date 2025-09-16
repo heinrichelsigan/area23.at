@@ -1,19 +1,11 @@
 ﻿using Area23.At.Framework.Core.Cqr;
 using Area23.At.Framework.Core.Crypt.Cipher;
-using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Net.NameService;
 using Area23.At.Framework.Core.Static;
 using Area23.At.Framework.Core.Util;
-using Org.BouncyCastle.Asn1.Crmf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
-using static System.Net.WebRequestMethods;
 
 namespace Area23.At.Framework.Core.Net.WebHttp
 {

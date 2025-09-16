@@ -1,14 +1,7 @@
 ﻿using Area23.At.Framework.Core.Crypt.Cipher;
-using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Core.Crypt;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
-using Org.BouncyCastle.Asn1.Crmf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Core.Net.WebHttp
 {

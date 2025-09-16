@@ -1,8 +1,5 @@
-﻿using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
-using Area23.At.Framework.Core.Crypt.EnDeCoding;
+﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Static;
-using Org.BouncyCastle.Crypto.Generators;
-using System.Windows.Forms;
 
 namespace Area23.At.Framework.Core.Crypt.Cipher
 {

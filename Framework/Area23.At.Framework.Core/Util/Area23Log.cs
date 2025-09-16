@@ -1,8 +1,5 @@
-﻿using Area23.At.Framework.Core.Cqr;
-using Area23.At.Framework.Core.Static;
-using System;
+﻿using Area23.At.Framework.Core.Static;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
 
 namespace Area23.At.Framework.Core.Util

@@ -1,12 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
 
 namespace Area23.At.Framework.Core.Cache
 {
@@ -109,15 +101,18 @@ namespace Area23.At.Framework.Core.Cache
             {
                 switch (cacheType)
                 {
+                    case PersistType.Memory:
+                        _instance = new Lazy<MemoryCache>(() => new MemoryCache());
+                        break;
                     case PersistType.JsonFile:
                         _instance = new Lazy<MemoryCache>(() => new JsonFileCache());
                         break;
-                    case PersistType.RedisValkey:
-                        _instance = new Lazy<MemoryCache>(() => new RedisValkeyCache());
-                        break;
-                    case PersistType.RedisMS:
-                        _instance = new Lazy<MemoryCache>(() => new RedisMSCache());
-                        break;
+                    //case PersistType.RedisValkey:
+                    //    _instance = new Lazy<MemoryCache>(() => new RedisValkeyCache());
+                    //    break;
+                    //case PersistType.RedisMS:
+                    //    _instance = new Lazy<MemoryCache>(() => new RedisMSCache());
+                    //    break;
                     case PersistType.AppDomain:
                     case PersistType.ApplicationState:
                     default:

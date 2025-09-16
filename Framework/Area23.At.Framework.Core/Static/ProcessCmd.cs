@@ -1,10 +1,5 @@
 ﻿using Area23.At.Framework.Core.Util;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Core.Static
 {
