@@ -24,10 +24,11 @@ using System.Windows.Shapes;
 using System.Xml.Linq;
 using System.Data.SqlTypes;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Framework.Library.Static;
 
 namespace Area23.At.Www.S
 {
-    public abstract class Area23BasePage : System.Web.UI.Page
+    public abstract class Area23BasePage : UIPage
     {
         protected System.Collections.Generic.Queue<string> mqueue = new Queue<string>();
         protected Uri area23URL = new Uri("https://area23.at/");
@@ -37,41 +38,6 @@ namespace Area23.At.Www.S
         protected System.Globalization.CultureInfo locale;
 
 
-        public System.Globalization.CultureInfo Locale
-        {
-            get
-            {
-                if (locale == null)
-                {
-                    try
-                    {
-                        string defaultLang = Request.Headers["Accept-Language"].ToString();
-                        string firstLang = defaultLang.Split(',').FirstOrDefault();
-                        defaultLang = string.IsNullOrEmpty(firstLang) ? "en" : firstLang;
-                        locale = new System.Globalization.CultureInfo(defaultLang);
-                    }
-                    catch (Exception)
-                    {
-                        locale = new System.Globalization.CultureInfo("en");
-                    }
-                }
-                return locale;
-            }
-        }
-
-        public string SepChar { get => System.IO.Path.DirectorySeparatorChar.ToString(); }
-
-        public string LogFile
-        {
-            get
-            {
-                string logAppPath = MapPath(HttpContext.Current.Request.ApplicationPath) + SepChar;
-                if (!logAppPath.Contains("MarriageRisk"))
-                    logAppPath += "MarriageRisk" + SepChar;
-                logAppPath += "log" + SepChar + DateTime.UtcNow.ToString("yyyyMMdd") + "_" + "marriage_risk.log";
-                return logAppPath;
-            }
-        }
 
 
         public String QrImgPath { get; protected set; }
@@ -638,19 +604,11 @@ namespace Area23.At.Www.S
             }
         }
 
-        public virtual void InitURLBase()
-        {
-            area23URL = new Uri("https://area23.at/");
-            darkstarURL = new Uri("https://darkstar.work/");
-            gitURL = new Uri("https://github.com/heinrichelsigan/area23.at/");
-        }
 
-        public virtual void Log(string msg)
+
+        public override void Log(string msg)
         {
-            string preMsg = DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss \t");
-            string appPath = HttpContext.Current.Request.ApplicationPath;
-            string fn = this.LogFile;
-            File.AppendAllText(fn, preMsg + msg + "\r\n");
+            base.Log(msg);
         }
 
     }

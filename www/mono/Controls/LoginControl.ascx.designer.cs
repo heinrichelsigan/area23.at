@@ -7,29 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Area23.At.Www.S
+namespace Area23.At.Mono.Controls
 {
 
 
-    public partial class MarriageRisk
+    public partial class LoginControl
     {
 
         /// <summary>
-        /// form1 control.
+        /// TreeViewNavigation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-
-        /// <summary>
-        /// preOut control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl preOut;
+        protected global::System.Web.UI.WebControls.TreeView TreeViewNavigation;
     }
 }

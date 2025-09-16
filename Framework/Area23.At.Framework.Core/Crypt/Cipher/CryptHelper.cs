@@ -12,71 +12,6 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
     /// </summary>
     public static class CryptHelper
     {
-        const int PASSWD_BYTE_LEN = 64;
-        const int SALT_BYTE_LEN = 16;
-        const int AVG_COST = 4;
-
-
-        /// <summary>
-        /// <see cref="Org.BouncyCastle.Crypto.Generators.BCrypt"/>
-        /// Thanx to the legion of <see href="https://bouncycastle.org/"" />
-        /// </summary>
-        /// <param name="passwd">passwd or key to encrypt</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        public static byte[] BCrypt(string passwd)
-        {
-            if (string.IsNullOrEmpty(passwd))
-                throw new ArgumentNullException("passwd");
-
-            byte[] keyBytes = EnDeCodeHelper.GetBytes(passwd);
-
-            if (keyBytes.Length > PASSWD_BYTE_LEN)
-                throw new ArgumentException($"BCrypt(passwd) => GetBytes(passwd) => {Hex16.ToHex16(keyBytes)} Length {keyBytes.LongLength} > {PASSWD_BYTE_LEN} bytes", "passwd");
-
-            byte[] salt = EnDeCodeHelper.KeyToHexBytesSalt(passwd, SALT_BYTE_LEN);
-
-            byte[] bcrypted = Org.BouncyCastle.Crypto.Generators.BCrypt.Generate(keyBytes, salt, AVG_COST);
-
-            return bcrypted;
-        }
-
-        public static byte[] SCrypt(string passwd)
-        {
-            if (string.IsNullOrEmpty(passwd))
-                throw new ArgumentNullException("passwd");
-
-            byte[] keyBytes = EnDeCodeHelper.GetBytes(passwd);
-
-            if (keyBytes.Length > PASSWD_BYTE_LEN)
-                throw new ArgumentException($"SCrypt(passwd) => GetBytes(passwd) => {Hex16.ToHex16(keyBytes)} Length {keyBytes.LongLength} > {PASSWD_BYTE_LEN} bytes", "passwd");
-
-            byte[] salt = EnDeCodeHelper.KeyToHexBytesSalt(passwd, SALT_BYTE_LEN);
-
-            byte[] scrypted = Org.BouncyCastle.Crypto.Generators.SCrypt.Generate(keyBytes, salt, AVG_COST, SALT_BYTE_LEN, 1, 32);
-
-            return scrypted;
-        }
-
-        public static string BSDCrypt(string passwd)
-        {
-            if (string.IsNullOrEmpty(passwd))
-                throw new ArgumentNullException("passwd");
-
-            char[] passChars = passwd.ToCharArray();
-            byte[] keyBytes = EnDeCodeHelper.GetBytes(passwd);
-
-            if (keyBytes.Length > PASSWD_BYTE_LEN)
-                throw new ArgumentException($"BSDCrypt(passwd) => GetBytes(passwd) => {Hex16.ToHex16(keyBytes)} Length {keyBytes.LongLength} > {PASSWD_BYTE_LEN} bytes", "passwd");
-
-            byte[] salt = EnDeCodeHelper.KeyToHexBytesSalt(passwd, SALT_BYTE_LEN);
-
-            string bcdCrypted = Org.BouncyCastle.Crypto.Generators.OpenBsdBCrypt.Generate(passChars, salt, AVG_COST);
-
-            return bcdCrypted;
-        }
-
 
         #region GetUserKeyBytes
 
@@ -166,6 +101,33 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             }
 
             return outBytes.ToArray();
+        }
+
+        public static byte[] GetKeyBytesSimple(string key, string keyHash, int keyLen = 16)
+        {
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException("key");
+            byte[] keyBytes = EnDeCodeHelper.GetBytes(key);
+            byte[] outBytes = new byte[16];
+            if (keyBytes.Length >= 16)
+            {
+                Array.Copy(keyBytes, 0, outBytes, 0, keyLen);
+                return outBytes;
+            }
+            byte[] smallBytes = keyBytes.TarBytes(EnDeCodeHelper.GetBytes(keyHash));
+            if (smallBytes.Length >= keyLen)
+            {
+                Array.Copy(smallBytes, 0, outBytes, 0, keyLen);
+                return outBytes;
+            }
+            byte[] bigBytes = smallBytes.TarBytes(EnDeCodeHelper.GetBytes(keyHash), keyBytes);
+            if (bigBytes.Length >= keyLen)
+            {
+                Array.Copy(bigBytes, 0, outBytes, 0, keyLen);
+                return outBytes;
+            }
+
+            return GetUserKeyBytes(key, keyHash, keyLen);
         }
 
 

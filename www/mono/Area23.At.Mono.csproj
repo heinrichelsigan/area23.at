@@ -154,6 +154,13 @@
     <Compile Include="Controls\LetterImageControl.ascx.designer.cs">
       <DependentUpon>LetterImageControl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Controls\LoginControl.ascx.cs">
+      <DependentUpon>LoginControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\LoginControl.ascx.designer.cs">
+      <DependentUpon>LoginControl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TreeViewControl.ascx.cs">
       <DependentUpon>TreeViewControl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -170,6 +177,7 @@
     </Compile>
     <Content Include="Controls\HashKeyRadioButtonList.ascx" />
     <Content Include="Controls\LetterImageControl.ascx" />
+    <Content Include="Controls\LoginControl.ascx" />
     <Content Include="Controls\TreeViewControl.ascx" />
     <Content Include="Controls\Default.aspx" />
     <Content Include="Crypt\HashKey.aspx" />

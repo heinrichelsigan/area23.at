@@ -14,7 +14,7 @@ namespace Area23.At.WinForm.TWinFormCore
         internal static List<System.Windows.Forms.Form> tFormsNew = new List<System.Windows.Forms.Form>();
         internal static string progName = string.Empty;
         internal static HashSet<string> tFormUniqueNames = new HashSet<string>();
-        internal static Mutex? mutex;
+        public static Mutex? mutex;
 
         public static string[] TFormNames
         {

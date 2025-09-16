@@ -13,7 +13,7 @@ namespace Area23.At.Framework.Core.Cache
     /// </summary>
     public enum PersistType
     {
-        None = 0,
+        Memory = 0,
         AppDomain = 1,
         RedisValkey = 2,
         JsonFile = 3,

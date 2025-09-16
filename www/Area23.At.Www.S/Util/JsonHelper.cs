@@ -20,13 +20,13 @@ namespace Area23.At.Www.S.Util
 
         internal static Dictionary<string, Uri> ShortenMapJson 
         { 
-            get => Area23.At.Framework.Library.Util.JsonHelper.ShortenMapJson; 
-            set => Area23.At.Framework.Library.Util.JsonHelper.ShortenMapJson = value;
+            get => Area23.At.Framework.Library.Static.JsonHelper.ShortenMapJson; 
+            set => Area23.At.Framework.Library.Static.JsonHelper.ShortenMapJson = value;
         }
         
         internal static void SaveDictionaryToJson(Dictionary<string, Uri> saveDict)
         {
-            Area23.At.Framework.Library.Util.JsonHelper.SaveDictionaryToJson(saveDict);
+            Area23.At.Framework.Library.Static.JsonHelper.SaveDictionaryToJson(saveDict);
         }
 
     }

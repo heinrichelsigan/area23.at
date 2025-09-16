@@ -10,8 +10,11 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 {
 
     /// <summary>
-    /// Simple sbyte reduced to 0x0 .. 0xf symmetric cipher mapping matrix,
-    /// maybe already invented, but created by zen@area23.at (Heinrich Elsigan)
+    /// <see cref="ZenMatrix"/>, a very simple symmetric block cipher
+    /// hex shifting and position swapping reduced to 0x0 .. 0xf mapping matrix
+    /// Implements <see cref="Org.BouncyCastle.Crypto.IBlockCipher">Org.BouncyCastle.Crypto.IBlockCipher</see>
+    ///
+    /// probably already invented, but created by zen@area23.at (Heinrich Elsigan)
     /// </summary>
     public class ZenMatrix : IBlockCipher
     {
@@ -140,16 +143,16 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
         #endregion Properties
 
-
         #region IBlockCipher interface
 
-        public virtual string AlgorithmName => SYMMCIPHERALGONAME;
+        public string AlgorithmName => SYMMCIPHERALGONAME;
 
         public int GetBlockSize() => BLOCK_SIZE;
 
+
         public void Init(bool forEncryption, ICipherParameters parameters)
         {
-            if (!(parameters is KeyParameter) || !(parameters is ParametersWithIV))
+            if (!(parameters is KeyParameter) && !(parameters is ParametersWithIV))
                 throw new ArgumentException("only KeyParameter or ParametersWithIV expected.", "parameters");
 
             if (parameters is KeyParameter)
@@ -158,7 +161,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             }
             if (parameters is ParametersWithIV)
             {
-                byte[] bKey = new  byte[0], bIv = ((ParametersWithIV)parameters).GetIV();
+                byte[] bKey = new byte[0], bIv = ((ParametersWithIV)parameters).GetIV();
                 if (((ParametersWithIV)parameters).Parameters is KeyParameter)
                 {
                     bKey = ((KeyParameter)(((ParametersWithIV)parameters).Parameters)).GetKey();
@@ -169,13 +172,14 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                     throw new ArgumentNullException("parameters", "KeyParameter and/or ParametersWithIV contain a null or empty key or iv.");
 
                 this.privateBytes = bKey.TarBytes(bIv);
-            }              
+            }
 
             this.forEncryption = forEncryption;
 
             ZenMatrixGenWithBytes(privateBytes, false);
             initialised = true;
         }
+
 
         /// <summary>
         /// Processes one BLOCK with BLOCK_SIZE <see cref="BLOCK_SIZE"/>
@@ -191,7 +195,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             if (privateBytes == null)
                 throw new InvalidOperationException($"{SYMMCIPHERALGONAME} engine not initialised");
 
-            int len = BLOCK_SIZE;
+            // int len = BLOCK_SIZE;
             int bCnt = 0;
 
             if (inOff >= inBuf.Length || inOff + BLOCK_SIZE > inBuf.Length)
@@ -223,13 +227,12 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                     processed[(int)sm] = mappedByte;
                 }
 
-                byte[] outBytes = processed;
-                //if (!forEncryption)
-                //{
+                // byte[] outBytes = processed;
+                // if (!forEncryption)
                 //    outBytes = PadBuffer(processed);
-                //}
+                // Array.Copy(outBytes, 0, outBuf, outOff, BLOCK_SIZE);
 
-                Array.Copy(outBytes, 0, outBuf, outOff, BLOCK_SIZE);
+                Array.Copy(processed, 0, outBuf, outOff, BLOCK_SIZE);
 
                 return BLOCK_SIZE;
             }
@@ -259,13 +262,12 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                 processed[(int)sm] = mappedByte;
             }
 
-            byte[] outBytes = processed;
-            //if (!forEncryption)                             // trim padding buffer from decrypted output
-            //{
-            //    outBytes = PadBuffer(processed);
-            //}
+            // byte[] outBytes = processed;
+            // if (!forEncryption)                             // trim padding buffer from decrypted output
+            //     outBytes = PadBuffer(processed);
+            // output = new Span<byte>(outBytes);
 
-            output = new Span<byte>(outBytes);
+            output = new Span<byte>(processed);
 
             return BLOCK_SIZE;
         }
@@ -301,7 +303,6 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
             ZenMatrixGenWithBytes(keyBytes, fullSymmetric);
         }
-
 
 
         /// <summary>
@@ -366,7 +367,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// fullSymmetric means that zen matrix is it's inverse element 
         /// and decrypts back to plain text, when encrypting twice or ²</param>       
         /// <exception cref="ApplicationException"></exception>
-        protected internal void ZenMatrixGenWithBytes(byte[] keyBytes, bool fullSymmetric = false)
+        protected virtual void ZenMatrixGenWithBytes(byte[] keyBytes, bool fullSymmetric = false)
         {
             if ((keyBytes == null || keyBytes.Length < 4))
                 throw new ApplicationException("byte[] keyBytes is null or keyBytes.Length < 4");
@@ -499,6 +500,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             for (int j = 0; j < keyBytes.Length; j++)
                 kbs += keyBytes[j].ToString("x2");
 
+
             initialised = true;
             Area23Log.LogOriginMsg("ZenMatrix", perm + " KeyBytes = " + kbs);
         }
@@ -509,11 +511,13 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         #region ProcessEncryptDecryptBytes
 
         /// <summary>
-        /// ProcessBytes, processes the next block bytes for encryption or decryption
+        /// ProcessBytes processes bytes for encryption or decryption depending on <see cref="forEncryption"/>
+        ///     processes the next len=16 bytes to encrypt, starting at offSet
+        ///     or processes the next len=16 bytes to decrypt, starting at offSet
         /// </summary>
         /// <param name="inBytes">in bytes array to encrypt</param>
-        /// <param name="offSet">starting inBytes offSet</param>
-        /// <param name="len">len of byte block (default <see cref="BLOCK_SIZE"/>)</param>
+        /// <param name="offSet">starting offSet</param>
+        /// <param name="len">len of byte block (default 16)</param>
         /// <returns>byte[len] (default: 16) segment of encrypted bytes</returns>
         protected internal virtual byte[] ProcessBytes(byte[] inBytes, int offSet = 0, int len = 0x10)
         {
@@ -521,13 +525,12 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             if (offSet < inBytes.Length && offSet + len <= inBytes.Length)
             {
                 byte[] processed = new byte[len];
-                for (aCnt = 0, bCnt = offSet; bCnt < (offSet + len); aCnt++, bCnt++)
+                for (aCnt = 0, bCnt = offSet; bCnt < offSet + len; aCnt++, bCnt++)
                 {
                     byte b = inBytes[bCnt];
-                    MapByteValue(ref b, out byte mappedByte, forEncryption); // shift byte 
-                    sbyte position = (forEncryption) ? // swap position 
-                        MatrixPermutationKey[aCnt] : InverseMatrix[aCnt];
-                    processed[(int)position] = mappedByte;
+                    MapByteValue(ref b, out byte mappedByte, forEncryption);
+                    sbyte pos = (forEncryption) ? MatrixPermutationKey[aCnt] : InverseMatrix[aCnt];
+                    processed[(int)pos] = mappedByte;
                 }
 
                 return processed;
@@ -535,6 +538,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
             return new byte[0];
         }
+
 
 
         #endregion ProcessEncryptDecryptBytes
@@ -610,7 +614,6 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
         }
 
-
         /// <summary>
         /// MatrixSymChiffer Encrypt member function
         /// </summary>
@@ -664,6 +667,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             return outBytes;
         }
 
+
         #endregion encrypt decrypt
 
 
@@ -697,11 +701,11 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         /// <param name="outByte"><see cref=byte"/> mapped out byte</param>
         /// <param name="encrypt">true for encryption, false for decryption</param>
         /// <returns>An <see cref="sbyte[]"/> array with 2  0x0 - 0xf segments (most significant & least significant) bit</returns>
-        protected internal sbyte[] MapByteValue(ref byte inByte, out byte outByte, bool encrypt = true)
+        protected internal virtual sbyte[] MapByteValue(ref byte inByte, out byte outByte, bool encrypt = true)
         {
             List<sbyte> outSBytes = new List<sbyte>(2);
-            sbyte lsbIn = (sbyte)((short)inByte % 16);
-            sbyte msbIn = (sbyte)((short)((short)inByte / 16));
+            sbyte lsbIn = (sbyte)((short)inByte % 0x10);
+            sbyte msbIn = (sbyte)((short)((short)inByte / 0x10));
             sbyte lsbOut, msbOut;
             if (encrypt)
             {
@@ -709,7 +713,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                 msbOut = MatrixPermutationKey[(int)msbIn];
                 outSBytes.Add(lsbOut);
                 outSBytes.Add(msbOut);
-                outByte = (byte)((short)(((short)msbOut * 16) + ((short)lsbOut)));
+                outByte = (byte)((short)(((short)msbOut * 0x10) + ((short)lsbOut)));
             }
             else // if decrypt
             {
@@ -717,7 +721,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                 msbOut = _inverseMatrix[(int)msbIn];
                 outSBytes.Add(lsbOut);
                 outSBytes.Add(msbOut);
-                outByte = (byte)((short)(((short)msbOut * 16) + ((short)lsbOut)));
+                outByte = (byte)((short)(((short)msbOut * 0x10) + ((short)lsbOut)));
             }
 
             return outSBytes.ToArray();
@@ -734,9 +738,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             return tt;
         }
 
-
         #endregion static helpers swap byte and SwapT{T} generic
 
     }
-
 }

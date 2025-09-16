@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using Area23.At.WinForm.WinCRoach;
 using System.Reflection;
 using System.Diagnostics;
+using Area23.At.Framework.Library.Static;
 
 namespace Area23.At.WinForm.WinCRoach
 {

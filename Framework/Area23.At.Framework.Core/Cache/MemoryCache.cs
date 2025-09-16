@@ -98,6 +98,11 @@ namespace Area23.At.Framework.Core.Cache
             _persistType = PersistInCache.CacheType;
         }
 
+        public MemoryCache(PersistType cacheType)
+        {
+            _persistType = (cacheType == PersistType.Memory) ? cacheType : PersistType.Memory;
+        }
+
         protected internal static void CreateInstance(PersistType cacheType)
         {
             lock (_lock)

@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using System.Runtime.Serialization.Formatters;
 using System.Security.Policy;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Framework.Library.Static;
 
 namespace Area23.At.Www.S
 {

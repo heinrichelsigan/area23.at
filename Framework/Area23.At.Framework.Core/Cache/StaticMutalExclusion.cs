@@ -13,7 +13,7 @@ namespace Area23.At.Framework.Core.Cache
     /// get <see cref="Mutex"/> by calling <see cref="CreateMutalExlusion(string, bool)"/> 
     /// release <see cref="Mutex"/> by calling <see cref="ReleaseCloseDisposeMutex"/>
     /// </summary>
-    internal static class StaticMutalExclusion
+    public static class StaticMutalExclusion
     {
         private static readonly object _outerLock = new object(), _lock = new object();
 
@@ -22,7 +22,7 @@ namespace Area23.At.Framework.Core.Cache
         /// <summary>
         /// Gets the Mutal Exclusion
         /// </summary>
-        internal static Mutex TheMutalExclusion { get => _theMutalExclusion; }
+        public static Mutex TheMutalExclusion { get => _theMutalExclusion; }
 
         /// <summary>
         /// static ctor
@@ -39,7 +39,7 @@ namespace Area23.At.Framework.Core.Cache
         /// <param name="useExistingMutex">if true, existing and valid <see cref="Mutex"/> will be returned, 
         /// otherwise a new <see cref="Mutex"/> will be created; default <see cref="false"/></param>
         /// <returns><see cref="Mutex"/></returns>
-        internal static Mutex CreateMutalExlusion(string mutexUniqueName = "MutalExclusion", bool useExistingMutex = false)
+        public static Mutex CreateMutalExlusion(string mutexUniqueName = "MutalExclusion", bool useExistingMutex = false)
         {
             if (useExistingMutex && _theMutalExclusion != null && _theMutalExclusion.SafeWaitHandle != null &&
                 !_theMutalExclusion.SafeWaitHandle.IsClosed && !_theMutalExclusion.SafeWaitHandle.IsInvalid)
@@ -54,7 +54,7 @@ namespace Area23.At.Framework.Core.Cache
         /// <summary>
         /// Release Mutax exclusion, that not 2 chat programs could be started at same machine
         /// </summary>
-        internal static void ReleaseCloseDisposeMutex()
+        public static void ReleaseCloseDisposeMutex()
         {
             Exception ex = null;
             Microsoft.Win32.SafeHandles.SafeWaitHandle safeWaitHandle = null;

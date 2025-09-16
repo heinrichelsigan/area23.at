@@ -118,8 +118,26 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="CRoach" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\CRoach.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AddAesArrowHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddAesArrowHover.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MRoach" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MRoach.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="a_right_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\a_right_key.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="key_ring1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\key_ring1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ERoach" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ERoach.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="decrypted" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\decrypted.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="file" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\file.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CRoach1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\CRoach1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -127,19 +145,28 @@
   <data name="DRoach" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\DRoach.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ERoach" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\ERoach.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CRoach" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CRoach.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MRoach" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\MRoach.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WinCRoach" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\WinCRoach.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CRoach0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CRoach0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TransparentFormsIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\TransparentFormsIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CRoach0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\CRoach0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="key_ring" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\key_ring.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="a_hash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\a_hash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddAesArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddAesArrow.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WinCRoach" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WinCRoach.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="encrypted" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\encrypted.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

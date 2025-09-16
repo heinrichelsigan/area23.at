@@ -38,7 +38,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         #region Properties
 
-        protected new internal static readonly int[] MagicOrder = {
+        protected internal static readonly int[] MagicOrder2 = {
             0x13, 0x16, 0x1f, 0x06, 0x14, 0x11, 0x1d, 0x0e,
             0x1c, 0x0f, 0x15, 0x1b, 0x1e, 0x02, 0x17, 0x19,
             0x12, 0x04, 0x07, 0x18, 0x0a, 0x1a, 0x05, 0x0c,
@@ -342,7 +342,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     if (PermutationKeyHash2.Contains(b) || ((int)b) == ba)
                     {
                         if (i < 0x20)
-                            b = ((sbyte)((Convert.ToInt32(keyByte) + MagicOrder[i]) % 0x20));
+                            b = ((sbyte)((Convert.ToInt32(keyByte) + MagicOrder2[i]) % 0x20));
                         if (i >= 0x20)
                             b = ((sbyte)((Convert.ToInt32(keyByte) + i) % 0x20));
                     }

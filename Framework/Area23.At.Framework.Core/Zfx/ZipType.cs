@@ -1,27 +1,63 @@
-﻿using ICSharpCode.SharpZipLib.GZip;
-using System;
-using System.Collections.Generic;
+﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Area23.At.Framework.Core.Zfx
 {
+
     [DefaultValue(None)]
     public enum ZipType
     {
-        None = 0x0,
-        Zip = 0x1,
-        GZip = 0x2,
-        BZip2 = 0x3,
-        Z7 = 0x4
+        None =  0x00,
+        Zip =   0x10,
+        GZip =  0x20,
+        BZip2 = 0x30,
+        Z7 =    0x40
     }
 
 
     public static class ZipTypeExtensions
     {
+
+        public static ZipType[] GetZipTypes()
+        {
+            List<ZipType> list = new List<ZipType>();
+            foreach (string encName in Enum.GetNames(typeof(ZipType)))
+            {
+                list.Add((ZipType)Enum.Parse(typeof(ZipType), encName));
+            }
+
+            return list.ToArray();
+        }
+
+        public static ZipType GetZipType(string zipTypeStr)
+        {
+            if (!string.IsNullOrEmpty(zipTypeStr)) 
+            {
+                switch (zipTypeStr.ToLower().Replace("menu", ""))
+                {
+                    case "zip": return ZipType.Zip;
+                    case "gzip": return ZipType.GZip;
+                    case "bzip2": return ZipType.BZip2;
+                    case "7z": return ZipType.Z7;
+                    case "none":
+                    default: break;
+                }
+            }
+            return ZipType.None;
+        }
+
+        public static ZipType GetZipTypeFromValue(short zValue)
+        {
+            zValue = (short)((zValue % 0x100) - (zValue % 0x10));
+            foreach (ZipType zType in GetZipTypes())
+            {
+                if ((short)zType == zValue)
+                    return zType;
+            }
+            return ZipType.None;
+        }
+
+
         /// <summary>
         /// Generic zip extension method for <see cref="ZipType"/>
         /// </summary>

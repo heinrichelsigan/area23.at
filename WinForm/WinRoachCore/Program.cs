@@ -29,7 +29,7 @@ namespace Area23.At.WinForm.WinRoachCore
             if (roachNum > 3 || !mutex.WaitOne(1200, false))
             {
                 NativeWrapper.Kernel32.AttachConsole(NativeWrapper.Kernel32.ATTACH_PARENT_PROCESS);
-                Area23.At.Framework.Core.Util.Area23Log.Logger.LogOriginMsg(roachName, $"Another instance of {roachName} is already running!");
+                Area23Log.LogOriginMsg(roachName, $"Another instance of {roachName} is already running!");
                 Console.Out.WriteLine($"Another instance of {roachName} is already running!");
                 MessageBox.Show($"Another instance of {roachName} is already running!", $"{roachName} multiple startup", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -38,7 +38,7 @@ namespace Area23.At.WinForm.WinRoachCore
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new RoachBase(roachNum));
+            Application.Run(new WinForm());
 
             ReleaseCloseDisposeMutex();
         }

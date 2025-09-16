@@ -7,6 +7,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.Framework.Library
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.Mono", "www\mono\Area23.At.Mono.csproj", "{740A6674-AD04-410A-87B2-A30223EB1EED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23Console", "Console\Area23Console\Area23Console.csproj", "{B3AE447A-6F0B-4B34-AFE4-8B53ADA28597}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.Framework.Core", "Framework\Area23.At.Framework.Core\Area23.At.Framework.Core.csproj", "{38280A34-7BC7-6CEF-25E0-F918C3499B05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Area23.At.Www.S", "C:\Users\heinrich.elsigan\source\area23.at\www\Area23.At.Www.S\Area23.At.Www.S.csproj", "{8D7B72DC-8C3B-4763-A870-917C9FBE55AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TWinFormCore", "C:\Users\heinrich.elsigan\source\area23.at\WinForm\TWinFormCore\TWinFormCore.csproj", "{52E873B6-CD98-849D-9636-02282662C272}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRoachCore", "C:\Users\heinrich.elsigan\source\area23.at\WinForm\WinRoachCore\WinRoachCore.csproj", "{A3BEC48A-2977-B0B2-94E9-5333660FE3E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinCRoach", "WinForm\WinCRoach\WinCRoach.csproj", "{000BAB51-7546-4B21-8EBE-8E0A5EA230A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +33,30 @@ Global
 		{740A6674-AD04-410A-87B2-A30223EB1EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{740A6674-AD04-410A-87B2-A30223EB1EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{740A6674-AD04-410A-87B2-A30223EB1EED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3AE447A-6F0B-4B34-AFE4-8B53ADA28597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3AE447A-6F0B-4B34-AFE4-8B53ADA28597}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3AE447A-6F0B-4B34-AFE4-8B53ADA28597}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3AE447A-6F0B-4B34-AFE4-8B53ADA28597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38280A34-7BC7-6CEF-25E0-F918C3499B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38280A34-7BC7-6CEF-25E0-F918C3499B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38280A34-7BC7-6CEF-25E0-F918C3499B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38280A34-7BC7-6CEF-25E0-F918C3499B05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D7B72DC-8C3B-4763-A870-917C9FBE55AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D7B72DC-8C3B-4763-A870-917C9FBE55AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D7B72DC-8C3B-4763-A870-917C9FBE55AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D7B72DC-8C3B-4763-A870-917C9FBE55AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52E873B6-CD98-849D-9636-02282662C272}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52E873B6-CD98-849D-9636-02282662C272}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52E873B6-CD98-849D-9636-02282662C272}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52E873B6-CD98-849D-9636-02282662C272}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3BEC48A-2977-B0B2-94E9-5333660FE3E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3BEC48A-2977-B0B2-94E9-5333660FE3E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3BEC48A-2977-B0B2-94E9-5333660FE3E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3BEC48A-2977-B0B2-94E9-5333660FE3E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{000BAB51-7546-4B21-8EBE-8E0A5EA230A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{000BAB51-7546-4B21-8EBE-8E0A5EA230A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{000BAB51-7546-4B21-8EBE-8E0A5EA230A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{000BAB51-7546-4B21-8EBE-8E0A5EA230A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

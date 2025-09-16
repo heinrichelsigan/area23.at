@@ -24,6 +24,8 @@ namespace Area23.At.Framework.Core.Cache
             set => SaveDictionaryToCache(value);
         }
 
+
+
         /// <summary>
         /// get, where to get it (_appDict from cache)
         /// </summary>

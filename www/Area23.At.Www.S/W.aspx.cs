@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library.Util;
+﻿using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -29,13 +30,14 @@ namespace Area23.At.Www.S
                     }                            
                 }
             }
+            Area23Log.LogOriginMsg("Area23.at.Www.S", "W.aspx, Page_Load addr=" + addr);
 
             Bitmap bmp = (Bitmap)MergeImage(addr);
             string phypath = Server.MapPath("~/res/img/");
             string fName = DateTime.Now.Ticks + ".png";
             
             // TODO: change this
-            ImageIp4.ImageUrl = "data:image/png;base64," + bmp.ToBase64(new Guid("{b96b3caf-0728-11d3-9d7b-0000f81ef32e}"));
+            ImageIp4.ImageUrl = "data:image/png;base64," + bmp.ToBase64(); // new Guid("{b96b3caf-0728-11d3-9d7b-0000f81ef32e}")
             // ImageIp4.Width = 768;
             ImageIp4.Height = 200;
         }

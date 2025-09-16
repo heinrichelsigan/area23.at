@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library;
+﻿using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using Area23.At.Www.S.Util;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Area23.At.Www.S
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            Dictionary<string, Uri> shortenMap = JsonHelper.ShortenMapJson;
+            Dictionary<string, Uri> shortenMap = Framework.Library.Static.JsonHelper.ShortenMapJson;
             HostLogHelper.LogRequest(sender, e, "Application_Start loaded shortenMap with " + shortenMap.Count + " entries.");           
         }
 
@@ -52,7 +53,7 @@ namespace Area23.At.Www.S
                     shortenMap = (Dictionary<string, Uri>)(HttpContext.Current.Application[Constants.APP_NAME]);
 
                 if (shortenMap.Count == 0)
-                    shortenMap = JsonHelper.ShortenMapJson;
+                    shortenMap = Framework.Library.Static.JsonHelper.ShortenMapJson;
 
                 if (shortenMap.ContainsKey(hash))
                 {

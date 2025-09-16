@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using Org.BouncyCastle.Pqc.Crypto.Lms;
+using System.ComponentModel;
+using System.Reflection.Emit;
 
 namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 {
@@ -9,15 +11,15 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
     [DefaultValue(EncodingType.Base64)]
     public enum EncodingType
     {
-        Null    = 0x00,
-        None    = 0x01,
-        Base16  = 0x10,
-        Hex16   = 0x11,
-        Base32  = 0x20,
-        Hex32   = 0x21,
-        Uu      = 0x33,
-        Base58  = 0x3a,
-        Base64  = 0x40
+        Null =      0x000,
+        None =      0x100,
+        Base16 =    0x200,
+        Hex16 =     0x300,
+        Base32 =    0x400,
+        Hex32 =     0x500,
+        Uu =        0x600,
+        Base58 =    0x700,
+        Base64 =    0x800
     }
 
     public static class EncodingTypesExtensions
@@ -33,6 +35,17 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
             return list.ToArray();
         }
 
+        public static EncodingType GetEncodingTypeFromValue(short eValue)
+        {
+            eValue = (short)((eValue % 0x1000) - (eValue % 0x100));
+            foreach (EncodingType eType in GetEncodingTypes())
+            {
+                if ((short)eType == eValue)
+                    return eType;
+            }
+            return EncodingType.None;
+        }
+
         public static IDecodable GetEnCoder(this EncodingType type)
         {
             switch (type)
@@ -46,9 +59,21 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
                 case EncodingType.Uu: return ((IDecodable)new Uu());
                 case EncodingType.Base64:
                 default: return ((IDecodable)new Base64());
-            }
-            
+            }            
         }
+
+        public static string EnCode(this EncodingType encodeType, byte[] inBytes)
+        {
+            IDecodable enc = encodeType.GetEnCoder();
+            return enc.Encode(inBytes);
+        }
+
+        public static byte[] DeCode(this EncodingType encodeType, string encodedString)
+        {
+            IDecodable dec = encodeType.GetEnCoder();
+            return dec.Decode(encodedString);
+        }
+
 
         public static EncodingType GetEnum(string enCodingString) 
         {
