@@ -114,7 +114,7 @@ namespace Area23.At.WinForm.WinRoachCore
                         cRoach = new CRoach(numRoach);
                         // cRoach.TopMost = true;
                         cRoach.SetRoachBG(dPt);
-                        cRoach.Show();
+                        cRoach.Show();                        
                     }
                     if (numRoach == 1 && dRoach == null)
                     {

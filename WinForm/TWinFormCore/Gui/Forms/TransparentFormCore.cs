@@ -178,7 +178,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                 MessageBox.Show($"Already {formsCount} instances of {TFormType} currently running!", $"{Program.progName}: maximum reached!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            EnDeCodingForm endecodeForm = new EnDeCodingForm(false, false);
+            EncryptForm endecodeForm = new EncryptForm();
             Program.tFormsNew.Add(endecodeForm);
             endecodeForm.Show();
             endecodeForm.BringToFront();

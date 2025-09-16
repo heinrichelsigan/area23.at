@@ -1,34 +1,18 @@
 ﻿using Area23.At.Framework.Library;
-using Area23.At.Framework.Library.Win32Api;
-using Area23.At.Www.S.Util;
+using Area23.At.Framework.Library.Static;
 using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Drawing.Printing;
 using System.IO;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Threading;
-using System.Web;
-using System.Web.UI;
+using System.Text;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Windows.Media.Imaging;
-using System.Windows;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows.Shapes;
-using System.Xml.Linq;
-using System.Data.SqlTypes;
-using Area23.At.Framework.Library.Util;
-using Area23.At.Framework.Library.Static;
 
 namespace Area23.At.Www.S
 {
-    public abstract class Area23BasePage : UIPage
+    public abstract class Area23BasePage : Area23.At.Framework.Library.Util.UIPage
     {
         protected System.Collections.Generic.Queue<string> mqueue = new Queue<string>();
         protected Uri area23URL = new Uri("https://area23.at/");

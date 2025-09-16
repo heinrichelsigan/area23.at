@@ -497,7 +497,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             byte[] cipherBytes = decoding.GetEnCoder().Decode(cryptedEncodedMsg);
 
             // perform multi crypt pipe stages
-            byte[] decryptedBytes = DecryptFileBytesRoundsGo(cipherBytes, cryptKey, hashIv, unzipAfter, keyHash);
+            byte[] decryptedBytes = DecryptFileBytesRoundsGo(cipherBytes, cryptKey, hashIv, decoding, unzipAfter, keyHash);
 
             // Get string from decrypted bytes
             string decrypted = EnDeCodeHelper.GetString(decryptedBytes);
@@ -521,6 +521,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             byte[] cipherBytes,
             string cryptKey,
             string hashIv,
+            EncodingType decoding = EncodingType.Base64,
             ZipType unzipAfter = ZipType.None,
             KeyHash keyHash = KeyHash.Hex)
         {

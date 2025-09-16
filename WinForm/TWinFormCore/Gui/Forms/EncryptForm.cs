@@ -3,21 +3,10 @@ using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Crypt.Hash;
 using Area23.At.Framework.Core.Util;
 using Area23.At.Framework.Core.Zfx;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Media.TextFormatting;
 
-namespace Area23.At.WinForm.WinRoachCore
+namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
-    public partial class WinForm : Form
+    public partial class EncryptForm : TransparentFormCore
     {
 
         internal bool fileUploaded = false;
@@ -25,9 +14,10 @@ namespace Area23.At.WinForm.WinRoachCore
         internal static HashSet<string> HashFiles = new HashSet<string>();
         internal delegate void SetGroupBoxTextCallback(System.Windows.Forms.GroupBox groupBox, string headerText);
 
-        public WinForm()
+        public EncryptForm()
         {
             InitializeComponent();
+            this.menuStrip.Visible = false;
         }
 
 
@@ -56,6 +46,19 @@ namespace Area23.At.WinForm.WinRoachCore
                     groupBoxFiles.Text = textToSet;
             }
         }
+
+
+        internal void EncryptForm_Load(object sender, EventArgs e)
+        {
+
+            this.comboBoxAlgo.Items.Clear();
+            foreach (var item in Enum.GetValues(typeof(Area23.At.Framework.Core.Crypt.Cipher.CipherEnum)))
+            {
+                // System.Windows.Forms.ListViewItem listViewItem = new System.Windows.Forms.ListViewItem(item.ToString());
+                this.comboBoxAlgo.Items.Add(item.ToString());
+            }
+        }
+
 
 
         private void menuCompression_Click(object sender, EventArgs e) => SetCompression((ToolStripMenuItem)sender);
@@ -158,17 +161,6 @@ namespace Area23.At.WinForm.WinRoachCore
         }
 
 
-        private void WinForm_Load(object sender, EventArgs e)
-        {
-
-            this.comboBoxAlgo.Items.Clear();
-            foreach (var item in Enum.GetValues(typeof(Area23.At.Framework.Core.Crypt.Cipher.CipherEnum)))
-            {
-                // System.Windows.Forms.ListViewItem listViewItem = new System.Windows.Forms.ListViewItem(item.ToString());
-                this.comboBoxAlgo.Items.Add(item.ToString());
-            }
-        }
-
         private void pictureBoxAddAlgo_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(comboBoxAlgo.SelectedText) && Enum.TryParse<CipherEnum>(comboBoxAlgo.SelectedText, out CipherEnum cipherEnum))
@@ -228,7 +220,7 @@ namespace Area23.At.WinForm.WinRoachCore
                                 byte[] outBytes = cPipe.EncrpytFileBytesGoRounds(fileBytes, this.textBoxKey.Text, this.textBoxHash.Text, GetEncoding(), GetZip(), GetHash());
                                 File.WriteAllBytes(file + "." + cPipe.PipeString, outBytes);
                                 pictureBoxOutFile.Visible = true;
-                                pictureBoxOutFile.Image = Area23.At.WinForm.WinRoachCore.Properties.Resource.encrypted;
+                                pictureBoxOutFile.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.encrypted;
                                 labelOutputFile.Text = Path.GetFileName(file + "." + cPipe.PipeString);
                                 string encrypted = GetEncoding().EnCode(outBytes);
                                 this.textBoxOut.Text = encrypted;
@@ -264,7 +256,7 @@ namespace Area23.At.WinForm.WinRoachCore
                                 byte[] outBytes = cPipe.DecryptFileBytesRoundsGo(fileBytes, this.textBoxKey.Text, this.textBoxHash.Text, GetEncoding(), GetZip(), GetHash());
                                 File.WriteAllBytes(file.Replace("." + cPipe.PipeString, ""), outBytes);
                                 pictureBoxOutFile.Visible = true;
-                                pictureBoxOutFile.Image = Area23.At.WinForm.WinRoachCore.Properties.Resource.decrypted;
+                                pictureBoxOutFile.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.decrypted;
                                 labelOutputFile.Text = Path.GetFileName(file.Replace("." + cPipe.PipeString, ""));
 
                                 string decrypted = GetEncoding().EnCode(outBytes);
@@ -307,9 +299,9 @@ namespace Area23.At.WinForm.WinRoachCore
                             this.textBoxOut.Text = string.Empty;
                             fileUploaded = true;
                             if (Path.GetExtension(file).Length > 7)
-                                pictureBoxFileIn.Image = Area23.At.WinForm.WinRoachCore.Properties.Resource.encrypted;
+                                pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.encrypted;
                             else
-                                pictureBoxFileIn.Image = Area23.At.WinForm.WinRoachCore.Properties.Resource.file;
+                                pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.file;
                             this.labelFileIn.Text = Path.GetFileName(file);
                             break;
                         }
@@ -357,9 +349,9 @@ namespace Area23.At.WinForm.WinRoachCore
                         this.textBoxOut.Text = string.Empty;
                         fileUploaded = true;
                         if (Path.GetExtension(file).Length > 7)
-                            pictureBoxFileIn.Image = Area23.At.WinForm.WinRoachCore.Properties.Resource.encrypted;
+                            pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.encrypted;
                         else
-                            pictureBoxFileIn.Image = Area23.At.WinForm.WinRoachCore.Properties.Resource.file;
+                            pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.file;
                         this.labelFileIn.Text = Path.GetFileName(file);
                         fileUploaded = false;
                         // HashFiles = new HashSet<string>();
@@ -406,9 +398,9 @@ namespace Area23.At.WinForm.WinRoachCore
             if (result == DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName) && System.IO.File.Exists(dialog.FileName))
             {
                 if (Path.GetExtension(dialog.FileName).Length > 7)
-                    pictureBoxFileIn.Image = Area23.At.WinForm.WinRoachCore.Properties.Resource.encrypted;
+                    pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.encrypted;
                 else
-                    pictureBoxFileIn.Image = Area23.At.WinForm.WinRoachCore.Properties.Resource.file;
+                    pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.file;
 
                 this.labelFileIn.Text = Path.GetFileName(dialog.FileName);
                 HashFiles = new HashSet<string>();
@@ -474,9 +466,9 @@ namespace Area23.At.WinForm.WinRoachCore
                             this.textBoxOut.Text = string.Empty;
                             fileUploaded = true;
                             if (Path.GetExtension(file).Length > 7)
-                                pictureBoxFileIn.Image = Area23.At.WinForm.WinRoachCore.Properties.Resource.encrypted;
+                                pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.encrypted;
                             else
-                                pictureBoxFileIn.Image = Area23.At.WinForm.WinRoachCore.Properties.Resource.file;
+                                pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.file;
                             this.labelFileIn.Text = Path.GetFileName(file);
                             fileUploaded = false;
                             // HashFiles = new HashSet<string>();

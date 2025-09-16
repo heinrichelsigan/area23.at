@@ -9,7 +9,7 @@ namespace Area23.At.WinForm.WinRoachCore
     {
         internal static string progName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
         internal static Mutex? mutex;
-
+        
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -21,7 +21,8 @@ namespace Area23.At.WinForm.WinRoachCore
             if (args != null && args.Length > 0)
             {
                 if (!Int32.TryParse(args[0], out roachNum))
-                    roachNum = 0;                 
+                    roachNum = 0;
+                else roachNum = -1;
             }
             roachName += roachNum.ToString();
 
@@ -38,7 +39,10 @@ namespace Area23.At.WinForm.WinRoachCore
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new WinForm());
+            if (roachNum == -1)
+                Application.Run(new WinForm());
+            else      
+                Application.Run(new RoachBase(roachNum));
 
             ReleaseCloseDisposeMutex();
         }
