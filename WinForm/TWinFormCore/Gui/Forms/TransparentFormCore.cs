@@ -1,7 +1,9 @@
-﻿using Area23.At.WinForm.TWinFormCore.Gui.TForms;
+﻿using Area23.At.Framework.Core.Static;
 using Area23.At.Framework.Core.Util;
-using Area23.At.Framework.Core.Static;
+using Area23.At.WinForm.TWinFormCore.Gui.TForms;
+using Area23.At.WinForm.TWinFormCore.Properties;
 using System.Data;
+using System.Media;
 
 namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
@@ -163,11 +165,11 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                 MessageBox.Show($"Already {formsCount} instances of {TFormType} currently running!", $"{Program.progName}: maximum reached!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            EnDeCodingForm endecodeForm = new EnDeCodingForm(true, false);
-            Program.tFormsNew.Add(endecodeForm);
-            endecodeForm.Show();
-            endecodeForm.BringToFront();
-            endecodeForm.Focus();
+            EncryptForm encrypt = new EncryptForm();
+            Program.tFormsNew.Add(encrypt);
+            encrypt.Show();
+            encrypt.BringToFront();
+            encrypt.Focus();
         }
 
         protected internal void menuViewMenuCryptItemCrypt_Click(object sender, EventArgs e)
@@ -181,8 +183,8 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             EncryptForm endecodeForm = new EncryptForm();
             Program.tFormsNew.Add(endecodeForm);
             endecodeForm.Show();
-            endecodeForm.BringToFront();
-            endecodeForm.Focus();
+            // endecodeForm.BringToFront();
+            // endecodeForm.Focus();
         }
 
         protected internal virtual void toolStripMenuItemSave_Click(object sender, EventArgs e)
@@ -354,5 +356,57 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             (new SerializeTest()).Show();
 
         }
+
+
+        #region Media Methods
+
+        /// <summary>
+        /// PlaySoundFromResource - plays a sound embedded in application ressource file
+        /// </summary>
+        /// <param name="soundName">unique qualified name for sound</param>
+        protected static bool PlaySoundFromResource(string soundName)
+        {
+            bool played = false;
+            if (true)
+            {
+                UnmanagedMemoryStream stream = (UnmanagedMemoryStream)Resources.ResourceManager.GetStream(soundName);
+
+
+                if (stream != null)
+                {
+                    try
+                    {
+                        // Construct the sound player
+                        SoundPlayer player = new SoundPlayer(stream);
+                        player.Play();
+                        played = true;
+                        stream.Close();
+                    }
+                    catch (Exception exSound)
+                    {
+                        Area23Log.LogOriginMsgEx("BaseChatForm", $"PlaySoundFromResource(string soundName = {soundName})", exSound);
+                        played = false;
+                    }
+                    //fixed (byte* bufferPtr = &bytes[0])
+                    //{
+                    //    System.IO.UnmanagedMemoryStream ums = new UnmanagedMemoryStream(bufferPtr, bytes.Length);
+                    //    SoundPlayer player = new SoundPlayer(ums);                        
+                    //    player.Play();
+                    //}
+                }
+            }
+
+            return played;
+        }
+
+
+
+        protected virtual async Task<bool> PlaySoundFromResourcesAsync(string soundName)
+        {
+            return await Task.Run(() => PlaySoundFromResource(soundName));
+        }
+
+        #endregion Media Methods
+
     }
 }

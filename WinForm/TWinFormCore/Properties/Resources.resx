@@ -196,4 +196,24 @@
   <data name="icon_file_working" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>S:\area23.at\WinForm\TWinFormCore\Resources\file_working.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="sound_arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sound_arrow.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_arrow</comment>
+  </data>
+  <data name="sound_click" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sound_click.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_click</comment>
+  </data>
+  <data name="sound_glasses" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sound_glasses.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_glasses</comment>
+  </data>
+  <data name="sound_push" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sound_push.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_push</comment>
+  </data>
+  <data name="sound_laser" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sound_laser.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_laser</comment>
+  </data>
 </root>

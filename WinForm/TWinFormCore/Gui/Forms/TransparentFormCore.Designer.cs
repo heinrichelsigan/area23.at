@@ -66,7 +66,9 @@
             // 
             // menuStrip
             // 
-            menuStrip.BackColor = Color.Transparent;
+            menuStrip.AllowDrop = true;
+            menuStrip.AutoSize = false;
+            menuStrip.BackColor = SystemColors.Control;
             menuStrip.Font = new Font("Lucida Sans Unicode", 10F);
             menuStrip.Items.AddRange(new ToolStripItem[] { toolStripMenuFile, toolStripMenuView, toolStripMenuQuestionMark });
             menuStrip.Location = new Point(0, 0);
@@ -424,6 +426,7 @@
             // 
             // TransparentFormCore
             // 
+            AllowDrop = true;
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = SystemColors.Control;
@@ -432,11 +435,14 @@
             Controls.Add(statusStrip);
             Controls.Add(menuStrip);
             Font = new Font("Lucida Sans Unicode", 10F);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip;
+            MaximizeBox = false;
             Name = "TransparentFormCore";
+            Opacity = 0.6D;
             Text = "TransparentFormCore8";
-            TransparencyKey = SystemColors.Control;
+            TransparencyKey = Color.Transparent;
             menuStrip.ResumeLayout(false);
             menuStrip.PerformLayout();
             statusStrip.ResumeLayout(false);

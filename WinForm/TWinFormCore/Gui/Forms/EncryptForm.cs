@@ -10,8 +10,11 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
     {
 
         Cursor NormalCursor, NoDropCursor;
-        internal bool fileUploaded = false;
         internal System.Windows.Forms.DragDropEffects _dragDropEffect = System.Windows.Forms.DragDropEffects.None;
+        private bool isDragMode = false;
+        private readonly Lock _Lock = new Lock();
+        internal bool fileUploaded = false;
+        
         internal static HashSet<string> HashFiles = new HashSet<string>();
         internal delegate void SetGroupBoxTextCallback(System.Windows.Forms.GroupBox groupBox, string headerText);
 
@@ -223,7 +226,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                                 File.WriteAllBytes(outFilePath, outBytes);
                                 pictureBoxOutFile.Visible = true;
                                 pictureBoxOutFile.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.encrypted;
-                                string outFileName = Path.GetFileName(outFilePath);                                
+                                string outFileName = Path.GetFileName(outFilePath);
                                 labelOutputFile.Text = file;
                                 HashFiles.Add(outFilePath);
                                 string encrypted = GetEncoding().EnCode(outBytes);
@@ -276,30 +279,30 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
         }
 
 
-        private void Drag_Drop(object sender, System.Windows.Forms.DragEventArgs e)
+        internal void Drag_Drop(object sender, System.Windows.Forms.DragEventArgs e)
         {
             string[] files = new string[1];
 
             if (e != null && e.Data != null && (e.Data.GetDataPresent(System.Windows.Forms.DataFormats.FileDrop) ||
-                e.Data.GetDataPresent(System.Windows.DataFormats.FileDrop)  || e.Data.GetDataPresent(typeof(string[]))))
+                e.Data.GetDataPresent(System.Windows.DataFormats.FileDrop) || e.Data.GetDataPresent(typeof(string[]))))
             {
-                files = (string[])e.Data.GetData(System.Windows.DataFormats.FileDrop);
-                if (files != null && files.Length > 0)
+                files = (string[])e.Data.GetData(System.Windows.Forms.DataFormats.FileDrop);
+                Drop_Files();
+            }
+            return;
+        }
+
+        internal void Drop_Files()
+        {
+            string[] files = (HashFiles != null && HashFiles.Count > 0) ? HashFiles.ToArray() : new string[0];
+
+            if (isDragMode && files != null && files.Length > 0)
+            {
+                foreach (string file in files)
                 {
-                    if (HashFiles == null || HashFiles.Count == 0)
-                        HashFiles = new HashSet<string>(files);
-
-                    string textSet = Path.GetFileName(files[0]) ?? files[0] ?? "";
-                    if (e.Effect != System.Windows.Forms.DragDropEffects.None)
+                    if (!string.IsNullOrEmpty(file) && System.IO.File.Exists(file))
                     {
-                        _dragDropEffect = e.Effect;
-                        textSet += " DragDrop: " + e.Effect;
-                        SetGBoxText(textSet);
-                    }
-
-                    foreach (string file in files)
-                    {
-                        if (!string.IsNullOrEmpty(file) && System.IO.File.Exists(file))
+                        lock (_Lock)
                         {
                             this.textBoxSrc.Text = string.Empty;
                             this.textBoxOut.Text = string.Empty;
@@ -309,15 +312,29 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                             else
                                 pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.file;
                             this.labelFileIn.Text = Path.GetFileName(file);
+                            fileUploaded = false;
+                            Task.Run(() => PlaySoundFromResource("sound_arrow"));
+                            // HashFiles = new HashSet<string>();
+                            _dragDropEffect = System.Windows.Forms.DragDropEffects.None;
+                            isDragMode = false;
+                            SetGBoxText("Files Group Box");
                             break;
                         }
                     }
                 }
+
             }
-            return;
+
+            Cursor.Current = DefaultCursor;
         }
 
-        private void Drag_Enter(object sender, System.Windows.Forms.DragEventArgs e)
+        internal void Mouse_Up(object sender, MouseEventArgs e)
+        {
+            if (isDragMode && _dragDropEffect != DragDropEffects.None)
+                Drop_Files();
+        }
+
+        internal void Drag_Enter(object sender, System.Windows.Forms.DragEventArgs e)
         {
             string[] files = new string[1];
             fileUploaded = false;
@@ -329,21 +346,39 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                     files = (string[])e.Data.GetData(System.Windows.Forms.DataFormats.FileDrop);
                     if (files != null && files.Length > 0)
                     {
-                        HashFiles = new HashSet<string>(files);
-                        _dragDropEffect = e.Effect;
-                        string textSet = Path.GetFileName(files[0]) ?? files[0] ?? "";
-                        textSet += " DragEnter: " + _dragDropEffect;
-                        SetGBoxText(textSet);
+                        lock (_Lock)
+                        {
+                            if (HashFiles == null || HashFiles.Count == 0)
+                                HashFiles = new HashSet<string>(files);
+                            else
+                                foreach (string file in files)
+                                {
+                                    if (!string.IsNullOrEmpty(file) && System.IO.File.Exists(file))
+                                        if (!HashFiles.Contains(file))
+                                            HashFiles.Add(file);
+                                }
+                            //e.UseDefaultCursors = false;
+                            //NormalCursor = new Cursor(Properties.Resources.icon_file_warning.Handle);
+                            //NoDropCursor = new Cursor(Properties.Resources.icon_file_working.Handle);
+                            //Cursor.Current = (isDragMode) ? NormalCursor : NoDropCursor;
+
+                            isDragMode = true;
+                            _dragDropEffect = e.Effect;
+                            string textSet = Path.GetFileName(files[0]) ?? files[0] ?? "";
+                            textSet += " DragEnter: " + _dragDropEffect;
+                            SetGBoxText(textSet);
+                        }
                     }
                 }
-                if (Cursor.Current != NormalCursor)
-                {
-                    Cursor.Current = NormalCursor;
-                }
+                Icon iconFileWork = new Icon(Properties.Resources.icon_file_working, new Size(32, 32));
+                Icon iconFileWarn = new Icon(Properties.Resources.icon_file_warning, new Size(32, 32)); 
+                NormalCursor = new Cursor(iconFileWork.Handle);
+                NoDropCursor = new Cursor(iconFileWarn.Handle);
+                Cursor.Current = (isDragMode) ? NormalCursor : NoDropCursor;
             }
         }
 
-        private void QueryContinue_Drag(object sender, System.Windows.Forms.QueryContinueDragEventArgs e)
+        internal void QueryContinue_Drag(object sender, System.Windows.Forms.QueryContinueDragEventArgs e)
         {
             string[] files = (HashFiles != null && HashFiles.Count > 0) ? HashFiles.ToArray() : new string[0];
 
@@ -351,25 +386,33 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             {
                 if (files != null && files.Length > 0)
                 {
-                    string textSet = Path.GetFileName(files[0]) ?? files[0] ?? "";
-
                     foreach (string file in files)
                     {
                         if (!string.IsNullOrEmpty(file) && System.IO.File.Exists(file))
                         {
-                            this.textBoxSrc.Text = string.Empty;
-                            this.textBoxOut.Text = string.Empty;
-                            fileUploaded = true;
-                            if (Path.GetExtension(file).Length > 7)
-                                pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.encrypted;
-                            else
-                                pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.file;
-                            this.labelFileIn.Text = Path.GetFileName(file);
-                            fileUploaded = false;
-                            // HashFiles = new HashSet<string>();
-                            _dragDropEffect = System.Windows.Forms.DragDropEffects.Copy;
-                            SetGBoxText("Files Group Box");
-                            break;
+                            lock (_Lock)
+                            {
+                                isDragMode = true;
+                                this.textBoxSrc.Text = string.Empty;
+                                this.textBoxOut.Text = string.Empty;
+                                fileUploaded = true;
+                                if (Path.GetExtension(file).Length > 7)
+                                    pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.encrypted;
+                                else
+                                    pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.file;
+                                this.labelFileIn.Text = Path.GetFileName(file);
+                                fileUploaded = false;
+                                // HashFiles = new HashSet<string>();
+                                _dragDropEffect = DragDropEffects.All;
+                                string textSet = Path.GetFileName(files[0]) ?? files[0] ?? "";
+                                textSet += " QueryContinue_Drag: " + _dragDropEffect;
+                                SetGBoxText(textSet);
+                                if (e.Action == DragAction.Drop)
+                                {
+
+                                }
+                                break;
+                            }
                         }
                     }
                 }
@@ -377,54 +420,28 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             }
         }
 
-        protected virtual void GiveFeedBack(object sender, System.Windows.Forms.GiveFeedbackEventArgs e)
+        internal void Give_FeedBack(object sender, System.Windows.Forms.GiveFeedbackEventArgs e)
         {
-            if (e != null && e.Effect == DragDropEffects.None)
+            if (e != null)
             {
                 // Sets the custom cursor based upon the effect.
                 e.UseDefaultCursors = false;
+                _dragDropEffect = e.Effect;
                 NormalCursor = new Cursor(Properties.Resources.icon_file_warning.Handle);
                 NoDropCursor = new Cursor(Properties.Resources.icon_file_working.Handle);
-                // Cursor.Current = MyNormalCursor;
+                Cursor.Current = (isDragMode) ? NormalCursor : NoDropCursor;
                 // HOTFIX: no drop cursor
                 // Cursor.Current = (!firstLeavedDropTarget) ? MyNormalCursor : MyNoDropCursor;
             }
         }
 
-        private void Drag_Leave(object sender, EventArgs e)
+        internal void Drag_Leave(object sender, EventArgs e)
         {
-            string[] files = (HashFiles != null && HashFiles.Count > 0) ? HashFiles.ToArray() : new string[0];
-
-            if (files != null && files.Length > 0)
-            {
-                string textSet = Path.GetFileName(files[0]) ?? files[0] ?? "";
-
-                foreach (string file in files)
-                {
-                    if (!string.IsNullOrEmpty(file) && System.IO.File.Exists(file))
-                    {
-                        this.textBoxSrc.Text = string.Empty;
-                        this.textBoxOut.Text = string.Empty;
-                        fileUploaded = true;
-                        if (Path.GetExtension(file).Length > 7)
-                            pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.encrypted;
-                        else
-                            pictureBoxFileIn.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.file;
-                        this.labelFileIn.Text = Path.GetFileName(file);
-                        fileUploaded = false;
-                        // HashFiles = new HashSet<string>();
-                        _dragDropEffect = System.Windows.Forms.DragDropEffects.None;
-                        SetGBoxText("Files Group Box");
-                        break;
-                    }
-                }
-
-            }
-
-            Cursor.Current = DefaultCursor;
+            if (isDragMode)
+                Drop_Files();
         }
 
-        private void Drag_Over(object sender, System.Windows.Forms.DragEventArgs e)
+        internal void Drag_Over(object sender, System.Windows.Forms.DragEventArgs e)
         {
             string[] files = new string[1];
 
@@ -433,21 +450,32 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                 files = (string[])e.Data.GetData(System.Windows.Forms.DataFormats.FileDrop);
                 if (files != null && files.Length > 0)
                 {
-                    if (HashFiles == null || HashFiles.Count == 0)
-                        HashFiles = new HashSet<string>(files);
-
-                    string textSet = Path.GetFileName(files[0]) ?? files[0] ?? "";
-                    if (e.Effect != System.Windows.Forms.DragDropEffects.None)
+                    lock (_Lock)
                     {
-                        _dragDropEffect = e.Effect;
-                        textSet += " DragOver: " + e.Effect;
-                        SetGBoxText(textSet);
+
+                        if (HashFiles == null || HashFiles.Count == 0)
+                            HashFiles = new HashSet<string>(files);
+                        else
+                            foreach (string file in files)
+                            {
+                                if (!string.IsNullOrEmpty(file) && System.IO.File.Exists(file))
+                                    if (!HashFiles.Contains(file))
+                                        HashFiles.Add(file);
+                            }                        
+                        if (e.Effect != System.Windows.Forms.DragDropEffects.None)
+                        {
+                            string textSet = Path.GetFileName(files[0]) ?? files[0] ?? "";
+                            _dragDropEffect = e.Effect;
+                            textSet += " DragOver: " + e.Effect;
+                            SetGBoxText(textSet);
+                        }
+                        isDragMode = true;
                     }
                 }
             }
         }
 
-        private void menuFileOpen_Click(object sender, EventArgs e)
+        internal void menuFileOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Title = "Open File";
@@ -469,7 +497,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
         }
 
 
-        private void menuMainSave_Click(object sender, EventArgs e)
+        internal void menuMainSave_Click(object sender, EventArgs e)
         {
             if (this.pictureBoxOutFile.Visible || labelOutputFile.Visible)
             {
@@ -508,6 +536,6 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             }
         }
 
-     
+
     }
 }
