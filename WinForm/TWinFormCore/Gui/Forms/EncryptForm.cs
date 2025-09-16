@@ -225,6 +225,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                                 pictureBoxOutFile.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.encrypted;
                                 string outFileName = Path.GetFileName(outFilePath);                                
                                 labelOutputFile.Text = file;
+                                HashFiles.Add(outFilePath);
                                 string encrypted = GetEncoding().EnCode(outBytes);
                                 this.textBoxOut.Text = encrypted;
                                 break;
@@ -257,10 +258,12 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                                 CipherPipe cPipe = new CipherPipe(this.textBoxKey.Text, this.textBoxHash.Text);
                                 byte[] fileBytes = System.IO.File.ReadAllBytes(file);
                                 byte[] outBytes = cPipe.DecryptFileBytesRoundsGo(fileBytes, this.textBoxKey.Text, this.textBoxHash.Text, GetEncoding(), GetZip(), GetHash());
-                                File.WriteAllBytes(file.Replace("." + cPipe.PipeString, ""), outBytes);
+                                string outFileDecrypt = file.Replace("." + cPipe.PipeString + GetZip().GetZipTypeExtension(), "");
+                                File.WriteAllBytes(outFileDecrypt, outBytes);
+                                HashFiles.Add(outFileDecrypt);
                                 pictureBoxOutFile.Visible = true;
                                 pictureBoxOutFile.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.decrypted;
-                                labelOutputFile.Text = Path.GetFileName(file.Replace("." + cPipe.PipeString + GetZip().GetZipTypeExtension(), ""));
+                                labelOutputFile.Text = Path.GetFileName(outFileDecrypt);
 
                                 string decrypted = GetEncoding().EnCode(outBytes);
                                 this.textBoxOut.Text = decrypted;
@@ -468,7 +471,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
         private void menuMainSave_Click(object sender, EventArgs e)
         {
-            if (this.pictureBoxOutFile.Visible == true)
+            if (this.pictureBoxOutFile.Visible || labelOutputFile.Visible)
             {
                 byte[] fileBytes = new byte[0];
                 SaveFileDialog dialog = new SaveFileDialog();
