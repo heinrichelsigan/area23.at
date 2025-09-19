@@ -67,7 +67,7 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
             }
             */
 
-
+            // Encoding.UTF8.GetString(inBytes);
             return EnDeCodeHelper.GetString(inBytes);
         }
 

@@ -9,8 +9,7 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
     [DefaultValue(EncodingType.Base64)]
     public enum EncodingType
     {
-        Null =      0x000,
-        None =      0x100,
+        None =      0x000,
         Base16 =    0x200,
         Hex16 =     0x300,
         Base32 =    0x400,
@@ -48,8 +47,7 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         {
             switch (type)
             {
-                case EncodingType.None:
-                case EncodingType.Null: return ((IDecodable)new RawString());
+                case EncodingType.None: return ((IDecodable)new RawString());
                 case EncodingType.Hex16: return ((IDecodable)new Hex16());
                 case EncodingType.Base16: return ((IDecodable)new Base16());
                 case EncodingType.Hex32: return ((IDecodable)new Hex32());
@@ -58,6 +56,22 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
                 case EncodingType.Base64:
                 default: return ((IDecodable)new Base64());
             }            
+        }
+
+
+        public static string GetEnCodingExtension(this EncodingType type)
+        {
+            switch (type)
+            {
+                case EncodingType.None: return "";
+                case EncodingType.Hex16: return "hex16";
+                case EncodingType.Base16: return "base16";
+                case EncodingType.Hex32: return "hex32";
+                case EncodingType.Base32: return "base32";
+                case EncodingType.Uu: return "uu";
+                case EncodingType.Base64:
+                default: return "base64";
+            }
         }
 
         public static string EnCode(this EncodingType encodeType, byte[] inBytes)

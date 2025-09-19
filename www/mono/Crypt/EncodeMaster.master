@@ -11,8 +11,9 @@
     <div id="rowqr" class="headercard" align="left">         
         <span id="headerLeft" runat="server" class="headerLeft" align="center" valign="middle"><a id="aCoolCrypt" runat="server" class="spanHeaderA" href="<%= Area23.At.Framework.Library.LibPaths.EncodeAppPath %>CoolCrypt.aspx">cool crypt</a></span>
         <span id="headerLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a id="aAes" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.EncodeAppPath %>AesImprove.aspx'>aes pipeline</a></span>
-        <span id="headerCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a id="aHashKey" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.EncodeAppPath %>HashKey.aspx'>hash key</a></span>
-        <span id="headerRightCenter" runat="server" class="headerRight" align="center" valign="right"><a id="aUrlZenMatrix" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.EncodeAppPath %>ZenMatrixVisualize.aspx'>visualize zen matrix</a></span>
+        <span id="headerCenter" runat="server" class="headerCenter" align="center" valign="middle"><a id="aHashKey" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.EncodeAppPath %>HashKey.aspx'>hash key</a></span>
+        <span id="headerRightCenter" runat="server" class="headerRightCenter" align="center" valign="right"><a id="aUrlZenMatrix" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.EncodeAppPath %>ZenMatrixVisualize.aspx'>visualize zen matrix</a></span>
+        <span id="headerRight" runat="server" class="headerRight" align="center" valign="right"><a id="aImgPngCrypt" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.EncodeAppPath %>ImgPngCrypt.aspx'>Image Png Crypt</a></span>
     </div>
     <hr />    
     <asp:ContentPlaceHolder ID="EncodeBody" runat="server">

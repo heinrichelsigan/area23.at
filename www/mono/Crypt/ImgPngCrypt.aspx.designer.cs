@@ -33,22 +33,22 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.HtmlControls.HtmlInputFile oFile;
 
         /// <summary>
-        /// buttonUploadTrans control.
+        /// ButtonUploadID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton buttonUploadTrans;
+        protected global::System.Web.UI.WebControls.Button ButtonUploadID;
 
         /// <summary>
-        /// btnUpLoad control.
+        /// RadioOptions control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton btnUpLoad;
+        protected global::System.Web.UI.WebControls.RadioButtonList RadioOptions;
 
         /// <summary>
         /// frmConfirmation control.

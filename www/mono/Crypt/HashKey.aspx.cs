@@ -1,5 +1,4 @@
-﻿using Area23.At.Framework.Library.Cache;
-using Area23.At.Framework.Library.Crypt.Hash;
+﻿using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using System;
@@ -32,7 +31,7 @@ namespace Area23.At.Mono.Crypt
                     (string)Session[Constants.AES_ENVIROMENT_KEY] : TextBox_Key.Text;
 
                 if (!string.IsNullOrEmpty(aesKey) && aesKey.Length > 0)
-                    Reset_TextBox_IV(aesKey);
+                    Button_Hash_Click(sender, e);
             }            
         }
 

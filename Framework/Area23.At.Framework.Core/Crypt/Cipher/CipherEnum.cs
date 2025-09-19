@@ -60,6 +60,8 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
     /// </summary>
     public static class CipherEnumExtensions
     {
+        public static readonly string CipherExtensionString = "l23456AabCcDdEeFfgIJjlNRSsTtXrZz$";
+
         public static CipherEnum[] GetCipherTypes()
         {
             List<CipherEnum> list = new List<CipherEnum>();

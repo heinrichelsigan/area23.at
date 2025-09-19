@@ -182,6 +182,7 @@
     <Content Include="Controls\Default.aspx" />
     <Content Include="Crypt\HashKey.aspx" />
     <Content Include="Crypt\Default.aspx" />
+    <Content Include="Crypt\ImgPngCrypt.aspx" />
     <Content Include="Crypt\ZenMatrixVisualize.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Crypt\CoolCrypt.aspx" />
@@ -238,6 +239,7 @@
     <Content Include="res\img\crypt\AesBGText.png" />
     <Content Include="res\img\crypt\AesImproveBG.gif" />
     <Content Include="res\img\crypt\a_hash.png" />
+    <Content Include="res\img\crypt\a_hash_key_over.png" />
     <Content Include="res\img\crypt\a_right_key.png" />
     <Content Include="res\img\crypt\decrypted.png" />
     <Content Include="res\img\crypt\encrypted.png" />
@@ -455,6 +457,13 @@
     </Compile>
     <Compile Include="Crypt\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Crypt\ImgPngCrypt.aspx.cs">
+      <DependentUpon>ImgPngCrypt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Crypt\ImgPngCrypt.aspx.designer.cs">
+      <DependentUpon>ImgPngCrypt.aspx</DependentUpon>
     </Compile>
     <Compile Include="Crypt\ZenMatrixVisualize.aspx.cs">
       <DependentUpon>ZenMatrixVisualize.aspx</DependentUpon>

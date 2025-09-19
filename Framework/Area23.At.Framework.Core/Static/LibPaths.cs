@@ -6,7 +6,6 @@ using System.Reflection;
 namespace Area23.At.Framework.Core.Static
 {
 
-
     /// <summary>
     /// LibPaths provides filesystem paths & directories for different needed locations, e.g. log & config files
     /// </summary>

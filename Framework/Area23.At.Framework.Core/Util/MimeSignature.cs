@@ -1,12 +1,12 @@
-﻿using Area23.At.Framework.Library;
-using Area23.At.Framework.Library.Static;
+﻿using Area23.At.Framework.Core.Static;
+using Area23.At.Framework.Core.Util;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 
-namespace Area23.At.Framework.Library.Util
+namespace Area23.At.Framework.Core.Util
 {
 
     public struct MimeTypeExtSig
@@ -240,7 +240,8 @@ namespace Area23.At.Framework.Library.Util
         internal static readonly byte[] _SVG = { 0x3c, 0x73, 0x76, 0x67 };
         internal static readonly byte[] _AVIF = { 0x66, 0x74, 0x79, 0x70, 0x61, 0x76, 0x69, 0x66 };
 
-        internal static readonly byte[,] _TEXT = {  { 0x09 }, { 0x0a }, { 0x0d }, 
+
+        internal static readonly byte[,] _TEXT = {  { 0x09 }, { 0x0a }, { 0x0d },
                                                     { 0x20 }, { 0x21 }, { 0x22 }, { 0x23 }, { 0x24 }, { 0x25 }, { 0x26 }, { 0x27 },
                                                     { 0x28 }, { 0x29 }, { 0x2A }, { 0x2B }, { 0x2C }, { 0x2D }, { 0x2E }, { 0x2F },
                                                     { 0x30 }, { 0x31 }, { 0x32 }, { 0x33 }, { 0x34 }, { 0x35 }, { 0x36 }, { 0x37 },
@@ -253,9 +254,10 @@ namespace Area23.At.Framework.Library.Util
                                                     { 0x68 }, { 0x69 }, { 0x6A }, { 0x6B }, { 0x6C }, { 0x6D }, { 0x6E }, { 0x6F },
                                                     { 0x70 }, { 0x71 }, { 0x72 }, { 0x73 }, { 0x74 }, { 0x75 }, { 0x76 }, { 0x77 },
                                                     { 0x78 }, { 0x79 }, { 0x7A }, { 0x7B }, { 0x7C }, { 0x7D }, { 0x7E }, { 0x7F }   };
+
         #endregion static internal readonly
 
-            #region public static MimeTypeExtSig[] MimeSignatureMap
+        #region public static MimeTypeExtSig[] MimeSignatureMap
 
         public static MimeTypeExtSig[] MimeSignatureMap =
         {

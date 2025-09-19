@@ -671,13 +671,11 @@
             groupBoxFiles.TabIndex = 20;
             groupBoxFiles.TabStop = false;
             groupBoxFiles.Text = "Files (drag files into)";
-            groupBoxFiles.MouseUp += Mouse_Up;
             groupBoxFiles.DragDrop += Drag_Drop;
             groupBoxFiles.DragEnter += Drag_Enter;
             groupBoxFiles.DragOver += Drag_Over;
             groupBoxFiles.DragLeave += Drag_Leave;
             groupBoxFiles.GiveFeedback += Give_FeedBack;
-            groupBoxFiles.QueryContinueDrag += QueryContinue_Drag;
             // 
             // panelDragDrop
             // 
@@ -692,8 +690,6 @@
             panelDragDrop.DragOver += Drag_Over;
             panelDragDrop.DragLeave += Drag_Leave;
             panelDragDrop.GiveFeedback += Give_FeedBack;
-            panelDragDrop.QueryContinueDrag += QueryContinue_Drag;
-            panelDragDrop.MouseUp += Mouse_Up;
             // 
             // EncryptForm
             // 

@@ -37,7 +37,7 @@
                 <span class="centerSpan" style="max-width: 400px;">                
                     <asp:TextBox ID="TextBox_Key" runat="server" Text="heinrich.elsigan@gmail.com"  AutoPostBack="true" 
                         OnTextChanged="TextBox_Key_TextChanged"                       
-                        ToolTip="Enter your personal email address or secret key here" MaxLength="192" Width="480px" style="width: 480px;" />
+                        ToolTip="Enter your personal email address or secret key here" MaxLength="256" Width="520px" style="width: 520px;" />
                 </span>
                 <span class="rightSpan" style="width: 72px">
                     <asp:Button ID="Button_Clear" runat="server" Text="clear" OnClick="Button_Clear_Click" 
@@ -54,7 +54,7 @@
                     OnClick="Button_Hash_Click" ClientIDMode="Static" ImageUrl="../res/img/crypt/a_hash.png" 
                     AlternateText="Generate new hash from key" /></span>                
                 <span class="centerSpan" style="max-width: 400px;"><asp:TextBox ID="TextBox_IV" runat="server" 
-                    ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="192"  Width="480px"  style="width: 480px;" />
+                    ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="256"  Width="520px"  style="width: 520px;" />
                 </span>
                 <span class="rightSpan" style="width: 72px">   
 					<asp:TextBox ID="TextBoxPermutation" runat="server" 

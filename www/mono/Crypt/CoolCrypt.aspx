@@ -23,6 +23,13 @@
                 }
             }
 
+            function hashMouseOut(img) {
+                if (img.src == "../res/img/crypt/a_hash.png")
+                    img.src = "../res/img/crypt/a_hash_key_hover.png");
+                else if img.src == "../res/img/crypt/a_hash_key_hover.png")
+                    img.src == "../res/img/crypt/a_hash.png";
+            }
+
         </script>
 </asp:Content>
 <asp:Content ID="ContentEncodeBody" ContentPlaceHolderID="EncodeBody" runat="server" ClientIDMode="Static">
@@ -30,18 +37,17 @@
     <form id="CoolCryptForm" runat="server" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True" style="background-color: transparent;">
         <div style="background-color: transparent; padding-left: 40px; margin-left: 2px;">
             <div class="odDiv">
-                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">
-                    <asp:Button ID="Button_Key" runat="server" Text="key" ClientIDMode="Static"
-                        OnClick="Button_Key_Click" ToolTip="save your user key in session" style="min-width: 48px; max-width: 72px" />
-                </span>
-                <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">secret&nbsp;key:</span>
+                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">secret&nbsp;key:</span>
                 <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">
                     <asp:ImageButton ID="ImageButton_Key" runat="server" ClientIDMode="Static"
                     OnClick="Button_Key_Click" ImageUrl="../res/img/crypt/a_right_key.png" AlternateText="save your user key in session" />
                 </span>
                 <span class="centerSpan" style="margin-left: 1px; max-width: 600px; min-width: 480px">
-                    <asp:TextBox ID="TextBox_Key" runat="server" ClientIDMode="Static" Text="heinrich.elsigan@area23.at"                        
-                        ToolTip="Enter your personal email address or secret key here" MaxLength="192" Width="480px" style="width: 480px; max-width: 600px" />
+                    <asp:TextBox ID="TextBox_Key" runat="server" ClientIDMode="Static" AutoPostBack="true" 
+                        Text="heinrich.elsigan@area23.at" 
+                        ToolTip="Enter your personal email address or secret key here" 
+                        OnTextChanged="TextBox_Key_TextChanged" 
+                        MaxLength="256" Width="540px" Style="width: 540px; max-width: 720px" />
                 </span>
                 <span class="rightSpan" style="width: 60px; min-width: 48px; max-width: 72px">
                     <asp:Button ID="Button_Clear" runat="server" Text="clear" OnClick="Button_Clear_Click" 
@@ -49,18 +55,15 @@
                 </span>
             </div>    
             <div class="odDiv" style="margin-top: 2px">
-                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">
-                    <asp:Button ID="Button_Hash" runat="server" Text="hash" ClientIDMode="Static" 
-                        OnClick="Button_Hash_Click" ToolTip="calculates an iv hash from entered userkey above" style="min-width: 48px; max-width: 72px" />
-                </span>
-                <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">key&nbsp;hash:</span>
-                <span class="centerSpan" style="margin-left: 8px; width: 60px; min-width: 48px; max-width: 72px">
-                    <asp:ImageButton ID="ImageButton_Hash" runat="server" ClientIDMode="Static"
-                    OnClick="Button_Hash_Click" ImageUrl="../res/img/crypt/a_hash.png" AlternateText="generate new hash from key" />
+                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">key&nbsp;hash:</span>
+                <span class="centerSpan" style="margin-left: 8px; width: 60px; min-width: 48px; max-width: 72px">  
+                    <asp:ImageButton ID="ImageButton_Hash" runat="server" ClientIDMode="Static" 
+                        onmouseover="src = '../res/img/crypt/a_hash_key_over.gif'; return false;" onmouseout="src = '../res/img/crypt/a_hash.png'; return false;" 
+                        OnClick="Button_Hash_Click" ImageUrl="../res/img/crypt/a_hash.png" AlternateText="generate new hash from key" />
                 </span>                
                 <span class="centerSpan" style="margin-left: 2px; max-width: 600px; min-width: 480px;">
                     <asp:TextBox ID="TextBox_IV" runat="server" ClientIDMode="Static"
-                        ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="192"  Width="480px" style="width: 480px; max-width: 600px" />
+                        ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="256"  Width="540px" style="width: 540px; max-width: 720px" />
                 </span>
                 <span class="rightSpan" style="width: 80px; min-width: 72px; max-width: 84px">
                     <asp:Button ID="Button_SetPipeline" runat="server" ClientIDMode="Static"  Text="set pipeline" 
@@ -209,8 +212,8 @@
                 <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="65536" Rows="10" Columns="64" ValidateRequestMode="Enabled" ToolTip="[Enter text to en-/decrypt here]" Text="" Width="512px" CssClass="CryptTextArea" ClientIDMode="Static"></asp:TextBox>
                 <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="10" Columns="64" MaxLength="65536" ReadOnly="true" ValidateRequestMode="Enabled" ToolTip="Destination Text"  Width="512px" CssClass="CryptTextArea" ClientIDMode="Static"></asp:TextBox>
                 <br />
-                <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClientClick="changeCryptBackgroundText()" OnClick="ButtonEncrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />
-                <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClientClick="changeCryptBackgroundText();" OnClick="ButtonDecrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />   
+                <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClick="ButtonEncrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />
+                <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClick="ButtonDecrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />   
             </div>
         
         </div>

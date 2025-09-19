@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Area23.At.Framework.Core.Cache;
+using Area23.At.Framework.Core.Crypt.Hash;
+using System;
+using System.Configuration;
 using System.Text;
 
 namespace Area23.At.Framework.Core.Static
@@ -13,37 +16,29 @@ namespace Area23.At.Framework.Core.Static
         #region public const
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 
-        // const int number
         public const int BACKLOG = 8;
         public const int CHAT_PORT = 7777;
-
-        // const int size length limits
         public const int MAX_KEY_LEN = 4096;
         public const int MAX_PIPE_LEN = 8;
-        public const int MAX_SERVER_SOCKET_ADDRESSES = 16;                
-        public const int MIN_SOCKET_BYTE_BUFFEER = 65536;       //  64 KB Buffer  2^16
-        public const int SOCKET_BYTE_BUFFEER = 4194304;         //   4 MB Buffer  2^22
-        public const int MAX_FILE_BYTE_BUFFEER = 6291456;       //   6 MB Buffer     
-        public const int MAX_SOCKET_BYTE_BUFFEER = 16777216;    //  16 MB Buffer  2^24  
-        
-        // constants time intervals
-        public const int CLOSING_TIMEOUT = 1000;
+        public const int MAX_SERVER_SOCKET_ADDRESSES = 16;
+        public const int CLOSING_TIMEOUT = 6000;
+        public const int MIN_SOCKET_BYTE_BUFFEER = 65536;       // 64 KB Buffer
+        public const int SOCKET_BYTE_BUFFEER = 1048576;         //  1 MB Buffer
+        public const int MAX_BYTE_BUFFEER = 4194240;            //  4 MB Buffer
+        public const int MAX_SOCKET_BYTE_BUFFEER = 33554432;    //  32 MB Buffer  2^25
         public const int BGWORKWE_BUSYWAITING_SLEEP = 360000;
-        
-        // constants bool
         public const bool CQR_ENCRYPT = true;
         public const bool ZEN_MATRIX_SYMMETRIC = false;
-        
-        // constants char
+
         public const char ANNOUNCE = ':';
         public const char DATE_DELIM = '-';
         public const char WHITE_SPACE = ' ';
         public const char UNDER_SCORE = '_';
 
-        // constants string
         public const string APP_NAME = "Area23.At";
         public const string APP_DIR = "net";
-        public const string VERSION = "v2.25.805";
+        public const string APP_ERROR = "AppError";
+        public const string VERSION = "v2.25.411";
         public const string VALKEY_CACHE_HOST = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com";
         public const int VALKEY_CACHE_PORT = 6379;
         public const string VALKEY_CACHE_HOST_PORT = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com:6379";
@@ -62,7 +57,6 @@ namespace Area23.At.Framework.Core.Static
         public const string APP_PATH = "https://area23.at/net/";
         public const string RPN_URL = "https://area23.at/net/RpnCalc.aspx";
         public const string GIT_URL = "https://github.com/heinrichelsigan/area23.at";
-        public const string GIT_CQR_URL = "https://github.com/heinrichelsigan/chat-ipv6";
         public const string URL_PIC = "https://area23.at/net/res/img/";
         public const string URL_PREFIX = "https://area23.at/net/res/";
         public const string AREA23_S = "https://area23.at/s/";
@@ -76,16 +70,40 @@ namespace Area23.At.Framework.Core.Static
         public const string CQRXS_EU = "cqrxs.eu";
         public const string IPV4_CQRXS_EU = "ipv4.cqrxs.eu";
         public const string IPV6_CQRXS_EU = "ipv6.cqrxs.eu";
-        public const string SPAIN_CQRXS_EU = "spain.cqrxs.eu";
-        public const string MILAN_CQRXS_EU = "it.cqrxs.eu";
+
+        public const string SPAIN_CQRXS_EU = "cqrxs.eu";
+        public const string ES_CQRXS_EU = "es.cqrxs.eu";
+        public const string MADRID_CQRXS_EU = "madrid.cqrxs.eu";
+        public const string BARCELONA_CQRXS_EU = "barcelona.cqrxs.eu";
+
+        public const string IT_CQRXS_EU = "it.cqrxs.eu";
+        public const string MILAN_CQRXS_EU = "milan.cqrxs.eu";
+        public const string SICILIENNE_CQRXS_EU = "sicilienne.cqrxs.eu";
+
+
         public const string FR_CQRXS_EU = "fr.cqrxs.eu";
         public const string PARIS_CQRXS_EU = "paris.cqrxs.eu";
-        public const string PARISIENNE_CQRXS_EU = "parisienne.cqrxs.eu";
-        public const string FRANKFURT_CQRXS_EU = "de.cqrxs.eu";
-        public const string STOCKHOLM_CQRXS_EU = "se.cqrxs.eu";
-        public const string IRELAND_CQRXS_EU = "ie.cqrxs.eu";
-        public const string LONDON_CQRXS_EU = "uk.cqrxs.eu";
-        public const string ZURICH_CQRXS_EU = "ch.cqrxs.eu";
+        public const string PARISIENNSE_CQRXS_EU = "parisienne.cqrxs.eu";
+
+        public const string DE_CQRXS_EU = "de.cqrxs.eu";
+        public const string FRANKFURT_CQRXS_EU = "frankfurt.cqrxs.eu";
+        public const string BERLINERIN_CQRXS_EU = "berlinerin.cqrxs.eu";
+
+        public const string SE_CQRXS_EU = "se.cqrxs.eu";
+        public const string STOCKHOLM_CQRXS_EU = "stockholm.cqrxs.eu";
+
+        public const string IE_CQRXS_EU = "ie.cqrxs.eu";
+        public const string DUBLIN_CQRXS_EU = "dublin.cqrxs.eu";
+        public const string GALWAY_CQRXS_EU = "galway.cqrxs.eu";
+
+        public const string UK_CQRXS_EU = "uk.cqrxs.eu";
+        public const string LONDON_CQRXS_EU = "london.cqrxs.eu";
+        public const string EDINBURGH_CQRXS_EU = "edinburgh.cqrxs.eu";
+
+        public const string CH_CQRXS_EU = "ch.cqrxs.eu";
+        public const string ZURICH_CQRXS_EU = "zurich.cqrxs.eu";
+        public const string BERNERIN_CQRXS_EU = "bernerin.cqrxs.eu";
+
 
         public const string ALL_KEYS = "AllKeys";
         public const string CHATROOMS = "ChatRooms";
@@ -97,7 +115,7 @@ namespace Area23.At.Framework.Core.Static
         public const string CQRXS_TEST_FORM = "CqrXsTestForm";
         public const string FISH_ON_AES_ENGINE = "FishOnAesEngine";
         public const string CQRXS_DELETE_DATA_ON_CLOSE = "CqrXsDeleteDataOnClose";
-        public const string PERSIST_MSG_IN = "PersistMsgIn"; 
+        public const string PERSIST_MSG_IN = "PersistMsgIn";
         public const string PERSIST_MSG_IN_APPLICATION_STATE = "ApplicationState";
         public const string PERSIST_MSG_IN_AMAZON_ELASTIC_CACHE = "AmazonElasticCache";
         public const string PERSIST_MSG_IN_FILE_SYSTEM = "FileSystem";
@@ -107,8 +125,10 @@ namespace Area23.At.Framework.Core.Static
         public const string ENTER_SECRET_KEY = "[enter secret key here]";
         public const string ENTER_IP_CONTACT = "[Enter IPv4/IPv6 or select Contact]";
         public const string ENTER_IP = "[Enter peer IPv4/IPv6]";
-        public const string ENTER_CONTACT = "[Select Contact]";      
+        public const string ENTER_CONTACT = "[Select Contact]";
 
+        public const string ACCEPT_LANGUAGE = "Accept-Language";
+        public const string AES_ENVIROMENT_KEY = "APP_ENCRYPTION_SECRET_KEY";
         public const string AUTHOR = "Heinrich Elsigan";
         public const string AUTHOR_EMAIL = "heinrich.elsigan@area23.at";
         public const string AUTHOR_IV = "6865696e726963682e656c736967616e406172656132332e6174";
@@ -126,26 +146,30 @@ namespace Area23.At.Framework.Core.Static
         public const string BASE_APP_PATH_WIN = "BaseAppPathWin";
         public const string APP_DIR_PATH_UNIX = "AppDirPathUnix";
         public const string BASE_APP_PATH_UNIX = "BaseAppPathUnix";
+
+        public const string BIN_DIR = "bin";
         public const string CALC_DIR = "Calc";
         public const string CSS_DIR = "css";
         public const string CRYPT_DIR = "Crypt";
         public const string ENCODE_DIR = "Crypt";
         public const string GAMES_DIR = "Gamez";
+        public const string IMG_DIR = "img";
+        public const string IMG_FOLDER = "Image";
         public const string JS_DIR = "js";
+        public const string JSON_DIR = "json";
         public const string LOG_DIR = "log";
         public const string LOG_EXT = ".log";
         public const string LOG_EXCEPTION_STATIC = "LogExceptionStatic";
         public const string OUT_DIR = "out";
-        public const string TMP_DIR = "tmp";
         public const string QR_DIR = "Qr";
-        public const string JSON_DIR = "json";        
         public const string RES_DIR = "res";
         public const string RES_FOLDER = "res";
         public const string TEXT_DIR = "text";
+        public const string TMP_DIR = "tmp";
         public const string UNIX_DIR = "Unix";
         public const string UTF8_DIR = "Utf8";
         public const string UU_DIR = "uu";
-        public const string BIN_DIR = "bin";
+
         public const string OBJ_DIR = "obj";
         public const string RELEASE_DIR = "Release";
         public const string DEBUG_DIR = "Debug";
@@ -157,23 +181,20 @@ namespace Area23.At.Framework.Core.Static
         public const string WIN_X64 = "win-x86";
         public const string MIME_EXT = ".mime";
         public const string BASE64_EXT = ".base64";
-        public const string HTML_EXT = ".html";
         public const string ATTACH_FILES_DIR = "AttachFiles";
+        public const string UPSAVED_FILE = "SavedFile";
 
         public const string UTF8_JSON = "utf8symol.json";
         public const string JSON_SAVE_FILE = "urlshort.json";
         public const string JSON_APPDICT_FILE = "appdict.json";
-        public const string JSON_CONTACTS_FILE = "contacts.json";
         public const string JSON_CONTACTS = "contacts";
-        public const string JSON_CONTACTS_SELECTED = "contacts_selected";
+        public const string JSON_CONTACTS_FILE = "contacts.json";
         public const string JSON_SETTINGS_FILE = "settings.json";
         public const string CQR_CHAT_FILE = "cqr{0}chat.json";
         public const string PREVIOUS_EXCEPTION = "previous_exception";
         public const string LAST_EXCEPTION = "last_exception";
         public const string COOL_CRYPT_SPLIT = "+-;,:→⇛\t ";
 
-        public const string ACCEPT_LANGUAGE = "Accept-Language";
-        public const string FORTUNE_BOOL = "FORTUNE_BOOL";
         public const string UNKNOWN = "UnKnown";
         public const string DEFAULT_MIMETYPE = "application/octet-stream";
         public const string RPN_STACK = "rpnStack";
@@ -211,7 +232,6 @@ namespace Area23.At.Framework.Core.Static
         public const string STRING_NULL = null;
         public const string SNULL = "(null)";
 
-        public const string AES_ENVIROMENT_KEY = "APP_ENCRYPTION_SECRET_KEY";
 
         public const string JSON_SAMPLE = @"{ 
  	""quiz"": { 
@@ -389,21 +409,22 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
 2sGnnAaPJgE8Iy2z08jS3rF9npK27A==
 -----END PRIVATE KEY-----";
 
+
+
+
 #pragma warning restore CA1707 // Identifiers should not contain underscores
         #endregion public const
 
         #region public static readonly fields
 
-        public static readonly char SEP_CHAR = Path.DirectorySeparatorChar;
+        public static readonly char SEP_CHAR = System.IO.Path.DirectorySeparatorChar;
 
-        public static readonly string AES_KEY = Convert.ToBase64String(Encoding.UTF8.GetBytes("AesKey"));
-        public static readonly string AES_IV = Convert.ToBase64String(Encoding.UTF8.GetBytes("AesIv4"));
-        public static readonly string DES3_KEY = Convert.ToBase64String(Encoding.UTF8.GetBytes("DesKey"));
-        public static readonly string DES3_IV = Convert.ToBase64String(Encoding.UTF8.GetBytes("3DesIv"));
-        // public static readonly string SERPENT_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("BOUNCE"));
-        // public static readonly string SERPENT_IV = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("CASTLE"));
+        public static readonly string AES_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("AesKey"));
+        public static readonly string AES_IV = KeyHash.BCrypt.Hash(AES_KEY);
+        public static readonly string DES3_KEY = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes("DesKey"));
+        public static readonly string DES3_IV = KeyHash.OpenBSDCrypt.Hash(DES3_KEY);
         public static readonly string BOUNCEK = Convert.ToBase64String(Encoding.UTF8.GetBytes("BOUNCE"));
-        public static readonly string BOUNCE4 = Convert.ToBase64String(Encoding.UTF8.GetBytes("CASTLE"));
+        public static readonly string BOUNCE4 = KeyHash.SCrypt.Hash(BOUNCEK);
 
 
         public static readonly string[] EXE_WIN_SYSTEM = { EXE_WIN_INIT, EXE_SERVICES,
@@ -412,26 +433,123 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
             EXE_WIN_LOGON, EXE_DESKTOP_WINDOW_MANAGER
         };
 
+        public static readonly string[] DENIED_EXTENSIONS = {
+            ".asp", ".asax", ".aspx", ".ascx", ".asmx", ".ashx", ".svc", ".master", ".config",
+            ".php", ".js", ".html", ".xhtml", ".htm",
+            ".razor", ".cshtml", ".javascript", ".cgi"
+        };
+
+
+        public static readonly string[] ALLOWED_EXTENSIONS = {
+
+            ".base", ".hex",
+            ".hex16", ".base16", ".base32", ".hex32", ".uu", ",base58", ".base64", ".mime",
+
+            ".md", ".txt", ".text", ".cfg",
+            ".css", ".js", ".htm", ".html", ".xhtml", ".json", ".rdf",
+
+            ".avif", ".bmp", ".exif", ".gif", ".ico", ".ief", ".jpg", ".jpeg", ".pcx", ".pic", ".png", ".psd", ".tif", ".xcf", ".xif",
+            ".3pg", ".3g2", ".aif", ".au", ".m3u", ".mid", ".midi", ".mp4", ".mpeg", ".ogg", ".webm", ".wav", ".wax", ".wma", ".mp3",
+            ".avi", ".f4v", ".flx", ".m4u", ".m4v", ".mov", ".mpg", ".wmv",
+
+            ".pdf", ".ps", ".gs", ".dvi", ".tex",
+            ".ods", ".odt", ".rtf", ".doc", ".dot", ".xls", ".xlt", ".csv", ".mdb", ".ppt", ".vsx", ".vst", ".mpp",
+
+            ".ttf", ".woff",
+
+            ".eml", ".mbox", ".vcs", ".vcf", ".msg",
+
+            ".zip",
+            ".z", ".gz", ".bz", ".bz2", ".tar", ".tgz", ".tbz",
+            ".arj", ".arc", ".rar",
+            ".7z", ".xz",
+
+
+            ".pki", ".cer", ".der", ".crl", ".p10", ".p7c", ".p7s",
+
+            ".exe", ".dll", ".oct", ".bin", ".tmp", ".img"
+        };
+
         #endregion public static readonly fields
 
         #region public static properties
 
-        public static bool UNIX => SEP_CHAR == '/';
-        public static bool WIN32 => SEP_CHAR == '\\';
+        private static bool _unix = false;
+        public static bool UNIX
+        {
+            get
+            {
+                if (_unix)
+                    return _unix;
+
+                string pathUnix = "";
+
+                if (ConfigurationManager.AppSettings["AppDirPathUnix"] != null)
+                    pathUnix = ConfigurationManager.AppSettings["AppDirPathUnix"];
+
+                _unix = ((System.AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("/") &&
+                            !System.AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("\\"))
+                        || Directory.Exists(pathUnix));
+
+                return _unix;
+            }
+        }
+
+        private static bool _win32 = false;
+
+        public static bool WIN32
+        {
+            get
+            {
+                if (_win32)
+                    return _win32;
+
+                string pathWin32 = "";
+
+                if (ConfigurationManager.AppSettings["AppDirPathWin"] != null)
+                    pathWin32 = ConfigurationManager.AppSettings["AppDirPathWin"];
+
+                _win32 = ((AppDomain.CurrentDomain.BaseDirectory.Contains("\\") &&
+                            !AppDomain.CurrentDomain.BaseDirectory.Contains("/"))
+                        || Directory.Exists(pathWin32));
+
+                return _win32;
+            }
+        }
+
 
         public static bool NOLog { get; set; } = false;
 
         public static bool DirCreate { get; set; } = true;
 
         /// <summary>
-        /// AppLogFile - logfile with <see cref="Framework.Library.Extensions.Area23Date(DateTime)"/> prefix
+        /// AppLogFile - logfile with <see cref="At.Framework.Library.Extensions.Area23Date(DateTime)"/> prefix
         /// </summary>
         public static string AppLogFile { get => DateTime.UtcNow.Area23Date() + UNDER_SCORE + APP_NAME + LOG_EXT; }
 
+
         public static string Json_Example { get => ResReader.GetValue("json_sample0"); }
 
-        private static System.Globalization.CultureInfo? locale = null;
-        private static string? defaultLang = null;
+        private static System.Globalization.CultureInfo locale = null;
+        private static String defaultLang = null;
+
+        /// <summary>
+        /// Culture Info from HttpContext.Current.Request.Headers[ACCEPT_LANGUAGE]
+        /// </summary>
+        public static System.Globalization.CultureInfo Locale
+        {
+            get
+            {
+                if (locale == null)
+                {
+                    defaultLang = "en";
+                    locale = new System.Globalization.CultureInfo(defaultLang);
+                }
+                return locale;
+            }
+        }
+
+        public static string ISO2Lang { get => Locale.TwoLetterISOLanguageName; }
 
         /// <summary>
         /// UT DateTime @area23.at including seconds
@@ -443,11 +561,11 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
         /// </summary>
         public static string DateArea23
         {
-            get => DateTime.UtcNow.ToString("yyyy") + DATE_DELIM +
-                DateTime.UtcNow.ToString("MM") + DATE_DELIM +
-                DateTime.UtcNow.ToString("dd") + WHITE_SPACE +
-                DateTime.UtcNow.ToString("HH") + ANNOUNCE +
-                DateTime.UtcNow.ToString("mm") + ANNOUNCE + WHITE_SPACE;
+            get => DateTime.UtcNow.ToString("yyyy") + Constants.DATE_DELIM +
+                DateTime.UtcNow.ToString("MM") + Constants.DATE_DELIM +
+                DateTime.UtcNow.ToString("dd") + Constants.WHITE_SPACE +
+                DateTime.UtcNow.ToString("HH") + Constants.ANNOUNCE +
+                DateTime.UtcNow.ToString("mm") + Constants.ANNOUNCE + Constants.WHITE_SPACE;
         }
 
         /// <summary>
@@ -455,52 +573,89 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
         /// </summary>
         public static string DateFile { get => DateArea23.Replace(WHITE_SPACE, UNDER_SCORE).Replace(ANNOUNCE, UNDER_SCORE); }
 
-        private static string backColorString = "#ffffff";
+        private static readonly string backColorString = "#ffffff";
         public static string BackColorString
         {
-            get => backColorString;
-            set => backColorString = value;
+
+            get => MemoryCache.CacheDict.ContainsKey(BACK_COLOR_STRING) ? MemoryCache.CacheDict.GetValue<string>(BACK_COLOR_STRING) : backColorString;
+            set
+            {
+                MemoryCache.CacheDict.SetValue<Color>(BACK_COLOR, Utils.FromHtml(value));
+                MemoryCache.CacheDict.SetValue<string>(BACK_COLOR_STRING, value);
+            }
         }
 
-        private static string qrColorString = "#000000";
+        private static readonly string qrColorString = "#000000";
         public static string QrColorString
         {
-            get => qrColorString;
-            set => qrColorString = value;
+            get => MemoryCache.CacheDict.ContainsKey(QR_COLOR_STRING) ? MemoryCache.CacheDict.GetValue<string>(QR_COLOR_STRING) : qrColorString;
+            set
+            {
+                MemoryCache.CacheDict.SetValue<Color>(QR_COLOR, Utils.FromHtml(value));
+                MemoryCache.CacheDict.SetValue<string>(QR_COLOR_STRING, value);
+            }
         }
 
-        public static Color BackColor
+        public static System.Drawing.Color BackColor
         {
-            get => Utils.FromHtml(BackColorString);
+            get => MemoryCache.CacheDict.ContainsKey(BACK_COLOR) ? MemoryCache.CacheDict.GetValue<Color>(BACK_COLOR) : Utils.FromHtml(backColorString);
+            set
+            {
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            set => value.ToXrgb();
+                if (value != null)
+                {
+                    MemoryCache.CacheDict.SetValue<string>(BACK_COLOR_STRING, value.ToXrgb());
+                    MemoryCache.CacheDict.SetValue<Color>(BACK_COLOR, value);
+                }
+                else
+                {
+                    MemoryCache.CacheDict.SetValue<string>(BACK_COLOR_STRING, backColorString);
+                    MemoryCache.CacheDict.SetValue<Color>(BACK_COLOR, Utils.FromHtml(backColorString)); 
+                }
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            }
         }
 
-        public static Color QrColor
+        public static System.Drawing.Color QrColor
         {
-            get => Utils.FromHtml(QrColorString);
+            get => MemoryCache.CacheDict.ContainsKey(QR_COLOR) ? MemoryCache.CacheDict.GetValue<Color>(QR_COLOR) : Utils.FromHtml(qrColorString);
+            set
+            {
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            set => value.ToXrgb();
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'            
+                if (value != null)
+                {
+                    MemoryCache.CacheDict.SetValue<string>(QR_COLOR_STRING, value.ToXrgb());
+                    MemoryCache.CacheDict.SetValue<Color>(QR_COLOR, value);
+                }
+                else
+                {
+                    MemoryCache.CacheDict.SetValue<string>(QR_COLOR_STRING, qrColorString);
+                    MemoryCache.CacheDict.SetValue<Color>(QR_COLOR, Utils.FromHtml(qrColorString));
+                }
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            }
         }
 
+        private static bool _fortuneBool = false;
         public static bool FortuneBool
         {
             get
             {
-                return DateTime.Now.Second % 2 == 1;
+                _fortuneBool = !_fortuneBool;
+                return (bool)_fortuneBool;
             }
         }
+
+        public static bool RandomBool { get => ((DateTime.Now.Millisecond % 2) == 0); }
 
         #endregion public static properties
 
         /// <summary>
         /// AppSettingsValueByKey 
         /// </summary>
-        /// <param name="key">key to lookup up in appsettings key value collection</param>
+        /// <param name="key">key to lookup up in AppSettings key value collection</param>
         /// <returns><see cref="string"/> AppSettingsValue</returns>
-        public static string? AppSettingsValueByKey(string key)
+        public static string AppSettingsValueByKey(string key)
         {
             if (string.IsNullOrEmpty(key))
                 return null;
@@ -508,13 +663,14 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
             {
                 if (System.Configuration.ConfigurationManager.AppSettings[key] != null)
                 {
-                    return System.Configuration.ConfigurationManager.AppSettings[key].ToString();
+                    return (string)(System.Configuration.ConfigurationManager.AppSettings[key].ToString());
                 }
             }
             catch { }
 
             return null;
         }
+
 
     }
 

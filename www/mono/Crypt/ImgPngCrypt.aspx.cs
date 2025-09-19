@@ -9,13 +9,19 @@ using System.Web;
 
 namespace Area23.At.Mono.Crypt
 {
-    public partial class ImgPngCrypt : Util.UIPage
+    public partial class ImgPngCrypt : UIPage
     {
+
+        public bool TransNotReForm
+        {
+            get => (RadioOptions.SelectedItem.Text.Equals("ReForm", StringComparison.InvariantCultureIgnoreCase)) ? false : true;
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Request.Files != null && Request.Files.Count > 0)
             {
-                buttonUpload_Click(sender, e);
+                ButtonUpload_Click(sender, e);
             }
         }
 
@@ -73,7 +79,7 @@ namespace Area23.At.Mono.Crypt
             }
 
             string outMsg;
-            string mimeType = ByteArrayToFile(bList.ToArray(), out outMsg);   
+            string mimeType = ByteArrayToFile(bList.ToArray(), out outMsg, null);   
             string base64Data = Convert.ToBase64String(bList.ToArray());
             imgOut.Src = "data:" + mimeType + ";base64," + base64Data; 
         }
@@ -83,9 +89,6 @@ namespace Area23.At.Mono.Crypt
         {
             System.Drawing.Bitmap x1Image = null;
             System.Drawing.Bitmap fromBytesTransImage = null;
-
-            if (!string.IsNullOrEmpty(imgFileName) && System.IO.File.Exists(imgFileName))
-                x1Image = new Bitmap(imgFileName);
 
             double dlen = (int)(data.Length / 3) + 1;
             int imgLen = (int)Math.Round(Math.Sqrt(dlen), MidpointRounding.AwayFromZero) + 1;
@@ -120,42 +123,48 @@ namespace Area23.At.Mono.Crypt
                 fromBytesTransImage.SetPixel(x, y, col);                
             }
 
-
-            MemoryStream ms = new MemoryStream();
-            fromBytesTransImage.Save(ms, ImageFormat.Png);
-            string base64Data = Convert.ToBase64String(ms.ToArray());
-            imgOut.Src = "data:image/png;base64," + base64Data;
-
+            string outFileName = "T_";
+            string extension = Path.GetExtension(imgFileName);
+            if (!string.IsNullOrEmpty(imgFileName))
+                outFileName += Path.GetFileName(imgFileName).Replace(extension, ".png");
+            else
+                outFileName += Guid.NewGuid().ToString() + ".png";
+            if (outFileName.EndsWith(".png"))
+                outFileName = outFileName + ".png";
+            string outPath = LibPaths.SystemDirOutPath + LibPaths.SepCh + outFileName;
+            string outUrl = "../res/out/" + outFileName;
+            //fromBytesTransImage.Save(outPath, ImageFormat.Png);
+            //FileStream fs = new FileStream(outPath, FileMode.OpenOrCreate);
+            //fromBytesTransImage.Save(fs, ImageFormat.Png);
+            //fs.Flush();            
+            //fs.Close();
+            //// string base64Data = Convert.ToBase64String(fs.ToArray());
+            imgOut.Src = outUrl; // "data:image/png;base64," + base64Data;
+            imgOut.Alt = outFileName;
         }
 
-
-        protected void buttonTransUpload_Click(object sender, EventArgs e)
-        {
-            if (Request.Files != null && Request.Files.Count > 0)
-                TransformUploadFile(Request.Files[0]);
-        }
-
-
-        protected void btnUploadTrans_Click(object sender, EventArgs e)
-        {
-            if (!String.IsNullOrEmpty(oFile.Value))
-            {
-                TransformUploadFile(oFile.PostedFile);
-            }
-        }
+    
 
         protected void TransformUploadFile(HttpPostedFile pfile)
-        {
-            string strFilePath;
-            // Get the name of the file that is posted.
-            string strFileName = pfile.FileName;
-            strFileName = Path.GetFileName(strFileName);
+        {        
             lblUploadResult.Text = "";
 
-            if (pfile != null)
+            if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
             {
-                // Save the uploaded file to the server.
-                strFilePath = LibPaths.SystemDirOutPath + strFileName;
+                string strFileName = pfile.FileName;
+                strFileName = System.IO.Path.GetFileName(strFileName).BeautifyUploadFileNames();
+                string strFilePath = LibPaths.SystemDirOutPath + strFileName;
+
+                if (Utils.DenyExtensionInOut(LibPaths.OutAppPath + strFileName))
+                {
+                    imgIn.Src = "../res/img/crypt/file_warning.gif";
+                    frmConfirmation.Visible = true;
+                    lblUploadResult.Text = "File extension \"" + System.IO.Path.GetExtension(strFilePath) +
+                        "\" denied for upload!";
+
+                    return;
+                }
+                
                 while (System.IO.File.Exists(strFilePath))
                 {
                     string newFileName = strFilePath.Contains(Constants.DateFile) ?
@@ -163,7 +172,7 @@ namespace Area23.At.Mono.Crypt
                         Constants.DateFile + strFileName;
                     strFilePath = LibPaths.SystemDirOutPath + newFileName;
                     lblUploadResult.Text = String.Format("{0} already exists on server, saving it to {1}.",
-                        strFileName, newFileName);
+                        strFileName, newFileName);                    
                 }
 
                 pfile.SaveAs(strFilePath);
@@ -171,44 +180,50 @@ namespace Area23.At.Mono.Crypt
                     lblUploadResult.Text = strFileName + " has been successfully uploaded.";
 
                 byte[] fileBytes = pfile.InputStream.ToByteArray();
-                string base64Data = Convert.ToBase64String(fileBytes);
-                imgIn.Src = "data:image;base64," + base64Data;
-                
+                // string base64Data = Convert.ToBase64String(fileBytes);
+                imgIn.Src = "../res/out/" + strFileName;
+                // imgIn.Src = LibPaths.AppUrlPath + "/res/out/" + strFileName;
+
+                Session[Constants.UPSAVED_FILE] = strFileName;
+                bool formed = false;
                 System.Drawing.Bitmap x1Image = null;
                 if (!string.IsNullOrEmpty(strFilePath) && System.IO.File.Exists(strFilePath))
                 {
-                    x1Image = new Bitmap(strFilePath);
-                    if (x1Image.Width == x1Image.Height)
-                        ReTransformImage(strFilePath);
-                    else
+                    if (!TransNotReForm)
+                    {
+                        x1Image = new Bitmap(strFilePath);
+                        if (x1Image.Width == x1Image.Height)
+                        {
+                            ReTransformImage(strFilePath);
+                            formed = true;
+                        }
+                    }
+                    if (!formed)
                         TransformImage(fileBytes, strFilePath);
-                }                
+                }       
             }
             else
             {
                 lblUploadResult.Text = "Click 'Browse' to select the file to upload.";
             }
 
-
             // Display the result of the upload.
             frmConfirmation.Visible = true;
         }
 
 
-        protected void buttonUpload_Click(object sender, EventArgs e)
+        protected void ButtonUpload_Click(object sender, EventArgs e)
         {
             if (Request.Files != null && Request.Files.Count > 0)
-                TransformUploadFile(Request.Files[0]);
+            {
+                if (Session[Constants.UPSAVED_FILE] != null && !string.IsNullOrEmpty(Session[Constants.UPSAVED_FILE].ToString()))
+                    Session.Remove(Constants.UPSAVED_FILE);                    
+                else
+                    TransformUploadFile(Request.Files[0]);
+            }
         }
 
-        protected void btnUploadRe_Click(object sender, EventArgs e)
-        {
-            
-            if (!string.IsNullOrEmpty(oFile.Value))
-            {
-                TransformUploadFile(oFile.PostedFile);
-            }            
-        }
+       
 
     }
 }

@@ -22,6 +22,7 @@ namespace Area23.At.Mono.Crypt
             this.aAes.HRef = LibPaths.EncodeAppPath + "AesImprove.aspx";
             this.aHashKey.HRef = LibPaths.EncodeAppPath + "HashKey.aspx";
             this.aUrlZenMatrix.HRef = LibPaths.EncodeAppPath + "ZenMatrixVisualize.aspx";
+            this.aImgPngCrypt.HRef = LibPaths.EncodeAppPath + "ImgPngCrypt.aspx";
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)
@@ -30,6 +31,7 @@ namespace Area23.At.Mono.Crypt
             headerLeftCenter.Attributes["class"] = "headerLeftCenter";
             headerCenter.Attributes["class"] = "headerCenter";
             headerRightCenter.Attributes["class"] = "headerRightCenter";
+            headerRight.Attributes["class"] = "headerRight";
 
             try
             {
@@ -55,11 +57,11 @@ namespace Area23.At.Mono.Crypt
                         headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
                         return;
                     }
-                    //if (this.Request.RawUrl.Contains("ZenMatrixVisualize.aspx"))
-                    //{
-                    //    headerRight.Attributes["class"] = "headerRightSelect";
-                    //    return;
-                    //}
+                    if (this.Request.RawUrl.Contains("ImgPngCrypt.aspx"))
+                    {
+                        headerRight.Attributes["class"] = "headerRightSelect";
+                        return;
+                    }
                 }
             }
             catch (Exception ex)

@@ -129,10 +129,10 @@ namespace Area23.At.Framework.Library.Zfx
             string extPre = string.IsNullOrEmpty(pipeString) ? "" : "." + pipeString;
             switch (zipt)
             {
-                case ZipType.GZip: return string.Format("{0}.gz", extPre);
-                case ZipType.BZip2: return string.Format("{0}.bz2", extPre);
-                case ZipType.Zip: return string.Format("{0}.zip", extPre);
-                case ZipType.Z7: return string.Format("{0}.7z", extPre);
+                case ZipType.GZip: return string.Format(".gz{0}", extPre);
+                case ZipType.BZip2: return string.Format("bz2{0}", extPre);
+                case ZipType.Zip: return string.Format("zip{0}", extPre);
+                case ZipType.Z7: return string.Format("7z{0}", extPre);
                 case ZipType.None:
                 default: return extPre;
             }

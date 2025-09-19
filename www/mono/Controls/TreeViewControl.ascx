@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TreeViewControl.ascx.cs" Inherits="Area23.At.Mono.Controls.TreeViewControl" %>
-<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TreeViewControl.ascx.cs" Inherits="Area23.At.Mono.Controls.TreeViewControl" %>
 <div style="clear: both; display: block; border-width 2px; border-style: outset; border-color: azure; word-wrap: break-word; unicode-bidi: isolate; position: relative;"> 
     <asp:TreeView ID="TreeViewNavigation" runat="server">
         <RootNodeStyle BorderWidth="1" BorderColor="DarkBlue" BorderStyle="Groove"  BackColor="Transparent" />

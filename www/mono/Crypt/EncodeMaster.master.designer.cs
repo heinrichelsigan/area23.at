@@ -96,6 +96,24 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.HtmlControls.HtmlAnchor aUrlZenMatrix;
 
         /// <summary>
+        /// headerRight control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRight;
+
+        /// <summary>
+        /// aImgPngCrypt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aImgPngCrypt;
+
+        /// <summary>
         /// EncodeBody control.
         /// </summary>
         /// <remarks>

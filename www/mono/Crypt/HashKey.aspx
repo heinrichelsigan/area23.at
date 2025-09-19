@@ -19,7 +19,7 @@
                 </span>
                 <span class="centerSpan" style="max-width: 400px;">                
                     <asp:TextBox ID="TextBox_Key" runat="server" ClientIDMode="Static" Text="heinrich.elsigan@area23.at"  AutoPostBack="true" 
-                        OnTextChanged="Button_Key_Click" ToolTip="Enter your personal email address or secret key here" MaxLength="192" Width="480px" style="width: 480px;" />
+                        OnTextChanged="Button_Key_Click" ToolTip="Enter your personal email address or secret key here" MaxLength="256" Width="508px" style="width: 508px;" />
                 </span>
                 <span class="rightSpan" style="width: 120px; min-width: 108px; max-width: 144px">                    
                     <asp:Button ID="Button_Hash" runat="server" Text="Hash" ClientIDMode="Static"
@@ -34,8 +34,8 @@
                     OnClick="Button_Hash_Click" ClientIDMode="Static" ImageUrl="../res/img/crypt/a_hash.png" 
                     AlternateText="Generate new hash from key" /></span>   
                 <span class="centerSpan" style="max-width: 600px;">                
-                    <asp:TextBox ID="TextBox_BCrypt_Key" runat="server" ClientIDMode="Static" Text=""                        
-                        ToolTip="hashed key" MaxLength="192" Width="532px" style="width: 532px;" />
+                    <asp:TextBox ID="TextBox_BCrypt_Key" runat="server" ClientIDMode="Static" Text="" ReadOnly="true"
+                        ToolTip="hashed key" MaxLength="256" Width="560px" Style="width: 560px;" />
                 </span>
             </div>                    
             <div class="odDiv" style="margin-top: 4px">
