@@ -107,8 +107,10 @@ namespace Area23.At.Mono.Crypt
                     try
                     {
                         b0 = data[c];
-                        b1 = data[c + 1];
-                        b2 = data[c + 2];
+                        if (c < (data.Length - 1))
+                            b1 = data[c + 1];
+                        if (c < (data.Length - 2))
+                            b2 = data[c + 2];
                     }
                     catch (Exception e)
                     {
@@ -133,7 +135,7 @@ namespace Area23.At.Mono.Crypt
                 outFileName = outFileName + ".png";
             string outPath = LibPaths.SystemDirOutPath + LibPaths.SepCh + outFileName;
             string outUrl = "../res/out/" + outFileName;
-            //fromBytesTransImage.Save(outPath, ImageFormat.Png);
+            fromBytesTransImage.Save(outPath, ImageFormat.Png);
             //FileStream fs = new FileStream(outPath, FileMode.OpenOrCreate);
             //fromBytesTransImage.Save(fs, ImageFormat.Png);
             //fs.Flush();            

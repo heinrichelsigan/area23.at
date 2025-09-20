@@ -13,10 +13,19 @@ namespace Area23.At.Mono.Settings
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            BuildTests();
-            BuildSettingsTable();
-            BuildTableRuntime();
-            
+            if (Session[Constants.AUTH_INFO] != null && !string.IsNullOrEmpty(Session[Constants.AUTH_INFO].ToString()))
+            {
+                DivOuter.Visible = true;
+                BuildTests();
+                BuildSettingsTable();
+                BuildTableRuntime();
+            }
+            else
+            {
+                LoginPanel.Visible = true;
+                DivOuter.Visible = false;
+            }
+
         }
 
         protected void BuildSettingsTable()

@@ -2,6 +2,7 @@
 <%@ Register TagPrefix="uc23" TagName="LetterImageControl" Src="~/Controls/LetterImageControl.ascx" %> 
 <%@ Register TagPrefix="uc23" TagName="TreeViewControl" Src="~/Controls/TreeViewControl.ascx" %> 
 <%@ Register TagPrefix="uc23" TagName="HashKeyRadioButtonList" Src="~/Controls/HashKeyRadioButtonList.ascx" %> 
+<%@ Register TagPrefix="uc23" TagName="LoginControl" Src="~/Controls/LoginControl.ascx" %> 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -11,6 +12,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
+            <uc23:LoginControl ID="loginControl" runat="server" />
             <uc23:LetterImageControl ID="letterImageControl" runat="server" />
             <uc23:TreeViewControl ID="treeViewControl" runat="server" />
             <uc23:HashKeyRadioButtonList ID="hashKeyRadioButtonList" runat="server" />

@@ -42,6 +42,7 @@ namespace Area23.At.Framework.Library.Static
         public const string APP_DIR = "net";
         public const string APP_ERROR = "AppError";
         public const string VERSION = "v2.25.411";
+        public const string AUTH_INFO = "AuthInfo";
         public const string VALKEY_CACHE_HOST = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com";
         public const int VALKEY_CACHE_PORT = 6379;
         public const string VALKEY_CACHE_HOST_PORT = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com:6379";

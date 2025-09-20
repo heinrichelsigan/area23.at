@@ -24,6 +24,24 @@ namespace Area23.At.Mono.Settings
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// LoginPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Area23.At.Mono.Controls.LoginControl LoginPanel;
+
+        /// <summary>
+        /// DivOuter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivOuter;
+
+        /// <summary>
         /// TableSettings control.
         /// </summary>
         /// <remarks>

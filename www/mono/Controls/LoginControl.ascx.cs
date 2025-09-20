@@ -35,6 +35,25 @@ namespace Area23.At.Mono.Controls
             }
         }
 
+        protected override void OnInit(EventArgs e)
+        {
+            if (Session[Constants.AUTH_INFO] != null && !string.IsNullOrEmpty(Session[Constants.AUTH_INFO].ToString()))
+            {
+                DivLoginBox.Visible = false;
+                preOut.InnerHtml = "<b>Authenticated</b>";
+            } 
+            else
+            {
+                DivLoginBox.Visible = true;
+                preOut.InnerHtml = "<b><i>Not</b> Authenticated</i>";
+            }
+            base.OnInit(e);
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+        }
 
         /// <summary>
         /// AuthHtPasswd - authenticates a user against .htpasswd in apache2
@@ -120,9 +139,15 @@ namespace Area23.At.Mono.Controls
         }
 
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected void ButtonLogin_Click(object sender, EventArgs e)
         {
-
+            if (!string.IsNullOrEmpty(this.TextBoxUserName.Text) && AuthHtPasswd(this.TextBoxUserName.Text, this.TextBoxPassword.Text))
+            {
+                Session[Constants.AUTH_INFO] = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(this.TextBoxUserName.Text + "\n" + this.TextBoxPassword.Text));
+                Response.Redirect(Request.Url.ToString());
+            }
+            else
+                Session[Constants.AUTH_INFO] = null;
         }
 
         #region Logging

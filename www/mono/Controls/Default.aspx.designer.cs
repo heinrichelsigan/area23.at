@@ -24,6 +24,15 @@ namespace Area23.At.Mono.Controls
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// loginControl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Area23.At.Mono.Controls.LoginControl loginControl;
+
+        /// <summary>
         /// letterImageControl control.
         /// </summary>
         /// <remarks>

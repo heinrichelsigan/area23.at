@@ -22,36 +22,45 @@ namespace Area23.At.Mono.Settings
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Enum.TryParse<PersistType>(this.DropDownList_CacheVariant.SelectedValue, out persistType);
-
-            string persistString = this.DropDownList_CacheVariant.SelectedItem.Text;
-            if (persistString.StartsWith("AppDomain"))
-                persistType = PersistType.AppDomain;
-            if (persistString.StartsWith("ApplicationState"))
-                persistType = PersistType.ApplicationState;
-            if (persistString.StartsWith("JsonFile"))
-                persistType = PersistType.JsonFile;
-            //if (persistString.StartsWith("RedisValkey"))
-            //    persistType = PersistType.RedisValkey;
-            if (persistString.StartsWith("SessionState"))
-                persistType = PersistType.SessionState;
-
-            if (!Int32.TryParse(this.DropDownList_Iterations.SelectedValue, out iterations))
-                iterations = 128;
-            foreach (ListItem item in CheckBoxList_TestType.Items)
+            if (Session[Constants.AUTH_INFO] != null && !string.IsNullOrEmpty(Session[Constants.AUTH_INFO].ToString()))
             {
-                if (item.Text == "Parallel")
-                    parallel = item.Selected;
-                if (item.Text == "Serial")
-                    serial = item.Selected;
-            }
+                DivOuter.Visible = true;
+                Enum.TryParse<PersistType>(this.DropDownList_CacheVariant.SelectedValue, out persistType);
 
-            if (!IsPostBack)
-            {
-                OnInit(e);
-                // BuildSettingsTable();
-                PerformTests(persistType, iterations, parallel, serial);
+                string persistString = this.DropDownList_CacheVariant.SelectedItem.Text;
+                if (persistString.StartsWith("AppDomain"))
+                    persistType = PersistType.AppDomain;
+                if (persistString.StartsWith("ApplicationState"))
+                    persistType = PersistType.ApplicationState;
+                if (persistString.StartsWith("JsonFile"))
+                    persistType = PersistType.JsonFile;
+                //if (persistString.StartsWith("RedisValkey"))
+                //    persistType = PersistType.RedisValkey;
+                if (persistString.StartsWith("SessionState"))
+                    persistType = PersistType.SessionState;
+
+                if (!Int32.TryParse(this.DropDownList_Iterations.SelectedValue, out iterations))
+                    iterations = 128;
+                foreach (ListItem item in CheckBoxList_TestType.Items)
+                {
+                    if (item.Text == "Parallel")
+                        parallel = item.Selected;
+                    if (item.Text == "Serial")
+                        serial = item.Selected;
+                }
+
+                if (!IsPostBack)
+                {
+                    OnInit(e);
+                    // BuildSettingsTable();
+                    PerformTests(persistType, iterations, parallel, serial);
+                }
             }
+            else
+            {
+                LoginPanel.Visible = true;
+                DivOuter.Visible = false;
+            }           
         }
 
         protected override void OnInit(EventArgs e)
