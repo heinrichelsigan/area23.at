@@ -14,7 +14,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
         internal System.Windows.Forms.DragDropEffects _dragDropEffect = System.Windows.Forms.DragDropEffects.None;
         private bool isDragMode = false;
         private readonly Lock _Lock = new Lock();
-        
+
         internal static HashSet<string> HashFiles = new HashSet<string>();
         internal delegate void SetGroupBoxTextCallback(System.Windows.Forms.GroupBox groupBox, string headerText);
 
@@ -293,8 +293,8 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                     else
                     {
                         e.Effect = DragDropEffects.None;
-                    }                                        
-                }      
+                    }
+                }
             }
         }
 
@@ -326,7 +326,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                             if (!HashFiles.Contains(file))
                                 HashFiles.Add(file);
                     }
-                
+
                 if (dragNDropState == DragNDropState.DragEnter)
                     e.Effect = DragDropEffects.Copy;
                 if (dragNDropState != DragNDropState.DragLeave)
@@ -352,7 +352,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             }
         }
 
-  
+
         internal void Give_FeedBack(object sender, System.Windows.Forms.GiveFeedbackEventArgs e)
         {
             if (e != null)
@@ -485,6 +485,45 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             }
         }
 
+        private void menuFileExit_Click(object sender, EventArgs e)
+        {
+            foreach (var t in Program.tFormsNew)
+            {
+                try
+                {
+                    t.Close();
+                }
+                catch { }
+                try { t.Dispose(); } catch { }
+            }
+            if (Program.tWinFormOld != null)
+            {
+                try
+                {
+                    Program.tWinFormOld.Close();
+                }
+                catch { }
+                try { Program.tWinFormOld.Dispose(); } catch { }
+            }
 
+            try
+            {
+                Program.ReleaseCloseDisposeMutex();
+            }
+            catch (Exception ex)
+            {
+                string s = ex.ToString();
+            }
+
+            Application.ExitThread();
+            Dispose();
+            Application.Exit();
+            Environment.Exit(0);
+        }
+
+        private void menuFileExit_Close(object sender, FormClosingEventArgs e)
+        {
+            menuFileExit_Click(sender, e);
+        }
     }
 }
