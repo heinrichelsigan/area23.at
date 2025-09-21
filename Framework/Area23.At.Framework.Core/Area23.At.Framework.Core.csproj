@@ -98,7 +98,6 @@
   <ItemGroup>
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.1" />
     <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="9.0.4" />
-    <PackageReference Include="Microsoft.IdentityModel.Protocols.WsTrust" Version="6.8.0" />
     <PackageReference Include="Microsoft.IdentityModel.Xml" Version="8.8.0" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" />

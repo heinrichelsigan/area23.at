@@ -46,8 +46,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             byte[] iv = Convert.FromBase64String(ResReader.GetValue(Constants.AES_IV));
             Key = new byte[32];
             Iv = new byte[32];
-            Array.Copy(key, Iv, 32);
-            Array.Copy(key, Key, 32);
             Size = 256;
             Mode = "ECB";
             BlockCipherPadding = new ZeroBytePadding();
