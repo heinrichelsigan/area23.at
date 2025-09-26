@@ -15,6 +15,7 @@
         <add key="BaseAppPathWin" value="/" />
         <add key="AppDirPathWin" value="C:\Users\heinr\source\area23.at\www\mono\" />
         -->
+		
 		<add key="ServerIPv4" value="100.26.57.250" />
 		<add key="ServerIPv6" value="2600:1f18:7a3f:a700::6291" />
 
