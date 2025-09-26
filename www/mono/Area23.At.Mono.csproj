@@ -753,6 +753,7 @@
     <Content Include="Web.config" />
     <Content Include="res\uu\derpark.txt.uu" />
     <None Include="Properties\PublishProfiles\ArmPublish.pubxml" />
+    <None Include="Web.config.arm" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -2,12 +2,16 @@
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Crypt.Hash;
 using Area23.At.Framework.Core.Util;
+using Area23.At.Framework.Core.Win32Api;
 using Area23.At.Framework.Core.Zfx;
 using Area23.At.WinForm.TWinFormCore.Helper;
+using Area23.At.WinForm.TWinFormCore.Properties;
+using System.Media;
+using System.Windows.Controls;
 
 namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
-    public partial class EncryptForm : TransparentFormCore
+    public partial class EncryptForm : System.Windows.Forms.Form
     {
 
         Cursor NormalCursor, NoDropCursor;
@@ -21,7 +25,6 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
         public EncryptForm()
         {
             InitializeComponent();
-            this.menuStrip.Visible = false;
         }
 
 
@@ -30,7 +33,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             string textToSet = (!string.IsNullOrEmpty(text)) ? text : string.Empty;
             if (InvokeRequired)
             {
-                SetGroupBoxTextCallback setGroupBoxText = delegate (GroupBox gBox, string hText)
+                SetGroupBoxTextCallback setGroupBoxText = delegate (System.Windows.Forms.GroupBox gBox, string hText)
                 {
                     if (gBox != null && gBox.Name != null && !string.IsNullOrEmpty(hText))
                         gBox.Text = hText;
@@ -54,15 +57,16 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
         internal void EncryptForm_Load(object sender, EventArgs e)
         {
-
             this.comboBoxAlgo.Items.Clear();
             foreach (var item in Enum.GetValues(typeof(Area23.At.Framework.Core.Crypt.Cipher.CipherEnum)))
             {
                 this.comboBoxAlgo.Items.Add(item.ToString());
             }
+            this.textBoxKey.Text = GetEmailFromRegistry();
         }
 
 
+        #region MenuCompressionEncodingZipHash
 
         private void menuCompression_Click(object sender, EventArgs e) => SetCompression((ToolStripMenuItem)sender);
 
@@ -97,6 +101,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
         protected void SetEncoding(ToolStripMenuItem mi)
         {
+            menuItemNone.Checked = false;
             menuBase16.Checked = false;
             menuHex16.Checked = false;
             menuBase32.Checked = false;
@@ -114,6 +119,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
         protected EncodingType GetEncoding()
         {
+            if (menuItemNone.Checked) return EncodingType.None;
             if (menuBase16.Checked) return EncodingType.Base16;
             if (menuHex16.Checked) return EncodingType.Hex16;
             if (menuBase32.Checked) return EncodingType.Base32;
@@ -163,6 +169,9 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             return KeyHash.Hex;
         }
 
+        #endregion MenuCompressionEncodingZipHash
+
+        #region ButtonPictureBoxClickEvents
 
         private void pictureBoxAddAlgo_Click(object sender, EventArgs e)
         {
@@ -171,7 +180,6 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                 this.textBoxPipe.Text += cipherEnum.ToString() + ";";
             }
         }
-
 
         private void Clear_Click(object sender, EventArgs e)
         {
@@ -200,17 +208,30 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             }
         }
 
+        #endregion ButtonPictureBoxClickEvents
+
+
+        #region EncryptDecrypt_Click
+
+        /// <summary>
+        /// Encrypt_Click - encrypts text or file with given key, hash, zip and encoding
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Encrypt_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(this.textBoxPipe.Text) && !string.IsNullOrEmpty(this.textBoxKey.Text))
             {
                 if (!string.IsNullOrEmpty(this.textBoxSrc.Text))
                 {
+                    if (menuItemNone.Checked)
+                        SetEncoding(menuBase64);
+
                     CipherPipe cPipe = new CipherPipe(this.textBoxKey.Text, this.textBoxHash.Text);
                     string encrypted = cPipe.EncrpytTextGoRounds(this.textBoxSrc.Text, this.textBoxKey.Text, this.textBoxHash.Text, GetEncoding(), GetZip(), GetHash());
                     this.textBoxOut.Text = encrypted;
                 }
-                else if (!string.IsNullOrEmpty(this.labelFileIn.Text) && !labelFileIn.Text.StartsWith("["))
+                if (!string.IsNullOrEmpty(this.labelFileIn.Text) && !labelFileIn.Text.StartsWith("["))
                 {
                     foreach (string file in HashFiles)
                     {
@@ -221,15 +242,15 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                                 CipherPipe cPipe = new CipherPipe(this.textBoxKey.Text, this.textBoxHash.Text);
                                 byte[] fileBytes = System.IO.File.ReadAllBytes(file);
                                 byte[] outBytes = cPipe.EncrpytFileBytesGoRounds(fileBytes, this.textBoxKey.Text, this.textBoxHash.Text, GetEncoding(), GetZip(), GetHash());
-                                string outFilePath = (file + "." + cPipe.PipeString + "." + GetEncoding().GetEnCodingExtension());
-                                File.WriteAllBytes(outFilePath, outBytes);
+                                string outFilePath = (file + GetZip().GetZipTypeExtension() + "." + cPipe.PipeString + "." + GetHash());
+                                SaveBytesDialog(outBytes, ref outFilePath);
                                 pictureBoxOutFile.Visible = true;
                                 pictureBoxOutFile.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.encrypted;
                                 string outFileName = Path.GetFileName(outFilePath);
-                                labelOutputFile.Text = file;
+                                labelOutputFile.Text = outFileName;
+                                labelOutputFile.Visible = true;
                                 HashFiles.Add(outFilePath);
-                                string encrypted = GetEncoding().EnCode(outBytes);
-                                this.textBoxOut.Text = encrypted;
+
                                 break;
                             }
                         }
@@ -239,17 +260,25 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             }
         }
 
+        /// <summary>
+        /// Decrypt_Click - decrypts text or file with given key, hash, zip and encoding
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Decrypt_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(this.textBoxPipe.Text) && !string.IsNullOrEmpty(this.textBoxKey.Text))
             {
                 if (!string.IsNullOrEmpty(this.textBoxSrc.Text))
                 {
+                    if (menuItemNone.Checked)
+                        SetEncoding(menuBase64);
+
                     CipherPipe cPipe = new CipherPipe(this.textBoxKey.Text, this.textBoxHash.Text);
                     string decrypted = cPipe.DecryptTextRoundsGo(this.textBoxSrc.Text, this.textBoxKey.Text, this.textBoxHash.Text, GetEncoding(), GetZip(), GetHash());
                     this.textBoxOut.Text = decrypted;
                 }
-                else if (!string.IsNullOrEmpty(this.labelFileIn.Text) && !labelFileIn.Text.StartsWith("["))
+                if (!string.IsNullOrEmpty(this.labelFileIn.Text) && !labelFileIn.Text.StartsWith("["))
                 {
                     foreach (string file in HashFiles)
                     {
@@ -260,15 +289,14 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                                 CipherPipe cPipe = new CipherPipe(this.textBoxKey.Text, this.textBoxHash.Text);
                                 byte[] fileBytes = System.IO.File.ReadAllBytes(file);
                                 byte[] outBytes = cPipe.DecryptFileBytesRoundsGo(fileBytes, this.textBoxKey.Text, this.textBoxHash.Text, GetEncoding(), GetZip(), GetHash());
-                                string outFileDecrypt = file.Replace("." + cPipe.PipeString + GetEncoding().GetEnCodingExtension(), "");
-                                File.WriteAllBytes(outFileDecrypt, outBytes);
+                                string outFileDecrypt = file.Replace(GetZip().GetZipTypeExtension() + "." + cPipe.PipeString + "." + GetHash(), "");
+                                SaveBytesDialog(outBytes, ref outFileDecrypt);
                                 HashFiles.Add(outFileDecrypt);
                                 pictureBoxOutFile.Visible = true;
                                 pictureBoxOutFile.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.decrypted;
+                                pictureBoxOutFile.Tag = outFileDecrypt;
                                 labelOutputFile.Text = Path.GetFileName(outFileDecrypt);
-
-                                string decrypted = GetEncoding().EnCode(outBytes);
-                                this.textBoxOut.Text = decrypted;
+                                labelOutputFile.Visible = true;
                                 break;
                             }
                         }
@@ -277,6 +305,36 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             }
         }
 
+        public string GetEmailFromRegistry()
+        {
+            string userEmail = "anonymous@ftp.cdrom.com";
+            try
+            {
+                userEmail = (string)RegistryAccessor.GetRegistryEntry(Microsoft.Win32.RegistryHive.CurrentUser, "Software\\Microsoft\\OneDrive\\Accounts\\Personal", "UserEmail");
+                if (userEmail.Contains('@') && userEmail.Contains('.'))
+                    return userEmail;
+            }
+            catch (Exception)
+            {
+            }
+            try
+            {
+                userEmail = (string)RegistryAccessor.GetRegistryEntry(Microsoft.Win32.RegistryHive.CurrentUser,
+                    "Software\\Microsoft\\VSCommon\\ConnectedUser\\IdeUserV4\\Cache", "EmailAddress");
+                if (userEmail.Contains("@") && userEmail.Contains("."))
+                    return userEmail;
+            }
+            catch (Exception)
+            {
+            }
+            userEmail = "anonymous@ftp.cdrom.com";
+            return userEmail;
+        }
+
+        #endregion EncryptDecrypt_Click
+
+
+        #region DragNDrop
 
         internal void Drag_Enter(object sender, System.Windows.Forms.DragEventArgs e)
         {
@@ -383,7 +441,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             string[] files = new string[1];
 
             if (e != null && e.Data != null && (e.Data.GetDataPresent(System.Windows.Forms.DataFormats.FileDrop) ||
-                e.Data.GetDataPresent(System.Windows.DataFormats.FileDrop) || e.Data.GetDataPresent(typeof(string[]))))
+                e.Data.GetDataPresent(typeof(string[]))))
             {
                 if ((files = (string[])e.Data.GetData(System.Windows.Forms.DataFormats.FileDrop)) != null)
                     Drop_Files(files);
@@ -423,7 +481,16 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             Cursor.Current = DefaultCursor;
         }
 
+        #endregion DragNDrop
 
+
+        #region OpenSave
+
+        /// <summary>
+        /// menuFileOpen_Click opens a file dialog to select a file to encrypt/decrypt
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         internal void menuFileOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -446,12 +513,54 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
         }
 
 
+        /// <summary>
+        /// SaveBytesDialog saves byte array to file with save file dialog 
+        /// </summary>
+        /// <param name="fileBytes">byte array to save</param>
+        /// <param name="outFilePath">ref will be returned; calculated outFilePath</param>
+        /// <returns>true if saved, false if not saved</returns>
+        internal bool SaveBytesDialog(byte[] fileBytes, ref string outFilePath)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            outFilePath = outFilePath ?? string.Empty;
+            if (fileBytes != null && fileBytes.Length > 0)
+            {
+                dialog.Title = "Save File";
+                dialog.CheckPathExists = true;
+                dialog.RestoreDirectory = true;
+                dialog.SupportMultiDottedExtensions = true;
+                dialog.AddExtension = true;
+                dialog.FileName = Path.GetFileName(outFilePath);
+                dialog.DefaultExt = Path.GetExtension(outFilePath);
+                DialogResult result = dialog.ShowDialog();
+                if (result == DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
+                {
+                    outFilePath = dialog.FileName;
+                    try
+                    {
+                        File.WriteAllBytes(outFilePath, fileBytes);
+                    }
+                    catch (Exception ex)
+                    {
+                        Area23Log.LogOriginMsg(this.Name, $"Exception in SaveBytesDialog for file: \"{outFilePath}\".\n{ex}");
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
         internal void menuMainSave_Click(object sender, EventArgs e)
         {
             if (this.pictureBoxOutFile.Visible || labelOutputFile.Visible)
             {
                 byte[] fileBytes = new byte[0];
-                SaveFileDialog dialog = new SaveFileDialog();
+                string fileName = "";
 
                 foreach (string filePath in HashFiles)
                 {
@@ -459,60 +568,54 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                     {
                         if (Path.GetFileName(filePath) == labelOutputFile.Text)
                         {
+                            fileName = filePath;
                             fileBytes = System.IO.File.ReadAllBytes(filePath);
                             break;
                         }
                     }
                 }
-                if (fileBytes != null && fileBytes.Length > 0)
+
+                if (SaveBytesDialog(fileBytes, ref fileName))
                 {
-                    dialog.Title = "Save File";
-                    dialog.CheckFileExists = true;
-                    dialog.CheckPathExists = true;
-                    dialog.CheckWriteAccess = true;
-                    dialog.RestoreDirectory = true;
-                    DialogResult result = dialog.ShowDialog();
-                    if (result == DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName) && System.IO.File.Exists(dialog.FileName))
-                    {
-                        File.WriteAllBytes(dialog.FileName, fileBytes);
-                    }
+                    if (HashFiles.Contains(fileName))
+                        HashFiles.Remove(fileName);
+                    this.pictureBoxOutFile.Visible = false;
+                    this.labelOutputFile.Visible = false;
                 }
-                if (HashFiles.Contains(dialog.FileName))
-                    HashFiles.Remove(dialog.FileName);
-                this.pictureBoxOutFile.Visible = false;
-                this.labelOutputFile.Visible = false;
+
 
             }
         }
 
+        #endregion OpenSave
+
+
+        #region AboutHelpExitClose
+
+        private void menuAbout_Click(object sender, EventArgs e)
+        {
+            TransparentDialog transparentDialog = new TransparentDialog();
+            transparentDialog.ShowDialog(this);
+        }
+
+
         private void menuFileExit_Click(object sender, EventArgs e)
         {
-            foreach (var t in Program.tFormsNew)
-            {
-                try
-                {
-                    t.Close();
-                }
-                catch { }
-                try { t.Dispose(); } catch { }
-            }
-            if (Program.tWinFormOld != null)
-            {
-                try
-                {
-                    Program.tWinFormOld.Close();
-                }
-                catch { }
-                try { Program.tWinFormOld.Dispose(); } catch { }
-            }
-
             try
             {
                 Program.ReleaseCloseDisposeMutex();
             }
             catch (Exception ex)
             {
-                string s = ex.ToString();
+                Area23Log.LogOriginMsgEx("BaseChatForm", "menuFileExit_Click", ex);
+            }
+            try
+            {
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                Area23Log.LogOriginMsgEx("BaseChatForm", "menuFileExit_Click", ex);
             }
 
             Application.ExitThread();
@@ -521,9 +624,76 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             Environment.Exit(0);
         }
 
-        private void menuFileExit_Close(object sender, FormClosingEventArgs e)
+        private void menuFileExit_Close(object sender, FormClosedEventArgs e)
         {
-            menuFileExit_Click(sender, e);
+            Application.ExitThread();
+            Application.Exit();
+            Environment.Exit(0);
         }
+
+        #endregion AboutHelpExitClose
+
+
+        #region Media Methods
+
+        /// <summary>
+        /// PlaySoundFromResource - plays a sound embedded in application ressource file
+        /// </summary>
+        /// <param name="soundName">unique qualified name for sound</param>
+        protected static bool PlaySoundFromResource(string soundName)
+        {
+            bool played = false;
+            if (true)
+            {
+                UnmanagedMemoryStream stream = (UnmanagedMemoryStream)Resources.ResourceManager.GetStream(soundName);
+
+
+                if (stream != null)
+                {
+                    try
+                    {
+                        // Construct the sound player
+                        SoundPlayer player = new SoundPlayer(stream);
+                        player.Play();
+                        played = true;
+                        stream.Close();
+                    }
+                    catch (Exception exSound)
+                    {
+                        Area23Log.LogOriginMsgEx("EncryptForm", $"PlaySoundFromResource(string soundName = {soundName})", exSound);
+                        played = false;
+                    }
+                    //fixed (byte* bufferPtr = &bytes[0])
+                    //{
+                    //    System.IO.UnmanagedMemoryStream ums = new UnmanagedMemoryStream(bufferPtr, bytes.Length);
+                    //    SoundPlayer player = new SoundPlayer(ums);                        
+                    //    player.Play();
+                    //}
+                }
+            }
+
+            return played;
+        }
+
+
+
+        protected virtual async Task<bool> PlaySoundFromResourcesAsync(string soundName)
+        {
+            return await Task.Run(() => PlaySoundFromResource(soundName));
+        }
+
+        private void pictureOutBoxFile_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(pictureBoxOutFile.Tag.ToString()) && pictureBoxOutFile.Visible &&
+                File.Exists(pictureBoxOutFile.Tag.ToString()))
+            {
+                ProcessCmd.Execute("explorer", pictureBoxOutFile.Tag.ToString());
+            }
+        }
+
+        #endregion Media Methods
+
+
+
     }
 }

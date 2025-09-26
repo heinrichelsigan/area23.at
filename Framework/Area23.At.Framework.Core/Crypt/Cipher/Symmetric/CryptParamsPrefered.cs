@@ -111,7 +111,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.ZenMatrix:
                     Size = 15;
                     KeyLen = 15;
-                    BlockCipher = new ZenMatrix();
+                    BlockCipher = new ZenMatrix(Size);
                     break;
                 default:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();

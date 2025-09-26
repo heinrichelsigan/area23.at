@@ -5,7 +5,9 @@ using System.ComponentModel;
 
 namespace Area23.At.Framework.Library.Zfx
 {
-
+    /// <summary>
+    /// ZipType enumeration
+    /// </summary>
     [DefaultValue(None)]
     public enum ZipType
     {

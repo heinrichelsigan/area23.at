@@ -270,7 +270,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
         /// Serialize <see cref="CSrvMsg{TC}"/> to Json Stting
         /// </summary>
         /// <returns>json serialized string</returns>
-        public override string EncryptToJson(string serverKey, EncodingType encoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None)
+        public override string EncryptToJson(string serverKey, EncodingType encoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None, KeyHash kHash = KeyHash.Hex)
         {
             if (Encrypt(serverKey, encoder, zipType))
             {
@@ -280,9 +280,9 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             throw new CqrException($"EncryptToJson(string severKey failed");
         }
 
-        public override bool Encrypt(string serverKey, EncodingType encoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None)
+        public override bool Encrypt(string serverKey, EncodingType encoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None, KeyHash kHash = KeyHash.Hex)
         {
-            string pipeString = "", encrypted = "", keyHash = EnDeCodeHelper.KeyToHex(serverKey);
+            string pipeString = "", encrypted = "", keyHash = kHash.Hash(serverKey);
             try
             {
                 if (TContent != null)
@@ -293,7 +293,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 Hash = pipeString;
                 Md5Hash = MD5Sum.HashString(String.Concat(serverKey, keyHash, pipeString, Message), "");
 
-                encrypted = SymmCipherPipe.EncrpytToString(Message, serverKey, out pipeString, encoder, zipType);
+                encrypted = SymmCipherPipe.EncrpytToString(Message, serverKey, out pipeString, encoder, zipType, kHash);
 
                 Message = encrypted;
             }
@@ -327,14 +327,14 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             throw new CqrException($"DecryptFromJson<T>(string severKey, string serialized) failed");
         }
 
-        public override bool Decrypt(string serverKey, EncodingType decoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None)
+        public override bool Decrypt(string serverKey, EncodingType decoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None, KeyHash kHash = KeyHash.Hex)
         {
-            string pipeString = "", decrypted = "", keyHash = EnDeCodeHelper.KeyToHex(serverKey);
+            string pipeString = "", decrypted = "", keyHash = kHash.Hash(serverKey);
             try
             {
                 pipeString = (new SymmCipherPipe(serverKey, keyHash)).PipeString;
 
-                decrypted = SymmCipherPipe.DecrpytToString(Message, serverKey, out pipeString, decoder, zipType);
+                decrypted = SymmCipherPipe.DecrpytToString(Message, serverKey, out pipeString, decoder, zipType, kHash);
 
                 if (!Hash.Equals(pipeString))
                 {

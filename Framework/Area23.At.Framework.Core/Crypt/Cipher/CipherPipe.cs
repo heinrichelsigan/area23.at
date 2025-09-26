@@ -202,9 +202,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                 //case CipherEnum.ZenMatrix:
                 //    encryptBytes = (new ZenMatrix(secretKey, hash, true)).Encrypt(inBytes);
                 //    break;
-                //case CipherEnum.ZenMatrix2:
-                //    encryptBytes = (new ZenMatrix2(secretKey, hash, false)).Encrypt(inBytes);
-                //    break;
+                case CipherEnum.ZenMatrix2:
+                    encryptBytes = (new ZenMatrix2(secretKey, hash, false)).Encrypt(inBytes);
+                    break;
                 case CipherEnum.Aes:
                 case CipherEnum.AesLight:
                 case CipherEnum.Aria:
@@ -233,7 +233,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                 case CipherEnum.Tnepres:
                 case CipherEnum.XTea:
                 case CipherEnum.ZenMatrix:
-                case CipherEnum.ZenMatrix2:
+                // case CipherEnum.ZenMatrix2:
                 default:
                     CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash);
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
@@ -284,9 +284,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                 //    string privKey = keyPair.Private.ToString();
                 //    decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes);
                 //    break;
-                //case CipherEnum.ZenMatrix2:
-                //    decryptBytes = (new ZenMatrix2(secretKey, hash, false)).Decrypt(cipherBytes);
-                //    break;
+                case CipherEnum.ZenMatrix2:
+                    decryptBytes = (new ZenMatrix2(secretKey, hash, false)).Decrypt(cipherBytes);
+                    break;
                 case CipherEnum.Aes:
                 case CipherEnum.AesLight:
                 case CipherEnum.Aria:
@@ -315,7 +315,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                 case CipherEnum.Tnepres:
                 case CipherEnum.XTea:
                 case CipherEnum.ZenMatrix:
-                case CipherEnum.ZenMatrix2:
+                // case CipherEnum.ZenMatrix2:
                 default:
                     CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash);
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);

@@ -9,15 +9,11 @@
     </system.web>
     <appSettings>
 		<!-- Windows or Unix OS-->
-		<add key="OS" value="Windows" />
-		<!--
-		    <add key="OS" value="Linux" />
-		-->
-        <!-- windows -->
+		<add key="OS" value="Linux" />
+		
+        <!-- windows 
         <add key="BaseAppPathWin" value="/" />
         <add key="AppDirPathWin" value="C:\Users\heinr\source\area23.at\www\mono\" />
-        <!--
-            <add key="ExternalClientIP" value="213.142.96.75" />
         -->
 		<add key="ServerIPv4" value="100.26.57.250" />
 		<add key="ServerIPv6" value="2600:1f18:7a3f:a700::6291" />
@@ -28,23 +24,15 @@
 		    <add key="AppDirPathUnix" value="/var/www/net" />
 		    <add key="BaseAppPathUnix" value="/net/" />
         -->
-				
-		<add key="AppUrl" value="https://area23.at/mono/app.publish/" />
-		<add key="AppDir" value="mono/app.publish"/>
-		<add key="AppDirPathUnix" value="/var/www/mono/app.publish/"/>
-		<add key="BaseAppPathUnix" value="/mono/app.publish/"/>
-		
-		
-		<!--
-            <add key="ServerIPv4" value="18.101.101.108" />
-            <add key="ServerIPv6" value="2a05:d011:cdf:3a00:75d:d95d:136e:9e41" />
-            <add key="AppUrl" value="https://cqrxs.eu/net/"/>
+						
+        <add key="ServerIPv4" value="18.101.101.108" />
+        <add key="ServerIPv6" value="2a05:d011:cdf:3a00:75d:d95d:136e:9e41" />
+        <add key="AppUrl" value="https://cqrxs.eu/mono/arm.publish/" />
 			
-			<add key="AppDir" value="mono/arm.publisht"/>
-		    <add key="AppDirPathUnix" value="/var/www/mono/arm.publish/"/>
-		    <add key="BaseAppPathUnix" value="/mono/arm.publish//"/>			
-        -->
-
+		<add key="AppDir" value="mono/arm.publish"/>
+		<add key="AppDirPathUnix" value="/var/www/mono/arm.publish/" />
+		<add key="BaseAppPathUnix" value="/mono/arm.publish/" />
+        
 
         <!-- Persist Message -->
         <add key="PersistMsgIn" value="SessionState" />
@@ -56,10 +44,7 @@
         -->
 
 	    <!-- PDFMergeCmd -->
-	    <!--
-	        <add key="PDFMergeCmd" value="/usr/bin/pdfunite" />
-	    -->
-		<add key="PDFMergeCmd" value="dir" />
+	    <add key="PDFMergeCmd" value="/usr/bin/pdfunite" />
 		
     </appSettings>
     <system.webServer>

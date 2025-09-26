@@ -129,24 +129,25 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 
         #region EnDeCrypt+DeSerialize
 
-        public override string EncryptToJson(string serverKey, EncodingType encoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None)
+        public override string EncryptToJson(string serverKey, EncodingType encoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None, KeyHash kHash = KeyHash.Hex)
         {
-            string serializedJson = CImage.Encrypt2Json(serverKey, this, encoder, zipType);
+            CFile cfile = (CFile)this.ToCFile();
+            string serializedJson = CImage.Encrypt2Json(serverKey, ref cfile, encoder, zipType, kHash);
 
             return serializedJson;
         }
 
         public new CImage DecryptFromJson(string serverKey, string serialized = "",
-            EncodingType decoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None)
+            EncodingType decoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None, KeyHash kHash = KeyHash.Hex)
         {
             if (string.IsNullOrEmpty(serialized))
                 serialized = this.SerializedMsg;
 
-            CImage cimg = CImage.Json2Decrypt(serverKey, serialized, decoder, zipType);
-            if (cimg == null)
+            CFile cfile = CImage.Json2Decrypt(serverKey, serialized, decoder, zipType, kHash);
+            if (cfile == null)
                 throw new CqrException($"CImage DecryptFromJson(string serverKey, string serialized) failed.");
 
-            return CloneCopy(cimg, this);
+            return CloneCopy(cfile, this);
         }
 
         #endregion EnDeCrypt+DeSerialize
@@ -440,6 +441,27 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 
 
         public static CImage CloneCopy(CImage source, CImage destination)
+        {
+            if (source == null)
+                return null;
+            if (destination == null)
+                destination = new CImage();
+
+            destination.Message = source.Message;
+            destination.Hash = source.Hash;
+            destination.MsgType = source.MsgType;
+            destination.CBytes = source.CBytes;
+            destination.Md5Hash = source.Md5Hash;
+
+            destination.FileName = source.FileName;
+            destination.Base64Type = source.Base64Type;
+            destination.Data = source.Data;
+            destination.Sha256Hash = source.Sha256Hash;
+
+            return destination;
+        }
+
+        public static CImage CloneCopy(CFile source, CImage destination)
         {
             if (source == null)
                 return null;

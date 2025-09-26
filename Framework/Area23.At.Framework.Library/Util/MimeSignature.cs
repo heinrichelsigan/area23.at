@@ -239,6 +239,7 @@ namespace Area23.At.Framework.Library.Util
         internal static readonly byte[] _EML = { 0x52, 0x65, 0x63, 0x65, 0x69, 0x76, 0x65, 0x64, 0x3A };
         internal static readonly byte[] _SVG = { 0x3c, 0x73, 0x76, 0x67 };
         internal static readonly byte[] _AVIF = { 0x66, 0x74, 0x79, 0x70, 0x61, 0x76, 0x69, 0x66 };
+        internal static readonly byte[] _AIFF = { 0x46, 0x4F, 0x52, 0x4D, 0x00 };
 
         internal static readonly byte[,] _TEXT = {  { 0x09 }, { 0x0a }, { 0x0d }, 
                                                     { 0x20 }, { 0x21 }, { 0x22 }, { 0x23 }, { 0x24 }, { 0x25 }, { 0x26 }, { 0x27 },
@@ -255,19 +256,30 @@ namespace Area23.At.Framework.Library.Util
                                                     { 0x78 }, { 0x79 }, { 0x7A }, { 0x7B }, { 0x7C }, { 0x7D }, { 0x7E }, { 0x7F }   };
         #endregion static internal readonly
 
-            #region public static MimeTypeExtSig[] MimeSignatureMap
+        #region public static MimeTypeExtSig[] MimeSignatureMap
 
         public static MimeTypeExtSig[] MimeSignatureMap =
         {
-            new MimeTypeExtSig(".eva", "application/x-eva", MimeSignature._EVA ),
+            new MimeTypeExtSig(".eva", "application/x-eva", MimeSignature._EVA),
+            new MimeTypeExtSig(".aff", "audio/aiff", MimeSignature._AIFF), 
+            new MimeTypeExtSig(".aif", "audio/aiff", MimeSignature._AIFF),
+            new MimeTypeExtSig(".aifc", "audio/aiff", MimeSignature._AIFF),
+            new MimeTypeExtSig(".aiff", "audio/aiff", MimeSignature._AIFF),
+            new MimeTypeExtSig(".cdda", "audio/aiff", MimeSignature._AIFF),
             new MimeTypeExtSig(".gif", "image/gif", MimeSignature._GIF),
             new MimeTypeExtSig(".ico", "image/x-icon", MimeSignature._ICO),
             new MimeTypeExtSig(".jpg", "image/jpg", MimeSignature._JPG),
+            new MimeTypeExtSig(".jpe", "image/jpeg", MimeSignature._JPG),
+            new MimeTypeExtSig(".jpeg", "image/jpeg", MimeSignature._JPG),
             new MimeTypeExtSig(".jpeg","image/jpeg", MimeSignature._JPG),
+            new MimeTypeExtSig(".jfif-tbnl", "image/jpeg", MimeSignature._JPG),
+            new MimeTypeExtSig(".jpgv", "video/jpeg", MimeSignature._JPG),
             new MimeTypeExtSig(".bmp",  "image/bmp", MimeSignature._BMP),
             new MimeTypeExtSig(".webp", "image/webp", MimeSignature._WEBP),
             new MimeTypeExtSig(".heif", "image/heif", MimeSignature._HEIF),
             new MimeTypeExtSig(".heifs", "image/heif-sequence", MimeSignature._HEIF),
+            new MimeTypeExtSig(".png", "image/png", MimeSignature._PNG),
+            new MimeTypeExtSig(".pnz", "image/png", MimeSignature._PNG),
             new MimeTypeExtSig(".tif", "image/tiff", MimeSignature._TIF),
             new MimeTypeExtSig(".tiff", "image/tiff", MimeSignature._TIF),
             new MimeTypeExtSig(".wav", "audio/wav", MimeSignature._WAV),
@@ -428,14 +440,7 @@ namespace Area23.At.Framework.Library.Util
             new MimeTypeExtSig(".ac3", "audio/ac3" },
             new MimeTypeExtSig(".aca", "application/octet-stream" },
             new MimeTypeExtSig(".acc", "application/vnd.americandynamics.acc" },
-            new MimeTypeExtSig(".accda", "application/msaccess.addin" },
-            new MimeTypeExtSig(".accdb", "application/msaccess" },
-            new MimeTypeExtSig(".accdc", "application/msaccess.cab" },
-            new MimeTypeExtSig(".accde", "application/msaccess" },
-            new MimeTypeExtSig(".accdr", "application/msaccess.runtime" },
-            new MimeTypeExtSig(".accdt", "application/msaccess" },
-            new MimeTypeExtSig(".accdw", "application/msaccess.webapplication" },
-            new MimeTypeExtSig(".accft", "application/msaccess.ftemplate" },
+            
             new MimeTypeExtSig(".ace", "application/x-ace-compressed" },
             new MimeTypeExtSig(".acgi", "text/html" },
             new MimeTypeExtSig(".acu", "application/vnd.acucobol" },
@@ -448,16 +453,16 @@ namespace Area23.At.Framework.Library.Util
             new MimeTypeExtSig(".ADT", "audio/vnd.dlna.adts" },
             new MimeTypeExtSig(".ADTS", "audio/aac" },
             new MimeTypeExtSig(".aep", "application/vnd.audiograph" },
-            new MimeTypeExtSig(".aff", "audio/aiff" },
+
+
             new MimeTypeExtSig(".afl", "video/animaflex" },
             new MimeTypeExtSig(".afm", "application/octet-stream" },
             new MimeTypeExtSig(".afp", "application/vnd.ibm.modcap" },
             new MimeTypeExtSig(".age", "application/vnd.age" },
             new MimeTypeExtSig(".ahead", "application/vnd.ahead.space" },
             new MimeTypeExtSig(".ai",  "application/postscript" },
-            new MimeTypeExtSig(".aif", "audio/aiff" },
-            new MimeTypeExtSig(".aifc", "audio/aiff" },
-            new MimeTypeExtSig(".aiff", "audio/aiff" },
+            
+            
             new MimeTypeExtSig(".aim", "application/x-aim" },
             new MimeTypeExtSig(".aip", "text/x-audiosoft-intra" },
             new MimeTypeExtSig(".air", "application/vnd.adobe.air-application-installer-package+zip" },
@@ -574,7 +579,7 @@ namespace Area23.At.Framework.Library.Util
             new MimeTypeExtSig(".ccxml", "application/ccxml+xml" },
             new MimeTypeExtSig(".cd",  "text/plain" , MimeSignature._TEXT),
             new MimeTypeExtSig(".cdbcmsg",   "application/vnd.contact.cmsg" },
-            new MimeTypeExtSig(".cdda", "audio/aiff" },
+            
             new MimeTypeExtSig(".cdf", "application/x-cdf" },
             new MimeTypeExtSig(".cdfx", "application/cdfx+xml" },
             new MimeTypeExtSig(".cdkey", "application/vnd.mediastation.cdkey" },
@@ -1017,8 +1022,7 @@ namespace Area23.At.Framework.Library.Util
             new MimeTypeExtSig(".jck", "application/liquidmotion" },
             new MimeTypeExtSig(".jcm", "application/x-java-commerce" },
             new MimeTypeExtSig(".jcz", "application/liquidmotion" },
-            new MimeTypeExtSig(".jfif", "image/pjpeg" },
-            new MimeTypeExtSig(".jfif-tbnl", "image/jpeg" },
+            new MimeTypeExtSig(".jfif", "image/pjpeg" },          
             new MimeTypeExtSig(".jhc", "image/jphc" },
             new MimeTypeExtSig(".jisp", "application/vnd.jisp" },
             new MimeTypeExtSig(".jls", "image/jls" },
@@ -1029,11 +1033,10 @@ namespace Area23.At.Framework.Library.Util
             new MimeTypeExtSig(".joda", "application/vnd.joost.joda-archive" },
             new MimeTypeExtSig(".jp2", "image/jp2" },
             new MimeTypeExtSig(".jpb", "application/octet-stream" },
-            new MimeTypeExtSig(".jpe", "image/jpeg" },
-            new MimeTypeExtSig(".jpeg", "image/jpeg" },
+
             new MimeTypeExtSig(".jpf", "image/jpx" },
             new MimeTypeExtSig(".jpgm", "video/jpm" },
-            new MimeTypeExtSig(".jpgv", "video/jpeg" },
+
             new MimeTypeExtSig(".jph", "image/jph" },
             new MimeTypeExtSig(".jpm", "video/jpm" },
             new MimeTypeExtSig(".jps", "image/x-jps" },
@@ -1445,11 +1448,11 @@ namespace Area23.At.Framework.Library.Util
             new MimeTypeExtSig(".pml", "application/x-perfmon" },
             new MimeTypeExtSig(".pmr", "application/x-perfmon" },
             new MimeTypeExtSig(".pmw", "application/x-perfmon" },
-            new MimeTypeExtSig(".png", "image/png" },
+
             new MimeTypeExtSig(".pnm", "image/x-portable-anymap" },
             new MimeTypeExtSig(".pnt", "image/x-macpaint" },
             new MimeTypeExtSig(".pntg", "image/x-macpaint" },
-            new MimeTypeExtSig(".pnz", "image/png" },
+            
 
             
             new MimeTypeExtSig(".portpkg",   "application/vnd.macports.portpkg" },

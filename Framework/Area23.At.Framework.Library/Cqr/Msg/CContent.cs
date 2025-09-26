@@ -166,7 +166,8 @@ namespace Area23.At.Framework.Library.Cqr.Msg
         #region EnDeCrypt+DeSerialize
 
 
-        public virtual string EncryptToJson(string serverKey, EncodingType encoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None)
+        public virtual string EncryptToJson(string serverKey, EncodingType encoder = EncodingType.Base64, 
+            Zfx.ZipType zipType = Zfx.ZipType.None, KeyHash kHash = KeyHash.Hex)
         {
             if (Encrypt(serverKey, encoder, zipType))
             {
@@ -176,12 +177,13 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             throw new CqrException($"EncryptToJson(string severKey failed");
         }
 
-        public virtual bool Encrypt(string serverKey, EncodingType encoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None)
+        public virtual bool Encrypt(string serverKey, EncodingType encoder = EncodingType.Base64, 
+            Zfx.ZipType zipType = Zfx.ZipType.None, KeyHash kHash = KeyHash.Hex)
         {
-            string pipeString = "", encrypted = "", keyHash = EnDeCodeHelper.KeyToHex(serverKey);
+            string pipeString = "", encrypted = "", keyHash = kHash.Hash(serverKey);
             try
             {
-                encrypted = SymmCipherPipe.EncrpytToString(Message, serverKey, out pipeString, encoder, zipType);
+                encrypted = SymmCipherPipe.EncrpytToString(Message, serverKey, out pipeString, encoder, zipType, kHash);
                 Hash = pipeString;
                 Md5Hash = MD5Sum.HashString(String.Concat(serverKey, keyHash, pipeString, Message), "");
 
@@ -211,12 +213,13 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             throw new CqrException($"DecryptFromJson<T>(string severKey, string serialized) failed");
         }
 
-        public virtual bool Decrypt(string serverKey, EncodingType decoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None)
+        public virtual bool Decrypt(string serverKey, EncodingType decoder = EncodingType.Base64, 
+            Zfx.ZipType zipType = Zfx.ZipType.None, KeyHash kHash = KeyHash.Hex)
         {
-            string pipeString = "", keyHash = EnDeCodeHelper.KeyToHex(serverKey);
+            string pipeString = "", keyHash = kHash.Hash(serverKey);
             try
             {
-                string decrypted = SymmCipherPipe.DecrpytToString(Message, serverKey, out pipeString, EncodingType.Base64, ZipType.None);
+                string decrypted = SymmCipherPipe.DecrpytToString(Message, serverKey, out pipeString, EncodingType.Base64, ZipType.None, kHash);
 
                 if (!Hash.Equals(pipeString))
                     throw new CqrException($"CContent.Hash={Hash} doesn't match PipeString={pipeString}");

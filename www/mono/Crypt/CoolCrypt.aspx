@@ -25,9 +25,9 @@
 
             function hashMouseOut(img) {
                 if (img.src == "../res/img/crypt/a_hash.png")
-                    img.src = "../res/img/crypt/a_hash_key_hover.png");
-                else if img.src == "../res/img/crypt/a_hash_key_hover.png")
-                    img.src == "../res/img/crypt/a_hash.png";
+                    img.src = "../res/img/crypt/a_hash_key_hover.png";
+                else if (img.src == "../res/img/crypt/a_hash_key_hover.png")
+                    img.src = "../res/img/crypt/a_hash.png";
             }
 
         </script>
@@ -181,13 +181,19 @@
                     <INPUT id="oFile" type="file" runat="server" NAME="oFile" /> 
                 </span>
                 <span class="centerSpan" style="max-width: 72px; vertical-align: top;">
-                    <asp:Button ID="ButtonEncryptFile" runat="server" ToolTip="Encrypt file" OnClientClick="changeCryptBackgroundFile();" OnClick="ButtonEncryptFile_Click" Text="Encrypt file" />
+                    <asp:Button ID="ButtonEncryptFile" runat="server" ClientIDMode="Static" 
+                        Text="Encrypt file"  ToolTip="Encrypt file" 
+                        OnClientClick="changeCryptBackgroundFile();" OnClick="ButtonEncryptFile_Click" />
                 </span>
                 <span class="centerSpan" style="vertical-align: top;">     
-                    <asp:CheckBox ID="CheckBoxEncode" runat="server" ToolTip="Encode file (e.g. hex16, base64, uu) after encryption" Text="encode file" Checked="true" />
+                    <asp:CheckBox ID="CheckBoxEncode" runat="server" ClientIDMode="Static" 
+                        Text="encode file" ToolTip="Encode file (e.g. hex16, base64, uu) after encryption" 
+                        Checked="true" />
                 </span>
                 <span class="rightSpan" style="vertical-align: top;">     
-                    <asp:Button ID="ButtonDecryptFile" runat="server" ToolTip="Decrypt file" OnClientClick="changeCryptBackgroundFile();" OnClick="ButtonDecryptFile_Click" Text="Decrypt file" />  
+                    <asp:Button ID="ButtonDecryptFile" runat="server" ToolTip="Decrypt file" 
+                        Text="Decrypt file"
+                        OnClick="ButtonDecryptFile_Click" OnClientClick="javascript:changeCryptBackgroundFile();" />  
                 </span>
             </div>     
             <div class="odDiv">                       

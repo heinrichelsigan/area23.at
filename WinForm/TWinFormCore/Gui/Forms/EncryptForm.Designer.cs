@@ -49,6 +49,7 @@
             menuZip = new ToolStripMenuItem();
             menuCompressionNone = new ToolStripMenuItem();
             menuEncoding = new ToolStripMenuItem();
+            menuItemNone = new ToolStripMenuItem();
             menuBase16 = new ToolStripMenuItem();
             menuHex16 = new ToolStripMenuItem();
             menuBase32 = new ToolStripMenuItem();
@@ -79,7 +80,6 @@
             pictureBoxKey = new PictureBox();
             pictureBoxHash = new PictureBox();
             textBoxHash = new TextBox();
-            pictureBoxSetPipeline = new PictureBox();
             buttonSetPipeline = new Button();
             buttonClear = new Button();
             pictureBoxFileIn = new PictureBox();
@@ -100,7 +100,6 @@
             ((System.ComponentModel.ISupportInitialize)enumOptionsBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxKey).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxHash).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxSetPipeline).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxFileIn).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxAddAlgo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxOutFile).BeginInit();
@@ -114,9 +113,10 @@
             menuStripEncrypt.BackColor = SystemColors.MenuBar;
             menuStripEncrypt.Font = new Font("Lucida Sans Unicode", 10F);
             menuStripEncrypt.Items.AddRange(new ToolStripItem[] { toolMenuMain, menuCompression, menuEncoding, menuHash, menuSerialize, menuHelp });
-            menuStripEncrypt.Location = new Point(0, 25);
+            menuStripEncrypt.Location = new Point(0, 0);
             menuStripEncrypt.Name = "menuStripEncrypt";
-            menuStripEncrypt.Size = new Size(815, 25);
+            menuStripEncrypt.Padding = new Padding(5, 2, 0, 2);
+            menuStripEncrypt.Size = new Size(784, 25);
             menuStripEncrypt.TabIndex = 0;
             menuStripEncrypt.Text = "menuStripEncrypt";
             // 
@@ -133,7 +133,7 @@
             menuFileOpen.BackColor = SystemColors.Menu;
             menuFileOpen.Name = "menuFileOpen";
             menuFileOpen.ShortcutKeys = Keys.Control | Keys.O;
-            menuFileOpen.Size = new Size(180, 22);
+            menuFileOpen.Size = new Size(168, 22);
             menuFileOpen.Text = "Open";
             menuFileOpen.Click += menuFileOpen_Click;
             // 
@@ -142,20 +142,20 @@
             menuMainSave.BackColor = SystemColors.Menu;
             menuMainSave.Name = "menuMainSave";
             menuMainSave.ShortcutKeys = Keys.Control | Keys.S;
-            menuMainSave.Size = new Size(180, 22);
+            menuMainSave.Size = new Size(168, 22);
             menuMainSave.Text = "Save";
             menuMainSave.Click += menuMainSave_Click;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(177, 6);
+            toolStripSeparator2.Size = new Size(165, 6);
             // 
             // toolStripMenuItem3
             // 
             toolStripMenuItem3.BackColor = SystemColors.Menu;
             toolStripMenuItem3.Name = "toolStripMenuItem3";
-            toolStripMenuItem3.Size = new Size(180, 22);
+            toolStripMenuItem3.Size = new Size(168, 22);
             toolStripMenuItem3.Text = "Clear";
             toolStripMenuItem3.Click += Clear_Click;
             // 
@@ -163,7 +163,7 @@
             // 
             toolStripMenuItem4.BackColor = SystemColors.Menu;
             toolStripMenuItem4.Name = "toolStripMenuItem4";
-            toolStripMenuItem4.Size = new Size(180, 22);
+            toolStripMenuItem4.Size = new Size(168, 22);
             toolStripMenuItem4.Text = "Hash Key";
             toolStripMenuItem4.Click += Hash_Click;
             // 
@@ -171,20 +171,20 @@
             // 
             menuMainSetPipe.BackColor = SystemColors.Menu;
             menuMainSetPipe.Name = "menuMainSetPipe";
-            menuMainSetPipe.Size = new Size(180, 22);
+            menuMainSetPipe.Size = new Size(168, 22);
             menuMainSetPipe.Text = "Set Pipe";
             menuMainSetPipe.Click += SetPipeline_Click;
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(177, 6);
+            toolStripSeparator3.Size = new Size(165, 6);
             // 
             // toolStripMenuItem2
             // 
             toolStripMenuItem2.BackColor = SystemColors.Menu;
             toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(180, 22);
+            toolStripMenuItem2.Size = new Size(168, 22);
             toolStripMenuItem2.Text = "Encrypt";
             toolStripMenuItem2.Click += Encrypt_Click;
             // 
@@ -192,21 +192,21 @@
             // 
             menuMainDecrypt.BackColor = SystemColors.Menu;
             menuMainDecrypt.Name = "menuMainDecrypt";
-            menuMainDecrypt.Size = new Size(180, 22);
+            menuMainDecrypt.Size = new Size(168, 22);
             menuMainDecrypt.Text = "Decrypt";
             menuMainDecrypt.Click += Decrypt_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(165, 6);
             // 
             // menuFileExit
             // 
             menuFileExit.BackColor = SystemColors.Menu;
             menuFileExit.Name = "menuFileExit";
             menuFileExit.ShortcutKeys = Keys.Alt | Keys.F4;
-            menuFileExit.Size = new Size(180, 22);
+            menuFileExit.Size = new Size(168, 22);
             menuFileExit.Text = "Exit";
             menuFileExit.Click += menuFileExit_Click;
             // 
@@ -223,7 +223,7 @@
             menu7z.Enabled = false;
             menu7z.Name = "menu7z";
             menu7z.ShortcutKeys = Keys.Control | Keys.D7;
-            menu7z.Size = new Size(180, 22);
+            menu7z.Size = new Size(166, 22);
             menu7z.Text = "7z";
             menu7z.Click += menuCompression_Click;
             // 
@@ -232,7 +232,7 @@
             menuBZip2.BackColor = SystemColors.Menu;
             menuBZip2.Name = "menuBZip2";
             menuBZip2.ShortcutKeys = Keys.Control | Keys.B;
-            menuBZip2.Size = new Size(180, 22);
+            menuBZip2.Size = new Size(166, 22);
             menuBZip2.Text = "BZip2";
             menuBZip2.Click += menuCompression_Click;
             // 
@@ -241,7 +241,7 @@
             menuGzip.BackColor = SystemColors.Menu;
             menuGzip.Name = "menuGzip";
             menuGzip.ShortcutKeys = Keys.Control | Keys.G;
-            menuGzip.Size = new Size(180, 22);
+            menuGzip.Size = new Size(166, 22);
             menuGzip.Text = "GZip";
             menuGzip.Click += menuCompression_Click;
             // 
@@ -250,7 +250,7 @@
             menuZip.BackColor = SystemColors.Menu;
             menuZip.Name = "menuZip";
             menuZip.ShortcutKeys = Keys.Control | Keys.Z;
-            menuZip.Size = new Size(180, 22);
+            menuZip.Size = new Size(166, 22);
             menuZip.Text = "Zip";
             menuZip.Click += menuCompression_Click;
             // 
@@ -261,24 +261,32 @@
             menuCompressionNone.CheckState = CheckState.Checked;
             menuCompressionNone.Name = "menuCompressionNone";
             menuCompressionNone.ShortcutKeys = Keys.Control | Keys.N;
-            menuCompressionNone.Size = new Size(180, 22);
+            menuCompressionNone.Size = new Size(166, 22);
             menuCompressionNone.Text = "None";
             menuCompressionNone.Click += menuCompression_Click;
             // 
             // menuEncoding
             // 
-            menuEncoding.DropDownItems.AddRange(new ToolStripItem[] { menuBase16, menuHex16, menuBase32, menuHex32, menuBase64, menuUu });
+            menuEncoding.DropDownItems.AddRange(new ToolStripItem[] { menuItemNone, menuBase16, menuHex16, menuBase32, menuHex32, menuBase64, menuUu });
             menuEncoding.Font = new Font("Lucida Sans Unicode", 10F);
             menuEncoding.Name = "menuEncoding";
             menuEncoding.ShortcutKeys = Keys.Alt | Keys.E;
             menuEncoding.Size = new Size(84, 21);
             menuEncoding.Text = "Encoding";
             // 
+            // menuItemNone
+            // 
+            menuItemNone.BackColor = SystemColors.Menu;
+            menuItemNone.Name = "menuItemNone";
+            menuItemNone.Size = new Size(166, 22);
+            menuItemNone.Text = "None";
+            menuItemNone.Click += menuEncodingKind_Click;
+            // 
             // menuBase16
             // 
             menuBase16.BackColor = SystemColors.Menu;
             menuBase16.Name = "menuBase16";
-            menuBase16.Size = new Size(180, 22);
+            menuBase16.Size = new Size(166, 22);
             menuBase16.Text = "Base16";
             menuBase16.Click += menuEncodingKind_Click;
             // 
@@ -286,7 +294,7 @@
             // 
             menuHex16.BackColor = SystemColors.Menu;
             menuHex16.Name = "menuHex16";
-            menuHex16.Size = new Size(180, 22);
+            menuHex16.Size = new Size(166, 22);
             menuHex16.Text = "Hex16";
             menuHex16.Click += menuEncodingKind_Click;
             // 
@@ -294,7 +302,7 @@
             // 
             menuBase32.BackColor = SystemColors.Menu;
             menuBase32.Name = "menuBase32";
-            menuBase32.Size = new Size(180, 22);
+            menuBase32.Size = new Size(166, 22);
             menuBase32.Text = "Base32";
             menuBase32.Click += menuEncodingKind_Click;
             // 
@@ -302,7 +310,7 @@
             // 
             menuHex32.BackColor = SystemColors.Menu;
             menuHex32.Name = "menuHex32";
-            menuHex32.Size = new Size(180, 22);
+            menuHex32.Size = new Size(166, 22);
             menuHex32.Text = "Hex32";
             menuHex32.Click += menuEncodingKind_Click;
             // 
@@ -312,7 +320,7 @@
             menuBase64.Checked = true;
             menuBase64.CheckState = CheckState.Checked;
             menuBase64.Name = "menuBase64";
-            menuBase64.Size = new Size(180, 22);
+            menuBase64.Size = new Size(166, 22);
             menuBase64.Text = "Base64 Mime";
             menuBase64.Click += menuEncodingKind_Click;
             // 
@@ -320,7 +328,7 @@
             // 
             menuUu.BackColor = SystemColors.Menu;
             menuUu.Name = "menuUu";
-            menuUu.Size = new Size(180, 22);
+            menuUu.Size = new Size(166, 22);
             menuUu.Text = "Uu";
             menuUu.Click += menuEncodingKind_Click;
             // 
@@ -410,7 +418,7 @@
             menuJson.BackColor = SystemColors.Menu;
             menuJson.Name = "menuJson";
             menuJson.ShortcutKeys = Keys.Control | Keys.J;
-            menuJson.Size = new Size(180, 22);
+            menuJson.Size = new Size(157, 22);
             menuJson.Text = "Json";
             // 
             // menuXml
@@ -418,7 +426,7 @@
             menuXml.BackColor = SystemColors.Menu;
             menuXml.Name = "menuXml";
             menuXml.ShortcutKeys = Keys.Control | Keys.X;
-            menuXml.Size = new Size(180, 22);
+            menuXml.Size = new Size(157, 22);
             menuXml.Text = "Xml";
             // 
             // menuRaw
@@ -426,7 +434,7 @@
             menuRaw.BackColor = SystemColors.Menu;
             menuRaw.Name = "menuRaw";
             menuRaw.ShortcutKeys = Keys.Control | Keys.R;
-            menuRaw.Size = new Size(180, 22);
+            menuRaw.Size = new Size(157, 22);
             menuRaw.Text = "Raw";
             // 
             // menuHelp
@@ -441,47 +449,49 @@
             // 
             menuAbout.BackColor = SystemColors.MenuBar;
             menuAbout.Name = "menuAbout";
-            menuAbout.Size = new Size(180, 22);
+            menuAbout.Size = new Size(162, 22);
             menuAbout.Text = "About";
+            menuAbout.Click += menuAbout_Click;
             // 
             // menuHelpHelp
             // 
             menuHelpHelp.BackColor = SystemColors.MenuBar;
             menuHelpHelp.Name = "menuHelpHelp";
             menuHelpHelp.ShortcutKeys = Keys.Alt | Keys.F3;
-            menuHelpHelp.Size = new Size(180, 22);
+            menuHelpHelp.Size = new Size(162, 22);
             menuHelpHelp.Text = "Help";
             // 
             // comboBoxAlgo
             // 
             comboBoxAlgo.BackColor = SystemColors.ControlLight;
-            comboBoxAlgo.Font = new Font("Lucida Sans Unicode", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBoxAlgo.Font = new Font("Lucida Sans Unicode", 10F);
             comboBoxAlgo.FormattingEnabled = true;
-            comboBoxAlgo.Location = new Point(10, 132);
+            comboBoxAlgo.Location = new Point(9, 124);
             comboBoxAlgo.Margin = new Padding(2);
             comboBoxAlgo.MaxDropDownItems = 32;
             comboBoxAlgo.Name = "comboBoxAlgo";
-            comboBoxAlgo.Size = new Size(140, 26);
+            comboBoxAlgo.Size = new Size(123, 24);
             comboBoxAlgo.TabIndex = 8;
             // 
             // textBoxKey
             // 
             textBoxKey.BackColor = SystemColors.ControlLight;
-            textBoxKey.Location = new Point(54, 60);
+            textBoxKey.Font = new Font("Lucida Sans Unicode", 10F);
+            textBoxKey.Location = new Point(48, 40);
             textBoxKey.Margin = new Padding(1);
             textBoxKey.Name = "textBoxKey";
-            textBoxKey.Size = new Size(600, 28);
+            textBoxKey.Size = new Size(606, 28);
             textBoxKey.TabIndex = 3;
             textBoxKey.Text = "anonymous@ftp.cdrom.com";
             // 
             // pictureBoxKey
             // 
             pictureBoxKey.BackColor = SystemColors.ControlLight;
-            pictureBoxKey.Image = Properties.Resources.a_right_key2;
-            pictureBoxKey.Location = new Point(10, 60);
+            pictureBoxKey.Image = Properties.Resources.key_ring;
+            pictureBoxKey.Location = new Point(8, 40);
             pictureBoxKey.Margin = new Padding(1);
             pictureBoxKey.Name = "pictureBoxKey";
-            pictureBoxKey.Size = new Size(32, 27);
+            pictureBoxKey.Size = new Size(28, 29);
             pictureBoxKey.TabIndex = 4;
             pictureBoxKey.TabStop = false;
             // 
@@ -489,10 +499,10 @@
             // 
             pictureBoxHash.BackColor = SystemColors.ControlLight;
             pictureBoxHash.Image = Properties.Resources.a_hash6;
-            pictureBoxHash.Location = new Point(10, 96);
+            pictureBoxHash.Location = new Point(8, 80);
             pictureBoxHash.Margin = new Padding(1);
             pictureBoxHash.Name = "pictureBoxHash";
-            pictureBoxHash.Size = new Size(32, 27);
+            pictureBoxHash.Size = new Size(28, 29);
             pictureBoxHash.TabIndex = 5;
             pictureBoxHash.TabStop = false;
             pictureBoxHash.Click += Hash_Click;
@@ -500,31 +510,22 @@
             // textBoxHash
             // 
             textBoxHash.BackColor = SystemColors.InactiveCaption;
-            textBoxHash.Location = new Point(54, 96);
+            textBoxHash.Font = new Font("Lucida Sans Unicode", 10F);
+            textBoxHash.Location = new Point(48, 80);
             textBoxHash.Margin = new Padding(1);
             textBoxHash.Name = "textBoxHash";
             textBoxHash.ReadOnly = true;
-            textBoxHash.Size = new Size(600, 28);
+            textBoxHash.Size = new Size(606, 28);
             textBoxHash.TabIndex = 6;
-            // 
-            // pictureBoxSetPipeline
-            // 
-            pictureBoxSetPipeline.BackColor = SystemColors.ControlLight;
-            pictureBoxSetPipeline.Image = Properties.Resources.key_ring;
-            pictureBoxSetPipeline.Location = new Point(760, 132);
-            pictureBoxSetPipeline.Margin = new Padding(1);
-            pictureBoxSetPipeline.Name = "pictureBoxSetPipeline";
-            pictureBoxSetPipeline.Size = new Size(32, 27);
-            pictureBoxSetPipeline.TabIndex = 7;
-            pictureBoxSetPipeline.TabStop = false;
             // 
             // buttonSetPipeline
             // 
             buttonSetPipeline.BackColor = SystemColors.ControlLight;
-            buttonSetPipeline.Location = new Point(669, 97);
+            buttonSetPipeline.Font = new Font("Lucida Sans Unicode", 10F);
+            buttonSetPipeline.Location = new Point(666, 80);
             buttonSetPipeline.Margin = new Padding(1);
             buttonSetPipeline.Name = "buttonSetPipeline";
-            buttonSetPipeline.Size = new Size(123, 27);
+            buttonSetPipeline.Size = new Size(108, 29);
             buttonSetPipeline.TabIndex = 7;
             buttonSetPipeline.Text = "Set Pipeline";
             buttonSetPipeline.UseVisualStyleBackColor = false;
@@ -533,10 +534,11 @@
             // buttonClear
             // 
             buttonClear.BackColor = SystemColors.ControlLight;
-            buttonClear.Location = new Point(670, 58);
+            buttonClear.Font = new Font("Lucida Sans Unicode", 10F);
+            buttonClear.Location = new Point(666, 40);
             buttonClear.Margin = new Padding(1);
             buttonClear.Name = "buttonClear";
-            buttonClear.Size = new Size(122, 27);
+            buttonClear.Size = new Size(107, 29);
             buttonClear.TabIndex = 4;
             buttonClear.Text = "Clear Form";
             buttonClear.UseVisualStyleBackColor = false;
@@ -545,9 +547,9 @@
             // pictureBoxFileIn
             // 
             pictureBoxFileIn.Image = Properties.Resources.file;
-            pictureBoxFileIn.Location = new Point(20, 24);
+            pictureBoxFileIn.Location = new Point(18, 23);
             pictureBoxFileIn.Name = "pictureBoxFileIn";
-            pictureBoxFileIn.Size = new Size(66, 69);
+            pictureBoxFileIn.Size = new Size(58, 69);
             pictureBoxFileIn.TabIndex = 10;
             pictureBoxFileIn.TabStop = false;
             // 
@@ -555,10 +557,10 @@
             // 
             pictureBoxAddAlgo.BackColor = SystemColors.ControlLight;
             pictureBoxAddAlgo.Image = Properties.Resources.AddAesArrowHover;
-            pictureBoxAddAlgo.Location = new Point(156, 132);
+            pictureBoxAddAlgo.Location = new Point(136, 124);
             pictureBoxAddAlgo.Margin = new Padding(1);
             pictureBoxAddAlgo.Name = "pictureBoxAddAlgo";
-            pictureBoxAddAlgo.Size = new Size(32, 27);
+            pictureBoxAddAlgo.Size = new Size(28, 27);
             pictureBoxAddAlgo.TabIndex = 11;
             pictureBoxAddAlgo.TabStop = false;
             pictureBoxAddAlgo.Click += pictureBoxAddAlgo_Click;
@@ -566,17 +568,18 @@
             // textBoxPipe
             // 
             textBoxPipe.BackColor = SystemColors.InactiveCaption;
-            textBoxPipe.Location = new Point(196, 132);
+            textBoxPipe.Font = new Font("Lucida Sans Unicode", 10F);
+            textBoxPipe.Location = new Point(172, 124);
             textBoxPipe.Margin = new Padding(1);
             textBoxPipe.Name = "textBoxPipe";
             textBoxPipe.ReadOnly = true;
-            textBoxPipe.Size = new Size(553, 28);
+            textBoxPipe.Size = new Size(601, 28);
             textBoxPipe.TabIndex = 12;
             // 
             // labelFileIn
             // 
             labelFileIn.AutoSize = true;
-            labelFileIn.Location = new Point(20, 96);
+            labelFileIn.Location = new Point(18, 96);
             labelFileIn.Name = "labelFileIn";
             labelFileIn.Size = new Size(67, 16);
             labelFileIn.TabIndex = 13;
@@ -585,7 +588,7 @@
             // labelOutputFile
             // 
             labelOutputFile.AutoSize = true;
-            labelOutputFile.Location = new Point(396, 96);
+            labelOutputFile.Location = new Point(384, 96);
             labelOutputFile.Name = "labelOutputFile";
             labelOutputFile.Size = new Size(77, 16);
             labelOutputFile.TabIndex = 15;
@@ -595,44 +598,47 @@
             // pictureBoxOutFile
             // 
             pictureBoxOutFile.Image = Properties.Resources.encrypted;
-            pictureBoxOutFile.Location = new Point(396, 24);
+            pictureBoxOutFile.Location = new Point(384, 23);
             pictureBoxOutFile.Margin = new Padding(2);
             pictureBoxOutFile.Name = "pictureBoxOutFile";
-            pictureBoxOutFile.Size = new Size(66, 69);
+            pictureBoxOutFile.Size = new Size(58, 69);
             pictureBoxOutFile.TabIndex = 14;
             pictureBoxOutFile.TabStop = false;
             pictureBoxOutFile.Visible = false;
+            pictureBoxOutFile.Click += pictureOutBoxFile_Click;
+            pictureBoxOutFile.DoubleClick += pictureOutBoxFile_Click;
             // 
             // textBoxSrc
             // 
             textBoxSrc.BackColor = SystemColors.ControlLight;
             textBoxSrc.Font = new Font("Lucida Sans Unicode", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxSrc.Location = new Point(0, 320);
+            textBoxSrc.Location = new Point(0, 350);
             textBoxSrc.Margin = new Padding(2);
             textBoxSrc.Multiline = true;
             textBoxSrc.Name = "textBoxSrc";
-            textBoxSrc.Size = new Size(400, 178);
+            textBoxSrc.Size = new Size(390, 200);
             textBoxSrc.TabIndex = 16;
             // 
             // textBoxOut
             // 
             textBoxOut.BackColor = SystemColors.InactiveCaption;
             textBoxOut.Font = new Font("Lucida Sans Unicode", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxOut.Location = new Point(408, 320);
+            textBoxOut.Location = new Point(394, 350);
             textBoxOut.Margin = new Padding(2);
             textBoxOut.Multiline = true;
             textBoxOut.Name = "textBoxOut";
             textBoxOut.ReadOnly = true;
-            textBoxOut.Size = new Size(400, 178);
+            textBoxOut.Size = new Size(390, 200);
             textBoxOut.TabIndex = 17;
             // 
             // buttonEncrypt
             // 
             buttonEncrypt.BackColor = SystemColors.ControlLight;
-            buttonEncrypt.Location = new Point(10, 293);
+            buttonEncrypt.Font = new Font("Lucida Sans Unicode", 10F);
+            buttonEncrypt.Location = new Point(11, 305);
             buttonEncrypt.Margin = new Padding(1);
             buttonEncrypt.Name = "buttonEncrypt";
-            buttonEncrypt.Size = new Size(88, 23);
+            buttonEncrypt.Size = new Size(85, 30);
             buttonEncrypt.TabIndex = 18;
             buttonEncrypt.Text = "Encrypt";
             buttonEncrypt.UseVisualStyleBackColor = false;
@@ -641,10 +647,11 @@
             // buttonDecrypt
             // 
             buttonDecrypt.BackColor = SystemColors.ControlLight;
-            buttonDecrypt.Location = new Point(408, 293);
+            buttonDecrypt.Font = new Font("Microsoft Sans Serif", 10F);
+            buttonDecrypt.Location = new Point(394, 305);
             buttonDecrypt.Margin = new Padding(1);
             buttonDecrypt.Name = "buttonDecrypt";
-            buttonDecrypt.Size = new Size(88, 23);
+            buttonDecrypt.Size = new Size(84, 29);
             buttonDecrypt.TabIndex = 19;
             buttonDecrypt.Text = "Decrypt";
             buttonDecrypt.UseVisualStyleBackColor = false;
@@ -663,11 +670,11 @@
             groupBoxFiles.Controls.Add(pictureBoxOutFile);
             groupBoxFiles.Controls.Add(labelOutputFile);
             groupBoxFiles.Font = new Font("Lucida Sans Unicode", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            groupBoxFiles.Location = new Point(12, 166);
+            groupBoxFiles.Location = new Point(10, 166);
             groupBoxFiles.Margin = new Padding(2);
             groupBoxFiles.Name = "groupBoxFiles";
             groupBoxFiles.Padding = new Padding(2);
-            groupBoxFiles.Size = new Size(780, 124);
+            groupBoxFiles.Size = new Size(763, 124);
             groupBoxFiles.TabIndex = 20;
             groupBoxFiles.TabStop = false;
             groupBoxFiles.Text = "Files (drag files into)";
@@ -679,10 +686,10 @@
             // 
             // EncryptForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 16F);
+            AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
-            ClientSize = new Size(815, 534);
+            ClientSize = new Size(784, 561);
             Controls.Add(groupBoxFiles);
             Controls.Add(buttonDecrypt);
             Controls.Add(buttonEncrypt);
@@ -692,36 +699,23 @@
             Controls.Add(pictureBoxAddAlgo);
             Controls.Add(buttonClear);
             Controls.Add(buttonSetPipeline);
-            Controls.Add(pictureBoxSetPipeline);
             Controls.Add(textBoxHash);
             Controls.Add(pictureBoxHash);
             Controls.Add(pictureBoxKey);
             Controls.Add(textBoxKey);
             Controls.Add(comboBoxAlgo);
             Controls.Add(menuStripEncrypt);
+            Font = new Font("Lucida Sans Unicode", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStripEncrypt;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "EncryptForm";
-            Opacity = 0.9D;
+            Opacity = 0.84D;
             Text = "EncryptForm";
-            FormClosing += menuFileExit_Close;
+            FormClosed += menuFileExit_Close;
             Load += EncryptForm_Load;
-            Controls.SetChildIndex(menuStripEncrypt, 0);
-            Controls.SetChildIndex(comboBoxAlgo, 0);
-            Controls.SetChildIndex(textBoxKey, 0);
-            Controls.SetChildIndex(pictureBoxKey, 0);
-            Controls.SetChildIndex(pictureBoxHash, 0);
-            Controls.SetChildIndex(textBoxHash, 0);
-            Controls.SetChildIndex(pictureBoxSetPipeline, 0);
-            Controls.SetChildIndex(buttonSetPipeline, 0);
-            Controls.SetChildIndex(buttonClear, 0);
-            Controls.SetChildIndex(pictureBoxAddAlgo, 0);
-            Controls.SetChildIndex(textBoxPipe, 0);
-            Controls.SetChildIndex(textBoxSrc, 0);
-            Controls.SetChildIndex(textBoxOut, 0);
-            Controls.SetChildIndex(buttonEncrypt, 0);
-            Controls.SetChildIndex(buttonDecrypt, 0);
-            Controls.SetChildIndex(groupBoxFiles, 0);
             menuStripEncrypt.ResumeLayout(false);
             menuStripEncrypt.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)cipherEnumBindingSource2).EndInit();
@@ -729,7 +723,6 @@
             ((System.ComponentModel.ISupportInitialize)enumOptionsBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxKey).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxHash).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxSetPipeline).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxFileIn).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxAddAlgo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxOutFile).EndInit();
@@ -779,7 +772,6 @@
         private PictureBox pictureBoxKey;
         private PictureBox pictureBoxHash;
         private TextBox textBoxHash;
-        private PictureBox pictureBoxSetPipeline;
         private Button buttonSetPipeline;
         private Button buttonClear;
         private BindingSource enumOptionsBindingSource;
@@ -807,5 +799,7 @@
         private ToolStripMenuItem menuAbout;
         private ToolStripMenuItem menuHelpHelp;
         internal GroupBox groupBoxFiles;
+        private ToolStripMenuItem menuItemNone;
     }
+
 }

@@ -106,9 +106,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
                 case SymmCipherEnum.ZenMatrix:
-                    Size = 16;
-                    KeyLen = 16;
-                    BlockCipher = new ZenMatrix();
+                    Size = 256;
+                    KeyLen = 15;
+                    BlockCipher = new ZenMatrix(Size);
                     break;
                 default:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();

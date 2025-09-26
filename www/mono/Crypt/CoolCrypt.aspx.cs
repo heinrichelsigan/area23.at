@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library.Crypt.Cipher;
+﻿using Area23.At.Framework.Library.Cqr.Msg;
+using Area23.At.Framework.Library.Crypt.Cipher;
 using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
@@ -445,6 +446,7 @@ namespace Area23.At.Mono.Crypt
             byte[] inBytes = new byte[65536];
             int strLen = 0;
 
+            // CFile cFile;
             if (!string.IsNullOrEmpty(strFileName) &&
                 ((pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ||
                 (!string.IsNullOrEmpty(fileSavedName) && System.IO.File.Exists(fileSavedName))))
@@ -454,6 +456,7 @@ namespace Area23.At.Mono.Crypt
                 else if (pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0))
                     inBytes = pfile.InputStream.ToByteArray();
 
+                // cFile = new CFile(inBytes, strFileName);
                 cipherPipe = new CipherPipe(pipeAlgortihms);
 
                 // write source file hash
@@ -470,6 +473,7 @@ namespace Area23.At.Mono.Crypt
                 if (crypt)
                 {
                     strFileName += zipType.ZipFileExtension(cipherPipe.PipeString);
+                    // cFile.EncryptToJson(key, hash, encType, zipType, keyHash);
                     outBytes = cipherPipe.EncrpytFileBytesGoRounds(inBytes, key, hash, encType, zipType, keyHash);
 
                     if (CheckBoxEncode.Checked)
@@ -512,7 +516,7 @@ namespace Area23.At.Mono.Crypt
                         strFileName = strFileName.EndsWith("." + extEncType.GetEncodingFileExtension()) ? strFileName.Replace("." + extEncType.GetEncodingFileExtension(), "") : strFileName;
                     }
 
-                    outBytes = cipherPipe.DecryptFileBytesRoundsGo(inBytes, key, hash, zipType, keyHash);
+                    outBytes = cipherPipe.DecryptFileBytesRoundsGo(inBytes, key, hash, encType, zipType, keyHash);
                     strFileName = strFileName.Contains(zipType.ZipFileExtension(cipherPipe.PipeString)) ?
                         strFileName.Replace(zipType.ZipFileExtension(cipherPipe.PipeString), "") :
                         strFileName;
