@@ -73,15 +73,11 @@ namespace Area23.At.Framework.Library.Zfx
 
             switch (zipType)
             {
-                case ZipType.BZip2:
-                    return BZip2.BZip(inBytes);
-                case ZipType.GZip:
-                    return GZ.GZipBytes(inBytes);
-                case ZipType.Zip:
-                    return WinZip.Zip(inBytes);
-                case ZipType.Z7: // TODO
-                case ZipType.None:
-                    return inBytes;
+                case ZipType.BZip2: return BZip2.BZip(inBytes);
+                case ZipType.GZip:  return GZ.GZipBytes(inBytes);
+                case ZipType.Zip:   return WinZip.Zip(inBytes);
+                case ZipType.Z7:    return Z7.Zip7(inBytes);
+                case ZipType.None:  return inBytes;
                 default: // Asset(0)
                     break;
             }
@@ -102,15 +98,11 @@ namespace Area23.At.Framework.Library.Zfx
 
             switch (zipType)
             {
-                case ZipType.BZip2:
-                    return BZip2.BUnZip(compressedBytes);
-                case ZipType.GZip:
-                    return GZ.GUnZipBytes(compressedBytes);
-                case ZipType.Zip:
-                    return WinZip.UnZip(compressedBytes);
-                case ZipType.Z7: // TODO
-                case ZipType.None:
-                    return compressedBytes;
+                case ZipType.BZip2:     return BZip2.BUnZip(compressedBytes);
+                case ZipType.GZip:      return GZ.GUnZipBytes(compressedBytes);
+                case ZipType.Zip:       return WinZip.UnZip(compressedBytes);
+                case ZipType.Z7:        return Z7.UnZip7(compressedBytes);
+                case ZipType.None:      return compressedBytes;
                 default: // Asset(0)
                     break;
             }
@@ -132,9 +124,9 @@ namespace Area23.At.Framework.Library.Zfx
             switch (zipt)
             {
                 case ZipType.GZip: return string.Format(".gz{0}", extPre);
-                case ZipType.BZip2: return string.Format("bz2{0}", extPre);
-                case ZipType.Zip: return string.Format("zip{0}", extPre);
-                case ZipType.Z7: return string.Format("7z{0}", extPre);
+                case ZipType.BZip2: return string.Format(".bz2{0}", extPre);
+                case ZipType.Zip: return string.Format(".zip{0}", extPre);
+                case ZipType.Z7: // return string.Format(".7z{0}", extPre);
                 case ZipType.None:
                 default: return extPre;
             }

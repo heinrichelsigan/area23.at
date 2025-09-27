@@ -414,7 +414,6 @@ namespace Area23.At.Mono.Crypt
 
             Reset_TextBox_IV(this.TextBox_Key.Text);
 
-
             if (Utils.DenyExtensionInOut(LibPaths.OutAppPath + strFileName))
             {
                 SpanLeftFile.Visible = true;
@@ -431,7 +430,7 @@ namespace Area23.At.Mono.Crypt
                 }
                 catch (Exception exFile)
                 {
-                    Area23Log.LogOriginMsgEx("AesImprove.aspx", "EnDeCryptUploadFile", exFile);
+                    Area23Log.LogOriginMsgEx("CoolCrypt.aspx", "EnDeCryptUploadFile", exFile);
                     try
                     {
                         System.IO.File.Move(strFilePath, strFilePath.Replace("/out/", "/tmp/") + DateTime.Now.Ticks);

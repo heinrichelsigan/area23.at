@@ -12,17 +12,17 @@ set OUT=%3
 goto %ZipOp%
 
 	:bz
-	echo "bzip2.exe -c %IN%  outpipe %OUT% "
+	echo "bzip2.exe -c %IN%  > %OUT% "
 	bzip2.exe -c %2  > %3
 	goto CaseEnd
 
 	:bz2
-	echo "bzip2.exe -c %IN%  outpipe %OUT% "
+	echo "bzip2.exe -c %IN%  > %OUT% "
 	bzip2.exe -c %2  > %3
 	goto CaseEnd
 
 	:gz
-	echo "gzip.exe -c %IN%  outpipe %OUT% "
+	echo "gzip.exe -c %IN%  > %OUT% "
 	gzip.exe -c %2  > %3
 	goto CaseEnd
 
@@ -43,27 +43,27 @@ goto %ZipOp%
 
 
 	:bunzip
-	echo "bzip2 -c -d %IN% outpipe %OUT% "
+	echo "bzip2 -c -d %IN% > %OUT% "
 	bzip2.exe -c -d %IN% > %OUT%
 	REM bzip2.exe -c %2  > %3
 	goto CaseEnd
 
 	:gunzip
-	echo "gzip -c -d %IN% outpipe %OUT% "
+	echo "gzip -c -d %IN% > %OUT% "
 	gzip.exe -c -d %IN%  > %OUT%
 	goto CaseEnd
 
 	:7unzip
-	echo "7z -so x %IN% outpipe %OUT% "
+	echo "7z -so x %IN% > %OUT% "
 	7z -so x %IN% > %OUT%
 	goto CaseEnd
 
 	:unzip7
-	echo "7z -so x %IN% outpipe %OUT% "
+	echo "7z -so x %IN% > %OUT% "
 	7z -so x %IN% > %OUT%
 
 	:unzip
-	echo "7z -tzip x %IN% outpipe %OUT% "
+	echo "7z -so -tzip x %IN% > %OUT% "
 	7z -tzip x %IN% > %OUT%
 	goto CaseEnd
 
