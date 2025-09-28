@@ -10,6 +10,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
     /// <summary>
     /// CipherEnum maps BlockCipher algorithms <see cref="Org.BouncyCastle.Crypto.IBlockCipher"/>
+    /// Everything under the namespace `Area23.At.Framework.Library.Crypt.Cipher` is licensed under the MIT License.
+    /// <see href="https://opensource.org/license/mit">opensource.org/license/mit</see>
     /// </summary>
     [DefaultValue("Aes")]
     public enum CipherEnum : byte
@@ -163,6 +165,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             }
 
             return cipherList.ToArray();
+        }
+
+        public static CipherEnum[] FromString(string pipeText)
+        {
+            CipherPipe cp = new CipherPipe(pipeText);
+            return cp.InPipe;
         }
 
         public static CipherEnum FromSymmCipherEnum(Symmetric.SymmCipherEnum symmCipherEnum)

@@ -28,7 +28,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         Tea = 0xd,
         XTea = 0xe,
 
-        ZenMatrix = 0xf
+        SM4 = 0xf
 
     }
 
@@ -108,11 +108,12 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                 // case SymmCipherEnum.Rijndael: return 'a';
                 case SymmCipherEnum.Seed: return 's';
                 case SymmCipherEnum.Serpent: return 'S';
+                case SymmCipherEnum.SM4: return '4';
                 case SymmCipherEnum.SkipJack: return 'J';
                 case SymmCipherEnum.Tea: return 't';
                 case SymmCipherEnum.XTea: return 'X';
 
-                case SymmCipherEnum.ZenMatrix: return 'z';
+                // case SymmCipherEnum.ZenMatrix: return 'z';
             }
 
             return ((char)('A'));
@@ -146,7 +147,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
                 case SymmCipherEnum.Tea: return CipherEnum.Tea;
                 case SymmCipherEnum.XTea: return CipherEnum.XTea;
-                case SymmCipherEnum.ZenMatrix: return CipherEnum.ZenMatrix;
+                case SymmCipherEnum.SM4: return CipherEnum.SM4;
 
                 case SymmCipherEnum.Aes:
                 default: return CipherEnum.Aes;

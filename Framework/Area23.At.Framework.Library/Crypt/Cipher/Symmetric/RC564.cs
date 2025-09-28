@@ -12,6 +12,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
     /// <summary>
     /// static class RC564, that implements 2FISH static Encrypt & Decrypt members
+    /// Everything under the namespace `Area23.At.Framework.Library.Crypt.Cipher` is licensed under the MIT License.
+    /// <see href="https://opensource.org/license/mit">opensource.org/license/mit</see>
     /// </summary>
     public static class RC564
     {

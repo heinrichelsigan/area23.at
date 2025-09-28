@@ -17,10 +17,6 @@ namespace Area23.At.Framework.Library.Zfx
         /// <returns>compressed byte[] array</returns>
         public static byte[] Zip(byte[] inBytes, string entryName = "")
         {
-            if (Constants.WIN32)
-            {
-                
-            }
             int buflen = (inBytes == null || inBytes.Length < 256) ? 256 : (inBytes.Length > 4096) ? 4096 : inBytes.Length;
 
             MemoryStream msIn = new MemoryStream();

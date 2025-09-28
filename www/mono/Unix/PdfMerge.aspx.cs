@@ -56,6 +56,7 @@ namespace Area23.At.Mono.Unix
         #endregion ctors
 
         #region page and control event handlers
+
         #region OnInit Page_Load page event cycle hooks
 
         /// <summary>
@@ -414,9 +415,9 @@ namespace Area23.At.Mono.Unix
                     LabelUploadResult.ToolTip = "You can merge more .pdf's by merging 4 by 4 and then merge the results!";
                     return;
                 }
-                if (pfile.ContentLength > (1024 * 1024 * 2))
+                if (pfile.ContentLength > (1024 * 1024 * 8))
                 {
-                    LabelUploadResult.Text = "Maximum 2.097.152 bytes are allowed for upload. Discarded: " + fileName + "!";
+                    LabelUploadResult.Text = "Maximum 8 MB (mega bytes) are allowed for upload. Discarded: " + fileName + "!";
                     LabelUploadResult.ToolTip = "You can merge bigger .pdf's by using pdfunite under linux / unix!";
                     return;
                 }

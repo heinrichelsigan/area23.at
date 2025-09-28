@@ -1,14 +1,9 @@
-﻿using Area23.At.Framework.Library.Static;
-using Area23.At.Framework.Library.Util;
+﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
+using Area23.At.Framework.Core.Static;
+using ICSharpCode.SharpZipLib.BZip2;
 using ICSharpCode.SharpZipLib.Core;
-using Org.BouncyCastle.Utilities;
-using System;
-using System.IO;
-using System.IO.Compression;
-using System.Threading;
 
-
-namespace Area23.At.Framework.Library.Zfx
+namespace Area23.At.Framework.Core.Zfx
 {
 
     /// <summary>
@@ -52,7 +47,7 @@ namespace Area23.At.Framework.Library.Zfx
             //    Area23Log.LogOriginEx("Z7", ex);
             //}
 
-            return (zipBytes.Length > 0) ? zipBytes : inBytes;                
+            return (zipBytes.Length > 0) ? zipBytes : inBytes;
         }
 
         #endregion 7zip compression

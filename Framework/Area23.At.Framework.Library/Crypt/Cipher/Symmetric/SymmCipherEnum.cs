@@ -8,6 +8,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     /// <summary>
     /// SymmCipherEnum maps prefered provided symmetric <see cref="Org.BouncyCastle.Crypto.IBlockCipher"/> algorthims
     /// Default algorithm is <see cref="SymmCipherEnum.Aes"/ ><seealso cref="Org.BouncyCastle.Crypto.Engines.AesEngine" />
+    /// 
+    /// Everything under the namespace `Area23.At.Framework.Library.Crypt.Cipher` is licensed under the MIT License.    
+    /// <see href="https://opensource.org/license/mit">opensource.org/license/mit</see>1
     /// </summary>
     [DefaultValue("Aes")]
     public enum SymmCipherEnum : byte
@@ -30,12 +33,15 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         Tea = 0xd,
         XTea = 0xe,
 
-        ZenMatrix = 0xf
+        SM4 = 0xf
+        // ZenMatrix = 0xf
 
     }
 
     /// <summary>
     /// SymmCipherEnumExtensions provides extension methods for <see cref="SymmCipherEnum"/>
+    /// Everything under the namespace `Area23.At.Framework.Library.Crypt.Cipher` is licensed under the MIT License.
+    /// <see href="https://opensource.org/license/mit">opensource.org/license/mit</see>
     /// </summary>
     public static class SymmCipherEnumExtensions
     {
@@ -109,12 +115,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.RC532: return '5';
                 // case SymmCipherEnum.Rijndael: return 'a';
                 case SymmCipherEnum.Seed: return 's';
+                case SymmCipherEnum.SM4: return '4';
                 case SymmCipherEnum.Serpent: return 'S';
                 case SymmCipherEnum.SkipJack: return 'J';
                 case SymmCipherEnum.Tea: return 't';
                 case SymmCipherEnum.XTea: return 'X';
 
-                case SymmCipherEnum.ZenMatrix: return 'z';
+                // case SymmCipherEnum.ZenMatrix: return 'z';
             }
 
             return ((char)('A'));
@@ -148,7 +155,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
                 case SymmCipherEnum.Tea: return CipherEnum.Tea;
                 case SymmCipherEnum.XTea: return CipherEnum.XTea;
-                case SymmCipherEnum.ZenMatrix: return CipherEnum.ZenMatrix;
+                case SymmCipherEnum.SM4: return CipherEnum.SM4;
 
                 case SymmCipherEnum.Aes:
                 default: return CipherEnum.Aes;

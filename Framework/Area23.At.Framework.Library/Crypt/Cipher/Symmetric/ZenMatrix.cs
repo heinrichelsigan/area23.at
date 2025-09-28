@@ -18,6 +18,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     /// Implements <see cref="Org.BouncyCastle.Crypto.IBlockCipher">Org.BouncyCastle.Crypto.IBlockCipher</see>
     ///
     /// probably already invented, but created by zen@area23.at (Heinrich Elsigan)
+    /// Everything under the namespace `Area23.At.Framework.Library.Crypt.Cipher` is licensed under the MIT License.
+    /// <see href="https://opensource.org/license/mit">opensource.org/license/mit</see>
     /// </summary>
     public class ZenMatrix : IBlockCipher
     {
@@ -232,7 +234,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     int pos = bCnt + ((int)sm) % 0x10;
                     processed[pos] = mappedByte;
                     if (aCnt != 0 && aCnt % 0x10 == 0)
-                        bCnt++;
+                        bCnt += 0x10;
                 }
 
                 // byte[] outBytes = processed;
@@ -265,13 +267,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             for (aCnt = 0, bCnt = 0; aCnt < BLOCK_SIZE; aCnt++)
             {
-                byte b = buffer[bCnt];
+                byte b = buffer[aCnt];
                 MapByteValue(ref b, out byte mappedByte, forEncryption);
                 sbyte sm = forEncryption ? MatrixPermutationKey[aCnt % 0x10] : InverseMatrix[aCnt % 0x10];
                 int pos = bCnt + ((int)sm) % 0x10;
                 processed[pos] = mappedByte;
                 if (aCnt != 0 && aCnt % 0x10 == 0)
-                    bCnt++;
+                    bCnt += 0x10;
             }
 
             // byte[] outBytes = processed;

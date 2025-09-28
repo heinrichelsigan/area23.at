@@ -97,6 +97,11 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                     Size = 128;
                     KeyLen = 16;
                     break;
+                case SymmCipherEnum.SM4:
+                    Size = 256;
+                    KeyLen = 16;
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.SM4Engine();
+                    break;
                 case SymmCipherEnum.SkipJack:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
                     break;
@@ -107,12 +112,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                     break;
                 case SymmCipherEnum.XTea:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
-                    break;
-                case SymmCipherEnum.ZenMatrix:
-                    Size = 15;
-                    KeyLen = 15;
-                    BlockCipher = new ZenMatrix(Size);
-                    break;
+                    break;                
                 default:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;

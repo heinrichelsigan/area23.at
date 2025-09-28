@@ -178,9 +178,9 @@ namespace Area23.At.Mono.Crypt
                 key = TextBox_Key.Text;
                 hash = TextBox_IV.Text;
 
-                SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(key, hash).InPipe;
+                CipherEnum[] cses = CipherEnumExtensions.FromString(key);
                 this.TextBox_Encryption.Text = string.Empty;
-                foreach (SymmCipherEnum c in cses)
+                foreach (CipherEnum c in cses)
                 {
                     this.TextBox_Encryption.Text += c.ToString() + ";";
                 }
@@ -591,7 +591,7 @@ namespace Area23.At.Mono.Crypt
             key = this.TextBox_Key.Text;
             hash = keyHash.Hash(TextBox_Key.Text);
             TextBox_IV.Text = hash;
-            pipeAlgortihms = CipherEnumExtensions.ParsePipeText(TextBox_Encryption.Text);
+            pipeAlgortihms = CipherEnumExtensions.FromString(key);
 
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BorderColor = Color.LightGray;

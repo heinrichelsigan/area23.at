@@ -10,10 +10,12 @@ using System.Linq;
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
 
-	/// <summary>
-	/// Provides a simple multistaged crypt pipe for <see cref="SymmCipherEnum"/> with max stages = 8
-	/// </summary>
-	public class SymmCipherPipe
+    /// <summary>
+    /// Provides a simple multistaged crypt pipe for <see cref="SymmCipherEnum"/> with max stages = 8
+    /// Everything under the namespace `Area23.At.Framework.Library.Crypt.Cipher` is licensed under the MIT License.
+    /// <see href="https://opensource.org/license/mit">opensource.org/license/mit</see>
+    /// </summary>
+    public class SymmCipherPipe
 	{
 
         #region fields and properties
@@ -193,10 +195,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 				case SymmCipherEnum.Idea:
 				case SymmCipherEnum.Seed:
 				case SymmCipherEnum.Serpent:
-				case SymmCipherEnum.SkipJack:
+                case SymmCipherEnum.SM4:
+                case SymmCipherEnum.SkipJack:
 				case SymmCipherEnum.Tea:
 				case SymmCipherEnum.XTea:
-                case SymmCipherEnum.ZenMatrix:
                 default:
 					CryptParamsPrefered cpParams = new CryptParamsPrefered(cipherAlgo, secretKey, hashIv);
 					Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
@@ -243,11 +245,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 				case SymmCipherEnum.RC532:
 				case SymmCipherEnum.Seed:
                 case SymmCipherEnum.Serpent:
+                case SymmCipherEnum.SM4:
                 case SymmCipherEnum.SkipJack:
 				case SymmCipherEnum.Tea:
 				case SymmCipherEnum.XTea:
-                case SymmCipherEnum.ZenMatrix:
-                default:
+				default:
 					CryptParamsPrefered cpParams = new CryptParamsPrefered(cipherAlgo, secretKey, hashIv, fishOnAesEngine);
 					Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
 					decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);

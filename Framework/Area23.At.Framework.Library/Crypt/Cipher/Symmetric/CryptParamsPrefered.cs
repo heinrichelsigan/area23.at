@@ -1,18 +1,23 @@
 ﻿using Area23.At.Framework.Library.Crypt.Hash;
 using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Engines;
 using System;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
 
+
     /// <summary>
     /// CryptParamsPrefered prefered params for symmetric block cipher
+    /// 
+    /// Everything under the namespace `Area23.At.Framework.Library.Crypt.Cipher` is licensed under the MIT License.
+    /// <see href="https://opensource.org/license/mit">opensource.org/license/mit</see>
     /// </summary>
     public class CryptParamsPrefered : CryptParams
     {
         public SymmCipherEnum SymmCipher { get; set; }
 
-        #region Constructors
+        #region ctor
 
         /// <summary>
         /// standard ctor with <see cref="SymmCipherEnum.Aes"/> default
@@ -20,6 +25,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         public CryptParamsPrefered() : base()
         {
             SymmCipher = SymmCipherEnum.Aes;
+            Size = 256;
+            KeyLen = 32;
+            Mode = "ECB";
+            BlockCipher = new AesEngine();
+            KeyHashing = KeyHash.Hex;
         }
 
         /// <summary>
@@ -30,9 +40,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         public CryptParamsPrefered(SymmCipherEnum cipherAlgo, bool fishOnAesEngine = false) : this()
         {
             SymmCipher = cipherAlgo;
-            Size = 256;
-            KeyLen = 32;
-            Mode = "ECB";
 
             switch (cipherAlgo)
             {
@@ -58,7 +65,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     break;
                 case SymmCipherEnum.Camellia:
                     Size = 128;
-                    KeyLen = 16;
+                    KeyLen = 16; ;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
                     break;
                 case SymmCipherEnum.Cast6:
@@ -69,7 +76,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     KeyLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEdeEngine();
                     break;
-                case SymmCipherEnum.Gost28147:                    
+                case SymmCipherEnum.Gost28147:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
                     break;
                 case SymmCipherEnum.Idea:
@@ -94,7 +101,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     Size = 128;
                     KeyLen = 16;
                     break;
-                case SymmCipherEnum.SkipJack:                    
+                case SymmCipherEnum.SM4:
+                    Size = 256;
+                    KeyLen = 16;
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.SM4Engine();
+                    break;
+                case SymmCipherEnum.SkipJack:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
                     break;
                 case SymmCipherEnum.Tea:
@@ -104,11 +116,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     break;
                 case SymmCipherEnum.XTea:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
-                    break;
-                case SymmCipherEnum.ZenMatrix:
-                    Size = 256;
-                    KeyLen = 15;
-                    BlockCipher = new ZenMatrix(Size);
                     break;
                 default:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
@@ -128,14 +135,50 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         public CryptParamsPrefered(SymmCipherEnum cipherAlgo, string key, string hash, bool fishOnAesEngine = false)
             : this(cipherAlgo, fishOnAesEngine)
         {
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException("key");
             SymmCipher = cipherAlgo;
             Key = key;
-            Hash = string.IsNullOrEmpty(hash) ? KeyHashing.Hash(key) : hash;
+            Hash = (string.IsNullOrEmpty(hash)) ? KeyHashing.Hash(key) : hash;
         }
 
-        #endregion Constructors
 
-        #region obsolete deprecated static members
+        /// <summary>
+        /// constructs a <see cref="CryptParamsPrefered"/> object by <see cref="SymmCipherEnum"/>
+        /// with additional <see cref="Key"/> and <see cref="KeyHashing"/>
+        /// </summary>
+        /// <param name="cipherAlgo"><see cref="CipherEnum"/></param>
+        /// <param name="key">secret key</param>
+        /// <param name="keyHash">key hashing</param>
+        public CryptParamsPrefered(SymmCipherEnum cipherAlgo, string key, KeyHash keyHash) : this(cipherAlgo)
+        {
+            Key = key;
+            KeyHashing = keyHash;
+            Hash = KeyHashing.Hash(key);
+        }
+
+        /// <summary>
+        /// constructs a <see cref="CryptParams"/> object by <see cref="CipherEnum"/>
+        /// with additional <see cref="Key"/>, <see cref="Hash"/> and <see cref="KeyHashing"/>
+        /// </summary>
+        /// <param name="cipherAlgo"><see cref="CipherEnum"/></param>
+        /// <param name="key">secret key</param>
+        /// <param name="hash">corresponding key hash</param>
+        /// <param name="keyHash">key hashing</param>
+        public CryptParamsPrefered(SymmCipherEnum cipherAlgo, string key, string hash, KeyHash keyHash) : this(cipherAlgo)
+        {
+            Key = key;
+            KeyHashing = keyHash;
+            Hash = (string.IsNullOrEmpty(hash)) ? KeyHashing.Hash(key) : hash;
+        }
+
+        /// <summary>
+        /// Constructs instance via another object instance
+        /// </summary>
+        /// <param name="cryptParams">another instance</param>
+        public CryptParamsPrefered(CryptParamsPrefered cryptParams) : this(cryptParams.SymmCipher, cryptParams.Key, cryptParams.Hash, cryptParams.KeyHashing) { }
+
+        #endregion ctor
 
         /// <summary>
         /// static way to get valid <see cref="CryptParamsPrefered"/> for a requested <see cref="SymmCipherEnum"/>
@@ -148,13 +191,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             return new CryptParamsPrefered(cipherAlgo, fishOnAesEngine);
         }
 
-        [Obsolete("RequestPreferedAlgorithm is not used anymore.", true)]
+        [Obsolete("GetCryptParams is not used anymore.", true)]
         public static IBlockCipher GetCryptParams(SymmCipherEnum cipherAlgo, bool fishOnAesEngine = false)
         {
             return new CryptParamsPrefered(cipherAlgo, fishOnAesEngine).BlockCipher;
         }
-
-        #endregion obsolete deprecated static members
 
     }
 

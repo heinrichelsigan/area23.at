@@ -13,6 +13,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
     /// <summary>
     /// Provides a simple crypt pipe for <see cref="CipherEnum"/>
+    /// Everything under the namespace `Area23.At.Framework.Library.Crypt.Cipher` is licensed under the MIT License.
+    /// <see href="https://opensource.org/license/mit">opensource.org/license/mit</see>
     /// </summary>
     public class CipherPipe
     {
@@ -115,7 +117,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             HashSet<string> hashBytes = new HashSet<string>();
             foreach (byte bb in keyBytes)
             {
-                byte cb = (byte)((int)((int)bb % 21));
+                byte cb = (byte)((int)((int)bb % 0x19));
                 hexString = string.Format("{0:x2}", cb);
                 if (hexString.Length > 0 && !hashBytes.Contains(hexString))
                     hashBytes.Add(hexString);

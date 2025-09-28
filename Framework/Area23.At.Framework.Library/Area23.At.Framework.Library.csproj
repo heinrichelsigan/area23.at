@@ -278,6 +278,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <Compile Include="Cqr\Msg\CContent.cs" />
+    <None Include="Crypt\README.MD" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Properties\fortune.u8">
       <CustomToolNamespace>Area23.At.Framework.Library.Properties</CustomToolNamespace>

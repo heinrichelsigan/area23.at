@@ -1,13 +1,14 @@
 ﻿using Area23.At.Framework.Core.Crypt.Cipher;
 using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Area23.At.Framework.Core.Crypt.Hash;
+using Area23.At.Framework.Core.Static;
 using Area23.At.Framework.Core.Util;
-using Area23.At.Framework.Core.Win32Api;
 using Area23.At.Framework.Core.Zfx;
 using Area23.At.WinForm.TWinFormCore.Helper;
 using Area23.At.WinForm.TWinFormCore.Properties;
+using Area23.At.WinForm.TWinFormCore;
 using System.Media;
-using System.Windows.Controls;
+using Area23.At.WinForm.TWinFormCore.Gui.Forms;
 
 namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 {
@@ -33,7 +34,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
             string textToSet = (!string.IsNullOrEmpty(text)) ? text : string.Empty;
             if (InvokeRequired)
             {
-                SetGroupBoxTextCallback setGroupBoxText = delegate (System.Windows.Forms.GroupBox gBox, string hText)
+                SetGroupBoxTextCallback setGroupBoxText = delegate (GroupBox gBox, string hText)
                 {
                     if (gBox != null && gBox.Name != null && !string.IsNullOrEmpty(hText))
                         gBox.Text = hText;
@@ -173,12 +174,23 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
         #region ButtonPictureBoxClickEvents
 
+        private void pictureBoxKey_Click(object sender, EventArgs e)
+        {
+            this.textBoxKey.Text = GetEmailFromRegistry();
+        }
+
         private void pictureBoxAddAlgo_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(comboBoxAlgo.SelectedText) && Enum.TryParse<CipherEnum>(comboBoxAlgo.SelectedText, out CipherEnum cipherEnum))
             {
                 this.textBoxPipe.Text += cipherEnum.ToString() + ";";
             }
+        }
+
+
+        private void pictureBoxDelete_Click(object sender, EventArgs e)
+        {
+            this.textBoxPipe.Text = "";
         }
 
         private void Clear_Click(object sender, EventArgs e)
@@ -220,14 +232,16 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
         /// <param name="e"></param>
         private void Encrypt_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(this.textBoxPipe.Text) && !string.IsNullOrEmpty(this.textBoxKey.Text))
+            if (!string.IsNullOrEmpty(this.textBoxHash.Text) && !string.IsNullOrEmpty(this.textBoxKey.Text))
             {
+                CipherEnum[] pipeAlgos = CipherEnumExtensions.FromString(this.textBoxKey.Text);
+                CipherPipe cPipe = new CipherPipe(pipeAlgos);
+
                 if (!string.IsNullOrEmpty(this.textBoxSrc.Text))
                 {
                     if (menuItemNone.Checked)
                         SetEncoding(menuBase64);
 
-                    CipherPipe cPipe = new CipherPipe(this.textBoxKey.Text, this.textBoxHash.Text);
                     string encrypted = cPipe.EncrpytTextGoRounds(this.textBoxSrc.Text, this.textBoxKey.Text, this.textBoxHash.Text, GetEncoding(), GetZip(), GetHash());
                     this.textBoxOut.Text = encrypted;
                 }
@@ -239,10 +253,10 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                         {
                             if (Path.GetFileName(file) == labelFileIn.Text)
                             {
-                                CipherPipe cPipe = new CipherPipe(this.textBoxKey.Text, this.textBoxHash.Text);
+                                // CipherPipe cPipe = new CipherPipe(this.textBoxKey.Text, this.textBoxHash.Text);                                
                                 byte[] fileBytes = System.IO.File.ReadAllBytes(file);
                                 byte[] outBytes = cPipe.EncrpytFileBytesGoRounds(fileBytes, this.textBoxKey.Text, this.textBoxHash.Text, GetEncoding(), GetZip(), GetHash());
-                                string outFilePath = (file + GetZip().GetZipTypeExtension() + "." + cPipe.PipeString + "." + GetHash());
+                                string outFilePath = (file + GetZip().GetZipFileExtension() + "." + cPipe.PipeString + "." + GetHash());
                                 SaveBytesDialog(outBytes, ref outFilePath);
                                 pictureBoxOutFile.Visible = true;
                                 pictureBoxOutFile.Image = Area23.At.WinForm.TWinFormCore.Properties.Resources.encrypted;
@@ -267,14 +281,18 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
         /// <param name="e"></param>
         private void Decrypt_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(this.textBoxPipe.Text) && !string.IsNullOrEmpty(this.textBoxKey.Text))
+            if (!string.IsNullOrEmpty(this.textBoxHash.Text) && !string.IsNullOrEmpty(this.textBoxKey.Text))
             {
-                if (!string.IsNullOrEmpty(this.textBoxSrc.Text))
+
+                CipherEnum[] pipeAlgos = CipherEnumExtensions.FromString(this.textBoxKey.Text);
+                CipherPipe cPipe = new CipherPipe(pipeAlgos);
+
+                if (!string.IsNullOrEmpty(this.textBoxHash.Text))
                 {
                     if (menuItemNone.Checked)
                         SetEncoding(menuBase64);
 
-                    CipherPipe cPipe = new CipherPipe(this.textBoxKey.Text, this.textBoxHash.Text);
+                    // CipherPipe cPipe = new CipherPipe(this.textBoxKey.Text, this.textBoxHash.Text);
                     string decrypted = cPipe.DecryptTextRoundsGo(this.textBoxSrc.Text, this.textBoxKey.Text, this.textBoxHash.Text, GetEncoding(), GetZip(), GetHash());
                     this.textBoxOut.Text = decrypted;
                 }
@@ -286,10 +304,10 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                         {
                             if (Path.GetFileName(file) == labelFileIn.Text)
                             {
-                                CipherPipe cPipe = new CipherPipe(this.textBoxKey.Text, this.textBoxHash.Text);
+                                // CipherPipe cPipe = new CipherPipe(this.textBoxKey.Text, this.textBoxHash.Text);
                                 byte[] fileBytes = System.IO.File.ReadAllBytes(file);
                                 byte[] outBytes = cPipe.DecryptFileBytesRoundsGo(fileBytes, this.textBoxKey.Text, this.textBoxHash.Text, GetEncoding(), GetZip(), GetHash());
-                                string outFileDecrypt = file.Replace(GetZip().GetZipTypeExtension() + "." + cPipe.PipeString + "." + GetHash(), "");
+                                string outFileDecrypt = file.Replace(GetZip().GetZipFileExtension() + "." + cPipe.PipeString + "." + GetHash(), "");
                                 SaveBytesDialog(outBytes, ref outFileDecrypt);
                                 HashFiles.Add(outFileDecrypt);
                                 pictureBoxOutFile.Visible = true;
@@ -400,8 +418,8 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
 
                 if (NormalCursor == null || NoDropCursor == null)
                 {
-                    Icon iconFileWork = new Icon(Properties.Resources.icon_file_working, new Size(32, 32));
-                    Icon iconFileWarn = new Icon(Properties.Resources.icon_file_warning, new Size(32, 32));
+                    Icon iconFileWork = new Icon(TWinFormCore.Properties.Resources.icon_file_working, new Size(32, 32));
+                    Icon iconFileWarn = new Icon(TWinFormCore.Properties.Resources.icon_file_warning, new Size(32, 32));
                     NormalCursor = new Cursor(iconFileWork.Handle);
                     NoDropCursor = new Cursor(iconFileWarn.Handle);
                 }
@@ -418,8 +436,8 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
                 // Sets the custom cursor based upon the effect.
                 e.UseDefaultCursors = false;
                 _dragDropEffect = e.Effect;
-                NormalCursor = new Cursor(Properties.Resources.icon_file_warning.Handle);
-                NoDropCursor = new Cursor(Properties.Resources.icon_file_working.Handle);
+                NormalCursor = new Cursor(TWinFormCore.Properties.Resources.icon_file_warning.Handle);
+                NoDropCursor = new Cursor(TWinFormCore.Properties.Resources.icon_file_working.Handle);
                 Cursor.Current = (isDragMode) ? NormalCursor : NoDropCursor;
                 // HOTFIX: no drop cursor
                 // Cursor.Current = (!firstLeavedDropTarget) ? MyNormalCursor : MyNoDropCursor;
@@ -692,6 +710,7 @@ namespace Area23.At.WinForm.TWinFormCore.Gui.Forms
         }
 
         #endregion Media Methods
+
 
 
 

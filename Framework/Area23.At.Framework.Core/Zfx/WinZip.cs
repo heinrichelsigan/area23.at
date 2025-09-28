@@ -7,70 +7,74 @@ namespace Area23.At.Framework.Core.Zfx
 {
     public static class WinZip
     {
-        public static byte[] Zip(byte[] inBytes, string fileName = "bogus.zip", int zipLevel = 6)
+
+        /// <summary>
+        /// Zip zips a byte array and returns the zipped byte array.
+        /// </summary>
+        /// <param name="inBytes">input byte[] array</param>
+        /// <returns>compressed byte[] array</returns>
+        public static byte[] Zip(byte[] inBytes, string entryName = "")
         {
-            try
-            {
-                MemoryStream msIn = new MemoryStream(inBytes);
-                MemoryStream msOut = new MemoryStream();
-                byte[] outBytes = new byte[65536];
+            int buflen = (inBytes == null || inBytes.Length < 256) ? 256 : (inBytes.Length > 4096) ? 4096 : inBytes.Length;
 
-                ZipOutputStream zipStream = new ZipOutputStream(msOut);
-                zipStream.SetLevel(zipLevel);
-                ZipEntry newEntry = new ZipEntry(fileName);
-                newEntry.DateTime = DateTime.Now;
-                zipStream.PutNextEntry(newEntry);
-                StreamUtils.Copy(msIn, zipStream, new byte[4096]);
-                zipStream.CloseEntry();
-                zipStream.IsStreamOwner = false;
-                zipStream.Close();
+            MemoryStream msIn = new MemoryStream();
+            msIn.Write(inBytes, 0, inBytes.Length);
+            msIn.Flush();
+            msIn.Seek(0, SeekOrigin.Begin);
+            MemoryStream msOut = new MemoryStream();
 
-                msOut.Flush();
-                byte[] zipBytes = msOut.ToByteArray();
+            string zipEntryName = (string.IsNullOrEmpty(entryName) ? DateTime.Now.Area23DateTimeWithMillis() + "CoolCrypt.txt" : entryName);
+            ZipOutputStream zipOut = new ZipOutputStream(msOut);
+            zipOut.UseZip64 = UseZip64.Off;
+            ZipEntry newEntry = new ZipEntry(zipEntryName);
+            newEntry.DateTime = DateTime.Now;
+            zipOut.PutNextEntry(newEntry);
+            StreamUtils.Copy(msIn, zipOut, new byte[buflen]);
+            zipOut.CloseEntry();
+            zipOut.IsStreamOwner = false;
+            zipOut.Close();
 
-                msOut.Close();
-                msOut.Dispose();
+            msOut.Seek(0, SeekOrigin.Begin);
+            byte[] zipBytes = msOut.ToByteArray();
 
-                msIn.Close();
-                msIn.Dispose();
+            msOut.Close();
+            msOut.Dispose();
+            msIn.Close();
+            msIn.Dispose();
 
-                return zipBytes;
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogOriginMsgEx("WinZip", "Zip", ex);
-            }
-            return inBytes;
+            return zipBytes;
         }
 
+
+        /// <summary>
+        /// Unzip unzips a zip compressed byte array and returns the unzipped byte array.
+        /// </summary>
+        /// <param name="inBytes">compressed byte[] array</param>
+        /// <returns>unzipped byte[] array</returns>
         public static byte[] UnZip(byte[] inBytes)
         {
-            try
+            int buflen = (inBytes == null || inBytes.Length < 256) ? 256 : (inBytes.Length > 4096) ? 4096 : inBytes.Length;
+
+            MemoryStream msIn = new MemoryStream(inBytes);
+            msIn.Seek(0, SeekOrigin.Begin);
+            MemoryStream msOut = new MemoryStream();
+
+            ZipEntry entry = null;
+            using (ZipInputStream zipIn = new ZipInputStream(msIn))
             {
-                MemoryStream msIn = new MemoryStream(inBytes);
-                msIn.Seek(0, SeekOrigin.Begin);
-                MemoryStream msOut = new MemoryStream();
-                byte[] outBytes = new byte[65536];
-
-                using (ZipInputStream zipIn = new ZipInputStream(msIn, 4096))
-                {
-                    StreamUtils.Copy(zipIn, msOut, outBytes);
-                }
-                msOut.Flush();
-                byte[] unZipBytes = msOut.ToByteArray();
-
-                msOut.Close();
-                msOut.Dispose();
-                msIn.Close();
-                msIn.Dispose();
-
-                return unZipBytes;
+                if (entry == null)
+                    entry = zipIn.GetNextEntry();
+                StreamUtils.Copy(zipIn, msOut, new byte[buflen]);
             }
-            catch (Exception ex)
-            {
-                Area23Log.LogOriginMsgEx("WinZip", "Zip", ex);
-            }
-            return inBytes;
+            msOut.Seek(0, SeekOrigin.Begin);
+            byte[] unZipBytes = msOut.ToByteArray();
+
+            msOut.Close();
+            msOut.Dispose();
+            msIn.Close();
+            msIn.Dispose();
+
+            return unZipBytes;
         }
 
     }

@@ -94,6 +94,7 @@
             buttonDecrypt = new Button();
             cipherEnumBindingSource1 = new BindingSource(components);
             groupBoxFiles = new GroupBox();
+            pictureBoxDelete = new PictureBox();
             menuStripEncrypt.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)cipherEnumBindingSource2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)cipherEnumBindingSource).BeginInit();
@@ -105,6 +106,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxOutFile).BeginInit();
             ((System.ComponentModel.ISupportInitialize)cipherEnumBindingSource1).BeginInit();
             groupBoxFiles.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxDelete).BeginInit();
             SuspendLayout();
             // 
             // menuStripEncrypt
@@ -494,6 +496,7 @@
             pictureBoxKey.Size = new Size(28, 29);
             pictureBoxKey.TabIndex = 4;
             pictureBoxKey.TabStop = false;
+            pictureBoxKey.Click += pictureBoxKey_Click;
             // 
             // pictureBoxHash
             // 
@@ -573,7 +576,7 @@
             textBoxPipe.Margin = new Padding(1);
             textBoxPipe.Name = "textBoxPipe";
             textBoxPipe.ReadOnly = true;
-            textBoxPipe.Size = new Size(601, 28);
+            textBoxPipe.Size = new Size(558, 28);
             textBoxPipe.TabIndex = 12;
             // 
             // labelFileIn
@@ -684,12 +687,25 @@
             groupBoxFiles.DragLeave += Drag_Leave;
             groupBoxFiles.GiveFeedback += Give_FeedBack;
             // 
+            // pictureBoxDelete
+            // 
+            pictureBoxDelete.BackColor = SystemColors.ControlLight;
+            pictureBoxDelete.Image = Properties.Resources.close_delete1;
+            pictureBoxDelete.Location = new Point(745, 124);
+            pictureBoxDelete.Margin = new Padding(1);
+            pictureBoxDelete.Name = "pictureBoxDelete";
+            pictureBoxDelete.Size = new Size(27, 27);
+            pictureBoxDelete.TabIndex = 21;
+            pictureBoxDelete.TabStop = false;
+            pictureBoxDelete.Click += pictureBoxDelete_Click;
+            // 
             // EncryptForm
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(784, 561);
+            Controls.Add(pictureBoxDelete);
             Controls.Add(groupBoxFiles);
             Controls.Add(buttonDecrypt);
             Controls.Add(buttonEncrypt);
@@ -729,6 +745,7 @@
             ((System.ComponentModel.ISupportInitialize)cipherEnumBindingSource1).EndInit();
             groupBoxFiles.ResumeLayout(false);
             groupBoxFiles.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxDelete).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -800,6 +817,6 @@
         private ToolStripMenuItem menuHelpHelp;
         internal GroupBox groupBoxFiles;
         private ToolStripMenuItem menuItemNone;
+        private PictureBox pictureBoxDelete;
     }
-
 }

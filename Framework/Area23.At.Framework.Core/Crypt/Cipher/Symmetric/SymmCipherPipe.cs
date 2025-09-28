@@ -9,6 +9,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
     /// <summary>
     /// Provides a simple crypt pipe for <see cref="SymmCipherEnum"/>
+    /// 
+    /// Everything under the namespace `Area23.At.Framework.Library.Crypt.Cipher` is licensed under the MIT License.
+    /// <see href="https://opensource.org/license/mit">opensource.org/license/mit</see>
     /// </summary>
     public class SymmCipherPipe
     {
@@ -166,11 +169,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             string hash = (string.IsNullOrEmpty(hashIv)) ? EnDeCodeHelper.KeyToHex(secretKey) : hashIv;
 
             switch (cipherAlgo)
-            {
-                case SymmCipherEnum.Serpent:
-                    Serpent.SerpentGenWithKey(secretKey, hash, true);
-                    encryptBytes = Serpent.Encrypt(inBytes);
-                    break;                                    
+            {                                  
                 case SymmCipherEnum.Aes:
                 case SymmCipherEnum.BlowFish:
                 case SymmCipherEnum.Fish2:
@@ -182,10 +181,11 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.Gost28147:
                 case SymmCipherEnum.Idea:
                 case SymmCipherEnum.Seed:
+                case SymmCipherEnum.Serpent:
+                case SymmCipherEnum.SM4:
                 case SymmCipherEnum.SkipJack:
                 case SymmCipherEnum.Tea:
-                case SymmCipherEnum.XTea:
-                case SymmCipherEnum.ZenMatrix:
+                case SymmCipherEnum.XTea:                
                 default:
                     CryptParamsPrefered cpParams = new CryptParamsPrefered(cipherAlgo, secretKey, hash);
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
@@ -213,10 +213,6 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
             switch (cipherAlgo)
             {
-                case SymmCipherEnum.Serpent:
-                    sameKey = Serpent.SerpentGenWithKey(secretKey, hash, true);
-                    decryptBytes = Serpent.Decrypt(cipherBytes);
-                    break;
                 case SymmCipherEnum.Aes:
                 case SymmCipherEnum.BlowFish:
                 case SymmCipherEnum.Fish2:
@@ -228,16 +224,17 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.Idea:
                 case SymmCipherEnum.RC532:
                 case SymmCipherEnum.Seed:
+                case SymmCipherEnum.Serpent:
+                case SymmCipherEnum.SM4: 
                 case SymmCipherEnum.SkipJack:
                 case SymmCipherEnum.Tea:
                 case SymmCipherEnum.XTea:
-                case SymmCipherEnum.ZenMatrix:
                 default:
                     CryptParamsPrefered cpParams = new CryptParamsPrefered(cipherAlgo, secretKey, hash, fishOnAesEngine);
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
                     decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
                     break;
-            }
+                }
 
             return EnDeCodeHelper.GetBytesTrimNulls(decryptBytes);
         }
@@ -333,7 +330,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
         }
 
 
-        public byte[] EncrpytGoRounds(byte[] inBytes, string secretKey = "", ZipType zipBefore = ZipType.None, KeyHash keyHash = KeyHash.Hex)
+        public byte[] EncrpytGoRounds(byte[] inBytes, string secretKey = "", ZipType zipBefore =ZipType.None, KeyHash keyHash = KeyHash.Hex)
             => MerryGoRoundEncrpyt(inBytes, secretKey, keyHash.Hash(secretKey), zipBefore);
 
         public byte[] DecrpytRoundsGo(byte[] cipherBytes, string secretKey = "", ZipType unzipAfter = ZipType.None, KeyHash keyHash = KeyHash.Hex)

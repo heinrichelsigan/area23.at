@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Core.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Core.Static;
+using Area23.At.Framework.Core.Util;
 using System.ComponentModel;
 
 namespace Area23.At.Framework.Core.Crypt.Cipher
@@ -27,8 +28,9 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         Serpent = 0xc,
         Tea = 0xd,
         XTea = 0xe,
+        SM4 = 0xf,
 
-        ZenMatrix = 0xf,
+
 
 
         Cast5 = 0x10,
@@ -41,16 +43,18 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         Des = 0x17,
         Aria = 0x18,
         CamelliaLight = 0x19,
-        Dstu7624 = 0x1a,
-        SM4 = 0x1b,
-        AesLight = 0x1c,
-        ThreeFish256 = 0x1d,
+        Dstu7624 = 0x1a,         
+        AesLight = 0x1b,
+        ThreeFish256 = 0x1c,
         
-        Des3Net = 0x1e,
-               
-        ZenMatrix2 = 0x1f,
+        Des3Net = 0x1d,
+        AesNet = 0x1e, 
 
-        AesNet = 0x20 
+
+        ZenMatrix = 0x1f, 
+        ZenMatrix2 = 0x20
+
+        
         // Rsa = 0x21,
         // DH = 0x22,
     }
@@ -85,6 +89,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             {
                 case CipherEnum.Aes: return 'A';
                 case CipherEnum.AesLight: return 'L';
+                case CipherEnum.AesNet: return 'E';
                 case CipherEnum.Aria: return 'a';
 
                 case CipherEnum.BlowFish: return 'b';
@@ -99,6 +104,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
 
                 case CipherEnum.Des: return '$';
                 case CipherEnum.Des3: return 'D';
+                case CipherEnum.Des3Net: return 'e';
                 case CipherEnum.Dstu7624: return 'd';
 
                 case CipherEnum.Gost28147: return 'g';
@@ -122,10 +128,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                 
                 case CipherEnum.ZenMatrix: return 'z';
                 case CipherEnum.ZenMatrix2: return 'Z';
-
-                case CipherEnum.AesNet: return 'E';
-                case CipherEnum.Des3Net: return 'e';
-
+                               
                 // case CipherEnum.Rsa: return '%';
                 // case CipherEnum.DH: return '!';
 
@@ -160,6 +163,12 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
             }
 
             return cipherList.ToArray();
+        }
+
+        public static CipherEnum[] FromString(string pipeText)
+        {
+            CipherPipe cp = new CipherPipe(pipeText);
+            return cp.InPipe;
         }
 
         public static CipherEnum FromSymmCipherEnum(Symmetric.SymmCipherEnum symmCipherEnum)

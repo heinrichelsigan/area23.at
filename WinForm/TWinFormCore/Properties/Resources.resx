@@ -118,62 +118,33 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="a_right_key1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\a_right_key1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TransparentMenuImage1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TransparentMenuImage.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MenuImageOld" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MenuImageOld.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="encrypted" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\encrypted1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="a_right_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\a_right_key.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="a_hash1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\a_hash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="a_hash5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\a_hash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="a_hash3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\a_hash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="WinFormAboutDialog" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WinFormAboutDialog.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="sound_glasses" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sound_glasses.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_glasses</comment>
   </data>
-  <data name="decrypted" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\decrypted1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="file" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\file1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="a_right_key1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\a_right_key1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="AddAesArrowHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AddAesArrowHover1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="a_hash6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\a_hash1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MenuImageInfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MenuImageInfo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="key_ring" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\key_ring1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="a_hash" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\a_hash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="a_right_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\a_right_hover.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TransparentMenuImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TransparentMenuImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MenuImageDialog" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MenuImageDialog.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="a_right_key2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\a_right_key2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="decrypted" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\decrypted1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="a_right_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\a_right_hover.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="arrow_right_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\arrow_right_hover.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -184,36 +155,77 @@
   <data name="a_hash2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\a_hash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="a_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\a_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="sound_laser" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sound_laser.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_laser</comment>
   </data>
-  <data name="key_ring" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\key_ring1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="a_hash1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\a_hash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icon_file_warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>S:\area23.at\WinForm\TWinFormCore\Resources\icon_file_warning.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="file" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\file1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuImageInfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MenuImageInfo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="a_hash6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\a_hash1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="encrypted" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\encrypted1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icon_file_working" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>S:\area23.at\WinForm\TWinFormCore\Resources\file_working.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sound_arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sound_arrow.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    <comment>sound_arrow</comment>
-  </data>
-  <data name="sound_click" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sound_click.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    <comment>sound_click</comment>
-  </data>
-  <data name="sound_glasses" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sound_glasses.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    <comment>sound_glasses</comment>
   </data>
   <data name="sound_push" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sound_push.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     <comment>sound_push</comment>
   </data>
-  <data name="sound_laser" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sound_laser.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    <comment>sound_laser</comment>
+  <data name="MenuImageDialog" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MenuImageDialog.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="a_hash5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\a_hash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_file_warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>S:\area23.at\WinForm\TWinFormCore\Resources\icon_file_warning.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sound_click" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sound_click.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_click</comment>
+  </data>
+  <data name="a_right_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\a_right_key.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TransparentMenuImage1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TransparentMenuImage.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sound_arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sound_arrow.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_arrow</comment>
+  </data>
+  <data name="WinFormAboutDialog" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WinFormAboutDialog.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MenuImageOld" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MenuImageOld.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TransparentMenuImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TransparentMenuImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="a_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\a_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="close_delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\close_delete1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="close_delete1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\close_delete1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="access_denied" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\access_denied1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rcat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rcat1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

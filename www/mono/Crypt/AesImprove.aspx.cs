@@ -167,8 +167,9 @@ namespace Area23.At.Mono.Crypt
                 // CipherEnum[] cipherTypes = new CipherPipe(secretKey, keyIv).InPipe;
                 // foreach (CipherEnum c in cipherTypes)
                 //    this.TextBox_Encryption.Text += c.ToString() + ";";                
-                SymmCipherEnum[] symmCipherTypes = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(secretKey, keyIv).InPipe;
-                foreach (SymmCipherEnum c in symmCipherTypes)
+                CipherEnum[] cipherEnums = CipherEnumExtensions.FromString(secretKey);
+                // SymmCipherEnum[] symmCipherTypes = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(secretKey, keyIv).InPipe;
+                foreach (CipherEnum c in cipherEnums)
                 {
                     this.TextBox_Encryption.Text += c.ToString() + ";";
                 }

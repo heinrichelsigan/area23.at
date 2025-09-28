@@ -183,6 +183,16 @@ namespace Area23.At.WinForm.TWinFormCore.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap access_denied {
+            get {
+                object obj = ResourceManager.GetObject("access_denied", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap AddAesArrowHover {
             get {
                 object obj = ResourceManager.GetObject("AddAesArrowHover", resourceCulture);
@@ -196,6 +206,26 @@ namespace Area23.At.WinForm.TWinFormCore.Properties {
         internal static System.Drawing.Bitmap arrow_right_hover {
             get {
                 object obj = ResourceManager.GetObject("arrow_right_hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap close_delete {
+            get {
+                object obj = ResourceManager.GetObject("close_delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap close_delete1 {
+            get {
+                object obj = ResourceManager.GetObject("close_delete1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -286,6 +316,16 @@ namespace Area23.At.WinForm.TWinFormCore.Properties {
         internal static System.Drawing.Bitmap MenuImageOld {
             get {
                 object obj = ResourceManager.GetObject("MenuImageOld", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rcat {
+            get {
+                object obj = ResourceManager.GetObject("rcat", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
