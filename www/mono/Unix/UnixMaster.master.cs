@@ -31,7 +31,9 @@ namespace Area23.At.Mono.Unix
             this.aHexDump.HRef = LibPaths.UnixAppPath + "HexDump.aspx";
             this.aBc.HRef = LibPaths.UnixAppPath + "Bc.aspx";
             this.aPdfMerge.HRef = LibPaths.UnixAppPath + "PdfMerge.aspx";
+            this.aWhoisDns.HRef = LibPaths.UnixAppPath + "WhoisDns.aspx";
         }
+
 
         public static string GetFinalUrl(string suffixUrl = "")
         {
@@ -48,6 +50,7 @@ namespace Area23.At.Mono.Unix
             return finalUrl;
         }
 
+
         protected void NavFolderHandler(object sender, EventArgs args)
         {
             headerLeft.Attributes["class"] = "headerLeft";
@@ -55,7 +58,7 @@ namespace Area23.At.Mono.Unix
             headerCenter.Attributes["class"] = "headerCenter";
             headerRightCenter.Attributes["class"] = "headerRightCenter";
             headerRight.Attributes["class"] = "headerRight";
-            // headerRight.Style["class"] = "headerRight";            
+            headerRightRight.Style["class"] = "headerRight";            
 
             try
             {
@@ -82,6 +85,11 @@ namespace Area23.At.Mono.Unix
                         return;
                     }
                     if (this.Request.RawUrl.Contains("PdfMerge.aspx"))
+                    {
+                        headerRight.Attributes["class"] = "headerRightSelect";
+                        return;
+                    }
+                    if (this.Request.RawUrl.Contains("WhoisDns.aspx"))
                     {
                         headerRight.Attributes["class"] = "headerRightSelect";
                         return;

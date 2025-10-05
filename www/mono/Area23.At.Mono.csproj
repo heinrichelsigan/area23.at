@@ -730,6 +730,13 @@
     <Compile Include="Unix\UnixMaster.master.designer.cs">
       <DependentUpon>UnixMaster.master</DependentUpon>
     </Compile>
+    <Compile Include="Unix\WhoisDns.aspx.cs">
+      <DependentUpon>WhoisDns.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Unix\WhoisDns.aspx.designer.cs">
+      <DependentUpon>WhoisDns.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Util\HostLogHelper.cs" />
     <Compile Include="Calc\RPNType.cs" />
     <Compile Include="Json.aspx.cs">
@@ -748,6 +755,7 @@
     <None Include="packages.config" />
     <Content Include="res\text\fortune.u8" />
     <Content Include="Qr\QRMaster.master" />
+    <None Include="Properties\PublishProfiles\mono.area23.at_publish.pubxml" />
     <None Include="res\img\transparent.xcf" />
     <Content Include="Unix\UnixMaster.master" />
     <Content Include="res\bin\bccmd.sh" />
@@ -762,6 +770,7 @@
     <Content Include="res\tmp\temp.tmp" />
     <Content Include="res\json\contacts.json" />
     <Content Include="res\json\urlshort.json" />
+    <Content Include="Unix\WhoisDns.aspx" />
     <Content Include="Web.config" />
     <Content Include="res\uu\derpark.txt.uu" />
     <None Include="Properties\PublishProfiles\ArmPublish.pubxml" />

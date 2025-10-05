@@ -12,11 +12,12 @@
         <pre>
 <a href="Default.aspx" class="defaultpage" tatget="top">/</a>
 ├── <a href="Unix/Default.aspx" class="defaultpage" tatget="top">unix cmd tools</a>
-│   ├── <a href="Unix/FortunAsp.aspx" tatget="top">fortunes</a> <a href="https://area23.at/shared/fortune.txt" target="_blank">fortune(6)</a>
+│   ├── <a href="Unix/FortunAsp.aspx" tatget="top">fortunes</a> <a href="https://area23.at/shared/man/fortune.txt" target="_blank">fortune(6)</a>
 │   ├── <a href="Unix/HexDump.aspx" tatget="top">hexdump</a> <a href="https://www.man7.org/linux/man-pages/man1/od.1.html" target="_blank">od(1)</a>
 │   ├── <a href="Unix/Bc.aspx" tatget="top">basic calc</a> <a href="https://linux.die.net/man/1/bc" target="_blank">bc(1)</a>
 │   ├── <a href="Unix/MergePdf.aspx" tatget="top">merge pdf</a> <a href="https://wiki.ubuntuusers.de/poppler-utils/" target="_blank">pdfunite (1)</a>
-│   └── <a href="Unix/PdfMerge.aspx" tatget="top">pdf merge</a> <a href="https://wiki.ubuntuusers.de/poppler-utils/" target="_blank">pdfunite (1)</a>
+│   ├── <a href="Unix/PdfMerge.aspx" tatget="top">pdf merge</a> <a href="https://wiki.ubuntuusers.de/poppler-utils/" target="_blank">pdfunite (1)</a>
+│   └── <a href="Unix/WhoisDns.aspx" tatget="top">whois dns host</a> <a href="https://area23.at/shared/man/whois.txt" target="_blank">whois (1)</a>
 │
 ├── <span class="defaultpage">qr</span>
 │   ├── <a href="Qr/ContactQrGenerator.aspx" tatget="top">qr contact generator</a>

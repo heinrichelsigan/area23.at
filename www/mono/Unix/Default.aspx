@@ -113,7 +113,7 @@
             <li><a href="HexDump.aspx">hex dump od(1)</a></li>
             <li><a href="Bc.aspx">basic calculator bc(1)</a></li>
             <li><a href="PdfMerge.aspx" name="PdfMerge">pdfunite(1)</a></li>
-            <li><a name="lsof">lsof(8)</a></li>
+            <li><a href="WhoisDns.aspx" name="WhoisDns">whois(1) dns host(1)</a></li>
         </ul>
     </form>
 </asp:Content>
