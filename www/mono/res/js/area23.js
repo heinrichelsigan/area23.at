@@ -149,12 +149,19 @@ function highLightOnChange(highLightId) {
         }
     }
 }
+
 function newQrColor(color) {
+    colorpicker = document.getElementById("color1");
+    if (colorpicker == null)
+        colorpicker = document.getElementsByName("color1")[0]
+
+    inputcolor = document.getElementById("input_color");
+    if (inputcolor == null)
+        inputcolor = document.getElementsByName("input_color")[0]
 
     try {
 
-        if (document.getElementById("input_color") != null) {
-            inputcolor = document.getElementById("input_color");
+        if (inputcolor != null) {
             inputcolor.setAttribute("Text", color);
             inputcolor.setAttribute("qrcolor", color);
             inputcolor.value = color;
@@ -163,8 +170,11 @@ function newQrColor(color) {
             // inputcolor.style.backgroundColor = color;
         }
 
-        if (document.getElementById("Button_QRCode") != null) {
-            buttonQRCode = document.getElementById("Button_QRCode");
+        buttonQRCode = document.getElementById("Button_QRCode");
+        if (buttonQRCode == null) {
+            buttonQRCode = document.getElementsByName("Button_QRCode");
+        }
+        if (buttonQRCode != null) {
             buttonQRCode.setAttribute("qrcolor", color);
             buttonQRCode.style.borderColor = color;
             buttonQRCode.style.textColor = color;
@@ -179,11 +189,18 @@ function newQrColor(color) {
     }
 }
 function newBackgroundColor(bgcolor) {
-    var i
+    
+    backcolorpicker = document.getElementById("color0");
+    if (backcolorpicker == null)
+        backcolorpicker = document.getElementsByName("color0")[0]
+
+    inputbackcolor = document.getElementById("input_backcolor");
+    if (inputbackcolor == null)
+        inputbackcolor = document.getElementsByName("input_backcolor")[0];
+
     try {
         
-        if (document.getElementById("input_backcolor") != null) {
-            inputbackcolor = document.getElementById("input_backcolor");
+        if (inputbackcolor != null) {
             inputbackcolor.setAttribute("Text", bgcolor);
             inputbackcolor.setAttribute("qrcolor", bgcolor);
             inputbackcolor.value = bgcolor;
@@ -191,8 +208,11 @@ function newBackgroundColor(bgcolor) {
             // inputbackcolor.style.textColor = bgcolor;
         }
 
-        if (document.getElementById("Button_QRCode") != null) {
-            buttonQRCode = document.getElementById("Button_QRCode");
+        buttonQRCode = document.getElementById("Button_QRCode");
+        if (buttonQRCode == null) {
+            buttonQRCode = document.getElementsByName("Button_QRCode");
+        }
+        if (buttonQRCode != null) {
             buttonQRCode.setAttribute("bgcolor", bgcolor);
             buttonQRCode.style.bgcolor = bgcolor;
             // buttonQRCode.style.backgroundColor = color;
@@ -206,6 +226,9 @@ function newBackgroundColor(bgcolor) {
     }
 }
 function setColorPicker() {
+    initColorPickers();
+}
+function initColorPickers() {
     colorpicker = document.getElementById("color1");
     if (colorpicker == null)
         colorpicker = document.getElementsByName("color1")[0]
@@ -217,8 +240,15 @@ function setColorPicker() {
     if (colorpicker != null && inputcolor != null && inputcolor.value != null && inputcolor.value != "" && inputcolor.value.length >= 6) {
         colorpicker.value = inputcolor.value;
     }
+
     backcolorpicker = document.getElementById("color0");
+    if (backcolorpicker == null)
+        backcolorpicker = document.getElementsByName("color0")[0]
+
     inputbackcolor = document.getElementById("input_backcolor");
+    if (inputbackcolor == null)
+        inputbackcolor = document.getElementsByName("input_backcolor")[0];
+
     if (backcolorpicker != null && inputbackcolor != null && inputbackcolor.value != null && inputbackcolor.value != "") {
         // if (backcolorpicker.value == inputbackcolor.value)
         //     return;

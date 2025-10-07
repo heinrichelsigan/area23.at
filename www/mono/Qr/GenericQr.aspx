@@ -66,7 +66,7 @@
 		<div align="left" class="contentDiv">
 			<span class="lefthuge">				
 				<input type="color" name="color1" id="color1" onchange="newQrColor(color1.value);" />&nbsp;
-				<input id="input_color" ClientIDMode="Static" alt="qr color" runat="server" name="selected_color" type="text" value="" size="7" />										
+				<input id="input_color" ClientIDMode="Static" alt="qr color" runat="server" name="input_color" type="text" value="" size="7" />										
 				<br />
 				<input type="color" name="color0" id="color0" onchange="newBackgroundColor(color0.value);" />&nbsp;
 				<input id="input_backcolor" ClientIDMode="Static" alt="background color" runat="server" name="input_backcolor" type="text" value="" size="7" />										

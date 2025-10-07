@@ -9,7 +9,32 @@
 	<script async src="../res/js/area23.js"></script>
 	<script>
 		window.onload = function () {
-			setColorPicker();
+			// initColorPickers();
+            colorpicker = document.getElementById("color1");
+            if (colorpicker == null)
+                colorpicker = document.getElementsByName("color1")[0]
+
+            inputcolor = document.getElementById("input_color");
+            if (inputcolor == null)
+                inputcolor = document.getElementsByName("input_color")[0]
+
+            if (colorpicker != null && inputcolor != null && inputcolor.value != null && inputcolor.value != "" && inputcolor.value.length >= 6) {
+                colorpicker.value = inputcolor.value;
+            }
+
+            backcolorpicker = document.getElementById("color0");
+            if (backcolorpicker == null)
+                backcolorpicker = document.getElementsByName("color0")[0]
+
+            inputbackcolor = document.getElementById("input_backcolor");
+            if (inputbackcolor == null)
+                inputbackcolor = document.getElementsByName("input_backcolor")[0];
+
+            if (backcolorpicker != null && inputbackcolor != null && inputbackcolor.value != null && inputbackcolor.value != "") {
+                // if (backcolorpicker.value == inputbackcolor.value)
+                //     return;
+                backcolorpicker.value = inputbackcolor.value;
+            }
         }; 
     </script>
 </asp:Content>
@@ -25,7 +50,7 @@
 			<span class="leftSpan">
 				<input type="color" name="color1" id="color1" onchange="newQrColor(color1.value);" />
 				&nbsp;
-				<input id="input_color" alt="qr color" runat="server" name="selected_color" type="text" value="" size="7" />						
+				<input id="input_color" alt="qr color" runat="server" name="input_color" type="text" value="" size="7" />						
 			</span>
 			<span class="centerSpan">
 				<input type="color" name="color0" id="color0" onchange="newBackgroundColor(color0.value);" />
