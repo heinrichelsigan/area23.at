@@ -72,6 +72,51 @@ namespace Area23.At.Framework.Library.Static
             return consoleOutput;
         }
 
+        public static string ExecuteCreateWindow(string filepath = "SystemInfo", string arguments = "", bool useShellExecute = false, bool createWindow = false)
+        {
+            string consoleError = "", consoleOutput = "", args = (!string.IsNullOrEmpty(arguments)) ? arguments : "";
+            string workingDir = "";
+            Area23Log.LogOriginMsg("ProcessCmd", String.Format("ProcessCmd.Execute(filepath = ${0}, args = {1}, useShellExecute = {2}) called ...",
+                filepath, args, useShellExecute));
+            try
+            {
+                workingDir = (filepath.Contains(LibPaths.SepCh)) ? filepath.Substring(0, filepath.LastIndexOf(LibPaths.SepCh)) : ""; // System.IO.Directory.GetCurrentDirectory();
+
+                using (Process compiler = new Process())
+                {
+                    compiler.StartInfo.FileName = filepath;
+                    compiler.StartInfo.CreateNoWindow = createWindow;
+                    compiler.StartInfo.Arguments = args;
+                    compiler.StartInfo.UseShellExecute = useShellExecute;
+                    compiler.StartInfo.RedirectStandardError = true;
+                    compiler.StartInfo.RedirectStandardOutput = true;
+                    if (!string.IsNullOrEmpty(workingDir) && Directory.Exists(workingDir))
+                        compiler.StartInfo.WorkingDirectory = workingDir;
+                    compiler.Start();
+
+                    consoleOutput = compiler.StandardOutput.ReadToEnd();
+                    consoleError = compiler.StandardError.ReadToEnd();
+
+                    compiler.WaitForExit();
+                }
+            }
+            catch (Exception exi)
+            {
+                string stdErr = (string.IsNullOrEmpty(consoleError)) ? string.Empty : $"\tStdErr = {consoleError}";
+                Area23Log.LogOriginMsgEx("ProcessCmd", "ProcessCmd.Execute(string filepath = " + filepath + ", string arguments = " +
+                    arguments + ") throwed Exception: " + exi.GetType(), exi);
+                throw new InvalidOperationException($"can't execute: {filepath} {args} {stdErr}", exi);
+            }
+
+            Area23Log.Log(String.Format("ProcessCmd.Execute(filepath = ${0}, args = {1}, useShellExecute = {2}) finished successfull, output length: {3}",
+                filepath, args, useShellExecute, consoleOutput.Length));
+            if (!string.IsNullOrEmpty(consoleError))
+                Area23Log.Log("ProcessCmd.Execute consoleError: " + consoleError);
+
+            return consoleOutput;
+        }
+
+
         public static string ExecuteWithOutAndErr(string filepath, string arguments, out string consoleOutput, out string consoleError, bool useShellExecute = false)
         {
             string workingDir = "", args = (!string.IsNullOrEmpty(arguments)) ? arguments : "";

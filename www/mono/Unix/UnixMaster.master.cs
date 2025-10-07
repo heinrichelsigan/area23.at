@@ -58,7 +58,7 @@ namespace Area23.At.Mono.Unix
             headerCenter.Attributes["class"] = "headerCenter";
             headerRightCenter.Attributes["class"] = "headerRightCenter";
             headerRight.Attributes["class"] = "headerRight";
-            headerRightRight.Style["class"] = "headerRight";            
+            headerRightRight.Attributes["class"] = "headerRight"; 
 
             try
             {
@@ -91,7 +91,7 @@ namespace Area23.At.Mono.Unix
                     }
                     if (this.Request.RawUrl.Contains("WhoisDns.aspx"))
                     {
-                        headerRight.Attributes["class"] = "headerRightSelect";
+                        headerRightRight.Attributes["class"] = "headerRightSelect";
                         return;
                     }
                 }

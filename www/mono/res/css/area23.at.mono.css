@@ -271,7 +271,7 @@ div {
 
         width: 100%;
         text-align: left;
-        background-color: #ffbbdd;
+        background-color: #ffeeee;
         vertical-align: middle;
         font-size: medium;
         table-layout: fixed;
@@ -325,6 +325,26 @@ div {
         font-size: medium;
         font-weight: bold;
         font-family: 'Courier New', Courier New, Courier, monospace, 'Lucida Console', Consolas, 'Lucida Sans Unicode';
+    }
+    
+    div.lefthalf {
+        height: 480px;
+        width: 48%;
+        text-align: left;
+        vertical-align: text-top;
+        font-size: medium;
+        overflow-x: scroll;
+        overflow-y: auto;
+    }
+
+    div.righthalf {
+        height: 480px;
+        width: 48%;
+        text-align: right;
+        vertical-align: text-top;
+        font-size: medium;
+        overflow-x: scroll;
+        overflow-y: auto;
     }
 
     .jsonRow {
@@ -441,6 +461,7 @@ div {
             font-size: medium;
         }
 
+        
 
         span.headerLeft, span.headerLeftCenter, span.headerCenter, span.headerRightCenter, span.headerRight {
             min-width: 144px;

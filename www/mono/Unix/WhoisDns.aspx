@@ -13,29 +13,23 @@
                 <span class="textSpan">host name: </span>            
             </span>
             <span class="centerSpan">
-                <asp:TextBox ID="TextBox_HostName" ClientIDMode="Static" runat="server" ToolTip="Enter domain name or IP address" MaxLength="256" Width="256pt" Height="21pt" 
+                <asp:TextBox ID="TextBox_HostName" ClientIDMode="Static" runat="server" ToolTip="Enter domain name or IP address" MaxLength="256" Width="256pt" Height="20pt" 
                     AutoPostBack="True" OnTextChanged="Button_WhoisDns_TextChanged" CssClass="ButtonTextBox">area23.at</asp:TextBox>                
             </span>
             <span class="rightSpan">
-                <asp:Button ID="Button_WhoisDns" ClientIDMode="Static" runat="server" ToolTip="Click to perform whois and dns lookup" Text="whois/dns" OnClick="Button_WhoisDns_Click" />
+                <asp:Button ID="Button_WhoisDns" ClientIDMode="Static" runat="server" ToolTip="Click to perform whois and dns lookup" Text="whois/dns" OnClick="Button_WhoisDns_Click" Height="20pt" />
             </span>
-        </div>
-        <div class="odDiv">
-            <span class="leftSpan">
-                <span class="textSpan">whois cmd: </span>            
-            </span>
-            <span class="centerSpan">
-                <asp:TextBox ID="TextBox_Whois" ClientIDMode="Static" runat="server" ReadOnly="true" ToolTip="whois command" MaxLength="128" Width="192pt" Height="21pt" AutoPostBack="True"  CssClass="ButtonTextBox" />
-            </span>
-            <span class="centerSpan">
-                <span class="textSpan">host cmd: </span>            
-            </span>
-            <span class="rightSpan">
-                <asp:TextBox ID="TextBox_Host" ClientIDMode="Static" runat="server" ReadOnly="true" ToolTip="host command" MaxLength="128" Width="192pt" Height="21pt" AutoPostBack="True" CssClass="ButtonTextBox" />
-            </span>
-        </div>
+        </div>        
         <hr />
-        <pre id="preOut" runat="server">
-        </pre>
+        <asp:Table ID="AspTable" ClientIDMode="Static" runat="server">
+            <asp:TableHeaderRow ID="TableHeaderRow" runat="server" ClientIDMode="Static">
+                <asp:TableCell ID="TableHeaderCellLeft" runat="server" ClientIDMode="Static"><b>whois</b></asp:TableCell>
+                <asp:TableCell ID="TableHeaderCellRight" runat="server" ClientIDMode="Static"><b>dns host</b></asp:TableCell>
+            </asp:TableHeaderRow>
+            <asp:TableRow ID="TableRow" runat="server" ClientIDMode="Static">
+                <asp:TableCell ID="TableCellLeft" runat="server" ClientIDMode="Static" Width="48%"></asp:TableCell>
+                <asp:TableCell ID="TableCellRight" runat="server" ClientIDMode="Static" Width="48%"></asp:TableCell>
+            </asp:TableRow>
+        </asp:Table>     
     </form>
 </asp:Content>

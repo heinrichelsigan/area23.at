@@ -28,7 +28,7 @@ namespace Area23.At.Mono.Qr
             this.aContactPrefilled.HRef = LibPaths.QrAppPath + "ContactPrefilled.aspx";
             this.aGenericQr.HRef = LibPaths.QrAppPath + "GenericQr.aspx";
             this.aQrRedirect.HRef = LibPaths.QrAppPath + "QrRedirect.aspx";
-            this.aUrlShortner.HRef = Constants.AREA23_S;          
+            this.aUrlShortner.HRef = LibPaths.QrAppPath + "S.aspx";
         }
 
         protected void NavFolderHandler(object sender, EventArgs args)
@@ -64,7 +64,7 @@ namespace Area23.At.Mono.Qr
                         headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
                         return;
                     }
-                    if (this.Request.RawUrl.Contains(Constants.AREA23_S))
+                    if (this.Request.RawUrl.Contains("S.aspx"))
                     {
                         headerRight.Attributes["class"] = "headerRightSelect";
                         return;

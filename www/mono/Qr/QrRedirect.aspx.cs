@@ -6,14 +6,16 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
+using System.Security.Policy;
 using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
+using static QRCoder.PayloadGenerator;
 
 namespace Area23.At.Mono.Qr
 {
-    public partial class QrRedirect : System.Web.UI.Page
+    public partial class QrRedirect : QrBase
     {
 
         string redirectUrl = string.Empty;
@@ -23,20 +25,28 @@ namespace Area23.At.Mono.Qr
         {
             if (!Page.IsPostBack)
             {
-                string qrUrl = Request.QueryString["qrurl"];
-                if (string.IsNullOrEmpty(qrUrl))
-                    qrUrl = HttpUtility.UrlEncode("https://area23.at/", Encoding.UTF8);
-
-                redirectUrl = HttpUtility.UrlDecode(qrUrl, Encoding.UTF8);
-                string qrCodeString = GetQrStringFromUrl(ref redirectUrl);
-                if (!string.IsNullOrEmpty(qrCodeString)) {
-                    Bitmap qrGenBmp = GetQRBitmap(qrCodeString);
-                    SetQRImage(qrGenBmp, redirectUrl);
-                }
-                
+                string qrCodeString = GetQrString();
             }
         }
 
+
+        protected override string GetQrString()
+        {
+            string qrUrl = Request.QueryString["qrurl"];
+            
+            if (string.IsNullOrEmpty(qrUrl))
+                qrUrl = HttpUtility.UrlEncode("https://area23.at/", Encoding.UTF8);
+            redirectUrl = HttpUtility.UrlDecode(qrUrl, Encoding.UTF8);
+
+            string qrCodeString = GetQrStringFromUrl(ref redirectUrl);
+            if (!string.IsNullOrEmpty(qrCodeString))
+            {
+                Bitmap qrGenBmp = GetQRBitmap(qrCodeString);
+                SetQRImage(qrGenBmp, redirectUrl);
+            }
+            
+            return qrCodeString;
+        }
 
         /// <summary>
         /// Get QR Code String from Url

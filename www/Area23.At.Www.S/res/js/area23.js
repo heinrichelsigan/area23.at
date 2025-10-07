@@ -30,6 +30,7 @@ function loadScript(src, asyn, f) {
     head.appendChild(script);
 }
 
+
 function highLightOnChange(highLightId) {
     if (highLightId != null && document.getElementById(highLightId) != null) {
         if (document.getElementById(highLightId).style.borderStyle == "dotted" ||
@@ -48,8 +49,6 @@ function highLightOnChange(highLightId) {
         }
     }
 }
-
-
 function newQrColor(color) {
 
     try {
@@ -79,6 +78,7 @@ function newQrColor(color) {
         alert("getElementsById('input_color') " + exCol);
     }    
 }
+
 
 function newBackgroundColor(bgcolor) {
     // document.bgColor = color;

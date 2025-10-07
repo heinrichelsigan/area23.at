@@ -16,7 +16,7 @@ namespace Area23.At.Mono.Qr
     /// <summary>
     /// QrBase QrPage abstract base class
     /// </summary>
-    public abstract class QrBase : System.Web.UI.Page
+    public abstract class QrBase : UIPage
     {
 
         public String QrImgPath { get; protected set; }

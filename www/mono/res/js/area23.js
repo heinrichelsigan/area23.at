@@ -131,18 +131,27 @@ function InitTimeDigital() {
     return time_d;
 }
 
+function highLightOnChange(highLightId) {
+    if (highLightId != null && document.getElementById(highLightId) != null) {
+        if (document.getElementById(highLightId).style.borderStyle == "dotted" ||
+            document.getElementById(highLightId).style.borderColor == "red") {
+            // do nothing when dotted
+        }
+        else if (document.getElementById(highLightId).style.borderStyle == "dashed" ||
+            document.getElementById(highLightId).style.borderColor == "red") {
 
+            document.getElementById(highLightId).style.borderStyle = "dotted";
+        }
+        else {
+            // set border-width: 1; border-style: dashed
+            document.getElementById(highLightId).style.borderColor = "red";
+            document.getElementById(highLightId).style.borderStyle = "dashed";
+        }
+    }
+}
 function newQrColor(color) {
 
     try {
-        if (document.getElementById("Button_QRCode") != null) {
-            buttonQRCode = document.getElementById("Button_QRCode");
-            buttonQRCode.setAttribute("qrcolor", color);
-            buttonQRCode.style.borderColor = color;
-            // buttonQRCode.style.backgroundColor = color;
-            // buttonQRCode.setAttribute("BackColor", color);
-            // buttonQRCode.setAttribute("ToolTip", color);
-        }
 
         if (document.getElementById("input_color") != null) {
             inputcolor = document.getElementById("input_color");
@@ -153,14 +162,26 @@ function newQrColor(color) {
             inputcolor.style.textColor = color;
             // inputcolor.style.backgroundColor = color;
         }
+
+        if (document.getElementById("Button_QRCode") != null) {
+            buttonQRCode = document.getElementById("Button_QRCode");
+            buttonQRCode.setAttribute("qrcolor", color);
+            buttonQRCode.style.borderColor = color;
+            buttonQRCode.style.textColor = color;
+            // buttonQRCode.style.backgroundColor = color;
+            // buttonQRCode.setAttribute("BackColor", color);
+            // buttonQRCode.setAttribute("ToolTip", color);
+            document.getElementById("Button_QRCode").click();
+        }
+
     } catch (exCol) {
         alert("getElementsById('input_color') " + exCol);
-    }   
+    }
 }
-
 function newBackgroundColor(bgcolor) {
-    // document.bgColor = color;
-    try {       
+    var i
+    try {
+        
         if (document.getElementById("input_backcolor") != null) {
             inputbackcolor = document.getElementById("input_backcolor");
             inputbackcolor.setAttribute("Text", bgcolor);
@@ -169,29 +190,41 @@ function newBackgroundColor(bgcolor) {
             inputbackcolor.style.borderColor = bgcolor;
             // inputbackcolor.style.textColor = bgcolor;
         }
+
+        if (document.getElementById("Button_QRCode") != null) {
+            buttonQRCode = document.getElementById("Button_QRCode");
+            buttonQRCode.setAttribute("bgcolor", bgcolor);
+            buttonQRCode.style.bgcolor = bgcolor;
+            // buttonQRCode.style.backgroundColor = color;
+            // buttonQRCode.setAttribute("BackColor", color);
+            // buttonQRCode.setAttribute("ToolTip", color);
+            document.getElementById("Button_QRCode").click();
+        }
+
     } catch (exCol) {
         alert("getElementsById('input_backcolor') " + exCol);
     }
 }
 function setColorPicker() {
     colorpicker = document.getElementById("color1");
+    if (colorpicker == null)
+        colorpicker = document.getElementsByName("color1")[0]
+
     inputcolor = document.getElementById("input_color");
+    if (inputcolor == null)
+        inputcolor = document.getElementsByName("input_color")[0]
+
     if (colorpicker != null && inputcolor != null && inputcolor.value != null && inputcolor.value != "" && inputcolor.value.length >= 6) {
-        if (colorpicker.value == inputcolor.value) {
-            ;
-        }
-        else  
-            colorpicker.value = inputcolor.value;
+        colorpicker.value = inputcolor.value;
     }
     backcolorpicker = document.getElementById("color0");
     inputbackcolor = document.getElementById("input_backcolor");
-    if (backcolorpicker != null && inputbackcolor != null && inputbackcolor.value != null && inputbackcolor.value.length >= 6) {
+    if (backcolorpicker != null && inputbackcolor != null && inputbackcolor.value != null && inputbackcolor.value != "") {
         // if (backcolorpicker.value == inputbackcolor.value)
         //     return;
         backcolorpicker.value = inputbackcolor.value;
     }
 }
-
 
 // setColorPicker();
 // example for loading more javascript dynamically from main script by creating script elements in html head.

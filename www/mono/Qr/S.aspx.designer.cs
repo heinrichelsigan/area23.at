@@ -7,101 +7,128 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Area23.At.Mono.Unix
+namespace Area23.At.Mono.Qr
 {
 
 
-    public partial class WhoisDns
+    public partial class S
     {
 
         /// <summary>
-        /// Area23UnixWhoisDns control.
+        /// formQrS control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm Area23UnixWhoisDns;
+        protected global::System.Web.UI.HtmlControls.HtmlForm formQrS;
 
         /// <summary>
-        /// TextBox_HostName control.
+        /// TextBox_UrlLong control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_HostName;
+        protected global::System.Web.UI.WebControls.TextBox TextBox_UrlLong;
 
         /// <summary>
-        /// Button_WhoisDns control.
+        /// Button_QRCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button_WhoisDns;
+        protected global::System.Web.UI.WebControls.Button Button_QRCode;
 
         /// <summary>
-        /// AspTable control.
+        /// input_color control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table AspTable;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText input_color;
 
         /// <summary>
-        /// TableHeaderRow control.
+        /// input_backcolor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TableHeaderRow TableHeaderRow;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText input_backcolor;
 
         /// <summary>
-        /// TableHeaderCellLeft control.
+        /// DropDown_QrMode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell TableHeaderCellLeft;
+        protected global::System.Web.UI.WebControls.DropDownList DropDown_QrMode;
 
         /// <summary>
-        /// TableHeaderCellRight control.
+        /// DropDown_PixelPerUnit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell TableHeaderCellRight;
+        protected global::System.Web.UI.WebControls.DropDownList DropDown_PixelPerUnit;
 
         /// <summary>
-        /// TableRow control.
+        /// TextBoxShortenUrl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TableRow TableRow;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxShortenUrl;
 
         /// <summary>
-        /// TableCellLeft control.
+        /// HrefShort control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell TableCellLeft;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor HrefShort;
 
         /// <summary>
-        /// TableCellRight control.
+        /// hugeLeftId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell TableCellRight;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hugeLeftId;
+
+        /// <summary>
+        /// ImageQr control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ImageQr;
+
+        /// <summary>
+        /// imQrInverse control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlImage imQrInverse;
+
+        /// <summary>
+        /// ErrorDiv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ErrorDiv;
     }
 }

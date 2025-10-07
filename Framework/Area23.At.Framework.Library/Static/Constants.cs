@@ -65,6 +65,8 @@ namespace Area23.At.Framework.Library.Static
         public const string URL_PREFIX = "https://area23.at/net/res/";
         public const string AREA23_S = "https://area23.at/s/";
         public const string URL_SHORT = "https://area23.at/s/?";
+        public const string URL_SHORT_PREFIX_NET = "https://area23.at/net/Qr/?";
+        public const string URL_SHORT_PREFIX_MONO = "https://area23.at/mono/app.publish/Qr/?";
         public const string AREA23_UTF8_URL = "https://area23.at/u/";
 
         public const string AREA23_AT = "area23.at";

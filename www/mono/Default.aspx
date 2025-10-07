@@ -23,7 +23,8 @@
 │   ├── <a href="Qr/ContactQrGenerator.aspx" tatget="top">qr contact generator</a>
 │   ├── <a href="Qr/ContactPrefilled.aspx" tatget="top">contact prefilled</a>
 │   ├── <a href="Qr/GenericQr.aspx" tatget="top">generic qr (generator)</a>
-│   └── <a href="Qr/QrRedirect.aspx" tatget="top">qr redirect</a>
+│   ├── <a href="Qr/QrRedirect.aspx" tatget="top">qr redirect</a>
+│   └── <a href="Qr/S.aspx" target="top">qrurl shortner</a>
 │
 ├── <a href="Json.aspx" tatget="top">json/xml ser</a>
 │

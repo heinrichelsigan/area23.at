@@ -207,6 +207,7 @@
     <Content Include="Gamez\Pong.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="Qr\Default.aspx" />
+    <Content Include="Qr\S.aspx" />
     <Content Include="R.aspx" />
     <Content Include="res\gamez\audio\aDraw.m4a" />
     <Content Include="res\bin\bc.exe" />
@@ -591,6 +592,13 @@
     </Compile>
     <Compile Include="Qr\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Qr\S.aspx.cs">
+      <DependentUpon>S.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Qr\S.aspx.designer.cs">
+      <DependentUpon>S.aspx</DependentUpon>
     </Compile>
     <Compile Include="R.aspx.cs">
       <DependentUpon>R.aspx</DependentUpon>

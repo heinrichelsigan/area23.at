@@ -14,7 +14,7 @@
         <span id="headerLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a id="aContactPrefilled" runat="server" class="spanHeaderA" href="<%= Area23.At.Framework.Library.LibPaths.QrAppPath %>Qrc.aspx">qrcontact prefilled</a></span>
         <span id="headerCenter" runat="server" class="headerCenter" align="center" valign="middle"><a id="aGenericQr" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.QrAppPath %>GenericQr.aspx'>qrcode generic</a></span>	                
         <span id="headerRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a id="aQrRedirect" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.QrAppPath %>QrRedirect.aspx'>qr redirect</a></span>	                
-        <span id="headerRight" runat="server" class="headerRight" align="center" valign="right"><a id="aUrlShortner" runat="server" class="spanHeaderA" href="https://area23.at/s/">url shortner</a></span>
+        <span id="headerRight" runat="server" class="headerRight" align="center" valign="right"><a id="aUrlShortner" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.QrAppPath %>S.aspx'>qrurl shortner</a></span>
     </div>
     <hr />    
     <asp:ContentPlaceHolder ID="QrBody" runat="server">
