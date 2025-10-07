@@ -27,8 +27,8 @@
                 <asp:TableCell ID="TableHeaderCellRight" runat="server" ClientIDMode="Static"><b>dns host</b></asp:TableCell>
             </asp:TableHeaderRow>
             <asp:TableRow ID="TableRow" runat="server" ClientIDMode="Static">
-                <asp:TableCell ID="TableCellLeft" runat="server" ClientIDMode="Static" Width="48%"></asp:TableCell>
-                <asp:TableCell ID="TableCellRight" runat="server" ClientIDMode="Static" Width="48%"></asp:TableCell>
+                <asp:TableCell ID="TableCellLeft" runat="server" ClientIDMode="Static" style="vertical-align: text-top;" Width="48%"></asp:TableCell>
+                <asp:TableCell ID="TableCellRight" runat="server" ClientIDMode="Static" style="vertical-align: text-top;" Width="48%"></asp:TableCell>
             </asp:TableRow>
         </asp:Table>     
     </form>
