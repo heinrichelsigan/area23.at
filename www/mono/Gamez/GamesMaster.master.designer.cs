@@ -78,6 +78,24 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.HtmlControls.HtmlAnchor aTicTacToe;
 
         /// <summary>
+        /// headerRightCenter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerRightCenter;
+
+        /// <summary>
+        /// aJokerDice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aJokerDice;
+
+        /// <summary>
         /// headerRight control.
         /// </summary>
         /// <remarks>

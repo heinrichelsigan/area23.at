@@ -13,6 +13,7 @@
         <span id="headerLeft" runat="server" class="headerLeft" align="left" valign="middle"><a id="aGameFroga" runat="server" class="spanHeaderA" href="<%= Area23.At.Framework.Library.LibPaths.GamesAppPath %>froga.aspx">froga</a></span>
         <span id="headerLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a id="aGameFrogb" runat="server" class="spanHeaderA" href="<%= Area23.At.Framework.Library.LibPaths.GamesAppPath %>frogb.aspx">frogb</a></span>
         <span id="headerCenter" runat="server" class="headerCenter" align="center" valign="middle"><a id="aTicTacToe" runat="server" class="spanHeaderA" href="<%= Area23.At.Framework.Library.LibPaths.GamesAppPath %>TicTacToe.aspx">tic tac toe</a></span>
+        <span id="headerRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a id="aJokerDice" runat="server" class="spanHeaderA" href="<%= Area23.At.Framework.Library.LibPaths.GamesAppPath %>JokerDice.aspx">joker dice</a></span>        
         <span id="headerRight" runat="server" class="headerRight" align="center" valign="right"><a id="aGameSchnapsen" runat="server" class="spanHeaderA" href='/mono/SchnapsNet/'>schnapsen 66</a></span>
     </div>
     <!-- hr /-->    

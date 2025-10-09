@@ -12,8 +12,8 @@
     <PackageProjectUrl>https://github.com/heinrichelsigan/area23.at</PackageProjectUrl>
     <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>
     <PackageReleaseNotes>WinRoach .Net Core sample project</PackageReleaseNotes>
-    <AssemblyVersion>2.24.924</AssemblyVersion>
-    <FileVersion>2.24.924</FileVersion>
+    <AssemblyVersion>2.25.1010</AssemblyVersion>
+    <FileVersion>2.25.1010</FileVersion>
 	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
   </PropertyGroup>
 

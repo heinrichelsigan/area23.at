@@ -21,6 +21,7 @@ namespace Area23.At.Mono.Gamez
             this.aGameFroga.HRef = LibPaths.GamesAppPath + "froga.aspx";
             this.aGameFrogb.HRef = LibPaths.GamesAppPath + "frogb.aspx";
             this.aTicTacToe.HRef = LibPaths.GamesAppPath + "TicTacToe.aspx";
+            this.aJokerDice.HRef = LibPaths.GamesAppPath + "JokerDice.aspx";
             this.aGameSchnapsen.HRef = "/mono/SchnapsNet/";
         }
 
@@ -29,6 +30,7 @@ namespace Area23.At.Mono.Gamez
             headerLeft.Attributes["class"] = "headerLeft";
             headerLeftCenter.Attributes["class"] = "headerLeftCenter";
             headerCenter.Attributes["class"] = "headerCenter";
+            headerRightCenter.Attributes["class"] = "headerRightCenter";
             headerRight.Attributes["class"] = "headerRight";
 
             try
@@ -48,6 +50,11 @@ namespace Area23.At.Mono.Gamez
                     if (this.Request.RawUrl.ToLower().Contains("tictactoe.aspx"))
                     {
                         headerCenter.Attributes["class"] = "headerCenterSelect";
+                        return;
+                    }
+                    if (this.Request.RawUrl.ToLower().Contains("jokerdice.aspx"))
+                    {
+                        headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
                         return;
                     }
                     if (this.Request.RawUrl.ToLower().Contains("schnaps"))

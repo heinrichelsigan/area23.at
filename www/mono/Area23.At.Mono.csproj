@@ -202,6 +202,7 @@
     <Content Include="Crypt\S.aspx" />
     <Content Include="Gamez\Default.aspx" />
     <Content Include="Gamez\froga.aspx" />
+    <Content Include="Gamez\JokerDice.aspx" />
     <Content Include="Gamez\TicTacToe.aspx" />
     <Content Include="Gamez\frogb.aspx" />
     <Content Include="Gamez\Pong.aspx" />
@@ -308,23 +309,33 @@
     <Content Include="res\gamez\tictactoe\ticTacToeDraw.gif" />
     <Content Include="res\gamez\tictactoe\workerTicTacToe.gif" />
     <Content Include="res\img\symbol\access_denied.gif" />
+    <Content Include="res\img\symbol\Ace.png" />
     <Content Include="res\img\symbol\close_delete.gif" />
     <Content Include="res\img\symbol\dotnet.png" />
+    <Content Include="res\img\symbol\EmptyDice.png" />
     <Content Include="res\img\symbol\favicon.ico" />
     <Content Include="res\img\symbol\file_warning.gif" />
     <Content Include="res\img\crypt\file_working.gif" />
     <Content Include="res\img\symbol\file_working.gif" />
+    <Content Include="res\img\symbol\Icon.png" />
     <Content Include="res\img\symbol\img_process_tree.png" />
     <Content Include="res\img\symbol\img_undo_turn_back.png" />
+    <Content Include="res\img\symbol\Jack.png" />
+    <Content Include="res\img\symbol\Joker.png" />
     <Content Include="res\img\symbol\key_ring.gif" />
+    <Content Include="res\img\symbol\King.png" />
     <Content Include="res\img\symbol\pdf_icon.gif" />
     <Content Include="res\img\symbol\pdf_icon.png" />
     <Content Include="res\img\symbol\ProcessTree.ico" />
+    <Content Include="res\img\symbol\Queen.png" />
+    <Content Include="res\img\symbol\rcat.gif" />
     <Content Include="res\img\symbol\RecycleReload.ico" />
     <Content Include="res\img\symbol\RegistryEdit.ico" />
     <Content Include="res\img\symbol\Repair.ico" />
     <Content Include="res\img\symbol\ShowConvertData.ico" />
     <Content Include="res\img\symbol\SortConvertData.ico" />
+    <Content Include="res\img\symbol\Ten.png" />
+    <Content Include="res\img\symbol\UndoTurnBack.ico" />
     <Content Include="res\img\transparent.gif" />
     <Content Include="res\gamez\pong\workerPong.gif" />
     <Content Include="res\js\ccalc.js" />
@@ -550,6 +561,13 @@
     </Compile>
     <Compile Include="Gamez\froga.aspx.designer.cs">
       <DependentUpon>froga.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Gamez\JokerDice.aspx.cs">
+      <DependentUpon>JokerDice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Gamez\JokerDice.aspx.designer.cs">
+      <DependentUpon>JokerDice.aspx</DependentUpon>
     </Compile>
     <Compile Include="Gamez\TicTacToe.aspx.cs">
       <DependentUpon>TicTacToe.aspx</DependentUpon>
