@@ -14,7 +14,7 @@
             </span>
             <span class="centerSpan">
                 <asp:TextBox ID="TextBox_HostName" ClientIDMode="Static" runat="server" ToolTip="Enter domain name or IP address" MaxLength="256" Width="256pt" Height="20pt" 
-                    AutoPostBack="True" OnTextChanged="Button_WhoisDns_TextChanged" CssClass="ButtonTextBox">area23.at</asp:TextBox>                
+                    AutoPostBack="True" OnTextChanged="Button_WhoisDns_TextChanged" CssClass="ButtonTextBox">kernel.org</asp:TextBox>                
             </span>
             <span class="rightSpan">
                 <asp:Button ID="Button_WhoisDns" ClientIDMode="Static" runat="server" ToolTip="Click to perform whois and dns lookup" Text="whois/dns" OnClick="Button_WhoisDns_Click" Height="20pt" />

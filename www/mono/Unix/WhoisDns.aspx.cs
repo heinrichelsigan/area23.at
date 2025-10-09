@@ -25,7 +25,7 @@ namespace Area23.At.Mono.Unix
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack) 
-                this.TextBox_HostName.Text = Environment.MachineName;
+                this.TextBox_HostName.Text = "kernel.org";
         }
 
         /// <summary>

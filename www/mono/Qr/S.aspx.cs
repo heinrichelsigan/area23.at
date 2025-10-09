@@ -41,6 +41,8 @@ namespace Area23.At.Mono.Qr
                 shortenMap = (Application[Constants.APP_NAME] != null) ? (Dictionary<string, Uri>)Application[Constants.APP_NAME] :
                     Framework.Library.Static.JsonHelper.ShortenMapJson;
             }
+
+            Response.Redirect("https://area23.at/s/", true);
         }
 
         protected void TextBox_UrlLong_TextChanged(object sender, EventArgs e)
