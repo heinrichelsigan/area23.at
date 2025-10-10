@@ -142,6 +142,7 @@ namespace Area23.At.Mono.Gamez
                 ImageP3.BorderStyle = BorderStyle.Dashed;
                 ImageP4.BorderStyle = BorderStyle.Dashed;
                 ImageP5.BorderStyle = BorderStyle.Dashed;
+                this.Literal_Action.Text = "Select dices you want to keep<br /> and roll the others again.";
             }
             if (round % 2 == 1)
             {
