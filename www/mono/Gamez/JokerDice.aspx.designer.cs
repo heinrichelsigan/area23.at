@@ -75,7 +75,7 @@ namespace Area23.At.Mono.Gamez
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImageP1;
+        protected global::System.Web.UI.WebControls.ImageButton ImageP1;
 
         /// <summary>
         /// TableCellP2 control.
@@ -93,7 +93,7 @@ namespace Area23.At.Mono.Gamez
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImageP2;
+        protected global::System.Web.UI.WebControls.ImageButton ImageP2;
 
         /// <summary>
         /// TableCellP3 control.
@@ -111,7 +111,7 @@ namespace Area23.At.Mono.Gamez
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImageP3;
+        protected global::System.Web.UI.WebControls.ImageButton ImageP3;
 
         /// <summary>
         /// TableCellP4 control.
@@ -129,7 +129,7 @@ namespace Area23.At.Mono.Gamez
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImageP4;
+        protected global::System.Web.UI.WebControls.ImageButton ImageP4;
 
         /// <summary>
         /// TableCellP5 control.
@@ -147,7 +147,7 @@ namespace Area23.At.Mono.Gamez
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImageP5;
+        protected global::System.Web.UI.WebControls.ImageButton ImageP5;
 
         /// <summary>
         /// TableCellP6 control.
@@ -159,13 +159,13 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellP6;
 
         /// <summary>
-        /// ImageP6 control.
+        /// ImageButton_DiceCup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImageP6;
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton_DiceCup;
 
         /// <summary>
         /// TableRowC control.
@@ -294,12 +294,345 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellC6;
 
         /// <summary>
-        /// ImageC6 control.
+        /// Literal_Action control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImageC6;
+        protected global::System.Web.UI.WebControls.Literal Literal_Action;
+
+        /// <summary>
+        /// TablePoints control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table TablePoints;
+
+        /// <summary>
+        /// TableHeaderRowPoints control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableHeaderRow TableHeaderRowPoints;
+
+        /// <summary>
+        /// TableHeaderCell control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableHeaderCell;
+
+        /// <summary>
+        /// TableHeaderCellPlayer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableHeaderCellPlayer;
+
+        /// <summary>
+        /// TableHeaderCellComputer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableHeaderCellComputer;
+
+        /// <summary>
+        /// TableRowGrande control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow TableRowGrande;
+
+        /// <summary>
+        /// TableCellGrande control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellGrande;
+
+        /// <summary>
+        /// TableCellGrandePlayer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellGrandePlayer;
+
+        /// <summary>
+        /// TableCellGrandeComputer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellGrandeComputer;
+
+        /// <summary>
+        /// TableRowPoker control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow TableRowPoker;
+
+        /// <summary>
+        /// TableCellPoker control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellPoker;
+
+        /// <summary>
+        /// TableCellPokerPlayer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellPokerPlayer;
+
+        /// <summary>
+        /// TableCellPokerComputer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellPokerComputer;
+
+        /// <summary>
+        /// TableRowFullHouse control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow TableRowFullHouse;
+
+        /// <summary>
+        /// TableCellFullHouse control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellFullHouse;
+
+        /// <summary>
+        /// TableCellFullHousePlayer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellFullHousePlayer;
+
+        /// <summary>
+        /// TableCellFullHouseComputer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellFullHouseComputer;
+
+        /// <summary>
+        /// TableRowStraight control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow TableRowStraight;
+
+        /// <summary>
+        /// TableCellStraight control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellStraight;
+
+        /// <summary>
+        /// TableCellStraightPlayer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellStraightPlayer;
+
+        /// <summary>
+        /// TableCellStraightComputer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellStraightComputer;
+
+        /// <summary>
+        /// TableRowTriple control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow TableRowTriple;
+
+        /// <summary>
+        /// TableCellTriple control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellTriple;
+
+        /// <summary>
+        /// TableCellTriplePlayer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellTriplePlayer;
+
+        /// <summary>
+        /// TableCellTripleComputer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellTripleComputer;
+
+        /// <summary>
+        /// TableRowTwoPairs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow TableRowTwoPairs;
+
+        /// <summary>
+        /// TableCellTwoPairs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellTwoPairs;
+
+        /// <summary>
+        /// TableCellTwoPairsPlayer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellTwoPairsPlayer;
+
+        /// <summary>
+        /// TableCellTwoPairsComputer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellTwoPairsComputer;
+
+        /// <summary>
+        /// TableRowPair control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow TableRowPair;
+
+        /// <summary>
+        /// TableCellPair control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellPair;
+
+        /// <summary>
+        /// TableCellPairPlayer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellPairPlayer;
+
+        /// <summary>
+        /// TableCellPairComputer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellPairComputer;
+
+        /// <summary>
+        /// TableRowBust control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow TableRowBust;
+
+        /// <summary>
+        /// TableCellBust control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellBust;
+
+        /// <summary>
+        /// TableCellBustPlayer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellBustPlayer;
+
+        /// <summary>
+        /// TableCellBustComputer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellBustComputer;
     }
 }

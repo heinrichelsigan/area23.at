@@ -311,6 +311,7 @@
     <Content Include="res\img\symbol\access_denied.gif" />
     <Content Include="res\img\symbol\Ace.png" />
     <Content Include="res\img\symbol\close_delete.gif" />
+    <Content Include="res\img\symbol\DiceCup.png" />
     <Content Include="res\img\symbol\dotnet.png" />
     <Content Include="res\img\symbol\EmptyDice.png" />
     <Content Include="res\img\symbol\favicon.ico" />
@@ -564,7 +565,6 @@
     </Compile>
     <Compile Include="Gamez\JokerDice.aspx.cs">
       <DependentUpon>JokerDice.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Gamez\JokerDice.aspx.designer.cs">
       <DependentUpon>JokerDice.aspx</DependentUpon>
