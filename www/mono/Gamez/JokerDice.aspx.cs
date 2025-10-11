@@ -158,9 +158,84 @@ namespace Area23.At.Mono.Gamez
                 ShowCheckBoxes(dices);
                 this.Literal_Action.Text = "Select your best combination.";
             }
+            Computer_DiceCup(sender, e);
             CheckWin(sender, e);
             Session["Round"] = ++round;
-        }   
+        }
+
+
+        protected void Computer_DiceCup(object sender, EventArgs e)
+        {
+            int round = (Session["Round"] != null) ? (int)Session["Round"] : 0;
+            if (round % 2 == 0)
+            {
+                ImageC1.BorderStyle = BorderStyle.None;
+                ImageC2.BorderStyle = BorderStyle.None;
+                ImageC3.BorderStyle = BorderStyle.None;
+                ImageC4.BorderStyle = BorderStyle.None;
+                ImageC5.BorderStyle = BorderStyle.None;
+            }
+
+            Random rnd = new Random(DateTime.Now.Second);
+            int[] dicec = new int[5];
+            dicec[0] = rnd.Next(0, 6);
+            dicec[1] = rnd.Next(0, 6);
+            dicec[2] = rnd.Next(0, 6);
+            dicec[3] = rnd.Next(0, 6);
+            dicec[4] = rnd.Next(0, 6);
+
+            for (int j = 0; j < 5; j++)
+            {
+                for (int k = j; k < 5; k++)
+                {
+                    if (k != j && dicec[k] < dicec[j])
+                    {
+                        int temp = dicec[j];
+                        dicec[j] = dicec[k];
+                        dicec[k] = temp;
+                    }
+                }
+            }
+
+            JokerDiceEnum[] dicesc = new JokerDiceEnum[5];
+            dicesc[0] = (JokerDiceEnum)dicec[0];
+            dicesc[1] = (JokerDiceEnum)dicec[1];
+            dicesc[2] = (JokerDiceEnum)dicec[2];
+            dicesc[3] = (JokerDiceEnum)dicec[3];
+            dicesc[4] = (JokerDiceEnum)dicec[4];
+            ImageC1.AlternateText = dicesc[0].ToString();
+            ImageC1.ImageUrl = dicesc[0].ToImgUrl();
+            ImageC2.AlternateText = dicesc[1].ToString();
+            ImageC2.ImageUrl = dicesc[1].ToImgUrl();
+            ImageC3.AlternateText = dicesc[2].ToString();
+            ImageC3.ImageUrl = dicesc[2].ToImgUrl();
+            ImageC4.AlternateText = dicesc[3].ToString();
+            ImageC4.ImageUrl = dicesc[3].ToImgUrl();
+            ImageC5.AlternateText = dicesc[4].ToString();
+            ImageC5.ImageUrl = dicesc[4].ToImgUrl();
+
+            if (round % 2 == 0)
+            {
+                DisableCheckBoxes(sender, e);
+                ImageP1.BorderStyle = BorderStyle.Dashed;
+                ImageP2.BorderStyle = BorderStyle.Dashed;
+                ImageP3.BorderStyle = BorderStyle.Dashed;
+                ImageP4.BorderStyle = BorderStyle.Dashed;
+                ImageP5.BorderStyle = BorderStyle.Dashed;
+                this.Literal_Action.Text = "Select dices you want to keep<br /> and roll the others again.";
+            }
+            if (round % 2 == 1)
+            {
+                ImageC1.BorderStyle = BorderStyle.Solid;
+                ImageC2.BorderStyle = BorderStyle.Solid;
+                ImageC3.BorderStyle = BorderStyle.Solid;
+                ImageC4.BorderStyle = BorderStyle.Solid;
+                ImageC5.BorderStyle = BorderStyle.Solid;
+                ShowCheckBoxes(dices);
+            }
+            CheckComputerWin(sender, e);
+            
+        }
 
 
         public void PokerCheckBox_Changed(object sender, EventArgs e)
@@ -169,6 +244,7 @@ namespace Area23.At.Mono.Gamez
             {
                 checkBox.Checked = true;
                 DisableCheckBoxes(sender, e);
+                CheckWin(sender, e);
             }
         }
 
@@ -182,6 +258,13 @@ namespace Area23.At.Mono.Gamez
             }
         }
 
+        public void CheckComputerWin(object sender, EventArgs e)
+        {
+
+        }
+
+
+        
 
         public void DisableCheckBoxes(object sender, EventArgs e)
         {

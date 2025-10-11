@@ -32,7 +32,7 @@
                     <asp:ImageButton ID="ImageButton_DiceCup" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/DiceCup.png" Width="122px" Height="122px" OnClick="ImageButton_DiceCup_Click" ToolTip="Click to roll the dice!" />
                 </asp:TableCell>
             </asp:TableRow>
-            <asp:TableRow ID="TableRowC" runat="server">
+            <asp:TableRow ID="TableRowC" runat="server" visible="false">
                 <asp:TableCell ID="TableCellC0" runat="server" Width="12%" Style="vertical-align: text-top;">
                     <asp:Literal ID="Literal_C0" runat="server" Text="Computer" />
                 </asp:TableCell>
@@ -62,47 +62,47 @@
             <asp:TableHeaderRow ID="TableHeaderRowPoints" runat="server">
                 <asp:TableCell ID="TableHeaderCell" runat="server">&nbsp;</asp:TableCell>
                 <asp:TableCell ID="TableHeaderCellPlayer" runat="server"><b>player</b></asp:TableCell>
-                <asp:TableCell ID="TableHeaderCellComputer" runat="server"><b>computer</b></asp:TableCell>
+                <asp:TableCell ID="TableHeaderCellComputer" runat="server" Visible="false"><b>computer</b></asp:TableCell>
             </asp:TableHeaderRow>
             <asp:TableRow ID="TableRowGrande" runat="server">
                 <asp:TableCell ID="TableCellGrande" runat="server">grande</asp:TableCell>
                 <asp:TableCell ID="TableCellGrandePlayer" runat="server"><asp:CheckBox ID="CheckBoxGrande" runat="server" AutoPostBack="true" ClientIDMode="Static" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
-                <asp:TableCell ID="TableCellGrandeComputer" runat="server">0</asp:TableCell>
+                <asp:TableCell ID="TableCellGrandeComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowPoker" runat="server">
                 <asp:TableCell ID="TableCellPoker" runat="server">poker</asp:TableCell>
                 <asp:TableCell ID="TableCellPokerPlayer" runat="server"><asp:CheckBox ID="CheckBoxPoker" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
-                <asp:TableCell ID="TableCellPokerComputer" runat="server">0</asp:TableCell>
+                <asp:TableCell ID="TableCellPokerComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowFullHouse" runat="server">
                 <asp:TableCell ID="TableCellFullHouse" runat="server">FullHouse</asp:TableCell>
                 <asp:TableCell ID="TableCellFullHousePlayer" runat="server"><asp:CheckBox ID="CheckBoxFullHouse" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
-                <asp:TableCell ID="TableCellFullHouseComputer" runat="server">0</asp:TableCell>
+                <asp:TableCell ID="TableCellFullHouseComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowStraight" runat="server">
                 <asp:TableCell ID="TableCellStraight" runat="server">Straight</asp:TableCell>
                 <asp:TableCell ID="TableCellStraightPlayer" runat="server"><asp:CheckBox ID="CheckBoxStraight" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
-                <asp:TableCell ID="TableCellStraightComputer" runat="server">0</asp:TableCell>
+                <asp:TableCell ID="TableCellStraightComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowTriple" runat="server">
                 <asp:TableCell ID="TableCellTriple" runat="server">Triple</asp:TableCell>
                 <asp:TableCell ID="TableCellTriplePlayer" runat="server"><asp:CheckBox ID="CheckBoxTriple" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
-                <asp:TableCell ID="TableCellTripleComputer" runat="server">0</asp:TableCell>
+                <asp:TableCell ID="TableCellTripleComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowTwoPairs" runat="server">
                 <asp:TableCell ID="TableCellTwoPairs" runat="server">TwoPairs</asp:TableCell>
                 <asp:TableCell ID="TableCellTwoPairsPlayer" runat="server"><asp:CheckBox ID="CheckBoxTwoPairs" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
-                <asp:TableCell ID="TableCellTwoPairsComputer" runat="server">0</asp:TableCell>
+                <asp:TableCell ID="TableCellTwoPairsComputer" runat="server"  Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowPair" runat="server">
                 <asp:TableCell ID="TableCellPair" runat="server">Pair</asp:TableCell>
                 <asp:TableCell ID="TableCellPairPlayer" runat="server"><asp:CheckBox ID="CheckBoxPair" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
-                <asp:TableCell ID="TableCellPairComputer" runat="server">0</asp:TableCell>
+                <asp:TableCell ID="TableCellPairComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowBust" runat="server">
                 <asp:TableCell ID="TableCellBust" runat="server">Bust</asp:TableCell>
                 <asp:TableCell ID="TableCellBustPlayer" runat="server"><asp:CheckBox ID="CheckBoxBust" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed"  /></asp:TableCell>
-                <asp:TableCell ID="TableCellBustComputer" runat="server">0</asp:TableCell>
+                <asp:TableCell ID="TableCellBustComputer" runat="server"  Visible="false">0</asp:TableCell>
             </asp:TableRow>
         </asp:Table>
         </div>

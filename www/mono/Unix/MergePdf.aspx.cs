@@ -28,6 +28,12 @@ namespace Area23.At.Mono.Unix
         internal string MergeSystemPath { get => LibPaths.SystemDirOutPath + _mergeFile; }
         internal string MergeToolTip { get => "Successfully merged pdfs to " + _mergeFile; }
 
+        internal long FileSizeLimit
+        {
+            get => ConfigurationManager.AppSettings["PDFMergeFileSizeLimitMB"] != null ?
+                (int.Parse(ConfigurationManager.AppSettings["PDFMergeFileSizeLimitMB"]) * 1024 * 1024) : (1024 * 1024 * 10);
+        }
+
         public string Base64Mime { get; set; }
 
 
@@ -451,7 +457,7 @@ namespace Area23.At.Mono.Unix
                     LabelUploadResult.ToolTip = "You can merge more .pdf's by merging 4 by 4 and then merge the results!";
                     return;
                 }
-                if (pfile.ContentLength > (1024 * 1024 * 8))
+                if (pfile.ContentLength > FileSizeLimit)
                 {
                     LabelUploadResult.Text = "Maximum 8 MB (mega bytes) are allowed for upload. Discarded: " + fileName + "!";
                     LabelUploadResult.ToolTip = "You can merge bigger .pdf's by using pdfunite under linux / unix!";
