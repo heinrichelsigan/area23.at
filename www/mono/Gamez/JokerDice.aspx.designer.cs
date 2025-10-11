@@ -294,6 +294,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellC6;
 
         /// <summary>
+        /// Literal_End control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Literal_End;
+
+        /// <summary>
         /// Literal_Action control.
         /// </summary>
         /// <remarks>
@@ -375,6 +384,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellGrandePlayer;
 
         /// <summary>
+        /// CheckBoxGrande control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CheckBoxGrande;
+
+        /// <summary>
         /// TableCellGrandeComputer control.
         /// </summary>
         /// <remarks>
@@ -409,6 +427,15 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableCell TableCellPokerPlayer;
+
+        /// <summary>
+        /// CheckBoxPoker control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CheckBoxPoker;
 
         /// <summary>
         /// TableCellPokerComputer control.
@@ -447,6 +474,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellFullHousePlayer;
 
         /// <summary>
+        /// CheckBoxFullHouse control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CheckBoxFullHouse;
+
+        /// <summary>
         /// TableCellFullHouseComputer control.
         /// </summary>
         /// <remarks>
@@ -481,6 +517,15 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableCell TableCellStraightPlayer;
+
+        /// <summary>
+        /// CheckBoxStraight control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CheckBoxStraight;
 
         /// <summary>
         /// TableCellStraightComputer control.
@@ -519,6 +564,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellTriplePlayer;
 
         /// <summary>
+        /// CheckBoxTriple control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CheckBoxTriple;
+
+        /// <summary>
         /// TableCellTripleComputer control.
         /// </summary>
         /// <remarks>
@@ -553,6 +607,15 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableCell TableCellTwoPairsPlayer;
+
+        /// <summary>
+        /// CheckBoxTwoPairs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CheckBoxTwoPairs;
 
         /// <summary>
         /// TableCellTwoPairsComputer control.
@@ -591,6 +654,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellPairPlayer;
 
         /// <summary>
+        /// CheckBoxPair control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CheckBoxPair;
+
+        /// <summary>
         /// TableCellPairComputer control.
         /// </summary>
         /// <remarks>
@@ -625,6 +697,15 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableCell TableCellBustPlayer;
+
+        /// <summary>
+        /// CheckBoxBust control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CheckBoxBust;
 
         /// <summary>
         /// TableCellBustComputer control.

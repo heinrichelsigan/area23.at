@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Web.UI.WebControls;
 
@@ -49,6 +50,8 @@ namespace Area23.At.Mono.Gamez
 
     public partial class JokerDice : System.Web.UI.Page
     {
+        JokerDiceEnum[] dices = new JokerDiceEnum[5];
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -118,7 +121,7 @@ namespace Area23.At.Mono.Gamez
                 }
             }
 
-            JokerDiceEnum[] dices = new JokerDiceEnum[5];
+            dices = new JokerDiceEnum[5];
             dices[0] = (JokerDiceEnum)dice[0];
             dices[1] = (JokerDiceEnum)dice[1];
             dices[2] = (JokerDiceEnum)dice[2];
@@ -137,6 +140,7 @@ namespace Area23.At.Mono.Gamez
 
             if (round % 2 == 0)
             {
+                DisableCheckBoxes(sender, e);
                 ImageP1.BorderStyle = BorderStyle.Dashed;
                 ImageP2.BorderStyle = BorderStyle.Dashed;
                 ImageP3.BorderStyle = BorderStyle.Dashed;
@@ -151,9 +155,173 @@ namespace Area23.At.Mono.Gamez
                 ImageP3.BorderStyle = BorderStyle.Solid;
                 ImageP4.BorderStyle = BorderStyle.Solid;
                 ImageP5.BorderStyle = BorderStyle.Solid;
+                ShowCheckBoxes(dices);
+                this.Literal_Action.Text = "Select your best combination.";
             }
-
+            CheckWin(sender, e);
             Session["Round"] = ++round;
         }   
+
+
+        public void PokerCheckBox_Changed(object sender, EventArgs e)
+        {
+            if (sender is CheckBox checkBox)
+            {
+                checkBox.Checked = true;
+                DisableCheckBoxes(sender, e);
+            }
+        }
+
+        public void CheckWin(object sender, EventArgs e)
+        {
+            if (CheckBoxPoker.Checked && CheckBoxPoker.Checked && CheckBoxFullHouse.Checked && CheckBoxStraight.Checked &&
+                CheckBoxTriple.Checked && CheckBoxTwoPairs.Checked && CheckBoxPair.Checked && CheckBoxBust.Checked)
+            {
+                this.Literal_End = new Literal { Text = "<h2>Congratulations! You have completed the game!</h2>" };
+                ResetCheckBoxes(sender, e);
+            }
+        }
+
+
+        public void DisableCheckBoxes(object sender, EventArgs e)
+        {
+            CheckBoxGrande.Enabled = false;
+            CheckBoxPoker.Enabled = false;
+            CheckBoxFullHouse.Enabled = false;
+            CheckBoxStraight.Enabled = false;
+            CheckBoxTriple.Enabled = false;
+            CheckBoxTwoPairs.Enabled = false;
+            CheckBoxPair.Enabled = false;
+            CheckBoxBust.Enabled = false;
+        }
+
+        public void ResetCheckBoxes(object sender, EventArgs e)
+        {
+            DisableCheckBoxes(sender, e);
+            CheckBoxPoker.Checked = false;
+            CheckBoxPoker.Checked = false;
+            CheckBoxFullHouse.Checked = false;
+            CheckBoxTwoPairs.Checked = false;
+            CheckBoxTriple.Checked = false;
+            CheckBoxPair.Checked = false;
+            CheckBoxStraight.Checked = false;
+            CheckBoxBust.Checked = false;
+            ImageP1.BorderStyle = BorderStyle.None;
+            ImageP2.BorderStyle = BorderStyle.None;
+            ImageP3.BorderStyle = BorderStyle.None;
+            ImageP4.BorderStyle = BorderStyle.None;
+            ImageP5.BorderStyle = BorderStyle.None;
+            Session["Round"] = 0;
+            this.Literal_Action.Text = "Click on the cup to roll the dices.";
+        }
+
+        public void ShowCheckBoxes(JokerDiceEnum[] myDices)
+        {
+            if (myDices == null || myDices.Length == 0 || myDices.Length < 5)
+                return;
+            DisableCheckBoxes("ShowCheckBoxes", EventArgs.Empty);
+            Dictionary<JokerDiceEnum, int> resultDict = new Dictionary<JokerDiceEnum, int>();
+            for (int i = 0; i < myDices.Length; i++)
+            {
+                if (resultDict.ContainsKey(myDices[i]))
+                    resultDict[myDices[i]]++;
+                else
+                    resultDict.Add(myDices[i], 1);
+            }
+            if (resultDict.Count == 1) // Grande
+            {
+                if (!CheckBoxGrande.Checked)
+                    CheckBoxGrande.Enabled = true;
+                if (!CheckBoxPoker.Checked)
+                    CheckBoxPoker.Enabled = true;
+                if (!CheckBoxTriple.Checked)
+                    CheckBoxTriple.Enabled = true;
+                if (!CheckBoxPair.Checked)
+                    CheckBoxPair.Enabled = true;
+                if (!CheckBoxBust.Checked)
+                    CheckBoxBust.Enabled = true;
+                return;
+            }
+            else if (resultDict.Count == 2) // Poker or Full House
+            {
+                foreach (var item in resultDict)
+                {
+                    if (item.Value == 4) // Poker
+                    {
+                        if (!CheckBoxPoker.Checked)
+                            CheckBoxPoker.Enabled = true;
+                        if (!CheckBoxTriple.Checked)
+                            CheckBoxTriple.Enabled = true;
+                        if (!CheckBoxPair.Checked)
+                            CheckBoxPair.Enabled = true;
+                        if (!CheckBoxBust.Checked)
+                            CheckBoxBust.Enabled = true;
+                        return;
+                    }
+                    else if (item.Value == 3) // Full House
+                    {
+                        if (!CheckBoxFullHouse.Checked)
+                            CheckBoxFullHouse.Enabled = true;
+                        if (!CheckBoxTriple.Checked)
+                            CheckBoxTriple.Enabled = true;
+                        if (!CheckBoxPair.Checked)
+                            CheckBoxPair.Enabled = true;
+                        if (!CheckBoxBust.Checked)
+                            CheckBoxBust.Enabled = true;
+                        return;
+                    }
+                }
+            }
+            else if (resultDict.Count == 3) // Triple or Two Pair
+            {
+                foreach (var item in resultDict)
+                {
+                    if (item.Value == 3) // Triple
+                    {
+                        if (!CheckBoxTriple.Checked)
+                            CheckBoxTriple.Enabled = true;
+                        if (!CheckBoxPair.Checked)
+                            CheckBoxPair.Enabled = true;
+                        if (!CheckBoxBust.Checked)
+                            CheckBoxBust.Enabled = true;
+                        return;
+                    }
+                }
+                // Two Pair
+                if (!CheckBoxTwoPairs.Checked)
+                    CheckBoxTwoPairs.Enabled = true;
+                if (!CheckBoxPair.Checked)
+                    CheckBoxPair.Enabled = true;
+                if (!CheckBoxBust.Checked)
+                    CheckBoxBust.Enabled = true;
+                return;
+            }
+            else if (resultDict.Count == 4) // One Pair
+            {
+                if (!CheckBoxPair.Checked)
+                    CheckBoxPair.Enabled = true;
+                if (!CheckBoxBust.Checked)
+                    CheckBoxBust.Enabled = true;
+                return;
+            }
+            else if (resultDict.Count == 5) // Bust
+            {
+                for (int k = 0; k < myDices.Length - 1; k++)
+                {
+                    if ((int)myDices[k] + 1 != (int)myDices[k + 1])
+                        break;
+                    if (k == myDices.Length - 2) // Straight
+                    {
+                        if (!CheckBoxStraight.Checked)
+                            CheckBoxStraight.Enabled = true;
+                        if (!CheckBoxBust.Checked)
+                            CheckBoxBust.Enabled = true;
+                        return;
+                    }
+                }
+                if (!CheckBoxBust.Checked)
+                    CheckBoxBust.Enabled = true;
+            }
+        }
     }
 }
