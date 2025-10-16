@@ -16,8 +16,7 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
 
         #region const or static readonly fields
         public static readonly object _lock = new object();
-        public const string VALID_CHARS = "!\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_` \r\n";
-
+        public const string VALID_CHARS = "+- 0123456789@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\t\r\n";
 
         static readonly byte[] XXEncMap = new byte[]
         {

@@ -53,7 +53,9 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
         public IDecodable Decodable => this;
 
-        public HashSet<char> ValidCharList => (new HashSet<char>(VALID_CHARS.ToCharArray()));
+        public HashSet<char> ValidCharList => ValidCharSet;
+
+        public static HashSet<char> ValidCharSet => (new HashSet<char>(VALID_CHARS.ToCharArray()));
 
         /// <summary>
         /// Encodes byte[] to valid encode formatted string
@@ -301,7 +303,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             error = "";
 
 
-            if (new Uu().ValidCharList != null)
+            if (ValidCharSet != null && ValidCharSet.Count > 0)
             {
                 if (uuEncodedStr.StartsWith("begin"))
                 {
@@ -314,7 +316,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
                 foreach (char ch in uuEncodedStr)
                 {
-                    if (!new Uu().ValidCharList.Contains(ch))
+                    if (!ValidCharSet.Contains(ch))
                     {
                         error += ch.ToString();
                         isValid = false;

@@ -67,9 +67,20 @@ namespace Area23.At.Mono.Gamez
             if (sender is ImageButton im)
             {
                 if (im.BorderStyle == BorderStyle.Solid)
+                {
                     im.BorderStyle = BorderStyle.Dashed;
-                else 
+                    im.ImageUrl = "../res/img/symbol/" + "CupOverDice.png";
+                }
+                else
+                {
+                    if (!Enum.TryParse<JokerDiceEnum>(im.AlternateText, out JokerDiceEnum jDice))
+                    {
+                        int imi = Int32.Parse(im.ID.Replace("ImageP", "")) - 1;
+                        jDice = dices[imi];
+                    }                    
+                    im.ImageUrl = jDice.ToImgUrl();
                     im.BorderStyle = BorderStyle.Solid;
+                }
             }
 
         }
@@ -281,7 +292,7 @@ namespace Area23.At.Mono.Gamez
         public void ResetCheckBoxes(object sender, EventArgs e)
         {
             DisableCheckBoxes(sender, e);
-            CheckBoxPoker.Checked = false;
+            CheckBoxGrande.Checked = false;
             CheckBoxPoker.Checked = false;
             CheckBoxFullHouse.Checked = false;
             CheckBoxTwoPairs.Checked = false;

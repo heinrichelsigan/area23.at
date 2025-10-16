@@ -311,6 +311,7 @@
     <Content Include="res\img\symbol\access_denied.gif" />
     <Content Include="res\img\symbol\Ace.png" />
     <Content Include="res\img\symbol\close_delete.gif" />
+    <Content Include="res\img\symbol\CupOverDice.png" />
     <Content Include="res\img\symbol\DiceCup.png" />
     <Content Include="res\img\symbol\dotnet.png" />
     <Content Include="res\img\symbol\EmptyDice.png" />
@@ -323,6 +324,7 @@
     <Content Include="res\img\symbol\img_undo_turn_back.png" />
     <Content Include="res\img\symbol\Jack.png" />
     <Content Include="res\img\symbol\Joker.png" />
+    <Content Include="res\img\symbol\JollyRoger.png" />
     <Content Include="res\img\symbol\key_ring.gif" />
     <Content Include="res\img\symbol\King.png" />
     <Content Include="res\img\symbol\pdf_icon.gif" />
