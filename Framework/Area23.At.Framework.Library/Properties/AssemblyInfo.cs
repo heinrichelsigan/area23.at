@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Area23.At.Framework.Library")]
-[assembly: AssemblyDescription(".Net 4.[678].* Framework Area23 Library ARM64")]
+[assembly: AssemblyDescription(".Net 4.[678].* Framework Area23 Library")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("https://area23.at/net/")]
 [assembly: AssemblyProduct("area23.at FrameworkLibrary")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.25.1011.0")]
-[assembly: AssemblyFileVersion("2.25.1011.0")]
+[assembly: AssemblyVersion("2.25.1016.0")]
+[assembly: AssemblyFileVersion("2.25.1016.0")]

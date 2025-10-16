@@ -1,6 +1,4 @@
-﻿using Area23.At.Framework.Library.Cqr.Msg;
-using Area23.At.Framework.Library.Crypt.Cipher;
-using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+﻿using Area23.At.Framework.Library.Crypt.Cipher;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
@@ -148,9 +146,18 @@ namespace Area23.At.Mono.Crypt
         /// <param name="e">EventArgs e</param>
         protected void ImageButton_Add_Click(object sender, EventArgs e)
         {
-            foreach (string cryptName in Enum.GetNames(typeof(CipherEnum)))
+            CipherEnum[] cipherAlgor = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
+            if (cipherAlgor != null && cipherAlgor.Length > 8)
             {
-                if (cryptName != "None")
+                uploadResult.Text = "Max 8 algorithms in pipeline allowed!";
+                uploadResult.Visible = true;
+                return; 
+            }
+            uploadResult.Text = "";
+
+            foreach (string cryptName in Enum.GetNames(typeof(CipherEnum)))
+            {                
+                if (!string.IsNullOrEmpty(cryptName) && cryptName != "None")
                 {
                     if (DropDownList_Cipher.SelectedValue.ToString() == cryptName)
                     {
@@ -591,7 +598,8 @@ namespace Area23.At.Mono.Crypt
             key = this.TextBox_Key.Text;
             hash = keyHash.Hash(TextBox_Key.Text);
             TextBox_IV.Text = hash;
-            pipeAlgortihms = CipherEnumExtensions.FromString(key);
+            pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
+            uploadResult.Text = ""; 
 
             this.TextBox_IV.ForeColor = this.TextBox_Key.ForeColor;
             this.TextBox_IV.BorderColor = Color.LightGray;
