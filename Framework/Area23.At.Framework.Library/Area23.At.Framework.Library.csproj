@@ -189,6 +189,7 @@
     <Compile Include="Cqr\Msg\SerType.cs" />
     <Compile Include="Crypt\Cipher\CipherPipe.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\Des3Net.cs" />
+    <Compile Include="Crypt\EnDeCoding\Xx.cs" />
     <Compile Include="Crypt\Hash\Sha256HMac.cs" />
     <Compile Include="Crypt\Hash\KeyHash.cs" />
     <Compile Include="Crypt\Hash\PasswdCrypt.cs" />

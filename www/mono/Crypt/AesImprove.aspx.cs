@@ -346,7 +346,7 @@ namespace Area23.At.Mono.Crypt
                 bool fromPlain = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
 
                 encodeType = (EncodingType)Enum.Parse(typeof(EncodingType), this.DropDownList_Encoding.SelectedValue);
-                string encryptedText = EnDeCodeHelper.EncodeBytes(encryptBytes, encodeType, fromPlain, false);
+                string encryptedText = EnDeCodeHelper.EncodeBytes(encryptBytes, encodeType);
 
                 this.TextBoxDestionation.Text = encryptedText;
 
@@ -399,13 +399,13 @@ namespace Area23.At.Mono.Crypt
                 }
 
                 string cipherText = this.TextBoxSource.Text;
-                bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
+                // bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
                 string decryptedText = string.Empty;
                 byte[] cipherBytes;
                 string encodingMethod = encodeType.ToString().ToLowerInvariant();
                 try
                 {
-                    cipherBytes = EnDeCodeHelper.DecodeText(cipherText /*, out string errMsg */, encodeType, plainUu, false);
+                    cipherBytes = EnDeCodeHelper.DecodeText(cipherText /*, out string errMsg */, encodeType);
                 }
                 catch (Exception exCode)
                 {
@@ -643,7 +643,7 @@ namespace Area23.At.Mono.Crypt
             EncodingType extEncType = encodeType;
             
             string encodingMethod = encodeType.ToString().ToLowerInvariant();
-            bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
+            // bool plainUu = string.IsNullOrEmpty(this.TextBox_Encryption.Text);
 
             if ((pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ||
                 (!string.IsNullOrEmpty(fileSavedName) && System.IO.File.Exists(fileSavedName)))
@@ -748,7 +748,7 @@ namespace Area23.At.Mono.Crypt
                         if (CheckBoxEncode.Checked)
                         {
                             strFileName += "." + encodeType.ToString().ToLowerInvariant();
-                            string outString = EnDeCodeHelper.EncodeBytes(outBytes, encodeType, plainUu, true);
+                            string outString = EnDeCodeHelper.EncodeBytes(outBytes, encodeType);
                             savedTransFile = this.StringToFile(outString, out outMsg, strFileName, LibPaths.SystemDirOutPath);
                         }
                         else
@@ -814,7 +814,7 @@ namespace Area23.At.Mono.Crypt
                                 cipherText = System.IO.File.ReadAllText(LibPaths.SystemDirTmpPath + tmpFile, Encoding.UTF8);
                             }
 
-                            outBytes = EnDeCodeHelper.DecodeText(cipherText /*, out string errMsg */, extEncType, plainUu, true);
+                            outBytes = EnDeCodeHelper.DecodeText(cipherText /*, out string errMsg */, extEncType);
                             strFileName = strFileName.EndsWith("." + encodingMethod) ? strFileName.Replace("." + encodingMethod, "") : strFileName;
                         }
                         else // if not decode, copy inBytes => outBytes

@@ -97,13 +97,12 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// <param name="fromPlain">Only for uu: true, if <see cref="encryptBytes"/> represent a binary without encryption</param>
         /// <param name="fromFile">Only for uu: true, if file and not textbox will be encrypted, default (false)</param>
         /// <returns>encoded encrypted string</returns>
-        public static string EncodeBytes(byte[] encryptBytes, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
+        public static string EncodeBytes(byte[] encryptBytes, EncodingType encodingType = EncodingType.Base64)
         {
             Area23Log.Log(
-                "EncodeEncryptedBytes(byte[] encryptBytes.[Length=" + encryptBytes.Length + "], EncodingType encodingType =  "
-                + encodingType.ToString() + ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
+                "EncodeEncryptedBytes(byte[] encryptBytes.[Length=" + encryptBytes.Length + "], EncodingType encodingType =  " + encodingType.ToString() + ")");
 
-            string encryptedText = EnDeCodeHelper.Encode(encryptBytes, encodingType, fromPlain, fromFile);
+            string encryptedText = EnDeCodeHelper.Encode(encryptBytes, encodingType);
 
             return encryptedText;
         }
@@ -114,13 +113,10 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// <param name="cipherText">encoded (encrypted) text string</param>
         /// <param name="encodingType"><see cref="EncodingType"/> could be 
         /// "None", "Hex16", "Base16", "Base32", "Hex32", "Uu", "Base64". "Base64" is default.</param>
-        /// <param name="fromPlain">Only for uu: true, if <see cref="encryptBytes"/> represent a binary without encryption</param>
-        /// <param name="fromFile">Only for uu: true, if file and not textbox will be encrypted, default (false)</param>
         /// <returns>binary byte array</returns>
-        public static byte[] DecodeText(string cipherText, /* out string errMsg, */ EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
+        public static byte[] DecodeText(string cipherText, /* out string errMsg, */ EncodingType encodingType = EncodingType.Base64)
         {
-            Area23Log.Log("EncodedTextToBytes(string cipherText[.Length " + cipherText.Length + "], EncodingType encodingType  = " +
-                encodingType.ToString() + ", bool fromPlain = " + fromPlain + ", bool fromFile = " + fromFile + ")");
+            Area23Log.Log("EncodedTextToBytes(string cipherText[.Length " + cipherText.Length + "], EncodingType encodingType  = " + encodingType.ToString() + ")");
 
             // errMsg = string.Empty;
             if (!EnDeCodeHelper.IsValid(cipherText, encodingType))
@@ -129,7 +125,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 throw new FormatException($"Input Text is not a valid {encodingType.ToString()} string!");
             }
 
-            byte[] cipherBytes = cipherBytes = EnDeCodeHelper.Decode(cipherText, encodingType, fromPlain, fromFile);
+            byte[] cipherBytes = cipherBytes = EnDeCodeHelper.Decode(cipherText, encodingType);
 
             return cipherBytes;
         }
@@ -259,20 +255,16 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         }
 
 
-        public static string Encode(byte[] inBytes, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
+        public static string Encode(byte[] inBytes, EncodingType encodingType = EncodingType.Base64)
         {
             IDecodable enc = encodingType.GetEnCoder();
-            if (encodingType == EncodingType.Uu)
-                return Uu.Encode(inBytes, fromPlain, fromFile);
             return enc.EnCode(inBytes);
 
         }
 
-        public static byte[] Decode(string encodedString, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
+        public static byte[] Decode(string encodedString, EncodingType encodingType = EncodingType.Base64)
         {
             IDecodable dec = encodingType.GetEnCoder();
-            if (encodingType == EncodingType.Uu)
-                return Uu.Decode(encodedString, fromPlain, fromFile);
             return dec.DeCode(encodedString);
         }
 

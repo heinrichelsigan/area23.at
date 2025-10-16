@@ -16,7 +16,8 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         Hex32 =     0x500,
         Uu =        0x600,
         Base58 =    0x700,
-        Base64 =    0x800
+        Base64 =    0x800,
+        Xx =        0x900
     }
 
     public static class EncodingTypesExtensions
@@ -53,6 +54,7 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
                 case EncodingType.Hex32: return ((IDecodable)new Hex32());
                 case EncodingType.Base32: return ((IDecodable)new Base32());
                 case EncodingType.Uu: return ((IDecodable)new Uu());
+                case EncodingType.Xx: return ((IDecodable)new Xx());
                 case EncodingType.Base64:
                 default: return ((IDecodable)new Base64());
             }            
@@ -69,6 +71,7 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
                 case EncodingType.Hex32: return "hex32";
                 case EncodingType.Base32: return "base32";
                 case EncodingType.Uu: return "uu";
+                case EncodingType.Xx: return "xx";
                 case EncodingType.Base64:
                 default: return "base64";
             }
@@ -122,6 +125,13 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
                 case "uuencode":
                 case "uudecode":
                     return EncodingType.Uu;
+
+                case "xx":
+                case "xxe":
+                case "xxd":
+                case "xxencode":
+                case "xxdecode":
+                    return EncodingType.Xx;
 
                 case "base64":
                 case "mime":
