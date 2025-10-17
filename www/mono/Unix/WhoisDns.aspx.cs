@@ -1,6 +1,7 @@
 ﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using System;
+using System.Drawing;
 using System.Web.UI.WebControls;
 using System.Windows.Input;
 
@@ -21,11 +22,24 @@ namespace Area23.At.Mono.Unix
         protected internal const string hostCmdPathUnix =   "/usr/bin/host";        
         protected internal const string hostCmdArgs =       " -d -v -a {0}";
         protected internal static string[] linesOut = { };
+        public readonly string ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_";
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack) 
                 this.TextBox_HostName.Text = "kernel.org";
+        }
+
+        protected string Sanitize_HostName(string hostname)
+        {
+            string sanitized = "";
+            char[] arr = hostname.ToCharArray();
+            for (int i = 0; i < hostname.Length; i++)
+            {
+                if (ALLOWED_CHARS.Contains(arr[i].ToString()))
+                    sanitized += arr[i];
+            }
+            return sanitized;
         }
 
         /// <summary>
@@ -40,7 +54,7 @@ namespace Area23.At.Mono.Unix
             TableCellLeft.Text = "";
             try
             {
-                args = string.Format(args, this.TextBox_HostName.Text);
+                args = string.Format(args, Sanitize_HostName(this.TextBox_HostName.Text));
                 TableHeaderCellLeft.Text = filepath + " " + args;
                 string cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, args);
                 linesOut = cmdOut.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -82,7 +96,7 @@ namespace Area23.At.Mono.Unix
             TableCellRight.Text = "";
             try
             {
-                args = string.Format(args, this.TextBox_HostName.Text);
+                args = string.Format(args, Sanitize_HostName(this.TextBox_HostName.Text));
                 TableHeaderCellRight.Text = filepath + " " + args;
                 string cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, args);
                 linesOut = cmdOut.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -109,13 +123,13 @@ namespace Area23.At.Mono.Unix
 
         protected void Button_WhoisDns_Click(object sender, EventArgs e)
         {
-            Perform_Whois((Constants.UNIX) ? whoisCmdPathUnix : whoisCmdPath, this.TextBox_HostName.Text);
+            Perform_Whois((Constants.UNIX) ? whoisCmdPathUnix : whoisCmdPath, Sanitize_HostName(this.TextBox_HostName.Text));
             Process_DnsHost((Constants.UNIX) ? hostCmdPathUnix : hostCmdPath, hostCmdArgs);
         }
 
         protected void Button_WhoisDns_TextChanged(object sender, EventArgs e)
         {
-            Perform_Whois((Constants.UNIX) ? whoisCmdPathUnix : whoisCmdPath, this.TextBox_HostName.Text);
+            Perform_Whois((Constants.UNIX) ? whoisCmdPathUnix : whoisCmdPath, Sanitize_HostName(this.TextBox_HostName.Text));
             Process_DnsHost((Constants.UNIX) ? hostCmdPathUnix : hostCmdPath, hostCmdArgs);
         }
 
