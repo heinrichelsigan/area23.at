@@ -17,16 +17,16 @@
                     <asp:ImageButton ID="ImageP1" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/Joker.png" Width="122px" Height="122px" OnClick="ImageP_Click" />
                 </asp:TableCell>
                 <asp:TableCell ID="TableCellP2" runat="server" Width="12%" Style="vertical-align: text-top;">
-                    <asp:ImageButton ID="ImageP2" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/Ace.png" Width="122px" Height="122px" OnClick="ImageP_Click" />
+                    <asp:ImageButton ID="ImageP2" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/Jack.png" Width="122px" Height="122px" OnClick="ImageP_Click" />
                 </asp:TableCell>
                 <asp:TableCell ID="TableCellP3" runat="server" Width="12%" Style="vertical-align: text-top;">
-                    <asp:ImageButton ID="ImageP3" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/King.png" Width="122px" Height="122px" OnClick="ImageP_Click" />
+                    <asp:ImageButton ID="ImageP3" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/Queen.png" Width="122px" Height="122px" OnClick="ImageP_Click" />
                 </asp:TableCell>
                 <asp:TableCell ID="TableCellP4" runat="server" Width="12%" Style="vertical-align: text-top;">
-                    <asp:ImageButton ID="ImageP4" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/Queen.png" Width="122px" Height="122px" OnClick="ImageP_Click"  />
+                    <asp:ImageButton ID="ImageP4" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/King.png" Width="122px" Height="122px" OnClick="ImageP_Click"  />
                 </asp:TableCell>
                 <asp:TableCell ID="TableCellP5" runat="server" Width="12%" Style="vertical-align: text-top;">
-                    <asp:ImageButton ID="ImageP5" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/Jack.png" Width="122px" Height="122px" OnClick="ImageP_Click" />
+                    <asp:ImageButton ID="ImageP5" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/Ace.png" Width="122px" Height="122px" OnClick="ImageP_Click" />
                 </asp:TableCell>
                 <asp:TableCell ID="TableCellP6" runat="server" Width="12%" Style="vertical-align: text-top;">
                     <asp:ImageButton ID="ImageButton_DiceCup" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/DiceCup.png" Width="122px" Height="122px" OnClick="ImageButton_DiceCup_Click" ToolTip="Click to roll the dice!" />

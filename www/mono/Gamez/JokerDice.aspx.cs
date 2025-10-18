@@ -66,12 +66,12 @@ namespace Area23.At.Mono.Gamez
 
             if (sender is ImageButton im)
             {
-                if (im.BorderStyle == BorderStyle.Solid)
+                if (!im.ImageUrl.EndsWith("CupOverDice.png"))
                 {
                     im.BorderStyle = BorderStyle.Dashed;
-                    im.ImageUrl = "../res/img/symbol/" + "CupOverDice.png";
+                    im.ImageUrl = "../res/img/symbol/CupOverDice.png";
                 }
-                else
+                else if (im.BorderStyle == BorderStyle.Dashed || im.ImageUrl.EndsWith("CupOverDice.png"))
                 {
                     if (!Enum.TryParse<JokerDiceEnum>(im.AlternateText, out JokerDiceEnum jDice))
                     {
@@ -82,7 +82,6 @@ namespace Area23.At.Mono.Gamez
                     im.BorderStyle = BorderStyle.Solid;
                 }
             }
-
         }
 
         protected void ImageButton_DiceCup_Click(object sender, EventArgs e)
@@ -97,28 +96,29 @@ namespace Area23.At.Mono.Gamez
                 ImageP5.BorderStyle = BorderStyle.None;
             }
 
-            Random rnd = new Random(DateTime.Now.Second);
+            Random rnd = new Random(DateTime.Now.Second + DateTime.Now.Millisecond);
             int[] dice = new int[5];
-            if (ImageP1.BorderStyle != BorderStyle.Solid)
+            if (ImageP1.BorderStyle == BorderStyle.None || ImageP1.BorderStyle == BorderStyle.Dashed)
                 dice[0] = rnd.Next(0, 6);
             else
                 dice[0] = (int)ImageP1.AlternateText.ToJokerDiceEnum();
-            if (ImageP2.BorderStyle != BorderStyle.Solid)
+            if (ImageP2.BorderStyle == BorderStyle.None || ImageP2.BorderStyle == BorderStyle.Dashed)
                 dice[1] = rnd.Next(0, 6);
             else
                 dice[1] = (int)ImageP2.AlternateText.ToJokerDiceEnum();
-            if (ImageP3.BorderStyle != BorderStyle.Solid)
+            if (ImageP3.BorderStyle == BorderStyle.None || ImageP3.BorderStyle == BorderStyle.Dashed)
                 dice[2] = rnd.Next(0, 6);
             else
                 dice[2] = (int)ImageP3.AlternateText.ToJokerDiceEnum();
-            if (ImageP4.BorderStyle != BorderStyle.Solid)
+            if (ImageP4.BorderStyle == BorderStyle.None || ImageP4.BorderStyle == BorderStyle.Dashed)
                 dice[3] = rnd.Next(0, 6);
             else
                 dice[3] = (int)ImageP4.AlternateText.ToJokerDiceEnum();
-            if (ImageP5.BorderStyle != BorderStyle.Solid)
+            if (ImageP5.BorderStyle == BorderStyle.None || ImageP5.BorderStyle == BorderStyle.Dashed)
                 dice[4] = rnd.Next(0, 6);
             else
                 dice[4] = (int)ImageP5.AlternateText.ToJokerDiceEnum();
+
             for (int j = 0; j < 5; j++)
             {
                 for (int k = j; k < 5; k++)
@@ -152,11 +152,11 @@ namespace Area23.At.Mono.Gamez
             if (round % 2 == 0)
             {
                 DisableCheckBoxes(sender, e);
-                ImageP1.BorderStyle = BorderStyle.Dashed;
-                ImageP2.BorderStyle = BorderStyle.Dashed;
-                ImageP3.BorderStyle = BorderStyle.Dashed;
-                ImageP4.BorderStyle = BorderStyle.Dashed;
-                ImageP5.BorderStyle = BorderStyle.Dashed;
+                ImageP1.BorderStyle = BorderStyle.Dotted;
+                ImageP2.BorderStyle = BorderStyle.Dotted;
+                ImageP3.BorderStyle = BorderStyle.Dotted;
+                ImageP4.BorderStyle = BorderStyle.Dotted;
+                ImageP5.BorderStyle = BorderStyle.Dotted;
                 this.Literal_Action.Text = "Select dices you want to keep<br /> and roll the others again.";
             }
             if (round % 2 == 1)
@@ -261,7 +261,7 @@ namespace Area23.At.Mono.Gamez
 
         public void CheckWin(object sender, EventArgs e)
         {
-            if (CheckBoxPoker.Checked && CheckBoxPoker.Checked && CheckBoxFullHouse.Checked && CheckBoxStraight.Checked &&
+            if (CheckBoxGrande.Checked && CheckBoxPoker.Checked && CheckBoxFullHouse.Checked && CheckBoxStraight.Checked &&
                 CheckBoxTriple.Checked && CheckBoxTwoPairs.Checked && CheckBoxPair.Checked && CheckBoxBust.Checked)
             {
                 this.Literal_End = new Literal { Text = "<h2>Congratulations! You have completed the game!</h2>" };
@@ -313,6 +313,7 @@ namespace Area23.At.Mono.Gamez
         {
             if (myDices == null || myDices.Length == 0 || myDices.Length < 5)
                 return;
+            bool shouldReturn = false;
             DisableCheckBoxes("ShowCheckBoxes", EventArgs.Empty);
             Dictionary<JokerDiceEnum, int> resultDict = new Dictionary<JokerDiceEnum, int>();
             for (int i = 0; i < myDices.Length; i++)
@@ -325,16 +326,32 @@ namespace Area23.At.Mono.Gamez
             if (resultDict.Count == 1) // Grande
             {
                 if (!CheckBoxGrande.Checked)
+                {
                     CheckBoxGrande.Enabled = true;
+                    shouldReturn = true;
+                }
                 if (!CheckBoxPoker.Checked)
+                {
                     CheckBoxPoker.Enabled = true;
+                    shouldReturn = true;
+                }
                 if (!CheckBoxTriple.Checked)
+                {
                     CheckBoxTriple.Enabled = true;
+                    shouldReturn = true;
+                }
                 if (!CheckBoxPair.Checked)
+                {
                     CheckBoxPair.Enabled = true;
+                    shouldReturn = true;
+                }
                 if (!CheckBoxBust.Checked)
+                {
                     CheckBoxBust.Enabled = true;
-                return;
+                    shouldReturn = true;
+                }
+                if (shouldReturn) 
+                    return;
             }
             else if (resultDict.Count == 2) // Poker or Full House
             {
@@ -343,26 +360,50 @@ namespace Area23.At.Mono.Gamez
                     if (item.Value == 4) // Poker
                     {
                         if (!CheckBoxPoker.Checked)
+                        {
                             CheckBoxPoker.Enabled = true;
+                            shouldReturn = true;
+                        }
                         if (!CheckBoxTriple.Checked)
+                        {
                             CheckBoxTriple.Enabled = true;
+                            shouldReturn = true;
+                        }
                         if (!CheckBoxPair.Checked)
+                        {
                             CheckBoxPair.Enabled = true;
+                            shouldReturn = true;
+                        }
                         if (!CheckBoxBust.Checked)
+                        {
                             CheckBoxBust.Enabled = true;
-                        return;
+                            shouldReturn = true;
+                        }
+                        if (shouldReturn) return;
                     }
                     else if (item.Value == 3) // Full House
                     {
                         if (!CheckBoxFullHouse.Checked)
+                        {
                             CheckBoxFullHouse.Enabled = true;
+                            shouldReturn = true;
+                        }
                         if (!CheckBoxTriple.Checked)
+                        {
                             CheckBoxTriple.Enabled = true;
+                            shouldReturn = true;
+                        }
                         if (!CheckBoxPair.Checked)
+                        {
                             CheckBoxPair.Enabled = true;
+                            shouldReturn = true;
+                        }
                         if (!CheckBoxBust.Checked)
+                        {
                             CheckBoxBust.Enabled = true;
-                        return;
+                            shouldReturn = true;
+                        }
+                        if (shouldReturn) return;
                     }
                 }
             }
@@ -373,30 +414,49 @@ namespace Area23.At.Mono.Gamez
                     if (item.Value == 3) // Triple
                     {
                         if (!CheckBoxTriple.Checked)
+                        {
                             CheckBoxTriple.Enabled = true;
+                            shouldReturn = true;
+                        }
                         if (!CheckBoxPair.Checked)
+                        {
                             CheckBoxPair.Enabled = true;
+                            shouldReturn = true;
+                        }
                         if (!CheckBoxBust.Checked)
+                        {
                             CheckBoxBust.Enabled = true;
-                        return;
+                            shouldReturn = true;
+                        }
                     }
+                    if (shouldReturn)  return;
                 }
                 // Two Pair
                 if (!CheckBoxTwoPairs.Checked)
-                    CheckBoxTwoPairs.Enabled = true;
+                {
+                    CheckBoxTwoPairs.Enabled = true; shouldReturn = true;
+                }
                 if (!CheckBoxPair.Checked)
-                    CheckBoxPair.Enabled = true;
+                {
+                    CheckBoxPair.Enabled = true; shouldReturn = true;
+                }
                 if (!CheckBoxBust.Checked)
-                    CheckBoxBust.Enabled = true;
-                return;
+                {
+                    CheckBoxBust.Enabled = true; shouldReturn = true;
+                }
+                if (shouldReturn) return;
             }
             else if (resultDict.Count == 4) // One Pair
             {
                 if (!CheckBoxPair.Checked)
-                    CheckBoxPair.Enabled = true;
+                {
+                    CheckBoxPair.Enabled = true; shouldReturn = true;
+                }
                 if (!CheckBoxBust.Checked)
-                    CheckBoxBust.Enabled = true;
-                return;
+                {
+                    CheckBoxBust.Enabled = true; shouldReturn = true;
+                }
+                if (shouldReturn) return;
             }
             else if (resultDict.Count == 5) // Bust
             {
@@ -406,7 +466,7 @@ namespace Area23.At.Mono.Gamez
                         break;
                     if (k == myDices.Length - 2) // Straight
                     {
-                        if (!CheckBoxStraight.Checked)
+                        if (!CheckBoxStraight.Checked) 
                             CheckBoxStraight.Enabled = true;
                         if (!CheckBoxBust.Checked)
                             CheckBoxBust.Enabled = true;
