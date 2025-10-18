@@ -152,11 +152,11 @@ namespace Area23.At.Mono.Gamez
             if (round % 2 == 0)
             {
                 DisableCheckBoxes(sender, e);
-                ImageP1.BorderStyle = BorderStyle.Dotted;
-                ImageP2.BorderStyle = BorderStyle.Dotted;
-                ImageP3.BorderStyle = BorderStyle.Dotted;
-                ImageP4.BorderStyle = BorderStyle.Dotted;
-                ImageP5.BorderStyle = BorderStyle.Dotted;
+                ImageP1.BorderStyle = BorderStyle.Solid;
+                ImageP2.BorderStyle = BorderStyle.Solid;
+                ImageP3.BorderStyle = BorderStyle.Solid;
+                ImageP4.BorderStyle = BorderStyle.Solid;
+                ImageP5.BorderStyle = BorderStyle.Solid;
                 this.Literal_Action.Text = "Select dices you want to keep<br /> and roll the others again.";
             }
             if (round % 2 == 1)
