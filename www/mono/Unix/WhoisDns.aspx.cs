@@ -45,18 +45,17 @@ namespace Area23.At.Mono.Unix
         /// <summary>
         /// Perform_Hexdump()
         /// </summary>
-        protected string Perform_Whois(string filepath = whoisCmdPath, string args = " {0}")        
-        {
-            if (Constants.UNIX)
-                filepath = whoisCmdPathUnix;
-
+        protected string Perform_Whois()        
+        {            
+            string filepath = (Constants.UNIX) ? whoisCmdPathUnix : whoisCmdPath;            
             TableCellLeft.Visible = true;
             TableCellLeft.Text = "";
             try
             {
-                args = string.Format(args, Sanitize_HostName(this.TextBox_HostName.Text));
+                
+                string args = string.Format(whoisCmdArgs, Sanitize_HostName(this.TextBox_HostName.Text));
                 TableHeaderCellLeft.Text = filepath + " " + args;
-                string cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, args);
+                string cmdOut = ProcessCmd.ExecuteCreateWindow(whoisCmdPath, args);
                 linesOut = cmdOut.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 for (int ln= 0; ln < linesOut.Length; ln++)
                 {
@@ -85,18 +84,14 @@ namespace Area23.At.Mono.Unix
         /// <param name="filepath">od cmd filepath</param>
         /// <param name="args">od arguments passed to od</param>
         /// <returns>output of od cmd</returns>
-        protected string Process_DnsHost(
-            string filepath = hostCmdPath, 
-            string args = hostCmdArgs)
+        protected string Process_DnsHost()
         {
-            if (Constants.UNIX)
-                filepath = hostCmdPathUnix;
-
+            string filepath = (Constants.UNIX) ? hostCmdPathUnix : hostCmdPath;
             TableCellRight.Visible = true;
             TableCellRight.Text = "";
             try
             {
-                args = string.Format(args, Sanitize_HostName(this.TextBox_HostName.Text));
+                string args = string.Format(hostCmdArgs, Sanitize_HostName(this.TextBox_HostName.Text));
                 TableHeaderCellRight.Text = filepath + " " + args;
                 string cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, args);
                 linesOut = cmdOut.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -123,14 +118,14 @@ namespace Area23.At.Mono.Unix
 
         protected void Button_WhoisDns_Click(object sender, EventArgs e)
         {
-            Perform_Whois((Constants.UNIX) ? whoisCmdPathUnix : whoisCmdPath, Sanitize_HostName(this.TextBox_HostName.Text));
-            Process_DnsHost((Constants.UNIX) ? hostCmdPathUnix : hostCmdPath, hostCmdArgs);
+            Perform_Whois();
+            Process_DnsHost();
         }
 
         protected void Button_WhoisDns_TextChanged(object sender, EventArgs e)
         {
-            Perform_Whois((Constants.UNIX) ? whoisCmdPathUnix : whoisCmdPath, Sanitize_HostName(this.TextBox_HostName.Text));
-            Process_DnsHost((Constants.UNIX) ? hostCmdPathUnix : hostCmdPath, hostCmdArgs);
+            Perform_Whois();
+            Process_DnsHost();
         }
 
     }

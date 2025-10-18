@@ -10,8 +10,8 @@
     <Copyright>Copyleft © 2000-2040</Copyright>
 	<PackageProjectUrl>https://area23.at/</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>
-    <AssemblyVersion>2.25.1010</AssemblyVersion>
-    <FileVersion>2.25.1017</FileVersion>
+    <AssemblyVersion>2.25.1018</AssemblyVersion>
+    <FileVersion>2.25.1018</FileVersion>
 	<IsTrimmable>true</IsTrimmable>
 	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
 	<PlatformTarget>AnyCPU</PlatformTarget>

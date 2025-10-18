@@ -123,10 +123,6 @@
   <data name="build_with" xml:space="preserve">
     <value>VisualStudio 2022 C# 4.8</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="fortune.u8" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>fortune.u8;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="github_uri" xml:space="preserve">
     <value>https://github.com/heinrichelsigan/area23.at/</value>
   </data>
@@ -179,8 +175,297 @@ Code is open source under GPL 3 and publicly accessible via &lt;a href="https://
  	} 
  }</value>
   </data>
-  <data name="json_sample1" xml:space="preserve">
-    <value />
+  <data name="fortunes" xml:space="preserve">
+    <value>%
+ There was once a programmer who was attached to the court of the
+warlord of Wu.  The warlord asked the programmer: "Which is easier to design:
+an accounting package or an operating system?"
+ "An operating system," replied the programmer.
+ The warlord uttered an exclamation of disbelief.  "Surely an
+accounting package is trivial next to the complexity of an operating
+system," he said.
+ "Not so," said the programmer, "when designing an accounting package,
+the programmer operates as a mediator between people having different ideas:
+how it must operate, how its reports must appear, and how it must conform to
+the tax laws.  By contrast, an operating system is not limited my outside
+appearances.  When designing an operating system, the programmer seeks the
+simplest harmony between machine and ideas.  This is why an operating system
+is easier to design."
+ The warlord of Wu nodded and smiled.  "That is all good and well, but
+which is easier to debug?"
+ The programmer made no reply.
+  -- Geoffrey James, "The Tao of Programming"
+%
+ There was once a programmer who worked upon microprocessors.  "Look at
+how well off I am here," he said to a mainframe programmer who came to visit,
+"I have my own operating system and file storage device.  I do not have to
+share my resources with anyone.  The software is self-consistent and
+easy-to-use.  Why do you not quit your present job and join me here?"
+ The mainframe programmer then began to describe his system to his
+friend, saying: "The mainframe sits like an ancient sage meditating in the
+midst of the data center.  Its disk drives lie end-to-end like a great ocean
+of machinery.  The software is a multi-faceted as a diamond and as convoluted
+as a primeval jungle.  The programs, each unique, move through the system
+like a swift-flowing river.  That is why I am happy where I am."
+ The microcomputer programmer, upon hearing this, fell silent.  But the
+two programmers remained friends until the end of their days.
+  -- Geoffrey James, "The Tao of Programming"
+%
+There was, it appeared, a mysterious rite of initiation through which,
+in one way or another, almost every member of the team passed.  The term
+that the old hands used for this rite -- West invented the term, not the
+practice -- was `signing up.'  By signing up for the project you agreed
+to do whatever was necessary for success.  You agreed to forsake, if
+necessary, family, hobbies, and friends -- if you had any of these left
+(and you might not, if you had signed up too many times before).
+  -- Tracy Kidder, "The Soul of a New Machine"
+%
+There's got to be more to life than compile-and-go.
+%
+They are called computers simply because computation is the only significant
+job that has so far been given to them.
+%
+They are relatively good but absolutely terrible.
+  -- Alan Kay, commenting on Apollos
+%
+They seem to have learned the habit of cowering before authority even when
+not actually threatened.  How very nice for authority.  I decided not to
+learn this particular lesson.
+  -- Richard Stallman
+%
+Think of it!  With VLSI we can pack 100 ENIACs in 1 sq. cm.!
+%
+Think of your family tonight.  Try to crawl home after the computer crashes.
+%
+This "brain-damaged" epithet is getting sorely overworked.  When we can
+speak of someone or something being flawed, impaired, marred, spoiled;
+batty, bedlamite, bonkers, buggy, cracked, crazed, cuckoo, daft, demented,
+deranged, loco, lunatic, mad, maniac, mindless, non compos mentis, nuts,
+Reaganite, screwy, teched, unbalanced, unsound, witless, wrong;  senseless,
+spastic, spasmodic, convulsive; doped, spaced-out, stoned, zonked;  {beef,
+beetle,block,dung,thick}headed, dense, doltish, dull, duncical, numskulled,
+pinhead;  asinine, fatuous, foolish, silly, simple;  brute, lumbering, oafish;
+half-assed, incompetent; backward, retarded, imbecilic, moronic; when we have
+a whole precisely nuanced vocabulary of intellectual abuse to draw upon,
+individually and in combination, isn't it a little &lt;fill in the blank&gt; to be
+limited to a single, now quite trite, adjective?
+%
+This dungeon is owned and operated by Frobozz Magic Co., Ltd.
+%
+This file will self-destruct in five minutes.
+%
+This is an unauthorized cybernetic announcement.
+%
+"This is lemma 1.1.  We start a new chapter so the numbers all go back to one."
+  -- Prof. Seager, C&amp;O 351
+%
+This is the first numerical problem I ever did.  It demonstrates the
+power of computers:
+
+Enter lots of data on calorie &amp; nutritive content of foods.  Instruct
+the thing to maximize a function describing nutritive content, with a
+minimum level of each component, for fixed caloric content.  The
+results are that one should eat each day:
+
+ 1/2 chicken
+ 1 egg
+ 1 glass of skim milk
+ 27 heads of lettuce.
+  -- Rev. Adrian Melott
+%
+ This is where the bloodthirsty license agreement is supposed to go,
+explaining that Interactive Easyflow is a copyrighted package licensed for
+use by a single person, and sternly warning you not to pirate copies of it
+and explaining, in detail, the gory consequences if you do.
+ We know that you are an honest person, and are not going to go around
+pirating copies of Interactive Easyflow; this is just as well with us since
+we worked hard to perfect it and selling copies of it is our only method of
+making anything out of all the hard work.
+ If, on the other hand, you are one of those few people who do go
+around pirating copies of software you probably aren't going to pay much
+attention to a license agreement, bloodthirsty or not.  Just keep your doors
+locked and look out for the HavenTree attack shark.
+  -- License Agreement for Interactive Easyflow
+%
+This login session: $13.76, but for you $11.88.
+%
+This login session: $13.99
+%
+This process can check if this value is zero, and if it is, it does
+something child-like.
+  -- Forbes Burkowski, CS 454, University of Washington
+%
+This quote is taken from the Diamondback, the University of Maryland
+student newspaper, of Tuesday, 3/10/87.
+
+ One disadvantage of the Univac system is that it does not use
+ Unix, a recently developed program which translates from one
+ computer language to another and has a built-in editing system
+ which identifies errors in the original program.
+%
+This screen intentionally left blank.
+%
+This system will self-destruct in five minutes.
+%
+* * * * * THIS TERMINAL IS IN USE * * * * *
+%
+Those parts of the system that you can hit with a hammer (not advised)
+are called hardware; those program instructions that you can only curse
+at are called software.
+  -- Levitating Trains and Kamikaze Genes: Technological
+     Literacy for the 1990's.
+%
+Those who can't write, write manuals.
+%
+Those who do not understand Unix are condemned to reinvent it, poorly.
+  -- Henry Spencer
+%
+Thrashing is just virtual crashing.
+%
+Thus spake the master programmer:
+ "A well-written program is its own heaven; a poorly-written program
+is its own hell."
+  -- Geoffrey James, "The Tao of Programming"
+%
+Thus spake the master programmer:
+ "After three days without programming, life becomes meaningless."
+  -- Geoffrey James, "The Tao of Programming"
+%
+Thus spake the master programmer:
+ "Let the programmers be many and the managers few -- then all will
+ be productive."
+  -- Geoffrey James, "The Tao of Programming"
+%
+Thus spake the master programmer:
+ "Though a program be but three lines long, someday it will have to
+ be maintained."
+  -- Geoffrey James, "The Tao of Programming"
+%
+Thus spake the master programmer:
+ "Time for you to leave."
+  -- Geoffrey James, "The Tao of Programming"
+%
+Thus spake the master programmer:
+ "When a program is being tested, it is too late to make design changes."
+  -- Geoffrey James, "The Tao of Programming"
+%
+Thus spake the master programmer:
+ "When you have learned to snatch the error code from
+ the trap frame, it will be time for you to leave."
+  -- Geoffrey James, "The Tao of Programming"
+%
+Thus spake the master programmer:
+ "Without the wind, the grass does not move.  Without software,
+ hardware is useless."
+  -- Geoffrey James, "The Tao of Programming"
+%
+Thus spake the master programmer:
+ "You can demonstrate a program for a corporate executive, but you
+ can't make him computer literate."
+  -- Geoffrey James, "The Tao of Programming"
+%
+Time sharing: The use of many people by the computer.
+%
+Time-sharing is the junk-mail part of the computer business.
+  -- H. R. J. Grosch (attributed)
+%
+To be a kind of moral Unix, he touched the hem of Nature's shift.
+  -- Shelley
+%
+To communicate is the beginning of understanding.
+  -- AT&amp;T
+%
+To err is human -- to blame it on a computer is even more so.
+%
+To err is human, to forgive, beyond the scope of the Operating System.
+%
+To iterate is human, to recurse, divine.
+  -- Robert Heller
+%
+To say that UNIX is doomed is pretty rabid, OS/2 will certainly play a role,
+but you don't build a hundred million instructions per second multiprocessor
+micro and then try to run it on OS/2.  I mean, get serious.
+  -- William Zachmann, International Data Corp
+%
+To the systems programmer, users and applications serve only to provide a
+test load.
+%
+To those accustomed to the precise, structured methods of conventional
+system development, exploratory development techniques may seem messy,
+inelegant, and unsatisfying.  But it's a question of congruence:
+precision and flexibility may be just as disfunctional in novel,
+uncertain situations as sloppiness and vacillation are in familiar,
+well-defined ones.  Those who admire the massive, rigid bone structures
+of dinosaurs should remember that jellyfish still enjoy their very
+secure ecological niche.
+  -- Beau Sheil, "Power Tools for Programmers"
+%
+To understand a program you must become both the machine and the program.
+%
+Today is a good day for information-gathering.  Read someone else's mail file.
+%
+Today is the first day of the rest of your lossage.
+%
+Tomorrow's computers some time next month.
+  -- DEC
+%
+Too often people have come to me and said, "If I had just one wish for
+anything in all the world, I would wish for more user-defined equations
+in the HP-51820A Waveform Generator Software."
+  -- Instrument News
+  [Once is too often.  Ed.]
+%
+Top Ten Things Overheard At The ANSI C Draft Committee Meetings:
+
+ (10) Sorry, but that's too useful.
+  (9) Dammit, little-endian systems *are* more consistent!
+  (8) I'm on the committee and I *still* don't know what the hell
+      #pragma is for.
+  (7) Well, it's an excellent idea, but it would make the compilers too
+      hard to write.
+  (6) Them bats is smart; they use radar.
+  (5) All right, who's the wiseguy who stuck this trigraph stuff in
+      here?
+  (4) How many times do we have to tell you, "No prior art!"
+  (3) Ha, ha, I can't believe they're actually going to adopt this
+      sucker.
+  (2) Thank you for your generous donation, Mr. Wirth.
+  (1) Gee, I wish we hadn't backed down on 'noalias'.
+%
+TRANSACTION CANCELLED - FARECARD RETURNED
+%
+Trap full -- please empty.
+%
+Truly simple systems... require infinite testing.
+  -- Norman Augustine
+%
+Try `stty 0' -- it works much better.
+%
+try again
+%
+Try to find the real tense of the report you are reading:  Was it done, is
+it being done, or is something to be done?  Reports are now written in four
+tenses:  past tense, present tense, future tense, and pretense.  Watch for
+novel uses of CONGRAM (CONtractor GRAMmar), defined by the imperfect past,
+the insufficient present, and the absolutely perfect future.
+  -- Amrom Katz
+%
+Trying to be happy is like trying to build a machine for which the only
+specification is that it should run noiselessly.
+%
+Trying to establish voice contact ... please ____&#x8;&#x8;&#x8;&#x8;yell into keyboard.
+%
+Two hundred years ago today, Irma Chine of White Plains, New York, was
+performing her normal housekeeping routines.  She was interrupted by
+British soldiers who, rallying to the call of their supervisor, General
+Hughes, sought to gain control of the voter registration lists kept in
+her home.  Masking her fear and thinking fast, Mrs. Chine quickly divided
+a nearby apple in two and deftly stored the list in its center.  Upon
+entering, the British blatantly violated every conceivable convention,
+and, though they went through the house virtually bit by bit, their
+search was fruitless.  They had to return empty handed.  Word of the
+incident propagated rapidly through the region.  This historic event
+became the first documented use of core storage for the saving of registers.</value>
   </data>
   <data name="M0Rlc0l2" xml:space="preserve">
     <value>fcKZpNSKLTs=</value>
@@ -201,7 +486,7 @@ Code is open source under GPL 3 and publicly accessible via &lt;a href="https://
     <value>C6S5DegwbQopnitJnAu/g4BXa0M32ZGZ</value>
   </data>
   <data name="version_name" xml:space="preserve">
-    <value>v2.24.928</value>
+    <value>v2.25.1018</value>
   </data>
   <data name="wiki_uri" xml:space="preserve">
     <value>https://github.com/heinrichelsigan/area23.at/</value>

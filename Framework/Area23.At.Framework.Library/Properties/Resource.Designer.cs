@@ -79,12 +79,20 @@ namespace Area23.At.Framework.Library.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to %
+        /// There was once a programmer who was attached to the court of the
+        ///warlord of Wu.  The warlord asked the programmer: &quot;Which is easier to design:
+        ///an accounting package or an operating system?&quot;
+        /// &quot;An operating system,&quot; replied the programmer.
+        /// The warlord uttered an exclamation of disbelief.  &quot;Surely an
+        ///accounting package is trivial next to the complexity of an operating
+        ///system,&quot; he said.
+        /// &quot;Not so,&quot; said the programmer, &quot;when designing an accounting package,
+        ///the programmer operates as a mediator betw [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] fortune_u8 {
+        internal static string fortunes {
             get {
-                object obj = ResourceManager.GetObject("fortune.u8", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("fortunes", resourceCulture);
             }
         }
         
@@ -148,15 +156,6 @@ namespace Area23.At.Framework.Library.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string json_sample1 {
-            get {
-                return ResourceManager.GetString("json_sample1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to fcKZpNSKLTs=.
         /// </summary>
         internal static string M0Rlc0l2 {
@@ -211,7 +210,7 @@ namespace Area23.At.Framework.Library.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.24.928.
+        ///   Looks up a localized string similar to v2.25.1018.
         /// </summary>
         internal static string version_name {
             get {

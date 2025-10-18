@@ -1,6 +1,7 @@
 ﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using System;
 using System.Globalization;
+using System.Windows.Input;
 
 namespace Area23.At.Framework.Library.Static
 {
@@ -67,7 +68,7 @@ namespace Area23.At.Framework.Library.Static
 
         public static string GetAllFortunes()
         {
-            string fortuneString = EnDeCodeHelper.GetString(Properties.Resource.fortune_u8);
+            string fortuneString = Properties.Resource.ResourceManager.GetString("fortunes");
             return fortuneString;
         }
     

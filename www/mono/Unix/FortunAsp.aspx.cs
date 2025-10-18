@@ -55,7 +55,7 @@ namespace Area23.At.Mono.Unix
                     ++execTimes; execTimes %= 256;
                     fortuneResult = (longFortune) ?
                         ProcessCmd.Execute("/usr/games/fortune", " -a -l ") :
-                        ProcessCmd.Execute("/usr/games/fortune", " -a -i -s  ");
+                        ProcessCmd.Execute("/usr/games/fortune", " -a -i -s ");
                     useExec = true;
                     if (!fortunes.Contains(fortuneResult))
                         fortunes.Add(fortuneResult);
@@ -63,7 +63,7 @@ namespace Area23.At.Mono.Unix
                 catch (Exception ex)
                 {
                     Area23Log.LogStatic(ex);
-                    if (execTimes >= 4) useExec = false;
+                    if (execTimes >= 2) useExec = false;
                 }
             }
             if (string.IsNullOrEmpty(fortuneResult))

@@ -78,9 +78,9 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         public byte[] Decode(string encodedString) => Xx.FromXx(encodedString);
 
 
-        public bool IsValidShowError(string encodedString, out string error) => Uu.IsValidUu(encodedString, out error);
+        public bool IsValidShowError(string encodedString, out string error) => Xx.IsValidXx(encodedString, out error);
 
-        public bool IsValid(string encodedString) => Uu.IsValidUu(encodedString, out _);
+        public bool IsValid(string encodedString) => Xx.IsValidXx(encodedString, out _);
 
         #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
