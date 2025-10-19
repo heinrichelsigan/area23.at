@@ -202,8 +202,8 @@
             <br />
             <h3>En-/Decrypt text</h3>
             <div id="DivCrypTextArea" class="CryptTextArea">                    
-                <asp:TextBox ID="TextBoxSource" runat="server" ClientIDMode="Static" TextMode="MultiLine" MaxLength="65536" Rows="10" Columns="64" ValidateRequestMode="Enabled" ToolTip="[Enter text to en-/decrypt here]" Text="" Width="512px" CssClass="CryptTextArea"></asp:TextBox>
-                <asp:TextBox ID="TextBoxDestionation" runat="server" ClientIDMode="Static" TextMode="MultiLine" Rows="10" Columns="64" MaxLength="65536" ReadOnly="true" ToolTip="Destination Text" ValidateRequestMode="Enabled"  Width="512px" CssClass="CryptTextArea"></asp:TextBox>
+                <asp:TextBox ID="TextBoxSource" runat="server" ClientIDMode="Static" TextMode="MultiLine" MaxLength="262144" Rows="10" Columns="64" ValidateRequestMode="Enabled" ToolTip="[Enter text to en-/decrypt here]" Text="" Width="512px" CssClass="CryptTextArea"></asp:TextBox>
+                <asp:TextBox ID="TextBoxDestionation" runat="server" ClientIDMode="Static" TextMode="MultiLine" Rows="10" Columns="64" MaxLength="262144" ReadOnly="true" ToolTip="Destination Text" ValidateRequestMode="Enabled"  Width="512px" CssClass="CryptTextArea"></asp:TextBox>
                 <br />
                 <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClientClick="changeCryptBackgroundText()" OnClick="ButtonEncrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />
                 <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClientClick="changeCryptBackgroundText();" OnClick="ButtonDecrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />   

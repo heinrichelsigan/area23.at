@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Web.UI.WebControls;
 
@@ -21,20 +22,13 @@ namespace Area23.At.Mono.Gamez
         {
             switch (value)
             {
-                case JokerDiceEnum.Joker:
-                    return "../res/img/symbol/Joker.png";
-                case JokerDiceEnum.Ace:
-                    return "../res/img/symbol/Ace.png";
-                case JokerDiceEnum.King:
-                    return "../res/img/symbol/King.png";
-                case JokerDiceEnum.Queen:
-                    return "../res/img/symbol/Queen.png";
-                case JokerDiceEnum.Jack:
-                    return "../res/img/symbol/Jack.png";
-                case JokerDiceEnum.Ten:
-                    return "../res/img/symbol/Ten.png";
-                default:
-                    return value.ToString();
+                case JokerDiceEnum.Joker:       return "../res/img/symbol/Joker.png";
+                case JokerDiceEnum.Ace:         return "../res/img/symbol/Ace.png";
+                case JokerDiceEnum.King:        return "../res/img/symbol/King.png";
+                case JokerDiceEnum.Queen:       return "../res/img/symbol/Queen.png";
+                case JokerDiceEnum.Jack:        return "../res/img/symbol/Jack.png";
+                case JokerDiceEnum.Ten:         return "../res/img/symbol/Ten.png";
+                default:                        return value.ToString();
             }
         }
 
@@ -56,6 +50,8 @@ namespace Area23.At.Mono.Gamez
         {
             if (!IsPostBack)
                 Session["Round"] = 0;
+
+            dices = (Session["JokerDices"] != null) ? (JokerDiceEnum[])Session["JokerDices"] : new JokerDiceEnum[5];
         }
 
 
@@ -98,26 +94,16 @@ namespace Area23.At.Mono.Gamez
 
             Random rnd = new Random(DateTime.Now.Second + DateTime.Now.Millisecond);
             int[] dice = new int[5];
-            if (ImageP1.BorderStyle == BorderStyle.None || ImageP1.BorderStyle == BorderStyle.Dashed)
-                dice[0] = rnd.Next(0, 6);
-            else
-                dice[0] = (int)ImageP1.AlternateText.ToJokerDiceEnum();
-            if (ImageP2.BorderStyle == BorderStyle.None || ImageP2.BorderStyle == BorderStyle.Dashed)
-                dice[1] = rnd.Next(0, 6);
-            else
-                dice[1] = (int)ImageP2.AlternateText.ToJokerDiceEnum();
-            if (ImageP3.BorderStyle == BorderStyle.None || ImageP3.BorderStyle == BorderStyle.Dashed)
-                dice[2] = rnd.Next(0, 6);
-            else
-                dice[2] = (int)ImageP3.AlternateText.ToJokerDiceEnum();
-            if (ImageP4.BorderStyle == BorderStyle.None || ImageP4.BorderStyle == BorderStyle.Dashed)
-                dice[3] = rnd.Next(0, 6);
-            else
-                dice[3] = (int)ImageP4.AlternateText.ToJokerDiceEnum();
-            if (ImageP5.BorderStyle == BorderStyle.None || ImageP5.BorderStyle == BorderStyle.Dashed)
-                dice[4] = rnd.Next(0, 6);
-            else
-                dice[4] = (int)ImageP5.AlternateText.ToJokerDiceEnum();
+            dice[0] = (ImageP1.BorderStyle == BorderStyle.None || ImageP1.ImageUrl.EndsWith("CupOverDice.png")) ?
+                        rnd.Next(0, 6) : (int)ImageP1.AlternateText.ToJokerDiceEnum();
+            dice[1] = (ImageP2.BorderStyle == BorderStyle.None || ImageP2.ImageUrl.EndsWith("CupOverDice.png")) ?
+                        rnd.Next(0, 6) : (int)ImageP2.AlternateText.ToJokerDiceEnum();           
+            dice[2] = (ImageP3.BorderStyle == BorderStyle.None || ImageP3.ImageUrl.EndsWith("CupOverDice.png")) ?
+                        rnd.Next(0, 6) : (int)ImageP3.AlternateText.ToJokerDiceEnum();
+            dice[3] = (ImageP4.BorderStyle == BorderStyle.None || ImageP4.ImageUrl.EndsWith("CupOverDice.png")) ?
+                        rnd.Next(0, 6) : (int)ImageP4.AlternateText.ToJokerDiceEnum();           
+            dice[4] = (ImageP5.BorderStyle == BorderStyle.None || ImageP5.ImageUrl.EndsWith("CupOverDice.png")) ?
+                        rnd.Next(0, 6) : (int)ImageP5.AlternateText.ToJokerDiceEnum();
 
             for (int j = 0; j < 5; j++)
             {
@@ -138,6 +124,8 @@ namespace Area23.At.Mono.Gamez
             dices[2] = (JokerDiceEnum)dice[2];
             dices[3] = (JokerDiceEnum)dice[3];
             dices[4] = (JokerDiceEnum)dice[4];
+            Session["JokerDices"] = dices;
+
             ImageP1.AlternateText = dices[0].ToString();
             ImageP1.ImageUrl = dices[0].ToImgUrl();
             ImageP2.AlternateText = dices[1].ToString();
@@ -151,7 +139,7 @@ namespace Area23.At.Mono.Gamez
 
             if (round % 2 == 0)
             {
-                DisableCheckBoxes(sender, e);
+                DisableCheckBoxesPenImageButtons(sender, e);
                 ImageP1.BorderStyle = BorderStyle.Solid;
                 ImageP2.BorderStyle = BorderStyle.Solid;
                 ImageP3.BorderStyle = BorderStyle.Solid;
@@ -166,7 +154,9 @@ namespace Area23.At.Mono.Gamez
                 ImageP3.BorderStyle = BorderStyle.Solid;
                 ImageP4.BorderStyle = BorderStyle.Solid;
                 ImageP5.BorderStyle = BorderStyle.Solid;
-                ShowCheckBoxes(dices);
+                bool checkBoxesShown = ShowCheckBoxes(dices);
+                if (!checkBoxesShown)
+                    ShowStrikeThroughPens();
                 this.Literal_Action.Text = "Select your best combination.";
             }
             Computer_DiceCup(sender, e);
@@ -227,7 +217,7 @@ namespace Area23.At.Mono.Gamez
 
             if (round % 2 == 0)
             {
-                DisableCheckBoxes(sender, e);
+                DisableCheckBoxesPenImageButtons(sender, e);
                 ImageP1.BorderStyle = BorderStyle.Dashed;
                 ImageP2.BorderStyle = BorderStyle.Dashed;
                 ImageP3.BorderStyle = BorderStyle.Dashed;
@@ -242,7 +232,9 @@ namespace Area23.At.Mono.Gamez
                 ImageC3.BorderStyle = BorderStyle.Solid;
                 ImageC4.BorderStyle = BorderStyle.Solid;
                 ImageC5.BorderStyle = BorderStyle.Solid;
-                ShowCheckBoxes(dices);
+                bool checkBoxesShown = ShowCheckBoxes(dices);
+                if (!checkBoxesShown)
+                    ShowStrikeThroughPens();
             }
             CheckComputerWin(sender, e);
             
@@ -254,10 +246,91 @@ namespace Area23.At.Mono.Gamez
             if (sender is CheckBox checkBox)
             {
                 checkBox.Checked = true;
-                DisableCheckBoxes(sender, e);
+                DisableCheckBoxesPenImageButtons(sender, e);
                 CheckWin(sender, e);
             }
         }
+        
+        protected void ImageButton_Pencil_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+        {
+            if (sender is ImageButton imgButton)
+            {
+                dices = (Session["JokerDices"] != null) ? (JokerDiceEnum[])Session["JokerDices"] : new JokerDiceEnum[5];
+                bool hasCheckBoxes = ShowCheckBoxes(dices);
+
+                switch (imgButton.ID.ToString())
+                {
+                    case "ImageButtonGrande":
+                        if (!CheckBoxGrande.Checked)
+                        {
+                            if (ImageButtonGrande.ImageUrl.EndsWith("pencil_blue.png"))
+                                this.TableCellGrande.Style["text-decoration"] = "line-through";
+                            CheckBoxGrande.Checked = true;
+                        }
+                        break;
+                    case "ImageButtonPoker":
+                        if (!CheckBoxPoker.Checked)
+                        {                            
+                            if (ImageButtonPoker.ImageUrl.EndsWith("pencil_blue.png"))
+                                this.TableCellPoker.Style["text-decoration"] = "line-through";
+                            CheckBoxPoker.Checked = true;
+                        }
+                        break;
+                    case "ImageButtonFullHouse":
+                        if (!CheckBoxFullHouse.Checked)
+                        {
+                            if (ImageButtonFullHouse.ImageUrl.EndsWith("pencil_blue.png"))
+                                this.TableCellFullHouse.Style["text-decoration"] = "line-through";
+                            CheckBoxFullHouse.Checked = true;
+                        }
+                        break;
+                    case "ImageButtonStraight":
+                        if (!CheckBoxStraight.Checked)
+                        {
+                            if (ImageButtonStraight.ImageUrl.EndsWith("pencil_blue.png"))
+                                this.TableCellStraight.Style["text-decoration"] = "line-through";
+                            CheckBoxStraight.Checked = true;
+                        }
+                        break;
+                    case "ImageButtonTriple":
+                        if (!CheckBoxTriple.Enabled)
+                        {
+                            if (ImageButtonTriple.ImageUrl.EndsWith("pencil_blue.png"))
+                                this.TableCellTriple.Style["text-decoration"] = "line-through";
+                            CheckBoxTriple.Checked = true;
+                        }
+                        break;
+                    case "ImageButtonTwoPairs":
+                        if (!CheckBoxTwoPairs.Enabled)
+                        {                            
+                            if (ImageButtonTwoPairs.ImageUrl.EndsWith("pencil_blue.png"))
+                                this.TableCellTwoPairs.Style["text-decoration"] = "line-through";
+                            CheckBoxTwoPairs.Checked = true;
+                        }
+                        break;
+                    case "ImageButtonPair":
+                        if (!CheckBoxPair.Enabled)
+                        {                            
+                            if (ImageButtonPair.ImageUrl.EndsWith("pencil_blue.png"))
+                                this.TableCellPair.Style["text-decoration"] = "line-through";
+                            CheckBoxPair.Checked = true;
+                        }
+                        break;
+                    case "ImageButtonBust":
+                        if (!CheckBoxBust.Checked)
+                        {
+                            if (ImageButtonBust.ImageUrl.EndsWith("pencil_blue.png"))
+                                this.TableCellBust.Style["text-decoration"] = "line-through";
+                            CheckBoxBust.Checked = true;
+                        }
+                        break;
+                    default: break;
+                }
+                DisableCheckBoxesPenImageButtons(sender, e);
+                CheckWin(sender, e);
+            }
+        }
+
 
         public void CheckWin(object sender, EventArgs e)
         {
@@ -277,21 +350,44 @@ namespace Area23.At.Mono.Gamez
 
         
 
-        public void DisableCheckBoxes(object sender, EventArgs e)
+        public void DisableCheckBoxesPenImageButtons(object sender, EventArgs e)
         {
             CheckBoxGrande.Enabled = false;
+            ImageButtonGrande.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonGrande.Enabled = false;
+            
             CheckBoxPoker.Enabled = false;
+            ImageButtonPoker.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonPoker.Enabled = false;
+            
             CheckBoxFullHouse.Enabled = false;
+            ImageButtonFullHouse.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonFullHouse.Enabled = false;
+            
             CheckBoxStraight.Enabled = false;
+            ImageButtonStraight.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonStraight.Enabled = false;
+
             CheckBoxTriple.Enabled = false;
+            ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonTriple.Enabled = false;           
+
             CheckBoxTwoPairs.Enabled = false;
+            ImageButtonTwoPairs.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonTwoPairs.Enabled = false;
+            
             CheckBoxPair.Enabled = false;
+            ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonPair.Enabled = false;
+
             CheckBoxBust.Enabled = false;
+            ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonBust.Enabled = false;
         }
 
         public void ResetCheckBoxes(object sender, EventArgs e)
         {
-            DisableCheckBoxes(sender, e);
+            DisableCheckBoxesPenImageButtons(sender, e);
             CheckBoxGrande.Checked = false;
             CheckBoxPoker.Checked = false;
             CheckBoxFullHouse.Checked = false;
@@ -309,13 +405,21 @@ namespace Area23.At.Mono.Gamez
             this.Literal_Action.Text = "Click on the cup to roll the dices.";
         }
 
-        public void ShowCheckBoxes(JokerDiceEnum[] myDices)
+        /// <summary>
+        /// ShowCheckBoxes shows all scoring checkboxes, which can be selected from current dice result
+        /// </summary>
+        /// <param name="myDices">2nd round result of 5 dices</param>
+        /// <returns>true, if any scoring checkboxes could be selected</returns>
+
+        public bool ShowCheckBoxes(JokerDiceEnum[] myDices)
         {
             if (myDices == null || myDices.Length == 0 || myDices.Length < 5)
-                return;
+                return false;
+            
             bool shouldReturn = false;
-            DisableCheckBoxes("ShowCheckBoxes", EventArgs.Empty);
+            DisableCheckBoxesPenImageButtons("ShowCheckBoxes", EventArgs.Empty);
             Dictionary<JokerDiceEnum, int> resultDict = new Dictionary<JokerDiceEnum, int>();
+            
             for (int i = 0; i < myDices.Length; i++)
             {
                 if (resultDict.ContainsKey(myDices[i]))
@@ -328,30 +432,40 @@ namespace Area23.At.Mono.Gamez
                 if (!CheckBoxGrande.Checked)
                 {
                     CheckBoxGrande.Enabled = true;
+                    ImageButtonGrande.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonGrande.Enabled = true;
                     shouldReturn = true;
                 }
                 if (!CheckBoxPoker.Checked)
                 {
                     CheckBoxPoker.Enabled = true;
+                    ImageButtonPoker.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonPoker.Enabled = true;
                     shouldReturn = true;
                 }
                 if (!CheckBoxTriple.Checked)
                 {
                     CheckBoxTriple.Enabled = true;
+                    ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonTriple.Enabled = true;
                     shouldReturn = true;
                 }
                 if (!CheckBoxPair.Checked)
                 {
                     CheckBoxPair.Enabled = true;
+                    ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonPair.Enabled = true;
                     shouldReturn = true;
                 }
                 if (!CheckBoxBust.Checked)
                 {
                     CheckBoxBust.Enabled = true;
+                    ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonBust.Enabled = true;
                     shouldReturn = true;
                 }
                 if (shouldReturn) 
-                    return;
+                    return shouldReturn;
             }
             else if (resultDict.Count == 2) // Poker or Full House
             {
@@ -362,48 +476,71 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxPoker.Checked)
                         {
                             CheckBoxPoker.Enabled = true;
+                            ImageButtonPoker.Enabled = true;
+                            ImageButtonPoker.ImageUrl = "../res/img/symbol/pencil_olive.png";
                             shouldReturn = true;
                         }
                         if (!CheckBoxTriple.Checked)
                         {
                             CheckBoxTriple.Enabled = true;
+                            ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonTriple.Enabled = true;
                             shouldReturn = true;
                         }
                         if (!CheckBoxPair.Checked)
                         {
                             CheckBoxPair.Enabled = true;
+                            ImageButtonPair.Enabled = true;
+                            ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_olive.png";
                             shouldReturn = true;
                         }
                         if (!CheckBoxBust.Checked)
                         {
                             CheckBoxBust.Enabled = true;
+                            ImageButtonBust.Enabled = true;
+                            ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
                             shouldReturn = true;
                         }
-                        if (shouldReturn) return;
+                        if (shouldReturn) return shouldReturn;
                     }
                     else if (item.Value == 3) // Full House
                     {
                         if (!CheckBoxFullHouse.Checked)
                         {
                             CheckBoxFullHouse.Enabled = true;
+                            ImageButtonFullHouse.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonFullHouse.Enabled = true;
                             shouldReturn = true;
                         }
                         if (!CheckBoxTriple.Checked)
                         {
                             CheckBoxTriple.Enabled = true;
+                            ImageButtonTriple.Enabled = true;
+                            ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            shouldReturn = true;
+                        }
+                        if (!CheckBoxTwoPairs.Checked)
+                        {
+                            CheckBoxTwoPairs.Enabled = true;
+                            ImageButtonTwoPairs.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonTwoPairs.Enabled = true;
                             shouldReturn = true;
                         }
                         if (!CheckBoxPair.Checked)
                         {
                             CheckBoxPair.Enabled = true;
+                            ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonPair.Enabled = true;
                             shouldReturn = true;
                         }
                         if (!CheckBoxBust.Checked)
                         {
                             CheckBoxBust.Enabled = true;
+                            ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonBust.Enabled = true;
                             shouldReturn = true;
                         }
-                        if (shouldReturn) return;
+                        if (shouldReturn) return shouldReturn;
                     }
                 }
             }
@@ -416,47 +553,68 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxTriple.Checked)
                         {
                             CheckBoxTriple.Enabled = true;
+                            ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonTriple.Enabled = true;
                             shouldReturn = true;
                         }
                         if (!CheckBoxPair.Checked)
                         {
                             CheckBoxPair.Enabled = true;
+                            ImageButtonPair.Enabled = true;
+                            ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_olive.png";
                             shouldReturn = true;
                         }
                         if (!CheckBoxBust.Checked)
                         {
                             CheckBoxBust.Enabled = true;
+                            ImageButtonBust.Enabled = true;
+                            ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
                             shouldReturn = true;
                         }
                     }
-                    if (shouldReturn)  return;
+                    if (shouldReturn)  return shouldReturn;
                 }
                 // Two Pair
                 if (!CheckBoxTwoPairs.Checked)
                 {
-                    CheckBoxTwoPairs.Enabled = true; shouldReturn = true;
+                    CheckBoxTwoPairs.Enabled = true;
+                    ImageButtonTwoPairs.Enabled = true;
+                    ImageButtonTwoPairs.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    shouldReturn = true;
                 }
                 if (!CheckBoxPair.Checked)
                 {
-                    CheckBoxPair.Enabled = true; shouldReturn = true;
+                    CheckBoxPair.Enabled = true;
+                    ImageButtonPair.Enabled= true;
+                    ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    shouldReturn = true;
                 }
                 if (!CheckBoxBust.Checked)
                 {
-                    CheckBoxBust.Enabled = true; shouldReturn = true;
+                    CheckBoxBust.Enabled = true;
+                    ImageButtonBust.Enabled = true;
+                    ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    shouldReturn = true;
                 }
-                if (shouldReturn) return;
+                if (shouldReturn) return shouldReturn;
             }
             else if (resultDict.Count == 4) // One Pair
             {
                 if (!CheckBoxPair.Checked)
                 {
-                    CheckBoxPair.Enabled = true; shouldReturn = true;
+                    CheckBoxPair.Enabled = true;
+                    ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonPair.Enabled = true;
+                    shouldReturn = true;
                 }
                 if (!CheckBoxBust.Checked)
                 {
-                    CheckBoxBust.Enabled = true; shouldReturn = true;
+                    CheckBoxBust.Enabled = true;
+                    ImageButtonBust.Enabled = true;
+                    ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    shouldReturn = true;
                 }
-                if (shouldReturn) return;
+                if (shouldReturn) return shouldReturn;
             }
             else if (resultDict.Count == 5) // Bust
             {
@@ -466,16 +624,148 @@ namespace Area23.At.Mono.Gamez
                         break;
                     if (k == myDices.Length - 2) // Straight
                     {
-                        if (!CheckBoxStraight.Checked) 
+                        if (!CheckBoxStraight.Checked)
+                        {
                             CheckBoxStraight.Enabled = true;
+                            ImageButtonStraight.Enabled = true;
+                            ImageButtonStraight.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            shouldReturn = true;
+                        }
                         if (!CheckBoxBust.Checked)
+                        {
                             CheckBoxBust.Enabled = true;
-                        return;
+                            ImageButtonBust.Enabled = true;
+                            ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            shouldReturn = true;
+                        }
+                        if (shouldReturn) return shouldReturn;
                     }
                 }
                 if (!CheckBoxBust.Checked)
+                {
                     CheckBoxBust.Enabled = true;
+                    ImageButtonBust.Enabled = true;
+                    ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    shouldReturn = true;
+                }
             }
+
+            return shouldReturn;
         }
+
+
+        /// <summary>
+        /// ShowStrikeThroughPens, shows alle elements, that can strike through
+        /// </summary>
+        /// <returns>true, if any elements fount to strike through</returns>
+        public bool ShowStrikeThroughPens()
+        {
+            bool canStrikeThrough = false;
+            if (!CheckBoxGrande.Checked)
+            {
+                ImageButtonGrande.Enabled = true;                
+                ImageButtonGrande.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                canStrikeThrough = true;
+            }
+            else ImageButtonGrande.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            if (!CheckBoxPoker.Checked)
+            {
+                ImageButtonPoker.Enabled = true;
+                ImageButtonPoker.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                canStrikeThrough = true;
+            }
+            else ImageButtonPoker.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            if (!CheckBoxFullHouse.Checked)
+            {
+                ImageButtonFullHouse.Enabled = true;
+                ImageButtonFullHouse.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                canStrikeThrough = true;
+            }
+            else ImageButtonFullHouse.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            if (!CheckBoxStraight.Checked)
+            {
+                ImageButtonStraight.Enabled = true;
+                ImageButtonStraight.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                canStrikeThrough = true;
+            }
+            else ImageButtonStraight.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            if (!CheckBoxTwoPairs.Checked)
+            {
+                ImageButtonTwoPairs.Enabled = true;
+                ImageButtonTwoPairs.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                canStrikeThrough = true;
+            }
+            else ImageButtonTwoPairs.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            if (!CheckBoxTriple.Checked) 
+            {
+                ImageButtonTriple.Enabled = true;
+                ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                canStrikeThrough = true;
+            }
+            else ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            if (!CheckBoxPair.Checked)
+            {
+                ImageButtonPair.Enabled = true;
+                ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                canStrikeThrough = true;
+            }
+            else ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            if (!CheckBoxBust.Checked)
+            {
+                ImageButtonBust.Enabled = true;
+                ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                canStrikeThrough = true;
+            }
+            else ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+
+            return canStrikeThrough;
+            
+        }
+
+        public void PrepareCheckBoxes(object sender, EventArgs e)
+        {
+            if (!CheckBoxGrande.Checked && !CheckBoxGrande.Enabled)
+            {
+                ImageButtonGrande.Enabled = true;
+                ImageButtonGrande.ImageUrl = "../res/img/symbol/pencil_red.png";
+            }
+            if (!CheckBoxPoker.Checked && !CheckBoxPoker.Enabled)
+            {
+                ImageButtonPoker.Enabled = true;
+                ImageButtonPoker.ImageUrl = "../res/img/symbol/pencil_red.png";
+            }
+            if (!CheckBoxFullHouse.Checked && !CheckBoxFullHouse.Enabled)
+            {
+                ImageButtonFullHouse.Enabled = true;
+                ImageButtonFullHouse.ImageUrl = "../res/img/symbol/pencil_red.png";
+            }
+            if (!CheckBoxStraight.Checked && !CheckBoxStraight.Enabled)
+            {
+                ImageButtonStraight.Enabled = true;
+                ImageButtonStraight.ImageUrl = "../res/img/symbol/pencil_red.png";
+            }
+            if (!CheckBoxTriple.Checked && !CheckBoxTriple.Enabled)
+            {
+                ImageButtonStraight.Enabled = true;
+                ImageButtonStraight.ImageUrl = "../res/img/symbol/pencil_red.png";
+            }
+                
+            CheckBoxPoker.Checked = false;
+            CheckBoxFullHouse.Checked = false;
+            CheckBoxTwoPairs.Checked = false;
+            CheckBoxTriple.Checked = false;
+            CheckBoxPair.Checked = false;
+            CheckBoxStraight.Checked = false;
+            CheckBoxBust.Checked = false;
+            ImageP1.BorderStyle = BorderStyle.None;
+            ImageP2.BorderStyle = BorderStyle.None;
+            ImageP3.BorderStyle = BorderStyle.None;
+            ImageP4.BorderStyle = BorderStyle.None;
+            ImageP5.BorderStyle = BorderStyle.None;
+            Session["Round"] = 0;
+            this.Literal_Action.Text = "Click on the cup to roll the dices.";
+        }
+
     }
+
 }

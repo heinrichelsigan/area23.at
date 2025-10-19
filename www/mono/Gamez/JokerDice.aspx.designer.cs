@@ -348,6 +348,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableHeaderCellPlayer;
 
         /// <summary>
+        /// TableHeaderCellAction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableHeaderCellAction;
+
+        /// <summary>
         /// TableHeaderCellComputer control.
         /// </summary>
         /// <remarks>
@@ -391,6 +400,24 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox CheckBoxGrande;
+
+        /// <summary>
+        /// TableCellGrandeAction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellGrandeAction;
+
+        /// <summary>
+        /// ImageButtonGrande control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButtonGrande;
 
         /// <summary>
         /// TableCellGrandeComputer control.
@@ -438,6 +465,24 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.CheckBox CheckBoxPoker;
 
         /// <summary>
+        /// TableCellPokerAction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellPokerAction;
+
+        /// <summary>
+        /// ImageButtonPoker control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButtonPoker;
+
+        /// <summary>
         /// TableCellPokerComputer control.
         /// </summary>
         /// <remarks>
@@ -481,6 +526,24 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox CheckBoxFullHouse;
+
+        /// <summary>
+        /// TableCellFullHouseAction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellFullHouseAction;
+
+        /// <summary>
+        /// ImageButtonFullHouse control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButtonFullHouse;
 
         /// <summary>
         /// TableCellFullHouseComputer control.
@@ -528,6 +591,24 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.CheckBox CheckBoxStraight;
 
         /// <summary>
+        /// TableCellStraightAction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellStraightAction;
+
+        /// <summary>
+        /// ImageButtonStraight control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButtonStraight;
+
+        /// <summary>
         /// TableCellStraightComputer control.
         /// </summary>
         /// <remarks>
@@ -571,6 +652,24 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox CheckBoxTriple;
+
+        /// <summary>
+        /// TableCellTripleAction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellTripleAction;
+
+        /// <summary>
+        /// ImageButtonTriple control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButtonTriple;
 
         /// <summary>
         /// TableCellTripleComputer control.
@@ -618,6 +717,24 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.CheckBox CheckBoxTwoPairs;
 
         /// <summary>
+        /// TableCellTwoPairsAction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellTwoPairsAction;
+
+        /// <summary>
+        /// ImageButtonTwoPairs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButtonTwoPairs;
+
+        /// <summary>
         /// TableCellTwoPairsComputer control.
         /// </summary>
         /// <remarks>
@@ -663,6 +780,24 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.CheckBox CheckBoxPair;
 
         /// <summary>
+        /// TableCellPairAction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellPairAction;
+
+        /// <summary>
+        /// ImageButtonPair control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButtonPair;
+
+        /// <summary>
         /// TableCellPairComputer control.
         /// </summary>
         /// <remarks>
@@ -706,6 +841,24 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox CheckBoxBust;
+
+        /// <summary>
+        /// TableCellBustAction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellBustAction;
+
+        /// <summary>
+        /// ImageButtonBust control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButtonBust;
 
         /// <summary>
         /// TableCellBustComputer control.

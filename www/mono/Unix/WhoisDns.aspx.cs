@@ -30,6 +30,12 @@ namespace Area23.At.Mono.Unix
                 this.TextBox_HostName.Text = "kernel.org";
         }
 
+        /// <summary>
+        /// Sanitize_HostName removes at least all illegal characters from a entered hostname 
+        /// and avoids shell executing injection mostly.
+        /// </summary>
+        /// <param name="hostname">hostname for whois, nslookup and host</param>
+        /// <returns>sanitized hostname containing only <see cref="ALLOWED_CHARS" /> characters.</returns>
         protected string Sanitize_HostName(string hostname)
         {
             string sanitized = "";
@@ -53,7 +59,7 @@ namespace Area23.At.Mono.Unix
             try
             {
                 
-                string args = string.Format(whoisCmdArgs, Sanitize_HostName(this.TextBox_HostName.Text));
+                string args = string.Format(filepath, Sanitize_HostName(this.TextBox_HostName.Text));
                 TableHeaderCellLeft.Text = filepath + " " + args;
                 string cmdOut = ProcessCmd.ExecuteCreateWindow(whoisCmdPath, args);
                 linesOut = cmdOut.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
