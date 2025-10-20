@@ -96,19 +96,19 @@
                 <asp:TableCell ID="TableCellTripleComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowTwoPairs" runat="server">
-                <asp:TableCell ID="TableCellTwoPairs" runat="server" style="text-decoration: none">TwoPairs</asp:TableCell>
+                <asp:TableCell ID="TableCellTwoPairs" runat="server"><span id="SpanTwoPairs" runat="server">TwoPairs</span></asp:TableCell>
                 <asp:TableCell ID="TableCellTwoPairsPlayer" runat="server"><asp:CheckBox ID="CheckBoxTwoPairs" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
                 <asp:TableCell ID="TableCellTwoPairsAction" runat="server"><asp:ImageButton ID="ImageButtonTwoPairs" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>
                 <asp:TableCell ID="TableCellTwoPairsComputer" runat="server"  Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowPair" runat="server">
-                <asp:TableCell ID="TableCellPair" runat="server" style="text-decoration: none">Pair</asp:TableCell>
+                <asp:TableCell ID="TableCellPair" runat="server"><span id="SpanPair" runat="server">Pair</span></asp:TableCell>
                 <asp:TableCell ID="TableCellPairPlayer" runat="server"><asp:CheckBox ID="CheckBoxPair" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
                 <asp:TableCell ID="TableCellPairAction" runat="server"><asp:ImageButton ID="ImageButtonPair" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>
                 <asp:TableCell ID="TableCellPairComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowBust" runat="server">                
-                <asp:TableCell ID="TableCellBust" runat="server" style="text-decoration: none">Bust</asp:TableCell>
+                <asp:TableCell ID="TableCellBust" runat="server"><span id="SpanBust" runat="server">Bust</span></asp:TableCell>
                 <asp:TableCell ID="TableCellBustPlayer" runat="server"><asp:CheckBox ID="CheckBoxBust" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed"  /></asp:TableCell>
                 <asp:TableCell ID="TableCellBustAction" runat="server"><asp:ImageButton ID="ImageButtonBust" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>                
                 <asp:TableCell ID="TableCellBustComputer" runat="server"  Visible="false">0</asp:TableCell>

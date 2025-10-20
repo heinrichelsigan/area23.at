@@ -699,6 +699,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellTwoPairs;
 
         /// <summary>
+        /// SpanTwoPairs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanTwoPairs;
+
+        /// <summary>
         /// TableCellTwoPairsPlayer control.
         /// </summary>
         /// <remarks>
@@ -762,6 +771,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellPair;
 
         /// <summary>
+        /// SpanPair control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanPair;
+
+        /// <summary>
         /// TableCellPairPlayer control.
         /// </summary>
         /// <remarks>
@@ -823,6 +841,15 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableCell TableCellBust;
+
+        /// <summary>
+        /// SpanBust control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanBust;
 
         /// <summary>
         /// TableCellBustPlayer control.

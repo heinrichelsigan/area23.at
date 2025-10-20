@@ -304,7 +304,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxTwoPairs.Enabled)
                         {                            
                             if (ImageButtonTwoPairs.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellTwoPairs.Style["text-decoration"] = "line-through";
+                                this.SpanTwoPairs.InnerHtml = "<s>Two Pair</s>";
                             CheckBoxTwoPairs.Checked = true;
                         }
                         break;
@@ -312,7 +312,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxPair.Enabled)
                         {                            
                             if (ImageButtonPair.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellPair.Style["text-decoration"] = "line-through";
+                                this.SpanPair.InnerHtml = "<s>Pair</s>";
                             CheckBoxPair.Checked = true;
                         }
                         break;
@@ -320,7 +320,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxBust.Checked)
                         {
                             if (ImageButtonBust.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellBust.Style["text-decoration"] = "line-through";
+                                this.SpanBust.InnerHtml = "<s>Bust</s>";
                             CheckBoxBust.Checked = true;
                         }
                         break;
@@ -388,6 +388,9 @@ namespace Area23.At.Mono.Gamez
         public void ResetCheckBoxes(object sender, EventArgs e)
         {
             DisableCheckBoxesPenImageButtons(sender, e);
+            this.SpanBust.InnerHtml = "Bust";
+            this.SpanPair.InnerHtml = "Pair";
+            this.SpanTwoPairs.InnerHtml = "TwoPairs";
             CheckBoxGrande.Checked = false;
             CheckBoxPoker.Checked = false;
             CheckBoxFullHouse.Checked = false;
