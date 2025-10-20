@@ -53,15 +53,17 @@ namespace Area23.At.Mono.Unix
         /// </summary>
         protected string Perform_Whois()        
         {            
-            string filepath = (Constants.UNIX) ? whoisCmdPathUnix : whoisCmdPath;            
+            string filepath = (Constants.UNIX) ? whoisCmdPathUnix : whoisCmdPath;
+            if (!System.IO.File.Exists(filepath))
+                filepath = "whois";
             TableCellLeft.Visible = true;
             TableCellLeft.Text = "";
             try
             {
                 
-                string args = string.Format(filepath, Sanitize_HostName(this.TextBox_HostName.Text));
+                string args = string.Format(whoisCmdArgs, Sanitize_HostName(this.TextBox_HostName.Text));
                 TableHeaderCellLeft.Text = filepath + " " + args;
-                string cmdOut = ProcessCmd.ExecuteCreateWindow(whoisCmdPath, args);
+                string cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, args);
                 linesOut = cmdOut.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 for (int ln= 0; ln < linesOut.Length; ln++)
                 {
