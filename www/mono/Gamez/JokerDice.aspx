@@ -66,31 +66,31 @@
                 <asp:TableCell ID="TableHeaderCellComputer" runat="server" Visible="false"><b>computer</b></asp:TableCell>
             </asp:TableHeaderRow>
             <asp:TableRow ID="TableRowGrande" runat="server">
-                <asp:TableCell ID="TableCellGrande" runat="server" style="text-decoration: none">grande</asp:TableCell>
+                <asp:TableCell ID="TableCellGrande" runat="server"><span id="SpanGrande" runat="server">Grande</span></asp:TableCell>
                 <asp:TableCell ID="TableCellGrandePlayer" runat="server"><asp:CheckBox ID="CheckBoxGrande" runat="server" AutoPostBack="true" ClientIDMode="Static" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
                 <asp:TableCell ID="TableCellGrandeAction" runat="server"><asp:ImageButton ID="ImageButtonGrande" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>
                 <asp:TableCell ID="TableCellGrandeComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowPoker" runat="server">
-                <asp:TableCell ID="TableCellPoker" runat="server" style="text-decoration: none">poker</asp:TableCell>
+                <asp:TableCell ID="TableCellPoker" runat="server"><span id="SpanPoker" runat="server">Poker</span></asp:TableCell>
                 <asp:TableCell ID="TableCellPokerPlayer" runat="server"><asp:CheckBox ID="CheckBoxPoker" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
                 <asp:TableCell ID="TableCellPokerAction" runat="server"><asp:ImageButton ID="ImageButtonPoker" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>
                 <asp:TableCell ID="TableCellPokerComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowFullHouse" runat="server">
-                <asp:TableCell ID="TableCellFullHouse" runat="server" style="text-decoration: none">FullHouse</asp:TableCell>
+                <asp:TableCell ID="TableCellFullHouse" runat="server"><span id="SpanFullHouse" runat="server">FullHouse</span></asp:TableCell>
                 <asp:TableCell ID="TableCellFullHousePlayer" runat="server"><asp:CheckBox ID="CheckBoxFullHouse" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
                 <asp:TableCell ID="TableCellFullHouseAction" runat="server"><asp:ImageButton ID="ImageButtonFullHouse" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>
                 <asp:TableCell ID="TableCellFullHouseComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowStraight" runat="server">
-                <asp:TableCell ID="TableCellStraight" runat="server" style="text-decoration: none">Straight</asp:TableCell>
+                <asp:TableCell ID="TableCellStraight" runat="server"><span id="SpanStraight" runat="server">Straight</span></asp:TableCell>
                 <asp:TableCell ID="TableCellStraightPlayer" runat="server"><asp:CheckBox ID="CheckBoxStraight" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
                 <asp:TableCell ID="TableCellStraightAction" runat="server"><asp:ImageButton ID="ImageButtonStraight" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>
                 <asp:TableCell ID="TableCellStraightComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowTriple" runat="server">
-                <asp:TableCell ID="TableCellTriple" runat="server" style="text-decoration: none">Triple</asp:TableCell>
+                <asp:TableCell ID="TableCellTriple" runat="server"><span id="SpanTriple" runat="server">Triple</span></asp:TableCell>
                 <asp:TableCell ID="TableCellTriplePlayer" runat="server"><asp:CheckBox ID="CheckBoxTriple" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
                 <asp:TableCell ID="TableCellTripleAction" runat="server">    <asp:ImageButton ID="ImageButtonTriple" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>
                 <asp:TableCell ID="TableCellTripleComputer" runat="server" Visible="false">0</asp:TableCell>
@@ -113,6 +113,12 @@
                 <asp:TableCell ID="TableCellBustAction" runat="server"><asp:ImageButton ID="ImageButtonBust" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>                
                 <asp:TableCell ID="TableCellBustComputer" runat="server"  Visible="false">0</asp:TableCell>
             </asp:TableRow>
+            <asp:TableRow ID="TableRowSum" runat="server" BorderStyle="Dashed" BorderWidth="1" BorderColor="WhiteSmoke">
+                    <asp:TableCell ID="TableCellScoreName" runat="server">Score</asp:TableCell>
+                    <asp:TableCell ID="TableCellPlayerScore" runat="server"><span id="SpanScoreCheck" runat="server" visible="false">✓</span></asp:TableCell>
+                    <asp:TableCell ID="TableCellScoreAction" runat="server"><span id="SpanScore" runat="server"></span></asp:TableCell>                
+                    <asp:TableCell ID="TableCell4" runat="server"  Visible="false">0</asp:TableCell>
+                </asp:TableRow>
         </asp:Table>
             <div style="width:80%; min-width: 700px; height:156px;"><img src="../res/img/symbol/Dice_Poker_Header.png" border="0" alt="Dice Poker" /></div>
         </div>

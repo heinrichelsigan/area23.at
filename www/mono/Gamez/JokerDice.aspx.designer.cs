@@ -384,6 +384,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellGrande;
 
         /// <summary>
+        /// SpanGrande control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanGrande;
+
+        /// <summary>
         /// TableCellGrandePlayer control.
         /// </summary>
         /// <remarks>
@@ -445,6 +454,15 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableCell TableCellPoker;
+
+        /// <summary>
+        /// SpanPoker control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanPoker;
 
         /// <summary>
         /// TableCellPokerPlayer control.
@@ -510,6 +528,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellFullHouse;
 
         /// <summary>
+        /// SpanFullHouse control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanFullHouse;
+
+        /// <summary>
         /// TableCellFullHousePlayer control.
         /// </summary>
         /// <remarks>
@@ -573,6 +600,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellStraight;
 
         /// <summary>
+        /// SpanStraight control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanStraight;
+
+        /// <summary>
         /// TableCellStraightPlayer control.
         /// </summary>
         /// <remarks>
@@ -634,6 +670,15 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableCell TableCellTriple;
+
+        /// <summary>
+        /// SpanTriple control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanTriple;
 
         /// <summary>
         /// TableCellTriplePlayer control.
@@ -895,5 +940,68 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableCell TableCellBustComputer;
+
+        /// <summary>
+        /// TableRowSum control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow TableRowSum;
+
+        /// <summary>
+        /// TableCellScoreName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellScoreName;
+
+        /// <summary>
+        /// TableCellPlayerScore control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellPlayerScore;
+
+        /// <summary>
+        /// SpanScoreCheck control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanScoreCheck;
+
+        /// <summary>
+        /// TableCellScoreAction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCellScoreAction;
+
+        /// <summary>
+        /// SpanScore control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanScore;
+
+        /// <summary>
+        /// TableCell4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableCell4;
     }
 }

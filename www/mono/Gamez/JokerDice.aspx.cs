@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using System.Web.DynamicData;
 using System.Web.UI.WebControls;
 
 namespace Area23.At.Mono.Gamez
@@ -15,6 +16,21 @@ namespace Area23.At.Mono.Gamez
         Jack = 2,
         Ten = 1
     }
+
+
+    public enum JokerDiceScore
+    {                                        
+        StrikeThrough = 0,
+        Bust = 1,
+        Pair = 2,
+        TwoPairs = 4,
+        Triple = 6,
+        Straight = 8,
+        FullHouse = 10,
+        Poker = 12,
+        Grande = 15
+    }
+
 
     public static class JokerDiceExtensions
     {
@@ -44,12 +60,22 @@ namespace Area23.At.Mono.Gamez
 
     public partial class JokerDice : System.Web.UI.Page
     {
+        public int GameRound 
+        { 
+            get
+            {
+                int round = (Session["Round"] == null) ? 0 : (int)(Session["Round"]);
+                Session["Round"] = (round > 65535) ? 2 : round;
+                return (int)Session["Round"];
+            }
+            set => Session["Round"] = (value < 0) ? 0 : value;
+        }
         JokerDiceEnum[] dices = new JokerDiceEnum[5];
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-                Session["Round"] = 0;
+                Session["Round"] = (Session["Round"] == null) ? 0 : (((int)Session["Round"] + ((int)Session["Round"] % 2)));
 
             dices = (Session["JokerDices"] != null) ? (JokerDiceEnum[])Session["JokerDices"] : new JokerDiceEnum[5];
         }
@@ -57,7 +83,7 @@ namespace Area23.At.Mono.Gamez
 
         protected void ImageP_Click(object sender, EventArgs e)
         {
-            if (Session["Round"] != null && (int)Session["Round"] % 2 == 0)
+            if (GameRound % 2 == 0)
                 return;
 
             if (sender is ImageButton im)
@@ -81,9 +107,8 @@ namespace Area23.At.Mono.Gamez
         }
 
         protected void ImageButton_DiceCup_Click(object sender, EventArgs e)
-        {
-            int round = (Session["Round"] != null) ? (int)Session["Round"] : 0;
-            if (round % 2 == 0)
+        {            
+            if (GameRound % 2 == 0)
             {
                 ImageP1.BorderStyle = BorderStyle.None;
                 ImageP2.BorderStyle = BorderStyle.None;
@@ -137,9 +162,10 @@ namespace Area23.At.Mono.Gamez
             ImageP5.AlternateText = dices[4].ToString();
             ImageP5.ImageUrl = dices[4].ToImgUrl();
 
-            if (round % 2 == 0)
+            if (GameRound % 2 == 0)
             {
                 DisableCheckBoxesPenImageButtons(sender, e);
+                this.ImageButton_DiceCup.ImageUrl = "../res/img/symbol/CupNextRound.png";
                 ImageP1.BorderStyle = BorderStyle.Solid;
                 ImageP2.BorderStyle = BorderStyle.Solid;
                 ImageP3.BorderStyle = BorderStyle.Solid;
@@ -147,8 +173,9 @@ namespace Area23.At.Mono.Gamez
                 ImageP5.BorderStyle = BorderStyle.Solid;
                 this.Literal_Action.Text = "Select dices you want to keep<br /> and roll the others again.";
             }
-            if (round % 2 == 1)
+            if (GameRound % 2 == 1)
             {
+                this.ImageButton_DiceCup.ImageUrl = "../res/img/symbol/CupNextGame.png";
                 ImageP1.BorderStyle = BorderStyle.Solid;
                 ImageP2.BorderStyle = BorderStyle.Solid;
                 ImageP3.BorderStyle = BorderStyle.Solid;
@@ -161,14 +188,13 @@ namespace Area23.At.Mono.Gamez
             }
             Computer_DiceCup(sender, e);
             CheckWin(sender, e);
-            Session["Round"] = ++round;
+            GameRound = GameRound + 1;
         }
 
 
         protected void Computer_DiceCup(object sender, EventArgs e)
         {
-            int round = (Session["Round"] != null) ? (int)Session["Round"] : 0;
-            if (round % 2 == 0)
+            if (GameRound % 2 == 0)
             {
                 ImageC1.BorderStyle = BorderStyle.None;
                 ImageC2.BorderStyle = BorderStyle.None;
@@ -215,7 +241,7 @@ namespace Area23.At.Mono.Gamez
             ImageC5.AlternateText = dicesc[4].ToString();
             ImageC5.ImageUrl = dicesc[4].ToImgUrl();
 
-            if (round % 2 == 0)
+            if (GameRound % 2 == 0)
             {
                 DisableCheckBoxesPenImageButtons(sender, e);
                 ImageP1.BorderStyle = BorderStyle.Dashed;
@@ -225,7 +251,7 @@ namespace Area23.At.Mono.Gamez
                 ImageP5.BorderStyle = BorderStyle.Dashed;
                 this.Literal_Action.Text = "Select dices you want to keep<br /> and roll the others again.";
             }
-            if (round % 2 == 1)
+            if (GameRound % 2 == 1)
             {
                 ImageC1.BorderStyle = BorderStyle.Solid;
                 ImageC2.BorderStyle = BorderStyle.Solid;
@@ -245,6 +271,8 @@ namespace Area23.At.Mono.Gamez
         {
             if (sender is CheckBox checkBox)
             {
+                string pokerScore = checkBox.ID.ToString().Replace("CheckBox", "");
+                Enum.TryParse<JokerDiceScore>(pokerScore, out JokerDiceScore score);
                 checkBox.Checked = true;
                 DisableCheckBoxesPenImageButtons(sender, e);
                 CheckWin(sender, e);
@@ -264,7 +292,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxGrande.Checked)
                         {
                             if (ImageButtonGrande.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellGrande.Style["text-decoration"] = "line-through";
+                                this.SpanGrande.InnerHtml = "<s>FullGrande</s>";
                             CheckBoxGrande.Checked = true;
                         }
                         break;
@@ -272,7 +300,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxPoker.Checked)
                         {                            
                             if (ImageButtonPoker.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellPoker.Style["text-decoration"] = "line-through";
+                                this.SpanPoker.InnerHtml = "<s>FullPoker</s>";
                             CheckBoxPoker.Checked = true;
                         }
                         break;
@@ -280,7 +308,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxFullHouse.Checked)
                         {
                             if (ImageButtonFullHouse.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellFullHouse.Style["text-decoration"] = "line-through";
+                                this.SpanFullHouse.InnerHtml = "<s>FullHouse</s>";
                             CheckBoxFullHouse.Checked = true;
                         }
                         break;
@@ -288,7 +316,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxStraight.Checked)
                         {
                             if (ImageButtonStraight.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellStraight.Style["text-decoration"] = "line-through";
+                                this.SpanStraight.InnerHtml = "<s>Straight</s>";                            
                             CheckBoxStraight.Checked = true;
                         }
                         break;
@@ -296,7 +324,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxTriple.Enabled)
                         {
                             if (ImageButtonTriple.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellTriple.Style["text-decoration"] = "line-through";
+                                this.SpanTriple.InnerHtml = "<s>Triple</s>";
                             CheckBoxTriple.Checked = true;
                         }
                         break;
@@ -391,6 +419,11 @@ namespace Area23.At.Mono.Gamez
             this.SpanBust.InnerHtml = "Bust";
             this.SpanPair.InnerHtml = "Pair";
             this.SpanTwoPairs.InnerHtml = "TwoPairs";
+            this.SpanTriple.InnerHtml = "Triple";
+            this.SpanStraight.InnerHtml = "Straight";
+            this.SpanFullHouse.InnerHtml = "FullHouse";
+            this.SpanPoker.InnerHtml = "Poker";
+            this.SpanGrande.InnerHtml = "Grande";
             CheckBoxGrande.Checked = false;
             CheckBoxPoker.Checked = false;
             CheckBoxFullHouse.Checked = false;
@@ -404,7 +437,7 @@ namespace Area23.At.Mono.Gamez
             ImageP3.BorderStyle = BorderStyle.None;
             ImageP4.BorderStyle = BorderStyle.None;
             ImageP5.BorderStyle = BorderStyle.None;
-            Session["Round"] = 0;
+            // GameRound = (GameRound % 2 == 0) ? GameRound + 2 : GameRound + 1;
             this.Literal_Action.Text = "Click on the cup to roll the dices.";
         }
 

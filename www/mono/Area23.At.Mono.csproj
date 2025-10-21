@@ -315,6 +315,8 @@
     <Content Include="res\img\symbol\brusha.png" />
     <Content Include="res\img\symbol\brushglue.png" />
     <Content Include="res\img\symbol\close_delete.gif" />
+    <Content Include="res\img\symbol\CupNextGame.png" />
+    <Content Include="res\img\symbol\CupNextRound.png" />
     <Content Include="res\img\symbol\CupOverDice.png" />
     <Content Include="res\img\symbol\Dice10.png" />
     <Content Include="res\img\symbol\DiceCup.png" />
