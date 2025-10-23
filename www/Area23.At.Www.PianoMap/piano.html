@@ -1,13 +1,72 @@
 <html>
     <head> 
         <title>Piano</title> 
+		<script type="text/javascript">
+			var loopDelay = 1625,
+				loopTicks = 0,
+				soundDuration = 1625;
+			   
+			// sound and image 
+			function pianoSound(soundName) {
+				var dursec = 1200;
+			   dursec = parseInt(soundDuration);
+			   if (dursec < parseInt(loopDelay))
+				   dursec = parseInt(loopDelay);
+
+			   let sound = new Audio(soundName);
+
+			   sound.autoplay = true;
+			   sound.loop = false;
+
+			   setTimeout(function () {
+				   sound.play();
+			   }, 100);
+
+			   setTimeout(function () {
+			   }, 800);
+
+			   setTimeout(function () {
+				   sound.loop = false;
+				   sound.pause();
+				   sound.autoplay = false;
+				   sound.currentTime = 0;
+				   try {
+					   sound.src = "";
+					   sound = null;
+				   } catch (exSnd) {
+				   }
+				   soundDuration = parseInt(loopDelay);
+			   }, dursec);
+			}
+
+
+		   // exchange image & play sound
+		   function changeImagePlaySound(imageToChange, newImageUrl, soundToPlay) {
+			   if (imageToChange != null)
+				   imageToChange.src = newImageUrl;
+
+			   if (soundToPlay != null && soundToPlay.length > 1)
+				   setTimeout(function () { frogSound(soundToPlay) }, 100);
+		   }
+
+			function playNote(noteToPlay, newPianoUrl) {
+				var pianoId = document.getElementById("PianoId");
+				if (noteToPlay != null && newPianoUrl != null) {
+					if (pianoId != null && pianoId.src != newPianoUrl)
+						document.getElementById("PianoId").src = newPianoUrl;
+					
+					setTimeout(function () { pianoSound(noteToPlay) }, 64);
+				}
+			}
+
+		</script>
     </head>
     <body>
-        <img src="piano.png" alt="piano" usemap="#pianomap">
+        <img id="PianoId" name="PianoName" src="piano.png" alt="piano" usemap="#pianomap">
         <map name="pianomap">
-            <area shape="rect" coords="40,2,72,208" alt="C1" onclick='javascript:alert("C"); return false;' href="piano.html?ton=C1"> 
+            <area shape="rect" coords="40,2,72,208" alt="C1" onclick='javascript:playNote("C","pianoC0.gif"); return false;' href="piano.html?ton=C1"> 
             <area shape="rect" coords="72,2,92,132" alt="CIS1" onclick="javascript:alert('CIS'); return false;"> 
-            <area shape="rect" coords="92,2,120,208" alt="D1" javascript='alert("D"); return false;' href="piano.html?ton=D1"> 
+            <area shape="rect" coords="92,2,120,208" alt="D1" onclick='javascript:playNote("D","pianoD0.gif"); return false;' href="piano.html?ton=D1"> 
             <area shape="rect" coords="116,2,134,132" alt="DIS1" javascript='alert("DIS"); return false;' href="piano.html?ton=DIS1"> 
             <area shape="rect" coords="134,2,164,208" alt="E1" javascript='alert("E"); return false;' href="piano.html?ton=E1"> 
             <area shape="rect" coords="166,2,200,208" alt="F1" javascript='alert("F"); return false;' href="piano.html?ton=F1"> 
@@ -17,7 +76,19 @@
             <area shape="rect" coords="260,2,286,208" alt="A1" javascript='alert("A"); return false;' href="piano.html?ton=A1"> 
             <area shape="rect" coords="286,2,302,132" alt="B1" javascript='alert("B"); return false;' href="piano.html?ton=B1"> 
             <area shape="rect" coords="302,2,332,208" alt="H1" javascript='alert("H"); return false;' href="piano.html?ton=H1"> 
-            <area shape="rect" coords="336,2,368,208" alt="C2" javascript='alert("c"); return false;' href="piano.html?ton=C2"> 
+            <area shape="rect" coords="336,2,368,208" alt="C2" onclick='javascript:alert("c"); return false;' href="piano.html?ton=C2"> 
+			<area shape="rect" coords="368,2,382,132" alt="CIS2" javascript='alert("cis"); return false;' href="piano.html?ton=CIS2"> 
+			<area shape="rect" coords="386,2,410,208" alt="D2" javascript='alert("d"); return false;' href="piano.html?ton=D2"> 
+			<area shape="rect" coords="410,2,428,132" alt="DIS2" javascript='alert("dis"); return false;' href="piano.html?ton=DIS2"> 
+			<area shape="rect" coords="428,2,456,208" alt="E2" javascript='alert("e"); return false;' href="piano.html?ton=E2"> 
+			<area shape="rect" coords="464,2,494,208" alt="F2" javascript='alert("f"); return false;' href="piano.html?ton=F2"> 
+			<area shape="rect" coords="494,2,512,132" alt="FIS2" javascript='alert("fis"); return false;' href="piano.html?ton=FIS2"> 
+			<area shape="rect" coords="512,2,536,208" alt="G2" javascript='alert("g"); return false;' href="piano.html?ton=G2"> 
+			<area shape="rect" coords="536,2,554,132" alt="GIS2" javascript='alert("gis"); return false;' href="piano.html?ton=GIS2"> 
+			<area shape="rect" coords="554,2,578,208" alt="A2" javascript='alert("a"); return false;' href="piano.html?ton=A2"> 
+			<area shape="rect" coords="578,2,596,132" alt="B2" javascript='alert("b"); return false;' href="piano.html?ton=B2"> 
+			<area shape="rect" coords="596,2,626,208" alt="H2" javascript='alert("h"); return false;' href="piano.html?ton=H2"> 
+			<area shape="rect" coords="632,2,662,208" alt="C3" onclick='javascript:alert("c3"); return false;' href="piano.html?ton=C3"> 
         </map> 
     </body>
 </html>

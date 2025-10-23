@@ -205,10 +205,7 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Util\GlobalAppSettings.cs" />
-    <Compile Include="Util\JavaResReader.cs" />
     <Compile Include="Util\JsonHelper.cs" />
-    <Compile Include="Util\QRGenericString.cs" />
     <Compile Include="Util\Utf8Dictionary.cs" />
     <Compile Include="Util\Utf8Symbol.cs" />
   </ItemGroup>
@@ -238,7 +235,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Library\Area23.At.Framework.Library.csproj">
+    <ProjectReference Include="S:\area23.at\Framework\Area23.At.Framework.Library\Area23.At.Framework.Library.csproj">
       <Project>{4133904b-c57a-4f45-ad85-537aa97f765f}</Project>
       <Name>Area23.At.Framework.Library</Name>
     </ProjectReference>
