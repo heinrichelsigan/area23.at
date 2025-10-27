@@ -205,12 +205,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 //    Serpent.SerpentGenWithKey(secretKey, hash, true);
                 //    encryptBytes = Serpent.Encrypt(inBytes);
                 //    break;
-                //case CipherEnum.ZenMatrix:
-                //    encryptBytes = (new ZenMatrix(secretKey, hash, true)).Encrypt(inBytes);
-                //    break;
+                case CipherEnum.ZenMatrix:
                 case CipherEnum.ZenMatrix2:
-                    encryptBytes = (new ZenMatrix2(secretKey, hash, false)).Encrypt(inBytes);
+                    encryptBytes = (new ZenMatrix(secretKey, hash, false)).Encrypt(inBytes);
                     break;
+                //case CipherEnum.ZenMatrix2:
+                //    encryptBytes = (new ZenMatrix2(secretKey, hash, false)).Encrypt(inBytes);
+                //    break;
                 case CipherEnum.Aes:
                 case CipherEnum.AesLight:
                 case CipherEnum.Aria:
@@ -238,7 +239,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Tea:
                 case CipherEnum.Tnepres:
                 case CipherEnum.XTea:
-                case CipherEnum.ZenMatrix:
+                // case CipherEnum.ZenMatrix:
                 // case CipherEnum.ZenMatrix2:
                 default:
                     CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash);
@@ -290,9 +291,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 //    string privKey = keyPair.Private.ToString();
                 //    decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes);
                 //    break;
+                case CipherEnum.ZenMatrix:
                 case CipherEnum.ZenMatrix2:
-                    decryptBytes = (new ZenMatrix2(secretKey, hash, false)).Decrypt(cipherBytes);
+                    decryptBytes = (new ZenMatrix(secretKey, hash, false)).Decrypt(cipherBytes);
                     break;
+                //case CipherEnum.ZenMatrix2:
+                //    decryptBytes = (new ZenMatrix2(secretKey, hash, false)).Decrypt(cipherBytes);
+                //    break;
                 case CipherEnum.Aes:
                 case CipherEnum.AesLight:
                 case CipherEnum.Aria:
@@ -320,7 +325,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Tea:
                 case CipherEnum.Tnepres:
                 case CipherEnum.XTea:
-                case CipherEnum.ZenMatrix:
+                // case CipherEnum.ZenMatrix:
                 // case CipherEnum.ZenMatrix2:
                 default:
                     CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash);
