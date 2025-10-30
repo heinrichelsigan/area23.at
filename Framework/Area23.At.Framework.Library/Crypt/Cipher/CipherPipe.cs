@@ -201,17 +201,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 //    string privKey = keyPair.Private.ToString();
                 //    encryptBytes = Asymmetric.Rsa.Encrypt(inBytes);
                 //    break;
-                //case CipherEnum.Serpent:
-                //    Serpent.SerpentGenWithKey(secretKey, hash, true);
-                //    encryptBytes = Serpent.Encrypt(inBytes);
-                //    break;
-                case CipherEnum.ZenMatrix:
-                case CipherEnum.ZenMatrix2:
+                case CipherEnum.ZenMatrix:                
                     encryptBytes = (new ZenMatrix(secretKey, hash, false)).Encrypt(inBytes);
                     break;
-                //case CipherEnum.ZenMatrix2:
-                //    encryptBytes = (new ZenMatrix2(secretKey, hash, false)).Encrypt(inBytes);
-                //    break;
+                case CipherEnum.ZenMatrix2:
+                    encryptBytes = (new ZenMatrix2(secretKey, hash, false)).Encrypt(inBytes);
+                    break;
                 case CipherEnum.Aes:
                 case CipherEnum.AesLight:
                 case CipherEnum.Aria:
@@ -240,7 +235,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Tnepres:
                 case CipherEnum.XTea:
                 // case CipherEnum.ZenMatrix:
-                // case CipherEnum.ZenMatrix2:
                 default:
                     CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash);
                     Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
@@ -278,10 +272,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     Des3Net des3 = new Des3Net(secretKey, hash);
                     decryptBytes = des3.Decrypt(cipherBytes);
                     break;
-                //case CipherEnum.Serpent:
-                //    sameKey = Serpent.SerpentGenWithKey(secretKey, hash, true);
-                //    decryptBytes = Serpent.Decrypt(cipherBytes);
-                //    break;
                 case CipherEnum.RC564:
                     RC564.RC564GenWithKey(secretKey, hash, true);
                     decryptBytes = RC564.Decrypt(cipherBytes);
@@ -292,12 +282,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 //    decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes);
                 //    break;
                 case CipherEnum.ZenMatrix:
-                case CipherEnum.ZenMatrix2:
                     decryptBytes = (new ZenMatrix(secretKey, hash, false)).Decrypt(cipherBytes);
                     break;
-                //case CipherEnum.ZenMatrix2:
-                //    decryptBytes = (new ZenMatrix2(secretKey, hash, false)).Decrypt(cipherBytes);
-                //    break;
+                case CipherEnum.ZenMatrix2:
+                    decryptBytes = (new ZenMatrix2(secretKey, hash, false)).Decrypt(cipherBytes);
+                    break;
                 case CipherEnum.Aes:
                 case CipherEnum.AesLight:
                 case CipherEnum.Aria:
@@ -325,7 +314,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Tea:
                 case CipherEnum.Tnepres:
                 case CipherEnum.XTea:
-                // case CipherEnum.ZenMatrix:
                 // case CipherEnum.ZenMatrix2:
                 default:
                     CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash);

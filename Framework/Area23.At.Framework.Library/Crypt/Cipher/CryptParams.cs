@@ -207,14 +207,15 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
                 case CipherEnum.ZenMatrix:
-                    Size = 256;
+                    Size = 16;
                     KeyLen = 16;
                     BlockCipher = new ZenMatrix(Size);
                     break;
                 case CipherEnum.ZenMatrix2:
+                    // throw new NotImplementedException("ZenMatrix2 IBlockCipher interface not implemented");)
                     Size = 256;
                     KeyLen = 32;
-                    BlockCipher = new ZenMatrix2(Size);
+                    BlockCipher = new ZenMatrix2();
                     break;
                 default:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();

@@ -212,7 +212,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                 case CipherEnum.ZenMatrix2:
                     Size = 256;
                     KeyLen = 32;
-                    BlockCipher = new ZenMatrix2(Size);
+                    BlockCipher = new ZenMatrix2();
                     break;
                 default:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();

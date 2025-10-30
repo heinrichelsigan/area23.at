@@ -128,6 +128,7 @@
                         <asp:ListItem Enabled="true" Value="Tnepres" Selected="false">Tnepres</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="XTea" Selected="false">XTea</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="ZenMatrix" Selected="false">ZenMatrix</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="ZenMatrix2" Selected="false">ZenMatrix2</asp:ListItem>
                     </asp:DropDownList>
                 </span>
                 <span class="centerSpan" style="width: 72px;"> 

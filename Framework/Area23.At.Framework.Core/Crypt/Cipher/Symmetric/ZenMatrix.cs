@@ -21,7 +21,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
         private const string SYMMCIPHERALGONAME = "ZenMatrix";
         protected internal const int ZEN_SIZE = 0x10;
-        protected internal static int BLOCK_SIZE = 0x100;
+        protected internal static int BLOCK_SIZE = 0x20;
         protected internal static readonly int[] BLOCK_SIZES = { 0x10, 0x20, 0x40, 0x80, 0xc0, 0x100, 0x400, 0x800, 0x1000 };
         protected internal bool initialised = false;
         protected internal bool forEncryption;
