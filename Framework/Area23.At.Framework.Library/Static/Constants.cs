@@ -447,17 +447,16 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
         public static readonly string[] ALLOWED_EXTENSIONS = {
 
             ".base", ".hex", 
-            ".hex16", ".base16", ".base32", ".hex32", ".uu", ",base58", ".base64", ".mime", 
+            ".hex16", ".base16", ".base32", ".hex32", ".uu", ".xx", ",base58", ".base64", ".mime", 
             
-            ".md", ".txt", ".text", ".cfg",
-            ".css", ".js", ".htm", ".html", ".xhtml", ".json", ".rdf",
+            ".md", ".txt", ".text", ".cfg", ".css", ".json", ".rdf",
 
             ".avif", ".bmp", ".exif", ".gif", ".ico", ".ief", ".jpg", ".jpeg", ".pcx", ".pic", ".png", ".psd", ".tif", ".xcf", ".xif",
             ".3pg", ".3g2", ".aif", ".au", ".m3u", ".mid", ".midi", ".mp4", ".mpeg", ".ogg", ".webm", ".wav", ".wax", ".wma", ".mp3",
             ".avi", ".f4v", ".flx", ".m4u", ".m4v", ".mov", ".mpg", ".wmv",
 
-            ".pdf", ".ps", ".gs", ".dvi", ".tex",
-            ".ods", ".odt", ".rtf", ".doc", ".dot", ".xls", ".xlt", ".csv", ".mdb", ".ppt", ".vsx", ".vst", ".mpp",
+            ".pdf", ".ps", ".gs", ".dvi", ".tex", ".xps",
+            ".ods", ".odt", ".rtf", ".doc", ".docx", ".dot", ".xls", ".xlsx", ".xlt", ".csv", ".mdb", ".ppt", ".pptx", ".vsx", ".vst", ".mpp",
 
             ".ttf", ".woff",
 
