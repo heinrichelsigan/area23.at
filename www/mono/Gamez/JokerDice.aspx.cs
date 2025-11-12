@@ -60,6 +60,19 @@ namespace Area23.At.Mono.Gamez
 
     public partial class JokerDice : System.Web.UI.Page
     {
+        public bool DiceCupClickable         
+        {
+            get => (bool)Session["DiceCupClickable"];            
+            set => Session["DiceCupClickable"] = value;
+        }
+
+        public int PlayerScore
+        {
+            get => (int)Session["PlayerScore"];
+            set => Session["PlayerScore"] = value;
+        }
+
+
         public int GameRound 
         { 
             get
@@ -74,6 +87,11 @@ namespace Area23.At.Mono.Gamez
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["DiceCupClickable"] == null)
+                Session["DiceCupClickable"] = true;
+            if (Session["PlayerScore"] == null)
+                Session["PlayerScore"] = 0;
+            
             if (!IsPostBack)
                 Session["Round"] = (Session["Round"] == null) ? 0 : (((int)Session["Round"] + ((int)Session["Round"] % 2)));
 
@@ -107,7 +125,11 @@ namespace Area23.At.Mono.Gamez
         }
 
         protected void ImageButton_DiceCup_Click(object sender, EventArgs e)
-        {            
+        {
+            if (!DiceCupClickable)
+            {
+                return;
+            }
             if (GameRound % 2 == 0)
             {
                 ImageP1.BorderStyle = BorderStyle.None;
@@ -175,6 +197,7 @@ namespace Area23.At.Mono.Gamez
             }
             if (GameRound % 2 == 1)
             {
+                DiceCupClickable = false;
                 this.ImageButton_DiceCup.ImageUrl = "../res/img/symbol/CupNextGame.png";
                 ImageP1.BorderStyle = BorderStyle.Solid;
                 ImageP2.BorderStyle = BorderStyle.Solid;
@@ -184,7 +207,7 @@ namespace Area23.At.Mono.Gamez
                 bool checkBoxesShown = ShowCheckBoxes(dices);
                 if (!checkBoxesShown)
                     ShowStrikeThroughPens();
-                this.Literal_Action.Text = "Select your best combination.";
+                this.Literal_Action.Text = "Select your best combination.";                
             }
             Computer_DiceCup(sender, e);
             CheckWin(sender, e);
@@ -275,6 +298,10 @@ namespace Area23.At.Mono.Gamez
                 Enum.TryParse<JokerDiceScore>(pokerScore, out JokerDiceScore score);
                 checkBox.Checked = true;
                 DisableCheckBoxesPenImageButtons(sender, e);
+                SpanScoreCheck.Visible = true;
+                PlayerScore = PlayerScore + (int)score;
+                SpanScore.InnerText = PlayerScore.ToString();
+                DiceCupClickable = true;
                 CheckWin(sender, e);
             }
         }
@@ -285,72 +312,88 @@ namespace Area23.At.Mono.Gamez
             {
                 dices = (Session["JokerDices"] != null) ? (JokerDiceEnum[])Session["JokerDices"] : new JokerDiceEnum[5];
                 bool hasCheckBoxes = ShowCheckBoxes(dices);
-
+                DiceCupClickable = true;
                 switch (imgButton.ID.ToString())
                 {
                     case "ImageButtonGrande":
-                        if (!CheckBoxGrande.Checked)
+                        if (!CheckBoxGrande.Enabled)
                         {
                             if (ImageButtonGrande.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.SpanGrande.InnerHtml = "<s>FullGrande</s>";
+                                this.TableCellGrande.Font.Strikeout = true;
+
                             CheckBoxGrande.Checked = true;
                         }
+                        else if (!CheckBoxGrande.Checked)
+                            PokerCheckBox_Changed(CheckBoxGrande, e);
                         break;
                     case "ImageButtonPoker":
-                        if (!CheckBoxPoker.Checked)
-                        {                            
+                        if (!CheckBoxPoker.Enabled)
+                        {
                             if (ImageButtonPoker.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.SpanPoker.InnerHtml = "<s>FullPoker</s>";
+                                this.TableCellPoker.Font.Strikeout = true;
                             CheckBoxPoker.Checked = true;
                         }
+                        else if (!CheckBoxPoker.Checked)
+                            PokerCheckBox_Changed(CheckBoxPoker, e);
                         break;
                     case "ImageButtonFullHouse":
-                        if (!CheckBoxFullHouse.Checked)
+                        if (!CheckBoxFullHouse.Enabled)
                         {
                             if (ImageButtonFullHouse.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.SpanFullHouse.InnerHtml = "<s>FullHouse</s>";
+                                this.TableCellFullHouse.Font.Strikeout = true;
                             CheckBoxFullHouse.Checked = true;
                         }
+                        else if (!CheckBoxFullHouse.Checked)
+                            PokerCheckBox_Changed(CheckBoxFullHouse, e);
                         break;
                     case "ImageButtonStraight":
-                        if (!CheckBoxStraight.Checked)
+                        if (!CheckBoxStraight.Enabled)
                         {
                             if (ImageButtonStraight.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.SpanStraight.InnerHtml = "<s>Straight</s>";                            
+                                this.TableCellStraight.Font.Strikeout = true;
                             CheckBoxStraight.Checked = true;
                         }
+                        else if (!CheckBoxStraight.Checked)
+                            PokerCheckBox_Changed(CheckBoxStraight, e);
                         break;
                     case "ImageButtonTriple":
                         if (!CheckBoxTriple.Enabled)
                         {
                             if (ImageButtonTriple.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.SpanTriple.InnerHtml = "<s>Triple</s>";
+                                this.TableCellTriple.Font.Strikeout = true;
                             CheckBoxTriple.Checked = true;
                         }
+                        else if (!CheckBoxTriple.Checked)
+                            PokerCheckBox_Changed(CheckBoxTriple, e);
                         break;
                     case "ImageButtonTwoPairs":
                         if (!CheckBoxTwoPairs.Enabled)
-                        {                            
+                        {
                             if (ImageButtonTwoPairs.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.SpanTwoPairs.InnerHtml = "<s>Two Pair</s>";
+                                this.TableCellTwoPairs.Font.Strikeout = true;
                             CheckBoxTwoPairs.Checked = true;
-                        }
+                        } else if (!CheckBoxTwoPairs.Checked)
+                            PokerCheckBox_Changed(CheckBoxTwoPairs, e);
                         break;
                     case "ImageButtonPair":
                         if (!CheckBoxPair.Enabled)
-                        {                            
+                        {
                             if (ImageButtonPair.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.SpanPair.InnerHtml = "<s>Pair</s>";
+                                this.TableCellPair.Font.Strikeout = true;
                             CheckBoxPair.Checked = true;
                         }
+                        else if (!CheckBoxPair.Checked)
+                            PokerCheckBox_Changed(CheckBoxPair, e);
                         break;
                     case "ImageButtonBust":
-                        if (!CheckBoxBust.Checked)
+                        if (!CheckBoxBust.Enabled)
                         {
                             if (ImageButtonBust.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.SpanBust.InnerHtml = "<s>Bust</s>";
+                                this.TableCellBust.Font.Strikeout = true;
                             CheckBoxBust.Checked = true;
                         }
+                        else if (!CheckBoxBust.Checked) 
+                            PokerCheckBox_Changed(CheckBoxBust, e);
                         break;
                     default: break;
                 }
@@ -366,79 +409,15 @@ namespace Area23.At.Mono.Gamez
                 CheckBoxTriple.Checked && CheckBoxTwoPairs.Checked && CheckBoxPair.Checked && CheckBoxBust.Checked)
             {
                 this.Literal_End = new Literal { Text = "<h2>Congratulations! You have completed the game!</h2>" };
-                ResetCheckBoxes(sender, e);
+
+                DiceCupClickable = false; 
+                PokerDiceImage.Visible = true;                
             }
         }
 
         public void CheckComputerWin(object sender, EventArgs e)
         {
 
-        }
-
-
-        
-
-        public void DisableCheckBoxesPenImageButtons(object sender, EventArgs e)
-        {
-            CheckBoxGrande.Enabled = false;
-            ImageButtonGrande.ImageUrl = "../res/img/symbol/pencil_transparent.png";
-            ImageButtonGrande.Enabled = false;
-            
-            CheckBoxPoker.Enabled = false;
-            ImageButtonPoker.ImageUrl = "../res/img/symbol/pencil_transparent.png";
-            ImageButtonPoker.Enabled = false;
-            
-            CheckBoxFullHouse.Enabled = false;
-            ImageButtonFullHouse.ImageUrl = "../res/img/symbol/pencil_transparent.png";
-            ImageButtonFullHouse.Enabled = false;
-            
-            CheckBoxStraight.Enabled = false;
-            ImageButtonStraight.ImageUrl = "../res/img/symbol/pencil_transparent.png";
-            ImageButtonStraight.Enabled = false;
-
-            CheckBoxTriple.Enabled = false;
-            ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_transparent.png";
-            ImageButtonTriple.Enabled = false;           
-
-            CheckBoxTwoPairs.Enabled = false;
-            ImageButtonTwoPairs.ImageUrl = "../res/img/symbol/pencil_transparent.png";
-            ImageButtonTwoPairs.Enabled = false;
-            
-            CheckBoxPair.Enabled = false;
-            ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_transparent.png";
-            ImageButtonPair.Enabled = false;
-
-            CheckBoxBust.Enabled = false;
-            ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_transparent.png";
-            ImageButtonBust.Enabled = false;
-        }
-
-        public void ResetCheckBoxes(object sender, EventArgs e)
-        {
-            DisableCheckBoxesPenImageButtons(sender, e);
-            this.SpanBust.InnerHtml = "Bust";
-            this.SpanPair.InnerHtml = "Pair";
-            this.SpanTwoPairs.InnerHtml = "TwoPairs";
-            this.SpanTriple.InnerHtml = "Triple";
-            this.SpanStraight.InnerHtml = "Straight";
-            this.SpanFullHouse.InnerHtml = "FullHouse";
-            this.SpanPoker.InnerHtml = "Poker";
-            this.SpanGrande.InnerHtml = "Grande";
-            CheckBoxGrande.Checked = false;
-            CheckBoxPoker.Checked = false;
-            CheckBoxFullHouse.Checked = false;
-            CheckBoxTwoPairs.Checked = false;
-            CheckBoxTriple.Checked = false;
-            CheckBoxPair.Checked = false;
-            CheckBoxStraight.Checked = false;
-            CheckBoxBust.Checked = false;
-            ImageP1.BorderStyle = BorderStyle.None;
-            ImageP2.BorderStyle = BorderStyle.None;
-            ImageP3.BorderStyle = BorderStyle.None;
-            ImageP4.BorderStyle = BorderStyle.None;
-            ImageP5.BorderStyle = BorderStyle.None;
-            // GameRound = (GameRound % 2 == 0) ? GameRound + 2 : GameRound + 1;
-            this.Literal_Action.Text = "Click on the cup to roll the dices.";
         }
 
         /// <summary>
@@ -799,6 +778,99 @@ namespace Area23.At.Mono.Gamez
             ImageP4.BorderStyle = BorderStyle.None;
             ImageP5.BorderStyle = BorderStyle.None;
             Session["Round"] = 0;
+            this.Literal_Action.Text = "Click on the cup to roll the dices.";
+        }
+
+
+
+        public void PokerDiceImage_Click(object sender, EventArgs e)
+        {
+            ResetCheckBoxes(sender, e);
+            DiceCupClickable = true;
+            Session["PlayerScore"] = 0;            
+            SpanScore.InnerText = "0";
+            ImageP1.AlternateText = "";
+            ImageP1.ImageUrl = "../res/img/symbol/JollyRoger.png"; 
+            ImageP2.AlternateText = "";
+            ImageP2.ImageUrl = "../res/img/symbol/JollyRoger.png";
+            ImageP3.AlternateText = "";
+            ImageP3.ImageUrl = "../res/img/symbol/JollyRoger.png";
+            ImageP4.AlternateText = "";
+            ImageP4.ImageUrl = "../res/img/symbol/JollyRoger.png";
+            ImageP5.AlternateText = "";
+            ImageP5.ImageUrl = "../res/img/symbol/JollyRoger.png";
+            PokerDiceImage.Visible = false;
+        }
+
+
+        public void DisableCheckBoxesPenImageButtons(object sender, EventArgs e)
+        {
+            CheckBoxGrande.Enabled = false;
+            ImageButtonGrande.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonGrande.Enabled = false;
+
+            CheckBoxPoker.Enabled = false;
+            ImageButtonPoker.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonPoker.Enabled = false;
+
+            CheckBoxFullHouse.Enabled = false;
+            ImageButtonFullHouse.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonFullHouse.Enabled = false;
+
+            CheckBoxStraight.Enabled = false;
+            ImageButtonStraight.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonStraight.Enabled = false;
+
+            CheckBoxTriple.Enabled = false;
+            ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonTriple.Enabled = false;
+
+            CheckBoxTwoPairs.Enabled = false;
+            ImageButtonTwoPairs.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonTwoPairs.Enabled = false;
+
+            CheckBoxPair.Enabled = false;
+            ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonPair.Enabled = false;
+
+            CheckBoxBust.Enabled = false;
+            ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonBust.Enabled = false;
+        }
+
+        public void ResetCheckBoxes(object sender, EventArgs e)
+        {
+            DisableCheckBoxesPenImageButtons(sender, e);
+            this.TableCellBust.Text = "Bust";
+            this.TableCellBust.Font.Strikeout = false;
+            this.TableCellPair.Text = "Pair";
+            this.TableCellPair.Font.Strikeout = false;
+            this.TableCellTwoPairs.Text = "TwoPairs";
+            this.TableCellTwoPairs.Font.Strikeout = false;
+            this.TableCellTriple.Text = "Triple";
+            this.TableCellTriple.Font.Strikeout = false;
+            this.TableCellStraight.Text = "Straight";
+            this.TableCellStraight.Font.Strikeout = false;
+            this.TableCellFullHouse.Text = "Full House";
+            this.TableCellFullHouse.Font.Strikeout = false;
+            this.TableCellPoker.Text = "Poker";
+            this.TableCellPoker.Font.Strikeout = false;
+            this.TableCellGrande.Text = "Grande";
+            this.TableCellGrande.Font.Strikeout = false;
+            CheckBoxGrande.Checked = false;
+            CheckBoxPoker.Checked = false;
+            CheckBoxFullHouse.Checked = false;
+            CheckBoxTwoPairs.Checked = false;
+            CheckBoxTriple.Checked = false;
+            CheckBoxPair.Checked = false;
+            CheckBoxStraight.Checked = false;
+            CheckBoxBust.Checked = false;
+            ImageP1.BorderStyle = BorderStyle.None;
+            ImageP2.BorderStyle = BorderStyle.None;
+            ImageP3.BorderStyle = BorderStyle.None;
+            ImageP4.BorderStyle = BorderStyle.None;
+            ImageP5.BorderStyle = BorderStyle.None;
+            // GameRound = (GameRound % 2 == 0) ? GameRound + 2 : GameRound + 1;
             this.Literal_Action.Text = "Click on the cup to roll the dices.";
         }
 

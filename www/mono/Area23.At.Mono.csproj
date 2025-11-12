@@ -314,6 +314,7 @@
     <Content Include="res\img\symbol\brush.png" />
     <Content Include="res\img\symbol\brusha.png" />
     <Content Include="res\img\symbol\brushglue.png" />
+    <Content Include="res\img\symbol\ChiffrePentacle.gif" />
     <Content Include="res\img\symbol\close_delete.gif" />
     <Content Include="res\img\symbol\CupNextGame.png" />
     <Content Include="res\img\symbol\CupNextRound.png" />
