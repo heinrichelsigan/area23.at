@@ -55,8 +55,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
         ZenMatrix2 = 0x1f,
 
-        AesNet = 0x20
-        // Rsa = 0x21,
+        AesNet = 0x20, 
+        Rsa = 0x21
         // DH = 0x22,
     }
 
@@ -65,7 +65,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
     /// </summary>
     public static class CipherEnumExtensions
     {
-        public static readonly string CipherExtensionString = "l23456AabCcDdEeFfgIJjlNRSsTtXrZz$";
+        public static readonly string CipherExtensionString = "l23456AabCcDdEeFfgIJjlNRSsTtXrZz$%";
 
         public static CipherEnum[] GetCipherTypes()
         {
@@ -131,7 +131,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.AesNet: return 'E';
                 case CipherEnum.Des3Net: return 'e';
 
-                // case CipherEnum.Rsa: return '%';
+                case CipherEnum.Rsa: return '%';
                 // case CipherEnum.DH: return '!';
 
                 default: break;

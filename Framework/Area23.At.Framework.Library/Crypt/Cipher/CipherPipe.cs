@@ -3,6 +3,7 @@ using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Zfx;
+using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -196,11 +197,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     RC564.RC564GenWithKey(secretKey, hash, true);
                     encryptBytes = RC564.Encrypt(inBytes);
                     break;
-                //case CipherEnum.Rsa:
-                //    var keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
-                //    string privKey = keyPair.Private.ToString();
-                //    encryptBytes = Asymmetric.Rsa.Encrypt(inBytes);
-                //    break;
+                case CipherEnum.Rsa:
+                    AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                    encryptBytes = Asymmetric.Rsa.Encrypt(inBytes, keyPair);
+                    break;
                 case CipherEnum.ZenMatrix:                
                     encryptBytes = (new ZenMatrix(secretKey, hash, false)).Encrypt(inBytes);
                     break;
@@ -276,11 +276,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     RC564.RC564GenWithKey(secretKey, hash, true);
                     decryptBytes = RC564.Decrypt(cipherBytes);
                     break;
-                //case CipherEnum.Rsa:
-                //    Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
-                //    string privKey = keyPair.Private.ToString();
-                //    decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes);
-                //    break;
+                case CipherEnum.Rsa:
+                    AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                    decryptBytes = Asymmetric.Rsa.DecryptWithPrivate(cipherBytes, keyPair);
+                    break;
                 case CipherEnum.ZenMatrix:
                     decryptBytes = (new ZenMatrix(secretKey, hash, false)).Decrypt(cipherBytes);
                     break;
