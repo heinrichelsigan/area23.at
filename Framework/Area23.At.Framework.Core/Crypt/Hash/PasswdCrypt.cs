@@ -1,5 +1,4 @@
 ﻿using Area23.At.Framework.Core.Crypt.EnDeCoding;
-using System;
 
 namespace Area23.At.Framework.Core.Crypt.Hash
 {
@@ -45,40 +44,6 @@ namespace Area23.At.Framework.Core.Crypt.Hash
             return bcrypted;
         }
 
-        public static byte[] SCrypt(string passwd)
-        {
-            if (string.IsNullOrEmpty(passwd))
-                throw new ArgumentNullException("passwd");
-
-            byte[] keyBytes = EnDeCodeHelper.GetBytes(passwd);
-
-            if (keyBytes.Length > PASSWD_BYTE_LEN)
-                throw new ArgumentException($"SCrypt(passwd) => GetBytes(passwd) => {Hex16.ToHex16(keyBytes)} Length {keyBytes.LongLength} > {PASSWD_BYTE_LEN} bytes", "passwd");
-
-            byte[] salt = EnDeCodeHelper.KeyToHexBytesSalt(passwd, SALT_BYTE_LEN);
-
-            byte[] scrypted = Org.BouncyCastle.Crypto.Generators.SCrypt.Generate(keyBytes, salt, AVG_COST, SALT_BYTE_LEN, 1, 32);
-
-            return scrypted;
-        }
-
-        public static string BSDCrypt(string passwd)
-        {
-            if (string.IsNullOrEmpty(passwd))
-                throw new ArgumentNullException("passwd");
-
-            char[] passChars = passwd.ToCharArray();
-            byte[] keyBytes = EnDeCodeHelper.GetBytes(passwd);
-
-            if (keyBytes.Length > PASSWD_BYTE_LEN)
-                throw new ArgumentException($"BSDCrypt(passwd) => GetBytes(passwd) => {Hex16.ToHex16(keyBytes)} Length {keyBytes.LongLength} > {PASSWD_BYTE_LEN} bytes", "passwd");
-
-            byte[] salt = EnDeCodeHelper.KeyToHexBytesSalt(passwd, SALT_BYTE_LEN);
-
-            string bcdCrypted = Org.BouncyCastle.Crypto.Generators.OpenBsdBCrypt.Generate(passChars, salt, AVG_COST);
-
-            return bcdCrypted;
-        }
 
     }
 

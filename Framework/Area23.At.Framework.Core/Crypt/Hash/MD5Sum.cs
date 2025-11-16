@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Core.Static;
+using Area23.At.Framework.Core.Util;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -51,7 +52,7 @@ namespace Area23.At.Framework.Core.Crypt.Hash
         public static string Hash(Stream s, string fileName = "")
         {
             byte[] hashed = MD5.HashData(s);
-            string hash = hashed.ToHexString();
+            string hash = hashed.ToHexString(false);
 
             if (!string.IsNullOrEmpty(fileName))
                 hash += "  " + fileName;

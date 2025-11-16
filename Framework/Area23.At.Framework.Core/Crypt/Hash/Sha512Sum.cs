@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Core.Static;
+using Area23.At.Framework.Core.Util;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -52,7 +53,7 @@ namespace Area23.At.Framework.Core.Crypt.Hash
         /// </summary>
         /// <param name="stream">stream strm</param>
         /// <param name="fileName">optional filename to add after hash</param>
-        /// <returns><Sha512 hash with optional fileName/returns>
+        /// <returns>Sha512 hash with optional fileName</returns>
         public static string Hash(Stream stream, string fileName = "")
         {            
             string hash = HashBytes(stream).ToHexString();

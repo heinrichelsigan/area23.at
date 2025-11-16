@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Core.Static;
+using Area23.At.Framework.Core.Util;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -42,7 +43,7 @@ namespace Area23.At.Framework.Core.Crypt.Hash
         {
             byte[] hashed = HashBytes(bytes);
             string hasha = Encoding.UTF8.GetString(hashed);
-            string hashb = hashed.ToHexString();
+            string hashb = hashed.ToHexString(false);
             if (!string.IsNullOrEmpty(fileName))
             {
                 hasha += "  " + fileName;

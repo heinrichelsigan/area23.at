@@ -31,7 +31,7 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// KeyBytesToHex transforms keyBytes to a hex string
         /// </summary>
         /// <param name="keyBytes"><see cref="byte[]"/> keyBytes to transform</param>
-        /// <returns><see cref="string">hexString</see>< of keyBytes/returns>
+        /// <returns><see cref="string">hexString</see> of keyBytes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static string KeyBytesToHex(byte[] keyBytes)
         {
@@ -45,21 +45,21 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// <summary>
         /// KeyToHexBytes
         /// </summary>
-        /// <param name="key">secret key</param>
+        /// <param name="keyBytes">secret keyBytes</param>
         /// <param name="length">byte array length, default: 16, -1 for unlimited length</param>
         /// <returns><see cref="byte[]">byte[length]</see></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static byte[] KeyToHexBytesSalt(string key, int length = 16)
+        public static byte[] KeyBytesToHexBytesSalt(byte[] keyBytes, int length = 16)
         {
-            if (string.IsNullOrEmpty(key))
-                throw new ArgumentNullException("key");
+            if (keyBytes == null || keyBytes.Length == 0)
+                throw new ArgumentNullException("keyBytes");
 
-            string hexString = Hex16.ToHex16(EnDeCodeHelper.GetBytes(key));
+            string hexString = Hex16.ToHex16(keyBytes);
             byte[] hexBytes = EnDeCodeHelper.GetBytes(hexString);
 
             while (hexBytes.Length < length)
             {
-                hexBytes = hexBytes.TarBytes(EnDeCodeHelper.GetBytes(key), GetBytes(hexString));
+                hexBytes = hexBytes.TarBytes(keyBytes, GetBytes(hexString));
             }
 
             int len = (length > 0 && hexBytes.Length >= length) ? length : hexBytes.Length;
@@ -69,6 +69,14 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
             Array.Copy(hexBytes, 0, outBytes, 0, len);
 
             return outBytes;
+        }
+
+        public static byte[] KeyToHexBytesSalt(string key, int length = 16)
+        {
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException("key");
+
+            return KeyBytesToHexBytesSalt(EnDeCodeHelper.GetBytes(key), length);
         }
 
         /// <summary>
@@ -96,12 +104,13 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// <param name="inBytes">inBytes to encdode</param>
         /// <param name="encodingType">EncodingTypes are "None", "Hex16", "Base16", "Base32", "Hex32", "Uu", "Base64".
         /// "Base64" is default.</param>
+        /// <param name="fromPlain">Only for uu: true, if <see cref="encryptBytes"/> represent a binary without encryption</param>
+        /// <param name="fromFile">Only for uu: true, if file and not textbox will be encrypted, default (false)</param>
         /// <returns>encoded string</returns>
-        public static string EncodeBytes(byte[] inBytes, EncodingType encodingType = EncodingType.Base64)
+        public static string EncodeBytes(byte[] inBytes, EncodingType encodingType = EncodingType.Base64, bool fromPlain = false, bool fromFile = false)
         {
             Area23Log.LogOriginMsg("EnDeCodeHelper", 
-                "EncodeEncryptedBytes(byte[] inBytes.[Length=" + inBytes.Length + "], EncodingType encodingType =  "
-                + encodingType.ToString() + ")");
+                "EncodeEncryptedBytes(byte[] inBytes.[Length=" + inBytes.Length + "], EncodingType encodingType =  " + encodingType.ToString() + ")");
 
             string encryptedText = EnDeCodeHelper.Encode(inBytes, encodingType);
 

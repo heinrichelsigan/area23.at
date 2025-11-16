@@ -194,6 +194,61 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
         }
 
+
+        public static byte[] GetKeyBytesFromBytes(byte[] keyBytes, int keyLen = 32)
+        {
+            if (keyBytes == null || keyBytes.Length == 0)
+                throw new ArgumentNullException("keyBytes");
+
+            byte[] hashBytes = EnDeCodeHelper.GetBytes(Hex16.ToHex16(keyBytes));
+
+            int keyByteCnt = -1;
+            keyLen = (keyLen > Constants.MAX_KEY_LEN) ? Constants.MAX_KEY_LEN : keyLen;
+            byte[] tmpKey = new byte[keyLen];
+
+            byte[] keyHashBytes = KeyHashBytes(keyBytes, hashBytes);
+            keyByteCnt = keyHashBytes.Length;
+            byte[] keyHashTarBytes = new byte[keyByteCnt * 2 + 1];
+
+            if (keyByteCnt < keyLen)
+            {
+                keyHashTarBytes = keyHashBytes.TarBytes(KeyHashBytes(hashBytes, keyBytes));
+                keyByteCnt = keyHashTarBytes.Length;
+                keyHashBytes = new byte[keyByteCnt];
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
+            }
+            if (keyByteCnt < keyLen)
+            {
+                keyHashTarBytes = keyHashBytes.TarBytes(
+                    KeyHashBytes(hashBytes, keyBytes),
+                    KeyHashBytes(keyBytes, hashBytes)
+                );
+                keyByteCnt = keyHashTarBytes.Length;
+                keyHashBytes = new byte[keyByteCnt];
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
+            }
+
+            while (keyByteCnt < keyLen)
+            {
+                keyHashTarBytes = keyHashBytes.TarBytes(keyHashBytes);
+                keyByteCnt = keyHashTarBytes.Length;
+                keyHashBytes = new byte[keyByteCnt];
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
+            }
+
+            if (keyLen <= keyByteCnt)
+            {
+                // Array.Copy(keyHashBytes, 0, tmpKey, 0, keyLen);
+                for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)
+                    tmpKey[bytIdx] = keyHashBytes[bytIdx];
+            }
+
+            return tmpKey;
+
+        }
+
+
+
         #endregion GetUserKeyBytes
 
 

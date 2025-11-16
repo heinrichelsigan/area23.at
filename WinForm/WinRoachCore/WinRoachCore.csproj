@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows7.0</TargetFramework>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -12,8 +12,8 @@
     <PackageProjectUrl>https://github.com/heinrichelsigan/area23.at</PackageProjectUrl>
     <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>
     <PackageReleaseNotes>WinRoach .Net Core sample project</PackageReleaseNotes>
-    <AssemblyVersion>2.25.1010</AssemblyVersion>
-    <FileVersion>2.25.1101</FileVersion>
+    <AssemblyVersion>2.25.1116</AssemblyVersion>
+    <FileVersion>2.25.1116</FileVersion>
 	<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
   </PropertyGroup>
 
@@ -78,7 +78,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Area23.At.Framework.Core\Area23.At.Framework.Core.csproj" />
+    <ProjectReference Include="S:\area23.at\Framework\Area23.At.Framework.Core\Area23.At.Framework.Core.csproj" />
   </ItemGroup>
     
 	<ItemGroup>
