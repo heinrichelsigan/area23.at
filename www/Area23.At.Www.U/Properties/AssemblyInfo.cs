@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die
 // Assemblyinformationen zu ändern.
-[assembly: AssemblyTitle("Area23.At.Www.U")]
-[assembly: AssemblyDescription("Area23.At utf8 seacher")]
+[assembly: AssemblyTitle("OneLogin.Saml")]
+[assembly: AssemblyDescription("OneLogin.Saml")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("area23.at")]
-[assembly: AssemblyProduct("Area23.At.U uft8 symbol searcher")]
-[assembly: AssemblyCopyright("Copyleft Heinrich Elsigan © 2000 - 2040")]
+[assembly: AssemblyProduct("OneLogin.Saml")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
