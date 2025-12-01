@@ -169,7 +169,7 @@ namespace Area23.At.Mono
             {
                 string redir = HttpContext.Current.Request.Url.AbsoluteUri.Substring(0, idx);
                 redir += (redir.EndsWith("/")) ? "Error.aspx?event=appError" : "/Error.aspx?event=appError";
-                // Response.Redirect(redir);
+                Response.Redirect(redir);
             }
             
             // Response.Redirect(Request.ApplicationPath + "/Error.aspx");
