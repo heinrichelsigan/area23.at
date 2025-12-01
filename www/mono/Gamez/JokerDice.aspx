@@ -66,43 +66,43 @@
                 <asp:TableCell ID="TableHeaderCellComputer" runat="server" Visible="false"><b>computer</b></asp:TableCell>
             </asp:TableHeaderRow>
             <asp:TableRow ID="TableRowGrande" runat="server">
-                <asp:TableCell ID="TableCellGrande" runat="server"><span ID="SpanGrande" runat="server">Grande</span></asp:TableCell>
+                <asp:TableCell ID="TableCellGrande" runat="server"><span ID="SpanGrandeStrikeThrough" runat="server"><s>Grande</s></span><span ID="SpanGrande" runat="server">Grande</span></asp:TableCell>
                 <asp:TableCell ID="TableCellGrandePlayer" runat="server"><asp:CheckBox ID="CheckBoxGrande" runat="server" AutoPostBack="true" ClientIDMode="Static" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
                 <asp:TableCell ID="TableCellGrandeAction" runat="server"><asp:ImageButton ID="ImageButtonGrande" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>
                 <asp:TableCell ID="TableCellGrandeComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowPoker" runat="server">
-                <asp:TableCell ID="TableCellPoker" runat="server"><span ID="SpanPokeStrikeThrough" runat="server"><s>Poker</s></span><span ID="SpanPoker" runat="server">Poker</span></asp:TableCell>
+                <asp:TableCell ID="TableCellPoker" runat="server"><span ID="SpanPokerStrikeThrough" runat="server"><s>Poker</s></span><span ID="SpanPoker" runat="server">Poker</span></asp:TableCell>
                 <asp:TableCell ID="TableCellPokerPlayer" runat="server"><asp:CheckBox ID="CheckBoxPoker" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
                 <asp:TableCell ID="TableCellPokerAction" runat="server"><asp:ImageButton ID="ImageButtonPoker" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>
                 <asp:TableCell ID="TableCellPokerComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowFullHouse" runat="server">
-                <asp:TableCell ID="TableCellFullHouse" runat="server"><span ID="SpanFullHouse" runat="server">Full house</span></asp:TableCell>
+                <asp:TableCell ID="TableCellFullHouse" runat="server"><span ID="SpanFullHouseStrikeThrough" runat="server"><s>Full House</s></span><span ID="SpanFullHouse" runat="server">Full House</span></asp:TableCell>
                 <asp:TableCell ID="TableCellFullHousePlayer" runat="server"><asp:CheckBox ID="CheckBoxFullHouse" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
                 <asp:TableCell ID="TableCellFullHouseAction" runat="server"><asp:ImageButton ID="ImageButtonFullHouse" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>
                 <asp:TableCell ID="TableCellFullHouseComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowStraight" runat="server">
-                <asp:TableCell ID="TableCellStraight" runat="server"><span ID="SpanStraight" runat="server">Straight</span></asp:TableCell>
+                <asp:TableCell ID="TableCellStraight" runat="server"><span ID="SpanStraightStrikeThrough" runat="server"><s>Straight</s></span><span ID="SpanStraight" runat="server">Straight</span></asp:TableCell>
                 <asp:TableCell ID="TableCellStraightPlayer" runat="server"><asp:CheckBox ID="CheckBoxStraight" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
                 <asp:TableCell ID="TableCellStraightAction" runat="server"><asp:ImageButton ID="ImageButtonStraight" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>
                 <asp:TableCell ID="TableCellStraightComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowTriple" runat="server">
-                <asp:TableCell ID="TableCellTriple" runat="server"><span ID="SpanTriple" runat="server">Triple</span></asp:TableCell>
+                <asp:TableCell ID="TableCellTriple" runat="server"><span ID="SpanTripleStrikeThrough" runat="server"><s>Triple</s></span><span ID="SpanTriple" runat="server">Triple</span></asp:TableCell>
                 <asp:TableCell ID="TableCellTriplePlayer" runat="server"><asp:CheckBox ID="CheckBoxTriple" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
                 <asp:TableCell ID="TableCellTripleAction" runat="server">    <asp:ImageButton ID="ImageButtonTriple" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>
                 <asp:TableCell ID="TableCellTripleComputer" runat="server" Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowTwoPairs" runat="server">
-                <asp:TableCell ID="TableCellTwoPairs" runat="server"><span ID="SpanTwoPairs" runat="server">2 Pairs</span></asp:TableCell>
+                <asp:TableCell ID="TableCellTwoPairs" runat="server"><span ID="SpanTwoPairsStrikeThrough" runat="server"><s>2 Pairs</s></span><span ID="SpanTwoPairs" runat="server">2 Pairs</span></asp:TableCell>
                 <asp:TableCell ID="TableCellTwoPairsPlayer" runat="server"><asp:CheckBox ID="CheckBoxTwoPairs" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
                 <asp:TableCell ID="TableCellTwoPairsAction" runat="server"><asp:ImageButton ID="ImageButtonTwoPairs" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>
                 <asp:TableCell ID="TableCellTwoPairsComputer" runat="server"  Visible="false">0</asp:TableCell>
             </asp:TableRow>
             <asp:TableRow ID="TableRowPair" runat="server">
-                <asp:TableCell ID="TableCellPair" runat="server"><span ID="SpanPair" runat="server">Pair</span></asp:TableCell>
+                <asp:TableCell ID="TableCellPair" runat="server"><span ID="SpanPairStrikeThrough" runat="server"><s>Pair</s></span><span ID="SpanPair" runat="server">Pair</span></asp:TableCell>
                 <asp:TableCell ID="TableCellPairPlayer" runat="server"><asp:CheckBox ID="CheckBoxPair" runat="server" ClientIDMode="Static" AutoPostBack="true" Enabled="false" OnCheckedChanged="PokerCheckBox_Changed" /></asp:TableCell>
                 <asp:TableCell ID="TableCellPairAction" runat="server"><asp:ImageButton ID="ImageButtonPair" runat="server" ClientIDMode="Static" ImageUrl="~/res/img/symbol/pencila.png" OnClick="ImageButton_Pencil_Click" /></asp:TableCell>
                 <asp:TableCell ID="TableCellPairComputer" runat="server" Visible="false">0</asp:TableCell>

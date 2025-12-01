@@ -384,6 +384,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellGrande;
 
         /// <summary>
+        /// SpanGrandeStrikeThrough control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanGrandeStrikeThrough;
+
+        /// <summary>
         /// SpanGrande control.
         /// </summary>
         /// <remarks>
@@ -456,13 +465,13 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellPoker;
 
         /// <summary>
-        /// SpanPokeStrikeThrough control.
+        /// SpanPokerStrikeThrough control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanPokeStrikeThrough;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanPokerStrikeThrough;
 
         /// <summary>
         /// SpanPoker control.
@@ -537,6 +546,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellFullHouse;
 
         /// <summary>
+        /// SpanFullHouseStrikeThrough control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanFullHouseStrikeThrough;
+
+        /// <summary>
         /// SpanFullHouse control.
         /// </summary>
         /// <remarks>
@@ -607,6 +625,15 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableCell TableCellStraight;
+
+        /// <summary>
+        /// SpanStraightStrikeThrough control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanStraightStrikeThrough;
 
         /// <summary>
         /// SpanStraight control.
@@ -681,6 +708,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellTriple;
 
         /// <summary>
+        /// SpanTripleStrikeThrough control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanTripleStrikeThrough;
+
+        /// <summary>
         /// SpanTriple control.
         /// </summary>
         /// <remarks>
@@ -753,6 +789,15 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.WebControls.TableCell TableCellTwoPairs;
 
         /// <summary>
+        /// SpanTwoPairsStrikeThrough control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanTwoPairsStrikeThrough;
+
+        /// <summary>
         /// SpanTwoPairs control.
         /// </summary>
         /// <remarks>
@@ -823,6 +868,15 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableCell TableCellPair;
+
+        /// <summary>
+        /// SpanPairStrikeThrough control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanPairStrikeThrough;
 
         /// <summary>
         /// SpanPair control.

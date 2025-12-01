@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Web.DynamicData;
 using System.Web.UI.WebControls;
+using System.Windows.Media.Animation;
 
 namespace Area23.At.Mono.Gamez
 {
@@ -319,8 +320,10 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxGrande.Enabled)
                         {
                             if (ImageButtonGrande.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.SpanGrande.InnerHtml = "<s>Grande</s>";
-
+                            {
+                                this.SpanGrande.Visible = false;
+                                this.SpanGrandeStrikeThrough.Visible = true;
+                            }
                             CheckBoxGrande.Checked = true;
                         }
                         else if (!CheckBoxGrande.Checked)
@@ -332,7 +335,7 @@ namespace Area23.At.Mono.Gamez
                             if (ImageButtonPoker.ImageUrl.EndsWith("pencil_blue.png"))
                             {
                                 this.SpanPoker.Visible = false;
-                                this.SpanPokeStrikeThrough.Visible = true;
+                                this.SpanPokerStrikeThrough.Visible = true;
                             }
                             CheckBoxPoker.Checked = true;
                         }
@@ -343,7 +346,10 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxFullHouse.Enabled)
                         {
                             if (ImageButtonFullHouse.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.SpanFullHouse.InnerText = "<s>Full House</s>";
+                            {
+                                this.SpanFullHouse.Visible = false;
+                                this.SpanFullHouseStrikeThrough.Visible = true;
+                            }                                
                             CheckBoxFullHouse.Checked = true;
                         }
                         else if (!CheckBoxFullHouse.Checked)
@@ -353,7 +359,10 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxStraight.Enabled)
                         {
                             if (ImageButtonStraight.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.SpanStraight.InnerHtml = "<s>Straight</s>";
+                            {
+                                this.SpanStraight.Visible = false;
+                                this.SpanStraightStrikeThrough.Visible = true;
+                            }
                             CheckBoxStraight.Checked = true;
                         }
                         else if (!CheckBoxStraight.Checked)
@@ -363,7 +372,10 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxTriple.Enabled)
                         {
                             if (ImageButtonTriple.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.SpanTriple.InnerHtml = "<s>Triple</s>";
+                            {
+                                this.SpanTriple.Visible = false;
+                                this.SpanTripleStrikeThrough.Visible = true;
+                            }                                
                             CheckBoxTriple.Checked = true;
                         }
                         else if (!CheckBoxTriple.Checked)
@@ -373,7 +385,10 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxTwoPairs.Enabled)
                         {
                             if (ImageButtonTwoPairs.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.SpanTwoPairs.InnerHtml = "<s>2 Pairs</s>";
+                            {
+                                this.SpanTwoPairs.Visible = false;  
+                                this.SpanTwoPairsStrikeThrough.Visible = true;
+                            };
                             CheckBoxTwoPairs.Checked = true;
                         } else if (!CheckBoxTwoPairs.Checked)
                             PokerCheckBox_Changed(CheckBoxTwoPairs, e);
@@ -382,7 +397,10 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxPair.Enabled)
                         {
                             if (ImageButtonPair.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.SpanPoker.InnerHtml = "<s>Pair</s>";
+                            {
+                                this.SpanPair.Visible = false;  
+                                this.SpanPairStrikeThrough.Visible = true;
+                            }                                
                             CheckBoxPair.Checked = true;
                         }
                         else if (!CheckBoxPair.Checked)
@@ -391,8 +409,6 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonBust":
                         if (!CheckBoxBust.Enabled)
                         {
-                            if (ImageButtonBust.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellBust.Font.Strikeout = true;
                             CheckBoxBust.Checked = true;
                         }
                         else if (!CheckBoxBust.Checked) 
@@ -844,15 +860,31 @@ namespace Area23.At.Mono.Gamez
         public void ResetCheckBoxes(object sender, EventArgs e)
         {
             DisableCheckBoxesPenImageButtons(sender, e);
-            this.TableCellBust.Text = "Bust";
-            this.SpanPair.InnerHtml = "Pair";            
-            this.SpanTwoPairs.InnerHtml = "2 Pairs";
-            this.SpanTriple.InnerHtml = "Triple";
-            this.SpanStraight.InnerHtml = "Straight";
-            this.SpanStraight.InnerHtml = "Full House";
-            this.SpanPokeStrikeThrough.Visible = false;
-            this.SpanPoker.Visible = true;
+            
             this.SpanGrande.InnerHtml = "Grande";
+            this.SpanPoker.InnerHtml = "Poker";
+            this.SpanFullHouse.InnerHtml = "Full House";
+            this.SpanStraight.InnerHtml = "Straight";
+            this.SpanTriple.InnerHtml = "Triple";
+            this.SpanTwoPairs.InnerHtml = "2 Pairs";
+            this.SpanPair.InnerHtml = "Pair";
+            this.TableCellBust.Text = "Bust";
+
+            this.SpanGrande.Visible = true;
+            this.SpanPoker.Visible = true;
+            this.SpanFullHouse.Visible = true;
+            this.SpanStraight.Visible = true;
+            this.SpanTriple.Visible = true;
+            this.SpanTwoPairs.Visible = true;
+            this.SpanPair.Visible = true;
+
+            this.SpanGrandeStrikeThrough.Visible = false;
+            this.SpanPokerStrikeThrough.Visible = false;
+            this.SpanFullHouseStrikeThrough.Visible = false;
+            this.SpanStraightStrikeThrough.Visible = false;
+            this.SpanTripleStrikeThrough.Visible = false;
+            this.SpanTwoPairsStrikeThrough.Visible = false;
+            this.SpanPairStrikeThrough.Visible = false;
             CheckBoxGrande.Checked = false;
             CheckBoxPoker.Checked = false;
             CheckBoxFullHouse.Checked = false;
