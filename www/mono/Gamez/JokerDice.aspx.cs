@@ -322,7 +322,7 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonGrande":
                         if (!CheckBoxGrande.Enabled)
                         {
-                            if (ImageButtonGrande.ImageUrl.EndsWith("pencil_blue.png"))
+                            if (ImageButtonGrande.ImageUrl.EndsWith(".png"))
                             {
                                 this.SpanGrande.Visible = false;
                                 this.SpanGrandeStrikeThrough.Visible = true;
@@ -335,7 +335,7 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonPoker":
                         if (!CheckBoxPoker.Enabled)
                         {
-                            if (ImageButtonPoker.ImageUrl.EndsWith("pencil_blue.png"))
+                            if (ImageButtonPoker.ImageUrl.EndsWith(".png"))
                             {
                                 this.SpanPoker.Visible = false;
                                 this.SpanPokerStrikeThrough.Visible = true;
@@ -348,7 +348,7 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonFullHouse":
                         if (!CheckBoxFullHouse.Enabled)
                         {
-                            if (ImageButtonFullHouse.ImageUrl.EndsWith("pencil_blue.png"))
+                            if (ImageButtonFullHouse.ImageUrl.EndsWith(".png"))
                             {
                                 this.SpanFullHouse.Visible = false;
                                 this.SpanFullHouseStrikeThrough.Visible = true;
@@ -361,7 +361,7 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonStraight":
                         if (!CheckBoxStraight.Enabled)
                         {
-                            if (ImageButtonStraight.ImageUrl.EndsWith("pencil_blue.png"))
+                            if (ImageButtonStraight.ImageUrl.EndsWith(".png"))
                             {
                                 this.SpanStraight.Visible = false;
                                 this.SpanStraightStrikeThrough.Visible = true;
@@ -374,7 +374,7 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonTriple":
                         if (!CheckBoxTriple.Enabled)
                         {
-                            if (ImageButtonTriple.ImageUrl.EndsWith("pencil_blue.png"))
+                            if (ImageButtonTriple.ImageUrl.EndsWith(".png"))
                             {
                                 this.SpanTriple.Visible = false;
                                 this.SpanTripleStrikeThrough.Visible = true;
@@ -387,7 +387,7 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonTwoPairs":
                         if (!CheckBoxTwoPairs.Enabled)
                         {
-                            if (ImageButtonTwoPairs.ImageUrl.EndsWith("pencil_blue.png"))
+                            if (ImageButtonTwoPairs.ImageUrl.EndsWith(".png"))
                             {
                                 this.SpanTwoPairs.Visible = false;  
                                 this.SpanTwoPairsStrikeThrough.Visible = true;
@@ -399,7 +399,7 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonPair":
                         if (!CheckBoxPair.Enabled)
                         {
-                            if (ImageButtonPair.ImageUrl.EndsWith("pencil_blue.png"))
+                            if (ImageButtonPair.ImageUrl.EndsWith(".png"))
                             {
                                 this.SpanPair.Visible = false;  
                                 this.SpanPairStrikeThrough.Visible = true;
