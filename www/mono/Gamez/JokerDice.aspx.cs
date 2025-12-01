@@ -92,9 +92,12 @@ namespace Area23.At.Mono.Gamez
                 Session["DiceCupClickable"] = true;
             if (Session["PlayerScore"] == null)
                 Session["PlayerScore"] = 0;
-            
+
             if (!IsPostBack)
+            {
                 Session["Round"] = (Session["Round"] == null) ? 0 : (((int)Session["Round"] + ((int)Session["Round"] % 2)));
+                ResetCheckBoxes(sender, e);                
+            }
 
             dices = (Session["JokerDices"] != null) ? (JokerDiceEnum[])Session["JokerDices"] : new JokerDiceEnum[5];
         }
