@@ -3,6 +3,7 @@ using Area23.At.Framework.Library.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 
 namespace Area23.At.Framework.Library.Crypt.EnDeCoding
@@ -255,9 +256,20 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// <returns>binary byte array</returns>
         public static byte[] FromUu(string uuEncStr)
         {
-
             string fromUuFunCall = "FromUu(string uuEncStr[.Length=" + uuEncStr.Length + "])";
             Area23Log.LogOriginMsg("Uu", fromUuFunCall + "... STARTED.");
+
+            lock (_lock)
+            {
+                long[] invalidLongs = (new List<long>().ToArray());
+                if (System.AppDomain.CurrentDomain.GetData(Constants.INVALID_CHARS) != null)
+                    invalidLongs = (long[])System.AppDomain.CurrentDomain.GetData(Constants.INVALID_CHARS);
+
+                for (int i = 0; i < invalidLongs.Length; i++)
+                    uuEncStr = uuEncStr.Replace(((char)invalidLongs[i]).ToString(), "");
+
+                System.AppDomain.CurrentDomain.SetData(Constants.INVALID_CHARS, null);
+            }
 
             MemoryStream inStream = new MemoryStream(), outStream = new MemoryStream();
             var writer = new StreamWriter(inStream);
@@ -298,6 +310,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
         public static bool IsValidUu(string uuEncodedStr, out string error)
         {
+            List<long> invalidChars = new List<long>(); 
             string encodedBody = uuEncodedStr;
             bool isValid = true;
             error = "";
@@ -318,9 +331,24 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 {
                     if (!ValidCharSet.Contains(ch))
                     {
-                        error += ch.ToString();
-                        isValid = false;
+                        if (((int)ch) >= 256)
+                        {
+                            Area23Log.LogOriginMsg("Uu", $"illegal high (char){(long)ch} \'{ch}\'");
+                            invalidChars.Add((long)ch);
+                        }
+                        else
+                        {
+                            error += ch.ToString();
+                            Area23Log.LogOriginMsg("Uu", $"illegal char \'{ch}\'");
+                            isValid = false;
+                            return false;
+                        }
                     }
+                }
+
+                if (invalidChars.Count > 0)
+                {
+                    System.AppDomain.CurrentDomain.SetData(Constants.INVALID_CHARS, invalidChars.ToArray());
                 }
             }
 

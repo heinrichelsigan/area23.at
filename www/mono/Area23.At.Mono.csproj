@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -315,6 +315,7 @@
     <Content Include="res\img\symbol\brusha.png" />
     <Content Include="res\img\symbol\brushglue.png" />
     <Content Include="res\img\symbol\ChiffrePentacle.gif" />
+    <Content Include="res\img\symbol\ChiffrePentacle.png" />
     <Content Include="res\img\symbol\close_delete.gif" />
     <Content Include="res\img\symbol\CupNextGame.png" />
     <Content Include="res\img\symbol\CupNextRound.png" />
@@ -323,6 +324,7 @@
     <Content Include="res\img\symbol\DiceCup.png" />
     <Content Include="res\img\symbol\DiceQueen.png" />
     <Content Include="res\img\symbol\Dice_Poker_Header.png" />
+    <Content Include="res\img\symbol\Dice_Poker_Image.gif" />
     <Content Include="res\img\symbol\dotnet.png" />
     <Content Include="res\img\symbol\EmptyDice.png" />
     <Content Include="res\img\symbol\favicon.ico" />

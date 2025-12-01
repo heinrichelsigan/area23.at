@@ -319,7 +319,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxGrande.Enabled)
                         {
                             if (ImageButtonGrande.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellGrande.Font.Strikeout = true;
+                                this.SpanGrande.InnerHtml = "<s>Grande</s>";
 
                             CheckBoxGrande.Checked = true;
                         }
@@ -330,7 +330,10 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxPoker.Enabled)
                         {
                             if (ImageButtonPoker.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellPoker.Font.Strikeout = true;
+                            {
+                                this.SpanPoker.Visible = false;
+                                this.SpanPokeStrikeThrough.Visible = true;
+                            }
                             CheckBoxPoker.Checked = true;
                         }
                         else if (!CheckBoxPoker.Checked)
@@ -340,7 +343,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxFullHouse.Enabled)
                         {
                             if (ImageButtonFullHouse.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellFullHouse.Font.Strikeout = true;
+                                this.SpanFullHouse.InnerText = "<s>Full House</s>";
                             CheckBoxFullHouse.Checked = true;
                         }
                         else if (!CheckBoxFullHouse.Checked)
@@ -350,7 +353,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxStraight.Enabled)
                         {
                             if (ImageButtonStraight.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellStraight.Font.Strikeout = true;
+                                this.SpanStraight.InnerHtml = "<s>Straight</s>";
                             CheckBoxStraight.Checked = true;
                         }
                         else if (!CheckBoxStraight.Checked)
@@ -360,7 +363,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxTriple.Enabled)
                         {
                             if (ImageButtonTriple.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellTriple.Font.Strikeout = true;
+                                this.SpanTriple.InnerHtml = "<s>Triple</s>";
                             CheckBoxTriple.Checked = true;
                         }
                         else if (!CheckBoxTriple.Checked)
@@ -370,7 +373,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxTwoPairs.Enabled)
                         {
                             if (ImageButtonTwoPairs.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellTwoPairs.Font.Strikeout = true;
+                                this.SpanTwoPairs.InnerHtml = "<s>2 Pairs</s>";
                             CheckBoxTwoPairs.Checked = true;
                         } else if (!CheckBoxTwoPairs.Checked)
                             PokerCheckBox_Changed(CheckBoxTwoPairs, e);
@@ -379,7 +382,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxPair.Enabled)
                         {
                             if (ImageButtonPair.ImageUrl.EndsWith("pencil_blue.png"))
-                                this.TableCellPair.Font.Strikeout = true;
+                                this.SpanPoker.InnerHtml = "<s>Pair</s>";
                             CheckBoxPair.Checked = true;
                         }
                         else if (!CheckBoxPair.Checked)
@@ -842,21 +845,14 @@ namespace Area23.At.Mono.Gamez
         {
             DisableCheckBoxesPenImageButtons(sender, e);
             this.TableCellBust.Text = "Bust";
-            this.TableCellBust.Font.Strikeout = false;
-            this.TableCellPair.Text = "Pair";
-            this.TableCellPair.Font.Strikeout = false;
-            this.TableCellTwoPairs.Text = "TwoPairs";
-            this.TableCellTwoPairs.Font.Strikeout = false;
-            this.TableCellTriple.Text = "Triple";
-            this.TableCellTriple.Font.Strikeout = false;
-            this.TableCellStraight.Text = "Straight";
-            this.TableCellStraight.Font.Strikeout = false;
-            this.TableCellFullHouse.Text = "Full House";
-            this.TableCellFullHouse.Font.Strikeout = false;
-            this.TableCellPoker.Text = "Poker";
-            this.TableCellPoker.Font.Strikeout = false;
-            this.TableCellGrande.Text = "Grande";
-            this.TableCellGrande.Font.Strikeout = false;
+            this.SpanPair.InnerHtml = "Pair";            
+            this.SpanTwoPairs.InnerHtml = "2 Pairs";
+            this.SpanTriple.InnerHtml = "Triple";
+            this.SpanStraight.InnerHtml = "Straight";
+            this.SpanStraight.InnerHtml = "Full House";
+            this.SpanPokeStrikeThrough.Visible = false;
+            this.SpanPoker.Visible = true;
+            this.SpanGrande.InnerHtml = "Grande";
             CheckBoxGrande.Checked = false;
             CheckBoxPoker.Checked = false;
             CheckBoxFullHouse.Checked = false;

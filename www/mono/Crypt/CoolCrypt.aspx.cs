@@ -523,14 +523,14 @@ namespace Area23.At.Mono.Crypt
                     }
 
                     outBytes = cipherPipe.DecryptFileBytesRoundsGo(inBytes, key, hash, encType, zipType, keyHash);
-                    strFileName = strFileName.Contains(zipType.ZipFileExtension(cipherPipe.PipeString)) ?
-                        strFileName.Replace(zipType.ZipFileExtension(cipherPipe.PipeString), "") :
-                        strFileName;
+                    string zipExtToReplace = zipType.ZipFileExtension(cipherPipe.PipeString);
+                    if (!string.IsNullOrEmpty(zipExtToReplace)) 
+                        strFileName = strFileName.Contains(zipExtToReplace) ? 
+                            strFileName.Replace(zipExtToReplace, "") :strFileName;
 
                     imgOut.Src = LibPaths.ResAppPath + "img/crypt/decrypted.png";
                     savedTransFile = ByteArrayToFile(outBytes, out outMsg, strFileName, LibPaths.SystemDirOutPath);
                     uploadResult.Text = string.Format("decrypt to {0}", outMsg);
-
                 }
 
                 // set a href to saved trans file

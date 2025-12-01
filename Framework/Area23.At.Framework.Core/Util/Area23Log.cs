@@ -52,9 +52,9 @@ namespace Area23.At.Framework.Core.Util
         /// <summary>
         /// private Singelton constructor
         /// </summary>
-        static Area23Log() 
+        static Area23Log()
         {
-            LogFile = LibPaths.LogFileSystemPath; 
+            LogFile = LibPaths.LogFileSystemPath;
             InitLog("");
         }
 

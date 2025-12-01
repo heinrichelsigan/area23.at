@@ -31,7 +31,7 @@ namespace Area23.At.Framework.Library.Static
         public const int MAX_BYTE_BUFFEER = 4194240;            //  4 MB Buffer
         public const int MAX_SOCKET_BYTE_BUFFEER = 33554432;    //  32 MB Buffer  2^25
         public const bool CQR_ENCRYPT = true;
-        public const bool ZEN_MATRIX_SYMMETRIC = false;
+        public const bool ZEN_MATRIX_SYMMETRIC = false;        
 
         public const char ANNOUNCE = ':';
         public const char DATE_DELIM = '-';
@@ -131,6 +131,7 @@ namespace Area23.At.Framework.Library.Static
         public const string ENTER_IP_CONTACT = "[Enter IPv4/IPv6 or select Contact]";
         public const string ENTER_IP = "[Enter peer IPv4/IPv6]";
         public const string ENTER_CONTACT = "[Select Contact]";
+        public const string INVALID_CHARS = "InvalidChars";
 
         public const string ACCEPT_LANGUAGE = "Accept-Language";
         public const string AES_ENVIROMENT_KEY = "APP_ENCRYPTION_SECRET_KEY";
