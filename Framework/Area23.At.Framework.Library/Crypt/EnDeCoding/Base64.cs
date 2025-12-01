@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Area23.At.Framework.Library.Util;
+using System;
 using System.Collections.Generic;
 
 namespace Area23.At.Framework.Library.Crypt.EnDeCoding
@@ -17,6 +18,9 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         public static readonly char[] SPECIAL_CHAR_ARRAY = { ZERO_WIDTH_NO_BREAK_SPACE, ' ', '\t', '\r', '\n' };
         public static readonly string SPECIAL_CHARS = new string(SPECIAL_CHAR_ARRAY);
         public static readonly string VALID_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/=" + SPECIAL_CHARS;
+
+        private static readonly object _lock = new object();
+        static string invalidChars = "";
 
         #region common interface, interfaces for static members appear in C# 7.3 or later
 
@@ -73,6 +77,16 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         public static byte[] FromBase64(string inString)
         {
             inString = inString.Replace(Base64.ZERO_WIDTH_NO_BREAK_SPACE.ToString(), "");
+            lock (_lock)
+            {
+                if (!string.IsNullOrEmpty(invalidChars))
+                {
+                    for (int i = 0; i < invalidChars.Length; i++)
+                        inString = inString.Replace(invalidChars[i].ToString(), "");
+                    invalidChars = "";
+                }
+            }
+
             byte[] outBytes = Convert.FromBase64String(inString);
             return outBytes;
         }
@@ -85,8 +99,18 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             {
                 if (!(new HashSet<char>(VALID_CHARS.ToCharArray()).Contains(ch)))
                 {
-                    error += ch;
-                    valid = false;
+                    if (((int)ch) >= 256)
+                    {
+                        Area23Log.LogOriginMsg("Uu", $"illegal high (char){(long)ch} \'{ch}\'");
+                        invalidChars += ch.ToString();
+                    }
+                    else
+                    {
+                        error += ch.ToString();
+                        Area23Log.LogOriginMsg("Uu", $"illegal char \'{ch}\'");
+                        valid = false;
+                        return false;
+                    }
                 }
             }
             return valid;

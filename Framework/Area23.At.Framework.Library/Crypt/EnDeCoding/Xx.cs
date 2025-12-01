@@ -21,6 +21,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         public static readonly object _lock = new object();
         public const string VALID_CHARS = "+- 0123456789@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\t\r\n";
 
+        static string invalidChars = "";
 
         static readonly byte[] XXEncMap = new byte[]
         {
@@ -261,6 +262,18 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
             string fromXxFunCall = "FromXx(string xxEncStr[.Length=" + xxEncStr.Length + "])";
             Area23Log.LogOriginMsg("Xx", fromXxFunCall + "... STARTED.");
 
+            lock (_lock)
+            {
+                if (!string.IsNullOrEmpty(invalidChars))
+                {
+                    for (int i = 0; i < invalidChars.Length; i++)
+                        xxEncStr = xxEncStr.Replace(invalidChars[i].ToString(), "");
+
+                    invalidChars = "";
+                }
+            }
+
+
             MemoryStream inStream = new MemoryStream(), outStream = new MemoryStream();
             var writer = new StreamWriter(inStream);
             writer.Write(xxEncStr);
@@ -319,8 +332,18 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 {
                     if (!ValidCharSet.Contains(ch))
                     {
-                        error += ch.ToString();
-                        isValid = false;
+                        if (((int)ch) >= 256)
+                        {
+                            Area23Log.LogOriginMsg("Xx", $"illegal high (char){(long)ch} \'{ch}\'");
+                            invalidChars += ch.ToString();
+                        }
+                        else
+                        {
+                            error += ch.ToString();
+                            Area23Log.LogOriginMsg("Xx", $"illegal char \'{ch}\'");
+                            isValid = false;
+                            return false;
+                        }
                     }
                 }
             }

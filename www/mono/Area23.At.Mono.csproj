@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -220,6 +220,30 @@
     <Content Include="res\css\ccalcweb.css" />
     <Content Include="res\css\matrixcalcweb.css" />
     <Content Include="res\css\ccalc.css" />
+    <Content Include="res\gamez\dicepoker\Ace.gif" />
+    <Content Include="res\gamez\dicepoker\Ace.png" />
+    <Content Include="res\gamez\dicepoker\CupNextGame.gif" />
+    <Content Include="res\gamez\dicepoker\CupNextGame.png" />
+    <Content Include="res\gamez\dicepoker\CupNextRound.gif" />
+    <Content Include="res\gamez\dicepoker\CupNextRound.png" />
+    <Content Include="res\gamez\dicepoker\CupOverDice.gif" />
+    <Content Include="res\gamez\dicepoker\CupOverDice.png" />
+    <Content Include="res\gamez\dicepoker\DiceCup.gif" />
+    <Content Include="res\gamez\dicepoker\DiceCup.png" />
+    <Content Include="res\gamez\dicepoker\Dice_Poker_Header.png" />
+    <Content Include="res\gamez\dicepoker\Dice_Poker_Image.gif" />
+    <Content Include="res\gamez\dicepoker\EmptyDice.png" />
+    <Content Include="res\gamez\dicepoker\Jack.gif" />
+    <Content Include="res\gamez\dicepoker\Jack.png" />
+    <Content Include="res\gamez\dicepoker\Joker.gif" />
+    <Content Include="res\gamez\dicepoker\Joker.png" />
+    <Content Include="res\gamez\dicepoker\King.gif" />
+    <Content Include="res\gamez\dicepoker\King.png" />
+    <Content Include="res\gamez\dicepoker\Queen.gif" />
+    <Content Include="res\gamez\dicepoker\Queen.png" />
+    <Content Include="res\gamez\dicepoker\Ten.gif" />
+    <Content Include="res\gamez\dicepoker\Ten.png" />
+    <Content Include="res\gamez\dicepoker\Untitled.gif" />
     <Content Include="res\gamez\froga\a_down.gif" />
     <Content Include="res\gamez\froga\a_left.gif" />
     <Content Include="res\gamez\froga\a_right.gif" />
@@ -310,23 +334,13 @@
     <Content Include="res\gamez\tictactoe\workerTicTacToe.gif" />
     <Content Include="res\img\symbol\2343243.png" />
     <Content Include="res\img\symbol\access_denied.gif" />
-    <Content Include="res\img\symbol\Ace.png" />
     <Content Include="res\img\symbol\brush.png" />
     <Content Include="res\img\symbol\brusha.png" />
     <Content Include="res\img\symbol\brushglue.png" />
     <Content Include="res\img\symbol\ChiffrePentacle.gif" />
     <Content Include="res\img\symbol\ChiffrePentacle.png" />
     <Content Include="res\img\symbol\close_delete.gif" />
-    <Content Include="res\img\symbol\CupNextGame.png" />
-    <Content Include="res\img\symbol\CupNextRound.png" />
-    <Content Include="res\img\symbol\CupOverDice.png" />
-    <Content Include="res\img\symbol\Dice10.png" />
-    <Content Include="res\img\symbol\DiceCup.png" />
-    <Content Include="res\img\symbol\DiceQueen.png" />
-    <Content Include="res\img\symbol\Dice_Poker_Header.png" />
-    <Content Include="res\img\symbol\Dice_Poker_Image.gif" />
     <Content Include="res\img\symbol\dotnet.png" />
-    <Content Include="res\img\symbol\EmptyDice.png" />
     <Content Include="res\img\symbol\favicon.ico" />
     <Content Include="res\img\symbol\file_warning.gif" />
     <Content Include="res\img\crypt\file_working.gif" />
@@ -335,11 +349,8 @@
     <Content Include="res\img\symbol\img_process_tree.png" />
     <Content Include="res\img\symbol\img_taskbar_bg.png" />
     <Content Include="res\img\symbol\img_undo_turn_back.png" />
-    <Content Include="res\img\symbol\Jack.png" />
-    <Content Include="res\img\symbol\Joker.png" />
     <Content Include="res\img\symbol\JollyRoger.png" />
     <Content Include="res\img\symbol\key_ring.gif" />
-    <Content Include="res\img\symbol\King.png" />
     <Content Include="res\img\symbol\packageIcon.png" />
     <Content Include="res\img\symbol\pdf_icon.gif" />
     <Content Include="res\img\symbol\pdf_icon.png" />
@@ -360,7 +371,6 @@
     <Content Include="res\img\symbol\Repair.ico" />
     <Content Include="res\img\symbol\ShowConvertData.ico" />
     <Content Include="res\img\symbol\SortConvertData.ico" />
-    <Content Include="res\img\symbol\Ten.png" />
     <Content Include="res\img\symbol\UndoTurnBack.ico" />
     <Content Include="res\img\transparent.gif" />
     <Content Include="res\gamez\pong\workerPong.gif" />

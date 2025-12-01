@@ -24,7 +24,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         internal ZipType zType = ZipType.None;
         private readonly CipherEnum[] inPipe;
         internal readonly CipherEnum[] outPipe;
-        internal EncodingType encodeType = EncodingType.Base64;
+        internal EncodingType encodeType = EncodingType.Base64;        
         internal static KeyHash kHash = KeyHash.Hex;
         private readonly string pipeString;
         private string symmCipherKey = "", symmCipherHash = "";
@@ -588,6 +588,98 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         // TODO:
         public byte[] DecrpytRoundsGo(byte[] cipherBytes, string secretKey = "", ZipType unzipAfter = ZipType.None, KeyHash keyHash = KeyHash.Hex)
             => DecrpytRoundGoMerry(cipherBytes, secretKey, keyHash.Hash(secretKey), unzipAfter);
+
+
+
+        public string EncrpytEncode(byte[] inBytes, string secretKey, EncodingType encType = EncodingType.Base64,
+            ZipType zipBefore = ZipType.None, KeyHash keyHash = KeyHash.Hex)
+        {
+            if (string.IsNullOrEmpty(secretKey) && string.IsNullOrEmpty(cipherKey))
+                throw new ArgumentNullException("seretkey");
+
+            cipherKey = (!string.IsNullOrEmpty(secretKey)) ? secretKey : cipherKey;
+            cipherHash = keyHash.Hash(secretKey);
+            encodeType = encType;
+            zType = zipBefore;
+            kHash = keyHash;
+            byte[] outBytes = MerryGoRoundEncrpyt(inBytes, secretKey, cipherHash, zipBefore);
+            string cryptedEncoded = encType.GetEnCoder().EnCode(outBytes);
+            return cryptedEncoded;
+        }
+
+
+        public byte[] DecodeDecrpyt(string encoded, string secretKey, EncodingType encType = EncodingType.Base64,
+            ZipType unzipAfter = ZipType.None, KeyHash keyHash = KeyHash.Hex)
+        {
+            if (string.IsNullOrEmpty(secretKey) && string.IsNullOrEmpty(cipherKey))
+                throw new ArgumentNullException("seretkey");
+
+            cipherKey = (!string.IsNullOrEmpty(secretKey)) ? secretKey : cipherKey;
+            cipherHash = keyHash.Hash(secretKey);
+            encodeType = encType;
+            zType = unzipAfter;
+            kHash = keyHash;            
+            byte[] cipherBytes = encodeType.GetEnCoder().DeCode(encoded);
+            byte[] outBytes = DecrpytRoundGoMerry(cipherBytes, secretKey, keyHash.Hash(secretKey), unzipAfter);
+
+            return outBytes;
+        }
+
+
+        public byte[] EncryptEncodeBytes(byte[] inBytes, string secretKey, string hashIV,
+        EncodingType encType = EncodingType.Base64,
+        ZipType zipBefore = ZipType.None, KeyHash keyHash = KeyHash.Hex)
+        {
+            if (string.IsNullOrEmpty(secretKey) && string.IsNullOrEmpty(cipherKey))
+                throw new ArgumentNullException("seretkey");
+
+            cipherKey = (!string.IsNullOrEmpty(secretKey)) ? secretKey : cipherKey;
+            hashIV = (string.IsNullOrEmpty(hashIV)) ? keyHash.Hash(cipherKey) : hashIV;
+            cipherHash = hashIV;
+            encodeType = encType;
+            zType = zipBefore;
+            kHash = keyHash;
+
+            byte[] outBytes = MerryGoRoundEncrpyt(inBytes, secretKey, cipherHash, zipBefore);
+            byte[] encryptedBytes = (new List<byte>()).ToArray();
+            if (encType != EncodingType.None)
+            {
+                string cryptedEncoded = encType.GetEnCoder().EnCode(outBytes);
+                encryptedBytes = System.Text.Encoding.UTF8.GetBytes(cryptedEncoded);
+            }
+            else
+                encryptedBytes = outBytes;
+
+            return encryptedBytes;
+        }
+
+        public byte[] DecodeDecrpytBytes(byte[] encodedBytes, string secretKey, string hashIV,
+           EncodingType encType = EncodingType.Base64,
+           ZipType unzipAfter = ZipType.None, KeyHash keyHash = KeyHash.Hex)
+        {
+            if (string.IsNullOrEmpty(secretKey) && string.IsNullOrEmpty(cipherKey))
+                throw new ArgumentNullException("seretkey");
+
+            cipherKey = (!string.IsNullOrEmpty(secretKey)) ? secretKey : cipherKey;
+            hashIV = (string.IsNullOrEmpty(hashIV)) ? keyHash.Hash(cipherKey) : hashIV;
+            cipherHash = hashIV;
+            zType = unzipAfter;
+            kHash = keyHash;
+            encodeType = encType;
+
+            byte[] cipherBytes = (new List<byte>()).ToArray();
+            if (encType != EncodingType.None)
+            {
+                string encoded = System.Text.Encoding.UTF8.GetString(encodedBytes);
+                cipherBytes = encType.GetEnCoder().DeCode(encoded);
+            }
+            else
+                cipherBytes = encodedBytes;
+
+            byte[] outBytes = DecrpytRoundGoMerry(cipherBytes, secretKey, hashIV, unzipAfter);
+
+            return outBytes;
+        }
 
 
 

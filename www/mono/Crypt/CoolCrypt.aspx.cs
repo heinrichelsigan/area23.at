@@ -480,17 +480,16 @@ namespace Area23.At.Mono.Crypt
                 {
                     strFileName += zipType.ZipFileExtension(cipherPipe.PipeString);
                     // cFile.EncryptToJson(key, hash, encType, zipType, keyHash);
-                    outBytes = cipherPipe.EncrpytFileBytesGoRounds(inBytes, key, hash, encType, zipType, keyHash);
+                    // cipherPipe.EncrpytFileBytesGoRounds(inBytes, key, hash, encType, zipType, keyHash);
+                    outBytes = cipherPipe.EncryptEncodeBytes(inBytes, key, hash, 
+                        (CheckBoxEncode.Checked) ? encType : EncodingType.None,
+                        zipType, keyHash);
 
                     if (CheckBoxEncode.Checked)
                     {
-                        strFileName += "." + encType.ToString().ToLowerInvariant();
-                        string outString = encType.GetEnCoder().EnCode(outBytes);
-                        strLen = outString.Length;
-                        savedTransFile = this.StringToFile(outString, out outMsg, strFileName, LibPaths.SystemDirOutPath);
-                    }
-                    else
-                        savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName, LibPaths.SystemDirOutPath);
+                        strFileName += "." + encType.ToString().ToLowerInvariant();                        
+                    }                    
+                    savedTransFile = this.ByteArrayToFile(outBytes, out outMsg, strFileName, LibPaths.SystemDirOutPath);
 
                     imgOut.Src = LibPaths.ResAppPath + "img/crypt/encrypted.png";
 
@@ -517,16 +516,17 @@ namespace Area23.At.Mono.Crypt
                             SpanLabel.Visible = true;
                             return;
                         }
-                        inBytes = extEncType.GetEnCoder().DeCode(cipherText);
+                        // inBytes = extEncType.GetEnCoder().DeCode(cipherText);
 
                         strFileName = strFileName.EndsWith("." + extEncType.GetEncodingFileExtension()) ? strFileName.Replace("." + extEncType.GetEncodingFileExtension(), "") : strFileName;
                     }
 
-                    outBytes = cipherPipe.DecryptFileBytesRoundsGo(inBytes, key, hash, encType, zipType, keyHash);
+                    outBytes = cipherPipe.DecodeDecrpytBytes(inBytes, key, hash, extEncType, zipType, keyHash);
+                    
                     string zipExtToReplace = zipType.ZipFileExtension(cipherPipe.PipeString);
                     if (!string.IsNullOrEmpty(zipExtToReplace)) 
                         strFileName = strFileName.Contains(zipExtToReplace) ? 
-                            strFileName.Replace(zipExtToReplace, "") :strFileName;
+                            strFileName.Replace(zipExtToReplace, "") : strFileName;
 
                     imgOut.Src = LibPaths.ResAppPath + "img/crypt/decrypted.png";
                     savedTransFile = ByteArrayToFile(outBytes, out outMsg, strFileName, LibPaths.SystemDirOutPath);

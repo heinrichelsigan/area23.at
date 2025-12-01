@@ -23,6 +23,8 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         public static readonly object _lock = new object();
         public const string VALID_CHARS = "!\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_` \r\n";
 
+        static string invalidChars = "";
+
         static readonly byte[] UUEncMap = new byte[]
         {
           0x60, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F,
@@ -261,14 +263,14 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
             lock (_lock)
             {
-                long[] invalidLongs = (new List<long>().ToArray());
-                if (System.AppDomain.CurrentDomain.GetData(Constants.INVALID_CHARS) != null)
-                    invalidLongs = (long[])System.AppDomain.CurrentDomain.GetData(Constants.INVALID_CHARS);
+                if (!string.IsNullOrEmpty(invalidChars))
+                {
+                    for (int i = 0; i < invalidChars.Length; i++)
+                        uuEncStr = uuEncStr.Replace(((char)invalidChars[i]).ToString(), "");
 
-                for (int i = 0; i < invalidLongs.Length; i++)
-                    uuEncStr = uuEncStr.Replace(((char)invalidLongs[i]).ToString(), "");
-
-                System.AppDomain.CurrentDomain.SetData(Constants.INVALID_CHARS, null);
+                    invalidChars = "";
+                }
+                                
             }
 
             MemoryStream inStream = new MemoryStream(), outStream = new MemoryStream();
@@ -310,7 +312,6 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
         public static bool IsValidUu(string uuEncodedStr, out string error)
         {
-            List<long> invalidChars = new List<long>(); 
             string encodedBody = uuEncodedStr;
             bool isValid = true;
             error = "";
@@ -334,7 +335,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                         if (((int)ch) >= 256)
                         {
                             Area23Log.LogOriginMsg("Uu", $"illegal high (char){(long)ch} \'{ch}\'");
-                            invalidChars.Add((long)ch);
+                            invalidChars += ch.ToString();
                         }
                         else
                         {
@@ -345,11 +346,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                         }
                     }
                 }
-
-                if (invalidChars.Count > 0)
-                {
-                    System.AppDomain.CurrentDomain.SetData(Constants.INVALID_CHARS, invalidChars.ToArray());
-                }
+                
             }
 
             return isValid;

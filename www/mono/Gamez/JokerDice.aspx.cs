@@ -39,12 +39,12 @@ namespace Area23.At.Mono.Gamez
         {
             switch (value)
             {
-                case JokerDiceEnum.Joker:       return "../res/img/symbol/Joker.png";
-                case JokerDiceEnum.Ace:         return "../res/img/symbol/Ace.png";
-                case JokerDiceEnum.King:        return "../res/img/symbol/King.png";
-                case JokerDiceEnum.Queen:       return "../res/img/symbol/Queen.png";
-                case JokerDiceEnum.Jack:        return "../res/img/symbol/Jack.png";
-                case JokerDiceEnum.Ten:         return "../res/img/symbol/Ten.png";
+                case JokerDiceEnum.Joker:       return "../res/gamez/dicepoker/Joker.gif";
+                case JokerDiceEnum.Ace:         return "../res/gamez/dicepoker/Ace.gif";
+                case JokerDiceEnum.King:        return "../res/gamez/dicepoker/King.gif";
+                case JokerDiceEnum.Queen:       return "../res/gamez/dicepoker/Queen.gif";
+                case JokerDiceEnum.Jack:        return "../res/gamez/dicepoker/Jack.gif";
+                case JokerDiceEnum.Ten:         return "../res/gamez/dicepoker/Ten.gif";
                 default:                        return value.ToString();
             }
         }
@@ -110,12 +110,12 @@ namespace Area23.At.Mono.Gamez
 
             if (sender is ImageButton im)
             {
-                if (!im.ImageUrl.EndsWith("CupOverDice.png"))
+                if (!im.ImageUrl.EndsWith("CupOverDice.gif"))
                 {
                     im.BorderStyle = BorderStyle.Dashed;
-                    im.ImageUrl = "../res/img/symbol/CupOverDice.png";
+                    im.ImageUrl = "../res/gamez/dicepoker/CupOverDice.gif";
                 }
-                else if (im.BorderStyle == BorderStyle.Dashed || im.ImageUrl.EndsWith("CupOverDice.png"))
+                else if (im.BorderStyle == BorderStyle.Dashed || im.ImageUrl.EndsWith("CupOverDice.gif"))
                 {
                     if (!Enum.TryParse<JokerDiceEnum>(im.AlternateText, out JokerDiceEnum jDice))
                     {
@@ -145,15 +145,15 @@ namespace Area23.At.Mono.Gamez
 
             Random rnd = new Random(DateTime.Now.Second + DateTime.Now.Millisecond);
             int[] dice = new int[5];
-            dice[0] = (ImageP1.BorderStyle == BorderStyle.None || ImageP1.ImageUrl.EndsWith("CupOverDice.png")) ?
+            dice[0] = (ImageP1.BorderStyle == BorderStyle.None || ImageP1.ImageUrl.EndsWith("CupOverDice.gif")) ?
                         rnd.Next(0, 6) : (int)ImageP1.AlternateText.ToJokerDiceEnum();
-            dice[1] = (ImageP2.BorderStyle == BorderStyle.None || ImageP2.ImageUrl.EndsWith("CupOverDice.png")) ?
+            dice[1] = (ImageP2.BorderStyle == BorderStyle.None || ImageP2.ImageUrl.EndsWith("CupOverDice.gif")) ?
                         rnd.Next(0, 6) : (int)ImageP2.AlternateText.ToJokerDiceEnum();           
-            dice[2] = (ImageP3.BorderStyle == BorderStyle.None || ImageP3.ImageUrl.EndsWith("CupOverDice.png")) ?
+            dice[2] = (ImageP3.BorderStyle == BorderStyle.None || ImageP3.ImageUrl.EndsWith("CupOverDice.gif")) ?
                         rnd.Next(0, 6) : (int)ImageP3.AlternateText.ToJokerDiceEnum();
-            dice[3] = (ImageP4.BorderStyle == BorderStyle.None || ImageP4.ImageUrl.EndsWith("CupOverDice.png")) ?
+            dice[3] = (ImageP4.BorderStyle == BorderStyle.None || ImageP4.ImageUrl.EndsWith("CupOverDice.gif")) ?
                         rnd.Next(0, 6) : (int)ImageP4.AlternateText.ToJokerDiceEnum();           
-            dice[4] = (ImageP5.BorderStyle == BorderStyle.None || ImageP5.ImageUrl.EndsWith("CupOverDice.png")) ?
+            dice[4] = (ImageP5.BorderStyle == BorderStyle.None || ImageP5.ImageUrl.EndsWith("CupOverDice.gif")) ?
                         rnd.Next(0, 6) : (int)ImageP5.AlternateText.ToJokerDiceEnum();
 
             for (int j = 0; j < 5; j++)
@@ -191,7 +191,7 @@ namespace Area23.At.Mono.Gamez
             if (GameRound % 2 == 0)
             {
                 DisableCheckBoxesPenImageButtons(sender, e);
-                this.ImageButton_DiceCup.ImageUrl = "../res/img/symbol/CupNextRound.png";
+                this.ImageButton_DiceCup.ImageUrl = "../res/gamez/dicepoker/CupNextRound.gif";
                 ImageP1.BorderStyle = BorderStyle.Solid;
                 ImageP2.BorderStyle = BorderStyle.Solid;
                 ImageP3.BorderStyle = BorderStyle.Solid;
@@ -202,7 +202,7 @@ namespace Area23.At.Mono.Gamez
             if (GameRound % 2 == 1)
             {
                 DiceCupClickable = false;
-                this.ImageButton_DiceCup.ImageUrl = "../res/img/symbol/CupNextGame.png";
+                this.ImageButton_DiceCup.ImageUrl = "../res/gamez/dicepoker/CupNextGame.gif";
                 ImageP1.BorderStyle = BorderStyle.Solid;
                 ImageP2.BorderStyle = BorderStyle.Solid;
                 ImageP3.BorderStyle = BorderStyle.Solid;
@@ -322,7 +322,7 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonGrande":
                         if (!CheckBoxGrande.Enabled)
                         {
-                            if (ImageButtonGrande.ImageUrl.EndsWith(".png"))
+                            if (ImageButtonGrande.ImageUrl.EndsWith(".gif"))
                             {
                                 this.SpanGrande.Visible = false;
                                 this.SpanGrandeStrikeThrough.Visible = true;
@@ -335,7 +335,7 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonPoker":
                         if (!CheckBoxPoker.Enabled)
                         {
-                            if (ImageButtonPoker.ImageUrl.EndsWith(".png"))
+                            if (ImageButtonPoker.ImageUrl.EndsWith(".gif"))
                             {
                                 this.SpanPoker.Visible = false;
                                 this.SpanPokerStrikeThrough.Visible = true;
@@ -348,7 +348,7 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonFullHouse":
                         if (!CheckBoxFullHouse.Enabled)
                         {
-                            if (ImageButtonFullHouse.ImageUrl.EndsWith(".png"))
+                            if (ImageButtonFullHouse.ImageUrl.EndsWith(".gif"))
                             {
                                 this.SpanFullHouse.Visible = false;
                                 this.SpanFullHouseStrikeThrough.Visible = true;
@@ -361,7 +361,7 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonStraight":
                         if (!CheckBoxStraight.Enabled)
                         {
-                            if (ImageButtonStraight.ImageUrl.EndsWith(".png"))
+                            if (ImageButtonStraight.ImageUrl.EndsWith(".gif"))
                             {
                                 this.SpanStraight.Visible = false;
                                 this.SpanStraightStrikeThrough.Visible = true;
@@ -374,7 +374,7 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonTriple":
                         if (!CheckBoxTriple.Enabled)
                         {
-                            if (ImageButtonTriple.ImageUrl.EndsWith(".png"))
+                            if (ImageButtonTriple.ImageUrl.EndsWith(".gif"))
                             {
                                 this.SpanTriple.Visible = false;
                                 this.SpanTripleStrikeThrough.Visible = true;
@@ -387,7 +387,7 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonTwoPairs":
                         if (!CheckBoxTwoPairs.Enabled)
                         {
-                            if (ImageButtonTwoPairs.ImageUrl.EndsWith(".png"))
+                            if (ImageButtonTwoPairs.ImageUrl.EndsWith(".gif"))
                             {
                                 this.SpanTwoPairs.Visible = false;  
                                 this.SpanTwoPairsStrikeThrough.Visible = true;
@@ -399,7 +399,7 @@ namespace Area23.At.Mono.Gamez
                     case "ImageButtonPair":
                         if (!CheckBoxPair.Enabled)
                         {
-                            if (ImageButtonPair.ImageUrl.EndsWith(".png"))
+                            if (ImageButtonPair.ImageUrl.EndsWith(".gif"))
                             {
                                 this.SpanPair.Visible = false;  
                                 this.SpanPairStrikeThrough.Visible = true;
@@ -469,35 +469,35 @@ namespace Area23.At.Mono.Gamez
                 if (!CheckBoxGrande.Checked)
                 {
                     CheckBoxGrande.Enabled = true;
-                    ImageButtonGrande.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonGrande.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                     ImageButtonGrande.Enabled = true;
                     shouldReturn = true;
                 }
                 if (!CheckBoxPoker.Checked)
                 {
                     CheckBoxPoker.Enabled = true;
-                    ImageButtonPoker.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonPoker.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                     ImageButtonPoker.Enabled = true;
                     shouldReturn = true;
                 }
                 if (!CheckBoxTriple.Checked)
                 {
                     CheckBoxTriple.Enabled = true;
-                    ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonTriple.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                     ImageButtonTriple.Enabled = true;
                     shouldReturn = true;
                 }
                 if (!CheckBoxPair.Checked)
                 {
                     CheckBoxPair.Enabled = true;
-                    ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonPair.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                     ImageButtonPair.Enabled = true;
                     shouldReturn = true;
                 }
                 if (!CheckBoxBust.Checked)
                 {
                     CheckBoxBust.Enabled = true;
-                    ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonBust.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                     ImageButtonBust.Enabled = true;
                     shouldReturn = true;
                 }
@@ -514,13 +514,13 @@ namespace Area23.At.Mono.Gamez
                         {
                             CheckBoxPoker.Enabled = true;
                             ImageButtonPoker.Enabled = true;
-                            ImageButtonPoker.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonPoker.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             shouldReturn = true;
                         }
                         if (!CheckBoxTriple.Checked)
                         {
                             CheckBoxTriple.Enabled = true;
-                            ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonTriple.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             ImageButtonTriple.Enabled = true;
                             shouldReturn = true;
                         }
@@ -528,14 +528,14 @@ namespace Area23.At.Mono.Gamez
                         {
                             CheckBoxPair.Enabled = true;
                             ImageButtonPair.Enabled = true;
-                            ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonPair.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             shouldReturn = true;
                         }
                         if (!CheckBoxBust.Checked)
                         {
                             CheckBoxBust.Enabled = true;
                             ImageButtonBust.Enabled = true;
-                            ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonBust.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             shouldReturn = true;
                         }
                         if (shouldReturn) return shouldReturn;
@@ -545,7 +545,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxFullHouse.Checked)
                         {
                             CheckBoxFullHouse.Enabled = true;
-                            ImageButtonFullHouse.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonFullHouse.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             ImageButtonFullHouse.Enabled = true;
                             shouldReturn = true;
                         }
@@ -553,27 +553,27 @@ namespace Area23.At.Mono.Gamez
                         {
                             CheckBoxTriple.Enabled = true;
                             ImageButtonTriple.Enabled = true;
-                            ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonTriple.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             shouldReturn = true;
                         }
                         if (!CheckBoxTwoPairs.Checked)
                         {
                             CheckBoxTwoPairs.Enabled = true;
-                            ImageButtonTwoPairs.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonTwoPairs.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             ImageButtonTwoPairs.Enabled = true;
                             shouldReturn = true;
                         }
                         if (!CheckBoxPair.Checked)
                         {
                             CheckBoxPair.Enabled = true;
-                            ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonPair.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             ImageButtonPair.Enabled = true;
                             shouldReturn = true;
                         }
                         if (!CheckBoxBust.Checked)
                         {
                             CheckBoxBust.Enabled = true;
-                            ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonBust.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             ImageButtonBust.Enabled = true;
                             shouldReturn = true;
                         }
@@ -590,7 +590,7 @@ namespace Area23.At.Mono.Gamez
                         if (!CheckBoxTriple.Checked)
                         {
                             CheckBoxTriple.Enabled = true;
-                            ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonTriple.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             ImageButtonTriple.Enabled = true;
                             shouldReturn = true;
                         }
@@ -598,14 +598,14 @@ namespace Area23.At.Mono.Gamez
                         {
                             CheckBoxPair.Enabled = true;
                             ImageButtonPair.Enabled = true;
-                            ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonPair.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             shouldReturn = true;
                         }
                         if (!CheckBoxBust.Checked)
                         {
                             CheckBoxBust.Enabled = true;
                             ImageButtonBust.Enabled = true;
-                            ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonBust.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             shouldReturn = true;
                         }
                     }
@@ -616,21 +616,21 @@ namespace Area23.At.Mono.Gamez
                 {
                     CheckBoxTwoPairs.Enabled = true;
                     ImageButtonTwoPairs.Enabled = true;
-                    ImageButtonTwoPairs.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonTwoPairs.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                     shouldReturn = true;
                 }
                 if (!CheckBoxPair.Checked)
                 {
                     CheckBoxPair.Enabled = true;
                     ImageButtonPair.Enabled= true;
-                    ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonPair.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                     shouldReturn = true;
                 }
                 if (!CheckBoxBust.Checked)
                 {
                     CheckBoxBust.Enabled = true;
                     ImageButtonBust.Enabled = true;
-                    ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonBust.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                     shouldReturn = true;
                 }
                 if (shouldReturn) return shouldReturn;
@@ -640,7 +640,7 @@ namespace Area23.At.Mono.Gamez
                 if (!CheckBoxPair.Checked)
                 {
                     CheckBoxPair.Enabled = true;
-                    ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonPair.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                     ImageButtonPair.Enabled = true;
                     shouldReturn = true;
                 }
@@ -648,7 +648,7 @@ namespace Area23.At.Mono.Gamez
                 {
                     CheckBoxBust.Enabled = true;
                     ImageButtonBust.Enabled = true;
-                    ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonBust.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                     shouldReturn = true;
                 }
                 if (shouldReturn) return shouldReturn;
@@ -665,14 +665,14 @@ namespace Area23.At.Mono.Gamez
                         {
                             CheckBoxStraight.Enabled = true;
                             ImageButtonStraight.Enabled = true;
-                            ImageButtonStraight.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonStraight.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             shouldReturn = true;
                         }
                         if (!CheckBoxBust.Checked)
                         {
                             CheckBoxBust.Enabled = true;
                             ImageButtonBust.Enabled = true;
-                            ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                            ImageButtonBust.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             shouldReturn = true;
                         }
                         if (shouldReturn) return shouldReturn;
@@ -682,7 +682,7 @@ namespace Area23.At.Mono.Gamez
                 {
                     CheckBoxBust.Enabled = true;
                     ImageButtonBust.Enabled = true;
-                    ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_olive.png";
+                    ImageButtonBust.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                     shouldReturn = true;
                 }
             }
@@ -701,59 +701,59 @@ namespace Area23.At.Mono.Gamez
             if (!CheckBoxGrande.Checked)
             {
                 ImageButtonGrande.Enabled = true;                
-                ImageButtonGrande.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                ImageButtonGrande.ImageUrl = "../res/gamez/dicepoker/pencil_blue.gif";
                 canStrikeThrough = true;
             }
-            else ImageButtonGrande.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            else ImageButtonGrande.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             if (!CheckBoxPoker.Checked)
             {
                 ImageButtonPoker.Enabled = true;
-                ImageButtonPoker.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                ImageButtonPoker.ImageUrl = "../res/gamez/dicepoker/pencil_blue.gif";
                 canStrikeThrough = true;
             }
-            else ImageButtonPoker.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            else ImageButtonPoker.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             if (!CheckBoxFullHouse.Checked)
             {
                 ImageButtonFullHouse.Enabled = true;
-                ImageButtonFullHouse.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                ImageButtonFullHouse.ImageUrl = "../res/gamez/dicepoker/pencil_blue.gif";
                 canStrikeThrough = true;
             }
-            else ImageButtonFullHouse.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            else ImageButtonFullHouse.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             if (!CheckBoxStraight.Checked)
             {
                 ImageButtonStraight.Enabled = true;
-                ImageButtonStraight.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                ImageButtonStraight.ImageUrl = "../res/gamez/dicepoker/pencil_blue.gif";
                 canStrikeThrough = true;
             }
-            else ImageButtonStraight.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            else ImageButtonStraight.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             if (!CheckBoxTwoPairs.Checked)
             {
                 ImageButtonTwoPairs.Enabled = true;
-                ImageButtonTwoPairs.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                ImageButtonTwoPairs.ImageUrl = "../res/gamez/dicepoker/pencil_blue.gif";
                 canStrikeThrough = true;
             }
-            else ImageButtonTwoPairs.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            else ImageButtonTwoPairs.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             if (!CheckBoxTriple.Checked) 
             {
                 ImageButtonTriple.Enabled = true;
-                ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                ImageButtonTriple.ImageUrl = "../res/gamez/dicepoker/pencil_blue.gif";
                 canStrikeThrough = true;
             }
-            else ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            else ImageButtonTriple.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             if (!CheckBoxPair.Checked)
             {
                 ImageButtonPair.Enabled = true;
-                ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                ImageButtonPair.ImageUrl = "../res/gamez/dicepoker/pencil_blue.gif";
                 canStrikeThrough = true;
             }
-            else ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            else ImageButtonPair.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             if (!CheckBoxBust.Checked)
             {
                 ImageButtonBust.Enabled = true;
-                ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_blue.png";
+                ImageButtonBust.ImageUrl = "../res/gamez/dicepoker/pencil_blue.gif";
                 canStrikeThrough = true;
             }
-            else ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            else ImageButtonBust.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
 
             return canStrikeThrough;
             
@@ -764,27 +764,27 @@ namespace Area23.At.Mono.Gamez
             if (!CheckBoxGrande.Checked && !CheckBoxGrande.Enabled)
             {
                 ImageButtonGrande.Enabled = true;
-                ImageButtonGrande.ImageUrl = "../res/img/symbol/pencil_red.png";
+                ImageButtonGrande.ImageUrl = "../res/gamez/dicepoker/pencil_red.gif";
             }
             if (!CheckBoxPoker.Checked && !CheckBoxPoker.Enabled)
             {
                 ImageButtonPoker.Enabled = true;
-                ImageButtonPoker.ImageUrl = "../res/img/symbol/pencil_red.png";
+                ImageButtonPoker.ImageUrl = "../res/gamez/dicepoker/pencil_red.gif";
             }
             if (!CheckBoxFullHouse.Checked && !CheckBoxFullHouse.Enabled)
             {
                 ImageButtonFullHouse.Enabled = true;
-                ImageButtonFullHouse.ImageUrl = "../res/img/symbol/pencil_red.png";
+                ImageButtonFullHouse.ImageUrl = "../res/gamez/dicepoker/pencil_red.gif";
             }
             if (!CheckBoxStraight.Checked && !CheckBoxStraight.Enabled)
             {
                 ImageButtonStraight.Enabled = true;
-                ImageButtonStraight.ImageUrl = "../res/img/symbol/pencil_red.png";
+                ImageButtonStraight.ImageUrl = "../res/gamez/dicepoker/pencil_red.gif";
             }
             if (!CheckBoxTriple.Checked && !CheckBoxTriple.Enabled)
             {
                 ImageButtonStraight.Enabled = true;
-                ImageButtonStraight.ImageUrl = "../res/img/symbol/pencil_red.png";
+                ImageButtonStraight.ImageUrl = "../res/gamez/dicepoker/pencil_red.gif";
             }
                 
             CheckBoxPoker.Checked = false;
@@ -812,15 +812,15 @@ namespace Area23.At.Mono.Gamez
             Session["PlayerScore"] = 0;            
             SpanScore.InnerText = "0";
             ImageP1.AlternateText = "";
-            ImageP1.ImageUrl = "../res/img/symbol/JollyRoger.png"; 
+            ImageP1.ImageUrl = "../res/gamez/dicepoker/JollyRoger.gif"; 
             ImageP2.AlternateText = "";
-            ImageP2.ImageUrl = "../res/img/symbol/JollyRoger.png";
+            ImageP2.ImageUrl = "../res/gamez/dicepoker/JollyRoger.gif";
             ImageP3.AlternateText = "";
-            ImageP3.ImageUrl = "../res/img/symbol/JollyRoger.png";
+            ImageP3.ImageUrl = "../res/gamez/dicepoker/JollyRoger.gif";
             ImageP4.AlternateText = "";
-            ImageP4.ImageUrl = "../res/img/symbol/JollyRoger.png";
+            ImageP4.ImageUrl = "../res/gamez/dicepoker/JollyRoger.gif";
             ImageP5.AlternateText = "";
-            ImageP5.ImageUrl = "../res/img/symbol/JollyRoger.png";
+            ImageP5.ImageUrl = "../res/gamez/dicepoker/JollyRoger.gif";
             PokerDiceImage.Visible = false;
         }
 
@@ -828,35 +828,35 @@ namespace Area23.At.Mono.Gamez
         public void DisableCheckBoxesPenImageButtons(object sender, EventArgs e)
         {
             CheckBoxGrande.Enabled = false;
-            ImageButtonGrande.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonGrande.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             ImageButtonGrande.Enabled = false;
 
             CheckBoxPoker.Enabled = false;
-            ImageButtonPoker.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonPoker.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             ImageButtonPoker.Enabled = false;
 
             CheckBoxFullHouse.Enabled = false;
-            ImageButtonFullHouse.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonFullHouse.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             ImageButtonFullHouse.Enabled = false;
 
             CheckBoxStraight.Enabled = false;
-            ImageButtonStraight.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonStraight.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             ImageButtonStraight.Enabled = false;
 
             CheckBoxTriple.Enabled = false;
-            ImageButtonTriple.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonTriple.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             ImageButtonTriple.Enabled = false;
 
             CheckBoxTwoPairs.Enabled = false;
-            ImageButtonTwoPairs.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonTwoPairs.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             ImageButtonTwoPairs.Enabled = false;
 
             CheckBoxPair.Enabled = false;
-            ImageButtonPair.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonPair.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             ImageButtonPair.Enabled = false;
 
             CheckBoxBust.Enabled = false;
-            ImageButtonBust.ImageUrl = "../res/img/symbol/pencil_transparent.png";
+            ImageButtonBust.ImageUrl = "../res/gamez/dicepoker/pencil_transparent.gif";
             ImageButtonBust.Enabled = false;
         }
 
