@@ -78,19 +78,13 @@ namespace Area23.At.Mono
             if (HttpContext.Current != null && HttpContext.Current.Request != null)
             {
                 string url = HttpContext.Current.Request.Url.ToString().ToLower();
-                string page = Request.Url.LocalPath.ToLower();
+                string page = Request.Url.LocalPath;
                 string pageQuery = Request.Url.PathAndQuery;
 
-                if ((page.HasString("R.aspx") || url.HasString("/R.aspx")) && 
-                    !url.HasString(Constants.MYIP_DIR))
-                {
-                    Response.Redirect(LibPaths.MyIpAppPath + "R.aspx");
-                    return;
-                }
-                if (page.HasString("SAES") && page.HasString("crypt") && url.EndsWith(".aspx", StrComp) &&
+                if (page.HasString("SAES") && url.EndsWith(".aspx", StrComp) &&
                         !url.HasString(Constants.CRYPT_DIR))                   
                 {
-                    Response.Redirect(LibPaths.EncodeAppPath + "AesImprove.aspx");
+                    Response.Redirect(LibPaths.EncodeAppPath + "AesImprove.aspx", false);
                     return;
                 }
 

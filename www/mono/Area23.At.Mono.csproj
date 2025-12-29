@@ -211,6 +211,7 @@
     <Content Include="Qr\Default.aspx" />
     <Content Include="Qr\S.aspx" />
     <Content Include="MyIp\R.aspx" />
+    <Content Include="R.aspx" />
     <Content Include="res\gamez\audio\aDraw.m4a" />
     <Content Include="res\bin\bc.exe" />
     <Content Include="res\bin\bzip2.dll" />
@@ -223,6 +224,9 @@
     <Content Include="res\css\ccalc.css" />
     <Content Include="res\gamez\dicepoker\Ace.gif" />
     <Content Include="res\gamez\dicepoker\Ace.png" />
+    <Content Include="res\gamez\dicepoker\brush.png" />
+    <Content Include="res\gamez\dicepoker\brusha.png" />
+    <Content Include="res\gamez\dicepoker\brushglue.png" />
     <Content Include="res\gamez\dicepoker\CupNextGame.gif" />
     <Content Include="res\gamez\dicepoker\CupNextGame.png" />
     <Content Include="res\gamez\dicepoker\CupNextRound.gif" />
@@ -238,8 +242,26 @@
     <Content Include="res\gamez\dicepoker\Jack.png" />
     <Content Include="res\gamez\dicepoker\Joker.gif" />
     <Content Include="res\gamez\dicepoker\Joker.png" />
+    <Content Include="res\gamez\dicepoker\JollyRoger.gif" />
     <Content Include="res\gamez\dicepoker\King.gif" />
     <Content Include="res\gamez\dicepoker\King.png" />
+    <Content Include="res\gamez\dicepoker\pencil.png" />
+    <Content Include="res\gamez\dicepoker\pencila.gif" />
+    <Content Include="res\gamez\dicepoker\pencila.png" />
+    <Content Include="res\gamez\dicepoker\pencili.gif" />
+    <Content Include="res\gamez\dicepoker\pencili.png" />
+    <Content Include="res\gamez\dicepoker\pencil_blue.gif" />
+    <Content Include="res\gamez\dicepoker\pencil_blue.png" />
+    <Content Include="res\gamez\dicepoker\pencil_no.gif" />
+    <Content Include="res\gamez\dicepoker\pencil_no.png" />
+    <Content Include="res\gamez\dicepoker\pencil_olive.gif" />
+    <Content Include="res\gamez\dicepoker\pencil_olive.png" />
+    <Content Include="res\gamez\dicepoker\pencil_pink.gif" />
+    <Content Include="res\gamez\dicepoker\pencil_pink.png" />
+    <Content Include="res\gamez\dicepoker\pencil_red.gif" />
+    <Content Include="res\gamez\dicepoker\pencil_red.png" />
+    <Content Include="res\gamez\dicepoker\pencil_transparent.gif" />
+    <Content Include="res\gamez\dicepoker\pencil_transparent.png" />
     <Content Include="res\gamez\dicepoker\Queen.gif" />
     <Content Include="res\gamez\dicepoker\Queen.png" />
     <Content Include="res\gamez\dicepoker\Ten.gif" />
@@ -665,6 +687,13 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MyIp\R.aspx.designer.cs">
+      <DependentUpon>R.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="R.aspx.cs">
+      <DependentUpon>R.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="R.aspx.designer.cs">
       <DependentUpon>R.aspx</DependentUpon>
     </Compile>
     <Compile Include="Settings\CacheTest.aspx.cs">
