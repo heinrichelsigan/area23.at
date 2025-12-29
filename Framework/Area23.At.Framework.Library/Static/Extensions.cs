@@ -504,6 +504,33 @@ namespace Area23.At.Framework.Library.Static
         }
 
         /// <summary>
+        /// HasString extension method examines, if a <see cref="T:string"/> contains a sub string
+        /// <see cref="StringComparison.CurrentCultureIgnoreCase"/> on substring is implemented so:
+        /// 
+        /// if (haystack.Contains(needle)) return true;
+        /// if (haystack.ToLower().Contains(needle.ToLower())) return true;
+        /// if (haystack.ToUpper().Contains(needle.ToUpper())) return true;
+        /// if ((haystack.IndexOf(needle, StringComparison.CurrentCultureIgnoreCase)) > -1) return true;
+        /// 
+        /// </summary>
+        /// <param name="haystack"><see cref="T:string">string haystack to search</see></param>
+        /// <param name="needle"><see cref="T:string">substring needle to find</see> in haystack</param>
+        /// <returns>true, if a very similiar needle <see cref="StringComparison.CurrentCultureIgnoreCase"/> was found, oterwise false.</returns>
+        public static bool HasString(this string haystack, string needle)
+        {
+
+            if (haystack != null && needle != null)
+            {
+                if (haystack.Contains(needle)) return true;
+                if (haystack.ToLower().Contains(needle.ToLower())) return true;
+                if (haystack.ToUpper().Contains(needle.ToUpper())) return true;
+                if ((haystack.IndexOf(needle, StringComparison.CurrentCultureIgnoreCase)) > -1) return true;
+            }
+            
+            return false;
+        }
+
+        /// <summary>
         /// <see cref="string"/>.<see cref="GetSubStringByPattern(string, string, bool, string, string, bool, StringComparison)"/> Extension method 
         /// gets a substring beginning with patternStart and ending with patternEnd
         /// </summary>
@@ -531,8 +558,7 @@ namespace Area23.At.Framework.Library.Static
             string patternStart, bool firstIndex = true, string markStartEnd = "",
             string patternEnd = "", bool lastIndex = false
             // , StringComparison comparasionType = StringComparison.CurrentCulture
-        )
-        {
+        ) {
 
             string substring = string.Empty;
             if (string.IsNullOrEmpty(main))
@@ -560,7 +586,6 @@ namespace Area23.At.Framework.Library.Static
 
             return substring;
         }
-
 
         /// <summary>
         /// BeautifyUploadFileNames extension method for string

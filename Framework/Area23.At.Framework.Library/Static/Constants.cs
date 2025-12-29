@@ -161,6 +161,7 @@ namespace Area23.At.Framework.Library.Static
         public const string GAMES_DIR = "Gamez";
         public const string IMG_DIR = "img";
         public const string IMG_FOLDER = "Image";
+        public const string MYIP_DIR = "MyIp";
         public const string JS_DIR = "js";
         public const string JSON_DIR = "json";
         public const string LOG_DIR = "log";

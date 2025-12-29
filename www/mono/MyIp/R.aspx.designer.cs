@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Area23.At.Mono
+namespace Area23.At.Mono.MyIp
 {
 
 

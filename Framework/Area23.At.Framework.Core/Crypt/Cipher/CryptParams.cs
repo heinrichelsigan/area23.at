@@ -108,7 +108,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                 case CipherEnum.Camellia:
                     Size = 128;
                     KeyLen = 16; ;
-                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaEngine();
                     break;
                 case CipherEnum.CamelliaLight:
                     Size = 128;
@@ -202,6 +202,8 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();
                     break;
                 case CipherEnum.XTea:
+                    Size = 128;
+                    KeyLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
                 case CipherEnum.ZenMatrix:

@@ -100,13 +100,13 @@ namespace Area23.At.Framework.Library.Static
 
         public static string UnixAppPath { get => BaseAppPath + Constants.UNIX_DIR + "/"; }
 
+        public static string MyIpAppPath { get => BaseAppPath + Constants.MYIP_DIR + "/"; }
 
         public static string CssAppPath { get => ResAppPath + Constants.CSS_DIR + "/"; }
 
         public static string JsAppPath { get => ResAppPath + Constants.JS_DIR + "/"; }
 
         public static string OutAppPath { get => ResAppPath + Constants.OUT_DIR + "/"; }
-
 
         public static string TextAppPath { get => ResAppPath + Constants.TEXT_DIR + "/"; }
 

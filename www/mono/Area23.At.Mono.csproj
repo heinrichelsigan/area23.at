@@ -207,9 +207,10 @@
     <Content Include="Gamez\frogb.aspx" />
     <Content Include="Gamez\Pong.aspx" />
     <Content Include="Error.aspx" />
+    <Content Include="MyIp\Default.aspx" />
     <Content Include="Qr\Default.aspx" />
     <Content Include="Qr\S.aspx" />
-    <Content Include="R.aspx" />
+    <Content Include="MyIp\R.aspx" />
     <Content Include="res\gamez\audio\aDraw.m4a" />
     <Content Include="res\bin\bc.exe" />
     <Content Include="res\bin\bzip2.dll" />
@@ -387,7 +388,6 @@
     </Content>
     <Content Include="res\js\bc.js" />
     <Content Include="res\js\digiclock.js" />
-    <Content Include="SAES_En_Decrypt.aspx" />
     <Content Include="Settings\CacheTest.aspx" />
     <Content Include="Settings\Default.aspx" />
     <AdditionalFiles Include="Settings\.htaccess" />
@@ -639,6 +639,13 @@
     <Compile Include="Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MyIp\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyIp\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Qr\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -653,19 +660,12 @@
     <Compile Include="Qr\S.aspx.designer.cs">
       <DependentUpon>S.aspx</DependentUpon>
     </Compile>
-    <Compile Include="R.aspx.cs">
+    <Compile Include="MyIp\R.aspx.cs">
       <DependentUpon>R.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="R.aspx.designer.cs">
+    <Compile Include="MyIp\R.aspx.designer.cs">
       <DependentUpon>R.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SAES_En_Decrypt.aspx.cs">
-      <DependentUpon>SAES_En_Decrypt.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SAES_En_Decrypt.aspx.designer.cs">
-      <DependentUpon>SAES_En_Decrypt.aspx</DependentUpon>
     </Compile>
     <Compile Include="Settings\CacheTest.aspx.cs">
       <DependentUpon>CacheTest.aspx</DependentUpon>

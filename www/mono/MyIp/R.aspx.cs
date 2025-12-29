@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Area23.At.Mono
+namespace Area23.At.Mono.MyIp
 {
     /// <summary>
     /// only to get my ip-address

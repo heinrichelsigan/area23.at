@@ -3,18 +3,21 @@ using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Mono.Util;
 using System;
+using System.Linq;
 using System.Web;
 
 namespace Area23.At.Mono
 {
     public class Global : System.Web.HttpApplication
     {
+        protected internal static StringComparer OrdCmp { get => StringComparer.OrdinalIgnoreCase; }
+        protected internal static StringComparison StrComp { get => StringComparison.OrdinalIgnoreCase; }
 
-        private static readonly object _lock = new object();
+        protected internal static readonly object _locker = new object();
 
         protected void Application_Init(object sender, EventArgs e)
         {
-            lock (_lock)
+            lock (_locker)
             {
                 try
                 {
@@ -33,7 +36,7 @@ namespace Area23.At.Mono
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            lock (_lock)
+            lock (_locker)
             {
                 try
                 {
@@ -78,33 +81,46 @@ namespace Area23.At.Mono
                 string page = Request.Url.LocalPath.ToLower();
                 string pageQuery = Request.Url.PathAndQuery;
 
-                if (url.Contains("/bin/") ||
-                    url.Contains("/obj/") ||
-                    url.Contains("/json/") ||
-                    url.Contains("/text/") ||
-                    url.Contains("/tmp/") ||
-                    url.Contains("/uu/"))
+                if ((page.HasString("R.aspx") || url.HasString("/R.aspx")) && 
+                    !url.HasString(Constants.MYIP_DIR))
+                {
+                    Response.Redirect(LibPaths.MyIpAppPath + "R.aspx");
+                    return;
+                }
+                if (page.HasString("SAES") && page.HasString("crypt") && url.EndsWith(".aspx", StrComp) &&
+                        !url.HasString(Constants.CRYPT_DIR))                   
+                {
+                    Response.Redirect(LibPaths.EncodeAppPath + "AesImprove.aspx");
+                    return;
+                }
+
+                if (url.HasString("/bin/") ||
+                    url.HasString("/obj/") ||
+                    url.HasString("/json/") ||
+                    url.HasString("/text/") ||
+                    url.HasString("/tmp/") ||
+                    url.HasString("/uu/"))
                 {
                     Area23Log.LogOriginMsg("Global.asax", "Application_BeginRequest: Url = " + url + " \n\tError.aspx?attack=DirectoryTraversal");
                     Response.Redirect(LibPaths.AppPath + "Error.aspx?attack=DirectoryTraversal");
                     return;
                 }
 
-                if (url.Contains("/res/css/") ||
-                    url.Contains("/res/gamez") ||
-                    url.Contains("/res/img/") ||
-                    url.Contains("/res/js/") ||
-                    url.Contains("/res/Qr/"))
+                if (url.HasString("/res/css/") ||
+                    url.HasString("/res/gamez") ||
+                    url.HasString("/res/img/") ||
+                    url.HasString("/res/js/") ||
+                    url.HasString("/res/Qr/"))
                 {
-                    if (!url.Contains(".css") &&
-                        !url.Contains(".js") &&
-                        !url.Contains(".png") &&
-                        !url.Contains(".gif") &&
-                        !url.Contains(".jpg") &&
-                        !url.Contains(".ogg") &&
-                        !url.Contains(".mp3") &&
-                        !url.Contains(".m4a") &&
-                        !url.Contains(".wav"))
+                    if (!url.HasString(".css") &&
+                        !url.HasString(".js") &&
+                        !url.HasString(".png") &&
+                        !url.HasString(".gif") &&
+                        !url.HasString(".jpg") &&
+                        !url.HasString(".ogg") &&
+                        !url.HasString(".mp3") &&
+                        !url.HasString(".m4a") &&
+                        !url.HasString(".wav"))
                     {
                         Area23Log.LogOriginMsg("Global.asax", "\"Application_BeginRequest: Url = " + url + " \n\tError.aspx?attack=WrongFileType");
                         Response.Redirect(LibPaths.AppPath + "Error.aspx?attack=WrongFileType");
@@ -114,8 +130,8 @@ namespace Area23.At.Mono
 
                 if (url.ToLower().Contains("/res/out/"))
                 {
-                    if (page.ToLower().Contains(".as") || url.ToLower().Contains(".as") || url.ToLower().Contains(".master") ||
-                        page.ToLower().EndsWith(".aspx") || page.ToLower().EndsWith(".ascx") || page.ToLower().EndsWith(".asax"))
+                    if (page.HasString(".as") || url.HasString(".razor") || url.HasString(".master") || url.HasString(".cshtml") ||
+                        page.EndsWith(".aspx", StrComp) || page.EndsWith(".ascx", StrComp) || page.EndsWith(".asax", StrComp) || page.EndsWith(".asmx", StrComp))
                     {
                         Area23Log.LogOriginMsg("Global.asax", "Application_BeginRequest: Url = " + url + " \n\tError.aspx?attack=codeInjectionUpload");
                         Response.Redirect(LibPaths.AppPath + "Error.aspx?attack=codeInjectionUpload");

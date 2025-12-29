@@ -66,7 +66,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case SymmCipherEnum.Camellia:
                     Size = 128;
                     KeyLen = 16; ;
-                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaEngine();
                     break;
                 case SymmCipherEnum.Cast6:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();

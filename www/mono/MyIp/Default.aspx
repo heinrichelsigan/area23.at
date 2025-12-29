@@ -1,37 +1,36 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" %>
-<%@ Import namespace="System" %>
-<%@ Import namespace="System.Collections.Generic" %>
-<%@ Import namespace="System.Linq" %>
-<%@ Import namespace="System.Reflection" %>
-<%@ Import namespace="System.Web"%>
-<%@ Import namespace="System.IO"%>
-<%@ Import namespace="System.Diagnostics"%>
-<%@ Import namespace="System.Web.UI"%>
-<%@ Import namespace="System.Web.UI.WebControls"%>
-<%@ Import namespace="System.Runtime.Serialization"%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Area23.At.Mono.MyIp.Default" %>
 
-
-<script runat="server" language="C#">
-
-    const string dlm = "-";
-    void Page_Load(object sender, EventArgs e)
-    {
-		string userHostName;
-		string userHostAddr = Request.UserHostAddress;
-
-		literalUserHost.Text = userHostAddr;			
-
-		if (!this.IsPostBack)
-        {
-            userHostName = Request.UserHostName;
-			header.InnerHtml = "<title>" + userHostName + "</title>";
-		}
-
-    }
-
-</script>
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head id="header" runat="server"><title>My-IPAddr</title></head>
-<body><asp:Literal ID="literalUserHost" runat="server"></asp:Literal></body>
+<head runat="server">
+    <title>Geolocation FrameSet</title>
+    <script type="text/javascript">
+
+        navigator.geolocation.getCurrentPosition(position => {
+            const { latitude, longitude } = position.coords;
+            const myElement = document.getElementById("topFrame");
+            if (myElement != null) {
+                try {
+                    myElement.src = "R.aspx?geolat=" + latitude + "&geolong=" + longitude;
+                } catch (e) { alert("Exception: " + e); }
+                try {
+                    myElement.attributes["src"] = "R.aspx?geolat=" + latitude + "&geolong=" + longitude;
+                } catch (e) { alert("Exception: " + e); }
+                try {
+                    myElement.setAttribute("src", "R.aspx?geolat=" + latitude + "&geolong=" + longitude)
+                } catch (e) { alert("Exception: " + e); }
+            }
+        });
+        
+    </script>
+</head>
+    <frameset rows="640, 240">
+        <frame id="topFrame" runat="server"     name="RFrame" src="R.aspx" />
+        <frameset cols="35%,35%,30%">
+            <frame id="iplocFrame" runat="server" src="https://www.iplocation.net/" />
+            <frame id="ipapiFrame" runat="server" src="https://ip-api.com/" />
+            <frame id="geoLocFrame" runat="server" src="https://www.geolocation.com/" />
+       </frameset>
+    </frameset>    
 </html>
