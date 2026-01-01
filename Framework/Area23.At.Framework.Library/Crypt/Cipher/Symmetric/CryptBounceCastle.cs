@@ -109,9 +109,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         public CryptBounceCastle(CryptParams cparams, bool init = true)
         {
             CryptoBlockCipher = (cparams.BlockCipher == null) ? new AesEngine() : cparams.BlockCipher;
-            if ((CryptoBlockCipher.AlgorithmName == "RC564"))
-                CryptoBlockCipherPadding = new ISO7816d4Padding();
-            else CryptoBlockCipherPadding = new ZeroBytePadding();
+            if (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64")
+                CryptoBlockCipher = new RC564Engine();
+                // CryptoBlockCipherPadding = new ISO7816d4Padding();
+            CryptoBlockCipherPadding = new ZeroBytePadding();
             KeyLen = cparams.KeyLen;
             Size = Math.Min(cparams.Size, CryptoBlockCipher.GetBlockSize());
             Mode = cparams.Mode;
@@ -181,7 +182,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
         public byte[] Encrypt(byte[] plainData)
         {
-            // var cipher = CryptoBlockCipher;
+            plainData = (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64") ?
+                EnDeCodeHelper.GetBytesFromBytes(plainData) : plainData;
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
 
             switch (Mode)
@@ -215,22 +217,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     break;
             }
 
-            if (CryptoBlockCipher.AlgorithmName == "RC564")
-            {
-                RC5Parameters rc5Params = new RC5Parameters(Key, 1);
-                Org.BouncyCastle.Crypto.Engines.RC564Engine rc564 = new RC564Engine();
-                cipherMode.Init(true, rc5Params);
-            }
-            else
-            {
-
-                KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
-                ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
-
-                cipherMode.Init(true, keyParam);
-            }
+            KeyParameter keyParam = (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64") ?
+                new Org.BouncyCastle.Crypto.Parameters.RC5Parameters(Key, 2) :
+                new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
+            
             // if (Mode == "ECB")
-            //     cipherMode.Init(true, keyParam);
+            cipherMode.Init(true, keyParam);
             // else
             //      cipherMode.Init(true, keyParamIV);
 
@@ -291,13 +283,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             }
             // cipherMode.Reset()                
 
-            KeyParameter keyParam = new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
+            KeyParameter keyParam = (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64") ?
+                                        new Org.BouncyCastle.Crypto.Parameters.RC5Parameters(Key, 2) :
+                                        new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
 
-            // Decrypt
-            cipherMode.Init(false, keyParam);
+            // Decrypt            
             //if (Mode == "ECB")
-            //    cipherMode.Init(false, keyParam);
+            cipherMode.Init(false, keyParam);
             //else
             //    cipherMode.Init(false, keyParamIV);
 
@@ -328,6 +321,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     plainData = cipherMode.ProcessBytes(cipherData);
                 }
             }
+
+            if (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64")
+                return EnDeCodeHelper.GetBytesTrimNulls(plainData);
 
             return plainData;
         }
