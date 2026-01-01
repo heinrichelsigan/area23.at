@@ -7,6 +7,7 @@ namespace Area23.At.Mono.MyIp
     /// </summary>
     public partial class R : System.Web.UI.Page
     {
+        double geoLat, geoLong;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -19,6 +20,16 @@ namespace Area23.At.Mono.MyIp
             {
                 userHostName = Request.UserHostName;
                 title.Text = userHostName;
+                if (Request.QueryString["geolat"] != null && Request.QueryString["geolong"] != null)
+                {
+                    geoLat = Double.Parse(Request.QueryString["geolat"].Replace(".", ","));
+                    geoLong = Double.Parse(Request.QueryString["geolong"].Replace(".", ","));
+                    GeoLink.NavigateUrl = "https://www.google.com/maps/@" + geoLat.ToString("F6") + "," + geoLong.ToString("F6") + ",15z";
+                    GeoLink.Text = "Geo Location: " + geoLat.ToString("F6") + "," + geoLong.ToString("F6");
+                    GeoLink.Target = "_blank";
+                }
+                
+
                 // header.InnerHtml = "<title>" + userHostName + "</title>";
             }
 

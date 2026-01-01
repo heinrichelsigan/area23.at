@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Geolocation FrameSet</title>
-    <script type="text/javascript">
+    <script type="text/javascript">                
 
         navigator.geolocation.getCurrentPosition(position => {
             const { latitude, longitude } = position.coords;
@@ -22,15 +22,12 @@
                 } catch (e) { alert("Exception: " + e); }
             }
         });
+
         
     </script>
 </head>
-    <frameset rows="640, 240">
-        <frame id="topFrame" runat="server"     name="RFrame" src="R.aspx" />
-        <frameset cols="35%,35%,30%">
-            <frame id="iplocFrame" runat="server" src="https://www.iplocation.net/" />
-            <frame id="ipapiFrame" runat="server" src="https://ip-api.com/" />
-            <frame id="geoLocFrame" runat="server" src="https://www.geolocation.com/" />
-       </frameset>
+    <frameset rows="60%, 40%">
+        <frame id="topFrame" runat="server" name="RFrame" src="R.aspx" />
+        <frame id="ipapiFrame" runat="server" src="https://area23.at/net/R.aspx" />
     </frameset>    
 </html>

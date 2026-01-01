@@ -30,28 +30,25 @@ namespace Area23.At.Mono.MyIp
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            GeoRecord geoRecord = GetIplocFrame(iplocFrame, "https://www.iplocation.net/");
-            geoRecord = GetIplocFrame(ipapiFrame, "https://ip-api.com/");
-            geoRecord = GetIplocFrame(geoLocFrame, "https://www.geolocation.com/");
-
+            GeoRecord geoRecord =GetIplocFrame(ipapiFrame, "https://area23.at/net/R.aspx");
         }
 
 
         protected GeoRecord GetIplocFrame(HtmlGenericControl htmlCtrl, string url)
         {
-            htmlCtrl = htmlCtrl ?? iplocFrame;
+            htmlCtrl = htmlCtrl ?? ipapiFrame;
  
-            url = url ?? "https://cqrxs.eu/net/R.aspx";
+            url = url ?? "https://area23.at/net/R.aspx";
             string resolved = htmlCtrl.ResolveClientUrl(url);
             resolved = htmlCtrl.ResolveUrl(url);
             GeoRecord geoRecord = new GeoRecord();
             string innerHtml = htmlCtrl.InnerHtml;
             string text = htmlCtrl.InnerText;
             string outText = "";
-            byte[] rbytes = new byte[4096];
-            ////Stream htrsps = htmlCtrl.Page.Response.OutputStream;
+            byte[] rbytes = new byte[8192];
+            //Stream htrsps = htmlCtrl.Page.Response.OutputStream;
 
-            //htmlCtrl.Page.Response.OutputStream.Read(rbytes, 0, 4096);
+            //htmlCtrl.Page.Response.OutputStream.Read(rbytes, 0, 8192);
             //outText = System.Text.Encoding.UTF8.GetString(rbytes);
 
             foreach (Control ctl in htmlCtrl.Controls)
