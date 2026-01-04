@@ -159,6 +159,7 @@ namespace Area23.At.Mono
        
         protected void Application_Error(object sender, EventArgs e)
         {
+            bool redirect = true;
             Exception ex = Server.GetLastError();
             string path = "N/A";
             if (sender is HttpApplication)
@@ -168,8 +169,10 @@ namespace Area23.At.Mono
                 ex.GetType(), ex.Message, path);
             Application[Constants.APP_ERROR] = appLogErr;
             Area23Log.LogOriginMsg("Global.asax", appLogErr);
-            
-            
+
+            if (System.Configuration.ConfigurationSettings.AppSettings["LastError"] != null)
+                redirect = Convert.ToBoolean(System.Configuration.ConfigurationSettings.AppSettings["RedirectError"]);
+
             CqrException appException = new CqrException(string.Format("Application_Error: {0}: {1} thrown with path {2}",
                 ex.GetType(), ex.Message, path), ex);
             CqrException.SetLastException(appException);
@@ -179,7 +182,8 @@ namespace Area23.At.Mono
             {
                 string redir = HttpContext.Current.Request.Url.AbsoluteUri.Substring(0, idx);
                 redir += (redir.EndsWith("/")) ? "Error.aspx?event=appError" : "/Error.aspx?event=appError";
-                Response.Redirect(redir);
+                if (redirect)
+                    Response.Redirect(redir);
             }
             
             // Response.Redirect(Request.ApplicationPath + "/Error.aspx");

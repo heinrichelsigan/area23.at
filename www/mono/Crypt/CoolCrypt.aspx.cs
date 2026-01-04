@@ -198,6 +198,12 @@ namespace Area23.At.Mono.Crypt
             }
         }
 
+        protected void ImageButton_Delete_Click(object sender, EventArgs e)
+        {
+            TextBox_Encryption.Text = "";
+            Reset_TextBox_IV(this.TextBox_Key.Text);
+        }
+
         /// <summary>
         /// Fired, when DropDownList_Encoding_SelectedIndexChanged
         /// </summary>
@@ -207,13 +213,13 @@ namespace Area23.At.Mono.Crypt
         {
             if (this.DropDownList_Encoding.SelectedValue.ToLowerInvariant() == "none")
             {
-                this.CheckBoxEncode.Checked = false;
-                this.CheckBoxEncode.Enabled = false;
+                this.CheckBox_Encode.Checked = false;
+                this.CheckBox_Encode.Enabled = false;
             }
-            else if (!this.CheckBoxEncode.Enabled)
+            else if (!this.CheckBox_Encode.Enabled)
             {
-                CheckBoxEncode.Enabled = true;
-                CheckBoxEncode.Checked = true;
+                CheckBox_Encode.Enabled = true;
+                CheckBox_Encode.Checked = true;
             }
         }
 
@@ -223,7 +229,7 @@ namespace Area23.At.Mono.Crypt
         /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
-        protected void ButtonEncryptFile_Click(object sender, EventArgs e)
+        protected void Button_EncryptFile_Click(object sender, EventArgs e)
         {
             if (SpanLeftFile.Visible && aUploaded.HRef.Contains(Constants.OUT_DIR) && !string.IsNullOrEmpty(imgIn.Alt))
             {
@@ -245,7 +251,7 @@ namespace Area23.At.Mono.Crypt
         /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
-        protected void ButtonDecryptFile_Click(object sender, EventArgs e)
+        protected void Button_DecryptFile_Click(object sender, EventArgs e)
         {
             if (SpanLeftFile.Visible && aUploaded.HRef.Contains(Constants.OUT_DIR) && !string.IsNullOrEmpty(imgIn.Alt))
             {
@@ -265,12 +271,17 @@ namespace Area23.At.Mono.Crypt
             }
         }
 
+        protected void Button_RandomText_Click(object sender, EventArgs e)
+        {
+            this.TextBoxSource.Text = Fortune.ExecFortune();
+        }
+
         /// <summary>
         /// ButtonEncrypt_Click fired when ButtonEncrypt for text encryption receives event Click
         /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
-        protected void ButtonEncrypt_Click(object sender, EventArgs e)
+        protected void Button_Encrypt_Click(object sender, EventArgs e)
         {
             Reset_TextBox_IV(this.TextBox_Key.Text);
 
@@ -285,8 +296,8 @@ namespace Area23.At.Mono.Crypt
                 {
                     DropDownList_Encoding.SelectedValue = EncodingType.Base64.ToString();
                     encType = EncodingType.Base64; ;
-                    CheckBoxEncode.Checked = true;
-                    CheckBoxEncode.Enabled = true;
+                    CheckBox_Encode.Checked = true;
+                    CheckBox_Encode.Enabled = true;
                 }
 
                 TextBoxDestionation.Text = cipherPipe.EncrpytTextGoRounds(TextBoxSource.Text, key, hash, encType, zipType, keyHash);
@@ -312,9 +323,9 @@ namespace Area23.At.Mono.Crypt
         /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">EventArgs e</param>
-        protected void ButtonDecrypt_Click(object sender, EventArgs e)
+        protected void Button_Decrypt_Click(object sender, EventArgs e)
         {
-            Reset_TextBox_IV(this.TextBox_Key.Text);
+            Reset_TextBox_IV(this.TextBox_Key.Text);    
 
             if (this.TextBoxSource.Text != null && TextBoxSource.Text.Length > 0)
             {
@@ -324,8 +335,8 @@ namespace Area23.At.Mono.Crypt
                 {
                     DropDownList_Encoding.SelectedValue = EncodingType.Base64.ToString();
                     encType = EncodingType.Base64;
-                    CheckBoxEncode.Checked = true;
-                    CheckBoxEncode.Enabled = true;
+                    CheckBox_Encode.Checked = true;
+                    CheckBox_Encode.Enabled = true;
                 }
 
                 cipherPipe = new CipherPipe(pipeAlgortihms);
@@ -482,10 +493,10 @@ namespace Area23.At.Mono.Crypt
                     // cFile.EncryptToJson(key, hash, encType, zipType, keyHash);
                     // cipherPipe.EncrpytFileBytesGoRounds(inBytes, key, hash, encType, zipType, keyHash);
                     outBytes = cipherPipe.EncryptEncodeBytes(inBytes, key, hash, 
-                        (CheckBoxEncode.Checked) ? encType : EncodingType.None,
+                        (CheckBox_Encode.Checked) ? encType : EncodingType.None,
                         zipType, keyHash);
 
-                    if (CheckBoxEncode.Checked)
+                    if (CheckBox_Encode.Checked)
                     {
                         strFileName += "." + encType.ToString().ToLowerInvariant();                        
                     }                    

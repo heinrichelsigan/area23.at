@@ -132,6 +132,15 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.TextBox TextBox_Encryption;
 
         /// <summary>
+        /// ImageButton_Delete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton_Delete;
+
+        /// <summary>
         /// DropDownList_Encoding control.
         /// </summary>
         /// <remarks>
@@ -150,31 +159,31 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.HtmlControls.HtmlInputFile oFile;
 
         /// <summary>
-        /// ButtonEncryptFile control.
+        /// Button_EncryptFile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonEncryptFile;
+        protected global::System.Web.UI.WebControls.Button Button_EncryptFile;
 
         /// <summary>
-        /// CheckBoxEncode control.
+        /// CheckBox_Encode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CheckBoxEncode;
+        protected global::System.Web.UI.WebControls.CheckBox CheckBox_Encode;
 
         /// <summary>
-        /// ButtonDecryptFile control.
+        /// Button_DecryptFile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonDecryptFile;
+        protected global::System.Web.UI.WebControls.Button Button_DecryptFile;
 
         /// <summary>
         /// SpanLeftFile control.
@@ -267,21 +276,30 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.TextBox TextBoxDestionation;
 
         /// <summary>
-        /// ButtonEncrypt control.
+        /// Button_Encrypt control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonEncrypt;
+        protected global::System.Web.UI.WebControls.Button Button_Encrypt;
 
         /// <summary>
-        /// ButtonDecrypt control.
+        /// Button_RandomText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonDecrypt;
+        protected global::System.Web.UI.WebControls.Button Button_RandomText;
+
+        /// <summary>
+        /// Button_Decrypt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button_Decrypt;
     }
 }

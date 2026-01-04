@@ -151,7 +151,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             HashSet<string> hashBytes = new HashSet<string>();
             foreach (byte bb in keyBytes)
             {
-                byte cb = (byte)((int)((int)bb % 0x20));
+                byte cb = (byte)((int)((int)bb % 0x1c));
                 hexString = string.Format("{0:x2}", cb);
                 if (hexString.Length > 0 && !hashBytes.Contains(hexString))
                     hashBytes.Add(hexString);
@@ -265,7 +265,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Dstu7624:
                 case CipherEnum.Fish2:
                 case CipherEnum.Fish3:
-                case CipherEnum.ThreeFish256:
+                // case CipherEnum.ThreeFish256:
                 case CipherEnum.Gost28147:
                 case CipherEnum.Idea:
                 case CipherEnum.Noekeon:
@@ -346,7 +346,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Dstu7624:
                 case CipherEnum.Fish2:
                 case CipherEnum.Fish3:
-                case CipherEnum.ThreeFish256:
+                // case CipherEnum.ThreeFish256:
                 case CipherEnum.Gost28147:
                 case CipherEnum.Idea:
                 case CipherEnum.Noekeon:

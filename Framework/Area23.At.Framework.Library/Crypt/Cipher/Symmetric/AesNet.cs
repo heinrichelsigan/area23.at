@@ -1,13 +1,9 @@
-﻿using Area23.At.Framework.Library.Crypt;
-using Area23.At.Framework.Library.Crypt.Cipher;
-using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
-using Area23.At.Framework.Library.Util;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Protocols.WSTrust;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -15,9 +11,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
 
     /// <summary>
-    /// <see cref="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aes?view=net-8.0" />
-    /// Everything under the namespace `Area23.At.Framework.Library.Crypt.Cipher` is licensed under the MIT License.
-    /// <see href="https://opensource.org/license/mit">opensource.org/license/mit</see>
+    /// AesNet native .Net AesCng without bouncy castle
+    /// <see href="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aescng?view=net-8.0" />
     /// </summary>
     public class AesNet
     {
@@ -27,16 +22,75 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         public static byte[] AesKey { get; private set; }
         public static int AesKeyLen { get; private set; }
         public static byte[] AesIv { get; private set; }
+        public static AesCng AesAlgo { get; private set; }
 
-        public static RijndaelManaged AesAlgo { get; private set; }
+        public static KeyHash AesHash { get; private set; }
+
+        public static EncodingType EncodeType { get; private set; }
 
         #endregion properties
 
-        #region ctor helpers
 
-        protected internal void GenAesKey(ref byte[] keyBytes)
+        #region ctor
+
+        static AesNet()
         {
-            
+            AesKeyLen = 32;
+        }
+
+        public AesNet() : this(Convert.FromBase64String(Constants.AES_KEY), Convert.FromBase64String(Constants.AES_IV)) { }
+
+        public AesNet(string key, string hash, EncodingType encodeType = EncodingType.None)
+        {
+            if (string.IsNullOrEmpty(key) && string.IsNullOrEmpty(hash))
+            {
+                key = Constants.AES_KEY;
+                hash = Constants.AES_IV;
+            }
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            byte[] hashBytes = Encoding.UTF8.GetBytes(hash);
+
+            try
+            {
+                CreateAesKeyIv(ref keyBytes, ref hashBytes);
+            }
+            catch (Exception e)
+            {
+                // TODO: what shell we do with the drunken sailor
+                AesKey = Convert.FromBase64String(Constants.AES_KEY);
+                AesIv = Encoding.UTF8.GetBytes(Constants.AES_IV);
+            }
+
+            AesAlgo = new AesCng();
+            // AesAlgo.KeySize = AesKeyLen;
+            AesAlgo.Key = AesKey;
+            AesAlgo.IV = AesIv;
+            AesAlgo.Mode = CipherMode.ECB;
+            AesAlgo.Padding = PaddingMode.ISO10126;
+        }
+
+        public AesNet(byte[] aesKey, byte[] aesIv)
+        {
+            if (aesKey == null || aesKey.Length == 0)
+                aesKey = Convert.FromBase64String(Constants.AES_KEY);
+            if (aesIv == null || aesIv.Length == 0)
+                aesIv = Encoding.UTF8.GetBytes(Constants.AES_IV);
+
+            CreateAesKeyIv(ref aesKey, ref aesIv);
+
+            AesAlgo = new AesCng();
+            AesAlgo.Key = AesKey;
+            AesAlgo.IV = AesIv;
+            AesAlgo.Mode = CipherMode.ECB;
+            AesAlgo.Padding = PaddingMode.ISO10126;
+
+        }
+
+        #endregion ctor
+
+        #region ctor helpers
+        protected internal void CreateAesKeyIv(ref byte[] keyBytes, ref byte[] ivBytes)
+        {
             List<byte> span = new List<byte>(keyBytes);
             while (span.Count < AesKeyLen)
                 span.AddRange(keyBytes);
@@ -45,12 +99,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             Array.Copy(span.ToArray(), 0, AesKey, 0, AesKeyLen);
             keyBytes = new byte[AesKeyLen];
             Array.Copy(span.ToArray(), 0, keyBytes, 0, AesKeyLen);
-         
-        }
 
-        protected internal void GenAesIv(byte[] keyBytes, ref byte[] ivBytes)
-        {
-            var aesHelper = new RijndaelManaged();
+            AesCng aesHelper = new AesCng();
             aesHelper.Key = keyBytes;
             aesHelper.GenerateIV();
             int iVLenght = aesHelper.IV.Length;
@@ -63,73 +113,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             }
             else
                 Array.Copy(ivBytes, 0, AesIv, 0, iVLenght);
-            
+
             ivBytes = new byte[iVLenght];
             Array.Copy(AesIv, 0, ivBytes, 0, iVLenght);
-            
+
+            KeySizes[] keySizes = aesHelper.LegalBlockSizes;
         }
 
         #endregion ctor helpers
-
-        #region ctor
-
-        static AesNet()
-        {
-            AesKeyLen = 32;
-        }
-
-        public AesNet() : this(Convert.FromBase64String(Constants.AES_KEY), Convert.FromBase64String(Constants.AES_IV)) { }
-
-        public AesNet(string key, string hash)
-        {
-            if (string.IsNullOrEmpty(key) && string.IsNullOrEmpty(hash))
-            {
-                key = Constants.AES_KEY;
-                hash = Constants.AES_IV;
-            }
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-            byte[] hashBytes = Encoding.UTF8.GetBytes(hash);
-
-            try
-            {
-                GenAesKey(ref keyBytes);
-                GenAesIv(AesKey, ref hashBytes);
-            }
-            catch (Exception e)
-            {
-                Area23Log.LogOriginEx("AesNet.ctor(key, hash)", e);
-                // TODO: what shell we do with the drunken sailor
-                AesKey = Convert.FromBase64String(Constants.AES_KEY);
-                AesIv = Encoding.UTF8.GetBytes(Constants.AES_IV);
-            }
-
-            AesAlgo = new RijndaelManaged();
-            // AesAlgo.KeySize = AesKeyLen;
-            AesAlgo.Key = AesKey;
-            AesAlgo.IV = AesIv;
-            AesAlgo.Mode = CipherMode.ECB;
-            AesAlgo.Padding = PaddingMode.Zeros;
-        }
-
-        public AesNet(byte[] aesKey, byte[] aesIv)
-        {
-            if (aesKey == null || aesKey.Length == 0)
-                aesKey = Convert.FromBase64String(Constants.AES_KEY);
-            if (aesIv == null || aesIv.Length == 0)
-                aesIv = Encoding.UTF8.GetBytes(Constants.AES_IV);
-
-            GenAesKey(ref aesKey);
-            GenAesIv(aesKey, ref aesIv);
-
-            AesAlgo = new RijndaelManaged();            
-            AesAlgo.Key = AesKey;
-            AesAlgo.IV = AesIv;
-            AesAlgo.Mode = CipherMode.ECB;
-            AesAlgo.Padding = PaddingMode.Zeros;
-
-        }
-
-        #endregion ctor
 
         #region en-/decrypt
 
@@ -138,7 +129,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="plainData">Array of plain data byte</param>
         /// <returns>Array of encrypted data byte</returns>
-        /// <exception cref="ArgumentNullException">is thrown when input enrypted <see cref="byte[]"/> is null or zero length</exception>
+        /// <exception cref="ArgumentNullException">is thrown when input enrypted <see cref="T:byte[]"/> is null or zero length</exception>
         public byte[] Encrypt(byte[] plainData)
         {
             // Check arguments. 
@@ -159,8 +150,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="encryptedBytes">Array of encrypted data byte</param>
         /// <returns>Array of plain data byte</returns>
-        /// <exception cref="ArgumentNullException">is thrown when input enrypted <see cref="byte[]"/> is null or zero length</exception>
-        public byte[] Decrypt(byte[] encryptedBytes) 
+        /// <exception cref="ArgumentNullException">is thrown when input enrypted <see cref="T:byte[]"/> is null or zero length</exception>
+        public byte[] Decrypt(byte[] encryptedBytes)
         {
             // Check arguments. 
             if (encryptedBytes == null || encryptedBytes.Length <= 0)
@@ -182,12 +173,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="inPlainString">plain text string</param>
         /// <returns>Base64 encoded encrypted byte[]</returns>
-        public string EncryptString(string inPlainString)
+        public string EncryptString(string inPlainString, EncodingType encType = EncodingType.Base64)
         {
             byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inPlainString);
             byte[] encryptedData = Encrypt(plainTextData);
-            string encryptedString = Convert.ToBase64String(encryptedData);
-            // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
+            string encryptedString = encType.GetEnCoder().EnCode(encryptedData); // Convert.ToBase64String(encryptedData);
+                                                                    // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
+
             return encryptedString;
         }
 
@@ -196,9 +188,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="inCryptString">base64 encoded string from encrypted byte[]</param>
         /// <returns>plain text string (decrypted)</returns>
-        public string DecryptString(string inCryptString)
+        public string DecryptString(string inCryptString, EncodingType encType = EncodingType.Base64)
         {
-            byte[] cryptData = Convert.FromBase64String(inCryptString);
+            byte[] cryptData = encType.GetEnCoder().DeCode(inCryptString); // Convert.FromBase64String(inCryptString);
             //  System.Text.Encoding.UTF8.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
             string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
@@ -263,4 +255,5 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         #endregion EnDecryptWithStream
 
     }
+
 }

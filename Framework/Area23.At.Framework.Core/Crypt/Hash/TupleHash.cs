@@ -1,22 +1,22 @@
-﻿using Area23.At.Framework.Library.Crypt.Cipher;
-using Area23.At.Framework.Library.Crypt.EnDeCoding;
+﻿using Area23.At.Framework.Core.Crypt.Cipher;
+using Area23.At.Framework.Core.Crypt.EnDeCoding;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Utilities.Encoders;
-using System;
 
-namespace Area23.At.Framework.Library.Crypt.Hash
+namespace Area23.At.Framework.Core.Crypt.Hash
 {
+
     /// <summary>
-    /// <see cref="Org.BouncyCastle.Crypto.Digests.CShakeDigest" />
+    /// <see cref="Org.BouncyCastle.Crypto.Digests.TupleHash" />
     /// </summary>
-    public static class CShake
+    public static class TupleHash
     {
         /// <summary>
-        /// <see cref="Org.BouncyCastle.Crypto.Digests.CShakeDigest" />
+        /// <see cref="Org.BouncyCastle.Crypto.Digests.TupleHash" />
         /// </summary>
-        /// <param name="stringToHash"></param>
-        /// <returns></returns>
+        /// <param name="stringToHash">string to be hased</param>
+        /// <returns>hashed hex string</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static string HashString(string stringToHash)
         {
@@ -25,8 +25,7 @@ namespace Area23.At.Framework.Library.Crypt.Hash
 
             string resStr = string.Empty;
             byte[] bytes = EnDeCodeHelper.GetBytes(stringToHash);
-
-            IDigest digest = new Org.BouncyCastle.Crypto.Digests.CShakeDigest(256, bytes, CryptHelper.GetKeyBytesFromBytes(bytes, 32));
+            IDigest digest = new Org.BouncyCastle.Crypto.Digests.TupleHash(256, bytes, 32);
             byte[] resBuf = new byte[digest.GetDigestSize()];
             digest.BlockUpdate(bytes, 0, bytes.Length);
             digest.DoFinal(resBuf, 0);
@@ -34,5 +33,6 @@ namespace Area23.At.Framework.Library.Crypt.Hash
 
             return resStr;
         }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Core.Static;
+using Org.BouncyCastle.Crypto;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -9,14 +10,14 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
     /// <see cref="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.tripledes.-ctor?view=net-8.0" />
     /// <seealso cref="https://www.c-sharpcorner.com/article/tripledes-encryption-and-decryption-in-c-sharp/ "/>
     /// </summary>
-    public class Des3Net
+    public class Des3Net : IBlockCipher
     {
 
         #region properties
 
         public static byte[] DesKey { get; private set; }
         public static int DesKeyLen { get; private set; }
-        public static byte[] DesIv { get; private set; }
+        public static byte[] DesIv { get; private set; }        
 
         public static TripleDESCryptoServiceProvider Des3;
 
@@ -149,6 +150,32 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
 
         #endregion ctor
 
+        #region IBlockCipher
+
+        public string AlgorithmName => "DES3x3";
+
+        public void Init(bool forEncryption, ICipherParameters parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetBlockSize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int ProcessBlock(byte[] inBuf, int inOff, byte[] outBuf, int outOff)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int ProcessBlock(ReadOnlySpan<byte> input, Span<byte> output)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion IBlockCipher
+
         #region En-/DeCrypt
 
         /// <summary>
@@ -226,7 +253,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher.Symmetric
             string plaintext = System.Text.Encoding.UTF8.GetString(decryptedBytes);
             return plaintext;
         }
-
+        
         #endregion EnDeCryptString       
     }
 }

@@ -15,7 +15,7 @@ namespace Area23.At.Framework.Library.Crypt.Hash
         {
             if (string.IsNullOrEmpty(stringToHash))
                 throw new ArgumentNullException("stringToHash");
-            
+
             string resStr = string.Empty;
             byte[] bytes = EnDeCodeHelper.GetBytes(stringToHash);
             IDigest digest = new Org.BouncyCastle.Crypto.Digests.Dstu7564Digest(256);
@@ -27,4 +27,5 @@ namespace Area23.At.Framework.Library.Crypt.Hash
             return resStr;
         }
     }
+
 }

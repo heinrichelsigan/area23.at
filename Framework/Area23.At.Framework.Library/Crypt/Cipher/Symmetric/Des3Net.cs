@@ -39,37 +39,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         #endregion properties
 
         #region ctor helpers
+       
 
-        protected internal void Gen3DesKey(ref byte[] keyBytes)
-        {            
-            //var des3Tmp = new TripleDESCryptoServiceProvider();
-            //for (int lz = 0; lz < des3Tmp.LegalKeySizes.Length; lz++)
-            //{
-            //    KeySizes keySze = des3Tmp.LegalKeySizes[lz];
-            //    if (keySze.MinSize >= 8 && keySze.MinSize <= 256)
-            //    {
-            //        switch (keySze.MaxSize)
-            //        {
-            //            case 8:
-            //            case 16:
-            //            case 24:
-            //            case 32:
-            //                DesKeyLen = keySze.MaxSize;
-            //                break;
-            //            case 48:
-            //            case 64:
-            //            case 128:
-            //            case 192:
-            //            case 256:
-            //                DesKeyLen = (DesKeyLen < 0) ? keySze.MaxSize : DesKeyLen;
-            //                break;
-            //            default:
-            //                DesKeyLen = (DesKeyLen < 0) ? keySze.MaxSize : DesKeyLen;
-            //                break;
-            //        }
-            //    }
-            //}
-
+        protected internal void CreateDes3KeyIv(ref byte[] keyBytes, ref byte[] ivBytes)
+        {
             List<byte> span = new List<byte>(keyBytes);
             while (span.Count < DesKeyLen)
                 span.AddRange(keyBytes);
@@ -80,22 +53,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             keyBytes = new byte[DesKeyLen];
             Array.Copy(span.ToArray(), 0, keyBytes, 0, DesKeyLen);
 
-            return;
-        }
-
-        protected internal void Gen3DesIv(byte[] keyBytes, ref byte[] ivBytes)
-        {
             TripleDESCryptoServiceProvider desHelper = new TripleDESCryptoServiceProvider();
             desHelper.Key = keyBytes;
             desHelper.GenerateIV();
             int iVLenght = desHelper.IV.Length;
 
             DesIv = new byte[iVLenght];
-            if (iVLenght > DesKeyLen)
-            {
-                while (ivBytes.Length < iVLenght)
-                    ivBytes = ivBytes.TarBytes(ivBytes);
-            }
+            while (ivBytes.Length < iVLenght)
+                ivBytes = ivBytes.TarBytes(ivBytes);            
             
             Array.Copy(ivBytes, 0, DesIv, 0, iVLenght);
 
@@ -130,8 +95,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             
             byte[] key3Des = Encoding.UTF8.GetBytes(desKey);
             byte[] iv3Des = Encoding.UTF8.GetBytes(desIv);
-            Gen3DesKey(ref key3Des);
-            Gen3DesIv(DesKey, ref iv3Des);
+            CreateDes3KeyIv(ref key3Des, ref iv3Des);
 
             // MD5 md5 = new MD5CryptoServiceProvider();
             // DesKey = md5.ComputeHash(desKey);
@@ -140,7 +104,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             Des3.Key = DesKey;
             Des3.IV = DesIv;
             Des3.Mode = CipherMode.ECB;
-            Des3.Padding = PaddingMode.Zeros;
+            Des3.Padding = PaddingMode.PKCS7;
         }
 
         public Des3Net(byte[] desKey, byte[] desIv)
@@ -152,13 +116,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             }
 
             // MD5 md5 = new MD5CryptoServiceProvider(); // DesKey = md5.ComputeHash(desKey);
-            Gen3DesKey(ref desKey);
-            Gen3DesIv(DesKey, ref desIv);
+            CreateDes3KeyIv(ref desKey, ref desIv);
             Des3 = new TripleDESCryptoServiceProvider();
             Des3.Key = DesKey;
             Des3.IV = DesIv;
             Des3.Mode = CipherMode.ECB;
-            Des3.Padding = PaddingMode.Zeros;
+            Des3.Padding = PaddingMode.PKCS7;
         }
 
         #endregion ctor
@@ -176,7 +139,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 				throw new ArgumentNullException("inBytes");
 			
 			if (Des3 == null)
-				Des3 = new TripleDESCryptoServiceProvider() { Key = DesKey, IV = DesIv, Mode = CipherMode.ECB, Padding = PaddingMode.Zeros };
+				Des3 = new TripleDESCryptoServiceProvider() { Key = DesKey, IV = DesIv, Mode = CipherMode.ECB, Padding = PaddingMode.PKCS7 };
             
 			CryptTrans = Des3.CreateEncryptor();
 			
@@ -198,7 +161,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 throw new ArgumentNullException("cipherBytes");
 
 			if (Des3 == null)
-				Des3 = new TripleDESCryptoServiceProvider() { Key = DesKey, IV = DesIv, Mode = CipherMode.ECB, Padding = PaddingMode.Zeros };         
+				Des3 = new TripleDESCryptoServiceProvider() { Key = DesKey, IV = DesIv, Mode = CipherMode.ECB, Padding = PaddingMode.PKCS7 };         
             
 			CryptTrans = Des3.CreateDecryptor();
 			            

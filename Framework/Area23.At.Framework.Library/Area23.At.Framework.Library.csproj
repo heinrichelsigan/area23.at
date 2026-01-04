@@ -204,6 +204,7 @@
     <Compile Include="Crypt\Hash\Sha384.cs" />
     <Compile Include="Crypt\Hash\Sha1.cs" />
     <Compile Include="Crypt\Hash\Whirlpool.cs" />
+    <Compile Include="Crypt\Hash\TupleHash.cs" />
     <Compile Include="Crypt\Hash\Zodiac.cs" />
     <Compile Include="Net\IpSocket\SockTcpListener.cs" />
     <Compile Include="Net\IpSocket\SockTcpSender.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="Static\Utils.cs" />
     <Compile Include="Util\Area23EventArgs.cs" />
     <Compile Include="Static\Extensions.cs" />
+    <Compile Include="Util\Fortune.cs" />
     <Compile Include="Util\GifEncoder.cs" />
     <Compile Include="Util\JpegMetadataAdapter.cs" />
     <Compile Include="Static\MimeType.cs" />

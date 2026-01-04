@@ -14,29 +14,33 @@ namespace Area23.At.Framework.Core.Crypt.Hash
     public enum KeyHash : short
     {
         Hex = 0x0,
-        OpenBSDCrypt = 0x1,
-        BCrypt = 0x2,
-        SCrypt = 0x3,
-        MD5 = 0x4,
-        Sha1 = 0x5,
+        Sha1 = 0x1,
+        OpenBSDCrypt = 0x2,
+        BCrypt = 0x3,
+        SCrypt = 0x4,
+        MD5 = 0x5,
         Sha256 = 0x6,
         Sha384 = 0x7,
-        Sha512 = 0x8,
-        Whirlpool = 0x9,
-        Ascon256 = 0xa,
+        Oct = 0x8,
+        Sha512 = 0x9,
+        Whirlpool = 0xa,
         Blake2xs = 0xb,
         CShake = 0xc,
         Dstu7564 = 0xd,
         RipeMD256 = 0xe,
-        Xoodyak = 0xf
+        TupleHash = 0xf
     }
 
     public static class KeyHash_Extensions
     {
 
-        private static readonly KeyHash[] keyHashes = { KeyHash.Hex, KeyHash.OpenBSDCrypt, KeyHash.BCrypt, KeyHash.SCrypt,
-            KeyHash.MD5, KeyHash.Sha1, KeyHash.Sha256, KeyHash.Sha384, KeyHash.Sha512,
-            KeyHash.Whirlpool, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564, KeyHash.RipeMD256, KeyHash.Xoodyak };
+        private static readonly KeyHash[] keyHashes = {
+                KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564,
+                KeyHash.MD5, KeyHash.Hex, KeyHash.Oct, KeyHash.OpenBSDCrypt,
+                KeyHash.SCrypt, KeyHash.Sha1, KeyHash.Sha256, KeyHash.Sha384, KeyHash.Sha512,
+                KeyHash.RipeMD256, KeyHash.TupleHash, KeyHash.Whirlpool };
+
+        public static KeyHash[] GetHashes() => keyHashes;
 
         public static KeyHash[] GetHashTypes()
         {
@@ -73,8 +77,8 @@ namespace Area23.At.Framework.Core.Crypt.Hash
                 {
                     case "scrypt": return KeyHash.SCrypt;
                     case "bcrypt": return KeyHash.BCrypt;
-                    case "openbsd": 
-                    case "bsdcrypt": 
+                    case "openbsd":
+                    case "bsdcrypt":
                     case "openbsdcrypt": return KeyHash.OpenBSDCrypt;
                     case "md5": return KeyHash.MD5;
                     case "sha1": return KeyHash.Sha1;
@@ -83,10 +87,10 @@ namespace Area23.At.Framework.Core.Crypt.Hash
                     case "sha512": return KeyHash.Sha512;
                     case "whirlwind":
                     case "whirlpool": return KeyHash.Whirlpool;
-                    case "ascon":
-                    case "ascon256":
-                    case "asconhash":
-                    case "asconhash256": return KeyHash.Ascon256;
+                    //case "ascon":
+                    //case "ascon256":
+                    //case "asconhash":
+                    //case "asconhash256": return KeyHash.Ascon256;
                     case "blake2":
                     case "blake2xs": return KeyHash.Blake2xs;
                     case "shake":
@@ -95,9 +99,15 @@ namespace Area23.At.Framework.Core.Crypt.Hash
                     case "ripe":
                     case "ripe256":
                     case "ripemd256": return KeyHash.RipeMD256;
-                    case "zodiak":
-                    case "xoodyac":
-                    case "xoodyak": return KeyHash.Xoodyak;
+                    case "2hash":
+                    case "hash2":
+                    case "TupleHash": return KeyHash.TupleHash;
+                    // case "zodiak":
+                    // case "xoodyac":
+                    // case "xoodyak": return KeyHash.Xoodyak;
+                    case "octal":
+                    case "oct8":
+                    case "oct": return KeyHash.Oct;
                     case "hex16":
                     case "hex": return KeyHash.Hex;
                     default:
@@ -108,6 +118,8 @@ namespace Area23.At.Framework.Core.Crypt.Hash
             }
             return KeyHash.Hex;
         }
+
+        public static string GetExtension(this KeyHash hash) => "." + hash.ToString();
 
         public static string Hash(this KeyHash hash, string stringToHash)
         {
@@ -129,10 +141,10 @@ namespace Area23.At.Framework.Core.Crypt.Hash
                     return Sha384.HashString(stringToHash);
                 case KeyHash.Sha512:
                     return Sha512Sum.HashString(stringToHash);
-                case KeyHash.Whirlpool: 
+                case KeyHash.Whirlpool:
                     return Whirlpool.HashString(stringToHash);
-                case KeyHash.Ascon256: 
-                    return Ascon256.HashString(stringToHash);
+                //case KeyHash.Ascon256: 
+                //    return Ascon256.HashString(stringToHash);
                 case KeyHash.Blake2xs:
                     return Blake2xs.HashString(stringToHash);
                 case KeyHash.CShake:
@@ -141,8 +153,14 @@ namespace Area23.At.Framework.Core.Crypt.Hash
                     return Dstu7564.HashString(stringToHash);
                 case KeyHash.RipeMD256:
                     return RipeMD256.HashString(stringToHash);
-                case KeyHash.Xoodyak:                    
-                    return Zodiac.HashString(stringToHash);
+                case KeyHash.TupleHash:
+                    return TupleHash.HashString(stringToHash);
+                case KeyHash.Oct:
+                    string octString = string.Empty;
+                    byte[] inBytes = Encoding.UTF8.GetBytes(stringToHash);
+                    for (int wc = 0; wc < inBytes.Length; wc++)
+                        octString += Convert.ToString(((inBytes[wc] - 32) % 64), 8);
+                    return octString;
                 case KeyHash.Hex:
                 default:
                     return Hex16.ToHex16(Encoding.UTF8.GetBytes(stringToHash));

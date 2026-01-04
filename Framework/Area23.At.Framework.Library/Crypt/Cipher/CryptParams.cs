@@ -104,9 +104,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Fish3:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
                     break;
-                case CipherEnum.ThreeFish256:;
-                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
-                    break;
+                // case CipherEnum.ThreeFish256:;
+                //     BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
+                //  break;
                 case CipherEnum.Camellia:
                     Size = 128;
                     KeyLen = 16;;

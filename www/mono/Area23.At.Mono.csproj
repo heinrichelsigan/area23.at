@@ -412,7 +412,9 @@
     <Content Include="res\js\digiclock.js" />
     <Content Include="Settings\CacheTest.aspx" />
     <Content Include="Settings\Default.aspx" />
-    <AdditionalFiles Include="Settings\.htaccess" />
+    <AdditionalFiles Include="Settings\.htaccess">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
     <Content Include="Settings\Setting.aspx" />
     <Content Include="Settings\TestLogin.aspx" />
     <Content Include="Unix\Bc.aspx" />

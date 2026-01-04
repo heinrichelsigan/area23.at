@@ -17,7 +17,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
     public enum CipherEnum : byte
     {
         Aes = 0x0,
-
         BlowFish = 0x1,
         Camellia = 0x2,
         Cast6 = 0x3,
@@ -32,9 +31,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         Serpent = 0xc,
         Tea = 0xd,
         XTea = 0xe,
-
-        ZenMatrix = 0xf,
-
+        SM4 = 0xf,
 
         Cast5 = 0x10,
         Rijndael = 0x11,
@@ -47,15 +44,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         Aria = 0x18,
         CamelliaLight = 0x19,
         Dstu7624 = 0x1a,
-        SM4 = 0x1b,
-        AesLight = 0x1c,
-        ThreeFish256 = 0x1d,
+        AesLight = 0x1b,
+        ZenMatrix = 0x1c,
 
+        AesNet = 0x1d,
         Des3Net = 0x1e,
-
-        ZenMatrix2 = 0x1f,
-
-        AesNet = 0x20, 
+        ZenMatrix2 = 0x1f,        
         Rsa = 0x21
         // DH = 0x22,
     }
@@ -95,7 +89,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.BlowFish: return 'b';
                 case CipherEnum.Fish2: return 'f';
                 case CipherEnum.Fish3: return 'F';
-                case CipherEnum.ThreeFish256: return '3';
+                // case CipherEnum.ThreeFish256: return '3';
 
                 case CipherEnum.Camellia: return 'C';
                 case CipherEnum.CamelliaLight: return 'l';

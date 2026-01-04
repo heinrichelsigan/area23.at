@@ -30,9 +30,6 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         XTea = 0xe,
         SM4 = 0xf,
 
-
-
-
         Cast5 = 0x10,
         Rijndael = 0x11,
         Noekeon = 0x12,
@@ -43,18 +40,13 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
         Des = 0x17,
         Aria = 0x18,
         CamelliaLight = 0x19,
-        Dstu7624 = 0x1a,         
+        Dstu7624 = 0x1a,
         AesLight = 0x1b,
-        ThreeFish256 = 0x1c,
-        
-        Des3Net = 0x1d,
-        AesNet = 0x1e, 
+        ZenMatrix = 0x1c,
 
-
-        ZenMatrix = 0x1f, 
-        ZenMatrix2 = 0x20,
-
-        
+        AesNet = 0x2d,
+        Des3Net = 0x1e,
+        ZenMatrix2 = 0x1f,
         Rsa = 0x21
         // DH = 0x22,
     }
@@ -95,7 +87,7 @@ namespace Area23.At.Framework.Core.Crypt.Cipher
                 case CipherEnum.BlowFish: return 'b';
                 case CipherEnum.Fish2: return 'f';
                 case CipherEnum.Fish3: return 'F';
-                case CipherEnum.ThreeFish256: return '3';
+                // case CipherEnum.ThreeFish256: return '3';
 
                 case CipherEnum.Camellia: return 'C';
                 case CipherEnum.CamelliaLight: return 'l';

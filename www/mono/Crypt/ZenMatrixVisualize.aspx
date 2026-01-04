@@ -62,17 +62,22 @@
                 </span>
             </div>
 			<div class="odDiv" style="margin-top: 4px">
-                <span class="leftSpan" style="white-space: nowrap; width:80%; text-align: left;">
+                <span class="leftSpan" style="white-space: nowrap; width:92%; text-align: left;">
                     <asp:RadioButtonList ID="RadioButtonList_Hash" runat="server" AutoPostBack="true" ToolTip="choose hashing key method" RepeatDirection="Horizontal" OnSelectedIndexChanged="RadioButtonList_Hash_ParameterChanged"> 
-                        <asp:ListItem Selected="False" Value="BCrypt">bcrypt key</asp:ListItem>
-                        <asp:ListItem Selected="True" Value="Hex">hex hash key</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="MD5">md5 key</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="OpenBSDCrypt">openbsd crypt</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="SCrypt">scrypt key</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Sha1">sha1 key</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Sha256">sha256 key</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Sha384">sha384 key</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Sha512">sha256 key</asp:ListItem>
+						<asp:ListItem Selected="False" Value="BCrypt">bcrypt</asp:ListItem>
+						<asp:ListItem Selected="False" Value="Blake2xs">blake2xs</asp:ListItem>
+						<asp:ListItem Selected="False" Value="CShake">cshake</asp:ListItem>
+						<asp:ListItem Selected="False" Value="Dstu7564">dstu7564</asp:ListItem>
+						<asp:ListItem Selected="True" Value="Hex">hex hash</asp:ListItem>
+						<asp:ListItem Selected="False" Value="MD5">md5</asp:ListItem>
+						<asp:ListItem Selected="False" Value="OpenBSDCrypt">openbsd crypt</asp:ListItem>
+						<asp:ListItem Selected="False" Value="Oct">octal</asp:ListItem>
+						<asp:ListItem Selected="False" Value="RipeMD256">ripemd256</asp:ListItem>
+						<asp:ListItem Selected="False" Value="SCrypt">scrypt</asp:ListItem>
+						<asp:ListItem Selected="False" Value="Sha1">sha1 key</asp:ListItem>
+						<asp:ListItem Selected="False" Value="Sha256">sha256</asp:ListItem>
+						<asp:ListItem Selected="False" Value="TupleHash">tuplehash</asp:ListItem>
+						<asp:ListItem Selected="False" Value="Whirlpool">whirlpool</asp:ListItem>
                     </asp:RadioButtonList>                 
                 </span>                
                 <span class="centerSpan" style="margin-left: 20px; max-width: 800px; min-width: 720px;">
@@ -101,7 +106,7 @@
 					<td class="azureTd" width="3%" id="td_f_d" runat="server" align="center"><asp:TextBox ID="TextBox_f_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_f_e" runat="server" align="center"><asp:TextBox ID="TextBox_f_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_f_f" runat="server" align="center"><asp:TextBox ID="TextBox_f_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td17" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_f_sf" runat="server" align="right">x0&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="td_f_vf" runat="server" align="center"><asp:TextBox ID="TextBox_f_vf" runat="server" ClientIDMode="Static" Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_e" width="49%" height="3%">
@@ -122,7 +127,7 @@
 					<td class="azureTd" width="3%" id="td_e_d" runat="server" align="center"><asp:TextBox ID="TextBox_e_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_e_e" runat="server" align="center"><asp:TextBox ID="TextBox_e_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_e_f" runat="server" align="center"><asp:TextBox ID="TextBox_e_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td16" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_e_sf" runat="server" align="right">x1&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="td_e_vf" runat="server" align="center"><asp:TextBox ID="TextBox_e_vf" runat="server" ClientIDMode="Static" Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_d" width="49%" height="3%">
@@ -143,7 +148,7 @@
 					<td class="azureTd" width="3%" id="td_d_d" runat="server" align="center"><asp:TextBox ID="TextBox_d_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_d_e" runat="server" align="center"><asp:TextBox ID="TextBox_d_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_d_f" runat="server" align="center"><asp:TextBox ID="TextBox_d_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td15" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_d_sf" runat="server" align="right">x2&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="td_d_vf" runat="server" align="center"><asp:TextBox ID="TextBox_d_vf" runat="server" ClientIDMode="Static" Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_c" width="49%" height="3%">
@@ -164,7 +169,7 @@
 					<td class="azureTd" width="3%" id="td_c_d" runat="server" align="center"><asp:TextBox ID="TextBox_c_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_c_e" runat="server" align="center"><asp:TextBox ID="TextBox_c_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_c_f" runat="server" align="center"><asp:TextBox ID="TextBox_c_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td13" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_c_sf" runat="server" align="right">x3&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="tdc_vf" runat="server" align="center"><asp:TextBox ID="TextBox_c_vf" runat="server" ClientIDMode="Static"  Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_b" width="49%" height="3%">
@@ -185,7 +190,7 @@
 					<td class="azureTd" width="3%" id="td_b_d" runat="server" align="center"><asp:TextBox ID="TextBox_b_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_b_e" runat="server" align="center"><asp:TextBox ID="TextBox_b_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_b_f" runat="server" align="center"><asp:TextBox ID="TextBox_b_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td12" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_b_sf" runat="server" align="right">x4&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="td_b_vf" runat="server" align="center"><asp:TextBox ID="TextBox_b_vf" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>					
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_a" width="49%" height="3%">
@@ -206,7 +211,7 @@
 					<td class="azureTd" width="3%" id="td_a_d" runat="server" align="center"><asp:TextBox ID="TextBox_a_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_a_e" runat="server" align="center"><asp:TextBox ID="TextBox_a_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_a_f" runat="server" align="center"><asp:TextBox ID="TextBox_a_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td11" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_a_sf" runat="server" align="right">x5&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="td_a_vf" runat="server" align="center"><asp:TextBox ID="TextBox_a_vf" runat="server" ClientIDMode="Static" Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_9" width="49%" height="3%">
@@ -227,7 +232,7 @@
 					<td class="azureTd" width="3%" id="td_9_d" runat="server" align="center"><asp:TextBox ID="TextBox_9_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_9_e" runat="server" align="center"><asp:TextBox ID="TextBox_9_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_9_f" runat="server" align="center"><asp:TextBox ID="TextBox_9_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td10" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_9_sf" runat="server" align="right">x6&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="td_9_vf" runat="server" align="center"><asp:TextBox ID="TextBox_9_vf" runat="server" ClientIDMode="Static" Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_8" width="49%" height="3%">
@@ -248,7 +253,7 @@
 					<td class="azureTd" width="3%" id="td_8_d" runat="server" align="center"><asp:TextBox ID="TextBox_8_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_8_e" runat="server" align="center"><asp:TextBox ID="TextBox_8_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_8_f" runat="server" align="center"><asp:TextBox ID="TextBox_8_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td9" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_8_sf" runat="server" align="right">x7&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="td_8_vf" runat="server" align="center"><asp:TextBox ID="TextBox_8_vf" runat="server" ClientIDMode="Static" Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_7" width="49%" height="3%">
@@ -269,7 +274,7 @@
 					<td class="azureTd" width="3%" id="td_7_d" runat="server" align="center"><asp:TextBox ID="TextBox_7_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_7_e" runat="server" align="center"><asp:TextBox ID="TextBox_7_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_7_f" runat="server" align="center"><asp:TextBox ID="TextBox_7_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td8" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_7_sf" runat="server" align="right">x8&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="td_7_vf" runat="server" align="center"><asp:TextBox ID="TextBox_7_vf" runat="server" ClientIDMode="Static" Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_6" width="49%" height="3%">
@@ -290,7 +295,7 @@
 					<td class="azureTd" width="3%" id="td_6_d" runat="server" align="center"><asp:TextBox ID="TextBox_6_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_6_e" runat="server" align="center"><asp:TextBox ID="TextBox_6_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_6_f" runat="server" align="center"><asp:TextBox ID="TextBox_6_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td7" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_6_sf" runat="server" align="right">x9&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="td_6_vf" runat="server" align="center"><asp:TextBox ID="TextBox_6_vf" runat="server" ClientIDMode="Static" Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_5" width="49%" height="3%">
@@ -311,7 +316,7 @@
 					<td class="azureTd" width="3%" id="td_5_d" runat="server" align="center"><asp:TextBox ID="TextBox_5_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_5_e" runat="server" align="center"><asp:TextBox ID="TextBox_5_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_5_f" runat="server" align="center"><asp:TextBox ID="TextBox_5_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td6" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_5_sf" runat="server" align="right">xa&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="td_v_f5" runat="server" align="center"><asp:TextBox ID="TextBox_5_vf" runat="server" ClientIDMode="Static" Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_4" width="49%" height="3%">
@@ -332,7 +337,7 @@
 					<td class="azureTd" width="3%" id="td_4_d" runat="server" align="center"><asp:TextBox ID="TextBox_4_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_4_e" runat="server" align="center"><asp:TextBox ID="TextBox_4_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_4_f" runat="server" align="center"><asp:TextBox ID="TextBox_4_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td5" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_4_sf" runat="server" align="right">xb&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="td_4_vf" runat="server" align="center"><asp:TextBox ID="TextBox_4_vf" runat="server" ClientIDMode="Static" Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_3" width="49%" height="3%">
@@ -353,7 +358,7 @@
 					<td class="azureTd" width="3%" id="td_3_d" runat="server" align="center"><asp:TextBox ID="TextBox_3_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_3_e" runat="server" align="center"><asp:TextBox ID="TextBox_3_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_3_f" runat="server" align="center"><asp:TextBox ID="TextBox_3_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td4" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_3_sf" runat="server" align="right">xc&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="td_3_vf" runat="server" align="center"><asp:TextBox ID="TextBox_3_vf" runat="server" ClientIDMode="Static" Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_2" width="49%" height="3%">
@@ -374,7 +379,7 @@
 					<td class="azureTd" width="3%" id="td_2_d" runat="server" align="center"><asp:TextBox ID="TextBox_2_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_2_e" runat="server" align="center"><asp:TextBox ID="TextBox_2_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_2_f" runat="server" align="center"><asp:TextBox ID="TextBox_2_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td3" runat="server" align="center">&nbsp;&nbsp;</td>						
+					<td class="rpnTd" colspan=2 width="6%" id="td_2_sf" runat="server" align="right">xd&nbsp;&#x21D2;</td>						
 					<td class="azureTd" width="3%" id="td_2_vf" runat="server" align="center"><asp:TextBox ID="TextBox_2_vf" runat="server" ClientIDMode="Static" Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_1" width="49%" height="3%">
@@ -395,7 +400,7 @@
 					<td class="azureTd" width="3%" id="td_1_d" runat="server" align="center"><asp:TextBox ID="TextBox_1_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_1_e" runat="server" align="center"><asp:TextBox ID="TextBox_1_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_1_f" runat="server" align="center"><asp:TextBox ID="TextBox_1_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td2" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_1_sf" runat="server" align="right">xe&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="td_1_vf" runat="server" align="center"><asp:TextBox ID="TextBox_1_vf" runat="server" ClientIDMode="Static" Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 				<tr class="rpnTr" runat="server" id="tr_0" width="49%" height="3%">
@@ -416,7 +421,7 @@
 					<td class="azureTd" width="3%" id="td_0_d" runat="server" align="center"><asp:TextBox ID="TextBox_0_d" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_0_e" runat="server" align="center"><asp:TextBox ID="TextBox_0_e" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
 					<td class="azureTd" width="3%" id="td_0_f" runat="server" align="center"><asp:TextBox ID="TextBox_0_f" runat="server" ClientIDMode="Static" Text="0"  style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt"  /></td>
-					<td class="rpnTd" colspan=2 width="6%" id="td1" runat="server" align="center">&nbsp;&nbsp;</td>	
+					<td class="rpnTd" colspan=2 width="6%" id="td_0_sf" runat="server" align="right">xf&nbsp;&#x21D2;</td>	
 					<td class="azureTd" width="3%" id="td_0_vf" runat="server" align="center"><asp:TextBox ID="TextBox_0_vf" runat="server" ClientIDMode="Static" Text="0" style="width: 24pt; height: 24pt; min-width: 16pt; max-width: 36pt" /></td>
 				</tr>
 			</table>
