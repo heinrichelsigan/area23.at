@@ -132,6 +132,15 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.TextBox TextBox_Encryption;
 
         /// <summary>
+        /// ImageButton_Delete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton_Delete;
+
+        /// <summary>
         /// DropDownList_Encoding control.
         /// </summary>
         /// <remarks>
@@ -274,6 +283,15 @@ namespace Area23.At.Mono.Crypt
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonEncrypt;
+
+        /// <summary>
+        /// Button_RandomText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button_RandomText;
 
         /// <summary>
         /// ButtonDecrypt control.

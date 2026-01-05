@@ -124,6 +124,11 @@ namespace Area23.At.Mono.Crypt
             }
         }
 
+        protected void ImageButton_Delete_Click(object sender, EventArgs e)
+        {
+            TextBox_Encryption.Text = "";
+            Reset_TextBox_IV(this.TextBox_Key.Text);
+        }
 
         /// <summary>
         /// Add encryption alog to encryption pipeline
@@ -521,6 +526,12 @@ namespace Area23.At.Mono.Crypt
 
                 SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif");
             }
+        }
+
+
+        protected void Button_RandomText_Click(object sender, EventArgs e)
+        {
+            this.TextBoxSource.Text = Fortune.ExecFortune();
         }
 
 

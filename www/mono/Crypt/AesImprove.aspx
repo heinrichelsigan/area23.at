@@ -109,7 +109,6 @@
                         <asp:ListItem Enabled="true" Value="BlowFish" Selected="false">BlowFish</asp:ListItem>  
                         <asp:ListItem Enabled="true" Value="Fish2" Selected="false">Fish2</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Fish3" Selected="false">Fish3</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="ThreeFish256" Selected="false">ThreeFish256</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Camellia" Selected="false">Camellia</asp:ListItem>              
                         <asp:ListItem Enabled="true" Value="CamelliaLight" Selected="false">CamelliaLight</asp:ListItem> 
                         <asp:ListItem Enabled="true" Value="Cast5" Selected="False">Cast5</asp:ListItem>
@@ -145,11 +144,15 @@
                 </span>
                 <span class="centerSpan" style="width: 432px; max-width: 480px;">
                     <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true" ClientIDMode="Static" TextMode="SingleLine" MaxLength="512" 
-                        Width="432px"  style="width: 432px; max-width: 480px" />
-                        &rArr;
+                        Width="400px"  style="width: 400px; max-width: 420px" />                        
+                </span>
+                <span class="centerSpan" style="margin-left: 2px; margin-right: 2px; width: 36px; min-width: 32px; max-width: 40px">
+                    <asp:ImageButton ID="ImageButton_Delete" runat="server" ClientIDMode="Static" 
+                        onmouseover="src = '../res/img/arrow/close_delete.gif'; return false;" onmouseout="src = '../res/img/arrow/close_delete.png'; return false;" 
+                        OnClick="ImageButton_Delete_Click" ImageUrl="../res/img/arrow/close_delete.png" AlternateText="delete cipher pipeline" />
                 </span>
                 <span class="rightSpan">
-                     <asp:DropDownList ID="DropDownList_Encoding" runat="server" ClientIDMode="Static" AutoPostBack="true" 
+                     &rArr; <asp:DropDownList ID="DropDownList_Encoding" runat="server" ClientIDMode="Static" AutoPostBack="true" 
                          OnSelectedIndexChanged="DropDownList_Encoding_SelectedIndexChanged" style="width: 84px;  z-index: 100;">
                         <asp:ListItem Enabled="true" Value="None" Selected="false">None</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Base16" Selected="false">Base16</asp:ListItem>
@@ -212,6 +215,7 @@
                 <asp:TextBox ID="TextBoxDestionation" runat="server" ClientIDMode="Static" TextMode="MultiLine" Rows="10" Columns="64" MaxLength="262144" ReadOnly="true" ToolTip="Destination Text" ValidateRequestMode="Enabled"  Width="512px" CssClass="CryptTextArea"></asp:TextBox>
                 <br />
                 <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClientClick="changeCryptBackgroundText()" OnClick="ButtonEncrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />
+                <asp:Button ID="Button_RandomText" runat="server" Text="Random Text" ToolTip="Decrypt" OnClick="Button_RandomText_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />&nbsp;
                 <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClientClick="changeCryptBackgroundText();" OnClick="ButtonDecrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />   
             </div>
         </div>

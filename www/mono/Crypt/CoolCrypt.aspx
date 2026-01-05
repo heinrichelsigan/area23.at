@@ -54,22 +54,6 @@
                         ToolTip="Clear SymChiffre Pipeline" style="width: 60px; min-width: 48px; max-width: 72px" />
                 </span>
             </div>    
-            <div class="odDiv" style="margin-top: 2px">
-                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">key&nbsp;hash:</span>
-                <span class="centerSpan" style="margin-left: 8px; width: 60px; min-width: 48px; max-width: 72px">  
-                    <asp:ImageButton ID="ImageButton_Hash" runat="server" ClientIDMode="Static" 
-                        onmouseover="src = '../res/img/crypt/a_hash_key_over.gif'; return false;" onmouseout="src = '../res/img/crypt/a_hash.png'; return false;" 
-                        OnClick="Button_Hash_Click" ImageUrl="../res/img/crypt/a_hash.png" AlternateText="generate new hash from key" />
-                </span>                
-                <span class="centerSpan" style="margin-left: 2px; max-width: 600px; min-width: 480px;">
-                    <asp:TextBox ID="TextBox_IV" runat="server" ClientIDMode="Static"
-                        ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="256"  Width="540px" style="width: 540px; max-width: 720px" />
-                </span>                
-                <span class="rightSpan" style="width: 80px; min-width: 72px; max-width: 84px">
-                    <asp:Button ID="Button_SetPipeline" runat="server" ClientIDMode="Static"  Text="set pipeline" 
-                        OnClick="Button_SetPipeline_Click" ToolTip="set symmetric cipher pipeline" style="width: 80px; min-width: 72px; max-width: 84px"  />
-                </span>
-            </div>
             <div class="odDiv" style="margin-top: 4px;">
                 <span class="leftSpan" style="white-space: nowrap; width:92%; text-align: left;">
                     <asp:RadioButtonList ID="RadioButtonList_Hash" runat="server" AutoPostBack="true" ToolTip="choose hashing key method" RepeatDirection="Horizontal" OnSelectedIndexChanged="RadioButtonList_Hash_ParameterChanged">                         
@@ -93,6 +77,23 @@
                     &nbsp;
                 </span>
             </div>
+            <div class="odDiv" style="margin-top: 2px">
+                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">key&nbsp;hash:</span>
+                <span class="centerSpan" style="margin-left: 8px; width: 60px; min-width: 48px; max-width: 72px">  
+                    <asp:ImageButton ID="ImageButton_Hash" runat="server" ClientIDMode="Static" 
+                        onmouseover="src = '../res/img/crypt/a_hash_key_over.gif'; return false;" onmouseout="src = '../res/img/crypt/a_hash.png'; return false;" 
+                        OnClick="Button_Hash_Click" ImageUrl="../res/img/crypt/a_hash.png" AlternateText="generate new hash from key" />
+                </span>                
+                <span class="centerSpan" style="margin-left: 2px; max-width: 600px; min-width: 480px;">
+                    <asp:TextBox ID="TextBox_IV" runat="server" ClientIDMode="Static"
+                        ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="256"  Width="540px" style="width: 540px; max-width: 720px" />
+                </span>                
+                <span class="rightSpan" style="width: 80px; min-width: 72px; max-width: 84px">
+                    <asp:Button ID="Button_SetPipeline" runat="server" ClientIDMode="Static"  Text="set pipeline" 
+                        OnClick="Button_SetPipeline_Click" ToolTip="set symmetric cipher pipeline" style="width: 80px; min-width: 72px; max-width: 84px"  />
+                </span>
+            </div>
+            
         </div>
         <div id="DivCryptImprove" runat="server" ClientIDMode="Static" tyle="padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;">
         
