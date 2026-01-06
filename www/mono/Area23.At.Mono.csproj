@@ -844,6 +844,9 @@
     <Content Include="log\2024-03-00_Area23.At.Mono.log" />
     <Content Include="Crypt\EncodeMaster.master" />
     <Content Include="Gamez\GamesMaster.master" />
+    <Content Include="Crypt\Help.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <Content Include="res\text\fortune.u8" />
     <Content Include="Qr\QRMaster.master" />

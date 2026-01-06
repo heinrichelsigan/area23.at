@@ -78,13 +78,22 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.TextBox TextBox_IV;
 
         /// <summary>
-        /// Button_SetPipeline control.
+        /// Button_SetPipe control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button_SetPipeline;
+        protected global::System.Web.UI.WebControls.Button Button_SetPipe;
+
+        /// <summary>
+        /// Button_HashPipe control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button_HashPipe;
 
         /// <summary>
         /// DivCryptImprove control.
@@ -150,6 +159,33 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.DropDownList DropDownList_Encoding;
 
         /// <summary>
+        /// divHint control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divHint;
+
+        /// <summary>
+        /// divPipeImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPipeImage;
+
+        /// <summary>
+        /// imgPipe control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlImage imgPipe;
+
+        /// <summary>
         /// oFile control.
         /// </summary>
         /// <remarks>
@@ -184,6 +220,15 @@ namespace Area23.At.Mono.Crypt
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Button_DecryptFile;
+
+        /// <summary>
+        /// divFileResult control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divFileResult;
 
         /// <summary>
         /// SpanLeftFile control.

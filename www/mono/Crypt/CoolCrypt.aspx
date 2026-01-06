@@ -37,21 +37,22 @@
     <form id="CoolCryptForm" runat="server" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True" style="background-color: transparent;">
         <div style="background-color: transparent; padding-left: 40px; margin-left: 2px;">
             <div class="odDiv">
-                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">secret&nbsp;key:</span>
+                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 60px">&nbsp;Key:&nbsp;</span>
                 <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">
                     <asp:ImageButton ID="ImageButton_Key" runat="server" ClientIDMode="Static"
                     OnClick="Button_Key_Click" ImageUrl="../res/img/crypt/a_right_key.png" AlternateText="save your user key in session" />
                 </span>
-                <span class="centerSpan" style="margin-left: 1px; max-width: 600px; min-width: 480px">
+                <span class="centerSpan" style="margin-left: 2px; max-width: 600px; min-width: 520px">
                     <asp:TextBox ID="TextBox_Key" runat="server" ClientIDMode="Static" AutoPostBack="true" 
                         Text="heinrich.elsigan@area23.at" 
                         ToolTip="Enter your personal email address or secret key here" 
                         OnTextChanged="TextBox_Key_TextChanged" 
-                        MaxLength="256" Width="540px" Style="width: 540px; max-width: 720px" />
+                        MaxLength="256" Width="554px" Style="width: 554px; max-width: 600px" />
                 </span>
-                <span class="rightSpan" style="width: 60px; min-width: 48px; max-width: 72px">
+                <span class="rightSpan" style="width: 136px; min-width: 48px; max-width: 72px">
                     <asp:Button ID="Button_Clear" runat="server" Text="clear" OnClick="Button_Clear_Click" 
-                        ToolTip="Clear SymChiffre Pipeline" style="width: 60px; min-width: 48px; max-width: 72px" />
+                        ToolTip="Clear SymChiffre Pipeline" style="width: 68px; min-width: 60px; max-width: 72px" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="Help.pdf" title="help howro" target="_blank">Help</a>&nbsp;
                 </span>
             </div>    
             <div class="odDiv" style="margin-top: 4px;">
@@ -61,13 +62,13 @@
                         <asp:ListItem Selected="False" Value="Blake2xs">blake2xs</asp:ListItem>
                         <asp:ListItem Selected="False" Value="CShake">cshake</asp:ListItem>
                         <asp:ListItem Selected="False" Value="Dstu7564">dstu7564</asp:ListItem>
-                        <asp:ListItem Selected="True" Value="Hex">hex hash</asp:ListItem>
+                        <asp:ListItem Selected="True" Value="Hex">hex</asp:ListItem>
                         <asp:ListItem Selected="False" Value="MD5">md5</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="OpenBSDCrypt">openbsd crypt</asp:ListItem>
+                        <asp:ListItem Selected="False" Value="OpenBSDCrypt">openbsd</asp:ListItem>
                         <asp:ListItem Selected="False" Value="Oct">octal</asp:ListItem>
                         <asp:ListItem Selected="False" Value="RipeMD256">ripemd256</asp:ListItem>
                         <asp:ListItem Selected="False" Value="SCrypt">scrypt</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Sha1">sha1 key</asp:ListItem>
+                        <asp:ListItem Selected="False" Value="Sha1">sha1</asp:ListItem>
                         <asp:ListItem Selected="False" Value="Sha256">sha256</asp:ListItem>
                         <asp:ListItem Selected="False" Value="TupleHash">tuplehash</asp:ListItem>
                         <asp:ListItem Selected="False" Value="Whirlpool">whirlpool</asp:ListItem>
@@ -78,19 +79,21 @@
                 </span>
             </div>
             <div class="odDiv" style="margin-top: 2px">
-                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 72px">key&nbsp;hash:</span>
+                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 60px">hash</span>
                 <span class="centerSpan" style="margin-left: 8px; width: 60px; min-width: 48px; max-width: 72px">  
                     <asp:ImageButton ID="ImageButton_Hash" runat="server" ClientIDMode="Static" 
                         onmouseover="src = '../res/img/crypt/a_hash_key_over.gif'; return false;" onmouseout="src = '../res/img/crypt/a_hash.png'; return false;" 
                         OnClick="Button_Hash_Click" ImageUrl="../res/img/crypt/a_hash.png" AlternateText="generate new hash from key" />
                 </span>                
-                <span class="centerSpan" style="margin-left: 2px; max-width: 600px; min-width: 480px;">
+                <span class="centerSpan" style="margin-left: 2px; max-width: 600px; min-width: 520px;">
                     <asp:TextBox ID="TextBox_IV" runat="server" ClientIDMode="Static"
-                        ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="256"  Width="540px" style="width: 540px; max-width: 720px" />
+                        ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="256"  Width="560px" style="width: 560px; max-width: 580px" />
                 </span>                
-                <span class="rightSpan" style="width: 80px; min-width: 72px; max-width: 84px">
-                    <asp:Button ID="Button_SetPipeline" runat="server" ClientIDMode="Static"  Text="set pipeline" 
-                        OnClick="Button_SetPipeline_Click" ToolTip="set symmetric cipher pipeline" style="width: 80px; min-width: 72px; max-width: 84px"  />
+                <span class="rightSpan" style="width: 136px; min-width: 96px; max-width: 144px">
+                    <asp:Button ID="Button_SetPipe" runat="server" ClientIDMode="Static"  Text="set pipe" 
+                        OnClick="Button_SetPipe_Click" ToolTip="set symmetric cipher pipeline" style="width: 68px; min-width: 60px; max-width: 72px"  />
+                    <asp:Button ID="Button_HashPipe" runat="server" ClientIDMode="Static" Text="hash pipe"
+                        OnClick="Button_HashPipe_Click" ToolTip="hash symmetric cipher pipeline" style="width: 68px; min-width: 60px; max-width: 72px" />
                 </span>
             </div>
             
@@ -152,11 +155,11 @@
                         onmouseover="document.getElementById('ImageButton_Add').src='../res/img/crypt/AddAesArrowHover.gif'"                     
                         onmouseout="document.getElementById('ImageButton_Add').src='../res/img/crypt/AddAesArrow.gif'" />
                 </span>
-                <span class="centerSpan" style="width: 400px; max-width: 432px;">
+                <span class="centerSpan" style="width: 440px; max-width: 460px;">
                     <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true" ClientIDMode="Static" TextMode="SingleLine" MaxLength="512" 
-                        Width="400px"  style="width: 400px; max-width: 432px" />                        
+                        Width="440px"  style="width: 440px; max-width: 460px" />                        
                 </span>
-                <span class="centerSpan" style="margin-left: 2px; margin-right: 2px; width: 36px; min-width: 32px; max-width: 40px">
+                <span class="centerSpan" style="margin-left: 1px; margin-right: 1px; width: 32px; min-width: 30px; max-width: 36px">
                     <asp:ImageButton ID="ImageButton_Delete" runat="server" ClientIDMode="Static" 
                         onmouseover="src = '../res/img/arrow/close_delete.gif'; return false;" onmouseout="src = '../res/img/arrow/close_delete.png'; return false;" 
                         OnClick="ImageButton_Delete_Click" ImageUrl="../res/img/arrow/close_delete.png" AlternateText="delete cipher pipeline" />
@@ -175,7 +178,7 @@
                     </asp:DropDownList>
                 </span>
             </div>
-            <div class="odDiv">
+            <div class="odDiv" id="divHint" runat="server" visible="true">
                 <span class="leftSpan" style="width: 72px">
                     Hint: zip and 7zip compression are still buggy implemented, please use only bzip2 and gzip.
                 </span>
@@ -186,9 +189,14 @@
                 <span class="rightSpan" style="width: 72px">
                 </span>
             </div>
-            <hr />                 
+            <div style="clear: both" id="divPipeImage" runat="server" visible="false">
+                <span class="centerSpan" style="width: 100%; text-align: center;">
+                    <img id="imgPipe" runat="server" alt="Symmetric Cipher Pipeline" height="108" width="640" tooltip="Symmetric Cipher Pipeline" src="../res/img/symbol/JollyRoger.png" />
+                </span>
+            </div> 
+            <hr />                             
             <h3>En-/Decrypt file</h3>
-            <div class="odDiv" style="vertical-align: top;">                       
+            <div class="odDiv" style="vertical-align: top; clear: both">
                 <span class="leftSpan" style="vertical-align: top;">
                     <INPUT id="oFile" type="file" runat="server" NAME="oFile" /> 
                 </span>
@@ -207,8 +215,8 @@
                         Text="Decrypt file"
                         OnClick="Button_DecryptFile_Click" OnClientClick="javascript:changeCryptBackgroundFile();" />  
                 </span>
-            </div>     
-            <div class="odDiv">                       
+            </div>                 
+            <div style="clear: left;" id="divFileResult" runat="server" visible="true">
                 <span id="SpanLeftFile" runat="server" class="leftSpan" style="vertical-align: top;" visible="false">
                     <a id="aUploaded" runat="server" alt="Uploaded File" href="../res/img/crypt/file.png">
                         <img id="imgIn" runat="server" border="0" alt="" src="../res/img/crypt/file.png" />
@@ -223,7 +231,7 @@
                         <img id="imgOut" runat="server" border="0" alt="File transformed" src="../res/img/crypt/file.png" />
                     </a>
                 </span>                
-            </div>
+            </div>                                       
             <br />
             <h3>En-/Decrypt text</h3>
             <div id="DivCrypTextArea" class="CryptTextArea">                

@@ -50,6 +50,19 @@ namespace Area23.At.Framework.Library.Zfx
             return ZipType.None;
         }
 
+        public static string GetUnzipString(this ZipType zType)
+        {
+            string zipString = zType.ToString();
+            if (zipString.Contains("Zip"))
+                zipString = zipString.Replace("Zip", "UnZip");
+            else if (zipString.Contains("7"))
+                zipString = "7unzip";
+            else
+                zipString = "";
+
+            return zipString;
+        }
+
         public static ZipType GetZipTypeFromValue(short zValue)
         {
             zValue = (short)((zValue % 0x100) - (zValue % 0x10));
