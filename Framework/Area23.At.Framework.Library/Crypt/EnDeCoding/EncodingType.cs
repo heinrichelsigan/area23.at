@@ -7,7 +7,6 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
     /// <summary>
     /// EncodingType Enum 
-    /// TODO: base58
     /// </summary>
     [DefaultValue(EncodingType.Base64)]
     public enum EncodingType
@@ -19,7 +18,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         Base32 =    0x400,
         Hex32 =     0x500,
         Uu =        0x600,
-        Base58 =    0x700,
+        Hex64 =     0x700,
         Base64 =    0x800,
         Xx =        0x900
     }
@@ -70,6 +69,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 case EncodingType.Base16: return ((IDecodable)new Base16());
                 case EncodingType.Hex32: return ((IDecodable)new Hex32());
                 case EncodingType.Base32: return ((IDecodable)new Base32());
+                case EncodingType.Hex64: return ((IDecodable)new Hex64());
                 case EncodingType.Uu: return ((IDecodable)new Uu());
                 case EncodingType.Xx: return ((IDecodable)new Xx());
                 case EncodingType.Base64:

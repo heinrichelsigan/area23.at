@@ -10,8 +10,8 @@
     <Copyright>Copyleft ©  2000 - 2032</Copyright>
     <RepositoryUrl>https://github.com/heinrichelsigan/area23.at</RepositoryUrl>
     <PackageProjectUrl>https://github.com/heinrichelsigan/area23.at</PackageProjectUrl>
-    <AssemblyVersion>2.25.1116</AssemblyVersion>
-    <FileVersion>2.25.1116</FileVersion>
+    <AssemblyVersion>2.26.124</AssemblyVersion>
+    <FileVersion>2.26.124</FileVersion>
     <Description>area23.at Heinrich Elsigan</Description>
     <StartupObject>Area23.At.WinForm.TWinFormCore.Program</StartupObject>
     <Title>Transparent Form .NetCore</Title>

@@ -192,6 +192,7 @@
     <Content Include="Controls\LoginControl.ascx" />
     <Content Include="Controls\TreeViewControl.ascx" />
     <Content Include="Controls\Default.aspx" />
+    <Content Include="Crypt\CharHexDecOctBin.aspx" />
     <Content Include="Crypt\HashKey.aspx" />
     <Content Include="Crypt\Default.aspx" />
     <Content Include="Crypt\ImgPngCrypt.aspx" />
@@ -528,6 +529,13 @@
     </Compile>
     <Compile Include="Calc\MatrixVCalc.aspx.designer.cs">
       <DependentUpon>MatrixVCalc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Crypt\CharHexDecOctBin.aspx.cs">
+      <DependentUpon>CharHexDecOctBin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Crypt\CharHexDecOctBin.aspx.designer.cs">
+      <DependentUpon>CharHexDecOctBin.aspx</DependentUpon>
     </Compile>
     <Compile Include="Crypt\HashKey.aspx.cs">
       <DependentUpon>HashKey.aspx</DependentUpon>

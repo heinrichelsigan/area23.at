@@ -102,7 +102,7 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         /// EncodeBytes encodes byte[] inBytes by encodingMethod to an encoded text string
         /// </summary>
         /// <param name="inBytes">inBytes to encdode</param>
-        /// <param name="encodingType">EncodingTypes are "None", "Hex16", "Base16", "Base32", "Hex32", "Uu", "Base64".
+        /// <param name="encodingType">EncodingTypes are "None", "Hex16", "Base16", "Base32", "Hex32", "Base64", "Hex64", "Uu", "Xx".
         /// "Base64" is default.</param>
         /// <param name="fromPlain">Only for uu: true, if <see cref="encryptBytes"/> represent a binary without encryption</param>
         /// <param name="fromFile">Only for uu: true, if file and not textbox will be encrypted, default (false)</param>

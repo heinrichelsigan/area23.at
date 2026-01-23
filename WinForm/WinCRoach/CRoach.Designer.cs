@@ -55,6 +55,7 @@ namespace Area23.At.WinForm.WinCRoach
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(64, 64);
             this.ControlBox = false;
             this.Controls.Add(this.panelRoach);
@@ -70,6 +71,7 @@ namespace Area23.At.WinForm.WinCRoach
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.TopMost = true;
+            this.TransparencyKey = System.Drawing.Color.DimGray;
             this.Load += new System.EventHandler(this.OnLoad);
             this.Shown += new System.EventHandler(this.OnLoad);
             this.Click += new System.EventHandler(this.AppExit);

@@ -1,6 +1,9 @@
-﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
+﻿using Area23.At.Framework.Library.Crypt.Cipher;
+using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Utilities;
+using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -90,10 +93,6 @@ namespace Area23.At.Framework.Library.Crypt.Hash
                     case "sha512": return KeyHash.Sha512;
                     case "whirlwind":
                     case "whirlpool": return KeyHash.Whirlpool;
-                    //case "ascon":
-                    //case "ascon256":
-                    //case "asconhash":
-                    //case "asconhash256": return KeyHash.Ascon256;
                     case "blake2":
                     case "blake2xs": return KeyHash.Blake2xs;
                     case "shake":
@@ -104,10 +103,10 @@ namespace Area23.At.Framework.Library.Crypt.Hash
                     case "ripemd256": return KeyHash.RipeMD256;
                     case "2hash":
                     case "hash2":
+                    case "tuplehash":
                     case "TupleHash": return KeyHash.TupleHash;
-                    // case "zodiak":
-                    // case "xoodyac":
-                    // case "xoodyak": return KeyHash.Xoodyak;
+                    case "Oct":
+                    case "Octal":
                     case "octal":
                     case "oct8":
                     case "oct": return KeyHash.Oct;
@@ -122,10 +121,42 @@ namespace Area23.At.Framework.Library.Crypt.Hash
             return KeyHash.Hex;
         }
 
-        public static string GetExtension(this KeyHash hash) => "." + hash.ToString();
+
+        public static string GetExtension(this KeyHash khash)
+        {
+            int xval = (int)khash;
+            switch (khash)
+            {
+                case KeyHash.Hex: return ".hex";
+                case KeyHash.Sha1: return ".sha1";
+                case KeyHash.OpenBSDCrypt: return ".openbsdcrypt";
+                case KeyHash.BCrypt: return ".bcrypt";
+                case KeyHash.SCrypt: return ".scrypt";
+                case KeyHash.MD5: return ".md5";
+                case KeyHash.Sha256: return ".sha256";
+                case KeyHash.Sha384: return ".sha384";
+                case KeyHash.Oct: return ".oct";
+                case KeyHash.Sha512: return ".sha512";
+                case KeyHash.Whirlpool: return ".whirlpool";
+                case KeyHash.Blake2xs: return ".blake2xs";
+                case KeyHash.CShake: return ".cshake";
+                case KeyHash.Dstu7564: return ".dstu7564";
+                case KeyHash.RipeMD256: return ".ripemd256";
+                case KeyHash.TupleHash: return ".tuplehash";
+                default:
+                    break;
+            }
+            return ".hex";
+        }
+
 
         public static string Hash(this KeyHash hash, string stringToHash)
         {
+            if (string.IsNullOrEmpty(stringToHash))
+                throw new ArgumentNullException("stringToHash");
+            byte[] bytes = new byte[0];
+            byte[] resBuf = new byte[0];
+            IDigest digest = new Org.BouncyCastle.Crypto.Digests.NullDigest();
             switch (hash)
             {
                 case KeyHash.SCrypt:
@@ -145,24 +176,66 @@ namespace Area23.At.Framework.Library.Crypt.Hash
                 case KeyHash.Sha512:
                     return Sha512Sum.HashString(stringToHash);
                 case KeyHash.Whirlpool:
-                    return Whirlpool.HashString(stringToHash);
-                //case KeyHash.Ascon256: 
-                //    return Ascon256.HashString(stringToHash);
+                    bytes = EnDeCodeHelper.GetBytes(stringToHash);
+                    digest = new Org.BouncyCastle.Crypto.Digests.WhirlpoolDigest();
+                    resBuf = new byte[digest.GetDigestSize()];
+                    digest.BlockUpdate(bytes, 0, bytes.Length);
+                    digest.DoFinal(resBuf, 0);
+                    return Hex.ToHexString(resBuf);
                 case KeyHash.Blake2xs:
-                    return Blake2xs.HashString(stringToHash);
+                    bytes = EnDeCodeHelper.GetBytes(stringToHash);
+                    digest = new Org.BouncyCastle.Crypto.Digests.Blake2xsDigest(32, bytes);
+                    resBuf = new byte[digest.GetDigestSize()];
+                    digest.BlockUpdate(bytes, 0, bytes.Length);
+                    digest.DoFinal(resBuf, 0);
+                    return Hex.ToHexString(resBuf);
                 case KeyHash.CShake:
-                    return CShake.HashString(stringToHash);
+                    bytes = EnDeCodeHelper.GetBytes(stringToHash);
+                    digest = new Org.BouncyCastle.Crypto.Digests.CShakeDigest(256, bytes, CryptHelper.GetKeyBytesFromBytes(bytes, 32));
+                    resBuf = new byte[digest.GetDigestSize()];
+                    digest.BlockUpdate(bytes, 0, bytes.Length);
+                    digest.DoFinal(resBuf, 0);
+                    return Hex.ToHexString(resBuf);
                 case KeyHash.Dstu7564:
-                    return Dstu7564.HashString(stringToHash);
+                    bytes = EnDeCodeHelper.GetBytes(stringToHash);
+                    digest = new Org.BouncyCastle.Crypto.Digests.Dstu7564Digest(256);
+                    resBuf = new byte[digest.GetDigestSize()];
+                    digest.BlockUpdate(bytes, 0, bytes.Length);
+                    digest.DoFinal(resBuf, 0);
+                    return Hex.ToHexString(resBuf);
                 case KeyHash.RipeMD256:
-                    return RipeMD256.HashString(stringToHash);
+                    bytes = EnDeCodeHelper.GetBytes(stringToHash);
+                    digest = new Org.BouncyCastle.Crypto.Digests.RipeMD256Digest();
+                    resBuf = new byte[digest.GetDigestSize()];
+                    digest.BlockUpdate(bytes, 0, bytes.Length);
+                    digest.DoFinal(resBuf, 0);
+                    return Hex.ToHexString(resBuf);
                 case KeyHash.TupleHash:
-                    return TupleHash.HashString(stringToHash);
+                    bytes = EnDeCodeHelper.GetBytes(stringToHash);
+                    digest = new Org.BouncyCastle.Crypto.Digests.TupleHash(256, bytes, 32);
+                    resBuf = new byte[digest.GetDigestSize()];
+                    digest.BlockUpdate(bytes, 0, bytes.Length);
+                    digest.DoFinal(resBuf, 0);
+                    return Hex.ToHexString(resBuf);
+                //case KeyHash.Ascon:
+                //    bytes = EnDeCodeHelper.GetBytes(stringToHash);
+                //    digest = new Org.BouncyCastle.Crypto.Digests.AsconHash256();
+                //    resBuf = new byte[digest.GetDigestSize()];
+                //    digest.BlockUpdate(bytes, 0, bytes.Length);
+                //    digest.DoFinal(resBuf, 0);
+                //    return Hex.ToHexString(resBuf);
+                //case KeyHash.Xodyak:
+                //    bytes = EnDeCodeHelper.GetBytes(stringToHash);
+                //    digest = new Org.BouncyCastle.Crypto.Digests.XoodyakDigest();
+                //    resBuf = new byte[digest.GetDigestSize()];
+                //    digest.BlockUpdate(bytes, 0, bytes.Length);
+                //    digest.DoFinal(resBuf, 0);
+                //    return = Hex.ToHexString(resBuf);
                 case KeyHash.Oct:
                     string octString = string.Empty;
-                    byte[] inBytes = Encoding.UTF8.GetBytes(stringToHash);
-                    for (int wc = 0; wc < inBytes.Length; wc++)
-                        octString += Convert.ToString(((inBytes[wc] - 32) % 64), 8);
+                    bytes = Encoding.UTF8.GetBytes(stringToHash);
+                    for (int wc = 0; wc < bytes.Length; wc++)
+                        octString += Convert.ToString(((bytes[wc] - 32) % 64), 8);
                     return octString;
                 case KeyHash.Hex:
                 default:

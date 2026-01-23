@@ -30,48 +30,45 @@ namespace Area23.At.WinForm.WinRoachCore
         /// </summary>
         private void InitializeComponent()
         {
-            this.panelDRoach = new System.Windows.Forms.Panel();
-            this.SuspendLayout();
+            panelDRoach = new Panel();
+            SuspendLayout();
             // 
             // panelDRoach
             // 
-            this.panelDRoach.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelDRoach.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panelDRoach.BackColor = System.Drawing.Color.Transparent;
-            this.panelDRoach.BackgroundImage = (System.Drawing.Image)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.DRoach;
-            this.panelDRoach.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.panelDRoach.Location = new System.Drawing.Point(0, 0);
-            this.panelDRoach.Margin = new System.Windows.Forms.Padding(0);
-            this.panelDRoach.Name = "panelDRoach";
-            this.panelDRoach.Size = new System.Drawing.Size(64, 64);
-            this.panelDRoach.TabIndex = 0;
-            this.panelDRoach.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RoachExit);
+            panelDRoach.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panelDRoach.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            panelDRoach.BackColor = Color.Transparent;
+            panelDRoach.BackgroundImage = Resource.DRoach;
+            panelDRoach.BackgroundImageLayout = ImageLayout.None;
+            panelDRoach.Location = new Point(0, 0);
+            panelDRoach.Margin = new Padding(0);
+            panelDRoach.Name = "panelDRoach";
+            panelDRoach.Size = new Size(64, 64);
+            panelDRoach.TabIndex = 0;
+            panelDRoach.MouseClick += RoachExit;
             // 
-            // CRoach
+            // DRoach
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = SystemColors.Control;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(64, 64);
-            this.ControlBox = false;
-            this.Controls.Add(this.panelDRoach);
-            this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(64, 64);
-            this.MinimizeBox = false;
-            this.Name = "DRoach";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.TopMost = false;
-            this.TransparencyKey = SystemColors.Control;
-            this.Load += new System.EventHandler(this.OnLoad);
-            this.Shown += new System.EventHandler(this.OnShow);
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RoachExit);
-            this.ResumeLayout(false);
+            AutoScaleMode = AutoScaleMode.None;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            BackColor = Color.DimGray;
+            ClientSize = new Size(64, 64);
+            ControlBox = false;
+            Controls.Add(panelDRoach);
+            DoubleBuffered = true;
+            FormBorderStyle = FormBorderStyle.None;
+            MaximizeBox = false;
+            MaximumSize = new Size(64, 64);
+            MinimizeBox = false;
+            Name = "DRoach";
+            ShowIcon = false;
+            ShowInTaskbar = false;
+            SizeGripStyle = SizeGripStyle.Hide;
+            TransparencyKey = Color.DimGray;
+            Load += OnLoad;
+            Shown += OnShow;
+            MouseClick += RoachExit;
+            ResumeLayout(false);
 
         }
 

@@ -449,7 +449,7 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
         public static readonly string[] ALLOWED_EXTENSIONS = {
 
             ".base", ".hex", 
-            ".hex16", ".base16", ".base32", ".hex32", ".uu", ".xx", ",base58", ".base64", ".mime", 
+            ".hex16", ".base16", ".base32", ".hex32", ".uu", ".xx", ".hex64", ".base64", ".mime", 
             
             ".md", ".txt", ".text", ".cfg", ".css", ".json", ".rdf",
 

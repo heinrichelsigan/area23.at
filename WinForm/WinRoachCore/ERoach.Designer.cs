@@ -31,15 +31,14 @@ namespace Area23.At.WinForm.WinRoachCore
         private void InitializeComponent()
         {
             SuspendLayout();
-            
             // 
             // ERoach
             // 
             AutoScaleMode = AutoScaleMode.None;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            BackColor = SystemColors.Control;
+            BackColor = Color.DimGray;
+            BackgroundImage = Resource.ERoach;
             BackgroundImageLayout = ImageLayout.None;
-            BackgroundImage = (System.Drawing.Bitmap)global::Area23.At.WinForm.WinRoachCore.Properties.Resource.ERoach;
             ClientSize = new Size(64, 64);
             ControlBox = false;
             DoubleBuffered = true;
@@ -51,7 +50,7 @@ namespace Area23.At.WinForm.WinRoachCore
             ShowIcon = false;
             ShowInTaskbar = false;
             SizeGripStyle = SizeGripStyle.Hide;
-            TransparencyKey = SystemColors.Control;
+            TransparencyKey = Color.DimGray;
             Load += OnLoad;
             Shown += OnShow;
             MouseClick += RoachExit;
@@ -59,7 +58,7 @@ namespace Area23.At.WinForm.WinRoachCore
         }
 
         #endregion
-       
+
     }
 }
 

@@ -18,6 +18,11 @@ namespace Area23.At.Framework.Core.Crypt.EnDeCoding
         public static readonly object _lock = new object();
         public const string VALID_CHARS = "+- 0123456789@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\t\r\n";
 
+        static readonly char[] XxCharMap = new char[]
+        {
+            '+', '-'
+        };
+
         static readonly byte[] XXEncMap = new byte[]
         {
           0x2B, 0x2D, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35,

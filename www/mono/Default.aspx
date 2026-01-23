@@ -32,6 +32,7 @@
 │   ├── <a href="Crypt/CoolCrypt.aspx" tatget="top">cool crypt</a>
 │   ├── <a href="Crypt/AesImprove.aspx" tatget="top">aes pipeline</a>
 │   ├── <a href="Crypt/ImgPngCrypt.aspx" tatget="top">grfx img crypt</a>
+│   ├── <a href="Crypt/CharHexDecOctBin.aspx" tatget="top">char-hex-dec-oct-bin</a>
 │   ├── <a href="Crypt/HashKey.aspx" tatget="top">hash key</a>
 │   └── <a href="Crypt/ZenMatrixVisualize.aspx" tatget="top">visualize zen matrix</a>
 │

@@ -425,15 +425,15 @@
             // 
             // cipherEnumBindingSource2
             // 
-            cipherEnumBindingSource2.DataSource = typeof(Framework.Core.Crypt.Cipher.CipherEnum);
+            cipherEnumBindingSource2.DataSource = typeof(Area23.At.Framework.Core.Crypt.Cipher.CipherEnum);
             // 
             // cipherEnumBindingSource
             // 
-            cipherEnumBindingSource.DataSource = typeof(Framework.Core.Crypt.Cipher.CipherEnum);
+            cipherEnumBindingSource.DataSource = typeof(Area23.At.Framework.Core.Crypt.Cipher.CipherEnum);
             // 
             // enumOptionsBindingSource
             // 
-            enumOptionsBindingSource.DataSource = typeof(Framework.Core.Crypt.Cipher.CipherEnum);
+            enumOptionsBindingSource.DataSource = typeof(Area23.At.Framework.Core.Crypt.Cipher.CipherEnum);
             // 
             // textBoxKey
             // 
@@ -606,7 +606,7 @@
             // 
             // cipherEnumBindingSource1
             // 
-            cipherEnumBindingSource1.DataSource = typeof(Framework.Core.Crypt.Cipher.CipherEnum);
+            cipherEnumBindingSource1.DataSource = typeof(Area23.At.Framework.Core.Crypt.Cipher.CipherEnum);
             // 
             // groupBoxFiles
             // 

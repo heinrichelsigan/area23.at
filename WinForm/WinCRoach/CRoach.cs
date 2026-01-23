@@ -32,8 +32,8 @@ namespace Area23.At.WinForm.WinCRoach
         int scrX = -1;
         int scrY = -1;
 
-        internal string[] setences = {"Twenty", "Atou Marriage Fourty", "close down", "last beat winner", "Thank you and enough",
-            "I change with Jack", "Last but not least", "Hey Mister", "Hey misses"};
+        internal string[] setences = { "Hello, you have reached the digital voice box  of Heinrich Elsigan", "Please leave a message after the signal." };
+            // {"Twenty", "Atou Marriage Fourty", "close down", "last beat winner", "Thank you and enough","I change with Jack", "Last but not least", "Hey Mister", "Hey misses"};
         string[] schnapserlm = { "Und Zwanzig", "Vierzig", "Danke und genug hab I", "I drah zua", "Habeas tibi",
             "Tausch gegen den Buam aus", "Letzter fertzter", "Na oida" };
 
@@ -157,6 +157,7 @@ namespace Area23.At.WinForm.WinCRoach
         {
             while (true)
             {
+                RotateSay();
                 Form f = FindInternal();
                 scrX = f.DesktopBounds.Location.X - 1;
                 scrY = f.DesktopBounds.Location.Y - 1;
@@ -210,11 +211,16 @@ namespace Area23.At.WinForm.WinCRoach
             spinLock = new object();
             lock (spinLock)
             {
+                speachCnt = 0;
+                for (speachCnt = 0; speachCnt < setences.Length; speachCnt++)
+                {
+                    SaySpeach.Instance.Say(setences[speachCnt]);                    
+                }
                 if (++speachCnt >= setences.Length)
                     speachCnt = 0;
                 lastSay = DateTime.Now;
             }
-            SaySpeach.Instance.Say(setences[speachCnt]);
+            
         }
 
         internal Form FindInternal()

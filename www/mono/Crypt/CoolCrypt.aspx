@@ -172,9 +172,10 @@
                         <asp:ListItem Enabled="true" Value="Hex16" Selected="false">Hex16</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Base32" Selected="false">Base32</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Hex32" Selected="false">Hex32</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Base64" Selected="true">Base64</asp:ListItem>                                
-                        <asp:ListItem Enabled="true" Value="Uu" Selected="False">Uu</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Xx" Selected="False">Xx</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Base64" Selected="true">Base64</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Hex64" Selected="false">Hex64</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Uu" Selected="false">Uu</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Xx" Selected="false">Xx</asp:ListItem>
                     </asp:DropDownList>
                 </span>
             </div>

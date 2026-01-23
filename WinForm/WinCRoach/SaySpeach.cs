@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Speech.Synthesis;
-using System.Text.RegularExpressions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Speech.AudioFormat;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Speech.AudioFormat;
+using System.Speech.Synthesis;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Area23.At.WinForm.WinCRoach
 {
@@ -98,6 +99,19 @@ namespace Area23.At.WinForm.WinCRoach
             saveDir = SavePath;
             voices = (voices == null || voices.Length == 0) ? new string[0] : voices;
             voices = addVoices(voices);
+            // SpeechAudioFormatInfo sAudioFormatInfo = new SpeechAudioFormatInfo(1, 1, AudioChannel.Stereo);
+            string TempPath = "H:\\Temp";
+            string wavFile = TempPath + SepChar + WaveFileName(DateTime.Now.Ticks.ToString());
+            try
+            {
+                if (!File.Exists(wavFile))
+                    File.Create(wavFile);
+                synthesizer.SetOutputToWaveFile(wavFile);
+            }
+            catch (Exception)
+            {
+                synthesizer.SetOutputToDefaultAudioDevice();
+            }
         }
 
 
@@ -130,13 +144,9 @@ namespace Area23.At.WinForm.WinCRoach
 
             if (!string.IsNullOrWhiteSpace(say))
             {
-                // SpeechAudioFormatInfo sAudioFormatInfo = new SpeechAudioFormatInfo(1, 1, AudioChannel.Stereo);
-
-                string wavFile = SavePath + SepChar + WaveFileName(say);
-                synthesizer.SetOutputToWaveFile(wavFile);
+                
                 synthesizer.Speak(say);
 
-                synthesizer.SetOutputToDefaultAudioDevice();
                 Prompt promptA = synthesizer.SpeakAsync(say);
             }
         }

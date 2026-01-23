@@ -26,8 +26,8 @@ namespace Area23.At.WinForm.WinRoachCore
             }
             roachName += roachNum.ToString();
 
-            mutex = new Mutex(false, roachName);
-            if (roachNum > 3 || !mutex.WaitOne(1200, false))
+            // mutex = new Mutex(false, roachName);
+            if (roachNum > 3) // || !mutex.WaitOne(1200, false))
             {
                 NativeWrapper.Kernel32.AttachConsole(NativeWrapper.Kernel32.ATTACH_PARENT_PROCESS);
                 Area23Log.LogOriginMsg(roachName, $"Another instance of {roachName} is already running!");
@@ -39,12 +39,12 @@ namespace Area23.At.WinForm.WinRoachCore
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            if (roachNum == -1)
-                Application.Run(new WinForm());
-            else      
+            //if (roachNum == -1)
+            //    Application.Run(new WinForm());
+            //else      
                 Application.Run(new RoachBase(roachNum));
 
-            ReleaseCloseDisposeMutex();
+            // ReleaseCloseDisposeMutex();
         }
 
 

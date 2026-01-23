@@ -3,6 +3,7 @@ using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Mono.Util;
 using System;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 
@@ -88,6 +89,13 @@ namespace Area23.At.Mono
                     return;
                 }
 
+                if (page.HasString("CharHexDecOctBin") && url.EndsWith("CharHexDecOctBin.aspx", StrComp))
+                {
+                    // Response.Redirect(LibPaths.CalcAppPath + "CharHexDecOctBin.aspx", false);
+                    return;
+                }
+
+
                 if (url.HasString("/bin/") ||
                     url.HasString("/obj/") ||
                     url.HasString("/json/") ||
@@ -159,7 +167,11 @@ namespace Area23.At.Mono
        
         protected void Application_Error(object sender, EventArgs e)
         {
-            bool redirect = true;
+            bool redirect = false;
+            if (ConfigurationSettings.AppSettings["RedirectError"] != null &&
+                Convert.ToBoolean(ConfigurationSettings.AppSettings["RedirectError"]))
+                redirect = true;
+
             Exception ex = Server.GetLastError();
             string path = "N/A";
             if (sender is HttpApplication)
@@ -169,7 +181,8 @@ namespace Area23.At.Mono
                 ex.GetType(), ex.Message, path);
             Application[Constants.APP_ERROR] = appLogErr;
             Area23Log.LogOriginMsg("Global.asax", appLogErr);
-
+            
+                    
             if (System.Configuration.ConfigurationSettings.AppSettings["LastError"] != null)
                 redirect = Convert.ToBoolean(System.Configuration.ConfigurationSettings.AppSettings["RedirectError"]);
 

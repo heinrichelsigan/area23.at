@@ -194,7 +194,7 @@ namespace Area23.At.Mono.Crypt
         protected void DrawZenMatrix(string key, string keyHash)
         {
             byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(key, keyHash, 16);
-            SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb).InPipe;
+            SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb).InSymmPipe;
 
             bool fullSymmetric = false;
             try

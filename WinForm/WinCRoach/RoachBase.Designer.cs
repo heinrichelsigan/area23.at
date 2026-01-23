@@ -36,6 +36,7 @@ namespace Area23.At.WinForm.WinCRoach
             // RoachBase
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.Color.LightGray;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(16, 0);
             this.ControlBox = false;
@@ -44,6 +45,7 @@ namespace Area23.At.WinForm.WinCRoach
             this.MaximizeBox = false;
             this.Name = "RoachBase";
             this.Text = "WinCRoach";
+            this.TransparencyKey = System.Drawing.Color.LightGray;
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.Load += new System.EventHandler(this.OnLoad);
             this.ResumeLayout(false);

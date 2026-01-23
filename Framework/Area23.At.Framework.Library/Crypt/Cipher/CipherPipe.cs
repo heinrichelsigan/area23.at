@@ -24,13 +24,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
         #region fields and properties
 
-        private string cipherKey = "", cipherHash = "";
-        private ZipType zType = ZipType.None;
+        protected internal string cipherKey = "", cipherHash = "";
+        protected internal ZipType zType = ZipType.None;
         // private readonly CipherEnum[] inPipe;
-        private CipherEnum[] inPipe;
+        protected internal CipherEnum[] inPipe;
         // private readonly CipherEnum[] outPipe;
-        private EncodingType encodeType = EncodingType.Base64;
-        private KeyHash kHash = KeyHash.Hex;
+        protected internal EncodingType encodeType = EncodingType.Base64;
+        protected internal KeyHash kHash = KeyHash.Hex;
         // private readonly string pipeString;
 
         /// <summary>
@@ -303,10 +303,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     Des3Net des3 = new Des3Net(secretKey, hash);
                     encryptBytes = des3.Encrypt(inBytes);
                     break;
-                //case CipherEnum.RC564:
-                //    RC564.RC564GenWithKey(secretKey, hash, true);
-                //    encryptBytes = RC564.Encrypt(inBytes);
-                //    break;
                 case CipherEnum.Rsa:
                     AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
                     encryptBytes = Asymmetric.Rsa.Encrypt(inBytes, keyPair);
@@ -329,7 +325,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Dstu7624:
                 case CipherEnum.Fish2:
                 case CipherEnum.Fish3:
-                // case CipherEnum.ThreeFish256:
                 case CipherEnum.Gost28147:
                 case CipherEnum.Idea:
                 case CipherEnum.Noekeon:
@@ -386,10 +381,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     Des3Net des3 = new Des3Net(secretKey, hash);
                     decryptBytes = des3.Decrypt(cipherBytes);
                     break;
-                //case CipherEnum.RC564:
-                //    RC564.RC564GenWithKey(secretKey, hash, true);
-                //    decryptBytes = RC564.Decrypt(cipherBytes);
-                //    break;
                 case CipherEnum.Rsa:
                     AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
                     decryptBytes = Asymmetric.Rsa.DecryptWithPrivate(cipherBytes, keyPair);
@@ -412,7 +403,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Dstu7624:
                 case CipherEnum.Fish2:
                 case CipherEnum.Fish3:
-                // case CipherEnum.ThreeFish256:
                 case CipherEnum.Gost28147:
                 case CipherEnum.Idea:
                 case CipherEnum.Noekeon:
@@ -769,6 +759,29 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             byte[] outBytes = DecrpytRoundGoMerry(cipherBytes, secretKey, hashIV, unzipAfter);
 
             return outBytes;
+        }
+
+
+        /// <summary>
+        /// Multi functional 
+        /// <see cref="EncryptEncodeBytes(byte[], string, string, EncodingType, ZipType, KeyHash)"/>
+        /// <see cref="DecodeDecrpytBytes(byte[], string, string, EncodingType, ZipType, KeyHash)"/>
+        /// </summary>
+        /// <param name="inBytes">incoming bytes</param>
+        /// <param name="secretKey">user private key</param>
+        /// <param name="hashIV">hashed secret key</param>
+        /// <param name="directionDecrypt">true for decryption, false for encryption</param>
+        /// <param name="encType">encoding ascii type, e.g. base64, uu, xx</param>
+        /// <param name="zip">compression method to zip before or unzip after pipe processed</param>
+        /// <param name="keyHash">hashing type of hashing method to hash key</param>
+        /// <returns>transformed byte array</returns>
+        public virtual byte[] CryptCodeBytes(byte[] inBytes, string secretKey, string hashIV,
+            bool directionDecrypt = false, EncodingType encType = EncodingType.Base64,
+            ZipType zip = ZipType.None, KeyHash keyHash = KeyHash.Hex)
+        {
+            return (!directionDecrypt) ?
+                EncryptEncodeBytes(inBytes, secretKey, hashIV, encType, zip, keyHash) :
+                DecodeDecrpytBytes(inBytes, secretKey, hashIV, encType, zip, keyHash);
         }
 
 
@@ -1137,6 +1150,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
         #endregion graphics bmp creation
 
+        public static CipherEnum SymmCipherToCipher(SymmCipherEnum sCipher)
+        {
+            return sCipher.ToCipherEnum();
+        }
     }
 
 }

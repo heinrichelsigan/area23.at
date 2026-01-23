@@ -29,8 +29,10 @@ namespace Area23.At.WinForm.WinCRoach
         int scrX = -1;
         int scrY = -1;
 
-        string[] setences = {"Twenty", "Atou Marriage Fourty", "close down", "last beat winner", "Thank you and enough",
-            "I change with Jack", "Last but not least", "Hey Mister", "Hey misses"};
+        //string[] setences = {"Twenty", "Atou Marriage Fourty", "close down", "last beat winner", "Thank you and enough",
+        //    "I change with Jack", "Last but not least", "Hey Mister", "Hey misses"};
+
+        string[] setences = { "", " " };// you have reached ", " the digital voice box ", " of Heinrich Elsigan", "Please leave a message after the signal." };
 
         string[] schnapserlm = { "Und Zwanzig", "Vierzig", "Danke und genug hab I", "I drah zua", "Habeas tibi",
             "Tausch gegen den Buam aus", "Letzter fertzter", "Na oida" };
@@ -86,7 +88,7 @@ namespace Area23.At.WinForm.WinCRoach
                 System.AppDomain.CurrentDomain.SetData(Constants.ROACH_DESKTOP_WINDOW, winDeskImg);
         }
 
-        public void RotateSay()
+        public virtual void RotateSay()
         {
             spinLock = new object();
             lock (spinLock)

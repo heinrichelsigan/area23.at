@@ -11,7 +11,7 @@ namespace Area23.At.Mono.Crypt
 {
 
 
-    public partial class UueMime
+    public partial class CharHexDecOctBin
     {
 
         /// <summary>
@@ -24,67 +24,49 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.HtmlControls.HtmlForm EncodeMasterForm;
 
         /// <summary>
-        /// TextBoxSource control.
+        /// TextBoxChar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBoxSource;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxChar;
 
         /// <summary>
-        /// preOut control.
+        /// TextBoxHex control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl preOut;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxHex;
 
         /// <summary>
-        /// DropDownList_EncodeType control.
+        /// TextBoxDec control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList_EncodeType;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxDec;
 
         /// <summary>
-        /// oFile control.
+        /// TextBoxOct control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputFile oFile;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxOct;
 
         /// <summary>
-        /// Button_UploadFile_Encode control.
+        /// TextBoxBin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button_UploadFile_Encode;
-
-        /// <summary>
-        /// LinkButton_Encode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton_Encode;
-
-        /// <summary>
-        /// LinkButton_Decode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton_Decode;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxBin;
 
         /// <summary>
         /// Button_Clear control.

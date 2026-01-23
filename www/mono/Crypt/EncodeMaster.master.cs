@@ -21,6 +21,7 @@ namespace Area23.At.Mono.Crypt
             this.aCoolCrypt.HRef = LibPaths.EncodeAppPath + "CoolCrypt.aspx";
             this.aAes.HRef = LibPaths.EncodeAppPath + "AesImprove.aspx";
             this.aHashKey.HRef = LibPaths.EncodeAppPath + "HashKey.aspx";
+            this.a1.HRef = LibPaths.EncodeAppPath + "CharHexDecOctBin.aspx";
             this.aUrlZenMatrix.HRef = LibPaths.EncodeAppPath + "ZenMatrixVisualize.aspx";
             this.aImgPngCrypt.HRef = LibPaths.EncodeAppPath + "ImgPngCrypt.aspx";
         }
@@ -29,6 +30,7 @@ namespace Area23.At.Mono.Crypt
         {
             headerLeft.Attributes["class"] = "headerLeft";
             headerLeftCenter.Attributes["class"] = "headerLeftCenter";
+            headerCenterCenter.Attributes["class"] = "headerCenter";
             headerCenter.Attributes["class"] = "headerCenter";
             headerRightCenter.Attributes["class"] = "headerRightCenter";
             headerRight.Attributes["class"] = "headerRight";
@@ -50,6 +52,11 @@ namespace Area23.At.Mono.Crypt
                     if (this.Request.RawUrl.Contains("HashKey.aspx"))
                     {
                         headerCenter.Attributes["class"] = "headerCenterSelect";
+                        return;
+                    }
+                    if (this.Request.RawUrl.Contains("CharHexDecOctBin.aspx"))
+                    {
+                        headerCenterCenter.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
                     if (this.Request.RawUrl.Contains("ZenMatrixVisualize.aspx"))
