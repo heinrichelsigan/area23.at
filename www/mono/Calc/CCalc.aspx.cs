@@ -270,14 +270,25 @@ namespace Area23.At.Mono.Calc
         }
 
         protected void bPlusMinus_Click(object sender, EventArgs e)
-        {
-            if (this.CurrentTextBox.Text.StartsWith("-"))
-                this.CurrentTextBox.Text = this.CurrentTextBox.Text.TrimStart("-".ToCharArray());
-            else
-                if (!string.IsNullOrEmpty(this.CurrentTextBox.Text) || 
-                    this.CurrentTextBox.Text != "0" || this.CurrentTextBox.Text != "0,0")
+        {            
+            if (!string.IsNullOrEmpty(this.TextBox_Calc.Text))
+            {
+                if (this.TextBox_Calc.Text.StartsWith("-"))
+                    this.TextBox_Calc.Text = this.TextBox_Calc.Text.TrimStart("-".ToCharArray());
+                else
+                    if (Char.IsDigit(TextBox_Calc.Text[0]) &&
+                        (this.TextBox_Calc.Text != "0" || this.TextBox_Calc.Text != "0,0"))
+                    this.TextBox_Calc.Text = "-" + this.TextBox_Calc.Text;
+            }
+            else if (!string.IsNullOrEmpty(CurrentTextBox.Text))
+            {
+                if (this.CurrentTextBox.Text.StartsWith("-"))
+                    this.CurrentTextBox.Text = this.CurrentTextBox.Text.TrimStart("-".ToCharArray());
+                else
+                    if (Char.IsDigit(CurrentTextBox.Text[0]) &&
+                        (this.CurrentTextBox.Text != "0" || this.CurrentTextBox.Text != "0,0"))
                     this.CurrentTextBox.Text = "-" + this.CurrentTextBox.Text;
-            
+            }
             this.CurrentTextBox.Focus();
         }
 

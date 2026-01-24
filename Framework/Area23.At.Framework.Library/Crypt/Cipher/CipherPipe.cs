@@ -929,8 +929,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <returns><see cref="Bitmap">the image</see></returns>
         public Bitmap GenerateEncryptPipeImage()
         {
-            System.Drawing.Bitmap mergeimg = new Bitmap(Properties.Resource.BlankEncrypt_640x108, new Size(640, 108)), ximage;
-            System.Drawing.Bitmap gifStartImage = new Bitmap(Properties.Resource.BlankEncrypt_640x96, new Size(640, 108));
+            System.Drawing.Bitmap mergeimg = new Bitmap(Properties.Resource.Blank_640x108, new Size(640, 108)), ximage;
+            System.Drawing.Bitmap gifStartImage = new Bitmap(Properties.Resource.Blank_640x108, new Size(640, 108));
             List<Bitmap> bitmaps = new List<Bitmap>();
 
             string bmpName = "";
@@ -948,7 +948,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     Font drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
                     SolidBrush drawBrush = new SolidBrush(ColorTranslator.FromHtml("#df0fef"));
                     float x = offset + 1.0F;
-                    float y = 82.5F;
+                    float y = 2.5F;
                     StringFormat drawFormat = new StringFormat();
                     drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
                     g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
@@ -987,7 +987,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             {
                 for (int i = 0; (i < this.InPipe.Length); i++)
                 {
-
                     Color color = (i < 5) ? ColorTranslator.FromHtml("#0000ee") : ColorTranslator.FromHtml("#0000dd");
                     string drawString = this.InPipe[i].ToString();
                     Font drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Regular);
@@ -996,21 +995,22 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     float y = 2F + ((i % 4) * 23.0F);
                     switch (i)
                     {
-                        case 1: y = 84F; break;
-                        case 2: y = 1F; break;
-                        case 3: y = 86F; break;
-                        case 4: y = 2F; break;
-                        case 5:
-                        case 6:
-                        case 7:
-                            y = 1F + ((i % 4) * 23.0F);
-                            drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold); break;
-                        default: y = 1F + ((i % 4) * 23.0F); break;
+                        case 0: y = 68F; drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold); break;
+                        case 1: y = 2F; drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Regular); break;
+                        case 2: y = 68F; drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold); break;
+                        case 3: y = 2F; drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Regular); break;
+                        case 4: y = 20F; drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold); break;  
+                        case 5: y = 50F; break;
+                        case 6: y = 2F; break;
+                        case 7: y = 86F; x = x - 6F; break;
+                        default:  y = ((i % 2) == 0) ? 4F : 86F;
+                            break;
                     }
                     StringFormat drawFormat = new StringFormat();
                     drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
                     g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
 
+                    drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Regular);
                     offset += w;
                 }
             }
@@ -1027,7 +1027,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     string drawString = this.EncodeType.ToString();
                     Font drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
                     SolidBrush drawBrush = new SolidBrush(ColorTranslator.FromHtml("#bf0fef"));
-                    float x = offset + 1.0F;
+                    float x = offset - 3.0F;
                     float y = 4.0F;
                     StringFormat drawFormat = new StringFormat();
                     drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
@@ -1054,7 +1054,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <returns><see cref="Bitmap">the image</see></returns>
         public Bitmap GenerateDecryptPipeImage()
         {
-            System.Drawing.Bitmap mergeimg = new Bitmap(Properties.Resource.BlankDecrypt_640x108_png, new Size(640, 108)), ximage;
+            System.Drawing.Bitmap mergeimg = new Bitmap(Properties.Resource.BlankDecrypt_640x108, new Size(640, 108)), ximage;
             string bmpName = "";
             using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
             {

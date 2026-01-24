@@ -45,7 +45,9 @@
 └── <span class="defaultpage">gamez</span> 
     ├── <a href="Gamez/froga.aspx" tatget="top">frogA</a> 
     ├── <a href="Gamez/frogb.aspx" tatget="top">frogB</a>  
-    └── <a href="Gamez/TicTacToe.aspx" tatget="top">tic tac toee</a> 
+    ├── <a href="Gamez/TicTacToe.aspx" tatget="top">tic tac toe</a> 
+    ├── <a href="Gamez/JokerDice.aspx" tatget="top">joker poker dice</a> 
+    └── <a href="/mono/SchnapsNet/" tatget="blank">Schnapsen 66</a> 
         </pre>
     </div>
 </asp:Content>

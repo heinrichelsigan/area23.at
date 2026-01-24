@@ -399,6 +399,7 @@
     <Content Include="res\img\transparent.gif" />
     <Content Include="res\gamez\pong\workerPong.gif" />
     <Content Include="res\js\ccalc.js" />
+    <Content Include="res\out\https--area23_at-.gif" />
     <Content Include="res\out\Rational_ObjectOrientedAnalysis-UML.jpg" />
     <Content Include="res\out\Rational_RequisitePro.jpg" />
     <Content Include="res\out\Rational_Rose_Certificate.jpg" />

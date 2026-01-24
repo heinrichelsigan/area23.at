@@ -222,9 +222,9 @@ namespace Area23.At.Framework.Library.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Blank_640x96 {
+        internal static System.Drawing.Bitmap Blank_640x108 {
             get {
-                object obj = ResourceManager.GetObject("Blank_640x96", resourceCulture);
+                object obj = ResourceManager.GetObject("Blank_640x108", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -232,9 +232,9 @@ namespace Area23.At.Framework.Library.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap BlankDecrypt_640x108_png {
+        internal static System.Drawing.Bitmap BlankDecrypt_640x108 {
             get {
-                object obj = ResourceManager.GetObject("BlankDecrypt_640x108.png", resourceCulture);
+                object obj = ResourceManager.GetObject("BlankDecrypt_640x108", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
