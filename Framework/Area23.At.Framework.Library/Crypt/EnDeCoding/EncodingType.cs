@@ -79,6 +79,24 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         }
 
 
+        public static string GetEnCodingExtension(this EncodingType type)
+        {
+            switch (type)
+            {
+                case EncodingType.None: return "";
+                case EncodingType.Hex16: return ".hex16";
+                case EncodingType.Base16: return ".base16";
+                case EncodingType.Hex32: return ".hex32";
+                case EncodingType.Base32: return ".base32";
+                case EncodingType.Uu: return ".uu";
+                case EncodingType.Xx: return ".xx";
+                case EncodingType.Hex64: return ".hex64";
+                case EncodingType.Base64:
+                default: return ".base64";
+            }
+        }
+
+
         public static EncodingType GetEnum(string enCodingString)
         {
             switch (enCodingString.ToLower())

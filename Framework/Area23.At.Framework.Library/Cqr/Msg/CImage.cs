@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+﻿using Area23.At.Framework.Library.Crypt.Cipher;
+using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
@@ -9,6 +10,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Security.Policy;
 
 namespace Area23.At.Framework.Library.Cqr.Msg
 {
@@ -360,15 +362,18 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             if (string.IsNullOrEmpty(key) || cimg == null)
                 throw new CqrException($"static string ToJsonEncrypt(string key, ref CImage cimg) failed: NULL reference!");
 
+            string keyHash = EnDeCodeHelper.KeyToHex(key);
+            SymmCipherPipe symmPipe = new SymmCipherPipe(key, keyHash);
             try
-            {
-                string keyHash = EnDeCodeHelper.KeyToHex(key);
-                string pipeString = (new SymmCipherPipe(key, keyHash)).PipeString;
+            {                
+                string pipeString = symmPipe.PipeString;
                 cimg.Hash = pipeString;
                 cimg.Md5Hash = MD5Sum.HashString(String.Concat(key, keyHash, pipeString, cimg.FileName), "");
                 cimg.Sha256Hash = Sha256Sum.Hash(cimg.Data, "");
 
-                string encrypted = SymmCipherPipe.EncrpytBytesToString(cimg.Data, key, out pipeString, encoder, zipType);
+                string encrypted = System.Text.Encoding.UTF8.GetString(
+                    symmPipe.EncryptEncodeBytes(cimg.Data, key, keyHash, encoder, zipType, KeyHash.Hex, Crypt.Cipher.CipherMode2.ECB));
+
                 cimg.Data = new byte[0];
                 cimg.Message = encrypted;
             }
@@ -403,7 +408,8 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             {
                 string pipeString = (new SymmCipherPipe(key, keyHash)).PipeString;
 
-                byte[] fileBytes = SymmCipherPipe.DecrpytStringToBytes(cimg.Message, key, out pipeString, decoder, zipType);
+                byte[] fileBytes = SymmCipherPipe.DecrpytT<byte[], string>(cimg.Message, key, keyHash,
+                        decoder, zipType, KeyHash.Hex, CipherMode2.ECB);
 
                 string md5Hash = MD5Sum.HashString(String.Concat(key, keyHash, pipeString, cimg.FileName), "");
                 if (!cimg.Hash.Equals(pipeString))

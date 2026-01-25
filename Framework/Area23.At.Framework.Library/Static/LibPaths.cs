@@ -22,6 +22,7 @@ namespace Area23.At.Framework.Library.Static
         private static string logFilePath = "";
         private static string cqrServiceSoap = "";
         private static string cqrServiceSoap12 = "";
+        private static string systemBinSystemPath = "";
         private static int daysave = -1;
 
 
@@ -78,7 +79,11 @@ namespace Area23.At.Framework.Library.Static
 
                     if (String.IsNullOrEmpty(basApPath))
                     {
-                        basApPath = AppUrlPath;
+                        basApPath = HttpContext.Current.Server.MapPath(AppUrlPath);
+                        if (String.IsNullOrEmpty(basApPath) || !Directory.Exists(basApPath))
+                        {
+                            basApPath = HttpContext.Current.Request.PhysicalApplicationPath;
+                        }
                     }
 
                     baseAppPath = (!basApPath.EndsWith("/")) ? basApPath + "/" : basApPath;                    
@@ -147,6 +152,47 @@ namespace Area23.At.Framework.Library.Static
         #endregion WebServices
 
         #region directory & file paths
+
+
+        public static string SystemBinSystemPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(systemBinSystemPath) || !Directory.Exists(systemBinSystemPath))
+                {
+                    for (int sysDirTry = 0; sysDirTry < 4; sysDirTry++)
+                    {
+                        switch (sysDirTry)
+                        {
+                            case 0:
+                                if (AppContext.BaseDirectory != null)
+                                    systemBinSystemPath = AppContext.BaseDirectory;
+                                break;
+                            case 1:
+                                if (AppDomain.CurrentDomain != null)
+                                    systemBinSystemPath = AppDomain.CurrentDomain.BaseDirectory;
+                                break;
+                            case 2:
+                                systemBinSystemPath = Path.GetFullPath(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                                break;
+                            case 3:
+                            default:
+                                systemBinSystemPath = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
+                                break;
+                        }
+
+                        if (!string.IsNullOrEmpty(systemBinSystemPath) && Directory.Exists(systemBinSystemPath))
+                            break;
+                    }
+
+                    if (!systemBinSystemPath.EndsWith(SepChar))
+                        systemBinSystemPath += SepChar;
+                }
+
+                return systemBinSystemPath;
+
+            }
+        }
 
         /// <summary>
         /// SystemDirPath return system directory path, 

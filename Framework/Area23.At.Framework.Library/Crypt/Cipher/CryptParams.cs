@@ -3,14 +3,13 @@ using Area23.At.Framework.Library.Crypt.Hash;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using System;
+using System.Security.Cryptography;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher
 {
 
     /// <summary>
     /// CryptParams parameters for encryption algorithm engine
-    /// Everything under the namespace `Area23.At.Framework.Library.Crypt.Cipher` is licensed under the MIT License.
-    /// <see href="https://opensource.org/license/mit">opensource.org/license/mit</see>
     /// </summary>
     public class CryptParams
     {
@@ -30,7 +29,15 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
         public string Hash { get; set; }
 
-        public string Mode { get; set; }
+        public string Mode { get => CMode2.ToString(); set => CMode2 = CipherModeExtensions.ParseText(value); }
+
+        public System.Security.Cryptography.CipherMode CMode
+        {
+            get => CMode2.ToCipherMode();
+            set => CMode2 = value.FromCipherMode();
+        }
+
+        public CipherMode2 CMode2 { get; set; }
 
         public int Size { get; set; }
 
@@ -50,11 +57,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// standard ctor with <see cref="CipherEnum.Aes"/> default
         /// </summary>
         public CryptParams()
-        {            
+        {
             Cipher = CipherEnum.Aes;
             Size = 256;
             KeyLen = 32;
-            Mode = "ECB";
+            Mode = "EAX";
             BlockCipher = new AesEngine();
             KeyHashing = KeyHash.Hex;
         }
@@ -75,7 +82,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             {
                 case CipherEnum.Aes:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
-                    break;                
+                    break;
                 case CipherEnum.AesLight:
                     Size = 128;
                     KeyLen = 32;
@@ -104,12 +111,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Fish3:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
                     break;
-                // case CipherEnum.ThreeFish256:;
-                //     BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
-                //  break;
                 case CipherEnum.Camellia:
                     Size = 128;
-                    KeyLen = 16;;
+                    KeyLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaEngine();
                     break;
                 case CipherEnum.CamelliaLight:
@@ -122,7 +126,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     KeyLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast5Engine();
                     break;
-                case CipherEnum.Cast6:                    
+                case CipherEnum.Cast6:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
                     break;
                 case CipherEnum.Des:
@@ -172,7 +176,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.RC6:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
                     break;
-                case CipherEnum.Rijndael:                    
+                case CipherEnum.Rijndael:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RijndaelEngine();
                     break;
                 case CipherEnum.Seed:
@@ -215,8 +219,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     break;
                 case CipherEnum.ZenMatrix2:
                     // throw new NotImplementedException("ZenMatrix2 IBlockCipher interface not implemented");)
-                    Size = 256;
-                    KeyLen = 32;
+                    Size = 32;
+                    KeyLen = 16;
                     BlockCipher = new ZenMatrix2();
                     break;
                 default:
@@ -248,7 +252,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         {
             Key = key;
             Hash = (string.IsNullOrEmpty(hash)) ? KeyHashing.Hash(key) : hash;
-        }        
+        }
 
         /// <summary>
         /// Constructs instance via another object instance

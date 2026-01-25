@@ -1,12 +1,15 @@
-﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+﻿using Area23.At.Framework.Library.Crypt.Cipher;
+using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Text;
 
 namespace Area23.At.Framework.Library.Cqr.Msg
@@ -200,9 +203,12 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             string keyHash = EnDeCodeHelper.KeyToHex(serverKey);
             try
             {
-                string pipeString = (new SymmCipherPipe(serverKey, keyHash)).PipeString;
+                SymmCipherPipe pipe = new SymmCipherPipe(serverKey, keyHash);
+                string pipeString = pipe.PipeString;
 
-                string encrypted = SymmCipherPipe.EncrpytToString(Message, serverKey, out pipeString, encoder, zipType, kHash);
+                string encrypted = Encoding.UTF8.GetString(
+                    pipe.EncryptEncodeBytes(Encoding.UTF8.GetBytes(Message),
+                        serverKey, keyHash, encoder, zipType, kHash, CipherMode2.ECB));
                 Hash = pipeString;
                 Md5Hash = MD5Sum.HashString(String.Concat(serverKey, keyHash, pipeString, Message), "");
 
@@ -232,11 +238,14 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 throw new CqrException("CContact.Decrypt(string serverKey, EncodingType decoder, Zfx.ZipType zipType); serialized Message is null or empty.");
 
             string keyHash = kHash.Hash(serverKey);
+            SymmCipherPipe pipe = new SymmCipherPipe(serverKey, keyHash);
             try
             {
-                string pipeString = (new SymmCipherPipe(serverKey, keyHash)).PipeString;
-
-                string decrypted = SymmCipherPipe.DecrpytToString(Message, serverKey, out pipeString, decoder, zipType, kHash);
+                string pipeString = pipe.PipeString;
+                                
+                string decrypted = Encoding.UTF8.GetString(
+                        pipe.DecodeDecrpytBytes(Encoding.UTF8.GetBytes(Message),
+                            serverKey, keyHash, decoder, zipType, kHash, CipherMode2.ECB));
 
                 if (!Hash.Equals(pipeString))
                 {
@@ -356,12 +365,14 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             ccntct.ContactImage = null;
             ccntct.Message = serialized;
 
-            string keyHash = kHash.Hash(key);
+            string keyHash = kHash.Hash(key), encrypted = "";
+            SymmCipherPipe pipe = new SymmCipherPipe(key, keyHash);
+            string pipeString = pipe.PipeString;
             try
-            {
-                string pipeString = (new SymmCipherPipe(key, keyHash)).PipeString;
-
-                string encrypted = SymmCipherPipe.EncrpytToString(ccntct.Message, key, out pipeString, encoder, zipType, kHash);
+            {    
+                encrypted = Encoding.UTF8.GetString(
+                        pipe.EncryptEncodeBytes(Encoding.UTF8.GetBytes(ccntct.Message),
+                            key, keyHash, encoder, zipType, kHash, CipherMode2.ECB));                    
                 ccntct.Hash = pipeString;
                 ccntct.Md5Hash = MD5Sum.HashString(String.Concat(key, keyHash, pipeString, ccntct.Message), "");
 
@@ -399,11 +410,13 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             CContact ccntct = Newtonsoft.Json.JsonConvert.DeserializeObject<CContact>(serialized);
 
             string keyHash = kHash.Hash(key);
+            SymmCipherPipe pipe = new SymmCipherPipe(key, keyHash);
             try
             {
-                string pipeString = (new SymmCipherPipe(key, keyHash)).PipeString;
+                string pipeString = pipe.PipeString;
 
-                string decrypted = SymmCipherPipe.DecrpytToString(ccntct.Message, key, out pipeString, decoder, zipType, kHash);
+                string decrypted = SymmCipherPipe.DecrpytT<string, string>(ccntct.Message,
+                            key, keyHash, decoder, zipType, kHash, CipherMode2.ECB);
 
                 if (!ccntct.Hash.Equals(pipeString))
                 {

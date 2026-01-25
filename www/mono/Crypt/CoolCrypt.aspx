@@ -49,10 +49,18 @@
                         OnTextChanged="TextBox_Key_TextChanged" 
                         MaxLength="256" Width="554px" Style="width: 554px; max-width: 600px" />
                 </span>
-                <span class="rightSpan" style="width: 136px; min-width: 48px; max-width: 72px">
+                <span class="centerSpan" style="width: 68px; min-width: 48px; max-width: 72px">
                     <asp:Button ID="Button_Clear" runat="server" Text="clear" OnClick="Button_Clear_Click" 
                         ToolTip="Clear SymChiffre Pipeline" style="width: 68px; min-width: 60px; max-width: 72px" />
-                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="Help.pdf" title="help howro" target="_blank">Help</a>&nbsp;
+                    &nbsp                    
+                </span>
+                <span class="rightSpan" style="width: 68px; min-width: 48px; max-width: 72px">
+                    <asp:DropDownList ID="DropDownList_CipherMode" runat="server" ClientIDMode="Static" AutoPostBack="true" OnSelectedIndexChanged="DropDownList_CipherMode_SelectedIndexChanged">
+                        <asp:ListItem Enabled="true" Value="CBC" Selected="false">CBC</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="CFB" Selected="false">CFB</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="ECB" Selected="true">ECB</asp:ListItem>
+                    </asp:DropDownList>
+                    &nbsp;<a href="Help.pdf" title="help howto" target="_blank">Help</a>&nbsp;
                 </span>
             </div>    
             <div class="odDiv" style="margin-top: 4px;">

@@ -214,7 +214,7 @@
     <Content Include="MyIp\R.aspx" />
     <Content Include="R.aspx" />
     <Content Include="res\gamez\audio\aDraw.m4a" />
-    <Content Include="res\bin\bc.exe" />
+    <AdditionalFiles Include="res\bin\bc.exe" />
     <Content Include="res\bin\bzip2.dll" />
     <Content Include="res\bin\bzip2.exe" />
     <Content Include="res\bin\dc.exe" />
@@ -865,7 +865,7 @@
     <Content Include="Unix\UnixMaster.master" />
     <Content Include="res\bin\bccmd.sh" />
     <Content Include="Calc\CalcMaster.master" />
-    <Content Include="res\bin\bccmd.bat" />
+    <AdditionalFiles Include="res\bin\bccmd.bat" />
     <None Include="Properties\PublishProfiles\app.publish.pubxml" />
     <None Include="Properties\PublishProfiles\area23.at_release_publish.pubxml" />
     <Content Include="res\bin\uush.sh" />

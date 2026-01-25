@@ -50,6 +50,25 @@ namespace Area23.At.Framework.Library.Zfx
             return ZipType.None;
         }
 
+
+        public static string GetZipTypeExtension(this ZipType zipType)
+        {
+            {
+                switch (zipType)
+                {
+                    case ZipType.Zip: return ".zip";
+                    case ZipType.GZip: return ".gz";
+                    case ZipType.BZip2: return ".bz2";
+                    case ZipType.Z7: // return ".7z";
+                    case ZipType.None:
+                    default: break;
+                }
+            }
+            return string.Empty;
+        }
+
+
+
         public static string GetUnzipString(this ZipType zType)
         {
             string zipString = zType.ToString();

@@ -2,6 +2,7 @@
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using System;
+using System.Security.Cryptography;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
@@ -33,6 +34,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             Size = 256;
             KeyLen = 32;
             Mode = "ECB";
+            CMode = CipherMode.ECB;
             BlockCipher = new AesEngine();
             KeyHashing = KeyHash.Hex;
         }
@@ -105,7 +107,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cryptParams">another instance</param>
         public SymmCryptParams(SymmCryptParams cryptParams) :
             this(cryptParams.SymmCipher, cryptParams.Key, cryptParams.Hash, cryptParams.KeyHashing)
-        { }
+        { CMode = cryptParams.CMode; }
 
         #endregion ctor
 

@@ -2,6 +2,7 @@
 using Area23.At.Framework.Library.Util;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 
 namespace Area23.At.Mono.Unix
@@ -12,12 +13,15 @@ namespace Area23.At.Mono.Unix
         // static Random random;
         string lastLine = "";
         object bcLock = new object();
+        
+
         private static readonly bool USE_UNIX = (System.AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("/") &&
             !System.AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("\\"));
-        private readonly string BC_CMD_PATH = (USE_UNIX) ? "/usr/local/bin/bccmd.sh" : LibPaths.AdditionalBinDir + "bccmd.bat";
+        private readonly string BC_CMD_PATH = (USE_UNIX) ? "/usr/local/bin/bccmd.sh" :
+            Path.Combine(LibPaths.SystemDirBinPath, "bccmd.bat");
         const string BC_CMD = "bc";
         public readonly string[] BAD_WORDS = { "exit", "quit", "exec", "exe", "cat", "echo", "`", "$ (", "$ [", "$[", "$(", "run", "bash", "tcsh", "csh", "ksh", "tsh", "sh", "xargs", "^C", "^c", "^z", "^Z" };
-        public readonly string[] KEY_WORDS = { "sqrt", "ibase", "obase", "return", "define", "auto", "for", "while", "if",
+        public readonly string[] KEY_WORDS = { "warranry", "sqrt", "ibase", "obase", "return", "define", "auto", "for", "while", "if",
             "cos", "sin", "tan", "atan", "asin", "acos", "sinh", "cosh", "tanh", "exp", "ln", "ld", "log", "!",
             "+", "-", "*", "/", "%", "^", "=", "<", ">", "(", ")", "[", "]", "{", "}",
             ",", ".", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "A", "B", "C", "D", "E", "F",
@@ -147,11 +151,35 @@ namespace Area23.At.Mono.Unix
                 return;
             }
 
-            Area23Log.LogOriginMsg("Bc.aspx", " Executing: " + BC_CMD_PATH + " " + bcStr);
+            dcStr = "";
+            int bcmode = 0;
+            if (ConfigurationManager.AppSettings["bcmode"] != null) 
+                if (!Int32.TryParse(ConfigurationManager.AppSettings["bcmode"].ToString(),  out bcmode))
+                    bcmode = 0;
+
+            switch (bcmode)
+            {
+                case 1:
+                    dcStr = "\"" + bcStr + "\""; break;
+                case 2:
+                    dcStr = "'" + bcStr + "'"; break;
+                case 3:
+                    foreach (string bcx in bcStr.Split(" ".ToCharArray()))
+                    {
+                        string ccStr = bcx.Replace(" ", "").Replace("\"", "").Replace("'", "");
+                        if (!string.IsNullOrEmpty(ccStr))
+                            dcStr += "\"" + ccStr.Trim() + "\" ";
+                    }
+                    break;
+                case 0:
+                default:
+                    dcStr = bcStr; break;
+            }
+            Area23Log.LogOriginMsg("Bc.aspx", $" Executing: {BC_CMD_PATH} {dcStr}");
             try
             {                
                 string bcCmd = BC_CMD_PATH;                
-                string bcOutPut = Process_Bc(bcCmd, bcStr).Trim("\r\n".ToCharArray());
+                string bcOutPut = Process_Bc(BC_CMD_PATH, dcStr).Trim("\r\n".ToCharArray());
                 this.TextBox_BcOut.Text += this.TextBox_BcOut.Text.EndsWith("\r\n") ? "" : "\r\n";
                 this.TextBox_BcOut.Text += bcOutPut + "\r\n";
                 this.TextBox_BcResult.Text = bcOutPut;

@@ -1,4 +1,5 @@
-﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+﻿using Area23.At.Framework.Library.Crypt.Cipher;
+using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
@@ -7,6 +8,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
+using System.Text;
+using System.Windows.Input;
+using System.Windows.Interop;
 
 namespace Area23.At.Framework.Library.Cqr.Msg
 {
@@ -289,11 +294,13 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 {
                     Message = JsonConvert.SerializeObject(TContent);
                 }
-                pipeString = (new SymmCipherPipe(serverKey, keyHash)).PipeString;
+                SymmCipherPipe pipe = new SymmCipherPipe(serverKey, keyHash);
+                pipeString = pipe.PipeString;
                 Hash = pipeString;
                 Md5Hash = MD5Sum.HashString(String.Concat(serverKey, keyHash, pipeString, Message), "");
-
-                encrypted = SymmCipherPipe.EncrpytToString(Message, serverKey, out pipeString, encoder, zipType, kHash);
+                encrypted = Encoding.UTF8.GetString(
+                        pipe.EncryptEncodeBytes(Encoding.UTF8.GetBytes(Message),
+                            serverKey, keyHash, encoder, zipType, kHash, CipherMode2.ECB));
 
                 Message = encrypted;
             }
@@ -327,14 +334,15 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             throw new CqrException($"DecryptFromJson<T>(string severKey, string serialized) failed");
         }
 
-        public override bool Decrypt(string serverKey, EncodingType decoder = EncodingType.Base64, Zfx.ZipType zipType = Zfx.ZipType.None, KeyHash kHash = KeyHash.Hex)
+        public override bool Decrypt(string serverKey, EncodingType decoder = EncodingType.Base64, 
+            Zfx.ZipType zipType = Zfx.ZipType.None, KeyHash kHash = KeyHash.Hex)
         {
             string pipeString = "", decrypted = "", keyHash = kHash.Hash(serverKey);
             try
             {
                 pipeString = (new SymmCipherPipe(serverKey, keyHash)).PipeString;
 
-                decrypted = SymmCipherPipe.DecrpytToString(Message, serverKey, out pipeString, decoder, zipType, kHash);
+                decrypted = SymmCipherPipe.DecrpytToString(Message, serverKey, decoder, zipType, kHash);
 
                 if (!Hash.Equals(pipeString))
                 {
@@ -448,11 +456,13 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 {
                     cSrvMsg.Message = JsonConvert.SerializeObject(cSrvMsg.TContent);
                 }
-                string pipeString = (new SymmCipherPipe(serverKey, keyHash)).PipeString;
+                SymmCipherPipe pipe = new SymmCipherPipe(serverKey, keyHash);
+                String pipeString = pipe.PipeString;
                 cSrvMsg.Hash = pipeString;
                 cSrvMsg.Md5Hash = MD5Sum.HashString(String.Concat(serverKey, keyHash, pipeString, cSrvMsg.Message), "");
-
-                string encrypted = SymmCipherPipe.EncrpytToString(cSrvMsg.Message, serverKey, out pipeString, encoder, zipType);
+                string encrypted = Encoding.UTF8.GetString(
+                        pipe.EncryptEncodeBytes(Encoding.UTF8.GetBytes(cSrvMsg.Message),
+                            serverKey, keyHash, encoder, zipType, KeyHash.Hex, CipherMode2.ECB));                
                 cSrvMsg.Message = encrypted;
                 cSrvMsg.TContent = null;
             }
@@ -481,7 +491,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             {
                 string pipeString = (new SymmCipherPipe(serverKey, keyHash)).PipeString;
 
-                string decrypted = SymmCipherPipe.DecrpytToString(cSrvMsg.Message, serverKey, out pipeString, decoder, zipType);
+                string decrypted = SymmCipherPipe.DecrpytToString(cSrvMsg.Message, serverKey, decoder, zipType, KeyHash.Hex);                    
 
                 if (!cSrvMsg.Hash.Equals(pipeString))
                 {

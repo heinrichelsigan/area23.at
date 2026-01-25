@@ -1,4 +1,9 @@
-﻿using Area23.At.Framework.Library.Util;
+﻿using Area23.At.Framework.Library.Crypt.Cipher;
+using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
+using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Crypt.Hash;
+using Area23.At.Framework.Library.Util;
+using Area23.At.Framework.Library.Zfx;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -524,7 +529,7 @@ namespace Area23.At.Framework.Library.Static
                 if (haystack.Contains(needle)) return true;
                 if (haystack.ToLower().Contains(needle.ToLower())) return true;
                 if (haystack.ToUpper().Contains(needle.ToUpper())) return true;
-                if ((haystack.IndexOf(needle, StringComparison.CurrentCultureIgnoreCase)) > -1) return true;
+                if ((haystack.IndexOf(needle)) > -1) return true;
             }
             
             return false;
@@ -1039,6 +1044,460 @@ namespace Area23.At.Framework.Library.Static
         }
 
         #endregion genericsT_extensions
+
+
+        #region cqrxs extensions
+
+        /// <summary>
+        /// IsPermAgainCryptFile 
+        /// </summary>
+        /// <param name="fileName">file name to parse</param>
+        /// <returns>
+        ///     true, when looking like perm again crypt file name,
+        ///     false, when normal standard extension
+        /// </returns>
+        public static bool IsPermAgainCryptFile(this string fileName)
+        {
+            // all chars, that a CipherPipe could have from CipherEnum[] segments
+            string pipeChars = "ALEabFfClc6$DedgIN25RrsS4JtTjX%!";
+            if (string.IsNullOrEmpty(fileName)) return false;
+
+            string ext = Path.GetExtension(fileName).StartsWith(".")
+                ? Path.GetExtension(fileName)
+                : "." + Path.GetExtension(fileName);
+            
+            ext = ext.ToLower();
+
+            if (ext.EndsWith(".uu") ||
+                ext.EndsWith(".xx") ||
+                ext.EndsWith(".base16") ||
+                ext.EndsWith(".base32") ||
+                ext.EndsWith(".hex64") ||
+                ext.EndsWith(".base64") ||
+                ext.EndsWith(".hex16") ||
+                ext.EndsWith(".hex32") ||
+                ext.Contains(".gz") ||
+                ext.Contains(".bz"))
+                return true;
+
+            if (ext.EndsWith(".png") ||
+                ext.EndsWith(".jpg") ||
+                ext.EndsWith(".jpeg") ||
+                ext.EndsWith(".gif") ||
+                ext.EndsWith(".tif") ||
+                ext.EndsWith(".bmp") ||
+                ext.EndsWith(".exif") ||
+                ext.EndsWith(".ico") ||
+                ext.EndsWith(".doc") ||
+                ext.EndsWith(".docx") ||
+                ext.EndsWith(".docm") ||
+                ext.EndsWith(".dot") ||
+                ext.EndsWith(".dotx") ||
+                ext.EndsWith(".dotm") ||
+                ext.EndsWith(".odm") ||
+                ext.EndsWith(".xlsx") ||
+                ext.EndsWith(".xl") ||
+                ext.EndsWith(".xls") ||
+                ext.EndsWith(".xlsx") ||
+                ext.EndsWith(".xla") ||
+                ext.EndsWith(".xlb") ||
+                ext.EndsWith(".xlc") ||
+                ext.EndsWith(".xld") ||
+                ext.EndsWith(".xlk") ||
+                ext.EndsWith(".xll") ||
+                ext.EndsWith(".xlm") ||
+                ext.EndsWith(".xlsb") ||
+                ext.EndsWith(".xlsm") ||
+                ext.EndsWith(".xlt") ||
+                ext.EndsWith(".xltm") ||
+                ext.EndsWith(".xltx") ||
+                ext.EndsWith(".xlv") ||
+                ext.EndsWith(".xlw") ||
+                ext.EndsWith(".odx") ||
+                ext.EndsWith(".csv") ||
+                ext.EndsWith(".pptx") ||
+                ext.EndsWith(".ppt") ||
+                ext.EndsWith(".odp") ||
+                ext.EndsWith(".vsd") ||
+                ext.EndsWith(".vsw") ||
+                ext.EndsWith(".vsx") ||
+                ext.EndsWith(".vtx") ||
+                ext.EndsWith(".vds") ||
+                ext.EndsWith(".vdx") ||
+                ext.EndsWith(".vss") ||
+                ext.EndsWith(".vst") ||
+                ext.EndsWith(".vsdx") ||
+                ext.EndsWith(".vsto") ||
+                ext.EndsWith(".txt") ||
+                ext.EndsWith(".text") ||
+                ext.EndsWith(".asc") ||
+                ext.EndsWith(".md") ||
+                ext.EndsWith(".cs") ||
+                ext.EndsWith(".cshtml") ||
+                ext.EndsWith(".c") ||
+                ext.EndsWith(".h") ||
+                ext.EndsWith(".java") ||
+                ext.EndsWith(".jar") ||
+                ext.EndsWith(".html") ||
+                ext.EndsWith(".htm") ||
+                ext.EndsWith(".xhtml") ||
+                ext.EndsWith(".aspx") ||
+                ext.EndsWith(".ascx") ||
+                ext.EndsWith(".asax") ||
+                ext.EndsWith(".ashx") ||
+                ext.EndsWith(".xml") ||
+                ext.EndsWith(".mp3") ||
+                ext.EndsWith(".mp4") ||
+                ext.EndsWith(".mpeg") ||
+                ext.EndsWith(".webm") ||
+                ext.EndsWith(".wav") ||
+                ext.EndsWith(".mpg") ||
+                ext.EndsWith(".wmv") ||
+                ext.EndsWith(".exe") ||
+                ext.EndsWith(".dll") ||
+                ext.EndsWith(".pdb") ||
+                ext.EndsWith(".json") ||
+                ext.EndsWith(".bat") ||
+                ext.EndsWith(".com") ||
+                ext.EndsWith(".sh") ||
+                ext.EndsWith(".ps") ||
+                ext.EndsWith(".pdf") ||
+                ext.EndsWith(".rtf"))
+                return false;
+
+            string[] filesegments = fileName.Split(".".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            int lastIdx = filesegments.Length - 1;
+            // TODO: Better check with pipe
+            if (lastIdx > 2)
+            {
+                for (int j = lastIdx; j >= 1; j--)
+                {
+                    bool err = false;
+                    if (filesegments[j].Length > 0 && filesegments[j].Length != 3)
+                    {
+                        foreach (char c4 in filesegments[j])
+                        {
+                            if (!pipeChars.Contains(c4))
+                            {
+                                err = true; break;
+                            }
+                        }
+                    }
+                    if (!err)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool IsCompressedFile(this string fileExtension)
+        {
+            switch (fileExtension.Replace(".", "").ToLower())
+            {
+                case "gz":
+                case "tar":
+                case "tar.gz":
+                case "tgz":
+                case "bz":
+                case "bz2":
+                case "tar.bz":
+                case "tar.bz2":
+                case "tbz":
+                case "7z":
+                case "7zip":
+                case "zip":
+                case "rar":
+                case "jar":
+                case "mp4":
+                case "mp3":
+                case "arj":
+                case "z":
+                case "exe":
+                case "dll":
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Extension <see cref="string"/>.StripCipherPipeFromFileName(out CipherPipe? cipherPipe)
+        /// looks if a filename is <see cref="IsPermAgainCryptFile(string)"/> and if true,
+        /// extracts PipeString out of filename and creates the corresponding pipe.
+        /// </summary>
+        /// <param name="fileName">file name to examine</param>
+        /// <param name="cipherPipe">out parameter for <see cref="CipherPipe"/></param>
+        /// <returns>stripped filename by CipherPipe PermAgainCrypt characters</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static string StripCipherPipeFromFileName(this string fileName, out CipherPipe cipherPipe)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+
+            cipherPipe = null;
+            string strippedFileName = fileName;
+
+            if (!fileName.IsPermAgainCryptFile())
+                return strippedFileName;
+
+            KeyHash kHash = KeyHash.Hex;
+
+            EncodingType eType = EncodingType.None;
+            foreach (EncodingType encTyp in EncodingTypesExtensions.GetEncodingTypes())
+            {
+                if (fileName.EndsWith("." + encTyp.ToString()) || fileName.EndsWith("." + encTyp.ToString().ToLower()))
+                {
+                    eType = encTyp;
+                    strippedFileName = fileName.Replace("." + encTyp.ToString(), "").Replace("." + encTyp.ToString().ToLower(), "");
+                    break;
+                }
+            }
+
+            ZipType[] zipTypes = { ZipType.BZip2, ZipType.GZip, ZipType.Zip };
+            ZipType zipTyp = ZipType.None;
+            foreach (ZipType zType in zipTypes)
+            {
+                if (strippedFileName.EndsWith(zType.GetZipTypeExtension()))
+                {
+                    zipTyp = zType;
+                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension(), "");
+                }
+                else if (strippedFileName.Contains(zType.GetZipTypeExtension() + "."))
+                {
+                    zipTyp = zType;
+                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension() + ".", ".");
+                }
+            }
+
+
+            foreach (KeyHash kh in KeyHash_Extensions.GetHashTypes())
+            {
+                if (strippedFileName.Contains("." + kh.ToString()))
+                {
+                    kHash = kh;
+                    strippedFileName = strippedFileName.Replace("." + kh.ToString(), "").Replace("." + kh.ToString().ToLower(), "");
+
+                    break;
+                }
+            }
+
+            List<CipherEnum> cipherEnums = new List<CipherEnum>();
+            string pipeRestString = strippedFileName.Substring(strippedFileName.LastIndexOf("."));
+            foreach (char ch in pipeRestString)
+            {
+                foreach (CipherEnum cipher in CipherEnumExtensions.GetCipherTypes())
+                {
+                    if (cipher.GetCipherChar() == ch)
+                        cipherEnums.Add(cipher);
+                }
+            }
+
+            if (cipherEnums.Count > 0)
+            {
+                cipherPipe = new CipherPipe(cipherEnums.ToArray(), 8, eType, zipTyp, kHash);
+                if (strippedFileName.Contains("." + cipherPipe.PipeString))
+                {
+                    strippedFileName = strippedFileName.Replace("." + cipherPipe.PipeString, "");
+                }
+            }
+
+
+            return strippedFileName;
+        }
+
+        public static string StripSymmCipherPipeFromFileName(this string fileName, out SymmCipherPipe symmCipherPipe)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+
+            symmCipherPipe = null;
+            string strippedFileName = fileName;
+
+            if (!fileName.IsPermAgainCryptFile())
+                return strippedFileName;
+
+            KeyHash kHash = KeyHash.Hex;
+
+            EncodingType eType = EncodingType.None;
+            foreach (EncodingType encTyp in EncodingTypesExtensions.GetEncodingTypes())
+            {
+                if (fileName.EndsWith("." + encTyp.ToString()))
+                {
+                    eType = encTyp;
+                    strippedFileName = fileName.Replace("." + encTyp.ToString(), "").Replace("." + encTyp.ToString().ToLower(), "");
+                    break;
+                }
+            }
+
+            bool cipherAfterZip = false;
+            ZipType zipTyp = ZipType.None;
+            foreach (ZipType zType in ZipTypeExtensions.GetZipTypes())
+            {
+                if (zType != ZipType.None)
+                {
+                    if (strippedFileName.EndsWith(zType.GetZipTypeExtension()))
+                        zipTyp = zType;
+                    else if (strippedFileName.Contains(zType.GetZipTypeExtension() + "."))
+                    {
+                        zipTyp = zType;
+                        cipherAfterZip = true;
+                    }
+                }
+                if (zipTyp != ZipType.None)
+                {
+                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension(), "").Replace(zipTyp.GetZipTypeExtension().ToLower(), "");
+                    break;
+                }
+            }
+
+
+            foreach (KeyHash kh in KeyHash_Extensions.GetHashTypes())
+            {
+                if (strippedFileName.Contains("." + kh.ToString()))
+                {
+                    kHash = kh;
+                    strippedFileName = strippedFileName.Replace("." + kh.ToString(), "").Replace("." + kh.ToString().ToLower(), "");
+
+                    break;
+                }
+            }
+
+            List<SymmCipherEnum> symmCipherEnums = new List<SymmCipherEnum>();
+            if (cipherAfterZip)
+            {
+                string pipeRestString = strippedFileName.Substring(strippedFileName.LastIndexOf("."));
+                foreach (char ch in pipeRestString)
+                {
+                    foreach (SymmCipherEnum symmCipher in CipherEnumExtensions.GetCipherTypes())
+                    {
+                        if (symmCipher.GetSymmCipherChar() == ch)
+                            symmCipherEnums.Add(symmCipher);
+                    }
+                }
+
+                if (symmCipherEnums.Count > 0)
+                {
+                    SymmCipherPipe cPipe = new SymmCipherPipe(symmCipherEnums.ToArray(), 8, eType, zipTyp, kHash);
+                    if (strippedFileName.Contains("." + cPipe.PipeString))
+                    {
+                        symmCipherPipe = cPipe;
+                        strippedFileName = strippedFileName.Replace("." + cPipe.PipeString, "");
+                    }
+                }
+            }
+
+
+            if (symmCipherPipe == null)
+                symmCipherPipe = new SymmCipherPipe(symmCipherEnums.ToArray(), 8, eType, zipTyp, kHash);
+
+
+            return strippedFileName;
+        }
+
+        /// <summary>
+        /// Extension <see cref="string"/>.StripCiphersInFileName() 
+        /// strips all <see cref="CipherEnum"/> and 
+        /// <seealso cref="SymmCipherEnum"/> characters
+        /// from current string.       
+        /// </summary>
+        /// <param name="fileName"><see cref="string"/> with extension</param>
+        /// <returns>stripped string</returns>
+        public static string StripCiphersInFileName(this string fileName)
+        {
+            // Count dots
+            int dotCnt = 0, dotIdx = -1;
+            string fname = fileName, strippedFileName = fileName;
+            do
+            {
+                if ((dotIdx = fname.IndexOf(".")) >= 0)
+                {
+                    dotCnt++;
+                    fname = fname.Substring(dotIdx + 1);
+                }
+
+            } while (dotIdx >= 0);
+
+            ZipType zipTyp = ZipType.None;
+            KeyHash kHash = KeyHash.Hex;
+            EncodingType eType = EncodingType.None;
+
+            foreach (EncodingType encTyp in EncodingTypesExtensions.GetEncodingTypes())
+            {
+                if (fileName.EndsWith("." + encTyp.ToString()) || fileName.EndsWith("."  + encTyp.ToString().ToLower()))
+                {
+                    eType = encTyp;
+                    strippedFileName = fileName.Replace("." + encTyp.ToString(), "").Replace("." + encTyp.ToString().ToLower(), "");
+                    break;
+                }
+            }
+
+            List<CipherEnum> cipherEnums = new List<CipherEnum>();
+            string pipeRestString = strippedFileName.Substring(strippedFileName.LastIndexOf("."));
+            foreach (char ch in pipeRestString)
+            {
+                foreach (CipherEnum cipher in CipherEnumExtensions.GetCipherTypes())
+                {
+                    if (cipher.GetCipherChar() == ch)
+                        cipherEnums.Add(cipher);
+                }
+            }
+
+            if (cipherEnums.Count > 0)
+            {
+                CipherPipe cPipe = new CipherPipe(cipherEnums.ToArray(), 8, eType, zipTyp, kHash);
+                if (strippedFileName.Contains("." + cPipe.PipeString))
+                {
+                    strippedFileName = strippedFileName.Replace("." + cPipe.PipeString, "");
+                }
+            }
+
+            ZipType[] zipTypes = new ZipType[] { ZipType.GZip, ZipType.BZip2, ZipType.Zip, ZipType.None };
+            foreach (ZipType zType in zipTypes)
+            {
+                if (zType != ZipType.None)
+                {
+                    if (strippedFileName.EndsWith(zType.GetZipTypeExtension()))
+                    {
+                        zipTyp = zType;
+                        strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension(), "");
+                        break;
+                    }
+                    if (strippedFileName.EndsWith(zType.GetZipTypeExtension()))
+                    {
+                        zipTyp = zType;
+                        strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension(), "");
+                        break;
+                    }
+                    if (strippedFileName.Contains(zType.GetZipTypeExtension()))
+                    {
+                        zipTyp = zType;
+                        int idx = strippedFileName.IndexOf(zipTyp.GetZipTypeExtension());
+                        string first = strippedFileName.Substring(0, idx);
+                        string rest = strippedFileName.Substring(idx + zipTyp.GetZipTypeExtension().Length + 1);
+                        strippedFileName = first + rest;
+                        break;
+                    }
+
+                }
+            }
+
+
+            foreach (KeyHash kh in KeyHash_Extensions.GetHashTypes())
+            {
+                if (strippedFileName.EndsWith("." + kh.ToString()) || strippedFileName.EndsWith("." + kh.ToString().ToLower()))
+                {
+                    kHash = kh;
+                    strippedFileName = strippedFileName.Replace("." + kh.ToString(), "").Replace("." + kh.ToString().ToLower(), "");
+
+                    break;
+                }
+            }
+
+            return strippedFileName;
+        }
+
+        #endregion cqrxs extensions
+
 
     }
 

@@ -51,6 +51,15 @@ namespace Area23.At.Mono.Crypt
         protected global::System.Web.UI.WebControls.Button Button_Clear;
 
         /// <summary>
+        /// DropDownList_CipherMode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList_CipherMode;
+
+        /// <summary>
         /// RadioButtonList_Hash control.
         /// </summary>
         /// <remarks>

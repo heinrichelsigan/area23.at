@@ -25,6 +25,8 @@ namespace Area23.At.Mono.Crypt
     public partial class AesImprove : UIPage
     {
 
+        CipherMode2 cmode2 = CipherMode2.ECB;
+
         /// <summary>
         /// Page_Load
         /// </summary>
@@ -331,7 +333,7 @@ namespace Area23.At.Mono.Crypt
 
                 string[] algorithms = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());                
                 CipherPipe pipe = new Framework.Library.Crypt.Cipher.CipherPipe(algorithms);
-                encryptBytes = pipe.MerryGoRoundEncrpyt(inBytes, secretKey, keyIv);
+                encryptBytes = pipe.MerryGoRoundEncrpyt(inBytes, secretKey, keyIv, cmode2);
 
                 //string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
                 //foreach (string algo in algos)
@@ -431,7 +433,7 @@ namespace Area23.At.Mono.Crypt
                 byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(secretKey, keyIv, 16);
                 string[] algorithms = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
                 CipherPipe pipe = new Framework.Library.Crypt.Cipher.CipherPipe(algorithms);
-                decryptedBytes = pipe.DecrpytRoundGoMerry(cipherBytes, secretKey, keyIv);
+                decryptedBytes = pipe.DecrpytRoundGoMerry(cipherBytes, secretKey, keyIv, cmode2);
 
                 //string[] algos = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
                 //for (ig = (algos.Length - 1); ig >= 0; ig--)
@@ -733,7 +735,7 @@ namespace Area23.At.Mono.Crypt
                         byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(secretKey, keyIv, 16);
                         string[] algorithms = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
                         CipherPipe pipe = new Framework.Library.Crypt.Cipher.CipherPipe(algorithms);
-                        outBytes = pipe.MerryGoRoundEncrpyt(inBytes, secretKey, keyIv);
+                        outBytes = pipe.MerryGoRoundEncrpyt(inBytes, secretKey, keyIv, cmode2);
                         inBytes = outBytes;
                         cryptCount += 8;
 
@@ -840,7 +842,7 @@ namespace Area23.At.Mono.Crypt
                         byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(secretKey, keyIv, 16);
                         string[] algorithms = this.TextBox_Encryption.Text.Split(Constants.COOL_CRYPT_SPLIT.ToCharArray());
                         CipherPipe pipe = new Framework.Library.Crypt.Cipher.CipherPipe(algorithms);
-                        inBytes = pipe.DecrpytRoundGoMerry(outBytes, secretKey, keyIv);
+                        inBytes = pipe.DecrpytRoundGoMerry(outBytes, secretKey, keyIv, cmode2);
                         outBytes = inBytes;
                         cryptCount += 8;
 

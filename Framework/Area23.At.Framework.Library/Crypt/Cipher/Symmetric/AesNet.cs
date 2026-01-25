@@ -3,9 +3,12 @@ using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Protocols.WSTrust;
 using System.IO;
 using System.Security.Cryptography;
+using System.Security.Policy;
 using System.Text;
+using System.Windows.Input;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
@@ -39,6 +42,17 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         }
 
         public AesNet() : this(Convert.FromBase64String(Constants.AES_KEY), Convert.FromBase64String(Constants.AES_IV)) { }
+
+        public AesNet(CryptParams cryptParams) : this(cryptParams.Key, cryptParams.Hash)
+        {
+            AesAlgo = new AesCng();
+            // AesAlgo.KeySize = AesKeyLen;
+            AesAlgo.Key = Encoding.UTF8.GetBytes(cryptParams.Key);
+            AesAlgo.IV = Encoding.UTF8.GetBytes(cryptParams.Hash);
+            AesAlgo.Mode = cryptParams.CMode2.ToCipherMode();
+            AesAlgo.Padding = PaddingMode.ISO10126;
+        }
+        
 
         public AesNet(string key, string hash, EncodingType encodeType = EncodingType.None)
         {

@@ -26,6 +26,7 @@ namespace Area23.At.Mono.Crypt
     {
 
         KeyHash keyHash = KeyHash.Hex;
+        CipherMode2 cmode2 = CipherMode2.ECB;
         EncodingType encType = EncodingType.Base64;
         ZipType zipType = ZipType.None;
         CipherEnum[] pipeAlgortihms = new CipherEnum[0];
@@ -174,10 +175,13 @@ namespace Area23.At.Mono.Crypt
                 }
             }
 
+            if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
+                cmode2 = CipherMode2.ECB;
+
             pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
             if (pipeAlgortihms != null && pipeAlgortihms.Length > 0)
             {
-                cipherPipe = new CipherPipe(pipeAlgortihms, 8, encType, zipType, keyHash);
+                cipherPipe = new CipherPipe(pipeAlgortihms, 8, encType, zipType, keyHash, cmode2);
                 SetCipherPipeImage(cipherPipe, false);
                 return;
             }
@@ -203,10 +207,15 @@ namespace Area23.At.Mono.Crypt
                     this.TextBox_Encryption.Text += c.ToString() + ";";
                 }
 
+                if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
+                    cmode2 = CipherMode2.ECB;
+                if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
+                    cmode2 = CipherMode2.ECB;
+
                 pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
                 if (pipeAlgortihms != null && pipeAlgortihms.Length > 0)
                 {
-                    cipherPipe = new CipherPipe(pipeAlgortihms, 8, encType, zipType, keyHash);
+                    cipherPipe = new CipherPipe(pipeAlgortihms, 8, encType, zipType, keyHash, cmode2);
                     SetCipherPipeImage(cipherPipe, false);
                 }
 
@@ -230,6 +239,9 @@ namespace Area23.At.Mono.Crypt
                 key = TextBox_Key.Text;
                 hash = TextBox_IV.Text;
 
+                if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
+                    cmode2 = CipherMode2.ECB;
+
                 this.TextBox_Encryption.Text = string.Empty;
                 CipherPipe cPipe = new CipherPipe(hash, key);
                 foreach (CipherEnum cipher in cPipe.InPipe)
@@ -240,7 +252,7 @@ namespace Area23.At.Mono.Crypt
                 pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
                 if (pipeAlgortihms != null && pipeAlgortihms.Length > 0)
                 {
-                    cipherPipe = new CipherPipe(pipeAlgortihms, 8, encType, zipType, keyHash);
+                    cipherPipe = new CipherPipe(pipeAlgortihms, 8, encType, zipType, keyHash, cmode2);
                     SetCipherPipeImage(cipherPipe, false);
                 }
 
@@ -274,6 +286,17 @@ namespace Area23.At.Mono.Crypt
             {
                 CheckBox_Encode.Enabled = true;
                 CheckBox_Encode.Checked = true;
+            }
+        }
+
+
+        protected void DropDownList_CipherMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // if (this.DropDownList_CipherMode.SelectedValue.ToLowerInvariant() == "ecb")
+            if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
+            {
+                cmode2 = CipherMode2.ECB;
+                this.DropDownList_CipherMode.SelectedIndex = 2;
             }
         }
 
@@ -343,7 +366,11 @@ namespace Area23.At.Mono.Crypt
             {
                 ClearPostedFileSession(false);
 
+                if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
+                    cmode2 = CipherMode2.ECB;
+
                 cipherPipe = new CipherPipe(pipeAlgortihms);
+                cipherPipe.CMode2 = cmode2;
 
                 // None Encoding not possible, because we can't display binary non ASCII data in a TextBox
                 if (encType == EncodingType.None || encType == EncodingType.Null)
@@ -354,7 +381,8 @@ namespace Area23.At.Mono.Crypt
                     CheckBox_Encode.Enabled = true;
                 }
 
-                TextBoxDestionation.Text = cipherPipe.EncrpytTextGoRounds(TextBoxSource.Text, key, hash, encType, zipType, keyHash);
+                TextBoxDestionation.Text = cipherPipe.EncrpytTextGoRounds(TextBoxSource.Text,
+                    key, hash, encType, zipType, keyHash, cmode2);
 
                 SetCipherPipeImage(cipherPipe, false);
 
@@ -387,6 +415,9 @@ namespace Area23.At.Mono.Crypt
             {
                 ClearPostedFileSession(false);
 
+                if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
+                    cmode2 = CipherMode2.ECB;
+
                 if (encType == EncodingType.None || encType == EncodingType.Null)
                 {
                     DropDownList_Encoding.SelectedValue = EncodingType.Base64.ToString();
@@ -396,7 +427,8 @@ namespace Area23.At.Mono.Crypt
                 }
 
                 cipherPipe = new CipherPipe(pipeAlgortihms);
-                TextBoxDestionation.Text = cipherPipe.DecryptTextRoundsGo(TextBoxSource.Text, key, hash, encType, zipType, keyHash);
+                TextBoxDestionation.Text = cipherPipe.DecryptTextRoundsGo(TextBoxSource.Text,
+                    key, hash, encType, zipType, keyHash, cmode2);
 
                 SetCipherPipeImage(cipherPipe, true);                
 
@@ -523,6 +555,9 @@ namespace Area23.At.Mono.Crypt
             byte[] inBytes = new byte[65536];
             int strLen = 0;
 
+            if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
+                cmode2 = CipherMode2.ECB;
+
             // CFile cFile;
             if (!string.IsNullOrEmpty(strFileName) &&
                 ((pfile != null && (pfile.ContentLength > 0 || pfile.FileName.Length > 0)) ||
@@ -535,6 +570,7 @@ namespace Area23.At.Mono.Crypt
 
                 // cFile = new CFile(inBytes, strFileName);
                 cipherPipe = new CipherPipe(pipeAlgortihms);
+                cipherPipe.CMode2 = cmode2;
 
                 // write source file hash
                 this.TextBoxSource.Text =
@@ -552,9 +588,9 @@ namespace Area23.At.Mono.Crypt
                     strFileName += zipType.ZipFileExtension(cipherPipe.PipeString);
                     // cFile.EncryptToJson(key, hash, encType, zipType, keyHash);
                     // cipherPipe.EncrpytFileBytesGoRounds(inBytes, key, hash, encType, zipType, keyHash);
-                    outBytes = cipherPipe.EncryptEncodeBytes(inBytes, key, hash, 
+                    outBytes = cipherPipe.EncryptEncodeBytes(inBytes, key, hash,
                         (CheckBox_Encode.Checked) ? encType : EncodingType.None,
-                        zipType, keyHash);
+                        zipType, keyHash, cmode2);
 
                     if (CheckBox_Encode.Checked)
                     {
@@ -589,15 +625,13 @@ namespace Area23.At.Mono.Crypt
                         }
                         // inBytes = extEncType.GetEnCoder().DeCode(cipherText);
 
-                        strFileName = strFileName.EndsWith("." + extEncType.GetEncodingFileExtension()) ? strFileName.Replace("." + extEncType.GetEncodingFileExtension(), "") : strFileName;
+                        // strFileName = strFileName.EndsWith("." + extEncType.GetEncodingFileExtension()) ? strFileName.Replace("." + extEncType.GetEncodingFileExtension(), "") : strFileName;
                     }
 
-                    outBytes = cipherPipe.DecodeDecrpytBytes(inBytes, key, hash, extEncType, zipType, keyHash);
+                    outBytes = cipherPipe.DecodeDecrpytBytes(inBytes,
+                        key, hash, extEncType, zipType, keyHash, cmode2);
                     
-                    string zipExtToReplace = zipType.ZipFileExtension(cipherPipe.PipeString);
-                    if (!string.IsNullOrEmpty(zipExtToReplace)) 
-                        strFileName = strFileName.Contains(zipExtToReplace) ? 
-                            strFileName.Replace(zipExtToReplace, "") : strFileName;
+                    strFileName = strFileName.StripCiphersInFileName();
 
                     imgOut.Src = LibPaths.ResAppPath + "img/crypt/decrypted.png";
                     savedTransFile = ByteArrayToFile(outBytes, out outMsg, strFileName, LibPaths.SystemDirOutPath);
@@ -749,7 +783,7 @@ namespace Area23.At.Mono.Crypt
             divHint.Visible = false;
             divPipeImage.Visible = true;
             divFileResult.Visible = false;
-            Bitmap encBmp = (inverse) ? pipe.GenerateDecryptPipeImage() : pipe.GenerateEncryptPipeImage();
+            Bitmap encBmp = (inverse) ? (new Bitmap(pipe.GenerateDecryptPipeImage())) : new Bitmap(pipe.GenerateEncryptPipeImage());
             MemoryStream ms = new MemoryStream();
             encBmp.Save(ms, ImageFormat.Gif);
             var base64Data = Convert.ToBase64String(ms.ToArray());

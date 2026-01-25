@@ -20,8 +20,8 @@ namespace Area23.At.Framework.Library.Static
     /// </summary>
     public static class ProcessCmd
     {
-        internal static readonly string CMD_REGULAR_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_+@%_~ " + Path.DirectorySeparatorChar;
-        internal static readonly string ARGS_STRICT_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-+,_:~@ \t" + Path.DirectorySeparatorChar;
+        internal static readonly string CMD_REGULAR_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-+*/^@%:~,_ \t\v" + Path.DirectorySeparatorChar;
+        internal static readonly string ARGS_STRICT_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-+*/^@%:~,_ \t\v" + Path.DirectorySeparatorChar;
 
         /// <summary>
         /// Sanitize cmd or arguments to prevent injection attacks
@@ -82,7 +82,7 @@ namespace Area23.At.Framework.Library.Static
                     consoleOutput = compiler.StandardOutput.ReadToEnd();
                     consoleError = compiler.StandardError.ReadToEnd();
 
-                    compiler.WaitForExit();
+                    compiler.WaitForExit(1000);
                 }
             }
             catch (Exception exi)

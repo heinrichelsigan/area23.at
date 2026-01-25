@@ -116,7 +116,7 @@
 					<td class="gainsboroTd" width="12%" id="td0c" align="center"><asp:Button ID="BDot" runat="server" ClientIDMode="Static" Text="." OnClick="bNumber_Click" CssClass="CcBtn" /></td>
 					<td class="gainsboroTd" width="12%" id="td0d" align="center"><asp:Button ID="B0" runat="server" ClientIDMode="Static" Text="0" OnClick="bNumber_Click" CssClass="CcBtn" /></td>
 					<td class="gainsboroTd" width="12%" id="td0e" align="center"><asp:Button ID="Bcomma" runat="server" ClientIDMode="Static" Text="," OnClick="bNumber_Click" CssClass="CcBtn" /></td>
-					<td class="azureTd" width="12%" id="td0f" align="center"><asp:Button ID="Bplusminus" runat="server" ClientIDMode="Static" Text="±" OnClick="bPlusMinus_Click" CssClass="CcBtn" /></td>
+					<td class="funckeyId" width="12%" id="td0f" align="center"><asp:Button ID="Bplusminus" runat="server" ClientIDMode="Static" Text="±" OnClick="bPlusMinus_Click" CssClass="CcBtn" /></td>
 					<td class="salmonTd" width="12%" id="td0g" align="center"><asp:Button ID="BEnter" runat="server" ClientIDMode="Static" Text="&#9166;" OnClick="bEnter_Click" CssClass="CcBtn" /></td>
 					<td class="rpnTd" width="16%" id="td0h" colspan="2"></td>
 				</tr>

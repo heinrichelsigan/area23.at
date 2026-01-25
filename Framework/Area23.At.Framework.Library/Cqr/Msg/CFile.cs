@@ -6,6 +6,7 @@ using Area23.At.Framework.Library.Util;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Windows.Input;
 
 namespace Area23.At.Framework.Library.Cqr.Msg
 {
@@ -153,15 +154,18 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             if (string.IsNullOrEmpty(serverKey))
                 throw new ArgumentNullException("serverKey");
 
+            string keyHash = kHash.Hash(serverKey);
+            SymmCipherPipe symmPipe = new SymmCipherPipe(serverKey, keyHash);
             try
             {
-                string keyHash = kHash.Hash(serverKey);
-                string pipeString = (new SymmCipherPipe(serverKey, keyHash)).PipeString;
+                string pipeString = symmPipe.PipeString;                
                 Hash = pipeString;
                 Md5Hash = MD5Sum.HashString(String.Concat(serverKey, keyHash, pipeString, FileName), "");
                 Sha256Hash = Sha256Sum.Hash(Data, "");
 
-                string encrypted = SymmCipherPipe.EncrpytBytesToString(Data, serverKey, out pipeString, encoder, zipType);
+                string encrypted = System.Text.Encoding.UTF8.GetString(
+                    symmPipe.EncryptEncodeBytes(Data, serverKey, keyHash, encoder, zipType, KeyHash.Hex, Crypt.Cipher.CipherMode2.ECB));
+                
                 Data = new byte[0];
                 Message = encrypted;
             }
@@ -200,7 +204,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             {
                 string pipeString = (new SymmCipherPipe(serverKey, keyHash)).PipeString;
 
-                byte[] fileBytes = SymmCipherPipe.DecrpytStringToBytes(Message, serverKey, out pipeString, decoder, zipType, kHash);
+                byte[] fileBytes = SymmCipherPipe.DecrpytT<byte[], string>(Message, serverKey, keyHash, decoder, zipType, kHash);
 
                 string md5Hash = MD5Sum.HashString(String.Concat(serverKey, keyHash, pipeString, FileName), "");
                 if (!Hash.Equals(pipeString))
@@ -449,15 +453,18 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             if (string.IsNullOrEmpty(key) || cfile == null)
                 throw new CqrException($"static string ToJsonEncrypt(string serverKey, ref CFile cfile) failed: NULL reference!");
 
+            string keyHash = kHash.Hash(key);
+            SymmCipherPipe symmPipe = new SymmCipherPipe(key, keyHash);
             try
-            {
-                string keyHash = kHash.Hash(key);
-                string pipeString = (new SymmCipherPipe(key, keyHash)).PipeString;
+            {                
+                string pipeString = symmPipe.PipeString;
                 cfile.Hash = pipeString;
                 cfile.Md5Hash = MD5Sum.HashString(String.Concat(key, keyHash, pipeString, cfile.FileName), "");
                 cfile.Sha256Hash = Sha256Sum.Hash(cfile.Data, "");
 
-                string encrypted = SymmCipherPipe.EncrpytBytesToString(cfile.Data, key, out pipeString, encoder, zipType);
+                string encrypted = System.Text.Encoding.UTF8.GetString(
+                    symmPipe.EncryptEncodeBytes(cfile.Data, key, keyHash, encoder, zipType, kHash, Crypt.Cipher.CipherMode2.ECB));
+
                 cfile.Data = new byte[0];
                 cfile.Message = encrypted;
             }
@@ -493,7 +500,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             {
                 string pipeString = (new SymmCipherPipe(key, keyHash)).PipeString;
 
-                byte[] fileBytes = SymmCipherPipe.DecrpytStringToBytes(cfile.Message, key, out pipeString, decoder, zipType, kHash);
+                byte[] fileBytes = SymmCipherPipe.DecrpytT<byte[], string>(cfile.Message, key, keyHash, decoder, zipType, kHash);
 
                 string md5Hash = MD5Sum.HashString(String.Concat(key, keyHash, pipeString, cfile.FileName), "");
                 if (!cfile.Hash.Equals(pipeString))

@@ -86,6 +86,18 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         public Des3Net() : this(Convert.FromBase64String(Constants.DES3_KEY), Convert.FromBase64String(Constants.DES3_IV)) { }
 
+        public Des3Net(CryptParams cryptParams) : this(cryptParams.Key, cryptParams.Hash)
+        {            
+            // MD5 md5 = new MD5CryptoServiceProvider();
+            // DesKey = md5.ComputeHash(desKey);
+            Des3 = new TripleDESCryptoServiceProvider();
+            // Des3.KeySize = DesKeyLen;
+            Des3.Key = DesKey;
+            Des3.IV = DesIv;
+            Des3.Mode = cryptParams.CMode2.ToCipherMode();
+            Des3.Padding = PaddingMode.PKCS7;
+        }
+
         public Des3Net(string desKey, string desIv)
         {
             if (string.IsNullOrEmpty(desKey))            

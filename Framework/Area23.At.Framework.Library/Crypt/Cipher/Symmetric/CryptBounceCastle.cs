@@ -17,9 +17,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     /// <see cref="Org.BouncyCastle.Crypto.Engines.RC532Engine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.RC6Engine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.RijndaelEngine">RijndaelEngine is standard AES</see>, 
     /// <see cref="Org.BouncyCastle.Crypto.Engines.SkipjackEngine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.TeaEngine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.TnepresEngine"/>,
     /// <see cref="Org.BouncyCastle.Crypto.Engines.XteaEngine"/>, ... and many more
-    /// 
-    /// Everything under the namespace `Area23.At.Framework.Library.Crypt.Cipher` is licensed under the MIT License.
-    /// <see href="https://opensource.org/license/mit">opensource.org/license/mit</see>
     /// </summary>
     public class CryptBounceCastle
     {
@@ -36,9 +33,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         #endregion fields
 
         #region properties
-
-        // internal string PrivateUserKey { get => privateKey; }
-        // internal string PrivateUserHostKey { get => privateHash; }
 
         internal byte[] Key { get; private set; }
         internal byte[] Iv { get; private set; }
@@ -105,17 +99,17 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// Generic CryptBounceCastle constructor
         /// </summary>
         /// <param name="cparams">parameters to crypt</param>
-        /// <param name="init">init <see cref="ThreeFish"/> first time with a new key</param>
+        /// <param name="init">init <see cref="CryptBounceCastle"/> first time with a new key</param>
         public CryptBounceCastle(CryptParams cparams, bool init = true)
         {
-            CryptoBlockCipher = (cparams.BlockCipher == null) ? new AesEngine() : cparams.BlockCipher;
+            CryptoBlockCipher = (cparams.BlockCipher == null) ? new Org.BouncyCastle.Crypto.Engines.AesEngine() : cparams.BlockCipher;
             if (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64")
                 CryptoBlockCipher = new RC564Engine();
-                // CryptoBlockCipherPadding = new ISO7816d4Padding();
-            CryptoBlockCipherPadding = new ZeroBytePadding();
+            CryptoBlockCipherPadding = new Org.BouncyCastle.Crypto.Paddings.ZeroBytePadding();
             KeyLen = cparams.KeyLen;
             Size = Math.Min(cparams.Size, CryptoBlockCipher.GetBlockSize());
             Mode = cparams.Mode;
+
             if (init)
             {
                 tmpKey = new byte[KeyLen];
@@ -178,10 +172,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// Generic CryptBounceCastle Encrypt member function
         /// difference between out parameter encryptedData and return value, are 2 different encryption methods, but with the same result at the end
         /// </summary>
-        /// <param name="plainData">plain data as <see cref="byte[]"/></param>
-        /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
+        /// <param name="plainData">plain data as <see cref="T:byte[]"/></param>
+        /// <returns>encrypted data <see cref="T:byte[]">bytes</see></returns>
         public byte[] Encrypt(byte[] plainData)
         {
+            var cipher = CryptoBlockCipher;
             plainData = (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64") ?
                 EnDeCodeHelper.GetBytesFromBytes(plainData) : plainData;
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
@@ -202,8 +197,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ccmCipher, CryptoBlockCipherPadding);
                     break;
                 case "CTS":
-                    Org.BouncyCastle.Crypto.Modes.CtsBlockCipher ctsCipher = new CtsBlockCipher(CryptoBlockCipher);
-                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ctsCipher, CryptoBlockCipherPadding);
+                    Org.BouncyCastle.Crypto.Modes.CbcBlockCipher ctsCipher = new CbcBlockCipher(CryptoBlockCipher);
+                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)new CtsBlockCipher((IBlockCipher)ctsCipher), CryptoBlockCipherPadding);
                     break;
                 case "EAX":
                     Org.BouncyCastle.Crypto.Modes.EaxBlockCipher eaxCipher = new EaxBlockCipher(CryptoBlockCipher);
@@ -220,12 +215,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             KeyParameter keyParam = (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64") ?
                 new Org.BouncyCastle.Crypto.Parameters.RC5Parameters(Key, 2) :
                 new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
-            
+            ICipherParameters keyParamIV = new Org.BouncyCastle.Crypto.Parameters.ParametersWithIV(keyParam, Iv);
+
             // if (Mode == "ECB")
             cipherMode.Init(true, keyParam);
             // else
-            //      cipherMode.Init(true, keyParamIV);
-
+            // cipherMode.Init(true, keyParamIV);
 
             if (PadBufBChipger == null && cipherMode != null)
                 PadBufBChipger = cipherMode;
@@ -244,11 +239,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// Generic CryptBounceCastle Decrypt member function
         /// difference between out parameter decryptedData and return value, are 2 different decryption methods, but with the same result at the end
         /// </summary>
-        /// <param name="cipherData">encrypted <see cref="byte[]">bytes</see></param>
+        /// <param name="cipherData">encrypted <see cref="T:byte[]">bytes</see></param>
         /// <returns>decrypted plain byte[] data</returns>
         public byte[] Decrypt(byte[] cipherData)
         {
-            // var cipher = CryptoBlockCipher;
+            var cipher = CryptoBlockCipher;
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
 
             switch (Mode)
@@ -267,8 +262,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ccmCipher, CryptoBlockCipherPadding);
                     break;
                 case "CTS":
-                    Org.BouncyCastle.Crypto.Modes.CtsBlockCipher ctsCipher = new CtsBlockCipher(CryptoBlockCipher);
-                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ctsCipher, CryptoBlockCipherPadding);
+                    Org.BouncyCastle.Crypto.Modes.CbcBlockCipher ctsCipher = new CbcBlockCipher(CryptoBlockCipher);
+                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)new CtsBlockCipher((IBlockCipher)ctsCipher), CryptoBlockCipherPadding);
                     break;
                 case "EAX":
                     Org.BouncyCastle.Crypto.Modes.EaxBlockCipher eaxCipher = new EaxBlockCipher(CryptoBlockCipher);
@@ -283,16 +278,18 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             }
             // cipherMode.Reset()                
 
+
             KeyParameter keyParam = (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64") ?
                                         new Org.BouncyCastle.Crypto.Parameters.RC5Parameters(Key, 2) :
                                         new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
 
-            // Decrypt            
-            //if (Mode == "ECB")
-            cipherMode.Init(false, keyParam);
-            //else
-            //    cipherMode.Init(false, keyParamIV);
+
+            // Decrypt
+            // if (Mode == "ECB")
+                cipherMode.Init(false, keyParam);
+            // else
+            // cipherMode.Init(false, keyParamIV);
 
             // decryptedData = cipherMode.ProcessBytes(cipherData);
             if (cipherMode != null)
@@ -322,10 +319,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 }
             }
 
-            if (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64")
-                return EnDeCodeHelper.GetBytesTrimNulls(plainData);
+            return (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64") ?
+                EnDeCodeHelper.GetBytesTrimNulls(plainData) : plainData;
 
-            return plainData;
+            // return plainData;
         }
 
         #endregion EncryptDecryptBytes
@@ -371,6 +368,5 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         #endregion EnDecryptString
 
     }
-
 
 }
