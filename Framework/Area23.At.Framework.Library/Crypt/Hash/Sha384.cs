@@ -9,6 +9,7 @@ namespace Area23.At.Framework.Library.Crypt.Hash
 
     /// <summary>
     /// Sha384 creates Sha1Sum of a file or stream or byte[] or string
+    /// 2026-02-04 fixed a bug SHA1 => SHA384
     /// </summary>
     public static class Sha384
     {
@@ -56,12 +57,12 @@ namespace Area23.At.Framework.Library.Crypt.Hash
 
         public static byte[] HashBytes(byte[] bytes)
         {
-            return SHA1.Create().ComputeHash(bytes);
+            return SHA384.Create().ComputeHash(bytes);
         }
 
         public static byte[] HashBytes(Stream s)
         {
-            return SHA1.Create().ComputeHash(s);
+            return SHA384.Create().ComputeHash(s);
         }
 
 

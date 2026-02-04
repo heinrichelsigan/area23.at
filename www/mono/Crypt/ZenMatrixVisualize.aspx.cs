@@ -210,9 +210,9 @@ namespace Area23.At.Mono.Crypt
             // string zenMt = "|zen|=>\t| ";
 
             int b = 0xf;
-            sbyte[] myBytes = z.PermutationKeyHash.ToArray();
+            byte[] myBytes = z.PermutationKeyHash.ToArray();
             string permHashString = string.Empty;
-            foreach (sbyte sb in myBytes)
+            foreach (byte sb in myBytes)
             {
                 Control ctrl = MatrixTable.FindControl("TextBox_" + b.ToString("x1") + "_" + sb.ToString("x1"));
                 permHashString += sb.ToString("x1");

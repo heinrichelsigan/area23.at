@@ -73,11 +73,11 @@
                         <asp:ListItem Selected="True" Value="Hex">hex hash</asp:ListItem>
                         <asp:ListItem Selected="False" Value="MD5">md5</asp:ListItem>
                         <asp:ListItem Selected="False" Value="OpenBSDCrypt">openbsd crypt</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Oct">octal</asp:ListItem>
                         <asp:ListItem Selected="False" Value="RipeMD256">ripemd256</asp:ListItem>
                         <asp:ListItem Selected="False" Value="SCrypt">scrypt</asp:ListItem>
                         <asp:ListItem Selected="False" Value="Sha1">sha1 key</asp:ListItem>
                         <asp:ListItem Selected="False" Value="Sha256">sha256</asp:ListItem>
+                        <asp:ListItem Selected="False" Value="Sha512">sha512</asp:ListItem>
                         <asp:ListItem Selected="False" Value="TupleHash">tuplehash</asp:ListItem>
                         <asp:ListItem Selected="False" Value="Whirlpool">whirlpool</asp:ListItem>
                     </asp:RadioButtonList>       
@@ -123,8 +123,7 @@
                         <asp:ListItem Enabled="true" Value="RC532" Selected="false">RC532</asp:ListItem>                
                         <asp:ListItem Enabled="true" Value="RC564" Selected="false">RC564</asp:ListItem> 
                         <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Rsa" Selected="false">Rsa</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem>                     
                         <asp:ListItem Enabled="true" Value="Seed" Selected="false">Seed</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="SM4" Selected="false">SM4</asp:ListItem>
