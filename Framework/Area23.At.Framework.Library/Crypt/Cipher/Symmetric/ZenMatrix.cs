@@ -575,7 +575,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="inBytes">input bytes to pad </param>
         /// <param name="useRandom">use random padding</param>
         /// <returns>padded or unpadded out bytes</returns>
-        public virtual byte[] PadBuffer(byte[] inBytes, bool useRandom = false)
+        public virtual byte[] PadBuffer(byte[] inBytes, bool useRandom = true)
         {
             int ilen = inBytes.Length;                          // length of data bytes
             int oSize = (BLOCK_SIZE - (ilen % BLOCK_SIZE));     // oSize is rounded up to next number % BLOCK_SIZE == 0
@@ -640,7 +640,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="pdata">plain data as <see cref="byte[]"/></param>
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
-        public virtual byte[] Encrypt(byte[] pdata, bool randomBuffer = false)
+        public virtual byte[] Encrypt(byte[] pdata, bool randomBuffer = true)
         {
             // Check arguments.
             if (pdata == null || pdata.Length <= 0)

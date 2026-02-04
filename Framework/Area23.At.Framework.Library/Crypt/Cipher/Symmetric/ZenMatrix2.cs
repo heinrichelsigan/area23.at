@@ -376,7 +376,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="pdata">plain data as <see cref="byte[]"/></param>
         /// <returns>encrypted data <see cref="byte[]">bytes</see></returns>
-        public override byte[] Encrypt(byte[] pdata, bool randomBuffer = false)
+        public override byte[] Encrypt(byte[] pdata, bool randomBuffer = true)
         {
             // Check arguments.
             if (pdata == null || pdata.Length <= 0)
