@@ -299,7 +299,9 @@
     <Content Include="res\img\crypt\AesBGFile.png" />
     <Content Include="res\img\crypt\AesBGText.gif" />
     <Content Include="res\img\crypt\AesBGText.png" />
+    <Content Include="res\img\crypt\AesBGTextWithPipe.gif" />
     <Content Include="res\img\crypt\AesImproveBG.gif" />
+    <Content Include="res\img\crypt\AesImproveBGWithPipe.gif" />
     <Content Include="res\img\crypt\a_hash.png" />
     <Content Include="res\img\crypt\a_hash_key_over.gif" />
     <Content Include="res\img\crypt\a_hash_key_over.png" />

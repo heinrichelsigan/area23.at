@@ -12,6 +12,7 @@ using System.Security.Cryptography;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 
 namespace Area23.At.Mono.Crypt
@@ -206,12 +207,7 @@ namespace Area23.At.Mono.Crypt
                 {
                     this.TextBox_Encryption.Text += c.ToString() + ";";
                 }
-
-                if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
-                    cmode2 = CipherMode2.ECB;
-                if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
-                    cmode2 = CipherMode2.ECB;
-
+                
                 pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
                 if (pipeAlgortihms != null && pipeAlgortihms.Length > 0)
                 {
@@ -219,6 +215,7 @@ namespace Area23.At.Mono.Crypt
                     SetCipherPipeImage(cipherPipe, false);
                 }
 
+                SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif");
                 this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
                 this.TextBox_Encryption.BorderColor = Color.DarkOliveGreen;
                 this.TextBox_Encryption.BorderWidth = 2;
@@ -239,9 +236,6 @@ namespace Area23.At.Mono.Crypt
                 key = TextBox_Key.Text;
                 hash = TextBox_IV.Text;
 
-                if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
-                    cmode2 = CipherMode2.ECB;
-
                 this.TextBox_Encryption.Text = string.Empty;
                 CipherPipe cPipe = new CipherPipe(hash, key);
                 foreach (CipherEnum cipher in cPipe.InPipe)
@@ -256,6 +250,7 @@ namespace Area23.At.Mono.Crypt
                     SetCipherPipeImage(cipherPipe, false);
                 }
 
+                SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif");
                 this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
                 this.TextBox_Encryption.BorderColor = Color.Coral;
                 this.TextBox_Encryption.BorderWidth = 2;
@@ -366,11 +361,7 @@ namespace Area23.At.Mono.Crypt
             {
                 ClearPostedFileSession(false);
 
-                if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
-                    cmode2 = CipherMode2.ECB;
-
-                cipherPipe = new CipherPipe(pipeAlgortihms);
-                cipherPipe.CMode2 = cmode2;
+                cipherPipe = new CipherPipe(pipeAlgortihms, 8, encType, zipType, keyHash, cmode2);
 
                 // None Encoding not possible, because we can't display binary non ASCII data in a TextBox
                 if (encType == EncodingType.None || encType == EncodingType.Null)
@@ -386,7 +377,7 @@ namespace Area23.At.Mono.Crypt
 
                 SetCipherPipeImage(cipherPipe, false);
 
-                SetBackgroundPicture("../res/img/crypt/AesBGText.gif");
+                SetBackgroundPicture("../res/img/crypt/AesBGTextWithPipe.gif");
             }
             else
             {
@@ -398,7 +389,7 @@ namespace Area23.At.Mono.Crypt
                 this.TextBoxSource.BorderStyle = BorderStyle.Dotted;
                 this.TextBoxSource.BorderWidth = 2;
 
-                SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif");
+                SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif");
             }
         }
 
@@ -415,9 +406,6 @@ namespace Area23.At.Mono.Crypt
             {
                 ClearPostedFileSession(false);
 
-                if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
-                    cmode2 = CipherMode2.ECB;
-
                 if (encType == EncodingType.None || encType == EncodingType.Null)
                 {
                     DropDownList_Encoding.SelectedValue = EncodingType.Base64.ToString();
@@ -425,14 +413,14 @@ namespace Area23.At.Mono.Crypt
                     CheckBox_Encode.Checked = true;
                     CheckBox_Encode.Enabled = true;
                 }
-
-                cipherPipe = new CipherPipe(pipeAlgortihms);
+                
+                cipherPipe = new CipherPipe(pipeAlgortihms, 8, encType, zipType, keyHash, cmode2);
                 TextBoxDestionation.Text = cipherPipe.DecryptTextRoundsGo(TextBoxSource.Text,
                     key, hash, encType, zipType, keyHash, cmode2);
 
                 SetCipherPipeImage(cipherPipe, true);                
 
-                SetBackgroundPicture("../res/img/crypt/AesBGText.gif");
+                SetBackgroundPicture("../res/img/crypt/AesBGTextWithPipe.gif");
             }
             else
             {
@@ -444,7 +432,7 @@ namespace Area23.At.Mono.Crypt
                 this.TextBoxSource.BorderStyle = BorderStyle.Dotted;
                 this.TextBoxSource.BorderWidth = 2;
 
-                SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif");  
+                SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif");  
             }
         }
 
@@ -695,10 +683,11 @@ namespace Area23.At.Mono.Crypt
 
             if (!Enum.TryParse<KeyHash>(RadioButtonList_Hash.SelectedValue, out keyHash))
                 keyHash = KeyHash.Hex;
-            if (!Enum.TryParse<ZipType>(DropDownList_Zip.SelectedValue, out zipType))
-                zipType = ZipType.None;
+            zipType = ZipTypeExtensions.GetZipType(DropDownList_Zip.SelectedValue);
             if (!Enum.TryParse<EncodingType>(DropDownList_Encoding.SelectedValue, out encType))
                 encType = EncodingType.Base64;
+            if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
+                cmode2 = CipherMode2.ECB;
 
             key = this.TextBox_Key.Text;
             hash = keyHash.Hash(TextBox_Key.Text);
