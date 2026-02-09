@@ -203,7 +203,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             string keyHash = EnDeCodeHelper.KeyToHex(serverKey);
             try
             {
-                SymmCipherPipe pipe = new SymmCipherPipe(serverKey, keyHash);
+                CipherPipe pipe = new CipherPipe(serverKey, keyHash);
                 string pipeString = pipe.PipeString;
 
                 string encrypted = Encoding.UTF8.GetString(
@@ -238,7 +238,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 throw new CqrException("CContact.Decrypt(string serverKey, EncodingType decoder, Zfx.ZipType zipType); serialized Message is null or empty.");
 
             string keyHash = kHash.Hash(serverKey);
-            SymmCipherPipe pipe = new SymmCipherPipe(serverKey, keyHash);
+            CipherPipe pipe = new CipherPipe(serverKey, keyHash);
             try
             {
                 string pipeString = pipe.PipeString;
@@ -366,7 +366,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             ccntct.Message = serialized;
 
             string keyHash = kHash.Hash(key), encrypted = "";
-            SymmCipherPipe pipe = new SymmCipherPipe(key, keyHash);
+            CipherPipe pipe = new CipherPipe(key, keyHash);
             string pipeString = pipe.PipeString;
             try
             {    
@@ -410,12 +410,12 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             CContact ccntct = Newtonsoft.Json.JsonConvert.DeserializeObject<CContact>(serialized);
 
             string keyHash = kHash.Hash(key);
-            SymmCipherPipe pipe = new SymmCipherPipe(key, keyHash);
+            CipherPipe pipe = new CipherPipe(key, keyHash);
             try
             {
                 string pipeString = pipe.PipeString;
-
-                string decrypted = SymmCipherPipe.DecrpytT<string, string>(ccntct.Message,
+               
+                string decrypted = CipherPipe.DecrpytT<string, string>(ccntct.Message,
                             key, keyHash, decoder, zipType, kHash, CipherMode2.ECB);
 
                 if (!ccntct.Hash.Equals(pipeString))

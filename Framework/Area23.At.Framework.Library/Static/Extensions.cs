@@ -1305,7 +1305,7 @@ namespace Area23.At.Framework.Library.Static
             return strippedFileName;
         }
 
-        public static string StripSymmCipherPipeFromFileName(this string fileName, out SymmCipherPipe symmCipherPipe)
+        public static string StripSymmCipherPipeFromFileName(this string fileName, out CipherPipe symmCipherPipe)
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
@@ -1362,22 +1362,22 @@ namespace Area23.At.Framework.Library.Static
                 }
             }
 
-            List<SymmCipherEnum> symmCipherEnums = new List<SymmCipherEnum>();
+            List<CipherEnum> symmCipherEnums = new List<CipherEnum>();
             if (cipherAfterZip)
             {
                 string pipeRestString = strippedFileName.Substring(strippedFileName.LastIndexOf("."));
                 foreach (char ch in pipeRestString)
                 {
-                    foreach (SymmCipherEnum symmCipher in CipherEnumExtensions.GetCipherTypes())
+                    foreach (CipherEnum symmCipher in CipherEnumExtensions.GetCipherTypes())
                     {
-                        if (symmCipher.GetSymmCipherChar() == ch)
+                        if (symmCipher.GetCipherChar() == ch)
                             symmCipherEnums.Add(symmCipher);
                     }
                 }
 
                 if (symmCipherEnums.Count > 0)
                 {
-                    SymmCipherPipe cPipe = new SymmCipherPipe(symmCipherEnums.ToArray(), 8, eType, zipTyp, kHash);
+                    CipherPipe cPipe = new CipherPipe(symmCipherEnums.ToArray(), 8, eType, zipTyp, kHash);
                     if (strippedFileName.Contains("." + cPipe.PipeString))
                     {
                         symmCipherPipe = cPipe;
@@ -1388,7 +1388,7 @@ namespace Area23.At.Framework.Library.Static
 
 
             if (symmCipherPipe == null)
-                symmCipherPipe = new SymmCipherPipe(symmCipherEnums.ToArray(), 8, eType, zipTyp, kHash);
+                symmCipherPipe = new CipherPipe(symmCipherEnums.ToArray(), 8, eType, zipTyp, kHash);
 
 
             return strippedFileName;

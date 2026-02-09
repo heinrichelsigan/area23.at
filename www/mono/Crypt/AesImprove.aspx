@@ -1,14 +1,14 @@
 ﻿<%@ Page Title="Simple uu and base64 en-/decode tool (apache2 mod_mono)" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="AesImprove.aspx.cs" Inherits="Area23.At.Mono.Crypt.AesImprove"  validateRequest="true" %>
 <asp:Content ID="ContentEncodeHead" ContentPlaceHolderID="EncodeHead" runat="server">
-        <title>Simple uu and base64 en-/decode tool (apache2 mod_mono)</title>
+        <title>Aes Improve (apache2 mod_mono)</title>
         <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
-        <meta name="keywords" content="encode decode uuencode uudecode mime base64 aes encrypt decrypt" />
-        <meta name="description" content="https://github.com/heinrichelsigan/area23.at/" />
-        <meta name="author" content="Heinrich Elsigan (he@area23.at)" />
+        <meta charset="utf-8" />
+        <meta name="keywords" content="encode decode uuencode uudecode mime base64 symmmetric chipher pipeline aes 3des blowfish serpent twofish threefish des encrypt decrypt" />
+        <meta name="description" content="Cool Crypt symmmetric chipher pipeline" />
         <script type="text/javascript">
 
             function changeCryptBackgroundFile() {
-                var divAes = document.getElementById("DivAesImprove");
+                var divAes = document.getElementById("DivCryptImprove");
                 if (divAes != null) {
                     divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesBGFile.gif'); background-repeat: no-repeat; background-color: transparent;");
                     divAes.style.backgroundImage = "url('../res/img/crypt/AesBGFile.gif')";
@@ -16,92 +16,82 @@
             }
 
             function changeCryptBackgroundText() {
-                var divAes = document.getElementById("DivAesImprove");
+                var divAes = document.getElementById("DivCryptImprove");
                 if (divAes != null) {
                     divAes.setAttribute("style", "padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesBGText.gif'); background-repeat: no-repeat; background-color: transparent;");
                     divAes.style.backgroundImage = "url('../res/img/crypt/AesBGText.gif')";
                 }
             }
 
+            function hashMouseOut(img) {
+                if (img.src == "../res/img/crypt/a_hash.png")
+                    img.src = "../res/img/crypt/a_hash_key_hover.png";
+                else if (img.src == "../res/img/crypt/a_hash_key_hover.png")
+                    img.src = "../res/img/crypt/a_hash.png";
+            }
+
         </script>
 </asp:Content>
 <asp:Content ID="ContentEncodeBody" ContentPlaceHolderID="EncodeBody" runat="server" ClientIDMode="Static">
     <h2>Enryption method</h2>
-    <form id="AesImproveForm" runat="server" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True" style="background-color: transparent;">
+    <form id="CoolCryptForm" runat="server" method="post" enableviewstate="True" enctype="multipart/form-data" submitdisabledcontrols="True" style="background-color: transparent;">
         <div style="background-color: transparent; padding-left: 40px; margin-left: 2px;">
             <div class="odDiv">
-                <span class="leftSpan" style="width: 60px; min-width: 60px; max-width: 72px">secret&nbsp;key:</span>
+                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 60px">&nbsp;Key:&nbsp;</span>
                 <span class="centerSpan" style="width: 60px; min-width: 48px; max-width: 72px">
-                    <asp:ImageButton ID="ImageButton_Key" runat="server" ClientIDMode="Static"  
-                        OnClick="Button_Key_Click" ImageUrl="../res/img/crypt/a_right_key.png" AlternateText="save your user key in session" />
+                    <asp:ImageButton ID="ImageButton_Key" runat="server" ClientIDMode="Static"
+                    OnClick="Button_Key_Click" ImageUrl="../res/img/crypt/a_right_key.png" AlternateText="save your user key in session" />
                 </span>
-                <span class="centerSpan" style="margin-left: 1px; max-width: 600px; min-width: 480px">
-                    <asp:TextBox ID="TextBox_Key" runat="server" ClientIDMode="Static"  AutoPostBack="true"
-                        OnTextChanged="TextBox_Key_TextChanged"
-                        Text="heinrich.elsigan@area23.at"                        
+                <span class="centerSpan" style="margin-left: 2px; max-width: 600px; min-width: 520px">
+                    <asp:TextBox ID="TextBox_Key" runat="server" ClientIDMode="Static" AutoPostBack="true" 
+                        Text="heinrich.elsigan@area23.at" 
                         ToolTip="Enter your personal email address or secret key here" 
-                        MaxLength="256" Width="520px" style="width: 520px; max-width: 720px" />
+                        OnTextChanged="TextBox_Key_TextChanged" 
+                        MaxLength="256" Width="554px" Style="width: 554px; max-width: 600px" />
                 </span>
-                <span class="rightSpan" style="width: 60px; min-width: 48px; max-width: 72px" >
-                    <asp:Button ID="Button_Clear" runat="server" ClientIDMode="Static"  Text="clear" OnClick="Button_Clear_Click" 
-                        ToolTip="Clear SymChiffre Pipeline" style="width: 60px; min-width: 48px; max-width: 72px" />
-                </span>
+                <span class="centerSpan" style="width: 68px; min-width: 48px; max-width: 72px">
+                    <asp:Button ID="Button_Clear" runat="server" Text="clear" OnClick="Button_Clear_Click" 
+                        ToolTip="Clear SymChiffre Pipeline" style="width: 68px; min-width: 60px; max-width: 72px" />
+                    &nbsp                    
+                </span>                
             </div>    
-            <div class="odDiv">
-                <span class="leftSpan" style="width: 60px; min-width: 60px; max-width: 72px">key&nbsp;hash:</span>
-                <span class="centerSpan" style="margin-left: 8px; width: 60px; min-width: 48px; max-width: 72px">
-                    <asp:ImageButton ID="ImageButton_Hash" runat="server" ClientIDMode="Static"
-                        onmouseover="src='../res/img/crypt/a_hash_key_over.gif'; return false;" onmouseout="src='../res/img/crypt/a_hash.png'; return false;" 
-                        OnClick="Button_Hash_Click" ImageUrl="../res/img/crypt/a_hash.png" AlternateText="generate new hash from key" />
-                </span>                
-                <span class="centerSpan" style="margin-left: 2px; max-width: 600px; min-width: 480px;">
-                    <asp:TextBox ID="TextBox_IV" runat="server" ClientIDMode="Static"
-                        ToolTip="key generated hash" ReadOnly="true" Text="" MaxLength="256"  Width="520px" style="width: 520px; max-width: 720px" />
+            <div class="odDiv" style="margin-top: 2px">
+                <span class="leftSpan" style="width: 60px; min-width: 48px; max-width: 60px">CipherMode</span>   
+                <span class="centerSpan" style="width: 68px; min-width: 48px; max-width: 72px">
+                    <asp:DropDownList ID="DropDownList_CipherMode" runat="server" ClientIDMode="Static" AutoPostBack="true" OnSelectedIndexChanged="DropDownList_CipherMode_SelectedIndexChanged">
+                        <asp:ListItem Enabled="true" Value="CBC" Selected="false">CBC</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="CFB" Selected="false">CFB</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="ECB" Selected="true">ECB</asp:ListItem>
+                    </asp:DropDownList>    
                 </span>
-                <span class="rightSpan" style="width: 80px; min-width: 72px; max-width: 84px">
-                    <asp:Button ID="Button_SetPipeline" runat="server" ClientIDMode="Static" Text="set pipeline" 
-                        OnClick="Button_SetPipeline_Click" ToolTip="set symmetric cipher pipeline" style="width: 80px; min-width: 72px; max-width: 84px"  />
+                <span class="centerSpan" style="width: 80px; min-width: 68px; max-width: 96px">
+                    <asp:Button ID="Button_SetPipe" runat="server" ClientIDMode="Static"  Text="set pipe" 
+                        OnClick="Button_SetPipe_Click" ToolTip="set symmetric cipher pipeline" style="width: 68px; min-width: 60px; max-width: 72px"  />
                 </span>
-            </div>
-            <div class="odDiv" style="margin-top: 4px">
-                <span class="leftSpan" style="white-space: nowrap; width:80%; text-align: left;">
-                    <asp:RadioButtonList ID="RadioButtonList_Hash" runat="server" AutoPostBack="true" ToolTip="choose hashing key method" RepeatDirection="Horizontal" OnSelectedIndexChanged="RadioButtonList_Hash_ParameterChanged">                         
-                        <asp:ListItem Selected="False" Value="BCrypt">bcrypt</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Blake2xs">blake2xs</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="CShake">cshake</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Dstu7564">dstu7564</asp:ListItem>
-                        <asp:ListItem Selected="True" Value="Hex">hex hash</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="MD5">md5</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="OpenBSDCrypt">openbsd crypt</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="RipeMD256">ripemd256</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="SCrypt">scrypt</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Sha1">sha1 key</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Sha256">sha256</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Sha512">sha512</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="TupleHash">tuplehash</asp:ListItem>
-                        <asp:ListItem Selected="False" Value="Whirlpool">whirlpool</asp:ListItem>
-                    </asp:RadioButtonList>       
-                </span>                
-                <span class="centerSpan" style="margin-left: 20px; max-width: 800px; min-width: 720px;">
-                    &nbsp;
+                <span class="centerSpan" style="width: 80px; min-width: 68px; max-width: 96px">    
+                    <asp:Button ID="Button_HashPipe" runat="server" ClientIDMode="Static" Text="hash pipe"
+                        OnClick="Button_HashPipe_Click" ToolTip="hash symmetric cipher pipeline" style="width: 68px; min-width: 60px; max-width: 72px" />
                 </span>
-            </div>
+                <span class="rightSpan" style="width: 136px; min-width: 96px; max-width: 144px">
+                    <a href="Help.pdf" title="help howto" target="_blank">Help</a>&nbsp;
+                </span>
+            </div>            
         </div>
-        <div id="DivAesImprove" runat="server" style="padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;">
+        <div id="DivCryptImprove" runat="server" ClientIDMode="Static" tyle="padding-left: 40px; margin-left: 2px; background-image: url('../res/img/crypt/AesImproveBG.gif'); background-repeat: no-repeat; background-color: transparent;">
         
             <div class="odDiv">
                 <span class="leftSpan" style="width: 72px;">                      
-                    <asp:DropDownList ID="DropDownList_Zip" runat="server" ClientIDMode="Static" style="width: 64px; z-index: 360;">
-                        <asp:ListItem Enabled="true" Value="None" Selected="true">None</asp:ListItem>
+                    <asp:DropDownList ID="DropDownList_Zip" runat="server" ClientIDMode="Static" style="width: 64px; z-index: 100;">
+                        <asp:ListItem Enabled="false" Value="None" Selected="false">None</asp:ListItem>
                         <asp:ListItem Enabled="false" Value="Z7" Selected="false">7Zip</asp:ListItem>                
-                        <asp:ListItem Enabled="true" Value="BZip2" Selected="false">BZip2</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="GZip" Selected="false">GZip</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Zip" Selected="false">Zip</asp:ListItem>         
+                        <asp:ListItem Enabled="false" Value="BZip2" Selected="false">BZip2</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="GZip" Selected="true">GZip</asp:ListItem>
+                        <asp:ListItem Enabled="false" Value="Zip" Selected="false">Zip</asp:ListItem>         
                     </asp:DropDownList>
                     &rArr;
                 </span>
                 <span class="centerSpan" style="width: 72px;">                    
-                    <asp:DropDownList ID="DropDownList_Cipher" runat="server" ClientIDMode="Static" style="width: 72px; z-index: 240;">
+                    <asp:DropDownList ID="DropDownList_Cipher" runat="server" ClientIDMode="Static" style="width: 72px; z-index: 120;">
                         <asp:ListItem Enabled="true" Value="Aes" Selected="true">Aes</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="AesLight" Selected="false">AesLight</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="AesNet" Selected="false">AesNet</asp:ListItem>
@@ -109,6 +99,7 @@
                         <asp:ListItem Enabled="true" Value="BlowFish" Selected="false">BlowFish</asp:ListItem>  
                         <asp:ListItem Enabled="true" Value="Fish2" Selected="false">Fish2</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Fish3" Selected="false">Fish3</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="ThreeFish256" Selected="false">ThreeFish256</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Camellia" Selected="false">Camellia</asp:ListItem>              
                         <asp:ListItem Enabled="true" Value="CamelliaLight" Selected="false">CamelliaLight</asp:ListItem> 
                         <asp:ListItem Enabled="true" Value="Cast5" Selected="False">Cast5</asp:ListItem>
@@ -116,14 +107,16 @@
                         <asp:ListItem Enabled="true" Value="Des" Selected="False">Des</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Des3" Selected="False">Des3</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Des3Net" Selected="False">Des3Net</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Dstu7624" Selected="False">Dstu7624</asp:ListItem>                        
+                        <asp:ListItem Enabled="true" Value="Dstu7624" Selected="False">Dstu7624</asp:ListItem> 
+                        <asp:ListItem Enabled="true" Value="Gost28147" Selected="False">Gost28147</asp:ListItem> 
                         <asp:ListItem Enabled="true" Value="Idea" Selected="false">Idea</asp:ListItem>                        
                         <asp:ListItem Enabled="true" Value="Noekeon" Selected="false">Noekeon</asp:ListItem>                        
                         <asp:ListItem Enabled="true" Value="RC2" Selected="false">RC2</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="RC532" Selected="false">RC532</asp:ListItem>                
                         <asp:ListItem Enabled="true" Value="RC564" Selected="false">RC564</asp:ListItem> 
                         <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem>                     
+                        <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="Rsa" Selected="false">Rsa</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Seed" Selected="false">Seed</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="SM4" Selected="false">SM4</asp:ListItem>
@@ -141,33 +134,27 @@
                         onmouseover="document.getElementById('ImageButton_Add').src='../res/img/crypt/AddAesArrowHover.gif'"                     
                         onmouseout="document.getElementById('ImageButton_Add').src='../res/img/crypt/AddAesArrow.gif'" />
                 </span>
-                <span class="centerSpan" style="width: 432px; max-width: 480px;">
+                <span class="centerSpan" style="width: 440px; max-width: 460px;">
                     <asp:TextBox ID="TextBox_Encryption" runat="server" ReadOnly="true" ClientIDMode="Static" TextMode="SingleLine" MaxLength="512" 
-                        Width="400px"  style="width: 400px; max-width: 420px" />                        
+                        Width="440px"  style="width: 440px; max-width: 460px" />                        
                 </span>
-                <span class="centerSpan" style="margin-left: 2px; margin-right: 2px; width: 36px; min-width: 32px; max-width: 40px">
+                <span class="centerSpan" style="margin-left: 1px; margin-right: 1px; width: 32px; min-width: 30px; max-width: 36px">
                     <asp:ImageButton ID="ImageButton_Delete" runat="server" ClientIDMode="Static" 
                         onmouseover="src = '../res/img/arrow/close_delete.gif'; return false;" onmouseout="src = '../res/img/arrow/close_delete.png'; return false;" 
                         OnClick="ImageButton_Delete_Click" ImageUrl="../res/img/arrow/close_delete.png" AlternateText="delete cipher pipeline" />
                 </span>
                 <span class="rightSpan">
-                     &rArr; <asp:DropDownList ID="DropDownList_Encoding" runat="server" ClientIDMode="Static" AutoPostBack="true" 
-                         OnSelectedIndexChanged="DropDownList_Encoding_SelectedIndexChanged" style="width: 84px;  z-index: 100;">
+                    &rArr; <asp:DropDownList ID="DropDownList_Encoding" runat="server" ClientIDMode="Static" AutoPostBack="true" 
+                         OnSelectedIndexChanged="DropDownList_Encoding_SelectedIndexChanged" style="width: 84px; z-index: 360;">
                         <asp:ListItem Enabled="true" Value="None" Selected="false">None</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Base16" Selected="false">Base16</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Hex16" Selected="false">Hex16</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Base32" Selected="false">Base32</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Hex32" Selected="false">Hex32</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Base64" Selected="true">Base64</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Hex64" Selected="false">Hex64</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Uu" Selected="false">Uu</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Xx" Selected="false">Xx</asp:ListItem>
                     </asp:DropDownList>
                 </span>
             </div>
-            <div class="odDiv">
+            <div class="odDiv" id="divHint" runat="server" visible="true">
                 <span class="leftSpan" style="width: 72px">
-                    Hint: zip compression is still buggy implemented, please use only bzip2 and gzip for proper encryption pipeline.
+                    Hint: zip and 7zip compression are still buggy implemented, please use only bzip2 and gzip.
                 </span>
                 <span class="centerSpan" style="width: 72px">&nbsp;</span>
                 <span class="centerSpan" style="width: 72px"></span>                
@@ -176,23 +163,34 @@
                 <span class="rightSpan" style="width: 72px">
                 </span>
             </div>
-            <hr />                
+            <div style="clear: both" id="divPipeImage" runat="server" visible="false">
+                <span class="centerSpan" style="width: 100%; text-align: center;">
+                    <img id="imgPipe" runat="server" alt="Symmetric Cipher Pipeline" height="108" width="640" tooltip="Symmetric Cipher Pipeline" src="../res/img/symbol/JollyRoger.png" />
+                </span>
+            </div> 
+            <hr />                             
             <h3>En-/Decrypt file</h3>
-            <div class="odDiv" style="vertical-align: top;">                       
+            <div class="odDiv" style="vertical-align: top; clear: both">
                 <span class="leftSpan" style="vertical-align: top;">
-                    <INPUT id="oFile" type="file" runat="server" ClientIDMode="Static" NAME="oFile" /> 
+                    <INPUT id="oFile" type="file" runat="server" NAME="oFile" /> 
                 </span>
                 <span class="centerSpan" style="max-width: 72px; vertical-align: top;">
-                    <asp:Button ID="ButtonEncryptFile" runat="server" ClientIDMode="Static" ToolTip="Encrypt file" OnClientClick="changeCryptBackgroundFile();" OnClick="ButtonEncryptFile_Click" Text="Encrypt file" />
+                    <asp:Button ID="Button_EncryptFile" runat="server" ClientIDMode="Static" 
+                        Text="Encrypt file"  ToolTip="Encrypt file" 
+                        OnClientClick="changeCryptBackgroundFile();" OnClick="Button_EncryptFile_Click" />
                 </span>
                 <span class="centerSpan" style="vertical-align: top;">     
-                    <asp:CheckBox ID="CheckBoxEncode" runat="server" ClientIDMode="Static" ToolTip="Encode file (e.g. hex16, base64, uu) after encryption" Text="encode file" Checked="true" />
+                    <asp:CheckBox ID="CheckBox_Encode" runat="server" ClientIDMode="Static" 
+                        Text="encode file" ToolTip="Encode file (e.g. hex16, base64, uu) after encryption" 
+                        Checked="true" />
                 </span>
                 <span class="rightSpan" style="vertical-align: top;">     
-                    <asp:Button ID="ButtonDecryptFile" runat="server" ClientIDMode="Static" ToolTip="Decrypt file" OnClientClick="changeCryptBackgroundFile();" OnClick="ButtonDecryptFile_Click" Text="Decrypt file" />  
+                    <asp:Button ID="Button_DecryptFile" runat="server" ToolTip="Decrypt file" 
+                        Text="Decrypt file"
+                        OnClick="Button_DecryptFile_Click" OnClientClick="javascript:changeCryptBackgroundFile();" />  
                 </span>
-            </div>     
-            <div class="odDiv">                       
+            </div>                 
+            <div style="clear: left;" id="divFileResult" runat="server" visible="true">
                 <span id="SpanLeftFile" runat="server" class="leftSpan" style="vertical-align: top;" visible="false">
                     <a id="aUploaded" runat="server" alt="Uploaded File" href="../res/img/crypt/file.png">
                         <img id="imgIn" runat="server" border="0" alt="" src="../res/img/crypt/file.png" />
@@ -207,19 +205,21 @@
                         <img id="imgOut" runat="server" border="0" alt="File transformed" src="../res/img/crypt/file.png" />
                     </a>
                 </span>                
-            </div>
+            </div>                                       
             <br />
             <h3>En-/Decrypt text</h3>
-            <div id="DivCrypTextArea" class="CryptTextArea">                    
-                <asp:TextBox ID="TextBoxSource" runat="server" ClientIDMode="Static" TextMode="MultiLine" MaxLength="262144" Rows="10" Columns="64" ValidateRequestMode="Enabled" ToolTip="[Enter text to en-/decrypt here]" Text="" Width="512px" CssClass="CryptTextArea"></asp:TextBox>
-                <asp:TextBox ID="TextBoxDestionation" runat="server" ClientIDMode="Static" TextMode="MultiLine" Rows="10" Columns="64" MaxLength="262144" ReadOnly="true" ToolTip="Destination Text" ValidateRequestMode="Enabled"  Width="512px" CssClass="CryptTextArea"></asp:TextBox>
+            <div id="DivCrypTextArea" class="CryptTextArea">                
+                <asp:TextBox ID="TextBoxSource" runat="server" TextMode="MultiLine" MaxLength="262144" Rows="10" Columns="64" ValidateRequestMode="Enabled" ToolTip="[Enter text to en-/decrypt here]" Text="" Width="512px" CssClass="CryptTextArea" ClientIDMode="Static"></asp:TextBox>
+                <asp:TextBox ID="TextBoxDestionation" runat="server" TextMode="MultiLine" Rows="10" Columns="64" MaxLength="262144" ReadOnly="true" ValidateRequestMode="Enabled" ToolTip="Destination Text"  Width="512px" CssClass="CryptTextArea" ClientIDMode="Static"></asp:TextBox>
                 <br />
-                <asp:Button ID="ButtonEncrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClientClick="changeCryptBackgroundText()" OnClick="ButtonEncrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />
+                <asp:Button ID="Button_Encrypt" runat="server" Text="Encrypt" ToolTip="Encrypt" OnClick="Button_Encrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />&nbsp;
                 <asp:Button ID="Button_RandomText" runat="server" Text="Random Text" ToolTip="Decrypt" OnClick="Button_RandomText_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />&nbsp;
-                <asp:Button ID="ButtonDecrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClientClick="changeCryptBackgroundText();" OnClick="ButtonDecrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />   
+                <asp:Button ID="Button_Decrypt" runat="server" Text="Decrypt" ToolTip="Decrypt" OnClick="Button_Decrypt_Click"  CssClass="CryptTextArea" ClientIDMode="Static" />
             </div>
+        
         </div>
         <hr />   
         <h3>Great thanks to <a href="https://www.bouncycastle.org/download/bouncy-castle-c/" target="_blank">bouncycastle.org</a>!</h3>
     </form>
 </asp:Content>
+

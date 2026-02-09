@@ -363,7 +363,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 throw new CqrException($"static string ToJsonEncrypt(string key, ref CImage cimg) failed: NULL reference!");
 
             string keyHash = EnDeCodeHelper.KeyToHex(key);
-            SymmCipherPipe symmPipe = new SymmCipherPipe(key, keyHash);
+            CipherPipe symmPipe = new CipherPipe(key, keyHash);
             try
             {                
                 string pipeString = symmPipe.PipeString;
@@ -406,9 +406,9 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             string keyHash = EnDeCodeHelper.KeyToHex(key);
             try
             {
-                string pipeString = (new SymmCipherPipe(key, keyHash)).PipeString;
+                string pipeString = (new CipherPipe(key, keyHash)).PipeString;
 
-                byte[] fileBytes = SymmCipherPipe.DecrpytT<byte[], string>(cimg.Message, key, keyHash,
+                byte[] fileBytes = CipherPipe.DecrpytT<byte[], string>(cimg.Message, key, keyHash,
                         decoder, zipType, KeyHash.Hex, CipherMode2.ECB);
 
                 string md5Hash = MD5Sum.HashString(String.Concat(key, keyHash, pipeString, cimg.FileName), "");

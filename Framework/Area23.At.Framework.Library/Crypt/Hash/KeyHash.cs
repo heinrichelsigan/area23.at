@@ -46,7 +46,13 @@ namespace Area23.At.Framework.Library.Crypt.Hash
                 KeyHash.SCrypt, KeyHash.Sha1, KeyHash.Sha256, KeyHash.Sha384, KeyHash.Sha512,
                 KeyHash.RipeMD256, KeyHash.TupleHash, KeyHash.Whirlpool };
 
+        private static readonly KeyHash[] secureHashes = {
+                KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564,
+                KeyHash.OpenBSDCrypt, KeyHash.SCrypt, KeyHash.RipeMD256, KeyHash.Whirlpool };
+
         public static KeyHash[] GetHashes() => keyHashes;
+
+        public static KeyHash[] GetSecureHashes() => secureHashes;
 
         public static KeyHash[] GetHashTypes()
         {

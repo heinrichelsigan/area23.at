@@ -190,7 +190,7 @@
     <Compile Include="Crypt\Cipher\CipherMode2.cs" />
     <Compile Include="Crypt\Cipher\CipherPipe.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\Des3Net.cs" />
-    <Compile Include="Crypt\Cipher\Symmetric\SymmCryptParams.cs" />
+    <Compile Include="Crypt\Cipher\Symmetric\SecureCipherPipe.cs" />
     <Compile Include="Crypt\EnDeCoding\Hex64.cs" />
     <Compile Include="Crypt\EnDeCoding\Xx.cs" />
     <Compile Include="Crypt\Hash\BCrypt.cs" />
@@ -219,7 +219,6 @@
     <Compile Include="Crypt\Cipher\CipherEnum.cs" />
     <Compile Include="Crypt\Cipher\CryptHelper.cs" />
     <Compile Include="Crypt\Cipher\CryptParams.cs" />
-    <Compile Include="Crypt\Cipher\Symmetric\SymmCipherPipe.cs" />
     <Compile Include="Static\Constants.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\ZenMatrix2.cs" />
     <Compile Include="Crypt\EnDeCoding\EnDeCodeHelper.cs" />
@@ -254,7 +253,6 @@
     <Compile Include="Static\ProcessCmd.cs" />
     <Compile Include="Static\ResReader.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\CryptBounceCastle.cs" />
-    <Compile Include="Crypt\Cipher\Symmetric\SymmCipherEnum.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\ZenMatrix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\AesNet.cs" />

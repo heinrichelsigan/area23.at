@@ -188,10 +188,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         }
 
 
-        public static CipherEnum FromSymmCipherEnum(Symmetric.SymmCipherEnum symmCipherEnum)
-        {
-            return symmCipherEnum.ToCipherEnum();
-        }
+        //public static CipherEnum FromSymmCipherEnum(Symmetric.SymmCipherEnum symmCipherEnum)
+        //{
+        //    return symmCipherEnum.ToCipherEnum();
+        //}
 
     }
 

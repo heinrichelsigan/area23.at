@@ -21,7 +21,7 @@ namespace Area23.At.Mono.Unix
             Path.Combine(LibPaths.SystemDirBinPath, "bccmd.bat");
         const string BC_CMD = "bc";
         public readonly string[] BAD_WORDS = { "exit", "quit", "exec", "exe", "cat", "echo", "`", "$ (", "$ [", "$[", "$(", "run", "bash", "tcsh", "csh", "ksh", "tsh", "sh", "xargs", "^C", "^c", "^z", "^Z" };
-        public readonly string[] KEY_WORDS = { "warranry", "sqrt", "ibase", "obase", "return", "define", "auto", "for", "while", "if",
+        public readonly string[] KEY_WORDS = { "warranty", "sqrt", "ibase", "obase", "return", "define", "auto", "for", "while", "if",
             "cos", "sin", "tan", "atan", "asin", "acos", "sinh", "cosh", "tanh", "exp", "ln", "ld", "log", "!",
             "+", "-", "*", "/", "%", "^", "=", "<", ">", "(", ")", "[", "]", "{", "}",
             ",", ".", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "A", "B", "C", "D", "E", "F",

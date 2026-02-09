@@ -294,7 +294,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 {
                     Message = JsonConvert.SerializeObject(TContent);
                 }
-                SymmCipherPipe pipe = new SymmCipherPipe(serverKey, keyHash);
+                CipherPipe pipe = new CipherPipe(serverKey, keyHash);
                 pipeString = pipe.PipeString;
                 Hash = pipeString;
                 Md5Hash = MD5Sum.HashString(String.Concat(serverKey, keyHash, pipeString, Message), "");
@@ -340,9 +340,9 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             string pipeString = "", decrypted = "", keyHash = kHash.Hash(serverKey);
             try
             {
-                pipeString = (new SymmCipherPipe(serverKey, keyHash)).PipeString;
+                pipeString = (new CipherPipe(serverKey, keyHash)).PipeString;
 
-                decrypted = SymmCipherPipe.DecrpytToString(Message, serverKey, decoder, zipType, kHash);
+                decrypted = CipherPipe.DecrpytT<string, string>(Message, serverKey, keyHash, decoder, zipType, kHash);
 
                 if (!Hash.Equals(pipeString))
                 {
@@ -456,7 +456,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 {
                     cSrvMsg.Message = JsonConvert.SerializeObject(cSrvMsg.TContent);
                 }
-                SymmCipherPipe pipe = new SymmCipherPipe(serverKey, keyHash);
+                CipherPipe pipe = new CipherPipe(serverKey, keyHash);
                 String pipeString = pipe.PipeString;
                 cSrvMsg.Hash = pipeString;
                 cSrvMsg.Md5Hash = MD5Sum.HashString(String.Concat(serverKey, keyHash, pipeString, cSrvMsg.Message), "");
@@ -489,9 +489,10 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             string keyHash = EnDeCodeHelper.KeyToHex(serverKey);
             try
             {
-                string pipeString = (new SymmCipherPipe(serverKey, keyHash)).PipeString;
+                string pipeString = (new CipherPipe(serverKey, keyHash)).PipeString;
 
-                string decrypted = SymmCipherPipe.DecrpytToString(cSrvMsg.Message, serverKey, decoder, zipType, KeyHash.Hex);                    
+                string decrypted = CipherPipe.DecrpytT<string, string>(cSrvMsg.Message, serverKey, keyHash, 
+                    decoder, zipType, KeyHash.Hex);                    
 
                 if (!cSrvMsg.Hash.Equals(pipeString))
                 {

@@ -22,7 +22,7 @@ namespace Area23.At.Framework.Library.Cqr
         private readonly string _key;
         private readonly string _hash;
         private readonly byte[] _keyBytes;
-        private readonly SymmCipherPipe _symmPipe;
+        private readonly CipherPipe _symmPipe;
         public string PipeString { get => _symmPipe.PipeString; }
 
 
@@ -39,7 +39,7 @@ namespace Area23.At.Framework.Library.Cqr
             _key = key;
             _hash = EnDeCodeHelper.KeyToHex(_key);
             _keyBytes = CryptHelper.GetUserKeyBytes(_key, _hash, 16);
-            _symmPipe = new SymmCipherPipe(_keyBytes, 8);
+            _symmPipe = new CipherPipe(_keyBytes, 8);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Area23.At.Framework.Library.Cqr
         /// <returns><see cref="CSrvMsg{string}"/>, containing char room number, last polled date, updated sender and recipients</returns>
         public CSrvMsg<string> SendChatMsg_Soap(CSrvMsg<string> cServerMsg, CSrvMsg<string> cClientMsg, string clientKey = "", EncodingType encodingType = EncodingType.Base64)
         {
-            SymmCipherPipe clientPipe = new SymmCipherPipe(clientKey);
+            CipherPipe clientPipe = new CipherPipe(clientKey);
             cClientMsg.Hash = clientPipe.PipeString;
             string cryptClientMsg = cClientMsg.EncryptToJson(clientKey);
 
@@ -334,7 +334,7 @@ namespace Area23.At.Framework.Library.Cqr
             // TC tc = default(TC);
 
             cServerMsg.Hash = _symmPipe.PipeString;
-            SymmCipherPipe clientPipe = new SymmCipherPipe(clientKey);
+            CipherPipe clientPipe = new CipherPipe(clientKey);
             cClientMsg.Hash = clientPipe.PipeString;
             string cryptClientMsg = cClientMsg.EncryptToJson(clientKey);
             

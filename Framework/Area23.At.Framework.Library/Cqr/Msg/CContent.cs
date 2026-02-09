@@ -186,7 +186,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             Zfx.ZipType zipType = Zfx.ZipType.None, KeyHash kHash = KeyHash.Hex)
         {
             string encrypted = "", keyHash = kHash.Hash(serverKey);
-            SymmCipherPipe pipe = new SymmCipherPipe(serverKey, keyHash);
+            CipherPipe pipe = new CipherPipe(serverKey, keyHash);
             string pipeString = pipe.PipeString;
 
             Hash = pipeString;
@@ -229,11 +229,11 @@ namespace Area23.At.Framework.Library.Cqr.Msg
         {
 
             string keyHash = kHash.Hash(serverKey);
-            SymmCipherPipe symmPipe = new SymmCipherPipe(serverKey, keyHash);
+            CipherPipe symmPipe = new CipherPipe(serverKey, keyHash);
             try
             {
                 string pipeString = symmPipe.PipeString; 
-                string decrypted = SymmCipherPipe.EncrpytT<string,string>(Message, serverKey, keyHash, 
+                string decrypted = CipherPipe.EncrpytT<string,string>(Message, serverKey, keyHash, 
                     EncodingType.Base64, ZipType.None, kHash, CipherMode2.ECB); 
 
                 if (!Hash.Equals(pipeString))
@@ -570,11 +570,11 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 
                 if (t is CContent cc)
                 {
-                    SymmCipherPipe ccPipe = new SymmCipherPipe(serverKey, keyHash, EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB);
+                    CipherPipe ccPipe = new CipherPipe(serverKey, keyHash, EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB);
                     try
                     {
                         pipeString = ccPipe.PipeString;
-                        string decrypted = SymmCipherPipe.EncrpytT<string, string>(cc.Message,
+                        string decrypted = CipherPipe.EncrpytT<string, string>(cc.Message,
                             serverKey, keyHash, EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB);
 
                         if (!cc.Hash.Equals(pipeString))
@@ -642,7 +642,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 
             string keyHash = EnDeCodeHelper.KeyToHex(key);
             string encrypted = "";
-            SymmCipherPipe pipe = new SymmCipherPipe(key, keyHash);
+            CipherPipe pipe = new CipherPipe(key, keyHash);
             string pipeString = pipe.PipeString;
             try
             {
@@ -683,11 +683,11 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 
             CContent cmsg = Newtonsoft.Json.JsonConvert.DeserializeObject<CContent>(serialized);
 
-            SymmCipherPipe cmsgPipe = new SymmCipherPipe(key, EnDeCodeHelper.KeyToHex(key), EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB);
+            CipherPipe cmsgPipe = new CipherPipe(key, EnDeCodeHelper.KeyToHex(key), EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB);
             string pipeString = cmsgPipe.PipeString;
             try
             {
-                string decrypted = SymmCipherPipe.DecrpytT<string, string>(cmsg.Message, key, KeyHash.Hex.Hash(key), 
+                string decrypted = CipherPipe.DecrpytT<string, string>(cmsg.Message, key, KeyHash.Hex.Hash(key), 
                     EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB);   
 
                 if (!cmsg.Hash.Equals(pipeString))

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Simple uu and base64 en-/decode tool (apache2 mod_mono)" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="CoolCrypt.aspx.cs" Inherits="Area23.At.Mono.Crypt.CoolCrypt"  validateRequest="true" %>
+﻿<%@ Page Title="Complex cool crypt tool (apache2 mod_mono)" Language="C#" MasterPageFile="~/Crypt/EncodeMaster.master" AutoEventWireup="true" CodeBehind="CoolCrypt.aspx.cs" Inherits="Area23.At.Mono.Crypt.CoolCrypt"  validateRequest="true" %>
 <asp:Content ID="ContentEncodeHead" ContentPlaceHolderID="EncodeHead" runat="server">
         <title>Cool Crypt (apache2 mod_mono)</title>
         <link rel="stylesheet" href="../res/css/area23.at.mono.css" />

@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Cache;
 using Area23.At.Framework.Library.Cqr;
+using Area23.At.Framework.Library.Crypt.Cipher;
 using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
@@ -194,7 +195,7 @@ namespace Area23.At.Mono.Crypt
         protected void DrawZenMatrix(string key, string keyHash)
         {
             byte[] kb = Framework.Library.Crypt.Cipher.CryptHelper.GetUserKeyBytes(key, keyHash, 16);
-            SymmCipherEnum[] cses = new Framework.Library.Crypt.Cipher.Symmetric.SymmCipherPipe(kb).InSymmPipe;
+            CipherEnum[] cses = new Framework.Library.Crypt.Cipher.CipherPipe(kb).InPipe;
 
             bool fullSymmetric = false;
             try
