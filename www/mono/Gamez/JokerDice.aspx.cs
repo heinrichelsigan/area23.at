@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1.Ocsp;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
@@ -95,7 +96,10 @@ namespace Area23.At.Mono.Gamez
 
             if (!IsPostBack)
             {
-                Session["Round"] = (Session["Round"] == null) ? 0 : (((int)Session["Round"] + ((int)Session["Round"] % 2)));
+                if (Request.UrlReferrer == null || !Request.UrlReferrer.Equals(Request.Url))
+                    Session["Round"] = 0;
+                else 
+                    Session["Round"] = (Session["Round"] == null) ? 0 : (((int)Session["Round"] + ((int)Session["Round"] % 2)));
                 ResetCheckBoxes(sender, e);                
             }
 
@@ -608,32 +612,35 @@ namespace Area23.At.Mono.Gamez
                             ImageButtonBust.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
                             shouldReturn = true;
                         }
+                        if (shouldReturn) return shouldReturn;
                     }
-                    if (shouldReturn)  return shouldReturn;
+                    if (item.Value == 2) // Two Pair
+                    {                        
+                        if (!CheckBoxTwoPairs.Checked)
+                        {
+                            CheckBoxTwoPairs.Enabled = true;
+                            ImageButtonTwoPairs.Enabled = true;
+                            ImageButtonTwoPairs.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
+                            shouldReturn = true;
+                        }
+                        if (!CheckBoxPair.Checked)
+                        {
+                            CheckBoxPair.Enabled = true;
+                            ImageButtonPair.Enabled = true;
+                            ImageButtonPair.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
+                            shouldReturn = true;
+                        }
+                        if (!CheckBoxBust.Checked)
+                        {
+                            CheckBoxBust.Enabled = true;
+                            ImageButtonBust.Enabled = true;
+                            ImageButtonBust.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
+                            shouldReturn = true;
+                        }
+                        if (shouldReturn) return shouldReturn;
+                    }
                 }
-                // Two Pair
-                if (!CheckBoxTwoPairs.Checked)
-                {
-                    CheckBoxTwoPairs.Enabled = true;
-                    ImageButtonTwoPairs.Enabled = true;
-                    ImageButtonTwoPairs.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
-                    shouldReturn = true;
-                }
-                if (!CheckBoxPair.Checked)
-                {
-                    CheckBoxPair.Enabled = true;
-                    ImageButtonPair.Enabled= true;
-                    ImageButtonPair.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
-                    shouldReturn = true;
-                }
-                if (!CheckBoxBust.Checked)
-                {
-                    CheckBoxBust.Enabled = true;
-                    ImageButtonBust.Enabled = true;
-                    ImageButtonBust.ImageUrl = "../res/gamez/dicepoker/pencil_olive.gif";
-                    shouldReturn = true;
-                }
-                if (shouldReturn) return shouldReturn;
+                
             }
             else if (resultDict.Count == 4) // One Pair
             {
