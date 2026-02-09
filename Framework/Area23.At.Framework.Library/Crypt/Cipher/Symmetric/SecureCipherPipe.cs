@@ -522,9 +522,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             foreach (CipherEnum cipher in InPipe)
             {
                 string cipherHashKey = secureHashes[merry % secureHashes.Length].Hash(cipherKeyHash);
-                if ((++merry) > 7) merry = 0;
+                if ((++merry) > (secureHashes.Length - 1)) merry = 0;
 
-                encryptedBytes = EncryptBytesFast(inBytes, cipher, cipherKeyHash, CMode2);
+                encryptedBytes = EncryptBytesFast(inBytes, cipher, cipherHashKey, CMode2);
                 inBytes = encryptedBytes;
             }
 
@@ -547,16 +547,16 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             cipherKeyHash = string.IsNullOrEmpty(secretKey) ? cipherKeyHash : secretKey;
             CMode2 = cmode2;
 
-            int merry = 7;
             KeyHash[] secureHashes = KeyHash_Extensions.GetSecureHashes();
+            int merry = secureHashes.Length - 1;
 
             byte[] decryptedBytes = new byte[cipherBytes.Length];
             foreach (CipherEnum cipher in OutPipe)
             {
                 string cipherHashKey = secureHashes[merry % secureHashes.Length].Hash(cipherKeyHash);
-                if ((--merry) < 0) merry = 7;
+                if ((--merry) < 0) merry = secureHashes.Length - 1;
 
-                decryptedBytes = DecryptBytesFast(cipherBytes, cipher, cipherKeyHash, cmode2);
+                decryptedBytes = DecryptBytesFast(cipherBytes, cipher, cipherHashKey, cmode2);
                 cipherBytes = decryptedBytes;
             }
 
