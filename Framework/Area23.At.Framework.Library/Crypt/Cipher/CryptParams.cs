@@ -3,7 +3,6 @@ using Area23.At.Framework.Library.Crypt.Hash;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using System;
-using System.Security.Cryptography;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher
 {
@@ -11,6 +10,23 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
     /// <summary>
     /// CryptParams parameters for encryption algorithm engine
     /// </summary>
+    /// <remarks>
+    /// <list type="bullet">
+    /// <listheader>code changes</listheader>
+    /// <item>
+    /// 2026-02-11 alert-fix-13 changed mode from "ECB" to "CFB"     
+    /// Reason: Git security scans
+    /// consequences: no more fully deterministic math bijective proper symmertric cipher en-/decryption in pipe
+    /// fixed attacks: not so easy REPLY attacks with binary format header and heuristic key collection
+    /// </item>
+    /// <item>
+    /// 2026-mm-dd [enter pull request name here] [enter what you did here]
+    /// Reason: [enter a senseful reason]
+    /// consequences: [describe most impactful consequences of bugfix or code change request]
+    /// fixed [vulnerability, code smell]: [Describe understandable precise in 1-2 setences]
+    /// </item>
+    /// </list>
+    /// </remarks>
     public class CryptParams
     {
 
@@ -61,7 +77,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             Cipher = CipherEnum.Aes;
             Size = 256;
             KeyLen = 32;
-            Mode = "EAX";
+            Mode = "CFB";
             BlockCipher = new AesEngine();
             KeyHashing = KeyHash.Hex;
         }
@@ -76,10 +92,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             Cipher = cipherAlgo;
             Size = 256;
             KeyLen = 32;
-            Mode = "ECB";
+            Mode = "CFB";
 
             switch (Cipher)
-            {
+            {           
                 case CipherEnum.Aes:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;

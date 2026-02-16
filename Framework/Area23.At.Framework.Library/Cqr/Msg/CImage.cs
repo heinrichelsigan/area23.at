@@ -1,5 +1,4 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher;
-using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
@@ -10,7 +9,6 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Security.Policy;
 
 namespace Area23.At.Framework.Library.Cqr.Msg
 {
@@ -372,7 +370,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 cimg.Sha256Hash = Sha256Sum.Hash(cimg.Data, "");
 
                 string encrypted = System.Text.Encoding.UTF8.GetString(
-                    symmPipe.EncryptEncodeBytes(cimg.Data, key, keyHash, encoder, zipType, KeyHash.Hex, Crypt.Cipher.CipherMode2.ECB));
+                    symmPipe.EncryptEncodeBytes(cimg.Data, key, keyHash, encoder, zipType, KeyHash.Hex, Crypt.Cipher.CipherMode2.CFB));
 
                 cimg.Data = new byte[0];
                 cimg.Message = encrypted;
@@ -409,7 +407,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 string pipeString = (new CipherPipe(key, keyHash)).PipeString;
 
                 byte[] fileBytes = CipherPipe.DecrpytT<byte[], string>(cimg.Message, key, keyHash,
-                        decoder, zipType, KeyHash.Hex, CipherMode2.ECB);
+                        decoder, zipType, KeyHash.Hex, CipherMode2.CFB);
 
                 string md5Hash = MD5Sum.HashString(String.Concat(key, keyHash, pipeString, cimg.FileName), "");
                 if (!cimg.Hash.Equals(pipeString))

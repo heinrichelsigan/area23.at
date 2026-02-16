@@ -1,5 +1,4 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher;
-using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
@@ -7,7 +6,6 @@ using Area23.At.Framework.Library.Util;
 using Newtonsoft.Json;
 using System;
 using System.IO;
-using System.Windows.Input;
 
 namespace Area23.At.Framework.Library.Cqr.Msg
 {
@@ -165,7 +163,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 Sha256Hash = Sha256Sum.Hash(Data, "");
 
                 string encrypted = System.Text.Encoding.UTF8.GetString(
-                    symmPipe.EncryptEncodeBytes(Data, serverKey, keyHash, encoder, zipType, KeyHash.Hex, Crypt.Cipher.CipherMode2.ECB));
+                    symmPipe.EncryptEncodeBytes(Data, serverKey, keyHash, encoder, zipType, KeyHash.Hex, Crypt.Cipher.CipherMode2.CFB));
                 
                 Data = new byte[0];
                 Message = encrypted;
@@ -464,7 +462,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 cfile.Sha256Hash = Sha256Sum.Hash(cfile.Data, "");
 
                 string encrypted = System.Text.Encoding.UTF8.GetString(
-                    symmPipe.EncryptEncodeBytes(cfile.Data, key, keyHash, encoder, zipType, kHash, Crypt.Cipher.CipherMode2.ECB));
+                    symmPipe.EncryptEncodeBytes(cfile.Data, key, keyHash, encoder, zipType, kHash, CipherMode2.CFB));
 
                 cfile.Data = new byte[0];
                 cfile.Message = encrypted;

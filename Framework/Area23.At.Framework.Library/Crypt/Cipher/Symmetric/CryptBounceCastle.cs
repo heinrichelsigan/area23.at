@@ -18,6 +18,23 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     /// <see cref="Org.BouncyCastle.Crypto.Engines.SkipjackEngine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.TeaEngine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.TnepresEngine"/>,
     /// <see cref="Org.BouncyCastle.Crypto.Engines.XteaEngine"/>, ... and many more
     /// </summary>
+    /// <remarks>
+    /// <list type="bullet">
+    /// <listheader>code changes</listheader>
+    /// <item>
+    /// 2026-02-11 alert-fix-13 changed mode from "ECB" to "CFB"     
+    /// Reason: Git security scans
+    /// consequences: no more fully deterministic math bijective proper symmertric cipher en-/decryption in pipe
+    /// fixed attacks: not so easy REPLY attacks with binary format header and heuristic key collection
+    /// </item>
+    /// <item>
+    /// 2026-mm-dd [enter pull request name here] [enter what you did here]
+    /// Reason: [enter a senseful reason]
+    /// consequences: [describe most impactful consequences of bugfix or code change request]
+    /// fixed [vulnerability, code smell]: [Describe understandable precise in 1-2 setences]
+    /// </item>
+    /// </list>
+    /// </remarks>
     public class CryptBounceCastle
     {
 
@@ -27,8 +44,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         private string privateHash = string.Empty;
 
-        private byte[] tmpIv;
-        private byte[] tmpKey;
 
         #endregion fields
 
@@ -78,12 +93,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             CryptoBlockCipherPadding = null;
             KeyLen = 32;
             Size = 256;
-            Mode = "ECB";
+            Mode = "CFB";
 
             privateKey = string.Empty;
             privateHash = string.Empty;
-            tmpKey = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-            tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+            byte[] tmpKey = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+            byte[] tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
 
             Key = new byte[KeyLen];
             Iv = new byte[KeyLen];
@@ -102,6 +117,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="init">init <see cref="CryptBounceCastle"/> first time with a new key</param>
         public CryptBounceCastle(CryptParams cparams, bool init = true)
         {
+            byte[] tmpKey = null, tmpIv = null;
             CryptoBlockCipher = (cparams.BlockCipher == null) ? new Org.BouncyCastle.Crypto.Engines.AesEngine() : cparams.BlockCipher;
             if (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64")
                 CryptoBlockCipher = new RC564Engine();
@@ -157,13 +173,39 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             privateHash = secretHash;
 
             string keyByteHashString = privateKey;
-            tmpKey = new byte[KeyLen];
+            byte[] tmpKey = new byte[KeyLen];
             tmpKey = CryptHelper.GetUserKeyBytes(privateKey, privateHash, KeyLen);
             if (tmpKey.Length < KeyLen)
                 throw new ApplicationException($"key {tmpKey.ToHexString()} is shorten then KeyLen {KeyLen}");
 
             return tmpKey;
 
+        }
+
+        /// <summary>
+        /// can this SymmBlockCipherAlgo key with initialization vector?
+        /// </summary>
+        /// <returns>true, if it hanldes init with key and initialization vector iv, otherwise false</returns>
+        protected bool CanAlgoKeyIV(IBlockCipher cryptoBlockCipher = null)
+        {
+            if (cryptoBlockCipher == null)
+                cryptoBlockCipher = CryptoBlockCipher;
+            string algoName = cryptoBlockCipher.AlgorithmName.ToUpper();
+            if (algoName.StartsWith("AES") || algoName.StartsWith("RIJNDAEL"))
+                return false;
+            if (algoName.StartsWith("ARIA") || algoName.StartsWith("ASCON"))
+                return false;
+            if (algoName.StartsWith("CAST"))
+                return false;
+            if (algoName.StartsWith("GOST") || algoName.StartsWith("IDEA"))
+                return false;
+            if (algoName.StartsWith("RC") || algoName.StartsWith("IDEA"))
+                return false;
+            if (algoName.StartsWith("SKIPJACK") || algoName.Equals("DESEDE"))
+                return false;
+            if (algoName.StartsWith("TEA") || algoName.StartsWith("XTEA"))
+                return false;
+            return true;
         }
 
         #region EncryptDecryptBytes
@@ -213,14 +255,15 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             }
 
             KeyParameter keyParam = (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64") ?
-                new Org.BouncyCastle.Crypto.Parameters.RC5Parameters(Key, 2) :
-                new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
-            ICipherParameters keyParamIV = new Org.BouncyCastle.Crypto.Parameters.ParametersWithIV(keyParam, Iv);
+                new RC5Parameters(Key, 2) : // RC5-64 with 2 rounds key initialization
+                new KeyParameter(Key);      // default KeyParameter
+            ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv); // KeyParameter with init vector
 
-            // if (Mode == "ECB")
-            cipherMode.Init(true, keyParam);
-            // else
-            // cipherMode.Init(true, keyParamIV);
+            // cipherMode init with initialization vector only when Mode isn't ECB and Algo is IV init capable
+            if (Mode == "ECB" || !CanAlgoKeyIV(CryptoBlockCipher))
+                cipherMode.Init(true, keyParam);
+            else
+                cipherMode.Init(true, keyParamIV);
 
             if (PadBufBChipger == null && cipherMode != null)
                 PadBufBChipger = cipherMode;
@@ -285,11 +328,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
 
 
-            // Decrypt
-            // if (Mode == "ECB")
+            // Decrypt with initialization vector only when !ECB + algorithm is IV capable            
+            if (Mode == "ECB" || !CanAlgoKeyIV(CryptoBlockCipher))
                 cipherMode.Init(false, keyParam);
-            // else
-            // cipherMode.Init(false, keyParamIV);
+            else
+                cipherMode.Init(false, keyParamIV);
 
             // decryptedData = cipherMode.ProcessBytes(cipherData);
             if (cipherMode != null)

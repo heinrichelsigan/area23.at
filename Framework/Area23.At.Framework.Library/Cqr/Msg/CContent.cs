@@ -1,5 +1,4 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher;
-using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
@@ -9,10 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using System.Text;
-using System.Windows.Input;
-using static QRCoder.PayloadGenerator.SwissQrCode;
 
 namespace Area23.At.Framework.Library.Cqr.Msg
 {
@@ -194,7 +190,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             {
                 encrypted = Encoding.UTF8.GetString(
                     pipe.EncryptEncodeBytes(Encoding.UTF8.GetBytes(Message),
-                        serverKey, keyHash, encoder, zipType, kHash, CipherMode2.ECB));
+                        serverKey, keyHash, encoder, zipType, kHash, CipherMode2.CFB));
                 Hash = pipeString;
                 Md5Hash = MD5Sum.HashString(String.Concat(serverKey, keyHash, pipeString, Message), "");
 
@@ -234,7 +230,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             {
                 string pipeString = symmPipe.PipeString; 
                 string decrypted = CipherPipe.EncrpytT<string,string>(Message, serverKey, keyHash, 
-                    EncodingType.Base64, ZipType.None, kHash, CipherMode2.ECB); 
+                    EncodingType.Base64, ZipType.None, kHash, CipherMode2.CFB); 
 
                 if (!Hash.Equals(pipeString))
                     throw new CqrException($"CContent.Hash={Hash} doesn't match PipeString={pipeString}");
@@ -570,12 +566,12 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 
                 if (t is CContent cc)
                 {
-                    CipherPipe ccPipe = new CipherPipe(serverKey, keyHash, EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB);
+                    CipherPipe ccPipe = new CipherPipe(serverKey, keyHash, EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
                     try
                     {
                         pipeString = ccPipe.PipeString;
                         string decrypted = CipherPipe.EncrpytT<string, string>(cc.Message,
-                            serverKey, keyHash, EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB);
+                            serverKey, keyHash, EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
 
                         if (!cc.Hash.Equals(pipeString))
                             throw new CqrException($"cContent.Hash={cc.Hash} doesn't match PipeString={pipeString}");
@@ -648,7 +644,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             {
                 encrypted = Encoding.UTF8.GetString(
                         pipe.EncryptEncodeBytes(Encoding.UTF8.GetBytes(cmsg.Message),
-                            key, keyHash, encoder, zipType, KeyHash.Hex, CipherMode2.ECB));             
+                            key, keyHash, encoder, zipType, KeyHash.Hex, CipherMode2.CFB));             
                 cmsg.Hash = pipeString;
                 cmsg.Md5Hash = MD5Sum.HashString(String.Concat(key, keyHash, pipeString, cmsg.Message), "");
 
@@ -683,12 +679,12 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 
             CContent cmsg = Newtonsoft.Json.JsonConvert.DeserializeObject<CContent>(serialized);
 
-            CipherPipe cmsgPipe = new CipherPipe(key, EnDeCodeHelper.KeyToHex(key), EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB);
+            CipherPipe cmsgPipe = new CipherPipe(key, EnDeCodeHelper.KeyToHex(key), EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
             string pipeString = cmsgPipe.PipeString;
             try
             {
                 string decrypted = CipherPipe.DecrpytT<string, string>(cmsg.Message, key, KeyHash.Hex.Hash(key), 
-                    EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB);   
+                    EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);   
 
                 if (!cmsg.Hash.Equals(pipeString))
                     throw new CqrException($"cContent.Hash={cmsg.Hash} doesn't match PipeString={pipeString}");

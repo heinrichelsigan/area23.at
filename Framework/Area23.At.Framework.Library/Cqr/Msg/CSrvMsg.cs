@@ -1,5 +1,4 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher;
-using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
@@ -8,10 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using System.Text;
-using System.Windows.Input;
-using System.Windows.Interop;
 
 namespace Area23.At.Framework.Library.Cqr.Msg
 {
@@ -300,7 +296,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 Md5Hash = MD5Sum.HashString(String.Concat(serverKey, keyHash, pipeString, Message), "");
                 encrypted = Encoding.UTF8.GetString(
                         pipe.EncryptEncodeBytes(Encoding.UTF8.GetBytes(Message),
-                            serverKey, keyHash, encoder, zipType, kHash, CipherMode2.ECB));
+                            serverKey, keyHash, encoder, zipType, kHash, CipherMode2.CFB));
 
                 Message = encrypted;
             }
@@ -462,7 +458,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 cSrvMsg.Md5Hash = MD5Sum.HashString(String.Concat(serverKey, keyHash, pipeString, cSrvMsg.Message), "");
                 string encrypted = Encoding.UTF8.GetString(
                         pipe.EncryptEncodeBytes(Encoding.UTF8.GetBytes(cSrvMsg.Message),
-                            serverKey, keyHash, encoder, zipType, KeyHash.Hex, CipherMode2.ECB));                
+                            serverKey, keyHash, encoder, zipType, KeyHash.Hex, CipherMode2.CFB));                
                 cSrvMsg.Message = encrypted;
                 cSrvMsg.TContent = null;
             }

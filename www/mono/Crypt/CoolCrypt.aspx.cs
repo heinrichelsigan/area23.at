@@ -27,7 +27,7 @@ namespace Area23.At.Mono.Crypt
     {
 
         KeyHash keyHash = KeyHash.Hex;
-        CipherMode2 cmode2 = CipherMode2.ECB;
+        CipherMode2 cmode2 = CipherMode2.CFB;
         EncodingType encType = EncodingType.Base64;
         ZipType zipType = ZipType.None;
         CipherEnum[] pipeAlgortihms = new CipherEnum[0];
@@ -177,7 +177,7 @@ namespace Area23.At.Mono.Crypt
             }
 
             if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
-                cmode2 = CipherMode2.ECB;
+                cmode2 = CipherMode2.CFB;
 
             pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
             if (pipeAlgortihms != null && pipeAlgortihms.Length > 0)
@@ -290,7 +290,7 @@ namespace Area23.At.Mono.Crypt
             // if (this.DropDownList_CipherMode.SelectedValue.ToLowerInvariant() == "ecb")
             if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
             {
-                cmode2 = CipherMode2.ECB;
+                cmode2 = CipherMode2.CFB;
                 this.DropDownList_CipherMode.SelectedIndex = 2;
             }
         }
@@ -544,7 +544,7 @@ namespace Area23.At.Mono.Crypt
             int strLen = 0;
 
             if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
-                cmode2 = CipherMode2.ECB;
+                cmode2 = CipherMode2.CFB;
 
             // CFile cFile;
             if (!string.IsNullOrEmpty(strFileName) &&
@@ -687,7 +687,7 @@ namespace Area23.At.Mono.Crypt
             if (!Enum.TryParse<EncodingType>(DropDownList_Encoding.SelectedValue, out encType))
                 encType = EncodingType.Base64;
             if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
-                cmode2 = CipherMode2.ECB;
+                cmode2 = CipherMode2.CFB;
 
             key = this.TextBox_Key.Text;
             hash = keyHash.Hash(TextBox_Key.Text);

@@ -1,12 +1,10 @@
-﻿using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
-using System.Collections.Generic;
+﻿using Area23.At.Framework.Library.Static;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using Area23.At.Framework.Library.Static;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher
 {
-
 
     /// <summary>
     /// CipherEnum maps BlockCipher algorithms <see cref="Org.BouncyCastle.Crypto.IBlockCipher"/>
@@ -47,13 +45,15 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         Dstu7624 = 0x1a,
         AesLight = 0x1b,
         ZenMatrix = 0x1c,
+        Ascon = 0x1d,
 
-        Des3Net = 0x1d,
-        AesNet = 0x1e,
         ZenMatrix2 = 0x1f,
 
-        Rsa = 0x21
+        // Rsa = 0x21
         // DH = 0x22,
+
+        Des3Net = 0x31,
+        AesNet = 0x32
     }
 
     /// <summary>
@@ -137,7 +137,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.ZenMatrix: return 'z';
                 case CipherEnum.ZenMatrix2: return 'Z';
 
-                case CipherEnum.Rsa: return '%';
+                // case CipherEnum.Rsa: return '%';
                 // case CipherEnum.DH: return '!';
 
                 default: break;

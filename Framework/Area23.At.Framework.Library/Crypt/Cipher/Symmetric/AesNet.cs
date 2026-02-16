@@ -1,22 +1,38 @@
 ﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
+using Area23.At.Framework.Library.Util;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Protocols.WSTrust;
 using System.IO;
 using System.Security.Cryptography;
-using System.Security.Policy;
 using System.Text;
-using System.Windows.Input;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
+
 
     /// <summary>
     /// AesNet native .Net AesCng without bouncy castle
     /// <see href="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aescng?view=net-8.0" />
     /// </summary>
+    /// <remarks>
+    /// <list type="bullet">
+    /// <listheader>code changes</listheader>
+    /// <item>
+    /// 2026-02-11 alert-fix-13 changed mode from "ECB" to "CFB"     
+    /// Reason: Git security scans
+    /// consequences: no more fully deterministic math bijective proper symmertric cipher en-/decryption in pipe
+    /// fixed attacks: not so easy REPLY attacks with binary format header and heuristic key collection
+    /// </item>
+    /// <item>
+    /// 2026-mm-dd [enter pull request name here] [enter what you did here]
+    /// Reason: [enter a senseful reason]
+    /// consequences: [describe most impactful consequences of bugfix or code change request]
+    /// fixed [vulnerability, code smell]: [Describe understandable precise in 1-2 setences]
+    /// </item>
+    /// </list>
+    /// </remarks>
     public class AesNet
     {
 
@@ -29,6 +45,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         public static KeyHash AesHash { get; private set; }
 
+        public static CipherMode CMode { get; private set; }
+
         public static EncodingType EncodeType { get; private set; }
 
         #endregion properties
@@ -36,25 +54,21 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         #region ctor
 
+        /// <summary>
+        /// static AesNet constructor
+        /// </summary>
         static AesNet()
         {
             AesKeyLen = 32;
         }
 
+        /// <summary>
+        /// standard parameterless ctor of AesNet
+        /// </summary>
         public AesNet() : this(Convert.FromBase64String(Constants.AES_KEY), Convert.FromBase64String(Constants.AES_IV)) { }
 
-        public AesNet(CryptParams cryptParams) : this(cryptParams.Key, cryptParams.Hash)
-        {
-            AesAlgo = new AesCng();
-            // AesAlgo.KeySize = AesKeyLen;
-            AesAlgo.Key = Encoding.UTF8.GetBytes(cryptParams.Key);
-            AesAlgo.IV = Encoding.UTF8.GetBytes(cryptParams.Hash);
-            AesAlgo.Mode = cryptParams.CMode2.ToCipherMode();
-            AesAlgo.Padding = PaddingMode.ISO10126;
-        }
-        
-
-        public AesNet(string key, string hash, EncodingType encodeType = EncodingType.None)
+        public AesNet(string key, string hash, EncodingType encodeType = EncodingType.None,
+            CipherMode cipherMode = CipherMode.CFB)
         {
             if (string.IsNullOrEmpty(key) && string.IsNullOrEmpty(hash))
             {
@@ -70,6 +84,42 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             }
             catch (Exception e)
             {
+                Area23Log.LogOriginEx("AesNet.ctor", e, 2);
+                // TODO: what shell we do with the drunken sailor
+                AesKey = Convert.FromBase64String(Constants.AES_KEY);
+                AesIv = Encoding.UTF8.GetBytes(Constants.AES_IV);
+            }
+
+            CMode = cipherMode;
+            AesAlgo = new AesCng();
+            // AesAlgo.KeySize = AesKeyLen;
+            AesAlgo.Key = AesKey;
+            AesAlgo.IV = AesIv;
+            AesAlgo.Mode = cipherMode;
+            AesAlgo.Padding = PaddingMode.ISO10126;
+        }
+
+        /// <summary>
+        /// AesNet constructor with default crypto parameters
+        /// </summary>
+        /// <param name="cparams"></param>
+        public AesNet(CryptParams cparams)
+        {
+            if (string.IsNullOrEmpty(cparams.Key) && string.IsNullOrEmpty(cparams.Hash))
+            {
+                cparams.Key = Constants.AES_KEY;
+                cparams.Hash = Constants.AES_IV;
+            }
+            byte[] keyBytes = Encoding.UTF8.GetBytes(cparams.Key);
+            byte[] hashBytes = Encoding.UTF8.GetBytes(cparams.Hash);
+            CMode = cparams.CMode;
+            try
+            {
+                CreateAesKeyIv(ref keyBytes, ref hashBytes);
+            }
+            catch (Exception e)
+            {
+                Area23Log.LogOriginEx("AesNet.ctor", e, 2);
                 // TODO: what shell we do with the drunken sailor
                 AesKey = Convert.FromBase64String(Constants.AES_KEY);
                 AesIv = Encoding.UTF8.GetBytes(Constants.AES_IV);
@@ -79,11 +129,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             // AesAlgo.KeySize = AesKeyLen;
             AesAlgo.Key = AesKey;
             AesAlgo.IV = AesIv;
-            AesAlgo.Mode = CipherMode.ECB;
+            AesAlgo.Mode = cparams.CMode;
             AesAlgo.Padding = PaddingMode.ISO10126;
         }
 
-        public AesNet(byte[] aesKey, byte[] aesIv)
+        public AesNet(byte[] aesKey, byte[] aesIv, CipherMode cipherMode = CipherMode.CFB)
         {
             if (aesKey == null || aesKey.Length == 0)
                 aesKey = Convert.FromBase64String(Constants.AES_KEY);
@@ -91,11 +141,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 aesIv = Encoding.UTF8.GetBytes(Constants.AES_IV);
 
             CreateAesKeyIv(ref aesKey, ref aesIv);
-
+            CMode = cipherMode;
             AesAlgo = new AesCng();
             AesAlgo.Key = AesKey;
             AesAlgo.IV = AesIv;
-            AesAlgo.Mode = CipherMode.ECB;
+            AesAlgo.Mode = cipherMode;
             AesAlgo.Padding = PaddingMode.ISO10126;
 
         }
@@ -186,13 +236,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// Encrypts a string
         /// </summary>
         /// <param name="inPlainString">plain text string</param>
+        /// <param name="encType"><see cref="EncodingType" /></param>
         /// <returns>Base64 encoded encrypted byte[]</returns>
         public string EncryptString(string inPlainString, EncodingType encType = EncodingType.Base64)
         {
             byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inPlainString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = encType.GetEnCoder().EnCode(encryptedData); // Convert.ToBase64String(encryptedData);
-                                                                    // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
+                                                                                 // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
 
             return encryptedString;
         }

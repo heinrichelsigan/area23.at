@@ -1,15 +1,12 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher;
-using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Newtonsoft.Json;
-using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Text;
 
 namespace Area23.At.Framework.Library.Cqr.Msg
@@ -208,7 +205,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
 
                 string encrypted = Encoding.UTF8.GetString(
                     pipe.EncryptEncodeBytes(Encoding.UTF8.GetBytes(Message),
-                        serverKey, keyHash, encoder, zipType, kHash, CipherMode2.ECB));
+                        serverKey, keyHash, encoder, zipType, kHash, CipherMode2.CFB));
                 Hash = pipeString;
                 Md5Hash = MD5Sum.HashString(String.Concat(serverKey, keyHash, pipeString, Message), "");
 
@@ -245,7 +242,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                                 
                 string decrypted = Encoding.UTF8.GetString(
                         pipe.DecodeDecrpytBytes(Encoding.UTF8.GetBytes(Message),
-                            serverKey, keyHash, decoder, zipType, kHash, CipherMode2.ECB));
+                            serverKey, keyHash, decoder, zipType, kHash, CipherMode2.CFB));
 
                 if (!Hash.Equals(pipeString))
                 {
@@ -372,7 +369,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
             {    
                 encrypted = Encoding.UTF8.GetString(
                         pipe.EncryptEncodeBytes(Encoding.UTF8.GetBytes(ccntct.Message),
-                            key, keyHash, encoder, zipType, kHash, CipherMode2.ECB));                    
+                            key, keyHash, encoder, zipType, kHash, CipherMode2.CFB));                    
                 ccntct.Hash = pipeString;
                 ccntct.Md5Hash = MD5Sum.HashString(String.Concat(key, keyHash, pipeString, ccntct.Message), "");
 
@@ -416,7 +413,7 @@ namespace Area23.At.Framework.Library.Cqr.Msg
                 string pipeString = pipe.PipeString;
                
                 string decrypted = CipherPipe.DecrpytT<string, string>(ccntct.Message,
-                            key, keyHash, decoder, zipType, kHash, CipherMode2.ECB);
+                            key, keyHash, decoder, zipType, kHash, CipherMode2.CFB);
 
                 if (!ccntct.Hash.Equals(pipeString))
                 {

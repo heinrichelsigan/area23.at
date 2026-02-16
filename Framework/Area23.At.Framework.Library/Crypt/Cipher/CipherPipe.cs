@@ -5,14 +5,12 @@ using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Zfx;
 using Newtonsoft.Json;
-using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
-using System.ServiceModel;
 using System.Text;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher
@@ -21,6 +19,23 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
     /// <summary>
     /// Provides a simple crypt pipe for <see cref="CipherEnum"/>
     /// </summary>
+    /// <remarks>
+    /// <list type="bullet">
+    /// <listheader>code changes</listheader>
+    /// <item>
+    /// 2026-02-11 alert-fix-13 changed mode from "ECB" to "CFB"     
+    /// Reason: Git security scans
+    /// consequences: no more fully deterministic math bijective proper symmertric cipher en-/decryption in pipe
+    /// fixed attacks: not so easy REPLY attacks with binary format header and heuristic key collection
+    /// </item>
+    /// <item>
+    /// 2026-mm-dd [enter pull request name here] [enter what you did here]
+    /// Reason: [enter a senseful reason]
+    /// consequences: [describe most impactful consequences of bugfix or code change request]
+    /// fixed [vulnerability, code smell]: [Describe understandable precise in 1-2 setences]
+    /// </item>
+    /// </list>
+    /// </remarks>
     public class CipherPipe
     {
 
@@ -58,7 +73,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// </summary>
         public CipherEnum[] OutPipe { get => inPipe.ToList().Reverse<CipherEnum>().ToArray(); }
 
-        public CipherMode2 CMode2 { get; set; } = CipherMode2.ECB;
+        public CipherMode2 CMode2 { get; set; } = CipherMode2.CFB;
 
         public CipherMode CMode { get => CMode2.ToCipherMode(); set => CMode2 = value.FromCipherMode(); }
 
@@ -120,7 +135,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             encodeType = EncodingType.Base64;
             zType = ZipType.None;
             kHash = KeyHash.Hex;
-            CMode2 = CipherMode2.ECB;
+            CMode2 = CipherMode2.CFB;
         }
 
 
@@ -135,7 +150,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         public CipherPipe(CipherEnum[] cipherEnums, uint maxpipe = 8,
             EncodingType encType = EncodingType.Base64, ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB)
+            CipherMode2 cmode2 = CipherMode2.CFB)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -161,7 +176,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         public CipherPipe(string[] cipherAlgos, uint maxpipe = 8, EncodingType encType = EncodingType.Base64,
             ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB)
+            CipherMode2 cmode2 = CipherMode2.CFB)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -204,7 +219,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <exception cref="ArgumentException"></exception>
         public CipherPipe(byte[] keyBytes, uint maxpipe = 8,
             EncodingType encType = EncodingType.Base64, ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB, bool verbose = false)
+            CipherMode2 cmode2 = CipherMode2.CFB, bool verbose = false)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -252,7 +267,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <param name="verbose"></param>
         public CipherPipe(string key, string hash, EncodingType encType = EncodingType.Base64,
             ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB, bool verbose = false)
+            CipherMode2 cmode2 = CipherMode2.CFB, bool verbose = false)
             : this(CryptHelper.GetKeyBytesSimple(key, hash, 16), Constants.MAX_PIPE_LEN, encType, zpType, kh, cmode2, verbose)
         {
             cipherKey = key;
@@ -265,7 +280,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <param name="key"></param>
         /// <param name="verbose"></param>
         public CipherPipe(string key, bool verbose = false)
-            : this(key, EnDeCodeHelper.KeyToHex(key), EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB, verbose)
+            : this(key, EnDeCodeHelper.KeyToHex(key), EncodingType.Base64, ZipType.None, KeyHash.Hex,
+                  CipherMode2.CFB, verbose)
         {
             cipherKey = key;
         }
@@ -316,7 +332,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <returns>encrypted byte Array</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static byte[] EncryptBytesFast(byte[] inBytes, CipherEnum cipherAlgo,
-            string secretKey, string hash, CipherMode2 cmode2 = CipherMode2.ECB)
+            string secretKey, string hash, CipherMode2 cmode2 = CipherMode2.CFB)
         {
             if (string.IsNullOrEmpty(secretKey))
                 throw new ArgumentNullException("seretkey");
@@ -337,7 +353,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     encryptBytes = des3.Encrypt(inBytes);
                     break;
                 case CipherEnum.ZenMatrix:
-                    encryptBytes = (new ZenMatrix(secretKey, hash, false)).Encrypt(inBytes);
+                    encryptBytes = (new ZenMatrix(secretKey, hash, false)).Encrypt(inBytes, true);
                     break;
                 case CipherEnum.ZenMatrix2:
                     encryptBytes = (new ZenMatrix2(secretKey, hash, false)).Encrypt(inBytes);
@@ -390,7 +406,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <returns>decrypted byte Array</returns>
         public static byte[] DecryptBytesFast(byte[] cipherBytes, CipherEnum cipherAlgo,
             string secretKey, string hash,
-            CipherMode2 cmode2 = CipherMode2.ECB)
+            CipherMode2 cmode2 = CipherMode2.CFB)
         {
             if (string.IsNullOrEmpty(secretKey))
                 throw new ArgumentNullException("seretkey");
@@ -460,6 +476,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         }
 
 
+
         /// <summary>
         /// EncrpytT
         /// </summary>
@@ -482,10 +499,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <param name="kayHash"><see cref="KeyHash"/> hashing key algorithm</param>
         /// <param name="cmode2"></param>
         /// <returns>encrypted generic type</returns>
-        /// <exception cref="CqrException">is thrown on unknown type</exception>
+        /// <exception cref="CException">is thrown on unknown type</exception>
         public static TRet EncrpytT<TRet, TIn>(TIn tinSource, string cryptKey, string hashIv,
             EncodingType encoding = EncodingType.Base64, ZipType zipBefore = ZipType.None,
-            KeyHash kayHash = KeyHash.Hex, CipherMode2 cmode2 = CipherMode2.ECB)
+            KeyHash kayHash = KeyHash.Hex, CipherMode2 cmode2 = CipherMode2.CFB)
         {
             byte[] stringBytes = new List<byte>().ToArray();
             // construct symmetric cipher pipeline with cryptKey, keyIv, encopding, zipBefore, keyHash and cmode2
@@ -502,7 +519,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             else if (tinSource is IEnumerable<byte> bytesEnumerable)
                 stringBytes = bytesEnumerable.ToArray();
             else throw new CqrException($"Unknown type Exception, type {typeof(TIn)} is not supported.");
-
+            
             // zip if requested
             byte[] zippedBytes = (zipBefore != ZipType.None) ? zipBefore.Zip(stringBytes) : stringBytes;
             // encrypt in a marry go round way
@@ -543,10 +560,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// <param name="keyHash"><see cref="KeyHash"/> hashing key algorithm</param>
         /// <param name="mode2"></param>
         /// <returns>Decrypted generic TRet</returns>
-        /// <exception cref="CqrException">is thrown on unknown type</exception>
+        /// <exception cref="CException">is thrown on unknown type</exception>
         public static TRet DecrpytT<TRet, TIn>(TIn tinSource, string cryptKey, string hashIv,
             EncodingType decoding = EncodingType.Base64, ZipType unzipAfter = ZipType.None,
-            KeyHash keyHash = KeyHash.Hex, CipherMode2 cmode2 = CipherMode2.ECB)
+            KeyHash keyHash = KeyHash.Hex, CipherMode2 cmode2 = CipherMode2.CFB)
         {
 
             hashIv = hashIv ?? keyHash.Hash(cryptKey);
@@ -590,7 +607,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
             return result;
         }
-
 
 
         #endregion static members EncryptBytesFast DecryptBytesFast
@@ -695,7 +711,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             EncodingType encoding = EncodingType.Base64,
             ZipType zipBefore = ZipType.None,
             KeyHash keyHash = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB)
+            CipherMode2 cmode2 = CipherMode2.CFB)
         {
             if (string.IsNullOrEmpty(hashIv))
                 cipherHash = (!string.IsNullOrEmpty(cryptKey)) ? keyHash.Hash(cryptKey) : "";
@@ -717,44 +733,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return encrypted;
         }
 
-        /// <summary>
-        /// Encrypt nomary data byte[]
-        /// </summary>
-        /// <param name="inBytes">binary data</param>
-        /// <param name="cryptKey">prviate key for encryption</param>
-        /// <param name="encoding"><see cref="EncodingType">encoding type</see> for decodinng</param>
-        /// <param name="hashIv">private key hash for encryption</param>
-        /// <param name="zipBefore"><see cref="ZipType"/></param>
-        /// <param name="keyHash"><see cref="KeyHash"/></param>
-        /// <param name="cmode2"></param>
-        /// <returns>binary data</returns>        
-        [Obsolete("Use EncrpyEncodeBytes instead", true)]
-        public virtual byte[] EncrpytFileBytesGoRounds(
-            byte[] inBytes,
-            string cryptKey,
-            string hashIv,
-            EncodingType encoding = EncodingType.Base64,
-            ZipType zipBefore = ZipType.None,
-            KeyHash keyHash = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB)
-        {
-            KHash = keyHash;
-            ZType = zipBefore;
-            EncodeType = encoding;
-            CMode2 = cmode2;
-            // hashIv if empty hash secretKey with keyHash hashing variant
-            hashIv = (string.IsNullOrEmpty(hashIv)) ? keyHash.Hash(cryptKey) : hashIv;
-            cipherKey = cryptKey;
-            cipherHash = hashIv;
-
-            // perform zipping before, if it's given as argument
-            byte[] zippedBytes = (zipBefore != ZipType.None) ? zipBefore.Zip(inBytes) : inBytes;
-            // perform multi crypt pipe stages
-            byte[] encryptedBytes = MerryGoRoundEncrpyt(zippedBytes, cryptKey, hashIv, cmode2);
-
-            return encryptedBytes;
-        }
-
 
         /// <summary>
         /// decrypt encoded encrypted text
@@ -774,7 +752,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             EncodingType decoding = EncodingType.Base64,
             ZipType unzipAfter = ZipType.None,
             KeyHash keyHash = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB)
+            CipherMode2 cmode2 = CipherMode2.CFB)
         {
 
             cipherKey = cryptKey;
@@ -801,48 +779,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return decrypted;
         }
 
-        /// <summary>
-        /// DecryptFileBytesRoundsGo
-        /// </summary>
-        /// <param name="cipherBytes"></param>
-        /// <param name="cryptKey">prviate key for encryption</param>
-        /// <param name="hashIv">private hash for encryption</param>
-        /// <param name="decoding"><see cref="EncodingType">decoding type</see> for decodinng</param>
-        /// <param name="unzipAfter"><see cref="ZipType"/></param>
-        /// <param name="keyHash"><see cref="KeyHash"/></param>
-        /// <param name="cmode2"></param>
-        /// <returns>plain data byte[]</returns>
-        [Obsolete("Use DecodeDecrpytBytes instead", true)]
-        public virtual byte[] DecryptFileBytesRoundsGo(
-            byte[] cipherBytes,
-            string cryptKey,
-            string hashIv,
-            EncodingType decoding = EncodingType.Base64,
-            ZipType unzipAfter = ZipType.None,
-            KeyHash keyHash = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB)
-        {
-            KHash = keyHash;
-            ZType = unzipAfter;
-            EncodeType = decoding;
-            CMode2 = cmode2;
-            // hashIv if empty hash secretKey with keyHash hashing variant            
-            hashIv = string.IsNullOrEmpty(hashIv) ? keyHash.Hash(cryptKey) : hashIv;
-            cipherKey = cryptKey;
-            cipherHash = hashIv;
-
-            // perform multi crypt pipe stages
-            byte[] intermediatBytes = DecrpytRoundGoMerry(cipherBytes, cryptKey, hashIv, cmode2);
-            // Unzip after if necessary
-            byte[] decryptedBytes = (unzipAfter != ZipType.None) ? unzipAfter.Unzip(intermediatBytes) : intermediatBytes;
-
-            return decryptedBytes;
-        }
-
 
         public virtual byte[] EncrpytGoRounds(byte[] inBytes, string secretKey,
             ZipType zipBefore = ZipType.None, KeyHash keyHash = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB)
+            CipherMode2 cmode2 = CipherMode2.CFB)
         {
             ZType = zipBefore;
             KHash = keyHash;
@@ -862,7 +802,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
         public virtual byte[] DecrpytRoundsGo(byte[] cipherBytes, string secretKey,
             ZipType unzipAfter = ZipType.None, KeyHash keyHash = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB)
+            CipherMode2 cmode2 = CipherMode2.CFB)
         {
             if (string.IsNullOrEmpty(secretKey) && string.IsNullOrEmpty(cipherKey))
                 throw new ArgumentNullException("seretkey");
@@ -882,36 +822,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         }
 
 
-        [Obsolete("use EncryptEncodeBytes instead.", true)]
-        public virtual string EncrpytEncode(byte[] inBytes, string secretKey,
-            EncodingType encType = EncodingType.Base64,
-            ZipType zipBefore = ZipType.None, KeyHash keyHash = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB)
-        {
-            if (string.IsNullOrEmpty(secretKey) && string.IsNullOrEmpty(cipherKey))
-                secretKey = "";
-
-            cipherKey = (!string.IsNullOrEmpty(secretKey)) ? secretKey : cipherKey;
-            encodeType = encType;
-            ZType = zipBefore;
-            KHash = keyHash;
-            cipherHash = (!string.IsNullOrEmpty(secretKey)) ? KHash.Hash(secretKey) : "";
-            CMode2 = cmode2;
-
-            // zip if requested
-            byte[] zippedBytes = (zipBefore != ZipType.None) ? zipBefore.Zip(inBytes) : inBytes;
-            // now encrypt in a merry go round 
-            byte[] outBytes = MerryGoRoundEncrpyt(zippedBytes, secretKey, cipherHash, CMode2);
-            // encode to ascii string after encryption pipe
-            string cryptedEncoded = encType.GetEnCoder().EnCode(outBytes);
-
-            return cryptedEncoded;
-        }
-
         public virtual byte[] EncryptEncodeBytes(byte[] inBytes, string secretKey, string hashIV,
             EncodingType encType = EncodingType.Base64,
             ZipType zipBefore = ZipType.None, KeyHash keyHash = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB)
+            CipherMode2 cmode2 = CipherMode2.CFB)
         {
             encodeType = encType;
             ZType = zipBefore;
@@ -938,38 +852,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return System.Text.Encoding.UTF8.GetBytes(encType.GetEnCoder().EnCode(outBytes));
         }
 
-
-        [Obsolete("use DecodeDecrpytBytes instead.", true)]
-        public virtual byte[] DecodeDecrpyt(string encoded, string secretKey,
-            EncodingType encType = EncodingType.Base64,
-            ZipType unzipAfter = ZipType.None, KeyHash keyHash = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB)
-        {
-            if (string.IsNullOrEmpty(secretKey) && string.IsNullOrEmpty(cipherKey))
-                secretKey = "";
-
-            cipherKey = (!string.IsNullOrEmpty(secretKey)) ? secretKey : cipherKey;
-            cipherHash = (!string.IsNullOrEmpty(secretKey)) ? keyHash.Hash(secretKey) : "";
-
-            encodeType = encType;
-            ZType = unzipAfter;
-            KHash = keyHash;
-            CMode2 = cmode2;
-
-            // decode encoded ascii string to byte array
-            byte[] cipherBytes = encodeType.GetEnCoder().DeCode(encoded);
-            // perform multi crypt pipe stages
-            byte[] intermediatBytes = DecrpytRoundGoMerry(cipherBytes, secretKey, cipherHash, CMode2);
-            // Unzip after if necessary
-            byte[] decryptedBytes = (unzipAfter != ZipType.None) ? unzipAfter.Unzip(intermediatBytes) : intermediatBytes;
-
-            return decryptedBytes;
-        }
-
         public virtual byte[] DecodeDecrpytBytes(byte[] encodedBytes, string secretKey, string hashIV,
             EncodingType encType = EncodingType.Base64,
             ZipType unzipAfter = ZipType.None, KeyHash keyHash = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB)
+            CipherMode2 cmode2 = CipherMode2.CFB)
         {
             encodeType = encType;
             ZType = unzipAfter;
@@ -1017,17 +903,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         public virtual byte[] CryptCodeBytes(byte[] inBytes, string secretKey, string hashIV,
             bool directionDecrypt = false, EncodingType encType = EncodingType.Base64,
             ZipType zip = ZipType.None, KeyHash keyHash = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB)
+            CipherMode2 cmode2 = CipherMode2.CFB)
         {
             return (!directionDecrypt) ?
                 EncryptEncodeBytes(inBytes, secretKey, hashIV, encType, zip, keyHash, cmode2) :
                 DecodeDecrpytBytes(inBytes, secretKey, hashIV, encType, zip, keyHash, cmode2);
         }
 
-        #region static en-de-crypt members
-        
-
-        #endregion static en-de-crypt members
 
         #endregion multiple rounds en-de-cryption
 
@@ -1079,6 +961,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     w = 60;
                     char ch = this.InPipe[i].GetCipherChar();
                     bmpName = $"arrow_right-{i}";
+                    if (i < 2)
+                        bmpName = (i == 0) ? "arrow_right-c" : "arrow_right-e";
                     object obj = Properties.Resource.ResourceManager.GetObject(bmpName, CultureInfo.CurrentCulture);
                     ximage = new Bitmap(((System.Drawing.Bitmap)(obj)));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
@@ -1163,7 +1047,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// </summary>
         /// <returns><see cref="Image">the image</see></returns>
         public virtual Image GenerateDecryptPipeImage()
-        {            
+        {
             System.Drawing.Bitmap mergeimg = new Bitmap(Properties.Resource.BlankDecrypt_640x108, new Size(640, 108)), ximage;
             string bmpName = "";
             using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
@@ -1194,6 +1078,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     int r = 7 - i;
                     char ch = this.OutPipe[i].GetCipherChar();
                     bmpName = $"arrow_right-{r}";
+                    if (i >= 6)
+                        bmpName = (i == 6) ? "arrow_right-e" : "arrow_right-c";
                     object obj = Properties.Resource.ResourceManager.GetObject(bmpName, CultureInfo.CurrentCulture);
                     ximage = new Bitmap(((System.Drawing.Bitmap)(obj)), new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));

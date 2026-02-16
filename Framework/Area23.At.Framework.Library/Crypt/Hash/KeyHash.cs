@@ -1,12 +1,12 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
+using Area23.At.Framework.Library.Static;
 using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Digests;
-using Org.BouncyCastle.Utilities;
 using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Area23.At.Framework.Library.Crypt.Hash
@@ -49,6 +49,7 @@ namespace Area23.At.Framework.Library.Crypt.Hash
         private static readonly KeyHash[] secureHashes = {
                 KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564,
                 KeyHash.OpenBSDCrypt, KeyHash.SCrypt, KeyHash.RipeMD256, KeyHash.Whirlpool };
+
 
         public static KeyHash[] GetHashes() => keyHashes;
 
@@ -127,6 +128,64 @@ namespace Area23.At.Framework.Library.Crypt.Hash
             return KeyHash.Hex;
         }
 
+        /// <summary>
+        /// GetKeyFromBaseBytes Extension method for byte[] baseBytes
+        /// </summary>
+        /// <param name="baseBytes">baseBytes from which keyBytes are extracted</param>
+        /// <param name="keyLen">length of keyBytes array</param>
+        /// <returns><see cref="T:byte[]">byte[] bytesKey</see></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static byte[] GetKeyFromBaseBytes(this byte[] baseBytes, int keyLen = 32)
+        {
+            if (baseBytes == null || baseBytes.Length == 0)
+                throw new ArgumentNullException("baseBytes");
+
+            byte[] hashBytes = EnDeCodeHelper.GetBytes(Hex16.ToHex16(baseBytes));
+
+            int keyByteCnt = -1;
+            keyLen = (keyLen > Constants.MAX_KEY_LEN) ? Constants.MAX_KEY_LEN : keyLen;
+            byte[] bytesKey = new byte[keyLen];
+
+            byte[] keyHashBytes = CryptHelper.KeyHashBytes(baseBytes, hashBytes);
+            keyByteCnt = keyHashBytes.Length;
+            byte[] keyHashTarBytes = new byte[keyByteCnt * 2 + 1];
+
+            if (keyByteCnt < keyLen)
+            {
+                keyHashTarBytes = keyHashBytes.TarBytes(CryptHelper.KeyHashBytes(hashBytes, baseBytes));
+                keyByteCnt = keyHashTarBytes.Length;
+                keyHashBytes = new byte[keyByteCnt];
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
+            }
+            if (keyByteCnt < keyLen)
+            {
+                keyHashTarBytes = keyHashBytes.TarBytes(
+                    CryptHelper.KeyHashBytes(hashBytes, baseBytes),
+                    CryptHelper.KeyHashBytes(baseBytes, hashBytes)
+                );
+                keyByteCnt = keyHashTarBytes.Length;
+                keyHashBytes = new byte[keyByteCnt];
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
+            }
+
+            while (keyByteCnt < keyLen)
+            {
+                keyHashTarBytes = keyHashBytes.TarBytes(keyHashBytes);
+                keyByteCnt = keyHashTarBytes.Length;
+                keyHashBytes = new byte[keyByteCnt];
+                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
+            }
+
+            if (keyLen <= keyByteCnt)
+            {
+                // Array.Copy(keyHashBytes, 0, tmpKey, 0, keyLen);
+                for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)
+                    bytesKey[bytIdx] = keyHashBytes[bytIdx];
+            }
+
+            return bytesKey;
+
+        }
 
         public static string GetExtension(this KeyHash khash)
         {
@@ -155,101 +214,110 @@ namespace Area23.At.Framework.Library.Crypt.Hash
             return ".hex";
         }
 
-
         public static string Hash(this KeyHash hash, string stringToHash)
         {
             if (string.IsNullOrEmpty(stringToHash))
                 throw new ArgumentNullException("stringToHash");
-            byte[] bytes = new byte[0];
+            byte[] inBytes = Encoding.UTF8.GetBytes(stringToHash);
             byte[] resBuf = new byte[0];
             IDigest digest = new Org.BouncyCastle.Crypto.Digests.NullDigest();
             switch (hash)
             {
-                case KeyHash.SCrypt:
-                    return SCrypt.HashString(stringToHash);
-                case KeyHash.BCrypt:
-                    return BCrypt.HashString(stringToHash);
-                case KeyHash.OpenBSDCrypt:
-                    return OpenBSDCrypt.HashString(stringToHash);
-                case KeyHash.MD5:
-                    return MD5Sum.HashString(stringToHash, "");
-                case KeyHash.Sha1:
-                    return Sha1.HashString(stringToHash);
-                case KeyHash.Sha256:
-                    return Sha256Sum.HashString(stringToHash, "");
-                case KeyHash.Sha384:
-                    return Sha384.HashString(stringToHash);
-                case KeyHash.Sha512:
-                    return Sha512Sum.HashString(stringToHash);
-                case KeyHash.Whirlpool:
-                    bytes = EnDeCodeHelper.GetBytes(stringToHash);
-                    digest = new Org.BouncyCastle.Crypto.Digests.WhirlpoolDigest();
-                    resBuf = new byte[digest.GetDigestSize()];
-                    digest.BlockUpdate(bytes, 0, bytes.Length);
-                    digest.DoFinal(resBuf, 0);
-                    return Hex.ToHexString(resBuf);
-                case KeyHash.Blake2xs:
-                    bytes = EnDeCodeHelper.GetBytes(stringToHash);
-                    digest = new Org.BouncyCastle.Crypto.Digests.Blake2xsDigest(32, bytes);
-                    resBuf = new byte[digest.GetDigestSize()];
-                    digest.BlockUpdate(bytes, 0, bytes.Length);
-                    digest.DoFinal(resBuf, 0);
-                    return Hex.ToHexString(resBuf);
-                case KeyHash.CShake:
-                    bytes = EnDeCodeHelper.GetBytes(stringToHash);
-                    digest = new Org.BouncyCastle.Crypto.Digests.CShakeDigest(256, bytes, CryptHelper.GetKeyBytesFromBytes(bytes, 32));
-                    resBuf = new byte[digest.GetDigestSize()];
-                    digest.BlockUpdate(bytes, 0, bytes.Length);
-                    digest.DoFinal(resBuf, 0);
-                    return Hex.ToHexString(resBuf);
-                case KeyHash.Dstu7564:
-                    bytes = EnDeCodeHelper.GetBytes(stringToHash);
-                    digest = new Org.BouncyCastle.Crypto.Digests.Dstu7564Digest(256);
-                    resBuf = new byte[digest.GetDigestSize()];
-                    digest.BlockUpdate(bytes, 0, bytes.Length);
-                    digest.DoFinal(resBuf, 0);
-                    return Hex.ToHexString(resBuf);
-                case KeyHash.RipeMD256:
-                    bytes = EnDeCodeHelper.GetBytes(stringToHash);
-                    digest = new Org.BouncyCastle.Crypto.Digests.RipeMD256Digest();
-                    resBuf = new byte[digest.GetDigestSize()];
-                    digest.BlockUpdate(bytes, 0, bytes.Length);
-                    digest.DoFinal(resBuf, 0);
-                    return Hex.ToHexString(resBuf);
-                case KeyHash.TupleHash:
-                    bytes = EnDeCodeHelper.GetBytes(stringToHash);
-                    digest = new Org.BouncyCastle.Crypto.Digests.TupleHash(256, bytes, 32);
-                    resBuf = new byte[digest.GetDigestSize()];
-                    digest.BlockUpdate(bytes, 0, bytes.Length);
-                    digest.DoFinal(resBuf, 0);
-                    return Hex.ToHexString(resBuf);
                 //case KeyHash.Ascon:
-                //    bytes = EnDeCodeHelper.GetBytes(stringToHash);
                 //    digest = new Org.BouncyCastle.Crypto.Digests.AsconHash256();
                 //    resBuf = new byte[digest.GetDigestSize()];
-                //    digest.BlockUpdate(bytes, 0, bytes.Length);
+                //    digest.BlockUpdate(inBytes, 0, inBytes.Length);
                 //    digest.DoFinal(resBuf, 0);
                 //    return Hex.ToHexString(resBuf);
+
+                case KeyHash.BCrypt:
+                    return BCrypt.HashString(stringToHash);
+
+                case KeyHash.Blake2xs:
+                    digest = new Org.BouncyCastle.Crypto.Digests.Blake2xsDigest(32, inBytes);
+                    resBuf = new byte[digest.GetDigestSize()];
+                    digest.BlockUpdate(inBytes, 0, inBytes.Length);
+                    digest.DoFinal(resBuf, 0);
+                    return Hex.ToHexString(resBuf);
+
+                case KeyHash.CShake:
+                    digest = new Org.BouncyCastle.Crypto.Digests.CShakeDigest(256, inBytes, GetKeyFromBaseBytes(inBytes, 32));
+                    resBuf = new byte[digest.GetDigestSize()];
+                    digest.BlockUpdate(inBytes, 0, inBytes.Length);
+                    digest.DoFinal(resBuf, 0);
+                    return Hex.ToHexString(resBuf);
+
+                case KeyHash.Dstu7564:
+                    digest = new Org.BouncyCastle.Crypto.Digests.Dstu7564Digest(256);
+                    resBuf = new byte[digest.GetDigestSize()];
+                    digest.BlockUpdate(inBytes, 0, inBytes.Length);
+                    digest.DoFinal(resBuf, 0);
+                    return Hex.ToHexString(resBuf);
+
+                case KeyHash.MD5:
+                    return MD5Sum.HashString(stringToHash, "");
+
+                case KeyHash.Oct:
+                    string octString = string.Empty;
+                    for (int wc = 0; wc < inBytes.Length; wc++)
+                        octString += Convert.ToString(((inBytes[wc] - 32) % 64), 8);
+                    return octString;
+
+                case KeyHash.OpenBSDCrypt:
+                    return OpenBSDCrypt.HashString(stringToHash);
+
+                case KeyHash.RipeMD256:
+                    digest = new Org.BouncyCastle.Crypto.Digests.RipeMD256Digest();
+                    resBuf = new byte[digest.GetDigestSize()];
+                    digest.BlockUpdate(inBytes, 0, inBytes.Length);
+                    digest.DoFinal(resBuf, 0);
+                    return Hex.ToHexString(resBuf);
+
+                case KeyHash.SCrypt:
+                    return SCrypt.HashString(stringToHash);
+
+                case KeyHash.Sha1:
+                    return Hex.ToHexString(SHA1.Create().ComputeHash(inBytes));
+
+                case KeyHash.Sha256:
+                    return Sha256Sum.HashString(stringToHash, "");
+
+                case KeyHash.Sha384:
+                    return Hex.ToHexString(SHA384.Create().ComputeHash(inBytes));
+
+                case KeyHash.Sha512:
+                    return Sha512Sum.HashString(stringToHash);
+
+                case KeyHash.TupleHash:
+                    digest = new Org.BouncyCastle.Crypto.Digests.TupleHash(256, inBytes, 32);
+                    resBuf = new byte[digest.GetDigestSize()];
+                    digest.BlockUpdate(inBytes, 0, inBytes.Length);
+                    digest.DoFinal(resBuf, 0);
+                    return Hex.ToHexString(resBuf);
+
+                case KeyHash.Whirlpool:
+                    digest = new Org.BouncyCastle.Crypto.Digests.WhirlpoolDigest();
+                    resBuf = new byte[digest.GetDigestSize()];
+                    digest.BlockUpdate(inBytes, 0, inBytes.Length);
+                    digest.DoFinal(resBuf, 0);
+                    return Hex.ToHexString(resBuf);
+
                 //case KeyHash.Xodyak:
                 //    bytes = EnDeCodeHelper.GetBytes(stringToHash);
                 //    digest = new Org.BouncyCastle.Crypto.Digests.XoodyakDigest();
                 //    resBuf = new byte[digest.GetDigestSize()];
-                //    digest.BlockUpdate(bytes, 0, bytes.Length);
+                //    digest.BlockUpdate(inBytes, 0, inBytes.Length);
                 //    digest.DoFinal(resBuf, 0);
-                //    return = Hex.ToHexString(resBuf);
-                case KeyHash.Oct:
-                    string octString = string.Empty;
-                    bytes = Encoding.UTF8.GetBytes(stringToHash);
-                    for (int wc = 0; wc < bytes.Length; wc++)
-                        octString += Convert.ToString(((bytes[wc] - 32) % 64), 8);
-                    return octString;
+                //    return = Hex.ToHexString(resBuf);                
+
                 case KeyHash.Hex:
                 default:
-                    return Hex16.ToHex16(Encoding.UTF8.GetBytes(stringToHash));
+                    return Hex16.ToHex16(inBytes);
             }
         }
 
     }
 
 }
+
 
