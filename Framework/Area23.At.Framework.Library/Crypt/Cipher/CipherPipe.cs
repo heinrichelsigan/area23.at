@@ -768,13 +768,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             // perform multi crypt pipe stages
             byte[] intermediatBytes = DecrpytRoundGoMerry(cipherBytes, cipherKey, cipherHash, CMode2);
             // Unzip after all, if it's necessary
-            byte[] decryptedBytes = (unzipAfter != ZipType.None) ? unzipAfter.Unzip(intermediatBytes) : intermediatBytes;
+            byte[] decryptedBytes = (unzipAfter != ZipType.None) ? unzipAfter.Unzip(intermediatBytes) : intermediatBytes;            
 
             string decrypted = System.Text.Encoding.UTF8.GetString(decryptedBytes);
 
             // find first \0 = NULL char in string and truncate all after first \0 apperance in string
-            // while (decrypted[decrypted.Length - 1] == '\0')
-            //    decrypted = decrypted.Substring(0, decrypted.Length - 1);
+            int jidx = decrypted.IndexOf('\0');
+            if (jidx > 0)
+                decrypted = decrypted.Substring(0, jidx);
 
             return decrypted;
         }

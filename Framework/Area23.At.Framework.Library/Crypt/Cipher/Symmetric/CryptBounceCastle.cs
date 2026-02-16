@@ -44,6 +44,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         private string privateHash = string.Empty;
 
+        private byte[] tmpIv;
+        private byte[] tmpKey;
 
         #endregion fields
 
@@ -97,8 +99,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             privateKey = string.Empty;
             privateHash = string.Empty;
-            byte[] tmpKey = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-            byte[] tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
+            tmpKey = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
+            tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
 
             Key = new byte[KeyLen];
             Iv = new byte[KeyLen];
@@ -117,7 +119,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="init">init <see cref="CryptBounceCastle"/> first time with a new key</param>
         public CryptBounceCastle(CryptParams cparams, bool init = true)
         {
-            byte[] tmpKey = null, tmpIv = null;
             CryptoBlockCipher = (cparams.BlockCipher == null) ? new Org.BouncyCastle.Crypto.Engines.AesEngine() : cparams.BlockCipher;
             if (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64")
                 CryptoBlockCipher = new RC564Engine();
@@ -173,7 +174,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             privateHash = secretHash;
 
             string keyByteHashString = privateKey;
-            byte[] tmpKey = new byte[KeyLen];
+            tmpKey = new byte[KeyLen];
             tmpKey = CryptHelper.GetUserKeyBytes(privateKey, privateHash, KeyLen);
             if (tmpKey.Length < KeyLen)
                 throw new ApplicationException($"key {tmpKey.ToHexString()} is shorten then KeyLen {KeyLen}");
@@ -411,5 +412,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         #endregion EnDecryptString
 
     }
+
 
 }

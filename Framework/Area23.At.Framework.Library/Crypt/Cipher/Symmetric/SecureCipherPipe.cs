@@ -822,14 +822,15 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     float y = 2F + ((i % 4) * 23.0F);
                     switch (i)
                     {
-                        case 1: y = 84F; break;
-                        case 2: y = 1F; break;
-                        case 3: y = 86F; break;
-                        case 4: y = 2F; break;
-                        case 5:
-                        case 6:
+                        case 0: y = 1F; break;
+                        case 1: x = offset - 1.0F; y = 84F; break;
+                        case 2: x = offset - 1.5F; y = 1F; break;
+                        case 3: x = offset - 2.0F; y = 86F; break;
+                        case 4: x = offset - 2.5F; y = 2F; break;
+                        case 5: x = offset - 3.0F; y = 84F; break;
+                        case 6: x = offset - 3.5F; y = 2F; break;
                         case 7:
-                            y = 1F + ((i % 4) * 23.0F);
+                            x = offset - 4.0F; y = 76F;
                             drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold); break;
                         default: y = 1F + ((i % 4) * 23.0F); break;
                     }
@@ -934,11 +935,16 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     float y = 1.5F + ((i % 4) * 23.0F);
                     switch (i)
                     {
-                        case 5: y = 84F; break;
-                        case 6: y = 4F; break;
-                        case 7: x = offset; y = 72F; break;
-                        default:
-                            y = 1.5F + ((i % 4) * 23.0F); break;
+                        case 0: y = 1F; break;
+                        case 1: y = 84F; x = offset - 1.0F; break;
+                        case 2: y = 1F; x = offset - 1.5F; break;
+                        case 3: y = 86F; x = offset - 2.0F; break;
+                        case 4: y = 2F; x = offset - 2.5F; break;
+                        case 5: y = 84F; x = offset - 3.0F; break;
+                        case 6: y = 2F; x = offset - 3.5F; break;
+                        case 7: y = 76F; x = offset - 4.0F;
+                            drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold); break;
+                        default: y = 1F + ((i % 4) * 23.0F); break;
                     }
                     StringFormat drawFormat = new StringFormat();
                     drawFormat.FormatFlags = StringFormatFlags.NoWrap;
