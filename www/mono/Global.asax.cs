@@ -176,6 +176,20 @@ namespace Area23.At.Mono
             string path = "N/A";
             if (sender is HttpApplication)
                 path = ((HttpApplication)sender).Request.Url.PathAndQuery;
+            
+            if (ex.Message.Contains("does not exist") || ex.Message.ToLower().Contains("not exist"))
+            {
+                int ix = HttpContext.Current.Request.Url.AbsoluteUri.IndexOf(HttpContext.Current.Request.ApplicationPath);
+                if (ix > -1)
+                {
+                    string redir404 = HttpContext.Current.Request.Url.AbsoluteUri.Substring(0, ix);
+                    redir404 += (redir404.EndsWith("/")) ? "" : "/";
+                    redir404 += "Default.aspx?code=404";
+                    Response.Redirect(redir404);
+                }
+                Response.Redirect(Request.ApplicationPath + "/Default.aspx");
+                return; 
+            }
 
             string appLogErr = string.Format("Application_Error: {0}: {1} thrown at path {2}",
                 ex.GetType(), ex.Message, path);
@@ -183,7 +197,7 @@ namespace Area23.At.Mono
             Area23Log.LogOriginMsg("Global.asax", appLogErr);
             
                     
-            if (System.Configuration.ConfigurationSettings.AppSettings["LastError"] != null)
+            if (System.Configuration.ConfigurationSettings.AppSettings["RedirectError"] != null)
                 redirect = Convert.ToBoolean(System.Configuration.ConfigurationSettings.AppSettings["RedirectError"]);
 
             CqrException appException = new CqrException(string.Format("Application_Error: {0}: {1} thrown with path {2}",
@@ -198,8 +212,9 @@ namespace Area23.At.Mono
                 if (redirect)
                     Response.Redirect(redir);
             }
-            
-            // Response.Redirect(Request.ApplicationPath + "/Error.aspx");
+
+            if (redirect)
+                Response.Redirect(Request.ApplicationPath + "/Error.aspx");
         }
 
         protected void Session_Start(object sender, EventArgs e)

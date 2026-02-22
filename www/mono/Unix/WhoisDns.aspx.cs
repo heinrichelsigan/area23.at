@@ -20,7 +20,7 @@ namespace Area23.At.Mono.Unix
         protected internal const string whoisCmdArgs =      " {0} ";
         protected internal const string hostCmdPath =       "nslookup";
         protected internal const string hostCmdPathUnix =   "/usr/bin/host";        
-        protected internal const string hostCmdArgs =       " -d -v -a {0}";
+        protected internal const string hostCmdArgs =       " -d -v {0}";
         protected internal static string[] linesOut = { };
         public readonly string ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_";
 
