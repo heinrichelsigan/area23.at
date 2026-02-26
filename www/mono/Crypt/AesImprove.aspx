@@ -81,12 +81,8 @@
         
             <div class="odDiv">
                 <span class="leftSpan" style="width: 72px;">                      
-                    <asp:DropDownList ID="DropDownList_Zip" runat="server" ClientIDMode="Static" style="width: 64px; z-index: 100;">
-                        <asp:ListItem Enabled="false" Value="None" Selected="false">None</asp:ListItem>
-                        <asp:ListItem Enabled="false" Value="Z7" Selected="false">7Zip</asp:ListItem>                
-                        <asp:ListItem Enabled="false" Value="BZip2" Selected="false">BZip2</asp:ListItem>
+                    <asp:DropDownList ID="DropDownList_Zip" runat="server" ClientIDMode="Static" style="width: 64px; z-index: 100;">                        
                         <asp:ListItem Enabled="true" Value="GZip" Selected="true">GZip</asp:ListItem>
-                        <asp:ListItem Enabled="false" Value="Zip" Selected="false">Zip</asp:ListItem>         
                     </asp:DropDownList>
                     &rArr;
                 </span>
@@ -116,7 +112,6 @@
                         <asp:ListItem Enabled="true" Value="RC564" Selected="false">RC564</asp:ListItem> 
                         <asp:ListItem Enabled="true" Value="RC6" Selected="false">RC6</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Rijndael" Selected="false">Rijndael</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Rsa" Selected="false">Rsa</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Seed" Selected="false">Seed</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Serpent" Selected="false">Serpent</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="SM4" Selected="false">SM4</asp:ListItem>
@@ -146,9 +141,7 @@
                 <span class="rightSpan">
                     &rArr; <asp:DropDownList ID="DropDownList_Encoding" runat="server" ClientIDMode="Static" AutoPostBack="true" 
                          OnSelectedIndexChanged="DropDownList_Encoding_SelectedIndexChanged" style="width: 84px; z-index: 360;">
-                        <asp:ListItem Enabled="true" Value="None" Selected="false">None</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="Base64" Selected="true">Base64</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="Xx" Selected="false">Xx</asp:ListItem>
                     </asp:DropDownList>
                 </span>
             </div>

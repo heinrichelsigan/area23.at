@@ -168,8 +168,8 @@ namespace Area23.At.Mono
         protected void Application_Error(object sender, EventArgs e)
         {
             bool redirect = false;
-            if (ConfigurationSettings.AppSettings["RedirectError"] != null &&
-                Convert.ToBoolean(ConfigurationSettings.AppSettings["RedirectError"]))
+            if (ConfigurationManager.AppSettings["RedirectError"] != null &&
+                Convert.ToBoolean(ConfigurationManager.AppSettings["RedirectError"]))
                 redirect = true;
 
             Exception ex = Server.GetLastError();
@@ -197,8 +197,8 @@ namespace Area23.At.Mono
             Area23Log.LogOriginMsg("Global.asax", appLogErr);
             
                     
-            if (System.Configuration.ConfigurationSettings.AppSettings["RedirectError"] != null)
-                redirect = Convert.ToBoolean(System.Configuration.ConfigurationSettings.AppSettings["RedirectError"]);
+            if (System.Configuration.ConfigurationManager.AppSettings["RedirectError"] != null)
+                redirect = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["RedirectError"]);
 
             CqrException appException = new CqrException(string.Format("Application_Error: {0}: {1} thrown with path {2}",
                 ex.GetType(), ex.Message, path), ex);

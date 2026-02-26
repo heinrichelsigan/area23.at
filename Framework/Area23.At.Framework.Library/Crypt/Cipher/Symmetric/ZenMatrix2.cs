@@ -27,7 +27,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         #region fields
 
-
         // protected internal new byte[] privateBytes = new byte[0x10];
         protected internal byte[] privateBytes2 = new byte[0x10];
 
@@ -70,6 +69,18 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
 
         #endregion Properties
+
+        #region IBlockCipher interface
+
+        private const string SYMMCIPHERALGONAME2 = "ZenMatrix2";
+        public new string AlgorithmName => SYMMCIPHERALGONAME2;
+
+
+        protected internal static new int BLOCK_SIZE = 256;
+        public new int GetBlockSize() => BLOCK_SIZE;
+
+
+        #endregion IBlockCipher interface
 
         #region ctor_init_gen_reverse
 
@@ -356,6 +367,26 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             return processed ?? new byte[0];
         }
 
+        protected internal virtual byte[] ProcessBlocks2(byte[] inBytes)
+        {
+            int aCnt = 0, bCnt = 0;
+            byte[] processed = new byte[(int)inBytes.Length];
+            Array.Copy(inBytes, processed, inBytes.Length);
+            for (int bs = 0; bs < inBytes.Length; bs += 0x100)
+            {
+                for (int cs = 0, ds = 0; cs < 0x100 && (bs + cs) < inBytes.Length; cs += 0x10)
+                {
+
+                    int sm = (int)(0x10 * (int)((forEncryption) ? MatrixPermutationKey2[ds] : InverseMatrix2[ds]));
+                    Array.Copy(inBytes, bs + cs, processed, bs + sm, 0x10);
+                    ds++;
+                }
+            }
+
+
+            return processed ?? new byte[0];
+        }
+
 
         /// <summary>
         /// MatrixSymChiffer Encrypt member function
@@ -371,8 +402,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             forEncryption = true;
 
             int dlen = pdata.Length;                        // length of data bytes
-            int oSize = dlen + (0x10 - (dlen % 0x10));      // oSize is rounded up to next number % 16 == 0
-            long olen = ((long)(oSize / 0x10)) * 0x10;      // olen is (long)oSize
+            int reverseset = 256 - (dlen % 256);
+            int oSize = dlen + reverseset;                  // oSize is rounded up to next number % 16 == 0
+            long olen = ((long)(oSize / 0x100)) * 0x100;    // olen is (long)oSize
             byte[] rndbuf = new byte[olen - dlen];          // random padding buffer 
             byte[] obytes = new byte[olen];                 // out bytes with random padding bytes at end            
 
@@ -392,19 +424,21 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     obytes[i] = (byte)0x0;                  // terminate end of obytes with 0x0                                    
                 else if (i > dlen)
                     obytes[i] = rndbuf[j++];                // fill rest with random hash padding 
-
-
             }
 
 
             List<byte> encryptedBytes = new List<byte>();
+            int b = 0;
             for (int i = 0; i < obytes.Length; i += 0x10)
             {
                 foreach (byte pb in ProcessBytes2(obytes, i, 0x10))
                 {
                     encryptedBytes.Add(pb);
                 }
+                b++;
             }
+            if (b >= 16)
+                ProcessBlocks2(encryptedBytes.ToArray());
 
             return encryptedBytes.ToArray();
 
@@ -425,6 +459,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             int eclen = ecdata.Length;
             int ecSize = (eclen % 0x10 == 0) ? eclen : (eclen + (0x10 - (eclen % 0x10)));
             if (ecSize > eclen) {; } // something went wrong                            
+
+            if (eclen > 255)
+            {
+                ProcessBlocks2(ecdata);
+            }
 
             List<byte> outBytes = new List<byte>();
             for (int pc = 0; pc < ecdata.Length; pc += 16)
@@ -503,8 +542,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         #endregion ProcessEncryptDecryptBytes
 
-
     }
-
 
 }

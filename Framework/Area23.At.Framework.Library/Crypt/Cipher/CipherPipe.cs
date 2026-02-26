@@ -294,7 +294,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// ToJson 
         /// </summary>
         /// <returns>serialized string</returns>
-        public string ToJson() => JsonConvert.SerializeObject(this, Formatting.Indented);
+        public virtual string ToJson() => JsonConvert.SerializeObject(this, Formatting.Indented);
 
         /// <summary>
         /// FromJson

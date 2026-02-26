@@ -35,61 +35,19 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     /// </item>
     /// </list>
     /// </remarks>
-    public class SecureCipherPipe
+    public class SecureCipherPipe : CipherPipe
     {
 
         #region fields and properties
 
         protected internal string cipherKeyHash = "";
-        protected internal ZipType zType = ZipType.None;
-        protected internal CipherEnum[] inPipe;
-        protected internal EncodingType encodeType = EncodingType.Base64;
-        // private readonly string pipeString;
 
-        /// <summary>
-        /// ZType is current <see cref="ZipType"/>
-        /// </summary>
-        public ZipType ZType { get => zType; set => zType = value; }
-
-        /// <summary>
-        /// Current <see cref="EncodeType"/> 
-        /// </summary>
-        public EncodingType EncodeType { get => encodeType; set => encodeType = value; }
-
-        /// <summary>
-        /// InPipe is current encryption pipe
-        /// </summary>
-        public CipherEnum[] InPipe { get => inPipe; set => inPipe = value; }
-
-        /// <summary>
-        /// OutPipe will always be generated from <see cref="InPipe"/>
-        /// </summary>
-        public CipherEnum[] OutPipe { get => inPipe.ToList().Reverse<CipherEnum>().ToArray(); }
-
-        public CipherMode2 CMode2 { get; set; } = CipherMode2.CFB;
-
-        public CipherMode CMode { get => CMode2.ToCipherMode(); set => CMode2 = value.FromCipherMode(); }
-
-        /// <summary>
-        /// PipeString will always be generated on the fly from <see cref="InPipe"/>
-        /// </summary>
-        public string PipeString
-        {
-            get
-            {
-                string pipeString = "";
-                foreach (CipherEnum cipher in inPipe)
-                    pipeString += cipher.GetCipherChar();
-                return pipeString;
-            }
-        }
-
-        public string PipeFullExtension
+        public new string PipeFullExtension
         {
             get
             {
                 string miniPipe = (InPipe == null || InPipe.Length == 0) ? "" : "." + PipeString;
-                string miniPipeExt = zType.GetZipTypeExtension() + miniPipe + encodeType.GetEnCodingExtension();
+                string miniPipeExt = CMode2.ToString() + "." + zType.GetZipTypeExtension() + miniPipe + encodeType.GetEnCodingExtension();
                 return miniPipeExt;
             }
         }
@@ -106,7 +64,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             cipherKeyHash = ""; //
             inPipe = (new List<CipherEnum>()).ToArray();
             encodeType = EncodingType.Base64;
-            zType = ZipType.None;
+            zType = ZipType.GZip;
             CMode2 = CipherMode2.CFB;
         }
 
@@ -116,11 +74,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
         /// <param name="maxpipe">size of max. pipe stages, can't be greater than 8</param>
-        /// <param name="encType"><see cref="EncodeType"/></param>
-        /// <param name="zpType"><see cref="ZipType"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        public SecureCipherPipe(CipherEnum[] cipherEnums, uint maxpipe = 8,
-            EncodingType encType = EncodingType.Base64, ZipType zpType = ZipType.None, CipherMode2 cmode2 = CipherMode2.CFB)
+        public SecureCipherPipe(CipherEnum[] cipherEnums, uint maxpipe = 8, CipherMode2 cmode2 = CipherMode2.CFB)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -129,8 +84,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             inPipe = new CipherEnum[isize];
             Array.Copy(cipherEnums, inPipe, isize);
 
-            encodeType = encType;
-            zType = zpType;
+            encodeType = EncodingType.Base64;
+            zType = ZipType.GZip; ;
             CMode2 = cmode2;
         }
 
@@ -139,11 +94,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="cipherAlgos">array of <see cref="T:string[]"/> as inpipe</param>
         /// <param name="maxpipe">maximum lentgh <see cref="Constants.MAX_PIPE_LEN"/></param>
-        /// <param name="encType"><see cref="EncodeType"/></param>
-        /// <param name="zpType"><see cref="Zip.ZipType"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        public SecureCipherPipe(string[] cipherAlgos, uint maxpipe = 8, EncodingType encType = EncodingType.Base64,
-            ZipType zpType = ZipType.None, CipherMode2 cmode2 = CipherMode2.CFB)
+        public SecureCipherPipe(string[] cipherAlgos, uint maxpipe = 8, CipherMode2 cmode2 = CipherMode2.CFB)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -167,8 +119,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             inPipe = cipherEnums.ToArray();
 
-            encodeType = encType;
-            zType = zpType;
+            encodeType = EncodingType.Base64;
+            zType = ZipType.GZip;
             CMode2 = cmode2;
         }
 
@@ -176,16 +128,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// SecureCipherPipe ctor with array of user key bytes
         /// </summary>
         /// <param name="keyBytes">user key bytes</param>
-        /// <param name="maxpipe">maximum lentgh <see cref="Constants.MAX_PIPE_LEN"/></param>
-        /// <param name="encType"><see cref="EncodeType"/></param>
-        /// <param name="zpType"><see cref="Zip.ZipType"/></param>
-        /// <param name="kh"><see cref="KeyHash"/></param>
+        /// <param name="maxpipe">maximum lentgh <see cref="Constants.MAX_PIPE_LEN"/></param>        
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
         /// <exception cref="ArgumentException"></exception>
-        public SecureCipherPipe(byte[] keyBytes, uint maxpipe = 8,
-            EncodingType encType = EncodingType.Base64, ZipType zpType = ZipType.None,
-            CipherMode2 cmode2 = CipherMode2.CFB, bool verbose = false)
+        public SecureCipherPipe(byte[] keyBytes, uint maxpipe = 8, CipherMode2 cmode2 = CipherMode2.CFB, bool verbose = false)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -213,8 +160,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             inPipe = pipeList.ToArray();
 
-            zType = zpType;
-            encodeType = encType;
+            encodeType = EncodingType.Base64;
+            zType = ZipType.GZip;
             CMode2 = cmode2;
 
         }
@@ -228,9 +175,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="zpType"></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
-        public SecureCipherPipe(string keyHash, EncodingType encType = EncodingType.Base64,
-            ZipType zpType = ZipType.None, CipherMode2 cmode2 = CipherMode2.CFB, bool verbose = false)
-            : this(CryptHelper.GetKeyBytesSingle(keyHash, 16), Constants.MAX_PIPE_LEN, encType, zpType, cmode2, verbose)
+        public SecureCipherPipe(string keyHash, CipherMode2 cmode2 = CipherMode2.CFB, bool verbose = false)
+            : this(CryptHelper.GetKeyBytesSingle(keyHash, 16), Constants.MAX_PIPE_LEN, cmode2, verbose)
         {
             cipherKeyHash = keyHash;
         }
@@ -241,7 +187,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="key"></param>
         /// <param name="verbose"></param>
         public SecureCipherPipe(string key, bool verbose = false)
-            : this(key, EncodingType.Base64, ZipType.None, CipherMode2.CFB, verbose)
+            : this(key, CipherMode2.CFB, verbose)
         {
             cipherKeyHash = key;
         }
@@ -252,10 +198,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             {
                 this.inPipe = ciphPipe.InPipe;
                 this.cipherKeyHash = ciphPipe.cipherKey;
+                this.cipherKey = ciphPipe.cipherKey;
+                this.cipherKeyHash = "";
                 this.CMode = ciphPipe.CMode;
                 this.CMode2 = ciphPipe.CMode2;
-                this.encodeType = ciphPipe.EncodeType;
-                this.zType = ciphPipe.ZType;
+                this.encodeType = EncodingType.Base64;
+                this.zType = ZipType.GZip;
             }
         }
 
@@ -267,14 +215,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// ToJson 
         /// </summary>
         /// <returns>serialized string</returns>
-        public string ToJson() => JsonConvert.SerializeObject(this, Formatting.Indented);
+        public override string ToJson() => JsonConvert.SerializeObject(this, Formatting.Indented);
 
         /// <summary>
         /// FromJson
         /// </summary>
         /// <param name="json">serialized json</param>
         /// <returns><see cref="SecureCipherPipe"/></returns>
-        public SecureCipherPipe FromJson(string json)
+        public new SecureCipherPipe FromJson(string json)
         {
             SecureCipherPipe pipe = JsonConvert.DeserializeObject<SecureCipherPipe>(json);
             if (pipe == null)
@@ -401,18 +349,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="tinSource">plain string, char[], byte[], IEnumerable{char}, IEnumerable{bytes}</param>
         /// <param name="cryptKey">Unique deterministic key for either generating the mix of symmetric cipher algorithms in the crypt pipeline 
         /// and unique crypt key for each symmetric cipher algorithm in each stage of the pipe</param>
-        /// <param name="encoding"><see cref="EncodingType"/> type for encoding encrypted bytes back in plain text></param>
-        /// <param name="zipBefore">Zip bytes with <see cref="ZipType"/> before passing them in encrypted stage pipeline. <see cref="ZipTypeExtensions.Zip(ZipType, byte[])"/></param>
         /// <param name="cmode2"></param>
         /// <returns>encrypted generic type</returns>
         /// <exception cref="CException">is thrown on unknown type</exception>
-        public static TRet EncrpytT<TRet, TIn>(TIn tinSource, string cryptKey,
-            EncodingType encoding = EncodingType.Base64, ZipType zipBefore = ZipType.None,
-            CipherMode2 cmode2 = CipherMode2.CFB)
+        public static TRet EncrpytT<TRet, TIn>(TIn tinSource, string cryptKey, CipherMode2 cmode2 = CipherMode2.CFB)
         {
             byte[] stringBytes = new List<byte>().ToArray();
             // construct symmetric cipher pipeline with cryptKey, keyIv, encopding, zipBefore, keyHash and cmode2
-            SecureCipherPipe cipherPipe = new SecureCipherPipe(cryptKey, encoding, zipBefore, cmode2, true);
+            SecureCipherPipe cipherPipe = new SecureCipherPipe(cryptKey, cmode2, true);
 
             if (tinSource is string inString)   // Transform string to bytes
                 stringBytes = Encoding.UTF8.GetBytes(inString);
@@ -427,11 +371,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             else throw new CqrException($"Unknown type Exception, type {typeof(TIn)} is not supported.");
 
             // zip if requested
-            byte[] zippedBytes = (zipBefore != ZipType.None) ? zipBefore.Zip(stringBytes) : stringBytes;
+            byte[] zippedBytes = ZipType.GZip.Zip(stringBytes);
             // encrypt in a marry go round way
             byte[] encryptedBytes = cipherPipe.MerryGoRoundEncrpyt(zippedBytes, cryptKey, cmode2);
             // encode after encryption pipe
-            String encryptedString = encoding.GetEnCoder().EnCode(encryptedBytes);
+            String encryptedString = EncodingType.Base64.GetEnCoder().EnCode(encryptedBytes);
 
             TRet result = default(TRet);
             if (typeof(TRet) == typeof(string))
@@ -461,18 +405,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="tinSource">encrypted message</param>
         /// <param name="cryptKey">Unique deterministic key for either generating the mix of symmetric cipher algorithms in the crypt pipeline 
         /// and unique crypt key for each symmetric cipher algorithm in each stage of the pipe</param>
-        /// <param name="decoding"><see cref="EncodingType"/> type for encoding encrypted bytes back in plain text></param>
-        /// <param name="unzipAfter"><see cref="ZipType"/> and <see cref="ZipTypeExtensions.Unzip(ZipType, byte[])"/></param>
         /// <param name="mode2"></param>
         /// <returns>Decrypted generic TRet</returns>
         /// <exception cref="CqrException">is thrown on unknown type</exception>
-        public static TRet DecrpytT<TRet, TIn>(TIn tinSource, string cryptKey,
-            EncodingType decoding = EncodingType.Base64, ZipType unzipAfter = ZipType.None,
-            CipherMode2 cmode2 = CipherMode2.CFB)
+        public static TRet DecrpytT<TRet, TIn>(TIn tinSource, string cryptKey, CipherMode2 cmode2 = CipherMode2.CFB)
         {
             byte[] stringBytes = new List<byte>().ToArray();
             // create symmetric cipher pipe for decryption with crypt key and pass pipeString as out param
-            SecureCipherPipe cPipe = new SecureCipherPipe(cryptKey, decoding, unzipAfter, cmode2, true);
+            SecureCipherPipe cPipe = new SecureCipherPipe(cryptKey, cmode2, true);
             string pipeString = cPipe.PipeString;
             string incomingEncoded = string.Empty;
 
@@ -489,11 +429,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             else throw new CqrException($"Unknown type Exception, type {typeof(TIn)} is not supported.");
 
             // get bytes from encrypted encoded string dependent on the encoding type (uu, base64, base32,..)
-            byte[] cipherBytes = decoding.GetEnCoder().DeCode(incomingEncoded);
+            byte[] cipherBytes = EncodingType.Base64.GetEnCoder().DeCode(incomingEncoded);
             // staged decryption of bytes
             byte[] intermediatBytes = cPipe.DecrpytRoundGoMerry(cipherBytes, cryptKey, cmode2);
             // Unzip after if necessary
-            byte[] decryptedBytes = (unzipAfter != ZipType.None) ? unzipAfter.Unzip(intermediatBytes) : intermediatBytes;
+            byte[] decryptedBytes = ZipType.GZip.Unzip(intermediatBytes);
 
             TRet result = default(TRet);
             if (typeof(TRet) == typeof(string))
@@ -588,9 +528,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="zipBefore"><see cref="ZipType"/></param>
         /// <param name="cmode2"></param>
         /// <returns>UTF9 emcoded encrypted string without binary data</returns>
-        public virtual string EncrpytTextGoRounds(string inString, string cryptKey,
-            EncodingType encoding = EncodingType.Base64, ZipType zipBefore = ZipType.None,
-            CipherMode2 cmode2 = CipherMode2.CFB)
+        public virtual string EncrpytTextGoRounds(string inString, string cryptKey, CipherMode2 cmode2 = CipherMode2.CFB)
         {
             cipherKeyHash = (string.IsNullOrEmpty(cryptKey)) ? cipherKeyHash : cryptKey;
 
@@ -598,13 +536,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             // byte[] inBytes = EnDeCodeHelper.GetBytesFromString(inString);
             byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(inString);
             // zip if requested
-            byte[] zippedBytes = (zipBefore != ZipType.None) ? zipBefore.Zip(inBytes) : inBytes;
+            byte[] zippedBytes = (ZType != ZipType.None) ? ZType.Zip(inBytes) : inBytes;
 
             // now encrypt with pipe
             byte[] encryptedBytes = MerryGoRoundEncrpyt(zippedBytes, cipherKeyHash, CMode2);
 
             // Encode pipes by encodingType, e.g. base64, uu, hex16, ...
-            string encrypted = encoding.GetEnCoder().EnCode(encryptedBytes);
+            string encrypted = this.EncodeType.GetEnCoder().EnCode(encryptedBytes);
 
             return encrypted;
         }
@@ -619,23 +557,21 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="unzipAfter"><see cref="ZipType"/></param>
         /// <param name="cmode2"></param>
         /// <returns>decrypted UTF8 string, containing no binary data</returns>
-        public virtual string DecryptTextRoundsGo(string cryptedEncodedMsg, string cryptKey,
-            EncodingType decoding = EncodingType.Base64, ZipType unzipAfter = ZipType.None,
-            CipherMode2 cmode2 = CipherMode2.CFB)
+        public virtual string DecryptTextRoundsGo(string cryptedEncodedMsg, string cryptKey, CipherMode2 cmode2 = CipherMode2.CFB)
         {
 
             cipherKeyHash = (string.IsNullOrEmpty(cryptKey)) ? cipherKeyHash : cryptKey;
 
             // Decoded encoded bytes first, if necessary
-            byte[] cipherBytes = (decoding != EncodingType.None) ?
-                decoding.GetEnCoder().DeCode(cryptedEncodedMsg) :
+            byte[] cipherBytes = (this.EncodeType != EncodingType.None) ?
+                this.EncodeType.GetEnCoder().DeCode(cryptedEncodedMsg) :
                 System.Text.Encoding.UTF8.GetBytes(cryptedEncodedMsg);
 
 
             // perform multi crypt pipe stages
             byte[] intermediatBytes = DecrpytRoundGoMerry(cipherBytes, cipherKeyHash, CMode2);
             // Unzip after all, if it's necessary
-            byte[] decryptedBytes = (unzipAfter != ZipType.None) ? unzipAfter.Unzip(intermediatBytes) : intermediatBytes;
+            byte[] decryptedBytes = (ZType != ZipType.None) ? ZType.Unzip(intermediatBytes) : intermediatBytes;
 
             string decrypted = System.Text.Encoding.UTF8.GetString(decryptedBytes);
 
@@ -647,73 +583,61 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         }
 
 
-        public virtual byte[] EncrpytGoRounds(byte[] inBytes, string secretKey,
-            ZipType zipBefore = ZipType.None, CipherMode2 cmode2 = CipherMode2.CFB)
+        public virtual byte[] EncrpytGoRounds(byte[] inBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.CFB)
         {
             cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;
-            ZType = zipBefore;
             CMode2 = cmode2;
 
             // zip if requested
-            byte[] zippedBytes = (zipBefore != ZipType.None) ? zipBefore.Zip(inBytes) : inBytes;
+            byte[] zippedBytes = (ZType != ZipType.None) ? ZType.Zip(inBytes) : inBytes;
             // encrypt in a marry go round way
             return MerryGoRoundEncrpyt(zippedBytes, cipherKeyHash, cmode2);
         }
 
 
-        public virtual byte[] DecrpytRoundsGo(byte[] cipherBytes, string secretKey,
-            ZipType unzipAfter = ZipType.None, CipherMode2 cmode2 = CipherMode2.CFB)
+        public virtual byte[] DecrpytRoundsGo(byte[] cipherBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.CFB)
         {
             cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;
-            ZType = unzipAfter;
             CMode2 = cmode2;
 
             // perform multi crypt pipe stages
             byte[] intermediatBytes = DecrpytRoundGoMerry(cipherBytes, cipherKeyHash, cmode2);
             // Unzip after if necessary
-            byte[] decryptedBytes = (unzipAfter != ZipType.None) ? unzipAfter.Unzip(intermediatBytes) : intermediatBytes;
+            byte[] decryptedBytes = (ZType != ZipType.None) ? ZType.Unzip(intermediatBytes) : intermediatBytes;
 
             return decryptedBytes;
         }
 
 
-        public virtual byte[] EncryptEncodeBytes(byte[] inBytes, string secretKey,
-            EncodingType encType = EncodingType.Base64,
-            ZipType zipBefore = ZipType.None, CipherMode2 cmode2 = CipherMode2.CFB)
+        public virtual byte[] EncryptEncodeBytes(byte[] inBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.CFB)
         {
             cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;
-            encodeType = encType;
-            ZType = zipBefore;
             CMode2 = cmode2;
 
             // zip if requested
-            byte[] zippedBytes = (zipBefore != ZipType.None) ? zipBefore.Zip(inBytes) : inBytes;
+            byte[] zippedBytes = (ZType != ZipType.None) ? ZType.Zip(inBytes) : inBytes;
             // now encrypt with pipe
             byte[] outBytes = MerryGoRoundEncrpyt(zippedBytes, cipherKeyHash, CMode2);
             // encode after encryption pipe
-            if (encType == EncodingType.None)
+            if (this.EncodeType == EncodingType.None)
                 return outBytes;
 
-            return System.Text.Encoding.UTF8.GetBytes(encType.GetEnCoder().EnCode(outBytes));
+            return System.Text.Encoding.UTF8.GetBytes(this.EncodeType.GetEnCoder().EnCode(outBytes));
         }
 
-        public virtual byte[] DecodeDecrpytBytes(byte[] encodedBytes, string secretKey,
-            EncodingType encType = EncodingType.Base64,
-            ZipType unzipAfter = ZipType.None, CipherMode2 cmode2 = CipherMode2.CFB)
+        public virtual byte[] DecodeDecrpytBytes(byte[] encodedBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.CFB)
         {
-            cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;
-            encodeType = encType;
-            ZType = unzipAfter;
+            cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;  
             CMode2 = cmode2;
 
             // Decoded encoded bytes first, if necessary
-            byte[] cipherBytes = (encType != EncodingType.None) ?
+            byte[] cipherBytes = (encodeType != EncodingType.None) ?
                 encodeType.GetEnCoder().DeCode(System.Text.Encoding.UTF8.GetString(encodedBytes)) :
                 encodedBytes;
             // perform multi crypt pipe stages
             byte[] intermediatBytes = DecrpytRoundGoMerry(cipherBytes, cipherKeyHash, CMode2);
             // Unzip after all, if it's necessary
-            byte[] decryptedBytes = (unzipAfter != ZipType.None) ? unzipAfter.Unzip(intermediatBytes) : intermediatBytes;
+            byte[] decryptedBytes = (ZType != ZipType.None) ? ZType.Unzip(intermediatBytes) : intermediatBytes;
 
             return decryptedBytes;
         }
@@ -728,255 +652,18 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="inBytes">incoming bytes</param>
         /// <param name="secretKey">user private key</param>
         /// <param name="directionDecrypt">true for decryption, false for encryption</param>
-        /// <param name="encType">encoding ascii type, e.g. base64, uu, xx</param>
-        /// <param name="zip">compression method to zip before or unzip after pipe processed</param>
         /// <param name="cmode2"></param>
         /// <returns>transformed byte array</returns>
         public virtual byte[] CryptCodeBytes(byte[] inBytes, string secretKey,
-            bool directionDecrypt = false, EncodingType encType = EncodingType.Base64,
-            ZipType zip = ZipType.None, CipherMode2 cmode2 = CipherMode2.CFB)
+            bool directionDecrypt = false, CipherMode2 cmode2 = CipherMode2.CFB)
         {
             return (!directionDecrypt) ?
-                EncryptEncodeBytes(inBytes, secretKey, encType, zip, cmode2) :
-                DecodeDecrpytBytes(inBytes, secretKey, encType, zip, cmode2);
+                EncryptEncodeBytes(inBytes, secretKey, cmode2) :
+                DecodeDecrpytBytes(inBytes, secretKey, cmode2);
         }
 
 
         #endregion multiple rounds en-de-cryption
-
-        #region graphics bmp creation
-
-        /// <summary>
-        /// GenerateEncryptPipeImage - generates image for symmetric cipher encryption pipeline
-        /// </summary>
-        /// <returns><see cref="Image">the image</see></returns>
-        public virtual Image GenerateEncryptPipeImage()
-        {
-            System.Drawing.Bitmap mergeimg = new Bitmap(Properties.Resource.BlankEncrypt_640x108, new Size(640, 108)), ximage;
-            System.Drawing.Bitmap gifStartImage = new Bitmap(Properties.Resource.BlankEncrypt_640x96, new Size(640, 108));
-            List<Bitmap> bitmaps = new List<Bitmap>();
-
-            string bmpName = "";
-            int w = 64, offset = 0, startset = 0;
-            if (this.ZType != ZipType.None)
-            {
-                using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
-                {
-                    w = 60;
-
-                    ximage = new Bitmap(Properties.Resource.block_arrow_right_zip, new Size(64, 64));
-                    g.DrawImage(ximage, new System.Drawing.Rectangle(0, 20, w, 64));
-
-                    string drawString = this.ZType.ToString();
-                    Font drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
-                    SolidBrush drawBrush = new SolidBrush(ColorTranslator.FromHtml("#df0fef"));
-                    float x = offset + 1.0F;
-                    float y = 82.5F;
-                    StringFormat drawFormat = new StringFormat();
-                    drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
-                    g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
-
-                    offset += w;
-                    startset += w;
-                }
-                gifStartImage = new Bitmap(mergeimg, 640, 108);
-                bitmaps.Add(gifStartImage);
-            }
-
-            startset = offset;
-
-            for (int i = 0; (i < this.InPipe.Length); i++)
-            {
-                using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
-                {
-                    w = 60;
-                    char ch = this.InPipe[i].GetCipherChar();
-                    bmpName = $"arrow_right-{i}";
-                    if (i < 2)
-                        bmpName = (i == 0) ? "arrow_right-c" : "arrow_right-e";
-
-                    object obj = Properties.Resource.ResourceManager.GetObject(bmpName, CultureInfo.CurrentCulture);
-                    ximage = new Bitmap(((System.Drawing.Bitmap)(obj)));
-                    g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
-
-                    offset += w;
-                }
-                if (gifStartImage == null)
-                    gifStartImage = new Bitmap(mergeimg, 640, 108);
-                bitmaps.Add(new Bitmap(mergeimg, 640, 108));
-            }
-
-
-            offset = startset;
-
-            using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
-            {
-                for (int i = 0; (i < this.InPipe.Length); i++)
-                {
-
-                    Color color = (i < 5) ? ColorTranslator.FromHtml("#0000ee") : ColorTranslator.FromHtml("#0000dd");
-                    string drawString = this.InPipe[i].ToString();
-                    Font drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Regular);
-                    SolidBrush drawBrush = new SolidBrush(color);
-                    float x = offset + 1.0F;
-                    float y = 2F + ((i % 4) * 23.0F);
-                    switch (i)
-                    {
-                        case 0: y = 1F; break;
-                        case 1: x = offset - 1.0F; y = 84F; break;
-                        case 2: x = offset - 1.5F; y = 1F; break;
-                        case 3: x = offset - 2.0F; y = 86F; break;
-                        case 4: x = offset - 2.5F; y = 2F; break;
-                        case 5: x = offset - 3.0F; y = 84F; break;
-                        case 6: x = offset - 3.5F; y = 2F; break;
-                        case 7:
-                            x = offset - 4.0F; y = 76F;
-                            drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold); break;
-                        default: y = 1F + ((i % 4) * 23.0F); break;
-                    }
-                    StringFormat drawFormat = new StringFormat();
-                    drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
-                    g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
-
-                    offset += w;
-                }
-            }
-            bitmaps.Add(new Bitmap(mergeimg, 640, 108));
-            gifStartImage = new Bitmap(mergeimg, 640, 108);
-
-            if (this.EncodeType != EncodingType.None)
-            {
-                using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
-                {
-                    w = 60;
-                    ximage = new Bitmap(Properties.Resource.encoding_right_end_0, new Size(64, 64));
-                    g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
-                    string drawString = this.EncodeType.ToString();
-                    Font drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
-                    SolidBrush drawBrush = new SolidBrush(ColorTranslator.FromHtml("#bf0fef"));
-                    float x = offset + 1.0F;
-                    float y = 4.0F;
-                    StringFormat drawFormat = new StringFormat();
-                    drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
-                    g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
-                }
-                bitmaps.Add(new Bitmap(mergeimg, 640, 108));
-                gifStartImage = new Bitmap(mergeimg, 640, 108);
-            }
-
-            //TimeSpan ts = new TimeSpan(0, 0, 0, 0, 125);
-            //GifEncoder gifAnimEncoder = new GifEncoder(bitmaps.ToArray(), 1, ts);
-            //Bitmap animGif = new Bitmap(gifAnimEncoder._memoryStream, false);
-            //return animGif;
-            // animGif.Save("H:\\tmp\\" + DateTime.Now.ToString("yyyy-MM-DD_hhmmss") + ".gif");
-            // gifAnimEncoder.Dispose();
-            return gifStartImage;
-
-        }
-
-
-        /// <summary>
-        /// GenerateDecryptPipeImage generates an image for decrypt symmetric cipher pipeline 
-        /// </summary>
-        /// <returns><see cref="Image">the image</see></returns>
-        public virtual Image GenerateDecryptPipeImage()
-        {
-            System.Drawing.Bitmap mergeimg = new Bitmap(Properties.Resource.BlankDecrypt_640x108, new Size(640, 108)), ximage;
-            string bmpName = "";
-            using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
-            {
-                int w = 64, offset = 0, startset = 0;
-                if (this.EncodeType != EncodingType.None)
-                {
-                    w = 60;
-                    ximage = new Bitmap(Properties.Resource.encoding_right_0, new Size(64, 64));
-                    g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
-
-                    string drawString = this.EncodeType.ToString();
-                    Font drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Regular);
-                    SolidBrush drawBrush = new SolidBrush(ColorTranslator.FromHtml("#fa0ade"));
-                    float x = offset + 1F;
-                    float y = 86F;
-                    StringFormat drawFormat = new StringFormat();
-                    drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
-                    g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
-
-                    offset += w;
-                    startset += w;
-                }
-
-                for (int i = 0; (i < this.OutPipe.Length); i++)
-                {
-                    w = 60;
-                    int r = 7 - i;
-                    char ch = this.OutPipe[i].GetCipherChar();
-                    bmpName = $"arrow_right-{r}";
-                    if (i >= 6)
-                        bmpName = (i == 6) ? "arrow_right-e" : "arrow_right-c";
-
-                    object obj = Properties.Resource.ResourceManager.GetObject(bmpName, CultureInfo.CurrentCulture);
-                    ximage = new Bitmap(((System.Drawing.Bitmap)(obj)), new Size(64, 64));
-                    g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
-
-                    offset += w;
-                }
-
-                offset = startset;
-                for (int i = 0; (i < this.OutPipe.Length); i++)
-                {
-                    w = 60;
-                    int r = 7 - i;
-
-                    Color color = (i < 4) ? ColorTranslator.FromHtml("#2200aa") : ColorTranslator.FromHtml("#0000dd");
-                    string drawString = this.OutPipe[i].ToString();
-                    Font drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Regular);
-                    SolidBrush drawBrush = new SolidBrush(color);
-                    float x = offset + 2.0F;
-                    float y = 1.5F + ((i % 4) * 23.0F);
-                    switch (i)
-                    {
-                        case 0: y = 1F; break;
-                        case 1: y = 84F; x = offset - 1.0F; break;
-                        case 2: y = 1F; x = offset - 1.5F; break;
-                        case 3: y = 86F; x = offset - 2.0F; break;
-                        case 4: y = 2F; x = offset - 2.5F; break;
-                        case 5: y = 84F; x = offset - 3.0F; break;
-                        case 6: y = 2F; x = offset - 3.5F; break;
-                        case 7: y = 76F; x = offset - 4.0F;
-                            drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold); break;
-                        default: y = 1F + ((i % 4) * 23.0F); break;
-                    }
-                    StringFormat drawFormat = new StringFormat();
-                    drawFormat.FormatFlags = StringFormatFlags.NoWrap;
-                    g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
-
-                    offset += w;
-                }
-
-                if (this.ZType != ZipType.None)
-                {
-                    w = 60;
-                    ximage = new Bitmap(Properties.Resource.compress_right_end_0, new Size(64, 64));
-                    g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
-
-                    string drawString = this.ZType.GetUnzipString();
-                    Font drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Regular);
-                    SolidBrush drawBrush = new SolidBrush(ColorTranslator.FromHtml("#fa0ade"));
-                    float x = offset + 2.4F;
-                    float y = 3.8F;
-                    StringFormat drawFormat = new StringFormat();
-                    drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
-                    g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
-
-                    offset += w;
-                }
-
-            }
-
-            return mergeimg;
-        }
-
-        #endregion graphics bmp creation
 
     }
 
