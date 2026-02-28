@@ -8,8 +8,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
     /// <summary>
     /// static class CryptHelper provides static helper methods for encryption / decryption
-    /// Everything under the namespace `Area23.At.Framework.Library.Crypt.Cipher` is licensed under the MIT License.
-    /// <see href="https://opensource.org/license/mit">opensource.org/license/mit</see>
     /// </summary>
     public static class CryptHelper
     {
@@ -110,18 +108,20 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             if (string.IsNullOrEmpty(keyHash))
                 throw new ArgumentNullException("keyHash");
             byte[] keyBytes = EnDeCodeHelper.GetBytes(keyHash);
-            byte[] outBytes = new byte[16];
-            if (keyBytes.Length >= 16)
+            byte[] outBytes = new byte[keyLen];
+            if (keyBytes.Length >= keyLen)
             {
                 Array.Copy(keyBytes, 0, outBytes, 0, keyLen);
                 return outBytes;
             }
-            byte[] smallBytes = keyBytes.TarBytes(EnDeCodeHelper.GetBytes(keyHash));
+
+            byte[] smallBytes = KeyHashBytes(keyBytes, keyBytes);
             if (smallBytes.Length >= keyLen)
             {
                 Array.Copy(smallBytes, 0, outBytes, 0, keyLen);
                 return outBytes;
             }
+
             byte[] bigBytes = smallBytes.TarBytes(EnDeCodeHelper.GetBytes(keyHash), keyBytes);
             if (bigBytes.Length >= keyLen)
             {
@@ -129,7 +129,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 return outBytes;
             }
 
-            return GetUserKeyBytes(keyHash, keyHash, keyLen);
+            return GetKeyHashBytes(smallBytes, bigBytes, keyLen);
         }
 
 
@@ -138,26 +138,28 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException("key");
             byte[] keyBytes = EnDeCodeHelper.GetBytes(key);
-            byte[] outBytes = new byte[16];
-            if (keyBytes.Length >= 16)
+            byte[] hashBytes = EnDeCodeHelper.GetBytes(keyHash);
+            byte[] outBytes = new byte[keyLen];
+            if (keyBytes.Length >= keyLen)
             {
                 Array.Copy(keyBytes, 0, outBytes, 0, keyLen);
                 return outBytes;
             }
-            byte[] smallBytes = keyBytes.TarBytes(EnDeCodeHelper.GetBytes(keyHash));
+
+            byte[] smallBytes = KeyHashBytes(keyBytes, hashBytes);
             if (smallBytes.Length >= keyLen)
             {
                 Array.Copy(smallBytes, 0, outBytes, 0, keyLen);
                 return outBytes;
             }
-            byte[] bigBytes = smallBytes.TarBytes(EnDeCodeHelper.GetBytes(keyHash), keyBytes);
+            byte[] bigBytes = smallBytes.TarBytes(hashBytes, keyBytes);
             if (bigBytes.Length >= keyLen)
             {
                 Array.Copy(bigBytes, 0, outBytes, 0, keyLen);
                 return outBytes;
             }
 
-            return GetUserKeyBytes(key, keyHash, keyLen);
+            return GetKeyHashBytes(smallBytes, bigBytes, keyLen);
         }
 
 
@@ -178,9 +180,19 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             // keyHash = (string.IsNullOrEmpty(keyHash)) ? EnDeCodeHelper.KeyToHex(key) : keyHash;
             byte[] hashBytes = string.IsNullOrEmpty(keyHash) ? EnDeCodeHelper.GetBytes(Hex16.ToHex16(keyBytes)) : EnDeCodeHelper.GetBytes(keyHash);
 
+            return GetKeyHashBytes(keyBytes, hashBytes, keyLen);
+        }
+
+
+        public static byte[] GetKeyHashBytes(byte[] keyBytes, byte[] hashBytes, int keyLen = 32)
+        {
+            if (keyBytes == null || keyBytes.Length == 0)
+                throw new ArgumentNullException("keyBytes");
+            if (hashBytes == null || hashBytes.Length == 0)
+                hashBytes = EnDeCodeHelper.GetBytes(Hex16.ToHex16(keyBytes));
+
             int keyByteCnt = -1;
             keyLen = (keyLen > Constants.MAX_KEY_LEN) ? Constants.MAX_KEY_LEN : keyLen;
-            string keyByteHashString = key;
             byte[] tmpKey = new byte[keyLen];
 
             byte[] keyHashBytes = KeyHashBytes(keyBytes, hashBytes);
@@ -229,3 +241,4 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
     }
 
 }
+

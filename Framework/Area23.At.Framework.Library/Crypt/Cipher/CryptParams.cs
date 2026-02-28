@@ -95,7 +95,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             Mode = "CFB";
 
             switch (Cipher)
-            {           
+            {
                 case CipherEnum.Aes:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;
@@ -235,8 +235,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     break;
                 case CipherEnum.ZenMatrix2:
                     // throw new NotImplementedException("ZenMatrix2 IBlockCipher interface not implemented");)
-                    Size = 32;
-                    KeyLen = 16;
+                    Size = 256;
+                    KeyLen = 256;
                     BlockCipher = new ZenMatrix2();
                     break;
                 default:
