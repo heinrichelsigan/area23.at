@@ -171,12 +171,14 @@ namespace Area23.At.Mono.Crypt
 
                 CipherEnum[] cses = CipherEnumExtensions.FromString(key);
                 this.TextBox_Encryption.Text = string.Empty;
-                foreach (CipherEnum c in cses)
+                SecureCipherPipe cpipe = new SecureCipherPipe(key, cmode2);
+                foreach (CipherEnum c in cpipe.InPipe)
                 {
                     this.TextBox_Encryption.Text += c.ToString() + ";";
                 }
 
                 pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
+                
                 if (pipeAlgortihms != null && pipeAlgortihms.Length > 0)
                 {
                     cipherPipe = new SecureCipherPipe(pipeAlgortihms, 8, cmode2);
