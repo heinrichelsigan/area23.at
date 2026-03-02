@@ -518,13 +518,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             if (cipherKeyHash.Length > 31)
                 cipherKeyHash = cipherKeyHash.Substring(0, 32);
             CMode2 = cmode2;
-            int merry = secureHashes.Length - (9 - this.inPipe.Length);
+            int merry = this.inPipe.Length - 1;
 
             byte[] decryptedBytes = new byte[cipherBytes.Length];
             foreach (CipherEnum cipher in OutPipe)
             {
                 string cipherHashKey = secureHashes[merry % (this.inPipe.Length)].Hash(cipherKeyHash);
-                if ((--merry) < 0) merry = secureHashes.Length - (9 - this.inPipe.Length);
+                if ((--merry) < 0) merry = this.inPipe.Length - 1;
 
                 decryptedBytes = DecryptBytesFast(cipherBytes, cipher, cipherHashKey, cmode2);
                 cipherBytes = decryptedBytes;
@@ -673,7 +673,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 DecodeDecrpytBytes(inBytes, secretKey, cmode2);
         }
 
+
         #endregion multiple rounds en-de-cryption
+
 
     }
 
