@@ -11,6 +11,7 @@ using System;
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
 
+
     /// <summary>
     /// Generic CryptBounceCastle Encryption / Decryption class
     /// supports <see cref="Org.BouncyCastle.Crypto.Engines.CamelliaEngine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.Gost28147Engine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.RC2Engine"/>,
@@ -196,7 +197,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 return false;
             if (algoName.StartsWith("ARIA") || algoName.StartsWith("ASCON"))
                 return false;
-            if (algoName.StartsWith("CAST"))
+            if (algoName.StartsWith("CAST") || algoName.StartsWith("DES3"))
                 return false;
             if (algoName.StartsWith("GOST") || algoName.StartsWith("IDEA"))
                 return false;
@@ -222,7 +223,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             var cipher = CryptoBlockCipher;
             plainData = (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64") ?
                 EnDeCodeHelper.GetBytesFromBytes(plainData) : plainData;
-            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
+            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
 
             switch (Mode)
             {
@@ -412,6 +413,5 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         #endregion EnDecryptString
 
     }
-
 
 }

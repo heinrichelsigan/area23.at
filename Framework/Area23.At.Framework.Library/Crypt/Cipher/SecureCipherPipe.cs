@@ -22,11 +22,17 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
     /// <list type="bullet">
     /// <listheader>code changes</listheader>
     /// <item>
-    /// 2026-02-11 alert-fix-13 changed mode from "ECB" to "CFB"     
+    /// 2026-02-11 alert-fix-13 changed mode from "ECB" to "CFB" 
     /// Reason: Git security scans
     /// consequences: no more fully deterministic math bijective proper symmertric cipher en-/decryption in pipe
     /// fixed attacks: not so easy REPLY attacks with binary format header and heuristic key collection
     /// </item>
+    /// <item>
+    /// 2026-03-02 alert changed mode back from  "CFB" to "ECB"
+    /// Reason: Ugly bug in following pipeline SM4 => SkipJack => Serpent => Seed => Fish3 => Des3 in CFB mode
+    /// consequences:  more fully deterministic math bijective again proper symmertric cipher en-/decryption in pipe
+    /// fixed attacks: not so easy REPLY attacks with binary format header and heuristic key collection
+    /// </item>    
     /// <item>
     /// 2026-mm-dd [enter pull request name here] [enter what you did here]
     /// Reason: [enter a senseful reason]
@@ -40,17 +46,22 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         #region fields and properties
 
-        protected internal string cipherKeyHash = "";
+        private static readonly KeyHash[] secureHashes = {
+                KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564,
+                KeyHash.OpenBSDCrypt, KeyHash.SCrypt, KeyHash.RipeMD256, KeyHash.Whirlpool };
+
+        protected string cipherKeyHash; // this is the hash of the user key, e.g. email address, which is used to generate the pipe and the keys for each stage in pipe
 
         public new string PipeFullExtension
         {
             get
             {
-                string miniPipe = (InPipe == null || InPipe.Length == 0) ? "" : "." + PipeString;
-                string miniPipeExt = CMode2.ToString() + "." + zType.GetZipTypeExtension() + miniPipe + encodeType.GetEnCodingExtension();
+                string miniPipe = (InPipe == null || InPipe.Length == 0) ? "" : "." + CMode2.ToString() + PipeString;
+                string miniPipeExt = zType.GetZipTypeExtension() + miniPipe + encodeType.GetEnCodingExtension();
                 return miniPipeExt;
             }
         }
+
 
         #endregion fields and properties
 
@@ -62,10 +73,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         public SecureCipherPipe()
         {
             cipherKeyHash = ""; //
+            cipherHash = "";
+            cipherKey = "";
             inPipe = (new List<CipherEnum>()).ToArray();
             encodeType = EncodingType.Base64;
             zType = ZipType.GZip;
-            CMode2 = CipherMode2.CFB;
+            CMode2 = CipherMode2.ECB;
         }
 
 
@@ -75,7 +88,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
         /// <param name="maxpipe">size of max. pipe stages, can't be greater than 8</param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        public SecureCipherPipe(CipherEnum[] cipherEnums, uint maxpipe = 8, CipherMode2 cmode2 = CipherMode2.CFB)
+        public SecureCipherPipe(CipherEnum[] cipherEnums, uint maxpipe = 8, CipherMode2 cmode2 = CipherMode2.ECB)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -85,7 +98,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             Array.Copy(cipherEnums, inPipe, isize);
 
             encodeType = EncodingType.Base64;
-            zType = ZipType.GZip; ;
+            zType = ZipType.GZip;
             CMode2 = cmode2;
         }
 
@@ -95,7 +108,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cipherAlgos">array of <see cref="T:string[]"/> as inpipe</param>
         /// <param name="maxpipe">maximum lentgh <see cref="Constants.MAX_PIPE_LEN"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        public SecureCipherPipe(string[] cipherAlgos, uint maxpipe = 8, CipherMode2 cmode2 = CipherMode2.CFB)
+        public SecureCipherPipe(string[] cipherAlgos, uint maxpipe = 8, CipherMode2 cmode2 = CipherMode2.ECB)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -119,8 +132,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             inPipe = cipherEnums.ToArray();
 
-            encodeType = EncodingType.Base64;
             zType = ZipType.GZip;
+            encodeType = EncodingType.Base64;
             CMode2 = cmode2;
         }
 
@@ -132,7 +145,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
         /// <exception cref="ArgumentException"></exception>
-        public SecureCipherPipe(byte[] keyBytes, uint maxpipe = 8, CipherMode2 cmode2 = CipherMode2.CFB, bool verbose = false)
+        public SecureCipherPipe(byte[] keyBytes, uint maxpipe = 8, CipherMode2 cmode2 = CipherMode2.ECB, bool verbose = false)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -160,8 +173,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             inPipe = pipeList.ToArray();
 
-            encodeType = EncodingType.Base64;
             zType = ZipType.GZip;
+            encodeType = EncodingType.Base64;
             CMode2 = cmode2;
 
         }
@@ -171,14 +184,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// by getting <see cref="T:byte[]">byte[] keybytes</see> with <see cref="CryptHelper.GetUserKeyBytes(string, string, int)"/>
         /// </summary>
         /// <param name="keyHash">secret key to generate pipe</param>
-        /// <param name="encType"></param>
-        /// <param name="zpType"></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
-        public SecureCipherPipe(string keyHash, CipherMode2 cmode2 = CipherMode2.CFB, bool verbose = false)
+        public SecureCipherPipe(string keyHash, CipherMode2 cmode2 = CipherMode2.ECB, bool verbose = false)
             : this(CryptHelper.GetKeyBytesSingle(keyHash, 16), Constants.MAX_PIPE_LEN, cmode2, verbose)
         {
             cipherKeyHash = keyHash;
+            cipherKey = cipherKeyHash;
+            cipherHash = "";
         }
 
         /// <summary>
@@ -187,9 +200,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="key"></param>
         /// <param name="verbose"></param>
         public SecureCipherPipe(string key, bool verbose = false)
-            : this(key, CipherMode2.CFB, verbose)
+            : this(key, CipherMode2.ECB, verbose)
         {
             cipherKeyHash = key;
+            cipherKey = cipherKeyHash;
+            cipherHash = "";
         }
 
         public SecureCipherPipe(CipherPipe ciphPipe) : this()
@@ -199,11 +214,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 this.inPipe = ciphPipe.InPipe;
                 this.cipherKeyHash = ciphPipe.cipherKey;
                 this.cipherKey = ciphPipe.cipherKey;
-                this.cipherKeyHash = "";
+                this.cipherHash = "";
                 this.CMode = ciphPipe.CMode;
                 this.CMode2 = ciphPipe.CMode2;
-                this.encodeType = EncodingType.Base64;
-                this.zType = ZipType.GZip;
+                this.encodeType = EncodingType.Base64; // default is base64, because it is the most common encoding type for encrypted binary data
+                this.zType = ZipType.GZip; // default is GZip, because it is the most common zip type
             }
         }
 
@@ -250,7 +265,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <returns>encrypted byte Array</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static byte[] EncryptBytesFast(byte[] inBytes, CipherEnum cipherAlgo,
-            string secretKey, CipherMode2 cmode2 = CipherMode2.CFB)
+            string secretKey, CipherMode2 cmode2 = CipherMode2.ECB)
         {
             if (string.IsNullOrEmpty(secretKey))
                 throw new ArgumentNullException("seretkey");
@@ -275,7 +290,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     encryptBytes = (new ZenMatrix2(secretKey, secretKey, false)).Encrypt(inBytes);
                     break;
                 default:
-                    Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
+                    CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                     encryptBytes = cryptBounceCastle.Encrypt(inBytes);
                     break;
             }
@@ -291,7 +306,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="secretKey">secret key to decrypt</param>
         /// <returns>decrypted byte Array</returns>
         public static byte[] DecryptBytesFast(byte[] cipherBytes, CipherEnum cipherAlgo,
-            string secretKey, CipherMode2 cmode2 = CipherMode2.CFB)
+            string secretKey, CipherMode2 cmode2 = CipherMode2.ECB)
         {
             if (string.IsNullOrEmpty(secretKey))
                 throw new ArgumentNullException("seretkey");
@@ -320,9 +335,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case CipherEnum.ZenMatrix2:
                     decryptBytes = (new ZenMatrix2(secretKey, secretKey, false)).Decrypt(cipherBytes);
                     break;
-
                 default:
-                    Symmetric.CryptBounceCastle cryptBounceCastle = new Symmetric.CryptBounceCastle(cpParams, true);
+                    CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                     decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
                     break;
             }
@@ -352,11 +366,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cmode2"></param>
         /// <returns>encrypted generic type</returns>
         /// <exception cref="CException">is thrown on unknown type</exception>
-        public static TRet EncrpytT<TRet, TIn>(TIn tinSource, string cryptKey, CipherMode2 cmode2 = CipherMode2.CFB)
+        public static TRet EncrpytT<TRet, TIn>(TIn tinSource, string cryptKey, CipherMode2 cmode2 = CipherMode2.ECB)
         {
             byte[] stringBytes = new List<byte>().ToArray();
-            // construct symmetric cipher pipeline with cryptKey, keyIv, encopding, zipBefore, keyHash and cmode2
-            SecureCipherPipe cipherPipe = new SecureCipherPipe(cryptKey, cmode2, true);
+            // construct symmetric cipher pipeline with cryptKey and cmode2
+            SecureCipherPipe cipherPipe = new SecureCipherPipe(cryptKey, cmode2, false);
 
             if (tinSource is string inString)   // Transform string to bytes
                 stringBytes = Encoding.UTF8.GetBytes(inString);
@@ -370,7 +384,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 stringBytes = bytesEnumerable.ToArray();
             else throw new CqrException($"Unknown type Exception, type {typeof(TIn)} is not supported.");
 
-            // zip if requested
+            // zip GZ
             byte[] zippedBytes = ZipType.GZip.Zip(stringBytes);
             // encrypt in a marry go round way
             byte[] encryptedBytes = cipherPipe.MerryGoRoundEncrpyt(zippedBytes, cryptKey, cmode2);
@@ -405,14 +419,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="tinSource">encrypted message</param>
         /// <param name="cryptKey">Unique deterministic key for either generating the mix of symmetric cipher algorithms in the crypt pipeline 
         /// and unique crypt key for each symmetric cipher algorithm in each stage of the pipe</param>
-        /// <param name="mode2"></param>
+        /// <param name="cmode2"></param>
         /// <returns>Decrypted generic TRet</returns>
-        /// <exception cref="CqrException">is thrown on unknown type</exception>
-        public static TRet DecrpytT<TRet, TIn>(TIn tinSource, string cryptKey, CipherMode2 cmode2 = CipherMode2.CFB)
+        /// <exception cref="CException">is thrown on unknown type</exception>
+        public static TRet DecrpytT<TRet, TIn>(TIn tinSource, string cryptKey, CipherMode2 cmode2 = CipherMode2.ECB)
         {
             byte[] stringBytes = new List<byte>().ToArray();
             // create symmetric cipher pipe for decryption with crypt key and pass pipeString as out param
-            SecureCipherPipe cPipe = new SecureCipherPipe(cryptKey, cmode2, true);
+            SecureCipherPipe cPipe = new SecureCipherPipe(cryptKey, cmode2, false);
             string pipeString = cPipe.PipeString;
             string incomingEncoded = string.Empty;
 
@@ -469,15 +483,16 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 return inBytes;
 
             cipherKeyHash = string.IsNullOrEmpty(secretKey) ? secretKey : secretKey;
+            if (cipherKeyHash.Length > 31)
+                cipherKeyHash = cipherKeyHash.Substring(0, 32);
             CMode2 = cmode2;
 
             int merry = 0;
-            KeyHash[] secureHashes = KeyHash_Extensions.GetSecureHashes();
             byte[] encryptedBytes = new byte[inBytes.Length];
             foreach (CipherEnum cipher in InPipe)
             {
-                string cipherHashKey = secureHashes[merry % secureHashes.Length].Hash(cipherKeyHash);
-                if ((++merry) > (secureHashes.Length - 1)) merry = 0;
+                string cipherHashKey = secureHashes[merry % (this.inPipe.Length)].Hash(cipherKeyHash);
+                if ((++merry) > ((this.inPipe.Length) - 1)) merry = 0;
 
                 encryptedBytes = EncryptBytesFast(inBytes, cipher, cipherHashKey, CMode2);
                 inBytes = encryptedBytes;
@@ -500,16 +515,16 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 return cipherBytes;
 
             cipherKeyHash = string.IsNullOrEmpty(secretKey) ? cipherKeyHash : secretKey;
+            if (cipherKeyHash.Length > 31)
+                cipherKeyHash = cipherKeyHash.Substring(0, 32);
             CMode2 = cmode2;
-
-            KeyHash[] secureHashes = KeyHash_Extensions.GetSecureHashes();
-            int merry = secureHashes.Length - 1;
+            int merry = secureHashes.Length - (9 - this.inPipe.Length);
 
             byte[] decryptedBytes = new byte[cipherBytes.Length];
             foreach (CipherEnum cipher in OutPipe)
             {
-                string cipherHashKey = secureHashes[merry % secureHashes.Length].Hash(cipherKeyHash);
-                if ((--merry) < 0) merry = secureHashes.Length - 1;
+                string cipherHashKey = secureHashes[merry % (this.inPipe.Length)].Hash(cipherKeyHash);
+                if ((--merry) < 0) merry = secureHashes.Length - (9 - this.inPipe.Length);
 
                 decryptedBytes = DecryptBytesFast(cipherBytes, cipher, cipherHashKey, cmode2);
                 cipherBytes = decryptedBytes;
@@ -524,11 +539,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="inString">plain text to encrypt</param>
         /// <param name="cryptKey">prviate key for encryption</param>
-        /// <param name="encoding"><see cref="EncodingType"/></param>
-        /// <param name="zipBefore"><see cref="ZipType"/></param>
         /// <param name="cmode2"></param>
         /// <returns>UTF9 emcoded encrypted string without binary data</returns>
-        public virtual string EncrpytTextGoRounds(string inString, string cryptKey, CipherMode2 cmode2 = CipherMode2.CFB)
+        public virtual string EncrpytTextGoRounds(string inString, string cryptKey, CipherMode2 cmode2 = CipherMode2.ECB)
         {
             cipherKeyHash = (string.IsNullOrEmpty(cryptKey)) ? cipherKeyHash : cryptKey;
 
@@ -542,7 +555,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             byte[] encryptedBytes = MerryGoRoundEncrpyt(zippedBytes, cipherKeyHash, CMode2);
 
             // Encode pipes by encodingType, e.g. base64, uu, hex16, ...
-            string encrypted = this.EncodeType.GetEnCoder().EnCode(encryptedBytes);
+            string encrypted = encodeType.GetEnCoder().EnCode(encryptedBytes);
 
             return encrypted;
         }
@@ -553,18 +566,16 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="cryptedEncodedMsg">encoded encrypted ASCII string</param>
         /// <param name="cryptKey">prviate key for encryption</param>
-        /// <param name="decoding"><see cref="EncodingType"/></param>
-        /// <param name="unzipAfter"><see cref="ZipType"/></param>
         /// <param name="cmode2"></param>
         /// <returns>decrypted UTF8 string, containing no binary data</returns>
-        public virtual string DecryptTextRoundsGo(string cryptedEncodedMsg, string cryptKey, CipherMode2 cmode2 = CipherMode2.CFB)
+        public virtual string DecryptTextRoundsGo(string cryptedEncodedMsg, string cryptKey, CipherMode2 cmode2 = CipherMode2.ECB)
         {
 
             cipherKeyHash = (string.IsNullOrEmpty(cryptKey)) ? cipherKeyHash : cryptKey;
 
             // Decoded encoded bytes first, if necessary
-            byte[] cipherBytes = (this.EncodeType != EncodingType.None) ?
-                this.EncodeType.GetEnCoder().DeCode(cryptedEncodedMsg) :
+            byte[] cipherBytes = (encodeType != EncodingType.None) ?
+                encodeType.GetEnCoder().DeCode(cryptedEncodedMsg) :
                 System.Text.Encoding.UTF8.GetBytes(cryptedEncodedMsg);
 
 
@@ -583,19 +594,19 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         }
 
 
-        public virtual byte[] EncrpytGoRounds(byte[] inBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.CFB)
+        public virtual byte[] EncrpytGoRounds(byte[] inBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.ECB)
         {
             cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;
             CMode2 = cmode2;
 
             // zip if requested
-            byte[] zippedBytes = (ZType != ZipType.None) ? ZType.Zip(inBytes) : inBytes;
+            byte[] zippedBytes = zType.Zip(inBytes);
             // encrypt in a marry go round way
             return MerryGoRoundEncrpyt(zippedBytes, cipherKeyHash, cmode2);
         }
 
 
-        public virtual byte[] DecrpytRoundsGo(byte[] cipherBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.CFB)
+        public virtual byte[] DecrpytRoundsGo(byte[] cipherBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.ECB)
         {
             cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;
             CMode2 = cmode2;
@@ -603,13 +614,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             // perform multi crypt pipe stages
             byte[] intermediatBytes = DecrpytRoundGoMerry(cipherBytes, cipherKeyHash, cmode2);
             // Unzip after if necessary
-            byte[] decryptedBytes = (ZType != ZipType.None) ? ZType.Unzip(intermediatBytes) : intermediatBytes;
+            byte[] decryptedBytes = ZType.Unzip(intermediatBytes);
 
             return decryptedBytes;
         }
 
 
-        public virtual byte[] EncryptEncodeBytes(byte[] inBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.CFB)
+        public virtual byte[] EncryptEncodeBytes(byte[] inBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.ECB)
         {
             cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;
             CMode2 = cmode2;
@@ -619,15 +630,15 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             // now encrypt with pipe
             byte[] outBytes = MerryGoRoundEncrpyt(zippedBytes, cipherKeyHash, CMode2);
             // encode after encryption pipe
-            if (this.EncodeType == EncodingType.None)
+            if (encodeType == EncodingType.None)
                 return outBytes;
 
-            return System.Text.Encoding.UTF8.GetBytes(this.EncodeType.GetEnCoder().EnCode(outBytes));
+            return System.Text.Encoding.UTF8.GetBytes(encodeType.GetEnCoder().EnCode(outBytes));
         }
 
-        public virtual byte[] DecodeDecrpytBytes(byte[] encodedBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.CFB)
+        public virtual byte[] DecodeDecrpytBytes(byte[] encodedBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.ECB)
         {
-            cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;  
+            cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;
             CMode2 = cmode2;
 
             // Decoded encoded bytes first, if necessary
@@ -646,22 +657,21 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         /// <summary>
         /// Multi functional 
-        /// <see cref="EncryptEncodeBytes(byte[], string, EncodingType, ZipType, CipherMode2)"/>
-        /// <see cref="DecodeDecrpytBytes(byte[], string, EncodingType, ZipType, CipherMode2)"/>
+        /// <see cref="EncryptEncodeBytes(byte[], string, CipherMode2)"/>
+        /// <see cref="DecodeDecrpytBytes(byte[], string, CipherMode2)"/>
         /// </summary>
         /// <param name="inBytes">incoming bytes</param>
         /// <param name="secretKey">user private key</param>
-        /// <param name="directionDecrypt">true for decryption, false for encryption</param>
+        /// <param name="directionDecrypt">true for decryption, false for encryption</param>        
         /// <param name="cmode2"></param>
         /// <returns>transformed byte array</returns>
         public virtual byte[] CryptCodeBytes(byte[] inBytes, string secretKey,
-            bool directionDecrypt = false, CipherMode2 cmode2 = CipherMode2.CFB)
+            bool directionDecrypt = false, CipherMode2 cmode2 = CipherMode2.ECB)
         {
             return (!directionDecrypt) ?
                 EncryptEncodeBytes(inBytes, secretKey, cmode2) :
                 DecodeDecrpytBytes(inBytes, secretKey, cmode2);
         }
-
 
         #endregion multiple rounds en-de-cryption
 
