@@ -65,14 +65,14 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// </summary>
         /// <param name="inBytes">byte array to encode</param>
         /// <returns>encoded string</returns>
-        public string EnCode(byte[] data) => Uu.ToUu(data);
+        public string Encode(byte[] data) => Uu.ToUu(data);
 
         /// <summary>
         /// Decodes an encoded string to byte[]
         /// </summary>
         /// <param name="encodedString">encoded string</param>
         /// <returns>byte array</returns>
-        public byte[] DeCode(string encodedString) => Uu.FromUu(encodedString);
+        public byte[] Decode(string encodedString) => Uu.FromUu(encodedString);
 
         public bool IsValidShowError(string encodedString, out string error) => Uu.IsValidUu(encodedString, out error);
 

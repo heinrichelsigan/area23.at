@@ -389,7 +389,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             // encrypt in a marry go round way
             byte[] encryptedBytes = cipherPipe.MerryGoRoundEncrpyt(zippedBytes, cryptKey, cmode2);
             // encode after encryption pipe
-            String encryptedString = EncodingType.Base64.GetEnCoder().EnCode(encryptedBytes);
+            String encryptedString = EncodingType.Base64.GetEnCoder().Encode(encryptedBytes);
 
             TRet result = default(TRet);
             if (typeof(TRet) == typeof(string))
@@ -443,7 +443,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             else throw new CqrException($"Unknown type Exception, type {typeof(TIn)} is not supported.");
 
             // get bytes from encrypted encoded string dependent on the encoding type (uu, base64, base32,..)
-            byte[] cipherBytes = EncodingType.Base64.GetEnCoder().DeCode(incomingEncoded);
+            byte[] cipherBytes = EncodingType.Base64.GetEnCoder().Decode(incomingEncoded);
             // staged decryption of bytes
             byte[] intermediatBytes = cPipe.DecrpytRoundGoMerry(cipherBytes, cryptKey, cmode2);
             // Unzip after if necessary
@@ -555,7 +555,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             byte[] encryptedBytes = MerryGoRoundEncrpyt(zippedBytes, cipherKeyHash, CMode2);
 
             // Encode pipes by encodingType, e.g. base64, uu, hex16, ...
-            string encrypted = encodeType.GetEnCoder().EnCode(encryptedBytes);
+            string encrypted = encodeType.GetEnCoder().Encode(encryptedBytes);
 
             return encrypted;
         }
@@ -575,7 +575,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             // Decoded encoded bytes first, if necessary
             byte[] cipherBytes = (encodeType != EncodingType.None) ?
-                encodeType.GetEnCoder().DeCode(cryptedEncodedMsg) :
+                encodeType.GetEnCoder().Decode(cryptedEncodedMsg) :
                 System.Text.Encoding.UTF8.GetBytes(cryptedEncodedMsg);
 
 
@@ -633,7 +633,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             if (encodeType == EncodingType.None)
                 return outBytes;
 
-            return System.Text.Encoding.UTF8.GetBytes(encodeType.GetEnCoder().EnCode(outBytes));
+            return System.Text.Encoding.UTF8.GetBytes(encodeType.GetEnCoder().Encode(outBytes));
         }
 
         public virtual byte[] DecodeDecrpytBytes(byte[] encodedBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.ECB)
@@ -643,7 +643,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
             // Decoded encoded bytes first, if necessary
             byte[] cipherBytes = (encodeType != EncodingType.None) ?
-                encodeType.GetEnCoder().DeCode(System.Text.Encoding.UTF8.GetString(encodedBytes)) :
+                encodeType.GetEnCoder().Decode(System.Text.Encoding.UTF8.GetString(encodedBytes)) :
                 encodedBytes;
             // perform multi crypt pipe stages
             byte[] intermediatBytes = DecrpytRoundGoMerry(cipherBytes, cipherKeyHash, CMode2);

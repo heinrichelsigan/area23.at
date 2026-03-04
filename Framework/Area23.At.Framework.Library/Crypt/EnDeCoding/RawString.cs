@@ -13,9 +13,9 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         public HashSet<char> ValidCharList => null;
 
 
-        public string EnCode(byte[] inBytes) => RawString.Encode(inBytes);        
+        public string Encode(byte[] inBytes) => RawString.ToRawString(inBytes);
 
-        public byte[] DeCode(string encodedString) => RawString.Decode(encodedString);
+        public byte[] Decode(string encodedString) => RawString.FromRawString(encodedString);
 
         public bool Validate(string encodedString) => true;
 
@@ -33,7 +33,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// </summary>
         /// <param name="inBytes">byte array to encode</param>
         /// <returns>hex16 encoded string</returns>
-        public static string Encode(byte[] inBytes)
+        public static string EnCode(byte[] inBytes)
         {
             return RawString.ToRawString(inBytes);
         }
@@ -43,7 +43,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// </summary>
         /// <param name="hexString">hex16 encoded string</param>
         /// <returns></returns>
-        public static byte[] Decode(string encodedString)
+        public static byte[] DeCode(string encodedString)
         {
             return RawString.FromRawString(encodedString);
         }

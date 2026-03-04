@@ -28,10 +28,10 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
         HashSet<char> IDecodable.ValidCharList => new HashSet<char>(VALID_CHARS.ToCharArray());
        
-        public string EnCode(byte[] inBytes) => Base64.Encode(inBytes);
+        public string Encode(byte[] inBytes) => Base64.ToBase64(inBytes);
 
-        public byte[] DeCode(string encodedString) => Base64.Decode(encodedString);
-        
+        public byte[] Decode(string encodedString) => Base64.FromBase64(encodedString);
+
         public bool Validate(string encodedStr) => Base64.IsValidBase64(encodedStr, out _);
 
         public bool IsValidShowError(string encodedString, out string error) => Base64.IsValidBase64(encodedString, out error);
@@ -45,7 +45,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// </summary>
         /// <param name="inBytes">byte array to encode</param>
         /// <returns>encoded string</returns>
-        public static string Encode(byte[] inBytes)
+        public static string EnCode(byte[] inBytes)
         {
             return ToBase64(inBytes);
         }
@@ -55,7 +55,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// </summary>
         /// <param name="encodedString">encoded string</param>
         /// <returns>byte array</returns>
-        public static byte[] Decode(string encodedString)
+        public static byte[] DeCode(string encodedString)
         {
             return FromBase64(encodedString);
         }

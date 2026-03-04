@@ -41,9 +41,9 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
         HashSet<char> IDecodable.ValidCharList => new HashSet<char>(VALID_CHARS.ToCharArray());
 
-        public string EnCode(byte[] inBytes) => Base32.Encode(inBytes);
+        public string Encode(byte[] inBytes) => Base32.ToBase32(inBytes);
 
-        public byte[] DeCode(string encodedString) => Base32.Decode(encodedString);
+        public byte[] Decode(string encodedString) => Base32.FromBase32(encodedString);
 
         public bool Validate(string encodedString) => Base32.IsValidBase32(encodedString, out _);
 
@@ -57,7 +57,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// </summary>
         /// <param name="inBytes">byte array to encode</param>
         /// <returns>encoded string</returns>
-        public static string Encode(byte[] inBytes)
+        public static string EnCode(byte[] inBytes)
         {
             return ToBase32(inBytes);
         }
@@ -67,7 +67,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// </summary>
         /// <param name="encodedString">encoded string</param>
         /// <returns>byte array</returns>
-        public static byte[] Decode(string encodedString)
+        public static byte[] DeCode(string encodedString)
         {
             return FromBase32(encodedString);
         }

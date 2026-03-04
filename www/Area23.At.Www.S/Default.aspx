@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>area23.at/s/ - another url shortner</title>
+    <title runat="server" id="titleOfPage" title="another url shortner">another url shortner</title>
 	<link rel="stylesheet" href="res/css/area23.at.mono.css" />
 	<meta name="keywords" content="QR code generator" />
 	<meta name="author" content="Heinrich Elsigan" />

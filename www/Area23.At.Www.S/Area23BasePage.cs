@@ -3,10 +3,12 @@ using Area23.At.Framework.Library.Static;
 using QRCoder;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
+using System.Web;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
@@ -15,13 +17,32 @@ namespace Area23.At.Www.S
     public abstract class Area23BasePage : Area23.At.Framework.Library.Util.UIPage
     {
         protected System.Collections.Generic.Queue<string> mqueue = new Queue<string>();
-        protected Uri area23URL = new Uri("https://area23.at/");
-        protected Uri darkstarURL = new Uri("https://darkstar.work/");
+        protected Uri area23URL = new Uri("https://cqrxs.eu/");
+        protected Uri darkstarURL = new Uri("https://area23.at/");
         protected Uri gitURL = new Uri("https://github.com/heinrichelsigan/area23.at/");
 
         protected System.Globalization.CultureInfo locale;
 
-
+        protected internal string PageTitle
+        {  
+            get
+            {
+                string appUrl = "";
+                if (ConfigurationManager.AppSettings["AppUrl"] != null)
+                {
+                    appUrl = ConfigurationManager.AppSettings["AppUrl"];
+                }
+                else
+                {
+                    appUrl = HttpContext.Current.Request.Url.ToString().ToLower();
+                }
+                if (appUrl.Contains("area23.at"))
+                    return "Area23.at/s/ - another url shortner";
+                else if (appUrl.Contains("cqrxs.eu"))
+                    return "CQRXS.eu/s/ - another url shortner";
+                return "s/ another url shortner";
+            }       
+        }
 
 
         public String QrImgPath { get; protected set; }

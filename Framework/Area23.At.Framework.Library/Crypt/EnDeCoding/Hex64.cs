@@ -52,9 +52,9 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
         HashSet<char> IDecodable.ValidCharList => new HashSet<char>(VALID_CHARS.ToCharArray());
        
-        public string EnCode(byte[] inBytes) => Hex64.Encode(inBytes);
+        public string Encode(byte[] inBytes) => Hex64.ToHex64(inBytes);
 
-        public byte[] DeCode(string encodedString) => Hex64.Decode(encodedString);
+        public byte[] Decode(string encodedString) => Hex64.FromHex64(encodedString); 
         
         public bool Validate(string encodedStr) => Hex64.IsValidHex64(encodedStr, out _);
 
@@ -64,25 +64,19 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         #endregion common interface, interfaces for static members appear in C# 7.3 or later
 
 
-        /// <summary>
-        /// Encodes byte[] to valid encode formatted string
-        /// </summary>
-        /// <param name="inBytes">byte array to encode</param>
-        /// <returns>encoded string</returns>
-        public static string Encode(byte[] inBytes)
-        {
-            return ToHex64(inBytes);
-        }
+
+
+        public static string EnCode(byte[] inBytes) => Hex64.ToHex64(inBytes);
+
 
         /// <summary>
         /// Decodes an encoded string to byte[]
         /// </summary>
         /// <param name="encodedString">encoded string</param>
         /// <returns>byte array</returns>
-        public static byte[] Decode(string encodedString)
-        {
-            return FromHex64(encodedString);
-        }
+        public static byte[] DeCode(string encodedString) => Hex64.FromHex64(encodedString);
+
+
 
         /// <summary>
         /// Checks if a string is a valid encoded string

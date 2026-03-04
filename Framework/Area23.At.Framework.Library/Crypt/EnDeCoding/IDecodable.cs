@@ -8,9 +8,9 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 
         HashSet<char> ValidCharList { get; }
 
-        string EnCode(byte[] inBytes);
+        string Encode(byte[] inBytes);
 
-        byte[] DeCode(string encodedString);
+        byte[] Decode(string encodedString);
       
 
         bool Validate(string encodedString);

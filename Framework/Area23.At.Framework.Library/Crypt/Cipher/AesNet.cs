@@ -242,7 +242,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         {
             byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inPlainString);
             byte[] encryptedData = Encrypt(plainTextData);
-            string encryptedString = encType.GetEnCoder().EnCode(encryptedData); // Convert.ToBase64String(encryptedData);
+            string encryptedString = encType.GetEnCoder().Encode(encryptedData); // Convert.ToBase64String(encryptedData);
                                                                                  // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
 
             return encryptedString;
@@ -255,7 +255,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <returns>plain text string (decrypted)</returns>
         public string DecryptString(string inCryptString, EncodingType encType = EncodingType.Base64)
         {
-            byte[] cryptData = encType.GetEnCoder().DeCode(inCryptString); // Convert.FromBase64String(inCryptString);
+            byte[] cryptData = encType.GetEnCoder().Decode(inCryptString); // Convert.FromBase64String(inCryptString);
             //  System.Text.Encoding.UTF8.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
             string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');

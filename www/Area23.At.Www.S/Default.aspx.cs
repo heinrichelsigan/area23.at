@@ -29,11 +29,46 @@ namespace Area23.At.Www.S
         internal QRCodeGenerator.ECCLevel eCCLevel = QRCodeGenerator.ECCLevel.Q;
         internal short qrMode = 2;
 
-        internal String ShortUrl { get => Constants.URL_SHORT + hashKey; }
+        internal String ShortUrl { get => ShortUrlFromHash(hashKey); }
+
+
+        protected internal string ShortUrlFromHash(string hash)
+        {
+            string rawUrl = "https://area23.at/s/?" + hash;
+            if (Request.Url.ToString().Contains("/s"))
+            {
+                rawUrl = Request.Url.ToString().Substring(0, Request.Url.ToString().IndexOf("s/"));
+                if (rawUrl.EndsWith("/s/"))
+                {
+                    rawUrl += "?" + hash;
+                    return rawUrl;
+                }
+                else if (rawUrl.EndsWith("s"))
+                {
+                    rawUrl += "/?" + hash;
+                    return rawUrl;
+                }
+                else if (rawUrl.EndsWith("/"))
+                {                    
+                    rawUrl += "s/?" + hash;
+                    return rawUrl;
+                }                
+            }
+
+            if (Request.Url.ToString().Contains(".eu"))
+                rawUrl = "https://cqrxs.eu/s/?" + hash;
+            else
+                rawUrl = "https://area23.at/s/?" + hash;
+
+            return rawUrl;
+        }   
 
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            this.titleOfPage.Text = PageTitle;
+            this.titleOfPage.Attributes["title"] = PageTitle;
+
             if (!Page.IsPostBack)
             {
                 if (this.input_color != null && string.IsNullOrEmpty(input_color.Value))
@@ -44,8 +79,8 @@ namespace Area23.At.Www.S
 
             if (shortenMap == null)
             {
-                shortenMap = (Application[Constants.APP_NAME] != null) ? (Dictionary<string, Uri>)Application[Constants.APP_NAME] : 
-                    Util.JsonHelper.ShortenMapJson;
+                shortenMap = (Application[Constants.APP_NAME] != null) ? (Dictionary<string, Uri>)Application[Constants.APP_NAME] :
+                    Area23.At.Www.S.Util.JsonHelper.ShortenMapJson;
             }
         }
 
@@ -346,7 +381,7 @@ namespace Area23.At.Www.S
             {
                 if (shortenMap == null || shortenMap.Count == 0)
                     shortenMap = (Dictionary<string, Uri>)(Application[Constants.APP_NAME] ??
-                        Util.JsonHelper.ShortenMapJson);
+                        Area23.At.Www.S.Util.JsonHelper.ShortenMapJson);
                 
                 // if already uri exists in Dictionary => return hash
                 if (shortenMap.ContainsValue(longUri))

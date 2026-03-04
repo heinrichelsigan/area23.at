@@ -22,14 +22,14 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// </summary>
         /// <param name="inBytes">byte array to encode</param>
         /// <returns>hex16 encoded string</returns>
-        public string EnCode(byte[] inBytes) => Base16.ToBase16(inBytes);
+        public string Encode(byte[] inBytes) => Base16.ToBase16(inBytes);
 
         /// <summary>
         /// Decodes a hex string to byte[]
         /// </summary>
         /// <param name="hexString">hex16 encoded string</param>
         /// <returns></returns>
-        public byte[] DeCode(string encodedString) => Base16.FromBase16(encodedString);
+        public byte[] Decode(string encodedString) => Base16.FromBase16(encodedString);
 
 
         public bool Validate(string encodedString) => Base16.IsValidBase16(encodedString, out _);
@@ -45,7 +45,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// </summary>
         /// <param name="inBytes">byte array to encode</param>
         /// <returns>hex16 encoded string</returns>
-        public static string Encode(byte[] inBytes)
+        public static string EnCode(byte[] inBytes)
         {
             return ToBase16(inBytes);
         }
@@ -55,7 +55,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// </summary>
         /// <param name="hexString">hex16 encoded string</param>
         /// <returns></returns>
-        public static byte[] Decode(string encodedString)
+        public static byte[] DeCode(string encodedString)
         {
             return FromBase16(encodedString);
         }
