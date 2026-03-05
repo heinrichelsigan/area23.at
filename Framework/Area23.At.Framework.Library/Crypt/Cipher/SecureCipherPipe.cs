@@ -88,7 +88,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
         /// <param name="maxpipe">size of max. pipe stages, can't be greater than 8</param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        public SecureCipherPipe(CipherEnum[] cipherEnums, uint maxpipe = 8, CipherMode2 cmode2 = CipherMode2.ECB)
+        public SecureCipherPipe(CipherEnum[] cipherEnums, uint maxpipe, CipherMode2 cmode2)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -108,7 +108,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cipherAlgos">array of <see cref="T:string[]"/> as inpipe</param>
         /// <param name="maxpipe">maximum lentgh <see cref="Constants.MAX_PIPE_LEN"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        public SecureCipherPipe(string[] cipherAlgos, uint maxpipe = 8, CipherMode2 cmode2 = CipherMode2.ECB)
+        public SecureCipherPipe(string[] cipherAlgos, uint maxpipe, CipherMode2 cmode2)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -145,7 +145,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
         /// <exception cref="ArgumentException"></exception>
-        public SecureCipherPipe(byte[] keyBytes, uint maxpipe = 8, CipherMode2 cmode2 = CipherMode2.ECB, bool verbose = false)
+        public SecureCipherPipe(byte[] keyBytes, uint maxpipe, CipherMode2 cmode2, bool verbose = false)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -186,7 +186,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="keyHash">secret key to generate pipe</param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
-        public SecureCipherPipe(string keyHash, CipherMode2 cmode2 = CipherMode2.ECB, bool verbose = false)
+        public SecureCipherPipe(string keyHash, CipherMode2 cmode2, bool verbose = false)
             : this(CryptHelper.GetKeyBytesSingle(keyHash, 16), Constants.MAX_PIPE_LEN, cmode2, verbose)
         {
             cipherKeyHash = keyHash;
@@ -200,7 +200,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="key"></param>
         /// <param name="verbose"></param>
         public SecureCipherPipe(string key, bool verbose = false)
-            : this(key, CipherMode2.ECB, verbose)
+            : this(key, CipherMode2.CFB, verbose)
         {
             cipherKeyHash = key;
             cipherKey = cipherKeyHash;
@@ -265,7 +265,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <returns>encrypted byte Array</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static byte[] EncryptBytesFast(byte[] inBytes, CipherEnum cipherAlgo,
-            string secretKey, CipherMode2 cmode2 = CipherMode2.ECB)
+            string secretKey, CipherMode2 cmode2)
         {
             if (string.IsNullOrEmpty(secretKey))
                 throw new ArgumentNullException("seretkey");
@@ -306,7 +306,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="secretKey">secret key to decrypt</param>
         /// <returns>decrypted byte Array</returns>
         public static byte[] DecryptBytesFast(byte[] cipherBytes, CipherEnum cipherAlgo,
-            string secretKey, CipherMode2 cmode2 = CipherMode2.ECB)
+            string secretKey, CipherMode2 cmode2)
         {
             if (string.IsNullOrEmpty(secretKey))
                 throw new ArgumentNullException("seretkey");
@@ -366,7 +366,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cmode2"></param>
         /// <returns>encrypted generic type</returns>
         /// <exception cref="CException">is thrown on unknown type</exception>
-        public static TRet EncrpytT<TRet, TIn>(TIn tinSource, string cryptKey, CipherMode2 cmode2 = CipherMode2.ECB)
+        public static TRet EncrpytT<TRet, TIn>(TIn tinSource, string cryptKey, CipherMode2 cmode2)
         {
             byte[] stringBytes = new List<byte>().ToArray();
             // construct symmetric cipher pipeline with cryptKey and cmode2
@@ -422,7 +422,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cmode2"></param>
         /// <returns>Decrypted generic TRet</returns>
         /// <exception cref="CException">is thrown on unknown type</exception>
-        public static TRet DecrpytT<TRet, TIn>(TIn tinSource, string cryptKey, CipherMode2 cmode2 = CipherMode2.ECB)
+        public static TRet DecrpytT<TRet, TIn>(TIn tinSource, string cryptKey, CipherMode2 cmode2)
         {
             byte[] stringBytes = new List<byte>().ToArray();
             // create symmetric cipher pipe for decryption with crypt key and pass pipeString as out param
@@ -541,7 +541,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cryptKey">prviate key for encryption</param>
         /// <param name="cmode2"></param>
         /// <returns>UTF9 emcoded encrypted string without binary data</returns>
-        public virtual string EncrpytTextGoRounds(string inString, string cryptKey, CipherMode2 cmode2 = CipherMode2.ECB)
+        public virtual string EncrpytTextGoRounds(string inString, string cryptKey, CipherMode2 cmode2)
         {
             cipherKeyHash = (string.IsNullOrEmpty(cryptKey)) ? cipherKeyHash : cryptKey;
 
@@ -568,7 +568,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cryptKey">prviate key for encryption</param>
         /// <param name="cmode2"></param>
         /// <returns>decrypted UTF8 string, containing no binary data</returns>
-        public virtual string DecryptTextRoundsGo(string cryptedEncodedMsg, string cryptKey, CipherMode2 cmode2 = CipherMode2.ECB)
+        public virtual string DecryptTextRoundsGo(string cryptedEncodedMsg, string cryptKey, CipherMode2 cmode2)
         {
 
             cipherKeyHash = (string.IsNullOrEmpty(cryptKey)) ? cipherKeyHash : cryptKey;
@@ -594,7 +594,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         }
 
 
-        public virtual byte[] EncrpytGoRounds(byte[] inBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.ECB)
+        public virtual byte[] EncrpytGoRounds(byte[] inBytes, string secretKey, CipherMode2 cmode2)
         {
             cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;
             CMode2 = cmode2;
@@ -606,7 +606,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         }
 
 
-        public virtual byte[] DecrpytRoundsGo(byte[] cipherBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.ECB)
+        public virtual byte[] DecrpytRoundsGo(byte[] cipherBytes, string secretKey, CipherMode2 cmode2)
         {
             cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;
             CMode2 = cmode2;
@@ -620,7 +620,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         }
 
 
-        public virtual byte[] EncryptEncodeBytes(byte[] inBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.ECB)
+        public virtual byte[] EncryptEncodeBytes(byte[] inBytes, string secretKey, CipherMode2 cmode2)
         {
             cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;
             CMode2 = cmode2;
@@ -636,7 +636,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             return System.Text.Encoding.UTF8.GetBytes(encodeType.GetEnCoder().Encode(outBytes));
         }
 
-        public virtual byte[] DecodeDecrpytBytes(byte[] encodedBytes, string secretKey, CipherMode2 cmode2 = CipherMode2.ECB)
+        public virtual byte[] DecodeDecrpytBytes(byte[] encodedBytes, string secretKey, CipherMode2 cmode2)
         {
             cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;
             CMode2 = cmode2;
@@ -666,7 +666,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cmode2"></param>
         /// <returns>transformed byte array</returns>
         public virtual byte[] CryptCodeBytes(byte[] inBytes, string secretKey,
-            bool directionDecrypt = false, CipherMode2 cmode2 = CipherMode2.ECB)
+            bool directionDecrypt, CipherMode2 cmode2)
         {
             return (!directionDecrypt) ?
                 EncryptEncodeBytes(inBytes, secretKey, cmode2) :
