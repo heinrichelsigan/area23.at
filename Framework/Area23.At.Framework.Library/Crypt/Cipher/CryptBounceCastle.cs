@@ -199,7 +199,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 return false;
             if (algoName.StartsWith("CAST") || algoName.StartsWith("GOST"))
                 return false;
-            if (|| algoName.StartsWith("IDEA") || algoName.StartsWith("RC"))
+            if (algoName.StartsWith("IDEA") || algoName.StartsWith("RC"))
                 return false;
             if (algoName.StartsWith("SKIPJACK") || algoName.Equals("DESEDE"))
                 return false;
