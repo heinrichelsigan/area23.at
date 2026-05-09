@@ -66,7 +66,7 @@ namespace Area23.At.Mono.Crypt
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList RadioButtonList_Hash;
+        protected global::Area23.At.Mono.Controls.HashKeyRadioButtonList RadioButtonList_Hash;
 
         /// <summary>
         /// ImageButton_Hash control.

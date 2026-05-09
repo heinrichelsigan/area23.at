@@ -18,88 +18,9 @@ namespace Area23.At.Mono.Unix
         {
             if (!Page.IsPostBack)
             {
-                InitAHrefs();
-                NavFolderHandler(sender, e);
+                var headerLinks = menuControlId.BuildMenu();
+                menuControlId.BindMenu(headerLinks);
             }
-        }
-
-
-        protected void InitAHrefs()
-        {
-            this.aUnixMain.HRef = LibPaths.UnixAppPath + "Default.aspx";
-            this.aFortunAsp.HRef = LibPaths.UnixAppPath + "FortunAsp.aspx";
-            this.aHexDump.HRef = LibPaths.UnixAppPath + "HexDump.aspx";
-            this.aBc.HRef = LibPaths.UnixAppPath + "Bc.aspx";
-            this.aPdfMerge.HRef = LibPaths.UnixAppPath + "PdfMerge.aspx";
-            this.aWhoisDns.HRef = LibPaths.UnixAppPath + "WhoisDns.aspx";
-        }
-
-
-        public static string GetFinalUrl(string suffixUrl = "")
-        {
-            string rawUrlString = HttpContext.Current.Request.RawUrl.ToString();
-            int lastSlash = rawUrlString.LastIndexOf('/');
-            string requestPrefix = rawUrlString.Substring(0, lastSlash);
-            requestPrefix = requestPrefix.Replace("/Qr", "");
-            requestPrefix = requestPrefix.Replace("/Unix", "");
-
-            string finalUrl = requestPrefix;            
-            if (!finalUrl.EndsWith("/")) finalUrl += "/";
-            
-            finalUrl += suffixUrl;
-            return finalUrl;
-        }
-
-
-        protected void NavFolderHandler(object sender, EventArgs args)
-        {
-            headerLeft.Attributes["class"] = "headerLeft";
-            headerLeftCenter.Attributes["class"] = "headerLeftCenter";
-            headerCenter.Attributes["class"] = "headerCenter";
-            headerRightCenter.Attributes["class"] = "headerRightCenter";
-            headerRight.Attributes["class"] = "headerRight";
-            headerRightRight.Attributes["class"] = "headerRight"; 
-
-            try
-            {
-                if (this.Request != null && this.Request.RawUrl != null)
-                {
-                    if (this.Request.RawUrl.Contains("Default.aspx"))
-                    {
-                        headerLeft.Attributes["class"] = "headerLeftSelect";
-                        return;
-                    }
-                    if (this.Request.RawUrl.Contains("FortunAsp.aspx"))
-                    {
-                        headerLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
-                        return;
-                    }
-                    if (this.Request.RawUrl.Contains("HexDump.aspx"))
-                    {
-                        headerCenter.Attributes["class"] = "headerCenterSelect";
-                        return;
-                    }
-                    if (this.Request.RawUrl.Contains("Bc.aspx"))
-                    {
-                        headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
-                        return;
-                    }
-                    if (this.Request.RawUrl.Contains("PdfMerge.aspx"))
-                    {
-                        headerRight.Attributes["class"] = "headerRightSelect";
-                        return;
-                    }
-                    if (this.Request.RawUrl.Contains("WhoisDns.aspx"))
-                    {
-                        headerRightRight.Attributes["class"] = "headerRightSelect";
-                        return;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogOriginMsgEx("UnixMaster.master.cs", "Error when setting up masterpage for unix.", ex);
-            }            
         }
     }
 }

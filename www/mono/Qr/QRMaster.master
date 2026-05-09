@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="QRMaster.master.cs" Inherits="Area23.At.Mono.Qr.QRMaster" %>
+<%@ Register TagPrefix="uc23" TagName="MenuControl" Src="~/Controls/MenuControl.ascx" %> 
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
     <asp:ContentPlaceHolder ID="QrHead" runat="server">
         <title>QRCode generator (apache2 mod_mono)</title>
@@ -8,14 +9,8 @@
         <meta name="author" content="Heinrich Elsigan (he@area23.at)" />
     </asp:ContentPlaceHolder>
 </asp:Content>
-<asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">               
-    <div id="rowqr" class="headercard" align="left">         
-        <span id="headerLeft" runat="server" class="headerLeft" align="center" valign="middle"><a id="aContactQrGenerator" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.QrAppPath %>ContactQrGenerator.aspx'>contact qr generator</a></span>
-        <span id="headerLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a id="aContactPrefilled" runat="server" class="spanHeaderA" href="<%= Area23.At.Framework.Library.LibPaths.QrAppPath %>Qrc.aspx">qrcontact prefilled</a></span>
-        <span id="headerCenter" runat="server" class="headerCenter" align="center" valign="middle"><a id="aGenericQr" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.QrAppPath %>GenericQr.aspx'>qrcode generic</a></span>	                
-        <span id="headerRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a id="aQrRedirect" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.QrAppPath %>QrRedirect.aspx'>qr redirect</a></span>	                
-        <span id="headerRight" runat="server" class="headerRight" align="center" valign="right"><a id="aUrlShortner" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.QrAppPath %>S.aspx'>qrurl shortner</a></span>
-    </div>
+<asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">   
+    <uc23:MenuControl ID="menuControlId" runat="server" ClientIDMode="Static" />
     <hr />    
     <asp:ContentPlaceHolder ID="QrBody" runat="server">
         <form id="Area23MasterForm" runat="server">

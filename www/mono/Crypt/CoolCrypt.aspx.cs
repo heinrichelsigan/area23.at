@@ -106,7 +106,7 @@ namespace Area23.At.Mono.Crypt
             this.TextBox_Encryption.Text = "";
             this.TextBox_IV.Text = "";
             this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
-            this.RadioButtonList_Hash.SelectedValue = KeyHash.Hex.ToString();
+            // this.Ra.SelectedValue = KeyHash.Hex.ToString();
             this.TextBoxSource.Text = "";
             this.TextBoxDestionation.Text = "";
             ResetVisibleDivs();
@@ -135,8 +135,12 @@ namespace Area23.At.Mono.Crypt
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void RadioButtonList_Hash_ParameterChanged(object sender, EventArgs e)
+        protected void HashKeyRadioButtonList_ParameterChanged(object sender, EventArgs e)
         {
+            if (sender != null && sender is RadioButtonList radios &&
+                    !Enum.TryParse<KeyHash>(radios.SelectedValue, out keyHash))
+                keyHash = KeyHash.Hex;
+            
             if (!string.IsNullOrEmpty(this.TextBox_Key.Text))
             {
                 Reset_TextBox_IV(this.TextBox_Key.Text);
@@ -681,7 +685,7 @@ namespace Area23.At.Mono.Crypt
                 this.TextBox_Key.Text = Constants.AUTHOR_EMAIL;
             Session[Constants.AES_ENVIROMENT_KEY] = this.TextBox_Key.Text;
 
-            if (!Enum.TryParse<KeyHash>(RadioButtonList_Hash.SelectedValue, out keyHash))
+            if (!Enum.TryParse<KeyHash>(RadioButtonList_Hash.SelectedKeyHashValue, out keyHash))
                 keyHash = KeyHash.Hex;
             zipType = ZipTypeExtensions.GetZipType(DropDownList_Zip.SelectedValue);
             if (!Enum.TryParse<EncodingType>(DropDownList_Encoding.SelectedValue, out encType))

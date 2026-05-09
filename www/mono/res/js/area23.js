@@ -9,6 +9,7 @@
 
 var hours_n, minutes_n, seconds_n, hours_d, minutes_d, seconds_d, time_d, year_d, month_d, day_d;
 var buttonQRCode, inputcolor, inputbackcolor, colorpicker, backcolorpicker;
+var theFortuneForm, fortuneUrl;
 
 
 function loadScript(src, asyn, f) {
@@ -37,30 +38,9 @@ function loadScript(src, asyn, f) {
     head.appendChild(script);
 }
 
-function highLightOnChange(highLightId) {
 
-    if (highLightId != null && document.getElementById(highLightId) != null) {
-        if (document.getElementById(highLightId).style.borderStyle == "dotted" ||
-            document.getElementById(highLightId).style.borderColor == "red") {
-            // do nothing when dotted
-        }
-        else if (document.getElementById(highLightId).style.borderStyle == "dashed" ||
-            document.getElementById(highLightId).style.borderColor == "red") {
-
-            document.getElementById(highLightId).style.borderStyle = "dotted";
-        }
-        else {
-            // set border-width: 1; border-style: dashed
-            document.getElementById(highLightId).style.borderColor = "red";
-            document.getElementById(highLightId).style.borderStyle = "dashed";
-        }
-    }
-
-}
-
-
-function ReloadUnixForm() { // var url = "https://area23.at/cgi/fortune.cgi";
-    var delay = 100;
+function ReloadUnixForm(delay) { // var url = "https://area23.at/cgi/fortune.cgi";
+    if (delay < 100) delay = 100;
     setTimeout(function () { window.location.reload(); }, delay);
     return;
 }
@@ -122,7 +102,7 @@ function InitTimeDigital() {
     if (seconds == 0) {
         if (minutes == 0) {
             alert("Digital time: " + time_d);
-            ReloadForm();
+            ReloadUnixForm(100);
             return;
         }        
     }
@@ -256,7 +236,35 @@ function initColorPickers() {
     }
 }
 
+
+function VerifyFortuneUrl() {
+    const urlWindowLocation = new URL(window.location.toLocaleString());
+    fortuneUrl = new URL(urlWindowLocation);
+    if (fortuneUrl.indexOf("ortun") > -1)
+        return true;
+    return false;
+}
+function GetFortuneForm() {
+    theFortuneForm = null;
+    var possibleForms = ["Area23MasterForm", "form1", "form", "form0", "from2"];
+    let _form_Id = "";
+    possibleForms.forEach(function (_form_Id) {
+        if (theFortuneForm == null)
+            theFortuneForm = document.getElementById(_form_Id);
+    });
+    if (theFortuneForm == null) {
+        var allForms = document.getElementsByTagName("form");
+        if (allForms != null && allForms.length > 0)
+            theFortuneForm = allForms[0];
+    }
+    return theFortuneForm;
+}
+function FormSubmit() {
+    theFortuneForm = GetFortuneForm();
+    if (VerifyFortuneUrl() && theFortuneForm != null)
+        theFortuneForm.submit();
+}
+
 // setColorPicker();
 // example for loading more javascript dynamically from main script by creating script elements in html head.
-loadScript('https://area23.at/js/fortune.js', false, function () { console.log('finished loading fortune: ' + GetFortuneForm()); });
-loadScript('https://area23.at/js/od.js', false, function () { console.log('finished loading od: ' + GetOdForm()); });
+// loadScript('https://area23.at/js/od.js', false, function () { console.log('finished loading od: ' + GetOdForm()); });

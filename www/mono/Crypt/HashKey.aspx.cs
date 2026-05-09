@@ -82,8 +82,17 @@ namespace Area23.At.Mono.Crypt
                 Reset_TextBox_IV(this.TextBox_Key.Text);
                 
                 KeyHash keyHash = KeyHash.Hex;
-                if (!Enum.TryParse<KeyHash>(this.hashKeyRadioButtonList.SelectedKeyHashValue, out keyHash))
-                    keyHash = KeyHash.Hex;
+                if (hashKeyRadioButtonList != null && 
+                    !string.IsNullOrEmpty(hashKeyRadioButtonList.SelectedKeyHashValue))
+                {
+                    if (!Enum.TryParse<KeyHash>(hashKeyRadioButtonList.SelectedKeyHashValue, out keyHash))
+                        keyHash = KeyHash.Hex;
+                }                    
+                if (sender != null && sender is RadioButtonList keyHashRadios)
+                {
+                    if (!Enum.TryParse<KeyHash>(keyHashRadios.SelectedValue, out keyHash))
+                        keyHash = KeyHash.Hex;
+                }               
 
                 string hashed = keyHash.Hash(TextBox_Key.Text);
 

@@ -8,6 +8,9 @@ namespace Area23.At.Mono.Controls
     public partial class HashKeyRadioButtonList : System.Web.UI.UserControl
     {
 
+        public KeyHash keyHash = KeyHash.Hex;
+
+
         public string SelectedKeyHashValue { get => RadioButtonList_Hash.SelectedValue; set => RadioButtonList_Hash.SelectedValue = value; }
 
         public event EventHandler ParameterChanged_FireUp;            
@@ -16,6 +19,8 @@ namespace Area23.At.Mono.Controls
         {
             if (!IsPostBack)
             {
+                this.RadioButtonList_Hash.DataSource = KeyHash_Extensions.KeyHashListItems;
+                this.RadioButtonList_Hash.DataBind();
                 this.RadioButtonList_Hash.SelectedValue = KeyHash.Hex.ToString();
             }
         }

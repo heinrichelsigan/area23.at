@@ -54,8 +54,7 @@
             <table>
                 <tr>
                     <td rowspan="4">
-                        <asp:ListBox ID="ListBoxFilesUploaded" runat="server" ClientIDMode="Static" ToolTip="Uploaded files"
-                        OnSelectedIndexChanged="ListBoxFilesUploaded_SelectedIndexChanged"  Rows="8" Height="192px" Width="480px" />
+                        <asp:ListBox ID="ListBoxFilesUploaded" runat="server" ClientIDMode="Static" ToolTip="Uploaded files" Rows="8" Height="192px" Width="480px" />
                     </td>
                     <td>
                         <asp:ImageButton ID="ImButtonUp" runat="server" ClientIDMode="Static" ImageUrl="../res/img/arrow/arrow_up.gif" OnClick="ImButtonUp_ArrowUp" />

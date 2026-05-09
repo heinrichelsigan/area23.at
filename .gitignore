@@ -385,3 +385,10 @@ FodyWeavers.xsd
 /Framework/Core
 /Framework/Library
 /Stat/wko
+/www/mono/res/bin/bzip2.exe
+/www/mono/res/bin/bzip2.dll
+/www/mono/res/bin/bc.exe
+/www/mono/res/bin/dc.exe
+/www/mono/res/bin/GNUWin32.README
+/www/mono/res/bin/gzip.exe
+/www/mono/res/bin/readline4.dll

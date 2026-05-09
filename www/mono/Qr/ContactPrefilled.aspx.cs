@@ -138,7 +138,7 @@ namespace Area23.At.Mono.Qr
 
                 if (!string.IsNullOrEmpty(qrString))
                 {
-                    qrImgPath = GetQRImgPath(qrString, out qrWidth, this.input_color.Value, this.input_backcolor.Value, 3);
+                    qrImgPath = GetQRImgPath(qrString, out qrWidth, this.input_color.Value, this.input_backcolor.Value, 4);
                 }
                 if (!string.IsNullOrEmpty(qrImgPath)) 
                 {

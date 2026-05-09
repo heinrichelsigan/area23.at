@@ -8,9 +8,38 @@
 	<script async src="../res/js/area23.js"></script>
 	<script>
 		window.onload = function () {
-			setColorPicker();
-		}; 
-	</script>
+            try {
+				setColorPicker();
+				return; 
+            } catch (ex) {
+                console.log("Exception: " + ex);
+            }
+            try {
+                setColorPick();
+            } catch (ex) {
+                console.log("Exception: " + ex);
+            }
+        };
+
+        function setColorPick() {
+            colorpicker = document.getElementById("color1");
+            inputcolor = document.getElementById("input_color");
+            if (colorpicker != null && inputcolor != null && inputcolor.value != null && inputcolor.value != "" && inputcolor.value.length >= 6) {
+                if (colorpicker.value == inputcolor.value) {
+                    ;
+                }
+                else
+                    colorpicker.value = inputcolor.value;
+            }
+            backcolorpicker = document.getElementById("color0");
+            inputbackcolor = document.getElementById("input_backcolor");
+            if (backcolorpicker != null && inputbackcolor != null && inputbackcolor.value != null && inputbackcolor.value.length >= 6) {
+                // if (backcolorpicker.value == inputbackcolor.value)
+                //     return;
+                backcolorpicker.value = inputbackcolor.value;
+            }
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="ContentEncodeBody" ContentPlaceHolderID="EncodeBody" runat="server">
     <form id="UrlShortnerForm" runat="server">

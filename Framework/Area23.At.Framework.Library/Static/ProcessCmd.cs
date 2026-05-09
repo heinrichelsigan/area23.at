@@ -82,7 +82,7 @@ namespace Area23.At.Framework.Library.Static
                     consoleOutput = compiler.StandardOutput.ReadToEnd();
                     consoleError = compiler.StandardError.ReadToEnd();
 
-                    compiler.WaitForExit(1000);
+                    compiler.WaitForExit(100);
                 }
             }
             catch (Exception exi)
@@ -100,6 +100,71 @@ namespace Area23.At.Framework.Library.Static
 
             return consoleOutput;
         }
+
+
+        /// <summary>
+        /// Execute a binary or shell cmd
+        /// </summary>
+        /// <param name="filepath">full or relative filepath to executable</param>
+        /// <param name="arguments">arguments passed to executable</param>
+        /// <param name="useShellExecute">set Process.StartInfo.UseShellExecute</param>
+        /// <returns>standard output of process pexecec it.</returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        public static string ExecStdIn(string filepath = "SystemInfo", string arguments = "", bool useShellExecute = false)
+        {
+            string consoleError = "", consoleOutput = "", processCmd = Sanitize(filepath);
+            string workingDir = "", args = (!string.IsNullOrEmpty(arguments)) ? Sanitize(arguments, false) : "";
+            Area23Log.LogOriginMsg("ProcessCmd", String.Format("ProcessCmd.Execute(filepath = ${0}, args = {1}, useShellExecute = {2}) called ...",
+                processCmd, args, useShellExecute));
+            try
+            {
+                // if (!File.Exists(processCmd))
+                //     throw new FileNotFoundException("executable file not found: " + processCmd);
+
+                workingDir = (processCmd.Contains(LibPaths.SepCh)) ? processCmd.Substring(0, filepath.LastIndexOf(LibPaths.SepCh)) : "";
+                // workingDir = (processCmd.Contains(LibPaths.SepCh)) ? Path.GetDirectoryName(processCmd) : ""; // System.IO.Directory.GetCurrentDirectory();
+
+
+                using (Process compiler = new Process())
+                {
+                    compiler.StartInfo.FileName = processCmd;
+                    compiler.StartInfo.CreateNoWindow = true;
+                    // compiler.StartInfo.Arguments = args;
+                    compiler.StartInfo.UseShellExecute = useShellExecute;
+                    compiler.StartInfo.RedirectStandardError = true;
+                    compiler.StartInfo.RedirectStandardOutput = true;
+                    compiler.StartInfo.RedirectStandardInput = true;
+                    if (!string.IsNullOrEmpty(workingDir) && Directory.Exists(workingDir))
+                        compiler.StartInfo.WorkingDirectory = workingDir;
+                    compiler.Start();
+
+                    compiler.StandardInput.Write(args);
+                    compiler.StandardInput.WriteLine();
+                    compiler.StandardInput.Flush();
+                    compiler.StandardInput.Close();
+
+                    consoleOutput = compiler.StandardOutput.ReadToEnd();
+                    consoleError = compiler.StandardError.ReadToEnd();
+
+                    compiler.WaitForExit(100);
+                }
+            }
+            catch (Exception exi)
+            {
+                string stdErr = (string.IsNullOrEmpty(consoleError)) ? string.Empty : $"\tStdErr = {consoleError}";
+                Area23Log.LogOriginMsgEx("ProcessCmd", "ProcessCmd.Execute(string filepath = " + processCmd + ", string arguments = " +
+                    arguments + ") throwed Exception: " + exi.GetType(), exi);
+                throw new InvalidOperationException($"can't execute: {processCmd} {args} {stdErr}", exi);
+            }
+
+            Area23Log.Log(String.Format("ProcessCmd.Execute(filepath = ${0}, args = {1}, useShellExecute = {2}) finished successfull, output length: {3}",
+                processCmd, args, useShellExecute, consoleOutput.Length));
+            if (!string.IsNullOrEmpty(consoleError))
+                Area23Log.Log("ProcessCmd.Execute consoleError: " + consoleError);
+
+            return consoleOutput;
+        }
+
 
         public static string ExecuteCreateWindow(string filepath = "SystemInfo", string arguments = "", bool useShellExecute = false, bool createWindow = false)
         {

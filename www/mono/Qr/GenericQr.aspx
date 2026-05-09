@@ -4,11 +4,91 @@
 	<link rel="stylesheet" href="../res/css/area23.at.mono.css" />
 	<meta name="keywords" content="QR code generator" />
 	<meta name="description" content="https://github.com/heinrichelsigan/area23.at/" />
-	<script async src="../res/js/area23.js"></script>
-	<script>
-		window.onload = function () {
-			setColorPicker();
-        }; 
+	<script type="text/javascript" src="../res/js/qr.js"></script>
+	<script type="text/javascript">
+
+        var buttonQRCode, inputcolor, inputbackcolor, colorpicker, backcolorpicker;
+
+        window.onload = function () {
+            try {
+                setColorPicker();
+                return;
+            } catch (ex) {
+                console.log("Exception: " + ex);
+            }
+            //try {
+            //    setColorPick();
+            //} catch (ex) {
+            //    console.log("Exception: " + ex);
+            //}
+        };
+
+        function setColorPick() {
+            colorpicker = document.getElementById("color1");
+            inputcolor = document.getElementById("input_color");
+            if (colorpicker != null && inputcolor != null && inputcolor.value != null && inputcolor.value != "" && inputcolor.value.length >= 6) {
+                if (colorpicker.value == inputcolor.value) {
+                    ;
+                }
+                else
+                    colorpicker.value = inputcolor.value;
+            }
+            backcolorpicker = document.getElementById("color0");
+            inputbackcolor = document.getElementById("input_backcolor");
+            if (backcolorpicker != null && inputbackcolor != null && inputbackcolor.value != null && inputbackcolor.value.length >= 6) {
+                // if (backcolorpicker.value == inputbackcolor.value)
+                //     return;
+                backcolorpicker.value = inputbackcolor.value;
+            }
+        }
+
+
+        function newQrColor(color) {
+            try {
+                if (document.getElementById("input_color") != null) {
+                    inputcolor = document.getElementById("input_color");
+                    inputcolor.setAttribute("Text", color);
+                    inputcolor.setAttribute("qrcolor", color);
+                    inputcolor.value = color;
+                    inputcolor.style.borderColor = color;
+                    inputcolor.style.textColor = color;
+                }
+
+                if (document.getElementById("Button_QRCode") != null) {
+                    buttonQRCode = document.getElementById("Button_QRCode");
+                    buttonQRCode.setAttribute("qrcolor", color);
+                    buttonQRCode.style.borderColor = color;
+                    buttonQRCode.style.textColor = color;
+                    document.getElementById("Button_QRCode").click();
+                }
+            } catch (exCol) {
+                console.log("newQrColor(color = " + color + ") throwed at getElementsById('input_color') " + exCol);
+            }
+        }
+
+        function newBackgroundColor(bgcolor) { // document.bgColor = color;            
+            try {
+                if (document.getElementById("input_backcolor") != null) {
+                    inputbackcolor = document.getElementById("input_backcolor");
+                    inputbackcolor.setAttribute("Text", bgcolor);
+                    inputbackcolor.setAttribute("qrcolor", bgcolor);
+                    inputbackcolor.value = bgcolor;
+                    inputbackcolor.style.borderColor = bgcolor;
+                }
+
+                if (document.getElementById("Button_QRCode") != null) {
+                    buttonQRCode = document.getElementById("Button_QRCode");
+                    buttonQRCode.setAttribute("bgcolor", bgcolor);
+                    buttonQRCode.style.bgcolor = bgcolor;
+                    document.getElementById("Button_QRCode").click();
+                }
+            } catch (exCol) {
+                console.log("newBackgroundColor(bgcolor = " + bgcolor +
+                    ") throwed at getElementsById('input_backcolor') " + exCol);
+            }
+        }
+
+
     </script>
 </asp:Content>
 <asp:Content ID="ContentQrBody" ContentPlaceHolderID="QrBody" runat="server">
@@ -17,17 +97,17 @@
 			<asp:DropDownList ClientIDMode="Static" ID="DropDownListQrMode" runat="server" CssClass="QrDropDownList" ToolTip="Select Qr mode" 
 				Style="display: inline-block;">
 				<asp:ListItem Enabled="true" Selected="False" Value="1" Text="1" />
-				<asp:ListItem Enabled="true" Selected="True" Value="2" Text="2" />
+				<asp:ListItem Enabled="true" Selected="False" Value="2" Text="2" />
 				<asp:ListItem Enabled="true" Selected="False" Value="3" Text="3" />
-				<asp:ListItem Enabled="true" Selected="False" Value="4" Text="4" />
+				<asp:ListItem Enabled="true" Selected="True" Value="4" Text="4" />
 				<asp:ListItem Enabled="true" Selected="False" Value="6" Text="6" />
 				<asp:ListItem Enabled="true" Selected="False" Value="8" Text="8" />
 			</asp:DropDownList>
 			<asp:DropDownList ClientIDMode="Static" ID="DropDownListQrLevel" runat="server" CssClass="QrDropDownList" ToolTip="Select Qr mode" 
 				Style="display: inline-block;">
-				<asp:ListItem Enabled="true" Selected="False" Value="-1" Text="Default" />
+				<asp:ListItem Enabled="true" Selected="True" Value="-1" Text="Default" />
 				<asp:ListItem Enabled="true" Selected="False" Value="0" Text="L" />
-				<asp:ListItem Enabled="true" Selected="True" Value="1" Text="M" />
+				<asp:ListItem Enabled="true" Selected="False" Value="1" Text="M" />
 				<asp:ListItem Enabled="true" Selected="False" Value="2" Text="Q" />
 				<asp:ListItem Enabled="true" Selected="False" Value="3" Text="H" />
 			</asp:DropDownList>			

@@ -109,11 +109,12 @@
         <hr />
         <h2 id="h2Id" runat="server">unix cmd line app interfaces</h2>
         <ul>
-            <li><a href="FortunAsp.aspx">fortune(6)</a></li>
-            <li><a href="HexDump.aspx">hex dump od(1)</a></li>
             <li><a href="Bc.aspx">basic calculator bc(1)</a></li>
-            <li><a href="PdfMerge.aspx" name="PdfMerge">pdfunite(1)</a></li>
-            <li><a href="WhoisDns.aspx" name="WhoisDns">whois(1) dns host(1)</a></li>
+            <li><a href="Fortune.aspx">fortune</a> <a href="https://area23.at/shared/man/fortune.txt" target="_blank">fortune(6)</a></li>
+            <li><a href="HostWhois.aspx" name="HostWhois">hostwhois</a> <a href="https://area23.at/shared/man/whois.txt" target="_blank">whois (1)</a></li>
+            <li><a href="OctalDump.aspx">octaldump</a> <a href="https://www.man7.org/linux/man-pages/man1/od.1.html" target="_blank">od(1)</a></li>            
+            <li><a href="PdfMerge.aspx" name="PdfMerge">PdfMerge pdfunite(1)</a></li>
+            <li><a href="PdfUnite.aspx" name="PdfUnite">PdfUnite pdfunite(1)</a></li>            
         </ul>
     </form>
 </asp:Content>

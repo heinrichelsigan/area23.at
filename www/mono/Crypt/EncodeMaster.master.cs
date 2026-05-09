@@ -11,68 +11,8 @@ namespace Area23.At.Mono.Crypt
         {
             if (!Page.IsPostBack)
             {
-                InitAHrefs();
-                NavFolderHandler(sender, e);
-            }
-        }
-
-        protected void InitAHrefs()
-        {
-            this.aCoolCrypt.HRef = LibPaths.EncodeAppPath + "CoolCrypt.aspx";
-            this.aAes.HRef = LibPaths.EncodeAppPath + "AesImprove.aspx";
-            this.aHashKey.HRef = LibPaths.EncodeAppPath + "HashKey.aspx";
-            // this.a1.HRef = LibPaths.EncodeAppPath + "CharHexDecOctBin.aspx";
-            this.aUrlZenMatrix.HRef = LibPaths.EncodeAppPath + "ZenMatrixVisualize.aspx";
-            this.aImgPngCrypt.HRef = LibPaths.EncodeAppPath + "ImgPngCrypt.aspx";
-        }
-
-        protected void NavFolderHandler(object sender, EventArgs args)
-        {
-            headerLeft.Attributes["class"] = "headerLeft";
-            headerLeftCenter.Attributes["class"] = "headerLeftCenter";
-            headerCenter.Attributes["class"] = "headerCenter";
-            headerRightCenter.Attributes["class"] = "headerRightCenter";
-            headerRight.Attributes["class"] = "headerRight";
-
-            try
-            {
-                if (this.Request != null && this.Request.RawUrl != null)
-                {
-                    if (this.Request.RawUrl.Contains("CoolCrypt.aspx"))
-                    {
-                        headerLeft.Attributes["class"] = "headerLeftSelect";
-                        return;
-                    }
-                    if (this.Request.RawUrl.Contains("AesImprove.aspx"))
-                    {
-                        headerLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
-                        return;
-                    }
-                    if (this.Request.RawUrl.Contains("HashKey.aspx"))
-                    {
-                        headerCenter.Attributes["class"] = "headerCenterSelect";
-                        return;
-                    }
-                    //if (this.Request.RawUrl.Contains("CharHexDecOctBin.aspx"))
-                    //{
-                    //    headerCenterCenter.Attributes["class"] = "headerCenterSelect";
-                    //    return;
-                    //}
-                    if (this.Request.RawUrl.Contains("ZenMatrixVisualize.aspx"))
-                    {
-                        headerRightCenter.Attributes["class"] = "headerRightCenterSelect";
-                        return;
-                    }
-                    if (this.Request.RawUrl.Contains("ImgPngCrypt.aspx"))
-                    {
-                        headerRight.Attributes["class"] = "headerRightSelect";
-                        return;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogStatic(ex);
+                var headerLinks = menuControlId.BuildMenu(true);
+                menuControlId.BindMenu(headerLinks);             
             }
         }
 

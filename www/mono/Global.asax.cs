@@ -1,9 +1,9 @@
 ﻿using Area23.At.Framework.Library.Cqr;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
-using Area23.At.Mono.Util;
 using System;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -15,6 +15,34 @@ namespace Area23.At.Mono
         protected internal static StringComparison StrComp { get => StringComparison.OrdinalIgnoreCase; }
 
         protected internal static readonly object _locker = new object();
+
+        public static int DeleteFilesInTmpDirectory(string tmpDir = null)
+        {
+            int cnt = 0;
+            if (string.IsNullOrEmpty(tmpDir))
+                tmpDir = LibPaths.SystemDirTmpPath;
+
+            if (Directory.Exists(tmpDir))
+            {
+                foreach (string file in Directory.GetFiles(tmpDir))
+                {
+                    try
+                    {
+                        if (!file.Contains("temp.tmp"))
+                        {
+                            File.Delete(file);
+                            cnt++;
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+
+            return cnt;
+        }
+
 
         protected void Application_Init(object sender, EventArgs e)
         {
@@ -29,7 +57,7 @@ namespace Area23.At.Mono
                 {
                     string msg = String.Format("application init at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
                     Area23Log.LogOriginMsg("Global.asax: Application_Init", msg);
-                    HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
+                    DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
                 }
                 catch (Exception) { }
             }
@@ -69,7 +97,7 @@ namespace Area23.At.Mono
             {
                 string msg = String.Format("application ended at {0} ", DateTime.UtcNow.ToString("yyyy-MM-dd_HH:mm:ss"));
                 Area23Log.LogOriginMsg("Global.asax", msg);
-                HostLogHelper.DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
+                DeleteFilesInTmpDirectory(LibPaths.SystemDirTmpPath);
             }
             catch (Exception) { }
         }
@@ -159,11 +187,6 @@ namespace Area23.At.Mono
             }
             
         }
-
-
-        // protected void Application_EndRequest(object sender, EventArgs e) { }
-        
-
        
         protected void Application_Error(object sender, EventArgs e)
         {
@@ -236,7 +259,6 @@ namespace Area23.At.Mono
 
             Area23Log.LogOriginMsg("Global.asax", msg);
         }
-
 
         protected void Session_End(object sender, EventArgs e)
         {

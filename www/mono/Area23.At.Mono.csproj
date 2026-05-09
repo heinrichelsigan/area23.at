@@ -60,15 +60,21 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="OnBarcode.Barcode.BarcodeScanner, Version=10.3.1.202, Culture=neutral, PublicKeyToken=b8dd9d377826c510, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OnBarcode.Barcode.Reader.10.3.1.13\lib\netstandard2.0\OnBarcode.Barcode.BarcodeScanner.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="QRCoder, Version=1.7.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\QRCoder.1.7.0\lib\net40\QRCoder.dll</HintPath>
+    <Reference Include="QRCoder, Version=1.8.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\QRCoder.1.8.0\lib\net40\QRCoder.dll</HintPath>
     </Reference>
     <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Drawing.Common.10.0.7\lib\net462\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
     </Reference>
@@ -159,6 +165,14 @@
     <Compile Include="Controls\HashKeyRadioButtonList.ascx.designer.cs">
       <DependentUpon>HashKeyRadioButtonList.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Controls\HeaderLink.cs" />
+    <Compile Include="Controls\MenuControl.ascx.cs">
+      <DependentUpon>MenuControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\MenuControl.ascx.designer.cs">
+      <DependentUpon>MenuControl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LetterImageControl.ascx.cs">
       <DependentUpon>LetterImageControl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -188,6 +202,7 @@
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Content Include="Controls\HashKeyRadioButtonList.ascx" />
+    <Content Include="Controls\MenuControl.ascx" />
     <Content Include="Controls\LetterImageControl.ascx" />
     <Content Include="Controls\LoginControl.ascx" />
     <Content Include="Controls\TreeViewControl.ascx" />
@@ -202,6 +217,7 @@
     <Content Include="Crypt\S.aspx" />
     <Content Include="Gamez\Default.aspx" />
     <Content Include="Gamez\froga.aspx" />
+    <Content Include="Gamez\FruitSlots.aspx" />
     <Content Include="Gamez\JokerDice.aspx" />
     <Content Include="Gamez\TicTacToe.aspx" />
     <Content Include="Gamez\frogb.aspx" />
@@ -209,19 +225,23 @@
     <Content Include="Error.aspx" />
     <Content Include="MyIp\Default.aspx" />
     <Content Include="Qr\Default.aspx" />
+    <Content Include="Qr\QrScan.aspx" />
     <Content Include="Qr\S.aspx" />
     <Content Include="MyIp\R.aspx" />
     <Content Include="R.aspx" />
+    <Content Include="res\bin\whois.exe" />
     <Content Include="res\gamez\audio\aDraw.m4a" />
-    <AdditionalFiles Include="res\bin\bc.exe" />
-    <Content Include="res\bin\bzip2.dll" />
-    <Content Include="res\bin\bzip2.exe" />
-    <Content Include="res\bin\dc.exe" />
+    <Content Include="res\bin\bc.exe" />
     <Content Include="res\bin\gzip.exe" />
     <Content Include="res\bin\readline4.dll" />
     <Content Include="res\css\ccalcweb.css" />
     <Content Include="res\css\matrixcalcweb.css" />
     <Content Include="res\css\ccalc.css" />
+    <Content Include="res\gamez\audio\coin.wav" />
+    <Content Include="res\gamez\audio\four4.wav" />
+    <Content Include="res\gamez\audio\one1.wav" />
+    <Content Include="res\gamez\audio\three3.mp3" />
+    <Content Include="res\gamez\audio\two2.mp3" />
     <Content Include="res\gamez\dicepoker\Ace.gif" />
     <Content Include="res\gamez\dicepoker\Ace.png" />
     <Content Include="res\gamez\dicepoker\brush.png" />
@@ -271,6 +291,42 @@
     <Content Include="res\gamez\froga\a_left.gif" />
     <Content Include="res\gamez\froga\a_right.gif" />
     <Content Include="res\gamez\froga\a_up.gif" />
+    <Content Include="res\gamez\fruitslotmachine\apple.gif" />
+    <Content Include="res\gamez\fruitslotmachine\apple0.gif" />
+    <Content Include="res\gamez\fruitslotmachine\apple1.gif" />
+    <Content Include="res\gamez\fruitslotmachine\apple2.gif" />
+    <Content Include="res\gamez\fruitslotmachine\apple3.gif" />
+    <Content Include="res\gamez\fruitslotmachine\apple4.gif" />
+    <Content Include="res\gamez\fruitslotmachine\apple5.gif" />
+    <Content Include="res\gamez\fruitslotmachine\apple6.gif" />
+    <Content Include="res\gamez\fruitslotmachine\cherry.gif" />
+    <Content Include="res\gamez\fruitslotmachine\cherry0.gif" />
+    <Content Include="res\gamez\fruitslotmachine\cherry1.gif" />
+    <Content Include="res\gamez\fruitslotmachine\cherry2.gif" />
+    <Content Include="res\gamez\fruitslotmachine\cherry3.gif" />
+    <Content Include="res\gamez\fruitslotmachine\cherry4.gif" />
+    <Content Include="res\gamez\fruitslotmachine\cherry5.gif" />
+    <Content Include="res\gamez\fruitslotmachine\cherry6.gif" />
+    <Content Include="res\gamez\fruitslotmachine\index.html" />
+    <Content Include="res\gamez\fruitslotmachine\machineOver.gif" />
+    <Content Include="res\gamez\fruitslotmachine\machineReady.gif" />
+    <Content Include="res\gamez\fruitslotmachine\machineStart.gif" />
+    <Content Include="res\gamez\fruitslotmachine\melon.gif" />
+    <Content Include="res\gamez\fruitslotmachine\melon0.gif" />
+    <Content Include="res\gamez\fruitslotmachine\melon1.gif" />
+    <Content Include="res\gamez\fruitslotmachine\melon2.gif" />
+    <Content Include="res\gamez\fruitslotmachine\melon3.gif" />
+    <Content Include="res\gamez\fruitslotmachine\melon4.gif" />
+    <Content Include="res\gamez\fruitslotmachine\melon5.gif" />
+    <Content Include="res\gamez\fruitslotmachine\melon6.gif" />
+    <Content Include="res\gamez\fruitslotmachine\orange.gif" />
+    <Content Include="res\gamez\fruitslotmachine\orange0.gif" />
+    <Content Include="res\gamez\fruitslotmachine\orange1.gif" />
+    <Content Include="res\gamez\fruitslotmachine\orange2.gif" />
+    <Content Include="res\gamez\fruitslotmachine\orange3.gif" />
+    <Content Include="res\gamez\fruitslotmachine\orange4.gif" />
+    <Content Include="res\gamez\fruitslotmachine\orange5.gif" />
+    <Content Include="res\gamez\fruitslotmachine\orange6.gif" />
     <Content Include="res\gamez\tictactoe\androidSetTicTacToe.gif" />
     <Content Include="res\gamez\tictactoe\androidSetTicTacToe.png" />
     <Content Include="res\gamez\tictactoe\androidTicTacToe.gif" />
@@ -399,6 +455,7 @@
     <Content Include="res\img\symbol\UndoTurnBack.ico" />
     <Content Include="res\img\transparent.gif" />
     <Content Include="res\gamez\pong\workerPong.gif" />
+    <Content Include="res\js\qr.js" />
     <Content Include="res\js\ccalc.js" />
     <Content Include="res\out\https--area23_at-.gif" />
     <Content Include="res\out\Rational_ObjectOrientedAnalysis-UML.jpg" />
@@ -412,7 +469,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="res\js\bc.js" />
-    <Content Include="res\js\digiclock.js" />
     <Content Include="Settings\CacheTest.aspx" />
     <Content Include="Settings\Default.aspx" />
     <AdditionalFiles Include="Settings\.htaccess">
@@ -421,17 +477,16 @@
     <Content Include="Settings\Setting.aspx" />
     <Content Include="Settings\TestLogin.aspx" />
     <Content Include="Unix\Bc.aspx" />
-    <Content Include="Unix\MergePdf.aspx" />
+    <Content Include="Unix\PdfUnite.aspx" />
     <Content Include="Unix\PdfMerge.aspx" />
     <Content Include="Unix\Default.aspx" />
-    <Content Include="Unix\FortunAsp.aspx" />
+    <Content Include="Unix\Fortune.aspx" />
     <Content Include="res\css\area23.at.mono.css" />
     <Content Include="res\img\rpnHeader.png" />
     <Content Include="res\img\transparent.png" />
     <Content Include="res\js\rpn.js" />
-    <Content Include="Unix\HexDump.aspx" />
+    <Content Include="Unix\OctalDump.aspx" />
     <Content Include="Qr\GenericQr.aspx" />
-    <Content Include="Qr\QrRedirect.aspx" />
     <Content Include="res\gamez\audio\frogaGameOver.mp3" />
     <Content Include="res\gamez\audio\frogaGameOver.ogg" />
     <Content Include="res\gamez\audio\frogCrash.mp3" />
@@ -498,7 +553,6 @@
     <Content Include="res\gamez\froga\wood0t.png" />
     <Content Include="res\js\gtag.js" />
     <Content Include="res\js\area23.js" />
-    <Content Include="res\js\fortune.js" />
     <Content Include="res\js\frga.js" />
     <Content Include="res\js\frog.js" />
     <Content Include="res\js\od.js" />
@@ -625,6 +679,13 @@
     <Compile Include="Gamez\froga.aspx.designer.cs">
       <DependentUpon>froga.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Gamez\FruitSlots.aspx.cs">
+      <DependentUpon>FruitSlots.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Gamez\FruitSlots.aspx.designer.cs">
+      <DependentUpon>FruitSlots.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Gamez\JokerDice.aspx.cs">
       <DependentUpon>JokerDice.aspx</DependentUpon>
     </Compile>
@@ -679,6 +740,13 @@
     </Compile>
     <Compile Include="Qr\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Qr\QrScan.aspx.cs">
+      <DependentUpon>QrScan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Qr\QrScan.aspx.designer.cs">
+      <DependentUpon>QrScan.aspx</DependentUpon>
     </Compile>
     <Compile Include="Qr\S.aspx.cs">
       <DependentUpon>S.aspx</DependentUpon>
@@ -736,12 +804,12 @@
     <Compile Include="Unix\Bc.aspx.designer.cs">
       <DependentUpon>Bc.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Unix\MergePdf.aspx.cs">
-      <DependentUpon>MergePdf.aspx</DependentUpon>
+    <Compile Include="Unix\PdfUnite.aspx.cs">
+      <DependentUpon>PdfUnite.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Unix\MergePdf.aspx.designer.cs">
-      <DependentUpon>MergePdf.aspx</DependentUpon>
+    <Compile Include="Unix\PdfUnite.aspx.designer.cs">
+      <DependentUpon>PdfUnite.aspx</DependentUpon>
     </Compile>
     <Compile Include="Unix\PdfMerge.aspx.cs">
       <DependentUpon>PdfMerge.aspx</DependentUpon>
@@ -757,22 +825,22 @@
     <Compile Include="Unix\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Unix\FortunAsp.aspx.cs">
-      <DependentUpon>FortunAsp.aspx</DependentUpon>
+    <Compile Include="Unix\Fortune.aspx.cs">
+      <DependentUpon>Fortune.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Unix\FortunAsp.aspx.designer.cs">
-      <DependentUpon>FortunAsp.aspx</DependentUpon>
+    <Compile Include="Unix\Fortune.aspx.designer.cs">
+      <DependentUpon>Fortune.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Unix\HexDump.aspx.cs">
-      <DependentUpon>HexDump.aspx</DependentUpon>
+    <Compile Include="Unix\OctalDump.aspx.cs">
+      <DependentUpon>OctalDump.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Unix\HexDump.aspx.designer.cs">
-      <DependentUpon>HexDump.aspx</DependentUpon>
+    <Compile Include="Unix\OctalDump.aspx.designer.cs">
+      <DependentUpon>OctalDump.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resource.Designer.cs">
@@ -804,13 +872,6 @@
     <Compile Include="Qr\ContactQrGenerator.aspx.designer.cs">
       <DependentUpon>ContactQrGenerator.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Qr\QrRedirect.aspx.cs">
-      <DependentUpon>QrRedirect.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Qr\QrRedirect.aspx.designer.cs">
-      <DependentUpon>QrRedirect.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Qr\QRMaster.master.cs">
       <DependentUpon>QRMaster.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -825,14 +886,13 @@
     <Compile Include="Unix\UnixMaster.master.designer.cs">
       <DependentUpon>UnixMaster.master</DependentUpon>
     </Compile>
-    <Compile Include="Unix\WhoisDns.aspx.cs">
-      <DependentUpon>WhoisDns.aspx</DependentUpon>
+    <Compile Include="Unix\HostWhois.aspx.cs">
+      <DependentUpon>HostWhois.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Unix\WhoisDns.aspx.designer.cs">
-      <DependentUpon>WhoisDns.aspx</DependentUpon>
+    <Compile Include="Unix\HostWhois.aspx.designer.cs">
+      <DependentUpon>HostWhois.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Util\HostLogHelper.cs" />
     <Compile Include="Calc\RPNType.cs" />
     <Compile Include="Json.aspx.cs">
       <DependentUpon>Json.aspx</DependentUpon>
@@ -844,32 +904,33 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Area23.Master" />
-    <Content Include="log\2024-03-00_Area23.At.Mono.log" />
     <Content Include="Crypt\EncodeMaster.master" />
     <Content Include="Gamez\GamesMaster.master" />
     <Content Include="Crypt\Help.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="log\README.MD" />
     <None Include="packages.config" />
     <Content Include="res\text\fortune.u8" />
     <Content Include="Qr\QRMaster.master" />
     <None Include="Properties\PublishProfiles\mono.area23.at_publish.pubxml" />
     <None Include="Properties\PublishProfiles\mono_area23_publish.pubxml" />
+    <Content Include="res\gamez\fruitslotmachine\apple.xcf" />
+    <Content Include="res\gamez\fruitslotmachine\cherry.xcf" />
+    <Content Include="res\gamez\fruitslotmachine\melon.xcf" />
+    <Content Include="res\gamez\fruitslotmachine\orange.xcf" />
     <None Include="res\img\transparent.xcf" />
     <Content Include="Unix\UnixMaster.master" />
     <Content Include="res\bin\bccmd.sh" />
     <Content Include="Calc\CalcMaster.master" />
-    <AdditionalFiles Include="res\bin\bccmd.bat" />
+    <Content Include="res\bin\bccmd.bat" />
     <None Include="Properties\PublishProfiles\app.publish.pubxml" />
     <None Include="Properties\PublishProfiles\area23.at_release_publish.pubxml" />
-    <Content Include="res\bin\uush.sh" />
     <Content Include="res\bin\GNUWin32.README" />
-    <Content Include="res\bin\zipunzip.sh" />
-    <Content Include="res\bin\zipunzip.bat" />
     <Content Include="res\tmp\temp.tmp" />
     <Content Include="res\json\contacts.json" />
     <Content Include="res\json\urlshort.json" />
-    <Content Include="Unix\WhoisDns.aspx" />
+    <Content Include="Unix\HostWhois.aspx" />
     <Content Include="Web.config" />
     <Content Include="res\uu\derpark.txt.uu" />
     <None Include="Properties\PublishProfiles\ArmPublish.pubxml" />

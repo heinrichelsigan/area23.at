@@ -1,5 +1,5 @@
 @echo off
 
-BCPATH%=%cd%
+BCPATH=%cd%
 echo %* | bc.exe
 

@@ -17,12 +17,12 @@ namespace Area23.At.Mono.Unix
 
         private static readonly bool USE_UNIX = (System.AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("/") &&
             !System.AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("\\"));
-        private readonly string BC_CMD_PATH = (USE_UNIX) ? "/usr/local/bin/bccmd.sh" :
-            Path.Combine(LibPaths.SystemDirBinPath, "bccmd.bat");
+        private readonly string BC_CMD_PATH = (USE_UNIX) ? "/usr/bin/bc" :
+            Path.Combine(LibPaths.SystemDirBinPath, "bc.exe");
         const string BC_CMD = "bc";
         public readonly string[] BAD_WORDS = { "exit", "quit", "exec", "exe", "cat", "echo", "`", "$ (", "$ [", "$[", "$(", "run", "bash", "tcsh", "csh", "ksh", "tsh", "sh", "xargs", "^C", "^c", "^z", "^Z" };
         public readonly string[] KEY_WORDS = { "warranty", "sqrt", "ibase", "obase", "return", "define", "auto", "for", "while", "if",
-            "cos", "sin", "tan", "atan", "asin", "acos", "sinh", "cosh", "tanh", "exp", "ln", "ld", "log", "!",
+            "cos", "sin", "tan", "atan", "asin", "acos", "sinh", "cosh", "tanh", "exp", "ln", "ld", "log", "!", "pow",
             "+", "-", "*", "/", "%", "^", "=", "<", ">", "(", ")", "[", "]", "{", "}",
             ",", ".", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "A", "B", "C", "D", "E", "F",
             "x", "i", "y", "n", "j", " "
@@ -32,9 +32,13 @@ namespace Area23.At.Mono.Unix
 
         public DateTime Change_Click_EventDate
         {
-            get => (Session[Constants.CHANGE_CLICK_EVENTCNT] != null) ?
-                (DateTime)Session[Constants.CHANGE_CLICK_EVENTCNT] : DateTime.MinValue;
-            set => Session[Constants.CHANGE_CLICK_EVENTCNT] = value;
+            get {
+                if (lastChangeDate.Attributes["Content"] != null)
+                    if (DateTime.TryParse(lastChangeDate.Attributes["Content"], out DateTime outDate))
+                        return outDate;
+                return DateTime.UtcNow.Subtract(new TimeSpan(0, 0, 0, 2, 0));
+            }
+            set => lastChangeDate.Attributes["Content"] = value.ToString();
         }
 
         /// <summary>
@@ -44,7 +48,10 @@ namespace Area23.At.Mono.Unix
         /// <param name="e"><see cref="EventArgs">EventArgs e</see></param>
         protected void Page_Load(object sender, EventArgs e)
         {
-            // if (!Page.IsPostBack)
+            if (!Page.IsPostBack)
+            {
+                lastChangeDate.Attributes["Content"] = DateTime.UtcNow.ToString();
+            }
             InitBcText();
         }
 
@@ -68,7 +75,7 @@ namespace Area23.At.Mono.Unix
         {
             string sndr = sender.ToString();
             TimeSpan t0 = DateTime.UtcNow.Subtract(this.Change_Click_EventDate);
-            if (t0.TotalMilliseconds >= 1024 || t0.Seconds >= 2)
+            if (t0.TotalMilliseconds >= 1024 || t0.Seconds >= 1)
             {
                 string currentLastLine = GetLastLineFromBcText();
                 if (currentLastLine != lastLine)
@@ -117,7 +124,7 @@ namespace Area23.At.Mono.Unix
             string filepath = BC_CMD,
             string args = "")
         {
-            return ProcessCmd.Execute(filepath, args, false);
+            return ProcessCmd.ExecStdIn(filepath, args, false);
         }
 
 

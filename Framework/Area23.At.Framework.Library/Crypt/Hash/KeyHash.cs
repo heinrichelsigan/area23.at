@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web.UI.WebControls;
 
 namespace Area23.At.Framework.Library.Crypt.Hash
 {
@@ -49,6 +50,21 @@ namespace Area23.At.Framework.Library.Crypt.Hash
         private static readonly KeyHash[] secureHashes = {
                 KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564,
                 KeyHash.OpenBSDCrypt, KeyHash.SCrypt, KeyHash.RipeMD256, KeyHash.Whirlpool };
+
+
+        public static ListItem[] KeyHashListItems  
+        {
+            get
+            {
+                List<ListItem> list = new List<ListItem>();
+                foreach (KeyHash keyHash in GetHashes())
+                {
+                    list.Add(new KeyHashData(keyHash.ToString(), false, true).WebUIListItem);
+                }
+                
+                return list.ToArray();
+            }
+        }
 
 
         public static KeyHash[] GetHashes() => keyHashes;
@@ -315,6 +331,51 @@ namespace Area23.At.Framework.Library.Crypt.Hash
                     return Hex16.ToHex16(inBytes);
             }
         }
+
+    }
+
+
+    public class KeyHashData
+    {
+        public bool Selected { get; set; }
+
+        public string Text { get; set; } 
+
+        public string Value { get; set; }
+
+        public bool Enabled { get; set; }
+
+
+        public ListItem WebUIListItem  
+        { 
+            get => 
+                new ListItem(this.Text, this.Value, this.Enabled) { Selected = this.Selected };            
+        }
+    
+        public KeyHashData()
+        {
+            Enabled = true;
+            Selected = false;
+            Text = "";
+            Value = "";
+        }
+
+        public KeyHashData(string textValue, bool selected = false, bool enabled = true) : this()
+        {
+            Text = textValue;
+            Value = textValue;
+            Enabled = enabled;
+            Selected = selected;
+        }
+
+        public KeyHashData(ListItem listItem) : this()
+        {
+            Text = listItem.Text.ToLower();
+            Value = listItem.Value;
+            Enabled = listItem.Enabled;
+            Selected = listItem.Selected;
+        }
+
 
     }
 

@@ -66,7 +66,7 @@ namespace Area23.At.Mono
                         spanCenter1.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
-                    if (Request.RawUrl.ToLower().Contains("encode"))
+                    if (Request.RawUrl.ToLower().Contains("crypt"))
                     {
                         spanCenter2.Attributes["class"] = "headerCenterSelect";
                         return;

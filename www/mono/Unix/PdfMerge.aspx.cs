@@ -27,7 +27,9 @@ namespace Area23.At.Mono.Unix
         
         private string _mergeFile = "";
         internal string MergeAppPath { get => LibPaths.OutAppPath + _mergeFile; }
-        internal string MergeSystemPath { get => LibPaths.SystemDirOutPath + _mergeFile; }
+        internal string MergeSystemPath { get => LibPaths.SystemDirOutPath; }
+        internal string MergeFileOutPath { get => LibPaths.SystemDirOutPath + _mergeFile; }
+
         internal string MergeToolTip { get => "Successfully merged pdfs to " + _mergeFile; }
 
         internal long FileSizeLimit
@@ -129,9 +131,7 @@ namespace Area23.At.Mono.Unix
         }
 
         protected void ListBoxFilesUploaded_SelectedIndexChanged(object sender, EventArgs e) 
-        {
-
-
+        {            
         }
 
 
@@ -167,6 +167,8 @@ namespace Area23.At.Mono.Unix
             {
                 ListItem item = ListBoxFilesUploaded.Items[selected];
                 ListBoxFilesUploaded.Items.RemoveAt(selected);
+                Base64Mime = "";
+                DivObject.InnerHtml = "";                
                 DeleteItemFile(item);
             }
         }
@@ -194,11 +196,11 @@ namespace Area23.At.Mono.Unix
             {
                 lock (_lock)
                 {
-                    if (File.Exists(MergeSystemPath))
+                    if (File.Exists(MergeFileOutPath))
                     {
                         try
                         {
-                            File.Delete(MergeSystemPath);
+                            File.Delete(MergeFileOutPath);
                         }
                         catch (Exception exFileDel)
                         {
@@ -224,7 +226,9 @@ namespace Area23.At.Mono.Unix
             aPdfMergeDownload.InnerText = "";
             SpanDownload.Visible = false;
             aPdfMergeDownload.Visible = false;
-            DivObject.Visible = false;
+            Base64Mime = "";
+            DivObject.InnerHtml = "";
+            DivObject.Visible = false;            
 
             HttpContext.Current.Session.Remove(Constants.DECRYPTED_TEXT_BOX);
             HttpContext.Current.Session.Remove(Constants.UPSAVED_FILE);
@@ -263,11 +267,14 @@ namespace Area23.At.Mono.Unix
             if (argCnt > 0)
             {
                 _mergeFile = DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_merge.pdf";
-                args += MergeSystemPath;
-
+                args += MergeFileOutPath;
+                
                 string psCmd = ProcessCmd.ExecuteWithOutAndErr(pdfMergeCmd, args, out stdOut, out stdErr);
 
-                if (File.Exists(MergeSystemPath))
+                Thread.Sleep(100);
+
+                FileInfo fi = new FileInfo(MergeFileOutPath);
+                if (fi.Exists)
                 {
                     LabelUploadResult.Text = $"successfully merged {argCnt} pdf's to {_mergeFile}.";
                     LabelUploadResult.Visible = true;
@@ -276,16 +283,19 @@ namespace Area23.At.Mono.Unix
                     aPdfMergeDownload.Visible = true;
                     aPdfMergeDownload.InnerText = _mergeFile;
                     SpanDownload.Visible = true;
+                                        
+                    if (fi.Length < (2 * 1024 * 1024))
+                    {
+                        Thread.Sleep(100);
 
-                    // Thread.Sleep(100);
-                    
-                    byte[] fileBytes = File.ReadAllBytes(MergeSystemPath);
-                    Base64Mime = Convert.ToBase64String(fileBytes, Base64FormattingOptions.None);
+                        byte[] fileBytes = File.ReadAllBytes(MergeFileOutPath);
+                        Base64Mime = Convert.ToBase64String(fileBytes, Base64FormattingOptions.None);
 
-                    DivObject.InnerHtml = String.Format(
-                        "\t\t<object data=\"data:application/pdf;base64,{0}\" type='application/pdf' width=\"640px\" height=\"480px\">\r\n" +
-                        "\t\t\t<p>Unable to display type application/pdf</p>\r\n\t\t</object>\r\n", Base64Mime);                    
-                    DivObject.Visible = true;
+                        DivObject.InnerHtml = String.Format(
+                            "\t\t<object data=\"data:application/pdf;base64,{0}\" type='application/pdf' width=\"640px\" height=\"480px\">\r\n" +
+                            "\t\t\t<p>Unable to display type application/pdf</p>\r\n\t\t</object>\r\n", Base64Mime);
+                        DivObject.Visible = true;
+                    }
                 }
 
             }
@@ -408,16 +418,25 @@ namespace Area23.At.Mono.Unix
                     return;
                 }
 
-                if (ListBoxContainsItemByName(fileName) && File.Exists(filePath))
+                if (File.Exists(filePath)) 
                 {
-                    LabelUploadResult.Text = fileName + " already exists.";
-                    LabelUploadResult.ToolTip = "Can't upload file " + fileName + ", because it already exists.";
-                    return;
+                    int j = 100;
+                    if (ListBoxContainsItemByName(fileName))
+                    {
+                        LabelUploadResult.Text = fileName + " already exists.";
+                        LabelUploadResult.ToolTip = "Can't upload file " + fileName + ", because it already exists.";
+                        return;
+                    }                    
+                    while (File.Exists(filePath) && j < 200)
+                    {
+                        fileName = j++ + "_" + fileName;
+                        filePath = LibPaths.SystemDirOutPath + fileName;
+                    }                    
                 }
 
-                if (ListBoxFilesUploaded.Items.Count > 4)
+                if (ListBoxFilesUploaded.Items.Count > 6)
                 {
-                    LabelUploadResult.Text = "Only 4 .pdf's are allowed. Discarded: " + fileName + "!";
+                    LabelUploadResult.Text = "Only 6 .pdf's are allowed. Discarded: " + fileName + "!";
                     LabelUploadResult.ToolTip = "You can merge more .pdf's by merging 4 by 4 and then merge the results!";
                     return;
                 }
@@ -435,9 +454,19 @@ namespace Area23.At.Mono.Unix
                     LabelUploadResult.Text = "Maybe corrupted ? ";
                 }
 
-                pfile.SaveAs(filePath);
-
-                if (System.IO.File.Exists(filePath))
+                try
+                {
+                    pfile.SaveAs(filePath);
+                } 
+                catch (Exception exSaveFile)
+                {
+                    LabelUploadResult.ToolTip = exSaveFile.Message;
+                    LabelUploadResult.Text = $"Saving file '{fileName}' failed!";
+                    return;
+                }
+                
+                FileInfo fi = new FileInfo(filePath);
+                if (fi.Exists)
                 {
                     LabelUploadResult.Text = fileName + " successfully uploaded.";
                     LabelUploadResult.ToolTip = "File " + fileName + " has been successfully uploaded.";
@@ -445,12 +474,17 @@ namespace Area23.At.Mono.Unix
                     ListItem listItem = new ListItem(fileName);
                     ListBoxFilesUploaded.Items.Add(listItem);
                     Session[Constants.UPSAVED_FILE] = JoinedFiles;
+                    
+                    if (fi.Length < (2 * 1024 * 1024))
+                    {
+                        Thread.Sleep(100);
 
-                    Base64Mime = Convert.ToBase64String(fileBytes, Base64FormattingOptions.None);
-                    DivObject.InnerHtml = String.Format(
-                            "<object data=\"data:application/pdf;base64,{0}\" type='application/pdf' width=\"640px\" height=\"480px\">" +
-                            "<p>Unable to display type application/pdf</p></object>\r\n", Base64Mime);
-                    DivObject.Visible = true;
+                        Base64Mime = Convert.ToBase64String(fileBytes, Base64FormattingOptions.None);
+                        DivObject.InnerHtml = String.Format(
+                            "\t\t<object data=\"data:application/pdf;base64,{0}\" type='application/pdf' width=\"640px\" height=\"480px\">\r\n" +
+                            "\t\t\t<p>Unable to display type application/pdf</p>\r\n\t\t</object>\r\n", Base64Mime);
+                        DivObject.Visible = true;
+                    }
                 }
             }
             else

@@ -60,13 +60,13 @@ namespace Area23.At.Mono.Gamez
         protected global::System.Web.UI.HtmlControls.HtmlAnchor aGameFrogb;
 
         /// <summary>
-        /// headerCenter control.
+        /// headerCenter0 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerCenter;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerCenter0;
 
         /// <summary>
         /// aTicTacToe control.
@@ -76,6 +76,24 @@ namespace Area23.At.Mono.Gamez
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor aTicTacToe;
+
+        /// <summary>
+        /// headerCenter1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerCenter1;
+
+        /// <summary>
+        /// aFruitSlots control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aFruitSlots;
 
         /// <summary>
         /// headerRightCenter control.

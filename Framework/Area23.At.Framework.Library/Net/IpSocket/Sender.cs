@@ -2,10 +2,12 @@
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace Area23.At.Framework.Library.Net.IpSocket
 {
@@ -27,37 +29,53 @@ namespace Area23.At.Framework.Library.Net.IpSocket
         public static string Send(IPAddress serverIp, string msg, int serverPort = 7777)
         {
             string resp = string.Empty;
+            int bufsze = 65536 * 2;
             try
             {
+                if (!msg.EndsWith("\r\n"))
+                    msg = msg.Replace("\n", "").Replace("\r", "") + "\r\n";
                 IPEndPoint serverIep = new IPEndPoint(serverIp, serverPort);
                 TcpClient tcpClient = new TcpClient();
                 byte[] data = EnDeCodeHelper.GetBytes(msg);
-                // byte[] data = Encoding.UTF8.GetBytes(msg);
+                StreamWriter sw = null;
+                StreamReader sr = null;
+                NetworkStream netStream = null;
                 tcpClient.SendBufferSize = Constants.MAX_BYTE_BUFFEER;
+                byte[] outbuf = new byte[bufsze];
                 tcpClient.Connect(serverIep);
-                tcpClient.Client.Send(data);
-                // NetworkStream netStream = tcpClient.GetStream();
-                // StreamWriter sw = new StreamWriter(netStream);
-                // StreamReader sr = new StreamReader(netStream);
-                // sw.Write(msg);
-                // sw.Flush();
-                // byte[] outbuf = new byte[8192];
-                // int read = tcpClient.Client.Receive(outbuf);
-                // sr.BaseStream.Read(outbuf, 0, 8192);
-                resp = tcpClient.Client.LocalEndPoint?.ToString();
-                if (resp != null && resp.Contains("::ffff:"))
+                if (Constants.FortuneBool)
                 {
-                    resp = resp?.Replace("::ffff:", "");
-                    if (resp != null && resp.Contains(':'))
-                    {
-                        int lastch = resp.LastIndexOf(":");
-                        resp = resp.Substring(0, lastch);
-                    }
-                    resp = resp?.Trim("[{()}]".ToCharArray());
+                    tcpClient.Client.Send(data);
+                    int read = tcpClient.Client.Receive(outbuf);
                 }
-                // sw.Close();
-                // sr.Close();
-                // netStream.Close();
+                else
+                {
+                    netStream = tcpClient.GetStream();
+                    sw = new StreamWriter(netStream);
+                    sr = new StreamReader(netStream);
+                    sw.Write(msg);
+                    sw.Flush();
+                    sr.BaseStream.Read(outbuf, 0, bufsze);
+                }
+                resp = System.Text.Encoding.Default.GetString(outbuf);
+                //resp = tcpClient.Client.LocalEndPoint?.ToString();
+                //if (resp != null && resp.Contains("::ffff:"))
+                //{
+                //    resp = resp?.Replace("::ffff:", "");
+                //    if (resp != null && resp.Contains(':'))
+                //    {
+                //        int lastch = resp.LastIndexOf(":");
+                //        resp = resp.Substring(0, lastch);
+                //    }
+                //    resp = resp?.Trim("[{()}]".ToCharArray());
+                //}
+                if (sw != null)
+                    sw.Close();
+                if (sr != null)
+                    sr.Close();
+                if (netStream != null)
+                    netStream.Close();
+
                 tcpClient.Close();
             }
             catch (Exception ex)
