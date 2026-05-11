@@ -214,7 +214,6 @@
     <Content Include="Default.aspx" />
     <Content Include="Crypt\CoolCrypt.aspx" />
     <Content Include="Crypt\AesImprove.aspx" />
-    <Content Include="Crypt\S.aspx" />
     <Content Include="Gamez\Default.aspx" />
     <Content Include="Gamez\froga.aspx" />
     <Content Include="Gamez\FruitSlots.aspx" />
@@ -641,13 +640,6 @@
     </Compile>
     <Compile Include="Crypt\AesImprove.aspx.designer.cs">
       <DependentUpon>AesImprove.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Crypt\S.aspx.cs">
-      <DependentUpon>S.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Crypt\S.aspx.designer.cs">
-      <DependentUpon>S.aspx</DependentUpon>
     </Compile>
     <Compile Include="Calc\CalcMaster.master.cs">
       <DependentUpon>CalcMaster.master</DependentUpon>
