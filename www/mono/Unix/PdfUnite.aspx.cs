@@ -169,7 +169,7 @@ namespace Area23.At.Mono.Unix
             if (sender != null && sender is ListBox li)
             {
                 string fName = (li.SelectedItem.Value ?? li.SelectedItem.Text);
-                string fPath = MergeFileOutPath + fName;
+                string fPath = MergeSystemPath + fName;
                 FileInfo fi = new FileInfo(fPath);
                 LabelUploadResult.Text = fName + " selected";
                 LabelUploadResult.ToolTip = "File " + fName + " has been selcted.\r\n";
