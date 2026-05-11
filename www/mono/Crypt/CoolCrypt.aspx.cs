@@ -205,19 +205,25 @@ namespace Area23.At.Mono.Crypt
                 key = TextBox_Key.Text;
                 hash = TextBox_IV.Text;
 
-                CipherEnum[] cses = CipherEnumExtensions.FromString(key);
+                // CipherEnum[] cses = CipherEnumExtensions.FromString(key);
                 this.TextBox_Encryption.Text = string.Empty;
-                foreach (CipherEnum c in cses)
-                {
-                    this.TextBox_Encryption.Text += c.ToString() + ";";
-                }
                 
-                pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
-                if (pipeAlgortihms != null && pipeAlgortihms.Length > 0)
+                // foreach (CipherEnum c in cses)
+                //    this.TextBox_Encryption.Text += c.ToString() + ";";
+                
+
+                cipherPipe = new CipherPipe(key, hash, encType, zipType, keyHash, cmode2);
+                foreach (CipherEnum cipher in cipherPipe.InPipe)
                 {
-                    cipherPipe = new CipherPipe(pipeAlgortihms, 8, encType, zipType, keyHash, cmode2);
-                    SetCipherPipeImage(cipherPipe, false);
+                    this.TextBox_Encryption.Text += cipher.ToString() + ";";
                 }
+
+                // pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
+                // if (pipeAlgortihms != null && pipeAlgortihms.Length > 0)
+                // {
+                //    cipherPipe = new CipherPipe(pipeAlgortihms, 8, encType, zipType, keyHash, cmode2);
+                    SetCipherPipeImage(cipherPipe, false);
+                //}
 
                 SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif");
                 this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
