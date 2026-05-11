@@ -78,7 +78,8 @@ namespace Area23.At.Mono.Controls
             string relativePath = xyPath.Substring(0, ridx) + "/";
 
             string path = Path.GetDirectoryName(Server.MapPath(absUriPath));
-            string[] files = Directory.GetFiles(path, "*.aspx");
+            List<string> filesList = Directory.GetFiles(path, "*.aspx").ToList();
+            string[] files = filesList.OrderBy(o => o.ToCharArray()[0]).ToArray();
             int h = 0;
 
             foreach (string file in files) 
