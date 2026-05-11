@@ -28,6 +28,11 @@ namespace Area23.At.Mono.Qr
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            try
+            {
+                metaRefreshId.Attributes["content"] = "1; url=https://" + Request.Url.Host + "/s/";
+            }
+            catch { }
             if (!Page.IsPostBack)
             {
                 if (this.input_color != null && string.IsNullOrEmpty(input_color.Value))
@@ -42,7 +47,7 @@ namespace Area23.At.Mono.Qr
                     Framework.Library.Static.JsonHelper.ShortenMapJson;
             }
 
-            Response.Redirect("https://area23.at/s/", true);
+            Response.Redirect("https://" + Request.Url.Host + "/s/");
         }
 
         protected void TextBox_UrlLong_TextChanged(object sender, EventArgs e)

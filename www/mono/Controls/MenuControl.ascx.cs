@@ -79,8 +79,8 @@ namespace Area23.At.Mono.Controls
 
             string path = Path.GetDirectoryName(Server.MapPath(absUriPath));
             List<string> filesList = Directory.GetFiles(path, "*.aspx").ToList();
-            string[] files = filesList.OrderBy(o => o.ToCharArray()[0]).ToArray();
-            int h = 0;
+            string[] files = filesList.OrderBy(o => o.ToString()).ToArray();
+            int l = 0;
 
             foreach (string file in files) 
             {
@@ -89,20 +89,21 @@ namespace Area23.At.Mono.Controls
                     HeaderLink hl = new HeaderLink();                    
                     hl.UTitle = Path.GetFileNameWithoutExtension(file);
                     hl.UUri = new Uri(relativePath + "Default.aspx");
-                    hl.DivCss = GetCss(h, files.Length, (HttpContext.Current.Request.RawUrl.Contains("Default.aspx")));
-                    hl.DivId = hl.DivCss.Replace("Select", "") + "Id" + h++;
+                    hl.DivCss = GetCss(l, files.Length, (HttpContext.Current.Request.RawUrl.Contains("Default.aspx")));
+                    hl.DivId = hl.DivCss.Replace("Select", "") + "Id" + l++;
                     headerLinks.Add(hl);
                     break;
                 }
             }
 
-            for (int i = 0; i < files.Length; i++)
+            List<HeaderLink> links = new List<HeaderLink>();
+            foreach (string file in files)
             {
                 HeaderLink hLink = new HeaderLink();
-                if (File.Exists(files[i]) && !files[i].Contains("Default.aspx"))
+                if (File.Exists(file) && !file.Contains("Default.aspx"))
                 {
                     HeaderLink hl = new HeaderLink();
-                    string uTitle = Path.GetFileNameWithoutExtension(files[i]);
+                    string uTitle = Path.GetFileNameWithoutExtension(file);
                     for (int j = 0; j < uTitle.Length; j++)
                     {
                         char ch = uTitle[j];
@@ -116,15 +117,16 @@ namespace Area23.At.Mono.Controls
                             hl.UTitle += ch;
                     }
                     
-                    string fname = Path.GetFileName(files[i]);
+                    string fname = Path.GetFileName(file);
                     hl.UUri = new Uri(relativePath + fname);
-                    hl.DivCss = GetCss(h, files.Length, (HttpContext.Current.Request.RawUrl.Contains(fname)));
-                    hl.DivId = hl.DivCss.Replace("Select", "") + "Id" + h++;
-                    headerLinks.Add(hl);
+                    hl.DivCss = GetCss(l, files.Length, (HttpContext.Current.Request.RawUrl.Contains(fname)));
+                    hl.DivId = hl.DivCss.Replace("Select", "") + "Id" + l++;
+                    links.Add(hl);
                 }
             }
 
-            return headerLinks;           
+            headerLinks.AddRange(links.OrderBy(h => h.UTitle).ToList());
+            return headerLinks;
         }
 
         public void BindMenu(List<HeaderLink> headerLinks)

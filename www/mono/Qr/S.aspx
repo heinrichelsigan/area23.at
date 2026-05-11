@@ -6,6 +6,7 @@
 	<meta name="keywords" content="QR Url shorten tiny small uri" />
 	<meta name="author" content="Heinrich Elsigan" />
 	<meta name="description" content="https://github.com/heinrichelsigan/area23.at/tree/main/www/Area23.At.Www.S" />
+	<meta id="metaRefreshId"  runat="server" http-equiv="refresh"  content="1; url=/s/" />  
 	<script async src="../res/js/area23.js"></script>
 	<script>
 		window.onload = function () {

@@ -182,14 +182,19 @@ namespace Area23.At.Mono.Qr
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             string[] qrCodeStrings = BarcodeScanner.Scan(ms, BarcodeType.QRCode);
             string qrCodeString = qrCodeStrings[0];
-            if (qrCodeString.Contains("2ttp://") || qrCodeString.Contains("2ttps://"))
-                qrCodeString = qrCodeString.Replace("2ttp://", "http://").Replace("2ttps://", "https://");
-            if (qrCodeString.Contains("2EGIN"))
-                qrCodeString = qrCodeString.Replace("2EGIN", "BEGIN");
-            if (qrCodeString.Contains("2ank"))
-                qrCodeString = qrCodeString.Replace("2ank://", "bank://");
-            if (qrCodeString.Contains("2el:"))
-                qrCodeString = qrCodeString.Replace("2el:", "tel:");
+            for (int i = 0; i < 10; i++)
+            {
+                if (qrCodeString.Contains(i + "ttp://") || qrCodeString.Contains(i + "ttps://"))
+                    qrCodeString = qrCodeString.Replace(i + "ttp://", "http://").Replace(i + "ttps://", "https://");
+                if (qrCodeString.Contains(i + "EGIN"))
+                    qrCodeString = qrCodeString.Replace(i + "EGIN", "BEGIN");
+                if (qrCodeString.Contains(i + "ank"))
+                    qrCodeString = qrCodeString.Replace(i + "ank://", "bank://");
+                if (qrCodeString.Contains(i + "el:"))
+                    qrCodeString = qrCodeString.Replace(i +"el:", "tel:");
+            }
+            
+
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrCodeString, QRCodeGenerator.ECCLevel.Default);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(20);
