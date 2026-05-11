@@ -224,7 +224,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
-            ushort scnt = 0;
+            // ushort scnt = 0;
             List<CipherEnum> pipeList = new List<CipherEnum>();
 
             HashSet<byte> hashBytes = new HashSet<byte>();

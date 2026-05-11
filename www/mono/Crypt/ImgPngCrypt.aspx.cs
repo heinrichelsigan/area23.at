@@ -87,7 +87,7 @@ namespace Area23.At.Mono.Crypt
 
         protected void TransformImage(byte[] data, string imgFileName = null)
         {
-            System.Drawing.Bitmap x1Image = null;
+            // System.Drawing.Bitmap x1Image = null;
             System.Drawing.Bitmap fromBytesTransImage = null;
 
             double dlen = (int)(data.Length / 3) + 1;

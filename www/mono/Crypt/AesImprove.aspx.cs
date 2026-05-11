@@ -501,7 +501,7 @@ namespace Area23.At.Mono.Crypt
 
             string savedTransFile = "", outMsg = "";
             byte[] inBytes = new byte[65536];
-            int strLen = 0;
+            // int strLen = 0;
 
             if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
                 cmode2 = CipherMode2.CFB;

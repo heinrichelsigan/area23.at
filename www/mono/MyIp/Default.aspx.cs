@@ -44,7 +44,7 @@ namespace Area23.At.Mono.MyIp
             GeoRecord geoRecord = new GeoRecord();
             string innerHtml = htmlCtrl.InnerHtml;
             string text = htmlCtrl.InnerText;
-            string outText = "";
+            // string outText = "";
             byte[] rbytes = new byte[8192];
             //Stream htrsps = htmlCtrl.Page.Response.OutputStream;
 
