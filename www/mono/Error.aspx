@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://area23.at/css/fortune.css" />
     <link rel="stylesheet" href="res/css/area23.at.mono.css" />
     <title>Server Error (apache2 mod_mono)</title>
-    <script async src="res/js/area23.js"></script>
+    <script src="res/js/area23.js"></script>
     <link rel="made" href="mailto:mailadmin@area23.at" />
     <style type="text/css"><!--/*--><![CDATA[/*><!--*/ 
         body { color: #000000; background-color: #FFFFFF; }

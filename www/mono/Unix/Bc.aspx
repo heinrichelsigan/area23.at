@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
     <title>basic calculator bc(1)</title>
     <script src="../res/js/bc.js"></script>
-    <script async src="../res/js/area23.js"></script>   
+    <script src="../res/js/area23.js"></script>   
     <meta id="lastChangeDate" runat="server" content="" />
     <script language="javascript">
         window.onload = function () {

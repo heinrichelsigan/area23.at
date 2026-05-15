@@ -17,9 +17,7 @@ namespace Area23.At.Mono.Controls
     public partial class MenuControl : System.Web.UI.UserControl
     {            
 
-        string ipAddr = string.Empty;
-
-        public bool IgnoreDefault { get; set; }
+        string ipAddr = string.Empty;        
 
 
         private List<HeaderLink> _headerLinks;
@@ -46,7 +44,6 @@ namespace Area23.At.Mono.Controls
         public MenuControl()
         {
             _headerLinks = new List<HeaderLink>();
-            IgnoreDefault = false; 
         }
 
         public static string GetCss(int num, int linksCount, bool select = false)
@@ -64,10 +61,16 @@ namespace Area23.At.Mono.Controls
             return "headerCenter" + cssSelect;
         }
 
-        public List<HeaderLink> BuildMenu(bool ignoreDefault = false)
+        public List<HeaderLink> BuildMenu(bool ignoreDefault = false) =>
+            BuildMenu(ignoreDefault ? new string[] { "Default" } : new string[0]);
+        
+
+        public List<HeaderLink> BuildMenu(string[] ignorePages)
         {
-            if (!IgnoreDefault)
-                IgnoreDefault = ignoreDefault;
+            bool ignoreDefault = false;
+            foreach (string page in ignorePages) 
+               if (page.ToLower().Contains("default"))
+                    ignoreDefault = true;
 
             var headerLinks = new List<HeaderLink>();
             string prefixPath = new Uri(ConfigurationManager.AppSettings["AppUrl"]).ToString();
@@ -84,7 +87,7 @@ namespace Area23.At.Mono.Controls
 
             foreach (string file in files) 
             {
-                if (file.Contains("Default.aspx") && !IgnoreDefault)
+                if (file.ToLower().Contains("default.aspx") && !ignoreDefault)
                 {                    
                     HeaderLink hl = new HeaderLink();                    
                     hl.UTitle = Path.GetFileNameWithoutExtension(file);
@@ -99,29 +102,39 @@ namespace Area23.At.Mono.Controls
             List<HeaderLink> links = new List<HeaderLink>();
             foreach (string file in files)
             {
+                bool ignore = false;
                 HeaderLink hLink = new HeaderLink();
                 if (File.Exists(file) && !file.Contains("Default.aspx"))
                 {
-                    HeaderLink hl = new HeaderLink();
-                    string uTitle = Path.GetFileNameWithoutExtension(file);
-                    for (int j = 0; j < uTitle.Length; j++)
+                    foreach (string page in ignorePages)
                     {
-                        char ch = uTitle[j];
-                        if (Char.IsUpper(ch) && j > 0)
-                            hl.UTitle += " " + ch;
-                        else if (Char.IsDigit(ch) && j > 0 && uTitle[j - 1] != ' ' && !Char.IsDigit(uTitle[j - 1]))
-                            hl.UTitle += " " + ch;
-                        else if (char.IsWhiteSpace(ch) && j > 0 && Char.IsWhiteSpace(uTitle[j - 1]))
-                            ;
-                        else
-                            hl.UTitle += ch;
+                        if (file.ToLower().EndsWith(page.ToLower())) 
+                            ignore = true;
                     }
-                    
-                    string fname = Path.GetFileName(file);
-                    hl.UUri = new Uri(relativePath + fname);
-                    hl.DivCss = GetCss(l, files.Length, (HttpContext.Current.Request.RawUrl.Contains(fname)));
-                    hl.DivId = hl.DivCss.Replace("Select", "") + "Id" + l++;
-                    links.Add(hl);
+                    if (!ignore)
+                    {
+
+                        HeaderLink hl = new HeaderLink();
+                        string uTitle = Path.GetFileNameWithoutExtension(file);
+                        for (int j = 0; j < uTitle.Length; j++)
+                        {
+                            char ch = uTitle[j];
+                            if (Char.IsUpper(ch) && j > 0)
+                                hl.UTitle += " " + ch;
+                            else if (Char.IsDigit(ch) && j > 0 && uTitle[j - 1] != ' ' && !Char.IsDigit(uTitle[j - 1]))
+                                hl.UTitle += " " + ch;
+                            else if (char.IsWhiteSpace(ch) && j > 0 && Char.IsWhiteSpace(uTitle[j - 1]))
+                                ;
+                            else
+                                hl.UTitle += ch;
+                        }
+
+                        string fname = Path.GetFileName(file);
+                        hl.UUri = new Uri(relativePath + fname);
+                        hl.DivCss = GetCss(l, files.Length, (HttpContext.Current.Request.RawUrl.Contains(fname)));
+                        hl.DivId = hl.DivCss.Replace("Select", "") + "Id" + l++;
+                        links.Add(hl);
+                    }
                 }
             }
 
@@ -131,8 +144,8 @@ namespace Area23.At.Mono.Controls
 
         public void BindMenu(List<HeaderLink> headerLinks)
         {
-            if (headerLinks != null || headerLinks.Count == 0)
-                headerLinks = BuildMenu(IgnoreDefault);        
+            if (headerLinks == null || headerLinks.Count == 0)
+                headerLinks = BuildMenu();        
 
             RepeaterLink.DataSource = headerLinks;
             RepeaterLink.DataBind();

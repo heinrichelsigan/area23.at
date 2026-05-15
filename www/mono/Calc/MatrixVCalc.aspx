@@ -7,7 +7,7 @@
 	<title>MatrixCalc.Web</title>    
 	<link rel="stylesheet" href="../res/css/area23.at.mono.css" />
 	<link rel="stylesheet" href="../res/css/rpncalcweb.css" />	
-	<script async src="../res/js/area23.js"></script>	
+	<script src="../res/js/area23.js"></script>	
 	<meta name="description" content="https://github.com/heinrich.elsigan/area23.at/" />
 </asp:Content>
 <asp:Content ID="CalcBodyContent" ContentPlaceHolderID="CalcBody" runat="server" ClientIDMode="Static">

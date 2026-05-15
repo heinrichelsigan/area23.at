@@ -12,31 +12,31 @@ var buttonQRCode, inputcolor, inputbackcolor, colorpicker, backcolorpicker;
 var theFortuneForm, fortuneUrl;
 
 
-function loadScript(src, asyn, f) {
+//function loadScript(src, asyn, f) {
 
-    var head = document.getElementsByTagName("head")[0];
-    var script = document.createElement("script");
+//    var head = document.getElementsByTagName("head")[0];
+//    var script = document.createElement("script");
     
-    if (asyn) { // set async tag in script                
-        script.async = true;
-    }
+//    if (asyn) { // set async tag in script                
+//        script.async = true;
+//    }
 
-    script.src = src; // set src in script
-    var done = false;
-    script.onload = script.onreadystatechange = function () {
-        // attach to both events for cross browser finish detection:
-        if (!done && (!this.readyState ||
-            this.readyState == "loaded" || this.readyState == "complete")) {
-            done = true;
-            if (typeof f == 'function') f();
-            // cleans up a little memory:
-            script.onload = script.onreadystatechange = null;
-            head.removeChild(script);
-        }
-    };
+//    script.src = src; // set src in script
+//    var done = false;
+//    script.onload = script.onreadystatechange = function () {
+//        // attach to both events for cross browser finish detection:
+//        if (!done && (!this.readyState ||
+//            this.readyState == "loaded" || this.readyState == "complete")) {
+//            done = true;
+//            if (typeof f == 'function') f();
+//            // cleans up a little memory
+//            script.onload = script.onreadystatechange = null;
+//            head.removeChild(script);
+//        }
+//    };
 
-    head.appendChild(script);
-}
+//    head.appendChild(script);
+//}
 
 
 function ReloadUnixForm(delay) { // var url = "https://area23.at/cgi/fortune.cgi";
@@ -53,11 +53,22 @@ function SetTimeDigital() {
 function InitTimeDigital() {
     const now = new Date(Date.now());
     seconds_n = now.getSeconds();
-    seconds_d = (seconds_n < 10) ? "0" + seconds_n : seconds_n + "";
+    if (seconds_n < 10)
+        seconds_d = "0" + seconds_n;
+    else
+        seconds_d = seconds_n;
+
     minutes_n = now.getMinutes();
-    minutes_d = (minutes_n < 10) ? ("0" + minutes_n) : (minutes_n + "");
+    if (minutes_n < 10)
+        minutes_d = "0" + minutes_n;
+    else
+        minutes_d = minutes_n;
+
     hours_n = now.getHours();
-    hours_d = (hours_n < 10) ? ("0" + hours_n) : (hours_n + "");
+    if (hours_n < 10)
+        hours_d = "0" + hours_n;
+    else
+        hours_d = hours_n + "";
 
     time_d = hours_d + ":" + minutes_d + ":" + seconds_d;
 
@@ -107,7 +118,7 @@ function InitTimeDigital() {
         }        
     }
 
-    console.log(`Digital time: ${time_d}`);
+    // console.log(`Digital time: ${time_d}`);
     return time_d;
 }
 

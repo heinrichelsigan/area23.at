@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://area23.at/css/fortune.css" />
     <link rel="stylesheet" href="res/css/area23.at.mono.css" />
     <title>json ser (apache2 mod_mono)</title>
-    <script async src="res/js/area23.js"></script>
+    <script src="res/js/area23.js"></script>
 </asp:Content>
 <asp:Content ID="ContentBody" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
     <form id="Area23JsonForm" runat="server">

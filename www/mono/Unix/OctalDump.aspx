@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://area23.at/css/od.css" />
     <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
     <title>octal dump od(1)</title>
-    <script async src="../res/js/area23.js"></script>
+    <script src="../res/js/area23.js"></script>
 </asp:Content>
 <asp:Content ID="UnixContentBody" ContentPlaceHolderID="UnixBody" runat="server">
     <form id="Area23UnixOctalDump" runat="server">
