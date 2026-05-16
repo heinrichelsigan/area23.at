@@ -192,6 +192,7 @@
     <Compile Include="Crypt\Cipher\CipherPipe.cs" />
     <Compile Include="Crypt\Cipher\Des3Net.cs" />
     <Compile Include="Crypt\Cipher\SecureCipherPipe.cs" />
+    <Compile Include="Crypt\EnDeCoding\Ascii85.cs" />
     <Compile Include="Crypt\EnDeCoding\Hex64.cs" />
     <Compile Include="Crypt\EnDeCoding\Xx.cs" />
     <Compile Include="Crypt\Hash\BCrypt.cs" />

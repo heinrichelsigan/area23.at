@@ -12,15 +12,16 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
     public enum EncodingType
     {
         Null =      0x000,
-        None =      0x100,
-        Base16 =    0x200,
-        Hex16 =     0x300,
-        Base32 =    0x400,
-        Hex32 =     0x500,
-        Uu =        0x600,
-        Hex64 =     0x700,
-        Base64 =    0x800,
-        Xx =        0x900
+        None =      0x001,
+        Base16 =    0x100,
+        Hex16 =     0x101,
+        Base32 =    0x200,
+        Hex32 =     0x201,
+        Uu =        0x400,
+        Base64 =    0x401,
+        Hex64 =     0x402,
+        Xx =        0x403,
+        Ascii85 =   0x550
     }
 
     public static class EncodingTypesExtensions
@@ -72,6 +73,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 case EncodingType.Hex64: return ((IDecodable)new Hex64());
                 case EncodingType.Uu: return ((IDecodable)new Uu());
                 case EncodingType.Xx: return ((IDecodable)new Xx());
+                case EncodingType.Ascii85: return ((IDecodable)new Ascii85());
                 case EncodingType.Base64:
                 default: return ((IDecodable)new Base64());
             }
@@ -91,6 +93,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 case EncodingType.Uu: return ".uu";
                 case EncodingType.Xx: return ".xx";
                 case EncodingType.Hex64: return ".hex64";
+                case EncodingType.Ascii85: return ".ascii85";
                 case EncodingType.Base64:
                 default: return ".base64";
             }
@@ -139,6 +142,13 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 case "xxencode":
                 case "xxdecode":
                     return EncodingType.Xx;
+
+                case "ascii85":
+                case "a85":
+                case "base85":
+                case "85":
+                case "btoa":
+                    return EncodingType.Ascii85;
 
                 case "base64":
                 case "mime":
