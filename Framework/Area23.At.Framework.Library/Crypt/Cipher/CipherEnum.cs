@@ -14,7 +14,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
     public enum CipherEnum : byte
     {
         Aes = 0x0,
-
         BlowFish = 0x1,
         Camellia = 0x2,
         Cast6 = 0x3,
@@ -31,7 +30,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         XTea = 0xe,
         SM4 = 0xf,
 
-
         Cast5 = 0x10,
         Rijndael = 0x11,
         Noekeon = 0x12,
@@ -45,15 +43,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         Dstu7624 = 0x1a,
         AesLight = 0x1b,
         ZenMatrix = 0x1c,
-        Ascon = 0x1d,
-
-        ZenMatrix2 = 0x1f,
+        Des3Net = 0x1d,
+        AesNet = 0x1e,
+        ZenMatrix2 = 0x1f
 
         // Rsa = 0x21
         // DH = 0x22,
-
-        Des3Net = 0x31,
-        AesNet = 0x32
+        // Ascon = 0x1d
     }
 
     /// <summary>

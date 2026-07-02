@@ -61,6 +61,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
         public int KeyLen { get; set; }
 
+        public int IvLen { get; set; }
+
         public IBlockCipher BlockCipher { get; set; }
 
         public KeyHash KeyHashing { get; set; }
@@ -77,7 +79,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             Cipher = CipherEnum.Aes;
             Size = 256;
             KeyLen = 32;
-            Mode = "CFB";
+            IvLen = 32;
+            Mode = "ECB";
+            CMode2 = CipherMode2.ECB;
             BlockCipher = new AesEngine();
             KeyHashing = KeyHash.Hex;
         }
@@ -92,7 +96,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             Cipher = cipherAlgo;
             Size = 256;
             KeyLen = 32;
-            Mode = "CFB";
+            IvLen = 32;
+            Mode = "ECB";
+            CMode2 = CipherMode2.ECB;
 
             switch (Cipher)
             {
@@ -122,9 +128,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.Fish2:
                     Size = 128;
                     KeyLen = 16;
+                    IvLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TwofishEngine();
                     break;
                 case CipherEnum.Fish3:
+                    Size = 256;
+                    KeyLen = 32;
+                    IvLen = 32;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
                     break;
                 case CipherEnum.Camellia:
@@ -244,18 +254,26 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     break;
             }
 
+            IvLen = KeyLen;
+
         }
 
 
-        public CryptParams(CipherEnum cipherAlgo, string key, string hash, KeyHash keyHash) : this(cipherAlgo)
+        public CryptParams(CipherEnum cipherAlgo, string key, string hash, KeyHash keyHash, CipherMode2 cmode = CipherMode2.ECB) : this(cipherAlgo)
         {
             Key = key;
             KeyHashing = keyHash;
             Hash = (string.IsNullOrEmpty(hash)) ? keyHash.Hash(key) : hash;
+            CMode2 = cmode;
+            Mode = cmode.ToString();
         }
 
 
-        public CryptParams(CipherEnum cipherAlgo, string key, KeyHash keyHash) : this(cipherAlgo, key, keyHash.Hash(key), keyHash) { }
+        public CryptParams(CipherEnum cipherAlgo, string key, KeyHash keyHash, CipherMode2 cmode = CipherMode2.ECB) : this(cipherAlgo, key, keyHash.Hash(key), keyHash)
+        {
+            CMode2 = cmode;
+            Mode = cmode.ToString();
+        }
 
         /// <summary>
         /// constructs a <see cref="CryptParams"/> object by <see cref="CipherEnum"/>

@@ -46,9 +46,19 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         #region fields and properties
 
+        /// <summary>
+        /// <see cref="T:KeyHash[]"/> array of 8 keyhashes (not KeyHash.Empty, KeyHash.Oct)
+        /// </summary>
         private static readonly KeyHash[] secureHashes = {
-                KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564,
-                KeyHash.OpenBSDCrypt, KeyHash.SCrypt, KeyHash.RipeMD256, KeyHash.Whirlpool };
+            KeyHash.BCrypt,     // KeyHash.CShake, KeyHash.Dstu7564,
+            KeyHash.MD5,
+            KeyHash.Hex,        // KeyHash.Oct, 
+            KeyHash.OpenBSDCrypt,
+            KeyHash.SCrypt,     // KeyHash.Sha1,
+            KeyHash.Sha256,     // KeyHash.Sha384, KeyHash.Sha512,
+            KeyHash.RipeMD256,  // KeyHash.TupleHash,
+            KeyHash.Whirlpool
+        };
 
         protected string cipherKeyHash; // this is the hash of the user key, e.g. email address, which is used to generate the pipe and the keys for each stage in pipe
 
@@ -56,7 +66,8 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         {
             get
             {
-                string miniPipe = (InPipe == null || InPipe.Length == 0) ? "" : "." + CMode2.ToString() + PipeString;
+                string miniPipe = (InPipe == null || InPipe.Length == 0) ? "" : "." + CMode2.ToString() + "." + PipeString;
+                // (InPipe == null || InPipe.Length == 0) ? "" : "." + PipeString;
                 string miniPipeExt = zType.GetZipTypeExtension() + miniPipe + encodeType.GetEnCodingExtension();
                 return miniPipeExt;
             }
@@ -86,11 +97,11 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// SecureCipherPipe constructor with an array of <see cref="T:CipherEnum[]"/> as inpipe
         /// </summary>
         /// <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
-        /// <param name="maxpipe">size of max. pipe stages, can't be greater than 8</param>
+        /// <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="Constants.MAX_PIPE_LEN"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         public SecureCipherPipe(CipherEnum[] cipherEnums, uint maxpipe, CipherMode2 cmode2)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             int isize = Math.Min(((int)cipherEnums.Length), ((int)maxpipe));
@@ -110,7 +121,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         public SecureCipherPipe(string[] cipherAlgos, uint maxpipe, CipherMode2 cmode2)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             List<CipherEnum> cipherEnums = new List<CipherEnum>();
@@ -125,12 +136,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
                     cipherEnums.Add(cipherAlgo);
 
-                    if (++cnt > maxpipe)
+                    if ((cipherEnums.Count > (maxpipe - 1)) || ++cnt > maxpipe)
                         break;
                 }
             }
 
-            inPipe = cipherEnums.ToArray();
+            int pipeSize = Math.Min(cipherEnums.Count, Constants.MAX_PIPE_LEN);
+            inPipe = new CipherEnum[pipeSize];
+            Array.Copy(cipherEnums.ToArray(), inPipe, pipeSize);
 
             zType = ZipType.GZip;
             encodeType = EncodingType.Base64;
@@ -147,20 +160,19 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <exception cref="ArgumentException"></exception>
         public SecureCipherPipe(byte[] keyBytes, uint maxpipe, CipherMode2 cmode2, bool verbose = false)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
-            ushort scnt = 0;
             List<CipherEnum> pipeList = new List<CipherEnum>();
 
             HashSet<byte> hashBytes = new HashSet<byte>();
-            for (int i = 0; i < keyBytes.Length && pipeList.Count < maxpipe; i++)
+            for (int i = 0, j = 0; i < keyBytes.Length && j < maxpipe && pipeList.Count < maxpipe; i++)
             {
                 byte cb = (byte)((int)((int)keyBytes[i] % 0x1d));
                 // TODO: future design
                 // if (hashBytes.Contains(cb)) // mit magic add to generate deterministic more on same bytes
                 //     cb = (byte)((int)(cb + Math.Pow(2, i) + keyBytes.Length) % 0x1d);                
-                if (!hashBytes.Contains(cb))
+                if (!hashBytes.Contains(cb) && pipeList.Count < maxpipe + 1)
                 {
                     hashBytes.Add(cb);
                     CipherEnum cipherEnm = CipherEnumExtensions.ByteCipherDict[cb];
@@ -168,10 +180,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
                     if (verbose)
                         Console.Out.WriteLine("keybyts[" + i + "]=" + keyBytes[i] + " byte cb = " + (int)cb + " CipherEnum: " + cipherEnm);
+                    j++;
                 }
             }
 
-            inPipe = pipeList.ToArray();
+            int pipeSize = Math.Min(pipeList.Count, Constants.MAX_PIPE_LEN);
+            inPipe = new CipherEnum[pipeSize];
+            Array.Copy(pipeList.ToArray(), inPipe, pipeSize);
 
             zType = ZipType.GZip;
             encodeType = EncodingType.Base64;
@@ -200,7 +215,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="key"></param>
         /// <param name="verbose"></param>
         public SecureCipherPipe(string key, bool verbose = false)
-            : this(key, CipherMode2.CFB, verbose)
+            : this(key, CipherMode2.ECB, verbose)
         {
             cipherKeyHash = key;
             cipherKey = cipherKeyHash;
@@ -217,6 +232,21 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 this.cipherHash = "";
                 this.CMode = ciphPipe.CMode;
                 this.CMode2 = ciphPipe.CMode2;
+                this.encodeType = EncodingType.Base64; // default is base64, because it is the most common encoding type for encrypted binary data
+                this.zType = ZipType.GZip; // default is GZip, because it is the most common zip type
+            }
+        }
+
+        public SecureCipherPipe(SecureCipherPipe sCiphPipe) : this()
+        {
+            if (sCiphPipe != null)
+            {
+                this.inPipe = sCiphPipe.InPipe;
+                this.cipherKeyHash = sCiphPipe.cipherKey;
+                this.cipherKey = sCiphPipe.cipherKey;
+                this.cipherHash = "";
+                this.CMode = sCiphPipe.CMode;
+                this.CMode2 = sCiphPipe.CMode2;
                 this.encodeType = EncodingType.Base64; // default is base64, because it is the most common encoding type for encrypted binary data
                 this.zType = ZipType.GZip; // default is GZip, because it is the most common zip type
             }
@@ -382,7 +412,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 stringBytes = inBytes;
             else if (tinSource is IEnumerable<byte> bytesEnumerable)
                 stringBytes = bytesEnumerable.ToArray();
-            else throw new CqrException($"Unknown type Exception, type {typeof(TIn)} is not supported.");
+            else throw new CException($"Unknown type Exception, type {typeof(TIn)} is not supported.");
 
             // zip GZ
             byte[] zippedBytes = ZipType.GZip.Zip(stringBytes);
@@ -402,7 +432,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 result = (TRet)(object)System.Text.Encoding.UTF8.GetBytes(encryptedString);
             else if (typeof(TRet) == typeof(IEnumerable<byte>))
                 result = (TRet)(object)System.Text.Encoding.UTF8.GetBytes(encryptedString);
-            else throw new CqrException($"Unknown type Exception, type {typeof(TRet)} is not supported.");
+            else throw new CException($"Unknown type Exception, type {typeof(TRet)} is not supported.");
 
             return result;
         }
@@ -440,7 +470,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 incomingEncoded = System.Text.Encoding.UTF8.GetString(inBytes);
             else if (tinSource is IEnumerable<byte> bytesEnumerable)
                 incomingEncoded = System.Text.Encoding.UTF8.GetString(bytesEnumerable.ToArray());
-            else throw new CqrException($"Unknown type Exception, type {typeof(TIn)} is not supported.");
+            else throw new CException($"Unknown type Exception, type {typeof(TIn)} is not supported.");
 
             // get bytes from encrypted encoded string dependent on the encoding type (uu, base64, base32,..)
             byte[] cipherBytes = EncodingType.Base64.GetEnCoder().Decode(incomingEncoded);
@@ -460,7 +490,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 result = (TRet)(object)decryptedBytes;
             else if (result is IEnumerable<byte> bytesIEnumerable)
                 result = (TRet)(object)decryptedBytes;
-            else throw new CqrException($"Unknown type Exception, type {typeof(TRet)} is not supported.");
+            else throw new CException($"Unknown type Exception, type {typeof(TRet)} is not supported.");
 
             return result;
         }

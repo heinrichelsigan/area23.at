@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 namespace Area23.At.Framework.Library.Crypt.Cipher
 {
 
+
     /// <summary>
     /// CipherMode2 enumeration type for more cipher mode as found in standard <see cref="System.Security.Cryptography.CipherMode"/>
     /// </summary>
@@ -46,9 +47,15 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
     [Serializable]
     public struct CiffreMode
     {
-        public static CipherMode CMode { get; internal set; } = CipherMode.CFB;
+        public static CipherMode CMode { get; internal set; }
 
-        public static CipherMode2 CMode2 { get; internal set; } = CipherMode2.CFB;
+        public static CipherMode2 CMode2 { get; internal set; }
+
+        static CiffreMode()
+        {
+            CMode = CipherMode.ECB;
+            CMode2 = CipherMode2.ECB;
+        }
 
         public CiffreMode(CipherMode2 cipherMode2)
         {
@@ -81,18 +88,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
     public static partial class CipherModeExtensions
     {
 
-        //public static CipherMode ToCipherMode(this CipherMode2 cipherMode2)
-        //{
-        //    switch (cipherMode2)
-        //    {
-        //        case CipherMode2.CBC: return CipherMode.CBC;
-        //        case CipherMode2.CFB: return CipherMode.CFB;
-        //        case CipherMode2.CTS: return CipherMode.CTS;
-        //        case CipherMode2.ECB: return CipherMode.ECB;
-        //        default: throw new NotSupportedException($"CipherMode2 '{cipherMode2}' is not supported in System.Security.Cryptography.CipherMode"),
-        //    };
-        //}
-
         public static CipherMode ToCipherMode(this CipherMode2 mode)
         {
             switch(mode)
@@ -101,10 +96,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherMode2.CCM: return CipherMode.CBC;
                 case CipherMode2.CFB: return CipherMode.CFB;
                 case CipherMode2.CTS: return CipherMode.CTS;
-                case CipherMode2.EAX: return CipherMode.CBC;
+                case CipherMode2.EAX: return CipherMode.CBC;                
+                case CipherMode2.GOFB: return CipherMode.OFB;
                 case CipherMode2.ECB: return CipherMode.ECB;
-                case CipherMode2.GOFB: return CipherMode.CBC;
-                default: return CipherMode.CFB;
+                default: return CipherMode.ECB;
             };
         }
 
@@ -114,9 +109,10 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             {
                 case CipherMode.CBC: return CipherMode2.CBC;
                 case CipherMode.CFB: return CipherMode2.CFB;
-                case CipherMode.CTS: return CipherMode2.CTS;
+                case CipherMode.CTS: return CipherMode2.CTS;                
+                case CipherMode.OFB: return CipherMode2.GOFB;
                 case CipherMode.ECB: return CipherMode2.ECB;
-                default: return CipherMode2.CFB;
+                default: return CipherMode2.ECB;
             };
         }
 
@@ -131,6 +127,22 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return list.ToArray();
         }
 
+        public static string GetCipherMode2Extension(this CipherMode2 cmode2)
+        {
+            switch (cmode2)
+            {
+                case CipherMode2.CBC: return ".CBC";
+                case CipherMode2.CCM: return ".CCM";
+                case CipherMode2.CFB: return ".CFB";
+                case CipherMode2.CTS: return ".CTS";
+                case CipherMode2.EAX: return ".EAX";
+                case CipherMode2.ECB: return ".ECB";
+                case CipherMode2.GOFB: return ".GOFB";
+                default: break;
+            }
+
+            return "." + cmode2.ToString();
+        }
 
 
         public static CipherMode2[] GetCipherModes2()
@@ -158,11 +170,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             text = text ?? "";
 
             if (!Enum.TryParse<CipherMode2>(text, out cipherMode))
-                cipherMode = CipherMode2.CFB;
+                cipherMode = CipherMode2.ECB;
 
             return cipherMode;
         }
 
     }
+
 
 }

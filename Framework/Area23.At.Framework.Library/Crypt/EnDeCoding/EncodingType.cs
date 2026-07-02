@@ -20,7 +20,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         Uu =        0x400,
         Base64 =    0x401,
         Hex64 =     0x402,
-        Xx =        0x403,
+        Xx =        0x404,
         Ascii85 =   0x550
     }
 

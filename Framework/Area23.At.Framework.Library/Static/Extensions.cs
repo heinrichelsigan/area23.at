@@ -417,6 +417,24 @@ namespace Area23.At.Framework.Library.Static
             return bytes.ToArray();
         }
 
+
+        public static byte[] FillWithZeros(this byte[] bytes, int length = 32)
+        {
+            Span<byte> span = new Span<byte>(bytes, 0, length);
+            return span.ToArray();
+        }
+
+        public static bool IsNullByteArray(this byte[] bytes)
+        {
+            if (bytes == null || bytes.Length == 0) return true;
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                if (bytes[i] != (byte)0)
+                    return false;
+            }
+            return true;
+        }
+
         #endregion byte_array_extensions
 
         #region string_extensions

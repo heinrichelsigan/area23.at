@@ -68,7 +68,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         public AesNet() : this(Convert.FromBase64String(Constants.AES_KEY), Convert.FromBase64String(Constants.AES_IV)) { }
 
         public AesNet(string key, string hash, EncodingType encodeType = EncodingType.None,
-            CipherMode cipherMode = CipherMode.CFB)
+            CipherMode cipherMode = CipherMode.ECB)
         {
             if (string.IsNullOrEmpty(key) && string.IsNullOrEmpty(hash))
             {

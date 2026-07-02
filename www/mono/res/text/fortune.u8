@@ -19540,6 +19540,38 @@ Why use Windows, since there is a door?
 speak from experience."
 (By Matt Welsh)
 %
+What's this script do?
+    unzip ; touch ; finger ; mount ; gasp ; yes ; umount ; sleep
+Hint for the answer: not everything is computer-oriented. Sometimes you're
+in a sleeping bag, camping out.
+(Contributed by Frans van der Zande.)
+%
+`When you say "I wrote a program that crashed Windows", people just stare at
+you blankly and say "Hey, I got those with the system, *for free*".'
+(By Linus Torvalds)
+%
+"Whip me.  Beat me.  Make me maintain AIX."
+(By Stephan Zielinski)
+%
+"Who is General Failure and why is he reading my hard disk ?"
+Microsoft spel chekar vor sail, worgs grate !!
+(By leitner@inf.fu-berlin.de, Felix von Leitner)
+%
+Who wants to remember that escape-x-alt-control-left shift-b puts you into
+super-edit-debug-compile mode?
+(Discussion in comp.os.linux.misc on the intuitiveness of commands, especially
+Emacs.)
+%
+Why use Windows, since there is a door?
+(By fachat@galileo.rhein-neckar.de, Andre Fachat)
+%
+"World domination.  Fast"
+(By Linus Torvalds)
+%
+..you could spend *all day* customizing the title bar.  Believe me.  I
+speak from experience."
+(By Matt Welsh)
+%
 "...you might as well skip the Xmas celebration completely, and instead
 sit in front of your linux computer playing with the
 all-new-and-improved linux kernel version."
@@ -19553,4 +19585,75 @@ I've heard a Jew and a Muslim argue in a Damascus cafe with less passion
 than the emacs wars."
 		-- Ronald Florence <ron@18james.com> in
 		   <ueu1c4mbrc.fsf@auda.18james.com>
+%
+Universal Cryptography
+
+The late 1970s and early 1980s marked a groundbreaking shift in cryptography,'changing this ancient art into a science,' in research honored in three separate Turing awards as Whitfield Diffie and Martin Hellman; Ronald Rivest, Adi Shamir and Len Adleman; and Shafi Goldwasser and Silvio Micali established the mathematical foundations of modern cryptography. Their work enabled secure encryption methods, leading to protocols for applications like secure online voting, playing poker over the phone, and calculating an average salary without revealing individual salaries.
+These solutions remained ad hoc, requiring unique designs for each application. In the 1980s, Wigderson took this work to the next level, developing general methods that worked for a broad range of applications. With Oded Goldreich and Silvio Micali, Wigderson showed all verification problems have 'zero-knowledge' proofs. For instance, if Bob is attempting a Sudoku puzzle and Alice knows the solution, Alice can convince Bob with high confidence that a solution exists without revealing any part of it. This technique applies to any NP problem, including the Traveling Salesman and Map Coloring problems. Later researchers built on these ideas to create protocols for proving identity without exposing a secret key—essential for the secure smart chips in our credit cards. The same team also designed the first general-purpose method to play games involving hidden information, such as poker, bridge, or complex auctions, fairly and securely online. This method maintains security even if a small number of cheating players try to collude.
+
+Taming Randomness
+
+Like his work on complexity and cryptography, Wigderson’s contributions to probabilistic computing built upon foundational work of the 1970s.
+Consider trying to test whether a given number is prime, a key step for modern cryptographic protocols. You could try all the possible factors but large numbers have too many potential factors to try. In the 1970s, Robert Solovay and Volker Strassen, among others, developed an efficient randomized algorithm for testing primality, and John Gill developed a full complexity theory for probabilistic computation.
+In practice computers don’t flip coins, they create fake randomness by looking at outputs of a complicated function. These pseudorandom generators were ad hoc without a strong theoretical foundation. In the late 1980s, Wigderson and his colleagues discovered a formal method for creating pseudorandom generators from computationally hard functions. Wigderson, in a series of papers co-authored with Noam Nisan, Russell Impagliazzo and others, showed how to use suitably hard functions to create strong pseudorandom generators whose outputs are computationally indistinguishable from true random bits. The outputs of these generators can replace the randomness in any probabilistic algorithm. 
+At the turn of the century, Avi Wigderson, by then a professor at the Institute of Advanced Study, continued to make advances in understanding randomness. Imagine trying to connect several cities with a minimal number of roads, so that by taking a random road out of each city, you’d quickly end up in a completely random city. Such networks are called “expander graphs”. Together with Omer Reingold and Salil Vadhan, Wigderson developed a new “zig-zag” construction for creating these graphs—a clever recursive method with an elegantly simple proof of correctness.
+The zig-zag construction led to an algorithm that could tell, using a small amount of memory, whether two cities on a map were connected. Reingold’s algorithm used the zig-zag construction to make the cities close together if they were connected at all. In this new map, you can just look at all short trips from one city to see if it reaches the other.
+
+Expanders also have applications for coding techniques able to automatically correct the errors introduced when bits get garbled in transmission, as often happens over wireless links. Using error-correcting codes a sender expands the message in a specific way that allows the receiver to recover the original message even if a small number of characters have been altered. Stronger bounds on expanders lead to more efficient error-correcting codes.
+Expanders serve as a starting point for extracting randomness out of weak sources. Suppose you need truly random bits but you only have access to data on sunspot activity which is variable but far from uniformly random. Through several papers and collaborators, Avi Wigderson devised ways to accomplish this, either by adding a small amount of additional randomness or by using multiple independent weak sources of random bits.
+Wigderson’s solutions to problems often have applications to seemingly unrelated questions. Think of a Ramsey graph like a social network where there are no moderately-sized groups who are either all friends with each other, or none of whom are friends with each other. Extractors developed by Wigderson and his successors lead to new constructions of Ramsey Graphs that increased the size of the groups that were not all connected or disconnected.
+
+Wigderson’s Legacy
+
+The research I have discussed here encompass just a small part of Avi Wigderson’s wide-ranging work. He has over a hundred publications in the two major theoretical computer science conferences, the ACM Symposium on the Theory of Computing and the IEEE Symposium on the Foundations of Computer Science (a total much higher than that of any other researcher). Wigderson rarely works alone, with nearly 200 distinct co-authors.
+In 1999, Wigderson joined the Institute of Advanced Study in Princeton as the Herbert H. Maass Professor in the School of Mathematics. Almost immediately, IAS became a center for research in computational complexity as Wigderson hosted visiting students, postdocs and visiting faculty. Many of today’s leaders in the field honed their skills at the institute.
+Wigderson served on the scientific advisory board of the Simons foundation and his advocacy led to the creation of the Simons Institute for the Theory of Computing in Berkeley, California, itself a major center for the theory community.
+In his 2019 book Mathematics and Computation: A Theory Revolutionizing Technology and Science published by Princeton University Press, Wigderson argued that the P versus NP problem, computational complexity, and theoretical computer science more broadly, together constitute a philosophy that is central not only to computer science but also biology, economics, physics and the social sciences. Nevertheless he has never shied away from defining the field as a serious mathematical discipline. When someone suggested that the implementer of an algorithm get as much credit as the one who discovered it, Wigderson quipped, “Let them try to do it first.
+
+Author: Lance Fortnow [https://amturing.acm.org/award_winners/wigderson_3844537.cfm]
+%
+I don't know, what will happen, if we fork() a next step application.
+	-- Thomas B.
+%
+To communicate is the beginning of understanding.
+
+	-- AT&T
+%
+When Alan Cox came to Auditorium Maximum at TU Vienna,
+the entire Auditorium was plain full.
+
+	-mArch
+%
+Word Perfect is a good word processor.  It just doesn't run on any os.
+%
+AT&T believed the world is a 32bit VAX little endian.
+
+	-- mike@rainbow
+%
+Tomorrow's computers some time next month.
+
+	-- DEC
+%
+* * * * * THIS TERMINAL IS IN USE * * * * *
+%
+Trap full -- please empty.
+%
+You have not to bear an ounce of guilt.
+
+	-- Major Tom (came from acorn, passed dos / windows, went to linux / aix)
+%
+How does RL relate to the psychology of animal behavior?
+
+Broadly speaking, RL works as a pretty good model of instrumental learning, though a detailed argument for this has never been publically made (the closest to this is probably Barto, Sutton and Watkins, 1990). On the other hand, the links between classical (or Pavlovian) conditioning and temporal-difference (TD) learning (one of the central elements of RL) are close and widely acknowledged (see Sutton and Barto, 1990).
+Ron Sun has developed hybrid models combining high-level and low-level skill learning, based in part on RL, which make contact with psychological data (see Sun, Merrill, and Peterson, 2001).
+http://incompleteideas.net/RL-FAQ.html
+	God created the albino
+pigementation fault (core dump)
+
+	-- me myself (zen@area23.at)
+%
+Mike is an excellent programmer and scientist, but always sells himself under market value,
+but everyone else is happy then, because some money is still there for risk buffer of others.
+
+	-- Mr. president Wolfman
 %

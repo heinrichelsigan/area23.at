@@ -20,28 +20,29 @@ namespace Area23.At.Framework.Library.Crypt.Hash
     [DefaultValue(KeyHash.Hex)]
     public enum KeyHash : short
     {
-        Hex = 0x0,
-        Sha1 = 0x1,
-        OpenBSDCrypt = 0x2,
-        BCrypt = 0x3,
-        SCrypt = 0x4,
-        MD5 = 0x5,
-        Sha256 = 0x6,
-        Sha384 = 0x7,
-        Oct = 0x8,
-        Sha512 = 0x9,
-        Whirlpool = 0xa,
-        Blake2xs = 0xb,
-        CShake = 0xc,
-        Dstu7564 = 0xd,
-        RipeMD256 = 0xe,
-        TupleHash = 0xf
+        Empty =         0x00,
+        Hex =           0x01,
+        Sha1 =          0x02,
+        OpenBSDCrypt =  0x03,
+        BCrypt =        0x04,
+        SCrypt =        0x05,
+        MD5 =           0x06,
+        Sha256 =        0x07,
+        Sha384 =        0x08,
+        Oct =           0x09,
+        Sha512 =        0x0a,
+        Whirlpool =     0x0b,
+        Blake2xs =      0x0c,
+        CShake =        0x0d,
+        Dstu7564 =      0x0e,
+        RipeMD256 =     0x0f,
+        TupleHash =     0x11
     }
 
     public static class KeyHash_Extensions
     {
 
-        private static readonly KeyHash[] keyHashes = {
+        private static readonly KeyHash[] keyHashes = { KeyHash.Empty,
                 KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564,
                 KeyHash.MD5, KeyHash.Hex, KeyHash.Oct, KeyHash.OpenBSDCrypt,
                 KeyHash.SCrypt, KeyHash.Sha1, KeyHash.Sha256, KeyHash.Sha384, KeyHash.Sha512,
@@ -52,7 +53,7 @@ namespace Area23.At.Framework.Library.Crypt.Hash
                 KeyHash.OpenBSDCrypt, KeyHash.SCrypt, KeyHash.RipeMD256, KeyHash.Whirlpool };
 
 
-        public static ListItem[] KeyHashListItems  
+        public static ListItem[] KeyHashListItems
         {
             get
             {
@@ -61,11 +62,10 @@ namespace Area23.At.Framework.Library.Crypt.Hash
                 {
                     list.Add(new KeyHashData(keyHash.ToString(), false, true).WebUIListItem);
                 }
-                
+
                 return list.ToArray();
             }
         }
-
 
         public static KeyHash[] GetHashes() => keyHashes;
 
@@ -104,6 +104,9 @@ namespace Area23.At.Framework.Library.Crypt.Hash
             {
                 switch (stringToHash.ToLower())
                 {
+                    case "empty":
+                    case "null":
+                    case "none":
                     case "scrypt": return KeyHash.SCrypt;
                     case "bcrypt": return KeyHash.BCrypt;
                     case "openbsd":
@@ -151,6 +154,7 @@ namespace Area23.At.Framework.Library.Crypt.Hash
         /// <param name="keyLen">length of keyBytes array</param>
         /// <returns><see cref="T:byte[]">byte[] bytesKey</see></returns>
         /// <exception cref="ArgumentNullException"></exception>
+        [Obsolete("byte[] GetKeyFromBaseBytes(this byte[] baseBytes, int keyLen = 32) is obsolete", true)]
         public static byte[] GetKeyFromBaseBytes(this byte[] baseBytes, int keyLen = 32)
         {
             if (baseBytes == null || baseBytes.Length == 0)
@@ -208,6 +212,7 @@ namespace Area23.At.Framework.Library.Crypt.Hash
             int xval = (int)khash;
             switch (khash)
             {
+                case KeyHash.Empty: return "";
                 case KeyHash.Hex: return ".hex";
                 case KeyHash.Sha1: return ".sha1";
                 case KeyHash.OpenBSDCrypt: return ".openbsdcrypt";
@@ -239,6 +244,9 @@ namespace Area23.At.Framework.Library.Crypt.Hash
             IDigest digest = new Org.BouncyCastle.Crypto.Digests.NullDigest();
             switch (hash)
             {
+                case KeyHash.Empty:
+                    return "";
+
                 //case KeyHash.Ascon:
                 //    digest = new Org.BouncyCastle.Crypto.Digests.AsconHash256();
                 //    resBuf = new byte[digest.GetDigestSize()];
@@ -257,7 +265,7 @@ namespace Area23.At.Framework.Library.Crypt.Hash
                     return Hex.ToHexString(resBuf);
 
                 case KeyHash.CShake:
-                    digest = new Org.BouncyCastle.Crypto.Digests.CShakeDigest(256, inBytes, GetKeyFromBaseBytes(inBytes, 32));
+                    digest = new Org.BouncyCastle.Crypto.Digests.CShakeDigest(256, null, null);
                     resBuf = new byte[digest.GetDigestSize()];
                     digest.BlockUpdate(inBytes, 0, inBytes.Length);
                     digest.DoFinal(resBuf, 0);
@@ -333,7 +341,6 @@ namespace Area23.At.Framework.Library.Crypt.Hash
         }
 
     }
-
 
     public class KeyHashData
     {

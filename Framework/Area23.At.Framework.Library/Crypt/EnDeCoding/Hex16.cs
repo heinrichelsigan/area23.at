@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Area23.At.Framework.Library.Crypt.EnDeCoding
 {
@@ -53,7 +54,6 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         /// <returns>byte array</returns>
         public static byte[] DeCode(string encodedString) => FromHex16(encodedString);
 
-
         /// <summary>
         /// Checks if a string is a valid encoded string
         /// </summary>
@@ -74,13 +74,14 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 throw new ArgumentNullException("inBytes", "public static string ToHex(byte[] inBytes == NULL)");
 
             string hexString = string.Empty;
+            StringBuilder sb = new StringBuilder(inBytes.Length * 2 + 1);
             for (int wc = 0; wc < inBytes.Length; wc++)
             {
-                hexString += string.Format("{0:x2}", inBytes[wc]);
+                sb.Append(string.Format("{0:x2}", inBytes[wc]));
             }
 
             // string strUtf8 = System.Text.Encoding.UTF8.GetString(inBytes);
-
+            hexString = sb.ToString();
             return hexString;
         }
 
@@ -103,7 +104,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 if (wb == hexStr.Length - 1)
                 {
                     msb = '0';
-                   lsb = hexStr[wb];
+                    lsb = hexStr[wb];
                 }
                 else
                 {
@@ -115,25 +116,27 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
                 bytes.Add(b);
             }
 
-            // byte[] bytesUtf8 = System.Text.Encoding.UTF8.GetBytes(hexStr);
-            return bytes.ToArray();
+            byte[] bytesUtf8 = bytes.ToArray(); // System.Text.Encoding.UTF8.GetBytes(hexStr);
+
+            return bytesUtf8;
 
         }
 
 
         public static bool IsValidHex16(string inString, out string error)
         {
-            bool valid = true;
+            bool isValid = true;
             error = "";
             foreach (char ch in inString)
             {
                 if (!VALID_CHARS.ToCharArray().Contains(ch))
                 {
                     error += ch.ToString();
-                    valid = false;
+                    isValid = false;
                 }
             }
-            return valid;
+
+            return isValid;
         }
 
 

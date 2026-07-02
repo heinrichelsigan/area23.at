@@ -19,9 +19,9 @@ namespace Area23.At.Mono.Controls
         {
             if (!IsPostBack)
             {
-                this.RadioButtonList_Hash.DataSource = KeyHash_Extensions.KeyHashListItems;
+                this.RadioButtonList_Hash.DataSource = KeyHash_Extensions.GetHashTypes();
                 this.RadioButtonList_Hash.DataBind();
-                this.RadioButtonList_Hash.SelectedValue = KeyHash.Hex.ToString();
+                this.RadioButtonList_Hash.SelectedValue = KeyHash.Empty.ToString();
             }
         }
         
