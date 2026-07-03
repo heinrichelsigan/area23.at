@@ -773,7 +773,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             {
                 int lastIdx = decrypted.LastIndexOf('\0');
                 decrypted = decrypted.Substring(0, lastIdx - 1);
-                if (((idx = decrypted.IndexOf('\0')) > -1) && idx > lastIdx)
+                if (((idx = decrypted.IndexOf('\0')) > -1) && lastIdx > idx)
                     decrypted = decrypted.Substring(0, idx);
             }
 
