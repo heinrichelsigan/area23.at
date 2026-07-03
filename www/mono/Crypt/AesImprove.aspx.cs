@@ -27,13 +27,14 @@ namespace Area23.At.Mono.Crypt
     /// Feature to encrypt and decrypt simple plain text or files
     /// </summary>
     public partial class AesImprove : UIPage
-    {
-        CipherMode2 cmode2 = CipherMode2.CFB;
+    {        
+        CipherMode2 cmode2 = DefaultCipherMode2;
         EncodingType encType = EncodingType.Base64;
         ZipType zipType = ZipType.GZip;
         CipherEnum[] pipeAlgortihms = new CipherEnum[0];
         SecureCipherPipe cipherPipe;
         string key = "", hash = "";
+        
 
         /// <summary>
         /// Page_Load
@@ -146,7 +147,7 @@ namespace Area23.At.Mono.Crypt
             }
 
             if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
-                cmode2 = CipherMode2.CFB;
+                cmode2 = DefaultCipherMode2;
 
             pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
             if (pipeAlgortihms != null && pipeAlgortihms.Length > 0)
@@ -260,7 +261,7 @@ namespace Area23.At.Mono.Crypt
             // if (this.DropDownList_CipherMode.SelectedValue.ToLowerInvariant() == "ecb")
             if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
             {
-                cmode2 = CipherMode2.CFB;
+                cmode2 = DefaultCipherMode2;
                 this.DropDownList_CipherMode.SelectedIndex = 2;
             }
         }
@@ -504,7 +505,7 @@ namespace Area23.At.Mono.Crypt
             // int strLen = 0;
 
             if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
-                cmode2 = CipherMode2.CFB;
+                cmode2 = DefaultCipherMode2;
 
             // CFile cFile;
             if (!string.IsNullOrEmpty(strFileName) &&
@@ -641,7 +642,7 @@ namespace Area23.At.Mono.Crypt
             if (!Enum.TryParse<EncodingType>(DropDownList_Encoding.SelectedValue, out encType))
                 encType = EncodingType.Base64;
             if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
-                cmode2 = CipherMode2.CFB;
+                cmode2 = DefaultCipherMode2;
 
             key = this.TextBox_Key.Text;            
             pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);

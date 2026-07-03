@@ -28,7 +28,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
     /// </list>
     /// </remarks>
     [Serializable]
-    [DefaultValue("CFB")]
+    [DefaultValue("ECB")]
     public enum CipherMode2 : byte
     {
         CBC = 0x0,
@@ -47,14 +47,17 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
     [Serializable]
     public struct CiffreMode
     {
+        public static readonly CipherMode defaultCipherMode = CipherMode.ECB;
+        public static readonly CipherMode2 defaultCipherMode2 = CipherMode2.ECB;        
+
         public static CipherMode CMode { get; internal set; }
 
         public static CipherMode2 CMode2 { get; internal set; }
 
         static CiffreMode()
         {
-            CMode = CipherMode.ECB;
-            CMode2 = CipherMode2.ECB;
+            CMode = defaultCipherMode;
+            CMode2 = defaultCipherMode2;
         }
 
         public CiffreMode(CipherMode2 cipherMode2)
@@ -99,7 +102,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherMode2.EAX: return CipherMode.CBC;                
                 case CipherMode2.GOFB: return CipherMode.OFB;
                 case CipherMode2.ECB: return CipherMode.ECB;
-                default: return CipherMode.ECB;
+                default: return CiffreMode.defaultCipherMode;
             };
         }
 
@@ -112,8 +115,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherMode.CTS: return CipherMode2.CTS;                
                 case CipherMode.OFB: return CipherMode2.GOFB;
                 case CipherMode.ECB: return CipherMode2.ECB;
-                default: return CipherMode2.ECB;
-            };
+                default: return CiffreMode.defaultCipherMode2;
+            }
+            ;
         }
 
         public static CipherMode[] GetCipherModes()
@@ -170,7 +174,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             text = text ?? "";
 
             if (!Enum.TryParse<CipherMode2>(text, out cipherMode))
-                cipherMode = CipherMode2.ECB;
+                cipherMode = CiffreMode.defaultCipherMode2;
 
             return cipherMode;
         }

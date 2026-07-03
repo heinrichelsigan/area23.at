@@ -27,7 +27,7 @@ namespace Area23.At.Mono.Crypt
     {
 
         KeyHash keyHash = KeyHash.Hex;
-        CipherMode2 cmode2 = CipherMode2.ECB;
+        CipherMode2 cmode2 = DefaultCipherMode2;
         EncodingType encType = EncodingType.Base64;
         ZipType zipType = ZipType.None;
         CipherEnum[] pipeAlgortihms = new CipherEnum[0];
@@ -181,7 +181,7 @@ namespace Area23.At.Mono.Crypt
             }
 
             if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
-                cmode2 = CipherMode2.ECB;
+                cmode2 = DefaultCipherMode2;
 
             pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
             if (pipeAlgortihms != null && pipeAlgortihms.Length > 0)
@@ -300,7 +300,7 @@ namespace Area23.At.Mono.Crypt
             // if (this.DropDownList_CipherMode.SelectedValue.ToLowerInvariant() == "ecb")
             if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
             {
-                cmode2 = CipherMode2.ECB;
+                cmode2 = DefaultCipherMode2;
                 this.DropDownList_CipherMode.SelectedIndex = 2;
             }
         }
@@ -554,7 +554,7 @@ namespace Area23.At.Mono.Crypt
             // int strLen = 0;
 
             if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
-                cmode2 = CipherMode2.ECB;
+                cmode2 = DefaultCipherMode2;
 
             // CFile cFile;
             if (!string.IsNullOrEmpty(strFileName) &&
@@ -697,7 +697,7 @@ namespace Area23.At.Mono.Crypt
             if (!Enum.TryParse<EncodingType>(DropDownList_Encoding.SelectedValue, out encType))
                 encType = EncodingType.Base64;
             if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
-                cmode2 = CipherMode2.ECB;
+                cmode2 = DefaultCipherMode2;
 
             key = this.TextBox_Key.Text;
             hash = keyHash.Hash(TextBox_Key.Text);

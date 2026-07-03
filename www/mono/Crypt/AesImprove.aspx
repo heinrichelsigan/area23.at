@@ -60,8 +60,12 @@
                 <span class="centerSpan" style="width: 68px; min-width: 48px; max-width: 72px">
                     <asp:DropDownList ID="DropDownList_CipherMode" runat="server" ClientIDMode="Static" AutoPostBack="true" OnSelectedIndexChanged="DropDownList_CipherMode_SelectedIndexChanged">
                         <asp:ListItem Enabled="true" Value="CBC" Selected="false">CBC</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="CFB" Selected="true">CFB</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="ECB" Selected="false">ECB</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="CFB" Selected="false">CFB</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="CCM" Selected="false">CCM</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="CTS" Selected="false">CTS</asp:ListItem>
+                        <asp:ListItem Enabled="false" Value="EAX" Selected="false">EAX</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="ECB" Selected="true">ECB</asp:ListItem>
+                        <asp:ListItem Enabled="true" Value="GOFB" Selected="false">GOFB</asp:ListItem>
                     </asp:DropDownList>    
                 </span>
                 <span class="centerSpan" style="width: 80px; min-width: 68px; max-width: 96px">

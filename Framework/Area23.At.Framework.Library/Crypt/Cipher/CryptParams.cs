@@ -81,7 +81,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             KeyLen = 32;
             IvLen = 32;
             Mode = "ECB";
-            CMode2 = CipherMode2.ECB;
+            CMode2 = CiffreMode.defaultCipherMode2;
             BlockCipher = new AesEngine();
             KeyHashing = KeyHash.Hex;
         }
@@ -98,7 +98,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             KeyLen = 32;
             IvLen = 32;
             Mode = "ECB";
-            CMode2 = CipherMode2.ECB;
+            CMode2 = CiffreMode.defaultCipherMode2;
 
             switch (Cipher)
             {

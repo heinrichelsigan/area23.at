@@ -15,6 +15,7 @@ using System.Text;
 namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 {
 
+
     /// <summary>
     /// Provides a simple crypt pipe for <see cref="CipherEnum"/>
     /// </summary>
@@ -89,7 +90,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             inPipe = (new List<CipherEnum>()).ToArray();
             encodeType = EncodingType.Base64;
             zType = ZipType.GZip;
-            CMode2 = CipherMode2.ECB;
+            CMode2 = CiffreMode.defaultCipherMode2;
         }
 
 
@@ -708,5 +709,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
 
     }
+
 
 }

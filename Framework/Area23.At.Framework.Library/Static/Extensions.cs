@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher;
+using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Util;
@@ -1410,6 +1411,101 @@ namespace Area23.At.Framework.Library.Static
 
             return strippedFileName;
         }
+
+
+
+        /// <summary>
+        /// Extension <see cref="string"/>.StripSecureCipherPipeFromFileName(out SecureCipherPipe? secCipherPipe)
+        /// looks if a filename is <see cref="IsPermAgainCryptFile(string)"/> and if true,
+        /// extracts PipeString out of filename and creates the corresponding pipe.
+        /// </summary>
+        /// <param name="fileName">file name to examine</param>
+        /// <param name="secCipherPipe">out parameter for <see cref="SecureCipherPipe"/></param>
+        /// <returns>stripped filename by CipherPipe PermAgainCrypt characters</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static string StripSecureCipherPipeFromFileName(this string fileName, out SecureCipherPipe secCipherPipe)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+
+            secCipherPipe = null;
+            string strippedFileName = fileName;
+
+            if (!fileName.IsPermAgainCryptFile())
+                return strippedFileName;
+
+            KeyHash kHash = KeyHash.Hex;
+
+            EncodingType eType = EncodingType.None;
+            foreach (EncodingType encTyp in EncodingTypesExtensions.GetEncodingTypes())
+            {
+                if (fileName.EndsWith("." + encTyp.ToString(), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    eType = encTyp;
+                    strippedFileName = fileName.Replace("." + encTyp.ToString(), "").Replace("." + encTyp.ToString().ToLower(), "");
+                    break;
+                }
+            }
+
+            CipherMode2[] cmodes2 = { CipherMode2.CBC, CipherMode2.CFB, CipherMode2.CCM, CipherMode2.CTS, CipherMode2.ECB, CipherMode2.GOFB };
+            CipherMode2 cmode2 = CipherMode2.CFB;
+            ZipType[] zipTypes = { ZipType.BZip2, ZipType.GZip, ZipType.Zip };
+            ZipType zipTyp = ZipType.None;
+            foreach (ZipType zType in zipTypes)
+            {
+                if (strippedFileName.EndsWith(zType.GetZipTypeExtension(), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    zipTyp = zType;
+                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension(), "");
+                }
+                else if (strippedFileName.Contains(zType.GetZipTypeExtension() + "."))
+                {
+                    zipTyp = zType;
+                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension() + ".", ".");
+                }
+            }
+
+            foreach (CipherMode2 cMode in cmodes2)
+            {
+                if (strippedFileName.EndsWith("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    cmode2 = cMode;
+                    strippedFileName = strippedFileName.Replace("." + cMode.ToString(), "");
+                }
+                else if (strippedFileName.Contains("." + cMode.ToString()))
+                {
+                    cmode2 = cMode;
+                    strippedFileName = strippedFileName.Replace("." + cMode.ToString(), "");
+                }
+            }
+
+
+            List<CipherEnum> cipherEnums = new List<CipherEnum>();
+            string pipeRestString = strippedFileName.Substring(strippedFileName.LastIndexOf("."));
+            foreach (char ch in pipeRestString)
+            {
+                foreach (CipherEnum cipher in CipherEnumExtensions.GetCipherTypes())
+                {
+                    if (cipher.GetCipherChar() == ch)
+                        cipherEnums.Add(cipher);
+                }
+            }
+
+            if (cipherEnums.Count > 0)
+            {
+                secCipherPipe = new SecureCipherPipe(cipherEnums.ToArray(), Constants.MAX_PIPE_LEN, cmode2);
+                if (strippedFileName.Contains("." + secCipherPipe.PipeString))
+                {
+                    strippedFileName = strippedFileName.Replace("." + secCipherPipe.PipeString, "");
+                }
+            }
+
+            if (secCipherPipe == null || secCipherPipe.InPipe.Length == 0)
+                secCipherPipe = new SecureCipherPipe(cipherEnums.ToArray(), Constants.MAX_PIPE_LEN, cmode2);
+
+            return strippedFileName;
+        }
+
 
         /// <summary>
         /// Extension <see cref="string"/>.StripCiphersInFileName() 

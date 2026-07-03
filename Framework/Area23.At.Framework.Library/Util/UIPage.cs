@@ -1,4 +1,5 @@
 ﻿using Area23.At.Framework.Library.Cache;
+using Area23.At.Framework.Library.Crypt.Cipher;
 using Area23.At.Framework.Library.Static;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace Area23.At.Framework.Library.Util
         private System.Globalization.CultureInfo locale;
         protected internal readonly object _lock = new object();
         protected internal string _directoryPath = "";
+
+        protected static CipherMode2 DefaultCipherMode2 => CiffreMode.defaultCipherMode2;
 
         public string PhysicalDirectoryPath
         {

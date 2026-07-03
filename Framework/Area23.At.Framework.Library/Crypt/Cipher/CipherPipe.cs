@@ -134,7 +134,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             encodeType = EncodingType.Base64;
             zType = ZipType.None;
             kHash = KeyHash.Hex;
-            CMode2 = CipherMode2.ECB;
+            CMode2 = CiffreMode.defaultCipherMode2;
         }
 
 
@@ -751,7 +751,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             KeyHash keyHash = KeyHash.Hex,
             CipherMode2 cmode2 = CipherMode2.ECB)
         {
-
+            int idx = -1;
             cipherKey = cryptKey;
             cipherHash = (string.IsNullOrEmpty(hashIv)) ?
                 ((!string.IsNullOrEmpty(cryptKey)) ? keyHash.Hash(cryptKey) : "") : hashIv;
@@ -769,9 +769,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
 
             string decrypted = System.Text.Encoding.UTF8.GetString(decryptedBytes);
 
-            // find first \0 = NULL char in string and truncate all after first \0 apperance in string
-            // while (decrypted[decrypted.Length - 1] == '\0')
-            //    decrypted = decrypted.Substring(0, decrypted.Length - 1);
+            if ((idx = decrypted.IndexOf('\0')) > -1)
+            {
+                int lastIdx = decrypted.LastIndexOf('\0');
+                decrypted = decrypted.Substring(0, lastIdx - 1);
+                if (((idx = decrypted.IndexOf('\0')) > -1) && idx > lastIdx)
+                    decrypted = decrypted.Substring(0, idx);
+            }
 
             return decrypted;
         }
