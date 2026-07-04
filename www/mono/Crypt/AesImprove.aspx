@@ -61,7 +61,7 @@
                     <asp:DropDownList ID="DropDownList_CipherMode" runat="server" ClientIDMode="Static" AutoPostBack="true" OnSelectedIndexChanged="DropDownList_CipherMode_SelectedIndexChanged">
                         <asp:ListItem Enabled="true" Value="CBC" Selected="false">CBC</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="CFB" Selected="false">CFB</asp:ListItem>
-                        <asp:ListItem Enabled="true" Value="CCM" Selected="false">CCM</asp:ListItem>
+                        <asp:ListItem Enabled="false" Value="CCM" Selected="false">CCM</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="CTS" Selected="false">CTS</asp:ListItem>
                         <asp:ListItem Enabled="false" Value="EAX" Selected="false">EAX</asp:ListItem>
                         <asp:ListItem Enabled="true" Value="ECB" Selected="true">ECB</asp:ListItem>

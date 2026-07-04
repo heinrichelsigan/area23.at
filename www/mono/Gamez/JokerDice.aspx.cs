@@ -96,7 +96,11 @@ namespace Area23.At.Mono.Gamez
             if (!IsPostBack)
             {
                 if (Request.UrlReferrer == null || !Request.UrlReferrer.Equals(Request.Url))
+                {
+                    Session["DiceCupClickable"] = true;
                     Session["Round"] = 0;
+                    Session["PlayerScore"] = 0;
+                }                    
                 else 
                     Session["Round"] = (Session["Round"] == null) ? 0 : (((int)Session["Round"] + ((int)Session["Round"] % 2)));
                 ResetCheckBoxes(sender, e);                
