@@ -50,7 +50,7 @@ namespace Area23.At.Mono.Crypt
                 {
                     Reset_TextBox_IV((string)Session[Constants.AES_ENVIROMENT_KEY]);
                 }
-                SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif");
+                SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif", Color.Black);
             }
 
             if ((Request.Files != null && Request.Files.Count > 0) || (!string.IsNullOrEmpty(oFile.Value)))
@@ -70,13 +70,9 @@ namespace Area23.At.Mono.Crypt
         [Obsolete("TextBox_Key_TextChanged is fully deprectated, because no autopostback anymore", false)]
         protected void TextBox_Key_TextChanged(object sender, EventArgs e)
         {
-            Reset_TextBox_IV(this.TextBox_Key.Text);
+            Reset_TextBox_IV(this.TextBox_Key.Text);            
 
-            this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
-            this.TextBox_Encryption.BorderColor = Color.DarkOliveGreen;
-            this.TextBox_Encryption.BorderWidth = 2;
-
-            SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif");
+            SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif", Color.DarkOliveGreen);
         }
 
 
@@ -109,7 +105,7 @@ namespace Area23.At.Mono.Crypt
             if ((Session[Constants.AES_ENVIROMENT_KEY] != null))
                 Session.Remove(Constants.AES_ENVIROMENT_KEY);
 
-            SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif");
+            SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif", Color.Black);
         }
 
        
@@ -138,9 +134,8 @@ namespace Area23.At.Mono.Crypt
                     {
                         string addChiffre = DropDownList_Cipher.SelectedValue.ToString() + ";";
                         this.TextBox_Encryption.Text += addChiffre;
-                        this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
 
-                        SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif");
+                        SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif", Color.DarkOrange);
                         break;
                     }
                 }
@@ -170,26 +165,15 @@ namespace Area23.At.Mono.Crypt
                 Reset_TextBox_IV(this.TextBox_Key.Text);
                 key = TextBox_Key.Text;
 
-                CipherEnum[] cses = CipherEnumExtensions.FromString(key);
                 this.TextBox_Encryption.Text = string.Empty;
-                SecureCipherPipe cpipe = new SecureCipherPipe(key, cmode2);
-                foreach (CipherEnum c in cpipe.InPipe)
+                cipherPipe = new SecureCipherPipe(key, cmode2);
+                foreach (CipherEnum c in cipherPipe.InPipe)
                 {
                     this.TextBox_Encryption.Text += c.ToString() + ";";
                 }
+                SetCipherPipeImage(cipherPipe, false);
 
-                pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
-                
-                if (pipeAlgortihms != null && pipeAlgortihms.Length > 0)
-                {
-                    cipherPipe = new SecureCipherPipe(pipeAlgortihms, 8, cmode2);
-                    SetCipherPipeImage(cipherPipe, false);
-                }
-
-                SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif");
-                this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
-                this.TextBox_Encryption.BorderColor = Color.DarkOliveGreen;
-                this.TextBox_Encryption.BorderWidth = 2;
+                SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif", Color.DarkOliveGreen);
             }
         }
 
@@ -207,24 +191,16 @@ namespace Area23.At.Mono.Crypt
                 key = TextBox_Key.Text;
                 hash = KeyHash.Whirlpool.Hash(KeyHash.SCrypt.Hash(key));
 
-                CipherEnum[] cses = CipherEnumExtensions.FromString(hash);
+                
+                cipherPipe = new SecureCipherPipe(hash, cmode2);
                 this.TextBox_Encryption.Text = string.Empty;
-                foreach (CipherEnum cipher in cses)
+                foreach (CipherEnum cipher in cipherPipe.InPipe)
                 {
                     this.TextBox_Encryption.Text += cipher.ToString() + ";";
                 }
+                SetCipherPipeImage(cipherPipe, false);
 
-                pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
-                if (pipeAlgortihms != null && pipeAlgortihms.Length > 0)
-                {
-                    cipherPipe = new SecureCipherPipe(pipeAlgortihms, 8, cmode2);
-                    SetCipherPipeImage(cipherPipe, false);
-                }
-
-                SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif");
-                this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
-                this.TextBox_Encryption.BorderColor = Color.Coral;
-                this.TextBox_Encryption.BorderWidth = 2;
+                SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif", Color.Coral);
             }
         }
 
@@ -347,7 +323,7 @@ namespace Area23.At.Mono.Crypt
 
                 SetCipherPipeImage(cipherPipe, false);
 
-                SetBackgroundPicture("../res/img/crypt/AesBGTextWithPipe.gif");
+                SetBackgroundPicture("../res/img/crypt/AesBGTextWithPipe.gif", Color.Black);
             }
             else
             {
@@ -355,7 +331,7 @@ namespace Area23.At.Mono.Crypt
                 this.TextBoxSource.BorderStyle = BorderStyle.Dotted;
                 this.TextBoxSource.BorderWidth = 2;
 
-                SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif");
+                SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif", Color.BlueViolet);
             }
         }
 
@@ -385,7 +361,7 @@ namespace Area23.At.Mono.Crypt
 
                 SetCipherPipeImage(cipherPipe, true);
 
-                SetBackgroundPicture("../res/img/crypt/AesBGTextWithPipe.gif");
+                SetBackgroundPicture("../res/img/crypt/AesBGTextWithPipe.gif", Color.Black);
             }
             else
             {
@@ -393,7 +369,7 @@ namespace Area23.At.Mono.Crypt
                 this.TextBoxSource.BorderStyle = BorderStyle.Dotted;
                 this.TextBoxSource.BorderWidth = 2;
 
-                SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif");
+                SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif", Color.BlueViolet);
             }
         }
 
@@ -434,7 +410,7 @@ namespace Area23.At.Mono.Crypt
                     ResetVisibleDivs();
                     if (Utils.AllowExtensionInOut(LibPaths.OutAppPath + strFileName))
                     {
-                        SetBackgroundPicture("../res/img/crypt/file_working.gif");
+                        SetBackgroundPicture("../res/img/crypt/file_working.gif", Color.DarkOrange);
                     }
                     else
                     {
@@ -596,7 +572,7 @@ namespace Area23.At.Mono.Crypt
                 // Display the result of the upload.
                 ClearPostedFileSession(true);
 
-                SetBackgroundPicture("../res/img/crypt/AesBGFile.gif");
+                SetBackgroundPicture("../res/img/crypt/AesBGFile.gif", Color.DarkOrange);
             }
             else
             {
@@ -604,7 +580,7 @@ namespace Area23.At.Mono.Crypt
                 ClearPostedFileSession(false);
                 SpanLabel.Visible = true;
 
-                SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif");
+                SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif", Color.BlueViolet);
             }
 
         }
@@ -618,12 +594,26 @@ namespace Area23.At.Mono.Crypt
         /// SetBackgroundPicture sets background picture of <see cref="DivCryptImprove"/>
         /// </summary>
         /// <param name="bgPicBackUrl">url to background picture</param>
-        protected void SetBackgroundPicture(string bgPicBackUrl)
+        /// <param name="encryptTextBoxColor"><see cref="Color.Black">Color.Black</see> for reset, otherwise color to set border</param>
+        protected void SetBackgroundPicture(string bgPicBackUrl, Color encryptTextBoxColor)
         {
             //if (!bgPictureUrl.Contains(LibPaths.AppUrlPath) && bgPictureUrl.StartsWith("../res/"))
             //    bgPictureUrl = bgPictureUrl.Replace("../res/", LibPaths.AppUrlPath + "/res/");
             DivCryptImprove.Attributes["style"] = $"padding-left: 40px; margin-left: 2px; background-image: url('{bgPicBackUrl}'); background-repeat: no-repeat; background-color: transparent;";
             DivCryptImprove.Style["background-image"] = $"url('{bgPicBackUrl}')";
+            
+            this.TextBox_Encryption.BorderColor = encryptTextBoxColor;
+            if (encryptTextBoxColor == Color.Black)
+            {
+                this.TextBox_Encryption.BorderStyle = BorderStyle.Solid;                
+                this.TextBox_Encryption.BorderWidth = 1;
+            }
+            else
+            {
+                this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
+                this.TextBox_Encryption.BorderWidth = 2;
+
+            }
         }
 
         /// <summary>
@@ -675,7 +665,7 @@ namespace Area23.At.Mono.Crypt
             }
             SpanRightFile.Visible = false;
 
-            SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif");
+            SetBackgroundPicture("../res/img/crypt/AesImproveBG.gif", Color.Black);
 
         }
 
