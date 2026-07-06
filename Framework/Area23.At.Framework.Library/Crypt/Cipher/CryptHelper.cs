@@ -174,6 +174,23 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return outBytes;
         }
 
+        public static byte[] GetKeyBytesFromBytes(byte[] keyBytes, int keyLen)
+        {
+            int o = 0;
+            if (keyBytes == null || keyBytes.Length == 0)
+                throw new ArgumentNullException("keyBytes");
+
+            byte[] outBytes = new byte[keyLen];
+            for (o = 0; o < keyLen; o++)
+                outBytes[o] = (byte)0;
+
+            if (keyBytes.Length >= keyLen)
+                Array.Copy(keyBytes, 0, outBytes, 0, keyLen);
+            else
+                Array.Copy(keyBytes, 0, outBytes, 0, keyBytes.Length);
+
+            return outBytes;
+        }
 
         #endregion GetUserKeyBytes
 
