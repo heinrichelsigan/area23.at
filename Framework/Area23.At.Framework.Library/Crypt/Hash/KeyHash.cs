@@ -305,7 +305,14 @@ namespace Area23.At.Framework.Library.Crypt.Hash
                     return Hex.ToHexString(SHA1.Create().ComputeHash(inBytes));
 
                 case KeyHash.Sha256:
-                    return Sha256Sum.HashString(stringToHash, "");
+                    /* Classical bouncy castle implementation of Sha256Digest
+                        digest = new Org.BouncyCastle.Crypto.Digests.Sha256Digest();
+                        resBuf = new byte[digest.GetDigestSize()];
+                        digest.BlockUpdate(inBytes, 0, inBytes.Length);
+                        digest.DoFinal(resBuf, 0);
+                        return Hex.ToHexString(resBuf);
+                    */
+                    return Hex.ToHexString(SHA256.Create().ComputeHash(inBytes)); // Sha256Sum.HashString(stringToHash, "");
 
                 case KeyHash.Sha384:
                     return Hex.ToHexString(SHA384.Create().ComputeHash(inBytes));
