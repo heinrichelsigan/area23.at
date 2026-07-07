@@ -98,7 +98,8 @@
         
             <div class="odDiv">
                 <span class="leftSpan" style="width: 72px;">                      
-                    <asp:DropDownList ID="DropDownList_Zip" runat="server" ClientIDMode="Static" style="width: 64px; z-index: 100;">
+                    <asp:DropDownList ID="DropDownList_Zip" runat="server" ClientIDMode="Static" AutoPostBack="true"
+                        OnSelectedIndexChanged="DropDownList_Zip_SelectedIndexChanged" style="width: 64px; z-index: 100;">
                         <asp:ListItem Enabled="true" Value="None" Selected="true">None</asp:ListItem>
                         <asp:ListItem Enabled="false" Value="Z7" Selected="false">7Zip</asp:ListItem>                
                         <asp:ListItem Enabled="true" Value="BZip2" Selected="false">BZip2</asp:ListItem>

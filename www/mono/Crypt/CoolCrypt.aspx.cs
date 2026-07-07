@@ -12,7 +12,6 @@ using System.Security.Cryptography;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 
 namespace Area23.At.Mono.Crypt
@@ -135,12 +134,12 @@ namespace Area23.At.Mono.Crypt
         {
             if (sender != null && sender is RadioButtonList radios &&
                     !Enum.TryParse<KeyHash>(radios.SelectedValue, out keyHash))
-                keyHash = KeyHash.Hex;
-            
-            if (!string.IsNullOrEmpty(this.TextBox_Key.Text))
             {
-                Reset_TextBox_IV(this.TextBox_Key.Text);
+                keyHash = KeyHash.Hex;
+                this.RadioButtonList_Hash.SelectedKeyHashValue = keyHash.ToString();
             }
+
+            SetCipherPipeOnChangeControl(sender, e);
         }
 
 
@@ -178,7 +177,7 @@ namespace Area23.At.Mono.Crypt
 
             if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
                 cmode2 = DefaultCipherMode2;
-
+            
             pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
             if (pipeAlgortihms != null && pipeAlgortihms.Length > 0)
             {
@@ -186,6 +185,8 @@ namespace Area23.At.Mono.Crypt
                 SetCipherPipeImage(cipherPipe, false);
                 return;
             }
+            
+            // TODO: SetCipherPipeOnChangeControl(sender, e);
         }
 
         /// <summary>
@@ -200,7 +201,6 @@ namespace Area23.At.Mono.Crypt
                 Reset_TextBox_IV(this.TextBox_Key.Text);
                 key = TextBox_Key.Text;
                 hash = TextBox_IV.Text;
-
 
                 this.TextBox_Encryption.Text = string.Empty;
                 cipherPipe = new CipherPipe(key, hash, encType, zipType, keyHash, cmode2);
@@ -249,6 +249,41 @@ namespace Area23.At.Mono.Crypt
         }
 
         /// <summary>
+        /// DropDownList_CipherMode_SelectedIndexChanged changes <see cref="CipherMode2"/> for <see cref="CipherPipe"/> <seealso cref="cipherPipe"/>
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        protected void DropDownList_CipherMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // if (this.DropDownList_CipherMode.SelectedValue.ToLowerInvariant() == "ecb")
+            if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
+            {
+                cmode2 = DefaultCipherMode2;
+                this.DropDownList_CipherMode.SelectedIndex = 2;
+            }
+
+            SetCipherPipeOnChangeControl(sender, e);
+        }
+
+
+        /// <summary>
+        /// DropDownList_Zip_SelectedIndexChanged changes <see cref="ZipType"/> for <see cref="CipherPipe"/> <seealso cref="cipherPipe"/> 
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        protected void DropDownList_Zip_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // if (this.DropDownList_CipherMode.SelectedValue.ToLowerInvariant() == "ecb")
+            if (!Enum.TryParse<ZipType>(this.DropDownList_Zip.SelectedValue, out zipType))
+            {
+                zipType = ZipType.None;
+                this.DropDownList_Zip.SelectedIndex = 0;
+            }
+
+            SetCipherPipeOnChangeControl(sender, e);
+        }
+
+        /// <summary>
         /// Fired, when DropDownList_Encoding_SelectedIndexChanged
         /// </summary>
         /// <param name="sender">object sender</param>
@@ -265,18 +300,17 @@ namespace Area23.At.Mono.Crypt
                 CheckBox_Encode.Enabled = true;
                 CheckBox_Encode.Checked = true;
             }
-        }
 
-
-        protected void DropDownList_CipherMode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // if (this.DropDownList_CipherMode.SelectedValue.ToLowerInvariant() == "ecb")
-            if (!Enum.TryParse<CipherMode2>(this.DropDownList_CipherMode.SelectedValue, out cmode2))
+            if (!Enum.TryParse<EncodingType>(this.DropDownList_Encoding.SelectedValue, out encType))
             {
-                cmode2 = DefaultCipherMode2;
-                this.DropDownList_CipherMode.SelectedIndex = 2;
+                this.DropDownList_Encoding.SelectedIndex = 5;
+                encType = EncodingType.Base64;
+                this.DropDownList_Encoding.SelectedValue = encType.ToString();
             }
+
+            SetCipherPipeOnChangeControl(sender, e);
         }
+
 
 
         /// <summary>
@@ -662,6 +696,27 @@ namespace Area23.At.Mono.Crypt
             {
                 this.TextBox_Encryption.BorderStyle = BorderStyle.Double;                
                 this.TextBox_Encryption.BorderWidth = 2;
+            }
+        }
+
+        /// <summary>
+        /// SetCipherPipeOnChangeControl upfates  <see cref="cipherPipe"/> based on text in  <see cref="TextBox_Encryption.Text"/>
+        /// draws PipeImage wirh <see  cref="SetCipherPipeImage(CipherPipe, bool)"´/>
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        protected void SetCipherPipeOnChangeControl(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(this.TextBox_Encryption.Text) && !string.IsNullOrEmpty(this.TextBox_Key.Text))
+            {
+                pipeAlgortihms = CipherEnumExtensions.ParsePipeText(this.TextBox_Encryption.Text);
+                if (pipeAlgortihms != null && pipeAlgortihms.Length > 0)
+                {
+                    Reset_TextBox_IV(this.TextBox_Key.Text);
+                    cipherPipe = new CipherPipe(pipeAlgortihms, 8, encType, zipType, keyHash, cmode2);
+                    SetCipherPipeImage(cipherPipe, false);
+                    SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif", Color.Coral);
+                }
             }
         }
 

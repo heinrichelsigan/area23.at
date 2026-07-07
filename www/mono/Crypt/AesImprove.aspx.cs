@@ -172,7 +172,7 @@ namespace Area23.At.Mono.Crypt
                     this.TextBox_Encryption.Text += c.ToString() + ";";
                 }
                 SetCipherPipeImage(cipherPipe, false);
-
+                Session[Constants.PIPE_LAST_FILL] = "set";
                 SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif", Color.DarkOliveGreen);
             }
         }
@@ -199,7 +199,7 @@ namespace Area23.At.Mono.Crypt
                     this.TextBox_Encryption.Text += cipher.ToString() + ";";
                 }
                 SetCipherPipeImage(cipherPipe, false);
-
+                Session[Constants.PIPE_LAST_FILL] = "hash";
                 SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif", Color.Coral);
             }
         }
@@ -240,6 +240,8 @@ namespace Area23.At.Mono.Crypt
                 cmode2 = DefaultCipherMode2;
                 this.DropDownList_CipherMode.SelectedIndex = 2;
             }
+
+            SetCipherPipeOnChangeControl(sender, e);
         }
 
 
@@ -613,6 +615,27 @@ namespace Area23.At.Mono.Crypt
                 this.TextBox_Encryption.BorderStyle = BorderStyle.Double;
                 this.TextBox_Encryption.BorderWidth = 2;
 
+            }
+        }
+
+        /// <summary>
+        /// SetCipherPipeOnChangeControl upfates  <see cref="cipherPipe"/> based on text in  <see cref="TextBox_Encryption.Text"/>
+        /// draws PipeImage wirh <see  cref="SetCipherPipeImage(CipherPipe, bool)"´/>
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">EventArgs e</param>
+        protected void SetCipherPipeOnChangeControl(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(this.TextBox_Encryption.Text) && !string.IsNullOrEmpty(this.TextBox_Key.Text))
+            {
+                if (Session[Constants.PIPE_LAST_FILL] != null && ((string)Session[Constants.PIPE_LAST_FILL] == "hash"))
+                {
+                    Button_HashPipe_Click(sender, e);
+                }
+                else
+                {
+                    Button_SetPipe_Click(sender, e);
+                }
             }
         }
 

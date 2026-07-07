@@ -1493,7 +1493,7 @@ namespace Area23.At.Framework.Library.Static
 
             if (cipherEnums.Count > 0)
             {
-                secCipherPipe = new SecureCipherPipe(cipherEnums.ToArray(), Constants.MAX_PIPE_LEN, cmode2);
+                secCipherPipe = new SecureCipherPipe(cipherEnums.ToArray(), Constants.PIPE_MAX_LEN, cmode2);
                 if (strippedFileName.Contains("." + secCipherPipe.PipeString))
                 {
                     strippedFileName = strippedFileName.Replace("." + secCipherPipe.PipeString, "");
@@ -1501,7 +1501,7 @@ namespace Area23.At.Framework.Library.Static
             }
 
             if (secCipherPipe == null || secCipherPipe.InPipe.Length == 0)
-                secCipherPipe = new SecureCipherPipe(cipherEnums.ToArray(), Constants.MAX_PIPE_LEN, cmode2);
+                secCipherPipe = new SecureCipherPipe(cipherEnums.ToArray(), Constants.PIPE_MAX_LEN, cmode2);
 
             return strippedFileName;
         }

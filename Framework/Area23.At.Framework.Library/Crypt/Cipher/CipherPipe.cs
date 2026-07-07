@@ -142,17 +142,17 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// CipherPipe constructor with an array of <see cref="T:CipherEnum[]"/> as inpipe
         /// </summary>
         /// <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
-        /// <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="Constants.MAX_PIPE_LEN"/></param>
+        /// <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="Constants.PIPE_MAX_LEN"/></param>
         /// <param name="encType"><see cref="EncodeType"/></param>
         /// <param name="zpType"><see cref="ZipType"/></param>
         /// <param name="kh"><see cref="KeyHash"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        public CipherPipe(CipherEnum[] cipherEnums, uint maxpipe = Constants.MAX_PIPE_LEN,
+        public CipherPipe(CipherEnum[] cipherEnums, uint maxpipe = Constants.PIPE_MAX_LEN,
             EncodingType encType = EncodingType.Base64, ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
             CipherMode2 cmode2 = CipherMode2.ECB)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
-            maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
+            maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             int isize = Math.Min(((int)cipherEnums.Length), ((int)maxpipe));
             inPipe = new CipherEnum[isize];
@@ -168,17 +168,17 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// CipherPipe constructor with an array of <see cref="T:string[]"/> cipherAlgos as inpipe
         /// </summary>
         /// <param name="cipherAlgos">array of <see cref="T:string[]"/> as inpipe</param>
-        /// <param name="maxpipe">maximum lentgh <see cref="Constants.MAX_PIPE_LEN"/></param>
+        /// <param name="maxpipe">maximum lentgh <see cref="Constants.PIPE_MAX_LEN"/></param>
         /// <param name="encType"><see cref="EncodeType"/></param>
         /// <param name="zpType"><see cref="Zip.ZipType"/></param>
         /// <param name="kh"><see cref="KeyHash"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        public CipherPipe(string[] cipherAlgos, uint maxpipe = Constants.MAX_PIPE_LEN, EncodingType encType = EncodingType.Base64,
+        public CipherPipe(string[] cipherAlgos, uint maxpipe = Constants.PIPE_MAX_LEN, EncodingType encType = EncodingType.Base64,
             ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
             CipherMode2 cmode2 = CipherMode2.ECB)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
-            maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
+            maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             List<CipherEnum> cipherEnums = new List<CipherEnum>();
             int cnt = 0;
@@ -209,19 +209,19 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         /// CipherPipe ctor with array of user key bytes
         /// </summary>
         /// <param name="keyBytes">user key bytes</param>
-        /// <param name="maxpipe">maximum lentgh <see cref="Constants.MAX_PIPE_LEN"/></param>
+        /// <param name="maxpipe">maximum lentgh <see cref="Constants.PIPE_MAX_LEN"/></param>
         /// <param name="encType"><see cref="EncodeType"/></param>
         /// <param name="zpType"><see cref="Zip.ZipType"/></param>
         /// <param name="kh"><see cref="KeyHash"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
         /// <exception cref="ArgumentException"></exception>
-        public CipherPipe(byte[] keyBytes, uint maxpipe = Constants.MAX_PIPE_LEN,
+        public CipherPipe(byte[] keyBytes, uint maxpipe = Constants.PIPE_MAX_LEN,
             EncodingType encType = EncodingType.Base64, ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
             CipherMode2 cmode2 = CipherMode2.ECB, bool verbose = false)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
-            maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
+            maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             List<CipherEnum> pipeList = new List<CipherEnum>();
 
@@ -266,7 +266,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         public CipherPipe(string key, string hash, EncodingType encType = EncodingType.Base64,
             ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
             CipherMode2 cmode2 = CipherMode2.ECB, bool verbose = false)
-            : this(CryptHelper.GetKeyBytesSimple(key, hash, 16), Constants.MAX_PIPE_LEN, encType, zpType, kh, cmode2, verbose)
+            : this(CryptHelper.GetKeyBytesSimple(key, hash, 16), Constants.PIPE_MAX_LEN, encType, zpType, kh, cmode2, verbose)
         {
             cipherKey = key;
             cipherHash = hash;
@@ -954,7 +954,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             List<Bitmap> bitmaps = new List<Bitmap>();
 
             string bmpName = "";
-            int w = Constants.PIPE_IMG_WIDTH_OFFSET, offset = 0, startset = 0;
+            int w = Constants.PIPE_IMG_WIDTH_OFFSET, h = Constants.PIPE_IMG_HEIGHT, offset = 0, startset = 0;
             if (this.ZType != ZipType.None)
             {
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
@@ -970,13 +970,39 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     StringFormat drawFormat = new StringFormat();
                     drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
                     g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
+                    String drawCMode2String = this.CMode2.ToString();
+                    drawFont = new Font("Microsoft Sans Serif", 14, FontStyle.Underline);
+                    drawBrush = new SolidBrush(Color.DarkOrange);
+                    x = offset + 0.25F;
+                    y = 0.25F;
+                    drawFormat = new StringFormat();
+                    drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
+                    g.DrawString(drawCMode2String, drawFont, drawBrush, x, y, drawFormat);
+                    offset += w;
+                    startset += w;
+                }                
+            } 
+            else
+            {
+                using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
+                {
+                    w = 45;
+                    ximage = new Bitmap(Properties.Resource.Blank_640x108, new Size(40, 64));
+                    g.DrawImage(ximage, new System.Drawing.Rectangle(0, 20, w, 64));
+                    String drawCMode2String = this.CMode2.ToString();
+                    Font drawFont = new Font("Microsoft Sans Serif", 14, FontStyle.Underline);
+                    SolidBrush drawBrush = new SolidBrush(Color.DarkOrange);
+                    float x = offset + 0.25F;
+                    float y = 0.25F;
+                    StringFormat drawFormat = new StringFormat();
+                    drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
+                    g.DrawString(drawCMode2String, drawFont, drawBrush, x, y, drawFormat);
                     offset += w;
                     startset += w;
                 }
-                gifStartImage = new Bitmap(mergeimg, Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT);
-                bitmaps.Add(gifStartImage);
             }
-
+            gifStartImage = new Bitmap(mergeimg, Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT);
+            bitmaps.Add(gifStartImage);
             startset = offset;
 
             for (int i = 0; (i < this.InPipe.Length); i++)
@@ -1088,6 +1114,30 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                     StringFormat drawFormat = new StringFormat();
                     drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
                     g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
+                    String drawCMode2String = this.CMode2.ToString();
+                    drawFont = new Font("Microsoft Sans Serif", 14, FontStyle.Underline);
+                    drawBrush = new SolidBrush(Color.DarkOrange);
+                    x = offset + 0.25F;
+                    y = 0.25F;
+                    drawFormat = new StringFormat();
+                    drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
+                    g.DrawString(drawCMode2String, drawFont, drawBrush, x, y, drawFormat);
+                    offset += w;
+                    startset += w;
+                }
+                else
+                {
+                    w = 45;
+                    ximage = new Bitmap(Properties.Resource.Blank_640x108, new Size(40, 64));
+                    g.DrawImage(ximage, new System.Drawing.Rectangle(0, 20, w, 64));
+                    String drawCMode2String = this.CMode2.ToString();
+                    Font drawFont = new Font("Microsoft Sans Serif", 14, FontStyle.Underline);
+                    SolidBrush drawBrush = new SolidBrush(Color.DarkOrange);
+                    float x = offset + 0.25F;
+                    float y = 0.25F;
+                    StringFormat drawFormat = new StringFormat();
+                    drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
+                    g.DrawString(drawCMode2String, drawFont, drawBrush, x, y, drawFormat);
                     offset += w;
                     startset += w;
                 }

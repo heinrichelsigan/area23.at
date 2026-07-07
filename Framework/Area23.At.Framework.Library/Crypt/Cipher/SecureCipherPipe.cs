@@ -98,12 +98,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// SecureCipherPipe constructor with an array of <see cref="T:CipherEnum[]"/> as inpipe
         /// </summary>
         /// <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
-        /// <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="Constants.MAX_PIPE_LEN"/></param>
+        /// <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="Constants.PIPE_MAX_LEN"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         public SecureCipherPipe(CipherEnum[] cipherEnums, uint maxpipe, CipherMode2 cmode2)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
-            maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
+            maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             int isize = Math.Min(((int)cipherEnums.Length), ((int)maxpipe));
             inPipe = new CipherEnum[isize];
@@ -118,12 +118,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// SecureCipherPipe constructor with an array of <see cref="T:string[]"/> cipherAlgos as inpipe
         /// </summary>
         /// <param name="cipherAlgos">array of <see cref="T:string[]"/> as inpipe</param>
-        /// <param name="maxpipe">maximum lentgh <see cref="Constants.MAX_PIPE_LEN"/></param>
+        /// <param name="maxpipe">maximum lentgh <see cref="Constants.PIPE_MAX_LEN"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         public SecureCipherPipe(string[] cipherAlgos, uint maxpipe, CipherMode2 cmode2)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
-            maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
+            maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             List<CipherEnum> cipherEnums = new List<CipherEnum>();
             int cnt = 0;
@@ -142,7 +142,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 }
             }
 
-            int pipeSize = Math.Min(cipherEnums.Count, Constants.MAX_PIPE_LEN);
+            int pipeSize = Math.Min(cipherEnums.Count, Constants.PIPE_MAX_LEN);
             inPipe = new CipherEnum[pipeSize];
             Array.Copy(cipherEnums.ToArray(), inPipe, pipeSize);
 
@@ -155,14 +155,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// SecureCipherPipe ctor with array of user key bytes
         /// </summary>
         /// <param name="keyBytes">user key bytes</param>
-        /// <param name="maxpipe">maximum lentgh <see cref="Constants.MAX_PIPE_LEN"/></param>        
+        /// <param name="maxpipe">maximum lentgh <see cref="Constants.PIPE_MAX_LEN"/></param>        
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
         /// <exception cref="ArgumentException"></exception>
         public SecureCipherPipe(byte[] keyBytes, uint maxpipe, CipherMode2 cmode2, bool verbose = false)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
-            maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
+            maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             List<CipherEnum> pipeList = new List<CipherEnum>();
 
@@ -185,7 +185,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 }
             }
 
-            int pipeSize = Math.Min(pipeList.Count, Constants.MAX_PIPE_LEN);
+            int pipeSize = Math.Min(pipeList.Count, Constants.PIPE_MAX_LEN);
             inPipe = new CipherEnum[pipeSize];
             Array.Copy(pipeList.ToArray(), inPipe, pipeSize);
 
@@ -203,7 +203,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
         public SecureCipherPipe(string keyHash, CipherMode2 cmode2, bool verbose = false)
-            : this(CryptHelper.GetKeyBytesSingle(keyHash, 16), Constants.MAX_PIPE_LEN, cmode2, verbose)
+            : this(CryptHelper.GetKeyBytesSingle(keyHash, 16), Constants.PIPE_MAX_LEN, cmode2, verbose)
         {
             cipherKeyHash = keyHash;
             cipherKey = cipherKeyHash;
