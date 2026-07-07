@@ -138,7 +138,7 @@ namespace Area23.At.Mono.Crypt
                 keyHash = KeyHash.Hex;
                 this.RadioButtonList_Hash.SelectedKeyHashValue = keyHash.ToString();
             }
-
+            Button_Hash_Click(sender, e);
             SetCipherPipeOnChangeControl(sender, e);
         }
 
