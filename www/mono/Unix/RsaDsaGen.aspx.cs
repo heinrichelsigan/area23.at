@@ -30,7 +30,7 @@ namespace Area23.At.Mono.Unix
 
         protected internal readonly string whoisCmdPath = System.IO.Path.Combine(LibPaths.SystemDirBinPath, "whois.exe");
         protected internal const string opensslCmd = "openssl";
-        protected internal const string opensslRsaArgs = " genpkey -algorithm rsa  -pass pass:{0} -pkeyopt rsa_keygen_bits:{1} -out /tmp/rsa_{2}.pk8 2>/dev/null";
+        protected internal const string opensslRsaArgs = " genpkey -algorithm rsa  -pass pass:{0} -pkeyopt rsa_keygen_bits:{1} 2>/dev/null";
         protected internal const string opensslRsaPrivCmd = " rsa -in /tmp/rsa_{0}.pk8 -pubout | tee rsa_{1}.spki";
         protected internal const string opensslDsaParams = " dsaparam -verbose -out /tmp/dsa_{0}.params {1} ";
         protected internal const string opensslDsaArgs = " gendsa -verbose -out /tmp/dsa_{0}.pem -passout pass:{1} /tmp/dsa_{2}.params ";
@@ -77,9 +77,10 @@ namespace Area23.At.Mono.Unix
                 TableHeaderCellLeft.Text = filepath + " " + argsPub.Replace(">", "&#62;");
                 cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsPub);
                 
-                System.Threading.Thread.Sleep(400);
+                System.Threading.Thread.Sleep(100);
                 
-                allRsaText = System.IO.File.ReadAllText("/tmp/rsa_" + sessionId + ".pk8");
+                System.IO.File.WriteAllText("/tmp/rsa_" + sessionId + ".pk8", cmdOut);
+                allRsaText = cmdOut;
                 TableCellLeft.Text = allRsaText.Replace("\n", "<br />\r\n");
             }
             catch (Exception ex)
@@ -106,20 +107,9 @@ namespace Area23.At.Mono.Unix
             }
 
             System.Threading.Thread.Sleep(200);
-
-            string[] files = Directory.GetFiles("/tmp");
-            foreach (string f in files)
-            {
-                if (f.Contains("rsa_") || f.Contains("dsa_"))
-                {
-                    if (System.IO.File.Exists(f))
-                        System.IO.File.Delete(f);
-                    if (System.IO.File.Exists("/tmp/" + f))
-                        System.IO.File.Delete("/tmp/" + f);
-                }
-            }
-            if (System.IO.File.Exists("/tmp/rsa_" + this.Session.SessionID + ".pk8"))
-                System.IO.File.Delete("/tmp/rsa_" + this.Session.SessionID + ".pk8");
+            
+            if (System.IO.File.Exists("/tmp/rsa_" + sessionId+ ".pk8"))
+                System.IO.File.Delete("/tmp/rsa_" + sessionId + ".pk8");
 
             return allRsaText;
         }
@@ -142,7 +132,7 @@ namespace Area23.At.Mono.Unix
                 TableHeaderCellLeft.Text = filepath + " " + argsParams;
                 cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsParams);
                 
-                System.Threading.Thread.Sleep(300);
+                System.Threading.Thread.Sleep(250);
 
                 allDsaText = System.IO.File.ReadAllText("/tmp/dsa_" + sessionId + ".params");
                 TableCellLeft.Text = allDsaText.Replace("\n", "<br />\r\n");
@@ -161,7 +151,7 @@ namespace Area23.At.Mono.Unix
                 TableCellRight.Text = filepath + " " + argsPriv;
                 cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsPriv);
 
-                System.Threading.Thread.Sleep(200);
+                System.Threading.Thread.Sleep(250);
 
                 string desPrivKey = System.IO.File.ReadAllText("/tmp/dsa_" + sessionId + ".pem");
                 allDsaText += "\n" + desPrivKey;
@@ -176,6 +166,9 @@ namespace Area23.At.Mono.Unix
 
             if (System.IO.File.Exists("/tmp/dsa_" + sessionId + ".pem"))
                 System.IO.File.Delete("/tmp/dsa_" + sessionId + ".pem");
+
+            if (System.IO.File.Exists("/tmp/dsa_" + sessionId + ".params"))
+                System.IO.File.Delete("/tmp/dsa_" + sessionId + ".params");
 
             return allDsaText;
         }
