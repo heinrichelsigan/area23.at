@@ -68,6 +68,7 @@ namespace Area23.At.Mono.Unix
             string filepath = opensslCmd;
             TableCellLeft.Visible = true;
             TableCellLeft.Text = "";
+            TableCellRight.Text = "";
             string cmdOut = "", allRsaText = "", sessionId = this.Session.SessionID;
             try
             {
@@ -75,7 +76,8 @@ namespace Area23.At.Mono.Unix
 
                 TableHeaderCellLeft.Text = filepath + " " + argsPub.Replace(">", "&#62;");
                 cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsPub);
-                System.Threading.Thread.Sleep(100);
+                
+                System.Threading.Thread.Sleep(400);
                 
                 allRsaText = System.IO.File.ReadAllText("/tmp/rsa_" + sessionId + ".pk8");
                 TableCellLeft.Text = allRsaText.Replace("\n", "<br />\r\n");
@@ -84,12 +86,13 @@ namespace Area23.At.Mono.Unix
             {
                 Area23Log.LogStatic(ex);
                 TableCellLeft.Text += "\n<br>\r\n" + ex.GetType().ToString() + ": " + ex.Message + "<br />\r\n" + ex.StackTrace + "<br />\r\n";
+                return allRsaText; 
             }
 
             try
             {
                 TableCellRight.Visible = true;
-                string argsPriv = String.Format(opensslRsaPrivCmd, this.Session.SessionID, sessionId);
+                string argsPriv = String.Format(opensslRsaPrivCmd, sessionId, sessionId);
                 TableCellRight.Text = filepath + " " + argsPriv;
                 cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsPriv);
                 allRsaText += "\n" + cmdOut;
@@ -99,9 +102,10 @@ namespace Area23.At.Mono.Unix
             {
                 Area23Log.LogStatic(ex);
                 TableCellRight.Text += "\n<br>\r\n" + ex.GetType().ToString() + ": " + ex.Message + "<br />\r\n" + ex.StackTrace + "<br />\r\n";
+                return allRsaText;
             }
 
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(200);
 
             string[] files = Directory.GetFiles("/tmp");
             foreach (string f in files)
@@ -138,7 +142,7 @@ namespace Area23.At.Mono.Unix
                 TableHeaderCellLeft.Text = filepath + " " + argsParams;
                 cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsParams);
                 
-                System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(300);
 
                 allDsaText = System.IO.File.ReadAllText("/tmp/dsa_" + sessionId + ".params");
                 TableCellLeft.Text = allDsaText.Replace("\n", "<br />\r\n");
@@ -147,6 +151,7 @@ namespace Area23.At.Mono.Unix
             {
                 Area23Log.LogStatic(ex);
                 TableCellLeft.Text += "\n<br>\r\n" + ex.GetType().ToString() + ": " + ex.Message + "<br />\r\n" + ex.StackTrace + "<br />\r\n";
+                return allDsaText;
             }
 
             try
@@ -156,7 +161,7 @@ namespace Area23.At.Mono.Unix
                 TableCellRight.Text = filepath + " " + argsPriv;
                 cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsPriv);
 
-                System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(200);
 
                 string desPrivKey = System.IO.File.ReadAllText("/tmp/dsa_" + sessionId + ".pem");
                 allDsaText += "\n" + desPrivKey;
@@ -166,6 +171,7 @@ namespace Area23.At.Mono.Unix
             {
                 Area23Log.LogStatic(ex);
                 TableCellRight.Text += "\n<br>\r\n" + ex.GetType().ToString() + ": " + ex.Message + "<br />\r\n" + ex.StackTrace + "<br />\r\n";
+                return allDsaText;
             }
 
             if (System.IO.File.Exists("/tmp/dsa_" + sessionId + ".pem"))
