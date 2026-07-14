@@ -30,8 +30,8 @@ namespace Area23.At.Mono.Unix
 
         protected internal readonly string whoisCmdPath = System.IO.Path.Combine(LibPaths.SystemDirBinPath, "whois.exe");
         protected internal const string opensslCmd = "openssl";
-        protected internal const string opensslRsaArgs = " genpkey -algorithm rsa  -pass pass:{0} -pkeyopt rsa_keygen_bits:{1} 2>/dev/null";
-        protected internal const string opensslRsaPrivCmd = " rsa -in /tmp/rsa_{0}.pk8 -pubout | tee rsa_{1}.spki";
+        protected internal const string opensslRsaArgs = " genpkey -algorithm rsa -pass pass:{0} -pkeyopt rsa_keygen_bits:{1} -out /tmp/rsa_{2}.pk8  -quiet ";
+        protected internal const string opensslRsaPrivCmd = " rsa -in /tmp/rsa_{0}.pk8 -pubout ";
         protected internal const string opensslDsaParams = " dsaparam -verbose -out /tmp/dsa_{0}.params {1} ";
         protected internal const string opensslDsaArgs = " gendsa -verbose -out /tmp/dsa_{0}.pem -passout pass:{1} /tmp/dsa_{2}.params ";
         protected internal static string[] linesOut = { };
@@ -69,18 +69,20 @@ namespace Area23.At.Mono.Unix
             TableCellLeft.Visible = true;
             TableCellLeft.Text = "";
             TableCellRight.Text = "";
+            TableHeaderCellLeft.Text = "Rsa private key";
+            TableHeaderCellRight.Text = "Rsa public key";
             string cmdOut = "", allRsaText = "", sessionId = this.Session.SessionID;
             try
             {
                 string argsPub = string.Format(opensslRsaArgs, this.TextBox_PassKey.Text, keySize, sessionId);
 
-                TableHeaderCellLeft.Text = filepath + " " + argsPub.Replace(">", "&#62;");
+                TableCellLeft.Text = filepath + " " + argsPub;
                 cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsPub);
                 
-                System.Threading.Thread.Sleep(100);
-                
-                System.IO.File.WriteAllText("/tmp/rsa_" + sessionId + ".pk8", cmdOut);
-                allRsaText = cmdOut;
+                System.Threading.Thread.Sleep(250);
+
+                allRsaText = System.IO.File.ReadAllText("/tmp/rsa_" + sessionId + ".pk8");
+
                 TableCellLeft.Text = allRsaText.Replace("\n", "<br />\r\n");
             }
             catch (Exception ex)
@@ -93,7 +95,7 @@ namespace Area23.At.Mono.Unix
             try
             {
                 TableCellRight.Visible = true;
-                string argsPriv = String.Format(opensslRsaPrivCmd, sessionId, sessionId);
+                string argsPriv = String.Format(opensslRsaPrivCmd, sessionId);
                 TableCellRight.Text = filepath + " " + argsPriv;
                 cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsPriv);
                 allRsaText += "\n" + cmdOut;
@@ -124,6 +126,9 @@ namespace Area23.At.Mono.Unix
             string filepath = opensslCmd;
             TableCellLeft.Visible = true;
             TableCellLeft.Text = "";
+            TableCellRight.Text = "";
+            TableHeaderCellLeft.Text = "Dsa params";
+            TableHeaderCellRight.Text = "Dsa private key";
             string cmdOut = "", allDsaText = "", sessionId = this.Session.SessionID;
             try
             {
@@ -203,18 +208,7 @@ namespace Area23.At.Mono.Unix
             }
         }
 
-        protected void TextBox_PassKey_TextChanged(object sender, EventArgs e)
-        {
-            Button_Gen_Click(sender, e);
-        }
-
-        protected void Algorithm_Changed(object sender, EventArgs e)
-        {
-            if (this.RadioButtonList_Algorithm.SelectedValue == "Dsa")
-                this.algorithm = Algorithm.DSA;
-            else
-                this.algorithm = Algorithm.RSA;
-        }
+        
 
 
         protected void KeySize_Changed(object sender, EventArgs e)

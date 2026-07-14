@@ -10,16 +10,14 @@
     <form id="Area23UnixRsaDsaGenForm" runat="server">
         <div class="odDiv">
             <span class="leftSpan">
-                <asp:RadioButtonList ID="RadioButtonList_Algorithm" runat="server" ToolTip="asymmetric key algorithm"
-                    AutoPostBack="True" OnSelectedIndexChanged="Algorithm_Changed" RepeatDirection="Horizontal" CssClass="RadioButtonList">                    
+                <asp:RadioButtonList ID="RadioButtonList_Algorithm" runat="server" ToolTip="asymmetric key algorithm" RepeatDirection="Horizontal" CssClass="RadioButtonList">
                     <asp:ListItem>Dsa</asp:ListItem>
                     <asp:ListItem Selected="True">Rsa</asp:ListItem>
                 </asp:RadioButtonList>
             </span>
             <span class="centerSpan">
                 <span class="textSpan">passkey: </span>    
-                <asp:TextBox ID="TextBox_PassKey" ClientIDMode="Static" runat="server" ToolTip="Enter domain name or IP address" MaxLength="256" Width="256pt" Height="20pt" 
-                    AutoPostBack="True" OnTextChanged="TextBox_PassKey_TextChanged" CssClass="ButtonTextBox" />
+                <asp:TextBox ID="TextBox_PassKey" ClientIDMode="Static" runat="server" ToolTip="Enter domain name or IP address" MaxLength="64" Width="80" Height="20" CssClass="ButtonTextBox" />
             </span>
             <span class="centerSpan">
                 <span class="textSpan"> key size: </span>
