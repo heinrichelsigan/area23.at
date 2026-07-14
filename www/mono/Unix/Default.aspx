@@ -113,6 +113,7 @@
             <li><a href="Fortune.aspx">fortune</a> <a href="https://area23.at/shared/man/fortune.txt" target="_blank">fortune(6)</a></li>
             <li><a href="HostWhois.aspx" name="HostWhois">hostwhois</a> <a href="https://area23.at/shared/man/whois.txt" target="_blank">whois (1)</a></li>
             <li><a href="OctalDump.aspx">octaldump</a> <a href="https://www.man7.org/linux/man-pages/man1/od.1.html" target="_blank">od(1)</a></li>            
+            <li><a href="RsaDsaGen.aspx">generate asymmetric rsa/dsa keys</a> with <a href="https://man.openbsd.org/openssl.1" target="_blank">openssl</a></li>            
             <li><a href="PdfMerge.aspx" name="PdfMerge">PdfMerge pdfunite(1)</a></li>
             <li><a href="PdfUnite.aspx" name="PdfUnite">PdfUnite pdfunite(1)</a></li>            
         </ul>

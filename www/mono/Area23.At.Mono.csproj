@@ -480,6 +480,7 @@
     <Content Include="Settings\Setting.aspx" />
     <Content Include="Settings\TestLogin.aspx" />
     <Content Include="Unix\Bc.aspx" />
+    <Content Include="Unix\RsaDsaGen.aspx" />
     <Content Include="Unix\PdfUnite.aspx" />
     <Content Include="Unix\PdfMerge.aspx" />
     <Content Include="Unix\Default.aspx" />
@@ -799,6 +800,13 @@
     </Compile>
     <Compile Include="Unix\Bc.aspx.designer.cs">
       <DependentUpon>Bc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Unix\RsaDsaGen.aspx.cs">
+      <DependentUpon>RsaDsaGen.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Unix\RsaDsaGen.aspx.designer.cs">
+      <DependentUpon>RsaDsaGen.aspx</DependentUpon>
     </Compile>
     <Compile Include="Unix\PdfUnite.aspx.cs">
       <DependentUpon>PdfUnite.aspx</DependentUpon>

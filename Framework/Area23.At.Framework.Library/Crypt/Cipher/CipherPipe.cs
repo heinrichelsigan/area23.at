@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher
 {
-
+    
     /// <summary>
     /// Provides a simple crypt pipe for <see cref="CipherEnum"/>
     /// </summary>
