@@ -2,7 +2,7 @@
 <asp:Content ID="ContentQrHead" ContentPlaceHolderID="QrHead" runat="server">
 	<title>Generic Qr Generator (apache2 mod_mono)</title>
 	<link rel="stylesheet" href="../res/css/area23.at.mono.css" />
-	<meta name="keywords" content="QR code generator" />
+	<meta name="keywords" content="generic qr code generator" />
 	<meta name="description" content="https://github.com/heinrichelsigan/area23.at/" />
 	<script type="text/javascript" src="../res/js/qr.js"></script>
 	<script type="text/javascript">

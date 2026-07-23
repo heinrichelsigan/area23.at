@@ -1,6 +1,8 @@
-﻿using Area23.At.Framework.Library.Net.IpSocket;
+﻿using Area23.At.Framework.Library.Crypt.Cipher.Asymmetric;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
 using System;
 using System.Drawing;
 using System.IO;
@@ -8,6 +10,7 @@ using System.Net;
 using System.Threading;
 using System.Web.UI.WebControls;
 using System.Windows.Input;
+
 
 
 namespace Area23.At.Mono.Unix
@@ -27,8 +30,6 @@ namespace Area23.At.Mono.Unix
     /// </summary>
     public partial class RsaDsaGen : System.Web.UI.Page
     {
-
-        protected internal readonly string whoisCmdPath = System.IO.Path.Combine(LibPaths.SystemDirBinPath, "whois.exe");
         protected internal const string opensslCmd = "openssl";
         protected internal const string opensslRsaArgs = " genpkey -algorithm rsa -pass pass:{0} -pkeyopt rsa_keygen_bits:{1} -out /tmp/rsa_{2}.pk8  -quiet ";
         protected internal const string opensslRsaPrivCmd = " rsa -in /tmp/rsa_{0}.pk8 -pubout ";
@@ -46,7 +47,14 @@ namespace Area23.At.Mono.Unix
         {
             if (!Page.IsPostBack)
             {
-                this.TextBox_PassKey.Text = "kernel.org";
+                this.DropDown_KeySize.Items.Clear();
+                this.DropDown_KeySize.Items.Add(new ListItem("512", "512"));
+                this.DropDown_KeySize.Items.Add(new ListItem("768", "768"));
+                this.DropDown_KeySize.Items.Add(new ListItem("1024", "1024"));
+                this.DropDown_KeySize.Items.Add(new ListItem("2048", "2048"));
+                this.DropDown_KeySize.Items.Add(new ListItem("3072", "3072"));
+                this.DropDown_KeySize.Items.Add(new ListItem("4096", "4096"));
+                this.DropDown_KeySize.SelectedIndex = 2;
             }
 
             if (this.RadioButtonList_Algorithm.SelectedValue == "Dsa")
@@ -65,25 +73,27 @@ namespace Area23.At.Mono.Unix
         /// </summary>
         protected string GenerateRsaKey(int keySize)
         {
-            string filepath = opensslCmd;
             TableCellLeft.Visible = true;
             TableCellLeft.Text = "";
             TableCellRight.Text = "";
             TableHeaderCellLeft.Text = "Rsa private key";
             TableHeaderCellRight.Text = "Rsa public key";
-            string cmdOut = "", allRsaText = "", sessionId = this.Session.SessionID;
+            string allRsaText = "", rsaPublic = "", rsaPrivate = "";
             try
             {
-                string argsPub = string.Format(opensslRsaArgs, this.TextBox_PassKey.Text, keySize, sessionId);
+                // string argsPub = string.Format(opensslRsaArgs, this.TextBox_PassKey.Text, keySize, sessionId);
+                // cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsPub);
+                AsymmetricCipherKeyPair rsaKeyPair = Rsa.GenerateNewRsaKeyPair(keySize);                
 
-                TableCellLeft.Text = filepath + " " + argsPub;
-                cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsPub);
+                string[] rsaKeyStrings = Rsa.GetStringKeys(rsaKeyPair);
+                rsaPrivate = rsaKeyStrings[0];
+                rsaPublic = rsaKeyStrings[1];
                 
-                System.Threading.Thread.Sleep(250);
+                allRsaText = rsaPublic + "\n" + rsaPrivate;
 
-                allRsaText = System.IO.File.ReadAllText("/tmp/rsa_" + sessionId + ".pk8");
-
-                TableCellLeft.Text = allRsaText.Replace("\n", "<br />\r\n");
+                TableCellRight.Visible = true;
+                TableCellLeft.Text = rsaPrivate.Replace("\n", "<br />\r\n");                
+                TableCellRight.Text = rsaPublic.Replace("\n", "<br />\r\n");
             }
             catch (Exception ex)
             {
@@ -91,28 +101,7 @@ namespace Area23.At.Mono.Unix
                 TableCellLeft.Text += "\n<br>\r\n" + ex.GetType().ToString() + ": " + ex.Message + "<br />\r\n" + ex.StackTrace + "<br />\r\n";
                 return allRsaText; 
             }
-
-            try
-            {
-                TableCellRight.Visible = true;
-                string argsPriv = String.Format(opensslRsaPrivCmd, sessionId);
-                TableCellRight.Text = filepath + " " + argsPriv;
-                cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsPriv);
-                allRsaText += "\n" + cmdOut;
-                TableCellRight.Text = cmdOut.Replace("\n", "<br />\r\n");
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogStatic(ex);
-                TableCellRight.Text += "\n<br>\r\n" + ex.GetType().ToString() + ": " + ex.Message + "<br />\r\n" + ex.StackTrace + "<br />\r\n";
-                return allRsaText;
-            }
-
-            System.Threading.Thread.Sleep(200);
-            
-            if (System.IO.File.Exists("/tmp/rsa_" + sessionId+ ".pk8"))
-                System.IO.File.Delete("/tmp/rsa_" + sessionId + ".pk8");
-
+           
             return allRsaText;
         }
 
@@ -123,24 +112,28 @@ namespace Area23.At.Mono.Unix
         /// <returns>output of od cmd</returns>
         protected string GenerateDsaKey(int keySize)
         {
-            string filepath = opensslCmd;
             TableCellLeft.Visible = true;
             TableCellLeft.Text = "";
             TableCellRight.Text = "";
-            TableHeaderCellLeft.Text = "Dsa params";
-            TableHeaderCellRight.Text = "Dsa private key";
-            string cmdOut = "", allDsaText = "", sessionId = this.Session.SessionID;
+            TableHeaderCellLeft.Text = "Dsa private key";
+            TableHeaderCellRight.Text = "Dsa public key";
+            string allDsaText = "", dsaPublic = "", dsaPrivate = "";
             try
             {
-                string argsParams = string.Format(opensslDsaParams, sessionId, keySize);
+                // string argsParams = string.Format(opensslDsaParams, sessionId, keySize);                
+                // cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsParams);
+                AsymmetricCipherKeyPair dsaKeyPair = Dsa.GetDsaKeyPair(keySize);
 
-                TableHeaderCellLeft.Text = filepath + " " + argsParams;
-                cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsParams);
+                Tuple<string, string> dsaKeyTuple = Dsa.GetKeysTuple(dsaKeyPair);
+                dsaPrivate = dsaKeyTuple.Item1.ToString();
+                dsaPublic = dsaKeyTuple.Item2.ToString();
                 
-                System.Threading.Thread.Sleep(250);
+                allDsaText = dsaPublic + "\n" + dsaPrivate;
 
-                allDsaText = System.IO.File.ReadAllText("/tmp/dsa_" + sessionId + ".params");
-                TableCellLeft.Text = allDsaText.Replace("\n", "<br />\r\n");
+                TableCellRight.Visible = true;
+                TableCellLeft.Text = dsaPrivate.Replace("\n", "<br />\r\n");
+                TableCellRight.Text = dsaPublic.Replace("\n", "<br />\r\n");
+                          
             }
             catch (Exception ex)
             {
@@ -149,74 +142,31 @@ namespace Area23.At.Mono.Unix
                 return allDsaText;
             }
 
-            try
-            {
-                TableCellRight.Visible = true;
-                string argsPriv = String.Format(opensslDsaArgs, sessionId, this.TextBox_PassKey.Text, sessionId);
-                TableCellRight.Text = filepath + " " + argsPriv;
-                cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsPriv);
-
-                System.Threading.Thread.Sleep(250);
-
-                string desPrivKey = System.IO.File.ReadAllText("/tmp/dsa_" + sessionId + ".pem");
-                allDsaText += "\n" + desPrivKey;
-                TableCellRight.Text = desPrivKey.Replace("\n", "<br />\r\n");
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogStatic(ex);
-                TableCellRight.Text += "\n<br>\r\n" + ex.GetType().ToString() + ": " + ex.Message + "<br />\r\n" + ex.StackTrace + "<br />\r\n";
-                return allDsaText;
-            }
-
-            if (System.IO.File.Exists("/tmp/dsa_" + sessionId + ".pem"))
-                System.IO.File.Delete("/tmp/dsa_" + sessionId + ".pem");
-
-            if (System.IO.File.Exists("/tmp/dsa_" + sessionId + ".params"))
-                System.IO.File.Delete("/tmp/dsa_" + sessionId + ".params");
-
             return allDsaText;
         }
 
 
         protected void Button_Gen_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(this.TextBox_PassKey.Text))
-            {
-                this.TextBox_PassKey.BorderColor = Color.DarkRed;
-                this.TextBox_PassKey.BorderStyle = BorderStyle.Dashed;
-                this.TextBox_PassKey.Width = 2;
-                return;
-            }
-
-            this.TextBox_PassKey.BorderColor = Color.Black;
-            this.TextBox_PassKey.BorderStyle = BorderStyle.Solid;
-            this.TextBox_PassKey.Width = 1;
-
             if (int.TryParse(this.DropDown_KeySize.SelectedValue, out int size))
                 this.keySize = size;
             else
                 this.keySize = 1024;
 
-            if (this.RadioButtonList_Algorithm.SelectedValue == "Dsa" || this.algorithm == Algorithm.DSA)
-            {
-                this.TextBox_PassKey.Text = GenerateDsaKey(keySize);
-            }
-            else
-            {
-                this.TextBox_PassKey.Text = GenerateRsaKey(keySize);
-            }
+            string allKey = (this.RadioButtonList_Algorithm.SelectedValue == "Dsa" || this.algorithm == Algorithm.DSA) ?
+                GenerateDsaKey(keySize) : GenerateRsaKey(keySize);
         }
-
         
-
 
         protected void KeySize_Changed(object sender, EventArgs e)
         {
             if (int.TryParse(this.DropDown_KeySize.SelectedValue, out int size))
                 this.keySize = size;
             else
+            {
                 this.keySize = 1024;
+                this.DropDown_KeySize.SelectedIndex = 2;
+            }
         }
 
     }

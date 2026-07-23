@@ -10,6 +10,7 @@ using Org.BouncyCastle.Security;
 using System;
 using System.IO;
 using System.Text;
+using System.Windows.Documents;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Asymmetric
 {
@@ -34,22 +35,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Asymmetric
 
         #region Properties
 
-        internal static AsymmetricCipherKeyPair RsaKeyPair
-        {
-            get => rsaKeyPair;
-        }
+        internal static AsymmetricCipherKeyPair RsaKeyPair => rsaKeyPair;       
 
-        public static AsymmetricKeyParameter RsaPublicKey
-        {
-            get => RsaKeyPair.Public;
-            // private set => rsaKeyPair.Public = value;
-        }
-
-        private static AsymmetricKeyParameter RsaPrivateKey
-        {
-            get => RsaKeyPair.Private;
-        }
-
+        public static RsaKeyParameters RsaPublicKey => (RsaKeyParameters)RsaKeyPair.Public;
+       
+        private static RsaPrivateCrtKeyParameters RsaPrivateKey => (RsaPrivateCrtKeyParameters)RsaKeyPair.Private;
+       
 
         #endregion Properties
 
@@ -58,13 +49,13 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Asymmetric
         static Rsa()
         {
             if (rsaKeyPair == null)
-                rsaKeyPair = GenerateNewRsaKeyPair();
+                rsaKeyPair = GenerateNewRsaKeyPair(1024);
         }
 
         public static AsymmetricCipherKeyPair RsaGenWithKey(string pub, string priv)
         {
-            if (rsaKeyPair != null)
-                return rsaKeyPair;
+            //if (rsaKeyPair != null)
+            //    return rsaKeyPair;
             rsaKeyPair = GetRsaKeyPair(pub, priv);
 
             return rsaKeyPair;
@@ -76,19 +67,19 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Asymmetric
         /// GenerateNewRsaKeyPair - generates a new rsa key pair
         /// </summary>
         /// <returns><see cref="AsymmetricCipherKeyPairy"/></returns>
-        internal static AsymmetricCipherKeyPair GenerateNewRsaKeyPair()
+        public static AsymmetricCipherKeyPair GenerateNewRsaKeyPair(int size = 1024)
         {
-            if (rsaKeyPair != null)
-                return rsaKeyPair;
+            //if (rsaKeyPair != null)
+            //    return rsaKeyPair;
 
             RsaKeyPairGenerator rsaKeyPairGen = new RsaKeyPairGenerator();
             IRandomGenerator randGen = new VmpcRandomGenerator();
 
-            SecureRandom rand = new SecureRandom(randGen, 2048);
-            KeyGenerationParameters rsaKeyParams = new KeyGenerationParameters(rand, 2048);
+            SecureRandom rand = new SecureRandom(randGen, size);
+            KeyGenerationParameters rsaKeyParams = new KeyGenerationParameters(rand, size);
             rsaKeyPairGen.Init(rsaKeyParams);
 
-            rsaKeyPair = rsaKeyPairGen.GenerateKeyPair();
+            rsaKeyPair = rsaKeyPairGen.GenerateKeyPair();              
             return rsaKeyPair;
 
         }
@@ -121,6 +112,32 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Asymmetric
             rsaKeyPair = new AsymmetricCipherKeyPair(keyParameterPublic, keyParameterPrivate);
 
             return rsaKeyPair;
+        }
+
+
+        public static string[] GetStringKeys(AsymmetricCipherKeyPair keyPair)
+        {
+            string[] keys = new string[2];
+            // Tuple<string, string> keyPairTuple = new Tuple<string, string>(string.Empty, string.Empty);
+            using (TextWriter textWriter1 = new StringWriter())
+            {
+                var pemWriter1 = new PemWriter(textWriter1);
+                pemWriter1.WriteObject(keyPair.Private);
+                pemWriter1.Writer.Flush();
+
+                keys[0] = textWriter1.ToString();
+                Console.WriteLine(keys[0]);
+            }
+
+            using (TextWriter textWriter2 = new StringWriter())
+            {
+                var pemWriter2 = new PemWriter(textWriter2);
+                pemWriter2.WriteObject(keyPair.Public);
+                pemWriter2.Writer.Flush();
+                keys[1] = textWriter2.ToString();
+                Console.WriteLine(keys[1]);
+            }
+            return keys;
         }
 
 

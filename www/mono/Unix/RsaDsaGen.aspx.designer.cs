@@ -33,15 +33,6 @@ namespace Area23.At.Mono.Unix
         protected global::System.Web.UI.WebControls.RadioButtonList RadioButtonList_Algorithm;
 
         /// <summary>
-        /// TextBox_PassKey control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox_PassKey;
-
-        /// <summary>
         /// DropDown_KeySize control.
         /// </summary>
         /// <remarks>

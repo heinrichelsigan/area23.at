@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#"  MasterPageFile="~/Qr/QRMaster.master" AutoEventWireup="true" CodeBehind="QrScan.aspx.cs" Inherits="Area23.At.Mono.Qr.QrScan" %>
 <asp:Content ID="QrHeadContent" ContentPlaceHolderID="QrHead" runat="server">
-	<title>qrcode url param passed (apache2 mod_mono)</title>
+	<title>qr code scanner (apache2 mod_mono)</title>
 	<link rel="stylesheet" href="../res/css/area23.at.mono.css" />
 	<meta name="keywords" content="QR code scanner" />
 	<meta name="description" content="https://github.com/heinrichelsigan/area23.at/" />

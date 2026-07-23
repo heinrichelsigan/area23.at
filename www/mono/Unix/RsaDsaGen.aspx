@@ -16,14 +16,11 @@
                 </asp:RadioButtonList>
             </span>
             <span class="centerSpan">
-                <span class="textSpan">passkey: </span>    
-                <asp:TextBox ID="TextBox_PassKey" ClientIDMode="Static" runat="server" ToolTip="Enter domain name or IP address" MaxLength="64" Width="80" Height="20" CssClass="ButtonTextBox" />
-            </span>
-            <span class="centerSpan">
                 <span class="textSpan"> key size: </span>
                 <asp:DropDownList ID="DropDown_KeySize" runat="server" ToolTip="KeySize for asymmetric key" 
                         AutoPostBack="True" OnSelectedIndexChanged="KeySize_Changed" CssClass="DropDownList">
                     <asp:ListItem>512</asp:ListItem>
+                    <asp:ListItem>768</asp:ListItem>
                     <asp:ListItem Selected="True">1024</asp:ListItem>
                     <asp:ListItem>2048</asp:ListItem>
                     <asp:ListItem>4096</asp:ListItem>
@@ -38,12 +35,12 @@
         <hr />
         <asp:Table ID="AspTable" ClientIDMode="Static" runat="server">
             <asp:TableHeaderRow ID="TableHeaderRow" runat="server" ClientIDMode="Static">
-                <asp:TableCell ID="TableHeaderCellLeft" runat="server" ClientIDMode="Static"><b>private key</b></asp:TableCell>
-                <asp:TableCell ID="TableHeaderCellRight" runat="server" ClientIDMode="Static"><b>public key</b></asp:TableCell>
+                <asp:TableCell ID="TableHeaderCellLeft" runat="server" ClientIDMode="Static" Font-Bold="true">private key</asp:TableCell>
+                <asp:TableCell ID="TableHeaderCellRight" runat="server" ClientIDMode="Static" Font-Bold="true">public key</asp:TableCell>
             </asp:TableHeaderRow>
             <asp:TableRow ID="TableRow" runat="server" ClientIDMode="Static">
-                <asp:TableCell ID="TableCellLeft" runat="server" ClientIDMode="Static" style="vertical-align: text-top;" Width="48%"></asp:TableCell>
-                <asp:TableCell ID="TableCellRight" runat="server" ClientIDMode="Static" style="vertical-align: text-top;" Width="48%"></asp:TableCell>
+                <asp:TableCell ID="TableCellLeft" runat="server" ClientIDMode="Static" style="vertical-align: text-top; font-family:Courier New, Courier, monospace; font-size:medium;" Width="48%"></asp:TableCell>
+                <asp:TableCell ID="TableCellRight" runat="server" ClientIDMode="Static" style="vertical-align: text-top; font-family:Courier New, Courier, monospace; font-size:medium;" Width="48%"></asp:TableCell>
             </asp:TableRow>
         </asp:Table>     
     </form>

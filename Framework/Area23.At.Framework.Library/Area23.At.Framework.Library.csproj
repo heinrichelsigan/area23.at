@@ -189,6 +189,9 @@
     <Compile Include="Cqr\Msg\IMsgAble.cs" />
     <Compile Include="Cqr\Msg\SerType.cs" />
     <Compile Include="Crypt\CException.cs" />
+    <Compile Include="Crypt\Cipher\Asymmetric\DH.cs" />
+    <Compile Include="Crypt\Cipher\Asymmetric\Dsa.cs" />
+    <Compile Include="Crypt\Cipher\Asymmetric\Rsa.cs" />
     <Compile Include="Crypt\Cipher\CipherMode2.cs" />
     <Compile Include="Crypt\Cipher\CipherPipe.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\Des3Net.cs" />
