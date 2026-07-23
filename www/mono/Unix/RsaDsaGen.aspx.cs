@@ -30,11 +30,10 @@ namespace Area23.At.Mono.Unix
     /// </summary>
     public partial class RsaDsaGen : System.Web.UI.Page
     {
-        protected internal const string opensslCmd = "openssl";
-        protected internal const string opensslRsaArgs = " genpkey -algorithm rsa -pass pass:{0} -pkeyopt rsa_keygen_bits:{1} -out /tmp/rsa_{2}.pk8  -quiet ";
-        protected internal const string opensslRsaPrivCmd = " rsa -in /tmp/rsa_{0}.pk8 -pubout ";
-        protected internal const string opensslDsaParams = " dsaparam -verbose -out /tmp/dsa_{0}.params {1} ";
-        protected internal const string opensslDsaArgs = " gendsa -verbose -out /tmp/dsa_{0}.pem -passout pass:{1} /tmp/dsa_{2}.params ";
+        protected internal const string opensslRsaArgs = "openssl genpkey -algorithm rsa -pkeyopt rsa_keygen_bits:{0} -out /tmp/rsa_{1}.pk8 ";
+        protected internal const string opensslRsaPrivCmd = "openssl rsa -in /tmp/rsa_{0}.pk8 -pubout ";
+        protected internal const string opensslDsaParams = "openssl dsaparam -verbose -out /tmp/dsa_{0}.params {1} ";
+        protected internal const string opensslDsaArgs = "openssl gendsa -verbose -out /tmp/dsa_{0}.pem /tmp/dsa_{1}.params ";
         protected internal static string[] linesOut = { };
         public readonly string ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_";
 
@@ -92,6 +91,10 @@ namespace Area23.At.Mono.Unix
                 allRsaText = rsaPublic + "\n" + rsaPrivate;
 
                 TableCellRight.Visible = true;
+                this.TableRowCmd1.Visible = true;
+                this.TableRowCmd2.Visible = true;
+                this.TableRowCmd1.Text = string.Format(opensslRsaArgs, keySize, this.Session.SessionID);
+                this.TableRowCmd2.Text = string.Format(opensslRsaPrivCmd, this.Session.SessionID);
                 TableCellLeft.Text = rsaPrivate.Replace("\n", "<br />\r\n");                
                 TableCellRight.Text = rsaPublic.Replace("\n", "<br />\r\n");
             }
@@ -131,6 +134,10 @@ namespace Area23.At.Mono.Unix
                 allDsaText = dsaPublic + "\n" + dsaPrivate;
 
                 TableCellRight.Visible = true;
+                TableRowCmd1.Visible = true;
+                TableRowCmd2.Visible = true;
+                TableRowCmd1.Text = string.Format(opensslDsaParams,  this.Session.SessionID, keySize);
+                TableRowCmd2.Text = string.Format(opensslDsaArgs , this.Session.SessionID, keySize);
                 TableCellLeft.Text = dsaPrivate.Replace("\n", "<br />\r\n");
                 TableCellRight.Text = dsaPublic.Replace("\n", "<br />\r\n");
                           

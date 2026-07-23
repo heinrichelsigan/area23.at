@@ -38,6 +38,10 @@
                 <asp:TableCell ID="TableHeaderCellLeft" runat="server" ClientIDMode="Static" Font-Bold="true">private key</asp:TableCell>
                 <asp:TableCell ID="TableHeaderCellRight" runat="server" ClientIDMode="Static" Font-Bold="true">public key</asp:TableCell>
             </asp:TableHeaderRow>
+            <asp:TableRow ID="TableRowCmd" runat="server" ClientIDMode="Static">
+                <asp:TableCell ID="TableRowCmd1" runat="server" ClientIDMode="Static" style="vertical-align: text-top; font-family:Courier New, Courier, monospace; font-size:medium;" Width="48%"></asp:TableCell>
+                <asp:TableCell ID="TableRowCmd2" runat="server" ClientIDMode="Static" style="vertical-align: text-top; font-family:Courier New, Courier, monospace; font-size:medium;" Width="48%"></asp:TableCell>
+            </asp:TableRow>
             <asp:TableRow ID="TableRow" runat="server" ClientIDMode="Static">
                 <asp:TableCell ID="TableCellLeft" runat="server" ClientIDMode="Static" style="vertical-align: text-top; font-family:Courier New, Courier, monospace; font-size:medium;" Width="48%"></asp:TableCell>
                 <asp:TableCell ID="TableCellRight" runat="server" ClientIDMode="Static" style="vertical-align: text-top; font-family:Courier New, Courier, monospace; font-size:medium;" Width="48%"></asp:TableCell>

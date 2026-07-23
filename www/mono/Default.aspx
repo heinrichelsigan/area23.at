@@ -16,7 +16,7 @@
 │   ├── <a href="Unix/Fortune.aspx" tatget="top">fortune</a> <a href="https://area23.at/shared/man/fortune.txt" target="_blank">fortune(6)</a>
 │   ├── <a href="Unix/HostWhois.aspx" tatget="top">hostwhois</a> <a href="https://area23.at/shared/man/whois.txt" target="_blank">whois (1)</a>
 │   ├── <a href="Unix/OctalDump.aspx" tatget="top">octaldump</a> <a href="https://www.man7.org/linux/man-pages/man1/od.1.html" target="_blank">od(1)</a>            
-│   ├── <a href="Unix/RsaDsaGen.aspx">generate asymmetric rsa/dsa keys</a> with <a href="https://man.openbsd.org/openssl.1" target="_blank">openssl</a>         
+│   ├── <a href="Unix/RsaDsaGen.aspx">generate asymmetric rsa/dsa keys</a> with <a href="https://man.openbsd.org/openssl.1" target="_blank">openssl(1)</a>         
 │   ├── <a href="Unix/PdfMerge.aspx" tatget="top">pdf merge</a> <a href="https://wiki.ubuntuusers.de/poppler-utils/" target="_blank">pdfunite (1)</a>
 │   └── <a href="Unix/PdfUnite.aspx" tatget="top">pdf unite</a> <a href="https://wiki.ubuntuusers.de/poppler-utils/" target="_blank">pdfunite (1)</a>
 │

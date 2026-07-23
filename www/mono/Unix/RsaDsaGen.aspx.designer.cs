@@ -87,6 +87,33 @@ namespace Area23.At.Mono.Unix
         protected global::System.Web.UI.WebControls.TableCell TableHeaderCellRight;
 
         /// <summary>
+        /// TableRowCmd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow TableRowCmd;
+
+        /// <summary>
+        /// TableRowCmd1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableRowCmd1;
+
+        /// <summary>
+        /// TableRowCmd2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell TableRowCmd2;
+
+        /// <summary>
         /// TableRow control.
         /// </summary>
         /// <remarks>
