@@ -224,6 +224,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Qr\urlshort.json" />
+    <None Include="Properties\PublishProfiles\s publish.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

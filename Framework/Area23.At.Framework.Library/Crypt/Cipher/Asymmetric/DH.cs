@@ -23,21 +23,12 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Asymmetric
 
         #region Properties
 
-        internal static AsymmetricCipherKeyPair DHKeyPair
-        {
-            get => GetDHKeyPair();
-        }
+        public static AsymmetricCipherKeyPair DHKeyPair => GetDHKeyPair();
+       
 
-        public static AsymmetricKeyParameter DHPublicKey
-        {
-            get => DHKeyPair.Public;
-            // private set => rsaKeyPair.Public = value;
-        }
+        public static AsymmetricKeyParameter DHPublicKey => DHKeyPair.Public;
 
-        private static AsymmetricKeyParameter DHPrivateKey
-        {
-            get => DHKeyPair.Private;
-        }
+        private static AsymmetricKeyParameter DHPrivateKey => DHKeyPair.Private;
 
 
         #endregion Properties
@@ -47,7 +38,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Asymmetric
         static DH()
         {
             if (dhKeyPair == null)
-                dhKeyPair = GetDHKeyPair();
+                dhKeyPair = GetDHKeyPair(1024);
         }
 
         public static string InitGetPublicKey()
@@ -57,15 +48,15 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Asymmetric
 
         #endregion Ctor_Gen
 
-        internal static AsymmetricCipherKeyPair GetDHKeyPair()
+        public static AsymmetricCipherKeyPair GetDHKeyPair(int size = 1024)
         {
-            if (dhKeyPair != null)
-                return dhKeyPair;
+            //if (dhKeyPair != null)
+            //    return dhKeyPair;
 
             DHKeyPairGenerator dhKeyPairGen = new DHKeyPairGenerator();
             IRandomGenerator randGen = new VmpcRandomGenerator();
-            SecureRandom rand = new SecureRandom(randGen, 1024);
-            KeyGenerationParameters dhKeyParams = new KeyGenerationParameters(rand, 1024);
+            SecureRandom rand = new SecureRandom(randGen, size);
+            KeyGenerationParameters dhKeyParams = new KeyGenerationParameters(rand, size);
             dhKeyPairGen.Init(dhKeyParams);
 
             dhKeyPair = dhKeyPairGen.GenerateKeyPair();

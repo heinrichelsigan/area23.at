@@ -63,16 +63,29 @@ namespace Area23.At.Www.S
                 {
                     Uri redirUri = shortenMap[hash];
                     String msg = String.Format("Hash = {0}, redirecting to {1} ...", hash, redirUri.ToString());
-                    Area23Log.LogStatic(msg);
+                    try 
+                    { 
+                        Area23Log.LogStatic(msg);
+                    }
+                    catch (Exception)
+                    {
+                    }
                     if (redirUri.IsAbsoluteUri)
                     {                        
-                        Response.Redirect(redirUri.ToString());
+                        Response.Redirect(redirUri.ToString(), true);
                         return;
                     }
-                } else
+                } 
+                else
                 {
                     String msg = String.Format("Shortenmap with {0} entries, does not contain Hash = {1}!", shortenMap.Keys.Count, hash);
-                    Area23Log.LogStatic(msg);
+                    try 
+                    { 
+                        Area23Log.LogStatic(msg);
+                    }
+                    catch (Exception)
+                    {
+                    }                
                 }
 
                 Response.Redirect(Constants.AREA23_S);
@@ -120,7 +133,13 @@ namespace Area23.At.Www.S
             string appLogErr = string.Format("Application_Error: {0}: {1} thrown at path {2}",
                 ex.GetType(), ex.Message, path);
             Application[Constants.APP_ERROR] = appLogErr;
-            Area23Log.LogOriginMsg("Global.asax", appLogErr);
+            try
+            {
+                Area23Log.LogOriginMsg("Global.asax", appLogErr);
+            }
+            catch (Exception)
+            {
+            }
 
 
             if (System.Configuration.ConfigurationManager.AppSettings["RedirectError"] != null)
