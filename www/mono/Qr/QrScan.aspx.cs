@@ -158,10 +158,21 @@ namespace Area23.At.Mono.Qr
                     ImgQrIn.Alt = fileName;
                     ImgQrIn.Border = 0;
                     ImgQrIn.Visible = true;
+
+
+                    string qrCodeString = GetQRTextFromImagePath(filePath);
+                    if (!string.IsNullOrEmpty(qrCodeString))
+                    {
+                        Bitmap qrBmp = GetQrBitmapFromText(qrCodeString);
+                        SetQRImage(qrBmp, fileName);
+                    }
+                    else
+                    {
+                        this.ImgQrOut.Visible = true;
+                        this.ImgQrOut.Alt = "error parsing qr code";
+                        this.ImgQrOut.Src = "../res/img/symbol/file_error.gif";
+                    }
                     
-                    
-                    Bitmap qrBmp = GetQRBitmap(filePath);
-                    SetQRImage(qrBmp, fileName);
                     return;
                 }
             }            
@@ -177,11 +188,38 @@ namespace Area23.At.Mono.Qr
             return qrCodeString;
         }
 
-        protected virtual Bitmap GetQRBitmap(string ms)
+        /// <summary>
+        /// scans image under filepath and 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        protected virtual string GetQRTextFromImagePath(string filePath)
         {
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            string[] qrCodeStrings = BarcodeScanner.Scan(ms, BarcodeType.QRCode);
-            string qrCodeString = qrCodeStrings[0];
+            string qrCodeString = "";
+            string[] qrCodeStrings = Array.Empty<string>();
+            try
+            {
+                qrCodeStrings = BarcodeScanner.Scan(filePath, BarcodeType.QRCode);
+                if (qrCodeStrings.Length > 0)
+                {
+                    qrCodeString = qrCodeStrings[0];
+                } 
+                else
+                {
+                    Bitmap bmp = new Bitmap(filePath);
+                    BarcodeDetail[] details = BarcodeScanner.ScanInDetails(bmp, BarcodeType.QRCode);
+                    if (details.Length > 0) 
+                    {
+                        qrCodeString = details[0].GetASCIITextMessage();
+                    }
+                }
+            }
+            catch (Exception exi)
+            {
+                Area23Log.LogOriginMsgEx("QrScan.aspx", $"{exi.GetType()} scanning image at filepath {filePath}: {exi.Message}", exi);
+                qrCodeString = "";
+            }
+
             for (int i = 0; i < 10; i++)
             {
                 if (qrCodeString.Contains(i + "ttp://") || qrCodeString.Contains(i + "ttps://"))
@@ -191,14 +229,26 @@ namespace Area23.At.Mono.Qr
                 if (qrCodeString.Contains(i + "ank"))
                     qrCodeString = qrCodeString.Replace(i + "ank://", "bank://");
                 if (qrCodeString.Contains(i + "el:"))
-                    qrCodeString = qrCodeString.Replace(i +"el:", "tel:");
+                    qrCodeString = qrCodeString.Replace(i + "el:", "tel:");
             }
-            
 
+            return qrCodeString;
+        }
+
+
+        /// <summary>
+        /// gets qr code bitmap from qr plain text string
+        /// </summary>
+        /// <param name="qrCodeString">plain text qr</param>
+        /// <returns><<see cref="Bitmap"/>/returns>
+        protected virtual Bitmap GetQrBitmapFromText(string qrCodeString)
+        {
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrCodeString, QRCodeGenerator.ECCLevel.Default);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(20);
             TextBoxQrDecoded.Text = qrCodeString;
+
             return qrCodeImage;
         }
 
