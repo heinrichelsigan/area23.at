@@ -970,6 +970,34 @@ namespace Area23.At.Framework.Library.Static
             }
         }
 
+        #region json_extensions
+
+        public static string JsonSerializeUriDictionary(this Dictionary<string, Uri> uriMap)
+        {
+            JsonSerializerSettings jsets = new JsonSerializerSettings();
+            jsets.Formatting = Formatting.Indented;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(uriMap, jsets);
+        }
+
+        public static Dictionary<string, Uri> JsonDeSerializeUriDictionary(this string jsonSerializedString)
+        {
+            return JsonConvert.DeserializeObject<Dictionary<string, Uri>>(jsonSerializedString);
+        }
+
+
+        public static string JsonSerializeRpnStack(this Stack<string> rpnStack)
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(rpnStack); 
+        }
+
+        public static Stack<string> JsonDeSerializeRpnStack(this string jsonSerializedString)
+        {
+            return JsonConvert.DeserializeObject<Stack<string>>(jsonSerializedString);
+        }
+
+
+        #endregion json_extensions
+
         #endregion serializer_xml_json
 
         #region System.Net extension methods
@@ -1061,8 +1089,7 @@ namespace Area23.At.Framework.Library.Static
             return tarray;
         }
 
-        #endregion genericsT_extensions
-
+        #endregion genericsT_extensions       
 
         #region cqrxs extensions
 

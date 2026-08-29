@@ -15,15 +15,6 @@ namespace Area23.At.Mono.Unix
     {
 
         /// <summary>
-        /// metaRefreshId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl metaRefreshId;
-
-        /// <summary>
         /// Area23MasterForm control.
         /// </summary>
         /// <remarks>
@@ -49,5 +40,14 @@ namespace Area23.At.Mono.Unix
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl PreFortune;
+
+        /// <summary>
+        /// ButtonRefresh control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonRefresh;
     }
 }

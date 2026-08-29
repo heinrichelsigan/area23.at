@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Mono.App_Data;
 using System;
 using System.Configuration;
 using System.IO;
@@ -324,10 +325,14 @@ namespace Area23.At.Mono.Unix
 
                 FileInfo fi = new FileInfo(MergeFileOutPath);
                 if (fi.Exists)
-                {
-                    LabelUploadResult.Text = string.Format("Merged {0} pdfs to {1}.",
+                {                    
+                    string successMsg = string.Format("Merged {0} pdfs to {1}.",
                         argCnt, _mergeFile);
+                    LabelUploadResult.Text = successMsg;
                     LabelUploadResult.Visible = true;
+
+                    ((UnixMaster)(this.Master)).SetInfoMsg(successMsg, Severity.Info);
+                    ((Area23)((this.Master).Master)).SetInfoMsg(successMsg, Severity.Info);
 
                     HttpContext.Current.Session[Constants.DECRYPTED_TEXT_BOX] = _mergeFile;
 

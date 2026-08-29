@@ -1,6 +1,5 @@
 ﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -113,14 +112,14 @@ namespace Area23.At.Mono.Calc
                 if (metacursor.Attributes["content"] != null && !string.IsNullOrEmpty(metacursor.Attributes["content"]))
                 {
                     jsonSerRpnStack = HttpUtility.HtmlDecode(metacursor.Attributes["content"].ToString());
-                    rpnStack = JsonConvert.DeserializeObject<Stack<string>>(jsonSerRpnStack);
+                    rpnStack = jsonSerRpnStack.JsonDeSerializeRpnStack();
                 }
 
                 Session[Constants.RPN_STACK] = rpnStack;
             }
             if (!Page.IsPostBack)
             {
-                jsonSerRpnStack = JsonConvert.SerializeObject(rpnStack);
+                jsonSerRpnStack = rpnStack.JsonSerializeRpnStack();
                 if (metacursor.Attributes["content"] == null)
                     metacursor.Attributes.Add("content", HttpUtility.HtmlEncode(jsonSerRpnStack));
                 else
@@ -684,7 +683,7 @@ namespace Area23.At.Mono.Calc
 
         protected void SetMetaContent()
         {
-            string jsonSerializeRpnStack = Newtonsoft.Json.JsonConvert.SerializeObject(rpnStack);
+            string jsonSerializeRpnStack = rpnStack.JsonSerializeRpnStack();
             if (metacursor.Attributes["content"] == null)
                 metacursor.Attributes.Add("content", HttpUtility.HtmlEncode(jsonSerializeRpnStack));
             else

@@ -5,6 +5,7 @@ using Area23.At.Framework.Library.Crypt.Cipher.Symmetric;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Mono.App_Data;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -185,6 +186,9 @@ namespace Area23.At.Mono.Crypt
                     ttb.BorderColor = new Color().FromXrgb("#cfcfcf");
                 }
             }
+
+            ((EncodeMaster)(this.Master)).SetInfoMsg("ZenMatrix cleared.", Severity.Info);
+            ((Area23)((this.Master).Master)).SetInfoMsg("ZenMatrix cleared.", Severity.Info);
         }
 
         /// <summary>
@@ -236,6 +240,9 @@ namespace Area23.At.Mono.Crypt
                 b--;
             }
             this.TextBoxPermutation.Text = permHashString;
+
+            ((EncodeMaster)(this.Master)).SetInfoMsg("ZenMatrix computed,", Severity.Info);
+            ((Area23)((this.Master).Master)).SetInfoMsg("ZenMatrix computed.", Severity.Info);
         }
 
         /// <summary>

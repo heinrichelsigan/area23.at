@@ -62,13 +62,9 @@ namespace Area23.At.Framework.Library.Cqr.Msg
         {
             switch (serTyoe)
             {
-                case SerType.Json: return Newtonsoft.Json.JsonConvert.SerializeObject(t);
-                case SerType.Xml: return Utils.SerializeToXml<T>(t);
                 case SerType.Raw:
-                    MemoryStream ms = new MemoryStream();
-                    ProtoBuf.Serializer.Serialize<T>(ms, t);
-                    ms.Seek(0, SeekOrigin.Begin);
-                    return Encoding.UTF8.GetString(ms.ToByteArray());
+                case SerType.Json: return Newtonsoft.Json.JsonConvert.SerializeObject(t);
+                case SerType.Xml: return Utils.SerializeToXml<T>(t);                
                 case SerType.Mime: // TODO implement it
                 case SerType.None:
                 default:
@@ -80,11 +76,9 @@ namespace Area23.At.Framework.Library.Cqr.Msg
         {
             switch (serType)
             {
-                case SerType.Json: return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(cerialsCornFlakes);
-                case SerType.Xml: return Utils.DeserializeFromXml<T>(cerialsCornFlakes);
                 case SerType.Raw:
-                    MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(cerialsCornFlakes));
-                    return ProtoBuf.Serializer.Deserialize<T>(ms);
+                case SerType.Json: return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(cerialsCornFlakes);
+                case SerType.Xml: return Utils.DeserializeFromXml<T>(cerialsCornFlakes);               
                 case SerType.Mime: // TODO implement it
                 case SerType.None:
                 default:

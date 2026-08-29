@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Mono.App_Data;
 using System;
 using System.Configuration;
 using System.IO;
@@ -276,8 +277,12 @@ namespace Area23.At.Mono.Unix
                 FileInfo fi = new FileInfo(MergeFileOutPath);
                 if (fi.Exists)
                 {
-                    LabelUploadResult.Text = $"successfully merged {argCnt} pdf's to {_mergeFile}.";
+                    string successMsg = $"successfully merged {argCnt} pdf's to {_mergeFile}.";
+                    LabelUploadResult.Text = successMsg;
                     LabelUploadResult.Visible = true;
+
+                    ((UnixMaster)(this.Master)).SetInfoMsg(successMsg, Severity.OK);
+                    ((Area23)((this.Master).Master)).SetInfoMsg(successMsg, Severity.OK);
 
                     aPdfMergeDownload.HRef = MergeAppPath;
                     aPdfMergeDownload.Visible = true;

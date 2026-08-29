@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Mono.App_Data;
 using Area23.At.Mono.Controls;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,12 @@ namespace Area23.At.Mono.Calc
                 menuControlId.BindMenu(headerLinks);                
             }
         }
-     
+
+        public virtual void SetInfoMsg(string message, Severity severity = Severity.None)
+        {
+            ((Area23)(this.Master)).SetInfoMsg(message, severity);
+        }
+
     }
+
 }

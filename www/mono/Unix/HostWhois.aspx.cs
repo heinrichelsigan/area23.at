@@ -1,6 +1,8 @@
 ﻿using Area23.At.Framework.Library.Net.IpSocket;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Mono.App_Data;
+using Area23.At.Mono.Crypt;
 using System;
 using System.Drawing;
 using System.Net;
@@ -27,6 +29,8 @@ namespace Area23.At.Mono.Unix
         protected internal static string[] linesOut = { };
         public readonly string ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_";
 
+        internal string errMsg = "";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -41,7 +45,10 @@ namespace Area23.At.Mono.Unix
                 catch (Exception ex)
                 {
                     Area23Log.LogStatic(ex);
-                    TableCellLeft.Text += ex.GetType().ToString() + ": " + ex.Message + "<br />\r\n" + ex.StackTrace + "<br />\r\n";
+                    errMsg = ex.GetType().ToString() + ": " + ex.Message + "<br />\r\n" + ex.StackTrace + "<br />\r\n";
+                    TableCellLeft.Text += errMsg;
+                    ((UnixMaster)(this.Master)).SetInfoMsg(errMsg, Severity.Error);
+                    ((Area23)((this.Master).Master)).SetInfoMsg(errMsg, Severity.Error);
                     cmdOut = "";
                 }
                 FormatWhoisLines(cmdOut);
@@ -94,7 +101,11 @@ namespace Area23.At.Mono.Unix
             catch (Exception ex)
             {
                 Area23Log.LogStatic(ex);
-                TableCellLeft.Text += ex.GetType().ToString() + ": " + ex.Message + "<br />\r\n" + ex.StackTrace + "<br />\r\n";
+                errMsg = ex.GetType().ToString() + ": " + ex.Message + "<br />\r\n" + ex.StackTrace + "<br />\r\n";
+                TableCellRight.Text += errMsg;
+
+                ((UnixMaster)(this.Master)).SetInfoMsg(errMsg, Severity.Error);
+                ((Area23)((this.Master).Master)).SetInfoMsg(errMsg, Severity.Error);
             }
 
             return TableCellLeft.Text;
@@ -131,7 +142,7 @@ namespace Area23.At.Mono.Unix
         /// <returns>output of od cmd</returns>
         protected string Process_DnsHost()
         {
-            string filepath = (Constants.UNIX) ? hostCmdPathUnix : hostCmdPath;
+            string filepath = (Constants.UNIX) ? hostCmdPathUnix : hostCmdPath;            
             TableCellRight.Visible = true;
             TableCellRight.Text = "";
             try
@@ -148,13 +159,18 @@ namespace Area23.At.Mono.Unix
                         href = href.Split(" \t\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0];
                         linesOut[ln] = linesOut[ln].Replace(href, String.Format("<a href=\"{0}\" target=\"_blank\">{0}</a>", href));
                     }
+
                     this.TableCellRight.Text += linesOut[ln] + "<br />\r\n";
                 }
             }
             catch (Exception ex)
             {
                 Area23Log.LogStatic(ex);
-                TableCellRight.Text += ex.GetType().ToString() + ": " + ex.Message + "\r\n" + ex.StackTrace + "\r\n";
+                errMsg = ex.GetType().ToString() + ": " + ex.Message + "\r\n" + ex.StackTrace + "\r\n";
+                TableCellRight.Text += errMsg;
+
+                ((UnixMaster)(this.Master)).SetInfoMsg(errMsg, Severity.Error);
+                ((Area23)((this.Master).Master)).SetInfoMsg(errMsg, Severity.Error);
             }
 
             return TableCellRight.Text;
@@ -165,12 +181,17 @@ namespace Area23.At.Mono.Unix
         {
             Perform_Whois();
             Process_DnsHost();
+
+            string saneHost = Sanitize_HostName(this.TextBox_HostName.Text ?? "");
+            ((UnixMaster)(this.Master)).SetInfoMsg("performed whois and dns query for host: " + saneHost, Severity.Info);
+            ((Area23)((this.Master).Master)).SetInfoMsg("performed whois and dns query for host: " + saneHost, Severity.Info);
         }
 
         protected void Button_WhoisDns_TextChanged(object sender, EventArgs e)
         {
-            Perform_Whois();
-            Process_DnsHost();
+            Button_WhoisDns_Click(sender, e);
+            //Perform_Whois();
+            //Process_DnsHost();
         }
 
     }

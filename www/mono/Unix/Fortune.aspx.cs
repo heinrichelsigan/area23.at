@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Mono.App_Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,11 +27,16 @@ namespace Area23.At.Mono.Unix
         {
             if (!IsPostBack)
             {
-                if (metaRefreshId != null && metaRefreshId.Attributes != null && metaRefreshId.Attributes.Count > 0 && metaRefreshId.Attributes["content"] != null)
-                {
-                    metaRefreshId.Attributes["content"] = "20; url=" + Request.RawUrl.ToString();
-                }
+                // if (metaRefreshId != null && metaRefreshId.Attributes != null && metaRefreshId.Attributes.Count > 0 && metaRefreshId.Attributes["content"] != null)
+                // {
+                // metaRefreshId.Attributes["content"] = "20; url=" + Request.RawUrl.ToString();
+                // }
             }
+            SetFortune();
+        }
+
+        protected void ButtonRefresh_Click(object sender, EventArgs e)
+        {
             SetFortune();
         }
 
@@ -43,6 +49,7 @@ namespace Area23.At.Mono.Unix
         {
             LiteralFortune.Text = HttpUtility.HtmlEncode(ExecFortune(false));
             PreFortune.InnerText = ExecFortune(true);
+            ((UnixMaster)(this.Master)).SetInfoMsg("Fortunes loaded", Severity.OK); 
         }
 
         protected string ExecFortune(bool longFortune = true)

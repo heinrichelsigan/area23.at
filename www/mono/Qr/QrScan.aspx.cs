@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Mono.App_Data;
 using OnBarcode.Barcode.BarcodeScanner;
 using QRCoder;
 using System;
@@ -168,6 +169,8 @@ namespace Area23.At.Mono.Qr
                     }
                     else
                     {
+                        ((Area23)((this.Master).Master)).SetInfoMsg("error parsing qr code", Severity.Error);
+                        ((QRMaster)(this.Master)).SetInfoMsg("error parsing qr code", Severity.Error);
                         this.ImgQrOut.Visible = true;
                         this.ImgQrOut.Alt = "error parsing qr code";
                         this.ImgQrOut.Src = "../res/img/symbol/file_error.gif";

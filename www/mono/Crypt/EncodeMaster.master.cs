@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Mono.App_Data;
 using System;
 using System.Web.UI;
 
@@ -16,5 +17,11 @@ namespace Area23.At.Mono.Crypt
             }
         }
 
+        public virtual void SetInfoMsg(string message, Severity severity = Severity.None)
+        {
+            ((Area23)(this.Master)).SetInfoMsg(message, severity);
+        }
+
     }
+
 }

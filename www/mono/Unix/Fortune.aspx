@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="fortune (apache2 mod_mono)" Language="C#" MasterPageFile="~/Unix/UnixMaster.master" AutoEventWireup="true" CodeBehind="Fortune.aspx.cs" Inherits="Area23.At.Mono.Unix.Fortune" %>
 <asp:Content ID="UnixHeadContent" ContentPlaceHolderID="UnixHead" runat="server">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta id="metaRefreshId"  runat="server" http-equiv="refresh"  content="20; url=/net/Unix/Fortune.aspx" />    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>    
     <link rel="stylesheet" href="../res/css/fortune.css" />
     <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
     <title>fortune (apache2 mod_mono)</title>    
@@ -13,5 +12,7 @@
         </div>
         <hr />
         <pre id="PreFortune" runat="server" style="text-align: left; border-style: none; background-color: #bfbfbf; font-size: larger; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif"></pre>
+        <hr />
+        <asp:Button ID="ButtonRefresh" runat="server" Text="Refresh" OnClick="ButtonRefresh_Click" />
     </form>
 </asp:Content>

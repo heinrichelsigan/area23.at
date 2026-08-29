@@ -2,7 +2,6 @@
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Www.S.Util;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -74,7 +73,7 @@ namespace Area23.At.Www.S.Util
                     lock (lock0)
                     {
                         string jsonText = File.ReadAllText(JsonFileName);
-                        tmpDict = JsonConvert.DeserializeObject<Dictionary<string, Uri>>(jsonText);
+                        tmpDict = jsonText.JsonDeSerializeUriDictionary();
                     }
                 }
                 catch (Exception getMapEx)
@@ -95,9 +94,7 @@ namespace Area23.At.Www.S.Util
             }
             set
             {
-                JsonSerializerSettings jsets = new JsonSerializerSettings();
-                jsets.Formatting = Formatting.Indented;
-                string jsonString = JsonConvert.SerializeObject(value, Formatting.Indented);
+                string jsonString = value.JsonSerializeUriDictionary();
                 System.IO.File.WriteAllText(JsonFileName, jsonString);
                 HttpContext.Current.Application[Constants.APP_NAME] = value;
             }

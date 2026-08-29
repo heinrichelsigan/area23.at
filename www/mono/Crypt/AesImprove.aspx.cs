@@ -5,6 +5,8 @@ using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Framework.Library.Zfx;
+using Area23.At.Mono.App_Data;
+using Area23.At.Mono.Properties;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -16,6 +18,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Windows.Controls;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Area23.At.Mono.Crypt
 {
@@ -171,6 +174,10 @@ namespace Area23.At.Mono.Crypt
                 {
                     this.TextBox_Encryption.Text += c.ToString() + ";";
                 }
+
+                ((EncodeMaster)(this.Master)).SetInfoMsg("CryptPipe set.", Severity.Info);
+                ((Area23)((this.Master).Master)).SetInfoMsg("CryptPipe set.", Severity.Info);
+
                 SetCipherPipeImage(cipherPipe, false);
                 Session[Constants.PIPE_LAST_FILL] = "set";
                 SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif", Color.DarkOliveGreen);
@@ -200,7 +207,11 @@ namespace Area23.At.Mono.Crypt
                 }
                 SetCipherPipeImage(cipherPipe, false);
                 Session[Constants.PIPE_LAST_FILL] = "hash";
-                SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif", Color.Coral);
+
+                ((EncodeMaster)(this.Master)).SetInfoMsg("CioherPipe hashed!", Severity.Info);
+                ((Area23)((this.Master).Master)).SetInfoMsg("CioherPipe hashed!", Severity.Info);
+
+                SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif", Color.Coral);                
             }
         }
 
@@ -295,6 +306,9 @@ namespace Area23.At.Mono.Crypt
         protected void Button_RandomText_Click(object sender, EventArgs e)
         {
             this.TextBoxSource.Text = Fortune.ExecFortune();
+
+            ((EncodeMaster)(this.Master)).SetInfoMsg("Random fortune set,", Severity.Info);
+            ((Area23)((this.Master).Master)).SetInfoMsg("Random fortune set.", Severity.Info);
         }
 
         /// <summary>
@@ -326,12 +340,19 @@ namespace Area23.At.Mono.Crypt
                 SetCipherPipeImage(cipherPipe, false);
 
                 SetBackgroundPicture("../res/img/crypt/AesBGTextWithPipe.gif", Color.Black);
+
+                ((EncodeMaster)(this.Master)).SetInfoMsg("Encryption finished.", Severity.Info);
+                ((Area23)((this.Master).Master)).SetInfoMsg("Encryption finished.", Severity.Info);
+
             }
             else
             {
                 this.TextBoxSource.BorderColor = Color.BlueViolet;
                 this.TextBoxSource.BorderStyle = BorderStyle.Dotted;
                 this.TextBoxSource.BorderWidth = 2;
+
+                ((EncodeMaster)(this.Master)).SetInfoMsg("TextBox source text is empty!", Severity.Warn);
+                ((Area23)((this.Master).Master)).SetInfoMsg("TextBox source text is empty!", Severity.Warn);
 
                 SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif", Color.BlueViolet);
             }
@@ -363,6 +384,9 @@ namespace Area23.At.Mono.Crypt
 
                 SetCipherPipeImage(cipherPipe, true);
 
+                ((EncodeMaster)(this.Master)).SetInfoMsg("Decryption finished.", Severity.Info);
+                ((Area23)((this.Master).Master)).SetInfoMsg("Decryption finished.", Severity.Info);
+
                 SetBackgroundPicture("../res/img/crypt/AesBGTextWithPipe.gif", Color.Black);
             }
             else
@@ -370,6 +394,9 @@ namespace Area23.At.Mono.Crypt
                 this.TextBoxSource.BorderColor = Color.BlueViolet;
                 this.TextBoxSource.BorderStyle = BorderStyle.Dotted;
                 this.TextBoxSource.BorderWidth = 2;
+
+                ((EncodeMaster)(this.Master)).SetInfoMsg("TextBox source text is empty!", Severity.Warn);
+                ((Area23)((this.Master).Master)).SetInfoMsg("TextBox source text is empty!", Severity.Warn);
 
                 SetBackgroundPicture("../res/img/crypt/AesImproveBGWithPipe.gif", Color.BlueViolet);
             }
@@ -457,7 +484,10 @@ namespace Area23.At.Mono.Crypt
                 SpanLabel.Visible = true;
                 uploadResult.Visible = true;
                 uploadResult.Text = "File extension \"" + System.IO.Path.GetExtension(strFilePath) +
-                    "\" denied for upload!";
+                    "\" denied for upload!"; 
+                
+                ((EncodeMaster)(this.Master)).SetInfoMsg(uploadResult.Text, Severity.Warn);
+                ((Area23)((this.Master).Master)).SetInfoMsg(uploadResult.Text, Severity.Warn);
 
                 try
                 {
@@ -570,6 +600,9 @@ namespace Area23.At.Mono.Crypt
                     "StreamLength: " + outBytes.Length + "\n" +
                     "MD5Sum " + MD5Sum.Hash(LibPaths.SystemDirOutPath + savedTransFile) + "\n" +
                     "Sha256 " + Sha256Sum.Hash(LibPaths.SystemDirOutPath + savedTransFile) + "\n";
+
+                ((EncodeMaster)(this.Master)).SetInfoMsg(uploadResult.Text, Severity.Info);
+                ((Area23)((this.Master).Master)).SetInfoMsg(uploadResult.Text, Severity.Info);
 
                 // Display the result of the upload.
                 ClearPostedFileSession(true);

@@ -1,6 +1,4 @@
-﻿using Area23.At.Www.S.Util;
-using Newtonsoft.Json;
-using QRCoder;
+﻿using QRCoder;
 using static QRCoder.PayloadGenerator;
 using System;
 using System.Collections.Generic;

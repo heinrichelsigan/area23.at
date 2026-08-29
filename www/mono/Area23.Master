@@ -22,7 +22,6 @@
         <span id="spanLeft" runat="server" class="headerLeft" align="left" valign="middle"><a id="aSlash" runat="server" class="spanHeaderA" href="/">/</a></span>
         <span id="spanLeftCenter" runat="server" class="headerLeftCenter" align="center" valign="middle"><a id="aUnix" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.UnixAppPath %>Default.aspx'>unix tools</a></span>
         <span id="spanCenter0" runat="server" class="headerCenter" align="center" valign="middle"><a id="aQr" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.QrAppPath %>ContactQrGenerator.aspx'>qrcode tool</a></span>
-        <span id="spanCenter1" runat="server" class="headerCenter" align="center" valign="middle"><a id="aJson" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.AppPath %>Json.aspx'>json/xml ser</a></span>
         <span id="spanCenter2" runat="server" class="headerCenter" align="center" valign="middle"><a id="aAesCrypt" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.EncodeAppPath %>CoolCrypt.aspx'>cool crypt</a></span>
         <span id="spanRightCenter" runat="server" class="headerRightCenter" align="center" valign="middle"><a id="aRpnCalc" runat="server" class="spanHeaderA" href='Calc/CCalc.aspx'>ccalc</a></span>
         <span id="spanRight" runat="server" class="headerRight" align="center" valign="middle"><a id="aGames" runat="server" class="spanHeaderA" href='<%= Area23.At.Framework.Library.LibPaths.GamesAppPath %>/froga.aspx'>games</a></span>
@@ -30,6 +29,10 @@
     <asp:ContentPlaceHolder ID="BodyContentPlaceHolder" runat="server" ClientIDMode="Static">   
     </asp:ContentPlaceHolder>
     <hr />
+    <div id="divError" runat="server" align="left" class="footerDiv">         
+        <span id="spanImgLeft" runat="server" class="headerLeft" align="left"><img id="imgError" runat="server" src="res/img/symbol/file_error.gif" /></span>
+        <span id="spanMsgRight"  runat="server" class="headerCenter" align="center" valign="middle"><asp:Literal ID="LiteralError" runat="server">an error occured</asp:Literal></span>
+    </div>
     <div align="left" class="footerDiv">            
         <span class="footerLeft" align="left" valign="middle"><a href="http://blog.area23.at">blog.</a></span> 
         <span class="footerLeftCenter" align="center" valign="middle"><a href="https://area23.at">area23.at</a></span> 

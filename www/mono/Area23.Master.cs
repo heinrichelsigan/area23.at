@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Mono.App_Data;
 using System;
 using System.Reflection;
 using System.Web.UI;
@@ -20,9 +21,9 @@ namespace Area23.At.Mono
             if (!Page.IsPostBack)
             {
                 NavFolderHandler(sender, e);
+                this.divError.Visible = false;
             }            
         }
-
 
         protected void InitAHrefs()
         {
@@ -30,7 +31,6 @@ namespace Area23.At.Mono
             this.aSlash.HRef = LibPaths.BaseAppPath;
             this.aUnix.HRef = LibPaths.UnixAppPath + "Default.aspx";
             this.aQr.HRef = LibPaths.QrAppPath + "ContactQrGenerator.aspx";
-            this.aJson.HRef = LibPaths.BaseAppPath + "Json.aspx";
             // this.aByteTransColor.HRef = LibPaths.BaseAppPath + "ByteTransColor.aspx";
             this.aAesCrypt.HRef = LibPaths.EncodeAppPath + "CoolCrypt.aspx";
             this.aRpnCalc.HRef = LibPaths.CalcAppPath + "CCalc.aspx";
@@ -41,16 +41,15 @@ namespace Area23.At.Mono
         {
             spanLeft.Attributes["class"] = "headerLeft";
             spanLeftCenter.Attributes["class"] = "headerLeftCenter";
-            spanCenter0.Attributes["class"] = "headerCenter";
-            spanCenter1.Attributes["class"] = "headerCenter";
-            spanCenter2.Attributes["class"] = "headerCenter";            
+            spanCenter0.Attributes["class"] = "headerCenter";           
+            spanCenter2.Attributes["class"] = "headerCenter";
             spanRightCenter.Attributes["class"] = "headerRightCenter";
             spanRight.Attributes["class"] = "headerRightCenter";
 
             try
             {
                 if (Request != null && Request.RawUrl != null)
-                {                    
+                {
                     if (Request.RawUrl.ToLower().Contains("unix"))
                     {
                         spanLeftCenter.Attributes["class"] = "headerLeftCenterSelect";
@@ -59,11 +58,6 @@ namespace Area23.At.Mono
                     if (Request.RawUrl.ToLower().Contains("qr"))
                     {
                         spanCenter0.Attributes["class"] = "headerCenterSelect";
-                        return;
-                    }
-                    if (Request.RawUrl.ToLower().Contains("json"))
-                    {
-                        spanCenter1.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
                     if (Request.RawUrl.ToLower().Contains("crypt"))
@@ -111,12 +105,7 @@ namespace Area23.At.Mono
                     {
                         spanCenter0.Style["background-color"] = "#ffddee";
                         return;
-                    }
-                    if (Page.Title.ToLower().Contains("json"))
-                    {
-                        spanCenter1.Style["background-color"] = "#ffddee";
-                        return;
-                    }
+                    }                    
                     //if (Page.Title.ToLower().Contains("trans"))
                     //{
                     //    spanCenter2.Style["background-color"] = "#ffddee";
@@ -128,8 +117,45 @@ namespace Area23.At.Mono
             {
                 Area23Log.LogStatic(ex);
             }
+        }
 
            
+        public void SetInfoMsg(string message, Severity severity = Severity.None)
+        {                        
+            switch (severity)
+            {                                    
+                case Severity.Error:
+                    this.imgError.Src = "res/img/symbol/master_error.gif";
+                    this.LiteralError.Text = "<span style='color:red;'>" + message + "</span>";
+                    break;
+                case Severity.Warn:
+                    this.imgError.Src = "res/img/symbol/master_warn.gif";
+                    this.LiteralError.Text = "<span style='color:orange;'>" + message + "</span>";
+                    break;
+                case Severity.Info:
+                    this.imgError.Src = "res/img/symbol/master_info.gif";
+                    this.LiteralError.Text = "<span style='color:blue;'>" + message + "</span>";
+                    break;
+                case Severity.Ask:
+                    this.imgError.Src = "res/img/symbol/master_question.gif";
+                    this.LiteralError.Text = "<span style='color:purple;'>" + message + "</span>";
+                    break;
+                case Severity.OK:
+                    this.imgError.Src = "res/img/symbol/master_ok.gif";
+                    this.LiteralError.Text = "<span style='color:darkgreen;'>" + message + "</span>";
+                    break;
+                case Severity.None:
+                default:
+                    this.LiteralError.Text = "";
+                    this.imgError.Src = "res/img/symbol/master_info.gif";
+                    this.divError.Visible = false;
+                    return;
+            }
+            
+            this.divError.Visible = true;
+
         }
+
+
     }
 }

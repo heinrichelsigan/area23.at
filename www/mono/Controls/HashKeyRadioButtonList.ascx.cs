@@ -1,5 +1,4 @@
 ﻿using Area23.At.Framework.Library.Crypt.Hash;
-using Newtonsoft.Json.Linq;
 using System;
 
 namespace Area23.At.Mono.Controls
