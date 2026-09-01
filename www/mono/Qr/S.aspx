@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#"  MasterPageFile="~/Qr/QRMaster.master" AutoEventWireup="true" CodeBehind="S.aspx.cs" Inherits="Area23.At.Mono.Qr.S" %>
+﻿<%@ Page Language="C#"  MasterPageFile="~/Qr/QrMaster.master" AutoEventWireup="true" CodeBehind="S.aspx.cs" Inherits="Area23.At.Mono.Qr.S" %>
 <asp:Content ID="QrSHeadContent" ContentPlaceHolderID="QrHead" runat="server">
 	<title>QrUrl Shortener (apache2 mod_mono)</title>
 	<link rel="stylesheet" href="../res/css/area23.at.mono.css" />
@@ -92,7 +92,7 @@
 				<img id="imQrInverse" runat="server" src="~/res/img/qrsample1.png" alt="Qr Code" visible="false" style="border-style: none; background-color: transparent" />
 			</span>
 		</div>		
-		<div id="ErrorDiv" runat="server" class="footerDiv" visible="false">
+		<div id="ErrorDiv" runat="server" class="footer" visible="false">
 		</div>
 	</form> 
 </asp:Content>

@@ -11,7 +11,7 @@ namespace Area23.At.Mono.Qr
 {
 
 
-    public partial class QRMaster
+    public partial class QrMaster
     {
 
         /// <summary>

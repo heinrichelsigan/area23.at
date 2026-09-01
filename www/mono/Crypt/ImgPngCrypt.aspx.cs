@@ -9,6 +9,16 @@ using System.Web;
 
 namespace Area23.At.Mono.Crypt
 {
+
+    /// <summary>
+    /// ImagePngCrypt crypts byte[] to png image
+    /// byte[0] -> R    red color part
+    /// byte[1] -> G    green color part
+    /// byte[2] -> B    blue color part => Point(0,0) of PNG
+    /// byte[3] -> R    red color part
+    /// byte[4] -> G    green color part
+    /// byte[5] -> B    blue color part => Point(1,0) of PNG
+    /// </summary>
     public partial class ImgPngCrypt : UIPage
     {
 

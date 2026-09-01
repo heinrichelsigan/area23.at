@@ -31,8 +31,9 @@ namespace Area23.At.Mono.Unix
                 // {
                 // metaRefreshId.Attributes["content"] = "20; url=" + Request.RawUrl.ToString();
                 // }
+                SetFortune();
             }
-            SetFortune();
+            
         }
 
         protected void ButtonRefresh_Click(object sender, EventArgs e)

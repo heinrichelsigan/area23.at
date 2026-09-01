@@ -10,7 +10,6 @@ using Org.BouncyCastle.Security;
 using System;
 using System.IO;
 using System.Text;
-using System.Windows.Documents;
 
 namespace Area23.At.Framework.Library.Crypt.Cipher.Asymmetric
 {

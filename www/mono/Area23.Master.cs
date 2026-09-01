@@ -21,7 +21,7 @@ namespace Area23.At.Mono
             if (!Page.IsPostBack)
             {
                 NavFolderHandler(sender, e);
-                this.divError.Visible = false;
+                this.errorDiv.Visible = false;
             }            
         }
 
@@ -31,6 +31,7 @@ namespace Area23.At.Mono
             this.aSlash.HRef = LibPaths.BaseAppPath;
             this.aUnix.HRef = LibPaths.UnixAppPath + "Default.aspx";
             this.aQr.HRef = LibPaths.QrAppPath + "ContactQrGenerator.aspx";
+            this.aJson2Xml.HRef = LibPaths.BaseAppPath + "Json2Xml.aspx";
             // this.aByteTransColor.HRef = LibPaths.BaseAppPath + "ByteTransColor.aspx";
             this.aAesCrypt.HRef = LibPaths.EncodeAppPath + "CoolCrypt.aspx";
             this.aRpnCalc.HRef = LibPaths.CalcAppPath + "CCalc.aspx";
@@ -41,7 +42,8 @@ namespace Area23.At.Mono
         {
             spanLeft.Attributes["class"] = "headerLeft";
             spanLeftCenter.Attributes["class"] = "headerLeftCenter";
-            spanCenter0.Attributes["class"] = "headerCenter";           
+            spanCenter0.Attributes["class"] = "headerCenter";
+            spanCenter1.Attributes["class"] = "headerCenter";
             spanCenter2.Attributes["class"] = "headerCenter";
             spanRightCenter.Attributes["class"] = "headerRightCenter";
             spanRight.Attributes["class"] = "headerRightCenter";
@@ -58,6 +60,11 @@ namespace Area23.At.Mono
                     if (Request.RawUrl.ToLower().Contains("qr"))
                     {
                         spanCenter0.Attributes["class"] = "headerCenterSelect";
+                        return;
+                    }
+                    if (Request.RawUrl.ToLower().Contains("json2xml") || Request.RawUrl.ToLower().Contains("json"))
+                    {
+                        spanCenter1.Attributes["class"] = "headerCenterSelect";
                         return;
                     }
                     if (Request.RawUrl.ToLower().Contains("crypt"))
@@ -79,7 +86,7 @@ namespace Area23.At.Mono
                     {
                         spanLeft.Attributes["class"] = "headerLeftSelect";
                         return;
-                    }
+                    }                                        
                 }
             }
             catch (Exception ex)
@@ -93,24 +100,14 @@ namespace Area23.At.Mono
                 {
                     if (Page.Title.ToLower().StartsWith("fortune"))
                     {
-                        spanLeft.Style["background-color"] = "#ffddee";
-                        return;
-                    }
-                    if (Page.Title.ToLower().StartsWith("hex"))
-                    {
                         spanLeftCenter.Style["background-color"] = "#ffddee";
                         return;
-                    }
+                    }                    
                     if (Page.Title.ToLower().Contains("qr"))
                     {
                         spanCenter0.Style["background-color"] = "#ffddee";
                         return;
                     }                    
-                    //if (Page.Title.ToLower().Contains("trans"))
-                    //{
-                    //    spanCenter2.Style["background-color"] = "#ffddee";
-                    //    return;
-                    //}
                 }
             }
             catch (Exception ex)
@@ -147,12 +144,12 @@ namespace Area23.At.Mono
                 case Severity.None:
                 default:
                     this.LiteralError.Text = "";
-                    this.imgError.Src = "res/img/symbol/master_info.gif";
-                    this.divError.Visible = false;
+                    this.imgError.Src = "res/img/symbol/master_none.gif";
+                    // this.errorDiv.Visible = false;
                     return;
             }
             
-            this.divError.Visible = true;
+            this.errorDiv.Visible = true;
 
         }
 

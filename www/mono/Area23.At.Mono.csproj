@@ -223,6 +223,7 @@
     <Content Include="Gamez\frogb.aspx" />
     <Content Include="Gamez\Pong.aspx" />
     <Content Include="Error.aspx" />
+    <Content Include="Json2Xml.aspx" />
     <Content Include="MyIp\Default.aspx" />
     <Content Include="Qr\Default.aspx" />
     <Content Include="Qr\QrScan.aspx" />
@@ -461,6 +462,7 @@
     <Content Include="res\img\symbol\Repair.ico" />
     <Content Include="res\img\symbol\ShowConvertData.ico" />
     <Content Include="res\img\symbol\SortConvertData.ico" />
+    <Content Include="res\img\symbol\transparent.png" />
     <Content Include="res\img\symbol\UndoTurnBack.ico" />
     <Content Include="res\img\transparent.gif" />
     <Content Include="res\gamez\pong\workerPong.gif" />
@@ -729,6 +731,13 @@
     <Compile Include="Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Json2Xml.aspx.cs">
+      <DependentUpon>Json2Xml.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Json2Xml.aspx.designer.cs">
+      <DependentUpon>Json2Xml.aspx</DependentUpon>
+    </Compile>
     <Compile Include="MyIp\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -881,12 +890,12 @@
     <Compile Include="Qr\ContactQrGenerator.aspx.designer.cs">
       <DependentUpon>ContactQrGenerator.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Qr\QRMaster.master.cs">
-      <DependentUpon>QRMaster.master</DependentUpon>
+    <Compile Include="Qr\QrMaster.master.cs">
+      <DependentUpon>QrMaster.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Qr\QRMaster.master.designer.cs">
-      <DependentUpon>QRMaster.master</DependentUpon>
+    <Compile Include="Qr\QrMaster.master.designer.cs">
+      <DependentUpon>QrMaster.master</DependentUpon>
     </Compile>
     <Compile Include="Unix\UnixMaster.master.cs">
       <DependentUpon>UnixMaster.master</DependentUpon>
@@ -915,7 +924,7 @@
     <Content Include="libman.json" />
     <None Include="packages.config" />
     <Content Include="res\text\fortune.u8" />
-    <Content Include="Qr\QRMaster.master" />
+    <Content Include="Qr\QrMaster.master" />
     <None Include="Properties\PublishProfiles\mono.area23.at_publish.pubxml" />
     <None Include="Properties\PublishProfiles\mono_area23_publish.pubxml" />
     <Content Include="res\gamez\fruitslotmachine\apple.xcf" />

@@ -1,8 +1,6 @@
 ﻿using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Static;
-using Area23.At.Framework.Library.Util;
 using System;
-using System.Linq;
 
 namespace Area23.At.Framework.Library.Crypt.Hash
 {

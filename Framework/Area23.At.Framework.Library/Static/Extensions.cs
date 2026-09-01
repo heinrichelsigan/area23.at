@@ -995,6 +995,80 @@ namespace Area23.At.Framework.Library.Static
             return JsonConvert.DeserializeObject<Stack<string>>(jsonSerializedString);
         }
 
+        public static string GetJsonLevelTree(string js0, string outs0 = "")
+        {
+            string outi0 = string.Empty;
+            try
+            {
+                outs0 += String.Format("JSON length = {0} \r\n", js0.Length);
+                JObject o0 = (JObject)JsonConvert.DeserializeObject(js0);
+                JToken root = o0.Root;
+                try
+                {
+                    if (o0 != null)
+                    {
+                        outs0 += root.GetJsonTreeObject(outi0, 0, false);
+                    }
+                }
+                catch (Exception ex2)
+                {
+                    outs0 += String.Format("Exception \tMessage = {0} \r\n\tException: {1} \r\n",
+                        ex2.Message, ex2);
+                    throw new ApplicationException("Error when parsing json tree with reflection", ex2);
+                }
+            }
+            catch (Exception ex0)
+            {
+                outs0 += String.Format(
+                    "Exception in JsonConvert.DeserializeObject(jsonString): \r\n\tMessage = {0} \r\n\tException: {1} \r\n",
+                    ex0.Message, ex0);
+            }
+
+            return outs0;
+        }
+
+        public static string GetJsonTreeObject(this JToken o, string outp, int depth, bool html = false)
+        {
+            int jsninc = 1;
+            string NEWLINE = (html) ? "\r\n" : "\r\n";
+            string name = string.Empty;
+            string depthStr = (depth > 99) ? depth.ToString() : (depth < 10) ? "  " + depth : " " + depth;
+
+            try
+            {
+                Type type = o.GetType();
+                JToken rootToken = o.Root;
+                string path = o.Path;
+
+                JContainer parent = (o.Parent != null) ? (JContainer)o.Parent : null;
+                if (parent != null && !String.IsNullOrEmpty(path) && parent.Path == path)
+                    jsninc = 0;
+                else
+                {
+                    if (depth == 0)
+                        outp += String.Format("{0} \t{1} \r\n", depthStr, type);
+                    else
+                        outp += String.Format("{0} \t{1} \r\n", depthStr, path);
+                }
+
+                foreach (JToken jChildToken in o.Children())
+                {
+                    if (jChildToken.HasValues)
+                    {
+                        string oton = string.Empty;
+                        outp += jChildToken.GetJsonTreeObject(oton, depth + jsninc);
+                    }
+                }
+            }
+            catch (Exception ex3)
+            {
+                outp += "Exception in Reflection ttye.GetFields() or GetProperties(): \r\n";
+                outp += String.Format("\tMessage = {0} \r\n\tException: {1} \r\n", ex3.Message, ex3);
+            }
+
+            return outp;
+        }
+
 
         #endregion json_extensions
 

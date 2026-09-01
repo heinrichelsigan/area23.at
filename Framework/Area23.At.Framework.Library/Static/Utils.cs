@@ -4,7 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Web;
+using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace Area23.At.Framework.Library.Static
@@ -127,6 +131,42 @@ namespace Area23.At.Framework.Library.Static
 
         }
 
+
+        public static string Xml2Json(string xml)
+        {
+            string json = string.Empty;
+            try
+            {
+                System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+                doc.LoadXml(xml);
+                json = Newtonsoft.Json.JsonConvert.SerializeXmlNode(doc);
+            }
+            catch (Exception exSerialize)
+            {
+                Area23Log.Log($"Exception {exSerialize.GetType()} in static string Xml2Json(string xml)  {exSerialize.Message}\n");
+                Area23Log.Log(exSerialize);
+            }
+
+            return json;
+        }
+
+        public static string Json2Xml(string json)
+        {
+            string xml = string.Empty;
+            try
+            {
+                var xmlDoc = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(
+                   Encoding.ASCII.GetBytes(json), new XmlDictionaryReaderQuotas()));
+                xml = xmlDoc.ToString() + "\r\n";
+            }
+            catch (Exception exSerialize)
+            {
+                Area23Log.Log($"Exception {exSerialize.GetType()} in static string Json2Xml(string json)  {exSerialize.Message}\n");
+                Area23Log.Log(exSerialize);
+                throw;
+            }
+            return xml;
+        }
 
         /// <summary>
         /// DeserializeFromXml generic T from xml deserializer

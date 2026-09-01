@@ -170,10 +170,10 @@ namespace Area23.At.Mono.Qr
                     else
                     {
                         ((Area23)((this.Master).Master)).SetInfoMsg("error parsing qr code", Severity.Error);
-                        ((QRMaster)(this.Master)).SetInfoMsg("error parsing qr code", Severity.Error);
+                        ((QrMaster)(this.Master)).SetInfoMsg("error parsing qr code", Severity.Error);
                         this.ImgQrOut.Visible = true;
                         this.ImgQrOut.Alt = "error parsing qr code";
-                        this.ImgQrOut.Src = "../res/img/symbol/file_error.gif";
+                        this.ImgQrOut.Src = "../res/img/symbol/transparent.gif";
                     }
                     
                     return;
@@ -219,7 +219,7 @@ namespace Area23.At.Mono.Qr
             }
             catch (Exception exi)
             {
-                Area23Log.LogOriginMsgEx("QrScan.aspx", $"{exi.GetType()} scanning image at filepath {filePath}: {exi.Message}", exi);
+                Area23Log.LogOriginMsgEx("QrScan.aspx", $"{exi.GetType()} scanning image at filepath {filePath}: {exi.Message}", exi);                
                 qrCodeString = "";
             }
 

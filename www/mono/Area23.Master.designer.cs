@@ -51,13 +51,13 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanLeftCenter;
 
         /// <summary>
-        /// aUnix control.
+        /// aRpnCalc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aUnix;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aRpnCalc;
 
         /// <summary>
         /// spanCenter0 control.
@@ -69,13 +69,31 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCenter0;
 
         /// <summary>
-        /// aQr control.
+        /// aAesCrypt control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aQr;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aAesCrypt;
+
+        /// <summary>
+        /// spanCenter1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCenter1;
+
+        /// <summary>
+        /// aJson2Xml control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aJson2Xml;
 
         /// <summary>
         /// spanCenter2 control.
@@ -87,13 +105,13 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanCenter2;
 
         /// <summary>
-        /// aAesCrypt control.
+        /// aQr control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aAesCrypt;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aQr;
 
         /// <summary>
         /// spanRightCenter control.
@@ -105,13 +123,13 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanRightCenter;
 
         /// <summary>
-        /// aRpnCalc control.
+        /// aUnix control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aRpnCalc;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aUnix;
 
         /// <summary>
         /// spanRight control.
@@ -141,13 +159,13 @@ namespace Area23.At.Mono
         protected global::System.Web.UI.WebControls.ContentPlaceHolder BodyContentPlaceHolder;
 
         /// <summary>
-        /// divError control.
+        /// errorDiv control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divError;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl errorDiv;
 
         /// <summary>
         /// spanImgLeft control.

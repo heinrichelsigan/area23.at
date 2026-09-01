@@ -27,6 +27,8 @@
 │   ├── <a href="Qr/QrScan.aspx" tatget="top">qr scan</a>
 │   └── <a href="Qr/S.aspx" target="top">qrurl shortner</a>
 │
+├── <a href="Json2Xml.aspx" class="defaultpage" tatget="top">Json2Xml</a>
+│
 ├── <span class="defaultpage">crypt</span>
 │   ├── <a href="Crypt/CoolCrypt.aspx" tatget="top">cool crypt</a>
 │   ├── <a href="Crypt/AesImprove.aspx" tatget="top">aes pipeline</a>
@@ -44,8 +46,11 @@
     ├── <a href="Gamez/froga.aspx" tatget="top">frogA</a> 
     ├── <a href="Gamez/frogb.aspx" tatget="top">frogB</a>  
     ├── <a href="Gamez/TicTacToe.aspx" tatget="top">tic tac toe</a> 
+    ├── <a href="Gamez/FruitSlots.aspx" tatget="top">fruit slot machine</a> 
     ├── <a href="Gamez/JokerDice.aspx" tatget="top">joker poker dice</a> 
     └── <a href="/mono/SchnapsNet/" tatget="blank">Schnapsen 66</a> 
+
+
         </pre>
     </div>
 </asp:Content>

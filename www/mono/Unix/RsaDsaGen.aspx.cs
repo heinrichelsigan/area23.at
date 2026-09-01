@@ -1,6 +1,7 @@
 ﻿using Area23.At.Framework.Library.Crypt.Cipher.Asymmetric;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Mono.Crypt;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using System;
@@ -101,7 +102,7 @@ namespace Area23.At.Mono.Unix
             catch (Exception ex)
             {
                 Area23Log.LogStatic(ex);
-                TableCellLeft.Text += "\n<br>\r\n" + ex.GetType().ToString() + ": " + ex.Message + "<br />\r\n" + ex.StackTrace + "<br />\r\n";
+                ((EncodeMaster)this.Master).SetInfoMsg(ex.GetType().ToString() + ": " + ex.Message, App_Data.Severity.Error);
                 return allRsaText; 
             }
            
@@ -125,7 +126,7 @@ namespace Area23.At.Mono.Unix
             {
                 // string argsParams = string.Format(opensslDsaParams, sessionId, keySize);                
                 // cmdOut = ProcessCmd.ExecuteCreateWindow(filepath, argsParams);
-                AsymmetricCipherKeyPair dsaKeyPair = Dsa.GetDsaKeyPair(keySize);
+                AsymmetricCipherKeyPair dsaKeyPair = Dsa.GenerateDsaKeyPair(keySize);
 
                 Tuple<string, string> dsaKeyTuple = Dsa.GetKeysTuple(dsaKeyPair);
                 dsaPrivate = dsaKeyTuple.Item1.ToString();
@@ -145,7 +146,7 @@ namespace Area23.At.Mono.Unix
             catch (Exception ex)
             {
                 Area23Log.LogStatic(ex);
-                TableCellLeft.Text += "\n<br>\r\n" + ex.GetType().ToString() + ": " + ex.Message + "<br />\r\n" + ex.StackTrace + "<br />\r\n";
+                ((EncodeMaster)this.Master).SetInfoMsg(ex.GetType().ToString() + ": " + ex.Message, App_Data.Severity.Error);
                 return allDsaText;
             }
 

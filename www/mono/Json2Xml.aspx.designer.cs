@@ -11,7 +11,7 @@ namespace Area23.At.Mono
 {
 
 
-    public partial class Json
+    public partial class Json2Xml
     {
 
         /// <summary>

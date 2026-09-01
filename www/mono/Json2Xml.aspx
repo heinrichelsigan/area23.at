@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Json.aspx.cs" Inherits="Area23.At.Mono.Json" MasterPageFile="~/Area23.Master" ValidateRequest="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Json2Xml.aspx.cs" Inherits="Area23.At.Mono.Json2Xml" MasterPageFile="~/Area23.Master" ValidateRequest="false" %>
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>    
     <link rel="stylesheet" href="https://area23.at/css/fortune.css" />

@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="QRMaster.master.cs" Inherits="Area23.At.Mono.Qr.QRMaster" %>
+﻿<%@ Master Language="C#" MasterPageFile="~/Area23.Master" AutoEventWireup="true" CodeBehind="QrMaster.master.cs" Inherits="Area23.At.Mono.Qr.QrMaster" %>
 <%@ Register TagPrefix="uc23" TagName="MenuControl" Src="~/Controls/MenuControl.ascx" %> 
 <asp:Content ID="ContentHead" ContentPlaceHolderID="HeadContentPlaceHolder" runat="server">
     <asp:ContentPlaceHolder ID="QrHead" runat="server">

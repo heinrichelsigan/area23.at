@@ -18,9 +18,7 @@ namespace Area23.At.Mono.Crypt
 {
 
     /// <summary>
-    /// CoolCrypt is En-/De-cryption pipeline page 
-    /// Former hash inside crypted bytestream is removed
-    /// Feature to encrypt and decrypt simple plain text or files
+    /// ZenMatrixVisualize simple visualization of the bogus symmetric cipher algo ZenMatrix
     /// </summary>
     public partial class ZenMatrixVisualize : UIPage
     {        

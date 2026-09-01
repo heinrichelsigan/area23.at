@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Qr/QRMaster.master" AutoEventWireup="true" CodeBehind="ContactQrGenerator.aspx.cs" Inherits="Area23.At.Mono.Qr.ContactQrGenerator" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Qr/QrMaster.master" AutoEventWireup="true" CodeBehind="ContactQrGenerator.aspx.cs" Inherits="Area23.At.Mono.Qr.ContactQrGenerator" %>
 <asp:Content ID="QrHeadContent" ContentPlaceHolderID="QrHead" runat="server" ClientIDMode="Static">
     <title>qr code contact generator (apache2 mod_mono)</title>
     <link rel="stylesheet" href="../res/css/area23.at.mono.css" />

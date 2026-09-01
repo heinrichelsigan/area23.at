@@ -36,7 +36,7 @@
                     ClientIDMode="Static" ImageUrl="../res/img/crypt/a_right_key.png" 
                     AlternateText="save your user key in session" /></span>
                 <span class="centerSpan" style="max-width: 400px;">                
-                    <asp:TextBox ID="TextBox_Key" runat="server" Text="heinrich.elsigan@gmail.com"  AutoPostBack="true" 
+                    <asp:TextBox ID="TextBox_Key" runat="server" Text="useu"  AutoPostBack="true" 
                         OnTextChanged="TextBox_Key_TextChanged"                       
                         ToolTip="Enter your personal email address or secret key here" MaxLength="256" Width="520px" style="width: 520px;" />
                 </span>

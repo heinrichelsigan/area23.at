@@ -6,7 +6,7 @@ using System.Web.UI;
 
 namespace Area23.At.Mono.Qr
 {
-    public partial class QRMaster : System.Web.UI.MasterPage
+    public partial class QrMaster : System.Web.UI.MasterPage
     {
         // public global::System.Web.UI.HtmlControls.HtmlForm MasterForm { get => ((Area23)(this.Master)).MasterForm; }
         public global::System.Web.UI.WebControls.ContentPlaceHolder MasterHead { get => ((Area23)(this.Master)).MasterHead; }

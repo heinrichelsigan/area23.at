@@ -238,14 +238,5 @@ namespace Area23.At.Mono.Qr
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBox_Birthday;
-
-        /// <summary>
-        /// ErrorDiv control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ErrorDiv;
     }
 }

@@ -263,7 +263,7 @@ div {
             
         }
 
-    div.contentDiv {
+    div.content {
         border-block: 1px solid #bab5b1;
         border-style: solid;
         border-width: thin;
@@ -279,7 +279,62 @@ div {
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
     }
 
-    div.footerDiv {
+    div.error {
+        border-block: 1px solid #bab5b1;
+        border-style: solid;
+        border-width: thin;
+        /* border-spacing: 1px 1px; */
+
+        width: 100%;
+        text-align: left;
+        background-color: #d7e7f7;
+        vertical-align: middle;
+        font-size: medium;
+        table-layout: fixed;
+        inset-block-start: initial;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
+    }
+
+    span.errorLeft {
+        min-width: 144px;
+        width: 192px;
+        outline-width: 192px;
+        height: 40px;
+        /*                              */
+        text-align: center;
+        vertical-align: middle;
+        text-decoration: none;
+        /*                              */
+        background-color: #eeeeee;
+        /* background-image: url('../img/folder1.png'); */
+        /* background-repeat: no-repeat; */
+        /*                              */
+        border-block: 1px outset #ecbafa;
+        border: 2px outset #ecbafa;
+        border-spacing: 1px 1px;
+    }
+
+    span.errorLeftCenter, span.errorCenter, span.errorRightCenter, span.errorRight {
+        min-width: 144px;
+        width: 192px;
+        outline-width: 192px;
+        height: 40px;
+        /*                              */
+        text-align: center;
+        vertical-align: middle;
+        text-decoration: none;
+        background-color: #ffaacc;
+        /*                            
+            background-image: url('../img/folder1.png');
+            background-repeat: no-repeat;
+        */
+        /*                              */
+        border-block: 1px outset #ecbafa;
+        border: 2px outset #ecbafa;
+        border-spacing: 1px 1px;
+    }
+
+    div.footer {
         border-block: 1px solid #bab5b1;
         border-style: solid;
         border-width: thin;

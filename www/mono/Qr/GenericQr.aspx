@@ -1,4 +1,4 @@
-﻿<%@ Page Title="QR Code generator (apache2 mod_mono)" Language="C#" MasterPageFile="~/Qr/QRMaster.master" AutoEventWireup="true" CodeBehind="GenericQr.aspx.cs" Inherits="Area23.At.Mono.Qr.GenericQr" %>
+﻿<%@ Page Title="QR Code generator (apache2 mod_mono)" Language="C#" MasterPageFile="~/Qr/QrMaster.master" AutoEventWireup="true" CodeBehind="GenericQr.aspx.cs" Inherits="Area23.At.Mono.Qr.GenericQr" %>
 <asp:Content ID="ContentQrHead" ContentPlaceHolderID="QrHead" runat="server">
 	<title>Generic Qr Generator (apache2 mod_mono)</title>
 	<link rel="stylesheet" href="../res/css/area23.at.mono.css" />
@@ -158,7 +158,7 @@
 				<asp:Image ID="ImageQr" runat="server" ImageUrl="~/res/qrsample2.png" Visible="false" BorderStyle="None" BackColor="Transparent" />
 			</span>		
 		</div>
-		<div id="ErrorDiv" runat="server" class="footerDiv" visible="false">
+		<div id="ErrorDiv" runat="server" class="footer" visible="false">
 		</div>
     </form> 
 </asp:Content>

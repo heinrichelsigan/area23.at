@@ -1,5 +1,6 @@
 ﻿using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
+using Area23.At.Mono.App_Data;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -148,10 +149,7 @@ namespace Area23.At.Mono.Qr
             catch (Exception ex)
             {
                 Area23Log.LogStatic(ex);
-                ErrorDiv.Visible = true;
-                ErrorDiv.InnerHtml = "<p style=\"font-size: large; color: red\">" + ex.Message + "</p>\r\n" +
-                    "<!-- " + ex.ToString() + " -->\r\n" +
-                    "<!-- " + ex.StackTrace.ToString() + " -->\r\n";
+                ((QrMaster)this.Master).SetInfoMsg("Error generating QR code: " + ex.Message, Severity.Error);                
             }
         }
 
