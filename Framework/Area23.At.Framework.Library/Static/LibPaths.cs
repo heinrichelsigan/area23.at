@@ -76,6 +76,8 @@ namespace Area23.At.Framework.Library.Static
                         basApPath = System.Configuration.ConfigurationManager.AppSettings["BaseAppPathUnix"];
                     else if (Constants.WIN32 && System.Configuration.ConfigurationManager.AppSettings["BaseAppPathWin"] != null)
                         basApPath = System.Configuration.ConfigurationManager.AppSettings["BaseAppPathWin"];
+                    else if (System.Configuration.ConfigurationManager.AppSettings["BaseAppPath"] != null)
+                        basApPath = System.Configuration.ConfigurationManager.AppSettings["BaseAppPath"];
 
                     if (String.IsNullOrEmpty(basApPath))
                     {
