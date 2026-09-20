@@ -1535,7 +1535,7 @@ namespace Area23.At.Framework.Library.Static
             if (!fileName.IsPermAgainCryptFile())
                 return strippedFileName;
 
-            KeyHash kHash = KeyHash.Hex;
+            // KeyHash kHash = KeyHash.Hex;
 
             EncodingType eType = EncodingType.None;
             foreach (EncodingType encTyp in EncodingTypesExtensions.GetEncodingTypes())
@@ -1637,7 +1637,7 @@ namespace Area23.At.Framework.Library.Static
 
             foreach (EncodingType encTyp in EncodingTypesExtensions.GetEncodingTypes())
             {
-                if (fileName.EndsWith("." + encTyp.ToString()) || fileName.EndsWith("."  + encTyp.ToString().ToLower()))
+                if (fileName.EndsWith("." + encTyp.ToString()) || fileName.EndsWith("." + encTyp.ToString().ToLower()))
                 {
                     eType = encTyp;
                     strippedFileName = fileName.Replace("." + encTyp.ToString(), "").Replace("." + encTyp.ToString().ToLower(), "");
@@ -1696,6 +1696,7 @@ namespace Area23.At.Framework.Library.Static
             }
 
 
+
             foreach (KeyHash kh in KeyHash_Extensions.GetHashTypes())
             {
                 if (strippedFileName.EndsWith("." + kh.ToString()) || strippedFileName.EndsWith("." + kh.ToString().ToLower()))
@@ -1703,6 +1704,16 @@ namespace Area23.At.Framework.Library.Static
                     kHash = kh;
                     strippedFileName = strippedFileName.Replace("." + kh.ToString(), "").Replace("." + kh.ToString().ToLower(), "");
 
+                    break;
+                }
+            }
+
+
+            foreach (CipherMode2 cmode2 in CipherModeExtensions.GetCipherModes2())
+            {
+                if (strippedFileName.EndsWith("." + cmode2.ToString().ToUpper()) || strippedFileName.EndsWith("." + cmode2.ToString().ToLower()))
+                {
+                    strippedFileName = strippedFileName.Replace("." + cmode2.ToString().ToUpper(), "").Replace("." + cmode2.ToString().ToLower(), "");
                     break;
                 }
             }

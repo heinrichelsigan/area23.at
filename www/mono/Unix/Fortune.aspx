@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="../res/css/fortune.css" />
     <link rel="stylesheet" href="../res/css/area23.at.mono.css" />
     <title>fortune (apache2 mod_mono)</title>    
+    <meta id="metaRefreshId" runat="server" http-equiv="refresh" content="32: ~/Unix/Fortune.aspx" />
 </asp:Content>
 <asp:Content ID="UnixBodyContent" ContentPlaceHolderID="UnixBody" runat="server">
     <form id="Area23MasterForm" runat="server">

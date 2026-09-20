@@ -402,7 +402,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
 
         protected internal virtual byte[] ProcessBlocks2(byte[] inBytes)
         {
-            int aCnt = 0, bCnt = 0;
+            // int aCnt = 0, bCnt = 0;
             byte[] processed = new byte[(int)inBytes.Length];
             Array.Copy(inBytes, processed, inBytes.Length);
             for (int bs = 0; bs < inBytes.Length; bs += 0x100)

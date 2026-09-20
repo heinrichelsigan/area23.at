@@ -5,7 +5,6 @@ using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Framework.Library.Zfx;
 using Area23.At.Mono.App_Data;
-using Area23.At.Mono.Qr;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;

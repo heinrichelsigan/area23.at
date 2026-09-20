@@ -8,7 +8,7 @@ namespace Area23.At.Framework.Library.Util
     public static class Fortune
     {
         private static List<string> fortunes = new List<string>();
-        static int execTimes = 0;        
+        // static int execTimes = 0;        
         static readonly object fortuneLock = new object();
         static string[] Fortunes { get => fortunes.ToArray(); }
 

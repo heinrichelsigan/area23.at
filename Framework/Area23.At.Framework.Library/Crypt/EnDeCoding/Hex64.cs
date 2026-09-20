@@ -44,7 +44,7 @@ namespace Area23.At.Framework.Library.Crypt.EnDeCoding
         public static readonly string VALID_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/=" + SPECIAL_CHARS;
 
         private static readonly object _lock = new object();
-        static string invalidChars = "";
+        // static string invalidChars = "";
 
         #region common interface, interfaces for static members appear in C# 7.3 or later
 

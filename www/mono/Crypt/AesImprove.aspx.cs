@@ -6,19 +6,15 @@ using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Util;
 using Area23.At.Framework.Library.Zfx;
 using Area23.At.Mono.App_Data;
-using Area23.At.Mono.Properties;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Windows.Controls;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Area23.At.Mono.Crypt
 {

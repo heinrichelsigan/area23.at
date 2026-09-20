@@ -632,7 +632,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                     }
                 }
 
-                outBytes = (olen > 1) ? new byte[olen] : new byte[ilen];
+                outBytes = (olen > 1) ? new byte[olen - 2] : new byte[ilen];
                 Array.Copy(inBytes, 0, outBytes, 0, outBytes.Length);
             }
 

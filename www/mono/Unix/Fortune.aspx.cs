@@ -13,6 +13,9 @@ namespace Area23.At.Mono.Unix
         static object fortuneLock;
         static bool useExec = true;
         static short execTimes = 0;
+
+        public static string FortuneMetaRefreshContent {  get => "32; " + LibPaths.UnixAppPath + "/Fortune.aspx"; }
+        
         protected internal List<string> fortunes = new List<string>();
 
         public string[] Fortunes { get => fortunes.ToArray(); }
@@ -27,10 +30,10 @@ namespace Area23.At.Mono.Unix
         {
             if (!IsPostBack)
             {
-                // if (metaRefreshId != null && metaRefreshId.Attributes != null && metaRefreshId.Attributes.Count > 0 && metaRefreshId.Attributes["content"] != null)
-                // {
-                // metaRefreshId.Attributes["content"] = "20; url=" + Request.RawUrl.ToString();
-                // }
+                if (metaRefreshId != null && metaRefreshId.Attributes != null && metaRefreshId.Attributes.Count > 0 && metaRefreshId.Attributes["content"] != null)
+                {
+                    metaRefreshId.Attributes["content"] = "32; url=" + Request.RawUrl.ToString();
+                }
                 SetFortune();
             }
             
@@ -106,5 +109,7 @@ namespace Area23.At.Mono.Unix
                 fortunes.Add(addFortune);
             }            
         }
+
+        
     }
 }

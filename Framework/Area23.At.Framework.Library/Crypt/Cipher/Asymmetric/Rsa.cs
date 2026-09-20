@@ -94,7 +94,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Asymmetric
             privateKey = privKey;
             publicKey = pubKey;
             Pkcs1Encoding rsaCipher = new Pkcs1Encoding(new RsaEngine());
-            AsymmetricCipherKeyPair keyPair;
+            // AsymmetricCipherKeyPair keyPair;
             AsymmetricKeyParameter keyParameterPublic;
             RsaPrivateCrtKeyParameters keyParameterPrivate;
 
@@ -188,7 +188,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Asymmetric
 
         public static byte[] DecryptWithPrivate(byte[] bytesToDecrypt, AsymmetricCipherKeyPair pair)
         {
-            AsymmetricCipherKeyPair keyPair;
+            // AsymmetricCipherKeyPair keyPair;
             var decryptEngine = new Pkcs1Encoding(new RsaEngine());
             decryptEngine.Init(false, pair.Private);
 

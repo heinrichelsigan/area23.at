@@ -15,6 +15,15 @@ namespace Area23.At.Mono.Unix
     {
 
         /// <summary>
+        /// metaRefreshId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl metaRefreshId;
+
+        /// <summary>
         /// Area23MasterForm control.
         /// </summary>
         /// <remarks>

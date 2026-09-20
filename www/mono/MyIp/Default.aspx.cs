@@ -1,12 +1,7 @@
 ﻿using Org.BouncyCastle.Utilities.Net;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-using System.IO;
 
 namespace Area23.At.Mono.MyIp
 {

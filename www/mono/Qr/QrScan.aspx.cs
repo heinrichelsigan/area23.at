@@ -8,14 +8,8 @@ using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Security.Policy;
-using System.Text;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using static QRCoder.PayloadGenerator;
 
 namespace Area23.At.Mono.Qr
 {

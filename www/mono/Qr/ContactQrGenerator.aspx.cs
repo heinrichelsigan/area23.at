@@ -9,7 +9,6 @@ using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using static QRCoder.PayloadGenerator;
-using static QRCoder.QRCodeGenerator;
 
 namespace Area23.At.Mono.Qr
 {
