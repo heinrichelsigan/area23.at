@@ -3,6 +3,7 @@ using Area23.At.Framework.Library.Crypt.EnDeCoding;
 using Area23.At.Framework.Library.Crypt.Hash;
 using Area23.At.Framework.Library.Static;
 using Area23.At.Framework.Library.Zfx;
+using EU.CqrXs.Crypt.Cipher.Symmetric;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -157,29 +158,39 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// <param name="keyBytes">user key bytes</param>
         /// <param name="maxpipe">maximum lentgh <see cref="Constants.PIPE_MAX_LEN"/></param>        
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        /// <param name="verbose"></param>
+        /// <param name="otherCiphers"></param>
         /// <exception cref="ArgumentException"></exception>
-        public SecureCipherPipe(byte[] keyBytes, uint maxpipe, CipherMode2 cmode2, bool verbose = false)
+        public SecureCipherPipe(byte[] keyBytes, uint maxpipe, CipherMode2 cmode2, bool otherCiphers = false)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
-            List<CipherEnum> pipeList = new List<CipherEnum>();
+            includeStremCiphers = otherCiphers;
+            int modulo = (otherCiphers) ?
+                Constants.PIPE_STREAM_AUTO_MODULO_MAX :
+                Constants.PIPE_AUTO_MODULO_MAX;
 
+            List<CipherEnum> pipeList = new List<CipherEnum>();
             HashSet<byte> hashBytes = new HashSet<byte>();
+
             for (int i = 0, j = 0; i < keyBytes.Length && j < maxpipe && pipeList.Count < maxpipe; i++)
             {
-                byte cb = (byte)((int)((int)keyBytes[i] % 0x1d));
-                // TODO: future design
-                // if (hashBytes.Contains(cb)) // mit magic add to generate deterministic more on same bytes
-                //     cb = (byte)((int)(cb + Math.Pow(2, i) + keyBytes.Length) % 0x1d);                
-                if (!hashBytes.Contains(cb) && pipeList.Count < maxpipe + 1)
+                byte cb = (byte)((int)((int)keyBytes[i] % modulo));
+                // mit magic add to generate deterministic more on same bytes
+                if (hashBytes.Contains(cb) && otherCiphers)
+                    cb = (byte)((int)(cb + Math.Pow(2, i) + keyBytes.Length) % modulo);
+
+                bool addCipherToPUpe = (Constants.PIPE_BUILD_MULTI_SAME_CIPHERS ||
+                    (maxpipe < 0x16 && !hashBytes.Contains(cb)));
+                if (addCipherToPUpe && pipeList.Count < maxpipe + 1)
                 {
-                    hashBytes.Add(cb);
+                    if (!hashBytes.Contains(cb))
+                        hashBytes.Add(cb);
+
                     CipherEnum cipherEnm = CipherEnumExtensions.ByteCipherDict[cb];
                     pipeList.Add(cipherEnm);
 
-                    if (verbose)
+                    if (!Constants.NOLog)
                         Console.Out.WriteLine("keybyts[" + i + "]=" + keyBytes[i] + " byte cb = " + (int)cb + " CipherEnum: " + cipherEnm);
                     j++;
                 }
@@ -201,9 +212,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// </summary>
         /// <param name="keyHash">secret key to generate pipe</param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        /// <param name="verbose"></param>
-        public SecureCipherPipe(string keyHash, CipherMode2 cmode2, bool verbose = false)
-            : this(CryptHelper.GetKeyBytesSingle(keyHash, 16), Constants.PIPE_MAX_LEN, cmode2, verbose)
+        /// <param name="streamCiopher"></param>
+        public SecureCipherPipe(string keyHash, CipherMode2 cmode2, bool streamCiopher = false)
+            : this(CryptHelper.GetKeyBytesSingle(keyHash, 16), Constants.PIPE_MAX_LEN, cmode2, streamCiopher)
         {
             cipherKeyHash = keyHash;
             cipherKey = cipherKeyHash;
@@ -214,9 +225,9 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
         /// SecureCipherPipe ctor with only key
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="verbose"></param>
-        public SecureCipherPipe(string key, bool verbose = false)
-            : this(key, CipherMode2.ECB, verbose)
+        /// <param name="streamCiopher"></param>
+        public SecureCipherPipe(string key, bool streamCiopher = false)
+            : this(key, CipherMode2.ECB, streamCiopher)
         {
             cipherKeyHash = key;
             cipherKey = cipherKeyHash;
@@ -229,6 +240,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
             {
                 this.inPipe = ciphPipe.InPipe;
                 this.cipherKeyHash = ciphPipe.cipherKey;
+                this.includeStremCiphers = ciphPipe.includeStremCiphers;
                 this.cipherKey = ciphPipe.cipherKey;
                 this.cipherHash = "";
                 this.CMode = ciphPipe.CMode;
@@ -245,6 +257,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 this.inPipe = sCiphPipe.InPipe;
                 this.cipherKeyHash = sCiphPipe.cipherKey;
                 this.cipherKey = sCiphPipe.cipherKey;
+                this.includeStremCiphers = sCiphPipe.includeStremCiphers;
                 this.cipherHash = "";
                 this.CMode = sCiphPipe.CMode;
                 this.CMode2 = sCiphPipe.CMode2;
@@ -320,6 +333,22 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case CipherEnum.ZenMatrix2:
                     encryptBytes = (new ZenMatrix2(secretKey, secretKey, false)).Encrypt(inBytes);
                     break;
+
+                case CipherEnum.ChaCha:
+                case CipherEnum.ChaCha7539:
+                case CipherEnum.XChaCha20:
+                case CipherEnum.Salsa20:
+                case CipherEnum.XSalsa20:
+                case CipherEnum.HC128:
+                case CipherEnum.HC256:
+                case CipherEnum.RC4:
+                case CipherEnum.Isaac:
+                case CipherEnum.Vmpc:
+                case CipherEnum.VmpcKsa3:
+                    cpParams = new CryptParams(cipherAlgo, secretKey, secretKey);
+                    encryptBytes = new StreamCipherBC(cpParams, true).Encrypt(inBytes);
+                    break;
+
                 default:
                     CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                     encryptBytes = cryptBounceCastle.Encrypt(inBytes);
@@ -366,6 +395,22 @@ namespace Area23.At.Framework.Library.Crypt.Cipher.Symmetric
                 case CipherEnum.ZenMatrix2:
                     decryptBytes = (new ZenMatrix2(secretKey, secretKey, false)).Decrypt(cipherBytes);
                     break;
+
+                case CipherEnum.ChaCha:
+                case CipherEnum.ChaCha7539:
+                case CipherEnum.XChaCha20:
+                case CipherEnum.Salsa20:
+                case CipherEnum.XSalsa20:
+                case CipherEnum.HC128:
+                case CipherEnum.HC256:
+                case CipherEnum.RC4:
+                case CipherEnum.Isaac:
+                case CipherEnum.Vmpc:
+                case CipherEnum.VmpcKsa3:
+                    cpParams = new CryptParams(cipherAlgo, secretKey, secretKey);
+                    decryptBytes = new StreamCipherBC(cpParams, false).Decrypt(cipherBytes);
+                    break;
+
                 default:
                     CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                     decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);

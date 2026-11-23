@@ -43,14 +43,41 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
         Dstu7624 = 0x1a,
         AesLight = 0x1b,
         ZenMatrix = 0x1c,
-        Des3Net = 0x1d,
-        AesNet = 0x1e,
-        ZenMatrix2 = 0x1f
 
-        // Rsa = 0x21
-        // DH = 0x22,
+        Salsa20 = 0x1d,
+        ChaCha = 0x1e,
+        ChaCha7539 = 0x1f,
+        RC4 = 0x20,
+        Isaac = 0x21,
+        HC128 = 0x22,
+        HC256 = 0x23,
+        Vmpc = 0x24,
+        VmpcKsa3 = 0x25,
+        XChaCha20 = 0x26,
+        XSalsa20 = 0x27,
+
+
+        Des3Net = 0x30,
+        AesNet = 0x31,
+        ZenMatrix2 = 0x32,
+
+        Rsa = 0x40
+        // Dsa = 0x41,
+        // DH = 0x42,
+        // Ecdsa = 0x43,
+        // Ed25519 = 0x44,
+        // Ed448 = 0x45,
+        // X25519 = 0x46,
+        // X448 = 0x47,
+        // GPG = 0x48
+
+
         // Ascon = 0x1d
+
+        // None = 0xff
+
     }
+
 
     /// <summary>
     /// Extensions methods for <see cref="CipherEnum"/>
@@ -59,12 +86,14 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
     {
         public static readonly string CipherExtensionString = "l23456AabCcDdEeFfgIJjlNRSsTtXrZz$%";
 
-        public static CipherEnum[] GetCipherTypes()
+        public static CipherEnum[] GetCipherTypes(bool symmetricOnly = true)
         {
             List<CipherEnum> list = new List<CipherEnum>();
             foreach (string encName in Enum.GetNames(typeof(CipherEnum)))
             {
-                list.Add((CipherEnum)Enum.Parse(typeof(CipherEnum), encName));
+                CipherEnum cipherAlgo = (CipherEnum)Enum.Parse(typeof(CipherEnum), encName);
+                if (symmetricOnly && cipherAlgo != CipherEnum.Rsa)
+                    list.Add(cipherAlgo);
             }
 
             return list.ToArray();
@@ -76,14 +105,17 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             {
                 Dictionary<byte, CipherEnum> hexCipherDict = new Dictionary<byte, CipherEnum>();
                 foreach (CipherEnum cipher in CipherEnumExtensions.GetCipherTypes())
-                    hexCipherDict.Add((byte)cipher, cipher);
+                    hexCipherDict.Add((byte)((int)cipher), cipher);
                 return hexCipherDict;
+
             }
+
         }
 
         /// <summary>
         /// Extensions method for Enum <see cref="CipherEnum"/>
         /// gets a character for each Cipher Algorithm, that is used here
+        /// "$02456789AaBbCcDdEefFgHhIiJjLlNRrSsTtVvXx"
         /// </summary>
         /// <param name="cipher">this <see cref="CipherEnum"/> extension</param>
         /// <returns>a <see cref="char"/>, that is a short name for the encryption</returns>
@@ -133,7 +165,19 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 case CipherEnum.ZenMatrix: return 'z';
                 case CipherEnum.ZenMatrix2: return 'Z';
 
-                // case CipherEnum.Rsa: return '%';
+                case CipherEnum.ChaCha: return '0';
+                case CipherEnum.ChaCha7539: return '7';
+                case CipherEnum.Salsa20: return '8';
+                case CipherEnum.XChaCha20: return '9';
+                case CipherEnum.XSalsa20: return 'x';
+                case CipherEnum.HC128: return 'h';
+                case CipherEnum.HC256: return 'H';
+                case CipherEnum.Isaac: return 'i';
+                case CipherEnum.RC4: return 'B';
+                case CipherEnum.Vmpc: return 'v';
+                case CipherEnum.VmpcKsa3: return 'V';
+
+                case CipherEnum.Rsa: return '%';
                 // case CipherEnum.DH: return '!';
 
                 default: break;
@@ -142,7 +186,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return 'A';
         }
 
-        public static string PrintChipherType(this CipherEnum cipher)
+        public static string PrintCipherType(this CipherEnum cipher)
         {
             string s = cipher.ToString("x:2") + " " + cipher.GetCipherChar() + "\t" + cipher.ToString();
             return s;
@@ -166,7 +210,7 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
                 if (Enum.TryParse<CipherEnum>(algo, out cipher))
                 {
                     cipherList.Add(cipher);
-                    if ((++pipeCnt) >= 8)
+                    if ((++pipeCnt) >= Constants.PIPE_MAX_LEN)
                         break;
                 }
 
@@ -183,11 +227,6 @@ namespace Area23.At.Framework.Library.Crypt.Cipher
             return cp.InPipe;
         }
 
-
-        //public static CipherEnum FromSymmCipherEnum(Symmetric.SymmCipherEnum symmCipherEnum)
-        //{
-        //    return symmCipherEnum.ToCipherEnum();
-        //}
 
     }
 

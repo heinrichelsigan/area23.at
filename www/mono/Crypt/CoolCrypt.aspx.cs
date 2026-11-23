@@ -491,6 +491,9 @@ namespace Area23.At.Mono.Crypt
                 if (Utils.DenyExtensionInOut(LibPaths.OutAppPath + strFileName))
                 {
                     SpanLeftFile.Visible = true;
+                    divFileResult.Visible = true;
+                    imgIn.Visible = true;
+                    aUploaded.Visible = true;
                     imgIn.Src = "../res/img/crypt/file_warning.gif";
                     SpanLabel.Visible = true;
                     uploadResult.Visible = true;
@@ -505,6 +508,7 @@ namespace Area23.At.Mono.Crypt
                 if (System.IO.File.Exists(strFilePath))
                 {
                     ResetVisibleDivs();
+                    divFileResult.Visible = true;
                     if (Utils.AllowExtensionInOut(LibPaths.OutAppPath + strFileName))
                     {
                         SetBackgroundPicture("../res/img/crypt/file_working.gif", Color.DarkOrange);

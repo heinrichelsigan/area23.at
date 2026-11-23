@@ -436,6 +436,23 @@ namespace Area23.At.Framework.Library.Static
             return true;
         }
 
+        public static byte[] StretchCutToLength(this byte[] bytes, int length)
+        {
+            byte[] outBytes = new byte[length];
+            if (bytes == null || bytes.Length == 0)
+                return (outBytes.FillWithZeros(length));
+            while (bytes.Length < length)
+            {
+                int deltalen = length - bytes.Length;
+                byte[] deltaBytes = new byte[deltalen];
+                deltaBytes = deltaBytes.FillWithZeros(deltalen);
+                bytes = bytes.TarBytes(deltaBytes);
+            }
+            System.Array.Copy(bytes, outBytes, length);
+
+            return outBytes;
+        }
+
         #endregion byte_array_extensions
 
         #region string_extensions
@@ -1637,7 +1654,8 @@ namespace Area23.At.Framework.Library.Static
 
             foreach (EncodingType encTyp in EncodingTypesExtensions.GetEncodingTypes())
             {
-                if (fileName.EndsWith("." + encTyp.ToString()) || fileName.EndsWith("." + encTyp.ToString().ToLower()))
+                if (fileName.EndsWith("." + encTyp.ToString()) || fileName.EndsWith("." + encTyp.ToString().ToLower()) ||
+                    fileName.Contains("." + encTyp.ToString()) || fileName.Contains("." + encTyp.ToString().ToLower()))
                 {
                     eType = encTyp;
                     strippedFileName = fileName.Replace("." + encTyp.ToString(), "").Replace("." + encTyp.ToString().ToLower(), "");
@@ -1651,6 +1669,12 @@ namespace Area23.At.Framework.Library.Static
             {
                 foreach (CipherEnum cipher in CipherEnumExtensions.GetCipherTypes())
                 {
+                    if (ch == '_')
+                    {
+                        cipherEnums.Add(CipherEnum.Des);
+                        continue;
+                    }
+                    
                     if (cipher.GetCipherChar() == ch)
                         cipherEnums.Add(cipher);
                 }
@@ -1659,9 +1683,11 @@ namespace Area23.At.Framework.Library.Static
             if (cipherEnums.Count > 0)
             {
                 CipherPipe cPipe = new CipherPipe(cipherEnums.ToArray(), 8, eType, zipTyp, kHash);
-                if (strippedFileName.Contains("." + cPipe.PipeString))
-                {
+                string desString = cPipe.PipeString.Replace("$", "_");
+                if (strippedFileName.Contains("." + cPipe.PipeString) || strippedFileName.Contains("." + desString))
+                {                    
                     strippedFileName = strippedFileName.Replace("." + cPipe.PipeString, "");
+                    strippedFileName = strippedFileName.Replace("." + desString, "");
                 }
             }
 
@@ -1699,7 +1725,8 @@ namespace Area23.At.Framework.Library.Static
 
             foreach (KeyHash kh in KeyHash_Extensions.GetHashTypes())
             {
-                if (strippedFileName.EndsWith("." + kh.ToString()) || strippedFileName.EndsWith("." + kh.ToString().ToLower()))
+                if (strippedFileName.EndsWith("." + kh.ToString()) || strippedFileName.EndsWith("." + kh.ToString().ToLower()) ||
+                    strippedFileName.Contains("." + kh.ToString()) || strippedFileName.Contains("." + kh.ToString().ToLower()))
                 {
                     kHash = kh;
                     strippedFileName = strippedFileName.Replace("." + kh.ToString(), "").Replace("." + kh.ToString().ToLower(), "");
@@ -1711,7 +1738,8 @@ namespace Area23.At.Framework.Library.Static
 
             foreach (CipherMode2 cmode2 in CipherModeExtensions.GetCipherModes2())
             {
-                if (strippedFileName.EndsWith("." + cmode2.ToString().ToUpper()) || strippedFileName.EndsWith("." + cmode2.ToString().ToLower()))
+                if (strippedFileName.EndsWith("." + cmode2.ToString().ToUpper()) || strippedFileName.EndsWith("." + cmode2.ToString().ToLower()) ||
+                    strippedFileName.Contains("." + cmode2.ToString().ToUpper()) || strippedFileName.Contains("." + cmode2.ToString().ToLower()))
                 {
                     strippedFileName = strippedFileName.Replace("." + cmode2.ToString().ToUpper(), "").Replace("." + cmode2.ToString().ToLower(), "");
                     break;

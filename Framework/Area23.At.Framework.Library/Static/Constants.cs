@@ -26,6 +26,10 @@ namespace Area23.At.Framework.Library.Static
         public const int PIPE_REVERSE_FROM = 7; // 15
         public const string PIPE_LAST_FILL = "PipeLastFill"; // "hash";
 
+        public const int PIPE_AUTO_MODULO_MAX = 0x1d;
+        public const int PIPE_STREAM_AUTO_MODULO_MAX = 0x28;
+        public const bool PIPE_BUILD_MULTI_SAME_CIPHERS = false;
+
         #endregion PIPE Constants
 
         #region public const
@@ -673,6 +677,8 @@ PMsi2xTrUPC6pAERVgu7wz02ka3WPOdlxfoG0o9s/BwJmhi5EEBqGB4CriR8R8AY
         }
 
         public static bool RandomBool { get => ((DateTime.Now.Millisecond % 2) == 0); }
+
+        public static bool NOLog { get; set; } = false;
 
         #endregion public static properties
 
